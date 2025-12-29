@@ -85,7 +85,7 @@ public final class JpaSponsorRepository implements SponsorRepository {
         querySponsorSpringRepository = Objects.requireNonNull(querySponsorSpringRepo);
         updateSponsorSpringRepository = Objects.requireNonNull(updateSponsorSpringRepo);
         contactMethodSpringRepository = Objects.requireNonNull(contactMethodSpringRepo);
-        // TODO: remove contact repository
+        // TODO: remove profile repository
         profileSpringRepository = Objects.requireNonNull(profileSpringRepo);
     }
 
@@ -191,7 +191,7 @@ public final class JpaSponsorRepository implements SponsorRepository {
     public final Sponsor save(final Sponsor sponsor, final long number) {
         final UpdateSponsorEntity       entity;
         final Sponsor                   created;
-        final Optional<ProfileEntity>   contact;
+        final Optional<ProfileEntity>   profile;
         final List<Long>                contactMethodNumbers;
         final List<ContactMethodEntity> contactMethods;
 
@@ -205,9 +205,9 @@ public final class JpaSponsorRepository implements SponsorRepository {
         contactMethods = contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
         entity = UpdateSponsorEntityMapper.toEntity(sponsor, contactMethods);
 
-        contact = profileSpringRepository.findByNumber(number);
-        if (contact.isPresent()) {
-            entity.setProfile(contact.get());
+        profile = profileSpringRepository.findByNumber(number);
+        if (profile.isPresent()) {
+            entity.setProfile(profile.get());
         }
 
         setType(entity.getProfile());

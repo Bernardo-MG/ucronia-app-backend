@@ -59,7 +59,7 @@ public final class UserProfileDtoMapper {
 
     private static final ProfileDto toDto(final Profile profile) {
         ProfileNameDto          name;
-        List<ContactChannelDto> contacts;
+        List<ContactChannelDto> contactChannels;
 
         name = new ProfileNameDto().firstName(profile.name()
             .firstName())
@@ -67,7 +67,7 @@ public final class UserProfileDtoMapper {
                 .lastName())
             .fullName(profile.name()
                 .fullName());
-        contacts = profile.contactChannels()
+        contactChannels = profile.contactChannels()
             .stream()
             .map(UserProfileDtoMapper::toDto)
             .toList();
@@ -75,7 +75,7 @@ public final class UserProfileDtoMapper {
             .number(profile.number())
             .name(name)
             .birthDate(profile.birthDate())
-            .contactChannels(contacts);
+            .contactChannels(contactChannels);
     }
 
     private UserProfileDtoMapper() {

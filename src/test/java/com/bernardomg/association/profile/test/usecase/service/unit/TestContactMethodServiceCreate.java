@@ -59,7 +59,7 @@ class TestContactMethodServiceCreate {
     }
 
     @Test
-    @DisplayName("With a contact method with an existing name, an exception is thrown")
+    @DisplayName("With a profile method with an existing name, an exception is thrown")
     void testCreate_ExistingName() {
         final ThrowingCallable execution;
         final ContactMethod    contactMethod;

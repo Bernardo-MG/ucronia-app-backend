@@ -26,7 +26,7 @@ import jakarta.persistence.Transient;
 
 @Entity(name = "Sponsor")
 @Table(schema = "directory", name = "sponsors")
-@SecondaryTable(schema = "directory", name = "contacts",
+@SecondaryTable(schema = "directory", name = "profiles",
         pkJoinColumns = @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id"))
 public class QuerySponsorEntity implements Serializable {
 

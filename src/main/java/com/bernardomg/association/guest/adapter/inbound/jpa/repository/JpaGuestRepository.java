@@ -92,7 +92,7 @@ public final class JpaGuestRepository implements GuestRepository {
     public final void delete(final long number) {
         log.debug("Deleting guest {}", number);
 
-        // TODO: delete on cascade from the contact
+        // TODO: delete on cascade from the profile
         queryGuestSpringRepository.deleteByNumber(number);
         profileSpringRepository.deleteByNumber(number);
 

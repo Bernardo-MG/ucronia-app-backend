@@ -38,7 +38,7 @@ import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.MultipleActiveMember;
-import com.bernardomg.association.member.test.configuration.factory.MemberContacts;
+import com.bernardomg.association.member.test.configuration.factory.MemberProfiles;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -78,8 +78,8 @@ class ITMemberProfileRepositoryFindAllSort {
         Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(MemberContacts.forNumber(1), MemberContacts.forNumber(2), MemberContacts.forNumber(3),
-                MemberContacts.forNumber(4), MemberContacts.forNumber(5));
+            .containsExactly(MemberProfiles.forNumber(1), MemberProfiles.forNumber(2), MemberProfiles.forNumber(3),
+                MemberProfiles.forNumber(4), MemberProfiles.forNumber(5));
     }
 
     @Test
@@ -102,8 +102,8 @@ class ITMemberProfileRepositoryFindAllSort {
         Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(MemberContacts.forNumber(5), MemberContacts.forNumber(4), MemberContacts.forNumber(3),
-                MemberContacts.forNumber(2), MemberContacts.forNumber(1));
+            .containsExactly(MemberProfiles.forNumber(5), MemberProfiles.forNumber(4), MemberProfiles.forNumber(3),
+                MemberProfiles.forNumber(2), MemberProfiles.forNumber(1));
     }
 
     @Test
@@ -126,8 +126,8 @@ class ITMemberProfileRepositoryFindAllSort {
         Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(MemberContacts.forNumber(1), MemberContacts.forNumber(2), MemberContacts.forNumber(3),
-                MemberContacts.forNumber(4), MemberContacts.forNumber(5));
+            .containsExactly(MemberProfiles.forNumber(1), MemberProfiles.forNumber(2), MemberProfiles.forNumber(3),
+                MemberProfiles.forNumber(4), MemberProfiles.forNumber(5));
     }
 
     @Test
@@ -150,8 +150,8 @@ class ITMemberProfileRepositoryFindAllSort {
         Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(MemberContacts.forNumber(5), MemberContacts.forNumber(4), MemberContacts.forNumber(3),
-                MemberContacts.forNumber(2), MemberContacts.forNumber(1));
+            .containsExactly(MemberProfiles.forNumber(5), MemberProfiles.forNumber(4), MemberProfiles.forNumber(3),
+                MemberProfiles.forNumber(2), MemberProfiles.forNumber(1));
     }
 
 }

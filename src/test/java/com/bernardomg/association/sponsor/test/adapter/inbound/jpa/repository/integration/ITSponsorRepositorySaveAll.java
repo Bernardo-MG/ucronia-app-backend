@@ -82,7 +82,7 @@ class ITSponsorRepositorySaveAll {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "contactChannels.id",
-                "contactChannels.contactId", "contactChannels.contact")
+                "contactChannels.profileId", "contactChannels.profile")
             .containsExactly(QuerySponsorEntities.withEmail());
     }
 
@@ -105,7 +105,7 @@ class ITSponsorRepositorySaveAll {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "contactChannels.id",
-                "contactChannels.contactId", "contactChannels.contact")
+                "contactChannels.profileId", "contactChannels.profile")
             .containsExactly(QuerySponsorEntities.withEmail());
     }
 
@@ -128,7 +128,7 @@ class ITSponsorRepositorySaveAll {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "contactChannels.id",
-                "contactChannels.contactId", "contactChannels.contact")
+                "contactChannels.profileId", "contactChannels.profile")
             .containsExactly(QuerySponsorEntities.withEmail());
     }
 
@@ -152,7 +152,7 @@ class ITSponsorRepositorySaveAll {
     }
 
     @Test
-    @DisplayName("When the sponsor is persisted, the contact types includes the sponsor type")
+    @DisplayName("When the sponsor is persisted, the profile types includes the sponsor type")
     @EmailContactMethod
     void testSaveAll_SetsType() {
         final Sponsor       sponsor;

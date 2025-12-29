@@ -74,18 +74,18 @@ public final class JpaContactRepository implements ProfileRepository {
 
     @Override
     public final void delete(final long number) {
-        log.debug("Deleting contact {}", number);
+        log.debug("Deleting profile {}", number);
 
         profileSpringRepository.deleteByNumber(number);
 
-        log.debug("Deleted contact {}", number);
+        log.debug("Deleted profile {}", number);
     }
 
     @Override
     public final boolean exists(final long number) {
         final boolean exists;
 
-        log.debug("Checking if contact {} exists", number);
+        log.debug("Checking if profile {} exists", number);
 
         exists = profileSpringRepository.existsByNumber(number);
 
@@ -98,7 +98,7 @@ public final class JpaContactRepository implements ProfileRepository {
     public final boolean existsByIdentifier(final String identifier) {
         final boolean exists;
 
-        log.debug("Checking if contact identifier {} exists", identifier);
+        log.debug("Checking if profile identifier {} exists", identifier);
 
         exists = profileSpringRepository.existsByIdentifier(identifier);
 
@@ -111,11 +111,11 @@ public final class JpaContactRepository implements ProfileRepository {
     public final boolean existsByIdentifierForAnother(final long number, final String identifier) {
         final boolean exists;
 
-        log.debug("Checking if identifier {} exists for a contact distinct from {}", identifier, number);
+        log.debug("Checking if identifier {} exists for a profile distinct from {}", identifier, number);
 
         exists = profileSpringRepository.existsByIdentifierForAnother(number, identifier);
 
-        log.debug("Identifier {} exists for a contact distinct from {}: {}", identifier, number, exists);
+        log.debug("Identifier {} exists for a profile distinct from {}: {}", identifier, number, exists);
 
         return exists;
     }
@@ -126,7 +126,7 @@ public final class JpaContactRepository implements ProfileRepository {
         final Pageable                                      pageable;
         final Optional<Specification<ProfileEntity>>        spec;
 
-        log.debug("Finding all the contacts with filter {}, pagination {} and sorting {}", filter, pagination, sorting);
+        log.debug("Finding all the profiles with filter {}, pagination {} and sorting {}", filter, pagination, sorting);
 
         pageable = SpringPagination.toPageable(pagination, sorting);
         spec = ProfileSpecifications.query(filter);
@@ -138,7 +138,7 @@ public final class JpaContactRepository implements ProfileRepository {
                 .map(ProfileEntityMapper::toDomain);
         }
 
-        log.debug("Found all the contacts with filter {}, pagination {} and sorting {}: {}", filter, pagination,
+        log.debug("Found all the profiles with filter {}, pagination {} and sorting {}: {}", filter, pagination,
             sorting, read);
 
         return SpringPagination.toPage(read);
@@ -146,20 +146,20 @@ public final class JpaContactRepository implements ProfileRepository {
 
     @Override
     public final Optional<Profile> findOne(final Long number) {
-        final Optional<Profile> contact;
+        final Optional<Profile> profile;
 
-        log.debug("Finding contact with number {}", number);
+        log.debug("Finding profile with number {}", number);
 
-        contact = profileSpringRepository.findByNumber(number)
+        profile = profileSpringRepository.findByNumber(number)
             .map(ProfileEntityMapper::toDomain);
 
-        log.debug("Found contact with number {}: {}", number, contact);
+        log.debug("Found profile with number {}: {}", number, profile);
 
-        return contact;
+        return profile;
     }
 
     @Override
-    public final Profile save(final Profile contact) {
+    public final Profile save(final Profile profile) {
         final Optional<ProfileEntity>   existing;
         final ProfileEntity             entity;
         final Profile                   created;
@@ -167,17 +167,17 @@ public final class JpaContactRepository implements ProfileRepository {
         final List<ContactMethodEntity> contactMethods;
         final Long                      number;
 
-        log.debug("Saving contact {}", contact);
+        log.debug("Saving profile {}", profile);
 
-        contactMethodNumbers = contact.contactChannels()
+        contactMethodNumbers = profile.contactChannels()
             .stream()
             .map(ContactChannel::contactMethod)
             .map(ContactMethod::number)
             .toList();
         contactMethods = contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
-        entity = ProfileEntityMapper.toEntity(contact, contactMethods);
+        entity = ProfileEntityMapper.toEntity(profile, contactMethods);
 
-        existing = profileSpringRepository.findByNumber(contact.number());
+        existing = profileSpringRepository.findByNumber(profile.number());
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
@@ -191,22 +191,22 @@ public final class JpaContactRepository implements ProfileRepository {
 
         created = ProfileEntityMapper.toDomain(profileSpringRepository.save(entity));
 
-        log.debug("Saved contact {}", created);
+        log.debug("Saved profile {}", created);
 
         return created;
     }
 
     @Override
-    public final Collection<Profile> saveAll(final Collection<Profile> contacts) {
+    public final Collection<Profile> saveAll(final Collection<Profile> profiles) {
         final List<ProfileEntity>       entities;
         final List<Profile>             saved;
         final List<Long>                contactMethodNumbers;
         final List<ContactMethodEntity> contactMethods;
         final AtomicLong                number;
 
-        log.debug("Saving contacts {}", contacts);
+        log.debug("Saving profiles {}", profiles);
 
-        contactMethodNumbers = contacts.stream()
+        contactMethodNumbers = profiles.stream()
             .map(Profile::contactChannels)
             .flatMap(Collection::stream)
             .map(ContactChannel::contactMethod)
@@ -215,7 +215,7 @@ public final class JpaContactRepository implements ProfileRepository {
         contactMethods = contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
 
         number = new AtomicLong(profileSpringRepository.findNextNumber());
-        entities = contacts.stream()
+        entities = profiles.stream()
             .map(m -> convert(m, contactMethods, number))
             .toList();
 
@@ -224,21 +224,21 @@ public final class JpaContactRepository implements ProfileRepository {
             .map(ProfileEntityMapper::toDomain)
             .toList();
 
-        log.debug("Saved contacts {}", saved);
+        log.debug("Saved profiles {}", saved);
 
         return saved;
     }
 
-    private final ProfileEntity convert(final Profile contact, final List<ContactMethodEntity> contactMethods,
+    private final ProfileEntity convert(final Profile profile, final List<ContactMethodEntity> contactMethods,
             final AtomicLong number) {
         final Optional<ProfileEntity> existing;
         final ProfileEntity           entity;
 
-        existing = profileSpringRepository.findByNumber(contact.number());
+        existing = profileSpringRepository.findByNumber(profile.number());
         if (existing.isPresent()) {
-            entity = ProfileEntityMapper.toEntity(contact, contactMethods, existing.get());
+            entity = ProfileEntityMapper.toEntity(profile, contactMethods, existing.get());
         } else {
-            entity = ProfileEntityMapper.toEntity(contact, contactMethods);
+            entity = ProfileEntityMapper.toEntity(profile, contactMethods);
             entity.setNumber(number.getAndIncrement());
         }
 

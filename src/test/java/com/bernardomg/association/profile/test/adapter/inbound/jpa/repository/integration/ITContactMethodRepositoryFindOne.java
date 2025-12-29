@@ -46,7 +46,7 @@ class ITContactMethodRepositoryFindOne {
     private ContactMethodRepository repository;
 
     @Test
-    @DisplayName("With a contact method, it is returned")
+    @DisplayName("With a profile method, it is returned")
     @EmailContactMethod
     void testFindOne() {
         final Optional<ContactMethod> contactOptional;

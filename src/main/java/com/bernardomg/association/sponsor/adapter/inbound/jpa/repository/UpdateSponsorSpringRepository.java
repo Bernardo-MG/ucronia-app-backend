@@ -37,8 +37,8 @@ public interface UpdateSponsorSpringRepository extends JpaRepository<UpdateSpons
     @Query("""
             SELECT m
             FROM UpdateSponsor m
-              JOIN m.contact c
-            WHERE c.number = :number
+              JOIN m.profile p
+            WHERE p.number = :number
             """)
     public Optional<UpdateSponsorEntity> findByNumber(@Param("number") final Long number);
 

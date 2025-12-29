@@ -90,7 +90,7 @@ class ITGuestRepositoryDelete {
     }
 
     @Test
-    @DisplayName("With a contact with no sponsor role, nothing is deleted")
+    @DisplayName("With a profile with no sponsor role, nothing is deleted")
     @ValidProfile
     void testDelete_NoSponsor() {
         // WHEN

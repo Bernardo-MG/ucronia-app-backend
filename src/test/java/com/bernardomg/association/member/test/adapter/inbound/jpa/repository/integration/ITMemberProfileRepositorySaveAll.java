@@ -39,7 +39,7 @@ import com.bernardomg.association.member.adapter.inbound.jpa.repository.QueryMem
 import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
-import com.bernardomg.association.member.test.configuration.factory.MemberContacts;
+import com.bernardomg.association.member.test.configuration.factory.MemberProfiles;
 import com.bernardomg.association.member.test.configuration.factory.QueryMemberContactEntities;
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
@@ -71,7 +71,7 @@ class ITMemberProfileRepositorySaveAll {
         final Iterable<QueryMemberProfileEntity> entities;
 
         // GIVEN
-        member = MemberContacts.active();
+        member = MemberProfiles.active();
 
         // WHEN
         repository.saveAll(List.of(member));
@@ -82,7 +82,7 @@ class ITMemberProfileRepositorySaveAll {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "contactChannels.id",
-                "contactChannels.contactId", "contactChannels.contact")
+                "contactChannels.profileId", "contactChannels.profile")
             .containsExactly(QueryMemberContactEntities.withEmail());
     }
 
@@ -94,7 +94,7 @@ class ITMemberProfileRepositorySaveAll {
         final Iterable<QueryMemberProfileEntity> entities;
 
         // GIVEN
-        member = MemberContacts.active();
+        member = MemberProfiles.active();
 
         // WHEN
         repository.saveAll(List.of(member));
@@ -105,7 +105,7 @@ class ITMemberProfileRepositorySaveAll {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "contactChannels.id",
-                "contactChannels.contactId", "contactChannels.contact")
+                "contactChannels.profileId", "contactChannels.profile")
             .containsExactly(QueryMemberContactEntities.withEmail());
     }
 
@@ -117,7 +117,7 @@ class ITMemberProfileRepositorySaveAll {
         final Iterable<QueryMemberProfileEntity> entities;
 
         // GIVEN
-        member = MemberContacts.withoutType();
+        member = MemberProfiles.withoutType();
 
         // WHEN
         repository.saveAll(List.of(member));
@@ -128,7 +128,7 @@ class ITMemberProfileRepositorySaveAll {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "contactChannels.id",
-                "contactChannels.contactId", "contactChannels.contact")
+                "contactChannels.profileId", "contactChannels.profile")
             .containsExactly(QueryMemberContactEntities.withEmail());
     }
 
@@ -140,7 +140,7 @@ class ITMemberProfileRepositorySaveAll {
         final Collection<MemberProfile> saved;
 
         // GIVEN
-        member = MemberContacts.active();
+        member = MemberProfiles.active();
 
         // WHEN
         saved = repository.saveAll(List.of(member));
@@ -148,7 +148,7 @@ class ITMemberProfileRepositorySaveAll {
         // THEN
         Assertions.assertThat(saved)
             .as("member")
-            .containsExactly(MemberContacts.created());
+            .containsExactly(MemberProfiles.created());
     }
 
     @Test
@@ -159,7 +159,7 @@ class ITMemberProfileRepositorySaveAll {
         final ProfileEntity profile;
 
         // GIVEN
-        member = MemberContacts.active();
+        member = MemberProfiles.active();
 
         // WHEN
         repository.saveAll(List.of(member));

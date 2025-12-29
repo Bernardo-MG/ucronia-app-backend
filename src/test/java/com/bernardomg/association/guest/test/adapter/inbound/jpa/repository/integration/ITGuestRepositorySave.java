@@ -79,7 +79,7 @@ class ITGuestRepositorySave {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "contactChannels.id",
-                "contactChannels.contactId", "contactChannels.contact")
+                "contactChannels.profileId", "contactChannels.profile")
             .containsExactly(QueryGuestEntities.withEmail());
     }
 
@@ -121,7 +121,7 @@ class ITGuestRepositorySave {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "contactChannels.id",
-                "contactChannels.contactId", "contactChannels.contact")
+                "contactChannels.profileId", "contactChannels.profile")
             .containsExactly(QueryGuestEntities.withEmail());
     }
 
@@ -144,7 +144,7 @@ class ITGuestRepositorySave {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "contactChannels.id",
-                "contactChannels.contactId", "contactChannels.contact")
+                "contactChannels.profileId", "contactChannels.profile")
             .containsExactly(QueryGuestEntities.withEmail());
     }
 

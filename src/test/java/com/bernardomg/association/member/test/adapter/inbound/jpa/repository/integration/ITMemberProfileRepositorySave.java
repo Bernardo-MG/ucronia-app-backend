@@ -36,7 +36,7 @@ import com.bernardomg.association.member.adapter.inbound.jpa.repository.QueryMem
 import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
-import com.bernardomg.association.member.test.configuration.factory.MemberContacts;
+import com.bernardomg.association.member.test.configuration.factory.MemberProfiles;
 import com.bernardomg.association.member.test.configuration.factory.QueryMemberContactEntities;
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
@@ -68,7 +68,7 @@ class ITMemberProfileRepositorySave {
         final Iterable<QueryMemberProfileEntity> entities;
 
         // GIVEN
-        member = MemberContacts.active();
+        member = MemberProfiles.active();
 
         // WHEN
         repository.save(member);
@@ -79,7 +79,7 @@ class ITMemberProfileRepositorySave {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "contactChannels.id",
-                "contactChannels.contactId", "contactChannels.contact")
+                "contactChannels.profileId", "contactChannels.profile")
             .containsExactly(QueryMemberContactEntities.withEmail());
     }
 
@@ -91,7 +91,7 @@ class ITMemberProfileRepositorySave {
         final MemberProfile saved;
 
         // GIVEN
-        member = MemberContacts.active();
+        member = MemberProfiles.active();
 
         // WHEN
         saved = repository.save(member);
@@ -99,7 +99,7 @@ class ITMemberProfileRepositorySave {
         // THEN
         Assertions.assertThat(saved)
             .as("member")
-            .isEqualTo(MemberContacts.active());
+            .isEqualTo(MemberProfiles.active());
     }
 
     @Test
@@ -110,7 +110,7 @@ class ITMemberProfileRepositorySave {
         final Iterable<QueryMemberProfileEntity> entities;
 
         // GIVEN
-        member = MemberContacts.active();
+        member = MemberProfiles.active();
 
         // WHEN
         repository.save(member);
@@ -121,7 +121,7 @@ class ITMemberProfileRepositorySave {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "contactChannels.id",
-                "contactChannels.contactId", "contactChannels.contact")
+                "contactChannels.profileId", "contactChannels.profile")
             .containsExactly(QueryMemberContactEntities.withEmail());
     }
 
@@ -133,7 +133,7 @@ class ITMemberProfileRepositorySave {
         final Iterable<QueryMemberProfileEntity> entities;
 
         // GIVEN
-        member = MemberContacts.withoutType();
+        member = MemberProfiles.withoutType();
 
         // WHEN
         repository.save(member);
@@ -144,7 +144,7 @@ class ITMemberProfileRepositorySave {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "contactChannels.id",
-                "contactChannels.contactId", "contactChannels.contact")
+                "contactChannels.profileId", "contactChannels.profile")
             .containsExactly(QueryMemberContactEntities.withEmail());
     }
 
@@ -156,7 +156,7 @@ class ITMemberProfileRepositorySave {
         final MemberProfile saved;
 
         // GIVEN
-        member = MemberContacts.active();
+        member = MemberProfiles.active();
 
         // WHEN
         saved = repository.save(member);
@@ -164,7 +164,7 @@ class ITMemberProfileRepositorySave {
         // THEN
         Assertions.assertThat(saved)
             .as("member")
-            .isEqualTo(MemberContacts.created());
+            .isEqualTo(MemberProfiles.created());
     }
 
     @Test
@@ -175,7 +175,7 @@ class ITMemberProfileRepositorySave {
         final ProfileEntity profile;
 
         // GIVEN
-        member = MemberContacts.active();
+        member = MemberProfiles.active();
 
         // WHEN
         repository.save(member);

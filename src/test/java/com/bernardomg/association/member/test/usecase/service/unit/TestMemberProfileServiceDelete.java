@@ -40,7 +40,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
-import com.bernardomg.association.member.test.configuration.factory.MemberContacts;
+import com.bernardomg.association.member.test.configuration.factory.MemberProfiles;
 import com.bernardomg.association.member.usecase.service.DefaultMemberProfileService;
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 
@@ -63,7 +63,7 @@ class TestMemberProfileServiceDelete {
     void testDelete_CallsRepository() {
         // GIVEN
         given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
-            .willReturn(Optional.of(MemberContacts.active()));
+            .willReturn(Optional.of(MemberProfiles.active()));
 
         // WHEN
         service.delete(ProfileConstants.NUMBER);

@@ -35,8 +35,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.association.profile.domain.exception.MissingContactMethodException;
 import com.bernardomg.association.profile.domain.model.ContactMethod;
 import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
-import com.bernardomg.association.profile.usecase.validation.ProfileMethodNameNotExistsForAnotherRule;
-import com.bernardomg.association.profile.usecase.validation.ProfileMethodNameNotExistsRule;
+import com.bernardomg.association.profile.usecase.validation.ContactMethodNameNotExistsForAnotherRule;
+import com.bernardomg.association.profile.usecase.validation.ContactMethodNameNotExistsRule;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -68,9 +68,9 @@ public final class DefaultContactMethodService implements ContactMethodService {
         super();
 
         contactMethodRepository = Objects.requireNonNull(contactMethodRepo);
-        createContactMethodValidator = new FieldRuleValidator<>(new ProfileMethodNameNotExistsRule(contactMethodRepo));
+        createContactMethodValidator = new FieldRuleValidator<>(new ContactMethodNameNotExistsRule(contactMethodRepo));
         updateContactMethodValidator = new FieldRuleValidator<>(
-            new ProfileMethodNameNotExistsForAnotherRule(contactMethodRepo));
+            new ContactMethodNameNotExistsForAnotherRule(contactMethodRepo));
     }
 
     @Override

@@ -79,8 +79,8 @@ public class UpdateSponsorEntity implements Serializable {
         this.id = id;
     }
 
-    public void setProfile(final ProfileEntity contact) {
-        profile = contact;
+    public void setProfile(final ProfileEntity profile) {
+        this.profile = profile;
     }
 
     public void setYears(final Collection<Integer> years) {

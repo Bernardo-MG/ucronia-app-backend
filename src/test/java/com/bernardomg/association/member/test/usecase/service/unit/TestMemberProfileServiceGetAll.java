@@ -41,7 +41,7 @@ import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
-import com.bernardomg.association.member.test.configuration.factory.MemberContacts;
+import com.bernardomg.association.member.test.configuration.factory.MemberProfiles;
 import com.bernardomg.association.member.usecase.service.DefaultMemberProfileService;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
@@ -99,7 +99,7 @@ class TestMemberProfileServiceGetAll {
         sorting = Sorting.unsorted();
         filter = new MemberFilter(MemberStatus.ALL, "");
 
-        existing = new Page<>(List.of(MemberContacts.active()), 0, 0, 0, 0, 0, false, false, sorting);
+        existing = new Page<>(List.of(MemberProfiles.active()), 0, 0, 0, 0, 0, false, false, sorting);
         given(memberProfileRepository.findAll(filter, pagination, sorting)).willReturn(existing);
 
         // WHEN
@@ -110,7 +110,7 @@ class TestMemberProfileServiceGetAll {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("guests")
-            .containsExactly(MemberContacts.active());
+            .containsExactly(MemberProfiles.active());
     }
 
 }

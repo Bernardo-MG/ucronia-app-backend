@@ -37,7 +37,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
-import com.bernardomg.association.member.test.configuration.factory.MemberContacts;
+import com.bernardomg.association.member.test.configuration.factory.MemberProfiles;
 import com.bernardomg.association.member.usecase.service.DefaultMemberProfileService;
 
 @ExtendWith(MockitoExtension.class)
@@ -60,13 +60,13 @@ class TestMemberProfileServiceCreate {
         final MemberProfile guest;
 
         // GIVEN
-        guest = MemberContacts.padded();
+        guest = MemberProfiles.padded();
 
         // WHEN
         service.create(guest);
 
         // THEN
-        verify(memberProfileRepository).save(MemberContacts.toCreate());
+        verify(memberProfileRepository).save(MemberProfiles.toCreate());
     }
 
     @Test
@@ -75,13 +75,13 @@ class TestMemberProfileServiceCreate {
         final MemberProfile guest;
 
         // GIVEN
-        guest = MemberContacts.toCreate();
+        guest = MemberProfiles.toCreate();
 
         // WHEN
         service.create(guest);
 
         // THEN
-        verify(memberProfileRepository).save(MemberContacts.toCreate());
+        verify(memberProfileRepository).save(MemberProfiles.toCreate());
     }
 
     @Test
@@ -91,9 +91,9 @@ class TestMemberProfileServiceCreate {
         final MemberProfile created;
 
         // GIVEN
-        guest = MemberContacts.toCreate();
+        guest = MemberProfiles.toCreate();
 
-        given(memberProfileRepository.save(guest)).willReturn(MemberContacts.active());
+        given(memberProfileRepository.save(guest)).willReturn(MemberProfiles.active());
 
         // WHEN
         created = service.create(guest);
@@ -101,7 +101,7 @@ class TestMemberProfileServiceCreate {
         // THEN
         Assertions.assertThat(created)
             .as("profile")
-            .isEqualTo(MemberContacts.active());
+            .isEqualTo(MemberProfiles.active());
     }
 
 }

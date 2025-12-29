@@ -40,7 +40,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
-import com.bernardomg.association.member.test.configuration.factory.MemberContacts;
+import com.bernardomg.association.member.test.configuration.factory.MemberProfiles;
 import com.bernardomg.association.member.usecase.service.DefaultMemberProfileService;
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 
@@ -65,14 +65,14 @@ class TestMemberProfileServiceGetOne {
 
         // GIVEN
         given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
-            .willReturn(Optional.of(MemberContacts.active()));
+            .willReturn(Optional.of(MemberProfiles.active()));
 
         // WHEN
         guest = service.getOne(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(guest)
-            .contains(MemberContacts.active());
+            .contains(MemberProfiles.active());
     }
 
     @Test

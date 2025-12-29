@@ -105,7 +105,7 @@ class ITGuestRepositorySaveWithNumber {
     }
 
     @Test
-    @DisplayName("When the guest is persisted, the contact types includes the guest type")
+    @DisplayName("When the guest is persisted, the profile types includes the guest type")
     @EmailContactMethod
     void testSaveWithNumber_SetsType() {
         final Guest         guest;

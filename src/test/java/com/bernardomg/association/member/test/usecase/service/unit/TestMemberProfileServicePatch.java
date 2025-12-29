@@ -41,7 +41,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
-import com.bernardomg.association.member.test.configuration.factory.MemberContacts;
+import com.bernardomg.association.member.test.configuration.factory.MemberProfiles;
 import com.bernardomg.association.member.usecase.service.DefaultMemberProfileService;
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 
@@ -66,7 +66,7 @@ class TestMemberProfileServicePatch {
         final ThrowingCallable execution;
 
         // GIVEN
-        guest = MemberContacts.nameChange();
+        guest = MemberProfiles.nameChange();
 
         given(memberProfileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.empty());
 
@@ -84,16 +84,16 @@ class TestMemberProfileServicePatch {
         final MemberProfile guest;
 
         // GIVEN
-        guest = MemberContacts.nameChangePatch();
+        guest = MemberProfiles.nameChangePatch();
 
         given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
-            .willReturn(Optional.of(MemberContacts.active()));
+            .willReturn(Optional.of(MemberProfiles.active()));
 
         // WHEN
         service.patch(guest);
 
         // THEN
-        verify(memberProfileRepository).save(MemberContacts.nameChange());
+        verify(memberProfileRepository).save(MemberProfiles.nameChange());
     }
 
     @Test
@@ -102,16 +102,16 @@ class TestMemberProfileServicePatch {
         final MemberProfile guest;
 
         // GIVEN
-        guest = MemberContacts.padded();
+        guest = MemberProfiles.padded();
 
         given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
-            .willReturn(Optional.of(MemberContacts.active()));
+            .willReturn(Optional.of(MemberProfiles.active()));
 
         // WHEN
         service.patch(guest);
 
         // THEN
-        verify(memberProfileRepository).save(MemberContacts.active());
+        verify(memberProfileRepository).save(MemberProfiles.active());
     }
 
     @Test
@@ -120,16 +120,16 @@ class TestMemberProfileServicePatch {
         final MemberProfile guest;
 
         // GIVEN
-        guest = MemberContacts.nameChange();
+        guest = MemberProfiles.nameChange();
 
         given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
-            .willReturn(Optional.of(MemberContacts.active()));
+            .willReturn(Optional.of(MemberProfiles.active()));
 
         // WHEN
         service.patch(guest);
 
         // THEN
-        verify(memberProfileRepository).save(MemberContacts.nameChange());
+        verify(memberProfileRepository).save(MemberProfiles.nameChange());
     }
 
     @Test
@@ -139,11 +139,11 @@ class TestMemberProfileServicePatch {
         final MemberProfile updated;
 
         // GIVEN
-        guest = MemberContacts.nameChange();
+        guest = MemberProfiles.nameChange();
 
         given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
-            .willReturn(Optional.of(MemberContacts.active()));
-        given(memberProfileRepository.save(MemberContacts.nameChange())).willReturn(MemberContacts.nameChange());
+            .willReturn(Optional.of(MemberProfiles.active()));
+        given(memberProfileRepository.save(MemberProfiles.nameChange())).willReturn(MemberProfiles.nameChange());
 
         // WHEN
         updated = service.patch(guest);
@@ -151,7 +151,7 @@ class TestMemberProfileServicePatch {
         // THEN
         Assertions.assertThat(updated)
             .as("guest")
-            .isEqualTo(MemberContacts.nameChange());
+            .isEqualTo(MemberProfiles.nameChange());
     }
 
 }

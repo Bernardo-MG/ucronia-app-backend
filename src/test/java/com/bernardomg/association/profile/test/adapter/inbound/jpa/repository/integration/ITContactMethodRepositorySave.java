@@ -54,14 +54,14 @@ class ITContactMethodRepositorySave {
     @Test
     @DisplayName("With a valid contact method, the contact method is persisted")
     void testSave_PersistedData() {
-        final ContactMethod                 contact;
+        final ContactMethod                 contactMethod;
         final Iterable<ContactMethodEntity> entities;
 
         // GIVEN
-        contact = ContactMethods.email();
+        contactMethod = ContactMethods.email();
 
         // WHEN
-        repository.save(contact);
+        repository.save(contactMethod);
 
         // THEN
         entities = springRepository.findAll();

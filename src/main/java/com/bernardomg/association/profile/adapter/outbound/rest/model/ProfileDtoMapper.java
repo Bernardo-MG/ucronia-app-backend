@@ -80,8 +80,8 @@ public final class ProfileDtoMapper {
         return new Profile(creation.getIdentifier(), -1L, name, null, List.of(), "", Set.of());
     }
 
-    public static final ProfileResponseDto toResponseDto(final Optional<Profile> contact) {
-        return new ProfileResponseDto().content(contact.map(ProfileDtoMapper::toDto)
+    public static final ProfileResponseDto toResponseDto(final Optional<Profile> profile) {
+        return new ProfileResponseDto().content(profile.map(ProfileDtoMapper::toDto)
             .orElse(null));
     }
 
@@ -107,8 +107,8 @@ public final class ProfileDtoMapper {
             .sort(sortingResponse);
     }
 
-    public static final ProfileResponseDto toResponseDto(final Profile contact) {
-        return new ProfileResponseDto().content(ProfileDtoMapper.toDto(contact));
+    public static final ProfileResponseDto toResponseDto(final Profile profile) {
+        return new ProfileResponseDto().content(ProfileDtoMapper.toDto(profile));
     }
 
     private static final ContactChannel toDomain(final EditionContactChannelDto dto) {
@@ -118,40 +118,40 @@ public final class ProfileDtoMapper {
         return new ContactChannel(contactMethod, dto.getDetail());
     }
 
-    private static final ContactChannelDto toDto(final ContactChannel contact) {
+    private static final ContactChannelDto toDto(final ContactChannel contactChannel) {
         ContactMethodDto method;
 
-        method = new ContactMethodDto().number(contact.contactMethod()
+        method = new ContactMethodDto().number(contactChannel.contactMethod()
             .number())
-            .name(contact.contactMethod()
+            .name(contactChannel.contactMethod()
                 .name());
 
-        return new ContactChannelDto().detail(contact.detail())
+        return new ContactChannelDto().detail(contactChannel.detail())
             .method(method);
     }
 
-    private static final ProfileDto toDto(final Profile contact) {
+    private static final ProfileDto toDto(final Profile profile) {
         ProfileNameDto          name;
         List<ContactChannelDto> contactChannels;
 
-        name = new ProfileNameDto().firstName(contact.name()
+        name = new ProfileNameDto().firstName(profile.name()
             .firstName())
-            .lastName(contact.name()
+            .lastName(profile.name()
                 .lastName())
-            .fullName(contact.name()
+            .fullName(profile.name()
                 .fullName());
-        contactChannels = contact.contactChannels()
+        contactChannels = profile.contactChannels()
             .stream()
             .map(ProfileDtoMapper::toDto)
             .toList();
 
-        return new ProfileDto().identifier(contact.identifier())
-            .number(contact.number())
+        return new ProfileDto().identifier(profile.identifier())
+            .number(profile.number())
             .name(name)
-            .birthDate(contact.birthDate())
+            .birthDate(profile.birthDate())
             .contactChannels(contactChannels)
-            .comments(contact.comments())
-            .types(new ArrayList<>(contact.types()));
+            .comments(profile.comments())
+            .types(new ArrayList<>(profile.types()));
     }
 
     private static final PropertyDto toDto(final Property property) {

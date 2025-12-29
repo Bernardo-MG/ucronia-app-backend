@@ -64,7 +64,7 @@ class ITGuestRepositorySaveAll {
     }
 
     @Test
-    @DisplayName("When a guest exists, the contact is persisted")
+    @DisplayName("When a guest exists, the profile is persisted")
     @ValidGuest
     void testSaveAll_Existing_PersistedData() {
         final Guest                      guest;
@@ -82,7 +82,7 @@ class ITGuestRepositorySaveAll {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "contactChannels.id",
-                "contactChannels.contactId", "contactChannels.contact")
+                "contactChannels.profileId", "contactChannels.profile")
             .containsExactly(QueryGuestEntities.withEmail());
     }
 
@@ -105,7 +105,7 @@ class ITGuestRepositorySaveAll {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "contactChannels.id",
-                "contactChannels.contactId", "contactChannels.contact")
+                "contactChannels.profileId", "contactChannels.profile")
             .containsExactly(QueryGuestEntities.withEmail());
     }
 
@@ -128,7 +128,7 @@ class ITGuestRepositorySaveAll {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "contactChannels.id",
-                "contactChannels.contactId", "contactChannels.contact")
+                "contactChannels.profileId", "contactChannels.profile")
             .containsExactly(QueryGuestEntities.withEmail());
     }
 

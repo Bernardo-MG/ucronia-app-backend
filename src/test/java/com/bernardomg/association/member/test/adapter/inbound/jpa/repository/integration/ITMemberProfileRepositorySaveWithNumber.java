@@ -35,7 +35,7 @@ import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberPr
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.QueryMemberProfileSpringRepository;
 import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
-import com.bernardomg.association.member.test.configuration.factory.MemberContacts;
+import com.bernardomg.association.member.test.configuration.factory.MemberProfiles;
 import com.bernardomg.association.member.test.configuration.factory.QueryMemberContactEntities;
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
@@ -70,7 +70,7 @@ class ITMemberProfileRepositorySaveWithNumber {
         final Iterable<QueryMemberProfileEntity> entities;
 
         // GIVEN
-        member = MemberContacts.active();
+        member = MemberProfiles.active();
 
         // WHEN
         repository.save(member, ProfileConstants.NUMBER);
@@ -93,7 +93,7 @@ class ITMemberProfileRepositorySaveWithNumber {
         final MemberProfile saved;
 
         // GIVEN
-        member = MemberContacts.active();
+        member = MemberProfiles.active();
 
         // WHEN
         saved = repository.save(member, ProfileConstants.NUMBER);
@@ -101,7 +101,7 @@ class ITMemberProfileRepositorySaveWithNumber {
         // THEN
         Assertions.assertThat(saved)
             .as("member")
-            .isEqualTo(MemberContacts.noContactChannel());
+            .isEqualTo(MemberProfiles.noContactChannel());
     }
 
     @Test
@@ -113,7 +113,7 @@ class ITMemberProfileRepositorySaveWithNumber {
         final ProfileEntity profile;
 
         // GIVEN
-        member = MemberContacts.active();
+        member = MemberProfiles.active();
 
         // WHEN
         saved = repository.save(member, ProfileConstants.NUMBER);

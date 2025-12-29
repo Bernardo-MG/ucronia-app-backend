@@ -38,16 +38,16 @@ import com.bernardomg.validation.validator.FieldRule;
 /**
  * Checks the contact method name is not already registered.
  */
-public final class ProfileMethodNameNotExistsRule implements FieldRule<ContactMethod> {
+public final class ContactMethodNameNotExistsRule implements FieldRule<ContactMethod> {
 
     /**
      * Logger for the class.
      */
-    private static final Logger           log = LoggerFactory.getLogger(ProfileMethodNameNotExistsRule.class);
+    private static final Logger           log = LoggerFactory.getLogger(ContactMethodNameNotExistsRule.class);
 
     private final ContactMethodRepository contactMethodRepository;
 
-    public ProfileMethodNameNotExistsRule(final ContactMethodRepository contactMethodRepo) {
+    public ContactMethodNameNotExistsRule(final ContactMethodRepository contactMethodRepo) {
         super();
 
         contactMethodRepository = Objects.requireNonNull(contactMethodRepo);

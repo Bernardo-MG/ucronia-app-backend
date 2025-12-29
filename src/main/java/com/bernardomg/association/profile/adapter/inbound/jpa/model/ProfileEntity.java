@@ -44,7 +44,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
 @Entity(name = "Profile")
-@Table(schema = "directory", name = "contacts")
+@Table(schema = "directory", name = "profiles")
 public class ProfileEntity implements Serializable {
 
     /**
@@ -59,7 +59,7 @@ public class ProfileEntity implements Serializable {
     @Column(name = "comments")
     private String                           comments;
 
-    @OneToMany(mappedBy = "contact", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true)
     private Collection<ContactChannelEntity> contactChannels;
 
     @Column(name = "first_name", nullable = false)

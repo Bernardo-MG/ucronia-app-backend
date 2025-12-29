@@ -13,7 +13,7 @@ import com.bernardomg.association.profile.domain.model.ProfileName;
 import com.bernardomg.association.profile.test.configuration.factory.ContactMethods;
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 
-public final class MemberContacts {
+public final class MemberProfiles {
 
     public static final MemberProfile active() {
         final ProfileName    name;

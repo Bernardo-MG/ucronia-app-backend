@@ -34,7 +34,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
-import com.bernardomg.association.member.test.configuration.factory.MemberContacts;
+import com.bernardomg.association.member.test.configuration.factory.MemberProfiles;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -57,7 +57,7 @@ class ITMemberProfileRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(member)
-            .contains(MemberContacts.active());
+            .contains(MemberProfiles.active());
     }
 
     @Test

@@ -36,7 +36,7 @@ import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
-import com.bernardomg.association.member.test.configuration.factory.MemberContacts;
+import com.bernardomg.association.member.test.configuration.factory.MemberProfiles;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
@@ -71,7 +71,7 @@ class ITMemberProfileRepositoryFindAll {
         Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(MemberContacts.active());
+            .containsExactly(MemberProfiles.active());
     }
 
     @Test
@@ -166,7 +166,7 @@ class ITMemberProfileRepositoryFindAll {
         Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(MemberContacts.active());
+            .containsExactly(MemberProfiles.active());
     }
 
     @Test
@@ -190,7 +190,7 @@ class ITMemberProfileRepositoryFindAll {
         Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(MemberContacts.inactive());
+            .containsExactly(MemberProfiles.inactive());
     }
 
     @Test
@@ -285,7 +285,7 @@ class ITMemberProfileRepositoryFindAll {
         Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(MemberContacts.inactive());
+            .containsExactly(MemberProfiles.inactive());
     }
 
     @Test

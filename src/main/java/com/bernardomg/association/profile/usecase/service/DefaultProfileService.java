@@ -85,26 +85,26 @@ public final class DefaultProfileService implements ProfileService {
     }
 
     @Override
-    public final Profile create(final Profile contact) {
+    public final Profile create(final Profile profile) {
         final Profile toCreate;
         final Profile created;
 
-        log.debug("Creating contact {}", contact);
+        log.debug("Creating profile {}", profile);
 
         // TODO: maybe send an exception with all
-        contact.contactChannels()
+        profile.contactChannels()
             .stream()
             .map(ContactChannel::contactMethod)
             .forEach(this::checkContactMethodExists);
 
-        toCreate = new Profile(contact.identifier(), 0L, contact.name(), contact.birthDate(), contact.contactChannels(),
-            contact.comments(), contact.types());
+        toCreate = new Profile(profile.identifier(), 0L, profile.name(), profile.birthDate(), profile.contactChannels(),
+            profile.comments(), profile.types());
 
         createProfileValidator.validate(toCreate);
 
         created = profileRepository.save(toCreate);
 
-        log.debug("Created contact {}", created);
+        log.debug("Created profile {}", created);
 
         return created;
     }
@@ -113,17 +113,17 @@ public final class DefaultProfileService implements ProfileService {
     public final Profile delete(final long number) {
         final Profile existing;
 
-        log.debug("Deleting contact {}", number);
+        log.debug("Deleting profile {}", number);
 
         existing = profileRepository.findOne(number)
             .orElseThrow(() -> {
-                log.error("Missing contact {}", number);
+                log.error("Missing profile {}", number);
                 throw new MissingProfileException(number);
             });
 
         profileRepository.delete(number);
 
-        log.debug("Deleted contact {}", number);
+        log.debug("Deleted profile {}", number);
 
         return existing;
     }
@@ -132,90 +132,90 @@ public final class DefaultProfileService implements ProfileService {
     public final Page<Profile> getAll(final ProfileQuery query, final Pagination pagination, final Sorting sorting) {
         final Page<Profile> read;
 
-        log.debug("Reading contacts with query {}, pagination {} and sorting {}", query, pagination, sorting);
+        log.debug("Reading profiles with query {}, pagination {} and sorting {}", query, pagination, sorting);
 
         read = profileRepository.findAll(query, pagination, sorting);
 
-        log.debug("Read contacts with query {}, pagination {} and sorting {}: {}", query, pagination, sorting, read);
+        log.debug("Read profiles with query {}, pagination {} and sorting {}: {}", query, pagination, sorting, read);
 
         return read;
     }
 
     @Override
     public final Optional<Profile> getOne(final long number) {
-        final Optional<Profile> contact;
+        final Optional<Profile> profile;
 
-        log.debug("Reading contact {}", number);
+        log.debug("Reading profile {}", number);
 
-        contact = profileRepository.findOne(number);
-        if (contact.isEmpty()) {
-            log.error("Missing contact {}", number);
+        profile = profileRepository.findOne(number);
+        if (profile.isEmpty()) {
+            log.error("Missing profile {}", number);
             throw new MissingProfileException(number);
         }
 
-        log.debug("Read contact {}", contact);
+        log.debug("Read profile {}", profile);
 
-        return contact;
+        return profile;
     }
 
     @Override
-    public final Profile patch(final Profile contact) {
+    public final Profile patch(final Profile profile) {
         final Profile existing;
         final Profile toSave;
         final Profile saved;
 
-        log.debug("Patching contact {} using data {}", contact.number(), contact);
+        log.debug("Patching profile {} using data {}", profile.number(), profile);
 
         // TODO: Apply the creation validations
 
-        existing = profileRepository.findOne(contact.number())
+        existing = profileRepository.findOne(profile.number())
             .orElseThrow(() -> {
-                log.error("Missing contact {}", contact.number());
-                throw new MissingProfileException(contact.number());
+                log.error("Missing profile {}", profile.number());
+                throw new MissingProfileException(profile.number());
             });
 
         // TODO: maybe send an exception with all
-        contact.contactChannels()
+        profile.contactChannels()
             .stream()
             .map(ContactChannel::contactMethod)
             .forEach(this::checkContactMethodExists);
 
-        toSave = copy(existing, contact);
+        toSave = copy(existing, profile);
 
         patchProfileValidator.validate(toSave);
 
         saved = profileRepository.save(toSave);
 
-        log.debug("Patched contact {}: {}", contact.number(), saved);
+        log.debug("Patched profile {}: {}", profile.number(), saved);
 
         return saved;
     }
 
     @Override
-    public final Profile update(final Profile contact) {
+    public final Profile update(final Profile profile) {
         final Profile saved;
 
-        log.debug("Updating contact {} using data {}", contact.number(), contact);
+        log.debug("Updating profile {} using data {}", profile.number(), profile);
 
         // TODO: Identificator must be unique or empty
         // TODO: The membership maybe can't be removed
 
-        if (!profileRepository.exists(contact.number())) {
-            log.error("Missing contact {}", contact.number());
-            throw new MissingProfileException(contact.number());
+        if (!profileRepository.exists(profile.number())) {
+            log.error("Missing profile {}", profile.number());
+            throw new MissingProfileException(profile.number());
         }
 
         // TODO: maybe send an exception with all
-        contact.contactChannels()
+        profile.contactChannels()
             .stream()
             .map(ContactChannel::contactMethod)
             .forEach(this::checkContactMethodExists);
 
-        updateProfileValidator.validate(contact);
+        updateProfileValidator.validate(profile);
 
-        saved = profileRepository.save(contact);
+        saved = profileRepository.save(profile);
 
-        log.debug("Updated contact {}: {}", contact.number(), saved);
+        log.debug("Updated profile {}: {}", profile.number(), saved);
 
         return saved;
     }
