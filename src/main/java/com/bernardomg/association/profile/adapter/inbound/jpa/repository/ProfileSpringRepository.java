@@ -42,7 +42,7 @@ public interface ProfileSpringRepository
     public boolean existsByIdentifier(final String identifier);
 
     @Query("""
-            SELECT CASE WHEN COUNT(c) > 0 THEN TRUE ELSE FALSE END AS exists
+            SELECT CASE WHEN COUNT(p) > 0 THEN TRUE ELSE FALSE END AS exists
             FROM Profile p
             WHERE p.number != :number
               AND p.identifier = :identifier

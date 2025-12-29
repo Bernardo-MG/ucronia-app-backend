@@ -40,7 +40,7 @@ public interface QueryMemberProfileSpringRepository
     @Modifying
     @Query("""
             DELETE
-            FROM MemberContact m
+            FROM MemberProfile m
             WHERE m.number = :number
             """)
     public void deleteByNumber(@Param("number") final Long number);
@@ -49,7 +49,7 @@ public interface QueryMemberProfileSpringRepository
 
     public Optional<QueryMemberProfileEntity> findByNumber(final Long number);
 
-    @Query("SELECT COALESCE(MAX(c.number), 0) + 1 FROM Contact c")
+    @Query("SELECT COALESCE(MAX(p.number), 0) + 1 FROM Profile p")
     public Long findNextNumber();
 
 }

@@ -43,9 +43,9 @@ public interface BookLendingSpringRepository extends JpaRepository<BookLendingEn
                SELECT l
                FROM BookLending l
                  INNER JOIN Book b ON b.id = l.bookId
-                 INNER JOIN profile c ON c.id = l.profileId
+                 INNER JOIN Profile p ON p.id = l.profileId
                WHERE b.number = :bookNumber
-                 AND c.number = :profileNumber
+                 AND p.number = :profileNumber
                ORDER BY l.returnDate DESC
             """)
     public List<BookLendingEntity> find(@Param("bookNumber") final long bookNumber,
@@ -79,9 +79,9 @@ public interface BookLendingSpringRepository extends JpaRepository<BookLendingEn
                SELECT l
                FROM BookLending l
                  INNER JOIN Book b ON b.id = l.bookId
-                 INNER JOIN profile c ON c.id = l.profileId
+                 INNER JOIN Profile p ON p.id = l.profileId
                WHERE b.number = :bookNumber
-                 AND c.number = :profileNumber
+                 AND p.number = :profileNumber
                  AND l.lendingDate = :lendingDate
                  AND l.returnDate IS NOT NULL
                ORDER BY l.returnDate DESC
