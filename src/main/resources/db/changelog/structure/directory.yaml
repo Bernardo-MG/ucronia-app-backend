@@ -5,7 +5,7 @@ databaseChangeLog:
       changes:
         - sqlFile:
             encoding: UTF-8
-            path: sql/create_profile_schema.sql
+            path: sql/create_directory_schema.sql
             relativeToChangelogFile: true
             splitStatements: true
             stripComments: true
