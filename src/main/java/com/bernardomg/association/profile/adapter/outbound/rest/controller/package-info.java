@@ -23,7 +23,7 @@
  */
 
 /**
- * Contact REST controllers.
+ * Profile REST controllers.
  */
 
 package com.bernardomg.association.profile.adapter.outbound.rest.controller;

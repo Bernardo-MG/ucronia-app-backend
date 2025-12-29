@@ -43,7 +43,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
-@Entity(name = "Contact")
+@Entity(name = "Profile")
 @Table(schema = "directory", name = "contacts")
 public class ProfileEntity implements Serializable {
 
@@ -173,7 +173,7 @@ public class ProfileEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "ContactEntity [id=" + id + ", identifier=" + identifier + ", firstName=" + firstName + ", lastName="
+        return "ProfileEntity [id=" + id + ", identifier=" + identifier + ", firstName=" + firstName + ", lastName="
                 + lastName + ", birthDate=" + birthDate + ", comments=" + comments + ", contactChannels="
                 + contactChannels + ", number=" + number + ", types=" + types + "]";
     }

@@ -89,7 +89,7 @@ class TestProfileSponsorshipServiceConvert {
 
     @Test
     @DisplayName("With a not existing profile, an exception is thrown")
-    void testConvertToSponsor_NotExistingContact_Exception() {
+    void testConvertToSponsor_NotExistingProfile_Exception() {
         final ThrowingCallable execution;
 
         // GIVEN

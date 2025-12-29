@@ -75,7 +75,7 @@ public final class UpdateSponsorEntityMapper {
         final UpdateSponsorEntity              entity;
         final ProfileEntity                    profile;
         final Collection<ContactChannelEntity> contactChannels;
-        
+
         profile = new ProfileEntity();
         profile.setNumber(data.number());
         profile.setFirstName(data.name()

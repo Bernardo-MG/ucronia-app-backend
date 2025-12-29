@@ -70,7 +70,7 @@ class ITMemberRepositoryDelete {
     @Test
     @DisplayName("When deleting an active member, the profile is deleted")
     @ActiveMember
-    void testDelete_Active_Contact() {
+    void testDelete_Active_Profile() {
         // WHEN
         repository.delete(ProfileConstants.NUMBER);
 
@@ -94,7 +94,7 @@ class ITMemberRepositoryDelete {
     @Test
     @DisplayName("When deleting an inactive member, the profile is deleted")
     @InactiveMember
-    void testDelete_Inactive_Contact() {
+    void testDelete_Inactive_Profile() {
         // WHEN
         repository.delete(ProfileConstants.NUMBER);
 

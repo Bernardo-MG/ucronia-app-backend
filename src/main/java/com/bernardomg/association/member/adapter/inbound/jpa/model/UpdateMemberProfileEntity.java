@@ -18,7 +18,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
-@Entity(name = "UpdateMemberContact")
+@Entity(name = "UpdateMemberProfile")
 @Table(schema = "directory", name = "members")
 public class UpdateMemberProfileEntity implements Serializable {
 
@@ -31,15 +31,15 @@ public class UpdateMemberProfileEntity implements Serializable {
     @Column(name = "active", nullable = false)
     private Boolean           active;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @MapsId
-    @JoinColumn(name = "id")
-    private ProfileEntity     profile;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
     private Long              id;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @MapsId
+    @JoinColumn(name = "id")
+    private ProfileEntity     profile;
 
     @Column(name = "renew_membership", table = "members", nullable = false)
     private Boolean           renew;
@@ -59,12 +59,12 @@ public class UpdateMemberProfileEntity implements Serializable {
         return active;
     }
 
-    public ProfileEntity getProfile() {
-        return profile;
-    }
-
     public Long getId() {
         return id;
+    }
+
+    public ProfileEntity getProfile() {
+        return profile;
     }
 
     public Boolean getRenew() {
@@ -80,12 +80,12 @@ public class UpdateMemberProfileEntity implements Serializable {
         this.active = active;
     }
 
-    public void setProfile(final ProfileEntity profile) {
-        this.profile = profile;
-    }
-
     public void setId(final Long id) {
         this.id = id;
+    }
+
+    public void setProfile(final ProfileEntity profile) {
+        this.profile = profile;
     }
 
     public void setRenew(final Boolean renew) {
@@ -94,7 +94,7 @@ public class UpdateMemberProfileEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "UpdateMemberContactEntity [id=" + id + ", profile=" + profile + ", active=" + active + ", renew="
+        return "UpdateMemberProfileEntity [id=" + id + ", profile=" + profile + ", active=" + active + ", renew="
                 + renew + "]";
     }
 

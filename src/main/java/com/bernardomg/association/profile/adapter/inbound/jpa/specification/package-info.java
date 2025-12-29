@@ -23,7 +23,7 @@
  */
 
 /**
- * Contact JPA specifications.
+ * Profile JPA specifications.
  */
 
 package com.bernardomg.association.profile.adapter.inbound.jpa.specification;

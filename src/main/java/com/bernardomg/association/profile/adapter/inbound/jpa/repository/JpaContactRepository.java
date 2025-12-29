@@ -37,10 +37,10 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntityMapper;
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactMethodEntity;
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
-import com.bernardomg.association.profile.adapter.inbound.jpa.specification.ContactSpecifications;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntityMapper;
+import com.bernardomg.association.profile.adapter.inbound.jpa.specification.ProfileSpecifications;
 import com.bernardomg.association.profile.domain.filter.ProfileQuery;
 import com.bernardomg.association.profile.domain.model.ContactMethod;
 import com.bernardomg.association.profile.domain.model.Profile;
@@ -129,7 +129,7 @@ public final class JpaContactRepository implements ProfileRepository {
         log.debug("Finding all the contacts with filter {}, pagination {} and sorting {}", filter, pagination, sorting);
 
         pageable = SpringPagination.toPageable(pagination, sorting);
-        spec = ContactSpecifications.query(filter);
+        spec = ProfileSpecifications.query(filter);
         if (spec.isEmpty()) {
             read = profileSpringRepository.findAll(pageable)
                 .map(ProfileEntityMapper::toDomain);

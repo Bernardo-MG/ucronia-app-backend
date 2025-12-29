@@ -69,7 +69,7 @@ class ITGuestRepositoryDelete {
     @Test
     @DisplayName("When deleting a guest, the profile is deleted")
     @ValidGuest
-    void testDelete_Active_Contact() {
+    void testDelete_Active_Profile() {
         // WHEN
         repository.delete(ProfileConstants.NUMBER);
 

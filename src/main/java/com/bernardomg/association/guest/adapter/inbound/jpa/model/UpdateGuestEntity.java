@@ -33,11 +33,6 @@ public class UpdateGuestEntity implements Serializable {
     @Transient
     private static final long   serialVersionUID = 8139806507534262996L;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @MapsId
-    @JoinColumn(name = "id")
-    private ProfileEntity       profile;
-
     @ElementCollection
     @CollectionTable(schema = "directory", name = "guest_games", joinColumns = @JoinColumn(name = "guest_id"))
     @Column(name = "date", nullable = false)
@@ -47,6 +42,11 @@ public class UpdateGuestEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
     private Long                id;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @MapsId
+    @JoinColumn(name = "id")
+    private ProfileEntity       profile;
 
     @Override
     public boolean equals(final Object obj) {
@@ -59,10 +59,6 @@ public class UpdateGuestEntity implements Serializable {
         return Objects.equals(id, other.id);
     }
 
-    public ProfileEntity getProfile() {
-        return profile;
-    }
-
     public Collection<Instant> getGames() {
         return games;
     }
@@ -71,13 +67,13 @@ public class UpdateGuestEntity implements Serializable {
         return id;
     }
 
+    public ProfileEntity getProfile() {
+        return profile;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(id);
-    }
-
-    public void setProfile(final ProfileEntity profile) {
-        this.profile = profile;
     }
 
     public void setGames(final Collection<Instant> games) {
@@ -86,6 +82,10 @@ public class UpdateGuestEntity implements Serializable {
 
     public void setId(final Long id) {
         this.id = id;
+    }
+
+    public void setProfile(final ProfileEntity profile) {
+        this.profile = profile;
     }
 
     @Override

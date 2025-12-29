@@ -21,7 +21,7 @@ import jakarta.persistence.SecondaryTable;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
-@Entity(name = "MemberContact")
+@Entity(name = "MemberProfile")
 @Table(schema = "directory", name = "members")
 @SecondaryTable(schema = "directory", name = "profiles",
         pkJoinColumns = @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id"))
@@ -175,7 +175,7 @@ public class QueryMemberProfileEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "QueryMemberContactEntity [id=" + id + ", identifier=" + identifier + ", firstName=" + firstName
+        return "QueryMemberProfileEntity [id=" + id + ", identifier=" + identifier + ", firstName=" + firstName
                 + ", lastName=" + lastName + ", active=" + active + ", birthDate=" + birthDate + ", comments="
                 + comments + ", contactChannels=" + contactChannels + ", number=" + number + ", renew=" + renew
                 + ", types=" + types + "]";

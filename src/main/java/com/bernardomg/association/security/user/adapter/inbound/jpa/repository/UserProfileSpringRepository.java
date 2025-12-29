@@ -37,10 +37,10 @@ public interface UserProfileSpringRepository extends JpaRepository<UserProfileEn
     public void deleteByUserId(final long id);
 
     @Query("""
-               SELECT CASE WHEN COUNT(uc) > 0 THEN TRUE ELSE FALSE END AS exists
-               FROM UserContact uc
-                 JOIN uc.profile p
-                 JOIN uc.user u
+               SELECT CASE WHEN COUNT(up) > 0 THEN TRUE ELSE FALSE END AS exists
+               FROM UserProfile up
+                 JOIN up.profile p
+                 JOIN up.user u
                WHERE p.number = :number AND u.username != :username
             """)
     public boolean existsByNotUsernameAndMemberNumber(@Param("username") final String username,

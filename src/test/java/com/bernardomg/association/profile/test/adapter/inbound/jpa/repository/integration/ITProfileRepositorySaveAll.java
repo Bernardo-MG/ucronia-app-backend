@@ -82,7 +82,7 @@ class ITProfileRepositorySaveAll {
     @Test
     @DisplayName("When a profile exists and a type is removed, the profile is not changed")
     @ProfileWithType
-    void testSave_Existing_RemoveContact_NoChange() {
+    void testSave_Existing_RemoveProfileType_NoChange() {
         final Profile                 profile;
         final Iterable<ProfileEntity> entities;
 

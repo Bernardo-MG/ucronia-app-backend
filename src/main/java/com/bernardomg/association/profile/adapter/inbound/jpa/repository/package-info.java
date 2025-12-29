@@ -23,7 +23,7 @@
  */
 
 /**
- * Contact JPA repositories.
+ * Profile JPA repositories.
  */
 
 package com.bernardomg.association.profile.adapter.inbound.jpa.repository;

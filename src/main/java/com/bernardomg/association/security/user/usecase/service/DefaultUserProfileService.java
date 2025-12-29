@@ -75,8 +75,8 @@ public final class DefaultUserProfileService implements UserProfileService {
     @Override
     public final Profile assignProfile(final String username, final long profile) {
         final User        readUser;
-        final Profile     readContact;
-        final UserProfile userContact;
+        final Profile     readProfile;
+        final UserProfile userProfile;
 
         log.debug("Assigning profile {} to {}", profile, username);
 
@@ -86,18 +86,18 @@ public final class DefaultUserProfileService implements UserProfileService {
                 throw new MissingUsernameException(username);
             });
 
-        readContact = profileRepository.findOne(profile)
+        readProfile = profileRepository.findOne(profile)
             .orElseThrow(() -> {
                 log.error("Missing profile {}", profile);
                 throw new MissingProfileException(profile);
             });
 
-        userContact = new UserProfile(profile, username);
-        assignProfileValidator.validate(userContact);
+        userProfile = new UserProfile(profile, username);
+        assignProfileValidator.validate(userProfile);
 
-        userProfileRepository.assignProfile(readUser.username(), readContact.number());
+        userProfileRepository.assignProfile(readUser.username(), readProfile.number());
 
-        return readContact;
+        return readProfile;
     }
 
     @Override

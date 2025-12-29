@@ -23,7 +23,7 @@
  */
 
 /**
- * Contact services.
+ * Profile services.
  */
 
 package com.bernardomg.association.profile.usecase.service;

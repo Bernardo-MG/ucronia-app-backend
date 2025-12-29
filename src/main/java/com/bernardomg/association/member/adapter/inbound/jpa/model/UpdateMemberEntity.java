@@ -31,15 +31,15 @@ public class UpdateMemberEntity implements Serializable {
     @Column(name = "active", nullable = false)
     private Boolean           active;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @MapsId
-    @JoinColumn(name = "id")
-    private ProfileEntity     profile;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
     private Long              id;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @MapsId
+    @JoinColumn(name = "id")
+    private ProfileEntity     profile;
 
     @Column(name = "renew_membership", nullable = false)
     private Boolean           renew;
@@ -59,12 +59,12 @@ public class UpdateMemberEntity implements Serializable {
         return active;
     }
 
-    public ProfileEntity getProfile() {
-        return profile;
-    }
-
     public Long getId() {
         return id;
+    }
+
+    public ProfileEntity getProfile() {
+        return profile;
     }
 
     public Boolean getRenew() {
@@ -80,12 +80,12 @@ public class UpdateMemberEntity implements Serializable {
         this.active = active;
     }
 
-    public void setProfile(final ProfileEntity profile) {
-        this.profile = profile;
-    }
-
     public void setId(final Long id) {
         this.id = id;
+    }
+
+    public void setProfile(final ProfileEntity profile) {
+        this.profile = profile;
     }
 
     public void setRenew(final Boolean renew) {

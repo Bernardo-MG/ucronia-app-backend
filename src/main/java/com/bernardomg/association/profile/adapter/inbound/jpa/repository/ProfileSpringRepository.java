@@ -43,9 +43,9 @@ public interface ProfileSpringRepository
 
     @Query("""
             SELECT CASE WHEN COUNT(c) > 0 THEN TRUE ELSE FALSE END AS exists
-            FROM Contact c
-            WHERE c.number != :number
-              AND c.identifier = :identifier
+            FROM Profile p
+            WHERE p.number != :number
+              AND p.identifier = :identifier
             """)
     public boolean existsByIdentifierForAnother(@Param("number") final Long number,
             @Param("identifier") final String identifier);
@@ -56,7 +56,7 @@ public interface ProfileSpringRepository
 
     public Optional<ProfileEntity> findByNumber(final Long number);
 
-    @Query("SELECT COALESCE(MAX(c.number), 0) + 1 FROM Contact c")
+    @Query("SELECT COALESCE(MAX(p.number), 0) + 1 FROM Profile p")
     public Long findNextNumber();
 
 }

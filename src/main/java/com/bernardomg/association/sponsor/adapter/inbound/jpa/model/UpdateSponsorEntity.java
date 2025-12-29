@@ -32,15 +32,15 @@ public class UpdateSponsorEntity implements Serializable {
     @Transient
     private static final long   serialVersionUID = 8139806507534262996L;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @MapsId
-    @JoinColumn(name = "id")
-    private ProfileEntity       profile;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
     private Long                id;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @MapsId
+    @JoinColumn(name = "id")
+    private ProfileEntity       profile;
 
     @ElementCollection
     @CollectionTable(name = "sponsor_years", schema = "directory", joinColumns = @JoinColumn(name = "sponsor_id"))
@@ -58,12 +58,12 @@ public class UpdateSponsorEntity implements Serializable {
         return Objects.equals(id, other.id);
     }
 
-    public ProfileEntity getProfile() {
-        return profile;
-    }
-
     public Long getId() {
         return id;
+    }
+
+    public ProfileEntity getProfile() {
+        return profile;
     }
 
     public Collection<Integer> getYears() {
@@ -75,12 +75,12 @@ public class UpdateSponsorEntity implements Serializable {
         return Objects.hash(id);
     }
 
-    public void setProfile(final ProfileEntity contact) {
-        this.profile = contact;
-    }
-
     public void setId(final Long id) {
         this.id = id;
+    }
+
+    public void setProfile(final ProfileEntity contact) {
+        profile = contact;
     }
 
     public void setYears(final Collection<Integer> years) {

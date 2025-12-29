@@ -36,7 +36,7 @@ import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
 import com.bernardomg.association.profile.domain.model.ProfileName;
 
 /**
- * Query MemberContact entity mapper.
+ * Query member profile entity mapper.
  */
 public final class QueryMemberProfileEntityMapper {
 

@@ -23,7 +23,7 @@
  */
 
 /**
- * Contact JPA model.
+ * Profile JPA model.
  */
 
 package com.bernardomg.association.profile.adapter.inbound.jpa.model;

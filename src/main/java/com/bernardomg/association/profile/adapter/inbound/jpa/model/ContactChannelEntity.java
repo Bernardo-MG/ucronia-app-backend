@@ -48,10 +48,6 @@ public class ContactChannelEntity implements Serializable {
     private static final long   serialVersionUID = -3239435918896603554L;
 
     @ManyToOne
-    @JoinColumn(name = "profile_id", nullable = false)
-    private ProfileEntity       profile;
-
-    @ManyToOne
     @JoinColumn(name = "contact_method_id", nullable = false)
     private ContactMethodEntity contactMethod;
 
@@ -63,6 +59,10 @@ public class ContactChannelEntity implements Serializable {
     @Column(name = "id", nullable = false, unique = true)
     private Long                id;
 
+    @ManyToOne
+    @JoinColumn(name = "profile_id", nullable = false)
+    private ProfileEntity       profile;
+
     @Override
     public boolean equals(final Object obj) {
         if (this == obj) {
@@ -72,10 +72,6 @@ public class ContactChannelEntity implements Serializable {
             return false;
         }
         return Objects.equals(id, other.id);
-    }
-
-    public ProfileEntity getProfile() {
-        return profile;
     }
 
     public ContactMethodEntity getContactMethod() {
@@ -90,13 +86,13 @@ public class ContactChannelEntity implements Serializable {
         return id;
     }
 
+    public ProfileEntity getProfile() {
+        return profile;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(id);
-    }
-
-    public void setProfile(final ProfileEntity profile) {
-        this.profile = profile;
     }
 
     public void setContactMethod(final ContactMethodEntity contactMethod) {
@@ -109,6 +105,10 @@ public class ContactChannelEntity implements Serializable {
 
     public void setId(final Long id) {
         this.id = id;
+    }
+
+    public void setProfile(final ProfileEntity profile) {
+        this.profile = profile;
     }
 
     @Override

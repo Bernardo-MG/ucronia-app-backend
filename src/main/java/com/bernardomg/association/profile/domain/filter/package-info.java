@@ -23,7 +23,7 @@
  */
 
 /**
- * Contact filter.
+ * Profile filter.
  */
 
 package com.bernardomg.association.profile.domain.filter;

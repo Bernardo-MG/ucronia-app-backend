@@ -23,7 +23,7 @@
  */
 
 /**
- * Contact REST model.
+ * Profile REST model.
  */
 
 package com.bernardomg.association.profile.adapter.outbound.rest.model;

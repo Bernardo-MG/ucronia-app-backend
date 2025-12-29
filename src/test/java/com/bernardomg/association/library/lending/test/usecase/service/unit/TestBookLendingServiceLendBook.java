@@ -100,7 +100,7 @@ class TestBookLendingServiceLendBook {
         given(bookRepository.findOne(BookConstants.NUMBER)).willReturn(Optional.of(Books.full()));
         given(profileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(Profiles.valid()));
         given(bookLendingRepository.findLent(BookConstants.NUMBER))
-            .willReturn(Optional.of(BookLendings.lentAlternativeContact()));
+            .willReturn(Optional.of(BookLendings.lentAlternativeProfile()));
 
         // WHEN
         execution = () -> service.lendBook(BookConstants.NUMBER, ProfileConstants.NUMBER, BookConstants.LENT_DATE);

@@ -45,12 +45,12 @@ public final class UserProfileNameNotEmptyRule implements FieldRule<UserProfile>
      */
     private static final Logger         log = LoggerFactory.getLogger(UserProfileNameNotEmptyRule.class);
 
-    private final UserProfileRepository userContactRepository;
+    private final UserProfileRepository userProfileRepository;
 
-    public UserProfileNameNotEmptyRule(final UserProfileRepository userContactRepo) {
+    public UserProfileNameNotEmptyRule(final UserProfileRepository userProfileRepo) {
         super();
 
-        userContactRepository = Objects.requireNonNull(userContactRepo);
+        userProfileRepository = Objects.requireNonNull(userProfileRepo);
     }
 
     @Override
@@ -58,7 +58,7 @@ public final class UserProfileNameNotEmptyRule implements FieldRule<UserProfile>
         final Optional<FieldFailure> failure;
         final FieldFailure           fieldFailure;
 
-        if (userContactRepository.existsByProfileForAnotherUser(profile.username(), profile.number())) {
+        if (userProfileRepository.existsByProfileForAnotherUser(profile.username(), profile.number())) {
             log.error("Profile {} already assigned to a user", profile.number());
             fieldFailure = new FieldFailure("existing", "profile", profile.number());
             failure = Optional.of(fieldFailure);

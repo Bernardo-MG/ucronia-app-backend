@@ -23,7 +23,7 @@
  */
 
 /**
- * Contact repository.
+ * Profile repository.
  */
 
 package com.bernardomg.association.profile.domain.repository;

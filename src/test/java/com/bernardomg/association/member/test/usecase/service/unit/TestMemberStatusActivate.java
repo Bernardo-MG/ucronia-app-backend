@@ -49,7 +49,7 @@ import com.bernardomg.association.profile.test.configuration.factory.ProfileCons
 class TestMemberStatusActivate {
 
     @Mock
-    private MemberRepository           memberContactRepository;
+    private MemberRepository           memberRepository;
 
     @InjectMocks
     private DefaultMemberStatusService service;
@@ -65,7 +65,7 @@ class TestMemberStatusActivate {
         final Long      number;
 
         // GIVEN
-        given(memberContactRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(Members.inactive()));
+        given(memberRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(Members.inactive()));
         date = YearMonth.now();
         number = ProfileConstants.NUMBER;
 
@@ -73,7 +73,7 @@ class TestMemberStatusActivate {
         service.activate(date, number);
 
         // THEN
-        verify(memberContactRepository).save(Members.active());
+        verify(memberRepository).save(Members.active());
     }
 
     @Test
@@ -91,7 +91,7 @@ class TestMemberStatusActivate {
         service.activate(date, number);
 
         // THEN
-        verify(memberContactRepository, never()).save(any());
+        verify(memberRepository, never()).save(any());
     }
 
 }
