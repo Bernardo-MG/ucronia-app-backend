@@ -1,12 +1,12 @@
 put:
   summary: Add membership to a profile.
   operationId: convertToMember
-  tags: [ContactSponsorship]
+  tags: [ProfileSponsorship]
   parameters:
     - name: number
       in: path
       required: true
-      description: Contact number.
+      description: Profile number.
       schema:
         $ref: '../common/ids.yml#/components/schemas/Id'
   responses:
@@ -17,4 +17,4 @@ put:
           schema:
             $ref: '../components/sponsors.yml#/components/schemas/SponsorResponse'
     '404':
-      description: Contact not found.
+      description: Profile not found.

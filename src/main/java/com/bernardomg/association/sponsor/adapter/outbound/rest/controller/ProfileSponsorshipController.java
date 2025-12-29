@@ -31,7 +31,7 @@ import com.bernardomg.association.sponsor.domain.model.Sponsor;
 import com.bernardomg.association.sponsor.usecase.service.ProfileSponsorshipService;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
-import com.bernardomg.ucronia.openapi.api.ContactSponsorshipApi;
+import com.bernardomg.ucronia.openapi.api.ProfileSponsorshipApi;
 import com.bernardomg.ucronia.openapi.model.SponsorResponseDto;
 
 /**
@@ -41,7 +41,7 @@ import com.bernardomg.ucronia.openapi.model.SponsorResponseDto;
  *
  */
 @RestController
-public class ProfileSponsorshipController implements ContactSponsorshipApi {
+public class ProfileSponsorshipController implements ProfileSponsorshipApi {
 
     private final ProfileSponsorshipService service;
 
