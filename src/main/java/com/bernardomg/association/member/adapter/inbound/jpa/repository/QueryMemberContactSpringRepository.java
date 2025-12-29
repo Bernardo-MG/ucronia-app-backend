@@ -32,10 +32,10 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberContactEntity;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberProfileEntity;
 
 public interface QueryMemberContactSpringRepository
-        extends JpaRepository<QueryMemberContactEntity, Long>, JpaSpecificationExecutor<QueryMemberContactEntity> {
+        extends JpaRepository<QueryMemberProfileEntity, Long>, JpaSpecificationExecutor<QueryMemberProfileEntity> {
 
     @Modifying
     @Query("""
@@ -47,7 +47,7 @@ public interface QueryMemberContactSpringRepository
 
     public boolean existsByNumber(final Long number);
 
-    public Optional<QueryMemberContactEntity> findByNumber(final Long number);
+    public Optional<QueryMemberProfileEntity> findByNumber(final Long number);
 
     @Query("SELECT COALESCE(MAX(c.number), 0) + 1 FROM Contact c")
     public Long findNextNumber();

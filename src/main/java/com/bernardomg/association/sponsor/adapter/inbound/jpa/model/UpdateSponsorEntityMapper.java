@@ -47,54 +47,55 @@ public final class UpdateSponsorEntityMapper {
         final ProfileName                name;
         final Collection<ContactChannel> contactChannels;
 
-        name = new ProfileName(entity.getContact()
+        name = new ProfileName(entity.getProfile()
             .getFirstName(),
-            entity.getContact()
+            entity.getProfile()
                 .getLastName());
 
-        contactChannels = entity.getContact()
+        contactChannels = entity.getProfile()
             .getContactChannels()
             .stream()
             .map(ContactChannelEntityMapper::toDomain)
             .toList();
 
-        return new Sponsor(entity.getContact()
+        return new Sponsor(entity.getProfile()
             .getIdentifier(),
-            entity.getContact()
+            entity.getProfile()
                 .getNumber(),
-            name, entity.getContact()
+            name, entity.getProfile()
                 .getBirthDate(),
-            contactChannels, entity.getYears(), entity.getContact()
+            contactChannels, entity.getYears(), entity.getProfile()
                 .getComments(),
-            entity.getContact()
+            entity.getProfile()
                 .getTypes());
     }
 
     public static final UpdateSponsorEntity toEntity(final Sponsor data,
             final Collection<ContactMethodEntity> contactMethods) {
         final UpdateSponsorEntity              entity;
-        final ProfileEntity                    contact;
+        final ProfileEntity                    profile;
         final Collection<ContactChannelEntity> contactChannels;
-        contact = new ProfileEntity();
-        contact.setNumber(data.number());
-        contact.setFirstName(data.name()
+        
+        profile = new ProfileEntity();
+        profile.setNumber(data.number());
+        profile.setFirstName(data.name()
             .firstName());
-        contact.setLastName(data.name()
+        profile.setLastName(data.name()
             .lastName());
-        contact.setIdentifier(data.identifier());
-        contact.setBirthDate(data.birthDate());
-        contact.setComments(data.comments());
+        profile.setIdentifier(data.identifier());
+        profile.setBirthDate(data.birthDate());
+        profile.setComments(data.comments());
 
         contactChannels = data.contactChannels()
             .stream()
-            .map(c -> toEntity(contact, c, contactMethods))
+            .map(c -> toEntity(profile, c, contactMethods))
             .toList();
-        contact.setContactChannels(contactChannels);
+        profile.setContactChannels(contactChannels);
 
-        contact.setTypes(new HashSet<>(data.types()));
+        profile.setTypes(new HashSet<>(data.types()));
 
         entity = new UpdateSponsorEntity();
-        entity.setContact(contact);
+        entity.setProfile(profile);
         entity.setYears(new ArrayList<>(data.years()));
 
         return entity;
@@ -102,10 +103,10 @@ public final class UpdateSponsorEntityMapper {
 
     public static final UpdateSponsorEntity toEntity(final UpdateSponsorEntity entity, final Sponsor data) {
 
-        entity.getContact()
+        entity.getProfile()
             .setFirstName(data.name()
                 .firstName());
-        entity.getContact()
+        entity.getProfile()
             .setLastName(data.name()
                 .lastName());
         entity.setYears(new ArrayList<>(data.years()));
@@ -113,7 +114,7 @@ public final class UpdateSponsorEntityMapper {
         return entity;
     }
 
-    private static final ContactChannelEntity toEntity(final ProfileEntity contact, final ContactChannel data,
+    private static final ContactChannelEntity toEntity(final ProfileEntity profile, final ContactChannel data,
             final Collection<ContactMethodEntity> concatMethods) {
         final ContactChannelEntity          entity;
         final Optional<ContactMethodEntity> contactMethod;
@@ -131,7 +132,7 @@ public final class UpdateSponsorEntityMapper {
         }
 
         entity = new ContactChannelEntity();
-        entity.setContact(contact);
+        entity.setProfile(profile);
         entity.setContactMethod(contactMethod.get());
         entity.setDetail(data.detail());
 

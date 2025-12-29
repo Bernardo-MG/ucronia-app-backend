@@ -364,10 +364,10 @@ public final class BookDtoMapper {
     }
 
     private static final BookLendingInfoDto toDto(final BookLendingInfo lending) {
-        final ProfileNameDto    contactName;
+        final ProfileNameDto    profileName;
         final MinimalProfileDto borrower;
 
-        contactName = new ProfileNameDto().firstName(lending.borrower()
+        profileName = new ProfileNameDto().firstName(lending.borrower()
             .name()
             .firstName())
             .lastName(lending.borrower()
@@ -376,7 +376,7 @@ public final class BookDtoMapper {
             .fullName(lending.borrower()
                 .name()
                 .fullName());
-        borrower = new MinimalProfileDto().name(contactName)
+        borrower = new MinimalProfileDto().name(profileName)
             .number(lending.borrower()
                 .number());
         return new BookLendingInfoDto().borrower(borrower)
@@ -402,16 +402,16 @@ public final class BookDtoMapper {
     }
 
     private static final MinimalProfileDto toDto(final Donor donor) {
-        final ProfileNameDto contactName;
+        final ProfileNameDto profileName;
 
-        contactName = new ProfileNameDto().firstName(donor.name()
+        profileName = new ProfileNameDto().firstName(donor.name()
             .firstName())
             .lastName(donor.name()
                 .lastName())
             .fullName(donor.name()
                 .fullName());
         return new MinimalProfileDto().number(donor.number())
-            .name(contactName);
+            .name(profileName);
     }
 
     private static final FictionBookDto toDto(final FictionBook fictionBook) {

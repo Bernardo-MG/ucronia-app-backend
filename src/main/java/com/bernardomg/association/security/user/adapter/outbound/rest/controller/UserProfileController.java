@@ -60,31 +60,31 @@ public class UserProfileController implements UserProfileApi {
     @Override
     @RequireResourceAuthorization(resource = "USER", action = Actions.UPDATE)
     public ProfileResponseDto assignProfileToUser(final String username, final Long memberNumber) {
-        Profile contact;
+        Profile profile;
 
-        contact = service.assignProfile(username, memberNumber);
-        return UserProfileDtoMapper.toResponseDto(contact);
+        profile = service.assignProfile(username, memberNumber);
+        return UserProfileDtoMapper.toResponseDto(profile);
     }
 
     @Override
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAuthorization(resource = "USER", action = Actions.READ)
     public ProfileResponseDto getAssignedProfile(final String username) {
-        final Optional<Profile> contact;
+        final Optional<Profile> profile;
 
-        contact = service.getProfile(username);
+        profile = service.getProfile(username);
 
-        return UserProfileDtoMapper.toResponseDto(contact);
+        return UserProfileDtoMapper.toResponseDto(profile);
     }
 
     @Override
     @RequireResourceAuthorization(resource = "USER", action = Actions.UPDATE)
     public ProfileResponseDto unassignProfile(final String username) {
-        Profile contact;
+        Profile profile;
 
-        contact = service.unassignProfile(username);
+        profile = service.unassignProfile(username);
 
-        return UserProfileDtoMapper.toResponseDto(contact);
+        return UserProfileDtoMapper.toResponseDto(profile);
     }
 
 }

@@ -43,7 +43,7 @@ public class QuerySponsorEntity implements Serializable {
     private String                                       comments;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "contact_id", referencedColumnName = "id")
+    @JoinColumn(name = "profile_id", referencedColumnName = "id")
     private Collection<QuerySponsorContactChannelEntity> contactChannels;
 
     @Column(name = "first_name", table = "profiles", nullable = false)

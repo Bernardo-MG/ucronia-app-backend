@@ -37,44 +37,44 @@ import com.bernardomg.ucronia.openapi.model.ProfileResponseDto;
 
 public final class UserProfileDtoMapper {
 
-    public static final ProfileResponseDto toResponseDto(final Optional<Profile> contact) {
-        return new ProfileResponseDto().content(contact.map(UserProfileDtoMapper::toDto)
+    public static final ProfileResponseDto toResponseDto(final Optional<Profile> profile) {
+        return new ProfileResponseDto().content(profile.map(UserProfileDtoMapper::toDto)
             .orElse(null));
     }
 
-    public static final ProfileResponseDto toResponseDto(final Profile contact) {
-        return new ProfileResponseDto().content(UserProfileDtoMapper.toDto(contact));
+    public static final ProfileResponseDto toResponseDto(final Profile profile) {
+        return new ProfileResponseDto().content(UserProfileDtoMapper.toDto(profile));
     }
 
-    private static final ContactChannelDto toDto(final ContactChannel contact) {
+    private static final ContactChannelDto toDto(final ContactChannel profile) {
         ContactMethodDto method;
 
-        method = new ContactMethodDto().number(contact.contactMethod()
+        method = new ContactMethodDto().number(profile.contactMethod()
             .number())
-            .name(contact.contactMethod()
+            .name(profile.contactMethod()
                 .name());
-        return new ContactChannelDto().detail(contact.detail())
+        return new ContactChannelDto().detail(profile.detail())
             .method(method);
     }
 
-    private static final ProfileDto toDto(final Profile contact) {
+    private static final ProfileDto toDto(final Profile profile) {
         ProfileNameDto          name;
         List<ContactChannelDto> contacts;
 
-        name = new ProfileNameDto().firstName(contact.name()
+        name = new ProfileNameDto().firstName(profile.name()
             .firstName())
-            .lastName(contact.name()
+            .lastName(profile.name()
                 .lastName())
-            .fullName(contact.name()
+            .fullName(profile.name()
                 .fullName());
-        contacts = contact.contactChannels()
+        contacts = profile.contactChannels()
             .stream()
             .map(UserProfileDtoMapper::toDto)
             .toList();
-        return new ProfileDto().identifier(contact.identifier())
-            .number(contact.number())
+        return new ProfileDto().identifier(profile.identifier())
+            .number(profile.number())
             .name(name)
-            .birthDate(contact.birthDate())
+            .birthDate(profile.birthDate())
             .contactChannels(contacts);
     }
 

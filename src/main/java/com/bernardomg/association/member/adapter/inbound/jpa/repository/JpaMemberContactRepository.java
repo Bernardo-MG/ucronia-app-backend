@@ -39,10 +39,10 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityConstants;
-import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberContactEntity;
-import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberContactEntityMapper;
-import com.bernardomg.association.member.adapter.inbound.jpa.model.UpdateMemberContactEntity;
-import com.bernardomg.association.member.adapter.inbound.jpa.model.UpdateMemberContactEntityMapper;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberProfileEntity;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberProfileEntityMapper;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.UpdateMemberProfileEntity;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.UpdateMemberProfileEntityMapper;
 import com.bernardomg.association.member.adapter.inbound.jpa.specification.MemberContactSpecifications;
 import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.MemberProfile;
@@ -84,7 +84,7 @@ public final class JpaMemberContactRepository implements MemberContactRepository
         queryMemberContactSpringRepository = Objects.requireNonNull(queryMemberContactSpringRepo);
         updateMemberContactSpringRepository = Objects.requireNonNull(updateMemberContactSpringRepo);
         contactMethodSpringRepository = Objects.requireNonNull(contactMethodSpringRepo);
-        // TODO: remove contact repository
+        // TODO: remove profile repository
         profileSpringRepository = Objects.requireNonNull(profileSpringRepo);
     }
 
@@ -92,7 +92,7 @@ public final class JpaMemberContactRepository implements MemberContactRepository
     public final void delete(final long number) {
         log.debug("Deleting memberContact {}", number);
 
-        // TODO: delete on cascade from the contact
+        // TODO: delete on cascade from the profile
         queryMemberContactSpringRepository.deleteByNumber(number);
         profileSpringRepository.deleteByNumber(number);
 
@@ -117,7 +117,7 @@ public final class JpaMemberContactRepository implements MemberContactRepository
             final Sorting sorting) {
         final org.springframework.data.domain.Page<MemberProfile> read;
         final Pageable                                            pageable;
-        final Optional<Specification<QueryMemberContactEntity>>   spec;
+        final Optional<Specification<QueryMemberProfileEntity>>   spec;
 
         log.debug("Finding all the memberContacts with filter {}, pagination {} and sorting {}", filter, pagination,
             sorting);
@@ -126,10 +126,10 @@ public final class JpaMemberContactRepository implements MemberContactRepository
         spec = MemberContactSpecifications.query(filter);
         if (spec.isEmpty()) {
             read = queryMemberContactSpringRepository.findAll(pageable)
-                .map(QueryMemberContactEntityMapper::toDomain);
+                .map(QueryMemberProfileEntityMapper::toDomain);
         } else {
             read = queryMemberContactSpringRepository.findAll(spec.get(), pageable)
-                .map(QueryMemberContactEntityMapper::toDomain);
+                .map(QueryMemberProfileEntityMapper::toDomain);
         }
 
         log.debug("Found all the memberContacts with filter {}, pagination {} and sorting {}: {}", filter, pagination,
@@ -145,7 +145,7 @@ public final class JpaMemberContactRepository implements MemberContactRepository
         log.trace("Finding memberContact with number {}", number);
 
         memberContact = queryMemberContactSpringRepository.findByNumber(number)
-            .map(QueryMemberContactEntityMapper::toDomain);
+            .map(QueryMemberProfileEntityMapper::toDomain);
 
         log.trace("Found memberContact with number {}: {}", number, memberContact);
 
@@ -154,8 +154,8 @@ public final class JpaMemberContactRepository implements MemberContactRepository
 
     @Override
     public final MemberProfile save(final MemberProfile memberContact) {
-        final Optional<UpdateMemberContactEntity> existing;
-        final UpdateMemberContactEntity           entity;
+        final Optional<UpdateMemberProfileEntity> existing;
+        final UpdateMemberProfileEntity           entity;
         final MemberProfile                       created;
         final List<Long>                          contactMethodNumbers;
         final List<ContactMethodEntity>           contactMethods;
@@ -165,7 +165,7 @@ public final class JpaMemberContactRepository implements MemberContactRepository
 
         existing = updateMemberContactSpringRepository.findByNumber(memberContact.number());
         if (existing.isPresent()) {
-            entity = UpdateMemberContactEntityMapper.toEntity(existing.get(), memberContact);
+            entity = UpdateMemberProfileEntityMapper.toEntity(existing.get(), memberContact);
         } else {
             contactMethodNumbers = memberContact.contactChannels()
                 .stream()
@@ -173,15 +173,15 @@ public final class JpaMemberContactRepository implements MemberContactRepository
                 .map(ContactMethod::number)
                 .toList();
             contactMethods = contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
-            entity = UpdateMemberContactEntityMapper.toEntity(memberContact, contactMethods);
+            entity = UpdateMemberProfileEntityMapper.toEntity(memberContact, contactMethods);
             number = queryMemberContactSpringRepository.findNextNumber();
-            entity.getContact()
+            entity.getProfile()
                 .setNumber(number);
         }
 
-        setType(entity.getContact());
+        setType(entity.getProfile());
 
-        created = UpdateMemberContactEntityMapper.toDomain(updateMemberContactSpringRepository.save(entity));
+        created = UpdateMemberProfileEntityMapper.toDomain(updateMemberContactSpringRepository.save(entity));
 
         log.debug("Saved memberContact {}", created);
 
@@ -190,9 +190,9 @@ public final class JpaMemberContactRepository implements MemberContactRepository
 
     @Override
     public final MemberProfile save(final MemberProfile memberContact, final long number) {
-        final UpdateMemberContactEntity entity;
+        final UpdateMemberProfileEntity entity;
         final MemberProfile             created;
-        final Optional<ProfileEntity>   contact;
+        final Optional<ProfileEntity>   profile;
         final List<Long>                contactMethodNumbers;
         final List<ContactMethodEntity> contactMethods;
 
@@ -204,16 +204,16 @@ public final class JpaMemberContactRepository implements MemberContactRepository
             .map(ContactMethod::number)
             .toList();
         contactMethods = contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
-        entity = UpdateMemberContactEntityMapper.toEntity(memberContact, contactMethods);
+        entity = UpdateMemberProfileEntityMapper.toEntity(memberContact, contactMethods);
 
-        contact = profileSpringRepository.findByNumber(number);
-        if (contact.isPresent()) {
-            entity.setContact(contact.get());
+        profile = profileSpringRepository.findByNumber(number);
+        if (profile.isPresent()) {
+            entity.setProfile(profile.get());
         }
 
-        setType(entity.getContact());
+        setType(entity.getProfile());
 
-        created = UpdateMemberContactEntityMapper.toDomain(updateMemberContactSpringRepository.save(entity));
+        created = UpdateMemberProfileEntityMapper.toDomain(updateMemberContactSpringRepository.save(entity));
 
         log.debug("Saved memberContact {} with number {}", created, number);
 
@@ -222,7 +222,7 @@ public final class JpaMemberContactRepository implements MemberContactRepository
 
     @Override
     public final Collection<MemberProfile> saveAll(final Collection<MemberProfile> memberContacts) {
-        final List<UpdateMemberContactEntity> entities;
+        final List<UpdateMemberProfileEntity> entities;
         final List<MemberProfile>             saved;
         final AtomicLong                      number;
 
@@ -234,11 +234,11 @@ public final class JpaMemberContactRepository implements MemberContactRepository
             .toList();
 
         entities.stream()
-            .forEach(m -> setType(m.getContact()));
+            .forEach(m -> setType(m.getProfile()));
 
         saved = updateMemberContactSpringRepository.saveAll(entities)
             .stream()
-            .map(UpdateMemberContactEntityMapper::toDomain)
+            .map(UpdateMemberProfileEntityMapper::toDomain)
             .toList();
 
         log.debug("Saved memberContacts {}", saved);
@@ -246,15 +246,15 @@ public final class JpaMemberContactRepository implements MemberContactRepository
         return saved;
     }
 
-    private final UpdateMemberContactEntity convert(final MemberProfile memberContact, final AtomicLong number) {
-        final Optional<UpdateMemberContactEntity> existing;
-        final UpdateMemberContactEntity           entity;
+    private final UpdateMemberProfileEntity convert(final MemberProfile memberContact, final AtomicLong number) {
+        final Optional<UpdateMemberProfileEntity> existing;
+        final UpdateMemberProfileEntity           entity;
         final List<Long>                          contactMethodNumbers;
         final List<ContactMethodEntity>           contactMethods;
 
         existing = updateMemberContactSpringRepository.findByNumber(memberContact.number());
         if (existing.isPresent()) {
-            entity = UpdateMemberContactEntityMapper.toEntity(existing.get(), memberContact);
+            entity = UpdateMemberProfileEntityMapper.toEntity(existing.get(), memberContact);
         } else {
             contactMethodNumbers = memberContact.contactChannels()
                 .stream()
@@ -262,8 +262,8 @@ public final class JpaMemberContactRepository implements MemberContactRepository
                 .map(ContactMethod::number)
                 .toList();
             contactMethods = contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
-            entity = UpdateMemberContactEntityMapper.toEntity(memberContact, contactMethods);
-            entity.getContact()
+            entity = UpdateMemberProfileEntityMapper.toEntity(memberContact, contactMethods);
+            entity.getProfile()
                 .setNumber(number.getAndIncrement());
         }
 

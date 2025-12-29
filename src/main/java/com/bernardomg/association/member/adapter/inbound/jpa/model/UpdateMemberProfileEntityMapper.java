@@ -41,73 +41,73 @@ import com.bernardomg.association.profile.domain.model.ProfileName;
 /**
  * Update guest entity mapper.
  */
-public final class UpdateMemberContactEntityMapper {
+public final class UpdateMemberProfileEntityMapper {
 
-    public static final MemberProfile toDomain(final UpdateMemberContactEntity entity) {
+    public static final MemberProfile toDomain(final UpdateMemberProfileEntity entity) {
         final ProfileName                name;
         final Collection<ContactChannel> contactChannels;
 
-        name = new ProfileName(entity.getContact()
+        name = new ProfileName(entity.getProfile()
             .getFirstName(),
-            entity.getContact()
+            entity.getProfile()
                 .getLastName());
 
-        contactChannels = entity.getContact()
+        contactChannels = entity.getProfile()
             .getContactChannels()
             .stream()
             .map(ContactChannelEntityMapper::toDomain)
             .toList();
 
-        return new MemberProfile(entity.getContact()
+        return new MemberProfile(entity.getProfile()
             .getIdentifier(),
-            entity.getContact()
+            entity.getProfile()
                 .getNumber(),
-            name, entity.getContact()
+            name, entity.getProfile()
                 .getBirthDate(),
-            contactChannels, entity.getContact()
+            contactChannels, entity.getProfile()
                 .getComments(),
-            entity.getActive(), entity.getRenew(), entity.getContact()
+            entity.getActive(), entity.getRenew(), entity.getProfile()
                 .getTypes());
     }
 
-    public static final UpdateMemberContactEntity toEntity(final MemberProfile data,
+    public static final UpdateMemberProfileEntity toEntity(final MemberProfile data,
             final Collection<ContactMethodEntity> contactMethods) {
-        final UpdateMemberContactEntity        entity;
-        final ProfileEntity                    contact;
+        final UpdateMemberProfileEntity        entity;
+        final ProfileEntity                    profile;
         final Collection<ContactChannelEntity> contactChannels;
-        contact = new ProfileEntity();
-        contact.setNumber(data.number());
-        contact.setFirstName(data.name()
+        profile = new ProfileEntity();
+        profile.setNumber(data.number());
+        profile.setFirstName(data.name()
             .firstName());
-        contact.setLastName(data.name()
+        profile.setLastName(data.name()
             .lastName());
-        contact.setIdentifier(data.identifier());
-        contact.setBirthDate(data.birthDate());
-        contact.setComments(data.comments());
+        profile.setIdentifier(data.identifier());
+        profile.setBirthDate(data.birthDate());
+        profile.setComments(data.comments());
 
         contactChannels = data.contactChannels()
             .stream()
-            .map(c -> toEntity(contact, c, contactMethods))
+            .map(c -> toEntity(profile, c, contactMethods))
             .collect(Collectors.toCollection(ArrayList::new));
-        contact.setContactChannels(contactChannels);
+        profile.setContactChannels(contactChannels);
 
-        contact.setTypes(contact.getTypes());
+        profile.setTypes(profile.getTypes());
 
-        entity = new UpdateMemberContactEntity();
-        entity.setContact(contact);
+        entity = new UpdateMemberProfileEntity();
+        entity.setProfile(profile);
         entity.setActive(data.active());
         entity.setRenew(data.renew());
 
         return entity;
     }
 
-    public static final UpdateMemberContactEntity toEntity(final UpdateMemberContactEntity entity,
+    public static final UpdateMemberProfileEntity toEntity(final UpdateMemberProfileEntity entity,
             final MemberProfile data) {
 
-        entity.getContact()
+        entity.getProfile()
             .setFirstName(data.name()
                 .firstName());
-        entity.getContact()
+        entity.getProfile()
             .setLastName(data.name()
                 .lastName());
         entity.setActive(data.active());
@@ -134,14 +134,14 @@ public final class UpdateMemberContactEntityMapper {
         }
 
         entity = new ContactChannelEntity();
-        entity.setContact(contact);
+        entity.setProfile(contact);
         entity.setContactMethod(contactMethod.get());
         entity.setDetail(data.detail());
 
         return entity;
     }
 
-    private UpdateMemberContactEntityMapper() {
+    private UpdateMemberProfileEntityMapper() {
         super();
     }
 

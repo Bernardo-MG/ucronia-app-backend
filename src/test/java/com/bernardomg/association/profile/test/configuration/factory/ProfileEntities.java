@@ -46,7 +46,7 @@ public final class ProfileEntities {
         entity.setComments(ProfileConstants.COMMENTS);
         entity.setTypes(new HashSet<>());
 
-        contactChannelEntity.setContact(entity);
+        contactChannelEntity.setProfile(entity);
 
         return entity;
     }
@@ -120,7 +120,7 @@ public final class ProfileEntities {
         entity.setComments(ProfileConstants.COMMENTS);
         entity.setTypes(new HashSet<>());
 
-        contactChannelEntity.setContact(entity);
+        contactChannelEntity.setProfile(entity);
 
         return entity;
     }
@@ -149,7 +149,7 @@ public final class ProfileEntities {
         entity.setComments(ProfileConstants.COMMENTS);
         entity.setTypes(new HashSet<>());
 
-        contactChannelEntityA.setContact(entity);
+        contactChannelEntityA.setProfile(entity);
 
         return entity;
     }
@@ -178,7 +178,7 @@ public final class ProfileEntities {
         entity.setComments(ProfileConstants.COMMENTS);
         entity.setTypes(new HashSet<>());
 
-        contactChannelEntityA.setContact(entity);
+        contactChannelEntityA.setProfile(entity);
 
         return entity;
     }

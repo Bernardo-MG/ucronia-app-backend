@@ -20,7 +20,7 @@ import jakarta.persistence.Transient;
 
 @Entity(name = "UpdateMemberContact")
 @Table(schema = "directory", name = "members")
-public class UpdateMemberContactEntity implements Serializable {
+public class UpdateMemberProfileEntity implements Serializable {
 
     /**
      *
@@ -34,7 +34,7 @@ public class UpdateMemberContactEntity implements Serializable {
     @OneToOne(cascade = CascadeType.ALL)
     @MapsId
     @JoinColumn(name = "id")
-    private ProfileEntity     contact;
+    private ProfileEntity     profile;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,7 +49,7 @@ public class UpdateMemberContactEntity implements Serializable {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof final UpdateMemberContactEntity other)) {
+        if (!(obj instanceof final UpdateMemberProfileEntity other)) {
             return false;
         }
         return Objects.equals(id, other.id);
@@ -59,8 +59,8 @@ public class UpdateMemberContactEntity implements Serializable {
         return active;
     }
 
-    public ProfileEntity getContact() {
-        return contact;
+    public ProfileEntity getProfile() {
+        return profile;
     }
 
     public Long getId() {
@@ -80,8 +80,8 @@ public class UpdateMemberContactEntity implements Serializable {
         this.active = active;
     }
 
-    public void setContact(final ProfileEntity contact) {
-        this.contact = contact;
+    public void setProfile(final ProfileEntity profile) {
+        this.profile = profile;
     }
 
     public void setId(final Long id) {
@@ -94,7 +94,7 @@ public class UpdateMemberContactEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "UpdateMemberContactEntity [id=" + id + ", contact=" + contact + ", active=" + active + ", renew="
+        return "UpdateMemberContactEntity [id=" + id + ", profile=" + profile + ", active=" + active + ", renew="
                 + renew + "]";
     }
 

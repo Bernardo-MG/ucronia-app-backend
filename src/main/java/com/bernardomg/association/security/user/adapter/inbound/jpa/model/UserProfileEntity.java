@@ -39,7 +39,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
 @Entity(name = "UserProfile")
-@Table(schema = "security", name = "user_contacts")
+@Table(schema = "security", name = "user_profiles")
 public class UserProfileEntity implements Serializable {
 
     /**
@@ -72,8 +72,8 @@ public class UserProfileEntity implements Serializable {
         return userId;
     }
 
-    public void setProfile(final ProfileEntity contact) {
-        profile = contact;
+    public void setProfile(final ProfileEntity profile) {
+        this.profile = profile;
     }
 
     public void setUser(final UserEntity user) {

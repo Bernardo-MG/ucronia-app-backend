@@ -34,7 +34,7 @@ public class UpdateMemberEntity implements Serializable {
     @OneToOne(cascade = CascadeType.ALL)
     @MapsId
     @JoinColumn(name = "id")
-    private ProfileEntity     contact;
+    private ProfileEntity     profile;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -59,8 +59,8 @@ public class UpdateMemberEntity implements Serializable {
         return active;
     }
 
-    public ProfileEntity getContact() {
-        return contact;
+    public ProfileEntity getProfile() {
+        return profile;
     }
 
     public Long getId() {
@@ -80,8 +80,8 @@ public class UpdateMemberEntity implements Serializable {
         this.active = active;
     }
 
-    public void setContact(final ProfileEntity contact) {
-        this.contact = contact;
+    public void setProfile(final ProfileEntity profile) {
+        this.profile = profile;
     }
 
     public void setId(final Long id) {
@@ -94,7 +94,7 @@ public class UpdateMemberEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "UpdateMemberEntity [active=" + active + ", contact=" + contact + ", id=" + id + ", renew=" + renew
+        return "UpdateMemberEntity [active=" + active + ", profile=" + profile + ", id=" + id + ", renew=" + renew
                 + "]";
     }
 

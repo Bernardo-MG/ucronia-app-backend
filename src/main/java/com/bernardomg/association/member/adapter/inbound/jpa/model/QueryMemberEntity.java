@@ -14,7 +14,7 @@ import jakarta.persistence.Transient;
 
 @Entity(name = "Member")
 @Table(schema = "directory", name = "members")
-@SecondaryTable(schema = "directory", name = "contacts",
+@SecondaryTable(schema = "directory", name = "profiles",
         pkJoinColumns = @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id"))
 public class QueryMemberEntity implements Serializable {
 

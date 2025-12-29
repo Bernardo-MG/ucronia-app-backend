@@ -77,7 +77,7 @@ public final class JpaMemberRepository implements MemberRepository {
 
         queryMemberSpringRepository = Objects.requireNonNull(queryMemberSpringRepo);
         updateMemberSpringRepository = Objects.requireNonNull(updateMemberSpringRepo);
-        // TODO: remove contact repository
+        // TODO: remove profile repository
         profileSpringRepository = Objects.requireNonNull(profileSpringRepo);
     }
 
@@ -85,7 +85,7 @@ public final class JpaMemberRepository implements MemberRepository {
     public final void delete(final long number) {
         log.debug("Deleting member {}", number);
 
-        // TODO: delete on cascade from the contact
+        // TODO: delete on cascade from the profile
         queryMemberSpringRepository.deleteByNumber(number);
         profileSpringRepository.deleteByNumber(number);
 
@@ -203,11 +203,11 @@ public final class JpaMemberRepository implements MemberRepository {
         } else {
             entity = UpdateMemberEntityMapper.toEntity(member);
             number = queryMemberSpringRepository.findNextNumber();
-            entity.getContact()
+            entity.getProfile()
                 .setNumber(number);
         }
 
-        setType(entity.getContact());
+        setType(entity.getProfile());
 
         created = UpdateMemberEntityMapper.toDomain(updateMemberSpringRepository.save(entity));
 
@@ -220,18 +220,18 @@ public final class JpaMemberRepository implements MemberRepository {
     public final Member save(final Member member, final long number) {
         final UpdateMemberEntity      entity;
         final Member                  created;
-        final Optional<ProfileEntity> contact;
+        final Optional<ProfileEntity> profile;
 
         log.debug("Saving member {} with number {}", member, number);
 
         entity = UpdateMemberEntityMapper.toEntity(member);
 
-        contact = profileSpringRepository.findByNumber(number);
-        if (contact.isPresent()) {
-            entity.setContact(contact.get());
+        profile = profileSpringRepository.findByNumber(number);
+        if (profile.isPresent()) {
+            entity.setProfile(profile.get());
         }
 
-        setType(entity.getContact());
+        setType(entity.getProfile());
 
         created = UpdateMemberEntityMapper.toDomain(updateMemberSpringRepository.save(entity));
 
@@ -254,7 +254,7 @@ public final class JpaMemberRepository implements MemberRepository {
             .toList();
 
         entities.stream()
-            .forEach(m -> setType(m.getContact()));
+            .forEach(m -> setType(m.getProfile()));
 
         saved = updateMemberSpringRepository.saveAll(entities)
             .stream()
@@ -275,7 +275,7 @@ public final class JpaMemberRepository implements MemberRepository {
             entity = UpdateMemberEntityMapper.toEntity(existing.get(), member);
         } else {
             entity = UpdateMemberEntityMapper.toEntity(member);
-            entity.getContact()
+            entity.getProfile()
                 .setNumber(number.getAndIncrement());
         }
 

@@ -35,7 +35,7 @@ public class UpdateSponsorEntity implements Serializable {
     @OneToOne(cascade = CascadeType.ALL)
     @MapsId
     @JoinColumn(name = "id")
-    private ProfileEntity       contact;
+    private ProfileEntity       profile;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,8 +58,8 @@ public class UpdateSponsorEntity implements Serializable {
         return Objects.equals(id, other.id);
     }
 
-    public ProfileEntity getContact() {
-        return contact;
+    public ProfileEntity getProfile() {
+        return profile;
     }
 
     public Long getId() {
@@ -75,8 +75,8 @@ public class UpdateSponsorEntity implements Serializable {
         return Objects.hash(id);
     }
 
-    public void setContact(final ProfileEntity contact) {
-        this.contact = contact;
+    public void setProfile(final ProfileEntity contact) {
+        this.profile = contact;
     }
 
     public void setId(final Long id) {
@@ -89,7 +89,7 @@ public class UpdateSponsorEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "UpdateSponsorEntity [id=" + id + ", contact=" + contact + ", years=" + years + "]";
+        return "UpdateSponsorEntity [id=" + id + ", profile=" + profile + ", years=" + years + "]";
     }
 
 }

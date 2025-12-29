@@ -32,7 +32,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactEntityMapper;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntityMapper;
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 import com.bernardomg.association.profile.domain.model.Profile;
@@ -69,26 +69,26 @@ public final class JpaUserProfileRepository implements UserProfileRepository {
     public final Profile assignProfile(final String username, final long number) {
         final UserProfileEntity       userProfile;
         final Optional<UserEntity>    user;
-        final Optional<ProfileEntity> contact;
+        final Optional<ProfileEntity> profile;
         final Profile                 result;
 
-        log.trace("Assigning contact {} to username {}", number, username);
+        log.trace("Assigning profile {} to username {}", number, username);
 
         user = userSpringRepository.findByUsername(username);
-        contact = profileSpringRepository.findByNumber(number);
-        if ((user.isPresent()) && (contact.isPresent())) {
+        profile = profileSpringRepository.findByNumber(number);
+        if ((user.isPresent()) && (profile.isPresent())) {
             userProfile = new UserProfileEntity();
             userProfile.setUserId(user.get()
                 .getId());
-            userProfile.setProfile(contact.get());
+            userProfile.setProfile(profile.get());
             userProfile.setUser(user.get());
 
             userProfileSpringRepository.save(userProfile);
-            result = ContactEntityMapper.toDomain(contact.get());
+            result = ProfileEntityMapper.toDomain(profile.get());
 
-            log.trace("Assigned contact {} to username {}", number, username);
+            log.trace("Assigned profile {} to username {}", number, username);
         } else {
-            log.warn("Failed to assign contact {} to username {}", number, username);
+            log.warn("Failed to assign profile {} to username {}", number, username);
 
             result = null;
         }
@@ -113,9 +113,9 @@ public final class JpaUserProfileRepository implements UserProfileRepository {
     public final Optional<Profile> findByUsername(final String username) {
         final Optional<UserEntity>        user;
         final Optional<UserProfileEntity> userMember;
-        final Optional<Profile>           contact;
+        final Optional<Profile>           profile;
 
-        log.trace("Finding contact for username {}", username);
+        log.trace("Finding profile for username {}", username);
 
         user = userSpringRepository.findByUsername(username);
         if (user.isPresent()) {
@@ -124,30 +124,30 @@ public final class JpaUserProfileRepository implements UserProfileRepository {
                 .getId());
             if ((userMember.isPresent()) && (userMember.get()
                 .getProfile() != null)) {
-                contact = Optional.of(ContactEntityMapper.toDomain(userMember.get()
+                profile = Optional.of(ProfileEntityMapper.toDomain(userMember.get()
                     .getProfile()));
             } else {
-                contact = Optional.empty();
+                profile = Optional.empty();
             }
         } else {
-            contact = Optional.empty();
+            profile = Optional.empty();
         }
 
-        log.trace("Found contact for username {}: {}", username, contact);
+        log.trace("Found profile for username {}: {}", username, profile);
 
-        return contact;
+        return profile;
     }
 
     @Override
     public final Profile unassignProfile(final String username) {
         final Optional<UserEntity> user;
-        final Profile              contact;
+        final Profile              profile;
 
         log.debug("Deleting user {}", username);
 
         user = userSpringRepository.findByUsername(username);
         if (user.isPresent()) {
-            contact = findByUsername(username).orElse(null);
+            profile = findByUsername(username).orElse(null);
 
             // TODO: handle relationships
             // TODO: why not delete by username?
@@ -156,10 +156,10 @@ public final class JpaUserProfileRepository implements UserProfileRepository {
 
             log.debug("Deleted user {}", username);
         } else {
-            contact = null;
+            profile = null;
         }
 
-        return contact;
+        return profile;
     }
 
 }

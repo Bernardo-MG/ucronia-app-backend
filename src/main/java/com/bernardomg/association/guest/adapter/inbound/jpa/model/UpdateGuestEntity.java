@@ -36,7 +36,7 @@ public class UpdateGuestEntity implements Serializable {
     @OneToOne(cascade = CascadeType.ALL)
     @MapsId
     @JoinColumn(name = "id")
-    private ProfileEntity       contact;
+    private ProfileEntity       profile;
 
     @ElementCollection
     @CollectionTable(schema = "directory", name = "guest_games", joinColumns = @JoinColumn(name = "guest_id"))
@@ -59,8 +59,8 @@ public class UpdateGuestEntity implements Serializable {
         return Objects.equals(id, other.id);
     }
 
-    public ProfileEntity getContact() {
-        return contact;
+    public ProfileEntity getProfile() {
+        return profile;
     }
 
     public Collection<Instant> getGames() {
@@ -76,8 +76,8 @@ public class UpdateGuestEntity implements Serializable {
         return Objects.hash(id);
     }
 
-    public void setContact(final ProfileEntity contact) {
-        this.contact = contact;
+    public void setProfile(final ProfileEntity profile) {
+        this.profile = profile;
     }
 
     public void setGames(final Collection<Instant> games) {
@@ -90,7 +90,7 @@ public class UpdateGuestEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "UpdateGuestEntity [id=" + id + ", contact=" + contact + ", games=" + games + "]";
+        return "UpdateGuestEntity [id=" + id + ", profile=" + profile + ", games=" + games + "]";
     }
 
 }

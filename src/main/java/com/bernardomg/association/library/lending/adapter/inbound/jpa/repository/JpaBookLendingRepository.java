@@ -150,7 +150,7 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
         final Optional<BookLending> lending;
         final Pageable              pageable;
 
-        log.debug("Finding returned book {} for contact {} and date {}", book, profile, lendingDate);
+        log.debug("Finding returned book {} for profile {} and date {}", book, profile, lendingDate);
 
         pageable = Pageable.ofSize(1);
         lending = bookLendingSpringRepository.findAllReturned(book, profile, lendingDate, pageable)
@@ -169,20 +169,20 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
         final BookLendingEntity       created;
         final BookLending             saved;
         final Optional<BookEntity>    bookEntity;
-        final Optional<ProfileEntity> contactEntity;
+        final Optional<ProfileEntity> profileEntity;
 
         log.debug("Saving book lending {}", lending);
 
         bookEntity = bookSpringRepository.findByNumber(lending.book()
             .number());
-        contactEntity = profileSpringRepository.findByNumber(lending.borrower()
+        profileEntity = profileSpringRepository.findByNumber(lending.borrower()
             .number());
 
-        if ((bookEntity.isPresent()) && (contactEntity.isPresent())) {
-            toCreate = BookLendingEntityMapper.toEntity(lending, bookEntity.get(), contactEntity.get());
+        if ((bookEntity.isPresent()) && (profileEntity.isPresent())) {
+            toCreate = BookLendingEntityMapper.toEntity(lending, bookEntity.get(), profileEntity.get());
 
             created = bookLendingSpringRepository.save(toCreate);
-            saved = BookLendingEntityMapper.toDomain(created, bookEntity.get(), contactEntity.get());
+            saved = BookLendingEntityMapper.toDomain(created, bookEntity.get(), profileEntity.get());
 
             log.debug("Saved book lending {}", lending);
         } else {

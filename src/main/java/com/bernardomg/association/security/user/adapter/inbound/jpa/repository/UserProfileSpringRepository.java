@@ -39,9 +39,9 @@ public interface UserProfileSpringRepository extends JpaRepository<UserProfileEn
     @Query("""
                SELECT CASE WHEN COUNT(uc) > 0 THEN TRUE ELSE FALSE END AS exists
                FROM UserContact uc
-                 JOIN uc.contact c
+                 JOIN uc.profile p
                  JOIN uc.user u
-               WHERE c.number = :number AND u.username != :username
+               WHERE p.number = :number AND u.username != :username
             """)
     public boolean existsByNotUsernameAndMemberNumber(@Param("username") final String username,
             @Param("number") final long number);

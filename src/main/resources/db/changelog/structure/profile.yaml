@@ -1,21 +1,21 @@
 databaseChangeLog:
   - changeSet:
-      id: contact_schema
+      id: profile_schema
       author: Bernardo
       changes:
         - sqlFile:
             encoding: UTF-8
-            path: sql/create_contact_schema.sql
+            path: sql/create_profile_schema.sql
             relativeToChangelogFile: true
             splitStatements: true
             stripComments: true
   - changeSet:
-      id: contact
+      id: profile
       author: Bernardo
       changes:
         - createTable:
             schemaName: directory
-            tableName: contacts
+            tableName: profiles
             columns:
               - column:
                   name: id
@@ -55,7 +55,7 @@ databaseChangeLog:
                   defaultValue: '[]'
         - addAutoIncrement:
             schemaName: directory
-            tableName: contacts
+            tableName: profiles
             columnName: id
             columnDataType: bigint
             incrementBy: 1
@@ -100,19 +100,19 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: contact_id
+                  name: profile_id
                   type: bigint
                   constraints:
                     nullable: false
-                    foreignKeyName: fk_contact_channels_contact_method
-                    references: directory.contacts(id)
+                    foreignKeyName: fk_contact_channels_profile
+                    references: directory.profiles(id)
                     deleteCascade: true
               - column:
                   name: contact_method_id
                   type: bigint
                   constraints:
                     nullable: false
-                    foreignKeyName: fk_contact_channels_contact
+                    foreignKeyName: fk_contact_channels_contact_method
                     references: directory.contact_methods(id)
                     deleteCascade: true
               - column:

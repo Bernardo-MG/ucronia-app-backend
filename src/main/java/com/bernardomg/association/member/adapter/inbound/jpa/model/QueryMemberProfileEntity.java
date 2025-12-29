@@ -23,9 +23,9 @@ import jakarta.persistence.Transient;
 
 @Entity(name = "MemberContact")
 @Table(schema = "directory", name = "members")
-@SecondaryTable(schema = "directory", name = "contacts",
+@SecondaryTable(schema = "directory", name = "profiles",
         pkJoinColumns = @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id"))
-public class QueryMemberContactEntity implements Serializable {
+public class QueryMemberProfileEntity implements Serializable {
 
     /**
      *
@@ -43,7 +43,7 @@ public class QueryMemberContactEntity implements Serializable {
     private String                                      comments;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "contact_id", referencedColumnName = "id")
+    @JoinColumn(name = "profile_id", referencedColumnName = "id")
     private Collection<QueryMemberContactChannelEntity> contactChannels;
 
     @Column(name = "first_name", table = "profiles", nullable = false)
@@ -74,7 +74,7 @@ public class QueryMemberContactEntity implements Serializable {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof final QueryMemberContactEntity other)) {
+        if (!(obj instanceof final QueryMemberProfileEntity other)) {
             return false;
         }
         return Objects.equals(id, other.id);

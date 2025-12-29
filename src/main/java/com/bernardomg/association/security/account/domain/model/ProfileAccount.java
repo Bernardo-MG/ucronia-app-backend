@@ -33,7 +33,7 @@ import com.bernardomg.security.account.domain.model.Account;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final record ProfileAccount(String email, String username, String name, Profile contact) implements Account {
+public final record ProfileAccount(String email, String username, String name, Profile profile) implements Account {
 
     @Override
     public String getEmail() {

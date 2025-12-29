@@ -128,7 +128,7 @@ public final class DefaultBookLendingService implements BookLendingService {
         borrower = profileRepository.findOne(borrowerNumber)
             .map(this::toBorrower)
             .orElseThrow(() -> {
-                log.debug("Missing contact {}", borrowerNumber);
+                log.debug("Missing profile {}", borrowerNumber);
                 throw new MissingProfileException(borrowerNumber);
             });
 
@@ -171,14 +171,14 @@ public final class DefaultBookLendingService implements BookLendingService {
         return returned;
     }
 
-    private final Borrower toBorrower(final Profile contact) {
+    private final Borrower toBorrower(final Profile profile) {
         final ProfileName name;
 
-        name = new ProfileName(contact.name()
+        name = new ProfileName(profile.name()
             .firstName(),
-            contact.name()
+            profile.name()
                 .lastName());
-        return new Borrower(contact.number(), name);
+        return new Borrower(profile.number(), name);
     }
 
 }

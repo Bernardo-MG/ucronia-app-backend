@@ -22,26 +22,25 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.profile.adapter.inbound.jpa.model;
+package com.bernardomg.association.member.adapter.inbound.jpa.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.bernardomg.association.member.domain.model.MemberProfile;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactMethodEntity;
 import com.bernardomg.association.profile.domain.exception.MissingContactMethodException;
-import com.bernardomg.association.profile.domain.model.Profile;
 import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
 import com.bernardomg.association.profile.domain.model.ProfileName;
 
 /**
- * Contact entity mapper.
+ * Query MemberContact entity mapper.
  */
-public final class ContactEntityMapper {
+public final class QueryMemberProfileEntityMapper {
 
-    public static final Profile toDomain(final ProfileEntity entity) {
+    public static final MemberProfile toDomain(final QueryMemberProfileEntity entity) {
         final ProfileName                name;
         final Collection<ContactChannel> contactChannels;
 
@@ -49,19 +48,19 @@ public final class ContactEntityMapper {
 
         contactChannels = entity.getContactChannels()
             .stream()
-            .map(ContactChannelEntityMapper::toDomain)
+            .map(QueryMemberContactChannelEntityMapper::toDomain)
             .toList();
 
-        return new Profile(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(), contactChannels,
-            entity.getComments(), entity.getTypes());
+        return new MemberProfile(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(),
+            contactChannels, entity.getComments(), entity.getActive(), entity.getRenew(), entity.getTypes());
     }
 
-    public static final ProfileEntity toEntity(final Profile data,
+    public static final QueryMemberProfileEntity toEntity(final MemberProfile data,
             final Collection<ContactMethodEntity> contactMethods) {
-        final ProfileEntity                    entity;
-        final Collection<ContactChannelEntity> contactChannels;
+        final QueryMemberProfileEntity                    entity;
+        final Collection<QueryMemberContactChannelEntity> contactChannels;
 
-        entity = new ProfileEntity();
+        entity = new QueryMemberProfileEntity();
         entity.setNumber(data.number());
         entity.setFirstName(data.name()
             .firstName());
@@ -70,52 +69,22 @@ public final class ContactEntityMapper {
         entity.setIdentifier(data.identifier());
         entity.setBirthDate(data.birthDate());
         entity.setComments(data.comments());
+        entity.setActive(data.active());
+        entity.setRenew(data.renew());
 
         contactChannels = data.contactChannels()
             .stream()
-            .map(c -> toEntity(entity, c, contactMethods))
+            .map(c -> toEntity(c, contactMethods))
             .collect(Collectors.toCollection(ArrayList::new));
         entity.setContactChannels(contactChannels);
 
-        entity.setTypes(new HashSet<>(data.types()));
-
         return entity;
     }
 
-    public static final ProfileEntity toEntity(final Profile data, final Collection<ContactMethodEntity> contactMethods,
-            final ProfileEntity entity) {
-        final Collection<ContactChannelEntity> contactChannels;
-        final Set<String>                      types;
-
-        entity.setNumber(data.number());
-        entity.setFirstName(data.name()
-            .firstName());
-        entity.setLastName(data.name()
-            .lastName());
-        entity.setIdentifier(data.identifier());
-        entity.setBirthDate(data.birthDate());
-        entity.setComments(data.comments());
-
-        contactChannels = data.contactChannels()
-            .stream()
-            .map(c -> toEntity(entity, c, contactMethods))
-            .collect(Collectors.toCollection(ArrayList::new));
-        entity.getContactChannels()
-            .clear();
-        entity.getContactChannels()
-            .addAll(contactChannels);
-
-        types = new HashSet<>(data.types());
-        types.addAll(entity.getTypes());
-        entity.setTypes(types);
-
-        return entity;
-    }
-
-    private static final ContactChannelEntity toEntity(final ProfileEntity contact, final ContactChannel data,
+    private static final QueryMemberContactChannelEntity toEntity(final ContactChannel data,
             final Collection<ContactMethodEntity> concatMethods) {
-        final ContactChannelEntity          entity;
-        final Optional<ContactMethodEntity> contactMethod;
+        final QueryMemberContactChannelEntity entity;
+        final Optional<ContactMethodEntity>   contactMethod;
 
         contactMethod = concatMethods.stream()
             .filter(m -> m.getNumber()
@@ -129,15 +98,14 @@ public final class ContactEntityMapper {
                 .number());
         }
 
-        entity = new ContactChannelEntity();
-        entity.setContact(contact);
+        entity = new QueryMemberContactChannelEntity();
         entity.setContactMethod(contactMethod.get());
         entity.setDetail(data.detail());
 
         return entity;
     }
 
-    private ContactEntityMapper() {
+    private QueryMemberProfileEntityMapper() {
         super();
     }
 

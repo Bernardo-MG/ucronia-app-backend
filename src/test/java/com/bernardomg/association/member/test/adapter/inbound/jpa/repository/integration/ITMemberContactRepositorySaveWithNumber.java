@@ -31,7 +31,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityConstants;
-import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberContactEntity;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberProfileEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.QueryMemberContactSpringRepository;
 import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.repository.MemberContactRepository;
@@ -67,7 +67,7 @@ class ITMemberContactRepositorySaveWithNumber {
     @ValidProfile
     void testSaveWithNumber_PersistedData() {
         final MemberProfile                      member;
-        final Iterable<QueryMemberContactEntity> entities;
+        final Iterable<QueryMemberProfileEntity> entities;
 
         // GIVEN
         member = MemberContacts.active();

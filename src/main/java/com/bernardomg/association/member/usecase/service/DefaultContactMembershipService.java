@@ -70,11 +70,11 @@ public final class DefaultContactMembershipService implements ContactMembershipS
         final Member  toCreate;
         final Member  created;
 
-        log.debug("Converting contact {} to member", number);
+        log.debug("Converting profile {} to member", number);
 
         existingContact = profileRepository.findOne(number)
             .orElseThrow(() -> {
-                log.error("Missing contact {}", number);
+                log.error("Missing profile {}", number);
                 throw new MissingProfileException(number);
             });
 
@@ -86,7 +86,7 @@ public final class DefaultContactMembershipService implements ContactMembershipS
 
         created = memberRepository.save(toCreate, number);
 
-        log.debug("Converted contact {} to member", number);
+        log.debug("Converted profile {} to member", number);
 
         return created;
     }

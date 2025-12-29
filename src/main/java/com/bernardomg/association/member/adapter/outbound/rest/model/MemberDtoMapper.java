@@ -90,16 +90,16 @@ public final class MemberDtoMapper {
     }
 
     private static final MemberDto toDto(final Member member) {
-        final ProfileNameDto contactName;
+        final ProfileNameDto profileName;
 
-        contactName = new ProfileNameDto().firstName(member.name()
+        profileName = new ProfileNameDto().firstName(member.name()
             .firstName())
             .lastName(member.name()
                 .lastName())
             .fullName(member.name()
                 .fullName());
         return new MemberDto().number(member.number())
-            .name(contactName)
+            .name(profileName)
             .active(member.active())
             .renew(member.renew());
     }

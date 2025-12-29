@@ -47,26 +47,26 @@ public final class UpdateGuestEntityMapper {
         final ProfileName                name;
         final Collection<ContactChannel> contactChannels;
 
-        name = new ProfileName(entity.getContact()
+        name = new ProfileName(entity.getProfile()
             .getFirstName(),
-            entity.getContact()
+            entity.getProfile()
                 .getLastName());
 
-        contactChannels = entity.getContact()
+        contactChannels = entity.getProfile()
             .getContactChannels()
             .stream()
             .map(ContactChannelEntityMapper::toDomain)
             .toList();
 
-        return new Guest(entity.getContact()
+        return new Guest(entity.getProfile()
             .getIdentifier(),
-            entity.getContact()
+            entity.getProfile()
                 .getNumber(),
-            name, entity.getContact()
+            name, entity.getProfile()
                 .getBirthDate(),
-            contactChannels, entity.getGames(), entity.getContact()
+            contactChannels, entity.getGames(), entity.getProfile()
                 .getComments(),
-            entity.getContact()
+            entity.getProfile()
                 .getTypes());
     }
 
@@ -94,7 +94,7 @@ public final class UpdateGuestEntityMapper {
         profile.setTypes(new HashSet<>(data.types()));
 
         entity = new UpdateGuestEntity();
-        entity.setContact(profile);
+        entity.setProfile(profile);
         entity.setGames(new ArrayList<>(data.games()));
 
         return entity;
@@ -102,10 +102,10 @@ public final class UpdateGuestEntityMapper {
 
     public static final UpdateGuestEntity toEntity(final UpdateGuestEntity entity, final Guest data) {
 
-        entity.getContact()
+        entity.getProfile()
             .setFirstName(data.name()
                 .firstName());
-        entity.getContact()
+        entity.getProfile()
             .setLastName(data.name()
                 .lastName());
         entity.setGames(new ArrayList<>(data.games()));
@@ -113,7 +113,7 @@ public final class UpdateGuestEntityMapper {
         return entity;
     }
 
-    private static final ContactChannelEntity toEntity(final ProfileEntity contact, final ContactChannel data,
+    private static final ContactChannelEntity toEntity(final ProfileEntity profile, final ContactChannel data,
             final Collection<ContactMethodEntity> concatMethods) {
         final ContactChannelEntity          entity;
         final Optional<ContactMethodEntity> contactMethod;
@@ -131,7 +131,7 @@ public final class UpdateGuestEntityMapper {
         }
 
         entity = new ContactChannelEntity();
-        entity.setContact(contact);
+        entity.setProfile(profile);
         entity.setContactMethod(contactMethod.get());
         entity.setDetail(data.detail());
 

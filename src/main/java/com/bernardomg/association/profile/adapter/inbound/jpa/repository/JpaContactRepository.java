@@ -37,7 +37,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactEntityMapper;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntityMapper;
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactMethodEntity;
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
 import com.bernardomg.association.profile.adapter.inbound.jpa.specification.ContactSpecifications;
@@ -132,10 +132,10 @@ public final class JpaContactRepository implements ProfileRepository {
         spec = ContactSpecifications.query(filter);
         if (spec.isEmpty()) {
             read = profileSpringRepository.findAll(pageable)
-                .map(ContactEntityMapper::toDomain);
+                .map(ProfileEntityMapper::toDomain);
         } else {
             read = profileSpringRepository.findAll(spec.get(), pageable)
-                .map(ContactEntityMapper::toDomain);
+                .map(ProfileEntityMapper::toDomain);
         }
 
         log.debug("Found all the contacts with filter {}, pagination {} and sorting {}: {}", filter, pagination,
@@ -151,7 +151,7 @@ public final class JpaContactRepository implements ProfileRepository {
         log.debug("Finding contact with number {}", number);
 
         contact = profileSpringRepository.findByNumber(number)
-            .map(ContactEntityMapper::toDomain);
+            .map(ProfileEntityMapper::toDomain);
 
         log.debug("Found contact with number {}: {}", number, contact);
 
@@ -175,7 +175,7 @@ public final class JpaContactRepository implements ProfileRepository {
             .map(ContactMethod::number)
             .toList();
         contactMethods = contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
-        entity = ContactEntityMapper.toEntity(contact, contactMethods);
+        entity = ProfileEntityMapper.toEntity(contact, contactMethods);
 
         existing = profileSpringRepository.findByNumber(contact.number());
         if (existing.isPresent()) {
@@ -189,7 +189,7 @@ public final class JpaContactRepository implements ProfileRepository {
             entity.setNumber(number);
         }
 
-        created = ContactEntityMapper.toDomain(profileSpringRepository.save(entity));
+        created = ProfileEntityMapper.toDomain(profileSpringRepository.save(entity));
 
         log.debug("Saved contact {}", created);
 
@@ -221,7 +221,7 @@ public final class JpaContactRepository implements ProfileRepository {
 
         saved = profileSpringRepository.saveAll(entities)
             .stream()
-            .map(ContactEntityMapper::toDomain)
+            .map(ProfileEntityMapper::toDomain)
             .toList();
 
         log.debug("Saved contacts {}", saved);
@@ -236,9 +236,9 @@ public final class JpaContactRepository implements ProfileRepository {
 
         existing = profileSpringRepository.findByNumber(contact.number());
         if (existing.isPresent()) {
-            entity = ContactEntityMapper.toEntity(contact, contactMethods, existing.get());
+            entity = ProfileEntityMapper.toEntity(contact, contactMethods, existing.get());
         } else {
-            entity = ContactEntityMapper.toEntity(contact, contactMethods);
+            entity = ProfileEntityMapper.toEntity(contact, contactMethods);
             entity.setNumber(number.getAndIncrement());
         }
 

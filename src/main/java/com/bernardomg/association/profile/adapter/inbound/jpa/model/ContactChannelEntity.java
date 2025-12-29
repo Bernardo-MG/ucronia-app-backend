@@ -48,8 +48,8 @@ public class ContactChannelEntity implements Serializable {
     private static final long   serialVersionUID = -3239435918896603554L;
 
     @ManyToOne
-    @JoinColumn(name = "contact_id", nullable = false)
-    private ProfileEntity       contact;
+    @JoinColumn(name = "profile_id", nullable = false)
+    private ProfileEntity       profile;
 
     @ManyToOne
     @JoinColumn(name = "contact_method_id", nullable = false)
@@ -74,8 +74,8 @@ public class ContactChannelEntity implements Serializable {
         return Objects.equals(id, other.id);
     }
 
-    public ProfileEntity getContact() {
-        return contact;
+    public ProfileEntity getProfile() {
+        return profile;
     }
 
     public ContactMethodEntity getContactMethod() {
@@ -95,8 +95,8 @@ public class ContactChannelEntity implements Serializable {
         return Objects.hash(id);
     }
 
-    public void setContact(final ProfileEntity contact) {
-        this.contact = contact;
+    public void setProfile(final ProfileEntity profile) {
+        this.profile = profile;
     }
 
     public void setContactMethod(final ContactMethodEntity contactMethod) {
@@ -113,7 +113,7 @@ public class ContactChannelEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "ContactChannelEntity [id=" + id + ", contact=" + contact.getId() + ", contactMethod=" + contactMethod
+        return "ContactChannelEntity [id=" + id + ", profile=" + profile.getId() + ", contactMethod=" + contactMethod
                 + ", detail=" + detail + "]";
     }
 

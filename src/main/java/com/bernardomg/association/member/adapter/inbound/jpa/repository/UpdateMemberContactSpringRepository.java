@@ -30,16 +30,16 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.bernardomg.association.member.adapter.inbound.jpa.model.UpdateMemberContactEntity;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.UpdateMemberProfileEntity;
 
-public interface UpdateMemberContactSpringRepository extends JpaRepository<UpdateMemberContactEntity, Long> {
+public interface UpdateMemberContactSpringRepository extends JpaRepository<UpdateMemberProfileEntity, Long> {
 
     @Query("""
             SELECT m
-            FROM UpdateMemberContact m
-              JOIN m.contact c
-            WHERE c.number = :number
+            FROM UpdateMemberProfile m
+              JOIN m.profile p
+            WHERE p.number = :number
             """)
-    public Optional<UpdateMemberContactEntity> findByNumber(@Param("number") final Long number);
+    public Optional<UpdateMemberProfileEntity> findByNumber(@Param("number") final Long number);
 
 }

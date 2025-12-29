@@ -174,11 +174,11 @@ public final class JpaSponsorRepository implements SponsorRepository {
             contactMethods = contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
             entity = UpdateSponsorEntityMapper.toEntity(sponsor, contactMethods);
             number = querySponsorSpringRepository.findNextNumber();
-            entity.getContact()
+            entity.getProfile()
                 .setNumber(number);
         }
 
-        setType(entity.getContact());
+        setType(entity.getProfile());
 
         created = UpdateSponsorEntityMapper.toDomain(updateSponsorSpringRepository.save(entity));
 
@@ -207,10 +207,10 @@ public final class JpaSponsorRepository implements SponsorRepository {
 
         contact = profileSpringRepository.findByNumber(number);
         if (contact.isPresent()) {
-            entity.setContact(contact.get());
+            entity.setProfile(contact.get());
         }
 
-        setType(entity.getContact());
+        setType(entity.getProfile());
 
         created = UpdateSponsorEntityMapper.toDomain(updateSponsorSpringRepository.save(entity));
 
@@ -233,7 +233,7 @@ public final class JpaSponsorRepository implements SponsorRepository {
             .toList();
 
         entities.stream()
-            .forEach(m -> setType(m.getContact()));
+            .forEach(m -> setType(m.getProfile()));
 
         saved = updateSponsorSpringRepository.saveAll(entities)
             .stream()
@@ -262,7 +262,7 @@ public final class JpaSponsorRepository implements SponsorRepository {
                 .toList();
             contactMethods = contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
             entity = UpdateSponsorEntityMapper.toEntity(sponsor, contactMethods);
-            entity.getContact()
+            entity.getProfile()
                 .setNumber(number.getAndIncrement());
         }
 

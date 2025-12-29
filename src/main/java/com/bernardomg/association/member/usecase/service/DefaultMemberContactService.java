@@ -42,7 +42,7 @@ import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 
 /**
- * Default implementation of the member contact service.
+ * Default implementation of the member profile service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -69,7 +69,7 @@ public final class DefaultMemberContactService implements MemberProfileService {
         final MemberProfile toCreate;
         final MemberProfile created;
 
-        log.debug("Creating member contact {}", memberContact);
+        log.debug("Creating member profile {}", memberContact);
 
         toCreate = new MemberProfile(memberContact.identifier(), 0L, memberContact.name(), memberContact.birthDate(),
             memberContact.contactChannels(), memberContact.comments(), memberContact.active(), memberContact.renew(),
@@ -77,7 +77,7 @@ public final class DefaultMemberContactService implements MemberProfileService {
 
         created = memberContactRepository.save(toCreate);
 
-        log.debug("Created member contact {}", created);
+        log.debug("Created member profile {}", created);
 
         return created;
     }
@@ -86,17 +86,17 @@ public final class DefaultMemberContactService implements MemberProfileService {
     public final MemberProfile delete(final long number) {
         final MemberProfile existing;
 
-        log.debug("Deleting member contact {}", number);
+        log.debug("Deleting member profile {}", number);
 
         existing = memberContactRepository.findOne(number)
             .orElseThrow(() -> {
-                log.error("Missing member contact {}", number);
+                log.error("Missing member profile {}", number);
                 throw new MissingMemberException(number);
             });
 
         memberContactRepository.delete(number);
 
-        log.debug("Deleted member contact {}", number);
+        log.debug("Deleted member profile {}", number);
 
         return existing;
     }
@@ -120,15 +120,15 @@ public final class DefaultMemberContactService implements MemberProfileService {
     public final Optional<MemberProfile> getOne(final long number) {
         final Optional<MemberProfile> memberContacts;
 
-        log.debug("Reading member contact {}", number);
+        log.debug("Reading member profile {}", number);
 
         memberContacts = memberContactRepository.findOne(number);
         if (memberContacts.isEmpty()) {
-            log.error("Missing member contact {}", number);
+            log.error("Missing member profile {}", number);
             throw new MissingMemberException(number);
         }
 
-        log.debug("Read member contact {}: {}", number, memberContacts);
+        log.debug("Read member profile {}: {}", number, memberContacts);
 
         return memberContacts;
     }
@@ -139,11 +139,11 @@ public final class DefaultMemberContactService implements MemberProfileService {
         final MemberProfile toSave;
         final MemberProfile saved;
 
-        log.debug("Patching member contact {} using data {}", memberContact.number(), memberContact);
+        log.debug("Patching member profile {} using data {}", memberContact.number(), memberContact);
 
         existing = memberContactRepository.findOne(memberContact.number())
             .orElseThrow(() -> {
-                log.error("Missing member contact {}", memberContact.number());
+                log.error("Missing member profile {}", memberContact.number());
                 throw new MissingMemberException(memberContact.number());
             });
 
@@ -151,7 +151,7 @@ public final class DefaultMemberContactService implements MemberProfileService {
 
         saved = memberContactRepository.save(toSave);
 
-        log.debug("Patched member contact {}: {}", memberContact.number(), saved);
+        log.debug("Patched member profile {}: {}", memberContact.number(), saved);
 
         return saved;
     }
@@ -160,16 +160,16 @@ public final class DefaultMemberContactService implements MemberProfileService {
     public final MemberProfile update(final MemberProfile memberContact) {
         final MemberProfile saved;
 
-        log.debug("Updating member contact {} using data {}", memberContact.number(), memberContact);
+        log.debug("Updating member profile {} using data {}", memberContact.number(), memberContact);
 
         if (!memberContactRepository.exists(memberContact.number())) {
-            log.error("Missing member contact {}", memberContact.number());
+            log.error("Missing member profile {}", memberContact.number());
             throw new MissingMemberException(memberContact.number());
         }
 
         saved = memberContactRepository.save(memberContact);
 
-        log.debug("Updated member contact {}: {}", memberContact.number(), saved);
+        log.debug("Updated member profile {}: {}", memberContact.number(), saved);
 
         return saved;
     }
