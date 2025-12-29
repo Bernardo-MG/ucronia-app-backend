@@ -50,7 +50,7 @@ public class QueryGuestContactChannelEntity implements Serializable {
     private static final long   serialVersionUID = -3239435918896603554L;
 
     @ManyToOne
-    @JoinColumn(name = "profile_method_id", nullable = false)
+    @JoinColumn(name = "contact_method_id", nullable = false)
     private ContactMethodEntity contactMethod;
 
     @Column(name = "detail", nullable = false)
