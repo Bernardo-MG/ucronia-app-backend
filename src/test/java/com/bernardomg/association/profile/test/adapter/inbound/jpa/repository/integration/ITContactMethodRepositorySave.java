@@ -75,14 +75,14 @@ class ITContactMethodRepositorySave {
     @Test
     @DisplayName("With a valid contact method, the created contact method is returned")
     void testSave_ReturnedData() {
-        final ContactMethod contact;
+        final ContactMethod contactMethod;
         final ContactMethod saved;
 
         // GIVEN
-        contact = ContactMethods.email();
+        contactMethod = ContactMethods.email();
 
         // WHEN
-        saved = repository.save(contact);
+        saved = repository.save(contactMethod);
 
         // THEN
         Assertions.assertThat(saved)

@@ -76,10 +76,10 @@ class ITProfileRepositoryFindOne {
     }
 
     @Test
-    @DisplayName("With a profile having a profile, it is returned")
+    @DisplayName("With a profile having a contact channel, it is returned")
     @EmailContactMethod
     @WithContactChannel
-    void testFindOne_WithContact() {
+    void testFindOne_WithContactChannel() {
         final Optional<Profile> profile;
 
         // WHEN
