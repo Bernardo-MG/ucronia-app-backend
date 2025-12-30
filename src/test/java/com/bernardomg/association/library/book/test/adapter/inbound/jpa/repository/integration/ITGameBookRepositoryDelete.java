@@ -38,7 +38,7 @@ import com.bernardomg.association.library.book.test.configuration.factory.BookCo
 import com.bernardomg.association.library.booktype.adapter.inbound.jpa.repository.BookTypeSpringRepository;
 import com.bernardomg.association.library.gamesystem.adapter.inbound.jpa.repository.GameSystemSpringRepository;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.repository.PublisherSpringRepository;
-import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
+import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -65,7 +65,7 @@ class ITGameBookRepositoryDelete {
 
     @Test
     @DisplayName("Then the game book exists, it is deleted")
-    @NoMembershipPerson
+    @ValidProfile
     @FullGameBook
     void testDelete() {
         // WHEN
@@ -91,7 +91,7 @@ class ITGameBookRepositoryDelete {
 
     @Test
     @DisplayName("When the game book is deleted, the related entities are kept")
-    @NoMembershipPerson
+    @ValidProfile
     @FullGameBook
     void testDelete_Relationships() {
         // WHEN

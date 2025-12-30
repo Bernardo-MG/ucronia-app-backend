@@ -34,8 +34,8 @@ import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFee;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
-import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
-import com.bernardomg.association.person.test.configuration.data.annotation.MembershipInactivePerson;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
+import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -47,7 +47,7 @@ class ITFeeRepositoryFindAllInMonth {
 
     @Test
     @DisplayName("With a paid fee, for an active member, it is returned")
-    @MembershipActivePerson
+    @ActiveMember
     @PaidFee
     void testFindAllInMonth_Active() {
         final Iterable<Fee> fees;
@@ -63,7 +63,7 @@ class ITFeeRepositoryFindAllInMonth {
 
     @Test
     @DisplayName("With a paid fee for a month without data, for an active member, nothing is returned")
-    @MembershipActivePerson
+    @ActiveMember
     @PaidFee
     void testFindAllInMonth_Active_WrongMonth() {
         final Iterable<Fee> fees;
@@ -79,7 +79,7 @@ class ITFeeRepositoryFindAllInMonth {
 
     @Test
     @DisplayName("With a paid fee, for an inactive member, it is returned")
-    @MembershipInactivePerson
+    @InactiveMember
     @PaidFee
     void testFindAllInMonth_Inactive() {
         final Iterable<Fee> fees;

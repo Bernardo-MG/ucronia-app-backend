@@ -23,7 +23,7 @@
  */
 
 /**
- * Association member repositories.
+ * Member JPA repositories.
  */
 
 package com.bernardomg.association.member.adapter.inbound.jpa.repository;

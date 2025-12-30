@@ -1,0 +1,92 @@
+get:
+  summary: Get a specific profile by number.
+  operationId: getProfileByNumber
+  tags: [Profile]
+  parameters:
+    - name: number
+      in: path
+      required: true
+      description: Profile number.
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  responses:
+    '200':
+      description: Requested profile.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/profiles.yml#/components/schemas/ProfileResponse'
+    '404':
+      description: Profile not found.
+put:
+  summary: Update a profile.
+  operationId: updateProfile
+  tags: [Profile]
+  parameters:
+    - name: number
+      in: path
+      required: true
+      description: Profile number.
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/profiles.yml#/components/schemas/ProfileChange'
+  responses:
+    '200':
+      description: Updated profile.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/profiles.yml#/components/schemas/ProfileResponse'
+    '404':
+      description: Profile not found.
+patch:
+  summary: Partially update a profile.
+  operationId: patchProfile
+  tags: [Profile]
+  parameters:
+    - name: number
+      in: path
+      required: true
+      description: Profile number.
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/profiles.yml#/components/schemas/ProfileChange'
+  responses:
+    '200':
+      description: Patched profile.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/profiles.yml#/components/schemas/ProfileResponse'
+    '404':
+      description: Profile not found.
+delete:
+  summary: Delete a profile.
+  operationId: deleteProfile
+  tags: [Profile]
+  parameters:
+    - name: number
+      in: path
+      required: true
+      description: Profile number.
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  responses:
+    '200':
+      description: Profile deleted successfully.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/profiles.yml#/components/schemas/ProfileResponse'
+    '404':
+      description: Profile not found.

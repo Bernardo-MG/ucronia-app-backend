@@ -32,8 +32,8 @@ import org.slf4j.LoggerFactory;
 
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
-import com.bernardomg.association.person.domain.model.Person;
-import com.bernardomg.association.person.domain.repository.PersonRepository;
+import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRule;
 
@@ -49,12 +49,12 @@ public final class FeeMonthNotExistingRule implements FieldRule<Fee> {
 
     private final FeeRepository    feeRepository;
 
-    private final PersonRepository personRepository;
+    private final MemberRepository memberRepository;
 
-    public FeeMonthNotExistingRule(final PersonRepository personRepo, final FeeRepository feeRepo) {
+    public FeeMonthNotExistingRule(final MemberRepository memberRepo, final FeeRepository feeRepo) {
         super();
 
-        personRepository = Objects.requireNonNull(personRepo);
+        memberRepository = Objects.requireNonNull(memberRepo);
         feeRepository = Objects.requireNonNull(feeRepo);
     }
 
@@ -63,14 +63,14 @@ public final class FeeMonthNotExistingRule implements FieldRule<Fee> {
         final Optional<FieldFailure> failure;
         final FieldFailure           fieldFailure;
         final boolean                existing;
-        final Person                 person;
+        final Member                 member;
 
-        person = personRepository.findOne(fee.member()
+        member = memberRepository.findOne(fee.member()
             .number())
             .get();
-        existing = feeRepository.exists(person.number(), fee.month());
+        existing = feeRepository.exists(member.number(), fee.month());
         if (existing) {
-            log.error("Fee for month {} already exists for by {}", fee.month(), person.number());
+            log.error("Fee for month {} already exists for by {}", fee.month(), member.number());
             // TODO: this is not a field in the model
             fieldFailure = new FieldFailure("existing", "month", fee.month());
             failure = Optional.of(fieldFailure);

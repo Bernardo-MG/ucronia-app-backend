@@ -1,0 +1,38 @@
+post:
+  summary: Create a new profile.
+  operationId: createProfile
+  tags: [Profile]
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/profiles.yml#/components/schemas/ProfileCreation'
+  responses:
+    '201':
+      description: Profile created.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/profiles.yml#/components/schemas/ProfileResponse'
+get:
+  summary: Get all profiles.
+  operationId: getAllProfiles
+  tags: [Profile]
+  parameters:
+    - $ref: '../common/pagination.yml#/components/parameters/pageParam'
+    - $ref: '../common/pagination.yml#/components/parameters/sizeParam'
+    - $ref: '../components/profiles.yml#/components/parameters/profilesSortParam'
+    - name: name
+      in: query
+      required: false
+      description: Substring to filter name by.
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Profiles page.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/profiles.yml#/components/schemas/ProfilePageResponse'

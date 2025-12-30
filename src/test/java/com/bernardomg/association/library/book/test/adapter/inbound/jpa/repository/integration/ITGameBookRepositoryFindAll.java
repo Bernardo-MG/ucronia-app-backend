@@ -37,8 +37,8 @@ import com.bernardomg.association.library.lending.test.configuration.data.annota
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.LentBookLendingHistory;
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.ReturnedBookLending;
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.ReturnedBookLendingHistory;
-import com.bernardomg.association.person.test.configuration.data.annotation.AlternativePerson;
-import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
+import com.bernardomg.association.profile.test.configuration.data.annotation.AlternativeProfile;
+import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
@@ -51,7 +51,7 @@ class ITGameBookRepositoryFindAll {
 
     @Test
     @DisplayName("When there is a game book, it is returned")
-    @NoMembershipPerson
+    @ValidProfile
     @FullGameBook
     void testFindAll() {
         final Iterable<GameBook> books;
@@ -71,7 +71,7 @@ class ITGameBookRepositoryFindAll {
 
     @Test
     @DisplayName("When there is a lent game book, it is returned")
-    @NoMembershipPerson
+    @ValidProfile
     @FullGameBook
     @LentBookLending
     void testFindAll_Lent() {
@@ -92,8 +92,8 @@ class ITGameBookRepositoryFindAll {
 
     @Test
     @DisplayName("When there is a lent game book and it has history, it is returned")
-    @NoMembershipPerson
-    @AlternativePerson
+    @ValidProfile
+    @AlternativeProfile
     @FullGameBook
     @LentBookLendingHistory
     void testFindAll_Lent_WithHistory() {
@@ -132,7 +132,7 @@ class ITGameBookRepositoryFindAll {
 
     @Test
     @DisplayName("When there is a returned game book, it is returned")
-    @NoMembershipPerson
+    @ValidProfile
     @FullGameBook
     @ReturnedBookLending
     void testFindAll_Returned() {
@@ -153,8 +153,8 @@ class ITGameBookRepositoryFindAll {
 
     @Test
     @DisplayName("When there is a returned game book and it has history, it is returned")
-    @NoMembershipPerson
-    @AlternativePerson
+    @ValidProfile
+    @AlternativeProfile
     @FullGameBook
     @ReturnedBookLendingHistory
     void testFindAll_Returned_WithHistory() {

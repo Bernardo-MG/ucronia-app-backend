@@ -1,4 +1,18 @@
 components:
+  parameters:
+    transactionsSortParam:
+      name: sort
+      description: Sorting to apply.
+      in: query
+      style: form
+      explode: true
+      required: false
+      schema:
+        type: array
+        items:
+          type: string
+          pattern: '^(description|date|index|amount)\|(asc|desc)$'
+          example: date|asc
   schemas:
     TransactionCreation:
       type: object

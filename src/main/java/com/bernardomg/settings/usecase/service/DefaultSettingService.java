@@ -54,9 +54,15 @@ public final class DefaultSettingService implements SettingService {
 
     @Override
     public final Collection<Setting> getAll() {
+        final Collection<Setting> settings;
+
         log.debug("Reading settings");
 
-        return settingRepository.findAll();
+        settings = settingRepository.findAll();
+
+        log.debug("Read settings: {}", settings);
+
+        return settings;
     }
 
     @Override
@@ -71,6 +77,8 @@ public final class DefaultSettingService implements SettingService {
             throw new MissingSettingException(code);
         }
 
+        log.debug("Read setting {}", setting);
+
         return setting;
     }
 
@@ -78,18 +86,23 @@ public final class DefaultSettingService implements SettingService {
     public final Setting update(final String code, final String value) {
         final Setting toSave;
         final Setting existing;
+        final Setting saved;
 
         log.debug("Updating code {} with value {}", code, value);
 
-        existing = settingRepository.findOne(code)
+        existing = settingRepository.findOne(code.trim())
             .orElseThrow(() -> {
-                log.error("Missing configuration {}", code);
-                throw new MissingSettingException(code);
+                log.error("Missing configuration {}", code.trim());
+                throw new MissingSettingException(code.trim());
             });
 
         toSave = new Setting(existing.type(), code, value);
 
-        return settingRepository.save(toSave);
+        saved = settingRepository.save(toSave);
+
+        log.debug("Updated code {}: {}", code, saved);
+
+        return saved;
     }
 
 }

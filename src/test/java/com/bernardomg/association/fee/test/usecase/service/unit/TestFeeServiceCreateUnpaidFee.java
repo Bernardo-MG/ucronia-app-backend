@@ -43,10 +43,10 @@ import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
-import com.bernardomg.association.person.domain.exception.MissingPersonException;
-import com.bernardomg.association.person.domain.repository.PersonRepository;
-import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
-import com.bernardomg.association.person.test.configuration.factory.Persons;
+import com.bernardomg.association.member.domain.exception.MissingMemberException;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.test.configuration.factory.Members;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.association.settings.usecase.source.AssociationSettingsSource;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.event.emitter.EventEmitter;
@@ -64,10 +64,10 @@ class TestFeeServiceCreateUnpaidFee {
     private FeeRepository             feeRepository;
 
     @Mock
-    private MessageSource             messageSource;
+    private MemberRepository          memberRepository;
 
     @Mock
-    private PersonRepository          personRepository;
+    private MessageSource             messageSource;
 
     @InjectMocks
     private DefaultFeeService         service;
@@ -84,12 +84,12 @@ class TestFeeServiceCreateUnpaidFee {
         final Fee fee;
 
         // GIVEN
-        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.membershipActive()));
+        given(memberRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(Members.active()));
         given(feeRepository.save(Fees.notPaid())).willReturn(Fees.notPaid());
-        given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(false);
+        given(feeRepository.exists(ProfileConstants.NUMBER, FeeConstants.DATE)).willReturn(false);
 
         // WHEN
-        fee = service.createUnpaidFee(FeeConstants.DATE, PersonConstants.NUMBER);
+        fee = service.createUnpaidFee(FeeConstants.DATE, ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(fee)
@@ -104,11 +104,11 @@ class TestFeeServiceCreateUnpaidFee {
         final FieldFailure     failure;
 
         // GIVEN
-        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Persons.membershipActive()));
-        given(feeRepository.exists(PersonConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
+        given(memberRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+        given(feeRepository.exists(ProfileConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
 
         // WHEN
-        execution = () -> service.createUnpaidFee(FeeConstants.DATE, PersonConstants.NUMBER);
+        execution = () -> service.createUnpaidFee(FeeConstants.DATE, ProfileConstants.NUMBER);
 
         // THEN
         failure = new FieldFailure("existing", "month", "month.existing", FeeConstants.DATE);
@@ -117,19 +117,19 @@ class TestFeeServiceCreateUnpaidFee {
     }
 
     @Test
-    @DisplayName("When the person doesn't exist it throws an exception")
-    void testPayFees_NotExistingPerson() {
+    @DisplayName("When the member doesn't exist it throws an exception")
+    void testPayFees_NotExistingMember() {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(personRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.empty());
+        given(memberRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.createUnpaidFee(FeeConstants.DATE, PersonConstants.NUMBER);
+        execution = () -> service.createUnpaidFee(FeeConstants.DATE, ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingPersonException.class);
+            .isInstanceOf(MissingMemberException.class);
     }
 
 }

@@ -78,11 +78,41 @@ permissions:
   - resource: library
     actions:
       - view
+  - resource: profile
+    actions:
+      - create
+      - read
+      - update
+      - delete
+      - view
+  - resource: contact_method
+    actions:
+      - create
+      - read
+      - update
+      - delete
   - resource: member
     actions:
+      - create
       - read
+      - update
+      - delete
       - view
-  - resource: person
+  - resource: member_profile
+    actions:
+      - create
+      - read
+      - update
+      - delete
+      - view
+  - resource: sponsor
+    actions:
+      - create
+      - read
+      - update
+      - delete
+      - view
+  - resource: guest
     actions:
       - create
       - read
@@ -90,9 +120,6 @@ permissions:
       - delete
       - view
   - resource: security
-    actions:
-      - view
-  - resource: activity_calendar
     actions:
       - view
   - resource: association_settings

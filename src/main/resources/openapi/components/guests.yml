@@ -1,0 +1,86 @@
+components:
+  parameters:
+    guestsSortParam:
+      name: sort
+      description: Sorting to apply.
+      in: query
+      style: form
+      explode: true
+      required: false
+      schema:
+        type: array
+        items:
+          type: string
+          pattern: '^(firstName|lastName|number)\|(asc|desc)$'
+          example: username|asc
+  schemas:
+    Guest:
+      type: object
+      required: [number, name]
+      properties:
+        number:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        identifier:
+          type: string
+          description: Unique identifier of the guest.
+        name:
+          $ref: 'profiles.yml#/components/schemas/ProfileName'
+        birthDate:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+        contactChannels:
+          type: array
+          items:
+            $ref: 'profiles.yml#/components/schemas/ContactChannel'
+        games:
+          type: array
+          items:
+            $ref: '../common/dates.yml#/components/schemas/Date'
+        comments:
+          type: string
+          description: Comments about the guest.
+        types:
+          type: array
+          items:
+            type: string
+    GuestCreation:
+      type: object
+      required: [name]
+      properties:
+        identifier:
+          type: string
+          description: Unique identifier of the contact.
+        name:
+          $ref: 'profiles.yml#/components/schemas/EditionProfileName'
+    GuestChange:
+      type: object
+      properties:
+        identifier:
+          type: string
+        name:
+          $ref: 'profiles.yml#/components/schemas/EditionProfileName'
+        birthDate:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+        contactChannels:
+          type: array
+          items:
+            $ref: 'profiles.yml#/components/schemas/EditionContactChannel'
+        games:
+          type: array
+          items:
+            $ref: '../common/dates.yml#/components/schemas/Date'
+        comments:
+          type: string
+    GuestPageResponse:
+      allOf:
+        - $ref: '../common/responses.yml#/components/schemas/PageResponse'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/Guest'
+    GuestResponse:
+      type: object
+      properties:
+        content:
+          $ref: '#/components/schemas/Guest'

@@ -33,11 +33,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
+import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
 import com.bernardomg.association.member.test.configuration.factory.Members;
-import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
-import com.bernardomg.association.person.test.configuration.data.annotation.MembershipInactivePerson;
-import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
-import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
+import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -45,60 +45,60 @@ import com.bernardomg.test.configuration.annotation.IntegrationTest;
 class ITMemberRepositoryFindOne {
 
     @Autowired
-    private MemberRepository memberRepository;
+    private MemberRepository repository;
 
     @Test
     @DisplayName("With an active member, it is returned")
-    @MembershipActivePerson
+    @ActiveMember
     void testFindOne_Active() {
-        final Optional<Member> memberOptional;
+        final Optional<Member> member;
 
         // WHEN
-        memberOptional = memberRepository.findOne(PersonConstants.NUMBER);
+        member = repository.findOne(ProfileConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(memberOptional)
-            .contains(Members.valid());
+        Assertions.assertThat(member)
+            .contains(Members.active());
     }
 
     @Test
     @DisplayName("With an inactive member, it is returned")
-    @MembershipInactivePerson
+    @InactiveMember
     void testFindOne_Inactive() {
-        final Optional<Member> memberOptional;
+        final Optional<Member> member;
 
         // WHEN
-        memberOptional = memberRepository.findOne(PersonConstants.NUMBER);
+        member = repository.findOne(ProfileConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(memberOptional)
-            .contains(Members.valid());
+        Assertions.assertThat(member)
+            .contains(Members.inactive());
     }
 
     @Test
     @DisplayName("With no member, nothing is returned")
     void testFindOne_NoData() {
-        final Optional<Member> memberOptional;
+        final Optional<Member> member;
 
         // WHEN
-        memberOptional = memberRepository.findOne(PersonConstants.NUMBER);
+        member = repository.findOne(ProfileConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(memberOptional)
+        Assertions.assertThat(member)
             .isEmpty();
     }
 
     @Test
-    @DisplayName("With a member with no membership, it returns nothing")
-    @NoMembershipPerson
+    @DisplayName("With a profile with no member role, it returns nothing")
+    @ValidProfile
     void testFindOne_NoMembership() {
-        final Optional<Member> memberOptional;
+        final Optional<Member> member;
 
         // WHEN
-        memberOptional = memberRepository.findOne(PersonConstants.NUMBER);
+        member = repository.findOne(ProfileConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(memberOptional)
+        Assertions.assertThat(member)
             .isEmpty();
     }
 

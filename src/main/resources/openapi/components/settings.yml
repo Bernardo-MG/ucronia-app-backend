@@ -1,4 +1,18 @@
 components:
+  parameters:
+    settingsSortParam:
+      name: sort
+      description: Sorting to apply.
+      in: query
+      style: form
+      explode: true
+      required: false
+      schema:
+        type: array
+        items:
+          type: string
+          pattern: '^(code|type)\|(asc|desc)$'
+          example: code|asc
   schemas:
     Setting:
       type: object

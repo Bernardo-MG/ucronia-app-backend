@@ -43,8 +43,8 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.Multipl
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.test.configuration.factory.FeesQuery;
-import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
-import com.bernardomg.association.person.test.configuration.data.annotation.MultipleMembershipInactivePerson;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
+import com.bernardomg.association.member.test.configuration.data.annotation.MultipleInactiveMember;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -59,7 +59,7 @@ class ITFeeRepositoryGetAllFilter {
 
     @Test
     @DisplayName("With a filter applied to the start date, the returned data is filtered")
-    @MultipleMembershipInactivePerson
+    @MultipleInactiveMember
     @MultipleFees
     void testFindAll_From() {
         final Page<Fee>  fees;
@@ -89,7 +89,7 @@ class ITFeeRepositoryGetAllFilter {
 
     @Test
     @DisplayName("With a filter applied to the start date which covers no fee, no data is returned")
-    @MultipleMembershipInactivePerson
+    @MultipleInactiveMember
     @MultipleFees
     void testFindAll_From_NotInRange() {
         final Page<Fee>  fees;
@@ -119,7 +119,7 @@ class ITFeeRepositoryGetAllFilter {
 
     @Test
     @DisplayName("With a filter applied to the date, the returned data is filtered")
-    @MultipleMembershipInactivePerson
+    @MultipleInactiveMember
     @MultipleFees
     void testFindAll_InDate() {
         final Page<Fee>  fees;
@@ -149,7 +149,7 @@ class ITFeeRepositoryGetAllFilter {
 
     @Test
     @DisplayName("With a filter applied to the date using the lowest date of the year, the returned data is filtered")
-    @MembershipActivePerson
+    @ActiveMember
     @FeeFullYear
     void testFindAll_InDate_FirstDay_Data() {
         final Page<Fee>  fees;
@@ -179,7 +179,7 @@ class ITFeeRepositoryGetAllFilter {
 
     @Test
     @DisplayName("With a filter applied to the date using the highest date of the year, the returned data is filtered")
-    @MembershipActivePerson
+    @ActiveMember
     @FeeFullYear
     void testFindAll_InDate_LastDay_Data() {
         final Page<Fee>  fees;
@@ -209,7 +209,7 @@ class ITFeeRepositoryGetAllFilter {
 
     @Test
     @DisplayName("With a filter applied to the date using a not existing date, no data is returned")
-    @MultipleMembershipInactivePerson
+    @MultipleInactiveMember
     @MultipleFees
     void testFindAll_InDate_NotExisting() {
         final Page<Fee>  fees;
@@ -239,7 +239,7 @@ class ITFeeRepositoryGetAllFilter {
 
     @Test
     @DisplayName("With a filter applied to the end date, the returned data is filtered")
-    @MultipleMembershipInactivePerson
+    @MultipleInactiveMember
     @MultipleFees
     void testFindAll_InRange() {
         final Page<Fee>  fees;
@@ -273,7 +273,7 @@ class ITFeeRepositoryGetAllFilter {
 
     @Test
     @DisplayName("With a filter applied to the end date, the returned data is filtered")
-    @MultipleMembershipInactivePerson
+    @MultipleInactiveMember
     @MultipleFees
     void testFindAll_To() {
         final Page<Fee>  fees;
@@ -303,7 +303,7 @@ class ITFeeRepositoryGetAllFilter {
 
     @Test
     @DisplayName("With a filter applied to the end date which covers no fee, no data is returned")
-    @MultipleMembershipInactivePerson
+    @MultipleInactiveMember
     @MultipleFees
     void testFindAll_To_NotInRange() {
         final Page<Fee>  fees;

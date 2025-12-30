@@ -7,12 +7,10 @@ servers:
   - url: https://localhost
     description: Local development
 paths:
-  /security/user/{username}/person:
-    $ref: paths/user_person.yml
-  /security/user/{username}/person/{memberNumber}:
-    $ref: paths/user_person_by_id.yml
-  /security/user/{username}/person/available:
-    $ref: paths/user_person_available.yml
+  /security/user/{username}/profile:
+    $ref: paths/user_profile.yml
+  /security/user/{username}/profile/{memberNumber}:
+    $ref: paths/user_profile_by_id.yml
   /settings:
     $ref: paths/settings.yml
   /settings/{code}:
@@ -21,20 +19,38 @@ paths:
     $ref: paths/settings_public.yml
   /fee:
     $ref: paths/fees.yml
-  /person:
-    $ref: paths/persons.yml
-  /person/{number}:
-    $ref: paths/persons_by_id.yml
-  /person/contactMethod:
+  /profile:
+    $ref: paths/profiles.yml
+  /profile/{number}:
+    $ref: paths/profiles_by_id.yml
+  /profile/{number}/member:
+    $ref: paths/profile_membership.yml
+  /profile/{number}/sponsor:
+    $ref: paths/profile_sponsorship.yml
+  /profile/{number}/guest:
+    $ref: paths/profile_guest.yml
+  /profile/contactMethod:
     $ref: paths/contact_methods.yml
-  /person/contactMethod/{number}:
+  /profile/contactMethod/{number}:
     $ref: paths/contact_methods_by_id.yml
+  /profile/sponsor:
+    $ref: paths/sponsors.yml
+  /profile/sponsor/{number}:
+    $ref: paths/sponsors_by_id.yml
+  /profile/guest:
+    $ref: paths/guests.yml
+  /profile/guest/{number}:
+    $ref: paths/guests_by_id.yml
+  /profile/member:
+    $ref: paths/member_profiles.yml
+  /profile/member/{number}:
+    $ref: paths/member_profiles_by_id.yml
   /member:
     $ref: paths/members.yml
   /member/{number}:
     $ref: paths/members_by_id.yml
-  /member/monthly:
-    $ref: paths/members_monthly_balance.yml
+  /member/evolution:
+    $ref: paths/membership_monthly_evolution.yml
   /fee/{month}/{member}:
     $ref: paths/fees_by_id.yml
   /fee/pay:

@@ -432,9 +432,14 @@
             Email language correction.
          </action>
       </release>
-      <release version="0.6.2" date="2025-10-31" description="fixes">
+      <release version="0.6.2" date="2025-10-31" description="Fixes">
          <action dev="bmg" type="fix">
             Several fixes.
+         </action>
+      </release>
+      <release version="0.6.3" date="2025-12-30" description="Profiles">
+         <action dev="bmg" type="update">
+            Reworked contacts and profiles.
          </action>
       </release>
    </body>

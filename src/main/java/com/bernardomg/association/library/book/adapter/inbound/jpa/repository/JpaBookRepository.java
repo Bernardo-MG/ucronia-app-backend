@@ -48,7 +48,7 @@ import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.lending.domain.model.BookLending.Borrower;
 import com.bernardomg.association.library.lending.domain.model.BookLending.LentBook;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
-import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
+import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 
 @Repository
 @Transactional
@@ -63,14 +63,15 @@ public final class JpaBookRepository implements BookRepository {
 
     private final BookSpringRepository        bookSpringRepository;
 
-    private final PersonSpringRepository      personSpringRepository;
+    private final ProfileSpringRepository     profileSpringRepository;
 
-    public JpaBookRepository(final BookSpringRepository bookSpringRepo, final PersonSpringRepository personSpringRepo,
+    public JpaBookRepository(final BookSpringRepository bookSpringRepo, final ProfileSpringRepository profileSpringRepo,
             final BookLendingSpringRepository bookLendingSpringRepo) {
         super();
 
         bookSpringRepository = Objects.requireNonNull(bookSpringRepo);
-        personSpringRepository = Objects.requireNonNull(personSpringRepo);
+        // TODO: maybe should be members only
+        profileSpringRepository = Objects.requireNonNull(profileSpringRepo);
         bookLendingSpringRepository = Objects.requireNonNull(bookLendingSpringRepo);
     }
 
@@ -167,7 +168,7 @@ public final class JpaBookRepository implements BookRepository {
         final Title              title;
 
         // TODO: should not contain all the member data
-        borrower = personSpringRepository.findById(entity.getPersonId())
+        borrower = profileSpringRepository.findById(entity.getProfileId())
             .map(BookEntityMapper::toDomain);
         title = new Title(bookEntity.getSupertitle(), bookEntity.getTitle(), bookEntity.getSubtitle());
         lentBook = new LentBook(bookEntity.getNumber(), title);

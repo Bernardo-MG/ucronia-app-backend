@@ -36,8 +36,8 @@ import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.data.annotation.MultipleFees;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
-import com.bernardomg.association.person.test.configuration.data.annotation.AccentActiveMembershipPerson;
-import com.bernardomg.association.person.test.configuration.data.annotation.MultipleMembershipActivePerson;
+import com.bernardomg.association.member.test.configuration.data.annotation.MultipleActiveMember;
+import com.bernardomg.association.member.test.configuration.data.annotation.MultipleActiveMemberAccents;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
@@ -50,7 +50,7 @@ class ITFeeRepositoryFindAllInYearForActiveMembersSort {
 
     @Test
     @DisplayName("With ascending order by name with accents it returns the ordered data")
-    @AccentActiveMembershipPerson
+    @MultipleActiveMemberAccents
     @MultipleFees
     @Disabled("Database dependant")
     void testFindAllInYearForActiveMembers_Accents_Name_Asc() {
@@ -69,13 +69,13 @@ class ITFeeRepositoryFindAllInYearForActiveMembersSort {
                 .name()
                 .fullName())
             .as("fee full names")
-            .containsExactly("Person a Last name 1", "Person é Last name 2", "Person i Last name 3",
-                "Person o Last name 4", "Person u Last name 5");
+            .containsExactly("Profile a Last name 1", "Profile é Last name 2", "Profile i Last name 3",
+                "Profile o Last name 4", "Profile u Last name 5");
     }
 
     @Test
     @DisplayName("With ascending order by name it returns the ordered data")
-    @MultipleMembershipActivePerson
+    @MultipleActiveMember
     @MultipleFees
     void testFindAllInYearForActiveMembers_Name_Asc() {
         final Iterable<Fee> fees;
@@ -93,13 +93,13 @@ class ITFeeRepositoryFindAllInYearForActiveMembersSort {
                 .name()
                 .fullName())
             .as("fee full names")
-            .containsExactly("Person 1 Last name 1", "Person 2 Last name 2", "Person 3 Last name 3",
-                "Person 4 Last name 4", "Person 5 Last name 5");
+            .containsExactly("Profile 1 Last name 1", "Profile 2 Last name 2", "Profile 3 Last name 3",
+                "Profile 4 Last name 4", "Profile 5 Last name 5");
     }
 
     @Test
     @DisplayName("With descending order by name it returns the ordered data")
-    @MultipleMembershipActivePerson
+    @MultipleActiveMember
     @MultipleFees
     void testFindAllInYearForActiveMembers_Name_Desc() {
         final Iterable<Fee> fees;
@@ -117,8 +117,8 @@ class ITFeeRepositoryFindAllInYearForActiveMembersSort {
                 .name()
                 .fullName())
             .as("fee full names")
-            .containsExactly("Person 5 Last name 5", "Person 4 Last name 4", "Person 3 Last name 3",
-                "Person 2 Last name 2", "Person 1 Last name 1");
+            .containsExactly("Profile 5 Last name 5", "Profile 4 Last name 4", "Profile 3 Last name 3",
+                "Profile 2 Last name 2", "Profile 1 Last name 1");
     }
 
 }

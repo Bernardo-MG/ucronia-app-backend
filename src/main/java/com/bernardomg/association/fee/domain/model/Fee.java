@@ -28,19 +28,19 @@ import java.time.Instant;
 import java.time.YearMonth;
 import java.util.Optional;
 
-import com.bernardomg.association.person.domain.model.PersonName;
+import com.bernardomg.association.profile.domain.model.ProfileName;
 
 public record Fee(YearMonth month, Boolean paid, Member member, Optional<Transaction> transaction) {
 
-    public static Fee unpaid(final YearMonth month, final Member person) {
-        return new Fee(month, false, person, Optional.empty());
+    public static Fee unpaid(final YearMonth month, final Member member) {
+        return new Fee(month, false, member, Optional.empty());
     }
 
-    public static Fee paid(final YearMonth month, final Member person, final Transaction transaction) {
-        return new Fee(month, true, person, Optional.of(transaction));
+    public static Fee paid(final YearMonth month, final Member member, final Transaction transaction) {
+        return new Fee(month, true, member, Optional.of(transaction));
     }
 
-    public static record Member(Long number, PersonName name) {}
+    public static record Member(Long number, ProfileName name) {}
 
     public static record Transaction(Instant date, Long index) {}
 

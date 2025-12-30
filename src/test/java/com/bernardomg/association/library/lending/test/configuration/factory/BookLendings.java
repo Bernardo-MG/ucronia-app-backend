@@ -29,7 +29,7 @@ public final class BookLendings {
         return new BookLending(book, Borrowers.valid(), lent, null);
     }
 
-    public static final BookLending lentAlternativePerson() {
+    public static final BookLending lentAlternativeProfile() {
         final LentBook book;
         final Title    title;
 

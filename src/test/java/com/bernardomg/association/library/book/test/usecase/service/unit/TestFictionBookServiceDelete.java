@@ -45,7 +45,7 @@ import com.bernardomg.association.library.book.test.configuration.factory.BookCo
 import com.bernardomg.association.library.book.test.configuration.factory.FictionBooks;
 import com.bernardomg.association.library.book.usecase.service.DefaultFictionBookService;
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
-import com.bernardomg.association.person.domain.repository.PersonRepository;
+import com.bernardomg.association.profile.domain.repository.ProfileRepository;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("BookService - delete")
@@ -58,7 +58,7 @@ class TestFictionBookServiceDelete {
     private FictionBookRepository     bookRepository;
 
     @Mock
-    private PersonRepository          personRepository;
+    private ProfileRepository         profileRepository;
 
     @Mock
     private PublisherRepository       publisherRepository;

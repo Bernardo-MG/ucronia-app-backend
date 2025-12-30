@@ -26,13 +26,14 @@ package com.bernardomg.association.member.usecase.service;
 
 import java.util.Optional;
 
+import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 
 /**
- * Reduced member service. Reduces only non sensible information.
+ * Member service. Without sensitive information.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -40,15 +41,34 @@ import com.bernardomg.data.domain.Sorting;
 public interface MemberService {
 
     /**
-     * Returns all the members matching the sample. If the sample fields are empty, then all the members are returned.
+     * Persists the received member.
      *
+     * @param member
+     *            member to persist
+     * @return the persisted member
+     */
+    public Member create(final Member member);
+
+    /**
+     * Deletes the member with the received id.
+     *
+     * @param number
+     *            number of the member to delete
+     */
+    public Member delete(final long number);
+
+    /**
+     * Returns all the public members.
+     *
+     * @param filter
+     *            query to filter by
      * @param pagination
      *            pagination to apply
      * @param sorting
      *            sorting to apply
      * @return all the members matching the sample
      */
-    public Page<Member> getAll(final Pagination pagination, final Sorting sorting);
+    public Page<Member> getAll(final MemberFilter filter, final Pagination pagination, final Sorting sorting);
 
     /**
      * Returns the member for the received id, if it exists. Otherwise an empty {@code Optional} is returned.
@@ -58,5 +78,23 @@ public interface MemberService {
      * @return an {@code Optional} with the member, if it exists, of an empty {@code Optional} otherwise
      */
     public Optional<Member> getOne(final long number);
+
+    /**
+     * Patches the member for the received id with the received data.
+     *
+     * @param member
+     *            new data for the member
+     * @return the updated member
+     */
+    public Member patch(final Member member);
+
+    /**
+     * Updates the member for the received id with the received data.
+     *
+     * @param member
+     *            new data for the member
+     * @return the updated member
+     */
+    public Member update(final Member member);
 
 }

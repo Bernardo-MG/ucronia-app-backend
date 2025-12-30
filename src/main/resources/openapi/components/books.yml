@@ -1,4 +1,18 @@
 components:
+  parameters:
+    booksSortParam:
+      name: sort
+      description: Sorting to apply.
+      in: query
+      style: form
+      explode: true
+      required: false
+      schema:
+        type: array
+        items:
+          type: string
+          pattern: '^(supertitle|subtitle|title|number)\|(asc|desc)$'
+          example: title|asc
   schemas:
     BookCreation:
       type: object
@@ -81,7 +95,7 @@ components:
         donors:
           type: array
           items:
-            $ref: 'contacts.yml#/components/schemas/MinimalContact'
+            $ref: 'profiles.yml#/components/schemas/MinimalProfile'
     FictionBook:
       type: object
       properties:

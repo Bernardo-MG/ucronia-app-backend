@@ -2,16 +2,16 @@
 package com.bernardomg.association.library.book.test.configuration.factory;
 
 import com.bernardomg.association.library.book.domain.model.Donor;
-import com.bernardomg.association.person.domain.model.PersonName;
-import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
+import com.bernardomg.association.profile.domain.model.ProfileName;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 
 public final class Donors {
 
     public static final Donor valid() {
-        final PersonName name;
+        final ProfileName name;
 
-        name = new PersonName(PersonConstants.FIRST_NAME, PersonConstants.LAST_NAME);
-        return new Donor(PersonConstants.NUMBER, name);
+        name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
+        return new Donor(ProfileConstants.NUMBER, name);
     }
 
     private Donors() {

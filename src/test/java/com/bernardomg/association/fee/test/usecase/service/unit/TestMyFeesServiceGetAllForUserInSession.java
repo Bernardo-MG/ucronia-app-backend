@@ -47,9 +47,9 @@ import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.usecase.service.DefaultMyFeesService;
-import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
-import com.bernardomg.association.person.test.configuration.factory.Persons;
-import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
+import com.bernardomg.association.profile.test.configuration.factory.Profiles;
+import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
 import com.bernardomg.association.security.user.test.configuration.factory.UserConstants;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
@@ -60,19 +60,19 @@ import com.bernardomg.data.domain.Sorting;
 class TestMyFeesServiceGetAllForUserInSession {
 
     @Mock
-    private Authentication       authentication;
+    private Authentication        authentication;
 
     @Mock
-    private FeeRepository        feeRepository;
+    private FeeRepository         feeRepository;
 
     @InjectMocks
-    private DefaultMyFeesService myFeesService;
+    private DefaultMyFeesService  myFeesService;
 
     @Mock
-    private UserDetails          userDetails;
+    private UserDetails           userDetails;
 
     @Mock
-    private UserPersonRepository userPersonRepository;
+    private UserProfileRepository userProfileRepository;
 
     @Test
     @DisplayName("When there is data it is returned")
@@ -92,11 +92,10 @@ class TestMyFeesServiceGetAllForUserInSession {
         SecurityContextHolder.getContext()
             .setAuthentication(authentication);
 
-        given(userPersonRepository.findByUsername(UserConstants.USERNAME))
-            .willReturn(Optional.of(Persons.noMembership()));
+        given(userProfileRepository.findByUsername(UserConstants.USERNAME)).willReturn(Optional.of(Profiles.valid()));
 
         existing = new Page<>(List.of(Fees.paid()), 0, 0, 0, 0, 0, false, false, sorting);
-        given(feeRepository.findAllForPerson(PersonConstants.NUMBER, pagination, sorting)).willReturn(existing);
+        given(feeRepository.findAllForProfile(ProfileConstants.NUMBER, pagination, sorting)).willReturn(existing);
 
         // WHEN
         fees = myFeesService.getAllForUserInSession(pagination, sorting);
@@ -155,11 +154,10 @@ class TestMyFeesServiceGetAllForUserInSession {
         SecurityContextHolder.getContext()
             .setAuthentication(authentication);
 
-        given(userPersonRepository.findByUsername(UserConstants.USERNAME))
-            .willReturn(Optional.of(Persons.noMembership()));
+        given(userProfileRepository.findByUsername(UserConstants.USERNAME)).willReturn(Optional.of(Profiles.valid()));
 
         existing = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
-        given(feeRepository.findAllForPerson(PersonConstants.NUMBER, pagination, sorting)).willReturn(existing);
+        given(feeRepository.findAllForProfile(ProfileConstants.NUMBER, pagination, sorting)).willReturn(existing);
 
         // WHEN
         fees = myFeesService.getAllForUserInSession(pagination, sorting);
@@ -189,7 +187,7 @@ class TestMyFeesServiceGetAllForUserInSession {
         SecurityContextHolder.getContext()
             .setAuthentication(authentication);
 
-        given(userPersonRepository.findByUsername(UserConstants.USERNAME)).willReturn(Optional.empty());
+        given(userProfileRepository.findByUsername(UserConstants.USERNAME)).willReturn(Optional.empty());
 
         // WHEN
         fees = myFeesService.getAllForUserInSession(pagination, sorting);

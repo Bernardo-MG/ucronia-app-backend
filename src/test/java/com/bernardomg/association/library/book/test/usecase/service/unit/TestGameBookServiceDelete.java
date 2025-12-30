@@ -47,7 +47,7 @@ import com.bernardomg.association.library.book.usecase.service.DefaultGameBookSe
 import com.bernardomg.association.library.booktype.domain.repository.BookTypeRepository;
 import com.bernardomg.association.library.gamesystem.domain.repository.GameSystemRepository;
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
-import com.bernardomg.association.person.domain.repository.PersonRepository;
+import com.bernardomg.association.profile.domain.repository.ProfileRepository;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("BookService - delete")
@@ -66,7 +66,7 @@ class TestGameBookServiceDelete {
     private GameSystemRepository   gameSystemRepository;
 
     @Mock
-    private PersonRepository       personRepository;
+    private ProfileRepository      profileRepository;
 
     @Mock
     private PublisherRepository    publisherRepository;

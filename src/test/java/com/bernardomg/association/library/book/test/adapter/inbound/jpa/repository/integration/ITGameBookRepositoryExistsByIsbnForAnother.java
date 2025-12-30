@@ -32,7 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.library.book.domain.repository.GameBookRepository;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.FullGameBook;
 import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
-import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
+import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -43,8 +43,8 @@ class ITGameBookRepositoryExistsByIsbnForAnother {
     private GameBookRepository repository;
 
     @Test
-    @DisplayName("When the game book exists and looking for another person, it exists")
-    @NoMembershipPerson
+    @DisplayName("When the game book exists and looking for another ISBN, it exists")
+    @ValidProfile
     @FullGameBook
     void testExistsByIsbnForAnother() {
         final boolean exists;
@@ -73,8 +73,8 @@ class ITGameBookRepositoryExistsByIsbnForAnother {
     }
 
     @Test
-    @DisplayName("When the game book exists and looking for the same person, it doesn't exists")
-    @NoMembershipPerson
+    @DisplayName("When the game book exists and looking for the same ISBN, it doesn't exists")
+    @ValidProfile
     @FullGameBook
     void testExistsByIsbnForAnother_SameNumber() {
         final boolean exists;

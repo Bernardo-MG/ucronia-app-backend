@@ -1,0 +1,44 @@
+post:
+  summary: Create a new member.
+  operationId: createMemberProfile
+  tags: [MemberProfile]
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/members.yml#/components/schemas/MemberProfileCreation'
+  responses:
+    '201':
+      description: Member created.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/members.yml#/components/schemas/MemberProfileResponse'
+get:
+  summary: Get all members.
+  operationId: getAllMemberProfiles
+  tags: [MemberProfile]
+  parameters:
+    - $ref: '../common/pagination.yml#/components/parameters/pageParam'
+    - $ref: '../common/pagination.yml#/components/parameters/sizeParam'
+    - $ref: '../components/members.yml#/components/parameters/membersSortParam'
+    - name: status
+      in: query
+      required: false
+      description: Filter by member status.
+      schema:
+        $ref: '../components/members.yml#/components/schemas/MemberStatus'
+    - name: name
+      in: query
+      required: false
+      description: Substring to filter name by.
+      schema:
+        type: string
+  responses:
+    '200':
+      description: MemberProfiles page.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/members.yml#/components/schemas/MemberProfilePageResponse'

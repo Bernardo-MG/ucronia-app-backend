@@ -1,4 +1,18 @@
 components:
+  parameters:
+    bookLendingsSortParam:
+      name: sort
+      description: Sorting to apply.
+      in: query
+      style: form
+      explode: true
+      required: false
+      schema:
+        type: array
+        items:
+          type: string
+          pattern: '^(title|fullname)\|(asc|desc)$'
+          example: title|asc
   schemas:
     BookLending:
       type: object
@@ -6,7 +20,7 @@ components:
         book:
           $ref: '#/components/schemas/BookLendingBook'
         borrower:
-          $ref: 'contacts.yml#/components/schemas/MinimalContact'
+          $ref: 'profiles.yml#/components/schemas/MinimalProfile'
         lendingDate:
           $ref: '../common/dates.yml#/components/schemas/Date'
         returnDate:
@@ -19,7 +33,7 @@ components:
       type: object
       properties:
         borrower:
-          $ref: 'contacts.yml#/components/schemas/MinimalContact'
+          $ref: 'profiles.yml#/components/schemas/MinimalProfile'
         lendingDate:
           $ref: '../common/dates.yml#/components/schemas/Date'
         returnDate:

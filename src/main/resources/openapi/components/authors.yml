@@ -1,4 +1,18 @@
 components:
+  parameters:
+    authorsSortParam:
+      name: sort
+      description: Sorting to apply.
+      in: query
+      style: form
+      explode: true
+      required: false
+      schema:
+        type: array
+        items:
+          type: string
+          pattern: '^(name)\|(asc|desc)$'
+          example: name|asc
   schemas:
     Author:
       type: object

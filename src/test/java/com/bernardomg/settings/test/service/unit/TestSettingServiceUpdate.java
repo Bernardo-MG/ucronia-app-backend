@@ -60,4 +60,17 @@ public class TestSettingServiceUpdate {
             .isInstanceOf(MissingSettingException.class);
     }
 
+    @Test
+    @DisplayName("When the setting is padded, the padding is removed")
+    void testUpdate_Padding() {
+        // GIVEN
+        given(settingRepository.findOne(SettingConstants.CODE)).willReturn(Optional.of(Settings.intValue()));
+
+        // WHEN
+        service.update(" " + SettingConstants.CODE + " ", " " + SettingConstants.NUMBER_VALUE + " ");
+
+        // THEN
+        verify(settingRepository).save(Settings.intValue());
+    }
+
 }

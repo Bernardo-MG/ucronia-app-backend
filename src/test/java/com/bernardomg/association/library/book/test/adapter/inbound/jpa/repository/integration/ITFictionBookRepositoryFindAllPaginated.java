@@ -38,8 +38,8 @@ import com.bernardomg.association.library.lending.test.configuration.data.annota
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.LentBookLendingHistory;
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.ReturnedBookLending;
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.ReturnedBookLendingHistory;
-import com.bernardomg.association.person.test.configuration.data.annotation.AlternativePerson;
-import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
+import com.bernardomg.association.profile.test.configuration.data.annotation.AlternativeProfile;
+import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -54,7 +54,7 @@ class ITFictionBookRepositoryFindAllPaginated {
 
     @Test
     @DisplayName("When there is a fiction book, it is returned")
-    @NoMembershipPerson
+    @ValidProfile
     @FullFictionBook
     void testFindAll() {
         final Page<FictionBook> books;
@@ -78,7 +78,7 @@ class ITFictionBookRepositoryFindAllPaginated {
 
     @Test
     @DisplayName("When there is a lent fiction book, it is returned")
-    @NoMembershipPerson
+    @ValidProfile
     @FullFictionBook
     @LentBookLending
     void testFindAll_Lent() {
@@ -103,8 +103,8 @@ class ITFictionBookRepositoryFindAllPaginated {
 
     @Test
     @DisplayName("When there is a lent fiction book and it has history, it is returned")
-    @NoMembershipPerson
-    @AlternativePerson
+    @ValidProfile
+    @AlternativeProfile
     @FullFictionBook
     @LentBookLendingHistory
     void testFindAll_Lent_WithHistory() {
@@ -151,7 +151,7 @@ class ITFictionBookRepositoryFindAllPaginated {
 
     @Test
     @DisplayName("When there is a returned fiction book, it is returned")
-    @NoMembershipPerson
+    @ValidProfile
     @FullFictionBook
     @ReturnedBookLending
     void testFindAll_Returned() {
@@ -176,8 +176,8 @@ class ITFictionBookRepositoryFindAllPaginated {
 
     @Test
     @DisplayName("When there is a returned fiction book, it is returned")
-    @NoMembershipPerson
-    @AlternativePerson
+    @ValidProfile
+    @AlternativeProfile
     @FullFictionBook
     @ReturnedBookLendingHistory
     void testFindAll_Returned_WithHistory() {

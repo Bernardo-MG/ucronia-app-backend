@@ -29,7 +29,7 @@ import java.time.ZoneOffset;
 import java.util.Optional;
 
 import com.bernardomg.association.fee.domain.model.Fee;
-import com.bernardomg.association.person.domain.model.PersonName;
+import com.bernardomg.association.profile.domain.model.ProfileName;
 
 /**
  * Fee repository mapper.
@@ -37,16 +37,16 @@ import com.bernardomg.association.person.domain.model.PersonName;
 public final class FeeEntityMapper {
 
     public static final Fee toDomain(final FeeEntity entity) {
-        final Fee.Member                person;
+        final Fee.Member                member;
         final Optional<Fee.Transaction> transaction;
-        final PersonName                name;
+        final ProfileName               name;
         final YearMonth                 date;
 
-        name = new PersonName(entity.getPerson()
+        name = new ProfileName(entity.getMember()
             .getFirstName(),
-            entity.getPerson()
+            entity.getMember()
                 .getLastName());
-        person = new Fee.Member(entity.getPerson()
+        member = new Fee.Member(entity.getMember()
             .getNumber(), name);
 
         if (entity.getPaid()) {
@@ -59,7 +59,7 @@ public final class FeeEntityMapper {
         }
         date = YearMonth.from(entity.getDate()
             .atZone(ZoneOffset.UTC));
-        return new Fee(date, entity.getPaid(), person, transaction);
+        return new Fee(date, entity.getPaid(), member, transaction);
     }
 
     private FeeEntityMapper() {

@@ -1,0 +1,92 @@
+get:
+  summary: Get a specific sponsor by number.
+  operationId: getSponsorByNumber
+  tags: [Sponsor]
+  parameters:
+    - name: number
+      in: path
+      required: true
+      description: Sponsor number.
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  responses:
+    '200':
+      description: Requested sponsor.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/sponsors.yml#/components/schemas/SponsorResponse'
+    '404':
+      description: Sponsor not found.
+put:
+  summary: Update a sponsor.
+  operationId: updateSponsor
+  tags: [Sponsor]
+  parameters:
+    - name: number
+      in: path
+      required: true
+      description: Sponsor number.
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/sponsors.yml#/components/schemas/SponsorChange'
+  responses:
+    '200':
+      description: Updated profile.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/sponsors.yml#/components/schemas/SponsorResponse'
+    '404':
+      description: Sponsor not found.
+patch:
+  summary: Partially update a sponsor.
+  operationId: patchSponsor
+  tags: [Sponsor]
+  parameters:
+    - name: number
+      in: path
+      required: true
+      description: Sponsor number.
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/sponsors.yml#/components/schemas/SponsorChange'
+  responses:
+    '200':
+      description: Updated sponsor.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/sponsors.yml#/components/schemas/SponsorResponse'
+    '404':
+      description: Sponsor not found.
+delete:
+  summary: Delete a sponsor.
+  operationId: deleteSponsor
+  tags: [Sponsor]
+  parameters:
+    - name: number
+      in: path
+      required: true
+      description: Sponsor number.
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  responses:
+    '200':
+      description: Sponsor deleted successfully.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/sponsors.yml#/components/schemas/SponsorResponse'
+    '404':
+      description: Sponsor not found.

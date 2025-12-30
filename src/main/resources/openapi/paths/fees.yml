@@ -23,7 +23,7 @@ get:
   parameters:
     - $ref: '../common/pagination.yml#/components/parameters/pageParam'
     - $ref: '../common/pagination.yml#/components/parameters/sizeParam'
-    - $ref: '../common/pagination.yml#/components/parameters/sortParam'
+    - $ref: '../components/fees.yml#/components/parameters/feesSortParam'
     - name: date
       description: Date to query for.
       in: query

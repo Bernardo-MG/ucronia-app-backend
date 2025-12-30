@@ -24,8 +24,8 @@
 
 package com.bernardomg.association.member.domain.model;
 
-import com.bernardomg.association.person.domain.model.PersonName;
+import com.bernardomg.association.profile.domain.model.ProfileName;
 
-public record Member(Long number, PersonName name) {
+public record Member(Long number, ProfileName name, Boolean active, Boolean renew) {
 
 }

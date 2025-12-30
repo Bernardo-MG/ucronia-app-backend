@@ -45,7 +45,7 @@ import com.bernardomg.association.library.book.usecase.service.DefaultGameBookSe
 import com.bernardomg.association.library.booktype.domain.repository.BookTypeRepository;
 import com.bernardomg.association.library.gamesystem.domain.repository.GameSystemRepository;
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
-import com.bernardomg.association.person.domain.repository.PersonRepository;
+import com.bernardomg.association.profile.domain.repository.ProfileRepository;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -67,7 +67,7 @@ class TestGameBookServiceGetAll {
     private GameSystemRepository   gameSystemRepository;
 
     @Mock
-    private PersonRepository       personRepository;
+    private ProfileRepository      profileRepository;
 
     @Mock
     private PublisherRepository    publisherRepository;

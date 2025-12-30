@@ -28,6 +28,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.settings.adapter.outbound.cache.SettingsCaches;
+import com.bernardomg.association.settings.usecase.AssociationSettingsKey;
 import com.bernardomg.security.access.annotation.Unsecured;
 import com.bernardomg.settings.domain.model.Setting;
 import com.bernardomg.settings.usecase.service.SettingService;
@@ -59,10 +60,10 @@ public class AssociationPublicSettingController implements PublicSettingsApi {
         final String            mapId;
         final PublicSettingsDto settings;
 
-        calendarId = service.getOne("social.teamup.id")
+        calendarId = service.getOne(AssociationSettingsKey.TEAMUP)
             .map(Setting::value)
             .orElse(null);
-        mapId = service.getOne("social.googleMap.id")
+        mapId = service.getOne(AssociationSettingsKey.GOOGLE_MAPS)
             .map(Setting::value)
             .orElse(null);
 

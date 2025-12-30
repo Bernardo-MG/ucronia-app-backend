@@ -1,2 +1,2 @@
-INSERT INTO association.fees (id, person_id, date, paid) VALUES
+INSERT INTO association.fees (id, member_id, date, paid) VALUES
    (1, 1, '2020-02-01', false);

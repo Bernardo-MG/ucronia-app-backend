@@ -38,8 +38,8 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.PaidAnd
 import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFee;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
-import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
-import com.bernardomg.association.person.test.configuration.data.annotation.MembershipInactivePerson;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
+import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
@@ -52,7 +52,7 @@ class ITFeeRepositoryFindAllInYearForActiveMembers {
 
     @Test
     @DisplayName("With a not paid fee, it returns the calendar")
-    @MembershipActivePerson
+    @ActiveMember
     @NotPaidFee
     void testFindAllInYearForActiveMembers_Active_NotPaid() {
         final Iterable<Fee> fees;
@@ -72,7 +72,7 @@ class ITFeeRepositoryFindAllInYearForActiveMembers {
 
     @Test
     @DisplayName("With a not paid fee and searching for the next year, it returns nothing")
-    @MembershipActivePerson
+    @ActiveMember
     @NotPaidFee
     void testFindAllInYearForActiveMembers_Active_NotPaid_SearchNextYear() {
         final Iterable<Fee> fees;
@@ -92,7 +92,7 @@ class ITFeeRepositoryFindAllInYearForActiveMembers {
 
     @Test
     @DisplayName("With a not paid fee and searching for the previous year, it returns nothing")
-    @MembershipActivePerson
+    @ActiveMember
     @NotPaidFee
     void testFindAllInYearForActiveMembers_Active_NotPaid_SearchPreviousYear() {
         final Iterable<Fee> fees;
@@ -112,7 +112,7 @@ class ITFeeRepositoryFindAllInYearForActiveMembers {
 
     @Test
     @DisplayName("With a paid fee, it returns the calendar")
-    @MembershipActivePerson
+    @ActiveMember
     @PaidFee
     void testFindAllInYearForActiveMembers_Active_Paid() {
         final Iterable<Fee> fees;
@@ -132,7 +132,7 @@ class ITFeeRepositoryFindAllInYearForActiveMembers {
 
     @Test
     @DisplayName("With a paid fee and searching for the next year, it returns nothing")
-    @MembershipActivePerson
+    @ActiveMember
     @PaidFee
     void testFindAllInYearForActiveMembers_Active_Paid_SearchNextYear() {
         final Iterable<Fee> fees;
@@ -152,7 +152,7 @@ class ITFeeRepositoryFindAllInYearForActiveMembers {
 
     @Test
     @DisplayName("With a paid fee and searching for the previous year, it returns nothing")
-    @MembershipActivePerson
+    @ActiveMember
     @PaidFee
     void testFindAllInYearForActiveMembers_Active_Paid_SearchPreviousYear() {
         final Iterable<Fee> fees;
@@ -172,7 +172,7 @@ class ITFeeRepositoryFindAllInYearForActiveMembers {
 
     @Test
     @DisplayName("With both a paid and not paid fees, it returns the calendar")
-    @MembershipActivePerson
+    @ActiveMember
     @PaidAndNotPaidFee
     void testFindAllInYearForActiveMembers_Active_PaidAndNotPaid() {
         final Iterable<Fee> fees;
@@ -192,7 +192,7 @@ class ITFeeRepositoryFindAllInYearForActiveMembers {
 
     @Test
     @DisplayName("With a not paid fee, and an inactive member, it returns nothing")
-    @MembershipInactivePerson
+    @InactiveMember
     @PaidFee
     void testFindAllInYearForActiveMembers_Inactive_NotPaid() {
         final Iterable<Fee> fees;
@@ -212,7 +212,7 @@ class ITFeeRepositoryFindAllInYearForActiveMembers {
 
     @Test
     @DisplayName("With a paid fee in the current month, and an inactive member, it returns nothing")
-    @MembershipInactivePerson
+    @InactiveMember
     @PaidFee
     void testFindAllInYearForActiveMembers_Inactive_Paid() {
         final Iterable<Fee> fees;

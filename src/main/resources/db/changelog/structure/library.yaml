@@ -274,7 +274,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     foreignKeyName: fk_book_donors_donor
-                    references: association.persons(id)
+                    references: directory.profiles(id)
                     deleteCascade: true
         - addPrimaryKey:
             constraintName: book_donors_key
@@ -302,12 +302,12 @@ databaseChangeLog:
                     references: inventory.books(id)
                     deleteCascade: true
               - column:
-                  name: person_id
+                  name: profile_id
                   type: bigint
                   constraints:
                     nullable: false
-                    foreignKeyName: fk_book_lending_person
-                    references: association.persons(id)
+                    foreignKeyName: fk_book_lending_profile
+                    references: directory.profiles(id)
                     deleteCascade: true
               - column:
                   name: lending_date
@@ -322,4 +322,4 @@ databaseChangeLog:
             constraintName: book_lendings_key
             schemaName: inventory
             tableName: book_lendings
-            columnNames: 'book_id, person_id, lending_date'
+            columnNames: 'book_id, profile_id, lending_date'

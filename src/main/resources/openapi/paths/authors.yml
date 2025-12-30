@@ -24,7 +24,7 @@ get:
   parameters:
     - $ref: '../common/pagination.yml#/components/parameters/pageParam'
     - $ref: '../common/pagination.yml#/components/parameters/sizeParam'
-    - $ref: '../common/pagination.yml#/components/parameters/sortParam'
+    - $ref: '../components/authors.yml#/components/parameters/authorsSortParam'
   responses:
     '200':
       description: List of authors

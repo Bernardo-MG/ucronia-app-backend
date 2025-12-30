@@ -45,9 +45,7 @@ import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.domain.model.MemberFees;
 import com.bernardomg.association.fee.domain.model.YearsRange;
 import com.bernardomg.association.fee.usecase.service.FeeService;
-import com.bernardomg.association.member.adapter.outbound.cache.MembersCaches;
 import com.bernardomg.association.member.domain.model.MemberStatus;
-import com.bernardomg.association.person.adapter.outbound.cache.PersonsCaches;
 import com.bernardomg.association.transaction.adapter.outbound.cache.TransactionCaches;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
@@ -99,11 +97,8 @@ public class FeeController implements FeeApi {
                     FeeCaches.FEES, FeeCaches.MEMBER_FEES, FeeCaches.YEAR_RANGE,
                     // Funds caches
                     TransactionCaches.TRANSACTIONS, TransactionCaches.TRANSACTION, TransactionCaches.BALANCE,
-                    TransactionCaches.MONTHLY_BALANCE, TransactionCaches.CALENDAR, TransactionCaches.CALENDAR_RANGE,
-                    // Member caches
-                    MembersCaches.MONTHLY_BALANCE, MembersCaches.MEMBERS, MembersCaches.MEMBER,
-                    // Person caches
-                    PersonsCaches.PERSON, PersonsCaches.PERSONS }, allEntries = true) })
+                    TransactionCaches.MONTHLY_BALANCE, TransactionCaches.CALENDAR, TransactionCaches.CALENDAR_RANGE },
+                    allEntries = true) })
     public FeeResponseDto createUnpaidFee(@Valid final FeeCreationDto feeCreationDto) {
         final Fee fee;
 
@@ -116,13 +111,7 @@ public class FeeController implements FeeApi {
     @RequireResourceAuthorization(resource = "FEE", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = { FeeCaches.FEE }, key = "#p0 + ':' + #p1"), @CacheEvict(cacheNames = {
             // Fee caches
-            FeeCaches.FEES, FeeCaches.MEMBER_FEES, FeeCaches.YEAR_RANGE,
-            // Funds caches
-            MembersCaches.MONTHLY_BALANCE,
-            // Member caches
-            MembersCaches.MEMBERS, MembersCaches.MEMBER,
-            // Person caches
-            PersonsCaches.PERSON, PersonsCaches.PERSONS }, allEntries = true) })
+            FeeCaches.FEES, FeeCaches.MEMBER_FEES, FeeCaches.YEAR_RANGE }, allEntries = true) })
     public FeeResponseDto deleteFee(final Long member, final YearMonth month) {
         final Fee fee;
 
@@ -195,11 +184,8 @@ public class FeeController implements FeeApi {
             FeeCaches.FEES, FeeCaches.MEMBER_FEES, FeeCaches.YEAR_RANGE,
             // Funds caches
             TransactionCaches.TRANSACTIONS, TransactionCaches.TRANSACTION, TransactionCaches.BALANCE,
-            TransactionCaches.MONTHLY_BALANCE, TransactionCaches.CALENDAR, TransactionCaches.CALENDAR_RANGE,
-            // Member caches
-            MembersCaches.MONTHLY_BALANCE, MembersCaches.MEMBERS, MembersCaches.MEMBER,
-            // Person caches
-            PersonsCaches.PERSON, PersonsCaches.PERSONS }, allEntries = true) })
+            TransactionCaches.MONTHLY_BALANCE, TransactionCaches.CALENDAR, TransactionCaches.CALENDAR_RANGE },
+            allEntries = true) })
     public FeesResponseDto payFee(@Valid final FeePaymentsDto feePaymentsDto) {
         final Collection<Fee> fees;
         final FeePayments     payments;
@@ -220,11 +206,8 @@ public class FeeController implements FeeApi {
                     FeeCaches.FEES, FeeCaches.MEMBER_FEES, FeeCaches.YEAR_RANGE,
                     // Funds caches
                     TransactionCaches.TRANSACTIONS, TransactionCaches.TRANSACTION, TransactionCaches.BALANCE,
-                    TransactionCaches.MONTHLY_BALANCE, TransactionCaches.CALENDAR, TransactionCaches.CALENDAR_RANGE,
-                    // Member caches
-                    MembersCaches.MONTHLY_BALANCE, MembersCaches.MEMBERS, MembersCaches.MEMBER,
-                    // Person caches
-                    PersonsCaches.PERSON, PersonsCaches.PERSONS }, allEntries = true) })
+                    TransactionCaches.MONTHLY_BALANCE, TransactionCaches.CALENDAR, TransactionCaches.CALENDAR_RANGE },
+                    allEntries = true) })
     public FeeResponseDto updateFee(final Long member, final YearMonth month, @Valid final FeeChangeDto feeChangeDto) {
         final Fee fee;
         final Fee updated;

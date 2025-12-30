@@ -1,11 +1,11 @@
 databaseChangeLog:
   - changeSet:
-      id: person_auth
+      id: profile_auth
       author: Bernardo
       changes:
         - createTable:
             schemaName: security
-            tableName: user_persons
+            tableName: user_profiles
             columns:
               - column:
                   name: user_id
@@ -13,15 +13,15 @@ databaseChangeLog:
                   constraints:
                     primaryKey: true
                     nullable: false
-                    foreignKeyName: fk_user_persons_user
+                    foreignKeyName: fk_user_profiles_user
                     references: security.users(id)
                     deleteCascade: true
               - column:
-                  name: person_id
+                  name: profile_id
                   type: bigint
                   constraints:
                     nullable: false
                     unique: true
-                    foreignKeyName: fk_user_persons_person
-                    references: association.persons(id)
+                    foreignKeyName: fk_user_profiles_profile
+                    references: directory.profiles(id)
                     deleteCascade: true

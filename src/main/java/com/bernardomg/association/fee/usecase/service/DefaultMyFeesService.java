@@ -39,8 +39,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
-import com.bernardomg.association.person.domain.model.Person;
-import com.bernardomg.association.security.user.domain.repository.UserPersonRepository;
+import com.bernardomg.association.profile.domain.model.Profile;
+import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -57,25 +57,25 @@ public final class DefaultMyFeesService implements MyFeesService {
     /**
      * Logger for the class.
      */
-    private static final Logger        log = LoggerFactory.getLogger(DefaultMyFeesService.class);
+    private static final Logger         log = LoggerFactory.getLogger(DefaultMyFeesService.class);
 
-    private final FeeRepository        feeRepository;
+    private final FeeRepository         feeRepository;
 
-    private final UserPersonRepository userPersonRepository;
+    private final UserProfileRepository userProfileRepository;
 
-    public DefaultMyFeesService(final FeeRepository feeRepo, final UserPersonRepository userMemberRepo) {
+    public DefaultMyFeesService(final FeeRepository feeRepo, final UserProfileRepository userProfileRepo) {
         super();
 
         feeRepository = Objects.requireNonNull(feeRepo);
-        userPersonRepository = Objects.requireNonNull(userMemberRepo);
+        userProfileRepository = Objects.requireNonNull(userProfileRepo);
     }
 
     @Override
     public final Page<Fee> getAllForUserInSession(final Pagination pagination, final Sorting sorting) {
-        final Authentication   authentication;
-        final Page<Fee>        fees;
-        final UserDetails      userDetails;
-        final Optional<Person> person;
+        final Authentication    authentication;
+        final Page<Fee>         fees;
+        final UserDetails       userDetails;
+        final Optional<Profile> profile;
 
         log.info("Getting all the fees for the user in session");
 
@@ -87,12 +87,12 @@ public final class DefaultMyFeesService implements MyFeesService {
             // TODO: maybe throw an exception
         } else {
             userDetails = (UserDetails) authentication.getPrincipal();
-            person = userPersonRepository.findByUsername(userDetails.getUsername());
-            if (person.isEmpty()) {
+            profile = userProfileRepository.findByUsername(userDetails.getUsername());
+            if (profile.isEmpty()) {
                 log.warn("User {} has no member assigned", userDetails.getUsername());
                 fees = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
             } else {
-                fees = feeRepository.findAllForPerson(person.get()
+                fees = feeRepository.findAllForProfile(profile.get()
                     .number(), pagination, sorting);
             }
         }

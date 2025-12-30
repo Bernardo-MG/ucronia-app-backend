@@ -1,0 +1,38 @@
+post:
+  summary: Create a new member.
+  operationId: createGuest
+  tags: [Guest]
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/guests.yml#/components/schemas/GuestCreation'
+  responses:
+    '201':
+      description: Guest created.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/guests.yml#/components/schemas/GuestResponse'
+get:
+  summary: Get all guests.
+  operationId: getAllGuests
+  tags: [Guest]
+  parameters:
+    - $ref: '../common/pagination.yml#/components/parameters/pageParam'
+    - $ref: '../common/pagination.yml#/components/parameters/sizeParam'
+    - $ref: '../components/guests.yml#/components/parameters/guestsSortParam'
+    - name: name
+      in: query
+      required: false
+      description: Substring to filter name by.
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Guests page.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/guests.yml#/components/schemas/GuestPageResponse'

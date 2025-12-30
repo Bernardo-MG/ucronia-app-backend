@@ -43,8 +43,8 @@ import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.lending.domain.model.BookLending.Borrower;
 import com.bernardomg.association.library.lending.domain.model.BookLending.LentBook;
 import com.bernardomg.association.library.lending.domain.repository.BookLendingRepository;
-import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
-import com.bernardomg.association.person.adapter.inbound.jpa.repository.PersonSpringRepository;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
+import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -63,15 +63,15 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
 
     private final BookSpringRepository        bookSpringRepository;
 
-    private final PersonSpringRepository      personSpringRepository;
+    private final ProfileSpringRepository     profileSpringRepository;
 
     public JpaBookLendingRepository(final BookLendingSpringRepository bookLendingSpringRepo,
-            final BookSpringRepository bookSpringRepo, final PersonSpringRepository personSpringRepo) {
+            final BookSpringRepository bookSpringRepo, final ProfileSpringRepository profileSpringRepo) {
         super();
 
         bookLendingSpringRepository = Objects.requireNonNull(bookLendingSpringRepo);
         bookSpringRepository = Objects.requireNonNull(bookSpringRepo);
-        personSpringRepository = Objects.requireNonNull(personSpringRepo);
+        profileSpringRepository = Objects.requireNonNull(profileSpringRepo);
     }
 
     @Override
@@ -110,80 +110,79 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
     }
 
     @Override
-    public final Optional<BookLending> findOne(final long bookNumber, final long personNumber) {
+    public final Optional<BookLending> findOne(final long book, final long profile) {
         final Optional<BookLending> lending;
         final Pageable              pageable;
 
-        log.debug("Finding book lending for book {} and person {}", bookNumber, personNumber);
+        log.debug("Finding book lending for book {} and profile {}", book, profile);
 
         pageable = Pageable.ofSize(1);
-        lending = bookLendingSpringRepository.find(bookNumber, personNumber, pageable)
+        lending = bookLendingSpringRepository.find(book, profile, pageable)
             .stream()
             .findFirst()
             .map(this::toDomain);
 
-        log.debug("Found lending for book {} and person {}: {}", bookNumber, personNumber, lending);
+        log.debug("Found lending for book {} and profile {}: {}", book, profile, lending);
 
         return lending;
     }
 
     @Override
-    public final Optional<BookLending> findReturned(final long bookNumber) {
+    public final Optional<BookLending> findReturned(final long book) {
         final Optional<BookLending> lending;
         final Pageable              pageable;
 
-        log.debug("Finding returned book lending for book {}", bookNumber);
+        log.debug("Finding returned book lending for book {}", book);
 
         pageable = Pageable.ofSize(1);
-        lending = bookLendingSpringRepository.findAllForBookReturned(bookNumber, pageable)
+        lending = bookLendingSpringRepository.findAllForBookReturned(book, pageable)
             .stream()
             .findFirst()
             .map(this::toDomain);
 
-        log.debug("Found returned book lending for book {}: {}", bookNumber, lending);
+        log.debug("Found returned book lending for book {}: {}", book, lending);
 
         return lending;
     }
 
     @Override
-    public final Optional<BookLending> findReturned(final long bookNumber, final long personNumber,
-            final Instant lendingDate) {
+    public final Optional<BookLending> findReturned(final long book, final long profile, final Instant lendingDate) {
         final Optional<BookLending> lending;
         final Pageable              pageable;
 
-        log.debug("Finding returned book {} for person {} and date {}", bookNumber, personNumber, lendingDate);
+        log.debug("Finding returned book {} for profile {} and date {}", book, profile, lendingDate);
 
         pageable = Pageable.ofSize(1);
-        lending = bookLendingSpringRepository.findAllReturned(bookNumber, personNumber, lendingDate, pageable)
+        lending = bookLendingSpringRepository.findAllReturned(book, profile, lendingDate, pageable)
             .stream()
             .findFirst()
             .map(this::toDomain);
 
-        log.debug("Found returned book lending for book {}: {}", bookNumber, lending);
+        log.debug("Found returned book lending for book {}: {}", book, lending);
 
         return lending;
     }
 
     @Override
     public final BookLending save(final BookLending lending) {
-        final BookLendingEntity      toCreate;
-        final BookLendingEntity      created;
-        final BookLending            saved;
-        final Optional<BookEntity>   bookEntity;
-        final Optional<PersonEntity> personEntity;
+        final BookLendingEntity       toCreate;
+        final BookLendingEntity       created;
+        final BookLending             saved;
+        final Optional<BookEntity>    bookEntity;
+        final Optional<ProfileEntity> profileEntity;
 
         log.debug("Saving book lending {}", lending);
 
         bookEntity = bookSpringRepository.findByNumber(lending.book()
             .number());
-        personEntity = personSpringRepository.findByNumber(lending.borrower()
+        profileEntity = profileSpringRepository.findByNumber(lending.borrower()
             .number());
 
-        if ((bookEntity.isPresent()) && (personEntity.isPresent())) {
-            toCreate = BookLendingEntityMapper.toEntity(lending, bookEntity.get(), personEntity.get());
+        if ((bookEntity.isPresent()) && (profileEntity.isPresent())) {
+            toCreate = BookLendingEntityMapper.toEntity(lending, bookEntity.get(), profileEntity.get());
 
             created = bookLendingSpringRepository.save(toCreate);
-            saved = BookLendingEntityMapper.toDomain(created, bookEntity.get(), personEntity.get());
+            saved = BookLendingEntityMapper.toDomain(created, bookEntity.get(), profileEntity.get());
 
             log.debug("Saved book lending {}", lending);
         } else {
@@ -201,7 +200,7 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
         final Title                title;
 
         bookEntity = bookSpringRepository.findById(entity.getBookId());
-        borrower = personSpringRepository.findById(entity.getPersonId())
+        borrower = profileSpringRepository.findById(entity.getProfileId())
             .map(BookLendingEntityMapper::toDomain);
         title = new Title(bookEntity.get()
             .getSupertitle(),

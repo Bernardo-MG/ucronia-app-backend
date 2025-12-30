@@ -35,7 +35,7 @@ public class BookLendingId implements Serializable {
 
     private Instant           lendingDate;
 
-    private Long              personId;
+    private Long              profileId;
 
     public Long getBookId() {
         return bookId;
@@ -45,8 +45,8 @@ public class BookLendingId implements Serializable {
         return lendingDate;
     }
 
-    public Long getPersonId() {
-        return personId;
+    public Long getProfileId() {
+        return profileId;
     }
 
     public void setBookId(final Long bookId) {
@@ -57,8 +57,8 @@ public class BookLendingId implements Serializable {
         this.lendingDate = lendingDate;
     }
 
-    public void setPersonId(final Long personId) {
-        this.personId = personId;
+    public void setProfileId(final Long profileId) {
+        this.profileId = profileId;
     }
 
 }

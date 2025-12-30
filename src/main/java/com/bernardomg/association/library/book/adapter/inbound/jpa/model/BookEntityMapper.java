@@ -34,8 +34,8 @@ import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.lending.domain.model.BookLending.Borrower;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.model.PublisherEntity;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
-import com.bernardomg.association.person.adapter.inbound.jpa.model.PersonEntity;
-import com.bernardomg.association.person.domain.model.PersonName;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
+import com.bernardomg.association.profile.domain.model.ProfileName;
 
 /**
  * Author repository mapper.
@@ -54,10 +54,10 @@ public final class BookEntityMapper {
         return new GameSystem(entity.getNumber(), entity.getName());
     }
 
-    public static final Borrower toDomain(final PersonEntity entity) {
-        final PersonName name;
+    public static final Borrower toDomain(final ProfileEntity entity) {
+        final ProfileName name;
 
-        name = new PersonName(entity.getFirstName(), entity.getLastName());
+        name = new ProfileName(entity.getFirstName(), entity.getLastName());
         return new Borrower(entity.getNumber(), name);
     }
 
@@ -65,10 +65,10 @@ public final class BookEntityMapper {
         return new Publisher(entity.getNumber(), entity.getName());
     }
 
-    public static final Donor toDonorDomain(final PersonEntity entity) {
-        final PersonName name;
+    public static final Donor toDonorDomain(final ProfileEntity entity) {
+        final ProfileName name;
 
-        name = new PersonName(entity.getFirstName(), entity.getLastName());
+        name = new ProfileName(entity.getFirstName(), entity.getLastName());
         return new Donor(entity.getNumber(), name);
     }
 

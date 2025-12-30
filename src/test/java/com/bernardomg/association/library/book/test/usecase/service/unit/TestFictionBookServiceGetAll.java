@@ -43,7 +43,7 @@ import com.bernardomg.association.library.book.domain.repository.FictionBookRepo
 import com.bernardomg.association.library.book.test.configuration.factory.FictionBooks;
 import com.bernardomg.association.library.book.usecase.service.DefaultFictionBookService;
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
-import com.bernardomg.association.person.domain.repository.PersonRepository;
+import com.bernardomg.association.profile.domain.repository.ProfileRepository;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -59,7 +59,7 @@ class TestFictionBookServiceGetAll {
     private FictionBookRepository     bookRepository;
 
     @Mock
-    private PersonRepository          personRepository;
+    private ProfileRepository         profileRepository;
 
     @Mock
     private PublisherRepository       publisherRepository;

@@ -34,7 +34,7 @@ import com.bernardomg.association.library.booktype.adapter.inbound.jpa.repositor
 import com.bernardomg.association.library.booktype.domain.repository.BookTypeRepository;
 import com.bernardomg.association.library.booktype.test.configuration.data.annotation.ValidBookType;
 import com.bernardomg.association.library.booktype.test.configuration.factory.BookTypeConstants;
-import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
+import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -62,7 +62,7 @@ class ITBookTypeRepositoryDelete {
 
     @Test
     @DisplayName("When the book type is assigned to a book, it is deleted")
-    @NoMembershipPerson
+    @ValidProfile
     @FullGameBook
     void testDelete_InBook() {
         // WHEN

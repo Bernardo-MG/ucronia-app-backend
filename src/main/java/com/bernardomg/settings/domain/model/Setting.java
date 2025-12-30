@@ -24,6 +24,14 @@
 
 package com.bernardomg.settings.domain.model;
 
+import org.apache.commons.lang3.StringUtils;
+
 public record Setting(String type, String code, String value) {
+
+    public Setting(final String type, final String code, final String value) {
+        this.type = StringUtils.trim(type);
+        this.code = StringUtils.trim(code);
+        this.value = StringUtils.trim(value);
+    }
 
 }

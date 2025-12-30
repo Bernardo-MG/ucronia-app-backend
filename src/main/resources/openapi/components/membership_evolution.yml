@@ -1,0 +1,19 @@
+components:
+  schemas:
+    MembershipMonthlyEvolution:
+      type: object
+      required: [date, total]
+      properties:
+        month:
+          $ref: '../common/dates.yml#/components/schemas/Month'
+        total:
+          type: integer
+          format: int64
+          description: Total members in the month.
+    MembershipMonthlyEvolutionResponse:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/MembershipMonthlyEvolution'

@@ -42,9 +42,9 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.NotPaid
 import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFee;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.test.configuration.factory.FeesQuery;
-import com.bernardomg.association.person.test.configuration.data.annotation.MembershipActivePerson;
-import com.bernardomg.association.person.test.configuration.data.annotation.MultipleMembershipInactivePerson;
-import com.bernardomg.association.person.test.configuration.data.annotation.NoLastNameActiveMembershipPerson;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
+import com.bernardomg.association.member.test.configuration.data.annotation.MultipleInactiveMember;
+import com.bernardomg.association.member.test.configuration.data.annotation.NoLastNameActiveMember;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -59,7 +59,7 @@ class ITFeeRepositoryFindAll {
 
     @Test
     @DisplayName("With a full year it returns all the fees")
-    @MembershipActivePerson
+    @ActiveMember
     @FeeFullYear
     void testFindAll_FullYear() {
         final Page<Fee>  fees;
@@ -91,7 +91,7 @@ class ITFeeRepositoryFindAll {
 
     @Test
     @DisplayName("With multiple fees it returns all the fees")
-    @MultipleMembershipInactivePerson
+    @MultipleInactiveMember
     @MultipleFees
     void testFindAll_Multiple() {
         final Page<Fee>  fees;
@@ -120,7 +120,7 @@ class ITFeeRepositoryFindAll {
 
     @Test
     @DisplayName("With no data it returns nothing")
-    @MembershipActivePerson
+    @ActiveMember
     void testFindAll_NoFee() {
         final Page<Fee>  fees;
         final FeeQuery   feeQuery;
@@ -146,7 +146,7 @@ class ITFeeRepositoryFindAll {
 
     @Test
     @DisplayName("With no last name it returns only the name")
-    @NoLastNameActiveMembershipPerson
+    @NoLastNameActiveMember
     @PaidFee
     void testFindAll_NoLastName() {
         final Page<Fee>  fees;
@@ -173,7 +173,7 @@ class ITFeeRepositoryFindAll {
 
     @Test
     @DisplayName("With a not paid fee it returns all the fees")
-    @MembershipActivePerson
+    @ActiveMember
     @NotPaidFee
     void testFindAll_NotPaid() {
         final Page<Fee>  fees;
@@ -200,7 +200,7 @@ class ITFeeRepositoryFindAll {
 
     @Test
     @DisplayName("With a paid fee it returns all the fees")
-    @MembershipActivePerson
+    @ActiveMember
     @PaidFee
     void testFindAll_Paid() {
         final Page<Fee>  fees;

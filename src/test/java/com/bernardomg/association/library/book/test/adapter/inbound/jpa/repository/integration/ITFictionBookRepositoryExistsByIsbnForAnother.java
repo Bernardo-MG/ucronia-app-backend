@@ -32,7 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.library.book.domain.repository.FictionBookRepository;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.FullFictionBook;
 import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
-import com.bernardomg.association.person.test.configuration.data.annotation.NoMembershipPerson;
+import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -44,7 +44,7 @@ class ITFictionBookRepositoryExistsByIsbnForAnother {
 
     @Test
     @DisplayName("When the fiction book exists and looking for another book, it exists")
-    @NoMembershipPerson
+    @ValidProfile
     @FullFictionBook
     void testExistsByIsbnForAnother() {
         final boolean exists;
@@ -74,7 +74,7 @@ class ITFictionBookRepositoryExistsByIsbnForAnother {
 
     @Test
     @DisplayName("When the fiction book exists and looking for the same book, it doesn't exists")
-    @NoMembershipPerson
+    @ValidProfile
     @FullFictionBook
     void testExistsByIsbnForAnother_SameNumber() {
         final boolean exists;

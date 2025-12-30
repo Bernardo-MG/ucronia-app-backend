@@ -42,14 +42,14 @@ import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.association.member.usecase.service.DefaultMemberService;
-import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Public member service - get one")
+@DisplayName("DefaultMemberService - get one")
 class TestMemberServiceGetOne {
 
     @Mock
-    private MemberRepository     publicMemberRepository;
+    private MemberRepository     memberRepository;
 
     @InjectMocks
     private DefaultMemberService service;
@@ -61,17 +61,17 @@ class TestMemberServiceGetOne {
     @Test
     @DisplayName("When there is data it is returned")
     void testGetOne() {
-        final Optional<Member> memberOptional;
+        final Optional<Member> member;
 
         // GIVEN
-        given(publicMemberRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.of(Members.valid()));
+        given(memberRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(Members.active()));
 
         // WHEN
-        memberOptional = service.getOne(PersonConstants.NUMBER);
+        member = service.getOne(ProfileConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(memberOptional)
-            .contains(Members.valid());
+        Assertions.assertThat(member)
+            .contains(Members.active());
     }
 
     @Test
@@ -80,10 +80,10 @@ class TestMemberServiceGetOne {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(publicMemberRepository.findOne(PersonConstants.NUMBER)).willReturn(Optional.empty());
+        given(memberRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.getOne(PersonConstants.NUMBER);
+        execution = () -> service.getOne(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)

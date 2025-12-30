@@ -50,8 +50,8 @@ import com.bernardomg.association.library.book.usecase.service.DefaultFictionBoo
 import com.bernardomg.association.library.publisher.domain.exception.MissingPublisherException;
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
 import com.bernardomg.association.library.publisher.test.configuration.factory.PublisherConstants;
-import com.bernardomg.association.person.domain.repository.PersonRepository;
-import com.bernardomg.association.person.test.configuration.factory.PersonConstants;
+import com.bernardomg.association.profile.domain.repository.ProfileRepository;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
@@ -66,7 +66,7 @@ class TestFictionBookServiceUpdate {
     private FictionBookRepository     bookRepository;
 
     @Mock
-    private PersonRepository          personRepository;
+    private ProfileRepository         profileRepository;
 
     @Mock
     private PublisherRepository       publisherRepository;
@@ -89,7 +89,7 @@ class TestFictionBookServiceUpdate {
         given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
         given(authorRepository.exists(AuthorConstants.NUMBER)).willReturn(true);
         given(publisherRepository.exists(PublisherConstants.NUMBER)).willReturn(true);
-        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(profileRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
 
         // WHEN
         service.update(book);
@@ -109,7 +109,7 @@ class TestFictionBookServiceUpdate {
         given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
         given(authorRepository.exists(AuthorConstants.NUMBER)).willReturn(true);
         given(publisherRepository.exists(PublisherConstants.NUMBER)).willReturn(true);
-        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(profileRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
 
         // WHEN
         service.update(book);
@@ -129,7 +129,7 @@ class TestFictionBookServiceUpdate {
         given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
         given(authorRepository.exists(AuthorConstants.NUMBER)).willReturn(true);
         given(publisherRepository.exists(PublisherConstants.NUMBER)).willReturn(true);
-        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(profileRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
 
         // WHEN
         service.update(book);
@@ -146,7 +146,7 @@ class TestFictionBookServiceUpdate {
         given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
         given(authorRepository.exists(AuthorConstants.NUMBER)).willReturn(true);
         given(publisherRepository.exists(PublisherConstants.NUMBER)).willReturn(true);
-        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(profileRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
 
         // WHEN
         service.update(book);
@@ -188,7 +188,7 @@ class TestFictionBookServiceUpdate {
         given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
         given(authorRepository.exists(AuthorConstants.NUMBER)).willReturn(true);
         given(publisherRepository.exists(PublisherConstants.NUMBER)).willReturn(true);
-        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(profileRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
 
         given(bookRepository.existsByIsbnForAnother(BookConstants.NUMBER, BookConstants.ISBN_10)).willReturn(true);
 
@@ -212,7 +212,7 @@ class TestFictionBookServiceUpdate {
         given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
         given(authorRepository.exists(AuthorConstants.NUMBER)).willReturn(true);
         given(publisherRepository.exists(PublisherConstants.NUMBER)).willReturn(true);
-        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(profileRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
 
         given(bookRepository.existsByIsbnForAnother(BookConstants.NUMBER, BookConstants.INVALID_ISBN))
             .willReturn(false);
@@ -237,7 +237,7 @@ class TestFictionBookServiceUpdate {
         given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
         given(authorRepository.exists(AuthorConstants.NUMBER)).willReturn(true);
         given(publisherRepository.exists(PublisherConstants.NUMBER)).willReturn(true);
-        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(profileRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
 
         // WHEN
         execution = () -> service.update(book);
@@ -354,7 +354,7 @@ class TestFictionBookServiceUpdate {
         given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
         given(authorRepository.exists(AuthorConstants.NUMBER)).willReturn(true);
         given(publisherRepository.exists(PublisherConstants.NUMBER)).willReturn(true);
-        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(profileRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
 
         // WHEN
         service.update(book);
@@ -375,7 +375,7 @@ class TestFictionBookServiceUpdate {
         given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
         given(authorRepository.exists(AuthorConstants.NUMBER)).willReturn(true);
         given(publisherRepository.exists(PublisherConstants.NUMBER)).willReturn(true);
-        given(personRepository.exists(PersonConstants.NUMBER)).willReturn(true);
+        given(profileRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
 
         given(bookRepository.save(FictionBooks.full())).willReturn(FictionBooks.full());
 

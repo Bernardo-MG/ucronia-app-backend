@@ -1,11 +1,25 @@
 components:
+  parameters:
+    feesSortParam:
+      name: sort
+      description: Sorting to apply.
+      in: query
+      style: form
+      explode: true
+      required: false
+      schema:
+        type: array
+        items:
+          type: string
+          pattern: '^(firstName|lastName|month|paymentDate|paid)\|(asc|desc)$'
+          example: name|asc
   schemas:
     Fee:
       type: object
       required: [member, month, paid]
       properties:
         member:
-          $ref: 'contacts.yml#/components/schemas/MinimalContact'
+          $ref: 'profiles.yml#/components/schemas/MinimalProfile'
         month:
           $ref: '../common/dates.yml#/components/schemas/Month'
         paid:

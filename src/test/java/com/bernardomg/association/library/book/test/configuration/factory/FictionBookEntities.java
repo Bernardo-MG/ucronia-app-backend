@@ -6,7 +6,7 @@ import java.util.List;
 import com.bernardomg.association.library.author.test.configuration.factory.AuthorEntities;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.model.FictionBookEntity;
 import com.bernardomg.association.library.publisher.test.configuration.factory.PublisherEntities;
-import com.bernardomg.association.person.test.configuration.factory.PersonEntities;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileEntities;
 
 public final class FictionBookEntities {
 
@@ -21,7 +21,7 @@ public final class FictionBookEntities {
         entity.setPublishDate(BookConstants.PUBLISH_DATE);
         entity.setDonationDate(BookConstants.DONATION_DATE);
         entity.setAuthors(List.of(AuthorEntities.valid()));
-        entity.setDonors(List.of(PersonEntities.noMembership()));
+        entity.setDonors(List.of(ProfileEntities.valid()));
         entity.setPublishers(List.of(PublisherEntities.valid()));
         return entity;
     }
@@ -37,7 +37,7 @@ public final class FictionBookEntities {
         entity.setPublishDate(BookConstants.PUBLISH_DATE);
         entity.setDonationDate(BookConstants.DONATION_DATE);
         entity.setAuthors(List.of(AuthorEntities.valid()));
-        entity.setDonors(List.of(PersonEntities.noMembership()));
+        entity.setDonors(List.of(ProfileEntities.valid()));
         entity.setPublishers(List.of(PublisherEntities.valid()));
         return entity;
     }

@@ -23,7 +23,7 @@
  */
 
 /**
- * Fee exceptions.
+ * Member exceptions.
  */
 
 package com.bernardomg.association.member.domain.exception;

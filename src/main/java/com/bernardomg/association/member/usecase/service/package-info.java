@@ -23,7 +23,7 @@
  */
 
 /**
- * Association member services.
+ * Member services.
  */
 
 package com.bernardomg.association.member.usecase.service;

@@ -27,18 +27,40 @@ package com.bernardomg.association.member.adapter.outbound.rest.model;
 import java.util.Optional;
 
 import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.profile.domain.model.ProfileName;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Sorting.Direction;
 import com.bernardomg.data.domain.Sorting.Property;
-import com.bernardomg.ucronia.openapi.model.ContactNameDto;
+import com.bernardomg.ucronia.openapi.model.MemberChangeDto;
+import com.bernardomg.ucronia.openapi.model.MemberCreationDto;
 import com.bernardomg.ucronia.openapi.model.MemberDto;
 import com.bernardomg.ucronia.openapi.model.MemberPageResponseDto;
 import com.bernardomg.ucronia.openapi.model.MemberResponseDto;
+import com.bernardomg.ucronia.openapi.model.ProfileNameDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
 import com.bernardomg.ucronia.openapi.model.SortingDto;
 
 public final class MemberDtoMapper {
+
+    public static final Member toDomain(final long number, final MemberChangeDto change) {
+        return new Member(number, null, change.getActive(), change.getRenew());
+    }
+
+    public static final Member toDomain(final MemberCreationDto creation) {
+        final ProfileName name;
+
+        name = new ProfileName(creation.getName()
+            .getFirstName(),
+            creation.getName()
+                .getLastName());
+
+        return new Member(-1L, name, true, true);
+    }
+
+    public static final MemberResponseDto toResponseDto(final Member member) {
+        return new MemberResponseDto().content(MemberDtoMapper.toDto(member));
+    }
 
     public static final MemberResponseDto toResponseDto(final Optional<Member> member) {
         return new MemberResponseDto().content(member.map(MemberDtoMapper::toDto)
@@ -68,16 +90,18 @@ public final class MemberDtoMapper {
     }
 
     private static final MemberDto toDto(final Member member) {
-        final ContactNameDto contactName;
+        final ProfileNameDto profileName;
 
-        contactName = new ContactNameDto().firstName(member.name()
+        profileName = new ProfileNameDto().firstName(member.name()
             .firstName())
             .lastName(member.name()
                 .lastName())
             .fullName(member.name()
                 .fullName());
         return new MemberDto().number(member.number())
-            .name(contactName);
+            .name(profileName)
+            .active(member.active())
+            .renew(member.renew());
     }
 
     private static final PropertyDto toDto(final Property property) {

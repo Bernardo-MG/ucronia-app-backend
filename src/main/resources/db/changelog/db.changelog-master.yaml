@@ -3,6 +3,9 @@ databaseChangeLog:
   - include:
       file: structure/configuration.yaml
       relativeToChangelogFile: true
+  - include:
+      file: structure/directory.yaml
+      relativeToChangelogFile: true
   # Association
   - include:
       file: structure/association.yaml
@@ -11,7 +14,13 @@ databaseChangeLog:
       file: structure/funds.yaml
       relativeToChangelogFile: true
   - include:
-      file: structure/people.yaml
+      file: structure/member.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: structure/sponsor.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: structure/guest.yaml
       relativeToChangelogFile: true
   # Inventory
   - include:

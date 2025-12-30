@@ -38,13 +38,13 @@ public final class FeePaidEvent extends AbstractEvent {
 
     private final YearMonth   date;
 
-    private final Long        personNumber;
+    private final Long        profileNumber;
 
     public FeePaidEvent(final Object source, final YearMonth d, final Long number) {
         super(source);
 
         date = Objects.requireNonNull(d);
-        personNumber = Objects.requireNonNull(number);
+        profileNumber = Objects.requireNonNull(number);
     }
 
     @Override
@@ -56,20 +56,25 @@ public final class FeePaidEvent extends AbstractEvent {
             return false;
         }
         final FeePaidEvent other = (FeePaidEvent) obj;
-        return Objects.equals(date, other.date) && Objects.equals(personNumber, other.personNumber);
+        return Objects.equals(date, other.date) && Objects.equals(profileNumber, other.profileNumber);
     }
 
     public YearMonth getDate() {
         return date;
     }
 
-    public Long getPersonNumber() {
-        return personNumber;
+    public Long getProfileNumber() {
+        return profileNumber;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), date, personNumber);
+        return Objects.hash(super.hashCode(), date, profileNumber);
+    }
+
+    @Override
+    public String toString() {
+        return "FeePaidEvent [profileNumber=" + profileNumber + ", date=" + date + "]";
     }
 
 }
