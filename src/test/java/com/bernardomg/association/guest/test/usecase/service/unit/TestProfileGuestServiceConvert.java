@@ -114,7 +114,7 @@ class TestProfileGuestServiceConvert {
 
         // GIVEN
         guest = Guests.noGames();
-        profile = Profiles.withType(GuestEntityConstants.CONTACT_TYPE);
+        profile = Profiles.withType(GuestEntityConstants.PROFILE_TYPE);
 
         given(profileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(profile));
         given(guestRepository.exists(ProfileConstants.NUMBER)).willReturn(false);
@@ -135,7 +135,7 @@ class TestProfileGuestServiceConvert {
 
         // GIVEN
         guest = Guests.noGames();
-        profile = Profiles.withType(GuestEntityConstants.CONTACT_TYPE);
+        profile = Profiles.withType(GuestEntityConstants.PROFILE_TYPE);
 
         given(profileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(profile));
         given(guestRepository.exists(ProfileConstants.NUMBER)).willReturn(false);

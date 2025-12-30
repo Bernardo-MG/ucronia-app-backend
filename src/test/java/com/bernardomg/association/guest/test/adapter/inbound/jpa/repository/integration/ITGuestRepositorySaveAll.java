@@ -172,7 +172,7 @@ class ITGuestRepositorySaveAll {
             .as("profile")
             .extracting(ProfileEntity::getTypes)
             .asInstanceOf(InstanceOfAssertFactories.SET)
-            .containsExactly(GuestEntityConstants.CONTACT_TYPE);
+            .containsExactly(GuestEntityConstants.PROFILE_TYPE);
     }
 
 }

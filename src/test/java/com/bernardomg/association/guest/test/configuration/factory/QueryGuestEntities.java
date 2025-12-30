@@ -29,7 +29,7 @@ public final class QueryGuestEntities {
         entity.setContactChannels(new ArrayList<>());
         entity.setGames(new ArrayList<>(List.of(GuestConstants.DATE)));
         entity.setComments(ProfileConstants.COMMENTS);
-        entity.setTypes(new HashSet<>(Set.of(GuestEntityConstants.CONTACT_TYPE)));
+        entity.setTypes(new HashSet<>(Set.of(GuestEntityConstants.PROFILE_TYPE)));
 
         return entity;
     }
@@ -49,7 +49,7 @@ public final class QueryGuestEntities {
         entity.setContactChannels(new ArrayList<>());
         entity.setGames(new ArrayList<>(List.of(GuestConstants.DATE)));
         entity.setComments(ProfileConstants.COMMENTS);
-        entity.setTypes(new HashSet<>(Set.of(GuestEntityConstants.CONTACT_TYPE)));
+        entity.setTypes(new HashSet<>(Set.of(GuestEntityConstants.PROFILE_TYPE)));
 
         return entity;
     }
@@ -69,7 +69,7 @@ public final class QueryGuestEntities {
         entity.setContactChannels(new ArrayList<>());
         entity.setGames(new ArrayList<>(List.of(GuestConstants.DATE)));
         entity.setComments(ProfileConstants.COMMENTS);
-        entity.setTypes(new HashSet<>(Set.of(GuestEntityConstants.CONTACT_TYPE)));
+        entity.setTypes(new HashSet<>(Set.of(GuestEntityConstants.PROFILE_TYPE)));
 
         return entity;
     }
@@ -94,7 +94,7 @@ public final class QueryGuestEntities {
         entity.setContactChannels(new ArrayList<>(List.of(contactChannelEntity)));
         entity.setGames(new ArrayList<>(List.of(GuestConstants.DATE)));
         entity.setComments(ProfileConstants.COMMENTS);
-        entity.setTypes(new HashSet<>(Set.of(GuestEntityConstants.CONTACT_TYPE)));
+        entity.setTypes(new HashSet<>(Set.of(GuestEntityConstants.PROFILE_TYPE)));
 
         return entity;
     }

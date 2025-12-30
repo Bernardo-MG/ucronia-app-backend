@@ -69,7 +69,7 @@ public class ProfileController implements ProfileApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "CONTACT", action = Actions.CREATE)
+    @RequireResourceAuthorization(resource = "PROFILE", action = Actions.CREATE)
     public ProfileResponseDto createProfile(@Valid final ProfileCreationDto profileCreationDto) {
         final Profile profile;
         final Profile created;
@@ -81,7 +81,7 @@ public class ProfileController implements ProfileApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "CONTACT", action = Actions.DELETE)
+    @RequireResourceAuthorization(resource = "PROFILE", action = Actions.DELETE)
     public ProfileResponseDto deleteProfile(final Long number) {
         final Profile profile;
 
@@ -91,7 +91,7 @@ public class ProfileController implements ProfileApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "CONTACT", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "PROFILE", action = Actions.READ)
     public ProfilePageResponseDto getAllProfiles(@Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size,
             @Valid final List<String> sort, @Valid final String name) {
         final Page<Profile> profiles;
@@ -108,7 +108,7 @@ public class ProfileController implements ProfileApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "CONTACT", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "PROFILE", action = Actions.READ)
     public ProfileResponseDto getProfileByNumber(final Long number) {
         Optional<Profile> profile;
 
@@ -118,7 +118,7 @@ public class ProfileController implements ProfileApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "CONTACT", action = Actions.UPDATE)
+    @RequireResourceAuthorization(resource = "PROFILE", action = Actions.UPDATE)
     public ProfileResponseDto patchProfile(final Long number, @Valid final ProfileChangeDto profileChangeDto) {
         final Profile profile;
         final Profile updated;
@@ -130,7 +130,7 @@ public class ProfileController implements ProfileApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "CONTACT", action = Actions.UPDATE)
+    @RequireResourceAuthorization(resource = "PROFILE", action = Actions.UPDATE)
     public ProfileResponseDto updateProfile(final Long number, @Valid final ProfileChangeDto profileChangeDto) {
         final Profile profile;
         final Profile updated;

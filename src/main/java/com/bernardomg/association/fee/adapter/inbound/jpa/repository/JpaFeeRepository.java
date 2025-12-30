@@ -61,7 +61,7 @@ import com.bernardomg.data.springframework.SpringSorting;
 @Transactional
 public final class JpaFeeRepository implements FeeRepository {
 
-    private static final Collection<String>   CONTACT_PROPERTIES = List.of("firstName", "lastName", "member", "number");
+    private static final Collection<String>   MEMBER_PROPERTIES = List.of("firstName", "lastName", "member", "number");
 
     /**
      * Logger for the class.
@@ -369,7 +369,7 @@ public final class JpaFeeRepository implements FeeRepository {
     private final Sorting.Property correct(final Sorting.Property property) {
         final Sorting.Property corrected;
 
-        if (CONTACT_PROPERTIES.contains(property.name())) {
+        if (MEMBER_PROPERTIES.contains(property.name())) {
             corrected = new Sorting.Property("m." + property.name(), property.direction());
         } else {
             corrected = property;

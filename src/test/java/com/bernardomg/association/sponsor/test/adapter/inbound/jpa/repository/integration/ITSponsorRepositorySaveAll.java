@@ -172,7 +172,7 @@ class ITSponsorRepositorySaveAll {
             .as("profile")
             .extracting(ProfileEntity::getTypes)
             .asInstanceOf(InstanceOfAssertFactories.SET)
-            .containsExactly(SponsorEntityConstants.CONTACT_TYPE);
+            .containsExactly(SponsorEntityConstants.PROFILE_TYPE);
     }
 
 }

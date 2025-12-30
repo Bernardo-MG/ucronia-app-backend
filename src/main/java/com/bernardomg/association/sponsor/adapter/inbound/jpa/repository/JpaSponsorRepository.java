@@ -271,11 +271,11 @@ public final class JpaSponsorRepository implements SponsorRepository {
 
     private final void setType(final ProfileEntity entity) {
         if (entity.getTypes() == null) {
-            entity.setTypes(Set.of(SponsorEntityConstants.CONTACT_TYPE));
+            entity.setTypes(Set.of(SponsorEntityConstants.PROFILE_TYPE));
         } else {
             entity.setTypes(new HashSet<>(entity.getTypes()));
             entity.getTypes()
-                .add(SponsorEntityConstants.CONTACT_TYPE);
+                .add(SponsorEntityConstants.PROFILE_TYPE);
         }
     }
 

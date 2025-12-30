@@ -25,7 +25,7 @@ public final class MemberProfiles {
         contactChannel = new ContactChannel(contactMethod, ProfileConstants.EMAIL);
         return new MemberProfile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name,
             ProfileConstants.BIRTH_DATE, List.of(contactChannel), ProfileConstants.COMMENTS, true, true,
-            Set.of(MemberEntityConstants.CONTACT_TYPE));
+            Set.of(MemberEntityConstants.PROFILE_TYPE));
     }
 
     public static final MemberProfile created() {
@@ -37,7 +37,7 @@ public final class MemberProfiles {
         contactMethod = ContactMethods.email();
         contactChannel = new ContactChannel(contactMethod, ProfileConstants.EMAIL);
         return new MemberProfile(ProfileConstants.IDENTIFIER, 1L, name, ProfileConstants.BIRTH_DATE,
-            List.of(contactChannel), ProfileConstants.COMMENTS, true, true, Set.of(MemberEntityConstants.CONTACT_TYPE));
+            List.of(contactChannel), ProfileConstants.COMMENTS, true, true, Set.of(MemberEntityConstants.PROFILE_TYPE));
     }
 
     public static final MemberProfile forNumber(final long number) {
@@ -49,7 +49,7 @@ public final class MemberProfiles {
         contactMethod = ContactMethods.email();
         contactChannel = new ContactChannel(contactMethod, ProfileConstants.EMAIL);
         return new MemberProfile(Objects.toString(number * 10), number * 10, name, ProfileConstants.BIRTH_DATE,
-            List.of(contactChannel), ProfileConstants.COMMENTS, true, true, Set.of(MemberEntityConstants.CONTACT_TYPE));
+            List.of(contactChannel), ProfileConstants.COMMENTS, true, true, Set.of(MemberEntityConstants.PROFILE_TYPE));
     }
 
     public static final MemberProfile inactive() {
@@ -62,7 +62,7 @@ public final class MemberProfiles {
         contactChannel = new ContactChannel(contactMethod, ProfileConstants.EMAIL);
         return new MemberProfile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name,
             ProfileConstants.BIRTH_DATE, List.of(contactChannel), ProfileConstants.COMMENTS, false, true,
-            Set.of(MemberEntityConstants.CONTACT_TYPE));
+            Set.of(MemberEntityConstants.PROFILE_TYPE));
     }
 
     public static final MemberProfile nameChange() {
@@ -71,7 +71,7 @@ public final class MemberProfiles {
         name = new ProfileName("Profile 123", "Last name");
         return new MemberProfile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name,
             ProfileConstants.BIRTH_DATE, List.of(), ProfileConstants.COMMENTS, true, true,
-            Set.of(MemberEntityConstants.CONTACT_TYPE));
+            Set.of(MemberEntityConstants.PROFILE_TYPE));
     }
 
     public static final MemberProfile nameChangePatch() {
@@ -80,7 +80,7 @@ public final class MemberProfiles {
         name = new ProfileName("Profile 123", "Last name");
         return new MemberProfile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name,
             ProfileConstants.BIRTH_DATE, List.of(), ProfileConstants.COMMENTS, true, true,
-            Set.of(MemberEntityConstants.CONTACT_TYPE));
+            Set.of(MemberEntityConstants.PROFILE_TYPE));
     }
 
     public static final MemberProfile noContactChannel() {
@@ -89,7 +89,7 @@ public final class MemberProfiles {
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
         return new MemberProfile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name,
             ProfileConstants.BIRTH_DATE, List.of(), ProfileConstants.COMMENTS, true, true,
-            Set.of(MemberEntityConstants.CONTACT_TYPE));
+            Set.of(MemberEntityConstants.PROFILE_TYPE));
     }
 
     public static final MemberProfile noGames() {
@@ -98,7 +98,7 @@ public final class MemberProfiles {
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
         return new MemberProfile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name,
             ProfileConstants.BIRTH_DATE, List.of(), ProfileConstants.COMMENTS, true, true,
-            Set.of(MemberEntityConstants.CONTACT_TYPE));
+            Set.of(MemberEntityConstants.PROFILE_TYPE));
     }
 
     public static final MemberProfile padded() {
@@ -111,7 +111,7 @@ public final class MemberProfiles {
         contactChannel = new ContactChannel(contactMethod, ProfileConstants.EMAIL);
         return new MemberProfile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name,
             ProfileConstants.BIRTH_DATE, List.of(contactChannel), ProfileConstants.COMMENTS, true, true,
-            Set.of(MemberEntityConstants.CONTACT_TYPE));
+            Set.of(MemberEntityConstants.PROFILE_TYPE));
     }
 
     public static final MemberProfile toCreate() {
@@ -123,7 +123,7 @@ public final class MemberProfiles {
         contactMethod = ContactMethods.email();
         contactChannel = new ContactChannel(contactMethod, ProfileConstants.EMAIL);
         return new MemberProfile(ProfileConstants.IDENTIFIER, 0L, name, ProfileConstants.BIRTH_DATE,
-            List.of(contactChannel), ProfileConstants.COMMENTS, true, true, Set.of(MemberEntityConstants.CONTACT_TYPE));
+            List.of(contactChannel), ProfileConstants.COMMENTS, true, true, Set.of(MemberEntityConstants.PROFILE_TYPE));
     }
 
     public static final MemberProfile withoutType() {

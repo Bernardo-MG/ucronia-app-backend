@@ -246,7 +246,7 @@ class ITMemberRepositorySave {
             .as("profile")
             .extracting(ProfileEntity::getTypes)
             .asInstanceOf(InstanceOfAssertFactories.SET)
-            .containsExactly(MemberEntityConstants.CONTACT_TYPE);
+            .containsExactly(MemberEntityConstants.PROFILE_TYPE);
     }
 
 }

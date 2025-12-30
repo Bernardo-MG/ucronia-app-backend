@@ -52,7 +52,7 @@ public class ProfileMembershipController implements ProfileMembershipApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "MEMBER_CONTACT", action = Actions.CREATE)
+    @RequireResourceAuthorization(resource = "MEMBER_PROFILE", action = Actions.CREATE)
     public MemberResponseDto convertToMember(final Long number) {
         final Member created;
 

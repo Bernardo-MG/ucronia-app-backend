@@ -29,7 +29,7 @@ public final class QuerySponsorEntities {
         entity.setContactChannels(new ArrayList<>());
         entity.setYears(List.of(SponsorConstants.YEAR));
         entity.setComments(ProfileConstants.COMMENTS);
-        entity.setTypes(new HashSet<>(Set.of(SponsorEntityConstants.CONTACT_TYPE)));
+        entity.setTypes(new HashSet<>(Set.of(SponsorEntityConstants.PROFILE_TYPE)));
 
         return entity;
     }
@@ -49,7 +49,7 @@ public final class QuerySponsorEntities {
         entity.setContactChannels(new ArrayList<>());
         entity.setYears(List.of(SponsorConstants.YEAR));
         entity.setComments(ProfileConstants.COMMENTS);
-        entity.setTypes(new HashSet<>(Set.of(SponsorEntityConstants.CONTACT_TYPE)));
+        entity.setTypes(new HashSet<>(Set.of(SponsorEntityConstants.PROFILE_TYPE)));
 
         return entity;
     }
@@ -69,7 +69,7 @@ public final class QuerySponsorEntities {
         entity.setContactChannels(new ArrayList<>());
         entity.setYears(List.of(SponsorConstants.YEAR));
         entity.setComments(ProfileConstants.COMMENTS);
-        entity.setTypes(new HashSet<>(Set.of(SponsorEntityConstants.CONTACT_TYPE)));
+        entity.setTypes(new HashSet<>(Set.of(SponsorEntityConstants.PROFILE_TYPE)));
 
         return entity;
     }
@@ -94,7 +94,7 @@ public final class QuerySponsorEntities {
         entity.setContactChannels(List.of(contactChannelEntity));
         entity.setYears(List.of(SponsorConstants.YEAR));
         entity.setComments(ProfileConstants.COMMENTS);
-        entity.setTypes(new HashSet<>(Set.of(SponsorEntityConstants.CONTACT_TYPE)));
+        entity.setTypes(new HashSet<>(Set.of(SponsorEntityConstants.PROFILE_TYPE)));
 
         return entity;
     }

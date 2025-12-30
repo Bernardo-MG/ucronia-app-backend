@@ -69,7 +69,7 @@ public class MemberProfileController implements MemberProfileApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "MEMBER_CONTACT", action = Actions.CREATE)
+    @RequireResourceAuthorization(resource = "MEMBER_PROFILE", action = Actions.CREATE)
     public MemberProfileResponseDto createMemberProfile(@Valid final MemberProfileCreationDto guestCreationDto) {
         final MemberProfile guest;
         final MemberProfile created;
@@ -81,7 +81,7 @@ public class MemberProfileController implements MemberProfileApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "MEMBER_CONTACT", action = Actions.DELETE)
+    @RequireResourceAuthorization(resource = "MEMBER_PROFILE", action = Actions.DELETE)
     public MemberProfileResponseDto deleteMemberProfile(final Long number) {
         final MemberProfile guest;
 
@@ -91,7 +91,7 @@ public class MemberProfileController implements MemberProfileApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "MEMBER_CONTACT", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "MEMBER_PROFILE", action = Actions.READ)
     public MemberProfilePageResponseDto getAllMemberProfiles(@Min(1) @Valid final Integer page,
             @Min(1) @Valid final Integer size,
             @Valid final List<@Pattern(regexp = "^(firstName|lastName|number)\\|(asc|desc)$") String> sort,
@@ -118,7 +118,7 @@ public class MemberProfileController implements MemberProfileApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "MEMBER_CONTACT", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "MEMBER_PROFILE", action = Actions.READ)
     public MemberProfileResponseDto getMemberProfileByNumber(final Long number) {
         Optional<MemberProfile> member;
 
@@ -128,7 +128,7 @@ public class MemberProfileController implements MemberProfileApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "MEMBER_CONTACT", action = Actions.UPDATE)
+    @RequireResourceAuthorization(resource = "MEMBER_PROFILE", action = Actions.UPDATE)
     public MemberProfileResponseDto patchMemberProfile(final Long number,
             @Valid final MemberProfileChangeDto guestChangeDto) {
         final MemberProfile member;
@@ -141,7 +141,7 @@ public class MemberProfileController implements MemberProfileApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "MEMBER_CONTACT", action = Actions.UPDATE)
+    @RequireResourceAuthorization(resource = "MEMBER_PROFILE", action = Actions.UPDATE)
     public MemberProfileResponseDto updateMemberProfile(final Long number,
             @Valid final MemberProfileChangeDto guestChangeDto) {
         final MemberProfile member;

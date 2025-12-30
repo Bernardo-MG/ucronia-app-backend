@@ -284,11 +284,11 @@ public final class JpaMemberRepository implements MemberRepository {
 
     private final void setType(final ProfileEntity entity) {
         if (entity.getTypes() == null) {
-            entity.setTypes(Set.of(MemberEntityConstants.CONTACT_TYPE));
+            entity.setTypes(Set.of(MemberEntityConstants.PROFILE_TYPE));
         } else {
             entity.setTypes(new HashSet<>(entity.getTypes()));
             entity.getTypes()
-                .add(MemberEntityConstants.CONTACT_TYPE);
+                .add(MemberEntityConstants.PROFILE_TYPE);
         }
     }
 

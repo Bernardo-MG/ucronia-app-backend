@@ -270,10 +270,10 @@ public final class JpaGuestRepository implements GuestRepository {
 
     private final void setType(final ProfileEntity entity) {
         if (entity.getTypes() == null) {
-            entity.setTypes(Set.of(GuestEntityConstants.CONTACT_TYPE));
+            entity.setTypes(Set.of(GuestEntityConstants.PROFILE_TYPE));
         } else {
             entity.getTypes()
-                .add(GuestEntityConstants.CONTACT_TYPE);
+                .add(GuestEntityConstants.PROFILE_TYPE);
         }
     }
 

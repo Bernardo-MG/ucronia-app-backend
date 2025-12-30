@@ -30,7 +30,7 @@ public final class QueryMemberContactEntities {
         entity.setComments(ProfileConstants.COMMENTS);
         entity.setActive(true);
         entity.setRenew(true);
-        entity.setTypes(new HashSet<>(Set.of(MemberEntityConstants.CONTACT_TYPE)));
+        entity.setTypes(new HashSet<>(Set.of(MemberEntityConstants.PROFILE_TYPE)));
 
         return entity;
     }
@@ -51,7 +51,7 @@ public final class QueryMemberContactEntities {
         entity.setComments(ProfileConstants.COMMENTS);
         entity.setActive(true);
         entity.setRenew(true);
-        entity.setTypes(new HashSet<>(Set.of(MemberEntityConstants.CONTACT_TYPE)));
+        entity.setTypes(new HashSet<>(Set.of(MemberEntityConstants.PROFILE_TYPE)));
 
         return entity;
     }
@@ -72,7 +72,7 @@ public final class QueryMemberContactEntities {
         entity.setComments(ProfileConstants.COMMENTS);
         entity.setActive(true);
         entity.setRenew(true);
-        entity.setTypes(new HashSet<>(Set.of(MemberEntityConstants.CONTACT_TYPE)));
+        entity.setTypes(new HashSet<>(Set.of(MemberEntityConstants.PROFILE_TYPE)));
 
         return entity;
     }
@@ -98,7 +98,7 @@ public final class QueryMemberContactEntities {
         entity.setComments(ProfileConstants.COMMENTS);
         entity.setActive(true);
         entity.setRenew(true);
-        entity.setTypes(new HashSet<>(Set.of(MemberEntityConstants.CONTACT_TYPE)));
+        entity.setTypes(new HashSet<>(Set.of(MemberEntityConstants.PROFILE_TYPE)));
 
         return entity;
     }
