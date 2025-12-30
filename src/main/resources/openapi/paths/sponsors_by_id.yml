@@ -37,13 +37,13 @@ put:
           $ref: '../components/sponsors.yml#/components/schemas/SponsorChange'
   responses:
     '200':
-      description: Updated contact.
+      description: Updated profile.
       content:
         application/json:
           schema:
             $ref: '../components/sponsors.yml#/components/schemas/SponsorResponse'
     '404':
-      description: Contact not found.
+      description: Sponsor not found.
 patch:
   summary: Partially update a sponsor.
   operationId: patchSponsor

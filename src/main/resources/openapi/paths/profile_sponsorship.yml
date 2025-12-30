@@ -1,0 +1,20 @@
+put:
+  summary: Add membership to a profile.
+  operationId: convertToMember
+  tags: [ProfileSponsorship]
+  parameters:
+    - name: number
+      in: path
+      required: true
+      description: Profile number.
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  responses:
+    '200':
+      description: Created sponsor.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/sponsors.yml#/components/schemas/SponsorResponse'
+    '404':
+      description: Profile not found.

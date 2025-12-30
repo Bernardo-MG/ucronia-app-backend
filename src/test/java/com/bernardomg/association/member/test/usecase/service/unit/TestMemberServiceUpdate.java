@@ -36,12 +36,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.association.member.usecase.service.DefaultMemberService;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultMemberService - update")
@@ -66,7 +66,7 @@ class TestMemberServiceUpdate {
         // GIVEN
         member = Members.nameChange();
 
-        given(memberRepository.exists(ContactConstants.NUMBER)).willReturn(false);
+        given(memberRepository.exists(ProfileConstants.NUMBER)).willReturn(false);
 
         // WHEN
         execution = () -> service.update(member);
@@ -84,7 +84,7 @@ class TestMemberServiceUpdate {
         // GIVEN
         member = Members.padded();
 
-        given(memberRepository.exists(ContactConstants.NUMBER)).willReturn(true);
+        given(memberRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
 
         // WHEN
         service.update(member);
@@ -101,7 +101,7 @@ class TestMemberServiceUpdate {
         // GIVEN
         member = Members.nameChange();
 
-        given(memberRepository.exists(ContactConstants.NUMBER)).willReturn(true);
+        given(memberRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
         given(memberRepository.save(Members.nameChange())).willReturn(Members.nameChange());
 
         // WHEN
@@ -120,7 +120,7 @@ class TestMemberServiceUpdate {
         // GIVEN
         member = Members.nameChange();
 
-        given(memberRepository.exists(ContactConstants.NUMBER)).willReturn(true);
+        given(memberRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
         given(memberRepository.save(Members.nameChange())).willReturn(Members.nameChange());
 
         // WHEN

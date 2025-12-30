@@ -24,8 +24,8 @@
 
 package com.bernardomg.association.member.adapter.inbound.jpa.model;
 
-import com.bernardomg.association.contact.domain.model.ContactName;
 import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.profile.domain.model.ProfileName;
 
 /**
  * Query member entity mapper.
@@ -33,9 +33,9 @@ import com.bernardomg.association.member.domain.model.Member;
 public final class QueryMemberEntityMapper {
 
     public static final Member toDomain(final QueryMemberEntity entity) {
-        final ContactName name;
+        final ProfileName name;
 
-        name = new ContactName(entity.getFirstName(), entity.getLastName());
+        name = new ProfileName(entity.getFirstName(), entity.getLastName());
         return new Member(entity.getNumber(), name, entity.getActive(), entity.getRenew());
     }
 

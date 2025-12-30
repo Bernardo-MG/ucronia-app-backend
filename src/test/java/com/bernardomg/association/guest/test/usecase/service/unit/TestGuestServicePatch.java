@@ -38,12 +38,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.guest.domain.exception.MissingGuestException;
 import com.bernardomg.association.guest.domain.model.Guest;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
 import com.bernardomg.association.guest.test.configuration.factory.Guests;
 import com.bernardomg.association.guest.usecase.service.DefaultGuestService;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultGuestService - patch")
@@ -68,7 +68,7 @@ class TestGuestServicePatch {
         // GIVEN
         guest = Guests.nameChange();
 
-        given(guestRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.empty());
+        given(guestRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
         execution = () -> service.patch(guest);
@@ -86,7 +86,7 @@ class TestGuestServicePatch {
         // GIVEN
         guest = Guests.nameChangePatch();
 
-        given(guestRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Guests.valid()));
+        given(guestRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(Guests.valid()));
 
         // WHEN
         service.patch(guest);
@@ -103,7 +103,7 @@ class TestGuestServicePatch {
         // GIVEN
         guest = Guests.padded();
 
-        given(guestRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Guests.valid()));
+        given(guestRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(Guests.valid()));
 
         // WHEN
         service.patch(guest);
@@ -120,7 +120,7 @@ class TestGuestServicePatch {
         // GIVEN
         guest = Guests.nameChange();
 
-        given(guestRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Guests.valid()));
+        given(guestRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(Guests.valid()));
 
         // WHEN
         service.patch(guest);
@@ -138,7 +138,7 @@ class TestGuestServicePatch {
         // GIVEN
         guest = Guests.nameChange();
 
-        given(guestRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Guests.valid()));
+        given(guestRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(Guests.valid()));
         given(guestRepository.save(Guests.nameChange())).willReturn(Guests.nameChange());
 
         // WHEN

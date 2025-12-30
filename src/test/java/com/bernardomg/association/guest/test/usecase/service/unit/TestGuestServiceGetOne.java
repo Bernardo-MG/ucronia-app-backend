@@ -37,12 +37,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.guest.domain.exception.MissingGuestException;
 import com.bernardomg.association.guest.domain.model.Guest;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
 import com.bernardomg.association.guest.test.configuration.factory.Guests;
 import com.bernardomg.association.guest.usecase.service.DefaultGuestService;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultGuestService - get one")
@@ -64,10 +64,10 @@ class TestGuestServiceGetOne {
         final Optional<Guest> guest;
 
         // GIVEN
-        given(guestRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Guests.valid()));
+        given(guestRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(Guests.valid()));
 
         // WHEN
-        guest = service.getOne(ContactConstants.NUMBER);
+        guest = service.getOne(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(guest)
@@ -80,10 +80,10 @@ class TestGuestServiceGetOne {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(guestRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.empty());
+        given(guestRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.getOne(ContactConstants.NUMBER);
+        execution = () -> service.getOne(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)

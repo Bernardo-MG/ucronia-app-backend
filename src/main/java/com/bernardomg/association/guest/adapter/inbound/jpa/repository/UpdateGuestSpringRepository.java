@@ -37,8 +37,8 @@ public interface UpdateGuestSpringRepository extends JpaRepository<UpdateGuestEn
     @Query("""
             SELECT m
             FROM UpdateGuest m
-              JOIN m.contact c
-            WHERE c.number = :number
+              JOIN m.profile p
+            WHERE p.number = :number
             """)
     public Optional<UpdateGuestEntity> findByNumber(@Param("number") final Long number);
 

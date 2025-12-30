@@ -38,12 +38,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.association.member.usecase.service.DefaultMemberService;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultMemberService - patch")
@@ -68,7 +68,7 @@ class TestMemberServicePatch {
         // GIVEN
         member = Members.nameChange();
 
-        given(memberRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.empty());
+        given(memberRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
         execution = () -> service.patch(member);
@@ -86,7 +86,7 @@ class TestMemberServicePatch {
         // GIVEN
         member = Members.nameChangePatch();
 
-        given(memberRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+        given(memberRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(Members.active()));
 
         // WHEN
         service.patch(member);
@@ -103,7 +103,7 @@ class TestMemberServicePatch {
         // GIVEN
         member = Members.padded();
 
-        given(memberRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+        given(memberRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(Members.active()));
 
         // WHEN
         service.patch(member);
@@ -120,7 +120,7 @@ class TestMemberServicePatch {
         // GIVEN
         member = Members.nameChange();
 
-        given(memberRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+        given(memberRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(Members.active()));
 
         // WHEN
         service.patch(member);
@@ -138,7 +138,7 @@ class TestMemberServicePatch {
         // GIVEN
         member = Members.nameChange();
 
-        given(memberRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+        given(memberRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(Members.active()));
         given(memberRepository.save(Members.nameChange())).willReturn(Members.nameChange());
 
         // WHEN

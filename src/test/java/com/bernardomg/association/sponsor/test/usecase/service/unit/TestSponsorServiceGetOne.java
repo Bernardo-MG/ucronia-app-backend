@@ -37,7 +37,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.association.sponsor.domain.exception.MissingSponsorException;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
@@ -64,10 +64,10 @@ class TestSponsorServiceGetOne {
         final Optional<Sponsor> sponsor;
 
         // GIVEN
-        given(sponsorRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Sponsors.valid()));
+        given(sponsorRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(Sponsors.valid()));
 
         // WHEN
-        sponsor = service.getOne(ContactConstants.NUMBER);
+        sponsor = service.getOne(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(sponsor)
@@ -80,10 +80,10 @@ class TestSponsorServiceGetOne {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(sponsorRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.empty());
+        given(sponsorRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.getOne(ContactConstants.NUMBER);
+        execution = () -> service.getOne(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)

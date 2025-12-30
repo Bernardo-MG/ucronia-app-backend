@@ -30,17 +30,17 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
-import com.bernardomg.association.contact.domain.model.ContactMethod;
-import com.bernardomg.association.contact.domain.model.ContactName;
+import com.bernardomg.association.profile.domain.model.ContactMethod;
+import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
+import com.bernardomg.association.profile.domain.model.ProfileName;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Sorting.Direction;
 import com.bernardomg.data.domain.Sorting.Property;
 import com.bernardomg.ucronia.openapi.model.ContactChannelDto;
 import com.bernardomg.ucronia.openapi.model.ContactMethodDto;
-import com.bernardomg.ucronia.openapi.model.ContactNameDto;
 import com.bernardomg.ucronia.openapi.model.EditionContactChannelDto;
+import com.bernardomg.ucronia.openapi.model.ProfileNameDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
 import com.bernardomg.ucronia.openapi.model.SortingDto;
@@ -53,10 +53,10 @@ import com.bernardomg.ucronia.openapi.model.SponsorResponseDto;
 public final class SponsorDtoMapper {
 
     public static final Sponsor toDomain(final long number, final SponsorChangeDto change) {
-        final ContactName                name;
+        final ProfileName                name;
         final Collection<ContactChannel> contactChannels;
 
-        name = new ContactName(change.getName()
+        name = new ProfileName(change.getName()
             .getFirstName(),
             change.getName()
                 .getLastName());
@@ -70,9 +70,9 @@ public final class SponsorDtoMapper {
     }
 
     public static final Sponsor toDomain(final SponsorCreationDto creation) {
-        final ContactName name;
+        final ProfileName name;
 
-        name = new ContactName(creation.getName()
+        name = new ProfileName(creation.getName()
             .getFirstName(),
             creation.getName()
                 .getLastName());
@@ -144,10 +144,10 @@ public final class SponsorDtoMapper {
     }
 
     private static final SponsorDto toDto(final Sponsor sponsor) {
-        ContactNameDto          name;
+        ProfileNameDto          name;
         List<ContactChannelDto> contactChannels;
 
-        name = new ContactNameDto().firstName(sponsor.name()
+        name = new ProfileNameDto().firstName(sponsor.name()
             .firstName())
             .lastName(sponsor.name()
                 .lastName())

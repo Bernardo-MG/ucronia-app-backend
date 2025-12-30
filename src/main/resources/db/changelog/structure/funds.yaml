@@ -76,8 +76,8 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: false
-                    foreignKeyName: fk_fees_contact
-                    references: directory.contacts(id)
+                    foreignKeyName: fk_fees_profile
+                    references: directory.profiles(id)
                     deleteCascade: true
               - column:
                   name: date

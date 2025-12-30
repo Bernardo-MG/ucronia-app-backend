@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
 
-import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
@@ -32,15 +32,15 @@ public class UpdateSponsorEntity implements Serializable {
     @Transient
     private static final long   serialVersionUID = 8139806507534262996L;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @MapsId
-    @JoinColumn(name = "id")
-    private ContactEntity       contact;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
     private Long                id;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @MapsId
+    @JoinColumn(name = "id")
+    private ProfileEntity       profile;
 
     @ElementCollection
     @CollectionTable(name = "sponsor_years", schema = "directory", joinColumns = @JoinColumn(name = "sponsor_id"))
@@ -58,12 +58,12 @@ public class UpdateSponsorEntity implements Serializable {
         return Objects.equals(id, other.id);
     }
 
-    public ContactEntity getContact() {
-        return contact;
-    }
-
     public Long getId() {
         return id;
+    }
+
+    public ProfileEntity getProfile() {
+        return profile;
     }
 
     public Collection<Integer> getYears() {
@@ -75,12 +75,12 @@ public class UpdateSponsorEntity implements Serializable {
         return Objects.hash(id);
     }
 
-    public void setContact(final ContactEntity contact) {
-        this.contact = contact;
-    }
-
     public void setId(final Long id) {
         this.id = id;
+    }
+
+    public void setProfile(final ProfileEntity profile) {
+        this.profile = profile;
     }
 
     public void setYears(final Collection<Integer> years) {
@@ -89,7 +89,7 @@ public class UpdateSponsorEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "UpdateSponsorEntity [id=" + id + ", contact=" + contact + ", years=" + years + "]";
+        return "UpdateSponsorEntity [id=" + id + ", profile=" + profile + ", years=" + years + "]";
     }
 
 }

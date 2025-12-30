@@ -22,22 +22,22 @@ components:
           $ref: '../common/ids.yml#/components/schemas/Id'
         identifier:
           type: string
-          description: Unique identifier of the contact.
+          description: Unique identifier of the guest.
         name:
-          $ref: 'contacts.yml#/components/schemas/ContactName'
+          $ref: 'profiles.yml#/components/schemas/ProfileName'
         birthDate:
           $ref: '../common/dates.yml#/components/schemas/Date'
         contactChannels:
           type: array
           items:
-            $ref: 'contacts.yml#/components/schemas/ContactChannel'
+            $ref: 'profiles.yml#/components/schemas/ContactChannel'
         games:
           type: array
           items:
             $ref: '../common/dates.yml#/components/schemas/Date'
         comments:
           type: string
-          description: Comments about the contact.
+          description: Comments about the guest.
         types:
           type: array
           items:
@@ -50,20 +50,20 @@ components:
           type: string
           description: Unique identifier of the contact.
         name:
-          $ref: 'contacts.yml#/components/schemas/EditionContactName'
+          $ref: 'profiles.yml#/components/schemas/EditionProfileName'
     GuestChange:
       type: object
       properties:
         identifier:
           type: string
         name:
-          $ref: 'contacts.yml#/components/schemas/EditionContactName'
+          $ref: 'profiles.yml#/components/schemas/EditionProfileName'
         birthDate:
           $ref: '../common/dates.yml#/components/schemas/Date'
         contactChannels:
           type: array
           items:
-            $ref: 'contacts.yml#/components/schemas/EditionContactChannel'
+            $ref: 'profiles.yml#/components/schemas/EditionContactChannel'
         games:
           type: array
           items:

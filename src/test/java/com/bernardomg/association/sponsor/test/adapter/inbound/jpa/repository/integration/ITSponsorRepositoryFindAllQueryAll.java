@@ -30,7 +30,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
+import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.association.sponsor.domain.filter.SponsorFilter;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
@@ -97,7 +97,7 @@ class ITSponsorRepositoryFindAllQueryAll {
 
     @Test
     @DisplayName("With a sponsor without sponsorship, it is returned")
-    @ValidContact
+    @ValidProfile
     void testFindAll_WithoutSponsorship() {
         final Page<Sponsor> sponsors;
         final Pagination    pagination;

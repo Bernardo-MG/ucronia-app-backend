@@ -84,7 +84,7 @@ public final class TransactionEntities {
         entity.setIndex(TransactionConstants.INDEX);
         entity.setAmount(TransactionConstants.AMOUNT_FEES);
         entity.setDate(TransactionConstants.DATE);
-        entity.setDescription("Cuota de Contact 1 Last name 1 para Diciembre 2020, Enero 2021");
+        entity.setDescription("Cuota de Profile 1 Last name 1 para Diciembre 2020, Enero 2021");
         return entity;
     }
 

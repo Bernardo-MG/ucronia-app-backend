@@ -39,12 +39,12 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
-import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactMethodEntity;
-import com.bernardomg.association.contact.adapter.inbound.jpa.repository.ContactMethodSpringRepository;
-import com.bernardomg.association.contact.adapter.inbound.jpa.repository.ContactSpringRepository;
-import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
-import com.bernardomg.association.contact.domain.model.ContactMethod;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactMethodEntity;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
+import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ContactMethodSpringRepository;
+import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
+import com.bernardomg.association.profile.domain.model.ContactMethod;
+import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.QuerySponsorEntity;
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.QuerySponsorEntityMapper;
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.SponsorEntityConstants;
@@ -70,7 +70,7 @@ public final class JpaSponsorRepository implements SponsorRepository {
 
     private final ContactMethodSpringRepository contactMethodSpringRepository;
 
-    private final ContactSpringRepository       contactSpringRepository;
+    private final ProfileSpringRepository       profileSpringRepository;
 
     private final QuerySponsorSpringRepository  querySponsorSpringRepository;
 
@@ -79,14 +79,14 @@ public final class JpaSponsorRepository implements SponsorRepository {
     public JpaSponsorRepository(final QuerySponsorSpringRepository querySponsorSpringRepo,
             final UpdateSponsorSpringRepository updateSponsorSpringRepo,
             final ContactMethodSpringRepository contactMethodSpringRepo,
-            final ContactSpringRepository contactSpringRepo) {
+            final ProfileSpringRepository profileSpringRepo) {
         super();
 
         querySponsorSpringRepository = Objects.requireNonNull(querySponsorSpringRepo);
         updateSponsorSpringRepository = Objects.requireNonNull(updateSponsorSpringRepo);
         contactMethodSpringRepository = Objects.requireNonNull(contactMethodSpringRepo);
-        // TODO: remove contact repository
-        contactSpringRepository = Objects.requireNonNull(contactSpringRepo);
+        // TODO: remove profile repository
+        profileSpringRepository = Objects.requireNonNull(profileSpringRepo);
     }
 
     @Override
@@ -95,7 +95,7 @@ public final class JpaSponsorRepository implements SponsorRepository {
 
         // TODO: delete on cascade from the contact
         querySponsorSpringRepository.deleteByNumber(number);
-        contactSpringRepository.deleteByNumber(number);
+        profileSpringRepository.deleteByNumber(number);
 
         log.debug("Deleted sponsor {}", number);
     }
@@ -174,11 +174,11 @@ public final class JpaSponsorRepository implements SponsorRepository {
             contactMethods = contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
             entity = UpdateSponsorEntityMapper.toEntity(sponsor, contactMethods);
             number = querySponsorSpringRepository.findNextNumber();
-            entity.getContact()
+            entity.getProfile()
                 .setNumber(number);
         }
 
-        setType(entity.getContact());
+        setType(entity.getProfile());
 
         created = UpdateSponsorEntityMapper.toDomain(updateSponsorSpringRepository.save(entity));
 
@@ -191,7 +191,7 @@ public final class JpaSponsorRepository implements SponsorRepository {
     public final Sponsor save(final Sponsor sponsor, final long number) {
         final UpdateSponsorEntity       entity;
         final Sponsor                   created;
-        final Optional<ContactEntity>   contact;
+        final Optional<ProfileEntity>   profile;
         final List<Long>                contactMethodNumbers;
         final List<ContactMethodEntity> contactMethods;
 
@@ -205,12 +205,12 @@ public final class JpaSponsorRepository implements SponsorRepository {
         contactMethods = contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
         entity = UpdateSponsorEntityMapper.toEntity(sponsor, contactMethods);
 
-        contact = contactSpringRepository.findByNumber(number);
-        if (contact.isPresent()) {
-            entity.setContact(contact.get());
+        profile = profileSpringRepository.findByNumber(number);
+        if (profile.isPresent()) {
+            entity.setProfile(profile.get());
         }
 
-        setType(entity.getContact());
+        setType(entity.getProfile());
 
         created = UpdateSponsorEntityMapper.toDomain(updateSponsorSpringRepository.save(entity));
 
@@ -233,7 +233,7 @@ public final class JpaSponsorRepository implements SponsorRepository {
             .toList();
 
         entities.stream()
-            .forEach(m -> setType(m.getContact()));
+            .forEach(m -> setType(m.getProfile()));
 
         saved = updateSponsorSpringRepository.saveAll(entities)
             .stream()
@@ -262,20 +262,20 @@ public final class JpaSponsorRepository implements SponsorRepository {
                 .toList();
             contactMethods = contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
             entity = UpdateSponsorEntityMapper.toEntity(sponsor, contactMethods);
-            entity.getContact()
+            entity.getProfile()
                 .setNumber(number.getAndIncrement());
         }
 
         return entity;
     }
 
-    private final void setType(final ContactEntity entity) {
+    private final void setType(final ProfileEntity entity) {
         if (entity.getTypes() == null) {
-            entity.setTypes(Set.of(SponsorEntityConstants.CONTACT_TYPE));
+            entity.setTypes(Set.of(SponsorEntityConstants.PROFILE_TYPE));
         } else {
             entity.setTypes(new HashSet<>(entity.getTypes()));
             entity.getTypes()
-                .add(SponsorEntityConstants.CONTACT_TYPE);
+                .add(SponsorEntityConstants.PROFILE_TYPE);
         }
     }
 

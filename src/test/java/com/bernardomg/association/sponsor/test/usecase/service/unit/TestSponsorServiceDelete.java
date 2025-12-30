@@ -38,7 +38,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.association.sponsor.domain.exception.MissingSponsorException;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
 import com.bernardomg.association.sponsor.test.configuration.factory.Sponsors;
@@ -62,13 +62,13 @@ class TestSponsorServiceDelete {
     @DisplayName("When deleting the repository is called")
     void testDelete_CallsRepository() {
         // GIVEN
-        given(sponsorRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Sponsors.valid()));
+        given(sponsorRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(Sponsors.valid()));
 
         // WHEN
-        service.delete(ContactConstants.NUMBER);
+        service.delete(ProfileConstants.NUMBER);
 
         // THEN
-        verify(sponsorRepository).delete(ContactConstants.NUMBER);
+        verify(sponsorRepository).delete(ProfileConstants.NUMBER);
     }
 
     @Test
@@ -77,10 +77,10 @@ class TestSponsorServiceDelete {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(sponsorRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.empty());
+        given(sponsorRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.delete(ContactConstants.NUMBER);
+        execution = () -> service.delete(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)

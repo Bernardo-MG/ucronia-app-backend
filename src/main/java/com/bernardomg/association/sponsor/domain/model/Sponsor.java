@@ -31,13 +31,13 @@ import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
-import com.bernardomg.association.contact.domain.model.ContactName;
+import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
+import com.bernardomg.association.profile.domain.model.ProfileName;
 
-public record Sponsor(String identifier, Long number, ContactName name, Instant birthDate,
+public record Sponsor(String identifier, Long number, ProfileName name, Instant birthDate,
         Collection<ContactChannel> contactChannels, Collection<Integer> years, String comments, Set<String> types) {
 
-    public Sponsor(final String identifier, final Long number, final ContactName name, final Instant birthDate,
+    public Sponsor(final String identifier, final Long number, final ProfileName name, final Instant birthDate,
             final Collection<ContactChannel> contactChannels, final Collection<Integer> years, final String comments,
             final Set<String> types) {
         this.identifier = identifier;

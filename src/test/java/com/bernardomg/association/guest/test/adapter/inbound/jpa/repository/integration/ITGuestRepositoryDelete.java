@@ -29,12 +29,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.contact.adapter.inbound.jpa.repository.ContactSpringRepository;
-import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
-import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.guest.adapter.inbound.jpa.repository.QueryGuestSpringRepository;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
 import com.bernardomg.association.guest.test.configuration.data.annotation.ValidGuest;
+import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
+import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -42,7 +42,7 @@ import com.bernardomg.test.configuration.annotation.IntegrationTest;
 class ITGuestRepositoryDelete {
 
     @Autowired
-    private ContactSpringRepository    contactSpringRepository;
+    private ProfileSpringRepository    profileSpringRepository;
 
     @Autowired
     private GuestRepository            repository;
@@ -59,7 +59,7 @@ class ITGuestRepositoryDelete {
     @ValidGuest
     void testDelete_Active() {
         // WHEN
-        repository.delete(ContactConstants.NUMBER);
+        repository.delete(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(springRepository.count())
@@ -67,14 +67,14 @@ class ITGuestRepositoryDelete {
     }
 
     @Test
-    @DisplayName("When deleting a guest, the contact is deleted")
+    @DisplayName("When deleting a guest, the profile is deleted")
     @ValidGuest
-    void testDelete_Active_Contact() {
+    void testDelete_Active_Profile() {
         // WHEN
-        repository.delete(ContactConstants.NUMBER);
+        repository.delete(ProfileConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(contactSpringRepository.count())
+        Assertions.assertThat(profileSpringRepository.count())
             .isZero();
     }
 
@@ -82,7 +82,7 @@ class ITGuestRepositoryDelete {
     @DisplayName("When there is no data, nothing is deleted")
     void testDelete_NoData() {
         // WHEN
-        repository.delete(ContactConstants.NUMBER);
+        repository.delete(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(springRepository.count())
@@ -90,11 +90,11 @@ class ITGuestRepositoryDelete {
     }
 
     @Test
-    @DisplayName("With a contact with no sponsor role, nothing is deleted")
-    @ValidContact
+    @DisplayName("With a profile with no sponsor role, nothing is deleted")
+    @ValidProfile
     void testDelete_NoSponsor() {
         // WHEN
-        repository.delete(ContactConstants.NUMBER);
+        repository.delete(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(springRepository.count())

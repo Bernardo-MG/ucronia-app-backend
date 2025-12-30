@@ -29,8 +29,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
-import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
+import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
 import com.bernardomg.association.sponsor.test.configuration.data.annotation.ValidSponsor;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -49,7 +49,7 @@ class ITSponsorRepositoryExists {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(ContactConstants.NUMBER);
+        exists = repository.exists(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(exists)
@@ -63,7 +63,7 @@ class ITSponsorRepositoryExists {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(ContactConstants.NUMBER);
+        exists = repository.exists(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(exists)
@@ -73,12 +73,12 @@ class ITSponsorRepositoryExists {
 
     @Test
     @DisplayName("With a sponsor with no sponsor role, it returns nothing")
-    @ValidContact
+    @ValidProfile
     void testExists_NoSponsor() {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(ContactConstants.NUMBER);
+        exists = repository.exists(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(exists)

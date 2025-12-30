@@ -37,7 +37,6 @@ import com.bernardomg.association.fee.domain.model.YearsRange;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Sorting.Direction;
 import com.bernardomg.data.domain.Sorting.Property;
-import com.bernardomg.ucronia.openapi.model.ContactNameDto;
 import com.bernardomg.ucronia.openapi.model.FeeCalendarMemberDto;
 import com.bernardomg.ucronia.openapi.model.FeeChangeDto;
 import com.bernardomg.ucronia.openapi.model.FeeDto;
@@ -48,8 +47,9 @@ import com.bernardomg.ucronia.openapi.model.FeesResponseDto;
 import com.bernardomg.ucronia.openapi.model.MemberFeeDto;
 import com.bernardomg.ucronia.openapi.model.MemberFeesDto;
 import com.bernardomg.ucronia.openapi.model.MemberFeesResponseDto;
-import com.bernardomg.ucronia.openapi.model.MinimalContactDto;
+import com.bernardomg.ucronia.openapi.model.MinimalProfileDto;
 import com.bernardomg.ucronia.openapi.model.MinimalTransactionDto;
+import com.bernardomg.ucronia.openapi.model.ProfileNameDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
 import com.bernardomg.ucronia.openapi.model.SortingDto;
@@ -58,11 +58,11 @@ import com.bernardomg.ucronia.openapi.model.YearsRangeResponseDto;
 
 public final class FeeDtoMapper {
 
-    public static final Fee toDomain(final FeeChangeDto change, final YearMonth month, final long contactNumber) {
+    public static final Fee toDomain(final FeeChangeDto change, final YearMonth month, final long number) {
         final Fee.Member                member;
         final Optional<Fee.Transaction> transaction;
 
-        member = new Fee.Member(contactNumber, null);
+        member = new Fee.Member(number, null);
         if ((change.getTransaction()
             .getIndex() == null)
                 && ((change.getTransaction()
@@ -136,11 +136,11 @@ public final class FeeDtoMapper {
     }
 
     private static final FeeDto toDto(final Fee fee) {
-        final ContactNameDto        contactName;
-        final MinimalContactDto     member;
+        final ProfileNameDto        name;
+        final MinimalProfileDto     member;
         final MinimalTransactionDto transaction;
 
-        contactName = new ContactNameDto().firstName(fee.member()
+        name = new ProfileNameDto().firstName(fee.member()
             .name()
             .firstName())
             .lastName(fee.member()
@@ -149,7 +149,7 @@ public final class FeeDtoMapper {
             .fullName(fee.member()
                 .name()
                 .fullName());
-        member = new MinimalContactDto().name(contactName)
+        member = new MinimalProfileDto().name(name)
             .number(fee.member()
                 .number());
         if (fee.transaction()
@@ -171,10 +171,10 @@ public final class FeeDtoMapper {
 
     private static final MemberFeesDto toDto(final MemberFees memberFee) {
         final FeeCalendarMemberDto member;
-        final ContactNameDto       contactName;
+        final ProfileNameDto       name;
         final List<MemberFeeDto>   months;
 
-        contactName = new ContactNameDto().firstName(memberFee.member()
+        name = new ProfileNameDto().firstName(memberFee.member()
             .name()
             .firstName())
             .lastName(memberFee.member()
@@ -183,7 +183,7 @@ public final class FeeDtoMapper {
             .fullName(memberFee.member()
                 .name()
                 .fullName());
-        member = new FeeCalendarMemberDto().name(contactName)
+        member = new FeeCalendarMemberDto().name(name)
             .number(memberFee.member()
                 .number())
             .active(memberFee.member()

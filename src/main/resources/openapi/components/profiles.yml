@@ -1,0 +1,128 @@
+components:
+  parameters:
+    profilesSortParam:
+      name: sort
+      description: Sorting to apply.
+      in: query
+      style: form
+      explode: true
+      required: false
+      schema:
+        type: array
+        items:
+          type: string
+          pattern: '^(firstName|lastName|number)\|(asc|desc)$'
+          example: firstName|asc
+  schemas:
+    MinimalProfile:
+      type: object
+      required: [number, name]
+      properties:
+        number:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        name:
+          $ref: '#/components/schemas/ProfileName'
+    ProfileName:
+      type: object
+      required: [firstName, lastName, fullName]
+      properties:
+        firstName:
+          type: string
+          example: 'John'
+        lastName:
+          type: string
+          example: 'Smith'
+        fullName:
+          type: string
+          example: 'John Smith'
+    EditionProfileName:
+      type: object
+      required: [firstName, lastName]
+      properties:
+        firstName:
+          type: string
+          example: 'John'
+        lastName:
+          type: string
+          example: 'Smith'
+    ContactChannel:
+      type: object
+      required: [method, detail]
+      properties:
+        method:
+          $ref: 'contact_methods.yml#/components/schemas/ContactMethod'
+        detail:
+          type: string
+          description: Contact channel detail.
+    EditionContactChannel:
+      type: object
+      required: [method, detail]
+      properties:
+        method:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        detail:
+          type: string
+          description: Contact detail.
+    Profile:
+      type: object
+      required: [number, name]
+      properties:
+        number:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        identifier:
+          type: string
+          description: Unique identifier of the profile.
+        name:
+          $ref: 'profiles.yml#/components/schemas/ProfileName'
+        birthDate:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+        contactChannels:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContactChannel'
+        comments:
+          type: string
+          description: Comments about the profile.
+        types:
+          type: array
+          items:
+            type: string
+    ProfileCreation:
+      type: object
+      required: [name]
+      properties:
+        identifier:
+          type: string
+          description: Unique identifier of the contact.
+        name:
+          $ref: 'profiles.yml#/components/schemas/EditionProfileName'
+    ProfileChange:
+      type: object
+      required: [name]
+      properties:
+        identifier:
+          type: string
+        name:
+          $ref: 'profiles.yml#/components/schemas/EditionProfileName'
+        birthDate:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+        contactChannels:
+          type: array
+          items:
+            $ref: '#/components/schemas/EditionContactChannel'
+        comments:
+          type: string
+    ProfilePageResponse:
+      allOf:
+        - $ref: '../common/responses.yml#/components/schemas/PageResponse'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/Profile'
+    ProfileResponse:
+      type: object
+      properties:
+        content:
+          $ref: '#/components/schemas/Profile'

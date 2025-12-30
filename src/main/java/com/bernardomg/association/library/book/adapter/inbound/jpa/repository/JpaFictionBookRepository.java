@@ -36,8 +36,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
-import com.bernardomg.association.contact.adapter.inbound.jpa.repository.ContactSpringRepository;
 import com.bernardomg.association.library.author.adapter.inbound.jpa.model.AuthorEntity;
 import com.bernardomg.association.library.author.adapter.inbound.jpa.repository.AuthorSpringRepository;
 import com.bernardomg.association.library.author.domain.model.Author;
@@ -55,6 +53,8 @@ import com.bernardomg.association.library.lending.domain.model.BookLending.Borro
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.model.PublisherEntity;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.repository.PublisherSpringRepository;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
+import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -76,20 +76,20 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
 
     private final FictionBookSpringRepository bookSpringRepository;
 
-    private final ContactSpringRepository     contactSpringRepository;
+    private final ProfileSpringRepository     profileSpringRepository;
 
     private final PublisherSpringRepository   publisherSpringRepository;
 
     public JpaFictionBookRepository(final FictionBookSpringRepository bookSpringRepo,
             final AuthorSpringRepository authorSpringRepo, final PublisherSpringRepository publisherSpringRepo,
-            final ContactSpringRepository contactSpringRepo, final BookLendingSpringRepository bookLendingSpringRepo) {
+            final ProfileSpringRepository profileSpringRepo, final BookLendingSpringRepository bookLendingSpringRepo) {
         super();
 
         bookSpringRepository = Objects.requireNonNull(bookSpringRepo);
         authorSpringRepository = Objects.requireNonNull(authorSpringRepo);
         publisherSpringRepository = Objects.requireNonNull(publisherSpringRepo);
         // TODO: maybe should be members only
-        contactSpringRepository = Objects.requireNonNull(contactSpringRepo);
+        profileSpringRepository = Objects.requireNonNull(profileSpringRepo);
         bookLendingSpringRepository = Objects.requireNonNull(bookLendingSpringRepo);
     }
 
@@ -303,7 +303,7 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
     private final BookLendingInfo toDomain(final FictionBookEntity bookEntity, final BookLendingEntity entity) {
         final Optional<Borrower> borrower;
         // TODO: should not contain all the member data
-        borrower = contactSpringRepository.findById(entity.getContactId())
+        borrower = profileSpringRepository.findById(entity.getProfileId())
             .map(BookEntityMapper::toDomain);
         new Title(bookEntity.getSupertitle(), bookEntity.getTitle(), bookEntity.getSubtitle());
         return new BookLendingInfo(borrower.get(), entity.getLendingDate(), entity.getReturnDate());
@@ -314,7 +314,7 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
         final Collection<Long>            publisherNumbers;
         final Collection<Long>            donorNumbers;
         final Collection<PublisherEntity> publishers;
-        final Collection<ContactEntity>   donors;
+        final Collection<ProfileEntity>   donors;
         final Collection<AuthorEntity>    authors;
         final FictionBookEntity           entity;
 
@@ -334,7 +334,7 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
                 .stream()
                 .map(Donor::number)
                 .toList();
-            donors = contactSpringRepository.findAllByNumberIn(donorNumbers);
+            donors = profileSpringRepository.findAllByNumberIn(donorNumbers);
         } else {
             donors = List.of();
         }

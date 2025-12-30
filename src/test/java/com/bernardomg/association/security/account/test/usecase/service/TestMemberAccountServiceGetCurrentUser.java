@@ -36,11 +36,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.contact.test.configuration.factory.Contacts;
+import com.bernardomg.association.profile.test.configuration.factory.Profiles;
 import com.bernardomg.association.security.account.test.configuration.factory.BasicAccounts;
-import com.bernardomg.association.security.account.test.configuration.factory.ContactAccounts;
+import com.bernardomg.association.security.account.test.configuration.factory.ProfileAccounts;
 import com.bernardomg.association.security.account.usecase.service.MemberAccountService;
-import com.bernardomg.association.security.user.domain.repository.UserContactRepository;
+import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
 import com.bernardomg.association.security.user.test.configuration.factory.UserConstants;
 import com.bernardomg.security.account.domain.model.Account;
 import com.bernardomg.security.account.usecase.service.AccountService;
@@ -53,7 +53,7 @@ class TestMemberAccountServiceGetCurrentUser {
     private MemberAccountService  service;
 
     @Mock
-    private UserContactRepository userContactRepository;
+    private UserProfileRepository userProfileRepository;
 
     @Mock
     private AccountService        wrapped;
@@ -65,7 +65,7 @@ class TestMemberAccountServiceGetCurrentUser {
 
         // GIVEN
         given(wrapped.getCurrentUser()).willReturn(Optional.of(BasicAccounts.valid()));
-        given(userContactRepository.findByUsername(UserConstants.USERNAME)).willReturn(Optional.of(Contacts.valid()));
+        given(userProfileRepository.findByUsername(UserConstants.USERNAME)).willReturn(Optional.of(Profiles.valid()));
 
         // WHEN
         account = service.getCurrentUser();
@@ -73,17 +73,17 @@ class TestMemberAccountServiceGetCurrentUser {
         // THEN
         Assertions.assertThat(account)
             .as("account")
-            .contains(ContactAccounts.valid());
+            .contains(ProfileAccounts.valid());
     }
 
     @Test
-    @DisplayName("When there is a current user, but no assigned contact, it is returned")
-    void testGetCurrentUser_NoContact() {
+    @DisplayName("When there is a current user, but no assigned profile, it is returned")
+    void testGetCurrentUser_NoProfile() {
         final Optional<Account> account;
 
         // GIVEN
         given(wrapped.getCurrentUser()).willReturn(Optional.of(BasicAccounts.valid()));
-        given(userContactRepository.findByUsername(UserConstants.USERNAME)).willReturn(Optional.empty());
+        given(userProfileRepository.findByUsername(UserConstants.USERNAME)).willReturn(Optional.empty());
 
         // WHEN
         account = service.getCurrentUser();
@@ -91,7 +91,7 @@ class TestMemberAccountServiceGetCurrentUser {
         // THEN
         Assertions.assertThat(account)
             .as("account")
-            .contains(ContactAccounts.noContact());
+            .contains(ProfileAccounts.noProfile());
     }
 
     @Test

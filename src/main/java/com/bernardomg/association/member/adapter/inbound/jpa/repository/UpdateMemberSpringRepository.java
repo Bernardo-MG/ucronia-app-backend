@@ -37,8 +37,8 @@ public interface UpdateMemberSpringRepository extends JpaRepository<UpdateMember
     @Query("""
             SELECT m
             FROM UpdateMember m
-              JOIN m.contact c
-            WHERE c.number = :number
+              JOIN m.profile p
+            WHERE p.number = :number
             """)
     public Optional<UpdateMemberEntity> findByNumber(@Param("number") final Long number);
 

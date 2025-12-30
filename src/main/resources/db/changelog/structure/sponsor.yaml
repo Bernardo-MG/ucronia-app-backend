@@ -13,8 +13,8 @@ databaseChangeLog:
                   constraints:
                     primaryKey: true
                     nullable: false
-                    foreignKeyName: fk_sponsor_contact
-                    references: directory.contacts(id)
+                    foreignKeyName: fk_sponsor_profile
+                    references: directory.profiles(id)
                     deleteCascade: true
         - createTable:
             schemaName: directory

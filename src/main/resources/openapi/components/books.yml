@@ -95,7 +95,7 @@ components:
         donors:
           type: array
           items:
-            $ref: 'contacts.yml#/components/schemas/MinimalContact'
+            $ref: 'profiles.yml#/components/schemas/MinimalProfile'
     FictionBook:
       type: object
       properties:

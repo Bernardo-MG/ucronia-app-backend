@@ -27,7 +27,7 @@ package com.bernardomg.association.sponsor.adapter.inbound.jpa.model;
 import java.io.Serializable;
 import java.util.Objects;
 
-import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactMethodEntity;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactMethodEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

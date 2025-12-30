@@ -38,12 +38,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
-import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactMethodEntity;
-import com.bernardomg.association.contact.adapter.inbound.jpa.repository.ContactMethodSpringRepository;
-import com.bernardomg.association.contact.adapter.inbound.jpa.repository.ContactSpringRepository;
-import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
-import com.bernardomg.association.contact.domain.model.ContactMethod;
 import com.bernardomg.association.guest.adapter.inbound.jpa.model.GuestEntityConstants;
 import com.bernardomg.association.guest.adapter.inbound.jpa.model.QueryGuestEntity;
 import com.bernardomg.association.guest.adapter.inbound.jpa.model.QueryGuestEntityMapper;
@@ -53,6 +47,12 @@ import com.bernardomg.association.guest.adapter.inbound.jpa.specification.GuestS
 import com.bernardomg.association.guest.domain.filter.GuestFilter;
 import com.bernardomg.association.guest.domain.model.Guest;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactMethodEntity;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
+import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ContactMethodSpringRepository;
+import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
+import com.bernardomg.association.profile.domain.model.ContactMethod;
+import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -69,7 +69,7 @@ public final class JpaGuestRepository implements GuestRepository {
 
     private final ContactMethodSpringRepository contactMethodSpringRepository;
 
-    private final ContactSpringRepository       contactSpringRepository;
+    private final ProfileSpringRepository       profileSpringRepository;
 
     private final QueryGuestSpringRepository    queryGuestSpringRepository;
 
@@ -78,23 +78,23 @@ public final class JpaGuestRepository implements GuestRepository {
     public JpaGuestRepository(final QueryGuestSpringRepository queryGuestSpringRepo,
             final UpdateGuestSpringRepository updateGuestSpringRepo,
             final ContactMethodSpringRepository contactMethodSpringRepo,
-            final ContactSpringRepository contactSpringRepo) {
+            final ProfileSpringRepository profileSpringRepo) {
         super();
 
         queryGuestSpringRepository = Objects.requireNonNull(queryGuestSpringRepo);
         updateGuestSpringRepository = Objects.requireNonNull(updateGuestSpringRepo);
         contactMethodSpringRepository = Objects.requireNonNull(contactMethodSpringRepo);
-        // TODO: remove contact repository
-        contactSpringRepository = Objects.requireNonNull(contactSpringRepo);
+        // TODO: remove profile repository
+        profileSpringRepository = Objects.requireNonNull(profileSpringRepo);
     }
 
     @Override
     public final void delete(final long number) {
         log.debug("Deleting guest {}", number);
 
-        // TODO: delete on cascade from the contact
+        // TODO: delete on cascade from the profile
         queryGuestSpringRepository.deleteByNumber(number);
-        contactSpringRepository.deleteByNumber(number);
+        profileSpringRepository.deleteByNumber(number);
 
         log.debug("Deleted guest {}", number);
     }
@@ -173,11 +173,11 @@ public final class JpaGuestRepository implements GuestRepository {
             contactMethods = contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
             entity = UpdateGuestEntityMapper.toEntity(guest, contactMethods);
             number = queryGuestSpringRepository.findNextNumber();
-            entity.getContact()
+            entity.getProfile()
                 .setNumber(number);
         }
 
-        setType(entity.getContact());
+        setType(entity.getProfile());
 
         created = UpdateGuestEntityMapper.toDomain(updateGuestSpringRepository.save(entity));
 
@@ -190,7 +190,7 @@ public final class JpaGuestRepository implements GuestRepository {
     public final Guest save(final Guest guest, final long number) {
         final UpdateGuestEntity         entity;
         final Guest                     created;
-        final Optional<ContactEntity>   contact;
+        final Optional<ProfileEntity>   profile;
         final List<Long>                contactMethodNumbers;
         final List<ContactMethodEntity> contactMethods;
 
@@ -204,12 +204,12 @@ public final class JpaGuestRepository implements GuestRepository {
         contactMethods = contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
         entity = UpdateGuestEntityMapper.toEntity(guest, contactMethods);
 
-        contact = contactSpringRepository.findByNumber(number);
-        if (contact.isPresent()) {
-            entity.setContact(contact.get());
+        profile = profileSpringRepository.findByNumber(number);
+        if (profile.isPresent()) {
+            entity.setProfile(profile.get());
         }
 
-        setType(entity.getContact());
+        setType(entity.getProfile());
 
         created = UpdateGuestEntityMapper.toDomain(updateGuestSpringRepository.save(entity));
 
@@ -232,7 +232,7 @@ public final class JpaGuestRepository implements GuestRepository {
             .toList();
 
         entities.stream()
-            .forEach(m -> setType(m.getContact()));
+            .forEach(m -> setType(m.getProfile()));
 
         saved = updateGuestSpringRepository.saveAll(entities)
             .stream()
@@ -261,19 +261,19 @@ public final class JpaGuestRepository implements GuestRepository {
                 .toList();
             contactMethods = contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
             entity = UpdateGuestEntityMapper.toEntity(guest, contactMethods);
-            entity.getContact()
+            entity.getProfile()
                 .setNumber(number.getAndIncrement());
         }
 
         return entity;
     }
 
-    private final void setType(final ContactEntity entity) {
+    private final void setType(final ProfileEntity entity) {
         if (entity.getTypes() == null) {
-            entity.setTypes(Set.of(GuestEntityConstants.CONTACT_TYPE));
+            entity.setTypes(Set.of(GuestEntityConstants.PROFILE_TYPE));
         } else {
             entity.getTypes()
-                .add(GuestEntityConstants.CONTACT_TYPE);
+                .add(GuestEntityConstants.PROFILE_TYPE);
         }
     }
 

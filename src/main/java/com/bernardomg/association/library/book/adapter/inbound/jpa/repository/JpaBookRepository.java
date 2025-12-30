@@ -34,7 +34,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.contact.adapter.inbound.jpa.repository.ContactSpringRepository;
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.model.BookEntity;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.model.BookEntityMapper;
@@ -49,6 +48,7 @@ import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.lending.domain.model.BookLending.Borrower;
 import com.bernardomg.association.library.lending.domain.model.BookLending.LentBook;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
+import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 
 @Repository
 @Transactional
@@ -63,15 +63,15 @@ public final class JpaBookRepository implements BookRepository {
 
     private final BookSpringRepository        bookSpringRepository;
 
-    private final ContactSpringRepository     contactSpringRepository;
+    private final ProfileSpringRepository     profileSpringRepository;
 
-    public JpaBookRepository(final BookSpringRepository bookSpringRepo, final ContactSpringRepository contactSpringRepo,
+    public JpaBookRepository(final BookSpringRepository bookSpringRepo, final ProfileSpringRepository profileSpringRepo,
             final BookLendingSpringRepository bookLendingSpringRepo) {
         super();
 
         bookSpringRepository = Objects.requireNonNull(bookSpringRepo);
         // TODO: maybe should be members only
-        contactSpringRepository = Objects.requireNonNull(contactSpringRepo);
+        profileSpringRepository = Objects.requireNonNull(profileSpringRepo);
         bookLendingSpringRepository = Objects.requireNonNull(bookLendingSpringRepo);
     }
 
@@ -168,7 +168,7 @@ public final class JpaBookRepository implements BookRepository {
         final Title              title;
 
         // TODO: should not contain all the member data
-        borrower = contactSpringRepository.findById(entity.getContactId())
+        borrower = profileSpringRepository.findById(entity.getProfileId())
             .map(BookEntityMapper::toDomain);
         title = new Title(bookEntity.getSupertitle(), bookEntity.getTitle(), bookEntity.getSubtitle());
         lentBook = new LentBook(bookEntity.getNumber(), title);

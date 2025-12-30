@@ -7,7 +7,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
 
-import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
@@ -33,11 +33,6 @@ public class UpdateGuestEntity implements Serializable {
     @Transient
     private static final long   serialVersionUID = 8139806507534262996L;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @MapsId
-    @JoinColumn(name = "id")
-    private ContactEntity       contact;
-
     @ElementCollection
     @CollectionTable(schema = "directory", name = "guest_games", joinColumns = @JoinColumn(name = "guest_id"))
     @Column(name = "date", nullable = false)
@@ -47,6 +42,11 @@ public class UpdateGuestEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
     private Long                id;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @MapsId
+    @JoinColumn(name = "id")
+    private ProfileEntity       profile;
 
     @Override
     public boolean equals(final Object obj) {
@@ -59,10 +59,6 @@ public class UpdateGuestEntity implements Serializable {
         return Objects.equals(id, other.id);
     }
 
-    public ContactEntity getContact() {
-        return contact;
-    }
-
     public Collection<Instant> getGames() {
         return games;
     }
@@ -71,13 +67,13 @@ public class UpdateGuestEntity implements Serializable {
         return id;
     }
 
+    public ProfileEntity getProfile() {
+        return profile;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(id);
-    }
-
-    public void setContact(final ContactEntity contact) {
-        this.contact = contact;
     }
 
     public void setGames(final Collection<Instant> games) {
@@ -88,9 +84,13 @@ public class UpdateGuestEntity implements Serializable {
         this.id = id;
     }
 
+    public void setProfile(final ProfileEntity profile) {
+        this.profile = profile;
+    }
+
     @Override
     public String toString() {
-        return "UpdateGuestEntity [id=" + id + ", contact=" + contact + ", games=" + games + "]";
+        return "UpdateGuestEntity [id=" + id + ", profile=" + profile + ", games=" + games + "]";
     }
 
 }

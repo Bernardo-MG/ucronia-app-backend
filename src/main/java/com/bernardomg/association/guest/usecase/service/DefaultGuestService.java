@@ -32,11 +32,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.contact.domain.model.ContactName;
 import com.bernardomg.association.guest.domain.exception.MissingGuestException;
 import com.bernardomg.association.guest.domain.filter.GuestFilter;
 import com.bernardomg.association.guest.domain.model.Guest;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
+import com.bernardomg.association.profile.domain.model.ProfileName;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -172,12 +172,12 @@ public final class DefaultGuestService implements GuestService {
     }
 
     private final Guest copy(final Guest existing, final Guest updated) {
-        final ContactName name;
+        final ProfileName name;
 
         if (updated.name() == null) {
             name = existing.name();
         } else {
-            name = new ContactName(Optional.ofNullable(updated.name()
+            name = new ProfileName(Optional.ofNullable(updated.name()
                 .firstName())
                 .orElse(existing.name()
                     .firstName()),

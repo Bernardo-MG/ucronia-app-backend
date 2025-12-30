@@ -38,7 +38,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.association.sponsor.domain.exception.MissingSponsorException;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
@@ -68,7 +68,7 @@ class TestSponsorServicePatch {
         // GIVEN
         sponsor = Sponsors.nameChange();
 
-        given(sponsorRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.empty());
+        given(sponsorRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
         execution = () -> service.patch(sponsor);
@@ -86,7 +86,7 @@ class TestSponsorServicePatch {
         // GIVEN
         sponsor = Sponsors.nameChangePatch();
 
-        given(sponsorRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Sponsors.valid()));
+        given(sponsorRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(Sponsors.valid()));
 
         // WHEN
         service.patch(sponsor);
@@ -103,7 +103,7 @@ class TestSponsorServicePatch {
         // GIVEN
         sponsor = Sponsors.padded();
 
-        given(sponsorRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Sponsors.valid()));
+        given(sponsorRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(Sponsors.valid()));
 
         // WHEN
         service.patch(sponsor);
@@ -120,7 +120,7 @@ class TestSponsorServicePatch {
         // GIVEN
         sponsor = Sponsors.nameChange();
 
-        given(sponsorRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Sponsors.valid()));
+        given(sponsorRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(Sponsors.valid()));
 
         // WHEN
         service.patch(sponsor);
@@ -138,7 +138,7 @@ class TestSponsorServicePatch {
         // GIVEN
         sponsor = Sponsors.nameChange();
 
-        given(sponsorRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Sponsors.valid()));
+        given(sponsorRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(Sponsors.valid()));
         given(sponsorRepository.save(Sponsors.nameChange())).willReturn(Sponsors.nameChange());
 
         // WHEN

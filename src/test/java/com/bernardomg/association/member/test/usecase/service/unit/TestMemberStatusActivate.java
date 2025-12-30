@@ -39,17 +39,17 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.association.member.usecase.service.DefaultMemberStatusService;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Member status service - activate")
 class TestMemberStatusActivate {
 
     @Mock
-    private MemberRepository           memberContactRepository;
+    private MemberRepository           memberRepository;
 
     @InjectMocks
     private DefaultMemberStatusService service;
@@ -65,15 +65,15 @@ class TestMemberStatusActivate {
         final Long      number;
 
         // GIVEN
-        given(memberContactRepository.findOne(ContactConstants.NUMBER)).willReturn(Optional.of(Members.inactive()));
+        given(memberRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(Members.inactive()));
         date = YearMonth.now();
-        number = ContactConstants.NUMBER;
+        number = ProfileConstants.NUMBER;
 
         // WHEN
         service.activate(date, number);
 
         // THEN
-        verify(memberContactRepository).save(Members.active());
+        verify(memberRepository).save(Members.active());
     }
 
     @Test
@@ -85,13 +85,13 @@ class TestMemberStatusActivate {
         // GIVEN
         date = YearMonth.now()
             .minusMonths(1);
-        number = ContactConstants.NUMBER;
+        number = ProfileConstants.NUMBER;
 
         // WHEN
         service.activate(date, number);
 
         // THEN
-        verify(memberContactRepository, never()).save(any());
+        verify(memberRepository, never()).save(any());
     }
 
 }

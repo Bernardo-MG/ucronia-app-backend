@@ -24,9 +24,9 @@
 
 package com.bernardomg.association.member.adapter.inbound.jpa.model;
 
-import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
-import com.bernardomg.association.contact.domain.model.ContactName;
 import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
+import com.bernardomg.association.profile.domain.model.ProfileName;
 
 /**
  * Update member entity mapper.
@@ -34,29 +34,29 @@ import com.bernardomg.association.member.domain.model.Member;
 public final class UpdateMemberEntityMapper {
 
     public static final Member toDomain(final UpdateMemberEntity entity) {
-        final ContactName name;
+        final ProfileName name;
 
-        name = new ContactName(entity.getContact()
+        name = new ProfileName(entity.getProfile()
             .getFirstName(),
-            entity.getContact()
+            entity.getProfile()
                 .getLastName());
-        return new Member(entity.getContact()
+        return new Member(entity.getProfile()
             .getNumber(), name, entity.getActive(), entity.getRenew());
     }
 
     public static final UpdateMemberEntity toEntity(final Member data) {
         final UpdateMemberEntity entity;
-        final ContactEntity      contact;
+        final ProfileEntity      profile;
 
-        contact = new ContactEntity();
-        contact.setNumber(data.number());
-        contact.setFirstName(data.name()
+        profile = new ProfileEntity();
+        profile.setNumber(data.number());
+        profile.setFirstName(data.name()
             .firstName());
-        contact.setLastName(data.name()
+        profile.setLastName(data.name()
             .lastName());
 
         entity = new UpdateMemberEntity();
-        entity.setContact(contact);
+        entity.setProfile(profile);
         entity.setActive(data.active());
         entity.setRenew(data.renew());
 
@@ -65,10 +65,10 @@ public final class UpdateMemberEntityMapper {
 
     public static final UpdateMemberEntity toEntity(final UpdateMemberEntity entity, final Member data) {
 
-        entity.getContact()
+        entity.getProfile()
             .setFirstName(data.name()
                 .firstName());
-        entity.getContact()
+        entity.getProfile()
             .setLastName(data.name()
                 .lastName());
         entity.setActive(data.active());

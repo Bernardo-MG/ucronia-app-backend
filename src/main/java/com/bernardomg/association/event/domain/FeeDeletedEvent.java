@@ -30,21 +30,21 @@ import java.util.Objects;
 import com.bernardomg.event.domain.AbstractEvent;
 
 /**
- * Log in attempt event. It is created no matter if the attempt was succesful or not.
+ * Fee deleted event.
  */
 public final class FeeDeletedEvent extends AbstractEvent {
 
     private static final long serialVersionUID = 7044023838333219109L;
 
-    private final Long        contactNumber;
-
     private final YearMonth   date;
+
+    private final Long        profileNumber;
 
     public FeeDeletedEvent(final Object source, final YearMonth d, final Long number) {
         super(source);
 
         date = Objects.requireNonNull(d);
-        contactNumber = Objects.requireNonNull(number);
+        profileNumber = Objects.requireNonNull(number);
     }
 
     @Override
@@ -56,26 +56,25 @@ public final class FeeDeletedEvent extends AbstractEvent {
             return false;
         }
         return Objects.equals(getSource(), other.getSource()) && Objects.equals(date, other.date)
-                && Objects.equals(contactNumber, other.contactNumber);
-    }
-
-    public final Long getContactNumber() {
-        return contactNumber;
+                && Objects.equals(profileNumber, other.profileNumber);
     }
 
     public final YearMonth getDate() {
         return date;
     }
 
+    public final Long getProfileNumber() {
+        return profileNumber;
+    }
+
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), date, contactNumber);
+        return Objects.hash(super.hashCode(), date, profileNumber);
     }
 
     @Override
     public String toString() {
-        return "FeeDeletedEvent{" + "source=" + getSource() + ", date=" + date + ", personNumber=" + contactNumber
-                + '}';
+        return "FeeDeletedEvent [profileNumber=" + profileNumber + ", date=" + date + "]";
     }
 
 }

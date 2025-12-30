@@ -30,11 +30,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
-import com.bernardomg.association.contact.adapter.inbound.jpa.repository.ContactSpringRepository;
-import com.bernardomg.association.contact.test.configuration.data.annotation.EmailContactMethod;
-import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
-import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
+import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
+import com.bernardomg.association.profile.test.configuration.data.annotation.EmailContactMethod;
+import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.QuerySponsorEntity;
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.SponsorEntityConstants;
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.repository.QuerySponsorSpringRepository;
@@ -49,7 +49,7 @@ import com.bernardomg.test.configuration.annotation.IntegrationTest;
 class ITSponsorRepositorySaveWithNumber {
 
     @Autowired
-    private ContactSpringRepository      contactSpringRepository;
+    private ProfileSpringRepository      profileSpringRepository;
 
     @Autowired
     private SponsorRepository            repository;
@@ -63,7 +63,7 @@ class ITSponsorRepositorySaveWithNumber {
 
     @Test
     @DisplayName("With an active sponsor, the sponsor is persisted")
-    @ValidContact
+    @ValidProfile
     @EmailContactMethod
     void testSaveWithNumber_PersistedData() {
         final Sponsor                      sponsor;
@@ -73,7 +73,7 @@ class ITSponsorRepositorySaveWithNumber {
         sponsor = Sponsors.valid();
 
         // WHEN
-        repository.save(sponsor, ContactConstants.NUMBER);
+        repository.save(sponsor, ProfileConstants.NUMBER);
 
         // THEN
         entities = springRepository.findAll();
@@ -86,7 +86,7 @@ class ITSponsorRepositorySaveWithNumber {
 
     @Test
     @DisplayName("With an active sponsor, the created sponsor is returned")
-    @ValidContact
+    @ValidProfile
     @EmailContactMethod
     void testSaveWithNumber_ReturnedData() {
         final Sponsor sponsor;
@@ -96,7 +96,7 @@ class ITSponsorRepositorySaveWithNumber {
         sponsor = Sponsors.valid();
 
         // WHEN
-        saved = repository.save(sponsor, ContactConstants.NUMBER);
+        saved = repository.save(sponsor, ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(saved)
@@ -105,28 +105,28 @@ class ITSponsorRepositorySaveWithNumber {
     }
 
     @Test
-    @DisplayName("When the sponsor is persisted, the contact types includes the sponsor type")
+    @DisplayName("When the sponsor is persisted, the profile types includes the sponsor type")
     @EmailContactMethod
     void testSaveWithNumber_SetsType() {
         final Sponsor       sponsor;
         final Sponsor       saved;
-        final ContactEntity contact;
+        final ProfileEntity profile;
 
         // GIVEN
         sponsor = Sponsors.valid();
 
         // WHEN
-        saved = repository.save(sponsor, ContactConstants.NUMBER);
+        saved = repository.save(sponsor, ProfileConstants.NUMBER);
 
         // THEN
-        contact = contactSpringRepository.findByNumber(saved.number())
+        profile = profileSpringRepository.findByNumber(saved.number())
             .get();
 
-        Assertions.assertThat(contact)
-            .as("contact")
-            .extracting(ContactEntity::getTypes)
+        Assertions.assertThat(profile)
+            .as("profile")
+            .extracting(ProfileEntity::getTypes)
             .asInstanceOf(InstanceOfAssertFactories.SET)
-            .containsExactly(SponsorEntityConstants.CONTACT_TYPE);
+            .containsExactly(SponsorEntityConstants.PROFILE_TYPE);
     }
 
 }

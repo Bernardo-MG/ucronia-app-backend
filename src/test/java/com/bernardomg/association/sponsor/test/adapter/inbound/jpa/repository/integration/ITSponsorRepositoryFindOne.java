@@ -31,8 +31,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
-import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
+import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
 import com.bernardomg.association.sponsor.test.configuration.data.annotation.ValidSponsor;
@@ -53,7 +53,7 @@ class ITSponsorRepositoryFindOne {
         final Optional<Sponsor> sponsor;
 
         // WHEN
-        sponsor = repository.findOne(ContactConstants.NUMBER);
+        sponsor = repository.findOne(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(sponsor)
@@ -66,7 +66,7 @@ class ITSponsorRepositoryFindOne {
         final Optional<Sponsor> sponsor;
 
         // WHEN
-        sponsor = repository.findOne(ContactConstants.NUMBER);
+        sponsor = repository.findOne(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(sponsor)
@@ -75,12 +75,12 @@ class ITSponsorRepositoryFindOne {
 
     @Test
     @DisplayName("With a sponsor with no sponsorship, it returns nothing")
-    @ValidContact
+    @ValidProfile
     void testFindOne_NoSponsorship() {
         final Optional<Sponsor> sponsor;
 
         // WHEN
-        sponsor = repository.findOne(ContactConstants.NUMBER);
+        sponsor = repository.findOne(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(sponsor)

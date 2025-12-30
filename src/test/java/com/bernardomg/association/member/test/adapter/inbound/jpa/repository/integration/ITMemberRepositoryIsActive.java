@@ -29,11 +29,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
-import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
+import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -50,7 +50,7 @@ class ITMemberRepositoryIsActive {
         final boolean active;
 
         // WHEN
-        active = repository.isActive(ContactConstants.NUMBER);
+        active = repository.isActive(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(active)
@@ -65,7 +65,7 @@ class ITMemberRepositoryIsActive {
         final boolean active;
 
         // WHEN
-        active = repository.isActive(ContactConstants.NUMBER);
+        active = repository.isActive(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(active)
@@ -79,7 +79,7 @@ class ITMemberRepositoryIsActive {
         final boolean active;
 
         // WHEN
-        active = repository.isActive(ContactConstants.NUMBER);
+        active = repository.isActive(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(active)
@@ -88,13 +88,13 @@ class ITMemberRepositoryIsActive {
     }
 
     @Test
-    @DisplayName("With a contact with no member role, it is indicated as so")
-    @ValidContact
+    @DisplayName("With a profile with no member role, it is indicated as so")
+    @ValidProfile
     void testIsActive_NoMembership() {
         final boolean active;
 
         // WHEN
-        active = repository.isActive(ContactConstants.NUMBER);
+        active = repository.isActive(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(active)

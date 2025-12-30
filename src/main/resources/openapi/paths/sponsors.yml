@@ -10,7 +10,7 @@ post:
           $ref: '../components/sponsors.yml#/components/schemas/SponsorCreation'
   responses:
     '201':
-      description: Contact created.
+      description: Sponsor created.
       content:
         application/json:
           schema:

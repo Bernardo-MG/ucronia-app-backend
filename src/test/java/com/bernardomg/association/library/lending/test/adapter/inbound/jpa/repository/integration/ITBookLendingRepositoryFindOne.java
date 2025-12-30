@@ -31,9 +31,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.contact.test.configuration.data.annotation.AlternativeContact;
-import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
-import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.FullFictionBook;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.FullGameBook;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.MinimalFictionBook;
@@ -46,6 +43,9 @@ import com.bernardomg.association.library.lending.test.configuration.data.annota
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.ReturnedBookLending;
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.ReturnedBookLendingHistory;
 import com.bernardomg.association.library.lending.test.configuration.factory.BookLendings;
+import com.bernardomg.association.profile.test.configuration.data.annotation.AlternativeProfile;
+import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -57,14 +57,14 @@ class ITBookLendingRepositoryFindOne {
 
     @Test
     @DisplayName("When there is a lent fiction book, it is returned")
-    @ValidContact
+    @ValidProfile
     @FullFictionBook
     @LentBookLending
     void testFindOne_FictionBook_Lent() {
         final Optional<BookLending> lending;
 
         // WHEN
-        lending = repository.findOne(BookConstants.NUMBER, ContactConstants.NUMBER);
+        lending = repository.findOne(BookConstants.NUMBER, ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(lending)
@@ -74,15 +74,15 @@ class ITBookLendingRepositoryFindOne {
 
     @Test
     @DisplayName("When there is a lent game book and it has history, it is returned")
-    @ValidContact
-    @AlternativeContact
+    @ValidProfile
+    @AlternativeProfile
     @FullFictionBook
     @LentBookLendingHistory
     void testFindOne_FictionBook_Lent_History() {
         final Optional<BookLending> lending;
 
         // WHEN
-        lending = repository.findOne(BookConstants.NUMBER, ContactConstants.NUMBER);
+        lending = repository.findOne(BookConstants.NUMBER, ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(lending)
@@ -92,13 +92,13 @@ class ITBookLendingRepositoryFindOne {
 
     @Test
     @DisplayName("When there is a fiction book and it has no history, nothing is returned")
-    @ValidContact
+    @ValidProfile
     @FullFictionBook
     void testFindOne_FictionBook_NoHistory() {
         final Optional<BookLending> lending;
 
         // WHEN
-        lending = repository.findOne(BookConstants.NUMBER, ContactConstants.NUMBER);
+        lending = repository.findOne(BookConstants.NUMBER, ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(lending)
@@ -113,7 +113,7 @@ class ITBookLendingRepositoryFindOne {
         final Optional<BookLending> lending;
 
         // WHEN
-        lending = repository.findOne(BookConstants.NUMBER, ContactConstants.NUMBER);
+        lending = repository.findOne(BookConstants.NUMBER, ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(lending)
@@ -123,14 +123,14 @@ class ITBookLendingRepositoryFindOne {
 
     @Test
     @DisplayName("When there is a returned fiction book, it is returned")
-    @ValidContact
+    @ValidProfile
     @FullFictionBook
     @ReturnedBookLending
     void testFindOne_FictionBook_Returned() {
         final Optional<BookLending> lending;
 
         // WHEN
-        lending = repository.findOne(BookConstants.NUMBER, ContactConstants.NUMBER);
+        lending = repository.findOne(BookConstants.NUMBER, ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(lending)
@@ -140,15 +140,15 @@ class ITBookLendingRepositoryFindOne {
 
     @Test
     @DisplayName("When there is a returned fiction book and it has history, it is returned")
-    @ValidContact
-    @AlternativeContact
+    @ValidProfile
+    @AlternativeProfile
     @FullFictionBook
     @ReturnedBookLendingHistory
     void testFindOne_FictionBook_Returned_History() {
         final Optional<BookLending> lending;
 
         // WHEN
-        lending = repository.findOne(BookConstants.NUMBER, ContactConstants.NUMBER);
+        lending = repository.findOne(BookConstants.NUMBER, ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(lending)
@@ -158,14 +158,14 @@ class ITBookLendingRepositoryFindOne {
 
     @Test
     @DisplayName("When there is a lent game book, it is returned")
-    @ValidContact
+    @ValidProfile
     @FullGameBook
     @LentBookLending
     void testFindOne_GameBook_Lent() {
         final Optional<BookLending> lending;
 
         // WHEN
-        lending = repository.findOne(BookConstants.NUMBER, ContactConstants.NUMBER);
+        lending = repository.findOne(BookConstants.NUMBER, ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(lending)
@@ -175,15 +175,15 @@ class ITBookLendingRepositoryFindOne {
 
     @Test
     @DisplayName("When there is a lent game book and it has history, it is returned")
-    @ValidContact
-    @AlternativeContact
+    @ValidProfile
+    @AlternativeProfile
     @FullGameBook
     @LentBookLendingHistory
     void testFindOne_GameBook_Lent_History() {
         final Optional<BookLending> lending;
 
         // WHEN
-        lending = repository.findOne(BookConstants.NUMBER, ContactConstants.NUMBER);
+        lending = repository.findOne(BookConstants.NUMBER, ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(lending)
@@ -193,13 +193,13 @@ class ITBookLendingRepositoryFindOne {
 
     @Test
     @DisplayName("When there is a game book and it has no history, nothing is returned")
-    @ValidContact
+    @ValidProfile
     @FullGameBook
     void testFindOne_GameBook_NoHistory() {
         final Optional<BookLending> lending;
 
         // WHEN
-        lending = repository.findOne(BookConstants.NUMBER, ContactConstants.NUMBER);
+        lending = repository.findOne(BookConstants.NUMBER, ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(lending)
@@ -214,7 +214,7 @@ class ITBookLendingRepositoryFindOne {
         final Optional<BookLending> lending;
 
         // WHEN
-        lending = repository.findOne(BookConstants.NUMBER, ContactConstants.NUMBER);
+        lending = repository.findOne(BookConstants.NUMBER, ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(lending)
@@ -224,14 +224,14 @@ class ITBookLendingRepositoryFindOne {
 
     @Test
     @DisplayName("When there is a returned game book, it is returned")
-    @ValidContact
+    @ValidProfile
     @FullGameBook
     @ReturnedBookLending
     void testFindOne_GameBook_Returned() {
         final Optional<BookLending> lending;
 
         // WHEN
-        lending = repository.findOne(BookConstants.NUMBER, ContactConstants.NUMBER);
+        lending = repository.findOne(BookConstants.NUMBER, ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(lending)
@@ -241,15 +241,15 @@ class ITBookLendingRepositoryFindOne {
 
     @Test
     @DisplayName("When there is a returned game book and it has history, it is returned")
-    @ValidContact
-    @AlternativeContact
+    @ValidProfile
+    @AlternativeProfile
     @FullGameBook
     @ReturnedBookLendingHistory
     void testFindOne_GameBook_Returned_History() {
         final Optional<BookLending> lending;
 
         // WHEN
-        lending = repository.findOne(BookConstants.NUMBER, ContactConstants.NUMBER);
+        lending = repository.findOne(BookConstants.NUMBER, ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(lending)
@@ -259,12 +259,12 @@ class ITBookLendingRepositoryFindOne {
 
     @Test
     @DisplayName("With no data, nothing is returned")
-    @ValidContact
+    @ValidProfile
     void testFindOne_NoBook() {
         final Optional<BookLending> lending;
 
         // WHEN
-        lending = repository.findOne(BookConstants.NUMBER, ContactConstants.NUMBER);
+        lending = repository.findOne(BookConstants.NUMBER, ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(lending)

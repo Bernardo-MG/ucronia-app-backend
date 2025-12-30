@@ -36,14 +36,13 @@ public interface BookLendingRepository {
 
     public Page<BookLending> findAll(final Pagination pagination, final Sorting sorting);
 
-    public Optional<BookLending> findLent(final long bookNumber);
+    public Optional<BookLending> findLent(final long book);
 
-    public Optional<BookLending> findOne(final long bookNumber, final long contactNumber);
+    public Optional<BookLending> findOne(final long book, final long profile);
 
-    public Optional<BookLending> findReturned(final long bookNumber);
+    public Optional<BookLending> findReturned(final long book);
 
-    public Optional<BookLending> findReturned(final long bookNumber, final long personNumber,
-            final Instant lendingDate);
+    public Optional<BookLending> findReturned(final long book, final long profile, final Instant lendingDate);
 
     public BookLending save(final BookLending lending);
 

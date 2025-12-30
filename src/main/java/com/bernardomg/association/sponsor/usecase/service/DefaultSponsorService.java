@@ -32,7 +32,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.contact.domain.model.ContactName;
+import com.bernardomg.association.profile.domain.model.ProfileName;
 import com.bernardomg.association.sponsor.domain.exception.MissingSponsorException;
 import com.bernardomg.association.sponsor.domain.filter.SponsorFilter;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
@@ -173,12 +173,12 @@ public final class DefaultSponsorService implements SponsorService {
     }
 
     private final Sponsor copy(final Sponsor existing, final Sponsor updated) {
-        final ContactName name;
+        final ProfileName name;
 
         if (updated.name() == null) {
             name = existing.name();
         } else {
-            name = new ContactName(Optional.ofNullable(updated.name()
+            name = new ProfileName(Optional.ofNullable(updated.name()
                 .firstName())
                 .orElse(existing.name()
                     .firstName()),

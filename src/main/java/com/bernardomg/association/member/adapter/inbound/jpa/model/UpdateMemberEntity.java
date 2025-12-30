@@ -4,7 +4,7 @@ package com.bernardomg.association.member.adapter.inbound.jpa.model;
 import java.io.Serializable;
 import java.util.Objects;
 
-import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -31,15 +31,15 @@ public class UpdateMemberEntity implements Serializable {
     @Column(name = "active", nullable = false)
     private Boolean           active;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @MapsId
-    @JoinColumn(name = "id")
-    private ContactEntity     contact;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
     private Long              id;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @MapsId
+    @JoinColumn(name = "id")
+    private ProfileEntity     profile;
 
     @Column(name = "renew_membership", nullable = false)
     private Boolean           renew;
@@ -59,12 +59,12 @@ public class UpdateMemberEntity implements Serializable {
         return active;
     }
 
-    public ContactEntity getContact() {
-        return contact;
-    }
-
     public Long getId() {
         return id;
+    }
+
+    public ProfileEntity getProfile() {
+        return profile;
     }
 
     public Boolean getRenew() {
@@ -80,12 +80,12 @@ public class UpdateMemberEntity implements Serializable {
         this.active = active;
     }
 
-    public void setContact(final ContactEntity contact) {
-        this.contact = contact;
-    }
-
     public void setId(final Long id) {
         this.id = id;
+    }
+
+    public void setProfile(final ProfileEntity profile) {
+        this.profile = profile;
     }
 
     public void setRenew(final Boolean renew) {
@@ -94,7 +94,7 @@ public class UpdateMemberEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "UpdateMemberEntity [active=" + active + ", contact=" + contact + ", id=" + id + ", renew=" + renew
+        return "UpdateMemberEntity [active=" + active + ", profile=" + profile + ", id=" + id + ", renew=" + renew
                 + "]";
     }
 

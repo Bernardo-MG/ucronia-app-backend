@@ -29,7 +29,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.library.author.test.configuration.data.annotation.ValidAuthor;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.repository.GameBookSpringRepository;
 import com.bernardomg.association.library.book.domain.model.GameBook;
@@ -41,6 +40,7 @@ import com.bernardomg.association.library.book.test.configuration.factory.GameBo
 import com.bernardomg.association.library.booktype.test.configuration.data.annotation.ValidBookType;
 import com.bernardomg.association.library.gamesystem.test.configuration.data.annotation.ValidGameSystem;
 import com.bernardomg.association.library.publisher.test.configuration.data.annotation.ValidPublisher;
+import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -55,7 +55,7 @@ class ITGameBookRepositorySave {
 
     @Test
     @DisplayName("When there is an existing game book, and relationships are added, it is persisted")
-    @ValidContact
+    @ValidProfile
     @ValidAuthor
     @ValidPublisher
     @ValidBookType
@@ -80,7 +80,7 @@ class ITGameBookRepositorySave {
 
     @Test
     @DisplayName("When there is an existing game book, and relationships are added, it is returned")
-    @ValidContact
+    @ValidProfile
     @ValidAuthor
     @ValidPublisher
     @ValidBookType
@@ -104,7 +104,7 @@ class ITGameBookRepositorySave {
 
     @Test
     @DisplayName("When there is an existing game book, and relationships also already exist, it is persisted")
-    @ValidContact
+    @ValidProfile
     @FullGameBook
     void testSave_Existing_ExistingRelationships_Persisted() {
         final GameBook book;
@@ -125,7 +125,7 @@ class ITGameBookRepositorySave {
 
     @Test
     @DisplayName("When there is an existing game book, and relationships also already exist, it is returned")
-    @ValidContact
+    @ValidProfile
     @FullGameBook
     void testSave_Existing_ExistingRelationships_Returned() {
         final GameBook book;
@@ -145,7 +145,7 @@ class ITGameBookRepositorySave {
 
     @Test
     @DisplayName("When there is an existing game book, and relationships are removed, it is persisted")
-    @ValidContact
+    @ValidProfile
     @FullGameBook
     void testSave_Existing_RemoveRelationships_Persisted() {
         final GameBook book;
@@ -165,7 +165,7 @@ class ITGameBookRepositorySave {
 
     @Test
     @DisplayName("When there is an existing game book, and relationships are removed, it is returned")
-    @ValidContact
+    @ValidProfile
     @FullGameBook
     void testSave_Existing_RemoveRelationships_Returned() {
         final GameBook book;
@@ -222,7 +222,7 @@ class ITGameBookRepositorySave {
 
     @Test
     @DisplayName("When there are relationships the game book is persisted")
-    @ValidContact
+    @ValidProfile
     @ValidAuthor
     @ValidPublisher
     @ValidBookType
@@ -246,7 +246,7 @@ class ITGameBookRepositorySave {
 
     @Test
     @DisplayName("When there are relationships the persisted game book is returned")
-    @ValidContact
+    @ValidProfile
     @ValidAuthor
     @ValidPublisher
     @ValidBookType
@@ -269,7 +269,7 @@ class ITGameBookRepositorySave {
 
     @Test
     @DisplayName("When the game book has a ISBN-13 it is persisted")
-    @ValidContact
+    @ValidProfile
     @ValidAuthor
     @ValidPublisher
     @ValidBookType
@@ -293,7 +293,7 @@ class ITGameBookRepositorySave {
 
     @Test
     @DisplayName("When the game book has a ISBN-13 it is returned")
-    @ValidContact
+    @ValidProfile
     @ValidAuthor
     @ValidPublisher
     @ValidBookType

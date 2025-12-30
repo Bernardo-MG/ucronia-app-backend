@@ -29,7 +29,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.FullFictionBook;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.FullGameBook;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.MinimalFictionBook;
@@ -39,6 +38,7 @@ import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.lending.domain.repository.BookLendingRepository;
 import com.bernardomg.association.library.lending.test.configuration.factory.BookLendingEntities;
 import com.bernardomg.association.library.lending.test.configuration.factory.BookLendings;
+import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -52,7 +52,7 @@ class ITBookLendingRepositorySave {
     private BookLendingSpringRepository springRepository;
 
     @Test
-    @DisplayName("When saving a lending for a fiction book and the contact doesnt exist, nothing is persisted")
+    @DisplayName("When saving a lending for a fiction book and the profile doesnt exist, nothing is persisted")
     @MinimalFictionBook
     void testSave_FictionBook_NoMember() {
         final BookLending lending;
@@ -71,7 +71,7 @@ class ITBookLendingRepositorySave {
 
     @Test
     @DisplayName("When saving a lending for a fiction book, a lending is persisted")
-    @ValidContact
+    @ValidProfile
     @FullFictionBook
     void testSave_FictionBook_Persisted() {
         final BookLending lending;
@@ -91,7 +91,7 @@ class ITBookLendingRepositorySave {
 
     @Test
     @DisplayName("When saving a lending for a fiction book, the persisted lending is returned")
-    @ValidContact
+    @ValidProfile
     @FullFictionBook
     void testSave_FictionBook_Returned() {
         final BookLending lending;
@@ -110,7 +110,7 @@ class ITBookLendingRepositorySave {
     }
 
     @Test
-    @DisplayName("When saving a lending for a game book and the contact doesnt exist, nothing is persisted")
+    @DisplayName("When saving a lending for a game book and the profile doesnt exist, nothing is persisted")
     @MinimalGameBook
     void testSave_GameBook_NoMember() {
         final BookLending lending;
@@ -129,7 +129,7 @@ class ITBookLendingRepositorySave {
 
     @Test
     @DisplayName("When saving a lending for a game book, a lending is persisted")
-    @ValidContact
+    @ValidProfile
     @FullGameBook
     void testSave_GameBook_Persisted() {
         final BookLending lending;
@@ -149,7 +149,7 @@ class ITBookLendingRepositorySave {
 
     @Test
     @DisplayName("When saving a lending for a game book, the persisted lending is returned")
-    @ValidContact
+    @ValidProfile
     @FullGameBook
     void testSave_GameBook_Returned() {
         final BookLending lending;
@@ -169,7 +169,7 @@ class ITBookLendingRepositorySave {
 
     @Test
     @DisplayName("When saving a lending for a book which doesn't exist, nothing is persisted")
-    @ValidContact
+    @ValidProfile
     void testSave_NoBook() {
         final BookLending lending;
 

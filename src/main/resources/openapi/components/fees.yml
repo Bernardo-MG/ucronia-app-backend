@@ -19,7 +19,7 @@ components:
       required: [member, month, paid]
       properties:
         member:
-          $ref: 'contacts.yml#/components/schemas/MinimalContact'
+          $ref: 'profiles.yml#/components/schemas/MinimalProfile'
         month:
           $ref: '../common/dates.yml#/components/schemas/Month'
         paid:

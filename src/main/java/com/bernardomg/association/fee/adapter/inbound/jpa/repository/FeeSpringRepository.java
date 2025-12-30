@@ -137,13 +137,13 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
     public Page<FeeEntity> findAllWithMember(final Pageable pageable);
 
     /**
-     * Finds the fee for the contact in the date.
+     * Finds the fee for the member in a date.
      *
      * @param memberId
      *            member to filter by
      * @param date
      *            date to filter by
-     * @return fee for the contact in the date
+     * @return fee for the member in a date
      */
     public Optional<FeeEntity> findByMemberIdAndDate(final Long memberId, final Instant date);
 

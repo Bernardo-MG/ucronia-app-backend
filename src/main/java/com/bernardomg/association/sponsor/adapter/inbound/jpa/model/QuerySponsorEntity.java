@@ -26,7 +26,7 @@ import jakarta.persistence.Transient;
 
 @Entity(name = "Sponsor")
 @Table(schema = "directory", name = "sponsors")
-@SecondaryTable(schema = "directory", name = "contacts",
+@SecondaryTable(schema = "directory", name = "profiles",
         pkJoinColumns = @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id"))
 public class QuerySponsorEntity implements Serializable {
 
@@ -36,34 +36,34 @@ public class QuerySponsorEntity implements Serializable {
     @Transient
     private static final long                            serialVersionUID = 8139806507534262996L;
 
-    @Column(name = "birth_date", table = "contacts")
+    @Column(name = "birth_date", table = "profiles")
     private Instant                                      birthDate;
 
-    @Column(name = "comments", table = "contacts")
+    @Column(name = "comments", table = "profiles")
     private String                                       comments;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "contact_id", referencedColumnName = "id")
+    @JoinColumn(name = "profile_id", referencedColumnName = "id")
     private Collection<QuerySponsorContactChannelEntity> contactChannels;
 
-    @Column(name = "first_name", table = "contacts", nullable = false)
+    @Column(name = "first_name", table = "profiles", nullable = false)
     private String                                       firstName;
 
     @Id
     @Column(name = "id", table = "sponsors", nullable = false, unique = true)
     private Long                                         id;
 
-    @Column(name = "identifier", table = "contacts")
+    @Column(name = "identifier", table = "profiles")
     private String                                       identifier;
 
-    @Column(name = "last_name", table = "contacts")
+    @Column(name = "last_name", table = "profiles")
     private String                                       lastName;
 
-    @Column(name = "number", table = "contacts")
+    @Column(name = "number", table = "profiles")
     private Long                                         number;
 
     @JdbcTypeCode(SqlTypes.JSON)
-    @Column(name = "types", table = "contacts")
+    @Column(name = "types", table = "profiles")
     private Set<String>                                  types;
 
     @ElementCollection

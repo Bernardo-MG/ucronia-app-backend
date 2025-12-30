@@ -10,7 +10,7 @@ post:
           $ref: '../components/members.yml#/components/schemas/MemberCreation'
   responses:
     '201':
-      description: Contact created.
+      description: Member created.
       content:
         application/json:
           schema:

@@ -1,8 +1,8 @@
 
 package com.bernardomg.association.member.test.configuration.factory;
 
-import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberEntity;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 
 public final class QueryMemberEntities {
 
@@ -11,9 +11,9 @@ public final class QueryMemberEntities {
 
         entity = new QueryMemberEntity();
         entity.setId(1L);
-        entity.setNumber(ContactConstants.NUMBER);
-        entity.setFirstName(ContactConstants.FIRST_NAME);
-        entity.setLastName(ContactConstants.LAST_NAME);
+        entity.setNumber(ProfileConstants.NUMBER);
+        entity.setFirstName(ProfileConstants.FIRST_NAME);
+        entity.setLastName(ProfileConstants.LAST_NAME);
         entity.setActive(true);
         entity.setRenew(true);
 
@@ -25,9 +25,9 @@ public final class QueryMemberEntities {
 
         entity = new QueryMemberEntity();
         entity.setId(1L);
-        entity.setNumber(ContactConstants.NUMBER);
-        entity.setFirstName(ContactConstants.ALTERNATIVE_FIRST_NAME);
-        entity.setLastName(ContactConstants.ALTERNATIVE_LAST_NAME);
+        entity.setNumber(ProfileConstants.NUMBER);
+        entity.setFirstName(ProfileConstants.ALTERNATIVE_FIRST_NAME);
+        entity.setLastName(ProfileConstants.ALTERNATIVE_LAST_NAME);
         entity.setActive(true);
         entity.setRenew(true);
 
@@ -40,8 +40,8 @@ public final class QueryMemberEntities {
         entity = new QueryMemberEntity();
         entity.setId(1L);
         entity.setNumber(1L);
-        entity.setFirstName(ContactConstants.FIRST_NAME);
-        entity.setLastName(ContactConstants.LAST_NAME);
+        entity.setFirstName(ProfileConstants.FIRST_NAME);
+        entity.setLastName(ProfileConstants.LAST_NAME);
         entity.setActive(true);
         entity.setRenew(true);
 
@@ -53,9 +53,9 @@ public final class QueryMemberEntities {
 
         entity = new QueryMemberEntity();
         entity.setId(1L);
-        entity.setNumber(ContactConstants.NUMBER);
-        entity.setFirstName(ContactConstants.FIRST_NAME);
-        entity.setLastName(ContactConstants.LAST_NAME);
+        entity.setNumber(ProfileConstants.NUMBER);
+        entity.setFirstName(ProfileConstants.FIRST_NAME);
+        entity.setLastName(ProfileConstants.LAST_NAME);
         entity.setActive(false);
         entity.setRenew(true);
 

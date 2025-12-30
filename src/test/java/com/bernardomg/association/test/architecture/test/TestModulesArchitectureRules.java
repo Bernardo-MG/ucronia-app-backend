@@ -15,8 +15,8 @@ public class TestModulesArchitectureRules {
     @ArchTest
     static final ArchRule module_dependencies_are_respected = layeredArchitecture().consideringAllDependencies()
 
-        .layer("Contacts")
-        .definedBy("com.bernardomg.association.contact..")
+        .layer("Profiles")
+        .definedBy("com.bernardomg.association.profile..")
         .layer("Members")
         .definedBy("com.bernardomg.association.member..")
         .layer("Sponsors")
@@ -58,7 +58,7 @@ public class TestModulesArchitectureRules {
         .layer("Library lending")
         .definedBy("com.bernardomg.association.library.lending..")
 
-        .whereLayer("Contacts")
+        .whereLayer("Profiles")
         .mayOnlyBeAccessedByLayers("Members", "Sponsors", "Guests", "Users", "Account", "Fees", "Library books",
             "Library lending")
         .whereLayer("Members")
@@ -84,7 +84,7 @@ public class TestModulesArchitectureRules {
         .whereLayer("Association settings")
         .mayOnlyBeAccessedByLayers("Fees")
         .whereLayer("Association events")
-        .mayOnlyBeAccessedByLayers("Members", "Fees", "Contacts")
+        .mayOnlyBeAccessedByLayers("Members", "Fees", "Profiles")
 
         // Library modules
         .whereLayer("Library authors")

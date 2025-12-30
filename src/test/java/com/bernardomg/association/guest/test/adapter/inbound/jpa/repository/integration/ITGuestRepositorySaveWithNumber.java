@@ -30,11 +30,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.contact.adapter.inbound.jpa.model.ContactEntity;
-import com.bernardomg.association.contact.adapter.inbound.jpa.repository.ContactSpringRepository;
-import com.bernardomg.association.contact.test.configuration.data.annotation.EmailContactMethod;
-import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
-import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.guest.adapter.inbound.jpa.model.GuestEntityConstants;
 import com.bernardomg.association.guest.adapter.inbound.jpa.model.QueryGuestEntity;
 import com.bernardomg.association.guest.adapter.inbound.jpa.repository.QueryGuestSpringRepository;
@@ -42,6 +37,11 @@ import com.bernardomg.association.guest.domain.model.Guest;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
 import com.bernardomg.association.guest.test.configuration.factory.Guests;
 import com.bernardomg.association.guest.test.configuration.factory.QueryGuestEntities;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
+import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
+import com.bernardomg.association.profile.test.configuration.data.annotation.EmailContactMethod;
+import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -49,7 +49,7 @@ import com.bernardomg.test.configuration.annotation.IntegrationTest;
 class ITGuestRepositorySaveWithNumber {
 
     @Autowired
-    private ContactSpringRepository    contactSpringRepository;
+    private ProfileSpringRepository    profileSpringRepository;
 
     @Autowired
     private GuestRepository            repository;
@@ -64,7 +64,7 @@ class ITGuestRepositorySaveWithNumber {
     @Test
     @DisplayName("With a guest, the guest is persisted")
     @EmailContactMethod
-    @ValidContact
+    @ValidProfile
     void testSaveWithNumber_PersistedData() {
         final Guest                      guest;
         final Iterable<QueryGuestEntity> entities;
@@ -73,7 +73,7 @@ class ITGuestRepositorySaveWithNumber {
         guest = Guests.valid();
 
         // WHEN
-        repository.save(guest, ContactConstants.NUMBER);
+        repository.save(guest, ProfileConstants.NUMBER);
 
         // THEN
         entities = springRepository.findAll();
@@ -87,7 +87,7 @@ class ITGuestRepositorySaveWithNumber {
     @Test
     @DisplayName("With a guest, the created guest is returned")
     @EmailContactMethod
-    @ValidContact
+    @ValidProfile
     void testSaveWithNumber_ReturnedData() {
         final Guest guest;
         final Guest saved;
@@ -96,7 +96,7 @@ class ITGuestRepositorySaveWithNumber {
         guest = Guests.valid();
 
         // WHEN
-        saved = repository.save(guest, ContactConstants.NUMBER);
+        saved = repository.save(guest, ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(saved)
@@ -105,28 +105,28 @@ class ITGuestRepositorySaveWithNumber {
     }
 
     @Test
-    @DisplayName("When the guest is persisted, the contact types includes the guest type")
+    @DisplayName("When the guest is persisted, the profile types includes the guest type")
     @EmailContactMethod
     void testSaveWithNumber_SetsType() {
         final Guest         guest;
         final Guest         saved;
-        final ContactEntity contact;
+        final ProfileEntity profile;
 
         // GIVEN
         guest = Guests.valid();
 
         // WHEN
-        saved = repository.save(guest, ContactConstants.NUMBER);
+        saved = repository.save(guest, ProfileConstants.NUMBER);
 
         // THEN
-        contact = contactSpringRepository.findByNumber(saved.number())
+        profile = profileSpringRepository.findByNumber(saved.number())
             .get();
 
-        Assertions.assertThat(contact)
-            .as("contact")
-            .extracting(ContactEntity::getTypes)
+        Assertions.assertThat(profile)
+            .as("profile")
+            .extracting(ProfileEntity::getTypes)
             .asInstanceOf(InstanceOfAssertFactories.SET)
-            .containsExactly(GuestEntityConstants.CONTACT_TYPE);
+            .containsExactly(GuestEntityConstants.PROFILE_TYPE);
     }
 
 }

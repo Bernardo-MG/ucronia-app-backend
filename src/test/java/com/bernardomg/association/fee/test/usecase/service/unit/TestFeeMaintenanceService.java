@@ -13,13 +13,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeMaintenanceService;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.factory.Members;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultFeeMaintenanceService")
@@ -40,7 +40,7 @@ public class TestFeeMaintenanceService {
 
         // GIVEN
         given(memberRepository.findAllToRenew()).willReturn(List.of(Members.active()));
-        given(feeRepository.exists(ContactConstants.NUMBER, FeeConstants.CURRENT_MONTH)).willReturn(false);
+        given(feeRepository.exists(ProfileConstants.NUMBER, FeeConstants.CURRENT_MONTH)).willReturn(false);
 
         // WHEN
         service.registerMonthFees();
@@ -55,7 +55,7 @@ public class TestFeeMaintenanceService {
 
         // GIVEN
         given(memberRepository.findAllToRenew()).willReturn(List.of(Members.active()));
-        given(feeRepository.exists(ContactConstants.NUMBER, FeeConstants.CURRENT_MONTH)).willReturn(true);
+        given(feeRepository.exists(ProfileConstants.NUMBER, FeeConstants.CURRENT_MONTH)).willReturn(true);
 
         // WHEN
         service.registerMonthFees();

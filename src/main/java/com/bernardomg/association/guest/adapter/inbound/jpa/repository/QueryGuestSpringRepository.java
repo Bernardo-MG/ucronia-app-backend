@@ -49,7 +49,7 @@ public interface QueryGuestSpringRepository
 
     public Optional<QueryGuestEntity> findByNumber(final Long number);
 
-    @Query("SELECT COALESCE(MAX(c.number), 0) + 1 FROM Contact c")
+    @Query("SELECT COALESCE(MAX(p.number), 0) + 1 FROM Profile p")
     public Long findNextNumber();
 
 }

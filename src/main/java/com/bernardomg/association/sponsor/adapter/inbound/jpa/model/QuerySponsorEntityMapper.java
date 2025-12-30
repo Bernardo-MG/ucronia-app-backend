@@ -26,8 +26,8 @@ package com.bernardomg.association.sponsor.adapter.inbound.jpa.model;
 
 import java.util.Collection;
 
-import com.bernardomg.association.contact.domain.model.Contact.ContactChannel;
-import com.bernardomg.association.contact.domain.model.ContactName;
+import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
+import com.bernardomg.association.profile.domain.model.ProfileName;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
 
 /**
@@ -36,10 +36,10 @@ import com.bernardomg.association.sponsor.domain.model.Sponsor;
 public final class QuerySponsorEntityMapper {
 
     public static final Sponsor toDomain(final QuerySponsorEntity entity) {
-        final ContactName                name;
+        final ProfileName                name;
         final Collection<ContactChannel> contactChannels;
 
-        name = new ContactName(entity.getFirstName(), entity.getLastName());
+        name = new ProfileName(entity.getFirstName(), entity.getLastName());
 
         contactChannels = entity.getContactChannels()
             .stream()

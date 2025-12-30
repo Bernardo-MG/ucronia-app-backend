@@ -22,22 +22,22 @@ components:
           $ref: '../common/ids.yml#/components/schemas/Id'
         identifier:
           type: string
-          description: Unique identifier of the contact.
+          description: Unique identifier of the sponsor.
         name:
-          $ref: 'contacts.yml#/components/schemas/ContactName'
+          $ref: 'profiles.yml#/components/schemas/ProfileName'
         birthDate:
           $ref: '../common/dates.yml#/components/schemas/Date'
         contactChannels:
           type: array
           items:
-            $ref: 'contacts.yml#/components/schemas/ContactChannel'
+            $ref: 'profiles.yml#/components/schemas/ContactChannel'
         years:
           type: array
           items:
             type: integer
         comments:
           type: string
-          description: Comments about the contact.
+          description: Comments about the sponsor.
         types:
           type: array
           items:
@@ -48,22 +48,22 @@ components:
       properties:
         identifier:
           type: string
-          description: Unique identifier of the contact.
+          description: Unique identifier of the sponsor.
         name:
-          $ref: 'contacts.yml#/components/schemas/EditionContactName'
+          $ref: 'profiles.yml#/components/schemas/EditionProfileName'
     SponsorChange:
       type: object
       properties:
         identifier:
           type: string
         name:
-          $ref: 'contacts.yml#/components/schemas/EditionContactName'
+          $ref: 'profiles.yml#/components/schemas/EditionProfileName'
         birthDate:
           $ref: '../common/dates.yml#/components/schemas/Date'
         contactChannels:
           type: array
           items:
-            $ref: 'contacts.yml#/components/schemas/EditionContactChannel'
+            $ref: 'profiles.yml#/components/schemas/EditionContactChannel'
         years:
           type: array
           items:

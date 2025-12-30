@@ -29,13 +29,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.contact.adapter.inbound.jpa.repository.ContactSpringRepository;
-import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
-import com.bernardomg.association.contact.test.configuration.factory.ContactConstants;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.QueryMemberSpringRepository;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
+import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
+import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -43,7 +43,7 @@ import com.bernardomg.test.configuration.annotation.IntegrationTest;
 class ITMemberRepositoryDelete {
 
     @Autowired
-    private ContactSpringRepository     contactSpringRepository;
+    private ProfileSpringRepository     profileSpringRepository;
 
     @Autowired
     private MemberRepository            repository;
@@ -60,7 +60,7 @@ class ITMemberRepositoryDelete {
     @ActiveMember
     void testDelete_Active() {
         // WHEN
-        repository.delete(ContactConstants.NUMBER);
+        repository.delete(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(springRepository.count())
@@ -68,14 +68,14 @@ class ITMemberRepositoryDelete {
     }
 
     @Test
-    @DisplayName("When deleting an active member, the contact is deleted")
+    @DisplayName("When deleting an active member, the profile is deleted")
     @ActiveMember
-    void testDelete_Active_Contact() {
+    void testDelete_Active_Profile() {
         // WHEN
-        repository.delete(ContactConstants.NUMBER);
+        repository.delete(ProfileConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(contactSpringRepository.count())
+        Assertions.assertThat(profileSpringRepository.count())
             .isZero();
     }
 
@@ -84,7 +84,7 @@ class ITMemberRepositoryDelete {
     @InactiveMember
     void testDelete_Inactive() {
         // WHEN
-        repository.delete(ContactConstants.NUMBER);
+        repository.delete(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(springRepository.count())
@@ -92,14 +92,14 @@ class ITMemberRepositoryDelete {
     }
 
     @Test
-    @DisplayName("When deleting an inactive member, the contact is deleted")
+    @DisplayName("When deleting an inactive member, the profile is deleted")
     @InactiveMember
-    void testDelete_Inactive_Contact() {
+    void testDelete_Inactive_Profile() {
         // WHEN
-        repository.delete(ContactConstants.NUMBER);
+        repository.delete(ProfileConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(contactSpringRepository.count())
+        Assertions.assertThat(profileSpringRepository.count())
             .isZero();
     }
 
@@ -107,7 +107,7 @@ class ITMemberRepositoryDelete {
     @DisplayName("When there is no data, nothing is deleted")
     void testDelete_NoData() {
         // WHEN
-        repository.delete(ContactConstants.NUMBER);
+        repository.delete(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(springRepository.count())
@@ -115,11 +115,11 @@ class ITMemberRepositoryDelete {
     }
 
     @Test
-    @DisplayName("With a contact with no member role, nothing is deleted")
-    @ValidContact
+    @DisplayName("With a profile with no member role, nothing is deleted")
+    @ValidProfile
     void testDelete_NoMembership() {
         // WHEN
-        repository.delete(ContactConstants.NUMBER);
+        repository.delete(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(springRepository.count())

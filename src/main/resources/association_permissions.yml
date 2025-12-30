@@ -78,7 +78,7 @@ permissions:
   - resource: library
     actions:
       - view
-  - resource: contact
+  - resource: profile
     actions:
       - create
       - read
@@ -98,7 +98,7 @@ permissions:
       - update
       - delete
       - view
-  - resource: member_contact
+  - resource: member_profile
     actions:
       - create
       - read

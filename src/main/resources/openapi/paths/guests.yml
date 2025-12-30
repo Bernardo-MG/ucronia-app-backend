@@ -10,7 +10,7 @@ post:
           $ref: '../components/guests.yml#/components/schemas/GuestCreation'
   responses:
     '201':
-      description: Contact created.
+      description: Guest created.
       content:
         application/json:
           schema:

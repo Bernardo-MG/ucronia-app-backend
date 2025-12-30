@@ -31,7 +31,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.contact.test.configuration.data.annotation.ValidContact;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveToNotRenewMember;
@@ -39,6 +38,7 @@ import com.bernardomg.association.member.test.configuration.data.annotation.Acti
 import com.bernardomg.association.member.test.configuration.data.annotation.InactiveToNotRenewMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.InactiveToRenewMember;
 import com.bernardomg.association.member.test.configuration.factory.Members;
+import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -49,8 +49,8 @@ class ITMemberRepositoryFindAllToRenew {
     private MemberRepository repository;
 
     @Test
-    @DisplayName("With a contact without member role, nothing is returned")
-    @ValidContact
+    @DisplayName("With a profile without member role, nothing is returned")
+    @ValidProfile
     void testFindAllToRenew_NoMembership() {
         final Collection<Member> members;
 

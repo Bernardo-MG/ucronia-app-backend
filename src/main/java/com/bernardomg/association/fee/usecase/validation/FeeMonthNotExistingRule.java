@@ -49,12 +49,12 @@ public final class FeeMonthNotExistingRule implements FieldRule<Fee> {
 
     private final FeeRepository    feeRepository;
 
-    private final MemberRepository memberContactRepository;
+    private final MemberRepository memberRepository;
 
-    public FeeMonthNotExistingRule(final MemberRepository memberContactRepo, final FeeRepository feeRepo) {
+    public FeeMonthNotExistingRule(final MemberRepository memberRepo, final FeeRepository feeRepo) {
         super();
 
-        memberContactRepository = Objects.requireNonNull(memberContactRepo);
+        memberRepository = Objects.requireNonNull(memberRepo);
         feeRepository = Objects.requireNonNull(feeRepo);
     }
 
@@ -65,7 +65,7 @@ public final class FeeMonthNotExistingRule implements FieldRule<Fee> {
         final boolean                existing;
         final Member                 member;
 
-        member = memberContactRepository.findOne(fee.member()
+        member = memberRepository.findOne(fee.member()
             .number())
             .get();
         existing = feeRepository.exists(member.number(), fee.month());
