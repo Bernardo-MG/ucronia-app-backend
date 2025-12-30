@@ -61,12 +61,12 @@ import com.bernardomg.data.springframework.SpringSorting;
 @Transactional
 public final class JpaFeeRepository implements FeeRepository {
 
-    private static final Collection<String>   MEMBER_PROPERTIES = List.of("firstName", "lastName", "member", "number");
-
     /**
      * Logger for the class.
      */
-    private static final Logger               log                = LoggerFactory.getLogger(JpaFeeRepository.class);
+    private static final Logger               log               = LoggerFactory.getLogger(JpaFeeRepository.class);
+
+    private static final Collection<String>   MEMBER_PROPERTIES = List.of("firstName", "lastName", "member", "number");
 
     private final FeeSpringRepository         feeSpringRepository;
 

@@ -27,10 +27,8 @@ package com.bernardomg.association.transaction.adapter.outbound.rest.controller;
 import java.time.Instant;
 import java.util.Collection;
 
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.transaction.adapter.outbound.cache.TransactionCaches;
 import com.bernardomg.association.transaction.adapter.outbound.rest.model.TransactionBalanceDtoMapper;
 import com.bernardomg.association.transaction.adapter.outbound.rest.model.TransactionDtoMapper;
 import com.bernardomg.association.transaction.domain.model.TransactionBalanceQuery;
@@ -66,7 +64,6 @@ public class TransactionBalanceController implements TransactionBalanceApi {
 
     @Override
     @RequireResourceAuthorization(resource = "BALANCE", action = Actions.READ)
-    @Cacheable(cacheNames = TransactionCaches.BALANCE)
     public TransactionCurrentBalanceResponseDto getCurrentTransactionBalance() {
         final TransactionCurrentBalance balance;
 
@@ -77,7 +74,6 @@ public class TransactionBalanceController implements TransactionBalanceApi {
 
     @Override
     @RequireResourceAuthorization(resource = "BALANCE", action = Actions.READ)
-    @Cacheable(cacheNames = TransactionCaches.MONTHLY_BALANCE)
     public TransactionMonthlyBalanceResponseDto getMonthlyTransactionBalance(@Valid final Instant from,
             @Valid final Instant to) {
         final Collection<TransactionMonthlyBalance> balance;

@@ -26,11 +26,8 @@ package com.bernardomg.association.library.lending.adapter.outbound.rest.control
 
 import java.util.List;
 
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.library.book.adapter.outbound.cache.LibraryBookCaches;
 import com.bernardomg.association.library.lending.adapter.outbound.rest.model.BookLendingDtoMapper;
 import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.lending.usecase.service.BookLendingService;
@@ -70,7 +67,6 @@ public class BookLendingController implements BookLendingApi {
 
     @Override
     @RequireResourceAuthorization(resource = "LIBRARY_LENDING", action = Actions.READ)
-    // @Cacheable(cacheNames = LibraryLendingCaches.LENDINGS)
     public BookLendingPageResponseDto getAllBookLendings(@Min(0) @Valid final Integer page,
             @Min(1) @Valid final Integer size, @Valid final List<String> sort) {
         final Page<BookLending> lendings;
@@ -87,8 +83,6 @@ public class BookLendingController implements BookLendingApi {
 
     @Override
     @RequireResourceAuthorization(resource = "LIBRARY_LENDING", action = Actions.CREATE)
-    @Caching(evict = { @CacheEvict(cacheNames = { LibraryBookCaches.FICTION_BOOKS, LibraryBookCaches.GAME_BOOKS,
-            LibraryBookCaches.FICTION_BOOK, LibraryBookCaches.GAME_BOOK }, allEntries = true) })
     public BookLendingResponseDto lendBook(@Valid final BookLentDto bookLentDto) {
         final BookLending lending;
 
@@ -99,8 +93,6 @@ public class BookLendingController implements BookLendingApi {
 
     @Override
     @RequireResourceAuthorization(resource = "LIBRARY_LENDING", action = Actions.UPDATE)
-    @Caching(evict = { @CacheEvict(cacheNames = { LibraryBookCaches.FICTION_BOOKS, LibraryBookCaches.GAME_BOOKS,
-            LibraryBookCaches.FICTION_BOOK, LibraryBookCaches.GAME_BOOK }, allEntries = true) })
     public BookLendingResponseDto returnBook(@Valid final BookReturnedDto bookReturnedDto) {
         final BookLending lending;
 
