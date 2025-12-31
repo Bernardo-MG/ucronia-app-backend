@@ -437,7 +437,10 @@
             Several fixes.
          </action>
       </release>
-      <release version="1.0.0" date="2025-10-31" description="">
+      <release version="0.6.3" date="2025-12-30" description="Profiles">
+         <action dev="bmg" type="update">
+            Reworked contacts and profiles.
+         </action>
       </release>
    </body>
 </document>
