@@ -195,26 +195,6 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     @Override
-    public final Collection<Fee> findAllInMonth(final YearMonth date) {
-        final Collection<Fee> fees;
-        final Instant         dateParsed;
-
-        log.debug("Finding all fees in month {}", date);
-
-        dateParsed = date.atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant();
-        fees = feeSpringRepository.findAllByDate(dateParsed)
-            .stream()
-            .map(FeeEntityMapper::toDomain)
-            .toList();
-
-        log.debug("Found all fees in month {}: {}", date, fees);
-
-        return fees;
-    }
-
-    @Override
     public final Collection<Fee> findAllInYear(final Year year, final Sorting sorting) {
         final Collection<Fee> fees;
         final Sort            sort;
