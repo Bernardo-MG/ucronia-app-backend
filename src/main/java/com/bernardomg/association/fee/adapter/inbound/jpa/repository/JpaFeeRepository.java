@@ -30,6 +30,7 @@ import java.time.YearMonth;
 import java.time.ZoneOffset;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -78,9 +79,9 @@ public final class JpaFeeRepository implements FeeRepository {
             final TransactionSpringRepository transactionSpringRepo) {
         super();
 
-        feeSpringRepository = feeSpringRepo;
-        memberSpringRepository = memberSpringRepo;
-        transactionSpringRepository = transactionSpringRepo;
+        feeSpringRepository = Objects.requireNonNull(feeSpringRepo);
+        memberSpringRepository = Objects.requireNonNull(memberSpringRepo);
+        transactionSpringRepository = Objects.requireNonNull(transactionSpringRepo);
     }
 
     @Override

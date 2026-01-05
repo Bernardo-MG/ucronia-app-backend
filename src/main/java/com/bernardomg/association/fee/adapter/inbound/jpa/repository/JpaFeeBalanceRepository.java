@@ -22,54 +22,59 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.usecase.service;
+package com.bernardomg.association.fee.adapter.inbound.jpa.repository;
 
+import java.time.Instant;
 import java.time.YearMonth;
+import java.time.ZoneOffset;
 import java.util.Collection;
 import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeEntityMapper;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeBalance;
-import com.bernardomg.association.fee.domain.repository.FeeRepository;
+import com.bernardomg.association.fee.domain.repository.FeeBalanceRepository;
 
-/**
- * Default implementation of the fee report service.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- */
-@Service
+@Repository
 @Transactional
-public final class DefaultFeeBalanceService implements FeeBalanceService {
+public final class JpaFeeBalanceRepository implements FeeBalanceRepository {
 
     /**
      * Logger for the class.
      */
-    private static final Logger log = LoggerFactory.getLogger(DefaultFeeBalanceService.class);
+    private static final Logger       log = LoggerFactory.getLogger(JpaFeeBalanceRepository.class);
 
-    private final FeeRepository feeRepository;
+    private final FeeSpringRepository feeSpringRepository;
 
-    public DefaultFeeBalanceService(final FeeRepository feeRepo) {
+    public JpaFeeBalanceRepository(final FeeSpringRepository feeSpringRepo) {
         super();
 
-        feeRepository = Objects.requireNonNull(feeRepo);
+        feeSpringRepository = Objects.requireNonNull(feeSpringRepo);
     }
 
     @Override
-    public final FeeBalance getFeeBalance() {
+    public final FeeBalance findForMonth(final YearMonth date) {
+        final FeeBalance      balance;
         final Collection<Fee> fees;
+        final Instant         dateParsed;
         final long            paid;
         final long            unpaid;
-        final FeeBalance      balance;
 
-        log.info("Getting fee balance");
+        log.debug("Finding balance for month {}", date);
 
-        // TODO: user a smaller query
-        fees = feeRepository.findAllInMonth(YearMonth.now());
+        dateParsed = date.atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
+        fees = feeSpringRepository.findAllByDate(dateParsed)
+            .stream()
+            .map(FeeEntityMapper::toDomain)
+            .toList();
+
         paid = fees.stream()
             .filter(Fee::paid)
             .count();
@@ -77,7 +82,7 @@ public final class DefaultFeeBalanceService implements FeeBalanceService {
 
         balance = new FeeBalance(paid, unpaid);
 
-        log.debug("Got fee balance: {}", balance);
+        log.debug("Found balance for month {}: {}", date, balance);
 
         return balance;
     }
