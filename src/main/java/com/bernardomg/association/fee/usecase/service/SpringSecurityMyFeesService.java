@@ -37,6 +37,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.association.fee.domain.exception.MissingUserInSessionException;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.profile.domain.model.Profile;
@@ -46,24 +47,24 @@ import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 
 /**
- * Default implementation of the user fee service.
+ * My fees service based on Spring Security.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
 @Service
 @Transactional
-public final class DefaultMyFeesService implements MyFeesService {
+public final class SpringSecurityMyFeesService implements MyFeesService {
 
     /**
      * Logger for the class.
      */
-    private static final Logger         log = LoggerFactory.getLogger(DefaultMyFeesService.class);
+    private static final Logger         log = LoggerFactory.getLogger(SpringSecurityMyFeesService.class);
 
     private final FeeRepository         feeRepository;
 
     private final UserProfileRepository userProfileRepository;
 
-    public DefaultMyFeesService(final FeeRepository feeRepo, final UserProfileRepository userProfileRepo) {
+    public SpringSecurityMyFeesService(final FeeRepository feeRepo, final UserProfileRepository userProfileRepo) {
         super();
 
         feeRepository = Objects.requireNonNull(feeRepo);
@@ -72,10 +73,35 @@ public final class DefaultMyFeesService implements MyFeesService {
 
     @Override
     public final Page<Fee> getAllForUserInSession(final Pagination pagination, final Sorting sorting) {
-        final Authentication    authentication;
         final Page<Fee>         fees;
-        final UserDetails       userDetails;
         final Optional<Profile> profile;
+        final String            username;
+
+        log.info("Getting all the fees for the user in session");
+
+        username = getUsername();
+        profile = userProfileRepository.findByUsername(username);
+        if (profile.isEmpty()) {
+            log.warn("User {} has no member assigned", username);
+            fees = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
+        } else {
+            fees = feeRepository.findAllForProfile(profile.get()
+                .number(), pagination, sorting);
+        }
+
+        log.debug("Got all the fees for the user in session {}: {}", username, fees);
+
+        return fees;
+    }
+
+    /**
+     * Returns the username for the user in session.
+     *
+     * @return the username for the user in session
+     */
+    private final String getUsername() {
+        final Authentication authentication;
+        final UserDetails    userDetails;
 
         log.info("Getting all the fees for the user in session");
 
@@ -83,23 +109,12 @@ public final class DefaultMyFeesService implements MyFeesService {
             .getAuthentication();
         if ((authentication instanceof AnonymousAuthenticationToken)
                 || !(authentication.getPrincipal() instanceof UserDetails)) {
-            fees = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
-            // TODO: maybe throw an exception
-        } else {
-            userDetails = (UserDetails) authentication.getPrincipal();
-            profile = userProfileRepository.findByUsername(userDetails.getUsername());
-            if (profile.isEmpty()) {
-                log.warn("User {} has no member assigned", userDetails.getUsername());
-                fees = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
-            } else {
-                fees = feeRepository.findAllForProfile(profile.get()
-                    .number(), pagination, sorting);
-            }
+            throw new MissingUserInSessionException();
         }
 
-        log.debug("Got all the fees for the user in session: {}", fees);
+        userDetails = (UserDetails) authentication.getPrincipal();
 
-        return fees;
+        return userDetails.getUsername();
     }
 
 }
