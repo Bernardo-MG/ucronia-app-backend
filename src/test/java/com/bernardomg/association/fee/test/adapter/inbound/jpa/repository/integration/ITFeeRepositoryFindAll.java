@@ -121,7 +121,7 @@ class ITFeeRepositoryFindAll {
     @Test
     @DisplayName("With no data it returns nothing")
     @ActiveMember
-    void testFindAll_NoFee() {
+    void testFindAll_NoData() {
         final Page<Fee>  fees;
         final FeeQuery   feeQuery;
         final Pagination pagination;
@@ -129,7 +129,7 @@ class ITFeeRepositoryFindAll {
 
         // GIVEN
         pagination = new Pagination(1, 20);
-        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
+        sorting = Sorting.unsorted();
 
         feeQuery = FeesQuery.empty();
 
@@ -156,7 +156,7 @@ class ITFeeRepositoryFindAll {
 
         // GIVEN
         pagination = new Pagination(1, 20);
-        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
+        sorting = Sorting.unsorted();
 
         feeQuery = FeesQuery.empty();
 
@@ -183,7 +183,7 @@ class ITFeeRepositoryFindAll {
 
         // GIVEN
         pagination = new Pagination(1, 20);
-        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
+        sorting = Sorting.unsorted();
 
         feeQuery = FeesQuery.empty();
 
@@ -210,7 +210,7 @@ class ITFeeRepositoryFindAll {
 
         // GIVEN
         pagination = new Pagination(1, 20);
-        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
+        sorting = Sorting.unsorted();
 
         feeQuery = FeesQuery.empty();
 

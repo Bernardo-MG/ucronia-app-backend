@@ -22,20 +22,32 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.adapter.inbound.jpa.repository;
+package com.bernardomg.association.fee.adapter.inbound.jpa.model;
 
-import java.util.Optional;
+import com.bernardomg.association.fee.domain.model.FeeType;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+/**
+ * Fee type repository mapper.
+ */
+public final class FeeTypeEntityMapper {
 
-import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTypeEntity;
+    public static final FeeType toDomain(final FeeTypeEntity entity) {
+        return new FeeType(entity.getNumber(), entity.getName(), entity.getAmount());
+    }
 
-public interface FeeTypeSpringRepository extends JpaRepository<FeeTypeEntity, Long> {
+    public static final FeeTypeEntity toEntity(final FeeType domain) {
+        final FeeTypeEntity entity;
 
-    public void deleteByNumber(final Long number);
+        entity = new FeeTypeEntity();
+        entity.setNumber(domain.number());
+        entity.setName(domain.name());
+        entity.setAmount(domain.amount());
 
-    public boolean existsByNumber(final Long number);
+        return entity;
+    }
 
-    public Optional<FeeTypeEntity> findByNumber(final long index);
+    private FeeTypeEntityMapper() {
+        super();
+    }
 
 }

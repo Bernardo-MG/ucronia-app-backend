@@ -55,6 +55,9 @@ public class FeeTypeEntity implements Serializable {
     @Column(name = "name")
     private String            name;
 
+    @Column(name = "number")
+    private Long              number;
+
     public Float getAmount() {
         return amount;
     }
@@ -65,6 +68,10 @@ public class FeeTypeEntity implements Serializable {
 
     public String getName() {
         return name;
+    }
+
+    public Long getNumber() {
+        return number;
     }
 
     public void setAmount(final Float amount) {
@@ -79,9 +86,13 @@ public class FeeTypeEntity implements Serializable {
         this.name = name;
     }
 
+    public void setNumber(final Long number) {
+        this.number = number;
+    }
+
     @Override
     public String toString() {
-        return "FeeTypeEntity [id=" + id + ", name=" + name + ", amount=" + amount + "]";
+        return "FeeTypeEntity [id=" + id + ", number=" + number + ", name=" + name + ", amount=" + amount + "]";
     }
 
 }

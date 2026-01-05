@@ -22,20 +22,25 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.adapter.inbound.jpa.repository;
+package com.bernardomg.association.fee.domain.repository;
 
 import java.util.Optional;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.bernardomg.association.fee.domain.model.FeeType;
+import com.bernardomg.data.domain.Page;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 
-import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTypeEntity;
+public interface FeeTypeRepository {
 
-public interface FeeTypeSpringRepository extends JpaRepository<FeeTypeEntity, Long> {
+    public void delete(final Long number);
 
-    public void deleteByNumber(final Long number);
+    public boolean exists(final Long number);
 
-    public boolean existsByNumber(final Long number);
+    public Page<FeeType> findAll(final Pagination pagination, final Sorting sorting);
 
-    public Optional<FeeTypeEntity> findByNumber(final long index);
+    public Optional<FeeType> findOne(final Long number);
+
+    public FeeType save(final FeeType feeType);
 
 }
