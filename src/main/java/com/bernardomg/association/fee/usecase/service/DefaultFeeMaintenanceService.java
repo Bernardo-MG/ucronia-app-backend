@@ -90,10 +90,7 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
     }
 
     private final Fee toUnpaidThisMonth(final Member member) {
-        final Fee.Member feeMember;
-
-        feeMember = new Fee.Member(member.number(), member.name());
-        return Fee.unpaid(YearMonth.now(), feeMember);
+        return Fee.unpaid(YearMonth.now(), member.number(), member.name());
     }
 
 }

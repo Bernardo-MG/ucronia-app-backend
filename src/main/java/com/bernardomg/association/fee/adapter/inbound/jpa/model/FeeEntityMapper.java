@@ -26,9 +26,9 @@ package com.bernardomg.association.fee.adapter.inbound.jpa.model;
 
 import java.time.YearMonth;
 import java.time.ZoneOffset;
-import java.util.Optional;
 
 import com.bernardomg.association.fee.domain.model.Fee;
+import com.bernardomg.association.fee.domain.model.Fee.Transaction;
 import com.bernardomg.association.profile.domain.model.ProfileName;
 
 /**
@@ -37,29 +37,31 @@ import com.bernardomg.association.profile.domain.model.ProfileName;
 public final class FeeEntityMapper {
 
     public static final Fee toDomain(final FeeEntity entity) {
-        final Fee.Member                member;
-        final Optional<Fee.Transaction> transaction;
-        final ProfileName               name;
-        final YearMonth                 date;
+        final Transaction transaction;
+        final ProfileName name;
+        final YearMonth   date;
+        final Fee         fee;
 
         name = new ProfileName(entity.getMember()
             .getFirstName(),
             entity.getMember()
                 .getLastName());
-        member = new Fee.Member(entity.getMember()
-            .getNumber(), name);
 
-        if (entity.getPaid()) {
-            transaction = Optional.of(new Fee.Transaction(entity.getTransaction()
-                .getDate(),
-                entity.getTransaction()
-                    .getIndex()));
-        } else {
-            transaction = Optional.empty();
-        }
         date = YearMonth.from(entity.getDate()
             .atZone(ZoneOffset.UTC));
-        return new Fee(date, entity.getPaid(), member, transaction);
+        if (entity.getPaid()) {
+            transaction = new Fee.Transaction(entity.getTransaction()
+                .getDate(),
+                entity.getTransaction()
+                    .getIndex());
+            fee = Fee.paid(date, entity.getMember()
+                .getNumber(), name, transaction);
+        } else {
+            fee = Fee.unpaid(date, entity.getMember()
+                .getNumber(), name);
+        }
+
+        return fee;
     }
 
     private FeeEntityMapper() {

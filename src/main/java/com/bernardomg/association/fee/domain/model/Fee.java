@@ -32,11 +32,18 @@ import com.bernardomg.association.profile.domain.model.ProfileName;
 
 public record Fee(YearMonth month, Boolean paid, Member member, Optional<Transaction> transaction) {
 
-    public static Fee unpaid(final YearMonth month, final Member member) {
+    public static Fee unpaid(final YearMonth month, final Long number, final ProfileName name) {
+        final Member member;
+
+        member = new Fee.Member(number, name);
         return new Fee(month, false, member, Optional.empty());
     }
 
-    public static Fee paid(final YearMonth month, final Member member, final Transaction transaction) {
+    public static Fee paid(final YearMonth month, final Long number, final ProfileName name,
+            final Transaction transaction) {
+        final Member member;
+
+        member = new Fee.Member(number, name);
         return new Fee(month, true, member, Optional.of(transaction));
     }
 

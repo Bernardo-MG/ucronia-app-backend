@@ -51,13 +51,13 @@ public interface FeeService {
      * Pays fees for a member. This creates the fees for the received months, and registers a payment on the received
      * date.
      *
-     * @param feeDate
+     * @param date
      *            date of the fee
      * @param number
      *            member paying the fees
      * @return the new unpaid fee
      */
-    public Fee createUnpaidFee(final YearMonth feeDate, final Long number);
+    public Fee createUnpaidFee(final YearMonth date, final Long number);
 
     /**
      * Deletes the fee for the received member in the received date.

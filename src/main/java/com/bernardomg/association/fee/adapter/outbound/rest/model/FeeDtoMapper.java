@@ -32,6 +32,7 @@ import java.util.Optional;
 
 import com.bernardomg.association.fee.domain.dto.FeePayments;
 import com.bernardomg.association.fee.domain.model.Fee;
+import com.bernardomg.association.fee.domain.model.Fee.Transaction;
 import com.bernardomg.association.fee.domain.model.MemberFees;
 import com.bernardomg.association.fee.domain.model.YearsRange;
 import com.bernardomg.data.domain.Page;
@@ -59,23 +60,23 @@ import com.bernardomg.ucronia.openapi.model.YearsRangeResponseDto;
 public final class FeeDtoMapper {
 
     public static final Fee toDomain(final FeeChangeDto change, final YearMonth month, final long number) {
-        final Fee.Member                member;
-        final Optional<Fee.Transaction> transaction;
+        final Transaction transaction;
+        final Fee         fee;
 
-        member = new Fee.Member(number, null);
         if ((change.getTransaction()
             .getIndex() == null)
                 && ((change.getTransaction()
                     .getDate() == null))) {
-            transaction = Optional.empty();
+            fee = Fee.unpaid(month, number, null);
         } else {
-            transaction = Optional.of(new Fee.Transaction(change.getTransaction()
+            transaction = new Fee.Transaction(change.getTransaction()
                 .getDate(),
                 change.getTransaction()
-                    .getIndex()));
+                    .getIndex());
+            fee = Fee.paid(month, number, null, transaction);
         }
 
-        return new Fee(month, false, member, transaction);
+        return fee;
     }
 
     public static final FeePayments toDomain(final FeePaymentsDto dto) {

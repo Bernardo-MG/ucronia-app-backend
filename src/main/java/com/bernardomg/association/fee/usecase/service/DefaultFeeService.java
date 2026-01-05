@@ -132,28 +132,28 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    public final Fee createUnpaidFee(final YearMonth feeDate, final Long number) {
+    public final Fee createUnpaidFee(final YearMonth date, final Long number) {
         final Fee    newFee;
-        final Fee    fee;
+        final Fee    created;
         final Member member;
 
-        log.info("Creating unpaid fee for {} for month {}", number, feeDate);
+        log.info("Creating unpaid fee for {} for month {}", number, date);
 
         member = memberRepository.findOne(number)
             .orElseThrow(() -> {
-                log.error("Missing profile {}", number);
+                log.error("Missing member {}", number);
                 throw new MissingMemberException(number);
             });
 
-        newFee = toUnpaidFee(member, feeDate);
+        newFee = Fee.unpaid(date, member.number(), member.name());
 
         validatorCreate.validate(newFee);
 
-        fee = feeRepository.save(newFee);
+        created = feeRepository.save(newFee);
 
-        log.info("Created unpaid fee for {} for month {}", number, feeDate);
+        log.info("Created unpaid fee for {} for month {}", number, date);
 
-        return fee;
+        return created;
     }
 
     @Override
@@ -172,6 +172,8 @@ public final class DefaultFeeService implements FeeService {
 
         // Send events for deleted fees
         eventEmitter.emit(new FeeDeletedEvent(fee, date, number));
+
+        log.info("Deleted fee for {} in {}", number, date);
 
         return fee;
     }
@@ -213,13 +215,12 @@ public final class DefaultFeeService implements FeeService {
 
         log.debug("Read fees: {}", readFees);
 
-        // Member fees grouped by id
+        // Member fees grouped by member number
         memberFees = readFees.stream()
             .collect(Collectors.groupingBy(f -> f.member()
                 .number()));
         log.debug("Member fees: {}", memberFees);
 
-        // Sorted ids
         memberNumbers = readFees.stream()
             .map(Fee::member)
             .map(Fee.Member::number)
@@ -296,7 +297,7 @@ public final class DefaultFeeService implements FeeService {
 
         member = memberRepository.findOne(feesPayments.member())
             .orElseThrow(() -> {
-                log.error("Missing profile {}", feesPayments.member());
+                log.error("Missing member {}", feesPayments.member());
                 throw new MissingMemberException(feesPayments.member());
             });
 
@@ -348,7 +349,7 @@ public final class DefaultFeeService implements FeeService {
         member = memberRepository.findOne(fee.member()
             .number())
             .orElseThrow(() -> {
-                log.error("Missing profile {}", fee.member()
+                log.error("Missing member {}", fee.member()
                     .number());
                 throw new MissingMemberException(fee.member()
                     .number());
@@ -499,19 +500,10 @@ public final class DefaultFeeService implements FeeService {
     }
 
     private final Fee toPaidFee(final Member member, final YearMonth month, final Transaction transaction) {
-        final Fee.Member      feeMember;
         final Fee.Transaction feeTransaction;
 
-        feeMember = new Fee.Member(member.number(), member.name());
         feeTransaction = new Fee.Transaction(transaction.date(), transaction.index());
-        return Fee.paid(month, feeMember, feeTransaction);
-    }
-
-    private final Fee toUnpaidFee(final Member member, final YearMonth date) {
-        final Fee.Member feeMember;
-
-        feeMember = new Fee.Member(member.number(), member.name());
-        return Fee.unpaid(date, feeMember);
+        return Fee.paid(month, member.number(), member.name(), feeTransaction);
     }
 
 }
