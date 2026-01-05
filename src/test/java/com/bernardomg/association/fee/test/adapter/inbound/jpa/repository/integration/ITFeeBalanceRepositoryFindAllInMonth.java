@@ -31,16 +31,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.fee.domain.model.FeeBalance;
 import com.bernardomg.association.fee.domain.repository.FeeBalanceRepository;
+import com.bernardomg.association.fee.test.configuration.data.annotation.AlternativePaidFee;
 import com.bernardomg.association.fee.test.configuration.data.annotation.NotPaidFee;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFee;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
+import com.bernardomg.association.member.test.configuration.data.annotation.AlternativeActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
-/**
- * TODO: test with both paid and upaid
- */
 @IntegrationTest
 @DisplayName("FeeBalanceRepository - find all in month")
 class ITFeeBalanceRepositoryFindForMonth {
@@ -127,6 +126,29 @@ class ITFeeBalanceRepositoryFindForMonth {
             softly.assertThat(balance.unpaid())
                 .as("unpaid fees")
                 .isZero();
+        });
+    }
+
+    @Test
+    @DisplayName("With a paid fee, for an active member, the correct balance is returned")
+    @ActiveMember
+    @AlternativeActiveMember
+    @NotPaidFee
+    @AlternativePaidFee
+    void testFindForMonth_PaidAndNotPaid_Active() {
+        final FeeBalance balance;
+
+        // WHEN
+        balance = repository.findForMonth(FeeConstants.DATE);
+
+        // THEN
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(balance.paid())
+                .as("paid fees")
+                .isEqualTo(1);
+            softly.assertThat(balance.unpaid())
+                .as("unpaid fees")
+                .isEqualTo(1);
         });
     }
 
