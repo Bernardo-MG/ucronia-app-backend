@@ -27,7 +27,6 @@ package com.bernardomg.association.fee.adapter.inbound.jpa.repository;
 import java.time.Instant;
 import java.time.YearMonth;
 import java.time.ZoneOffset;
-import java.util.Collection;
 import java.util.Objects;
 
 import org.slf4j.Logger;
@@ -35,8 +34,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeEntityMapper;
-import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeBalance;
 import com.bernardomg.association.fee.domain.repository.FeeBalanceRepository;
 
@@ -59,28 +56,15 @@ public final class JpaFeeBalanceRepository implements FeeBalanceRepository {
 
     @Override
     public final FeeBalance findForMonth(final YearMonth date) {
-        final FeeBalance      balance;
-        final Collection<Fee> fees;
-        final Instant         dateParsed;
-        final long            paid;
-        final long            unpaid;
+        final FeeBalance balance;
+        final Instant    dateParsed;
 
         log.debug("Finding balance for month {}", date);
 
         dateParsed = date.atDay(1)
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant();
-        fees = feeSpringRepository.findAllByDate(dateParsed)
-            .stream()
-            .map(FeeEntityMapper::toDomain)
-            .toList();
-
-        paid = fees.stream()
-            .filter(Fee::paid)
-            .count();
-        unpaid = fees.size() - paid;
-
-        balance = new FeeBalance(paid, unpaid);
+        balance = feeSpringRepository.findBalanceForMonth(dateParsed);
 
         log.debug("Found balance for month {}: {}", date, balance);
 

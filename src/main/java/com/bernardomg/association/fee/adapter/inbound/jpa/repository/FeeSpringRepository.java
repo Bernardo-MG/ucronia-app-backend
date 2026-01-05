@@ -26,7 +26,6 @@ package com.bernardomg.association.fee.adapter.inbound.jpa.repository;
 
 import java.time.Instant;
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -38,6 +37,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeEntity;
+import com.bernardomg.association.fee.domain.model.FeeBalance;
 
 public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, JpaSpecificationExecutor<FeeEntity> {
 
@@ -62,15 +62,6 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
             """)
     public boolean existsByMemberNumberAndDateAndPaid(@Param("number") final Long number,
             @Param("date") final Instant date);
-
-    /**
-     * Returns all the fees in the received date.
-     *
-     * @param date
-     *            date to filter by
-     * @return all the fees in the date
-     */
-    public List<FeeEntity> findAllByDate(final Instant date);
 
     @Query("""
                SELECT f
@@ -178,5 +169,15 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
              ORDER BY feeYear ASC
             """)
     public Collection<Integer> findYears();
+
+    @Query("""
+            SELECT new com.bernardomg.association.fee.domain.model.FeeBalance(
+              COALESCE(SUM(CASE WHEN f.paid = TRUE THEN 1 ELSE 0 END), 0),
+              COALESCE(SUM(CASE WHEN f.paid = FALSE THEN 1 ELSE 0 END), 0)
+            )
+            FROM Fee f
+            WHERE f.date = :monthStart
+            """)
+    FeeBalance findBalanceForMonth(@Param("monthStart") Instant monthStart);
 
 }

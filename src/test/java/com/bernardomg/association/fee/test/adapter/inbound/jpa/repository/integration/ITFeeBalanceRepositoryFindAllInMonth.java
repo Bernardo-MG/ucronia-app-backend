@@ -38,6 +38,9 @@ import com.bernardomg.association.member.test.configuration.data.annotation.Acti
 import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
+/**
+ * TODO: test with both paid and upaid
+ */
 @IntegrationTest
 @DisplayName("FeeBalanceRepository - find all in month")
 class ITFeeBalanceRepositoryFindForMonth {
