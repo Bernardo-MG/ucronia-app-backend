@@ -30,6 +30,7 @@ import java.time.YearMonth;
 import java.time.ZoneOffset;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -78,9 +79,9 @@ public final class JpaFeeRepository implements FeeRepository {
             final TransactionSpringRepository transactionSpringRepo) {
         super();
 
-        feeSpringRepository = feeSpringRepo;
-        memberSpringRepository = memberSpringRepo;
-        transactionSpringRepository = transactionSpringRepo;
+        feeSpringRepository = Objects.requireNonNull(feeSpringRepo);
+        memberSpringRepository = Objects.requireNonNull(memberSpringRepo);
+        transactionSpringRepository = Objects.requireNonNull(transactionSpringRepo);
     }
 
     @Override
@@ -191,26 +192,6 @@ public final class JpaFeeRepository implements FeeRepository {
             found);
 
         return SpringPagination.toPage(found);
-    }
-
-    @Override
-    public final Collection<Fee> findAllInMonth(final YearMonth date) {
-        final Collection<Fee> fees;
-        final Instant         dateParsed;
-
-        log.debug("Finding all fees in month {}", date);
-
-        dateParsed = date.atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant();
-        fees = feeSpringRepository.findAllByDate(dateParsed)
-            .stream()
-            .map(FeeEntityMapper::toDomain)
-            .toList();
-
-        log.debug("Found all fees in month {}: {}", date, fees);
-
-        return fees;
     }
 
     @Override

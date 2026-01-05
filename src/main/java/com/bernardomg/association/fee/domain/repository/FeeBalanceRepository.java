@@ -22,52 +22,14 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.usecase.service;
+package com.bernardomg.association.fee.domain.repository;
 
 import java.time.YearMonth;
-import java.util.Objects;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.fee.domain.model.FeeBalance;
-import com.bernardomg.association.fee.domain.repository.FeeBalanceRepository;
 
-/**
- * Default implementation of the fee report service.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- */
-@Service
-@Transactional
-public final class DefaultFeeBalanceService implements FeeBalanceService {
+public interface FeeBalanceRepository {
 
-    /**
-     * Logger for the class.
-     */
-    private static final Logger        log = LoggerFactory.getLogger(DefaultFeeBalanceService.class);
-
-    private final FeeBalanceRepository feeBalanceRepository;
-
-    public DefaultFeeBalanceService(final FeeBalanceRepository feeBalanceRepo) {
-        super();
-
-        feeBalanceRepository = Objects.requireNonNull(feeBalanceRepo);
-    }
-
-    @Override
-    public final FeeBalance getFeeBalance() {
-        final FeeBalance balance;
-
-        log.info("Getting fee balance");
-
-        balance = feeBalanceRepository.findForMonth(YearMonth.now());
-
-        log.debug("Got fee balance: {}", balance);
-
-        return balance;
-    }
+    public FeeBalance findForMonth(final YearMonth date);
 
 }

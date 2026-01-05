@@ -22,54 +22,53 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.test.usecase.service.unit;
+package com.bernardomg.association.fee.adapter.inbound.jpa.repository;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.BDDMockito.given;
+import java.time.Instant;
+import java.time.YearMonth;
+import java.time.ZoneOffset;
+import java.util.Objects;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.fee.domain.model.FeeBalance;
 import com.bernardomg.association.fee.domain.repository.FeeBalanceRepository;
-import com.bernardomg.association.fee.test.configuration.factory.FeeBalances;
-import com.bernardomg.association.fee.usecase.service.DefaultFeeBalanceService;
 
-@ExtendWith(MockitoExtension.class)
-@DisplayName("Fee balance service - get fee balance")
-class TestFeeBalanceServiceGetPaymentReport {
+@Repository
+@Transactional
+public final class JpaFeeBalanceRepository implements FeeBalanceRepository {
 
-    @Mock
-    private FeeBalanceRepository     feeBalanceRepository;
+    /**
+     * Logger for the class.
+     */
+    private static final Logger       log = LoggerFactory.getLogger(JpaFeeBalanceRepository.class);
 
-    @InjectMocks
-    private DefaultFeeBalanceService service;
+    private final FeeSpringRepository feeSpringRepository;
 
-    public TestFeeBalanceServiceGetPaymentReport() {
+    public JpaFeeBalanceRepository(final FeeSpringRepository feeSpringRepo) {
         super();
+
+        feeSpringRepository = Objects.requireNonNull(feeSpringRepo);
     }
 
-    @Test
-    @DisplayName("When there is data it is returned")
-    void testGetFeeBalance() {
+    @Override
+    public final FeeBalance findForMonth(final YearMonth date) {
         final FeeBalance balance;
-        final FeeBalance read;
+        final Instant    dateParsed;
 
-        // GIVEN
-        balance = FeeBalances.both();
-        given(feeBalanceRepository.findForMonth(ArgumentMatchers.any())).willReturn(balance);
+        log.debug("Finding balance for month {}", date);
 
-        // WHEN
-        read = service.getFeeBalance();
+        dateParsed = date.atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
+        balance = feeSpringRepository.findBalanceForMonth(dateParsed);
 
-        // THEN
-        assertThat(read).as("balance")
-            .isEqualTo(balance);
+        log.debug("Found balance for month {}: {}", date, balance);
+
+        return balance;
     }
 
 }
