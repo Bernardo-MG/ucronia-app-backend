@@ -1,0 +1,33 @@
+post:
+  summary: Create a fee type.
+  operationId: createFeeType
+  tags: [FeeType]
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/fee_types.yml#/components/schemas/FeeTypeCreation'
+  responses:
+    '201':
+      description: FeeType created.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/fee_types.yml#/components/schemas/FeeTypeResponse'
+
+get:
+  summary: Get all fee types.
+  operationId: getAllFeeTypes
+  tags: [FeeType]
+  parameters:
+    - $ref: '../common/pagination.yml#/components/parameters/pageParam'
+    - $ref: '../common/pagination.yml#/components/parameters/sizeParam'
+    - $ref: '../components/fee_types.yml#/components/parameters/feeTypesSortParam'
+  responses:
+    '200':
+      description: FeeTypes page
+      content:
+        application/json:
+          schema:
+            $ref: '../components/fee_types.yml#/components/schemas/FeeTypePageResponse'

@@ -1,0 +1,57 @@
+get:
+  summary: Get a specific fee type
+  operationId: getOneFeeType
+  tags: [FeeType]
+  parameters:
+    - in: path
+      name: index
+      required: true
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  responses:
+    '200':
+      description: FeeType details
+      content:
+        application/json:
+          schema:
+            $ref: '../components/fee_types.yml#/components/schemas/FeeTypeResponse'
+delete:
+  summary: Delete a fee type
+  operationId: deleteFeeType
+  tags: [FeeType]
+  parameters:
+    - in: path
+      name: index
+      required: true
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  responses:
+    '200':
+      description: Deleted fee type
+      content:
+        application/json:
+          schema:
+            $ref: '../components/fee_types.yml#/components/schemas/FeeTypeResponse'
+put:
+  summary: Update a fee type
+  operationId: updateFeeType
+  tags: [FeeType]
+  parameters:
+    - in: path
+      name: index
+      required: true
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/fee_types.yml#/components/schemas/FeeTypeChange'
+  responses:
+    '200':
+      description: FeeType updated
+      content:
+        application/json:
+          schema:
+            $ref: '../components/fee_types.yml#/components/schemas/FeeTypeResponse'

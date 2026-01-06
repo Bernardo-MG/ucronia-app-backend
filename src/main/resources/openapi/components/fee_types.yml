@@ -1,0 +1,58 @@
+components:
+  parameters:
+    feeTypesSortParam:
+      name: sort
+      description: Sorting to apply.
+      in: query
+      style: form
+      explode: true
+      required: false
+      schema:
+        type: array
+        items:
+          type: string
+          pattern: '^(number|name|amount)\|(asc|desc)$'
+          example: date|asc
+  schemas:
+    FeeTypeCreation:
+      type: object
+      required: [name, amount]
+      properties:
+        name:
+          type: string
+        amount:
+          type: number
+          format: float
+    FeeTypeChange:
+      type: object
+      required: [name, amount]
+      properties:
+        name:
+          type: string
+        amount:
+          type: number
+          format: float
+    FeeType:
+      type: object
+      properties:
+        number:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        name:
+          type: string
+        amount:
+          type: number
+          format: float
+    FeeTypePageResponse:
+      allOf:
+        - $ref: '../common/responses.yml#/components/schemas/PageResponse'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/FeeType'
+    FeeTypeResponse:
+      type: object
+      properties:
+        content:
+          $ref: '#/components/schemas/FeeType'

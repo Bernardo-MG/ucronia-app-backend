@@ -26,9 +26,9 @@ package com.bernardomg.association.fee.domain.model;
 
 import org.apache.commons.lang3.StringUtils;
 
-public record FeeType(Long number, String name, Float amount) {
+public record FeeType(long number, String name, Float amount) {
 
-    public FeeType(final Long number, final String name, final Float amount) {
+    public FeeType(final long number, final String name, final Float amount) {
         this.number = number;
         this.name = StringUtils.trim(name);
         this.amount = amount;

@@ -167,7 +167,7 @@ public class FeeController implements FeeApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "FEE", action = Actions.CREATE)
+    @RequireResourceAuthorization(resource = "FEE", action = Actions.UPDATE)
     public FeeResponseDto updateFee(final Long member, final YearMonth month, @Valid final FeeChangeDto feeChangeDto) {
         final Fee fee;
         final Fee updated;
