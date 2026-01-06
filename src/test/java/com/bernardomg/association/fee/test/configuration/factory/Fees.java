@@ -18,7 +18,7 @@ public final class Fees {
         final ProfileName     name;
 
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE);
+        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE_NUMBER);
         transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, null);
         return Fee.paid(FeeConstants.DATE, ProfileConstants.NUMBER, name, feeType, transaction);
     }
@@ -29,7 +29,7 @@ public final class Fees {
         final ProfileName     name;
 
         name = new ProfileName(ProfileConstants.ALTERNATIVE_FIRST_NAME, ProfileConstants.ALTERNATIVE_LAST_NAME);
-        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE);
+        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE_NUMBER);
         transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, TransactionConstants.ALTERNATIVE_INDEX);
         return Fee.paid(FeeConstants.DATE, ProfileConstants.ALTERNATIVE_NUMBER, name, feeType, transaction);
     }
@@ -40,7 +40,7 @@ public final class Fees {
         final ProfileName     name;
 
         name = new ProfileName(ProfileConstants.ALTERNATIVE_FIRST_NAME, ProfileConstants.ALTERNATIVE_LAST_NAME);
-        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE);
+        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE_NUMBER);
         transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, TransactionConstants.INDEX);
         return Fee.paid(FeeConstants.DATE, ProfileConstants.ALTERNATIVE_NUMBER, name, feeType, transaction);
     }
@@ -51,7 +51,7 @@ public final class Fees {
         final ProfileName     name;
 
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE);
+        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE_NUMBER);
         transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, TransactionConstants.ALTERNATIVE_INDEX);
         return Fee.paid(FeeConstants.DATE, ProfileConstants.NUMBER, name, feeType, transaction);
     }
@@ -62,7 +62,7 @@ public final class Fees {
         final ProfileName     name;
 
         name = new ProfileName(ProfileConstants.FIRST_NAME, "");
-        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE);
+        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE_NUMBER);
         transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, TransactionConstants.INDEX);
         return Fee.paid(FeeConstants.DATE, ProfileConstants.NUMBER, name, feeType, transaction);
     }
@@ -72,7 +72,7 @@ public final class Fees {
         final ProfileName name;
 
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE);
+        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE_NUMBER);
         return Fee.unpaid(FeeConstants.DATE, ProfileConstants.NUMBER, name, feeType);
     }
 
@@ -81,7 +81,7 @@ public final class Fees {
         final ProfileName name;
 
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE);
+        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE_NUMBER);
         return Fee.unpaid(FeeConstants.CURRENT_MONTH, ProfileConstants.NUMBER, name, feeType);
     }
 
@@ -90,7 +90,7 @@ public final class Fees {
         final ProfileName name;
 
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE);
+        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE_NUMBER);
         return Fee.unpaid(YearMonth.of(FeeConstants.YEAR_VALUE, month), number, name, feeType);
     }
 
@@ -99,7 +99,7 @@ public final class Fees {
         final ProfileName name;
 
         name = new ProfileName("Profile " + index, "Last name " + index);
-        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE);
+        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE_NUMBER);
         // TODO: check this number, it should use a constant
         return Fee.unpaid(YearMonth.of(FeeConstants.YEAR_VALUE, month), index * 10, name, feeType);
     }
@@ -109,7 +109,7 @@ public final class Fees {
         final ProfileName name;
 
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE);
+        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE_NUMBER);
         return Fee.unpaid(FeeConstants.NEXT_YEAR_MONTH, ProfileConstants.NUMBER, name, feeType);
     }
 
@@ -118,7 +118,7 @@ public final class Fees {
         final ProfileName name;
 
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE);
+        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE_NUMBER);
         return Fee.unpaid(FeeConstants.PREVIOUS_MONTH, ProfileConstants.NUMBER, name, feeType);
     }
 
@@ -127,7 +127,7 @@ public final class Fees {
         final ProfileName name;
 
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE);
+        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE_NUMBER);
         return Fee.unpaid(FeeConstants.TWO_MONTHS_BACK, ProfileConstants.NUMBER, name, feeType);
     }
 
@@ -137,7 +137,7 @@ public final class Fees {
         final ProfileName     name;
 
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE);
+        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE_NUMBER);
         transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, TransactionConstants.INDEX);
         return Fee.paid(FeeConstants.DATE, ProfileConstants.NUMBER, name, feeType, transaction);
     }
@@ -148,7 +148,7 @@ public final class Fees {
         final ProfileName     name;
 
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE);
+        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE_NUMBER);
         transaction = new Fee.Transaction(paymentDate, TransactionConstants.INDEX);
         return Fee.paid(FeeConstants.DATE, ProfileConstants.NUMBER, name, feeType, transaction);
     }
@@ -159,7 +159,7 @@ public final class Fees {
         final ProfileName     name;
 
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE);
+        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE_NUMBER);
         transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, TransactionConstants.INDEX);
         return Fee.paid(FeeConstants.CURRENT_MONTH, ProfileConstants.NUMBER, name, feeType, transaction);
     }
@@ -170,7 +170,7 @@ public final class Fees {
         final ProfileName     name;
 
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE);
+        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE_NUMBER);
         transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, index);
         return Fee.paid(FeeConstants.CURRENT_MONTH, ProfileConstants.NUMBER, name, feeType, transaction);
     }
@@ -181,7 +181,7 @@ public final class Fees {
         final ProfileName     name;
 
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE);
+        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE_NUMBER);
         transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, index);
         return Fee.paid(FeeConstants.FIRST_NEXT_YEAR_DATE, ProfileConstants.NUMBER, name, feeType, transaction);
     }
@@ -192,7 +192,7 @@ public final class Fees {
         final ProfileName     name;
 
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE);
+        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE_NUMBER);
         transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, (long) month);
         return Fee.paid(YearMonth.of(FeeConstants.YEAR_VALUE, month), ProfileConstants.NUMBER, name, feeType,
             transaction);
@@ -204,7 +204,7 @@ public final class Fees {
         final ProfileName     name;
 
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE);
+        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE_NUMBER);
         transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, index);
         return Fee.paid(YearMonth.of(FeeConstants.YEAR_VALUE, month), ProfileConstants.NUMBER, name, feeType,
             transaction);
@@ -216,7 +216,7 @@ public final class Fees {
         final ProfileName     name;
 
         name = new ProfileName("Profile " + index, "Last name " + index);
-        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE);
+        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE_NUMBER);
         transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, index * 10);
         return Fee.paid(YearMonth.of(FeeConstants.YEAR_VALUE, month), index * 10, name, feeType, transaction);
     }
@@ -227,7 +227,7 @@ public final class Fees {
         final ProfileName     name;
 
         name = new ProfileName(ProfileConstants.ALTERNATIVE_FIRST_NAME, ProfileConstants.ALTERNATIVE_LAST_NAME);
-        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE);
+        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE_NUMBER);
         transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, (long) month + 29);
         return Fee.paid(YearMonth.of(FeeConstants.YEAR_VALUE, month), ProfileConstants.ALTERNATIVE_NUMBER, name,
             feeType, transaction);
@@ -239,7 +239,7 @@ public final class Fees {
         final ProfileName     name;
 
         name = new ProfileName(ProfileConstants.FIRST_NAME, "");
-        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE);
+        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE_NUMBER);
         transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, (long) month);
         return Fee.paid(YearMonth.of(FeeConstants.YEAR_VALUE, month), ProfileConstants.NUMBER, name, feeType,
             transaction);
@@ -251,7 +251,7 @@ public final class Fees {
         final ProfileName     name;
 
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE);
+        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE_NUMBER);
         transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, (long) month);
         // TODO: don't use member calendar
         return Fee.paid(YearMonth.of(FeeConstants.PREVIOUS_YEAR_TO_DEFAULT.getValue(), month), ProfileConstants.NUMBER,
@@ -264,7 +264,7 @@ public final class Fees {
         final ProfileName     name;
 
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE);
+        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE_NUMBER);
         transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, index);
         return Fee.paid(YearMonth.of(FeeConstants.PREVIOUS_YEAR_TO_DEFAULT.getValue(), month), ProfileConstants.NUMBER,
             name, feeType, transaction);
@@ -276,7 +276,7 @@ public final class Fees {
         final ProfileName     name;
 
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE);
+        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE_NUMBER);
         transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE_FUTURE, TransactionConstants.INDEX);
         return Fee.paid(FeeConstants.DATE, ProfileConstants.NUMBER, name, feeType, transaction);
     }
@@ -287,7 +287,7 @@ public final class Fees {
         final ProfileName     name;
 
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE);
+        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE_NUMBER);
         transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, index);
         return Fee.paid(FeeConstants.LAST_YEAR_DATE, ProfileConstants.NUMBER, name, feeType, transaction);
     }
@@ -298,7 +298,7 @@ public final class Fees {
         final ProfileName     name;
 
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE);
+        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE_NUMBER);
         transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, TransactionConstants.INDEX);
         return Fee.paid(FeeConstants.NEXT_DATE, ProfileConstants.NUMBER, name, feeType, transaction);
     }
@@ -309,7 +309,7 @@ public final class Fees {
         final ProfileName     name;
 
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE);
+        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE_NUMBER);
         transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, index);
         return Fee.paid(FeeConstants.NEXT_DATE, ProfileConstants.NUMBER, name, feeType, transaction);
     }
@@ -320,7 +320,7 @@ public final class Fees {
         final ProfileName     name;
 
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE);
+        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE_NUMBER);
         // TODO: this is the third distinct date, stick to one
         transaction = new Fee.Transaction(TransactionConstants.DATE, index);
         return Fee.paid(FeeConstants.NEXT_YEAR_MONTH, ProfileConstants.NUMBER, name, feeType, transaction);
@@ -332,7 +332,7 @@ public final class Fees {
         final ProfileName     name;
 
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE);
+        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE_NUMBER);
         transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, TransactionConstants.INDEX);
         return Fee.paid(FeeConstants.PREVIOUS_MONTH, ProfileConstants.NUMBER, name, feeType, transaction);
     }
@@ -343,7 +343,7 @@ public final class Fees {
         final ProfileName     name;
 
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE);
+        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE_NUMBER);
         transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, index);
         return Fee.paid(FeeConstants.PREVIOUS_MONTH, ProfileConstants.NUMBER, name, feeType, transaction);
     }
@@ -354,7 +354,7 @@ public final class Fees {
         final ProfileName     name;
 
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE);
+        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE_NUMBER);
         transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, TransactionConstants.INDEX_SMALL);
         return Fee.paid(FeeConstants.PREVIOUS_MONTH, ProfileConstants.NUMBER, name, feeType, transaction);
     }
@@ -365,7 +365,7 @@ public final class Fees {
         final ProfileName     name;
 
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE);
+        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE_NUMBER);
         transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, index);
         return Fee.paid(FeeConstants.TWO_MONTHS_BACK, ProfileConstants.NUMBER, name, feeType, transaction);
     }
@@ -376,7 +376,7 @@ public final class Fees {
         final ProfileName     name;
 
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE);
+        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE_NUMBER);
         transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, index);
         return Fee.paid(FeeConstants.DATE, ProfileConstants.NUMBER, name, feeType, transaction);
     }
@@ -386,7 +386,7 @@ public final class Fees {
         final ProfileName name;
 
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE);
+        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE_NUMBER);
         return Fee.unpaid(FeeConstants.CURRENT_MONTH, ProfileConstants.NUMBER, name, feeType);
     }
 

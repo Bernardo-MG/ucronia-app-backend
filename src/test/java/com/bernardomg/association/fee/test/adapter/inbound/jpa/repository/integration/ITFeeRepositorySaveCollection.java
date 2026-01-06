@@ -43,6 +43,7 @@ class ITFeeRepositorySaveCollection {
     @Test
     @DisplayName("When a not paid fee, it is persisted")
     @ActiveMember
+    @PositiveFeeType
     void testSave_NotPaid_PersistedData() {
         final Iterable<FeeEntity> fees;
         final Fee                 fee;
@@ -58,13 +59,15 @@ class ITFeeRepositorySaveCollection {
 
         Assertions.assertThat(fees)
             .as("fees")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "member.id", "memberId", "transaction.id")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "member.id", "memberId", "feeType.id",
+                "transaction.id")
             .containsExactly(FeeEntities.notPaid());
     }
 
     @Test
     @DisplayName("When a not paid fee, it is returned")
     @ActiveMember
+    @PositiveFeeType
     void testSave_NotPaid_ReturnedData() {
         final Collection<Fee> created;
         final Fee             fee;
@@ -106,7 +109,8 @@ class ITFeeRepositorySaveCollection {
 
         Assertions.assertThat(fees)
             .as("fees")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "member.id", "memberId", "transaction.id")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "member.id", "memberId", "feeType.id",
+                "transaction.id")
             .containsExactly(FeeEntities.paidAtDate(date));
     }
 
@@ -188,7 +192,8 @@ class ITFeeRepositorySaveCollection {
 
         Assertions.assertThat(fees)
             .as("fees")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "member.id", "memberId", "transaction.id")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "member.id", "memberId", "feeType.id",
+                "transaction.id")
             .containsExactly(FeeEntities.paid());
     }
 

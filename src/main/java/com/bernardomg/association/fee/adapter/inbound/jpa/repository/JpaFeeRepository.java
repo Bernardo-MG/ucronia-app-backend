@@ -43,6 +43,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeEntity;
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeEntityMapper;
+import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTypeEntity;
 import com.bernardomg.association.fee.adapter.inbound.jpa.specification.FeeSpecifications;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
@@ -71,16 +72,19 @@ public final class JpaFeeRepository implements FeeRepository {
 
     private final FeeSpringRepository         feeSpringRepository;
 
+    private final FeeTypeSpringRepository     feeTypeSpringRepository;
+
     private final QueryMemberSpringRepository memberSpringRepository;
 
     private final TransactionSpringRepository transactionSpringRepository;
 
     public JpaFeeRepository(final FeeSpringRepository feeSpringRepo, final QueryMemberSpringRepository memberSpringRepo,
-            final TransactionSpringRepository transactionSpringRepo) {
+            final FeeTypeSpringRepository feeTypeSpringRepo, final TransactionSpringRepository transactionSpringRepo) {
         super();
 
         feeSpringRepository = Objects.requireNonNull(feeSpringRepo);
         memberSpringRepository = Objects.requireNonNull(memberSpringRepo);
+        feeTypeSpringRepository = Objects.requireNonNull(feeTypeSpringRepo);
         transactionSpringRepository = Objects.requireNonNull(transactionSpringRepo);
     }
 
@@ -375,6 +379,7 @@ public final class JpaFeeRepository implements FeeRepository {
 
     private final FeeEntity toEntity(final Fee fee) {
         final Optional<QueryMemberEntity> member;
+        final Optional<FeeTypeEntity>     feeType;
         final Optional<TransactionEntity> transaction;
         final boolean                     paid;
         final FeeEntity                   entity;
@@ -388,6 +393,14 @@ public final class JpaFeeRepository implements FeeRepository {
             log.warn("Profile with number {} not found", fee.member()
                 .number());
         }
+
+        feeType = feeTypeSpringRepository.findByNumber(fee.feeType()
+            .number());
+        if (!member.isPresent()) {
+            log.warn("Profile with number {} not found", fee.member()
+                .number());
+        }
+
         if (fee.transaction()
             .isPresent()) {
             paid = true;
@@ -417,6 +430,7 @@ public final class JpaFeeRepository implements FeeRepository {
             .toInstant();
         entity.setDate(date);
         entity.setPaid(paid);
+        entity.setFeeType(feeType.orElse(null));
         entity.setTransaction(transaction.orElse(null));
 
         return entity;

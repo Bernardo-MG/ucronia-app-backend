@@ -89,7 +89,7 @@ class TestFeeServiceCreateUnpaidFee {
         given(feeRepository.exists(ProfileConstants.NUMBER, FeeConstants.DATE)).willReturn(false);
 
         // WHEN
-        fee = service.createUnpaidFee(FeeConstants.FEE_TYPE, FeeConstants.DATE, ProfileConstants.NUMBER);
+        fee = service.createUnpaidFee(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.DATE, ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(fee)
@@ -108,7 +108,8 @@ class TestFeeServiceCreateUnpaidFee {
         given(feeRepository.exists(ProfileConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
 
         // WHEN
-        execution = () -> service.createUnpaidFee(FeeConstants.FEE_TYPE, FeeConstants.DATE, ProfileConstants.NUMBER);
+        execution = () -> service.createUnpaidFee(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.DATE,
+            ProfileConstants.NUMBER);
 
         // THEN
         failure = new FieldFailure("existing", "month", "month.existing", FeeConstants.DATE);
@@ -125,7 +126,8 @@ class TestFeeServiceCreateUnpaidFee {
         given(memberRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.createUnpaidFee(FeeConstants.FEE_TYPE, FeeConstants.DATE, ProfileConstants.NUMBER);
+        execution = () -> service.createUnpaidFee(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.DATE,
+            ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
