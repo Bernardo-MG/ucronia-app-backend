@@ -27,6 +27,7 @@ package com.bernardomg.association.fee.adapter.inbound.jpa.repository;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTypeEntity;
 
@@ -37,5 +38,8 @@ public interface FeeTypeSpringRepository extends JpaRepository<FeeTypeEntity, Lo
     public boolean existsByNumber(final Long number);
 
     public Optional<FeeTypeEntity> findByNumber(final long index);
+
+    @Query("SELECT COALESCE(MAX(t.number), 0) + 1 FROM FeeType t")
+    public Long findNextNumber();
 
 }

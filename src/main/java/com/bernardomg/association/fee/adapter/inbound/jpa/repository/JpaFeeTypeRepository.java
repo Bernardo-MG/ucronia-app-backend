@@ -119,6 +119,7 @@ public final class JpaFeeTypeRepository implements FeeTypeRepository {
         final FeeTypeEntity           entity;
         final FeeTypeEntity           created;
         final FeeType                 saved;
+        final Long                    number;
 
         log.debug("Saving fee type {}", feeType);
 
@@ -126,8 +127,12 @@ public final class JpaFeeTypeRepository implements FeeTypeRepository {
 
         existing = feeTypeSpringRepository.findByNumber(feeType.number());
         if (existing.isPresent()) {
+            // TODO: do like sponsor repository
             entity.setId(existing.get()
                 .getId());
+        } else {
+            number = feeTypeSpringRepository.findNextNumber();
+            entity.setNumber(number);
         }
 
         created = feeTypeSpringRepository.save(entity);

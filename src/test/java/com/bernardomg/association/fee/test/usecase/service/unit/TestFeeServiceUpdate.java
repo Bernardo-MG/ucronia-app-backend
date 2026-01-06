@@ -91,10 +91,6 @@ class TestFeeServiceUpdate {
     @Mock
     private TransactionRepository     transactionRepository;
 
-    public TestFeeServiceUpdate() {
-        super();
-    }
-
     @Test
     @DisplayName("When a payment is added, the fee is saved")
     void testUpdate_AddedPayment_SaveFee() {

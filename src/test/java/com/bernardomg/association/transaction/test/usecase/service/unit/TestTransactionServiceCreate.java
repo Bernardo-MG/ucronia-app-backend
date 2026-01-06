@@ -56,6 +56,21 @@ class TestTransactionServiceCreate {
     private TransactionRepository     transactionRepository;
 
     @Test
+    @DisplayName("With the transaction created in the future, it throws an exception")
+    void testCreate_Future() {
+        final ThrowingCallable execution;
+        final FieldFailure     failure;
+
+        // WHEN
+        execution = () -> service.create(Transactions.future());
+
+        // THEN
+        failure = new FieldFailure("invalid", "date", "date.invalid", TransactionConstants.DATE_FUTURE);
+
+        ValidationAssertions.assertThatFieldFails(execution, failure);
+    }
+
+    @Test
     @DisplayName("With a member with padded name, the member is persisted")
     void testCreate_Padded_PersistedData() {
         final Transaction transaction;
@@ -108,21 +123,6 @@ class TestTransactionServiceCreate {
         Assertions.assertThat(created)
             .as("transaction")
             .isEqualTo(Transactions.positive());
-    }
-
-    @Test
-    @DisplayName("With the transaction created in the future, it throws an exception")
-    void testUpdate_Future() {
-        final ThrowingCallable execution;
-        final FieldFailure     failure;
-
-        // WHEN
-        execution = () -> service.create(Transactions.future());
-
-        // THEN
-        failure = new FieldFailure("invalid", "date", "date.invalid", TransactionConstants.DATE_FUTURE);
-
-        ValidationAssertions.assertThatFieldFails(execution, failure);
     }
 
 }

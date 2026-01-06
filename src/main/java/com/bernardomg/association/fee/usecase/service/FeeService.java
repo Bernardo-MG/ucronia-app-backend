@@ -40,7 +40,7 @@ import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 
 /**
- * Fee admin service.
+ * Fee service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *

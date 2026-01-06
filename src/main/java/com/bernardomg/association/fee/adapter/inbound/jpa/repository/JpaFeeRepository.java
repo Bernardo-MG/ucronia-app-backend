@@ -149,7 +149,7 @@ public final class JpaFeeRepository implements FeeRepository {
         final Sorting                                   correctedSorting;
         // TODO: Test reading with no last name
 
-        log.debug("Finding all fees with sample {}, pagination {} and sorting {}", query, pagination, sorting);
+        log.debug("Finding all fees with query {}, pagination {} and sorting {}", query, pagination, sorting);
 
         spec = FeeSpecifications.fromQuery(query);
 
@@ -167,7 +167,7 @@ public final class JpaFeeRepository implements FeeRepository {
                 .map(FeeEntityMapper::toDomain);
         }
 
-        log.debug("Found all fees with sample {}, pagination {} and sorting {}: {}", query, pagination, sorting, found);
+        log.debug("Found all fees with query {}, pagination {} and sorting {}: {}", query, pagination, sorting, found);
 
         return SpringPagination.toPage(found);
     }

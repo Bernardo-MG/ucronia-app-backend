@@ -22,16 +22,22 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.domain.model;
+package com.bernardomg.association.fee.domain.exception;
 
-import org.apache.commons.lang3.StringUtils;
+import com.bernardomg.exception.MissingIdException;
 
-public record FeeType(Long number, String name, Float amount) {
+/**
+ * Missing fee exception.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+public final class MissingFeeTypeException extends MissingIdException {
 
-    public FeeType(final Long number, final String name, final Float amount) {
-        this.number = number;
-        this.name = StringUtils.trim(name);
-        this.amount = amount;
+    private static final long serialVersionUID = 2786821546505029631L;
+
+    public MissingFeeTypeException(final long number) {
+        super("feeType", number);
     }
 
 }

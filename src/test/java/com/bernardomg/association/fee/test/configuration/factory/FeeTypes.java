@@ -9,8 +9,15 @@ public final class FeeTypes {
         return new FeeType(FeeTypeConstants.NUMBER, FeeTypeConstants.ALTERNATIVE_NAME, FeeTypeConstants.AMOUNT);
     }
 
+    public static final FeeType padded() {
+        return new FeeType(FeeTypeConstants.NUMBER, " " + FeeTypeConstants.NAME + " ", FeeTypeConstants.AMOUNT);
+    }
+
     public static final FeeType positive() {
         return new FeeType(FeeTypeConstants.NUMBER, FeeTypeConstants.NAME, FeeTypeConstants.AMOUNT);
+    }
+    public static final FeeType created() {
+        return new FeeType(0L, FeeTypeConstants.NAME, FeeTypeConstants.AMOUNT);
     }
 
     private FeeTypes() {
