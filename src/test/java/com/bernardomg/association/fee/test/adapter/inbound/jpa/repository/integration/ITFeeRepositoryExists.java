@@ -48,8 +48,8 @@ class ITFeeRepositoryExists {
 
     @Test
     @DisplayName("With an existing not paid fee for an active member, it exists")
-    @ActiveMember
     @PositiveFeeType
+    @ActiveMember
     @NotPaidFee
     void testExists_Active_NotPaid() {
         final boolean exists;
@@ -65,8 +65,8 @@ class ITFeeRepositoryExists {
 
     @Test
     @DisplayName("With an existing paid fee for an active member, it exists")
-    @ActiveMember
     @PositiveFeeType
+    @ActiveMember
     @PaidFee
     void testExists_Active_Paid() {
         final boolean exists;
@@ -82,8 +82,8 @@ class ITFeeRepositoryExists {
 
     @Test
     @DisplayName("With an existing not paid fee for an inactive member, it exists")
-    @InactiveMember
     @PositiveFeeType
+    @InactiveMember
     @NotPaidFee
     void testExists_Inactive_NotPaid() {
         final boolean exists;
@@ -99,8 +99,8 @@ class ITFeeRepositoryExists {
 
     @Test
     @DisplayName("With an existing paid fee for an inactive member, it exists")
-    @InactiveMember
     @PositiveFeeType
+    @InactiveMember
     @PaidFee
     void testExists_Inactive_Paid() {
         final boolean exists;

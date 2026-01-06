@@ -66,14 +66,11 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     public final Member create(final Member member) {
-        final Member toCreate;
         final Member created;
 
         log.debug("Creating member {}", member);
 
-        toCreate = new Member(0L, member.name(), member.active(), member.renew());
-
-        created = memberRepository.save(toCreate);
+        created = memberRepository.save(member);
 
         log.debug("Created member {}", created);
 
@@ -187,8 +184,10 @@ public final class DefaultMemberService implements MemberService {
                         .lastName()));
         }
         return new Member(Optional.ofNullable(updated.number())
-            .orElse(existing.number()), name,
-            Optional.ofNullable(updated.active())
+            .orElse(existing.number()),
+            Optional.ofNullable(updated.feeType())
+                .orElse(existing.feeType()),
+            name, Optional.ofNullable(updated.active())
                 .orElse(existing.active()),
             Optional.ofNullable(updated.renew())
                 .orElse(existing.renew()));

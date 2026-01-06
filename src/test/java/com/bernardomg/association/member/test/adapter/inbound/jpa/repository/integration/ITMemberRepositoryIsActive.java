@@ -29,6 +29,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
@@ -45,6 +46,7 @@ class ITMemberRepositoryIsActive {
 
     @Test
     @DisplayName("When the member is active, is is indicated as so")
+    @PositiveFeeType
     @ActiveMember
     void testIsActive_Active() {
         final boolean active;
@@ -60,6 +62,7 @@ class ITMemberRepositoryIsActive {
 
     @Test
     @DisplayName("When the member is inactive, is is indicated as so")
+    @PositiveFeeType
     @InactiveMember
     void testIsActive_Inactive() {
         final boolean active;

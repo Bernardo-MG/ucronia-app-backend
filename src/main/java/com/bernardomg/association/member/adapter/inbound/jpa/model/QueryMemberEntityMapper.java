@@ -33,24 +33,13 @@ import com.bernardomg.association.profile.domain.model.ProfileName;
 public final class QueryMemberEntityMapper {
 
     public static final Member toDomain(final QueryMemberEntity entity) {
-        final ProfileName name;
+        final Member.FeeType feeType;
+        final ProfileName    name;
 
+        feeType = new Member.FeeType(entity.getFeeType()
+            .getNumber());
         name = new ProfileName(entity.getFirstName(), entity.getLastName());
-        return new Member(entity.getNumber(), name, entity.getActive(), entity.getRenew());
-    }
-
-    public static final QueryMemberEntity toEntity(final Member data) {
-        final QueryMemberEntity entity;
-
-        entity = new QueryMemberEntity();
-        entity.setFirstName(data.name()
-            .firstName());
-        entity.setLastName(data.name()
-            .lastName());
-        entity.setActive(data.active());
-        entity.setRenew(data.renew());
-
-        return entity;
+        return new Member(entity.getNumber(), feeType, name, entity.getActive(), entity.getRenew());
     }
 
     private QueryMemberEntityMapper() {

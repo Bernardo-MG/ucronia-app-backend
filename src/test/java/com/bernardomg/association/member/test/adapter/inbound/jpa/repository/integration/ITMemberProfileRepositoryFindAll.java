@@ -30,6 +30,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.model.MemberStatus;
@@ -52,6 +53,7 @@ class ITMemberProfileRepositoryFindAll {
 
     @Test
     @DisplayName("With an active member and filtering by active, it is returned")
+    @PositiveFeeType
     @ActiveMember
     void testFindAll_Active_Active() {
         final Page<MemberProfile> members;
@@ -76,6 +78,7 @@ class ITMemberProfileRepositoryFindAll {
 
     @Test
     @DisplayName("With an inactive member and filtering by active, nothing is returned")
+    @PositiveFeeType
     @InactiveMember
     void testFindAll_Active_Inactive() {
         final Page<MemberProfile> members;
@@ -147,6 +150,7 @@ class ITMemberProfileRepositoryFindAll {
 
     @Test
     @DisplayName("With an active member and filtering by all, it is returned")
+    @PositiveFeeType
     @ActiveMember
     void testFindAll_All_Active() {
         final Page<MemberProfile> members;
@@ -171,6 +175,7 @@ class ITMemberProfileRepositoryFindAll {
 
     @Test
     @DisplayName("With an inactive member and filtering by all, it is returned")
+    @PositiveFeeType
     @InactiveMember
     void testFindAll_All_Inactive() {
         final Page<MemberProfile> members;
@@ -242,6 +247,7 @@ class ITMemberProfileRepositoryFindAll {
 
     @Test
     @DisplayName("With an active member and filtering by inactive, nothing is returned")
+    @PositiveFeeType
     @ActiveMember
     void testFindAll_Inactive_Active() {
         final Page<MemberProfile> members;
@@ -266,6 +272,7 @@ class ITMemberProfileRepositoryFindAll {
 
     @Test
     @DisplayName("With an inactive member and filtering by inactive, it is returned")
+    @PositiveFeeType
     @InactiveMember
     void testFindAll_Inactive_Inactive() {
         final Page<MemberProfile> members;

@@ -31,6 +31,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveToNotRenewMember;
@@ -65,6 +66,7 @@ class ITMemberRepositoryFindAllToRenew {
 
     @Test
     @DisplayName("With an active membership to not renew, nothing is returned")
+    @PositiveFeeType
     @ActiveToNotRenewMember
     void testFindAllToRenew_ToNotRenew_Active() {
         final Collection<Member> members;
@@ -80,6 +82,7 @@ class ITMemberRepositoryFindAllToRenew {
 
     @Test
     @DisplayName("With an inactive membership to not renew, nothing is returned")
+    @PositiveFeeType
     @InactiveToNotRenewMember
     void testFindAllToRenew_ToNotRenew_Inactive() {
         final Collection<Member> members;
@@ -95,6 +98,7 @@ class ITMemberRepositoryFindAllToRenew {
 
     @Test
     @DisplayName("With an active membership to renew, it is returned")
+    @PositiveFeeType
     @ActiveToRenewMember
     void testFindAllToRenew_ToRenew_Active() {
         final Collection<Member> members;
@@ -110,6 +114,7 @@ class ITMemberRepositoryFindAllToRenew {
 
     @Test
     @DisplayName("With an inactive membership to renew, it is returned")
+    @PositiveFeeType
     @InactiveToRenewMember
     void testFindAllToRenew_ToRenew_Inactive() {
         final Collection<Member> members;

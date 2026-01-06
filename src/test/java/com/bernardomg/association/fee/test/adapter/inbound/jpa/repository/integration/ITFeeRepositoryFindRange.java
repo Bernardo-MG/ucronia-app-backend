@@ -59,8 +59,8 @@ class ITFeeRepositoryFindRange {
 
     @Test
     @DisplayName("With a full year, the year range is returned")
-    @ActiveMember
     @PositiveFeeType
+    @ActiveMember
     @FeeFullYear
     void testFindRange_FullYear() {
         final YearsRange range;
@@ -76,9 +76,9 @@ class ITFeeRepositoryFindRange {
 
     @Test
     @DisplayName("With a full year and two members, the year range is returned")
+    @PositiveFeeType
     @ActiveMember
     @AlternativeActiveMember
-    @PositiveFeeType
     @FeeFullYear
     @AlternativeFeeFullYear
     void testFindRange_FullYear_TwoMembers() {
@@ -95,8 +95,8 @@ class ITFeeRepositoryFindRange {
 
     @Test
     @DisplayName("With a not paid fee for the next year, nothing is returned")
-    @ActiveMember
     @PositiveFeeType
+    @ActiveMember
     void testFindRange_NextYear_NotPaid() {
         final YearsRange range;
 
@@ -114,8 +114,8 @@ class ITFeeRepositoryFindRange {
 
     @Test
     @DisplayName("With a paid fee for the next year, nothing is returned")
-    @ActiveMember
     @PositiveFeeType
+    @ActiveMember
     void testFindRange_NextYear_Paid() {
         final YearsRange range;
 
@@ -147,8 +147,8 @@ class ITFeeRepositoryFindRange {
 
     @Test
     @DisplayName("With no fees, the range is empty")
-    @ActiveMember
     @PositiveFeeType
+    @ActiveMember
     void testFindRange_NoFees() {
         final YearsRange range;
 
@@ -163,8 +163,8 @@ class ITFeeRepositoryFindRange {
 
     @Test
     @DisplayName("With a not paid fee, the year range is returned")
-    @ActiveMember
     @PositiveFeeType
+    @ActiveMember
     void testFindRange_NotPaid() {
         final YearsRange range;
 
@@ -182,8 +182,8 @@ class ITFeeRepositoryFindRange {
 
     @Test
     @DisplayName("With a paid fee, the year range is returned")
-    @ActiveMember
     @PositiveFeeType
+    @ActiveMember
     void testFindRange_Paid() {
         final YearsRange range;
 
@@ -201,8 +201,8 @@ class ITFeeRepositoryFindRange {
 
     @Test
     @DisplayName("With a not paid fee, the year range is returned")
-    @ActiveMember
     @PositiveFeeType
+    @ActiveMember
     void testFindRange_PreviousYear_NotPaid() {
         final YearsRange range;
 
@@ -220,8 +220,8 @@ class ITFeeRepositoryFindRange {
 
     @Test
     @DisplayName("With a paid fee, the year range is returned")
-    @ActiveMember
     @PositiveFeeType
+    @ActiveMember
     void testFindRange_PreviousYear_Paid() {
         final YearsRange range;
 
@@ -239,8 +239,8 @@ class ITFeeRepositoryFindRange {
 
     @Test
     @DisplayName("With two years connected, the year range is returned")
-    @ActiveMember
     @PositiveFeeType
+    @ActiveMember
     void testFindRange_TwoConnectedYears() {
         final YearsRange range;
 
@@ -259,8 +259,8 @@ class ITFeeRepositoryFindRange {
 
     @Test
     @DisplayName("With two years connected and not in order, the year range is returned")
-    @ActiveMember
     @PositiveFeeType
+    @ActiveMember
     void testFindRange_TwoConnectedYears_NotInOrder() {
         final YearsRange range;
 
@@ -279,8 +279,8 @@ class ITFeeRepositoryFindRange {
 
     @Test
     @DisplayName("With two years with a gap, the year range is returned")
-    @ActiveMember
     @PositiveFeeType
+    @ActiveMember
     void testFindRange_TwoYearsWithGap() {
         final YearsRange range;
 

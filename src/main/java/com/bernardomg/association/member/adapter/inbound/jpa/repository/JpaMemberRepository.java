@@ -250,7 +250,7 @@ public final class JpaMemberRepository implements MemberRepository {
 
         number = new AtomicLong(queryMemberSpringRepository.findNextNumber());
         entities = members.stream()
-            .map(m -> convert(m, number))
+            .map(m -> toEntity(m, number))
             .toList();
 
         entities.stream()
@@ -266,9 +266,21 @@ public final class JpaMemberRepository implements MemberRepository {
         return saved;
     }
 
-    private final UpdateMemberEntity convert(final Member member, final AtomicLong number) {
+    private final void setType(final ProfileEntity entity) {
+        if (entity.getTypes() == null) {
+            entity.setTypes(Set.of(MemberEntityConstants.PROFILE_TYPE));
+        } else {
+            entity.setTypes(new HashSet<>(entity.getTypes()));
+            entity.getTypes()
+                .add(MemberEntityConstants.PROFILE_TYPE);
+        }
+    }
+
+    private final UpdateMemberEntity toEntity(final Member member, final AtomicLong number) {
         final Optional<UpdateMemberEntity> existing;
         final UpdateMemberEntity           entity;
+
+        // TODO: move to mapper
 
         existing = updateMemberSpringRepository.findByNumber(member.number());
         if (existing.isPresent()) {
@@ -280,16 +292,6 @@ public final class JpaMemberRepository implements MemberRepository {
         }
 
         return entity;
-    }
-
-    private final void setType(final ProfileEntity entity) {
-        if (entity.getTypes() == null) {
-            entity.setTypes(Set.of(MemberEntityConstants.PROFILE_TYPE));
-        } else {
-            entity.setTypes(new HashSet<>(entity.getTypes()));
-            entity.getTypes()
-                .add(MemberEntityConstants.PROFILE_TYPE);
-        }
     }
 
 }

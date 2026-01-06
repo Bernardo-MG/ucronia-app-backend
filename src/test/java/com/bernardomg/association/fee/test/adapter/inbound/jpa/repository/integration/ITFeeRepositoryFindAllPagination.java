@@ -48,8 +48,8 @@ import com.bernardomg.test.pagination.AbstractPaginationIT;
 
 @IntegrationTest
 @DisplayName("FeeRepository - find all - pagination")
-@MultipleInactiveMember
 @PositiveFeeType
+@MultipleInactiveMember
 @MultipleFees
 class ITFeeRepositoryFindAllPagination extends AbstractPaginationIT<Fee> {
 

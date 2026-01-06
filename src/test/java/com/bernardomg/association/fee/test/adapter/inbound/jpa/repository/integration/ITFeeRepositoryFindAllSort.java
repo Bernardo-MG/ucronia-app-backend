@@ -61,8 +61,8 @@ class ITFeeRepositoryFindAllSort {
 
     @Test
     @DisplayName("With ascending order by name with accents it returns the ordered data")
-    @MultipleInactiveMemberAccents
     @PositiveFeeType
+    @MultipleInactiveMemberAccents
     @MultipleFees
     @Disabled("Database dependant")
     void testFindAll_Accents_Name_Asc() {
@@ -94,8 +94,8 @@ class ITFeeRepositoryFindAllSort {
 
     @Test
     @DisplayName("With ascending order by date it returns the ordered data")
-    @MultipleInactiveMember
     @PositiveFeeType
+    @MultipleInactiveMember
     @MultipleFees
     void testFindAll_Date_Asc() {
         final Page<Fee>  fees;
@@ -125,8 +125,8 @@ class ITFeeRepositoryFindAllSort {
 
     @Test
     @DisplayName("With descending order by date it returns the ordered data")
-    @MultipleInactiveMember
     @PositiveFeeType
+    @MultipleInactiveMember
     @MultipleFees
     void testFindAll_Date_Desc() {
         final Page<Fee>  fees;
@@ -157,8 +157,8 @@ class ITFeeRepositoryFindAllSort {
 
     @Test
     @DisplayName("With ascending order by name it returns the ordered data")
-    @MultipleInactiveMember
     @PositiveFeeType
+    @MultipleInactiveMember
     @MultipleFees
     void testFindAll_Name_Asc() {
         final Page<Fee>  fees;
@@ -189,8 +189,8 @@ class ITFeeRepositoryFindAllSort {
 
     @Test
     @DisplayName("With descending order by name it returns the ordered data")
-    @MultipleInactiveMember
     @PositiveFeeType
+    @MultipleInactiveMember
     @MultipleFees
     void testFindAll_Name_Desc() {
         final Page<Fee>  fees;
@@ -221,9 +221,9 @@ class ITFeeRepositoryFindAllSort {
 
     @Test
     @DisplayName("With an invalid field ordering throws an exception")
+    @PositiveFeeType
     @Disabled
     @MultipleInactiveMember
-    @PositiveFeeType
     @MultipleFees
     void testFindAll_NotExisting() {
         final FeeQuery         feeQuery;
@@ -247,8 +247,8 @@ class ITFeeRepositoryFindAllSort {
 
     @Test
     @DisplayName("With ascending order by paid flag it returns the ordered data")
-    @MultipleInactiveMember
     @PositiveFeeType
+    @MultipleInactiveMember
     @MultipleFees
     void testFindAll_Paid_Asc() {
         final Page<Fee>  fees;
@@ -277,8 +277,8 @@ class ITFeeRepositoryFindAllSort {
 
     @Test
     @DisplayName("With descending order by paid flag it returns the ordered data")
-    @MultipleInactiveMember
     @PositiveFeeType
+    @MultipleInactiveMember
     @MultipleFees
     void testFindAll_Paid_Desc() {
         final Page<Fee>  fees;

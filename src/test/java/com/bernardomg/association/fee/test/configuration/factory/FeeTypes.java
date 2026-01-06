@@ -5,10 +5,6 @@ import com.bernardomg.association.fee.domain.model.FeeType;
 
 public final class FeeTypes {
 
-    public static final FeeType created() {
-        return new FeeType(1L, FeeTypeConstants.NAME, FeeTypeConstants.AMOUNT);
-    }
-
     public static final FeeType nameChange() {
         return new FeeType(FeeTypeConstants.NUMBER, FeeTypeConstants.ALTERNATIVE_NAME, FeeTypeConstants.AMOUNT);
     }

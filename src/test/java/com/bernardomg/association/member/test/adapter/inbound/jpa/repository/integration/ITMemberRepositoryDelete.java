@@ -29,6 +29,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.QueryMemberSpringRepository;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
@@ -57,6 +58,7 @@ class ITMemberRepositoryDelete {
 
     @Test
     @DisplayName("When deleting an active member, it is deleted")
+    @PositiveFeeType
     @ActiveMember
     void testDelete_Active() {
         // WHEN
@@ -69,6 +71,7 @@ class ITMemberRepositoryDelete {
 
     @Test
     @DisplayName("When deleting an active member, the profile is deleted")
+    @PositiveFeeType
     @ActiveMember
     void testDelete_Active_Profile() {
         // WHEN
@@ -81,6 +84,7 @@ class ITMemberRepositoryDelete {
 
     @Test
     @DisplayName("When deleting an inactive member, it is deleted")
+    @PositiveFeeType
     @InactiveMember
     void testDelete_Inactive() {
         // WHEN
@@ -93,6 +97,7 @@ class ITMemberRepositoryDelete {
 
     @Test
     @DisplayName("When deleting an inactive member, the profile is deleted")
+    @PositiveFeeType
     @InactiveMember
     void testDelete_Inactive_Profile() {
         // WHEN
@@ -116,6 +121,7 @@ class ITMemberRepositoryDelete {
 
     @Test
     @DisplayName("With a profile with no member role, nothing is deleted")
+    @PositiveFeeType
     @ValidProfile
     void testDelete_NoMembership() {
         // WHEN

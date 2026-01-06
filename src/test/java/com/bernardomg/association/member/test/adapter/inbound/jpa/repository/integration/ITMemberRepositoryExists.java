@@ -29,6 +29,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
@@ -45,6 +46,7 @@ class ITMemberRepositoryExists {
 
     @Test
     @DisplayName("With an active member, it exists")
+    @PositiveFeeType
     @ActiveMember
     void testExists_Active() {
         final boolean exists;
@@ -60,6 +62,7 @@ class ITMemberRepositoryExists {
 
     @Test
     @DisplayName("With an inactive member, it exists")
+    @PositiveFeeType
     @InactiveMember
     void testExists_Inactive() {
         final boolean exists;

@@ -4,9 +4,13 @@ package com.bernardomg.association.member.adapter.inbound.jpa.model;
 import java.io.Serializable;
 import java.util.Objects;
 
+import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTypeEntity;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.SecondaryTable;
 import jakarta.persistence.Table;
@@ -26,6 +30,10 @@ public class QueryMemberEntity implements Serializable {
 
     @Column(name = "active", table = "members", nullable = false)
     private Boolean           active;
+
+    @ManyToOne
+    @JoinColumn(name = "fee_type_id")
+    private FeeTypeEntity     feeType;
 
     @Column(name = "first_name", table = "profiles", nullable = false)
     private String            firstName;
@@ -58,6 +66,10 @@ public class QueryMemberEntity implements Serializable {
         return active;
     }
 
+    public FeeTypeEntity getFeeType() {
+        return feeType;
+    }
+
     public String getFirstName() {
         return firstName;
     }
@@ -87,6 +99,10 @@ public class QueryMemberEntity implements Serializable {
         this.active = active;
     }
 
+    public void setFeeType(final FeeTypeEntity feeType) {
+        this.feeType = feeType;
+    }
+
     public void setFirstName(final String firstName) {
         this.firstName = firstName;
     }
@@ -109,8 +125,8 @@ public class QueryMemberEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "QueryMemberEntity [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", active="
-                + active + ", number=" + number + ", renew=" + renew + "]";
+        return "QueryMemberEntity [id=" + id + ", feeType=" + feeType + ", firstName=" + firstName + ", lastName="
+                + lastName + ", active=" + active + ", number=" + number + ", renew=" + renew + "]";
     }
 
 }

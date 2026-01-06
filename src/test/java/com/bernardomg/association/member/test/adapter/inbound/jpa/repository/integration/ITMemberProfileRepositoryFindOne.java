@@ -31,6 +31,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
@@ -48,6 +49,7 @@ class ITMemberProfileRepositoryFindOne {
 
     @Test
     @DisplayName("With a member, it is returned")
+    @PositiveFeeType
     @ActiveMember
     void testFindOne() {
         final Optional<MemberProfile> member;

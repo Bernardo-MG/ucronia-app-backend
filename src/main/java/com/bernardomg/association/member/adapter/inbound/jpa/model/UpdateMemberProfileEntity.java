@@ -4,6 +4,7 @@ package com.bernardomg.association.member.adapter.inbound.jpa.model;
 import java.io.Serializable;
 import java.util.Objects;
 
+import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTypeEntity;
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
 
 import jakarta.persistence.CascadeType;
@@ -30,6 +31,10 @@ public class UpdateMemberProfileEntity implements Serializable {
 
     @Column(name = "active", nullable = false)
     private Boolean           active;
+
+    @OneToOne
+    @JoinColumn(name = "fee_type_id", referencedColumnName = "id")
+    private FeeTypeEntity     feeType;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -59,6 +64,10 @@ public class UpdateMemberProfileEntity implements Serializable {
         return active;
     }
 
+    public FeeTypeEntity getFeeType() {
+        return feeType;
+    }
+
     public Long getId() {
         return id;
     }
@@ -80,6 +89,10 @@ public class UpdateMemberProfileEntity implements Serializable {
         this.active = active;
     }
 
+    public void setFeeType(final FeeTypeEntity feeType) {
+        this.feeType = feeType;
+    }
+
     public void setId(final Long id) {
         this.id = id;
     }
@@ -94,8 +107,8 @@ public class UpdateMemberProfileEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "UpdateMemberProfileEntity [id=" + id + ", profile=" + profile + ", active=" + active + ", renew="
-                + renew + "]";
+        return "UpdateMemberProfileEntity [id=" + id + "feeType=" + feeType + ", profile=" + profile + ", active="
+                + active + ", renew=" + renew + "]";
     }
 
 }

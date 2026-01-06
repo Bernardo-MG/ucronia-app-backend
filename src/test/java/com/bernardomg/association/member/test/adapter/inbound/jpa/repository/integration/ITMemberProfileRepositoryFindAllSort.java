@@ -47,8 +47,8 @@ import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("MemberProfileRepository - find all - sort")
-@MultipleActiveMember
 @PositiveFeeType
+@MultipleActiveMember
 @MultipleFees
 class ITMemberProfileRepositoryFindAllSort {
 

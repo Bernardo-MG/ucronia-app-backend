@@ -64,8 +64,8 @@ class ITFeeRepositoryDelete {
 
     @Test
     @DisplayName("When a not paid entity is deleted, it is removed")
-    @ActiveMember
     @PositiveFeeType
+    @ActiveMember
     @NotPaidFee
     void testDelete_NotPaid() {
         // WHEN
@@ -79,8 +79,8 @@ class ITFeeRepositoryDelete {
 
     @Test
     @DisplayName("When a paid entity is deleted, it is removed")
-    @ActiveMember
     @PositiveFeeType
+    @ActiveMember
     @PaidFee
     @Disabled("Handle relationships")
     void testDelete_Paid() {

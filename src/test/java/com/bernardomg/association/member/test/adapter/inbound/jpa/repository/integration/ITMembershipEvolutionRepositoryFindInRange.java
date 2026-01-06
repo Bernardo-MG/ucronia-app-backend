@@ -29,8 +29,8 @@ class ITMembershipEvolutionRepositoryFindInRange {
 
     @Test
     @DisplayName("Can filter having only the end date")
-    @ActiveMember
     @PositiveFeeType
+    @ActiveMember
     @FeeFullYear
     void testFindInRange_End() {
         final Sorting                              sorting;
@@ -56,8 +56,8 @@ class ITMembershipEvolutionRepositoryFindInRange {
 
     @Test
     @DisplayName("Returns all when not applying range")
-    @ActiveMember
     @PositiveFeeType
+    @ActiveMember
     @FeeFullYear
     void testFindInRange_NoRange() {
         final Sorting                              sorting;
@@ -126,8 +126,8 @@ class ITMembershipEvolutionRepositoryFindInRange {
 
     @Test
     @DisplayName("Can filter having in a range")
-    @ActiveMember
     @PositiveFeeType
+    @ActiveMember
     @FeeFullYear
     void testFindInRange_Range() {
         final Sorting                              sorting;
@@ -158,8 +158,8 @@ class ITMembershipEvolutionRepositoryFindInRange {
 
     @Test
     @DisplayName("Can filter having only the start date")
-    @ActiveMember
     @PositiveFeeType
+    @ActiveMember
     @FeeFullYear
     void testFindInRange_Start() {
         final Sorting                              sorting;

@@ -67,6 +67,9 @@ public class FeeEntity implements Serializable {
     @JoinColumn(name = "member_id", referencedColumnName = "id")
     private QueryMemberEntity member;
 
+    /**
+     * TODO: Is this needed?
+     */
     @Column(name = "member_id", insertable = false, updatable = false)
     private Long              memberId;
 

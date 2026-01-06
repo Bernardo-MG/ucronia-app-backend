@@ -33,6 +33,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityConstants;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberProfileEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.QueryMemberProfileSpringRepository;
@@ -65,6 +66,7 @@ class ITMemberProfileRepositorySaveAll {
 
     @Test
     @DisplayName("With an existing member, the member is persisted")
+    @PositiveFeeType
     @ActiveMember
     void testSaveAll_Existing_PersistedData() {
         final MemberProfile                      member;
@@ -88,6 +90,7 @@ class ITMemberProfileRepositorySaveAll {
 
     @Test
     @DisplayName("With a valid member, the member is persisted")
+    @PositiveFeeType
     @EmailContactMethod
     void testSaveAll_PersistedData() {
         final MemberProfile                      member;
@@ -111,6 +114,7 @@ class ITMemberProfileRepositorySaveAll {
 
     @Test
     @DisplayName("When the type is removed, the member is not changed")
+    @PositiveFeeType
     @ActiveMember
     void testSaveAll_RemoveType_NoChange() {
         final MemberProfile                      member;

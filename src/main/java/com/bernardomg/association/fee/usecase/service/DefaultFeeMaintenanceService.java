@@ -91,8 +91,9 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
 
     private final Fee toUnpaidThisMonth(final Member member) {
         final Fee.FeeType feeType;
-        // TODO: fix
-        feeType = new Fee.FeeType(-1L);
+
+        feeType = new Fee.FeeType(member.feeType()
+            .number());
         return Fee.unpaid(YearMonth.now(), member.number(), member.name(), feeType);
     }
 

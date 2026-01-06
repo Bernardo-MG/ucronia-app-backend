@@ -4,12 +4,12 @@ INSERT INTO directory.profiles (id, number, first_name, last_name, identifier, b
    (3, 30, 'Profile i', 'Last name 3', '30', '1990-01-01 0:0:0', 'Comments', '["member"]'),
    (4, 40, 'Profile o', 'Last name 4', '40', '1990-01-01 0:0:0', 'Comments', '["member"]'),
    (5, 50, 'Profile u', 'Last name 5', '50', '1990-01-01 0:0:0', 'Comments', '["member"]');
-INSERT INTO directory.members (id, active, renew_membership) VALUES
-   (1, true, true),
-   (2, true, true),
-   (3, true, true),
-   (4, true, true),
-   (5, true, true);
+INSERT INTO directory.members (id, fee_type_id, active, renew_membership) VALUES
+   (1, 1, true, true),
+   (2, 1, true, true),
+   (3, 1, true, true),
+   (4, 1, true, true),
+   (5, 1, true, true);
 
 INSERT INTO directory.contact_methods (id, number, name) VALUES
    (1, 10, 'email');

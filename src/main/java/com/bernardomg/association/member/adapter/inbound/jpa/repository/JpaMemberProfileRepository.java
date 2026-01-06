@@ -38,6 +38,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTypeEntity;
+import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeTypeSpringRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityConstants;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberProfileEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberProfileEntityMapper;
@@ -69,6 +71,8 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
 
     private final ContactMethodSpringRepository       contactMethodSpringRepository;
 
+    private final FeeTypeSpringRepository             feeTypeSpringRepository;
+
     private final ProfileSpringRepository             profileSpringRepository;
 
     private final QueryMemberProfileSpringRepository  queryMemberProfileSpringRepository;
@@ -78,12 +82,13 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
     public JpaMemberProfileRepository(final QueryMemberProfileSpringRepository queryMemberProfileSpringRepo,
             final UpdateMemberProfileSpringRepository updateMemberProfileSpringRepo,
             final ContactMethodSpringRepository contactMethodSpringRepo,
-            final ProfileSpringRepository profileSpringRepo) {
+            final ProfileSpringRepository profileSpringRepo, final FeeTypeSpringRepository feeTypeSpringRepo) {
         super();
 
         queryMemberProfileSpringRepository = Objects.requireNonNull(queryMemberProfileSpringRepo);
         updateMemberProfileSpringRepository = Objects.requireNonNull(updateMemberProfileSpringRepo);
         contactMethodSpringRepository = Objects.requireNonNull(contactMethodSpringRepo);
+        feeTypeSpringRepository = Objects.requireNonNull(feeTypeSpringRepo);
         // TODO: remove profile repository
         profileSpringRepository = Objects.requireNonNull(profileSpringRepo);
     }
@@ -193,6 +198,7 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
         final UpdateMemberProfileEntity entity;
         final MemberProfile             created;
         final Optional<ProfileEntity>   profile;
+        final Optional<FeeTypeEntity>   feeType;
         final List<Long>                contactMethodNumbers;
         final List<ContactMethodEntity> contactMethods;
 
@@ -210,6 +216,9 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
         if (profile.isPresent()) {
             entity.setProfile(profile.get());
         }
+
+        feeType = feeTypeSpringRepository.findByNumber(memberProfile.number());
+        entity.setFeeType(feeType.orElse(null));
 
         setType(entity.getProfile());
 
@@ -230,7 +239,7 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
 
         number = new AtomicLong(queryMemberProfileSpringRepository.findNextNumber());
         entities = memberProfiles.stream()
-            .map(m -> convert(m, number))
+            .map(m -> toEntity(m, number))
             .toList();
 
         entities.stream()
@@ -246,12 +255,23 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
         return saved;
     }
 
-    private final UpdateMemberProfileEntity convert(final MemberProfile memberProfile, final AtomicLong number) {
+    private final void setType(final ProfileEntity entity) {
+        if (entity.getTypes() == null) {
+            entity.setTypes(Set.of(MemberEntityConstants.PROFILE_TYPE));
+        } else {
+            entity.getTypes()
+                .add(MemberEntityConstants.PROFILE_TYPE);
+        }
+    }
+
+    private final UpdateMemberProfileEntity toEntity(final MemberProfile memberProfile, final AtomicLong number) {
         final Optional<UpdateMemberProfileEntity> existing;
         final UpdateMemberProfileEntity           entity;
         final List<Long>                          contactMethodNumbers;
         final List<ContactMethodEntity>           contactMethods;
+        final Optional<FeeTypeEntity>             feeType;
 
+        // TODO: move to repository
         existing = updateMemberProfileSpringRepository.findByNumber(memberProfile.number());
         if (existing.isPresent()) {
             entity = UpdateMemberProfileEntityMapper.toEntity(existing.get(), memberProfile);
@@ -266,17 +286,11 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
             entity.getProfile()
                 .setNumber(number.getAndIncrement());
         }
+        // TODO: verify it exists
+        feeType = feeTypeSpringRepository.findByNumber(memberProfile.number());
+        entity.setFeeType(feeType.orElse(null));
 
         return entity;
-    }
-
-    private final void setType(final ProfileEntity entity) {
-        if (entity.getTypes() == null) {
-            entity.setTypes(Set.of(MemberEntityConstants.PROFILE_TYPE));
-        } else {
-            entity.getTypes()
-                .add(MemberEntityConstants.PROFILE_TYPE);
-        }
     }
 
 }

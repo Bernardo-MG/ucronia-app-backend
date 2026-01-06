@@ -54,9 +54,9 @@ class ITFeeRepositoryFindOne {
 
     @Test
     @DisplayName("With two active members, the alternative entity is returned")
+    @PositiveFeeType
     @ActiveMember
     @AlternativeActiveMember
-    @PositiveFeeType
     @PaidFee
     @AlternativePaidFee
     void testFindOne_Active_TwoMembers_Alternative() {
@@ -85,8 +85,8 @@ class ITFeeRepositoryFindOne {
 
     @Test
     @DisplayName("With no last name, only the name is returned")
-    @ActiveMemberNoLastName
     @PositiveFeeType
+    @ActiveMemberNoLastName
     @PaidFee
     void testFindOne_NoLastName() {
         final Optional<Fee> fee;
@@ -101,8 +101,8 @@ class ITFeeRepositoryFindOne {
 
     @Test
     @DisplayName("With a fee, and a not paid fee, the related entity is returned")
-    @ActiveMember
     @PositiveFeeType
+    @ActiveMember
     @NotPaidFee
     void testFindOne_NotPaid() {
         final Optional<Fee> fee;
@@ -117,8 +117,8 @@ class ITFeeRepositoryFindOne {
 
     @Test
     @DisplayName("With a fee, and a paid fee, the related entity is returned")
-    @ActiveMember
     @PositiveFeeType
+    @ActiveMember
     @PaidFee
     void testFindOne_Paid() {
         final Optional<Fee> fee;
@@ -133,9 +133,9 @@ class ITFeeRepositoryFindOne {
 
     @Test
     @DisplayName("With a fee, and two members with paid fees, the first entity is returned")
+    @PositiveFeeType
     @ActiveMember
     @AlternativeActiveMember
-    @PositiveFeeType
     @PaidFee
     @AlternativePaidFee
     void testFindOne_Paid_TwoMembers() {

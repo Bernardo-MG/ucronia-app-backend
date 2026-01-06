@@ -44,18 +44,23 @@ import com.bernardomg.ucronia.openapi.model.SortingDto;
 public final class MemberDtoMapper {
 
     public static final Member toDomain(final long number, final MemberChangeDto change) {
-        return new Member(number, null, change.getActive(), change.getRenew());
+        final Member.FeeType feeType;
+
+        feeType = new Member.FeeType(change.getFeeType());
+        return new Member(number, feeType, null, change.getActive(), change.getRenew());
     }
 
     public static final Member toDomain(final MemberCreationDto creation) {
-        final ProfileName name;
+        final ProfileName    name;
+        final Member.FeeType feeType;
 
+        feeType = new Member.FeeType(creation.getFeeType());
         name = new ProfileName(creation.getName()
             .getFirstName(),
             creation.getName()
                 .getLastName());
 
-        return new Member(-1L, name, true, true);
+        return new Member(-1L, feeType, name, true, true);
     }
 
     public static final MemberResponseDto toResponseDto(final Member member) {

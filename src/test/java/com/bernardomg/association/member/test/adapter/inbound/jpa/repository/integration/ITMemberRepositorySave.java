@@ -30,6 +30,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityConstants;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.QueryMemberSpringRepository;
@@ -61,6 +62,7 @@ class ITMemberRepositorySave {
 
     @Test
     @DisplayName("With an active member, the member is persisted")
+    @PositiveFeeType
     void testSave_Active_PersistedData() {
         final Member                      member;
         final Iterable<QueryMemberEntity> entities;
@@ -82,6 +84,7 @@ class ITMemberRepositorySave {
 
     @Test
     @DisplayName("With an active member, the created member is returned")
+    @PositiveFeeType
     void testSave_Active_ReturnedData() {
         final Member member;
         final Member saved;
@@ -100,6 +103,7 @@ class ITMemberRepositorySave {
 
     @Test
     @DisplayName("When an active member exists, and an inactive membership is set, the member is persisted")
+    @PositiveFeeType
     @ActiveMember
     void testSave_Existing_Active_SetInactive_PersistedData() {
         final Member                      member;
@@ -122,6 +126,7 @@ class ITMemberRepositorySave {
 
     @Test
     @DisplayName("When an active member exists, and an active membership is added, the member is persisted")
+    @PositiveFeeType
     @ActiveMember
     void testSave_Existing_ActiveMembershipToActive_PersistedData() {
         final Member                      member;
@@ -144,6 +149,7 @@ class ITMemberRepositorySave {
 
     @Test
     @DisplayName("When an active member exists, and an inactive membership is added, the member is persisted")
+    @PositiveFeeType
     @ActiveMember
     void testSave_Existing_ActiveToInactive_PersistedData() {
         final Member                      member;
@@ -166,6 +172,7 @@ class ITMemberRepositorySave {
 
     @Test
     @DisplayName("When a member exists, the member is persisted")
+    @PositiveFeeType
     @ActiveMember
     void testSave_Existing_PersistedData() {
         final Member                      member;
@@ -188,6 +195,7 @@ class ITMemberRepositorySave {
 
     @Test
     @DisplayName("When a member exists, the created member is returned")
+    @PositiveFeeType
     @ActiveMember
     void testSave_Existing_ReturnedData() {
         final Member member;
@@ -207,6 +215,7 @@ class ITMemberRepositorySave {
 
     @Test
     @DisplayName("With an inactive member, the member is persisted")
+    @PositiveFeeType
     void testSave_Inactive_PersistedData() {
         final Member                      member;
         final Iterable<QueryMemberEntity> entities;
@@ -228,6 +237,7 @@ class ITMemberRepositorySave {
 
     @Test
     @DisplayName("When the member is persisted, the profile types includes the member type")
+    @PositiveFeeType
     void testSave_SetsType() {
         final Member        member;
         final ProfileEntity profile;

@@ -30,6 +30,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityConstants;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberProfileEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.QueryMemberProfileSpringRepository;
@@ -63,6 +64,7 @@ class ITMemberProfileRepositorySaveWithNumber {
 
     @Test
     @DisplayName("With a member, the member is persisted")
+    @PositiveFeeType
     @EmailContactMethod
     @ValidProfile
     void testSaveWithNumber_PersistedData() {
@@ -86,6 +88,7 @@ class ITMemberProfileRepositorySaveWithNumber {
 
     @Test
     @DisplayName("With a member, the created member is returned")
+    @PositiveFeeType
     @EmailContactMethod
     @ValidProfile
     void testSaveWithNumber_ReturnedData() {
@@ -106,6 +109,7 @@ class ITMemberProfileRepositorySaveWithNumber {
 
     @Test
     @DisplayName("When the member is persisted, the profile types includes the member type")
+    @PositiveFeeType
     @EmailContactMethod
     void testSaveWithNumber_SetsType() {
         final MemberProfile member;

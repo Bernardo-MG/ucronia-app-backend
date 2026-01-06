@@ -17,6 +17,14 @@ databaseChangeLog:
                     references: directory.profiles(id)
                     deleteCascade: true
               - column:
+                  name: fee_type_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_fees_fee_type
+                    references: association.fee_types(id)
+                    deleteCascade: true
+              - column:
                   name: active
                   type: boolean
                   defaultValue: true

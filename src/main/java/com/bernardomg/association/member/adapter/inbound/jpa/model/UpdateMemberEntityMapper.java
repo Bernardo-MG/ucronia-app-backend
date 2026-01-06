@@ -34,14 +34,17 @@ import com.bernardomg.association.profile.domain.model.ProfileName;
 public final class UpdateMemberEntityMapper {
 
     public static final Member toDomain(final UpdateMemberEntity entity) {
-        final ProfileName name;
+        final Member.FeeType feeType;
+        final ProfileName    name;
 
+        feeType = new Member.FeeType(entity.getFeeType()
+            .getNumber());
         name = new ProfileName(entity.getProfile()
             .getFirstName(),
             entity.getProfile()
                 .getLastName());
         return new Member(entity.getProfile()
-            .getNumber(), name, entity.getActive(), entity.getRenew());
+            .getNumber(), feeType, name, entity.getActive(), entity.getRenew());
     }
 
     public static final UpdateMemberEntity toEntity(final Member data) {

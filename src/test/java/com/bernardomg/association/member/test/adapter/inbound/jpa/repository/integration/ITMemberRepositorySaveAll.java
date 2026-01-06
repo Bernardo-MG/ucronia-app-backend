@@ -33,6 +33,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityConstants;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.QueryMemberSpringRepository;
@@ -64,6 +65,7 @@ class ITMemberRepositorySaveAll {
 
     @Test
     @DisplayName("With an existing member, the member is persisted")
+    @PositiveFeeType
     @ActiveMember
     void testSave_Existing_PersistedData() {
         final Member                      member;
@@ -86,6 +88,7 @@ class ITMemberRepositorySaveAll {
 
     @Test
     @DisplayName("With a valid member, the member is persisted")
+    @PositiveFeeType
     void testSave_PersistedData() {
         final Member                      member;
         final Iterable<QueryMemberEntity> entities;
@@ -107,6 +110,7 @@ class ITMemberRepositorySaveAll {
 
     @Test
     @DisplayName("With a valid member, the created member is returned")
+    @PositiveFeeType
     void testSave_ReturnedData() {
         final Member             member;
         final Collection<Member> saved;
@@ -125,6 +129,7 @@ class ITMemberRepositorySaveAll {
 
     @Test
     @DisplayName("When the member is persisted, the profile types includes the member type")
+    @PositiveFeeType
     void testSave_SetsType() {
         final Member        member;
         final ProfileEntity profile;

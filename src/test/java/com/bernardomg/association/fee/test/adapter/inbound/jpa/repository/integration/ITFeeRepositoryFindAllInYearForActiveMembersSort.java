@@ -51,8 +51,8 @@ class ITFeeRepositoryFindAllInYearForActiveMembersSort {
 
     @Test
     @DisplayName("With ascending order by name with accents it returns the ordered data")
-    @MultipleActiveMemberAccents
     @PositiveFeeType
+    @MultipleActiveMemberAccents
     @MultipleFees
     @Disabled("Database dependant")
     void testFindAllInYearForActiveMembers_Accents_Name_Asc() {
@@ -77,8 +77,8 @@ class ITFeeRepositoryFindAllInYearForActiveMembersSort {
 
     @Test
     @DisplayName("With ascending order by name it returns the ordered data")
-    @MultipleActiveMember
     @PositiveFeeType
+    @MultipleActiveMember
     @MultipleFees
     void testFindAllInYearForActiveMembers_Name_Asc() {
         final Iterable<Fee> fees;
@@ -102,8 +102,8 @@ class ITFeeRepositoryFindAllInYearForActiveMembersSort {
 
     @Test
     @DisplayName("With descending order by name it returns the ordered data")
-    @MultipleActiveMember
     @PositiveFeeType
+    @MultipleActiveMember
     @MultipleFees
     void testFindAllInYearForActiveMembers_Name_Desc() {
         final Iterable<Fee> fees;

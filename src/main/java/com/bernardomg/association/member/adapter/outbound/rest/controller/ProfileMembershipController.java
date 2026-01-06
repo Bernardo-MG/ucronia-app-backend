@@ -53,10 +53,10 @@ public class ProfileMembershipController implements ProfileMembershipApi {
 
     @Override
     @RequireResourceAuthorization(resource = "MEMBER_PROFILE", action = Actions.CREATE)
-    public MemberResponseDto convertToMember(final Long number) {
+    public MemberResponseDto convertToMember(final Long number, final Long feeType) {
         final Member created;
 
-        created = service.convertToMember(number);
+        created = service.convertToMember(number, feeType);
 
         return MemberDtoMapper.toResponseDto(created);
     }

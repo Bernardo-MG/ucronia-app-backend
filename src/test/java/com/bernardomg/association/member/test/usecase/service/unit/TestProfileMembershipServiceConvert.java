@@ -38,6 +38,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.member.domain.exception.MemberExistsException;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
@@ -79,7 +80,7 @@ class TestProfileMembershipServiceConvert {
         given(memberRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        execution = () -> service.convertToMember(ProfileConstants.NUMBER);
+        execution = () -> service.convertToMember(ProfileConstants.NUMBER, FeeConstants.FEE_TYPE_NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -94,7 +95,7 @@ class TestProfileMembershipServiceConvert {
         given(profileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.convertToMember(ProfileConstants.NUMBER);
+        execution = () -> service.convertToMember(ProfileConstants.NUMBER, FeeConstants.FEE_TYPE_NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -115,7 +116,7 @@ class TestProfileMembershipServiceConvert {
         given(memberRepository.exists(ProfileConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        service.convertToMember(ProfileConstants.NUMBER);
+        service.convertToMember(ProfileConstants.NUMBER, FeeConstants.FEE_TYPE_NUMBER);
 
         // THEN
         verify(memberRepository).save(member, ProfileConstants.NUMBER);
@@ -137,7 +138,7 @@ class TestProfileMembershipServiceConvert {
         given(memberRepository.save(member, ProfileConstants.NUMBER)).willReturn(member);
 
         // WHEN
-        updated = service.convertToMember(ProfileConstants.NUMBER);
+        updated = service.convertToMember(ProfileConstants.NUMBER, FeeConstants.FEE_TYPE_NUMBER);
 
         // THEN
         Assertions.assertThat(updated)

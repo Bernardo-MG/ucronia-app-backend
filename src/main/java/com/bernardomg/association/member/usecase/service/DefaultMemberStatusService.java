@@ -129,11 +129,11 @@ public final class DefaultMemberStatusService implements MemberStatusService {
     }
 
     private final Member activated(final Member original) {
-        return new Member(original.number(), original.name(), true, true);
+        return new Member(original.number(), original.feeType(), original.name(), true, true);
     }
 
     private final Member deactivated(final Member original) {
-        return new Member(original.number(), original.name(), false, false);
+        return new Member(original.number(), original.feeType(), original.name(), false, false);
     }
 
 }

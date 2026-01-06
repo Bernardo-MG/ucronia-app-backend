@@ -95,6 +95,7 @@ class ITFeeTypeRepositorySave {
 
     @Test
     @DisplayName("Returns the created data")
+    @PositiveFeeType
     @ActiveMember
     @FeeTransaction
     void testSave_ReturnedData() {
@@ -110,7 +111,7 @@ class ITFeeTypeRepositorySave {
         // THEN
         Assertions.assertThat(created)
             .as("feeTypes")
-            .isEqualTo(FeeTypes.created());
+            .isEqualTo(FeeTypes.positive());
     }
 
 }

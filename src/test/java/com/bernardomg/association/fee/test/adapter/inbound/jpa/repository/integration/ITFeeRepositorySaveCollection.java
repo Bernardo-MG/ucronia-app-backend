@@ -42,8 +42,8 @@ class ITFeeRepositorySaveCollection {
 
     @Test
     @DisplayName("When a not paid fee, it is persisted")
-    @ActiveMember
     @PositiveFeeType
+    @ActiveMember
     void testSave_NotPaid_PersistedData() {
         final Iterable<FeeEntity> fees;
         final Fee                 fee;
@@ -66,8 +66,8 @@ class ITFeeRepositorySaveCollection {
 
     @Test
     @DisplayName("When a not paid fee, it is returned")
-    @ActiveMember
     @PositiveFeeType
+    @ActiveMember
     void testSave_NotPaid_ReturnedData() {
         final Collection<Fee> created;
         final Fee             fee;
@@ -86,8 +86,8 @@ class ITFeeRepositorySaveCollection {
 
     @Test
     @DisplayName("When changing a fee date, it is persisted")
-    @ActiveMember
     @PositiveFeeType
+    @ActiveMember
     @FeeTransaction
     @NotPaidFee
     void testSave_Paid_ChangeDate_PersistedData() {
@@ -116,8 +116,8 @@ class ITFeeRepositorySaveCollection {
 
     @Test
     @DisplayName("When changing a fee date, it is persisted in the transaction")
-    @ActiveMember
     @PositiveFeeType
+    @ActiveMember
     @PaidFee
     void testSave_Paid_ChangeDate_PersistedTransaction() {
         final Fee                         fee;
@@ -146,8 +146,8 @@ class ITFeeRepositorySaveCollection {
 
     @Test
     @DisplayName("When changing a fee date, it is returned")
-    @ActiveMember
     @PositiveFeeType
+    @ActiveMember
     @FeeTransaction
     @NotPaidFee
     void testSave_Paid_ChangeDate_ReturnedData() {
@@ -174,8 +174,8 @@ class ITFeeRepositorySaveCollection {
 
     @Test
     @DisplayName("When a paid fee, it is persisted")
-    @ActiveMember
     @PositiveFeeType
+    @ActiveMember
     @FeeTransaction
     void testSave_Paid_PersistedData() {
         final Iterable<FeeEntity> fees;
@@ -199,8 +199,8 @@ class ITFeeRepositorySaveCollection {
 
     @Test
     @DisplayName("Persists the fee to transaction relationship")
-    @ActiveMember
     @PositiveFeeType
+    @ActiveMember
     @FeeTransaction
     void testSave_Paid_PersistedRelationship() {
         final Fee               fee;
@@ -230,8 +230,8 @@ class ITFeeRepositorySaveCollection {
 
     @Test
     @DisplayName("Persists the transaction")
-    @ActiveMember
     @PositiveFeeType
+    @ActiveMember
     @FeeTransaction
     void testSave_Paid_PersistedTransaction() {
         final Iterable<TransactionEntity> transactions;
@@ -254,8 +254,8 @@ class ITFeeRepositorySaveCollection {
 
     @Test
     @DisplayName("When a paid fee, it is returned")
-    @ActiveMember
     @PositiveFeeType
+    @ActiveMember
     @FeeTransaction
     void testSave_Paid_ReturnedData() {
         final Collection<Fee> fees;

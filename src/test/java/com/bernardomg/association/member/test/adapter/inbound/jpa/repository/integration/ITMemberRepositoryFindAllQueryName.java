@@ -30,6 +30,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.MemberStatus;
@@ -51,6 +52,7 @@ class ITMemberRepositoryFindAllQueryName {
 
     @Test
     @DisplayName("With a member matching first name, it is returned")
+    @PositiveFeeType
     @ActiveMember
     void testFindAll_FirstName() {
         final Page<Member> members;
@@ -75,6 +77,7 @@ class ITMemberRepositoryFindAllQueryName {
 
     @Test
     @DisplayName("With a member matching full name, it is returned")
+    @PositiveFeeType
     @ActiveMember
     void testFindAll_FullName() {
         final Page<Member> members;
@@ -99,6 +102,7 @@ class ITMemberRepositoryFindAllQueryName {
 
     @Test
     @DisplayName("With a member matching last name, it is returned")
+    @PositiveFeeType
     @ActiveMember
     void testFindAll_LastName() {
         final Page<Member> members;
@@ -146,6 +150,7 @@ class ITMemberRepositoryFindAllQueryName {
 
     @Test
     @DisplayName("With a member partial matching name, it is returned")
+    @PositiveFeeType
     @ActiveMember
     void testFindAll_PartialName() {
         final Page<Member> members;
@@ -171,6 +176,7 @@ class ITMemberRepositoryFindAllQueryName {
 
     @Test
     @DisplayName("With a member and wrong name, nothing is returned")
+    @PositiveFeeType
     @ActiveMember
     void testFindAll_WrongName() {
         final Page<Member> members;

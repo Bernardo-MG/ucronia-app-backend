@@ -65,10 +65,11 @@ public final class DefaultProfileMembershipService implements ProfileMembershipS
     }
 
     @Override
-    public final Member convertToMember(final long number) {
-        final Profile existing;
-        final Member  toCreate;
-        final Member  created;
+    public final Member convertToMember(final long number, final long feeType) {
+        final Profile        existing;
+        final Member         toCreate;
+        final Member         created;
+        final Member.FeeType memberFeeType;
 
         log.debug("Converting profile {} to member", number);
 
@@ -82,7 +83,8 @@ public final class DefaultProfileMembershipService implements ProfileMembershipS
             throw new MemberExistsException(number);
         }
 
-        toCreate = new Member(existing.number(), existing.name(), true, true);
+        memberFeeType = new Member.FeeType(feeType);
+        toCreate = new Member(existing.number(), memberFeeType, existing.name(), true, true);
 
         created = memberRepository.save(toCreate, number);
 

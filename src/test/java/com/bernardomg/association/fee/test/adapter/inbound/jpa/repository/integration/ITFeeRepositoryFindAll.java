@@ -60,8 +60,8 @@ class ITFeeRepositoryFindAll {
 
     @Test
     @DisplayName("With a full year it returns all the fees")
-    @ActiveMember
     @PositiveFeeType
+    @ActiveMember
     @FeeFullYear
     void testFindAll_FullYear() {
         final Page<Fee>  fees;
@@ -93,8 +93,8 @@ class ITFeeRepositoryFindAll {
 
     @Test
     @DisplayName("With multiple fees it returns all the fees")
-    @MultipleInactiveMember
     @PositiveFeeType
+    @MultipleInactiveMember
     @MultipleFees
     void testFindAll_Multiple() {
         final Page<Fee>  fees;
@@ -123,6 +123,7 @@ class ITFeeRepositoryFindAll {
 
     @Test
     @DisplayName("With no data it returns nothing")
+    @PositiveFeeType
     @ActiveMember
     void testFindAll_NoData() {
         final Page<Fee>  fees;
@@ -149,8 +150,8 @@ class ITFeeRepositoryFindAll {
 
     @Test
     @DisplayName("With no last name it returns only the name")
-    @NoLastNameActiveMember
     @PositiveFeeType
+    @NoLastNameActiveMember
     @PaidFee
     void testFindAll_NoLastName() {
         final Page<Fee>  fees;
@@ -177,8 +178,8 @@ class ITFeeRepositoryFindAll {
 
     @Test
     @DisplayName("With a not paid fee it returns all the fees")
-    @ActiveMember
     @PositiveFeeType
+    @ActiveMember
     @NotPaidFee
     void testFindAll_NotPaid() {
         final Page<Fee>  fees;
@@ -205,8 +206,8 @@ class ITFeeRepositoryFindAll {
 
     @Test
     @DisplayName("With a paid fee it returns all the fees")
-    @ActiveMember
     @PositiveFeeType
+    @ActiveMember
     @PaidFee
     void testFindAll_Paid() {
         final Page<Fee>  fees;
