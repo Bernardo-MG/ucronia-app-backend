@@ -54,6 +54,10 @@ public class FeeEntity implements Serializable {
     @Column(name = "date", nullable = false)
     private Instant           date;
 
+    @OneToOne
+    @JoinColumn(name = "fee_type_id", referencedColumnName = "id")
+    private FeeTypeEntity     feeType;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
@@ -75,6 +79,10 @@ public class FeeEntity implements Serializable {
 
     public Instant getDate() {
         return date;
+    }
+
+    public FeeTypeEntity getFeeType() {
+        return feeType;
     }
 
     public Long getId() {
@@ -101,6 +109,10 @@ public class FeeEntity implements Serializable {
         this.date = date;
     }
 
+    public void setFeeType(final FeeTypeEntity feeType) {
+        this.feeType = feeType;
+    }
+
     public void setId(final Long id) {
         this.id = id;
     }
@@ -124,7 +136,7 @@ public class FeeEntity implements Serializable {
     @Override
     public String toString() {
         return "FeeEntity [date=" + date + ", id=" + id + ", paid=" + paid + ", member=" + member + ", memberId="
-                + memberId + ", transaction=" + transaction + "]";
+                + memberId + ", feeType=" + feeType + ", transaction=" + transaction + "]";
     }
 
 }

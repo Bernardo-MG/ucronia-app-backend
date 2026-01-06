@@ -33,6 +33,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.fee.test.configuration.data.annotation.MultipleFees;
+import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.sponsor.domain.filter.SponsorFilter;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
@@ -46,6 +47,7 @@ import com.bernardomg.test.configuration.annotation.IntegrationTest;
 @IntegrationTest
 @DisplayName("SponsorRepository - find all - sort")
 @MultipleSponsors
+@PositiveFeeType
 @MultipleFees
 class ITSponsorRepositoryFindAllSort {
 

@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.fee.test.configuration.data.annotation.FeeFullYear;
+import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.member.domain.model.MembershipEvolutionMonth;
 import com.bernardomg.association.member.domain.repository.MembershipEvolutionRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
@@ -29,6 +30,7 @@ class ITMembershipEvolutionRepositoryFindInRange {
     @Test
     @DisplayName("Can filter having only the end date")
     @ActiveMember
+    @PositiveFeeType
     @FeeFullYear
     void testFindInRange_End() {
         final Sorting                              sorting;
@@ -55,6 +57,7 @@ class ITMembershipEvolutionRepositoryFindInRange {
     @Test
     @DisplayName("Returns all when not applying range")
     @ActiveMember
+    @PositiveFeeType
     @FeeFullYear
     void testFindInRange_NoRange() {
         final Sorting                              sorting;
@@ -124,6 +127,7 @@ class ITMembershipEvolutionRepositoryFindInRange {
     @Test
     @DisplayName("Can filter having in a range")
     @ActiveMember
+    @PositiveFeeType
     @FeeFullYear
     void testFindInRange_Range() {
         final Sorting                              sorting;
@@ -155,6 +159,7 @@ class ITMembershipEvolutionRepositoryFindInRange {
     @Test
     @DisplayName("Can filter having only the start date")
     @ActiveMember
+    @PositiveFeeType
     @FeeFullYear
     void testFindInRange_Start() {
         final Sorting                              sorting;

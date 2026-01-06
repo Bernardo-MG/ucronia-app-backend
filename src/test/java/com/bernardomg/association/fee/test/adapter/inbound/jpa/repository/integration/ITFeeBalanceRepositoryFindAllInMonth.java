@@ -34,6 +34,7 @@ import com.bernardomg.association.fee.domain.repository.FeeBalanceRepository;
 import com.bernardomg.association.fee.test.configuration.data.annotation.AlternativePaidFee;
 import com.bernardomg.association.fee.test.configuration.data.annotation.NotPaidFee;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFee;
+import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.AlternativeActiveMember;
@@ -69,6 +70,7 @@ class ITFeeBalanceRepositoryFindForMonth {
     @Test
     @DisplayName("With a paid fee, for an active member, the correct balance is returned")
     @ActiveMember
+    @PositiveFeeType
     @PaidFee
     void testFindForMonth_Paid_Active() {
         final FeeBalance balance;
@@ -90,6 +92,7 @@ class ITFeeBalanceRepositoryFindForMonth {
     @Test
     @DisplayName("With a paid fee for a month without data, for an active member, nothing is returned")
     @ActiveMember
+    @PositiveFeeType
     @PaidFee
     void testFindForMonth_Paid_Active_WrongMonth() {
         final FeeBalance balance;
@@ -111,6 +114,7 @@ class ITFeeBalanceRepositoryFindForMonth {
     @Test
     @DisplayName("With a paid fee, for an inactive member, the correct balance is returned")
     @InactiveMember
+    @PositiveFeeType
     @PaidFee
     void testFindForMonth_Paid_Inactive() {
         final FeeBalance balance;
@@ -133,6 +137,7 @@ class ITFeeBalanceRepositoryFindForMonth {
     @DisplayName("With a paid fee, for an active member, the correct balance is returned")
     @ActiveMember
     @AlternativeActiveMember
+    @PositiveFeeType
     @NotPaidFee
     @AlternativePaidFee
     void testFindForMonth_PaidAndNotPaid_Active() {
@@ -155,6 +160,7 @@ class ITFeeBalanceRepositoryFindForMonth {
     @Test
     @DisplayName("With an unpaid fee, for an active member, the correct balance is returned")
     @ActiveMember
+    @PositiveFeeType
     @NotPaidFee
     void testFindForMonth_Unpaid_Active() {
         final FeeBalance balance;
@@ -176,6 +182,7 @@ class ITFeeBalanceRepositoryFindForMonth {
     @Test
     @DisplayName("With an unpaid fee for a month without data, for an active member, nothing is returned")
     @ActiveMember
+    @PositiveFeeType
     @NotPaidFee
     void testFindForMonth_Unpaid_Active_WrongMonth() {
         final FeeBalance balance;
@@ -197,6 +204,7 @@ class ITFeeBalanceRepositoryFindForMonth {
     @Test
     @DisplayName("With an unpaid fee, for an inactive member, the correct balance is returned")
     @InactiveMember
+    @PositiveFeeType
     @NotPaidFee
     void testFindForMonth_Unpaid_Inactive() {
         final FeeBalance balance;

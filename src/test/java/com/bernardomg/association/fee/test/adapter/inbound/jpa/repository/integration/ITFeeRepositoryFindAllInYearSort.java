@@ -39,6 +39,7 @@ import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.data.annotation.AlternativeFeeFullYear;
 import com.bernardomg.association.fee.test.configuration.data.annotation.FeeFullYear;
 import com.bernardomg.association.fee.test.configuration.data.annotation.MultipleFees;
+import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.AlternativeActiveMember;
@@ -57,6 +58,7 @@ class ITFeeRepositoryFindAllInYearSort {
     @Test
     @DisplayName("With ascending order by name it returns the ordered data")
     @MultipleActiveMemberAccents
+    @PositiveFeeType
     @MultipleFees
     @Disabled("Database dependant")
     void testFindAllInYear_Accents_Name_Asc() {
@@ -102,6 +104,7 @@ class ITFeeRepositoryFindAllInYearSort {
     @DisplayName("With ascending order by name it returns the ordered data")
     @ActiveMember
     @AlternativeActiveMember
+    @PositiveFeeType
     @FeeFullYear
     @AlternativeFeeFullYear
     void testFindAllInYear_TwoMembers_Name_Asc() {
@@ -141,6 +144,7 @@ class ITFeeRepositoryFindAllInYearSort {
     @DisplayName("With descending order by name it returns the ordered data")
     @ActiveMember
     @AlternativeActiveMember
+    @PositiveFeeType
     @FeeFullYear
     @AlternativeFeeFullYear
     void testFindAllInYear_TwoMembers_Name_Desc() {

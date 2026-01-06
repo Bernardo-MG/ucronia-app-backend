@@ -35,6 +35,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.data.annotation.MultipleFees;
+import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.member.test.configuration.data.annotation.MultipleActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.MultipleActiveMemberAccents;
@@ -51,6 +52,7 @@ class ITFeeRepositoryFindAllInYearForActiveMembersSort {
     @Test
     @DisplayName("With ascending order by name with accents it returns the ordered data")
     @MultipleActiveMemberAccents
+    @PositiveFeeType
     @MultipleFees
     @Disabled("Database dependant")
     void testFindAllInYearForActiveMembers_Accents_Name_Asc() {
@@ -76,6 +78,7 @@ class ITFeeRepositoryFindAllInYearForActiveMembersSort {
     @Test
     @DisplayName("With ascending order by name it returns the ordered data")
     @MultipleActiveMember
+    @PositiveFeeType
     @MultipleFees
     void testFindAllInYearForActiveMembers_Name_Asc() {
         final Iterable<Fee> fees;
@@ -100,6 +103,7 @@ class ITFeeRepositoryFindAllInYearForActiveMembersSort {
     @Test
     @DisplayName("With descending order by name it returns the ordered data")
     @MultipleActiveMember
+    @PositiveFeeType
     @MultipleFees
     void testFindAllInYearForActiveMembers_Name_Desc() {
         final Iterable<Fee> fees;

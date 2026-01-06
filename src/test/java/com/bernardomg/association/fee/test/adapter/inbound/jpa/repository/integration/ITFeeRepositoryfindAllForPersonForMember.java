@@ -38,6 +38,7 @@ import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.data.annotation.FeeFullYear;
 import com.bernardomg.association.fee.test.configuration.data.annotation.NotPaidFee;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFee;
+import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
@@ -58,6 +59,7 @@ class ITFeeRepositoryfindAllForProfileForMember {
     @Test
     @DisplayName("With a full year it returns all the fees")
     @ActiveMember
+    @PositiveFeeType
     @FeeFullYear
     void testFindAllForProfile_Active_FullYear() {
         final Page<Fee>  fees;
@@ -110,6 +112,7 @@ class ITFeeRepositoryfindAllForProfileForMember {
     @Test
     @DisplayName("With no last name it returns only the name")
     @NoLastNameActiveMember
+    @PositiveFeeType
     @PaidFee
     void testFindAllForProfile_Active_NoLastName() {
         final Page<Fee>  fees;
@@ -134,6 +137,7 @@ class ITFeeRepositoryfindAllForProfileForMember {
     @Test
     @DisplayName("With a not paid fee, for an active member, it returns all the fees")
     @ActiveMember
+    @PositiveFeeType
     @NotPaidFee
     void testFindAllForProfile_Active_NotPaid() {
         final Page<Fee>  fees;
@@ -158,6 +162,7 @@ class ITFeeRepositoryfindAllForProfileForMember {
     @Test
     @DisplayName("With a paid fee, for an active member, it returns all the fees")
     @ActiveMember
+    @PositiveFeeType
     @PaidFee
     void testFindAllForProfile_Active_Paid() {
         final Page<Fee>  fees;
@@ -182,6 +187,7 @@ class ITFeeRepositoryfindAllForProfileForMember {
     @Test
     @DisplayName("With a wrong member it returns nothing")
     @ActiveMember
+    @PositiveFeeType
     @PaidFee
     void testFindAllForProfile_Active_WrongMember() {
         final Page<Fee>  fees;
@@ -206,6 +212,7 @@ class ITFeeRepositoryfindAllForProfileForMember {
     @Test
     @DisplayName("With a not paid fee, for an inactive member, it returns all the fees")
     @InactiveMember
+    @PositiveFeeType
     @NotPaidFee
     void testFindAllForProfile_Inactive_NotPaid() {
         final Page<Fee>  fees;
@@ -230,6 +237,7 @@ class ITFeeRepositoryfindAllForProfileForMember {
     @Test
     @DisplayName("With a paid fee, for an inactive member, it returns all the fees")
     @InactiveMember
+    @PositiveFeeType
     @PaidFee
     void testFindAllForProfile_Inactive_Paid() {
         final Page<Fee>  fees;

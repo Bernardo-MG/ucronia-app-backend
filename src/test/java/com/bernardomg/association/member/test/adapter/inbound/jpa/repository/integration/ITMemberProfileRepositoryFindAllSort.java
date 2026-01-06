@@ -33,6 +33,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.fee.test.configuration.data.annotation.MultipleFees;
+import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.model.MemberStatus;
@@ -47,6 +48,7 @@ import com.bernardomg.test.configuration.annotation.IntegrationTest;
 @IntegrationTest
 @DisplayName("MemberProfileRepository - find all - sort")
 @MultipleActiveMember
+@PositiveFeeType
 @MultipleFees
 class ITMemberProfileRepositoryFindAllSort {
 

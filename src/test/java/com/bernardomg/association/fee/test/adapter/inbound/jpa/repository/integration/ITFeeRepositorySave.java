@@ -14,6 +14,7 @@ import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeSpringRe
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFee;
+import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.fee.test.configuration.factory.FeeEntities;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
@@ -80,6 +81,7 @@ class ITFeeRepositorySave {
     @Test
     @DisplayName("When changing a fee date, it is persisted")
     @ActiveMember
+    @PositiveFeeType
     @PaidFee
     void testSave_Paid_ChangeDate_PersistedData() {
         final Iterable<FeeEntity> fees;
@@ -108,6 +110,7 @@ class ITFeeRepositorySave {
     @Test
     @DisplayName("When changing a fee date, it is persisted in the transaction")
     @ActiveMember
+    @PositiveFeeType
     @PaidFee
     void testSave_Paid_ChangeDate_PersistedTransaction() {
         final Fee                         fee;
@@ -137,6 +140,7 @@ class ITFeeRepositorySave {
     @Test
     @DisplayName("When changing a fee date, it is returned")
     @ActiveMember
+    @PositiveFeeType
     @PaidFee
     void testSave_Paid_ChangeDate_ReturnedData() {
         final Fee     created;
@@ -164,6 +168,7 @@ class ITFeeRepositorySave {
     @Test
     @DisplayName("Persists the data")
     @ActiveMember
+    @PositiveFeeType
     @FeeTransaction
     void testSave_Paid_PersistedData() {
         final Iterable<FeeEntity> fees;
@@ -187,6 +192,7 @@ class ITFeeRepositorySave {
     @Test
     @DisplayName("Persists the fee to transaction relationship")
     @ActiveMember
+    @PositiveFeeType
     @FeeTransaction
     void testSave_Paid_PersistedRelationship() {
         final Fee               fee;
@@ -217,6 +223,7 @@ class ITFeeRepositorySave {
     @Test
     @DisplayName("Persists the transaction")
     @ActiveMember
+    @PositiveFeeType
     @FeeTransaction
     void testSave_Paid_PersistedTransaction() {
         final Iterable<TransactionEntity> transactions;
@@ -240,6 +247,7 @@ class ITFeeRepositorySave {
     @Test
     @DisplayName("Returns the created data")
     @ActiveMember
+    @PositiveFeeType
     @FeeTransaction
     void testSave_Paid_ReturnedData() {
         final Fee created;

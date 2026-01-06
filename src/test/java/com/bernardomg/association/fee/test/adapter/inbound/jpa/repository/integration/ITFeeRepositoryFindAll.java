@@ -40,6 +40,7 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.FeeFull
 import com.bernardomg.association.fee.test.configuration.data.annotation.MultipleFees;
 import com.bernardomg.association.fee.test.configuration.data.annotation.NotPaidFee;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFee;
+import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.test.configuration.factory.FeesQuery;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
@@ -60,6 +61,7 @@ class ITFeeRepositoryFindAll {
     @Test
     @DisplayName("With a full year it returns all the fees")
     @ActiveMember
+    @PositiveFeeType
     @FeeFullYear
     void testFindAll_FullYear() {
         final Page<Fee>  fees;
@@ -92,6 +94,7 @@ class ITFeeRepositoryFindAll {
     @Test
     @DisplayName("With multiple fees it returns all the fees")
     @MultipleInactiveMember
+    @PositiveFeeType
     @MultipleFees
     void testFindAll_Multiple() {
         final Page<Fee>  fees;
@@ -147,6 +150,7 @@ class ITFeeRepositoryFindAll {
     @Test
     @DisplayName("With no last name it returns only the name")
     @NoLastNameActiveMember
+    @PositiveFeeType
     @PaidFee
     void testFindAll_NoLastName() {
         final Page<Fee>  fees;
@@ -174,6 +178,7 @@ class ITFeeRepositoryFindAll {
     @Test
     @DisplayName("With a not paid fee it returns all the fees")
     @ActiveMember
+    @PositiveFeeType
     @NotPaidFee
     void testFindAll_NotPaid() {
         final Page<Fee>  fees;
@@ -201,6 +206,7 @@ class ITFeeRepositoryFindAll {
     @Test
     @DisplayName("With a paid fee it returns all the fees")
     @ActiveMember
+    @PositiveFeeType
     @PaidFee
     void testFindAll_Paid() {
         final Page<Fee>  fees;

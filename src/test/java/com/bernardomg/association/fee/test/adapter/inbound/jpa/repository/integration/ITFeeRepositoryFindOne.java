@@ -36,6 +36,7 @@ import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.data.annotation.AlternativePaidFee;
 import com.bernardomg.association.fee.test.configuration.data.annotation.NotPaidFee;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFee;
+import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
@@ -55,6 +56,7 @@ class ITFeeRepositoryFindOne {
     @DisplayName("With two active members, the alternative entity is returned")
     @ActiveMember
     @AlternativeActiveMember
+    @PositiveFeeType
     @PaidFee
     @AlternativePaidFee
     void testFindOne_Active_TwoMembers_Alternative() {
@@ -84,6 +86,7 @@ class ITFeeRepositoryFindOne {
     @Test
     @DisplayName("With no last name, only the name is returned")
     @ActiveMemberNoLastName
+    @PositiveFeeType
     @PaidFee
     void testFindOne_NoLastName() {
         final Optional<Fee> fee;
@@ -99,6 +102,7 @@ class ITFeeRepositoryFindOne {
     @Test
     @DisplayName("With a fee, and a not paid fee, the related entity is returned")
     @ActiveMember
+    @PositiveFeeType
     @NotPaidFee
     void testFindOne_NotPaid() {
         final Optional<Fee> fee;
@@ -114,6 +118,7 @@ class ITFeeRepositoryFindOne {
     @Test
     @DisplayName("With a fee, and a paid fee, the related entity is returned")
     @ActiveMember
+    @PositiveFeeType
     @PaidFee
     void testFindOne_Paid() {
         final Optional<Fee> fee;
@@ -130,6 +135,7 @@ class ITFeeRepositoryFindOne {
     @DisplayName("With a fee, and two members with paid fees, the first entity is returned")
     @ActiveMember
     @AlternativeActiveMember
+    @PositiveFeeType
     @PaidFee
     @AlternativePaidFee
     void testFindOne_Paid_TwoMembers() {

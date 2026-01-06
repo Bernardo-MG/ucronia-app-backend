@@ -63,56 +63,6 @@ databaseChangeLog:
       changes:
         - createTable:
             schemaName: association
-            tableName: fees
-            columns:
-              - column:
-                  name: id
-                  type: bigint
-                  constraints:
-                    primaryKey: true
-                    nullable: false
-              - column:
-                  name: member_id
-                  type: bigint
-                  constraints:
-                    nullable: false
-                    foreignKeyName: fk_fees_profile
-                    references: directory.profiles(id)
-                    deleteCascade: true
-              - column:
-                  name: date
-                  type: datetime
-                  constraints:
-                    nullable: false
-                  defaultValueComputed: CURRENT_TIMESTAMP
-              - column:
-                  name: paid
-                  type: boolean
-                  constraints:
-                    nullable: false
-                  defaultValue: false
-              - column:
-                  name: transaction_id
-                  type: bigint
-                  constraints:
-                    nullable: true
-                    foreignKeyName: fk_fees_transaction
-                    references: association.transactions(id)
-                    deleteCascade: true
-        - addAutoIncrement:
-            schemaName: association
-            tableName: fees
-            columnName: id
-            columnDataType: bigint
-            incrementBy: 1
-            startWith: 1
-        - addUniqueConstraint:
-            constraintName: fees_unique_date
-            schemaName: association
-            tableName: fees
-            columnNames: 'member_id, date'
-        - createTable:
-            schemaName: association
             tableName: fee_types
             columns:
               - column:
@@ -144,6 +94,64 @@ databaseChangeLog:
             columnDataType: bigint
             incrementBy: 1
             startWith: 1
+        - createTable:
+            schemaName: association
+            tableName: fees
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: member_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_fees_profile
+                    references: directory.profiles(id)
+                    deleteCascade: true
+              - column:
+                  name: date
+                  type: datetime
+                  constraints:
+                    nullable: false
+                  defaultValueComputed: CURRENT_TIMESTAMP
+              - column:
+                  name: paid
+                  type: boolean
+                  constraints:
+                    nullable: false
+                  defaultValue: false
+              - column:
+                  name: fee_type_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_fees_fee_type
+                    references: association.fee_types(id)
+                    deleteCascade: true
+              - column:
+                  name: transaction_id
+                  type: bigint
+                  constraints:
+                    nullable: true
+                    foreignKeyName: fk_fees_transaction
+                    references: association.transactions(id)
+                    deleteCascade: true
+        - addAutoIncrement:
+            schemaName: association
+            tableName: fees
+            columnName: id
+            columnDataType: bigint
+            incrementBy: 1
+            startWith: 1
+        - addUniqueConstraint:
+            constraintName: fees_unique_date
+            schemaName: association
+            tableName: fees
+            columnNames: 'member_id, date'
       modifySql:
         - append:
             dbms: mysql

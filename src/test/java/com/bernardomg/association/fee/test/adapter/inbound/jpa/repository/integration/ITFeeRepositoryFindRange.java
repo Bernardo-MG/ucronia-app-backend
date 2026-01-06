@@ -35,6 +35,7 @@ import com.bernardomg.association.fee.domain.model.YearsRange;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.data.annotation.AlternativeFeeFullYear;
 import com.bernardomg.association.fee.test.configuration.data.annotation.FeeFullYear;
+import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.initializer.FeeInitializer;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
@@ -59,6 +60,7 @@ class ITFeeRepositoryFindRange {
     @Test
     @DisplayName("With a full year, the year range is returned")
     @ActiveMember
+    @PositiveFeeType
     @FeeFullYear
     void testFindRange_FullYear() {
         final YearsRange range;
@@ -76,6 +78,7 @@ class ITFeeRepositoryFindRange {
     @DisplayName("With a full year and two members, the year range is returned")
     @ActiveMember
     @AlternativeActiveMember
+    @PositiveFeeType
     @FeeFullYear
     @AlternativeFeeFullYear
     void testFindRange_FullYear_TwoMembers() {
