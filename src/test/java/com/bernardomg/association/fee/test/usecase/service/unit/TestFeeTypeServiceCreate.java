@@ -62,7 +62,7 @@ class TestFeeTypeServiceCreate {
         service.create(feeType);
 
         // THEN
-        verify(feeTypeRepository).save(FeeTypes.created());
+        verify(feeTypeRepository).save(FeeTypes.toCreate());
     }
 
     @Test
