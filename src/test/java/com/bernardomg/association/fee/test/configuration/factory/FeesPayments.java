@@ -9,25 +9,27 @@ import com.bernardomg.association.profile.test.configuration.factory.ProfileCons
 public final class FeesPayments {
 
     public static final FeePayments duplicated() {
-        return new FeePayments(ProfileConstants.NUMBER, FeeConstants.PAYMENT_DATE,
+        return new FeePayments(FeeConstants.FEE_TYPE, ProfileConstants.NUMBER, FeeConstants.PAYMENT_DATE,
             List.of(FeeConstants.DATE, FeeConstants.DATE));
     }
 
     public static final FeePayments empty() {
-        return new FeePayments(ProfileConstants.NUMBER, FeeConstants.PAYMENT_DATE, List.of());
+        return new FeePayments(FeeConstants.FEE_TYPE, ProfileConstants.NUMBER, FeeConstants.PAYMENT_DATE, List.of());
     }
 
     public static final FeePayments multiple() {
-        return new FeePayments(ProfileConstants.NUMBER, FeeConstants.PAYMENT_DATE,
+        return new FeePayments(FeeConstants.FEE_TYPE, ProfileConstants.NUMBER, FeeConstants.PAYMENT_DATE,
             List.of(FeeConstants.DATE, FeeConstants.DATE.plusMonths(1)));
     }
 
     public static final FeePayments paidFuture() {
-        return new FeePayments(ProfileConstants.NUMBER, FeeConstants.PAYMENT_DATE_FUTURE, List.of(FeeConstants.DATE));
+        return new FeePayments(FeeConstants.FEE_TYPE, ProfileConstants.NUMBER, FeeConstants.PAYMENT_DATE_FUTURE,
+            List.of(FeeConstants.DATE));
     }
 
     public static final FeePayments single() {
-        return new FeePayments(ProfileConstants.NUMBER, FeeConstants.PAYMENT_DATE, List.of(FeeConstants.DATE));
+        return new FeePayments(FeeConstants.FEE_TYPE, ProfileConstants.NUMBER, FeeConstants.PAYMENT_DATE,
+            List.of(FeeConstants.DATE));
     }
 
     private FeesPayments() {

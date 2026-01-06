@@ -132,10 +132,11 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    public final Fee createUnpaidFee(final YearMonth date, final Long number) {
-        final Fee    newFee;
-        final Fee    created;
-        final Member member;
+    public final Fee createUnpaidFee(final Long type, final YearMonth date, final Long number) {
+        final Fee         newFee;
+        final Fee         created;
+        final Member      member;
+        final Fee.FeeType feeType;
 
         log.info("Creating unpaid fee for {} for month {}", number, date);
 
@@ -145,7 +146,8 @@ public final class DefaultFeeService implements FeeService {
                 throw new MissingMemberException(number);
             });
 
-        newFee = Fee.unpaid(date, member.number(), member.name());
+        feeType = new Fee.FeeType(type);
+        newFee = Fee.unpaid(date, member.number(), member.name(), feeType);
 
         validatorCreate.validate(newFee);
 
@@ -307,7 +309,7 @@ public final class DefaultFeeService implements FeeService {
 
         feesToSave = feesPayments.months()
             .stream()
-            .map(month -> toPaidFee(member, month, transaction))
+            .map(month -> toPaidFee(feesPayments.feeType(), member, month, transaction))
             .toList();
 
         created = feeRepository.save(feesToSave);
@@ -378,7 +380,8 @@ public final class DefaultFeeService implements FeeService {
             transaction = savePaymentTransaction(member, List.of(fee.month()), fee.transaction()
                 .get()
                 .date());
-            toSave = toPaidFee(member, fee.month(), transaction);
+            toSave = toPaidFee(fee.feeType()
+                .number(), member, fee.month(), transaction);
             updated = feeRepository.save(toSave);
         } else {
             if (changedPayment(fee, existing)) {
@@ -499,11 +502,14 @@ public final class DefaultFeeService implements FeeService {
         return new MemberFees.Fee(fee.month(), fee.paid());
     }
 
-    private final Fee toPaidFee(final Member member, final YearMonth month, final Transaction transaction) {
+    private final Fee toPaidFee(final Long type, final Member member, final YearMonth month,
+            final Transaction transaction) {
+        final Fee.FeeType     feeType;
         final Fee.Transaction feeTransaction;
 
+        feeType = new Fee.FeeType(type);
         feeTransaction = new Fee.Transaction(transaction.date(), transaction.index());
-        return Fee.paid(month, member.number(), member.name(), feeTransaction);
+        return Fee.paid(month, member.number(), member.name(), feeType, feeTransaction);
     }
 
 }

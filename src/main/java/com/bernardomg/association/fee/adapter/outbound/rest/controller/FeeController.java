@@ -86,7 +86,8 @@ public class FeeController implements FeeApi {
     public FeeResponseDto createUnpaidFee(@Valid final FeeCreationDto feeCreationDto) {
         final Fee fee;
 
-        fee = service.createUnpaidFee(feeCreationDto.getMonth(), feeCreationDto.getMember());
+        fee = service.createUnpaidFee(feeCreationDto.getFeeType(), feeCreationDto.getMonth(),
+            feeCreationDto.getMember());
 
         return FeeDtoMapper.toResponseDto(fee);
     }
