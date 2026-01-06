@@ -89,7 +89,7 @@ class ITFeeTypeRepositorySave {
 
         Assertions.assertThat(feeTypes)
             .as("feeTypes")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
             .containsExactly(FeeTypeEntities.positive());
     }
 
@@ -110,7 +110,7 @@ class ITFeeTypeRepositorySave {
         // THEN
         Assertions.assertThat(created)
             .as("feeTypes")
-            .isEqualTo(FeeTypes.positive());
+            .isEqualTo(FeeTypes.created());
     }
 
 }

@@ -17,6 +17,9 @@ public final class FeeTypes {
         return new FeeType(FeeTypeConstants.NUMBER, FeeTypeConstants.NAME, FeeTypeConstants.AMOUNT);
     }
     public static final FeeType created() {
+        return new FeeType(1L, FeeTypeConstants.NAME, FeeTypeConstants.AMOUNT);
+    }
+    public static final FeeType toCreate() {
         return new FeeType(0L, FeeTypeConstants.NAME, FeeTypeConstants.AMOUNT);
     }
 

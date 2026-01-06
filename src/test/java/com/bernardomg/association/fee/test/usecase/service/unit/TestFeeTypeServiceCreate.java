@@ -77,7 +77,7 @@ class TestFeeTypeServiceCreate {
         service.create(feeType);
 
         // THEN
-        verify(feeTypeRepository).save(FeeTypes.created());
+        verify(feeTypeRepository).save(FeeTypes.toCreate());
     }
 
     @Test
@@ -89,7 +89,7 @@ class TestFeeTypeServiceCreate {
         // GIVEN
         feeType = FeeTypes.positive();
 
-        given(feeTypeRepository.save(FeeTypes.created())).willReturn(FeeTypes.positive());
+        given(feeTypeRepository.save(FeeTypes.toCreate())).willReturn(FeeTypes.positive());
 
         // WHEN
         created = service.create(feeType);
