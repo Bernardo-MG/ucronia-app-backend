@@ -151,7 +151,7 @@ databaseChangeLog:
             constraintName: fees_unique_date
             schemaName: association
             tableName: fees
-            columnNames: 'member_id, date'
+            columnNames: 'member_id, month'
       modifySql:
         - append:
             dbms: mysql
