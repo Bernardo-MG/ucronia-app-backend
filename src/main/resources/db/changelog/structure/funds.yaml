@@ -113,7 +113,7 @@ databaseChangeLog:
                     references: directory.profiles(id)
                     deleteCascade: true
               - column:
-                  name: date
+                  name: month
                   type: datetime
                   constraints:
                     nullable: false

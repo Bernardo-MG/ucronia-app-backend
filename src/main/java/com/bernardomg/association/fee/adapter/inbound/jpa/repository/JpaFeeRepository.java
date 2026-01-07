@@ -369,7 +369,7 @@ public final class JpaFeeRepository implements FeeRepository {
 
         // TODO: optimize to use a single query
         read = feeSpringRepository.findByMemberIdAndDate(fee.getMember()
-            .getId(), fee.getDate());
+            .getId(), fee.getMonth());
         if (read.isPresent()) {
             id = read.get()
                 .getId();
@@ -428,7 +428,7 @@ public final class JpaFeeRepository implements FeeRepository {
             .atDay(1)
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant();
-        entity.setDate(date);
+        entity.setMonth(date);
         entity.setPaid(paid);
         entity.setFeeType(feeType.orElse(null));
         entity.setTransaction(transaction.orElse(null));

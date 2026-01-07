@@ -49,7 +49,7 @@ public final class FeeEntityMapper {
             entity.getMember()
                 .getLastName());
 
-        date = YearMonth.from(entity.getDate()
+        date = YearMonth.from(entity.getMonth()
             .atZone(ZoneOffset.UTC));
         if (entity.getPaid()) {
             transaction = new Fee.Transaction(entity.getTransaction()

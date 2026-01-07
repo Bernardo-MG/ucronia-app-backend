@@ -50,10 +50,6 @@ public class FeeEntity implements Serializable {
     @Transient
     private static final long serialVersionUID = 1328776989450853491L;
 
-    // TODO: should be called month
-    @Column(name = "date", nullable = false)
-    private Instant           date;
-
     @OneToOne
     @JoinColumn(name = "fee_type_id", referencedColumnName = "id")
     private FeeTypeEntity     feeType;
@@ -73,16 +69,16 @@ public class FeeEntity implements Serializable {
     @Column(name = "member_id", insertable = false, updatable = false)
     private Long              memberId;
 
+    // TODO: should be called month
+    @Column(name = "month", nullable = false)
+    private Instant           month;
+
     @Column(name = "paid")
     private Boolean           paid;
 
     @OneToOne
     @JoinColumn(name = "transaction_id", referencedColumnName = "id")
     private TransactionEntity transaction;
-
-    public Instant getDate() {
-        return date;
-    }
 
     public FeeTypeEntity getFeeType() {
         return feeType;
@@ -100,16 +96,16 @@ public class FeeEntity implements Serializable {
         return memberId;
     }
 
+    public Instant getMonth() {
+        return month;
+    }
+
     public Boolean getPaid() {
         return paid;
     }
 
     public TransactionEntity getTransaction() {
         return transaction;
-    }
-
-    public void setDate(final Instant date) {
-        this.date = date;
     }
 
     public void setFeeType(final FeeTypeEntity feeType) {
@@ -128,6 +124,10 @@ public class FeeEntity implements Serializable {
         this.memberId = memberId;
     }
 
+    public void setMonth(final Instant month) {
+        this.month = month;
+    }
+
     public void setPaid(final Boolean paid) {
         this.paid = paid;
     }
@@ -138,7 +138,7 @@ public class FeeEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "FeeEntity [date=" + date + ", id=" + id + ", paid=" + paid + ", member=" + member + ", memberId="
+        return "FeeEntity [date=" + month + ", id=" + id + ", paid=" + paid + ", member=" + member + ", memberId="
                 + memberId + ", feeType=" + feeType + ", transaction=" + transaction + "]";
     }
 
