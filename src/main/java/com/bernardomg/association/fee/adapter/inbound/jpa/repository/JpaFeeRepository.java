@@ -101,7 +101,7 @@ public final class JpaFeeRepository implements FeeRepository {
             dateParsed = date.atDay(1)
                 .atStartOfDay(ZoneOffset.UTC)
                 .toInstant();
-            feeSpringRepository.deleteByMemberIdAndDate(member.get()
+            feeSpringRepository.deleteByMemberIdAndMonth(member.get()
                 .getId(), dateParsed);
 
             log.debug("Deleted fee for member {} in date {}", number, date);
@@ -121,7 +121,7 @@ public final class JpaFeeRepository implements FeeRepository {
         dateParsed = date.atDay(1)
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant();
-        exists = feeSpringRepository.existsByMemberNumberAndDate(number, dateParsed);
+        exists = feeSpringRepository.existsByMemberNumberAndMonth(number, dateParsed);
 
         log.debug("Fee exists for member {} in date {}: {}", number, date, exists);
 
@@ -138,7 +138,7 @@ public final class JpaFeeRepository implements FeeRepository {
         dateParsed = date.atDay(1)
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant();
-        exists = feeSpringRepository.existsByMemberNumberAndDateAndPaid(number, dateParsed);
+        exists = feeSpringRepository.existsByMemberNumberAndMonthAndPaid(number, dateParsed);
 
         log.debug("Paid fee exists for member {} in date {}: {}", number, date, exists);
 
@@ -368,7 +368,7 @@ public final class JpaFeeRepository implements FeeRepository {
         final Optional<FeeEntity> read;
 
         // TODO: optimize to use a single query
-        read = feeSpringRepository.findByMemberIdAndDate(fee.getMember()
+        read = feeSpringRepository.findByMemberIdAndMonth(fee.getMember()
             .getId(), fee.getMonth());
         if (read.isPresent()) {
             id = read.get()
