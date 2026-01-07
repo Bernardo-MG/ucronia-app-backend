@@ -70,12 +70,12 @@ public class MemberProfileController implements MemberProfileApi {
 
     @Override
     @RequireResourceAuthorization(resource = "MEMBER_PROFILE", action = Actions.CREATE)
-    public MemberProfileResponseDto createMemberProfile(@Valid final MemberProfileCreationDto guestCreationDto) {
-        final MemberProfile guest;
+    public MemberProfileResponseDto createMemberProfile(@Valid final MemberProfileCreationDto memberProfileCreationDto) {
+        final MemberProfile memberProfile;
         final MemberProfile created;
 
-        guest = MemberProfileDtoMapper.toDomain(guestCreationDto);
-        created = service.create(guest);
+        memberProfile = MemberProfileDtoMapper.toDomain(memberProfileCreationDto);
+        created = service.create(memberProfile);
 
         return MemberProfileDtoMapper.toResponseDto(created);
     }
@@ -83,11 +83,11 @@ public class MemberProfileController implements MemberProfileApi {
     @Override
     @RequireResourceAuthorization(resource = "MEMBER_PROFILE", action = Actions.DELETE)
     public MemberProfileResponseDto deleteMemberProfile(final Long number) {
-        final MemberProfile guest;
+        final MemberProfile memberProfile;
 
-        guest = service.delete(number);
+        memberProfile = service.delete(number);
 
-        return MemberProfileDtoMapper.toResponseDto(guest);
+        return MemberProfileDtoMapper.toResponseDto(memberProfile);
     }
 
     @Override
@@ -130,11 +130,11 @@ public class MemberProfileController implements MemberProfileApi {
     @Override
     @RequireResourceAuthorization(resource = "MEMBER_PROFILE", action = Actions.UPDATE)
     public MemberProfileResponseDto patchMemberProfile(final Long number,
-            @Valid final MemberProfileChangeDto guestChangeDto) {
+            @Valid final MemberProfileChangeDto memberProfileChangeDto) {
         final MemberProfile member;
         final MemberProfile updated;
 
-        member = MemberProfileDtoMapper.toDomain(number, guestChangeDto);
+        member = MemberProfileDtoMapper.toDomain(number, memberProfileChangeDto);
         updated = service.patch(member);
 
         return MemberProfileDtoMapper.toResponseDto(updated);
@@ -143,11 +143,11 @@ public class MemberProfileController implements MemberProfileApi {
     @Override
     @RequireResourceAuthorization(resource = "MEMBER_PROFILE", action = Actions.UPDATE)
     public MemberProfileResponseDto updateMemberProfile(final Long number,
-            @Valid final MemberProfileChangeDto guestChangeDto) {
+            @Valid final MemberProfileChangeDto memberProfileChangeDto) {
         final MemberProfile member;
         final MemberProfile updated;
 
-        member = MemberProfileDtoMapper.toDomain(number, guestChangeDto);
+        member = MemberProfileDtoMapper.toDomain(number, memberProfileChangeDto);
         updated = service.update(member);
 
         return MemberProfileDtoMapper.toResponseDto(updated);
