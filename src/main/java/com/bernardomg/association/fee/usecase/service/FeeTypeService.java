@@ -72,7 +72,7 @@ public interface FeeTypeService {
      * Returns the fee for the received member in the received date, if it exists. Otherwise an empty {@code Optional}
      * is returned.
      *
-     * @param numer
+     * @param number
      *            number for the fee type to acquire
      * @return an {@code Optional} with the fee, if it exists, of an empty {@code Optional} otherwise
      */
