@@ -2,17 +2,17 @@ put:
   summary: Add membership to a profile.
   operationId: convertToMember
   tags: [ProfileMembership]
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/members.yml#/components/schemas/ProfileMembershipConversion'
   parameters:
     - name: number
       in: path
       required: true
       description: Profile number.
-      schema:
-        $ref: '../common/ids.yml#/components/schemas/Id'
-    - name: feeType
-      in: path
-      required: true
-      description: Fee type number.
       schema:
         $ref: '../common/ids.yml#/components/schemas/Id'
   responses:

@@ -33,6 +33,9 @@ import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.ProfileMembershipApi;
 import com.bernardomg.ucronia.openapi.model.MemberProfileResponseDto;
+import com.bernardomg.ucronia.openapi.model.ProfileMembershipConversionDto;
+
+import jakarta.validation.Valid;
 
 /**
  * Member REST controller.
@@ -53,10 +56,11 @@ public class ProfileMembershipController implements ProfileMembershipApi {
 
     @Override
     @RequireResourceAuthorization(resource = "MEMBER_PROFILE", action = Actions.CREATE)
-    public MemberProfileResponseDto convertToMember(final Long number, final Long feeType) {
+    public MemberProfileResponseDto convertToMember(final Long number,
+            @Valid final ProfileMembershipConversionDto profileMembershipConversionDto) {
         final MemberProfile created;
 
-        created = service.convertToMember(number, feeType);
+        created = service.convertToMember(number, profileMembershipConversionDto.getFeeType());
 
         return MemberProfileDtoMapper.toResponseDto(created);
     }

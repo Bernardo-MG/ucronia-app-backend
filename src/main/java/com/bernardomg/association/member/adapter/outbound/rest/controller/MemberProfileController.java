@@ -70,7 +70,8 @@ public class MemberProfileController implements MemberProfileApi {
 
     @Override
     @RequireResourceAuthorization(resource = "MEMBER_PROFILE", action = Actions.CREATE)
-    public MemberProfileResponseDto createMemberProfile(@Valid final MemberProfileCreationDto memberProfileCreationDto) {
+    public MemberProfileResponseDto
+            createMemberProfile(@Valid final MemberProfileCreationDto memberProfileCreationDto) {
         final MemberProfile memberProfile;
         final MemberProfile created;
 

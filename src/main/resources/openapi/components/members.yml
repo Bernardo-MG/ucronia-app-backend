@@ -104,6 +104,11 @@ components:
       type: string
       description: Status filter for member queries.
       enum: [ACTIVE, INACTIVE, ALL]
+    ProfileMembershipConversion:
+      type: object
+      properties:
+        feeType:
+          $ref: '../common/ids.yml#/components/schemas/Id'
     MemberPageResponse:
       allOf:
         - $ref: '../common/responses.yml#/components/schemas/PageResponse'
