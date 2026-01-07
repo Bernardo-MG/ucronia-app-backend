@@ -24,13 +24,14 @@
 
 package com.bernardomg.association.member.test.usecase.service.unit;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
+import java.time.YearMonth;
 import java.util.Optional;
 
-import org.assertj.core.api.Assertions;
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -38,53 +39,60 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.member.domain.exception.MissingMemberException;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.configuration.factory.Members;
-import com.bernardomg.association.member.usecase.service.DefaultMemberService;
+import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
+import com.bernardomg.association.member.test.configuration.factory.MemberProfiles;
+import com.bernardomg.association.member.usecase.service.DefaultMemberStatusService;
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("DefaultMemberService - delete")
-class TestMemberServiceDelete {
+@DisplayName("Member status service - activate")
+class TestMemberStatusServiceActivate {
 
     @Mock
-    private MemberRepository     memberRepository;
+    private MemberProfileRepository    memberProfileRepository;
 
     @InjectMocks
-    private DefaultMemberService service;
+    private DefaultMemberStatusService service;
 
-    public TestMemberServiceDelete() {
+    public TestMemberStatusServiceActivate() {
         super();
     }
 
     @Test
-    @DisplayName("When deleting the repository is called")
-    void testDelete_CallsRepository() {
+    @DisplayName("When activating for the current month, the member is activated")
+    void testActivate_CurrentMonth() {
+        final YearMonth date;
+        final Long      number;
+
         // GIVEN
-        given(memberRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+        given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
+            .willReturn(Optional.of(MemberProfiles.inactive()));
+        date = YearMonth.now();
+        number = ProfileConstants.NUMBER;
 
         // WHEN
-        service.delete(ProfileConstants.NUMBER);
+        service.activate(date, number);
 
         // THEN
-        verify(memberRepository).delete(ProfileConstants.NUMBER);
+        verify(memberProfileRepository).save(MemberProfiles.active());
     }
 
     @Test
-    @DisplayName("When the member doesn't exist an exception is thrown")
-    void testDelete_NotExisting_NotRemovesEntity() {
-        final ThrowingCallable execution;
+    @DisplayName("When activating for the previous month, the member is not activated")
+    void testActivate_PreviousMonth() {
+        final YearMonth date;
+        final Long      number;
 
         // GIVEN
-        given(memberRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.empty());
+        date = YearMonth.now()
+            .minusMonths(1);
+        number = ProfileConstants.NUMBER;
 
         // WHEN
-        execution = () -> service.delete(ProfileConstants.NUMBER);
+        service.activate(date, number);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingMemberException.class);
+        verify(memberProfileRepository, never()).save(any());
     }
 
 }

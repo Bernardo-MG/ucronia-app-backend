@@ -24,13 +24,8 @@
 
 package com.bernardomg.association.member.adapter.inbound.jpa.repository;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
-import java.util.concurrent.atomic.AtomicLong;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,17 +34,12 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityConstants;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberEntityMapper;
-import com.bernardomg.association.member.adapter.inbound.jpa.model.UpdateMemberEntity;
-import com.bernardomg.association.member.adapter.inbound.jpa.model.UpdateMemberEntityMapper;
 import com.bernardomg.association.member.adapter.inbound.jpa.specification.MemberSpecifications;
 import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
-import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -62,34 +52,14 @@ public final class JpaMemberRepository implements MemberRepository {
     /**
      * Logger for the class.
      */
-    private static final Logger                log = LoggerFactory.getLogger(JpaMemberRepository.class);
+    private static final Logger               log = LoggerFactory.getLogger(JpaMemberRepository.class);
 
-    private final ProfileSpringRepository      profileSpringRepository;
+    private final QueryMemberSpringRepository queryMemberSpringRepository;
 
-    private final QueryMemberSpringRepository  queryMemberSpringRepository;
-
-    private final UpdateMemberSpringRepository updateMemberSpringRepository;
-
-    public JpaMemberRepository(final QueryMemberSpringRepository queryMemberSpringRepo,
-            final UpdateMemberSpringRepository updateMemberSpringRepo,
-            final ProfileSpringRepository profileSpringRepo) {
+    public JpaMemberRepository(final QueryMemberSpringRepository queryMemberSpringRepo) {
         super();
 
         queryMemberSpringRepository = Objects.requireNonNull(queryMemberSpringRepo);
-        updateMemberSpringRepository = Objects.requireNonNull(updateMemberSpringRepo);
-        // TODO: remove profile repository
-        profileSpringRepository = Objects.requireNonNull(profileSpringRepo);
-    }
-
-    @Override
-    public final void delete(final long number) {
-        log.debug("Deleting member {}", number);
-
-        // TODO: delete on cascade from the profile
-        queryMemberSpringRepository.deleteByNumber(number);
-        profileSpringRepository.deleteByNumber(number);
-
-        log.debug("Deleted member {}", number);
     }
 
     @Override
@@ -130,38 +100,6 @@ public final class JpaMemberRepository implements MemberRepository {
     }
 
     @Override
-    public final Collection<Member> findAllToRenew() {
-        final Collection<Member> members;
-
-        log.debug("Finding all the members to renew");
-
-        members = queryMemberSpringRepository.findAllByRenewTrue()
-            .stream()
-            .map(QueryMemberEntityMapper::toDomain)
-            .toList();
-
-        log.debug("Found all the members to renew: {}", members);
-
-        return members;
-    }
-
-    @Override
-    public final Collection<Member> findAllWithRenewalMismatch() {
-        final Collection<Member> members;
-
-        log.debug("Finding all the members with a renewal mismatch");
-
-        members = queryMemberSpringRepository.findAllWithRenewalMismatch()
-            .stream()
-            .map(QueryMemberEntityMapper::toDomain)
-            .toList();
-
-        log.debug("Found all the members with a renewal mismatch: {}", members);
-
-        return members;
-    }
-
-    @Override
     public final Optional<Member> findOne(final Long number) {
         final Optional<Member> member;
 
@@ -186,112 +124,6 @@ public final class JpaMemberRepository implements MemberRepository {
         log.trace("Member {} is active: {}", number, active);
 
         return Boolean.TRUE.equals(active);
-    }
-
-    @Override
-    public final Member save(final Member member) {
-        final Optional<UpdateMemberEntity> existing;
-        final UpdateMemberEntity           entity;
-        final Member                       created;
-        final Long                         number;
-
-        log.debug("Saving member {}", member);
-
-        existing = updateMemberSpringRepository.findByNumber(member.number());
-        if (existing.isPresent()) {
-            entity = UpdateMemberEntityMapper.toEntity(existing.get(), member);
-        } else {
-            entity = UpdateMemberEntityMapper.toEntity(member);
-            number = queryMemberSpringRepository.findNextNumber();
-            entity.getProfile()
-                .setNumber(number);
-        }
-
-        setType(entity.getProfile());
-
-        created = UpdateMemberEntityMapper.toDomain(updateMemberSpringRepository.save(entity));
-
-        log.debug("Saved member {}", created);
-
-        return created;
-    }
-
-    @Override
-    public final Member save(final Member member, final long number) {
-        final UpdateMemberEntity      entity;
-        final Member                  created;
-        final Optional<ProfileEntity> profile;
-
-        log.debug("Saving member {} with number {}", member, number);
-
-        entity = UpdateMemberEntityMapper.toEntity(member);
-
-        profile = profileSpringRepository.findByNumber(number);
-        if (profile.isPresent()) {
-            entity.setProfile(profile.get());
-        }
-
-        setType(entity.getProfile());
-
-        created = UpdateMemberEntityMapper.toDomain(updateMemberSpringRepository.save(entity));
-
-        log.debug("Saved member {} with number {}", created, number);
-
-        return created;
-    }
-
-    @Override
-    public final Collection<Member> saveAll(final Collection<Member> members) {
-        final List<UpdateMemberEntity> entities;
-        final List<Member>             saved;
-        final AtomicLong               number;
-
-        log.debug("Saving members {}", members);
-
-        number = new AtomicLong(queryMemberSpringRepository.findNextNumber());
-        entities = members.stream()
-            .map(m -> toEntity(m, number))
-            .toList();
-
-        entities.stream()
-            .forEach(m -> setType(m.getProfile()));
-
-        saved = updateMemberSpringRepository.saveAll(entities)
-            .stream()
-            .map(UpdateMemberEntityMapper::toDomain)
-            .toList();
-
-        log.debug("Saved members {}", saved);
-
-        return saved;
-    }
-
-    private final void setType(final ProfileEntity entity) {
-        if (entity.getTypes() == null) {
-            entity.setTypes(Set.of(MemberEntityConstants.PROFILE_TYPE));
-        } else {
-            entity.setTypes(new HashSet<>(entity.getTypes()));
-            entity.getTypes()
-                .add(MemberEntityConstants.PROFILE_TYPE);
-        }
-    }
-
-    private final UpdateMemberEntity toEntity(final Member member, final AtomicLong number) {
-        final Optional<UpdateMemberEntity> existing;
-        final UpdateMemberEntity           entity;
-
-        // TODO: move to mapper
-
-        existing = updateMemberSpringRepository.findByNumber(member.number());
-        if (existing.isPresent()) {
-            entity = UpdateMemberEntityMapper.toEntity(existing.get(), member);
-        } else {
-            entity = UpdateMemberEntityMapper.toEntity(member);
-            entity.getProfile()
-                .setNumber(number.getAndIncrement());
-        }
-
-        return entity;
     }
 
 }

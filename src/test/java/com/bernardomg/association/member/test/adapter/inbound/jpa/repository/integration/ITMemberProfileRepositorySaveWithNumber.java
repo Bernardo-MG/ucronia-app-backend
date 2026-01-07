@@ -37,7 +37,7 @@ import com.bernardomg.association.member.adapter.inbound.jpa.repository.QueryMem
 import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.member.test.configuration.factory.MemberProfiles;
-import com.bernardomg.association.member.test.configuration.factory.QueryMemberContactEntities;
+import com.bernardomg.association.member.test.configuration.factory.QueryMemberProfileEntities;
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 import com.bernardomg.association.profile.test.configuration.data.annotation.EmailContactMethod;
@@ -83,7 +83,7 @@ class ITMemberProfileRepositorySaveWithNumber {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
-            .containsExactly(QueryMemberContactEntities.valid());
+            .containsExactly(QueryMemberProfileEntities.valid());
     }
 
     @Test

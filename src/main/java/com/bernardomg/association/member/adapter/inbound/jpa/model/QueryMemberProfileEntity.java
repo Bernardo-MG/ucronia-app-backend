@@ -10,11 +10,14 @@ import java.util.Set;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
+import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTypeEntity;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.SecondaryTable;
@@ -45,6 +48,10 @@ public class QueryMemberProfileEntity implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "profile_id", referencedColumnName = "id")
     private Collection<QueryMemberContactChannelEntity> contactChannels;
+
+    @ManyToOne
+    @JoinColumn(name = "fee_type_id")
+    private FeeTypeEntity                               feeType;
 
     @Column(name = "first_name", table = "profiles", nullable = false)
     private String                                      firstName;
@@ -96,6 +103,10 @@ public class QueryMemberProfileEntity implements Serializable {
         return contactChannels;
     }
 
+    public FeeTypeEntity getFeeType() {
+        return feeType;
+    }
+
     public String getFirstName() {
         return firstName;
     }
@@ -145,6 +156,10 @@ public class QueryMemberProfileEntity implements Serializable {
         this.contactChannels = contactChannels;
     }
 
+    public void setFeeType(final FeeTypeEntity feeType) {
+        this.feeType = feeType;
+    }
+
     public void setFirstName(final String firstName) {
         this.firstName = firstName;
     }
@@ -175,10 +190,10 @@ public class QueryMemberProfileEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "QueryMemberProfileEntity [id=" + id + ", identifier=" + identifier + ", firstName=" + firstName
-                + ", lastName=" + lastName + ", active=" + active + ", birthDate=" + birthDate + ", comments="
-                + comments + ", contactChannels=" + contactChannels + ", number=" + number + ", renew=" + renew
-                + ", types=" + types + "]";
+        return "QueryMemberProfileEntity [id=" + id + ", identifier=" + identifier + ", feeType=" + feeType
+                + ", firstName=" + firstName + ", lastName=" + lastName + ", active=" + active + ", birthDate="
+                + birthDate + ", comments=" + comments + ", contactChannels=" + contactChannels + ", number=" + number
+                + ", renew=" + renew + ", types=" + types + "]";
     }
 
 }

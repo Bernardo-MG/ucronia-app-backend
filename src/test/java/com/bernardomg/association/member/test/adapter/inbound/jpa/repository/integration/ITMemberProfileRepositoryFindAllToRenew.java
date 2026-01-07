@@ -32,28 +32,28 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
-import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.domain.model.MemberProfile;
+import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveToNotRenewMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveToRenewMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.InactiveToNotRenewMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.InactiveToRenewMember;
-import com.bernardomg.association.member.test.configuration.factory.Members;
+import com.bernardomg.association.member.test.configuration.factory.MemberProfiles;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("MemberRepository - find all to renew")
-class ITMemberRepositoryFindAllToRenew {
+@DisplayName("MemberProfileRepository - find all to renew")
+class ITMemberProfileRepositoryFindAllToRenew {
 
     @Autowired
-    private MemberRepository repository;
+    private MemberProfileRepository repository;
 
     @Test
     @DisplayName("With a profile without member role, nothing is returned")
     @ValidProfile
-    void testFindAllToRenew_NoMembership() {
-        final Collection<Member> members;
+    void testFindAllToRenew_NoMemberProfileship() {
+        final Collection<MemberProfile> members;
 
         // WHEN
         members = repository.findAllToRenew();
@@ -69,7 +69,7 @@ class ITMemberRepositoryFindAllToRenew {
     @PositiveFeeType
     @ActiveToNotRenewMember
     void testFindAllToRenew_ToNotRenew_Active() {
-        final Collection<Member> members;
+        final Collection<MemberProfile> members;
 
         // WHEN
         members = repository.findAllToRenew();
@@ -85,7 +85,7 @@ class ITMemberRepositoryFindAllToRenew {
     @PositiveFeeType
     @InactiveToNotRenewMember
     void testFindAllToRenew_ToNotRenew_Inactive() {
-        final Collection<Member> members;
+        final Collection<MemberProfile> members;
 
         // WHEN
         members = repository.findAllToRenew();
@@ -101,7 +101,7 @@ class ITMemberRepositoryFindAllToRenew {
     @PositiveFeeType
     @ActiveToRenewMember
     void testFindAllToRenew_ToRenew_Active() {
-        final Collection<Member> members;
+        final Collection<MemberProfile> members;
 
         // WHEN
         members = repository.findAllToRenew();
@@ -109,7 +109,7 @@ class ITMemberRepositoryFindAllToRenew {
         // THEN
         Assertions.assertThat(members)
             .as("members")
-            .containsExactly(Members.active());
+            .containsExactly(MemberProfiles.active());
     }
 
     @Test
@@ -117,7 +117,7 @@ class ITMemberRepositoryFindAllToRenew {
     @PositiveFeeType
     @InactiveToRenewMember
     void testFindAllToRenew_ToRenew_Inactive() {
-        final Collection<Member> members;
+        final Collection<MemberProfile> members;
 
         // WHEN
         members = repository.findAllToRenew();
@@ -125,7 +125,7 @@ class ITMemberRepositoryFindAllToRenew {
         // THEN
         Assertions.assertThat(members)
             .as("members")
-            .containsExactly(Members.inactive());
+            .containsExactly(MemberProfiles.inactive());
     }
 
 }

@@ -24,7 +24,7 @@
 
 package com.bernardomg.association.member.usecase.service;
 
-import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.model.MemberProfile;
 
 /**
  * Profile membership service.
@@ -43,6 +43,6 @@ public interface ProfileMembershipService {
      *            fee type to assign to the member
      * @return the created member
      */
-    public Member convertToMember(final long number, final long feeType);
+    public MemberProfile convertToMember(final long number, final long feeType);
 
 }

@@ -36,7 +36,6 @@ import com.bernardomg.association.member.domain.exception.MissingMemberException
 import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.profile.domain.model.ProfileName;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -62,38 +61,6 @@ public final class DefaultMemberService implements MemberService {
         super();
 
         memberRepository = Objects.requireNonNull(memberRepo);
-    }
-
-    @Override
-    public final Member create(final Member member) {
-        final Member created;
-
-        log.debug("Creating member {}", member);
-
-        created = memberRepository.save(member);
-
-        log.debug("Created member {}", created);
-
-        return created;
-    }
-
-    @Override
-    public final Member delete(final long number) {
-        final Member existing;
-
-        log.debug("Deleting member {}", number);
-
-        existing = memberRepository.findOne(number)
-            .orElseThrow(() -> {
-                log.error("Missing member {}", number);
-                throw new MissingMemberException(number);
-            });
-
-        memberRepository.delete(number);
-
-        log.debug("Deleted member {}", number);
-
-        return existing;
     }
 
     @Override
@@ -125,72 +92,6 @@ public final class DefaultMemberService implements MemberService {
         log.debug("Read member {}: {}", number, member);
 
         return member;
-    }
-
-    @Override
-    public final Member patch(final Member member) {
-        final Member existing;
-        final Member toSave;
-        final Member saved;
-
-        log.debug("Patching member {} using data {}", member.number(), member);
-
-        existing = memberRepository.findOne(member.number())
-            .orElseThrow(() -> {
-                log.error("Missing member {}", member.number());
-                throw new MissingMemberException(member.number());
-            });
-
-        toSave = copy(existing, member);
-
-        saved = memberRepository.save(toSave);
-
-        log.debug("Patched member {}: {}", member.number(), saved);
-
-        return saved;
-    }
-
-    @Override
-    public final Member update(final Member member) {
-        final Member saved;
-
-        log.debug("Updating member {} using data {}", member.number(), member);
-
-        if (!memberRepository.exists(member.number())) {
-            log.error("Missing member {}", member.number());
-            throw new MissingMemberException(member.number());
-        }
-
-        saved = memberRepository.save(member);
-
-        log.debug("Updated member {}: {}", member.number(), saved);
-
-        return saved;
-    }
-
-    private final Member copy(final Member existing, final Member updated) {
-        final ProfileName name;
-
-        if (updated.name() == null) {
-            name = existing.name();
-        } else {
-            name = new ProfileName(Optional.ofNullable(updated.name()
-                .firstName())
-                .orElse(existing.name()
-                    .firstName()),
-                Optional.ofNullable(updated.name()
-                    .lastName())
-                    .orElse(existing.name()
-                        .lastName()));
-        }
-        return new Member(Optional.ofNullable(updated.number())
-            .orElse(existing.number()),
-            Optional.ofNullable(updated.feeType())
-                .orElse(existing.feeType()),
-            name, Optional.ofNullable(updated.active())
-                .orElse(existing.active()),
-            Optional.ofNullable(updated.renew())
-                .orElse(existing.renew()));
     }
 
 }

@@ -73,7 +73,7 @@ public final class DefaultMemberProfileService implements MemberProfileService {
 
         toCreate = new MemberProfile(memberProfile.identifier(), 0L, memberProfile.name(), memberProfile.birthDate(),
             memberProfile.contactChannels(), memberProfile.comments(), memberProfile.active(), memberProfile.renew(),
-            memberProfile.types());
+            memberProfile.feeType(), memberProfile.types());
 
         created = memberProfileRepository.save(toCreate);
 
@@ -203,6 +203,8 @@ public final class DefaultMemberProfileService implements MemberProfileService {
                 .orElse(existing.active()),
             Optional.ofNullable(updated.renew())
                 .orElse(existing.renew()),
+            Optional.ofNullable(updated.feeType())
+                .orElse(existing.feeType()),
             Optional.ofNullable(updated.types())
                 .orElse(existing.types()));
     }

@@ -29,7 +29,6 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -37,14 +36,6 @@ import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberEn
 
 public interface QueryMemberSpringRepository
         extends JpaRepository<QueryMemberEntity, Long>, JpaSpecificationExecutor<QueryMemberEntity> {
-
-    @Modifying
-    @Query("""
-            DELETE
-            FROM Member m
-            WHERE m.number = :number
-            """)
-    public void deleteByNumber(@Param("number") final Long number);
 
     public boolean existsByNumber(final Long number);
 
@@ -56,8 +47,6 @@ public interface QueryMemberSpringRepository
             """)
     public Collection<Long> findAllActiveMemberIds();
 
-    public Collection<QueryMemberEntity> findAllByRenewTrue();
-
     @Query("""
             SELECT m.id AS id
             FROM Member m
@@ -65,13 +54,6 @@ public interface QueryMemberSpringRepository
             ORDER BY id ASC
             """)
     public Collection<Long> findAllInactiveMemberIds();
-
-    @Query("""
-            SELECT m
-            FROM Member m
-            WHERE m.active != m.renew
-            """)
-    public Collection<QueryMemberEntity> findAllWithRenewalMismatch();
 
     public Optional<QueryMemberEntity> findByNumber(final Long number);
 

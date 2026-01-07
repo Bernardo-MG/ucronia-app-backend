@@ -39,46 +39,47 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.configuration.factory.Members;
+import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
+import com.bernardomg.association.member.test.configuration.factory.MemberProfiles;
 import com.bernardomg.association.member.usecase.service.DefaultMemberStatusService;
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Member status service - activate")
-class TestMemberStatusActivate {
+@DisplayName("Member status service - deactivate")
+class TestMemberProfilestatusServiceDeactivate {
 
     @Mock
-    private MemberRepository           memberRepository;
+    private MemberProfileRepository    memberProfileRepository;
 
     @InjectMocks
     private DefaultMemberStatusService service;
 
-    public TestMemberStatusActivate() {
+    public TestMemberProfilestatusServiceDeactivate() {
         super();
     }
 
     @Test
-    @DisplayName("When activating for the current month, the member is activated")
-    void testActivate_CurrentMonth() {
+    @DisplayName("When activating for the current month, the member is deactivated")
+    void testDeactivate_CurrentMonth() {
         final YearMonth date;
         final Long      number;
 
         // GIVEN
-        given(memberRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(Members.inactive()));
+        given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
+            .willReturn(Optional.of(MemberProfiles.active()));
         date = YearMonth.now();
         number = ProfileConstants.NUMBER;
 
         // WHEN
-        service.activate(date, number);
+        service.deactivate(date, number);
 
         // THEN
-        verify(memberRepository).save(Members.active());
+        verify(memberProfileRepository).save(MemberProfiles.inactiveNoRenew());
     }
 
     @Test
-    @DisplayName("When activating for the previous month, the member is not activated")
-    void testActivate_PreviousMonth() {
+    @DisplayName("When activating for the previous month, the member is not deactivated")
+    void testDeactivate_PreviousMonth() {
         final YearMonth date;
         final Long      number;
 
@@ -88,10 +89,10 @@ class TestMemberStatusActivate {
         number = ProfileConstants.NUMBER;
 
         // WHEN
-        service.activate(date, number);
+        service.deactivate(date, number);
 
         // THEN
-        verify(memberRepository, never()).save(any());
+        verify(memberProfileRepository, never()).save(any());
     }
 
 }

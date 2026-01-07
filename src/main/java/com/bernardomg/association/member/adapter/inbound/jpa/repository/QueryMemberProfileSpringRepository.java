@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.member.adapter.inbound.jpa.repository;
 
+import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -46,6 +47,15 @@ public interface QueryMemberProfileSpringRepository
     public void deleteByNumber(@Param("number") final Long number);
 
     public boolean existsByNumber(final Long number);
+
+    public Collection<QueryMemberProfileEntity> findAllByRenewTrue();
+
+    @Query("""
+            SELECT m
+            FROM MemberProfile m
+            WHERE m.active != m.renew
+            """)
+    public Collection<QueryMemberProfileEntity> findAllWithRenewalMismatch();
 
     public Optional<QueryMemberProfileEntity> findByNumber(final Long number);
 

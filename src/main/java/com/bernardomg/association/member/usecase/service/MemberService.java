@@ -41,23 +41,6 @@ import com.bernardomg.data.domain.Sorting;
 public interface MemberService {
 
     /**
-     * Persists the received member.
-     *
-     * @param member
-     *            member to persist
-     * @return the persisted member
-     */
-    public Member create(final Member member);
-
-    /**
-     * Deletes the member with the received id.
-     *
-     * @param number
-     *            number of the member to delete
-     */
-    public Member delete(final long number);
-
-    /**
      * Returns all the public members.
      *
      * @param filter
@@ -78,23 +61,5 @@ public interface MemberService {
      * @return an {@code Optional} with the member, if it exists, of an empty {@code Optional} otherwise
      */
     public Optional<Member> getOne(final long number);
-
-    /**
-     * Patches the member for the received id with the received data.
-     *
-     * @param member
-     *            new data for the member
-     * @return the updated member
-     */
-    public Member patch(final Member member);
-
-    /**
-     * Updates the member for the received id with the received data.
-     *
-     * @param member
-     *            new data for the member
-     * @return the updated member
-     */
-    public Member update(final Member member);
 
 }

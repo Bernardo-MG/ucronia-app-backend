@@ -21,6 +21,6 @@ put:
       content:
         application/json:
           schema:
-            $ref: '../components/members.yml#/components/schemas/MemberResponse'
+            $ref: '../components/members.yml#/components/schemas/MemberProfileResponse'
     '404':
       description: Profile not found.

@@ -144,6 +144,38 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
     }
 
     @Override
+    public final Collection<MemberProfile> findAllToRenew() {
+        final Collection<MemberProfile> members;
+
+        log.debug("Finding all the members to renew");
+
+        members = queryMemberProfileSpringRepository.findAllByRenewTrue()
+            .stream()
+            .map(QueryMemberProfileEntityMapper::toDomain)
+            .toList();
+
+        log.debug("Found all the members to renew: {}", members);
+
+        return members;
+    }
+
+    @Override
+    public final Collection<MemberProfile> findAllWithRenewalMismatch() {
+        final Collection<MemberProfile> members;
+
+        log.debug("Finding all the members with a renewal mismatch");
+
+        members = queryMemberProfileSpringRepository.findAllWithRenewalMismatch()
+            .stream()
+            .map(QueryMemberProfileEntityMapper::toDomain)
+            .toList();
+
+        log.debug("Found all the members with a renewal mismatch: {}", members);
+
+        return members;
+    }
+
+    @Override
     public final Optional<MemberProfile> findOne(final Long number) {
         final Optional<MemberProfile> memberProfile;
 
@@ -165,6 +197,7 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
         final List<Long>                          contactMethodNumbers;
         final List<ContactMethodEntity>           contactMethods;
         final Long                                number;
+        final Optional<FeeTypeEntity>             feeType;
 
         log.debug("Saving member profile {}", memberProfile);
 
@@ -183,6 +216,10 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
             entity.getProfile()
                 .setNumber(number);
         }
+
+        // TODO: verify it exists
+        feeType = feeTypeSpringRepository.findByNumber(memberProfile.number());
+        entity.setFeeType(feeType.orElse(null));
 
         setType(entity.getProfile());
 

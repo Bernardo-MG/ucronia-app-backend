@@ -41,6 +41,10 @@ public interface MemberProfileRepository {
 
     public Page<MemberProfile> findAll(final MemberFilter filter, final Pagination pagination, final Sorting sorting);
 
+    public Collection<MemberProfile> findAllToRenew();
+
+    public Collection<MemberProfile> findAllWithRenewalMismatch();
+
     public Optional<MemberProfile> findOne(final Long number);
 
     public MemberProfile save(final MemberProfile member);
