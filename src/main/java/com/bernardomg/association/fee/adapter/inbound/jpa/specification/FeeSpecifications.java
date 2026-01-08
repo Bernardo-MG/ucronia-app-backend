@@ -37,8 +37,8 @@ public final class FeeSpecifications {
     public static Optional<Specification<FeeEntity>> fromQuery(final FeeQuery query) {
         final Optional<Specification<FeeEntity>> spec;
 
-        if (query.date() != null) {
-            spec = Optional.of(on(query.date()));
+        if (query.month() != null) {
+            spec = Optional.of(on(query.month()));
         } else if ((query.from() != null) && (query.to() != null)) {
             spec = Optional.of(between(query.from(), query.to()));
         } else if (query.from() != null) {

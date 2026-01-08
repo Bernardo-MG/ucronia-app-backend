@@ -71,7 +71,7 @@ class ITFeeRepositoryFindAll {
 
         // GIVEN
         pagination = new Pagination(1, 20);
-        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
+        sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
 
         feeQuery = FeesQuery.empty();
 
@@ -104,7 +104,7 @@ class ITFeeRepositoryFindAll {
 
         // GIVEN
         pagination = new Pagination(1, 20);
-        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
+        sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
 
         feeQuery = FeesQuery.empty();
 

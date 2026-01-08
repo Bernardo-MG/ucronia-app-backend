@@ -26,6 +26,6 @@ package com.bernardomg.association.fee.domain.model;
 
 import java.time.Instant;
 
-public final record FeeQuery(Instant date, Instant from, Instant to) {
+public final record FeeQuery(Instant month, Instant from, Instant to) {
 
 }

@@ -68,7 +68,7 @@ class ITFeeRepositoryfindAllForProfileForMember {
 
         // GIVEN
         pagination = new Pagination(1, 20);
-        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
+        sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
 
         // WHEN
         fees = repository.findAllForProfile(ProfileConstants.NUMBER, pagination, sorting);
@@ -97,7 +97,7 @@ class ITFeeRepositoryfindAllForProfileForMember {
 
         // GIVEN
         pagination = new Pagination(1, 20);
-        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
+        sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
 
         // WHEN
         fees = repository.findAllForProfile(ProfileConstants.NUMBER, pagination, sorting);
@@ -122,7 +122,7 @@ class ITFeeRepositoryfindAllForProfileForMember {
 
         // GIVEN
         pagination = new Pagination(1, 20);
-        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
+        sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
 
         // WHEN
         fees = repository.findAllForProfile(ProfileConstants.NUMBER, pagination, sorting);
@@ -147,7 +147,7 @@ class ITFeeRepositoryfindAllForProfileForMember {
 
         // GIVEN
         pagination = new Pagination(1, 20);
-        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
+        sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
 
         // WHEN
         fees = repository.findAllForProfile(ProfileConstants.NUMBER, pagination, sorting);
@@ -172,7 +172,7 @@ class ITFeeRepositoryfindAllForProfileForMember {
 
         // GIVEN
         pagination = new Pagination(1, 20);
-        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
+        sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
 
         // WHEN
         fees = repository.findAllForProfile(ProfileConstants.NUMBER, pagination, sorting);
@@ -197,7 +197,7 @@ class ITFeeRepositoryfindAllForProfileForMember {
 
         // GIVEN
         pagination = new Pagination(1, 20);
-        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
+        sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
 
         // WHEN
         fees = repository.findAllForProfile(-1L, pagination, sorting);
@@ -222,7 +222,7 @@ class ITFeeRepositoryfindAllForProfileForMember {
 
         // GIVEN
         pagination = new Pagination(1, 20);
-        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
+        sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
 
         // WHEN
         fees = repository.findAllForProfile(ProfileConstants.NUMBER, pagination, sorting);
@@ -247,7 +247,7 @@ class ITFeeRepositoryfindAllForProfileForMember {
 
         // GIVEN
         pagination = new Pagination(1, 20);
-        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
+        sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
 
         // WHEN
         fees = repository.findAllForProfile(ProfileConstants.NUMBER, pagination, sorting);
