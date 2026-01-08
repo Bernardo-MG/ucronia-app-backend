@@ -30,7 +30,6 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberEntity;
 
@@ -59,12 +58,5 @@ public interface QueryMemberSpringRepository
 
     @Query("SELECT COALESCE(MAX(p.number), 0) + 1 FROM Profile p")
     public Long findNextNumber();
-
-    @Query("""
-            SELECT m.active
-            FROM Member m
-            WHERE m.number = :number
-            """)
-    public Boolean isActive(@Param("number") final Long number);
 
 }

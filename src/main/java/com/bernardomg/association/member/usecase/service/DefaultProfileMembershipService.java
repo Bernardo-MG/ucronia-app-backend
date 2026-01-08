@@ -55,13 +55,14 @@ public final class DefaultProfileMembershipService implements ProfileMembershipS
      */
     private static final Logger           log = LoggerFactory.getLogger(DefaultProfileMembershipService.class);
 
+    private final FeeTypeRepository       feeTypeRepository;
+
     private final MemberProfileRepository memberProfileRepository;
 
     private final ProfileRepository       profileRepository;
-    private final FeeTypeRepository       feeTypeRepository;
 
     public DefaultProfileMembershipService(final MemberProfileRepository memberProfileRepo,
-            final ProfileRepository profileRepo,final FeeTypeRepository       feeTypeRepo) {
+            final ProfileRepository profileRepo, final FeeTypeRepository feeTypeRepo) {
         super();
 
         memberProfileRepository = Objects.requireNonNull(memberProfileRepo);
@@ -77,7 +78,7 @@ public final class DefaultProfileMembershipService implements ProfileMembershipS
         final MemberProfile.FeeType memberFeeType;
 
         log.debug("Converting profile {} to member", number);
-        
+
         // TODO: check the fee type exists
 
         existing = profileRepository.findOne(number)

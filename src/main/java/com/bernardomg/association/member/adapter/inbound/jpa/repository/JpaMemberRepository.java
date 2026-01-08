@@ -113,17 +113,4 @@ public final class JpaMemberRepository implements MemberRepository {
         return member;
     }
 
-    @Override
-    public final boolean isActive(final long number) {
-        final Boolean active;
-
-        log.trace("Checking if member {} is active", number);
-
-        active = queryMemberSpringRepository.isActive(number);
-
-        log.trace("Member {} is active: {}", number, active);
-
-        return Boolean.TRUE.equals(active);
-    }
-
 }

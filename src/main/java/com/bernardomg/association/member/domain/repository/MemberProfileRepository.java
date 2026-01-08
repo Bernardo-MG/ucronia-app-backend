@@ -47,6 +47,8 @@ public interface MemberProfileRepository {
 
     public Optional<MemberProfile> findOne(final Long number);
 
+    public boolean isActive(final long number);
+
     public MemberProfile save(final MemberProfile member);
 
     public MemberProfile save(final MemberProfile member, final long number);

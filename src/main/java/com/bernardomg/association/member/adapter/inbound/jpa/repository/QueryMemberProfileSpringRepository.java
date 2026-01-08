@@ -62,4 +62,11 @@ public interface QueryMemberProfileSpringRepository
     @Query("SELECT COALESCE(MAX(p.number), 0) + 1 FROM Profile p")
     public Long findNextNumber();
 
+    @Query("""
+            SELECT m.active
+            FROM MemberProfile m
+            WHERE m.number = :number
+            """)
+    public Boolean isActive(@Param("number") final Long number);
+
 }
