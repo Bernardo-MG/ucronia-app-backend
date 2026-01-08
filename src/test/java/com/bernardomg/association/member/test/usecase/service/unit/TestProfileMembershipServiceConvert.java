@@ -38,6 +38,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.association.fee.domain.exception.MissingFeeTypeException;
+import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.member.domain.exception.MemberExistsException;
 import com.bernardomg.association.member.domain.model.MemberProfile;
@@ -53,6 +55,9 @@ import com.bernardomg.association.profile.test.configuration.factory.Profiles;
 @ExtendWith(MockitoExtension.class)
 @DisplayName("ProfileMembershipService - convert to member")
 class TestProfileMembershipServiceConvert {
+
+    @Mock
+    private FeeTypeRepository               feeTypeRepository;
 
     @Mock
     private MemberProfileRepository         memberProfileRepository;
@@ -88,6 +93,7 @@ class TestProfileMembershipServiceConvert {
     void testConvertToMember_NotExistingContact_Exception() {
         final ThrowingCallable execution;
 
+        // GIVEN
         given(profileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
@@ -96,6 +102,26 @@ class TestProfileMembershipServiceConvert {
         // THEN
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(MissingProfileException.class);
+    }
+
+    @Test
+    @DisplayName("With a not existing fee type, an exception is thrown")
+    void testConvertToMember_NotExistingFeeType_Exception() {
+        final ThrowingCallable execution;
+        final Profile          profile;
+
+        // GIVEN
+        profile = Profiles.withEmail();
+
+        given(profileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(profile));
+        given(feeTypeRepository.exists(ProfileConstants.NUMBER)).willReturn(false);
+
+        // WHEN
+        execution = () -> service.convertToMember(ProfileConstants.NUMBER, FeeConstants.FEE_TYPE_NUMBER);
+
+        // THEN
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(MissingFeeTypeException.class);
     }
 
     @Test
@@ -110,6 +136,7 @@ class TestProfileMembershipServiceConvert {
 
         given(profileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(profile));
         given(memberProfileRepository.exists(ProfileConstants.NUMBER)).willReturn(false);
+        given(feeTypeRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
 
         // WHEN
         service.convertToMember(ProfileConstants.NUMBER, FeeConstants.FEE_TYPE_NUMBER);
@@ -131,6 +158,7 @@ class TestProfileMembershipServiceConvert {
 
         given(profileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(profile));
         given(memberProfileRepository.exists(ProfileConstants.NUMBER)).willReturn(false);
+        given(feeTypeRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
         given(memberProfileRepository.save(member, ProfileConstants.NUMBER)).willReturn(member);
 
         // WHEN

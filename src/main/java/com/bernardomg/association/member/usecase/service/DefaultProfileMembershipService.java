@@ -31,6 +31,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.association.fee.domain.exception.MissingFeeTypeException;
+import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
 import com.bernardomg.association.member.domain.exception.MemberExistsException;
 import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
@@ -56,13 +58,15 @@ public final class DefaultProfileMembershipService implements ProfileMembershipS
     private final MemberProfileRepository memberProfileRepository;
 
     private final ProfileRepository       profileRepository;
+    private final FeeTypeRepository       feeTypeRepository;
 
     public DefaultProfileMembershipService(final MemberProfileRepository memberProfileRepo,
-            final ProfileRepository profileRepo) {
+            final ProfileRepository profileRepo,final FeeTypeRepository       feeTypeRepo) {
         super();
 
         memberProfileRepository = Objects.requireNonNull(memberProfileRepo);
         profileRepository = Objects.requireNonNull(profileRepo);
+        feeTypeRepository = Objects.requireNonNull(feeTypeRepo);
     }
 
     @Override
@@ -73,6 +77,8 @@ public final class DefaultProfileMembershipService implements ProfileMembershipS
         final MemberProfile.FeeType memberFeeType;
 
         log.debug("Converting profile {} to member", number);
+        
+        // TODO: check the fee type exists
 
         existing = profileRepository.findOne(number)
             .orElseThrow(() -> {
@@ -82,6 +88,10 @@ public final class DefaultProfileMembershipService implements ProfileMembershipS
 
         if (memberProfileRepository.exists(number)) {
             throw new MemberExistsException(number);
+        }
+
+        if (!feeTypeRepository.exists(feeType)) {
+            throw new MissingFeeTypeException(number);
         }
 
         memberFeeType = new MemberProfile.FeeType(feeType);
