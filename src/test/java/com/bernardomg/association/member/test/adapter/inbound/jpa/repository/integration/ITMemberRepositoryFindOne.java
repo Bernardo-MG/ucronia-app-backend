@@ -75,7 +75,7 @@ class ITMemberRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(member)
-            .contains(Members.valid());
+            .isEmpty();
     }
 
     @Test

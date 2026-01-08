@@ -26,6 +26,9 @@ package com.bernardomg.association.member.adapter.inbound.jpa.repository;
 
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
@@ -34,6 +37,11 @@ import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberEn
 public interface QueryMemberSpringRepository
         extends JpaRepository<QueryMemberEntity, Long>, JpaSpecificationExecutor<QueryMemberEntity> {
 
-    public Optional<QueryMemberEntity> findByNumber(final Long number);
+    public Page<QueryMemberEntity> findAllByActiveTrue(final Pageable pageable);
+
+    public Page<QueryMemberEntity> findAllByActiveTrue(final Specification<QueryMemberEntity> specification,
+            final Pageable pageable);
+
+    public Optional<QueryMemberEntity> findByNumberAndActiveTrue(final Long number);
 
 }

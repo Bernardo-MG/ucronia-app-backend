@@ -73,10 +73,10 @@ public final class JpaMemberRepository implements MemberRepository {
         pageable = SpringPagination.toPageable(pagination, sorting);
         spec = MemberSpecifications.query(filter);
         if (spec.isEmpty()) {
-            read = queryMemberSpringRepository.findAll(pageable)
+            read = queryMemberSpringRepository.findAllByActiveTrue(pageable)
                 .map(QueryMemberEntityMapper::toDomain);
         } else {
-            read = queryMemberSpringRepository.findAll(spec.get(), pageable)
+            read = queryMemberSpringRepository.findAllByActiveTrue(spec.get(), pageable)
                 .map(QueryMemberEntityMapper::toDomain);
         }
 
@@ -92,7 +92,7 @@ public final class JpaMemberRepository implements MemberRepository {
 
         log.trace("Finding member with number {}", number);
 
-        member = queryMemberSpringRepository.findByNumber(number)
+        member = queryMemberSpringRepository.findByNumberAndActiveTrue(number)
             .map(QueryMemberEntityMapper::toDomain);
 
         log.trace("Found member with number {}: {}", number, member);

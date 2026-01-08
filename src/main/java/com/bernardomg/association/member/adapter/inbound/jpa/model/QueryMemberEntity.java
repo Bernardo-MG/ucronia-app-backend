@@ -24,6 +24,9 @@ public class QueryMemberEntity implements Serializable {
     @Transient
     private static final long serialVersionUID = 8139806507534262996L;
 
+    @Column(name = "active", table = "members", nullable = false)
+    private Boolean           active;
+
     @Column(name = "first_name", table = "profiles", nullable = false)
     private String            firstName;
 
@@ -48,6 +51,10 @@ public class QueryMemberEntity implements Serializable {
         return Objects.equals(id, other.id);
     }
 
+    public Boolean getActive() {
+        return active;
+    }
+
     public String getFirstName() {
         return firstName;
     }
@@ -69,6 +76,10 @@ public class QueryMemberEntity implements Serializable {
         return Objects.hash(id);
     }
 
+    public void setActive(final Boolean active) {
+        this.active = active;
+    }
+
     public void setFirstName(final String firstName) {
         this.firstName = firstName;
     }
@@ -87,8 +98,8 @@ public class QueryMemberEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "QueryMemberEntity [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", number="
-                + number + "]";
+        return "QueryMemberEntity [id=" + id + ", number=" + number + ", firstName=" + firstName + ", lastName="
+                + lastName + ", active=" + active + "]";
     }
 
 }
