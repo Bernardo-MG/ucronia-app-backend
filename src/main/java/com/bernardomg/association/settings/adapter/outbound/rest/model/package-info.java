@@ -23,7 +23,7 @@
  */
 
 /**
- * Settings data source.
+ * Association settings REST model.
  */
 
-package com.bernardomg.association.settings.adapter.inbound.source;
+package com.bernardomg.association.settings.adapter.outbound.rest.model;

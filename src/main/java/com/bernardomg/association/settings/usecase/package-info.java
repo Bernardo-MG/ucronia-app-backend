@@ -22,31 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.settings.adapter.inbound.source;
+/**
+ * Association settings service.
+ */
 
-import java.util.Objects;
-
-import org.springframework.stereotype.Component;
-
-import com.bernardomg.association.settings.usecase.AssociationSettingsKey;
-import com.bernardomg.association.settings.usecase.source.AssociationSettingsSource;
-import com.bernardomg.settings.domain.repository.SettingRepository;
-
-@Component
-public final class AssociationPersistenceSettingsSource implements AssociationSettingsSource {
-
-    private final SettingRepository settingsRepository;
-
-    public AssociationPersistenceSettingsSource(final SettingRepository settingRepo) {
-        super();
-
-        settingsRepository = Objects.requireNonNull(settingRepo);
-    }
-
-    @Override
-    public final Float getFeeAmount() {
-        // TODO: throw exception if the setting is missing
-        return settingsRepository.getFloat(AssociationSettingsKey.FEE_AMOUNT);
-    }
-
-}
+package com.bernardomg.association.settings.usecase;
