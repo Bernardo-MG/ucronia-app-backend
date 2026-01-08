@@ -10,7 +10,7 @@ public final class SettingEntities {
 
         entity = new SettingsEntity();
         entity.setCode(SettingConstants.CODE);
-        entity.setValue(SettingConstants.STRING_VALUE);
+        entity.setValue(SettingConstants.NUMBER_VALUE);
         entity.setType(SettingConstants.NUMBER_TYPE);
 
         return entity;
