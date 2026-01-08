@@ -31,7 +31,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
-import com.bernardomg.association.member.domain.filter.MemberFilter;
+import com.bernardomg.association.member.domain.filter.MemberProfileFilter;
 import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
@@ -58,7 +58,7 @@ class ITMemberProfileRepositoryFindAllPaginated extends AbstractPaginationIT<Mem
 
     @Override
     protected final Page<MemberProfile> read(final Pagination pagination, final Sorting sorting) {
-        return repository.findAll(new MemberFilter(MemberStatus.ALL, ""), pagination, sorting);
+        return repository.findAll(new MemberProfileFilter(MemberStatus.ALL, ""), pagination, sorting);
     }
 
     @Test
@@ -67,12 +67,12 @@ class ITMemberProfileRepositoryFindAllPaginated extends AbstractPaginationIT<Mem
         final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
-        final MemberFilter        filter;
+        final MemberProfileFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 1);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.ALL, "");
+        filter = new MemberProfileFilter(MemberStatus.ALL, "");
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -90,12 +90,12 @@ class ITMemberProfileRepositoryFindAllPaginated extends AbstractPaginationIT<Mem
         final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
-        final MemberFilter        filter;
+        final MemberProfileFilter filter;
 
         // GIVEN
         pagination = new Pagination(2, 1);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.ALL, "");
+        filter = new MemberProfileFilter(MemberStatus.ALL, "");
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);

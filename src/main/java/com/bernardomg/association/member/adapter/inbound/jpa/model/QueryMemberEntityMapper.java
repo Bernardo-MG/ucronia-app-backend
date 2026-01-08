@@ -36,7 +36,7 @@ public final class QueryMemberEntityMapper {
         final ProfileName name;
 
         name = new ProfileName(entity.getFirstName(), entity.getLastName());
-        return new Member(entity.getNumber(), name, entity.getActive(), entity.getRenew());
+        return new Member(entity.getNumber(), name);
     }
 
     private QueryMemberEntityMapper() {

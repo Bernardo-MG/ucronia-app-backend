@@ -33,7 +33,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
@@ -64,7 +63,7 @@ class ITMemberRepositoryFindAll {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.ACTIVE, "");
+        filter = new MemberFilter("");
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -73,7 +72,7 @@ class ITMemberRepositoryFindAll {
         Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Members.active());
+            .containsExactly(Members.valid());
     }
 
     @Test
@@ -89,7 +88,7 @@ class ITMemberRepositoryFindAll {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.ACTIVE, "");
+        filter = new MemberFilter("");
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -112,7 +111,7 @@ class ITMemberRepositoryFindAll {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.ACTIVE, "");
+        filter = new MemberFilter("");
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -136,7 +135,7 @@ class ITMemberRepositoryFindAll {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.ACTIVE, "");
+        filter = new MemberFilter("");
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -161,7 +160,7 @@ class ITMemberRepositoryFindAll {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.ALL, "");
+        filter = new MemberFilter("");
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -170,7 +169,7 @@ class ITMemberRepositoryFindAll {
         Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Members.active());
+            .containsExactly(Members.valid());
     }
 
     @Test
@@ -186,7 +185,7 @@ class ITMemberRepositoryFindAll {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.ALL, "");
+        filter = new MemberFilter("");
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -195,7 +194,7 @@ class ITMemberRepositoryFindAll {
         Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Members.inactive());
+            .containsExactly(Members.valid());
     }
 
     @Test
@@ -209,7 +208,7 @@ class ITMemberRepositoryFindAll {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.ALL, "");
+        filter = new MemberFilter("");
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -233,7 +232,7 @@ class ITMemberRepositoryFindAll {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.ALL, "");
+        filter = new MemberFilter("");
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -258,7 +257,7 @@ class ITMemberRepositoryFindAll {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.INACTIVE, "");
+        filter = new MemberFilter("");
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -283,7 +282,7 @@ class ITMemberRepositoryFindAll {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.INACTIVE, "");
+        filter = new MemberFilter("");
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -292,7 +291,7 @@ class ITMemberRepositoryFindAll {
         Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Members.inactive());
+            .containsExactly(Members.valid());
     }
 
     @Test
@@ -306,7 +305,7 @@ class ITMemberRepositoryFindAll {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.INACTIVE, "");
+        filter = new MemberFilter("");
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -330,7 +329,7 @@ class ITMemberRepositoryFindAll {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.INACTIVE, "");
+        filter = new MemberFilter("");
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);

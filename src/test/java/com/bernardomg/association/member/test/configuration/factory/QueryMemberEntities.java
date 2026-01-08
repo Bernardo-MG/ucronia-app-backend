@@ -6,20 +6,6 @@ import com.bernardomg.association.profile.test.configuration.factory.ProfileCons
 
 public final class QueryMemberEntities {
 
-    public static final QueryMemberEntity active() {
-        final QueryMemberEntity entity;
-
-        entity = new QueryMemberEntity();
-        entity.setId(1L);
-        entity.setNumber(ProfileConstants.NUMBER);
-        entity.setFirstName(ProfileConstants.FIRST_NAME);
-        entity.setLastName(ProfileConstants.LAST_NAME);
-        entity.setActive(true);
-        entity.setRenew(true);
-
-        return entity;
-    }
-
     public static final QueryMemberEntity alternative() {
         final QueryMemberEntity entity;
 
@@ -28,27 +14,11 @@ public final class QueryMemberEntities {
         entity.setNumber(ProfileConstants.NUMBER);
         entity.setFirstName(ProfileConstants.ALTERNATIVE_FIRST_NAME);
         entity.setLastName(ProfileConstants.ALTERNATIVE_LAST_NAME);
-        entity.setActive(true);
-        entity.setRenew(true);
 
         return entity;
     }
 
-    public static final QueryMemberEntity created() {
-        final QueryMemberEntity entity;
-
-        entity = new QueryMemberEntity();
-        entity.setId(1L);
-        entity.setNumber(1L);
-        entity.setFirstName(ProfileConstants.FIRST_NAME);
-        entity.setLastName(ProfileConstants.LAST_NAME);
-        entity.setActive(true);
-        entity.setRenew(true);
-
-        return entity;
-    }
-
-    public static final QueryMemberEntity inactive() {
+    public static final QueryMemberEntity valid() {
         final QueryMemberEntity entity;
 
         entity = new QueryMemberEntity();
@@ -56,8 +26,6 @@ public final class QueryMemberEntities {
         entity.setNumber(ProfileConstants.NUMBER);
         entity.setFirstName(ProfileConstants.FIRST_NAME);
         entity.setLastName(ProfileConstants.LAST_NAME);
-        entity.setActive(false);
-        entity.setRenew(true);
 
         return entity;
     }

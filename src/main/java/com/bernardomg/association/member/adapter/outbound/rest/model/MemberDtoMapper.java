@@ -81,9 +81,7 @@ public final class MemberDtoMapper {
             .fullName(member.name()
                 .fullName());
         return new MemberDto().number(member.number())
-            .name(profileName)
-            .active(member.active())
-            .renew(member.renew());
+            .name(profileName);
     }
 
     private static final PropertyDto toDto(final Property property) {

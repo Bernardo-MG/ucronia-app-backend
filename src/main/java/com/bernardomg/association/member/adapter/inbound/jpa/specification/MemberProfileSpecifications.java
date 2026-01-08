@@ -31,13 +31,13 @@ import java.util.function.BinaryOperator;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberProfileEntity;
-import com.bernardomg.association.member.domain.filter.MemberFilter;
+import com.bernardomg.association.member.domain.filter.MemberProfileFilter;
 
 public final class MemberProfileSpecifications {
 
     private static final String ACTIVE_FIELD = "active";
 
-    public static Optional<Specification<QueryMemberProfileEntity>> query(final MemberFilter filter) {
+    public static Optional<Specification<QueryMemberProfileEntity>> query(final MemberProfileFilter filter) {
         final Optional<Specification<QueryMemberProfileEntity>> nameSpec;
         final Optional<Specification<QueryMemberProfileEntity>> statusSpec;
         final Specification<QueryMemberProfileEntity>           spec;

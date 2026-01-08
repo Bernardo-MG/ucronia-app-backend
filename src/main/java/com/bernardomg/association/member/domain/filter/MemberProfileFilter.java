@@ -22,10 +22,20 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.domain.model;
+package com.bernardomg.association.member.domain.filter;
 
-import com.bernardomg.association.profile.domain.model.ProfileName;
+import com.bernardomg.association.member.domain.model.MemberStatus;
 
-public record Member(Long number, ProfileName name) {
+public record MemberProfileFilter(MemberStatus status, String name) {
+
+    public MemberProfileFilter {
+        // TODO: reject nulls
+        if (status == null) {
+            status = MemberStatus.ALL;
+        }
+        if (name == null) {
+            name = "";
+        }
+    }
 
 }

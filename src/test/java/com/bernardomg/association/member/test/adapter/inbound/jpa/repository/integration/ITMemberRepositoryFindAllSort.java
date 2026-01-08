@@ -36,7 +36,6 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.Multipl
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.MultipleActiveMember;
 import com.bernardomg.association.member.test.configuration.factory.Members;
@@ -70,7 +69,7 @@ class ITMemberRepositoryFindAllSort {
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC)));
-        filter = new MemberFilter(MemberStatus.ALL, "");
+        filter = new MemberFilter("");
 
         // WHEN
         // FIXME: names should be sorted ignoring case
@@ -95,7 +94,7 @@ class ITMemberRepositoryFindAllSort {
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.DESC)));
-        filter = new MemberFilter(MemberStatus.ALL, "");
+        filter = new MemberFilter("");
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -119,7 +118,7 @@ class ITMemberRepositoryFindAllSort {
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("lastName", Sorting.Direction.ASC)));
-        filter = new MemberFilter(MemberStatus.ALL, "");
+        filter = new MemberFilter("");
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -143,7 +142,7 @@ class ITMemberRepositoryFindAllSort {
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("lastName", Sorting.Direction.DESC)));
-        filter = new MemberFilter(MemberStatus.ALL, "");
+        filter = new MemberFilter("");
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);

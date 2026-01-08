@@ -24,9 +24,6 @@ public class QueryMemberEntity implements Serializable {
     @Transient
     private static final long serialVersionUID = 8139806507534262996L;
 
-    @Column(name = "active", table = "members", nullable = false)
-    private Boolean           active;
-
     @Column(name = "first_name", table = "profiles", nullable = false)
     private String            firstName;
 
@@ -40,9 +37,6 @@ public class QueryMemberEntity implements Serializable {
     @Column(name = "number", table = "profiles")
     private Long              number;
 
-    @Column(name = "renew_membership", table = "members", nullable = false)
-    private Boolean           renew;
-
     @Override
     public boolean equals(final Object obj) {
         if (this == obj) {
@@ -52,10 +46,6 @@ public class QueryMemberEntity implements Serializable {
             return false;
         }
         return Objects.equals(id, other.id);
-    }
-
-    public Boolean getActive() {
-        return active;
     }
 
     public String getFirstName() {
@@ -74,17 +64,9 @@ public class QueryMemberEntity implements Serializable {
         return number;
     }
 
-    public Boolean getRenew() {
-        return renew;
-    }
-
     @Override
     public int hashCode() {
         return Objects.hash(id);
-    }
-
-    public void setActive(final Boolean active) {
-        this.active = active;
     }
 
     public void setFirstName(final String firstName) {
@@ -103,14 +85,10 @@ public class QueryMemberEntity implements Serializable {
         this.number = number;
     }
 
-    public void setRenew(final Boolean renew) {
-        this.renew = renew;
-    }
-
     @Override
     public String toString() {
-        return "QueryMemberEntity [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", active="
-                + active + ", number=" + number + ", renew=" + renew + "]";
+        return "QueryMemberEntity [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", number="
+                + number + "]";
     }
 
 }

@@ -33,7 +33,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
-import com.bernardomg.association.member.domain.filter.MemberFilter;
+import com.bernardomg.association.member.domain.filter.MemberProfileFilter;
 import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.profile.domain.model.ProfileName;
@@ -102,7 +102,7 @@ public final class DefaultMemberProfileService implements MemberProfileService {
     }
 
     @Override
-    public final Page<MemberProfile> getAll(final MemberFilter filter, final Pagination pagination,
+    public final Page<MemberProfile> getAll(final MemberProfileFilter filter, final Pagination pagination,
             final Sorting sorting) {
         final Page<MemberProfile> memberProfiles;
 

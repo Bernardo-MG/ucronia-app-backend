@@ -34,7 +34,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.fee.test.configuration.data.annotation.MultipleFees;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
-import com.bernardomg.association.member.domain.filter.MemberFilter;
+import com.bernardomg.association.member.domain.filter.MemberProfileFilter;
 import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
@@ -65,12 +65,12 @@ class ITMemberProfileRepositoryFindAllSort {
         final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
-        final MemberFilter        filter;
+        final MemberProfileFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC)));
-        filter = new MemberFilter(MemberStatus.ALL, "");
+        filter = new MemberProfileFilter(MemberStatus.ALL, "");
 
         // WHEN
         // FIXME: names should be sorted ignoring case
@@ -90,12 +90,12 @@ class ITMemberProfileRepositoryFindAllSort {
         final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
-        final MemberFilter        filter;
+        final MemberProfileFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.DESC)));
-        filter = new MemberFilter(MemberStatus.ALL, "");
+        filter = new MemberProfileFilter(MemberStatus.ALL, "");
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -114,12 +114,12 @@ class ITMemberProfileRepositoryFindAllSort {
         final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
-        final MemberFilter        filter;
+        final MemberProfileFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("lastName", Sorting.Direction.ASC)));
-        filter = new MemberFilter(MemberStatus.ALL, "");
+        filter = new MemberProfileFilter(MemberStatus.ALL, "");
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -138,12 +138,12 @@ class ITMemberProfileRepositoryFindAllSort {
         final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
-        final MemberFilter        filter;
+        final MemberProfileFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("lastName", Sorting.Direction.DESC)));
-        filter = new MemberFilter(MemberStatus.ALL, "");
+        filter = new MemberProfileFilter(MemberStatus.ALL, "");
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);

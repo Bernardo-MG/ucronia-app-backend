@@ -31,7 +31,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
-import com.bernardomg.association.member.domain.filter.MemberFilter;
+import com.bernardomg.association.member.domain.filter.MemberProfileFilter;
 import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
@@ -59,12 +59,12 @@ class ITMemberProfileRepositoryFindAll {
         final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
-        final MemberFilter        filter;
+        final MemberProfileFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.ACTIVE, "");
+        filter = new MemberProfileFilter(MemberStatus.ACTIVE, "");
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -84,12 +84,12 @@ class ITMemberProfileRepositoryFindAll {
         final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
-        final MemberFilter        filter;
+        final MemberProfileFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.ACTIVE, "");
+        filter = new MemberProfileFilter(MemberStatus.ACTIVE, "");
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -107,12 +107,12 @@ class ITMemberProfileRepositoryFindAll {
         final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
-        final MemberFilter        filter;
+        final MemberProfileFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.ACTIVE, "");
+        filter = new MemberProfileFilter(MemberStatus.ACTIVE, "");
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -131,12 +131,12 @@ class ITMemberProfileRepositoryFindAll {
         final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
-        final MemberFilter        filter;
+        final MemberProfileFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.ACTIVE, "");
+        filter = new MemberProfileFilter(MemberStatus.ACTIVE, "");
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -156,12 +156,12 @@ class ITMemberProfileRepositoryFindAll {
         final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
-        final MemberFilter        filter;
+        final MemberProfileFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.ALL, "");
+        filter = new MemberProfileFilter(MemberStatus.ALL, "");
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -181,12 +181,12 @@ class ITMemberProfileRepositoryFindAll {
         final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
-        final MemberFilter        filter;
+        final MemberProfileFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.ALL, "");
+        filter = new MemberProfileFilter(MemberStatus.ALL, "");
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -204,12 +204,12 @@ class ITMemberProfileRepositoryFindAll {
         final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
-        final MemberFilter        filter;
+        final MemberProfileFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.ALL, "");
+        filter = new MemberProfileFilter(MemberStatus.ALL, "");
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -228,12 +228,12 @@ class ITMemberProfileRepositoryFindAll {
         final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
-        final MemberFilter        filter;
+        final MemberProfileFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.ALL, "");
+        filter = new MemberProfileFilter(MemberStatus.ALL, "");
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -253,12 +253,12 @@ class ITMemberProfileRepositoryFindAll {
         final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
-        final MemberFilter        filter;
+        final MemberProfileFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.INACTIVE, "");
+        filter = new MemberProfileFilter(MemberStatus.INACTIVE, "");
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -278,12 +278,12 @@ class ITMemberProfileRepositoryFindAll {
         final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
-        final MemberFilter        filter;
+        final MemberProfileFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.INACTIVE, "");
+        filter = new MemberProfileFilter(MemberStatus.INACTIVE, "");
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -301,12 +301,12 @@ class ITMemberProfileRepositoryFindAll {
         final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
-        final MemberFilter        filter;
+        final MemberProfileFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.INACTIVE, "");
+        filter = new MemberProfileFilter(MemberStatus.INACTIVE, "");
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -325,12 +325,12 @@ class ITMemberProfileRepositoryFindAll {
         final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
-        final MemberFilter        filter;
+        final MemberProfileFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.INACTIVE, "");
+        filter = new MemberProfileFilter(MemberStatus.INACTIVE, "");
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);

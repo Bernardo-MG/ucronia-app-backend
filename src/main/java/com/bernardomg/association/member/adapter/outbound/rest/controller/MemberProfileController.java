@@ -30,7 +30,7 @@ import java.util.Optional;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.member.adapter.outbound.rest.model.MemberProfileDtoMapper;
-import com.bernardomg.association.member.domain.filter.MemberFilter;
+import com.bernardomg.association.member.domain.filter.MemberProfileFilter;
 import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.usecase.service.MemberProfileService;
@@ -101,7 +101,7 @@ public class MemberProfileController implements MemberProfileApi {
         final Sorting             sorting;
         final Page<MemberProfile> members;
         final MemberStatus        memberStatus;
-        final MemberFilter        filter;
+        final MemberProfileFilter filter;
 
         pagination = new Pagination(page, size);
         sorting = WebSorting.toSorting(sort);
@@ -111,7 +111,7 @@ public class MemberProfileController implements MemberProfileApi {
         } else {
             memberStatus = null;
         }
-        filter = new MemberFilter(memberStatus, name);
+        filter = new MemberProfileFilter(memberStatus, name);
 
         members = service.getAll(filter, pagination, sorting);
 
