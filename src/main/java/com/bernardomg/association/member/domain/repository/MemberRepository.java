@@ -34,8 +34,6 @@ import com.bernardomg.data.domain.Sorting;
 
 public interface MemberRepository {
 
-    public boolean exists(final long number);
-
     public Page<Member> findAll(final MemberFilter filter, final Pagination pagination, final Sorting sorting);
 
     public Optional<Member> findOne(final Long number);

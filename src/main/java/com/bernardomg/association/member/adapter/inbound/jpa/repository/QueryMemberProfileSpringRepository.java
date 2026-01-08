@@ -48,7 +48,23 @@ public interface QueryMemberProfileSpringRepository
 
     public boolean existsByNumber(final Long number);
 
+    @Query("""
+            SELECT m.id AS id
+            FROM MemberProfile m
+            WHERE m.active = true
+            ORDER BY id ASC
+            """)
+    public Collection<Long> findAllActiveMemberIds();
+
     public Collection<QueryMemberProfileEntity> findAllByRenewTrue();
+
+    @Query("""
+            SELECT m.id AS id
+            FROM MemberProfile m
+            WHERE m.active = false
+            ORDER BY id ASC
+            """)
+    public Collection<Long> findAllInactiveMemberIds();
 
     @Query("""
             SELECT m

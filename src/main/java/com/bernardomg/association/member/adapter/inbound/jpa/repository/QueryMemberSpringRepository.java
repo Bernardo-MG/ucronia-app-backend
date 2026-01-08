@@ -24,39 +24,16 @@
 
 package com.bernardomg.association.member.adapter.inbound.jpa.repository;
 
-import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.jpa.repository.Query;
 
 import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberEntity;
 
 public interface QueryMemberSpringRepository
         extends JpaRepository<QueryMemberEntity, Long>, JpaSpecificationExecutor<QueryMemberEntity> {
 
-    public boolean existsByNumber(final Long number);
-
-    @Query("""
-            SELECT m.id AS id
-            FROM Member m
-            WHERE m.active = true
-            ORDER BY id ASC
-            """)
-    public Collection<Long> findAllActiveMemberIds();
-
-    @Query("""
-            SELECT m.id AS id
-            FROM Member m
-            WHERE m.active = false
-            ORDER BY id ASC
-            """)
-    public Collection<Long> findAllInactiveMemberIds();
-
     public Optional<QueryMemberEntity> findByNumber(final Long number);
-
-    @Query("SELECT COALESCE(MAX(p.number), 0) + 1 FROM Profile p")
-    public Long findNextNumber();
 
 }

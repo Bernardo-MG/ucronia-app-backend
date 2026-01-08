@@ -16,6 +16,35 @@ import com.bernardomg.association.profile.test.configuration.factory.ProfileCons
 
 public final class QueryMemberProfileEntities {
 
+    public static final QueryMemberProfileEntity active() {
+        final QueryMemberProfileEntity entity;
+        final FeeTypeEntity            feeType;
+
+        feeType = new FeeTypeEntity();
+        feeType.setId(1L);
+        feeType.setNumber(FeeConstants.FEE_TYPE_NUMBER);
+        feeType.setName(FeeConstants.FEE_TYPE_NAME);
+        feeType.setAmount(FeeConstants.FEE_TYPE_AMOUNT);
+
+        entity = new QueryMemberProfileEntity();
+        entity.setId(1L);
+        entity.setNumber(ProfileConstants.NUMBER);
+        entity.setFeeType(feeType);
+        entity.setFirstName(ProfileConstants.FIRST_NAME);
+        entity.setLastName(ProfileConstants.LAST_NAME);
+        entity.setFirstName(ProfileConstants.FIRST_NAME);
+        entity.setLastName(ProfileConstants.LAST_NAME);
+        entity.setBirthDate(ProfileConstants.BIRTH_DATE);
+        entity.setIdentifier("6789");
+        entity.setContactChannels(new ArrayList<>());
+        entity.setComments(ProfileConstants.COMMENTS);
+        entity.setActive(true);
+        entity.setRenew(true);
+        entity.setTypes(new HashSet<>(Set.of(MemberEntityConstants.PROFILE_TYPE)));
+
+        return entity;
+    }
+
     public static final QueryMemberProfileEntity alternative() {
         final QueryMemberProfileEntity entity;
         final FeeTypeEntity            feeType;
@@ -58,35 +87,6 @@ public final class QueryMemberProfileEntities {
         entity = new QueryMemberProfileEntity();
         entity.setId(1L);
         entity.setNumber(1L);
-        entity.setFeeType(feeType);
-        entity.setFirstName(ProfileConstants.FIRST_NAME);
-        entity.setLastName(ProfileConstants.LAST_NAME);
-        entity.setFirstName(ProfileConstants.FIRST_NAME);
-        entity.setLastName(ProfileConstants.LAST_NAME);
-        entity.setBirthDate(ProfileConstants.BIRTH_DATE);
-        entity.setIdentifier("6789");
-        entity.setContactChannels(new ArrayList<>());
-        entity.setComments(ProfileConstants.COMMENTS);
-        entity.setActive(true);
-        entity.setRenew(true);
-        entity.setTypes(new HashSet<>(Set.of(MemberEntityConstants.PROFILE_TYPE)));
-
-        return entity;
-    }
-
-    public static final QueryMemberProfileEntity valid() {
-        final QueryMemberProfileEntity entity;
-        final FeeTypeEntity            feeType;
-
-        feeType = new FeeTypeEntity();
-        feeType.setId(1L);
-        feeType.setNumber(FeeConstants.FEE_TYPE_NUMBER);
-        feeType.setName(FeeConstants.FEE_TYPE_NAME);
-        feeType.setAmount(FeeConstants.FEE_TYPE_AMOUNT);
-
-        entity = new QueryMemberProfileEntity();
-        entity.setId(1L);
-        entity.setNumber(ProfileConstants.NUMBER);
         entity.setFeeType(feeType);
         entity.setFirstName(ProfileConstants.FIRST_NAME);
         entity.setLastName(ProfileConstants.LAST_NAME);

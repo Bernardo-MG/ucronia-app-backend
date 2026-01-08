@@ -27,7 +27,7 @@ package com.bernardomg.association.fee.adapter.inbound.jpa.model;
 import java.io.Serializable;
 import java.time.Instant;
 
-import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberEntity;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberProfileEntity;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
 
 import jakarta.persistence.Column;
@@ -48,37 +48,37 @@ public class FeeEntity implements Serializable {
      * Serialization ID.
      */
     @Transient
-    private static final long serialVersionUID = 1328776989450853491L;
+    private static final long        serialVersionUID = 1328776989450853491L;
 
     @OneToOne
     @JoinColumn(name = "fee_type_id", referencedColumnName = "id")
-    private FeeTypeEntity     feeType;
+    private FeeTypeEntity            feeType;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
-    private Long              id;
+    private Long                     id;
 
     @OneToOne(optional = false)
     @JoinColumn(name = "member_id", referencedColumnName = "id")
-    private QueryMemberEntity member;
+    private QueryMemberProfileEntity member;
 
     /**
      * TODO: Is this needed?
      */
     @Column(name = "member_id", insertable = false, updatable = false)
-    private Long              memberId;
+    private Long                     memberId;
 
     // TODO: should be called month
     @Column(name = "month", nullable = false)
-    private Instant           month;
+    private Instant                  month;
 
     @Column(name = "paid")
-    private Boolean           paid;
+    private Boolean                  paid;
 
     @OneToOne
     @JoinColumn(name = "transaction_id", referencedColumnName = "id")
-    private TransactionEntity transaction;
+    private TransactionEntity        transaction;
 
     public FeeTypeEntity getFeeType() {
         return feeType;
@@ -88,7 +88,7 @@ public class FeeEntity implements Serializable {
         return id;
     }
 
-    public QueryMemberEntity getMember() {
+    public QueryMemberProfileEntity getMember() {
         return member;
     }
 
@@ -116,7 +116,7 @@ public class FeeEntity implements Serializable {
         this.id = id;
     }
 
-    public void setMember(final QueryMemberEntity member) {
+    public void setMember(final QueryMemberProfileEntity member) {
         this.member = member;
     }
 

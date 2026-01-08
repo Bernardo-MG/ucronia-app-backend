@@ -83,7 +83,7 @@ class ITMemberProfileRepositorySaveWithNumber {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
-            .containsExactly(QueryMemberProfileEntities.valid());
+            .containsExactly(QueryMemberProfileEntities.active());
     }
 
     @Test
