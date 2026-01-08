@@ -76,7 +76,7 @@ public final class JpaMemberRepository implements MemberRepository {
             read = queryMemberSpringRepository.findAllByActiveTrue(pageable)
                 .map(QueryMemberEntityMapper::toDomain);
         } else {
-            read = queryMemberSpringRepository.findAllByActiveTrue(spec.get(), pageable)
+            read = queryMemberSpringRepository.findAll(spec.get(), pageable)
                 .map(QueryMemberEntityMapper::toDomain);
         }
 

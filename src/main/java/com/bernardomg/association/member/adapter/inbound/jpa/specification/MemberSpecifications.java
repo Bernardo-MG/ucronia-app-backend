@@ -37,6 +37,7 @@ public final class MemberSpecifications {
 
     public static Optional<Specification<QueryMemberEntity>> query(final MemberFilter filter) {
         final Optional<Specification<QueryMemberEntity>> nameSpec;
+        final Optional<Specification<QueryMemberEntity>> activeSpec;
         final Specification<QueryMemberEntity>           spec;
 
         if (filter.name()
@@ -46,13 +47,19 @@ public final class MemberSpecifications {
             nameSpec = Optional.of(name(filter.name()));
         }
 
-        spec = List.of(nameSpec)
+        activeSpec = Optional.of(active());
+
+        spec = List.of(nameSpec, activeSpec)
             .stream()
             .filter(Optional::isPresent)
             .map(Optional::get)
             .reduce((BinaryOperator<Specification<QueryMemberEntity>>) Specification::and)
             .orElse(null);
         return Optional.ofNullable(spec);
+    }
+
+    private static Specification<QueryMemberEntity> active() {
+        return (root, query, cb) -> cb.isTrue(root.get("active"));
     }
 
     /**
