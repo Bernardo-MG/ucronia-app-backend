@@ -51,10 +51,10 @@ class ITMemberRepositoryFindAll {
     private MemberRepository repository;
 
     @Test
-    @DisplayName("With an active member and filtering by active, it is returned")
+    @DisplayName("With an active member, it is returned")
     @PositiveFeeType
     @ActiveMember
-    void testFindAll_Active_Active() {
+    void testFindAll() {
         final Page<Member> members;
         final Pagination   pagination;
         final Sorting      sorting;
@@ -76,10 +76,10 @@ class ITMemberRepositoryFindAll {
     }
 
     @Test
-    @DisplayName("With an inactive member and filtering by active, nothing is returned")
+    @DisplayName("With an inactive member, nothing is returned")
     @PositiveFeeType
     @InactiveMember
-    void testFindAll_Active_Inactive() {
+    void testFindAll_Inactive() {
         final Page<Member> members;
         final Pagination   pagination;
         final Sorting      sorting;
@@ -101,8 +101,8 @@ class ITMemberRepositoryFindAll {
     }
 
     @Test
-    @DisplayName("With no member and filtering by active, nothing is returned")
-    void testFindAll_Active_NoData() {
+    @DisplayName("With no member, nothing is returned")
+    void testFindAll_NoData() {
         final Page<Member> members;
         final Pagination   pagination;
         final Sorting      sorting;
@@ -124,203 +124,9 @@ class ITMemberRepositoryFindAll {
     }
 
     @Test
-    @DisplayName("With a profile with no member role and filtering by active, nothing is returned")
+    @DisplayName("With a profile with no member role, nothing is returned")
     @ValidProfile
-    void testFindAll_Active_WithoutMembership() {
-        final Page<Member> members;
-        final Pagination   pagination;
-        final Sorting      sorting;
-        final MemberFilter filter;
-
-        // GIVEN
-        pagination = new Pagination(1, 100);
-        sorting = Sorting.unsorted();
-        filter = new MemberFilter("");
-
-        // WHEN
-        members = repository.findAll(filter, pagination, sorting);
-
-        // THEN
-        Assertions.assertThat(members)
-            .extracting(Page::content)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .isEmpty();
-    }
-
-    @Test
-    @DisplayName("With an active member and filtering by all, it is returned")
-    @PositiveFeeType
-    @ActiveMember
-    void testFindAll_All_Active() {
-        final Page<Member> members;
-        final Pagination   pagination;
-        final Sorting      sorting;
-        final MemberFilter filter;
-
-        // GIVEN
-        pagination = new Pagination(1, 100);
-        sorting = Sorting.unsorted();
-        filter = new MemberFilter("");
-
-        // WHEN
-        members = repository.findAll(filter, pagination, sorting);
-
-        // THEN
-        Assertions.assertThat(members)
-            .extracting(Page::content)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Members.valid());
-    }
-
-    @Test
-    @DisplayName("With an inactive member and filtering by all, it is returned")
-    @PositiveFeeType
-    @InactiveMember
-    void testFindAll_All_Inactive() {
-        final Page<Member> members;
-        final Pagination   pagination;
-        final Sorting      sorting;
-        final MemberFilter filter;
-
-        // GIVEN
-        pagination = new Pagination(1, 100);
-        sorting = Sorting.unsorted();
-        filter = new MemberFilter("");
-
-        // WHEN
-        members = repository.findAll(filter, pagination, sorting);
-
-        // THEN
-        Assertions.assertThat(members)
-            .extracting(Page::content)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Members.valid());
-    }
-
-    @Test
-    @DisplayName("With no member and filtering by all, nothing is returned")
-    void testFindAll_All_NoData() {
-        final Page<Member> members;
-        final Pagination   pagination;
-        final Sorting      sorting;
-        final MemberFilter filter;
-
-        // GIVEN
-        pagination = new Pagination(1, 100);
-        sorting = Sorting.unsorted();
-        filter = new MemberFilter("");
-
-        // WHEN
-        members = repository.findAll(filter, pagination, sorting);
-
-        // THEN
-        Assertions.assertThat(members)
-            .extracting(Page::content)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .isEmpty();
-    }
-
-    @Test
-    @DisplayName("With a profile with no member role and filtering by all, it is returned")
-    @ValidProfile
-    void testFindAll_All_WithoutMembership() {
-        final Page<Member> members;
-        final Pagination   pagination;
-        final Sorting      sorting;
-        final MemberFilter filter;
-
-        // GIVEN
-        pagination = new Pagination(1, 100);
-        sorting = Sorting.unsorted();
-        filter = new MemberFilter("");
-
-        // WHEN
-        members = repository.findAll(filter, pagination, sorting);
-
-        // THEN
-        Assertions.assertThat(members)
-            .extracting(Page::content)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .isEmpty();
-    }
-
-    @Test
-    @DisplayName("With an active member and filtering by inactive, nothing is returned")
-    @PositiveFeeType
-    @ActiveMember
-    void testFindAll_Inactive_Active() {
-        final Page<Member> members;
-        final Pagination   pagination;
-        final Sorting      sorting;
-        final MemberFilter filter;
-
-        // GIVEN
-        pagination = new Pagination(1, 100);
-        sorting = Sorting.unsorted();
-        filter = new MemberFilter("");
-
-        // WHEN
-        members = repository.findAll(filter, pagination, sorting);
-
-        // THEN
-        Assertions.assertThat(members)
-            .extracting(Page::content)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .isEmpty();
-    }
-
-    @Test
-    @DisplayName("With an inactive member and filtering by inactive, it is returned")
-    @PositiveFeeType
-    @InactiveMember
-    void testFindAll_Inactive_Inactive() {
-        final Page<Member> members;
-        final Pagination   pagination;
-        final Sorting      sorting;
-        final MemberFilter filter;
-
-        // GIVEN
-        pagination = new Pagination(1, 100);
-        sorting = Sorting.unsorted();
-        filter = new MemberFilter("");
-
-        // WHEN
-        members = repository.findAll(filter, pagination, sorting);
-
-        // THEN
-        Assertions.assertThat(members)
-            .extracting(Page::content)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Members.valid());
-    }
-
-    @Test
-    @DisplayName("With no member and filtering by inactive, nothing is returned")
-    void testFindAll_Inactive_NoData() {
-        final Page<Member> members;
-        final Pagination   pagination;
-        final Sorting      sorting;
-        final MemberFilter filter;
-
-        // GIVEN
-        pagination = new Pagination(1, 100);
-        sorting = Sorting.unsorted();
-        filter = new MemberFilter("");
-
-        // WHEN
-        members = repository.findAll(filter, pagination, sorting);
-
-        // THEN
-        Assertions.assertThat(members)
-            .extracting(Page::content)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .isEmpty();
-    }
-
-    @Test
-    @DisplayName("With a profile with no member role and filtering by inactive, nothing is returned")
-    @ValidProfile
-    void testFindAll_Inactive_WithoutMembership() {
+    void testFindAll_WithoutMembership() {
         final Page<Member> members;
         final Pagination   pagination;
         final Sorting      sorting;

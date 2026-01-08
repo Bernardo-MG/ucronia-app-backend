@@ -104,7 +104,7 @@ public final class FeeEntities {
 
         entity = new FeeEntity();
         entity.setFeeType(feeType);
-        entity.setMember(QueryMemberProfileEntities.active());
+        entity.setMember(QueryMemberProfileEntities.withEmail());
         entity.setMemberId(1L);
         entity.setMonth(FeeConstants.DATE.atDay(1)
             .atStartOfDay(ZoneOffset.UTC)
@@ -125,7 +125,7 @@ public final class FeeEntities {
 
         entity = new FeeEntity();
         entity.setFeeType(feeType);
-        entity.setMember(QueryMemberProfileEntities.active());
+        entity.setMember(QueryMemberProfileEntities.withEmail());
         entity.setMemberId(1L);
         entity.setMonth(FeeConstants.DATE.atDay(1)
             .atStartOfDay(ZoneOffset.UTC)
@@ -151,7 +151,7 @@ public final class FeeEntities {
 
         entity = new FeeEntity();
         entity.setFeeType(feeType);
-        entity.setMember(QueryMemberProfileEntities.active());
+        entity.setMember(QueryMemberProfileEntities.withEmail());
         entity.setMemberId(1L);
         entity.setMonth(FeeConstants.DATE.atDay(1)
             .atStartOfDay(ZoneOffset.UTC)
