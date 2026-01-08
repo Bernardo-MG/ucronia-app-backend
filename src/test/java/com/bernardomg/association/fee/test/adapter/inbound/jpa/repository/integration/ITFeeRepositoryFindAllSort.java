@@ -93,11 +93,11 @@ class ITFeeRepositoryFindAllSort {
     }
 
     @Test
-    @DisplayName("With ascending order by date it returns the ordered data")
+    @DisplayName("With ascending order by month it returns the ordered data")
     @PositiveFeeType
     @MultipleInactiveMember
     @MultipleFees
-    void testFindAll_Date_Asc() {
+    void testFindAll_Month_Asc() {
         final Page<Fee>  fees;
         final FeeQuery   feeQuery;
         final Pagination pagination;
@@ -105,7 +105,7 @@ class ITFeeRepositoryFindAllSort {
 
         // GIVEN
         pagination = new Pagination(1, 10);
-        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
+        sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
 
         feeQuery = FeesQuery.empty();
 
@@ -124,11 +124,11 @@ class ITFeeRepositoryFindAllSort {
     }
 
     @Test
-    @DisplayName("With descending order by date it returns the ordered data")
+    @DisplayName("With descending order by month it returns the ordered data")
     @PositiveFeeType
     @MultipleInactiveMember
     @MultipleFees
-    void testFindAll_Date_Desc() {
+    void testFindAll_Month_Desc() {
         final Page<Fee>  fees;
         final FeeQuery   feeQuery;
         final Pagination pagination;
@@ -136,7 +136,7 @@ class ITFeeRepositoryFindAllSort {
 
         // GIVEN
         pagination = new Pagination(1, 10);
-        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.DESC)));
+        sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.DESC)));
 
         feeQuery = FeesQuery.empty();
 
@@ -259,7 +259,7 @@ class ITFeeRepositoryFindAllSort {
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("paid", Sorting.Direction.ASC),
-            new Sorting.Property("date", Sorting.Direction.ASC)));
+            new Sorting.Property("month", Sorting.Direction.ASC)));
 
         feeQuery = FeesQuery.empty();
 
@@ -289,7 +289,7 @@ class ITFeeRepositoryFindAllSort {
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("paid", Sorting.Direction.DESC),
-            new Sorting.Property("date", Sorting.Direction.ASC)));
+            new Sorting.Property("month", Sorting.Direction.ASC)));
 
         feeQuery = FeesQuery.empty();
 

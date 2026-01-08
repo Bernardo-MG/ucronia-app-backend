@@ -67,7 +67,7 @@ class ITFeeRepositoryFindAllInYearSort {
 
         // GIVEN
         sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
-            new Sorting.Property("date", Sorting.Direction.ASC)));
+            new Sorting.Property("month", Sorting.Direction.ASC)));
 
         // WHEN
         fees = repository.findAllInYear(MemberCalendarConstants.YEAR, sorting);
@@ -113,7 +113,7 @@ class ITFeeRepositoryFindAllInYearSort {
 
         // GIVEN
         sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
-            new Sorting.Property("date", Sorting.Direction.ASC)));
+            new Sorting.Property("month", Sorting.Direction.ASC)));
 
         // WHEN
         fees = repository.findAllInYear(MemberCalendarConstants.YEAR, sorting);
@@ -153,7 +153,7 @@ class ITFeeRepositoryFindAllInYearSort {
 
         // GIVEN
         sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.DESC),
-            new Sorting.Property("date", Sorting.Direction.ASC)));
+            new Sorting.Property("month", Sorting.Direction.ASC)));
 
         // WHEN
         fees = repository.findAllInYear(MemberCalendarConstants.YEAR, sorting);
