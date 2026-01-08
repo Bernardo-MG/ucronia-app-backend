@@ -50,14 +50,16 @@ import com.bernardomg.association.event.domain.FeePaidEvent;
 import com.bernardomg.association.fee.domain.exception.MissingFeeException;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
+import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
+import com.bernardomg.association.fee.test.configuration.factory.FeeTypeConstants;
+import com.bernardomg.association.fee.test.configuration.factory.FeeTypes;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.member.test.configuration.factory.MemberProfiles;
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
-import com.bernardomg.association.settings.usecase.source.AssociationSettingsSource;
 import com.bernardomg.association.transaction.domain.exception.MissingTransactionException;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionConstants;
@@ -71,25 +73,25 @@ import com.bernardomg.validation.test.assertion.ValidationAssertions;
 class TestFeeServiceUpdate {
 
     @Mock
-    private EventEmitter              eventEmitter;
+    private EventEmitter            eventEmitter;
 
     @Mock
-    private FeeRepository             feeRepository;
+    private FeeRepository           feeRepository;
 
     @Mock
-    private MemberProfileRepository   memberProfileRepository;
+    private FeeTypeRepository       feeTypeRepository;
 
     @Mock
-    private MessageSource             messageSource;
+    private MemberProfileRepository memberProfileRepository;
+
+    @Mock
+    private MessageSource           messageSource;
 
     @InjectMocks
-    private DefaultFeeService         service;
+    private DefaultFeeService       service;
 
     @Mock
-    private AssociationSettingsSource settingsSource;
-
-    @Mock
-    private TransactionRepository     transactionRepository;
+    private TransactionRepository   transactionRepository;
 
     @Test
     @DisplayName("When a payment is added, the fee is saved")
@@ -106,7 +108,7 @@ class TestFeeServiceUpdate {
             .willReturn(Optional.of(MemberProfiles.active()));
         given(transactionRepository.findNextIndex()).willReturn(TransactionConstants.INDEX);
         given(transactionRepository.save(Transactions.positive())).willReturn(Transactions.positive());
-        given(settingsSource.getFeeAmount()).willReturn(TransactionConstants.AMOUNT);
+        given(feeTypeRepository.findOne(FeeTypeConstants.NUMBER)).willReturn(Optional.of(FeeTypes.positive()));
         given(messageSource.getMessage(ArgumentMatchers.anyString(), ArgumentMatchers.any(), ArgumentMatchers.any()))
             .willReturn(TransactionConstants.DESCRIPTION);
 
@@ -132,7 +134,7 @@ class TestFeeServiceUpdate {
             .willReturn(Optional.of(MemberProfiles.active()));
         given(transactionRepository.findNextIndex()).willReturn(TransactionConstants.INDEX);
         given(transactionRepository.save(Transactions.positive())).willReturn(Transactions.positive());
-        given(settingsSource.getFeeAmount()).willReturn(TransactionConstants.AMOUNT);
+        given(feeTypeRepository.findOne(FeeTypeConstants.NUMBER)).willReturn(Optional.of(FeeTypes.positive()));
         given(messageSource.getMessage(ArgumentMatchers.anyString(), ArgumentMatchers.any(), ArgumentMatchers.any()))
             .willReturn(TransactionConstants.DESCRIPTION);
 

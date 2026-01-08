@@ -48,11 +48,14 @@ import com.bernardomg.association.event.domain.FeeDeletedEvent;
 import com.bernardomg.association.event.domain.FeePaidEvent;
 import com.bernardomg.association.fee.domain.dto.FeePayments;
 import com.bernardomg.association.fee.domain.exception.MissingFeeException;
+import com.bernardomg.association.fee.domain.exception.MissingFeeTypeException;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
+import com.bernardomg.association.fee.domain.model.FeeType;
 import com.bernardomg.association.fee.domain.model.MemberFees;
 import com.bernardomg.association.fee.domain.model.YearsRange;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
+import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
 import com.bernardomg.association.fee.usecase.validation.FeeMonthNotExistingRule;
 import com.bernardomg.association.fee.usecase.validation.FeeNotPaidInFutureRule;
 import com.bernardomg.association.fee.usecase.validation.FeePaymentsMonthsNotExistingRule;
@@ -64,7 +67,6 @@ import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.profile.domain.model.ProfileName;
-import com.bernardomg.association.settings.usecase.source.AssociationSettingsSource;
 import com.bernardomg.association.transaction.domain.exception.MissingTransactionException;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
@@ -87,37 +89,37 @@ public final class DefaultFeeService implements FeeService {
     /**
      * Logger for the class.
      */
-    private static final Logger             log = LoggerFactory.getLogger(DefaultFeeService.class);
+    private static final Logger           log = LoggerFactory.getLogger(DefaultFeeService.class);
 
-    private final EventEmitter              eventEmitter;
+    private final EventEmitter            eventEmitter;
 
-    private final FeeRepository             feeRepository;
+    private final FeeRepository           feeRepository;
 
-    private final MemberProfileRepository   memberProfileRepository;
+    private final FeeTypeRepository       feeTypeRepository;
 
-    private final MessageSource             messageSource;
+    private final MemberProfileRepository memberProfileRepository;
 
-    private final AssociationSettingsSource settingsSource;
+    private final MessageSource           messageSource;
 
-    private final TransactionRepository     transactionRepository;
+    private final TransactionRepository   transactionRepository;
 
-    private final Validator<Fee>            validatorCreate;
+    private final Validator<Fee>          validatorCreate;
 
-    private final Validator<FeePayments>    validatorPay;
+    private final Validator<FeePayments>  validatorPay;
 
-    private final Validator<Fee>            validatorUpdate;
+    private final Validator<Fee>          validatorUpdate;
 
-    public DefaultFeeService(final FeeRepository feeRepo, final MemberProfileRepository memberProfileRepo,
-            final TransactionRepository transactionRepo, final EventEmitter evntEmitter,
-            final AssociationSettingsSource configSource, final MessageSource msgSource) {
+    public DefaultFeeService(final FeeRepository feeRepo, final FeeTypeRepository feeTypeRepo,
+            final MemberProfileRepository memberProfileRepo, final TransactionRepository transactionRepo,
+            final EventEmitter evntEmitter, final MessageSource msgSource) {
         super();
 
         feeRepository = Objects.requireNonNull(feeRepo);
+        feeTypeRepository = Objects.requireNonNull(feeTypeRepo);
         memberProfileRepository = Objects.requireNonNull(memberProfileRepo);
         transactionRepository = Objects.requireNonNull(transactionRepo);
         eventEmitter = Objects.requireNonNull(evntEmitter);
 
-        settingsSource = Objects.requireNonNull(configSource);
         messageSource = Objects.requireNonNull(msgSource);
 
         // TODO: Test validation
@@ -454,9 +456,18 @@ public final class DefaultFeeService implements FeeService {
         final String      message;
         final Object[]    messageArguments;
         final Long        index;
+        final FeeType     feeType;
 
         // Calculate amount
-        feeAmount = settingsSource.getFeeAmount() * feeMonths.size();
+        feeType = feeTypeRepository.findOne(member.feeType()
+            .number())
+            .orElseThrow(() -> {
+                log.error("Missing fee type {}", member.feeType()
+                    .number());
+                throw new MissingFeeTypeException(member.feeType()
+                    .number());
+            });
+        feeAmount = feeType.amount() * feeMonths.size();
 
         name = member.name()
             .fullName();
