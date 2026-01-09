@@ -43,7 +43,7 @@ components:
           type: string
           description: Comments about the member.
         feeType:
-          $ref: '#/components/schemas/MemberFeeType'
+          $ref: '../common/ids.yml#/components/schemas/Id'
         active:
           type: boolean
           description: Whether the member is active.
@@ -54,12 +54,6 @@ components:
           type: array
           items:
             type: string
-    MemberFeeType:
-      type: object
-      required: [index, date]
-      properties:
-        number:
-          $ref: '../common/ids.yml#/components/schemas/Id'
     MemberProfileCreation:
       type: object
       required: [name]
