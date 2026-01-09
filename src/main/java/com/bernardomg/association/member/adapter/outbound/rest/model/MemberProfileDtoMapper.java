@@ -40,6 +40,7 @@ import com.bernardomg.data.domain.Sorting.Property;
 import com.bernardomg.ucronia.openapi.model.ContactChannelDto;
 import com.bernardomg.ucronia.openapi.model.ContactMethodDto;
 import com.bernardomg.ucronia.openapi.model.EditionContactChannelDto;
+import com.bernardomg.ucronia.openapi.model.MemberFeeTypeDto;
 import com.bernardomg.ucronia.openapi.model.MemberProfileChangeDto;
 import com.bernardomg.ucronia.openapi.model.MemberProfileCreationDto;
 import com.bernardomg.ucronia.openapi.model.MemberProfileDto;
@@ -126,7 +127,7 @@ public final class MemberProfileDtoMapper {
     }
 
     private static final ContactChannelDto toDto(final ContactChannel contact) {
-        ContactMethodDto method;
+        final ContactMethodDto method;
 
         method = new ContactMethodDto().number(contact.contactMethod()
             .number())
@@ -138,8 +139,9 @@ public final class MemberProfileDtoMapper {
     }
 
     private static final MemberProfileDto toDto(final MemberProfile MemberProfile) {
-        ProfileNameDto          name;
-        List<ContactChannelDto> contactChannels;
+        final ProfileNameDto          name;
+        final List<ContactChannelDto> contactChannels;
+        final MemberFeeTypeDto        feeType;
 
         name = new ProfileNameDto().firstName(MemberProfile.name()
             .firstName())
@@ -151,6 +153,9 @@ public final class MemberProfileDtoMapper {
             .stream()
             .map(MemberProfileDtoMapper::toDto)
             .toList();
+        feeType = new MemberFeeTypeDto();
+        feeType.setNumber(MemberProfile.feeType()
+            .number());
 
         return new MemberProfileDto().identifier(MemberProfile.identifier())
             .number(MemberProfile.number())
@@ -160,6 +165,7 @@ public final class MemberProfileDtoMapper {
             .comments(MemberProfile.comments())
             .active(MemberProfile.active())
             .renew(MemberProfile.renew())
+            .feeType(feeType)
             .types(new ArrayList<>(MemberProfile.types()));
     }
 
