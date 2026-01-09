@@ -24,20 +24,26 @@
 
 package com.bernardomg.association.sponsor.domain.exception;
 
-import com.bernardomg.exception.MissingIdException;
-
 /**
  * Existing sponsor exception.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final class SponsorExistsException extends MissingIdException {
+public final class SponsorExistsException extends RuntimeException {
 
     private static final long serialVersionUID = 2786821546505029631L;
 
+    private final long        number;
+
     public SponsorExistsException(final long number) {
-        super("sponsor", number);
+        super();
+
+        this.number = number;
+    }
+
+    public final long getNumber() {
+        return number;
     }
 
 }

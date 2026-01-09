@@ -24,20 +24,26 @@
 
 package com.bernardomg.association.member.domain.exception;
 
-import com.bernardomg.exception.MissingIdException;
-
 /**
  * Existing member exception.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final class MemberExistsException extends MissingIdException {
+public final class MemberExistsException extends RuntimeException {
 
     private static final long serialVersionUID = 2786821546505029631L;
 
+    private final long        number;
+
     public MemberExistsException(final long number) {
-        super("member", number);
+        super();
+
+        this.number = number;
+    }
+
+    public final long getNumber() {
+        return number;
     }
 
 }
