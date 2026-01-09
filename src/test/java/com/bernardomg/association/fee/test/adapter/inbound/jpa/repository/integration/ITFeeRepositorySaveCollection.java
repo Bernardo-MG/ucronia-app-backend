@@ -17,6 +17,7 @@ import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.data.annotation.NotPaidFee;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFee;
+import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.fee.test.configuration.factory.FeeEntities;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
@@ -41,6 +42,7 @@ class ITFeeRepositorySaveCollection {
 
     @Test
     @DisplayName("When a not paid fee, it is persisted")
+    @PositiveFeeType
     @ActiveMember
     void testSave_NotPaid_PersistedData() {
         final Iterable<FeeEntity> fees;
@@ -57,12 +59,14 @@ class ITFeeRepositorySaveCollection {
 
         Assertions.assertThat(fees)
             .as("fees")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "member.id", "memberId", "transaction.id")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "member.id", "member.feeType.id",
+                "member.contactChannels.id", "memberId", "feeType.id", "transaction.id")
             .containsExactly(FeeEntities.notPaid());
     }
 
     @Test
     @DisplayName("When a not paid fee, it is returned")
+    @PositiveFeeType
     @ActiveMember
     void testSave_NotPaid_ReturnedData() {
         final Collection<Fee> created;
@@ -82,6 +86,7 @@ class ITFeeRepositorySaveCollection {
 
     @Test
     @DisplayName("When changing a fee date, it is persisted")
+    @PositiveFeeType
     @ActiveMember
     @FeeTransaction
     @NotPaidFee
@@ -104,12 +109,14 @@ class ITFeeRepositorySaveCollection {
 
         Assertions.assertThat(fees)
             .as("fees")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "member.id", "memberId", "transaction.id")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "member.id", "member.feeType.id",
+                "member.contactChannels.id", "memberId", "feeType.id", "transaction.id")
             .containsExactly(FeeEntities.paidAtDate(date));
     }
 
     @Test
     @DisplayName("When changing a fee date, it is persisted in the transaction")
+    @PositiveFeeType
     @ActiveMember
     @PaidFee
     void testSave_Paid_ChangeDate_PersistedTransaction() {
@@ -139,6 +146,7 @@ class ITFeeRepositorySaveCollection {
 
     @Test
     @DisplayName("When changing a fee date, it is returned")
+    @PositiveFeeType
     @ActiveMember
     @FeeTransaction
     @NotPaidFee
@@ -166,6 +174,7 @@ class ITFeeRepositorySaveCollection {
 
     @Test
     @DisplayName("When a paid fee, it is persisted")
+    @PositiveFeeType
     @ActiveMember
     @FeeTransaction
     void testSave_Paid_PersistedData() {
@@ -183,12 +192,14 @@ class ITFeeRepositorySaveCollection {
 
         Assertions.assertThat(fees)
             .as("fees")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "member.id", "memberId", "transaction.id")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "member.id", "member.feeType.id",
+                "member.contactChannels.id", "memberId", "feeType.id", "transaction.id")
             .containsExactly(FeeEntities.paid());
     }
 
     @Test
     @DisplayName("Persists the fee to transaction relationship")
+    @PositiveFeeType
     @ActiveMember
     @FeeTransaction
     void testSave_Paid_PersistedRelationship() {
@@ -219,6 +230,7 @@ class ITFeeRepositorySaveCollection {
 
     @Test
     @DisplayName("Persists the transaction")
+    @PositiveFeeType
     @ActiveMember
     @FeeTransaction
     void testSave_Paid_PersistedTransaction() {
@@ -242,6 +254,7 @@ class ITFeeRepositorySaveCollection {
 
     @Test
     @DisplayName("When a paid fee, it is returned")
+    @PositiveFeeType
     @ActiveMember
     @FeeTransaction
     void testSave_Paid_ReturnedData() {

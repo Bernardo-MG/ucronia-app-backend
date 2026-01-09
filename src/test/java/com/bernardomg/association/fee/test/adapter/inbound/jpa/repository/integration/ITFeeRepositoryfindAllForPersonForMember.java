@@ -38,6 +38,7 @@ import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.data.annotation.FeeFullYear;
 import com.bernardomg.association.fee.test.configuration.data.annotation.NotPaidFee;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFee;
+import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
@@ -57,6 +58,7 @@ class ITFeeRepositoryfindAllForProfileForMember {
 
     @Test
     @DisplayName("With a full year it returns all the fees")
+    @PositiveFeeType
     @ActiveMember
     @FeeFullYear
     void testFindAllForProfile_Active_FullYear() {
@@ -66,7 +68,7 @@ class ITFeeRepositoryfindAllForProfileForMember {
 
         // GIVEN
         pagination = new Pagination(1, 20);
-        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
+        sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
 
         // WHEN
         fees = repository.findAllForProfile(ProfileConstants.NUMBER, pagination, sorting);
@@ -86,6 +88,7 @@ class ITFeeRepositoryfindAllForProfileForMember {
 
     @Test
     @DisplayName("With no data it returns nothing")
+    @PositiveFeeType
     @ActiveMember
     void testFindAllForProfile_Active_NoFee() {
         final Page<Fee>  fees;
@@ -94,7 +97,7 @@ class ITFeeRepositoryfindAllForProfileForMember {
 
         // GIVEN
         pagination = new Pagination(1, 20);
-        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
+        sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
 
         // WHEN
         fees = repository.findAllForProfile(ProfileConstants.NUMBER, pagination, sorting);
@@ -109,6 +112,7 @@ class ITFeeRepositoryfindAllForProfileForMember {
 
     @Test
     @DisplayName("With no last name it returns only the name")
+    @PositiveFeeType
     @NoLastNameActiveMember
     @PaidFee
     void testFindAllForProfile_Active_NoLastName() {
@@ -118,7 +122,7 @@ class ITFeeRepositoryfindAllForProfileForMember {
 
         // GIVEN
         pagination = new Pagination(1, 20);
-        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
+        sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
 
         // WHEN
         fees = repository.findAllForProfile(ProfileConstants.NUMBER, pagination, sorting);
@@ -133,6 +137,7 @@ class ITFeeRepositoryfindAllForProfileForMember {
 
     @Test
     @DisplayName("With a not paid fee, for an active member, it returns all the fees")
+    @PositiveFeeType
     @ActiveMember
     @NotPaidFee
     void testFindAllForProfile_Active_NotPaid() {
@@ -142,7 +147,7 @@ class ITFeeRepositoryfindAllForProfileForMember {
 
         // GIVEN
         pagination = new Pagination(1, 20);
-        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
+        sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
 
         // WHEN
         fees = repository.findAllForProfile(ProfileConstants.NUMBER, pagination, sorting);
@@ -157,6 +162,7 @@ class ITFeeRepositoryfindAllForProfileForMember {
 
     @Test
     @DisplayName("With a paid fee, for an active member, it returns all the fees")
+    @PositiveFeeType
     @ActiveMember
     @PaidFee
     void testFindAllForProfile_Active_Paid() {
@@ -166,7 +172,7 @@ class ITFeeRepositoryfindAllForProfileForMember {
 
         // GIVEN
         pagination = new Pagination(1, 20);
-        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
+        sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
 
         // WHEN
         fees = repository.findAllForProfile(ProfileConstants.NUMBER, pagination, sorting);
@@ -181,6 +187,7 @@ class ITFeeRepositoryfindAllForProfileForMember {
 
     @Test
     @DisplayName("With a wrong member it returns nothing")
+    @PositiveFeeType
     @ActiveMember
     @PaidFee
     void testFindAllForProfile_Active_WrongMember() {
@@ -190,7 +197,7 @@ class ITFeeRepositoryfindAllForProfileForMember {
 
         // GIVEN
         pagination = new Pagination(1, 20);
-        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
+        sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
 
         // WHEN
         fees = repository.findAllForProfile(-1L, pagination, sorting);
@@ -205,6 +212,7 @@ class ITFeeRepositoryfindAllForProfileForMember {
 
     @Test
     @DisplayName("With a not paid fee, for an inactive member, it returns all the fees")
+    @PositiveFeeType
     @InactiveMember
     @NotPaidFee
     void testFindAllForProfile_Inactive_NotPaid() {
@@ -214,7 +222,7 @@ class ITFeeRepositoryfindAllForProfileForMember {
 
         // GIVEN
         pagination = new Pagination(1, 20);
-        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
+        sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
 
         // WHEN
         fees = repository.findAllForProfile(ProfileConstants.NUMBER, pagination, sorting);
@@ -229,6 +237,7 @@ class ITFeeRepositoryfindAllForProfileForMember {
 
     @Test
     @DisplayName("With a paid fee, for an inactive member, it returns all the fees")
+    @PositiveFeeType
     @InactiveMember
     @PaidFee
     void testFindAllForProfile_Inactive_Paid() {
@@ -238,7 +247,7 @@ class ITFeeRepositoryfindAllForProfileForMember {
 
         // GIVEN
         pagination = new Pagination(1, 20);
-        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
+        sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
 
         // WHEN
         fees = repository.findAllForProfile(ProfileConstants.NUMBER, pagination, sorting);

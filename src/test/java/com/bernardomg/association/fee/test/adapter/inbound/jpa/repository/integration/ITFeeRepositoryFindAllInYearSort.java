@@ -39,6 +39,7 @@ import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.data.annotation.AlternativeFeeFullYear;
 import com.bernardomg.association.fee.test.configuration.data.annotation.FeeFullYear;
 import com.bernardomg.association.fee.test.configuration.data.annotation.MultipleFees;
+import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.AlternativeActiveMember;
@@ -56,6 +57,7 @@ class ITFeeRepositoryFindAllInYearSort {
 
     @Test
     @DisplayName("With ascending order by name it returns the ordered data")
+    @PositiveFeeType
     @MultipleActiveMemberAccents
     @MultipleFees
     @Disabled("Database dependant")
@@ -65,7 +67,7 @@ class ITFeeRepositoryFindAllInYearSort {
 
         // GIVEN
         sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
-            new Sorting.Property("date", Sorting.Direction.ASC)));
+            new Sorting.Property("month", Sorting.Direction.ASC)));
 
         // WHEN
         fees = repository.findAllInYear(MemberCalendarConstants.YEAR, sorting);
@@ -100,6 +102,7 @@ class ITFeeRepositoryFindAllInYearSort {
 
     @Test
     @DisplayName("With ascending order by name it returns the ordered data")
+    @PositiveFeeType
     @ActiveMember
     @AlternativeActiveMember
     @FeeFullYear
@@ -110,7 +113,7 @@ class ITFeeRepositoryFindAllInYearSort {
 
         // GIVEN
         sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
-            new Sorting.Property("date", Sorting.Direction.ASC)));
+            new Sorting.Property("month", Sorting.Direction.ASC)));
 
         // WHEN
         fees = repository.findAllInYear(MemberCalendarConstants.YEAR, sorting);
@@ -139,6 +142,7 @@ class ITFeeRepositoryFindAllInYearSort {
 
     @Test
     @DisplayName("With descending order by name it returns the ordered data")
+    @PositiveFeeType
     @ActiveMember
     @AlternativeActiveMember
     @FeeFullYear
@@ -149,7 +153,7 @@ class ITFeeRepositoryFindAllInYearSort {
 
         // GIVEN
         sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.DESC),
-            new Sorting.Property("date", Sorting.Direction.ASC)));
+            new Sorting.Property("month", Sorting.Direction.ASC)));
 
         // WHEN
         fees = repository.findAllInYear(MemberCalendarConstants.YEAR, sorting);

@@ -6,7 +6,7 @@ import com.bernardomg.association.member.domain.filter.MemberFilter;
 public final class MemberFilters {
 
     public static final MemberFilter empty() {
-        return new MemberFilter(null, "");
+        return new MemberFilter("");
     }
 
     private MemberFilters() {

@@ -53,7 +53,7 @@ public class ProfileSponsorshipController implements ProfileSponsorshipApi {
 
     @Override
     @RequireResourceAuthorization(resource = "SPONSOR", action = Actions.CREATE)
-    public SponsorResponseDto convertToMember(final Long number) {
+    public SponsorResponseDto convertToSponsor(final Long number) {
         final Sponsor created;
 
         created = service.convertToSponsor(number);

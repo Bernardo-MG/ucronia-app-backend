@@ -17,8 +17,8 @@ import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeMaintenanceService;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.configuration.factory.Members;
+import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
+import com.bernardomg.association.member.test.configuration.factory.MemberProfiles;
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 
 @ExtendWith(MockitoExtension.class)
@@ -29,7 +29,7 @@ public class TestFeeMaintenanceService {
     private FeeRepository                feeRepository;
 
     @Mock
-    private MemberRepository             memberRepository;
+    private MemberProfileRepository      memberProfileRepository;
 
     @InjectMocks
     private DefaultFeeMaintenanceService service;
@@ -39,7 +39,7 @@ public class TestFeeMaintenanceService {
     void testRegisterMonthFees() {
 
         // GIVEN
-        given(memberRepository.findAllToRenew()).willReturn(List.of(Members.active()));
+        given(memberProfileRepository.findAllToRenew()).willReturn(List.of(MemberProfiles.active()));
         given(feeRepository.exists(ProfileConstants.NUMBER, FeeConstants.CURRENT_MONTH)).willReturn(false);
 
         // WHEN
@@ -54,7 +54,7 @@ public class TestFeeMaintenanceService {
     void testRegisterMonthFees_Exists() {
 
         // GIVEN
-        given(memberRepository.findAllToRenew()).willReturn(List.of(Members.active()));
+        given(memberProfileRepository.findAllToRenew()).willReturn(List.of(MemberProfiles.active()));
         given(feeRepository.exists(ProfileConstants.NUMBER, FeeConstants.CURRENT_MONTH)).willReturn(true);
 
         // WHEN
@@ -69,7 +69,7 @@ public class TestFeeMaintenanceService {
     void testRegisterMonthFees_NotActive() {
 
         // GIVEN
-        given(memberRepository.findAllToRenew()).willReturn(List.of());
+        given(memberProfileRepository.findAllToRenew()).willReturn(List.of());
 
         // WHEN
         service.registerMonthFees();

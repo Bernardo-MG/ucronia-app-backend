@@ -36,21 +36,7 @@ public final class QueryMemberEntityMapper {
         final ProfileName name;
 
         name = new ProfileName(entity.getFirstName(), entity.getLastName());
-        return new Member(entity.getNumber(), name, entity.getActive(), entity.getRenew());
-    }
-
-    public static final QueryMemberEntity toEntity(final Member data) {
-        final QueryMemberEntity entity;
-
-        entity = new QueryMemberEntity();
-        entity.setFirstName(data.name()
-            .firstName());
-        entity.setLastName(data.name()
-            .lastName());
-        entity.setActive(data.active());
-        entity.setRenew(data.renew());
-
-        return entity;
+        return new Member(entity.getNumber(), name);
     }
 
     private QueryMemberEntityMapper() {

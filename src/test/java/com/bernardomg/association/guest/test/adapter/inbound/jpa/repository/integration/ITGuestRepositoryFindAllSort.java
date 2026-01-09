@@ -33,6 +33,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.fee.test.configuration.data.annotation.MultipleFees;
+import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.guest.domain.filter.GuestFilter;
 import com.bernardomg.association.guest.domain.model.Guest;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
@@ -46,6 +47,7 @@ import com.bernardomg.test.configuration.annotation.IntegrationTest;
 @IntegrationTest
 @DisplayName("GuestRepository - find all - sort")
 @MultipleGuests
+@PositiveFeeType
 @MultipleFees
 class ITGuestRepositoryFindAllSort {
 

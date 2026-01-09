@@ -31,9 +31,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.association.fee.domain.exception.MissingFeeTypeException;
+import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
 import com.bernardomg.association.member.domain.exception.MemberExistsException;
-import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.domain.model.MemberProfile;
+import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.profile.domain.exception.MissingProfileException;
 import com.bernardomg.association.profile.domain.model.Profile;
 import com.bernardomg.association.profile.domain.repository.ProfileRepository;
@@ -51,26 +53,33 @@ public final class DefaultProfileMembershipService implements ProfileMembershipS
     /**
      * Logger for the class.
      */
-    private static final Logger     log = LoggerFactory.getLogger(DefaultProfileMembershipService.class);
+    private static final Logger           log = LoggerFactory.getLogger(DefaultProfileMembershipService.class);
 
-    private final MemberRepository  memberRepository;
+    private final FeeTypeRepository       feeTypeRepository;
 
-    private final ProfileRepository profileRepository;
+    private final MemberProfileRepository memberProfileRepository;
 
-    public DefaultProfileMembershipService(final MemberRepository memberRepo, final ProfileRepository profileRepo) {
+    private final ProfileRepository       profileRepository;
+
+    public DefaultProfileMembershipService(final MemberProfileRepository memberProfileRepo,
+            final ProfileRepository profileRepo, final FeeTypeRepository feeTypeRepo) {
         super();
 
-        memberRepository = Objects.requireNonNull(memberRepo);
+        memberProfileRepository = Objects.requireNonNull(memberProfileRepo);
         profileRepository = Objects.requireNonNull(profileRepo);
+        feeTypeRepository = Objects.requireNonNull(feeTypeRepo);
     }
 
     @Override
-    public final Member convertToMember(final long number) {
-        final Profile existing;
-        final Member  toCreate;
-        final Member  created;
+    public final MemberProfile convertToMember(final long number, final long feeType) {
+        final Profile               existing;
+        final MemberProfile         toCreate;
+        final MemberProfile         created;
+        final MemberProfile.FeeType memberFeeType;
 
         log.debug("Converting profile {} to member", number);
+
+        // TODO: check the fee type exists
 
         existing = profileRepository.findOne(number)
             .orElseThrow(() -> {
@@ -78,13 +87,19 @@ public final class DefaultProfileMembershipService implements ProfileMembershipS
                 throw new MissingProfileException(number);
             });
 
-        if (memberRepository.exists(number)) {
+        if (memberProfileRepository.exists(number)) {
             throw new MemberExistsException(number);
         }
 
-        toCreate = new Member(existing.number(), existing.name(), true, true);
+        if (!feeTypeRepository.exists(feeType)) {
+            throw new MissingFeeTypeException(number);
+        }
 
-        created = memberRepository.save(toCreate, number);
+        memberFeeType = new MemberProfile.FeeType(feeType);
+        toCreate = new MemberProfile(existing.identifier(), existing.number(), existing.name(), existing.birthDate(),
+            existing.contactChannels(), existing.comments(), true, true, memberFeeType, existing.types());
+
+        created = memberProfileRepository.save(toCreate, number);
 
         log.debug("Converted profile {} to member", number);
 

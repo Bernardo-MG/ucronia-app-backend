@@ -51,6 +51,10 @@ paths:
     $ref: paths/members_by_id.yml
   /member/evolution:
     $ref: paths/membership_monthly_evolution.yml
+  /fee/type:
+    $ref: paths/fee_types.yml
+  /fee/type/{number}:
+    $ref: paths/fee_types_by_id.yml
   /fee/{month}/{member}:
     $ref: paths/fees_by_id.yml
   /fee/pay:

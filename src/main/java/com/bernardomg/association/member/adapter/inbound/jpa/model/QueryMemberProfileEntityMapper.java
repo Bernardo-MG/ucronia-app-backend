@@ -41,8 +41,12 @@ import com.bernardomg.association.profile.domain.model.ProfileName;
 public final class QueryMemberProfileEntityMapper {
 
     public static final MemberProfile toDomain(final QueryMemberProfileEntity entity) {
+        final MemberProfile.FeeType      feeType;
         final ProfileName                name;
         final Collection<ContactChannel> contactChannels;
+
+        feeType = new MemberProfile.FeeType(entity.getFeeType()
+            .getNumber());
 
         name = new ProfileName(entity.getFirstName(), entity.getLastName());
 
@@ -52,7 +56,7 @@ public final class QueryMemberProfileEntityMapper {
             .toList();
 
         return new MemberProfile(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(),
-            contactChannels, entity.getComments(), entity.getActive(), entity.getRenew(), entity.getTypes());
+            contactChannels, entity.getComments(), entity.getActive(), entity.getRenew(), feeType, entity.getTypes());
     }
 
     public static final QueryMemberProfileEntity toEntity(final MemberProfile data,

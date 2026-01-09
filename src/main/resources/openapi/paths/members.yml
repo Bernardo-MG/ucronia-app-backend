@@ -1,20 +1,3 @@
-post:
-  summary: Create a new member.
-  operationId: createMember
-  tags: [Member]
-  requestBody:
-    required: true
-    content:
-      application/json:
-        schema:
-          $ref: '../components/members.yml#/components/schemas/MemberCreation'
-  responses:
-    '201':
-      description: Member created.
-      content:
-        application/json:
-          schema:
-            $ref: '../components/members.yml#/components/schemas/MemberResponse'
 get:
   summary: Get all members.
   operationId: getAllMembers
@@ -23,12 +6,6 @@ get:
     - $ref: '../common/pagination.yml#/components/parameters/pageParam'
     - $ref: '../common/pagination.yml#/components/parameters/sizeParam'
     - $ref: '../components/members.yml#/components/parameters/membersSortParam'
-    - name: status
-      in: query
-      required: false
-      description: Filter by member status.
-      schema:
-        $ref: '../components/members.yml#/components/schemas/MemberStatus'
     - name: name
       in: query
       required: false

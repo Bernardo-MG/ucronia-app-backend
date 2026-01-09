@@ -35,11 +35,12 @@ import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
 import com.bernardomg.association.profile.domain.model.ProfileName;
 
 public record MemberProfile(String identifier, Long number, ProfileName name, Instant birthDate,
-        Collection<ContactChannel> contactChannels, String comments, Boolean active, Boolean renew, Set<String> types) {
+        Collection<ContactChannel> contactChannels, String comments, Boolean active, Boolean renew, FeeType feeType,
+        Set<String> types) {
 
     public MemberProfile(final String identifier, final Long number, final ProfileName name, final Instant birthDate,
             final Collection<ContactChannel> contactChannels, final String comments, final Boolean active,
-            final Boolean renew, final Set<String> types) {
+            final Boolean renew, final FeeType feeType, final Set<String> types) {
         this.identifier = identifier;
         this.number = number;
         this.name = name;
@@ -48,7 +49,10 @@ public record MemberProfile(String identifier, Long number, ProfileName name, In
         this.comments = StringUtils.trim(comments);
         this.active = active;
         this.renew = renew;
+        this.feeType = feeType;
         this.types = Set.copyOf(types);
     }
+
+    public record FeeType(long number) {}
 
 }

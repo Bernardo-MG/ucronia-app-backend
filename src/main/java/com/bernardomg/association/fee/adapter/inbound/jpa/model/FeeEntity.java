@@ -27,7 +27,7 @@ package com.bernardomg.association.fee.adapter.inbound.jpa.model;
 import java.io.Serializable;
 import java.time.Instant;
 
-import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberEntity;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberProfileEntity;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
 
 import jakarta.persistence.Column;
@@ -48,45 +48,56 @@ public class FeeEntity implements Serializable {
      * Serialization ID.
      */
     @Transient
-    private static final long serialVersionUID = 1328776989450853491L;
+    private static final long        serialVersionUID = 1328776989450853491L;
 
-    // TODO: should be called month
-    @Column(name = "date", nullable = false)
-    private Instant           date;
+    @OneToOne
+    @JoinColumn(name = "fee_type_id", referencedColumnName = "id")
+    private FeeTypeEntity            feeType;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
-    private Long              id;
+    private Long                     id;
 
     @OneToOne(optional = false)
     @JoinColumn(name = "member_id", referencedColumnName = "id")
-    private QueryMemberEntity member;
+    private QueryMemberProfileEntity member;
 
+    /**
+     * TODO: Is this needed?
+     */
     @Column(name = "member_id", insertable = false, updatable = false)
-    private Long              memberId;
+    private Long                     memberId;
+
+    // TODO: should be called month
+    @Column(name = "month", nullable = false)
+    private Instant                  month;
 
     @Column(name = "paid")
-    private Boolean           paid;
+    private Boolean                  paid;
 
     @OneToOne
     @JoinColumn(name = "transaction_id", referencedColumnName = "id")
-    private TransactionEntity transaction;
+    private TransactionEntity        transaction;
 
-    public Instant getDate() {
-        return date;
+    public FeeTypeEntity getFeeType() {
+        return feeType;
     }
 
     public Long getId() {
         return id;
     }
 
-    public QueryMemberEntity getMember() {
+    public QueryMemberProfileEntity getMember() {
         return member;
     }
 
     public Long getMemberId() {
         return memberId;
+    }
+
+    public Instant getMonth() {
+        return month;
     }
 
     public Boolean getPaid() {
@@ -97,20 +108,24 @@ public class FeeEntity implements Serializable {
         return transaction;
     }
 
-    public void setDate(final Instant date) {
-        this.date = date;
+    public void setFeeType(final FeeTypeEntity feeType) {
+        this.feeType = feeType;
     }
 
     public void setId(final Long id) {
         this.id = id;
     }
 
-    public void setMember(final QueryMemberEntity member) {
+    public void setMember(final QueryMemberProfileEntity member) {
         this.member = member;
     }
 
     public void setMemberId(final Long memberId) {
         this.memberId = memberId;
+    }
+
+    public void setMonth(final Instant month) {
+        this.month = month;
     }
 
     public void setPaid(final Boolean paid) {
@@ -123,8 +138,8 @@ public class FeeEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "FeeEntity [date=" + date + ", id=" + id + ", paid=" + paid + ", member=" + member + ", memberId="
-                + memberId + ", transaction=" + transaction + "]";
+        return "FeeEntity [date=" + month + ", id=" + id + ", paid=" + paid + ", member=" + member + ", memberId="
+                + memberId + ", feeType=" + feeType + ", transaction=" + transaction + "]";
     }
 
 }

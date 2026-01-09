@@ -48,14 +48,6 @@ components:
           format: float
         description:
           type: string
-    MinimalTransaction:
-      type: object
-      required: [index, date]
-      properties:
-        index:
-          $ref: '../common/ids.yml#/components/schemas/Id'
-        date:
-          $ref: '../common/dates.yml#/components/schemas/Date'
     TransactionPageResponse:
       allOf:
         - $ref: '../common/responses.yml#/components/schemas/PageResponse'

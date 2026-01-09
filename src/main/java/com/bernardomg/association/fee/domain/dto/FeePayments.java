@@ -28,4 +28,4 @@ import java.time.Instant;
 import java.time.YearMonth;
 import java.util.Collection;
 
-public record FeePayments(Long member, Instant paymentDate, Collection<YearMonth> months) {}
+public record FeePayments(Long feeType, Long member, Instant paymentDate, Collection<YearMonth> months) {}

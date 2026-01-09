@@ -26,13 +26,16 @@ package com.bernardomg.association.member.adapter.outbound.rest.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.member.adapter.outbound.rest.model.MemberDtoMapper;
-import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.adapter.outbound.rest.model.MemberProfileDtoMapper;
+import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.usecase.service.ProfileMembershipService;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.ProfileMembershipApi;
-import com.bernardomg.ucronia.openapi.model.MemberResponseDto;
+import com.bernardomg.ucronia.openapi.model.MemberProfileResponseDto;
+import com.bernardomg.ucronia.openapi.model.ProfileMembershipConversionDto;
+
+import jakarta.validation.Valid;
 
 /**
  * Member REST controller.
@@ -53,12 +56,13 @@ public class ProfileMembershipController implements ProfileMembershipApi {
 
     @Override
     @RequireResourceAuthorization(resource = "MEMBER_PROFILE", action = Actions.CREATE)
-    public MemberResponseDto convertToMember(final Long number) {
-        final Member created;
+    public MemberProfileResponseDto convertToMember(final Long number,
+            @Valid final ProfileMembershipConversionDto profileMembershipConversionDto) {
+        final MemberProfile created;
 
-        created = service.convertToMember(number);
+        created = service.convertToMember(number, profileMembershipConversionDto.getFeeType());
 
-        return MemberDtoMapper.toResponseDto(created);
+        return MemberProfileDtoMapper.toResponseDto(created);
     }
 
 }

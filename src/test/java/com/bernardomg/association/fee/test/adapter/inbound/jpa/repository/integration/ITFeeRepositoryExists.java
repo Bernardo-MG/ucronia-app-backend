@@ -32,6 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.data.annotation.NotPaidFee;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFee;
+import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
@@ -47,6 +48,7 @@ class ITFeeRepositoryExists {
 
     @Test
     @DisplayName("With an existing not paid fee for an active member, it exists")
+    @PositiveFeeType
     @ActiveMember
     @NotPaidFee
     void testExists_Active_NotPaid() {
@@ -63,6 +65,7 @@ class ITFeeRepositoryExists {
 
     @Test
     @DisplayName("With an existing paid fee for an active member, it exists")
+    @PositiveFeeType
     @ActiveMember
     @PaidFee
     void testExists_Active_Paid() {
@@ -79,6 +82,7 @@ class ITFeeRepositoryExists {
 
     @Test
     @DisplayName("With an existing not paid fee for an inactive member, it exists")
+    @PositiveFeeType
     @InactiveMember
     @NotPaidFee
     void testExists_Inactive_NotPaid() {
@@ -95,6 +99,7 @@ class ITFeeRepositoryExists {
 
     @Test
     @DisplayName("With an existing paid fee for an inactive member, it exists")
+    @PositiveFeeType
     @InactiveMember
     @PaidFee
     void testExists_Inactive_Paid() {

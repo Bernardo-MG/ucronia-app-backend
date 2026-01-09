@@ -23,7 +23,7 @@
  */
 
 /**
- * Configuration controller.
+ * Association settings controller.
  */
 
 package com.bernardomg.association.settings.adapter.outbound.rest.controller;

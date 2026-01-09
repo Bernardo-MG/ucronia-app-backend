@@ -24,15 +24,9 @@
 
 package com.bernardomg.association.member.domain.filter;
 
-import com.bernardomg.association.member.domain.model.MemberStatus;
-
-public record MemberFilter(MemberStatus status, String name) {
+public record MemberFilter(String name) {
 
     public MemberFilter {
-        // TODO: reject nulls
-        if (status == null) {
-            status = MemberStatus.ALL;
-        }
         if (name == null) {
             name = "";
         }

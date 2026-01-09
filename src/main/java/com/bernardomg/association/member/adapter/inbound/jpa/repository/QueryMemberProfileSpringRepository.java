@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.member.adapter.inbound.jpa.repository;
 
+import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -47,9 +48,41 @@ public interface QueryMemberProfileSpringRepository
 
     public boolean existsByNumber(final Long number);
 
+    @Query("""
+            SELECT m.id AS id
+            FROM MemberProfile m
+            WHERE m.active = true
+            ORDER BY id ASC
+            """)
+    public Collection<Long> findAllActiveMemberIds();
+
+    public Collection<QueryMemberProfileEntity> findAllByRenewTrue();
+
+    @Query("""
+            SELECT m.id AS id
+            FROM MemberProfile m
+            WHERE m.active = false
+            ORDER BY id ASC
+            """)
+    public Collection<Long> findAllInactiveMemberIds();
+
+    @Query("""
+            SELECT m
+            FROM MemberProfile m
+            WHERE m.active != m.renew
+            """)
+    public Collection<QueryMemberProfileEntity> findAllWithRenewalMismatch();
+
     public Optional<QueryMemberProfileEntity> findByNumber(final Long number);
 
     @Query("SELECT COALESCE(MAX(p.number), 0) + 1 FROM Profile p")
     public Long findNextNumber();
+
+    @Query("""
+            SELECT m.active
+            FROM MemberProfile m
+            WHERE m.number = :number
+            """)
+    public Boolean isActive(@Param("number") final Long number);
 
 }

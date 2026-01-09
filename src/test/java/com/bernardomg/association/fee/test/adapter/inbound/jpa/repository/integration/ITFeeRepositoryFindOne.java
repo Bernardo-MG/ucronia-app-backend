@@ -36,6 +36,7 @@ import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.data.annotation.AlternativePaidFee;
 import com.bernardomg.association.fee.test.configuration.data.annotation.NotPaidFee;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFee;
+import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
@@ -53,6 +54,7 @@ class ITFeeRepositoryFindOne {
 
     @Test
     @DisplayName("With two active members, the alternative entity is returned")
+    @PositiveFeeType
     @ActiveMember
     @AlternativeActiveMember
     @PaidFee
@@ -83,6 +85,7 @@ class ITFeeRepositoryFindOne {
 
     @Test
     @DisplayName("With no last name, only the name is returned")
+    @PositiveFeeType
     @ActiveMemberNoLastName
     @PaidFee
     void testFindOne_NoLastName() {
@@ -98,6 +101,7 @@ class ITFeeRepositoryFindOne {
 
     @Test
     @DisplayName("With a fee, and a not paid fee, the related entity is returned")
+    @PositiveFeeType
     @ActiveMember
     @NotPaidFee
     void testFindOne_NotPaid() {
@@ -113,6 +117,7 @@ class ITFeeRepositoryFindOne {
 
     @Test
     @DisplayName("With a fee, and a paid fee, the related entity is returned")
+    @PositiveFeeType
     @ActiveMember
     @PaidFee
     void testFindOne_Paid() {
@@ -128,6 +133,7 @@ class ITFeeRepositoryFindOne {
 
     @Test
     @DisplayName("With a fee, and two members with paid fees, the first entity is returned")
+    @PositiveFeeType
     @ActiveMember
     @AlternativeActiveMember
     @PaidFee

@@ -39,6 +39,7 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.FeeFull
 import com.bernardomg.association.fee.test.configuration.data.annotation.NotPaidFee;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PaidAndNotPaidFee;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFee;
+import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.fee.test.configuration.data.annotation.TwoFeeYearsConnected;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
@@ -59,6 +60,7 @@ class ITFeeRepositoryFindAllInYear {
 
     @Test
     @DisplayName("With a full year it returns all data")
+    @PositiveFeeType
     @ActiveMember
     @FeeFullYear
     void testFindAllInYear_Active_FullYear() {
@@ -67,7 +69,7 @@ class ITFeeRepositoryFindAllInYear {
 
         // GIVEN
         sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
-            new Sorting.Property("date", Sorting.Direction.ASC)));
+            new Sorting.Property("month", Sorting.Direction.ASC)));
 
         // WHEN
         fees = repository.findAllInYear(MemberCalendarConstants.YEAR, sorting);
@@ -85,6 +87,7 @@ class ITFeeRepositoryFindAllInYear {
 
     @Test
     @DisplayName("With a full year it returns all the data")
+    @PositiveFeeType
     @ActiveMember
     @AlternativeActiveMember
     @FeeFullYear
@@ -95,7 +98,7 @@ class ITFeeRepositoryFindAllInYear {
 
         // GIVEN
         sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
-            new Sorting.Property("date", Sorting.Direction.ASC)));
+            new Sorting.Property("month", Sorting.Direction.ASC)));
 
         // WHEN
         fees = repository.findAllInYear(MemberCalendarConstants.YEAR, sorting);
@@ -124,6 +127,7 @@ class ITFeeRepositoryFindAllInYear {
 
     @Test
     @DisplayName("With no fees, it nothing")
+    @PositiveFeeType
     @ActiveMember
     void testFindAllInYear_Active_NoFees() {
         final Iterable<Fee> fees;
@@ -131,7 +135,7 @@ class ITFeeRepositoryFindAllInYear {
 
         // GIVEN
         sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
-            new Sorting.Property("date", Sorting.Direction.ASC)));
+            new Sorting.Property("month", Sorting.Direction.ASC)));
 
         // WHEN
         fees = repository.findAllInYear(FeeConstants.YEAR, sorting);
@@ -144,6 +148,7 @@ class ITFeeRepositoryFindAllInYear {
 
     @Test
     @DisplayName("With user without last name it returns all data")
+    @PositiveFeeType
     @NoLastNameActiveMember
     @FeeFullYear
     void testFindAllInYear_Active_NoLastName() {
@@ -152,7 +157,7 @@ class ITFeeRepositoryFindAllInYear {
 
         // GIVEN
         sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
-            new Sorting.Property("date", Sorting.Direction.ASC)));
+            new Sorting.Property("month", Sorting.Direction.ASC)));
 
         // WHEN
         fees = repository.findAllInYear(MemberCalendarConstants.YEAR, sorting);
@@ -174,6 +179,7 @@ class ITFeeRepositoryFindAllInYear {
 
     @Test
     @DisplayName("With a not paid fee, it returns them")
+    @PositiveFeeType
     @ActiveMember
     @NotPaidFee
     void testFindAllInYear_Active_NotPaid() {
@@ -182,7 +188,7 @@ class ITFeeRepositoryFindAllInYear {
 
         // GIVEN
         sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
-            new Sorting.Property("date", Sorting.Direction.ASC)));
+            new Sorting.Property("month", Sorting.Direction.ASC)));
 
         // WHEN
         fees = repository.findAllInYear(FeeConstants.YEAR, sorting);
@@ -195,6 +201,7 @@ class ITFeeRepositoryFindAllInYear {
 
     @Test
     @DisplayName("With a not paid fee and searching for the next year, it returns nothing")
+    @PositiveFeeType
     @ActiveMember
     @NotPaidFee
     void testFindAllInYear_Active_NotPaid_SearchNextYear() {
@@ -203,7 +210,7 @@ class ITFeeRepositoryFindAllInYear {
 
         // GIVEN
         sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
-            new Sorting.Property("date", Sorting.Direction.ASC)));
+            new Sorting.Property("month", Sorting.Direction.ASC)));
 
         // WHEN
         fees = repository.findAllInYear(FeeConstants.NEXT_YEAR, sorting);
@@ -216,6 +223,7 @@ class ITFeeRepositoryFindAllInYear {
 
     @Test
     @DisplayName("With a not paid fee and searching for the previous year, it returns nothing")
+    @PositiveFeeType
     @ActiveMember
     @NotPaidFee
     void testFindAllInYear_Active_NotPaid_SearchPreviousYear() {
@@ -224,7 +232,7 @@ class ITFeeRepositoryFindAllInYear {
 
         // GIVEN
         sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
-            new Sorting.Property("date", Sorting.Direction.ASC)));
+            new Sorting.Property("month", Sorting.Direction.ASC)));
 
         // WHEN
         fees = repository.findAllInYear(FeeConstants.PREVIOUS_YEAR, sorting);
@@ -237,6 +245,7 @@ class ITFeeRepositoryFindAllInYear {
 
     @Test
     @DisplayName("With a paid fee in the current month, it returns them")
+    @PositiveFeeType
     @ActiveMember
     @PaidFee
     void testFindAllInYear_Active_Paid() {
@@ -245,7 +254,7 @@ class ITFeeRepositoryFindAllInYear {
 
         // GIVEN
         sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
-            new Sorting.Property("date", Sorting.Direction.ASC)));
+            new Sorting.Property("month", Sorting.Direction.ASC)));
 
         // WHEN
         fees = repository.findAllInYear(FeeConstants.YEAR, sorting);
@@ -258,6 +267,7 @@ class ITFeeRepositoryFindAllInYear {
 
     @Test
     @DisplayName("With a paid fee and searching for the next year, it returns nothing")
+    @PositiveFeeType
     @ActiveMember
     @PaidFee
     void testFindAllInYear_Active_Paid_SearchNextYear() {
@@ -266,7 +276,7 @@ class ITFeeRepositoryFindAllInYear {
 
         // GIVEN
         sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
-            new Sorting.Property("date", Sorting.Direction.ASC)));
+            new Sorting.Property("month", Sorting.Direction.ASC)));
 
         // WHEN
         fees = repository.findAllInYear(FeeConstants.NEXT_YEAR, sorting);
@@ -279,6 +289,7 @@ class ITFeeRepositoryFindAllInYear {
 
     @Test
     @DisplayName("With a paid fee and searching for the previous year, it returns nothing")
+    @PositiveFeeType
     @ActiveMember
     @PaidFee
     void testFindAllInYear_Active_Paid_SearchPreviousYear() {
@@ -287,7 +298,7 @@ class ITFeeRepositoryFindAllInYear {
 
         // GIVEN
         sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
-            new Sorting.Property("date", Sorting.Direction.ASC)));
+            new Sorting.Property("month", Sorting.Direction.ASC)));
 
         // WHEN
         fees = repository.findAllInYear(FeeConstants.PREVIOUS_YEAR, sorting);
@@ -300,6 +311,7 @@ class ITFeeRepositoryFindAllInYear {
 
     @Test
     @DisplayName("With both a paid and not paid fees, for an active member, it returns the calendar")
+    @PositiveFeeType
     @ActiveMember
     @PaidAndNotPaidFee
     void testFindAllInYear_Active_PaidAndNotPaid() {
@@ -308,7 +320,7 @@ class ITFeeRepositoryFindAllInYear {
 
         // GIVEN
         sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
-            new Sorting.Property("date", Sorting.Direction.ASC)));
+            new Sorting.Property("month", Sorting.Direction.ASC)));
 
         // WHEN
         fees = repository.findAllInYear(FeeConstants.YEAR, sorting);
@@ -321,6 +333,7 @@ class ITFeeRepositoryFindAllInYear {
 
     @Test
     @DisplayName("With two connected years when reading the second it returns all data for the queried year")
+    @PositiveFeeType
     @ActiveMember
     @TwoFeeYearsConnected
     void testFindAllInYear_Active_TwoConnectedYears_First() {
@@ -329,7 +342,7 @@ class ITFeeRepositoryFindAllInYear {
 
         // GIVEN
         sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
-            new Sorting.Property("date", Sorting.Direction.ASC)));
+            new Sorting.Property("month", Sorting.Direction.ASC)));
 
         // WHEN
         fees = repository.findAllInYear(MemberCalendarConstants.PREVIOUS_YEAR, sorting);
@@ -344,6 +357,7 @@ class ITFeeRepositoryFindAllInYear {
 
     @Test
     @DisplayName("With two connected years when reading the second it returns all data for the queried year")
+    @PositiveFeeType
     @ActiveMember
     @TwoFeeYearsConnected
     void testFindAllInYear_Active_TwoConnectedYears_Second() {
@@ -352,7 +366,7 @@ class ITFeeRepositoryFindAllInYear {
 
         // GIVEN
         sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
-            new Sorting.Property("date", Sorting.Direction.ASC)));
+            new Sorting.Property("month", Sorting.Direction.ASC)));
 
         // WHEN
         fees = repository.findAllInYear(MemberCalendarConstants.YEAR, sorting);
@@ -368,6 +382,7 @@ class ITFeeRepositoryFindAllInYear {
 
     @Test
     @DisplayName("With a full year, for an inactive member, it returns all data")
+    @PositiveFeeType
     @InactiveMember
     @FeeFullYear
     void testFindAllInYear_Inactive_FullYear() {
@@ -376,7 +391,7 @@ class ITFeeRepositoryFindAllInYear {
 
         // GIVEN
         sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
-            new Sorting.Property("date", Sorting.Direction.ASC)));
+            new Sorting.Property("month", Sorting.Direction.ASC)));
 
         // WHEN
         fees = repository.findAllInYear(MemberCalendarConstants.YEAR, sorting);
@@ -394,6 +409,7 @@ class ITFeeRepositoryFindAllInYear {
 
     @Test
     @DisplayName("With both a paid and not paid fees, for an inactive member, it returns the calendar")
+    @PositiveFeeType
     @InactiveMember
     @PaidAndNotPaidFee
     void testFindAllInYear_Inactive_PaidAndNotPaid() {
@@ -402,7 +418,7 @@ class ITFeeRepositoryFindAllInYear {
 
         // GIVEN
         sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
-            new Sorting.Property("date", Sorting.Direction.ASC)));
+            new Sorting.Property("month", Sorting.Direction.ASC)));
 
         // WHEN
         fees = repository.findAllInYear(FeeConstants.YEAR, sorting);
@@ -421,7 +437,7 @@ class ITFeeRepositoryFindAllInYear {
 
         // GIVEN
         sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
-            new Sorting.Property("date", Sorting.Direction.ASC)));
+            new Sorting.Property("month", Sorting.Direction.ASC)));
 
         // WHEN
         fees = repository.findAllInYear(FeeConstants.YEAR, sorting);

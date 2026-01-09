@@ -22,12 +22,6 @@ components:
           $ref: '../common/ids.yml#/components/schemas/Id'
         name:
           $ref: 'profiles.yml#/components/schemas/ProfileName'
-        active:
-          type: boolean
-          description: Whether the member is active.
-        renew:
-          type: boolean
-          description: Whether the member is eligible for renewal.
     MemberProfile:
       type: object
       required: [number, name]
@@ -48,6 +42,8 @@ components:
         comments:
           type: string
           description: Comments about the member.
+        feeType:
+          $ref: '../common/ids.yml#/components/schemas/Id'
         active:
           type: boolean
           description: Whether the member is active.
@@ -58,35 +54,24 @@ components:
           type: array
           items:
             type: string
-    MemberCreation:
-      type: object
-      required: [name]
-      properties:
-        name:
-          $ref: 'profiles.yml#/components/schemas/EditionProfileName'
     MemberProfileCreation:
       type: object
       required: [name]
       properties:
+        feeType:
+          $ref: '../common/ids.yml#/components/schemas/Id'
         identifier:
           type: string
           description: Unique identifier of the member.
         name:
           $ref: 'profiles.yml#/components/schemas/EditionProfileName'
-    MemberChange:
-      type: object
-      properties:
-        active:
-          type: boolean
-          description: Whether the member is active.
-        renew:
-          type: boolean
-          description: Whether the member is eligible for renewal.
     MemberProfileChange:
       type: object
       properties:
         identifier:
           type: string
+        feeType:
+          $ref: '../common/ids.yml#/components/schemas/Id'
         name:
           $ref: 'profiles.yml#/components/schemas/EditionProfileName'
         birthDate:
@@ -107,6 +92,11 @@ components:
       type: string
       description: Status filter for member queries.
       enum: [ACTIVE, INACTIVE, ALL]
+    ProfileMembershipConversion:
+      type: object
+      properties:
+        feeType:
+          $ref: '../common/ids.yml#/components/schemas/Id'
     MemberPageResponse:
       allOf:
         - $ref: '../common/responses.yml#/components/schemas/PageResponse'

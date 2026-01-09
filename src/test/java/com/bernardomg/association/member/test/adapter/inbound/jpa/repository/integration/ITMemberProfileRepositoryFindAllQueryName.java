@@ -30,7 +30,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.member.domain.filter.MemberFilter;
+import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
+import com.bernardomg.association.member.domain.filter.MemberProfileFilter;
 import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
@@ -51,17 +52,18 @@ class ITMemberProfileRepositoryFindAllQueryName {
 
     @Test
     @DisplayName("With a member matching first name, it is returned")
+    @PositiveFeeType
     @ActiveMember
     void testFindAll_FirstName() {
         final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
-        final MemberFilter        filter;
+        final MemberProfileFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.ALL, ProfileConstants.FIRST_NAME);
+        filter = new MemberProfileFilter(MemberStatus.ALL, ProfileConstants.FIRST_NAME);
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -75,17 +77,18 @@ class ITMemberProfileRepositoryFindAllQueryName {
 
     @Test
     @DisplayName("With a member matching full name, it is returned")
+    @PositiveFeeType
     @ActiveMember
     void testFindAll_FullName() {
         final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
-        final MemberFilter        filter;
+        final MemberProfileFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.ALL, ProfileConstants.FULL_NAME);
+        filter = new MemberProfileFilter(MemberStatus.ALL, ProfileConstants.FULL_NAME);
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -99,17 +102,18 @@ class ITMemberProfileRepositoryFindAllQueryName {
 
     @Test
     @DisplayName("With a member matching last name, it is returned")
+    @PositiveFeeType
     @ActiveMember
     void testFindAll_LastName() {
         final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
-        final MemberFilter        filter;
+        final MemberProfileFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.ALL, ProfileConstants.LAST_NAME);
+        filter = new MemberProfileFilter(MemberStatus.ALL, ProfileConstants.LAST_NAME);
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -127,12 +131,12 @@ class ITMemberProfileRepositoryFindAllQueryName {
         final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
-        final MemberFilter        filter;
+        final MemberProfileFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.ALL, ProfileConstants.FIRST_NAME);
+        filter = new MemberProfileFilter(MemberStatus.ALL, ProfileConstants.FIRST_NAME);
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -146,17 +150,18 @@ class ITMemberProfileRepositoryFindAllQueryName {
 
     @Test
     @DisplayName("With a member partial matching name, it is returned")
+    @PositiveFeeType
     @ActiveMember
     void testFindAll_PartialName() {
         final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
-        final MemberFilter        filter;
+        final MemberProfileFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.ALL,
+        filter = new MemberProfileFilter(MemberStatus.ALL,
             ProfileConstants.FIRST_NAME.substring(0, ProfileConstants.FIRST_NAME.length() - 2));
 
         // WHEN
@@ -171,17 +176,18 @@ class ITMemberProfileRepositoryFindAllQueryName {
 
     @Test
     @DisplayName("With a member and wrong name, nothing is returned")
+    @PositiveFeeType
     @ActiveMember
     void testFindAll_WrongName() {
         final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
-        final MemberFilter        filter;
+        final MemberProfileFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.ALL, ProfileConstants.ALTERNATIVE_FIRST_NAME);
+        filter = new MemberProfileFilter(MemberStatus.ALL, ProfileConstants.ALTERNATIVE_FIRST_NAME);
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);

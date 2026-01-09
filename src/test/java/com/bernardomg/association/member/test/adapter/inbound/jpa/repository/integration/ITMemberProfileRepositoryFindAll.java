@@ -30,7 +30,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.member.domain.filter.MemberFilter;
+import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
+import com.bernardomg.association.member.domain.filter.MemberProfileFilter;
 import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
@@ -52,17 +53,18 @@ class ITMemberProfileRepositoryFindAll {
 
     @Test
     @DisplayName("With an active member and filtering by active, it is returned")
+    @PositiveFeeType
     @ActiveMember
     void testFindAll_Active_Active() {
         final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
-        final MemberFilter        filter;
+        final MemberProfileFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.ACTIVE, "");
+        filter = new MemberProfileFilter(MemberStatus.ACTIVE, "");
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -76,17 +78,18 @@ class ITMemberProfileRepositoryFindAll {
 
     @Test
     @DisplayName("With an inactive member and filtering by active, nothing is returned")
+    @PositiveFeeType
     @InactiveMember
     void testFindAll_Active_Inactive() {
         final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
-        final MemberFilter        filter;
+        final MemberProfileFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.ACTIVE, "");
+        filter = new MemberProfileFilter(MemberStatus.ACTIVE, "");
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -104,12 +107,12 @@ class ITMemberProfileRepositoryFindAll {
         final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
-        final MemberFilter        filter;
+        final MemberProfileFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.ACTIVE, "");
+        filter = new MemberProfileFilter(MemberStatus.ACTIVE, "");
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -128,12 +131,12 @@ class ITMemberProfileRepositoryFindAll {
         final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
-        final MemberFilter        filter;
+        final MemberProfileFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.ACTIVE, "");
+        filter = new MemberProfileFilter(MemberStatus.ACTIVE, "");
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -147,17 +150,18 @@ class ITMemberProfileRepositoryFindAll {
 
     @Test
     @DisplayName("With an active member and filtering by all, it is returned")
+    @PositiveFeeType
     @ActiveMember
     void testFindAll_All_Active() {
         final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
-        final MemberFilter        filter;
+        final MemberProfileFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.ALL, "");
+        filter = new MemberProfileFilter(MemberStatus.ALL, "");
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -171,17 +175,18 @@ class ITMemberProfileRepositoryFindAll {
 
     @Test
     @DisplayName("With an inactive member and filtering by all, it is returned")
+    @PositiveFeeType
     @InactiveMember
     void testFindAll_All_Inactive() {
         final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
-        final MemberFilter        filter;
+        final MemberProfileFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.ALL, "");
+        filter = new MemberProfileFilter(MemberStatus.ALL, "");
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -199,12 +204,12 @@ class ITMemberProfileRepositoryFindAll {
         final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
-        final MemberFilter        filter;
+        final MemberProfileFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.ALL, "");
+        filter = new MemberProfileFilter(MemberStatus.ALL, "");
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -223,12 +228,12 @@ class ITMemberProfileRepositoryFindAll {
         final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
-        final MemberFilter        filter;
+        final MemberProfileFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.ALL, "");
+        filter = new MemberProfileFilter(MemberStatus.ALL, "");
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -242,17 +247,18 @@ class ITMemberProfileRepositoryFindAll {
 
     @Test
     @DisplayName("With an active member and filtering by inactive, nothing is returned")
+    @PositiveFeeType
     @ActiveMember
     void testFindAll_Inactive_Active() {
         final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
-        final MemberFilter        filter;
+        final MemberProfileFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.INACTIVE, "");
+        filter = new MemberProfileFilter(MemberStatus.INACTIVE, "");
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -266,17 +272,18 @@ class ITMemberProfileRepositoryFindAll {
 
     @Test
     @DisplayName("With an inactive member and filtering by inactive, it is returned")
+    @PositiveFeeType
     @InactiveMember
     void testFindAll_Inactive_Inactive() {
         final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
-        final MemberFilter        filter;
+        final MemberProfileFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.INACTIVE, "");
+        filter = new MemberProfileFilter(MemberStatus.INACTIVE, "");
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -294,12 +301,12 @@ class ITMemberProfileRepositoryFindAll {
         final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
-        final MemberFilter        filter;
+        final MemberProfileFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.INACTIVE, "");
+        filter = new MemberProfileFilter(MemberStatus.INACTIVE, "");
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -318,12 +325,12 @@ class ITMemberProfileRepositoryFindAll {
         final Page<MemberProfile> members;
         final Pagination          pagination;
         final Sorting             sorting;
-        final MemberFilter        filter;
+        final MemberProfileFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.INACTIVE, "");
+        filter = new MemberProfileFilter(MemberStatus.INACTIVE, "");
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);

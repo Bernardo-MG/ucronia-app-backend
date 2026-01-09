@@ -28,6 +28,7 @@ import java.time.YearMonth;
 import java.time.ZoneOffset;
 
 import com.bernardomg.association.fee.domain.model.Fee;
+import com.bernardomg.association.fee.domain.model.Fee.FeeType;
 import com.bernardomg.association.fee.domain.model.Fee.Transaction;
 import com.bernardomg.association.profile.domain.model.ProfileName;
 
@@ -41,24 +42,29 @@ public final class FeeEntityMapper {
         final ProfileName name;
         final YearMonth   date;
         final Fee         fee;
+        final FeeType     feeType;
 
         name = new ProfileName(entity.getMember()
             .getFirstName(),
             entity.getMember()
                 .getLastName());
 
-        date = YearMonth.from(entity.getDate()
+        date = YearMonth.from(entity.getMonth()
             .atZone(ZoneOffset.UTC));
         if (entity.getPaid()) {
             transaction = new Fee.Transaction(entity.getTransaction()
                 .getDate(),
                 entity.getTransaction()
                     .getIndex());
+            feeType = new Fee.FeeType(entity.getFeeType()
+                .getNumber());
             fee = Fee.paid(date, entity.getMember()
-                .getNumber(), name, transaction);
+                .getNumber(), name, feeType, transaction);
         } else {
+            feeType = new Fee.FeeType(entity.getFeeType()
+                .getNumber());
             fee = Fee.unpaid(date, entity.getMember()
-                .getNumber(), name);
+                .getNumber(), name, feeType);
         }
 
         return fee;

@@ -41,6 +41,7 @@ import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.data.annotation.MultipleFees;
+import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.test.configuration.factory.FeesQuery;
@@ -60,6 +61,7 @@ class ITFeeRepositoryFindAllSort {
 
     @Test
     @DisplayName("With ascending order by name with accents it returns the ordered data")
+    @PositiveFeeType
     @MultipleInactiveMemberAccents
     @MultipleFees
     @Disabled("Database dependant")
@@ -91,10 +93,11 @@ class ITFeeRepositoryFindAllSort {
     }
 
     @Test
-    @DisplayName("With ascending order by date it returns the ordered data")
+    @DisplayName("With ascending order by month it returns the ordered data")
+    @PositiveFeeType
     @MultipleInactiveMember
     @MultipleFees
-    void testFindAll_Date_Asc() {
+    void testFindAll_Month_Asc() {
         final Page<Fee>  fees;
         final FeeQuery   feeQuery;
         final Pagination pagination;
@@ -102,7 +105,7 @@ class ITFeeRepositoryFindAllSort {
 
         // GIVEN
         pagination = new Pagination(1, 10);
-        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
+        sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
 
         feeQuery = FeesQuery.empty();
 
@@ -121,10 +124,11 @@ class ITFeeRepositoryFindAllSort {
     }
 
     @Test
-    @DisplayName("With descending order by date it returns the ordered data")
+    @DisplayName("With descending order by month it returns the ordered data")
+    @PositiveFeeType
     @MultipleInactiveMember
     @MultipleFees
-    void testFindAll_Date_Desc() {
+    void testFindAll_Month_Desc() {
         final Page<Fee>  fees;
         final FeeQuery   feeQuery;
         final Pagination pagination;
@@ -132,7 +136,7 @@ class ITFeeRepositoryFindAllSort {
 
         // GIVEN
         pagination = new Pagination(1, 10);
-        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.DESC)));
+        sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.DESC)));
 
         feeQuery = FeesQuery.empty();
 
@@ -153,6 +157,7 @@ class ITFeeRepositoryFindAllSort {
 
     @Test
     @DisplayName("With ascending order by name it returns the ordered data")
+    @PositiveFeeType
     @MultipleInactiveMember
     @MultipleFees
     void testFindAll_Name_Asc() {
@@ -184,6 +189,7 @@ class ITFeeRepositoryFindAllSort {
 
     @Test
     @DisplayName("With descending order by name it returns the ordered data")
+    @PositiveFeeType
     @MultipleInactiveMember
     @MultipleFees
     void testFindAll_Name_Desc() {
@@ -215,6 +221,7 @@ class ITFeeRepositoryFindAllSort {
 
     @Test
     @DisplayName("With an invalid field ordering throws an exception")
+    @PositiveFeeType
     @Disabled
     @MultipleInactiveMember
     @MultipleFees
@@ -240,6 +247,7 @@ class ITFeeRepositoryFindAllSort {
 
     @Test
     @DisplayName("With ascending order by paid flag it returns the ordered data")
+    @PositiveFeeType
     @MultipleInactiveMember
     @MultipleFees
     void testFindAll_Paid_Asc() {
@@ -251,7 +259,7 @@ class ITFeeRepositoryFindAllSort {
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("paid", Sorting.Direction.ASC),
-            new Sorting.Property("date", Sorting.Direction.ASC)));
+            new Sorting.Property("month", Sorting.Direction.ASC)));
 
         feeQuery = FeesQuery.empty();
 
@@ -269,6 +277,7 @@ class ITFeeRepositoryFindAllSort {
 
     @Test
     @DisplayName("With descending order by paid flag it returns the ordered data")
+    @PositiveFeeType
     @MultipleInactiveMember
     @MultipleFees
     void testFindAll_Paid_Desc() {
@@ -280,7 +289,7 @@ class ITFeeRepositoryFindAllSort {
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("paid", Sorting.Direction.DESC),
-            new Sorting.Property("date", Sorting.Direction.ASC)));
+            new Sorting.Property("month", Sorting.Direction.ASC)));
 
         feeQuery = FeesQuery.empty();
 

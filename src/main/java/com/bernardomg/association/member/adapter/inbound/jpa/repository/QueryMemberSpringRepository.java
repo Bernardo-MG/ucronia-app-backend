@@ -24,65 +24,20 @@
 
 package com.bernardomg.association.member.adapter.inbound.jpa.repository;
 
-import java.util.Collection;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberEntity;
 
 public interface QueryMemberSpringRepository
         extends JpaRepository<QueryMemberEntity, Long>, JpaSpecificationExecutor<QueryMemberEntity> {
 
-    @Modifying
-    @Query("""
-            DELETE
-            FROM Member m
-            WHERE m.number = :number
-            """)
-    public void deleteByNumber(@Param("number") final Long number);
+    public Page<QueryMemberEntity> findAllByActiveTrue(final Pageable pageable);
 
-    public boolean existsByNumber(final Long number);
-
-    @Query("""
-            SELECT m.id AS id
-            FROM Member m
-            WHERE m.active = true
-            ORDER BY id ASC
-            """)
-    public Collection<Long> findAllActiveMemberIds();
-
-    public Collection<QueryMemberEntity> findAllByRenewTrue();
-
-    @Query("""
-            SELECT m.id AS id
-            FROM Member m
-            WHERE m.active = false
-            ORDER BY id ASC
-            """)
-    public Collection<Long> findAllInactiveMemberIds();
-
-    @Query("""
-            SELECT m
-            FROM Member m
-            WHERE m.active != m.renew
-            """)
-    public Collection<QueryMemberEntity> findAllWithRenewalMismatch();
-
-    public Optional<QueryMemberEntity> findByNumber(final Long number);
-
-    @Query("SELECT COALESCE(MAX(p.number), 0) + 1 FROM Profile p")
-    public Long findNextNumber();
-
-    @Query("""
-            SELECT m.active
-            FROM Member m
-            WHERE m.number = :number
-            """)
-    public Boolean isActive(@Param("number") final Long number);
+    public Optional<QueryMemberEntity> findByNumberAndActiveTrue(final Long number);
 
 }

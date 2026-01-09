@@ -33,7 +33,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
-import com.bernardomg.association.member.domain.filter.MemberFilter;
+import com.bernardomg.association.member.domain.filter.MemberProfileFilter;
 import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.profile.domain.model.ProfileName;
@@ -73,7 +73,7 @@ public final class DefaultMemberProfileService implements MemberProfileService {
 
         toCreate = new MemberProfile(memberProfile.identifier(), 0L, memberProfile.name(), memberProfile.birthDate(),
             memberProfile.contactChannels(), memberProfile.comments(), memberProfile.active(), memberProfile.renew(),
-            memberProfile.types());
+            memberProfile.feeType(), memberProfile.types());
 
         created = memberProfileRepository.save(toCreate);
 
@@ -102,7 +102,7 @@ public final class DefaultMemberProfileService implements MemberProfileService {
     }
 
     @Override
-    public final Page<MemberProfile> getAll(final MemberFilter filter, final Pagination pagination,
+    public final Page<MemberProfile> getAll(final MemberProfileFilter filter, final Pagination pagination,
             final Sorting sorting) {
         final Page<MemberProfile> memberProfiles;
 
@@ -203,6 +203,8 @@ public final class DefaultMemberProfileService implements MemberProfileService {
                 .orElse(existing.active()),
             Optional.ofNullable(updated.renew())
                 .orElse(existing.renew()),
+            Optional.ofNullable(updated.feeType())
+                .orElse(existing.feeType()),
             Optional.ofNullable(updated.types())
                 .orElse(existing.types()));
     }
