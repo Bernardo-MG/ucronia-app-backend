@@ -54,12 +54,12 @@ public final class JpaMemberRepository implements MemberRepository {
      */
     private static final Logger          log = LoggerFactory.getLogger(JpaMemberRepository.class);
 
-    private final MemberSpringRepository queryMemberSpringRepository;
+    private final MemberSpringRepository memberSpringRepository;
 
-    public JpaMemberRepository(final MemberSpringRepository queryMemberSpringRepo) {
+    public JpaMemberRepository(final MemberSpringRepository memberSpringRepo) {
         super();
 
-        queryMemberSpringRepository = Objects.requireNonNull(queryMemberSpringRepo);
+        memberSpringRepository = Objects.requireNonNull(memberSpringRepo);
     }
 
     @Override
@@ -73,10 +73,10 @@ public final class JpaMemberRepository implements MemberRepository {
         pageable = SpringPagination.toPageable(pagination, sorting);
         spec = MemberSpecifications.query(filter);
         if (spec.isEmpty()) {
-            read = queryMemberSpringRepository.findAllByActiveTrue(pageable)
+            read = memberSpringRepository.findAllByActiveTrue(pageable)
                 .map(MemberEntityMapper::toDomain);
         } else {
-            read = queryMemberSpringRepository.findAll(spec.get(), pageable)
+            read = memberSpringRepository.findAll(spec.get(), pageable)
                 .map(MemberEntityMapper::toDomain);
         }
 
@@ -92,7 +92,7 @@ public final class JpaMemberRepository implements MemberRepository {
 
         log.trace("Finding member with number {}", number);
 
-        member = queryMemberSpringRepository.findByNumberAndActiveTrue(number)
+        member = memberSpringRepository.findByNumberAndActiveTrue(number)
             .map(MemberEntityMapper::toDomain);
 
         log.trace("Found member with number {}: {}", number, member);

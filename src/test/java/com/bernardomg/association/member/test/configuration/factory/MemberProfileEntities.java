@@ -5,14 +5,11 @@ import java.util.Set;
 
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTypeEntity;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
-import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberContactChannelEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityConstants;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberProfileEntity;
-import com.bernardomg.association.profile.test.configuration.factory.ContactMethodEntities;
-import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.association.profile.test.configuration.factory.ProfileEntities;
 
-public final class QueryMemberProfileEntities {
+public final class MemberProfileEntities {
 
     public static final MemberProfileEntity active() {
         final MemberProfileEntity entity;
@@ -81,19 +78,14 @@ public final class QueryMemberProfileEntities {
     }
 
     public static final MemberProfileEntity withEmail() {
-        final MemberProfileEntity        entity;
-        final MemberContactChannelEntity contactChannelEntity;
-        final FeeTypeEntity              feeType;
+        final MemberProfileEntity entity;
+        final FeeTypeEntity       feeType;
 
         feeType = new FeeTypeEntity();
         feeType.setId(1L);
         feeType.setNumber(FeeConstants.FEE_TYPE_NUMBER);
         feeType.setName(FeeConstants.FEE_TYPE_NAME);
         feeType.setAmount(FeeConstants.FEE_TYPE_AMOUNT);
-
-        contactChannelEntity = new MemberContactChannelEntity();
-        contactChannelEntity.setContactMethod(ContactMethodEntities.email());
-        contactChannelEntity.setDetail(ProfileConstants.EMAIL);
 
         entity = new MemberProfileEntity();
         entity.setId(1L);
@@ -107,7 +99,7 @@ public final class QueryMemberProfileEntities {
         return entity;
     }
 
-    private QueryMemberProfileEntities() {
+    private MemberProfileEntities() {
         super();
     }
 

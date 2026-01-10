@@ -40,8 +40,8 @@ import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberPr
 import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
+import com.bernardomg.association.member.test.configuration.factory.MemberProfileEntities;
 import com.bernardomg.association.member.test.configuration.factory.MemberProfiles;
-import com.bernardomg.association.member.test.configuration.factory.QueryMemberProfileEntities;
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 import com.bernardomg.association.profile.test.configuration.data.annotation.EmailContactMethod;
@@ -85,7 +85,7 @@ class ITMemberProfileRepositorySaveAll {
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.id", "profile.number",
                 "profile.contactChannels.id", "profile.contactChannels.profileId", "profile.contactChannels.profile")
-            .containsExactly(QueryMemberProfileEntities.withEmail());
+            .containsExactly(MemberProfileEntities.withEmail());
     }
 
     @Test
@@ -109,7 +109,7 @@ class ITMemberProfileRepositorySaveAll {
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.id", "profile.number",
                 "profile.contactChannels.id", "profile.contactChannels.profileId", "profile.contactChannels.profile")
-            .containsExactly(QueryMemberProfileEntities.withEmail());
+            .containsExactly(MemberProfileEntities.withEmail());
     }
 
     @Test
@@ -133,7 +133,7 @@ class ITMemberProfileRepositorySaveAll {
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.id", "profile.number",
                 "profile.contactChannels.id", "profile.contactChannels.profileId", "profile.contactChannels.profile")
-            .containsExactly(QueryMemberProfileEntities.withEmail());
+            .containsExactly(MemberProfileEntities.withEmail());
     }
 
     @Test

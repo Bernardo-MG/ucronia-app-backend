@@ -4,7 +4,7 @@ package com.bernardomg.association.member.test.configuration.factory;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 
-public final class QueryMemberEntities {
+public final class MemberEntities {
 
     public static final MemberEntity alternative() {
         final MemberEntity entity;
@@ -30,7 +30,7 @@ public final class QueryMemberEntities {
         return entity;
     }
 
-    private QueryMemberEntities() {
+    private MemberEntities() {
         super();
     }
 
