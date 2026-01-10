@@ -19,9 +19,9 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
-@Entity(name = "UpdateMemberProfile")
+@Entity(name = "MemberProfile")
 @Table(schema = "directory", name = "members")
-public class UpdateMemberProfileEntity implements Serializable {
+public class MemberProfileEntity implements Serializable {
 
     /**
      *
@@ -54,7 +54,7 @@ public class UpdateMemberProfileEntity implements Serializable {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof final UpdateMemberProfileEntity other)) {
+        if (!(obj instanceof final MemberProfileEntity other)) {
             return false;
         }
         return Objects.equals(id, other.id);
@@ -107,8 +107,8 @@ public class UpdateMemberProfileEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "UpdateMemberProfileEntity [id=" + id + "feeType=" + feeType + ", profile=" + profile + ", active="
-                + active + ", renew=" + renew + "]";
+        return "MemberProfileEntity [id=" + id + ", feeType=" + feeType + ", profile=" + profile + ", active=" + active
+                + ", renew=" + renew + "]";
     }
 
 }

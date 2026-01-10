@@ -41,7 +41,7 @@ import jakarta.persistence.Transient;
 
 @Entity(name = "QueryMemberContactChannel")
 @Table(schema = "directory", name = "contact_channels")
-public class QueryMemberContactChannelEntity implements Serializable {
+public class MemberContactChannelEntity implements Serializable {
 
     /**
      * Serialization ID.
@@ -66,7 +66,7 @@ public class QueryMemberContactChannelEntity implements Serializable {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof final QueryMemberContactChannelEntity other)) {
+        if (!(obj instanceof final MemberContactChannelEntity other)) {
             return false;
         }
         return Objects.equals(id, other.id);

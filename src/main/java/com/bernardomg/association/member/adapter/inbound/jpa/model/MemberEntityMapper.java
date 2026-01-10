@@ -22,22 +22,25 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.adapter.inbound.jpa.repository;
+package com.bernardomg.association.member.adapter.inbound.jpa.model;
 
-import java.util.Optional;
+import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.profile.domain.model.ProfileName;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+/**
+ * Query member entity mapper.
+ */
+public final class MemberEntityMapper {
 
-import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberEntity;
+    public static final Member toDomain(final MemberEntity entity) {
+        final ProfileName name;
 
-public interface QueryMemberSpringRepository
-        extends JpaRepository<QueryMemberEntity, Long>, JpaSpecificationExecutor<QueryMemberEntity> {
+        name = new ProfileName(entity.getFirstName(), entity.getLastName());
+        return new Member(entity.getNumber(), name);
+    }
 
-    public Page<QueryMemberEntity> findAllByActiveTrue(final Pageable pageable);
-
-    public Optional<QueryMemberEntity> findByNumberAndActiveTrue(final Long number);
+    private MemberEntityMapper() {
+        super();
+    }
 
 }

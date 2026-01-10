@@ -45,8 +45,10 @@ public final class FeeEntityMapper {
         final FeeType     feeType;
 
         name = new ProfileName(entity.getMember()
+            .getProfile()
             .getFirstName(),
             entity.getMember()
+                .getProfile()
                 .getLastName());
 
         date = YearMonth.from(entity.getMonth()
@@ -59,11 +61,13 @@ public final class FeeEntityMapper {
             feeType = new Fee.FeeType(entity.getFeeType()
                 .getNumber());
             fee = Fee.paid(date, entity.getMember()
+                .getProfile()
                 .getNumber(), name, feeType, transaction);
         } else {
             feeType = new Fee.FeeType(entity.getFeeType()
                 .getNumber());
             fee = Fee.unpaid(date, entity.getMember()
+                .getProfile()
                 .getNumber(), name, feeType);
         }
 

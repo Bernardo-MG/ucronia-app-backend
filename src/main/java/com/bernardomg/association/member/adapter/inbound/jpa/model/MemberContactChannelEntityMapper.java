@@ -31,16 +31,16 @@ import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
 /**
  * Contact channel entity mapper.
  */
-public final class QueryMemberContactChannelEntityMapper {
+public final class MemberContactChannelEntityMapper {
 
-    public static final ContactChannel toDomain(final QueryMemberContactChannelEntity entity) {
+    public static final ContactChannel toDomain(final MemberContactChannelEntity entity) {
         final ContactMethod method;
 
         method = ContactMethodEntityMapper.toDomain(entity.getContactMethod());
         return new ContactChannel(method, entity.getDetail());
     }
 
-    private QueryMemberContactChannelEntityMapper() {
+    private MemberContactChannelEntityMapper() {
         super();
     }
 

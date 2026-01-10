@@ -1,15 +1,15 @@
 
 package com.bernardomg.association.member.test.configuration.factory;
 
-import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberEntity;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 
 public final class QueryMemberEntities {
 
-    public static final QueryMemberEntity alternative() {
-        final QueryMemberEntity entity;
+    public static final MemberEntity alternative() {
+        final MemberEntity entity;
 
-        entity = new QueryMemberEntity();
+        entity = new MemberEntity();
         entity.setId(1L);
         entity.setNumber(ProfileConstants.NUMBER);
         entity.setFirstName(ProfileConstants.ALTERNATIVE_FIRST_NAME);
@@ -18,10 +18,10 @@ public final class QueryMemberEntities {
         return entity;
     }
 
-    public static final QueryMemberEntity valid() {
-        final QueryMemberEntity entity;
+    public static final MemberEntity valid() {
+        final MemberEntity entity;
 
-        entity = new QueryMemberEntity();
+        entity = new MemberEntity();
         entity.setId(1L);
         entity.setNumber(ProfileConstants.NUMBER);
         entity.setFirstName(ProfileConstants.FIRST_NAME);

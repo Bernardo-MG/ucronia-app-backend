@@ -60,7 +60,7 @@ class ITFeeRepositorySaveCollection {
         Assertions.assertThat(fees)
             .as("fees")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "member.id", "member.feeType.id",
-                "member.contactChannels.id", "memberId", "feeType.id", "transaction.id")
+                "member.profile.id", "member.profile.contactChannels.id", "memberId", "feeType.id", "transaction.id")
             .containsExactly(FeeEntities.notPaid());
     }
 
@@ -110,7 +110,7 @@ class ITFeeRepositorySaveCollection {
         Assertions.assertThat(fees)
             .as("fees")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "member.id", "member.feeType.id",
-                "member.contactChannels.id", "memberId", "feeType.id", "transaction.id")
+                "member.profile.id", "member.profile.contactChannels.id", "memberId", "feeType.id", "transaction.id")
             .containsExactly(FeeEntities.paidAtDate(date));
     }
 
@@ -193,7 +193,7 @@ class ITFeeRepositorySaveCollection {
         Assertions.assertThat(fees)
             .as("fees")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "member.id", "member.feeType.id",
-                "member.contactChannels.id", "memberId", "feeType.id", "transaction.id")
+                "member.profile.id", "member.profile.contactChannels.id", "memberId", "feeType.id", "transaction.id")
             .containsExactly(FeeEntities.paid());
     }
 

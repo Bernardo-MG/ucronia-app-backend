@@ -16,7 +16,7 @@ import jakarta.persistence.Transient;
 @Table(schema = "directory", name = "members")
 @SecondaryTable(schema = "directory", name = "profiles",
         pkJoinColumns = @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id"))
-public class QueryMemberEntity implements Serializable {
+public class MemberEntity implements Serializable {
 
     /**
      *
@@ -45,7 +45,7 @@ public class QueryMemberEntity implements Serializable {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof final QueryMemberEntity other)) {
+        if (!(obj instanceof final MemberEntity other)) {
             return false;
         }
         return Objects.equals(id, other.id);

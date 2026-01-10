@@ -66,11 +66,11 @@ public final class JpaGuestRepository implements GuestRepository {
      */
     private static final Logger                 log                = LoggerFactory.getLogger(JpaGuestRepository.class);
 
+    private static final Collection<String>     PROFILE_PROPERTIES = List.of("firstName", "lastName");
+
     private final ContactMethodSpringRepository contactMethodSpringRepository;
 
     private final GuestSpringRepository         guestSpringRepository;
-
-    private final Collection<String>            PROFILE_PROPERTIES = List.of("firstName", "lastName");
 
     private final ProfileSpringRepository       profileSpringRepository;
 
