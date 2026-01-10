@@ -30,14 +30,18 @@ import java.util.function.BinaryOperator;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.bernardomg.association.guest.adapter.inbound.jpa.model.QueryGuestEntity;
+import com.bernardomg.association.guest.adapter.inbound.jpa.model.GuestEntity;
 import com.bernardomg.association.guest.domain.filter.GuestFilter;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
+
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.JoinType;
 
 public final class GuestSpecifications {
 
-    public static Optional<Specification<QueryGuestEntity>> query(final GuestFilter filter) {
-        final Optional<Specification<QueryGuestEntity>> nameSpec;
-        final Specification<QueryGuestEntity>           spec;
+    public static Optional<Specification<GuestEntity>> query(final GuestFilter filter) {
+        final Optional<Specification<GuestEntity>> nameSpec;
+        final Specification<GuestEntity>           spec;
 
         if (filter.name()
             .isBlank()) {
@@ -50,7 +54,7 @@ public final class GuestSpecifications {
             .stream()
             .filter(Optional::isPresent)
             .map(Optional::get)
-            .reduce((BinaryOperator<Specification<QueryGuestEntity>>) Specification::and)
+            .reduce((BinaryOperator<Specification<GuestEntity>>) Specification::and)
             .orElse(null);
         return Optional.ofNullable(spec);
     }
@@ -62,12 +66,17 @@ public final class GuestSpecifications {
      *            pattern to match
      * @return name specification
      */
-    private static Specification<QueryGuestEntity> name(final String pattern) {
-        final String likePattern = "%" + pattern + "%";
-        return (root, query, cb) -> cb.or(cb.like(cb.lower(root.get("firstName")), likePattern.toLowerCase()),
-            cb.like(cb.lower(root.get("lastName")), likePattern.toLowerCase()),
-            cb.like(cb.lower(cb.concat(root.get("firstName"), cb.concat(" ", root.get("lastName")))),
-                likePattern.toLowerCase()));
+    private static Specification<GuestEntity> name(final String pattern) {
+        final String likePattern = "%" + pattern.toLowerCase() + "%";
+
+        return (root, query, cb) -> {
+            final Join<GuestEntity, ProfileEntity> profile = root.join("profile", JoinType.INNER);
+
+            return cb.or(cb.like(cb.lower(profile.get("firstName")), likePattern),
+                cb.like(cb.lower(profile.get("lastName")), likePattern),
+                cb.like(cb.lower(cb.concat(profile.get("firstName"), cb.concat(" ", profile.get("lastName")))),
+                    likePattern));
+        };
     }
 
     private GuestSpecifications() {

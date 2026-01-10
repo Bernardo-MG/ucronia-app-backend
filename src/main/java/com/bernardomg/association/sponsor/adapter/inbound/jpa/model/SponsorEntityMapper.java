@@ -41,9 +41,9 @@ import com.bernardomg.association.sponsor.domain.model.Sponsor;
 /**
  * Update sponsor entity mapper.
  */
-public final class UpdateSponsorEntityMapper {
+public final class SponsorEntityMapper {
 
-    public static final Sponsor toDomain(final UpdateSponsorEntity entity) {
+    public static final Sponsor toDomain(final SponsorEntity entity) {
         final ProfileName                name;
         final Collection<ContactChannel> contactChannels;
 
@@ -72,9 +72,9 @@ public final class UpdateSponsorEntityMapper {
                 .getTypes());
     }
 
-    public static final UpdateSponsorEntity toEntity(final Sponsor data,
+    public static final SponsorEntity toEntity(final Sponsor data,
             final Collection<ContactMethodEntity> contactMethods) {
-        final UpdateSponsorEntity              entity;
+        final SponsorEntity                    entity;
         final ProfileEntity                    profile;
         final Collection<ContactChannelEntity> contactChannels;
 
@@ -97,14 +97,14 @@ public final class UpdateSponsorEntityMapper {
 
         profile.setTypes(new HashSet<>(data.types()));
 
-        entity = new UpdateSponsorEntity();
+        entity = new SponsorEntity();
         entity.setProfile(profile);
         entity.setYears(new ArrayList<>(data.years()));
 
         return entity;
     }
 
-    public static final UpdateSponsorEntity toEntity(final UpdateSponsorEntity entity, final Sponsor data) {
+    public static final SponsorEntity toEntity(final SponsorEntity entity, final Sponsor data) {
 
         entity.getProfile()
             .setFirstName(data.name()
@@ -142,7 +142,7 @@ public final class UpdateSponsorEntityMapper {
         return entity;
     }
 
-    private UpdateSponsorEntityMapper() {
+    private SponsorEntityMapper() {
         super();
     }
 

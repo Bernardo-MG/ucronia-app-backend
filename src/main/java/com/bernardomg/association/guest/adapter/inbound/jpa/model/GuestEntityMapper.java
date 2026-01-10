@@ -41,9 +41,9 @@ import com.bernardomg.association.profile.domain.model.ProfileName;
 /**
  * Update guest entity mapper.
  */
-public final class UpdateGuestEntityMapper {
+public final class GuestEntityMapper {
 
-    public static final Guest toDomain(final UpdateGuestEntity entity) {
+    public static final Guest toDomain(final GuestEntity entity) {
         final ProfileName                name;
         final Collection<ContactChannel> contactChannels;
 
@@ -72,9 +72,8 @@ public final class UpdateGuestEntityMapper {
                 .getTypes());
     }
 
-    public static final UpdateGuestEntity toEntity(final Guest data,
-            final Collection<ContactMethodEntity> contactMethods) {
-        final UpdateGuestEntity                entity;
+    public static final GuestEntity toEntity(final Guest data, final Collection<ContactMethodEntity> contactMethods) {
+        final GuestEntity                      entity;
         final ProfileEntity                    profile;
         final Collection<ContactChannelEntity> contactChannels;
         profile = new ProfileEntity();
@@ -96,14 +95,14 @@ public final class UpdateGuestEntityMapper {
 
         profile.setTypes(new HashSet<>(data.types()));
 
-        entity = new UpdateGuestEntity();
+        entity = new GuestEntity();
         entity.setProfile(profile);
         entity.setGames(new ArrayList<>(data.games()));
 
         return entity;
     }
 
-    public static final UpdateGuestEntity toEntity(final UpdateGuestEntity entity, final Guest data) {
+    public static final GuestEntity toEntity(final GuestEntity entity, final Guest data) {
 
         entity.getProfile()
             .setFirstName(data.name()
@@ -141,7 +140,7 @@ public final class UpdateGuestEntityMapper {
         return entity;
     }
 
-    private UpdateGuestEntityMapper() {
+    private GuestEntityMapper() {
         super();
     }
 

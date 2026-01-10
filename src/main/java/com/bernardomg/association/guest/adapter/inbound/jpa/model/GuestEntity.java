@@ -1,7 +1,8 @@
 
-package com.bernardomg.association.sponsor.adapter.inbound.jpa.model;
+package com.bernardomg.association.guest.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
@@ -22,15 +23,20 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
-@Entity(name = "UpdateSponsor")
-@Table(schema = "directory", name = "sponsors")
-public class UpdateSponsorEntity implements Serializable {
+@Entity(name = "Guest")
+@Table(schema = "directory", name = "guests")
+public class GuestEntity implements Serializable {
 
     /**
      *
      */
     @Transient
     private static final long   serialVersionUID = 8139806507534262996L;
+
+    @ElementCollection
+    @CollectionTable(schema = "directory", name = "guest_games", joinColumns = @JoinColumn(name = "guest_id"))
+    @Column(name = "date", nullable = false)
+    private Collection<Instant> games            = new HashSet<>();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,20 +48,19 @@ public class UpdateSponsorEntity implements Serializable {
     @JoinColumn(name = "id")
     private ProfileEntity       profile;
 
-    @ElementCollection
-    @CollectionTable(name = "sponsor_years", schema = "directory", joinColumns = @JoinColumn(name = "sponsor_id"))
-    @Column(name = "year")
-    private Collection<Integer> years            = new HashSet<>();
-
     @Override
     public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof final UpdateSponsorEntity other)) {
+        if (!(obj instanceof final GuestEntity other)) {
             return false;
         }
         return Objects.equals(id, other.id);
+    }
+
+    public Collection<Instant> getGames() {
+        return games;
     }
 
     public Long getId() {
@@ -66,13 +71,13 @@ public class UpdateSponsorEntity implements Serializable {
         return profile;
     }
 
-    public Collection<Integer> getYears() {
-        return years;
-    }
-
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    public void setGames(final Collection<Instant> games) {
+        this.games = games;
     }
 
     public void setId(final Long id) {
@@ -83,13 +88,9 @@ public class UpdateSponsorEntity implements Serializable {
         this.profile = profile;
     }
 
-    public void setYears(final Collection<Integer> years) {
-        this.years = years;
-    }
-
     @Override
     public String toString() {
-        return "UpdateSponsorEntity [id=" + id + ", profile=" + profile + ", years=" + years + "]";
+        return "GuestEntity [id=" + id + ", profile=" + profile + ", games=" + games + "]";
     }
 
 }

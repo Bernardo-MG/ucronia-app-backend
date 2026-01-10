@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.sponsor.adapter.inbound.jpa.repository;
+package com.bernardomg.association.guest.adapter.inbound.jpa.repository;
 
 import java.util.Optional;
 
@@ -32,22 +32,37 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.QuerySponsorEntity;
+import com.bernardomg.association.guest.adapter.inbound.jpa.model.GuestEntity;
 
-public interface QuerySponsorSpringRepository
-        extends JpaRepository<QuerySponsorEntity, Long>, JpaSpecificationExecutor<QuerySponsorEntity> {
+public interface GuestSpringRepository extends JpaRepository<GuestEntity, Long>, JpaSpecificationExecutor<GuestEntity> {
 
     @Modifying
     @Query("""
-            DELETE
-            FROM Sponsor m
-            WHERE m.number = :number
+            DELETE FROM Guest g
+            WHERE g.id IN (
+                SELECT g2.id
+                FROM Guest g2
+                JOIN g2.profile p
+                WHERE p.number = :number
+            )
             """)
     public void deleteByNumber(@Param("number") final Long number);
 
-    public boolean existsByNumber(final Long number);
+    @Query("""
+            SELECT CASE WHEN COUNT(g) > 0 THEN TRUE ELSE FALSE END AS exists
+            FROM Guest g
+              JOIN g.profile p
+            WHERE p.number = :number
+            """)
+    public boolean existsByNumber(@Param("number") final Long number);
 
-    public Optional<QuerySponsorEntity> findByNumber(final Long number);
+    @Query("""
+            SELECT g
+            FROM Guest g
+              JOIN g.profile p
+            WHERE p.number = :number
+            """)
+    public Optional<GuestEntity> findByNumber(@Param("number") final Long number);
 
     @Query("SELECT COALESCE(MAX(p.number), 0) + 1 FROM Profile p")
     public Long findNextNumber();

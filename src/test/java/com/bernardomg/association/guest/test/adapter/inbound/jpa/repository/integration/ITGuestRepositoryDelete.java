@@ -29,7 +29,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.guest.adapter.inbound.jpa.repository.QueryGuestSpringRepository;
+import com.bernardomg.association.guest.adapter.inbound.jpa.repository.GuestSpringRepository;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
 import com.bernardomg.association.guest.test.configuration.data.annotation.ValidGuest;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
@@ -42,13 +42,13 @@ import com.bernardomg.test.configuration.annotation.IntegrationTest;
 class ITGuestRepositoryDelete {
 
     @Autowired
-    private ProfileSpringRepository    profileSpringRepository;
+    private ProfileSpringRepository profileSpringRepository;
 
     @Autowired
-    private GuestRepository            repository;
+    private GuestRepository         repository;
 
     @Autowired
-    private QueryGuestSpringRepository springRepository;
+    private GuestSpringRepository   springRepository;
 
     public ITGuestRepositoryDelete() {
         super();

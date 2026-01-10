@@ -36,13 +36,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 import com.bernardomg.association.profile.test.configuration.data.annotation.EmailContactMethod;
-import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.QuerySponsorEntity;
+import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.SponsorEntity;
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.SponsorEntityConstants;
-import com.bernardomg.association.sponsor.adapter.inbound.jpa.repository.QuerySponsorSpringRepository;
+import com.bernardomg.association.sponsor.adapter.inbound.jpa.repository.SponsorSpringRepository;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
 import com.bernardomg.association.sponsor.test.configuration.data.annotation.ValidSponsor;
-import com.bernardomg.association.sponsor.test.configuration.factory.QuerySponsorEntities;
+import com.bernardomg.association.sponsor.test.configuration.factory.SponsorEntities;
 import com.bernardomg.association.sponsor.test.configuration.factory.Sponsors;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
@@ -51,13 +51,13 @@ import com.bernardomg.test.configuration.annotation.IntegrationTest;
 class ITSponsorRepositorySaveAll {
 
     @Autowired
-    private ProfileSpringRepository      profileSpringRepository;
+    private ProfileSpringRepository profileSpringRepository;
 
     @Autowired
-    private SponsorRepository            repository;
+    private SponsorRepository       repository;
 
     @Autowired
-    private QuerySponsorSpringRepository springRepository;
+    private SponsorSpringRepository springRepository;
 
     public ITSponsorRepositorySaveAll() {
         super();
@@ -67,8 +67,8 @@ class ITSponsorRepositorySaveAll {
     @DisplayName("When a sponsor exists, the contact is persisted")
     @ValidSponsor
     void testSaveAll_Existing_PersistedData() {
-        final Sponsor                      sponsor;
-        final Iterable<QuerySponsorEntity> entities;
+        final Sponsor                 sponsor;
+        final Iterable<SponsorEntity> entities;
 
         // GIVEN
         sponsor = Sponsors.valid();
@@ -81,17 +81,17 @@ class ITSponsorRepositorySaveAll {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "contactChannels.id",
-                "contactChannels.profileId", "contactChannels.profile")
-            .containsExactly(QuerySponsorEntities.withEmail());
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.contactChannels.id",
+                "profile.contactChannels.profileId", "profile.contactChannels.profile")
+            .containsExactly(SponsorEntities.createdWithEmail());
     }
 
     @Test
     @DisplayName("With a valid sponsor, the sponsor is persisted")
     @EmailContactMethod
     void testSaveAll_PersistedData() {
-        final Sponsor                      sponsor;
-        final Iterable<QuerySponsorEntity> entities;
+        final Sponsor                 sponsor;
+        final Iterable<SponsorEntity> entities;
 
         // GIVEN
         sponsor = Sponsors.valid();
@@ -104,17 +104,17 @@ class ITSponsorRepositorySaveAll {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "contactChannels.id",
-                "contactChannels.profileId", "contactChannels.profile")
-            .containsExactly(QuerySponsorEntities.withEmail());
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.id", "profile.number",
+                "profile.contactChannels.id", "profile.contactChannels.profileId", "profile.contactChannels.profile")
+            .containsExactly(SponsorEntities.createdWithEmail());
     }
 
     @Test
     @DisplayName("When the type is removed, the sponsor is not changed")
     @ValidSponsor
     void testSaveAll_RemoveType_NoChange() {
-        final Sponsor                      sponsor;
-        final Iterable<QuerySponsorEntity> entities;
+        final Sponsor                 sponsor;
+        final Iterable<SponsorEntity> entities;
 
         // GIVEN
         sponsor = Sponsors.withoutType();
@@ -127,9 +127,9 @@ class ITSponsorRepositorySaveAll {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "contactChannels.id",
-                "contactChannels.profileId", "contactChannels.profile")
-            .containsExactly(QuerySponsorEntities.withEmail());
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.contactChannels.id",
+                "profile.contactChannels.profileId", "profile.contactChannels.profile")
+            .containsExactly(SponsorEntities.createdWithEmail());
     }
 
     @Test

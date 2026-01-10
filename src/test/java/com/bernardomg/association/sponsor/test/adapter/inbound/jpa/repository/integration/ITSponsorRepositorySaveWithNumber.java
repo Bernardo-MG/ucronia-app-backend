@@ -35,12 +35,12 @@ import com.bernardomg.association.profile.adapter.inbound.jpa.repository.Profile
 import com.bernardomg.association.profile.test.configuration.data.annotation.EmailContactMethod;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
-import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.QuerySponsorEntity;
+import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.SponsorEntity;
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.SponsorEntityConstants;
-import com.bernardomg.association.sponsor.adapter.inbound.jpa.repository.QuerySponsorSpringRepository;
+import com.bernardomg.association.sponsor.adapter.inbound.jpa.repository.SponsorSpringRepository;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
-import com.bernardomg.association.sponsor.test.configuration.factory.QuerySponsorEntities;
+import com.bernardomg.association.sponsor.test.configuration.factory.SponsorEntities;
 import com.bernardomg.association.sponsor.test.configuration.factory.Sponsors;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
@@ -49,13 +49,13 @@ import com.bernardomg.test.configuration.annotation.IntegrationTest;
 class ITSponsorRepositorySaveWithNumber {
 
     @Autowired
-    private ProfileSpringRepository      profileSpringRepository;
+    private ProfileSpringRepository profileSpringRepository;
 
     @Autowired
-    private SponsorRepository            repository;
+    private SponsorRepository       repository;
 
     @Autowired
-    private QuerySponsorSpringRepository springRepository;
+    private SponsorSpringRepository springRepository;
 
     public ITSponsorRepositorySaveWithNumber() {
         super();
@@ -66,8 +66,8 @@ class ITSponsorRepositorySaveWithNumber {
     @ValidProfile
     @EmailContactMethod
     void testSaveWithNumber_PersistedData() {
-        final Sponsor                      sponsor;
-        final Iterable<QuerySponsorEntity> entities;
+        final Sponsor                 sponsor;
+        final Iterable<SponsorEntity> entities;
 
         // GIVEN
         sponsor = Sponsors.valid();
@@ -81,7 +81,7 @@ class ITSponsorRepositorySaveWithNumber {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
-            .containsExactly(QuerySponsorEntities.valid());
+            .containsExactly(SponsorEntities.created());
     }
 
     @Test
