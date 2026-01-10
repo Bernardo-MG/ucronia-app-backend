@@ -162,7 +162,7 @@ public final class JpaFeeRepository implements FeeRepository {
 
         if (spec.isEmpty()) {
             pageable = SpringPagination.toPageable(pagination, fixedSorting);
-            found = feeSpringRepository.findAllWithMember(pageable)
+            found = feeSpringRepository.findAll(pageable)
                 .map(FeeEntityMapper::toDomain);
         } else {
             pageable = SpringPagination.toPageable(pagination, sorting);
@@ -346,7 +346,7 @@ public final class JpaFeeRepository implements FeeRepository {
             .stream()
             .map(prop -> {
                 if (PROFILE_PROPERTIES.contains(prop.name())) {
-                    return new Property("m.profile." + prop.name(), prop.direction());
+                    return new Property("member.profile." + prop.name(), prop.direction());
                 }
                 return prop;
             })

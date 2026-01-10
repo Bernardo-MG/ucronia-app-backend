@@ -99,7 +99,6 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
     @Query("""
                SELECT f
                FROM Fee f
-                  INNER JOIN f.member m
                WHERE EXTRACT(YEAR FROM f.month) = :year
             """)
     public Collection<FeeEntity> findAllForYear(@Param("year") int year, Sort sort);
@@ -118,19 +117,11 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
     @Query("""
             SELECT f
             FROM Fee f
-                  INNER JOIN f.member m
             WHERE EXTRACT(YEAR FROM f.month) = :year
               AND f.memberId IN :ids
             """)
     public Collection<FeeEntity> findAllForYearAndMembersIn(@Param("year") int year, @Param("ids") Collection<Long> ids,
             Sort sort);
-
-    @Query("""
-            SELECT f
-            FROM Fee f
-               INNER JOIN f.member m
-            """)
-    public Page<FeeEntity> findAllWithMember(final Pageable pageable);
 
     /**
      * Finds the fee for the member in a month.
