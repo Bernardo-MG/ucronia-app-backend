@@ -65,6 +65,8 @@ public final class UpdateSponsorEntityMapper {
             name, entity.getProfile()
                 .getBirthDate(),
             contactChannels, entity.getYears(), entity.getProfile()
+                .getAddress(),
+            entity.getProfile()
                 .getComments(),
             entity.getProfile()
                 .getTypes());
@@ -84,6 +86,7 @@ public final class UpdateSponsorEntityMapper {
             .lastName());
         profile.setIdentifier(data.identifier());
         profile.setBirthDate(data.birthDate());
+        profile.setAddress(data.address());
         profile.setComments(data.comments());
 
         contactChannels = data.contactChannels()

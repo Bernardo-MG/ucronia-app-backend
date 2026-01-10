@@ -194,7 +194,7 @@ class ITProfileRepositorySave {
         final Profile saved;
 
         // GIVEN
-        profile = Profiles.toCreate();
+        profile = Profiles.valid();
 
         // WHEN
         saved = repository.save(profile);

@@ -21,6 +21,7 @@ public final class ProfileEntities {
         entity.setBirthDate(ProfileConstants.BIRTH_DATE);
         entity.setIdentifier("6789");
         entity.setContactChannels(new ArrayList<>());
+        entity.setAddress(ProfileConstants.ADDRESS);
         entity.setComments(ProfileConstants.COMMENTS);
         entity.setTypes(new HashSet<>());
 
@@ -43,6 +44,7 @@ public final class ProfileEntities {
         entity.setBirthDate(ProfileConstants.BIRTH_DATE);
         entity.setIdentifier("6789");
         entity.setContactChannels(new ArrayList<>(List.of(contactChannelEntity)));
+        entity.setAddress(ProfileConstants.ADDRESS);
         entity.setComments(ProfileConstants.COMMENTS);
         entity.setTypes(new HashSet<>());
 
@@ -62,6 +64,7 @@ public final class ProfileEntities {
         entity.setBirthDate(ProfileConstants.BIRTH_DATE);
         entity.setIdentifier("6789");
         entity.setContactChannels(new ArrayList<>());
+        entity.setAddress(ProfileConstants.ADDRESS);
         entity.setComments(ProfileConstants.COMMENTS);
         entity.setTypes(new HashSet<>());
 
@@ -78,6 +81,7 @@ public final class ProfileEntities {
         entity.setBirthDate(ProfileConstants.BIRTH_DATE);
         entity.setIdentifier("6789");
         entity.setContactChannels(new ArrayList<>());
+        entity.setAddress(ProfileConstants.ADDRESS);
         entity.setComments(ProfileConstants.COMMENTS);
         entity.setTypes(new HashSet<>());
 
@@ -95,6 +99,7 @@ public final class ProfileEntities {
         entity.setBirthDate(ProfileConstants.BIRTH_DATE);
         entity.setIdentifier(ProfileConstants.IDENTIFIER);
         entity.setContactChannels(new ArrayList<>());
+        entity.setAddress(ProfileConstants.ADDRESS);
         entity.setComments(ProfileConstants.COMMENTS);
         entity.setTypes(new HashSet<>());
 
@@ -117,6 +122,7 @@ public final class ProfileEntities {
         entity.setBirthDate(ProfileConstants.BIRTH_DATE);
         entity.setIdentifier("6789");
         entity.setContactChannels(new ArrayList<>(List.of(contactChannelEntity)));
+        entity.setAddress(ProfileConstants.ADDRESS);
         entity.setComments(ProfileConstants.COMMENTS);
         entity.setTypes(new HashSet<>());
 
@@ -146,6 +152,7 @@ public final class ProfileEntities {
         entity.setBirthDate(ProfileConstants.BIRTH_DATE);
         entity.setIdentifier("6789");
         entity.setContactChannels(new ArrayList<>(List.of(contactChannelEntityA, contactChannelEntityB)));
+        entity.setAddress(ProfileConstants.ADDRESS);
         entity.setComments(ProfileConstants.COMMENTS);
         entity.setTypes(new HashSet<>());
 
@@ -175,6 +182,7 @@ public final class ProfileEntities {
         entity.setBirthDate(ProfileConstants.BIRTH_DATE);
         entity.setIdentifier("6789");
         entity.setContactChannels(new ArrayList<>(List.of(contactChannelEntityA, contactChannelEntityB)));
+        entity.setAddress(ProfileConstants.ADDRESS);
         entity.setComments(ProfileConstants.COMMENTS);
         entity.setTypes(new HashSet<>());
 
@@ -194,6 +202,7 @@ public final class ProfileEntities {
         entity.setBirthDate(ProfileConstants.BIRTH_DATE);
         entity.setIdentifier(ProfileConstants.IDENTIFIER);
         entity.setContactChannels(new ArrayList<>());
+        entity.setAddress(ProfileConstants.ADDRESS);
         entity.setComments(ProfileConstants.COMMENTS);
         entity.setTypes(new HashSet<>(List.of(type)));
 

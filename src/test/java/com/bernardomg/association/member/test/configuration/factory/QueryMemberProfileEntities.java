@@ -37,6 +37,7 @@ public final class QueryMemberProfileEntities {
         entity.setBirthDate(ProfileConstants.BIRTH_DATE);
         entity.setIdentifier("6789");
         entity.setContactChannels(new ArrayList<>());
+        entity.setAddress(ProfileConstants.ADDRESS);
         entity.setComments(ProfileConstants.COMMENTS);
         entity.setActive(true);
         entity.setRenew(true);
@@ -66,6 +67,7 @@ public final class QueryMemberProfileEntities {
         entity.setBirthDate(ProfileConstants.BIRTH_DATE);
         entity.setIdentifier("6789");
         entity.setContactChannels(new ArrayList<>());
+        entity.setAddress(ProfileConstants.ADDRESS);
         entity.setComments(ProfileConstants.COMMENTS);
         entity.setActive(true);
         entity.setRenew(true);
@@ -95,6 +97,7 @@ public final class QueryMemberProfileEntities {
         entity.setBirthDate(ProfileConstants.BIRTH_DATE);
         entity.setIdentifier("6789");
         entity.setContactChannels(new ArrayList<>());
+        entity.setAddress(ProfileConstants.ADDRESS);
         entity.setComments(ProfileConstants.COMMENTS);
         entity.setActive(true);
         entity.setRenew(true);
@@ -129,6 +132,7 @@ public final class QueryMemberProfileEntities {
         entity.setBirthDate(ProfileConstants.BIRTH_DATE);
         entity.setIdentifier("6789");
         entity.setContactChannels(List.of(contactChannelEntity));
+        entity.setAddress(ProfileConstants.ADDRESS);
         entity.setComments(ProfileConstants.COMMENTS);
         entity.setActive(true);
         entity.setRenew(true);

@@ -47,7 +47,7 @@ public final class QueryGuestEntityMapper {
             .toList();
 
         return new Guest(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(), contactChannels,
-            entity.getGames(), entity.getComments(), entity.getTypes());
+            entity.getGames(), entity.getAddress(), entity.getComments(), entity.getTypes());
     }
 
     private QueryGuestEntityMapper() {

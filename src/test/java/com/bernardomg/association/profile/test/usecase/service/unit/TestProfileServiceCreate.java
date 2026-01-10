@@ -72,7 +72,7 @@ class TestProfileServiceCreate {
         final Profile          profile;
 
         // GIVEN
-        profile = Profiles.toCreate();
+        profile = Profiles.valid();
 
         given(profileRepository.existsByIdentifier(ProfileConstants.IDENTIFIER)).willReturn(true);
 
@@ -112,7 +112,7 @@ class TestProfileServiceCreate {
         service.create(profile);
 
         // THEN
-        verify(profileRepository).save(Profiles.toCreate());
+        verify(profileRepository).save(Profiles.valid());
     }
 
     @Test
@@ -121,13 +121,13 @@ class TestProfileServiceCreate {
         final Profile profile;
 
         // GIVEN
-        profile = Profiles.toCreate();
+        profile = Profiles.valid();
 
         // WHEN
         service.create(profile);
 
         // THEN
-        verify(profileRepository).save(Profiles.toCreate());
+        verify(profileRepository).save(Profiles.valid());
     }
 
     @Test
@@ -137,9 +137,9 @@ class TestProfileServiceCreate {
         final Profile created;
 
         // GIVEN
-        profile = Profiles.toCreate();
+        profile = Profiles.valid();
 
-        given(profileRepository.save(Profiles.toCreate())).willReturn(Profiles.created());
+        given(profileRepository.save(Profiles.valid())).willReturn(Profiles.created());
 
         // WHEN
         created = service.create(profile);
@@ -183,7 +183,7 @@ class TestProfileServiceCreate {
         service.create(profile);
 
         // THEN
-        verify(profileRepository).save(Profiles.toCreateWithEmail());
+        verify(profileRepository).save(Profiles.withEmail());
     }
 
 }

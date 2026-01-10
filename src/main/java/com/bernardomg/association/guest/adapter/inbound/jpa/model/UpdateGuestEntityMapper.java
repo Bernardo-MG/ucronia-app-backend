@@ -65,6 +65,8 @@ public final class UpdateGuestEntityMapper {
             name, entity.getProfile()
                 .getBirthDate(),
             contactChannels, entity.getGames(), entity.getProfile()
+                .getAddress(),
+            entity.getProfile()
                 .getComments(),
             entity.getProfile()
                 .getTypes());
@@ -83,6 +85,7 @@ public final class UpdateGuestEntityMapper {
             .lastName());
         profile.setIdentifier(data.identifier());
         profile.setBirthDate(data.birthDate());
+        profile.setAddress(data.address());
         profile.setComments(data.comments());
 
         contactChannels = data.contactChannels()

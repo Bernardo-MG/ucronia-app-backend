@@ -39,6 +39,9 @@ public class QueryMemberProfileEntity implements Serializable {
     @Column(name = "active", table = "members", nullable = false)
     private Boolean                                     active;
 
+    @Column(name = "address", table = "profiles")
+    private String                                      address;
+
     @Column(name = "birth_date", table = "profiles")
     private Instant                                     birthDate;
 
@@ -89,6 +92,10 @@ public class QueryMemberProfileEntity implements Serializable {
 
     public Boolean getActive() {
         return active;
+    }
+
+    public String getAddress() {
+        return address;
     }
 
     public Instant getBirthDate() {
@@ -144,6 +151,10 @@ public class QueryMemberProfileEntity implements Serializable {
         this.active = active;
     }
 
+    public void setAddress(final String address) {
+        this.address = address;
+    }
+
     public void setBirthDate(final Instant birthDate) {
         this.birthDate = birthDate;
     }
@@ -192,8 +203,8 @@ public class QueryMemberProfileEntity implements Serializable {
     public String toString() {
         return "QueryMemberProfileEntity [id=" + id + ", identifier=" + identifier + ", feeType=" + feeType
                 + ", firstName=" + firstName + ", lastName=" + lastName + ", active=" + active + ", birthDate="
-                + birthDate + ", comments=" + comments + ", contactChannels=" + contactChannels + ", number=" + number
-                + ", renew=" + renew + ", types=" + types + "]";
+                + birthDate + ", comments=" + comments + ", address=" + address + ", contactChannels=" + contactChannels
+                + ", number=" + number + ", renew=" + renew + ", types=" + types + "]";
     }
 
 }

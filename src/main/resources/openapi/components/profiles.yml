@@ -80,6 +80,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ContactChannel'
+        address:
+          type: string
+          description: Profile address.
         comments:
           type: string
           description: Comments about the profile.
@@ -110,6 +113,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/EditionContactChannel'
+        address:
+          type: string
+          description: Profile address.
         comments:
           type: string
     ProfilePageResponse:

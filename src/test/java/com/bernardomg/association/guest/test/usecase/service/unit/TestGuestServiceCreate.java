@@ -55,7 +55,7 @@ class TestGuestServiceCreate {
     }
 
     @Test
-    @DisplayName("With a guest having padding whitespaces in first and last name, these whitespaces are removed and the profile is persisted")
+    @DisplayName("With a guest having padding whitespaces, these whitespaces are removed and the profile is persisted")
     void testCreate_Padded_PersistedData() {
         final Guest guest;
 
@@ -66,7 +66,7 @@ class TestGuestServiceCreate {
         service.create(guest);
 
         // THEN
-        verify(guestRepository).save(Guests.toCreate());
+        verify(guestRepository).save(Guests.valid());
     }
 
     @Test
@@ -75,13 +75,13 @@ class TestGuestServiceCreate {
         final Guest guest;
 
         // GIVEN
-        guest = Guests.toCreate();
+        guest = Guests.valid();
 
         // WHEN
         service.create(guest);
 
         // THEN
-        verify(guestRepository).save(Guests.toCreate());
+        verify(guestRepository).save(Guests.valid());
     }
 
     @Test
@@ -91,7 +91,7 @@ class TestGuestServiceCreate {
         final Guest created;
 
         // GIVEN
-        guest = Guests.toCreate();
+        guest = Guests.valid();
 
         given(guestRepository.save(guest)).willReturn(Guests.valid());
 

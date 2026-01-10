@@ -56,7 +56,8 @@ public final class QueryMemberProfileEntityMapper {
             .toList();
 
         return new MemberProfile(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(),
-            contactChannels, entity.getComments(), entity.getActive(), entity.getRenew(), feeType, entity.getTypes());
+            contactChannels, entity.getAddress(), entity.getComments(), entity.getActive(), entity.getRenew(), feeType,
+            entity.getTypes());
     }
 
     public static final QueryMemberProfileEntity toEntity(final MemberProfile data,

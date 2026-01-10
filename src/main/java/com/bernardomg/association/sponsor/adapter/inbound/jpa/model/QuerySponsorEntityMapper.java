@@ -47,7 +47,7 @@ public final class QuerySponsorEntityMapper {
             .toList();
 
         return new Sponsor(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(), contactChannels,
-            entity.getYears(), entity.getComments(), entity.getTypes());
+            entity.getYears(), entity.getAddress(), entity.getComments(), entity.getTypes());
     }
 
     private QuerySponsorEntityMapper() {

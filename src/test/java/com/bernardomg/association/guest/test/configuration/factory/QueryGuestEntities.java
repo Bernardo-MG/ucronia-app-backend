@@ -28,6 +28,7 @@ public final class QueryGuestEntities {
         entity.setIdentifier("6789");
         entity.setContactChannels(new ArrayList<>());
         entity.setGames(new ArrayList<>(List.of(GuestConstants.DATE)));
+        entity.setAddress(ProfileConstants.ADDRESS);
         entity.setComments(ProfileConstants.COMMENTS);
         entity.setTypes(new HashSet<>(Set.of(GuestEntityConstants.PROFILE_TYPE)));
 
@@ -48,6 +49,7 @@ public final class QueryGuestEntities {
         entity.setIdentifier("6789");
         entity.setContactChannels(new ArrayList<>());
         entity.setGames(new ArrayList<>(List.of(GuestConstants.DATE)));
+        entity.setAddress(ProfileConstants.ADDRESS);
         entity.setComments(ProfileConstants.COMMENTS);
         entity.setTypes(new HashSet<>(Set.of(GuestEntityConstants.PROFILE_TYPE)));
 
@@ -68,6 +70,7 @@ public final class QueryGuestEntities {
         entity.setIdentifier("6789");
         entity.setContactChannels(new ArrayList<>());
         entity.setGames(new ArrayList<>(List.of(GuestConstants.DATE)));
+        entity.setAddress(ProfileConstants.ADDRESS);
         entity.setComments(ProfileConstants.COMMENTS);
         entity.setTypes(new HashSet<>(Set.of(GuestEntityConstants.PROFILE_TYPE)));
 
@@ -93,6 +96,7 @@ public final class QueryGuestEntities {
         entity.setIdentifier("6789");
         entity.setContactChannels(new ArrayList<>(List.of(contactChannelEntity)));
         entity.setGames(new ArrayList<>(List.of(GuestConstants.DATE)));
+        entity.setAddress(ProfileConstants.ADDRESS);
         entity.setComments(ProfileConstants.COMMENTS);
         entity.setTypes(new HashSet<>(Set.of(GuestEntityConstants.PROFILE_TYPE)));
 

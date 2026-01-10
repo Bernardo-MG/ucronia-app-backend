@@ -36,6 +36,9 @@ public class QueryGuestEntity implements Serializable {
     @Transient
     private static final long                          serialVersionUID = 8139806507534262996L;
 
+    @Column(name = "address", table = "profiles")
+    private String                                     address;
+
     @Column(name = "birth_date", table = "profiles")
     private Instant                                    birthDate;
 
@@ -80,6 +83,10 @@ public class QueryGuestEntity implements Serializable {
             return false;
         }
         return Objects.equals(id, other.id);
+    }
+
+    public String getAddress() {
+        return address;
     }
 
     public Instant getBirthDate() {
@@ -127,6 +134,10 @@ public class QueryGuestEntity implements Serializable {
         return Objects.hash(id);
     }
 
+    public void setAddress(final String address) {
+        this.address = address;
+    }
+
     public void setBirthDate(final Instant birthDate) {
         this.birthDate = birthDate;
     }
@@ -170,8 +181,9 @@ public class QueryGuestEntity implements Serializable {
     @Override
     public String toString() {
         return "QueryGuestEntity [id=" + id + ", identifier=" + identifier + ", firstName=" + firstName + ", lastName="
-                + lastName + ", birthDate=" + birthDate + ", comments=" + comments + ", contactChannels="
-                + contactChannels + ", games=" + games + ", number=" + number + ", types=" + types + "]";
+                + lastName + ", birthDate=" + birthDate + ", comments=" + comments + ", address=" + address
+                + ", contactChannels=" + contactChannels + ", games=" + games + ", number=" + number + ", types="
+                + types + "]";
     }
 
 }

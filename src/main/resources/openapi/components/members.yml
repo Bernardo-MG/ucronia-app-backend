@@ -39,6 +39,9 @@ components:
           type: array
           items:
             $ref: 'profiles.yml#/components/schemas/ContactChannel'
+        address:
+          type: string
+          description: Member address.
         comments:
           type: string
           description: Comments about the member.
@@ -80,6 +83,9 @@ components:
           type: array
           items:
             $ref: 'profiles.yml#/components/schemas/EditionContactChannel'
+        address:
+          type: string
+          description: Member address.
         comments:
           type: string
         active:

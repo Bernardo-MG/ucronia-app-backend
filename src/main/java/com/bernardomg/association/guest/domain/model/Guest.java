@@ -35,17 +35,19 @@ import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
 import com.bernardomg.association.profile.domain.model.ProfileName;
 
 public record Guest(String identifier, Long number, ProfileName name, Instant birthDate,
-        Collection<ContactChannel> contactChannels, Collection<Instant> games, String comments, Set<String> types) {
+        Collection<ContactChannel> contactChannels, Collection<Instant> games, String address, String comments,
+        Set<String> types) {
 
     public Guest(final String identifier, final Long number, final ProfileName name, final Instant birthDate,
-            final Collection<ContactChannel> contactChannels, final Collection<Instant> games, final String comments,
-            final Set<String> types) {
+            final Collection<ContactChannel> contactChannels, final Collection<Instant> games, final String address,
+            final String comments, final Set<String> types) {
         this.identifier = identifier;
         this.number = number;
         this.name = name;
         this.birthDate = birthDate;
         this.contactChannels = List.copyOf(contactChannels);
         this.games = List.copyOf(games);
+        this.address = StringUtils.trim(address);
         this.comments = StringUtils.trim(comments);
         this.types = Set.copyOf(types);
     }

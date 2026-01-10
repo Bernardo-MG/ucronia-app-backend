@@ -35,6 +35,9 @@ components:
           type: array
           items:
             type: integer
+        address:
+          type: string
+          description: Sponsor address.
         comments:
           type: string
           description: Comments about the sponsor.
@@ -68,6 +71,9 @@ components:
           type: array
           items:
             type: integer
+        address:
+          type: string
+          description: Sponsor address.
         comments:
           type: string
     SponsorPageResponse:

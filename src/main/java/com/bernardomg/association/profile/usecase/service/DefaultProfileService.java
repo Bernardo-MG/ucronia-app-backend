@@ -86,7 +86,6 @@ public final class DefaultProfileService implements ProfileService {
 
     @Override
     public final Profile create(final Profile profile) {
-        final Profile toCreate;
         final Profile created;
 
         log.debug("Creating profile {}", profile);
@@ -97,12 +96,9 @@ public final class DefaultProfileService implements ProfileService {
             .map(ContactChannel::contactMethod)
             .forEach(this::checkContactMethodExists);
 
-        toCreate = new Profile(profile.identifier(), 0L, profile.name(), profile.birthDate(), profile.contactChannels(),
-            profile.comments(), profile.types());
+        createProfileValidator.validate(profile);
 
-        createProfileValidator.validate(toCreate);
-
-        created = profileRepository.save(toCreate);
+        created = profileRepository.save(profile);
 
         log.debug("Created profile {}", created);
 
@@ -248,7 +244,9 @@ public final class DefaultProfileService implements ProfileService {
                 .orElse(existing.number()),
             name, Optional.ofNullable(updated.birthDate())
                 .orElse(existing.birthDate()),
-            updated.contactChannels(), Optional.ofNullable(updated.comments())
+            updated.contactChannels(), Optional.ofNullable(updated.address())
+                .orElse(existing.address()),
+            Optional.ofNullable(updated.comments())
                 .orElse(existing.comments()),
             Optional.ofNullable(updated.types())
                 .orElse(existing.types()));

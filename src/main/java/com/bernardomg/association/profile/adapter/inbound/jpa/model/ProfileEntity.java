@@ -53,6 +53,9 @@ public class ProfileEntity implements Serializable {
     @Transient
     private static final long                serialVersionUID = 1328776989450853491L;
 
+    @Column(name = "address")
+    private String                           address;
+
     @Column(name = "birth_date")
     private Instant                          birthDate;
 
@@ -92,6 +95,10 @@ public class ProfileEntity implements Serializable {
             return false;
         }
         return Objects.equals(id, other.id);
+    }
+
+    public String getAddress() {
+        return address;
     }
 
     public Instant getBirthDate() {
@@ -135,6 +142,10 @@ public class ProfileEntity implements Serializable {
         return Objects.hash(id);
     }
 
+    public void setAddress(final String address) {
+        this.address = address;
+    }
+
     public void setBirthDate(final Instant birthDate) {
         this.birthDate = birthDate;
     }
@@ -174,8 +185,8 @@ public class ProfileEntity implements Serializable {
     @Override
     public String toString() {
         return "ProfileEntity [id=" + id + ", identifier=" + identifier + ", firstName=" + firstName + ", lastName="
-                + lastName + ", birthDate=" + birthDate + ", comments=" + comments + ", contactChannels="
-                + contactChannels + ", number=" + number + ", types=" + types + "]";
+                + lastName + ", birthDate=" + birthDate + ", comments=" + comments + ", address=" + address
+                + ", contactChannels=" + contactChannels + ", number=" + number + ", types=" + types + "]";
     }
 
 }

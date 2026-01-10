@@ -130,12 +130,14 @@ public final class DefaultMemberStatusService implements MemberStatusService {
 
     private final MemberProfile activated(final MemberProfile original) {
         return new MemberProfile(original.identifier(), original.number(), original.name(), original.birthDate(),
-            original.contactChannels(), original.comments(), true, true, original.feeType(), original.types());
+            original.contactChannels(), original.address(), original.comments(), true, true, original.feeType(),
+            original.types());
     }
 
     private final MemberProfile deactivated(final MemberProfile original) {
         return new MemberProfile(original.identifier(), original.number(), original.name(), original.birthDate(),
-            original.contactChannels(), original.comments(), false, false, original.feeType(), original.types());
+            original.contactChannels(), original.address(), original.comments(), false, false, original.feeType(),
+            original.types());
     }
 
 }

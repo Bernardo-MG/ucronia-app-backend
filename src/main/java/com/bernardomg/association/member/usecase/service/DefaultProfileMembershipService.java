@@ -97,7 +97,8 @@ public final class DefaultProfileMembershipService implements ProfileMembershipS
 
         memberFeeType = new MemberProfile.FeeType(feeType);
         toCreate = new MemberProfile(existing.identifier(), existing.number(), existing.name(), existing.birthDate(),
-            existing.contactChannels(), existing.comments(), true, true, memberFeeType, existing.types());
+            existing.contactChannels(), existing.address(), existing.comments(), true, true, memberFeeType,
+            existing.types());
 
         created = memberProfileRepository.save(toCreate, number);
 

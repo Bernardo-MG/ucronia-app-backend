@@ -8,6 +8,8 @@ import java.time.ZoneOffset;
 
 public final class ProfileConstants {
 
+    public static final String  ADDRESS                = "Address";
+
     public static final String  ALTERNATIVE_EMAIL      = "email2@somewhere.com";
 
     public static final String  ALTERNATIVE_FIRST_NAME = "Profile 2";

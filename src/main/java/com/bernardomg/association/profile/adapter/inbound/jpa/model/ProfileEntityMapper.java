@@ -53,7 +53,7 @@ public final class ProfileEntityMapper {
             .toList();
 
         return new Profile(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(), contactChannels,
-            entity.getComments(), entity.getTypes());
+            entity.getAddress(), entity.getComments(), entity.getTypes());
     }
 
     public static final ProfileEntity toEntity(final Profile data,
@@ -69,6 +69,7 @@ public final class ProfileEntityMapper {
             .lastName());
         entity.setIdentifier(data.identifier());
         entity.setBirthDate(data.birthDate());
+        entity.setAddress(data.address());
         entity.setComments(data.comments());
 
         contactChannels = data.contactChannels()
@@ -94,6 +95,8 @@ public final class ProfileEntityMapper {
             .lastName());
         entity.setIdentifier(data.identifier());
         entity.setBirthDate(data.birthDate());
+        entity.setAddress(data.address());
+        entity.setAddress(data.address());
         entity.setComments(data.comments());
 
         contactChannels = data.contactChannels()

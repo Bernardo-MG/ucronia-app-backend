@@ -32,15 +32,17 @@ import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 
 public record Profile(String identifier, Long number, ProfileName name, Instant birthDate,
-        Collection<ContactChannel> contactChannels, String comments, Set<String> types) {
+        Collection<ContactChannel> contactChannels, String address, String comments, Set<String> types) {
 
     public Profile(final String identifier, final Long number, final ProfileName name, final Instant birthDate,
-            final Collection<ContactChannel> contactChannels, final String comments, final Set<String> types) {
+            final Collection<ContactChannel> contactChannels, final String address, final String comments,
+            final Set<String> types) {
         this.identifier = identifier;
         this.number = number;
         this.name = name;
         this.birthDate = birthDate;
         this.contactChannels = List.copyOf(contactChannels);
+        this.address = StringUtils.trim(address);
         this.comments = StringUtils.trim(comments);
         this.types = Set.copyOf(types);
     }

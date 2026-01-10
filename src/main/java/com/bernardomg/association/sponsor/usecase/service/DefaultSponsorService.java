@@ -66,15 +66,11 @@ public final class DefaultSponsorService implements SponsorService {
 
     @Override
     public final Sponsor create(final Sponsor sponsor) {
-        final Sponsor toCreate;
         final Sponsor created;
 
         log.debug("Creating sponsor {}", sponsor);
 
-        toCreate = new Sponsor(sponsor.identifier(), 0L, sponsor.name(), sponsor.birthDate(), sponsor.contactChannels(),
-            sponsor.years(), sponsor.comments(), sponsor.types());
-
-        created = sponsorRepository.save(toCreate);
+        created = sponsorRepository.save(sponsor);
 
         log.debug("Created sponsor {}", created);
 
@@ -197,6 +193,8 @@ public final class DefaultSponsorService implements SponsorService {
                 .orElse(existing.contactChannels()),
             Optional.ofNullable(updated.years())
                 .orElse(existing.years()),
+            Optional.ofNullable(updated.address())
+                .orElse(existing.address()),
             Optional.ofNullable(updated.comments())
                 .orElse(existing.comments()),
             Optional.ofNullable(updated.types())

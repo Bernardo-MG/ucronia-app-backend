@@ -66,16 +66,11 @@ public final class DefaultMemberProfileService implements MemberProfileService {
 
     @Override
     public final MemberProfile create(final MemberProfile memberProfile) {
-        final MemberProfile toCreate;
         final MemberProfile created;
 
         log.debug("Creating member profile {}", memberProfile);
 
-        toCreate = new MemberProfile(memberProfile.identifier(), 0L, memberProfile.name(), memberProfile.birthDate(),
-            memberProfile.contactChannels(), memberProfile.comments(), memberProfile.active(), memberProfile.renew(),
-            memberProfile.feeType(), memberProfile.types());
-
-        created = memberProfileRepository.save(toCreate);
+        created = memberProfileRepository.save(memberProfile);
 
         log.debug("Created member profile {}", created);
 
@@ -197,6 +192,8 @@ public final class DefaultMemberProfileService implements MemberProfileService {
                 .orElse(existing.birthDate()),
             Optional.ofNullable(updated.contactChannels())
                 .orElse(existing.contactChannels()),
+            Optional.ofNullable(updated.address())
+                .orElse(existing.address()),
             Optional.ofNullable(updated.comments())
                 .orElse(existing.comments()),
             Optional.ofNullable(updated.active())

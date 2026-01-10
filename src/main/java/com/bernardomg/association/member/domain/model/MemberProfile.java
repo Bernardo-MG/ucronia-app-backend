@@ -35,17 +35,18 @@ import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
 import com.bernardomg.association.profile.domain.model.ProfileName;
 
 public record MemberProfile(String identifier, Long number, ProfileName name, Instant birthDate,
-        Collection<ContactChannel> contactChannels, String comments, Boolean active, Boolean renew, FeeType feeType,
-        Set<String> types) {
+        Collection<ContactChannel> contactChannels, String address, String comments, Boolean active, Boolean renew,
+        FeeType feeType, Set<String> types) {
 
     public MemberProfile(final String identifier, final Long number, final ProfileName name, final Instant birthDate,
-            final Collection<ContactChannel> contactChannels, final String comments, final Boolean active,
-            final Boolean renew, final FeeType feeType, final Set<String> types) {
+            final Collection<ContactChannel> contactChannels, final String address, final String comments,
+            final Boolean active, final Boolean renew, final FeeType feeType, final Set<String> types) {
         this.identifier = identifier;
         this.number = number;
         this.name = name;
         this.birthDate = birthDate;
         this.contactChannels = List.copyOf(contactChannels);
+        this.address = StringUtils.trim(address);
         this.comments = StringUtils.trim(comments);
         this.active = active;
         this.renew = renew;

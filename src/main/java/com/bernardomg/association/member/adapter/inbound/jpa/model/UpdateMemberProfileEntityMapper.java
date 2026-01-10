@@ -69,6 +69,8 @@ public final class UpdateMemberProfileEntityMapper {
             name, entity.getProfile()
                 .getBirthDate(),
             contactChannels, entity.getProfile()
+                .getAddress(),
+            entity.getProfile()
                 .getComments(),
             entity.getActive(), entity.getRenew(), feeType, entity.getProfile()
                 .getTypes());
@@ -87,6 +89,7 @@ public final class UpdateMemberProfileEntityMapper {
             .lastName());
         profile.setIdentifier(data.identifier());
         profile.setBirthDate(data.birthDate());
+        profile.setAddress(data.address());
         profile.setComments(data.comments());
 
         contactChannels = data.contactChannels()

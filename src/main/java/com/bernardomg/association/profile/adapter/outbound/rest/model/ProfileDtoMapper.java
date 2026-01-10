@@ -66,7 +66,7 @@ public final class ProfileDtoMapper {
             .toList();
 
         return new Profile(change.getIdentifier(), number, name, change.getBirthDate(), contactChannels,
-            change.getComments(), Set.of());
+            change.getAddress(), change.getComments(), Set.of());
     }
 
     public static final Profile toDomain(final ProfileCreationDto creation) {
@@ -77,7 +77,7 @@ public final class ProfileDtoMapper {
             creation.getName()
                 .getLastName());
 
-        return new Profile(creation.getIdentifier(), -1L, name, null, List.of(), "", Set.of());
+        return new Profile(creation.getIdentifier(), -1L, name, null, List.of(), "", "", Set.of());
     }
 
     public static final ProfileResponseDto toResponseDto(final Optional<Profile> profile) {
@@ -150,6 +150,7 @@ public final class ProfileDtoMapper {
             .name(name)
             .birthDate(profile.birthDate())
             .contactChannels(contactChannels)
+            .address(profile.address())
             .comments(profile.comments())
             .types(new ArrayList<>(profile.types()));
     }

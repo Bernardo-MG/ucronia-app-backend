@@ -66,7 +66,7 @@ class TestMemberProfileServiceCreate {
         service.create(guest);
 
         // THEN
-        verify(memberProfileRepository).save(MemberProfiles.toCreate());
+        verify(memberProfileRepository).save(MemberProfiles.active());
     }
 
     @Test
@@ -75,13 +75,13 @@ class TestMemberProfileServiceCreate {
         final MemberProfile guest;
 
         // GIVEN
-        guest = MemberProfiles.toCreate();
+        guest = MemberProfiles.active();
 
         // WHEN
         service.create(guest);
 
         // THEN
-        verify(memberProfileRepository).save(MemberProfiles.toCreate());
+        verify(memberProfileRepository).save(MemberProfiles.active());
     }
 
     @Test
@@ -91,7 +91,7 @@ class TestMemberProfileServiceCreate {
         final MemberProfile created;
 
         // GIVEN
-        guest = MemberProfiles.toCreate();
+        guest = MemberProfiles.active();
 
         given(memberProfileRepository.save(guest)).willReturn(MemberProfiles.active());
 
