@@ -59,7 +59,7 @@ public interface FeeService {
      *            member paying the fees
      * @return the new unpaid fee
      */
-    public Fee createUnpaidFee(final Long feeType, final YearMonth date, final Long number);
+    public Fee createFee(final Long feeType, final YearMonth date, final Long number);
 
     /**
      * Deletes the fee for the received member in the received date.

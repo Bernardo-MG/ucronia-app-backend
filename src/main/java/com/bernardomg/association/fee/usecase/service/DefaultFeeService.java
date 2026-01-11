@@ -134,11 +134,12 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    public final Fee createUnpaidFee(final Long type, final YearMonth date, final Long number) {
+    public final Fee createFee(final Long type, final YearMonth date, final Long number) {
         final Fee           newFee;
         final Fee           created;
         final MemberProfile member;
-        final Fee.FeeType   feeType;
+        final FeeType       feeType;
+        final Fee.FeeType   feeFeeType;
 
         log.info("Creating unpaid fee for {} for month {}", number, date);
 
@@ -147,9 +148,24 @@ public final class DefaultFeeService implements FeeService {
                 log.error("Missing member {}", number);
                 throw new MissingMemberException(number);
             });
+        feeType = feeTypeRepository.findOne(member.feeType()
+            .number())
+            .orElseThrow(() -> {
+                log.error("Missing fee type {}", member.feeType()
+                    .number());
+                throw new MissingFeeTypeException(member.feeType()
+                    .number());
+            });
 
-        feeType = new Fee.FeeType(type);
-        newFee = Fee.unpaid(date, member.number(), member.name(), feeType);
+        feeFeeType = new Fee.FeeType(type);
+
+        if (feeType.amount() == 0) {
+            // No amount
+            // Set to paid automatically
+            newFee = Fee.paid(date, member.number(), member.name(), feeFeeType);
+        } else {
+            newFee = Fee.unpaid(date, member.number(), member.name(), feeFeeType);
+        }
 
         validatorCreate.validate(newFee);
 

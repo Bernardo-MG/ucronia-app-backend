@@ -38,10 +38,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.MessageSource;
 
+import com.bernardomg.association.fee.domain.exception.MissingFeeTypeException;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
+import com.bernardomg.association.fee.test.configuration.factory.FeeTypes;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
@@ -54,8 +56,8 @@ import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Fee service - create unpaid fee")
-class TestFeeServiceCreateUnpaidFee {
+@DisplayName("Fee service - create fee")
+class TestFeeServiceCreateFee {
 
     @Mock
     private EventEmitter            eventEmitter;
@@ -79,18 +81,19 @@ class TestFeeServiceCreateUnpaidFee {
     private TransactionRepository   transactionRepository;
 
     @Test
-    @DisplayName("Can create unpaid fee")
-    void testCreateUnpaidFee() {
+    @DisplayName("Can create fee")
+    void testCreateFee() {
         final Fee fee;
 
         // GIVEN
         given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
             .willReturn(Optional.of(MemberProfiles.active()));
+        given(feeTypeRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(FeeTypes.positive()));
         given(feeRepository.save(Fees.notPaid())).willReturn(Fees.notPaid());
         given(feeRepository.exists(ProfileConstants.NUMBER, FeeConstants.DATE)).willReturn(false);
 
         // WHEN
-        fee = service.createUnpaidFee(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.DATE, ProfileConstants.NUMBER);
+        fee = service.createFee(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.DATE, ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(fee)
@@ -100,18 +103,18 @@ class TestFeeServiceCreateUnpaidFee {
 
     @Test
     @DisplayName("With the fee date already exists, it throws an exception")
-    void testPayFees_Existing() {
+    void testCreateFee_Existing() {
         final ThrowingCallable execution;
         final FieldFailure     failure;
 
         // GIVEN
         given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
             .willReturn(Optional.of(MemberProfiles.active()));
+        given(feeTypeRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(FeeTypes.positive()));
         given(feeRepository.exists(ProfileConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
 
         // WHEN
-        execution = () -> service.createUnpaidFee(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.DATE,
-            ProfileConstants.NUMBER);
+        execution = () -> service.createFee(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.DATE, ProfileConstants.NUMBER);
 
         // THEN
         failure = new FieldFailure("existing", "month", "month.existing", FeeConstants.DATE);
@@ -120,16 +123,54 @@ class TestFeeServiceCreateUnpaidFee {
     }
 
     @Test
+    @DisplayName("When the fee has an empty amount, it is paid automatically")
+    void testCreateFee_NoAmout() {
+        final Fee fee;
+
+        // GIVEN
+        given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
+            .willReturn(Optional.of(MemberProfiles.active()));
+        given(feeTypeRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(FeeTypes.zero()));
+        given(feeRepository.save(Fees.paidNoTransaction())).willReturn(Fees.paidNoTransaction());
+        given(feeRepository.exists(ProfileConstants.NUMBER, FeeConstants.DATE)).willReturn(false);
+
+        // WHEN
+        fee = service.createFee(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.DATE, ProfileConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(fee)
+            .as("fee")
+            .isEqualTo(Fees.paidNoTransaction());
+    }
+
+    @Test
+    @DisplayName("When the fee type doesn't exist it throws an exception")
+    void testCreateFee_NotExistingFeeType() {
+        final ThrowingCallable execution;
+
+        // GIVEN
+        given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
+            .willReturn(Optional.of(MemberProfiles.active()));
+        given(feeTypeRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.empty());
+
+        // WHEN
+        execution = () -> service.createFee(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.DATE, ProfileConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(MissingFeeTypeException.class);
+    }
+
+    @Test
     @DisplayName("When the member doesn't exist it throws an exception")
-    void testPayFees_NotExistingMember() {
+    void testCreateFee_NotExistingMember() {
         final ThrowingCallable execution;
 
         // GIVEN
         given(memberProfileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.createUnpaidFee(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.DATE,
-            ProfileConstants.NUMBER);
+        execution = () -> service.createFee(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.DATE, ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)

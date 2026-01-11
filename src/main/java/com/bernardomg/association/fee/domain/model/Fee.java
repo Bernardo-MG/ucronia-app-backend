@@ -47,6 +47,13 @@ public record Fee(YearMonth month, Boolean paid, Member member, FeeType feeType,
         return new Fee(month, true, member, feeType, Optional.of(transaction));
     }
 
+    public static Fee paid(final YearMonth month, final Long number, final ProfileName name, final FeeType feeType) {
+        final Member member;
+
+        member = new Fee.Member(number, name);
+        return new Fee(month, true, member, feeType, Optional.empty());
+    }
+
     public static record Member(Long number, ProfileName name) {}
 
     public static record Transaction(Instant date, Long index) {}
