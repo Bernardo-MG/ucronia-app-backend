@@ -193,30 +193,6 @@ class ITFeeRepositorySave {
                 "member.profile.id", "member.profile.contactChannels.id", "memberId", "feeType.id", "transaction.id")
             .containsExactly(FeeEntities.paid());
     }
-    @Test
-    @DisplayName("When the fee is paid without a transaction, it is persisted")
-    @PositiveFeeType
-    @ActiveMember
-    @FeeTransaction
-    void testSave_PaidNoTransaction_PersistedData() {
-        final Iterable<FeeEntity> fees;
-        final Fee                 fee;
-
-        // GIVEN
-        fee = Fees.paidNoTransaction();
-
-        // WHEN
-        repository.save(fee);
-
-        // THEN
-        fees = springRepository.findAll();
-
-        Assertions.assertThat(fees)
-            .as("fees")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "member.id", "member.feeType.id",
-                "member.profile.id", "member.profile.contactChannels.id", "memberId", "feeType.id", "transaction.id")
-            .containsExactly(FeeEntities.paidNoTransaction());
-    }
 
     @Test
     @DisplayName("Persists the fee to transaction relationship")
@@ -292,6 +268,31 @@ class ITFeeRepositorySave {
         Assertions.assertThat(created)
             .as("fees")
             .isEqualTo(Fees.paid());
+    }
+
+    @Test
+    @DisplayName("When the fee is paid without a transaction, it is persisted")
+    @PositiveFeeType
+    @ActiveMember
+    @FeeTransaction
+    void testSave_PaidNoTransaction_PersistedData() {
+        final Iterable<FeeEntity> fees;
+        final Fee                 fee;
+
+        // GIVEN
+        fee = Fees.paidNoTransaction();
+
+        // WHEN
+        repository.save(fee);
+
+        // THEN
+        fees = springRepository.findAll();
+
+        Assertions.assertThat(fees)
+            .as("fees")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "member.id", "member.feeType.id",
+                "member.profile.id", "member.profile.contactChannels.id", "memberId", "feeType.id", "transaction.id")
+            .containsExactly(FeeEntities.paidNoTransaction());
     }
 
 }

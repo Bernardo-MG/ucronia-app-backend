@@ -36,6 +36,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.association.fee.domain.exception.MissingFeeTypeException;
+import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
+import com.bernardomg.association.fee.test.configuration.factory.FeeTypeConstants;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
@@ -48,6 +51,9 @@ import com.bernardomg.association.profile.test.configuration.factory.ProfileCons
 class TestMemberProfileServiceUpdate {
 
     @Mock
+    private FeeTypeRepository           feeTypeRepository;
+
+    @Mock
     private MemberProfileRepository     memberProfileRepository;
 
     @InjectMocks
@@ -58,7 +64,7 @@ class TestMemberProfileServiceUpdate {
     }
 
     @Test
-    @DisplayName("With a not existing guest, an exception is thrown")
+    @DisplayName("With a not existing member, an exception is thrown")
     void testUpdate_NotExisting_Exception() {
         final MemberProfile    guest;
         final ThrowingCallable execution;
@@ -77,6 +83,26 @@ class TestMemberProfileServiceUpdate {
     }
 
     @Test
+    @DisplayName("With a not existing member, an exception is thrown")
+    void testUpdate_NotExistingFeeType_Exception() {
+        final MemberProfile    guest;
+        final ThrowingCallable execution;
+
+        // GIVEN
+        guest = MemberProfiles.nameChange();
+
+        given(memberProfileRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
+        given(feeTypeRepository.exists(FeeTypeConstants.NUMBER)).willReturn(false);
+
+        // WHEN
+        execution = () -> service.update(guest);
+
+        // THEN
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(MissingFeeTypeException.class);
+    }
+
+    @Test
     @DisplayName("With a guest having padding whitespaces in first and last name, these whitespaces are removed")
     void testUpdate_Padded_PersistedData() {
         final MemberProfile guest;
@@ -85,6 +111,7 @@ class TestMemberProfileServiceUpdate {
         guest = MemberProfiles.padded();
 
         given(memberProfileRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
+        given(feeTypeRepository.exists(FeeTypeConstants.NUMBER)).willReturn(true);
 
         // WHEN
         service.update(guest);
@@ -100,8 +127,8 @@ class TestMemberProfileServiceUpdate {
 
         // GIVEN
         guest = MemberProfiles.nameChange();
-
         given(memberProfileRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
+        given(feeTypeRepository.exists(FeeTypeConstants.NUMBER)).willReturn(true);
         given(memberProfileRepository.save(MemberProfiles.nameChange())).willReturn(MemberProfiles.nameChange());
 
         // WHEN
@@ -121,6 +148,7 @@ class TestMemberProfileServiceUpdate {
         guest = MemberProfiles.nameChange();
 
         given(memberProfileRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
+        given(feeTypeRepository.exists(FeeTypeConstants.NUMBER)).willReturn(true);
         given(memberProfileRepository.save(MemberProfiles.nameChange())).willReturn(MemberProfiles.nameChange());
 
         // WHEN

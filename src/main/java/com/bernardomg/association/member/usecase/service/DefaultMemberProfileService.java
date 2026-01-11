@@ -32,6 +32,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.association.fee.domain.exception.MissingFeeTypeException;
+import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.filter.MemberProfileFilter;
 import com.bernardomg.association.member.domain.model.MemberProfile;
@@ -56,12 +58,16 @@ public final class DefaultMemberProfileService implements MemberProfileService {
      */
     private static final Logger           log = LoggerFactory.getLogger(DefaultMemberProfileService.class);
 
+    private final FeeTypeRepository       feeTypeRepository;
+
     private final MemberProfileRepository memberProfileRepository;
 
-    public DefaultMemberProfileService(final MemberProfileRepository memberProfileRepo) {
+    public DefaultMemberProfileService(final MemberProfileRepository memberProfileRepo,
+            final FeeTypeRepository feeTypeRepo) {
         super();
 
         memberProfileRepository = Objects.requireNonNull(memberProfileRepo);
+        feeTypeRepository = Objects.requireNonNull(feeTypeRepo);
     }
 
     @Override
@@ -142,6 +148,14 @@ public final class DefaultMemberProfileService implements MemberProfileService {
                 throw new MissingMemberException(memberProfile.number());
             });
 
+        if (!feeTypeRepository.exists(memberProfile.feeType()
+            .number())) {
+            log.error("Missing fee type {}", memberProfile.feeType()
+                .number());
+            throw new MissingFeeTypeException(memberProfile.feeType()
+                .number());
+        }
+
         toSave = copy(existing, memberProfile);
 
         saved = memberProfileRepository.save(toSave);
@@ -160,6 +174,14 @@ public final class DefaultMemberProfileService implements MemberProfileService {
         if (!memberProfileRepository.exists(memberProfile.number())) {
             log.error("Missing member profile {}", memberProfile.number());
             throw new MissingMemberException(memberProfile.number());
+        }
+
+        if (!feeTypeRepository.exists(memberProfile.feeType()
+            .number())) {
+            log.error("Missing fee type {}", memberProfile.feeType()
+                .number());
+            throw new MissingFeeTypeException(memberProfile.feeType()
+                .number());
         }
 
         saved = memberProfileRepository.save(memberProfile);

@@ -135,27 +135,6 @@ public final class FeeEntities {
         return entity;
     }
 
-    public static final FeeEntity paidNoTransaction() {
-        final FeeEntity     entity;
-        final FeeTypeEntity feeType;
-
-        feeType = new FeeTypeEntity();
-        feeType.setId(1L);
-        feeType.setNumber(FeeConstants.FEE_TYPE_NUMBER);
-        feeType.setName(FeeConstants.FEE_TYPE_NAME);
-        feeType.setAmount(FeeConstants.FEE_TYPE_AMOUNT);
-
-        entity = new FeeEntity();
-        entity.setFeeType(feeType);
-        entity.setMember(MemberProfileEntities.withEmail());
-        entity.setMemberId(1L);
-        entity.setMonth(FeeConstants.DATE.atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant());
-        entity.setPaid(true);
-        return entity;
-    }
-
     public static final FeeEntity paidAtDate(final Instant date) {
         final FeeEntity         entity;
         final FeeTypeEntity     feeType;
@@ -267,6 +246,27 @@ public final class FeeEntities {
             .toInstant());
         entity.setPaid(true);
         entity.setTransaction(TransactionEntities.multipleFeesEndYear());
+        return entity;
+    }
+
+    public static final FeeEntity paidNoTransaction() {
+        final FeeEntity     entity;
+        final FeeTypeEntity feeType;
+
+        feeType = new FeeTypeEntity();
+        feeType.setId(1L);
+        feeType.setNumber(FeeConstants.FEE_TYPE_NUMBER);
+        feeType.setName(FeeConstants.FEE_TYPE_NAME);
+        feeType.setAmount(FeeConstants.FEE_TYPE_AMOUNT);
+
+        entity = new FeeEntity();
+        entity.setFeeType(feeType);
+        entity.setMember(MemberProfileEntities.withEmail());
+        entity.setMemberId(1L);
+        entity.setMonth(FeeConstants.DATE.atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant());
+        entity.setPaid(true);
         return entity;
     }
 

@@ -93,7 +93,7 @@ class TestFeeServiceCreateFee {
         given(feeRepository.exists(ProfileConstants.NUMBER, FeeConstants.DATE)).willReturn(false);
 
         // WHEN
-        fee = service.createFee( FeeConstants.DATE, ProfileConstants.NUMBER);
+        fee = service.createFee(FeeConstants.DATE, ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(fee)
@@ -114,7 +114,7 @@ class TestFeeServiceCreateFee {
         given(feeRepository.exists(ProfileConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
 
         // WHEN
-        execution = () -> service.createFee( FeeConstants.DATE, ProfileConstants.NUMBER);
+        execution = () -> service.createFee(FeeConstants.DATE, ProfileConstants.NUMBER);
 
         // THEN
         failure = new FieldFailure("existing", "month", "month.existing", FeeConstants.DATE);
@@ -135,7 +135,7 @@ class TestFeeServiceCreateFee {
         given(feeRepository.exists(ProfileConstants.NUMBER, FeeConstants.DATE)).willReturn(false);
 
         // WHEN
-        fee = service.createFee( FeeConstants.DATE, ProfileConstants.NUMBER);
+        fee = service.createFee(FeeConstants.DATE, ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(fee)
@@ -154,7 +154,7 @@ class TestFeeServiceCreateFee {
         given(feeTypeRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.createFee( FeeConstants.DATE, ProfileConstants.NUMBER);
+        execution = () -> service.createFee(FeeConstants.DATE, ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -170,7 +170,7 @@ class TestFeeServiceCreateFee {
         given(memberProfileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.createFee( FeeConstants.DATE, ProfileConstants.NUMBER);
+        execution = () -> service.createFee(FeeConstants.DATE, ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)

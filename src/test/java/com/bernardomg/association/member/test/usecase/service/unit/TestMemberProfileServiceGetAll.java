@@ -37,6 +37,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
 import com.bernardomg.association.member.domain.filter.MemberProfileFilter;
 import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.model.MemberStatus;
@@ -50,6 +51,9 @@ import com.bernardomg.data.domain.Sorting;
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultMemberProfileService - get all")
 class TestMemberProfileServiceGetAll {
+
+    @Mock
+    private FeeTypeRepository           feeTypeRepository;
 
     @Mock
     private MemberProfileRepository     memberProfileRepository;
