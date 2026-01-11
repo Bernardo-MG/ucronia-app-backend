@@ -442,7 +442,10 @@
             Reworked contacts and profiles.
          </action>
       </release>
-      <release version="1.0.0" date="2025-12-30" description="">
+      <release version="0.6.4" date="2026-01-11" description="Fee types">
+         <action dev="bmg" type="add">
+            Fee types.
+         </action>
       </release>
    </body>
 </document>
