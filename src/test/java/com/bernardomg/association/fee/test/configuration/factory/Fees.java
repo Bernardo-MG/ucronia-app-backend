@@ -326,6 +326,15 @@ public final class Fees {
         return Fee.paid(FeeConstants.NEXT_YEAR_MONTH, ProfileConstants.NUMBER, name, feeType, transaction);
     }
 
+    public static final Fee paidNoTransaction() {
+        final Fee.FeeType feeType;
+        final ProfileName name;
+
+        name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
+        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE_NUMBER);
+        return Fee.paid(FeeConstants.DATE, ProfileConstants.NUMBER, name, feeType);
+    }
+
     public static final Fee paidPreviousMonth() {
         final Fee.FeeType     feeType;
         final Fee.Transaction transaction;

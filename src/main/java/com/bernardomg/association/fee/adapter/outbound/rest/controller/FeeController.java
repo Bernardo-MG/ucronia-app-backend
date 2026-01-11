@@ -83,10 +83,10 @@ public class FeeController implements FeeApi {
 
     @Override
     @RequireResourceAuthorization(resource = "FEE", action = Actions.CREATE)
-    public FeeResponseDto createUnpaidFee(@Valid final FeeCreationDto feeCreationDto) {
+    public FeeResponseDto createFee(@Valid final FeeCreationDto feeCreationDto) {
         final Fee fee;
 
-        fee = service.createUnpaidFee(feeCreationDto.getFeeType(), feeCreationDto.getMonth(),
+        fee = service.createFee(feeCreationDto.getFeeType(), feeCreationDto.getMonth(),
             feeCreationDto.getMember());
 
         return FeeDtoMapper.toResponseDto(fee);
