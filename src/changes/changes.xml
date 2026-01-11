@@ -447,5 +447,10 @@
             Fee types.
          </action>
       </release>
+      <release version="0.6.5" date="2026-01-11" description="Auth corrections">
+         <action dev="bmg" type="fix">
+            Updated security dependency to fix role permissions.
+         </action>
+      </release>
    </body>
 </document>

@@ -99,10 +99,7 @@ permissions:
       - delete
   - resource: member
     actions:
-      - create
       - read
-      - update
-      - delete
       - view
   - resource: member_profile
     actions:
