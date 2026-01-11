@@ -54,15 +54,21 @@ public final class FeeEntityMapper {
         date = YearMonth.from(entity.getMonth()
             .atZone(ZoneOffset.UTC));
         if (entity.getPaid()) {
-            transaction = new Fee.Transaction(entity.getTransaction()
-                .getDate(),
-                entity.getTransaction()
-                    .getIndex());
             feeType = new Fee.FeeType(entity.getFeeType()
                 .getNumber());
-            fee = Fee.paid(date, entity.getMember()
-                .getProfile()
-                .getNumber(), name, feeType, transaction);
+            if (entity.getTransaction() == null) {
+                fee = Fee.paid(date, entity.getMember()
+                    .getProfile()
+                    .getNumber(), name, feeType);
+            } else {
+                transaction = new Fee.Transaction(entity.getTransaction()
+                    .getDate(),
+                    entity.getTransaction()
+                        .getIndex());
+                fee = Fee.paid(date, entity.getMember()
+                    .getProfile()
+                    .getNumber(), name, feeType, transaction);
+            }
         } else {
             feeType = new Fee.FeeType(entity.getFeeType()
                 .getNumber());

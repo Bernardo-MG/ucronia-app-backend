@@ -386,10 +386,12 @@ public final class JpaFeeRepository implements FeeRepository {
                 .number());
         }
 
-        feeType = feeTypeSpringRepository.findByNumber(member.get().getFeeType()
+        feeType = feeTypeSpringRepository.findByNumber(member.get()
+            .getFeeType()
             .getNumber());
         if (!feeType.isPresent()) {
-            log.warn("Fee type with number {} not found", member.get().getFeeType()
+            log.warn("Fee type with number {} not found", member.get()
+                .getFeeType()
                 .getNumber());
         }
 
@@ -410,7 +412,7 @@ public final class JpaFeeRepository implements FeeRepository {
                         .date());
             }
         } else {
-            paid = false;
+            paid = fee.paid();
             transaction = Optional.empty();
         }
 
