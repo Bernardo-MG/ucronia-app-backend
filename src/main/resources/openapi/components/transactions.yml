@@ -25,6 +25,7 @@ components:
           format: float
         description:
           type: string
+          maxLength: 200
     TransactionChange:
       type: object
       required: [date, amount, description]
@@ -36,6 +37,7 @@ components:
           format: float
         description:
           type: string
+          maxLength: 200
     Transaction:
       type: object
       properties:

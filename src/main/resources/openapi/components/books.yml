@@ -22,8 +22,10 @@ components:
           $ref: '#/components/schemas/BookTitle'
         isbn:
           type: string
+          maxLength: 17
         language:
           type: string
+          maxLength: 15
     FictionBookUpdate:
       type: object
       required: [title, isbn, language]
@@ -32,8 +34,10 @@ components:
           $ref: '#/components/schemas/BookTitle'
         isbn:
           type: string
+          maxLength: 17
         language:
           type: string
+          maxLength: 15
         publishDate:
           $ref: '../common/dates.yml#/components/schemas/Date'
           nullable: true
@@ -55,8 +59,10 @@ components:
           $ref: '#/components/schemas/BookTitle'
         isbn:
           type: string
+          maxLength: 17
         language:
           type: string
+          maxLength: 15
         publishDate:
           $ref: '../common/dates.yml#/components/schemas/Date'
           nullable: true

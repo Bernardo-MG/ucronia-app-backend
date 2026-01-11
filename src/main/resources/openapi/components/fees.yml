@@ -38,7 +38,7 @@ components:
           $ref: '../common/dates.yml#/components/schemas/Date'
     FeeFeeType:
       type: object
-      required: [index, date]
+      required: [number]
       properties:
         number:
           $ref: '../common/ids.yml#/components/schemas/Id'

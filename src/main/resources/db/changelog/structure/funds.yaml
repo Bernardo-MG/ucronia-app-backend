@@ -79,8 +79,10 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: name
-                  type: varchar(15)
-                  defaultValue: ''
+                  type: varchar(50)
+                  constraints:
+                    unique: true
+                    nullable: false
               - column:
                   name: amount
                   type: decimal(10,2)

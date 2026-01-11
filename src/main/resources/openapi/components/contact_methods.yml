@@ -30,6 +30,7 @@ components:
         name:
           type: string
           description: Name of the new contact method.
+          maxLength: 50
     ContactMethodChange:
       type: object
       required: [name]
@@ -37,6 +38,7 @@ components:
         name:
           type: string
           description: Updated name of the contact method.
+          maxLength: 50
     ContactMethodPageResponse:
       allOf:
         - $ref: '../common/responses.yml#/components/schemas/PageResponse'

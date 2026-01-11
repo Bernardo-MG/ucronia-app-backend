@@ -31,6 +31,7 @@ components:
         identifier:
           type: string
           description: Unique identifier of the member.
+          maxLength: 15
         name:
           $ref: 'profiles.yml#/components/schemas/ProfileName'
         birthDate:
@@ -42,9 +43,11 @@ components:
         address:
           type: string
           description: Member address.
+          maxLength: 250
         comments:
           type: string
           description: Comments about the member.
+          maxLength: 250
         feeType:
           $ref: '../common/ids.yml#/components/schemas/Id'
         active:
@@ -66,6 +69,7 @@ components:
         identifier:
           type: string
           description: Unique identifier of the member.
+          maxLength: 15
         name:
           $ref: 'profiles.yml#/components/schemas/EditionProfileName'
     MemberProfileChange:
@@ -73,6 +77,7 @@ components:
       properties:
         identifier:
           type: string
+          maxLength: 15
         feeType:
           $ref: '../common/ids.yml#/components/schemas/Id'
         name:
@@ -86,8 +91,10 @@ components:
         address:
           type: string
           description: Member address.
+          maxLength: 250
         comments:
           type: string
+          maxLength: 250
         active:
           type: boolean
           description: Whether the member is active.

@@ -29,6 +29,7 @@ components:
         name:
           type: string
           example: 'd20'
+          maxLength: 100
     GameSystemChange:
       type: object
       required: [name]
@@ -36,6 +37,7 @@ components:
         name:
           type: string
           example: 'd20'
+          maxLength: 100
     GameSystemPageResponse:
       allOf:
         - $ref: '../common/responses.yml#/components/schemas/PageResponse'

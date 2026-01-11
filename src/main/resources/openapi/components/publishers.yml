@@ -29,6 +29,7 @@ components:
         name:
           type: string
           example: 'Wizards of the Coast'
+          maxLength: 100
     PublisherChange:
       type: object
       required: [name]
@@ -36,6 +37,7 @@ components:
         name:
           type: string
           example: 'Wizards of the Coast'
+          maxLength: 100
     PublisherPageResponse:
       allOf:
         - $ref: '../common/responses.yml#/components/schemas/PageResponse'

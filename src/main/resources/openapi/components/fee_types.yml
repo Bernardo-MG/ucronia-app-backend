@@ -20,6 +20,7 @@ components:
       properties:
         name:
           type: string
+          maxLength: 50
         amount:
           type: number
           format: float
@@ -29,6 +30,7 @@ components:
       properties:
         name:
           type: string
+          maxLength: 50
         amount:
           type: number
           format: float
