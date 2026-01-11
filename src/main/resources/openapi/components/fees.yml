@@ -44,10 +44,8 @@ components:
           $ref: '../common/ids.yml#/components/schemas/Id'
     FeeCreation:
       type: object
-      required: [feeType, member, month]
+      required: [member, month]
       properties:
-        feeType:
-          $ref: '../common/ids.yml#/components/schemas/Id'
         member:
           $ref: '../common/ids.yml#/components/schemas/Id'
         month:

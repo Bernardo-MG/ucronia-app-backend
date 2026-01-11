@@ -134,7 +134,7 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    public final Fee createFee(final Long type, final YearMonth date, final Long number) {
+    public final Fee createFee(final YearMonth date, final Long number) {
         final Fee           newFee;
         final Fee           created;
         final MemberProfile member;
@@ -157,7 +157,8 @@ public final class DefaultFeeService implements FeeService {
                     .number());
             });
 
-        feeFeeType = new Fee.FeeType(type);
+        feeFeeType = new Fee.FeeType(member.feeType()
+            .number());
 
         if (feeType.amount() == 0) {
             // No amount
