@@ -69,7 +69,7 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
     private static final Logger                 log                = LoggerFactory
         .getLogger(JpaMemberProfileRepository.class);
 
-    private static final Collection<String>     PROFILE_PROPERTIES = List.of("firstName", "lastName");
+    private static final Collection<String>     PROFILE_PROPERTIES = List.of("firstName", "lastName", "number");
 
     private final ContactMethodSpringRepository contactMethodSpringRepository;
 

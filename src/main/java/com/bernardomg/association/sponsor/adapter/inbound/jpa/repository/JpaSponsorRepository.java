@@ -68,7 +68,7 @@ public final class JpaSponsorRepository implements SponsorRepository {
     private static final Logger                 log                = LoggerFactory
         .getLogger(JpaSponsorRepository.class);
 
-    private static final Collection<String>     PROFILE_PROPERTIES = List.of("firstName", "lastName");
+    private static final Collection<String>     PROFILE_PROPERTIES = List.of("firstName", "lastName", "number");
 
     private final ContactMethodSpringRepository contactMethodSpringRepository;
 
