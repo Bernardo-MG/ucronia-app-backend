@@ -64,7 +64,7 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
                  AND f.transaction IS NOT NULL
             """)
     public boolean existsByMemberNumberAndMonthAndPaid(@Param("number") final Long number,
-            @Param("v") final Instant month);
+            @Param("month") final Instant month);
 
     @Query("""
                SELECT f

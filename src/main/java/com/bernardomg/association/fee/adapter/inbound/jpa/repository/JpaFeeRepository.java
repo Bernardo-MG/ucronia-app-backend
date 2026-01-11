@@ -135,7 +135,7 @@ public final class JpaFeeRepository implements FeeRepository {
         final boolean exists;
         final Instant dateParsed;
 
-        log.debug("checking a paid fee exists for member {} in date {}", number, date);
+        log.debug("Checking a paid fee exists for member {} in date {}", number, date);
 
         dateParsed = date.atDay(1)
             .atStartOfDay(ZoneOffset.UTC)
