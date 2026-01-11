@@ -27,11 +27,8 @@ package com.bernardomg.association.settings.adapter.outbound.rest.controller;
 import java.util.Collection;
 import java.util.Optional;
 
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.settings.adapter.outbound.cache.SettingsCaches;
 import com.bernardomg.association.settings.adapter.outbound.rest.model.SettingsDtoMapper;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.access.annotation.Unsecured;
@@ -82,7 +79,6 @@ public class AssociationSettingController implements AssociationSettingsApi {
 
     @Override
     @RequireResourceAuthorization(resource = "ASSOCIATION_SETTINGS", action = Actions.UPDATE)
-    @Caching(evict = { @CacheEvict(cacheNames = { SettingsCaches.PUBLIC }, allEntries = true) })
     public SettingResponseDto updateAssociationSetting(final String code,
             @Valid final SettingChangeDto settingChangeDto) {
         final Setting setting;

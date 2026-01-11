@@ -50,6 +50,10 @@ databaseChangeLog:
                   type: varchar(250)
                   defaultValue: ''
               - column:
+                  name: address
+                  type: varchar(250)
+                  defaultValue: ''
+              - column:
                   name: types
                   type: json
                   defaultValue: '[]'

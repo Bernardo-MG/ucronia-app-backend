@@ -29,7 +29,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.QueryMemberProfileSpringRepository;
+import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberProfileSpringRepository;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
@@ -42,13 +43,13 @@ import com.bernardomg.test.configuration.annotation.IntegrationTest;
 class ITMemberProfileRepositoryDelete {
 
     @Autowired
-    private ProfileSpringRepository            profileSpringRepository;
+    private ProfileSpringRepository       profileSpringRepository;
 
     @Autowired
-    private MemberProfileRepository            repository;
+    private MemberProfileRepository       repository;
 
     @Autowired
-    private QueryMemberProfileSpringRepository springRepository;
+    private MemberProfileSpringRepository springRepository;
 
     public ITMemberProfileRepositoryDelete() {
         super();
@@ -56,6 +57,7 @@ class ITMemberProfileRepositoryDelete {
 
     @Test
     @DisplayName("When deleting a member, it is deleted")
+    @PositiveFeeType
     @ActiveMember
     void testDelete_Active() {
         // WHEN
@@ -68,6 +70,7 @@ class ITMemberProfileRepositoryDelete {
 
     @Test
     @DisplayName("When deleting a member, the profile is deleted")
+    @PositiveFeeType
     @ActiveMember
     void testDelete_Active_Profile() {
         // WHEN

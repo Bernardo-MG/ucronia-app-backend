@@ -55,6 +55,9 @@ public final class MemberProfileDtoMapper {
     public static final MemberProfile toDomain(final long number, final MemberProfileChangeDto change) {
         final ProfileName                name;
         final Collection<ContactChannel> contactChannels;
+        final MemberProfile.FeeType      feeType;
+
+        feeType = new MemberProfile.FeeType(change.getFeeType());
 
         name = new ProfileName(change.getName()
             .getFirstName(),
@@ -65,19 +68,23 @@ public final class MemberProfileDtoMapper {
             .map(MemberProfileDtoMapper::toDomain)
             .toList();
 
-        return new MemberProfile(change.getIdentifier(), number, name, null, contactChannels, change.getComments(),
-            change.getActive(), change.getRenew(), Set.of());
+        return new MemberProfile(change.getIdentifier(), number, name, null, contactChannels, change.getAddress(),
+            change.getComments(), change.getActive(), change.getRenew(), feeType, Set.of());
     }
 
     public static final MemberProfile toDomain(final MemberProfileCreationDto creation) {
-        final ProfileName name;
+        final ProfileName           name;
+        final MemberProfile.FeeType feeType;
+
+        feeType = new MemberProfile.FeeType(creation.getFeeType());
 
         name = new ProfileName(creation.getName()
             .getFirstName(),
             creation.getName()
                 .getLastName());
 
-        return new MemberProfile(creation.getIdentifier(), -1L, name, null, List.of(), "", true, true, Set.of());
+        return new MemberProfile(creation.getIdentifier(), -1L, name, null, List.of(), "", "", true, true, feeType,
+            Set.of());
     }
 
     public static final MemberProfileResponseDto toResponseDto(final MemberProfile contact) {
@@ -119,7 +126,7 @@ public final class MemberProfileDtoMapper {
     }
 
     private static final ContactChannelDto toDto(final ContactChannel contact) {
-        ContactMethodDto method;
+        final ContactMethodDto method;
 
         method = new ContactMethodDto().number(contact.contactMethod()
             .number())
@@ -130,30 +137,33 @@ public final class MemberProfileDtoMapper {
             .method(method);
     }
 
-    private static final MemberProfileDto toDto(final MemberProfile MemberProfile) {
-        ProfileNameDto          name;
-        List<ContactChannelDto> contactChannels;
+    private static final MemberProfileDto toDto(final MemberProfile memberProfile) {
+        final ProfileNameDto          name;
+        final List<ContactChannelDto> contactChannels;
 
-        name = new ProfileNameDto().firstName(MemberProfile.name()
+        name = new ProfileNameDto().firstName(memberProfile.name()
             .firstName())
-            .lastName(MemberProfile.name()
+            .lastName(memberProfile.name()
                 .lastName())
-            .fullName(MemberProfile.name()
+            .fullName(memberProfile.name()
                 .fullName());
-        contactChannels = MemberProfile.contactChannels()
+        contactChannels = memberProfile.contactChannels()
             .stream()
             .map(MemberProfileDtoMapper::toDto)
             .toList();
 
-        return new MemberProfileDto().identifier(MemberProfile.identifier())
-            .number(MemberProfile.number())
+        return new MemberProfileDto().identifier(memberProfile.identifier())
+            .number(memberProfile.number())
             .name(name)
-            .birthDate(MemberProfile.birthDate())
+            .birthDate(memberProfile.birthDate())
             .contactChannels(contactChannels)
-            .comments(MemberProfile.comments())
-            .active(MemberProfile.active())
-            .renew(MemberProfile.renew())
-            .types(new ArrayList<>(MemberProfile.types()));
+            .address(memberProfile.address())
+            .comments(memberProfile.comments())
+            .active(memberProfile.active())
+            .renew(memberProfile.renew())
+            .feeType(memberProfile.feeType()
+                .number())
+            .types(new ArrayList<>(memberProfile.types()));
     }
 
     private static final PropertyDto toDto(final Property property) {

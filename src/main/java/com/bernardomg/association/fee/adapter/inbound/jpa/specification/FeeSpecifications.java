@@ -34,11 +34,13 @@ import com.bernardomg.association.fee.domain.model.FeeQuery;
 
 public final class FeeSpecifications {
 
+    private static final String MONTH = "month";
+
     public static Optional<Specification<FeeEntity>> fromQuery(final FeeQuery query) {
         final Optional<Specification<FeeEntity>> spec;
 
-        if (query.date() != null) {
-            spec = Optional.of(on(query.date()));
+        if (query.month() != null) {
+            spec = Optional.of(on(query.month()));
         } else if ((query.from() != null) && (query.to() != null)) {
             spec = Optional.of(between(query.from(), query.to()));
         } else if (query.from() != null) {
@@ -53,19 +55,19 @@ public final class FeeSpecifications {
     }
 
     private static Specification<FeeEntity> after(final Instant date) {
-        return (root, query, cb) -> cb.greaterThanOrEqualTo(root.get("date"), date);
+        return (root, query, cb) -> cb.greaterThanOrEqualTo(root.get(MONTH), date);
     }
 
     private static Specification<FeeEntity> before(final Instant date) {
-        return (root, query, cb) -> cb.lessThanOrEqualTo(root.get("date"), date);
+        return (root, query, cb) -> cb.lessThanOrEqualTo(root.get(MONTH), date);
     }
 
     private static Specification<FeeEntity> between(final Instant start, final Instant end) {
-        return (root, query, cb) -> cb.between(root.get("date"), start, end);
+        return (root, query, cb) -> cb.between(root.get(MONTH), start, end);
     }
 
     private static Specification<FeeEntity> on(final Instant date) {
-        return (root, query, cb) -> cb.equal(root.get("date"), date);
+        return (root, query, cb) -> cb.equal(root.get(MONTH), date);
     }
 
     private FeeSpecifications() {

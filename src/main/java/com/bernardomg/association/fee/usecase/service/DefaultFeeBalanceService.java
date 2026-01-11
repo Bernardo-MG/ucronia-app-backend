@@ -25,7 +25,6 @@
 package com.bernardomg.association.fee.usecase.service;
 
 import java.time.YearMonth;
-import java.util.Collection;
 import java.util.Objects;
 
 import org.slf4j.Logger;
@@ -33,9 +32,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeBalance;
-import com.bernardomg.association.fee.domain.repository.FeeRepository;
+import com.bernardomg.association.fee.domain.repository.FeeBalanceRepository;
 
 /**
  * Default implementation of the fee report service.
@@ -49,37 +47,27 @@ public final class DefaultFeeBalanceService implements FeeBalanceService {
     /**
      * Logger for the class.
      */
-    private static final Logger log = LoggerFactory.getLogger(DefaultFeeBalanceService.class);
+    private static final Logger        log = LoggerFactory.getLogger(DefaultFeeBalanceService.class);
 
-    private final FeeRepository feeRepository;
+    private final FeeBalanceRepository feeBalanceRepository;
 
-    public DefaultFeeBalanceService(final FeeRepository feeRepo) {
+    public DefaultFeeBalanceService(final FeeBalanceRepository feeBalanceRepo) {
         super();
 
-        feeRepository = Objects.requireNonNull(feeRepo);
+        feeBalanceRepository = Objects.requireNonNull(feeBalanceRepo);
     }
 
     @Override
     public final FeeBalance getFeeBalance() {
-        final Collection<Fee> fees;
-        final long            paid;
-        final long            unpaid;
-        final FeeBalance      report;
+        final FeeBalance balance;
 
         log.info("Getting fee balance");
 
-        // TODO: user a smaller query
-        fees = feeRepository.findAllInMonth(YearMonth.now());
-        paid = fees.stream()
-            .filter(Fee::paid)
-            .count();
-        unpaid = fees.size() - paid;
+        balance = feeBalanceRepository.findForMonth(YearMonth.now());
 
-        report = new FeeBalance(paid, unpaid);
+        log.debug("Got fee balance: {}", balance);
 
-        log.debug("Got fee balance: {}", report);
-
-        return report;
+        return balance;
     }
 
 }

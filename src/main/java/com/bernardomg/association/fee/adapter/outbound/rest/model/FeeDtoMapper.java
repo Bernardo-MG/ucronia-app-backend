@@ -32,6 +32,8 @@ import java.util.Optional;
 
 import com.bernardomg.association.fee.domain.dto.FeePayments;
 import com.bernardomg.association.fee.domain.model.Fee;
+import com.bernardomg.association.fee.domain.model.Fee.FeeType;
+import com.bernardomg.association.fee.domain.model.Fee.Transaction;
 import com.bernardomg.association.fee.domain.model.MemberFees;
 import com.bernardomg.association.fee.domain.model.YearsRange;
 import com.bernardomg.data.domain.Page;
@@ -43,12 +45,12 @@ import com.bernardomg.ucronia.openapi.model.FeeDto;
 import com.bernardomg.ucronia.openapi.model.FeePageResponseDto;
 import com.bernardomg.ucronia.openapi.model.FeePaymentsDto;
 import com.bernardomg.ucronia.openapi.model.FeeResponseDto;
+import com.bernardomg.ucronia.openapi.model.FeeTransactionDto;
 import com.bernardomg.ucronia.openapi.model.FeesResponseDto;
 import com.bernardomg.ucronia.openapi.model.MemberFeeDto;
 import com.bernardomg.ucronia.openapi.model.MemberFeesDto;
 import com.bernardomg.ucronia.openapi.model.MemberFeesResponseDto;
 import com.bernardomg.ucronia.openapi.model.MinimalProfileDto;
-import com.bernardomg.ucronia.openapi.model.MinimalTransactionDto;
 import com.bernardomg.ucronia.openapi.model.ProfileNameDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
@@ -59,27 +61,30 @@ import com.bernardomg.ucronia.openapi.model.YearsRangeResponseDto;
 public final class FeeDtoMapper {
 
     public static final Fee toDomain(final FeeChangeDto change, final YearMonth month, final long number) {
-        final Fee.Member                member;
-        final Optional<Fee.Transaction> transaction;
+        final Transaction transaction;
+        final Fee         fee;
+        final FeeType     feeType;
 
-        member = new Fee.Member(number, null);
         if ((change.getTransaction()
             .getIndex() == null)
                 && ((change.getTransaction()
                     .getDate() == null))) {
-            transaction = Optional.empty();
+            feeType = new Fee.FeeType(change.getFeeType());
+            fee = Fee.unpaid(month, number, null, feeType);
         } else {
-            transaction = Optional.of(new Fee.Transaction(change.getTransaction()
+            transaction = new Fee.Transaction(change.getTransaction()
                 .getDate(),
                 change.getTransaction()
-                    .getIndex()));
+                    .getIndex());
+            feeType = new Fee.FeeType(change.getFeeType());
+            fee = Fee.paid(month, number, null, feeType, transaction);
         }
 
-        return new Fee(month, false, member, transaction);
+        return fee;
     }
 
     public static final FeePayments toDomain(final FeePaymentsDto dto) {
-        return new FeePayments(dto.getMember(), dto.getPaymentDate(), dto.getMonths());
+        return new FeePayments(dto.getFeeType(), dto.getMember(), dto.getPaymentDate(), dto.getMonths());
     }
 
     public static final MemberFeesResponseDto toMemberResponseDto(final Collection<MemberFees> fees) {
@@ -136,9 +141,9 @@ public final class FeeDtoMapper {
     }
 
     private static final FeeDto toDto(final Fee fee) {
-        final ProfileNameDto        name;
-        final MinimalProfileDto     member;
-        final MinimalTransactionDto transaction;
+        final ProfileNameDto    name;
+        final MinimalProfileDto member;
+        final FeeTransactionDto transaction;
 
         name = new ProfileNameDto().firstName(fee.member()
             .name()
@@ -154,7 +159,7 @@ public final class FeeDtoMapper {
                 .number());
         if (fee.transaction()
             .isPresent()) {
-            transaction = new MinimalTransactionDto().date(fee.transaction()
+            transaction = new FeeTransactionDto().date(fee.transaction()
                 .get()
                 .date())
                 .index(fee.transaction()

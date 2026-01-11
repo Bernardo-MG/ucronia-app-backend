@@ -13,7 +13,7 @@ import com.bernardomg.settings.adapter.inbound.jpa.repository.SettingsSpringRepo
 import com.bernardomg.settings.domain.model.Setting;
 import com.bernardomg.settings.domain.repository.SettingRepository;
 import com.bernardomg.settings.test.configuration.data.annotation.CleanSetting;
-import com.bernardomg.settings.test.configuration.data.annotation.FeeAmountSetting;
+import com.bernardomg.settings.test.configuration.data.annotation.IntegerSetting;
 import com.bernardomg.settings.test.configuration.factory.SettingEntities;
 import com.bernardomg.settings.test.configuration.factory.Settings;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -36,7 +36,7 @@ public class ITSettingRepositorySave {
         final Collection<SettingsEntity> settings;
 
         // GIVEN
-        setting = Settings.amount();
+        setting = Settings.intValue();
 
         // WHEN
         repository.save(setting);
@@ -47,19 +47,19 @@ public class ITSettingRepositorySave {
         Assertions.assertThat(settings)
             .as("settings")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
-            .containsExactly(SettingEntities.amount());
+            .containsExactly(SettingEntities.intValue());
     }
 
     @Test
     @DisplayName("When saving the fee amount, the setting is persisted")
     @CleanSetting
-    @FeeAmountSetting
+    @IntegerSetting
     void testSave_Persisted() {
         final Setting                    setting;
         final Collection<SettingsEntity> settings;
 
         // GIVEN
-        setting = Settings.amount();
+        setting = Settings.intValue();
 
         // WHEN
         repository.save(setting);
@@ -70,18 +70,18 @@ public class ITSettingRepositorySave {
         Assertions.assertThat(settings)
             .as("settings")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
-            .containsExactly(SettingEntities.amount());
+            .containsExactly(SettingEntities.intValue());
     }
 
     @Test
     @DisplayName("When saving the fee amount, the setting is returned")
-    @FeeAmountSetting
+    @IntegerSetting
     void testSave_Returned() {
         final Setting setting;
         final Setting created;
 
         // GIVEN
-        setting = Settings.amount();
+        setting = Settings.intValue();
 
         // WHEN
         created = repository.save(setting);
@@ -89,7 +89,7 @@ public class ITSettingRepositorySave {
         // THEN
         Assertions.assertThat(created)
             .as("created")
-            .isEqualTo(Settings.amount());
+            .isEqualTo(Settings.intValue());
     }
 
 }

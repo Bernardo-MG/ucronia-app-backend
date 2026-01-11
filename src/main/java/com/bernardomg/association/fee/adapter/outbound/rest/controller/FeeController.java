@@ -31,13 +31,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.fee.adapter.outbound.cache.FeeCaches;
 import com.bernardomg.association.fee.adapter.outbound.rest.model.FeeDtoMapper;
 import com.bernardomg.association.fee.domain.dto.FeePayments;
 import com.bernardomg.association.fee.domain.model.Fee;
@@ -46,7 +41,6 @@ import com.bernardomg.association.fee.domain.model.MemberFees;
 import com.bernardomg.association.fee.domain.model.YearsRange;
 import com.bernardomg.association.fee.usecase.service.FeeService;
 import com.bernardomg.association.member.domain.model.MemberStatus;
-import com.bernardomg.association.transaction.adapter.outbound.cache.TransactionCaches;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -89,29 +83,16 @@ public class FeeController implements FeeApi {
 
     @Override
     @RequireResourceAuthorization(resource = "FEE", action = Actions.CREATE)
-    @Caching(
-            put = { @CachePut(cacheNames = FeeCaches.FEE,
-                    key = "#result.content.member.number + ':' + #result.content.month") },
-            evict = { @CacheEvict(cacheNames = {
-                    // Fee caches
-                    FeeCaches.FEES, FeeCaches.MEMBER_FEES, FeeCaches.YEAR_RANGE,
-                    // Funds caches
-                    TransactionCaches.TRANSACTIONS, TransactionCaches.TRANSACTION, TransactionCaches.BALANCE,
-                    TransactionCaches.MONTHLY_BALANCE, TransactionCaches.CALENDAR, TransactionCaches.CALENDAR_RANGE },
-                    allEntries = true) })
-    public FeeResponseDto createUnpaidFee(@Valid final FeeCreationDto feeCreationDto) {
+    public FeeResponseDto createFee(@Valid final FeeCreationDto feeCreationDto) {
         final Fee fee;
 
-        fee = service.createUnpaidFee(feeCreationDto.getMonth(), feeCreationDto.getMember());
+        fee = service.createFee(feeCreationDto.getMonth(), feeCreationDto.getMember());
 
         return FeeDtoMapper.toResponseDto(fee);
     }
 
     @Override
     @RequireResourceAuthorization(resource = "FEE", action = Actions.DELETE)
-    @Caching(evict = { @CacheEvict(cacheNames = { FeeCaches.FEE }, key = "#p0 + ':' + #p1"), @CacheEvict(cacheNames = {
-            // Fee caches
-            FeeCaches.FEES, FeeCaches.MEMBER_FEES, FeeCaches.YEAR_RANGE }, allEntries = true) })
     public FeeResponseDto deleteFee(final Long member, final YearMonth month) {
         final Fee fee;
 
@@ -122,7 +103,6 @@ public class FeeController implements FeeApi {
 
     @Override
     @RequireResourceAuthorization(resource = "FEE", action = Actions.READ)
-    @Cacheable(cacheNames = FeeCaches.FEES)
     public FeePageResponseDto getAllFees(@Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size,
             @Valid final List<String> sort, @Valid final Instant date, @Valid final Instant from,
             @Valid final Instant to) {
@@ -141,7 +121,6 @@ public class FeeController implements FeeApi {
 
     @Override
     @RequireResourceAuthorization(resource = "FEE", action = Actions.READ)
-    @Cacheable(cacheNames = FeeCaches.YEAR_RANGE)
     public YearsRangeResponseDto getFeesYearsRange() {
         final YearsRange range;
 
@@ -152,7 +131,6 @@ public class FeeController implements FeeApi {
 
     @Override
     @RequireResourceAuthorization(resource = "FEE", action = Actions.READ)
-    @Cacheable(cacheNames = FeeCaches.MEMBER_FEES)
     public MemberFeesResponseDto getMemberFees(final Integer year, @NotNull @Valid final String status,
             @Valid final List<String> sort) {
         final MemberStatus           memberStatus;
@@ -168,7 +146,6 @@ public class FeeController implements FeeApi {
 
     @Override
     @RequireResourceAuthorization(resource = "FEE", action = Actions.READ)
-    @Cacheable(cacheNames = FeeCaches.FEE, key = "#p0 + ':' + #p1")
     public FeeResponseDto getOneFee(final Long member, final YearMonth month) {
         final Optional<Fee> fee;
 
@@ -179,13 +156,6 @@ public class FeeController implements FeeApi {
 
     @Override
     @RequireResourceAuthorization(resource = "FEE", action = Actions.CREATE)
-    @Caching(evict = { @CacheEvict(cacheNames = {
-            // Fee caches
-            FeeCaches.FEES, FeeCaches.MEMBER_FEES, FeeCaches.YEAR_RANGE,
-            // Funds caches
-            TransactionCaches.TRANSACTIONS, TransactionCaches.TRANSACTION, TransactionCaches.BALANCE,
-            TransactionCaches.MONTHLY_BALANCE, TransactionCaches.CALENDAR, TransactionCaches.CALENDAR_RANGE },
-            allEntries = true) })
     public FeesResponseDto payFee(@Valid final FeePaymentsDto feePaymentsDto) {
         final Collection<Fee> fees;
         final FeePayments     payments;
@@ -197,17 +167,7 @@ public class FeeController implements FeeApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "FEE", action = Actions.CREATE)
-    @Caching(
-            put = { @CachePut(cacheNames = FeeCaches.FEE,
-                    key = "#result.content.member.number + ':' + #result.content.month") },
-            evict = { @CacheEvict(cacheNames = {
-                    // Fee caches
-                    FeeCaches.FEES, FeeCaches.MEMBER_FEES, FeeCaches.YEAR_RANGE,
-                    // Funds caches
-                    TransactionCaches.TRANSACTIONS, TransactionCaches.TRANSACTION, TransactionCaches.BALANCE,
-                    TransactionCaches.MONTHLY_BALANCE, TransactionCaches.CALENDAR, TransactionCaches.CALENDAR_RANGE },
-                    allEntries = true) })
+    @RequireResourceAuthorization(resource = "FEE", action = Actions.UPDATE)
     public FeeResponseDto updateFee(final Long member, final YearMonth month, @Valid final FeeChangeDto feeChangeDto) {
         final Fee fee;
         final Fee updated;

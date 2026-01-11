@@ -26,9 +26,10 @@ package com.bernardomg.association.fee.adapter.inbound.jpa.model;
 
 import java.time.YearMonth;
 import java.time.ZoneOffset;
-import java.util.Optional;
 
 import com.bernardomg.association.fee.domain.model.Fee;
+import com.bernardomg.association.fee.domain.model.Fee.FeeType;
+import com.bernardomg.association.fee.domain.model.Fee.Transaction;
 import com.bernardomg.association.profile.domain.model.ProfileName;
 
 /**
@@ -37,29 +38,46 @@ import com.bernardomg.association.profile.domain.model.ProfileName;
 public final class FeeEntityMapper {
 
     public static final Fee toDomain(final FeeEntity entity) {
-        final Fee.Member                member;
-        final Optional<Fee.Transaction> transaction;
-        final ProfileName               name;
-        final YearMonth                 date;
+        final Transaction transaction;
+        final ProfileName name;
+        final YearMonth   date;
+        final Fee         fee;
+        final FeeType     feeType;
 
         name = new ProfileName(entity.getMember()
+            .getProfile()
             .getFirstName(),
             entity.getMember()
+                .getProfile()
                 .getLastName());
-        member = new Fee.Member(entity.getMember()
-            .getNumber(), name);
 
-        if (entity.getPaid()) {
-            transaction = Optional.of(new Fee.Transaction(entity.getTransaction()
-                .getDate(),
-                entity.getTransaction()
-                    .getIndex()));
-        } else {
-            transaction = Optional.empty();
-        }
-        date = YearMonth.from(entity.getDate()
+        date = YearMonth.from(entity.getMonth()
             .atZone(ZoneOffset.UTC));
-        return new Fee(date, entity.getPaid(), member, transaction);
+        if (entity.getPaid()) {
+            feeType = new Fee.FeeType(entity.getFeeType()
+                .getNumber());
+            if (entity.getTransaction() == null) {
+                fee = Fee.paid(date, entity.getMember()
+                    .getProfile()
+                    .getNumber(), name, feeType);
+            } else {
+                transaction = new Fee.Transaction(entity.getTransaction()
+                    .getDate(),
+                    entity.getTransaction()
+                        .getIndex());
+                fee = Fee.paid(date, entity.getMember()
+                    .getProfile()
+                    .getNumber(), name, feeType, transaction);
+            }
+        } else {
+            feeType = new Fee.FeeType(entity.getFeeType()
+                .getNumber());
+            fee = Fee.unpaid(date, entity.getMember()
+                .getProfile()
+                .getNumber(), name, feeType);
+        }
+
+        return fee;
     }
 
     private FeeEntityMapper() {

@@ -56,8 +56,6 @@ public interface FeeRepository {
      */
     public Page<Fee> findAllForProfile(final Long number, final Pagination pagination, final Sorting sorting);
 
-    public Collection<Fee> findAllInMonth(final YearMonth date);
-
     public Collection<Fee> findAllInYear(final Year year, final Sorting sorting);
 
     public Collection<Fee> findAllInYearForActiveMembers(final Year year, final Sorting sorting);

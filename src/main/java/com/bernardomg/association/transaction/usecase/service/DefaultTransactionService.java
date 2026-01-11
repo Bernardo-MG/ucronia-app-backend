@@ -77,17 +77,22 @@ public final class DefaultTransactionService implements TransactionService {
     public final Transaction create(final Transaction transaction) {
         final Long        index;
         final Transaction toCreate;
+        final Transaction saved;
 
         log.debug("Creating transaction {}", transaction);
 
         validatorCreate.validate(transaction);
 
-        // Get index
+        // TODO: set inside the repository
         index = transactionRepository.findNextIndex();
 
         toCreate = new Transaction(index, transaction.date(), transaction.amount(), transaction.description());
 
-        return transactionRepository.save(toCreate);
+        saved = transactionRepository.save(toCreate);
+
+        log.debug("Created transaction {}", saved);
+
+        return saved;
     }
 
     @Override
@@ -105,26 +110,39 @@ public final class DefaultTransactionService implements TransactionService {
         // TODO: Check this deletes on cascade
         transactionRepository.delete(index);
 
+        log.debug("Deleted transaction {}", index);
+
         return transaction;
     }
 
     @Override
     public final Page<Transaction> getAll(final TransactionQuery query, final Pagination pagination,
             final Sorting sorting) {
-        return transactionRepository.findAll(query, pagination, sorting);
+        final Page<Transaction> transactions;
+
+        log.info("Getting all transactions with query {}, pagination {} and sorting {}", query, pagination, sorting);
+
+        transactions = transactionRepository.findAll(query, pagination, sorting);
+
+        log.debug("Got all transactions with query {}, pagination {} and sorting {}: {}", query, pagination, sorting,
+            transactions);
+
+        return transactions;
     }
 
     @Override
     public final Optional<Transaction> getOne(final long index) {
         final Optional<Transaction> transaction;
 
-        log.debug("Reading member with index {}", index);
+        log.debug("Reading transaction with index {}", index);
 
         transaction = transactionRepository.findOne(index);
         if (transaction.isEmpty()) {
             log.error("Missing transaction {}", index);
             throw new MissingTransactionException(index);
         }
+
+        log.debug("Read transaction with index {}: {}", index, transaction);
 
         return transaction;
     }
@@ -133,6 +151,7 @@ public final class DefaultTransactionService implements TransactionService {
     public final Transaction update(final Transaction transaction) {
         final boolean     exists;
         final Transaction toUpdate;
+        final Transaction updated;
 
         log.debug("Updating transaction with index {} using data {}", transaction.index(), transaction);
 
@@ -147,7 +166,11 @@ public final class DefaultTransactionService implements TransactionService {
 
         validatorUpdate.validate(toUpdate);
 
-        return transactionRepository.save(toUpdate);
+        updated = transactionRepository.save(toUpdate);
+
+        log.debug("Updated transaction with index {}: {}", transaction.index(), updated);
+
+        return updated;
     }
 
 }

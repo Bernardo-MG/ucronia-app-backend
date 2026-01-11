@@ -17,6 +17,12 @@ public final class FeeConstants {
 
     public static final YearMonth DATE                     = YearMonth.of(2020, Month.FEBRUARY);
 
+    public static final Float     FEE_TYPE_AMOUNT          = 1F;
+
+    public static final String    FEE_TYPE_NAME            = "Fee Type";
+
+    public static final Long      FEE_TYPE_NUMBER          = 10L;
+
     public static final YearMonth FIRST_NEXT_YEAR_DATE     = YearMonth.of(2021, Month.JANUARY);
 
     public static final YearMonth LAST_YEAR_DATE           = YearMonth.of(2020, Month.DECEMBER);

@@ -29,6 +29,7 @@ components:
         name:
           type: string
           example: 'Core book'
+          maxLength: 100
     BookTypeChange:
       type: object
       required: [name]
@@ -36,6 +37,7 @@ components:
         name:
           type: string
           example: 'Core book'
+          maxLength: 100
     BookTypePageResponse:
       allOf:
         - $ref: '../common/responses.yml#/components/schemas/PageResponse'

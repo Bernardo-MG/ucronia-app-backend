@@ -442,5 +442,10 @@
             Reworked contacts and profiles.
          </action>
       </release>
+      <release version="0.6.4" date="2026-01-11" description="Fee types">
+         <action dev="bmg" type="add">
+            Fee types.
+         </action>
+      </release>
    </body>
 </document>

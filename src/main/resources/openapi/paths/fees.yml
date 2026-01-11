@@ -1,6 +1,6 @@
 post:
   summary: Create an unpaid fee.
-  operationId: createUnpaidFee
+  operationId: createFee
   tags: [Fee]
   requestBody:
     required: true

@@ -66,15 +66,11 @@ public final class DefaultGuestService implements GuestService {
 
     @Override
     public final Guest create(final Guest guest) {
-        final Guest toCreate;
         final Guest created;
 
         log.debug("Creating guest {}", guest);
 
-        toCreate = new Guest(guest.identifier(), 0L, guest.name(), guest.birthDate(), guest.contactChannels(),
-            guest.games(), guest.comments(), guest.types());
-
-        created = guestRepository.save(toCreate);
+        created = guestRepository.save(guest);
 
         log.debug("Created guest {}", created);
 
@@ -196,6 +192,8 @@ public final class DefaultGuestService implements GuestService {
                 .orElse(existing.contactChannels()),
             Optional.ofNullable(updated.games())
                 .orElse(existing.games()),
+            Optional.ofNullable(updated.address())
+                .orElse(existing.address()),
             Optional.ofNullable(updated.comments())
                 .orElse(existing.comments()),
             Optional.ofNullable(updated.types())

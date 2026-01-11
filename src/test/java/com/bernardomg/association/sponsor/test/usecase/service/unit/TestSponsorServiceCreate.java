@@ -66,7 +66,7 @@ class TestSponsorServiceCreate {
         service.create(sponsor);
 
         // THEN
-        verify(sponsorRepository).save(Sponsors.toCreate());
+        verify(sponsorRepository).save(Sponsors.valid());
     }
 
     @Test
@@ -75,13 +75,13 @@ class TestSponsorServiceCreate {
         final Sponsor sponsor;
 
         // GIVEN
-        sponsor = Sponsors.toCreate();
+        sponsor = Sponsors.valid();
 
         // WHEN
         service.create(sponsor);
 
         // THEN
-        verify(sponsorRepository).save(Sponsors.toCreate());
+        verify(sponsorRepository).save(Sponsors.valid());
     }
 
     @Test
@@ -91,7 +91,7 @@ class TestSponsorServiceCreate {
         final Sponsor created;
 
         // GIVEN
-        sponsor = Sponsors.toCreate();
+        sponsor = Sponsors.valid();
 
         given(sponsorRepository.save(sponsor)).willReturn(Sponsors.valid());
 

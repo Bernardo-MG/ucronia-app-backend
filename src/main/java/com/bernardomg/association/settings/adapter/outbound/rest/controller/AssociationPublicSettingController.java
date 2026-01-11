@@ -24,10 +24,8 @@
 
 package com.bernardomg.association.settings.adapter.outbound.rest.controller;
 
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.settings.adapter.outbound.cache.SettingsCaches;
 import com.bernardomg.association.settings.usecase.AssociationSettingsKey;
 import com.bernardomg.security.access.annotation.Unsecured;
 import com.bernardomg.settings.domain.model.Setting;
@@ -54,7 +52,6 @@ public class AssociationPublicSettingController implements PublicSettingsApi {
 
     @Override
     @Unsecured
-    @Cacheable(cacheNames = SettingsCaches.PUBLIC)
     public PublicSettingsResponseDto getPublicSettings() {
         final String            calendarId;
         final String            mapId;

@@ -40,6 +40,7 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.FeeFull
 import com.bernardomg.association.fee.test.configuration.data.annotation.MultipleFees;
 import com.bernardomg.association.fee.test.configuration.data.annotation.NotPaidFee;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFee;
+import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.test.configuration.factory.FeesQuery;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
@@ -59,6 +60,7 @@ class ITFeeRepositoryFindAll {
 
     @Test
     @DisplayName("With a full year it returns all the fees")
+    @PositiveFeeType
     @ActiveMember
     @FeeFullYear
     void testFindAll_FullYear() {
@@ -69,7 +71,7 @@ class ITFeeRepositoryFindAll {
 
         // GIVEN
         pagination = new Pagination(1, 20);
-        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
+        sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
 
         feeQuery = FeesQuery.empty();
 
@@ -91,6 +93,7 @@ class ITFeeRepositoryFindAll {
 
     @Test
     @DisplayName("With multiple fees it returns all the fees")
+    @PositiveFeeType
     @MultipleInactiveMember
     @MultipleFees
     void testFindAll_Multiple() {
@@ -101,7 +104,7 @@ class ITFeeRepositoryFindAll {
 
         // GIVEN
         pagination = new Pagination(1, 20);
-        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
+        sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
 
         feeQuery = FeesQuery.empty();
 
@@ -120,8 +123,9 @@ class ITFeeRepositoryFindAll {
 
     @Test
     @DisplayName("With no data it returns nothing")
+    @PositiveFeeType
     @ActiveMember
-    void testFindAll_NoFee() {
+    void testFindAll_NoData() {
         final Page<Fee>  fees;
         final FeeQuery   feeQuery;
         final Pagination pagination;
@@ -129,7 +133,7 @@ class ITFeeRepositoryFindAll {
 
         // GIVEN
         pagination = new Pagination(1, 20);
-        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
+        sorting = Sorting.unsorted();
 
         feeQuery = FeesQuery.empty();
 
@@ -146,6 +150,7 @@ class ITFeeRepositoryFindAll {
 
     @Test
     @DisplayName("With no last name it returns only the name")
+    @PositiveFeeType
     @NoLastNameActiveMember
     @PaidFee
     void testFindAll_NoLastName() {
@@ -156,7 +161,7 @@ class ITFeeRepositoryFindAll {
 
         // GIVEN
         pagination = new Pagination(1, 20);
-        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
+        sorting = Sorting.unsorted();
 
         feeQuery = FeesQuery.empty();
 
@@ -173,6 +178,7 @@ class ITFeeRepositoryFindAll {
 
     @Test
     @DisplayName("With a not paid fee it returns all the fees")
+    @PositiveFeeType
     @ActiveMember
     @NotPaidFee
     void testFindAll_NotPaid() {
@@ -183,7 +189,7 @@ class ITFeeRepositoryFindAll {
 
         // GIVEN
         pagination = new Pagination(1, 20);
-        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
+        sorting = Sorting.unsorted();
 
         feeQuery = FeesQuery.empty();
 
@@ -200,6 +206,7 @@ class ITFeeRepositoryFindAll {
 
     @Test
     @DisplayName("With a paid fee it returns all the fees")
+    @PositiveFeeType
     @ActiveMember
     @PaidFee
     void testFindAll_Paid() {
@@ -210,7 +217,7 @@ class ITFeeRepositoryFindAll {
 
         // GIVEN
         pagination = new Pagination(1, 20);
-        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
+        sorting = Sorting.unsorted();
 
         feeQuery = FeesQuery.empty();
 

@@ -30,18 +30,34 @@ import java.util.Optional;
 
 import com.bernardomg.association.profile.domain.model.ProfileName;
 
-public record Fee(YearMonth month, Boolean paid, Member member, Optional<Transaction> transaction) {
+public record Fee(YearMonth month, Boolean paid, Member member, FeeType feeType, Optional<Transaction> transaction) {
 
-    public static Fee unpaid(final YearMonth month, final Member member) {
-        return new Fee(month, false, member, Optional.empty());
+    public static Fee unpaid(final YearMonth month, final Long number, final ProfileName name, final FeeType feeType) {
+        final Member member;
+
+        member = new Fee.Member(number, name);
+        return new Fee(month, false, member, feeType, Optional.empty());
     }
 
-    public static Fee paid(final YearMonth month, final Member member, final Transaction transaction) {
-        return new Fee(month, true, member, Optional.of(transaction));
+    public static Fee paid(final YearMonth month, final Long number, final ProfileName name, final FeeType feeType,
+            final Transaction transaction) {
+        final Member member;
+
+        member = new Fee.Member(number, name);
+        return new Fee(month, true, member, feeType, Optional.of(transaction));
+    }
+
+    public static Fee paid(final YearMonth month, final Long number, final ProfileName name, final FeeType feeType) {
+        final Member member;
+
+        member = new Fee.Member(number, name);
+        return new Fee(month, true, member, feeType, Optional.empty());
     }
 
     public static record Member(Long number, ProfileName name) {}
 
     public static record Transaction(Instant date, Long index) {}
+
+    public static record FeeType(Long number) {}
 
 }

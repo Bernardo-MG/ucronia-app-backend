@@ -29,12 +29,15 @@ components:
         firstName:
           type: string
           example: 'John'
+          maxLength: 50
         lastName:
           type: string
           example: 'Smith'
+          maxLength: 50
         fullName:
           type: string
           example: 'John Smith'
+          maxLength: 100
     EditionProfileName:
       type: object
       required: [firstName, lastName]
@@ -42,9 +45,11 @@ components:
         firstName:
           type: string
           example: 'John'
+          maxLength: 50
         lastName:
           type: string
           example: 'Smith'
+          maxLength: 50
     ContactChannel:
       type: object
       required: [method, detail]
@@ -63,6 +68,7 @@ components:
         detail:
           type: string
           description: Contact detail.
+          maxLength: 50
     Profile:
       type: object
       required: [number, name]
@@ -80,6 +86,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ContactChannel'
+        address:
+          type: string
+          description: Profile address.
         comments:
           type: string
           description: Comments about the profile.
@@ -94,6 +103,7 @@ components:
         identifier:
           type: string
           description: Unique identifier of the contact.
+          maxLength: 15
         name:
           $ref: 'profiles.yml#/components/schemas/EditionProfileName'
     ProfileChange:
@@ -102,6 +112,7 @@ components:
       properties:
         identifier:
           type: string
+          maxLength: 15
         name:
           $ref: 'profiles.yml#/components/schemas/EditionProfileName'
         birthDate:
@@ -110,8 +121,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/EditionContactChannel'
+        address:
+          type: string
+          description: Profile address.
+          maxLength: 250
         comments:
           type: string
+          maxLength: 250
     ProfilePageResponse:
       allOf:
         - $ref: '../common/responses.yml#/components/schemas/PageResponse'

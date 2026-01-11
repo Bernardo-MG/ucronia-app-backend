@@ -27,13 +27,8 @@ package com.bernardomg.association.library.book.adapter.outbound.rest.controller
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.library.book.adapter.outbound.cache.LibraryBookCaches;
 import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookDtoMapper;
 import com.bernardomg.association.library.book.domain.model.FictionBook;
 import com.bernardomg.association.library.book.usecase.service.FictionBookService;
@@ -73,8 +68,6 @@ public class FictionBookController implements FictionBookApi {
 
     @Override
     @RequireResourceAuthorization(resource = "LIBRARY_BOOK", action = Actions.CREATE)
-    @Caching(put = { @CachePut(cacheNames = LibraryBookCaches.FICTION_BOOK, key = "#result.content.number") },
-            evict = { @CacheEvict(cacheNames = { LibraryBookCaches.FICTION_BOOKS }, allEntries = true) })
     public FictionBookResponseDto createFictionBook(@Valid final BookCreationDto bookCreationDto) {
         final FictionBook fictionBook;
 
@@ -85,8 +78,6 @@ public class FictionBookController implements FictionBookApi {
 
     @Override
     @RequireResourceAuthorization(resource = "LIBRARY_BOOK", action = Actions.DELETE)
-    @Caching(evict = { @CacheEvict(cacheNames = { LibraryBookCaches.FICTION_BOOK }),
-            @CacheEvict(cacheNames = { LibraryBookCaches.FICTION_BOOKS }, allEntries = true) })
     public FictionBookResponseDto deleteFictionBook(final Long number) {
         final FictionBook fictionBook;
 
@@ -97,7 +88,6 @@ public class FictionBookController implements FictionBookApi {
 
     @Override
     @RequireResourceAuthorization(resource = "LIBRARY_BOOK", action = Actions.READ)
-    @Cacheable(cacheNames = LibraryBookCaches.FICTION_BOOKS)
     public FictionBookPageResponseDto getAllFictionBooks(@Valid final Integer page, @Valid final Integer size,
             @Valid final List<String> sort) {
         final Pagination        pagination;
@@ -113,7 +103,6 @@ public class FictionBookController implements FictionBookApi {
 
     @Override
     @RequireResourceAuthorization(resource = "LIBRARY_BOOK", action = Actions.READ)
-    @Cacheable(cacheNames = LibraryBookCaches.FICTION_BOOK)
     public FictionBookResponseDto getFictionBookById(final Long number) {
         final Optional<FictionBook> fictionBook;
 
@@ -124,8 +113,6 @@ public class FictionBookController implements FictionBookApi {
 
     @Override
     @RequireResourceAuthorization(resource = "LIBRARY_BOOK", action = Actions.UPDATE)
-    @Caching(put = { @CachePut(cacheNames = LibraryBookCaches.FICTION_BOOK, key = "#result.number") },
-            evict = { @CacheEvict(cacheNames = { LibraryBookCaches.FICTION_BOOKS }, allEntries = true) })
     public FictionBookResponseDto updateFictionBook(final Long number,
             @Valid final FictionBookUpdateDto fictionBookUpdateDto) {
         final FictionBook updated;

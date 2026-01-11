@@ -24,11 +24,9 @@
 
 package com.bernardomg.association.fee.test.usecase.service.unit;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
-import java.util.List;
-
-import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -38,8 +36,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.fee.domain.model.FeeBalance;
-import com.bernardomg.association.fee.domain.repository.FeeRepository;
-import com.bernardomg.association.fee.test.configuration.factory.Fees;
+import com.bernardomg.association.fee.domain.repository.FeeBalanceRepository;
+import com.bernardomg.association.fee.test.configuration.factory.FeeBalances;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeBalanceService;
 
 @ExtendWith(MockitoExtension.class)
@@ -47,7 +45,7 @@ import com.bernardomg.association.fee.usecase.service.DefaultFeeBalanceService;
 class TestFeeBalanceServiceGetPaymentReport {
 
     @Mock
-    private FeeRepository            feeRepository;
+    private FeeBalanceRepository     feeBalanceRepository;
 
     @InjectMocks
     private DefaultFeeBalanceService service;
@@ -57,91 +55,21 @@ class TestFeeBalanceServiceGetPaymentReport {
     }
 
     @Test
-    @DisplayName("When there is no data there are no fees")
-    void testGetFeeBalance_NoData() {
-        final FeeBalance report;
+    @DisplayName("When there is data it is returned")
+    void testGetFeeBalance() {
+        final FeeBalance balance;
+        final FeeBalance read;
 
         // GIVEN
-        given(feeRepository.findAllInMonth(ArgumentMatchers.any())).willReturn(List.of());
+        balance = FeeBalances.both();
+        given(feeBalanceRepository.findForMonth(ArgumentMatchers.any())).willReturn(balance);
 
         // WHEN
-        report = service.getFeeBalance();
+        read = service.getFeeBalance();
 
         // THEN
-        SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(report.paid())
-                .as("paid fees")
-                .isZero();
-            softly.assertThat(report.unpaid())
-                .as("unpaid fees")
-                .isZero();
-        });
-    }
-
-    @Test
-    @DisplayName("When there is a single paid fee it is returned")
-    void testGetFeeBalance_Paid() {
-        final FeeBalance report;
-
-        // GIVEN
-        given(feeRepository.findAllInMonth(ArgumentMatchers.any())).willReturn(List.of(Fees.paid()));
-
-        // WHEN
-        report = service.getFeeBalance();
-
-        // THEN
-        SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(report.paid())
-                .as("paid fees")
-                .isEqualTo(1);
-            softly.assertThat(report.unpaid())
-                .as("unpaid fees")
-                .isZero();
-        });
-    }
-
-    @Test
-    @DisplayName("When there are paid and unpaid fee they are returned")
-    void testGetFeeBalance_PaidAndUnpaid() {
-        final FeeBalance report;
-
-        // GIVEN
-        given(feeRepository.findAllInMonth(ArgumentMatchers.any())).willReturn(List.of(Fees.paid(), Fees.notPaid()));
-
-        // WHEN
-        report = service.getFeeBalance();
-
-        // THEN
-        SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(report.paid())
-                .as("paid fees")
-                .isEqualTo(1);
-            softly.assertThat(report.unpaid())
-                .as("unpaid fees")
-                .isEqualTo(1);
-        });
-    }
-
-    @Test
-    @DisplayName("When there is a single unpaid fee it is returned")
-    void testGetFeeBalance_Unpaid() {
-        final FeeBalance report;
-
-        // GIVEN
-        given(feeRepository.findAllInMonth(ArgumentMatchers.any())).willReturn(List.of(Fees.notPaid()));
-
-        // WHEN
-        report = service.getFeeBalance();
-
-        // THEN
-        SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(report.paid())
-                .as("paid fees")
-                .isZero();
-            softly.assertThat(report.unpaid())
-                .as("unpaid fees")
-                .isEqualTo(1);
-        });
+        assertThat(read).as("balance")
+            .isEqualTo(balance);
     }
 
 }

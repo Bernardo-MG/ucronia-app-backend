@@ -1,14 +1,9 @@
 
 package com.bernardomg.settings.test.configuration.factory;
 
-import com.bernardomg.association.settings.usecase.AssociationSettingsKey;
 import com.bernardomg.settings.domain.model.Setting;
 
 public final class Settings {
-
-    public static final Setting amount() {
-        return new Setting(SettingConstants.NUMBER_TYPE, AssociationSettingsKey.FEE_AMOUNT, "1.0");
-    }
 
     public static final Setting first() {
         return new Setting(SettingConstants.STRING_TYPE, "a", SettingConstants.STRING_VALUE);

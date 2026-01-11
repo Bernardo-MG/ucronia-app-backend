@@ -66,7 +66,7 @@ public final class SponsorDtoMapper {
             .toList();
 
         return new Sponsor(change.getIdentifier(), number, name, null, contactChannels,
-            new ArrayList<>(change.getYears()), change.getComments(), Set.of());
+            new ArrayList<>(change.getYears()), change.getAddress(), change.getComments(), Set.of());
     }
 
     public static final Sponsor toDomain(final SponsorCreationDto creation) {
@@ -77,7 +77,7 @@ public final class SponsorDtoMapper {
             creation.getName()
                 .getLastName());
 
-        return new Sponsor(creation.getIdentifier(), -1L, name, null, List.of(), List.of(), "", Set.of());
+        return new Sponsor(creation.getIdentifier(), -1L, name, null, List.of(), List.of(), "", "", Set.of());
     }
 
     public static final SponsorResponseDto toResponseDto(final Optional<Sponsor> contact) {
@@ -163,6 +163,7 @@ public final class SponsorDtoMapper {
             .name(name)
             .birthDate(sponsor.birthDate())
             .contactChannels(contactChannels)
+            .address(sponsor.address())
             .comments(sponsor.comments())
             .years(new ArrayList<>(sponsor.years()))
             .types(new ArrayList<>(sponsor.types()));

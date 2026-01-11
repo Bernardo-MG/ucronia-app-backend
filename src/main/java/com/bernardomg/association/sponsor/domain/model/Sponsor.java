@@ -35,17 +35,19 @@ import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
 import com.bernardomg.association.profile.domain.model.ProfileName;
 
 public record Sponsor(String identifier, Long number, ProfileName name, Instant birthDate,
-        Collection<ContactChannel> contactChannels, Collection<Integer> years, String comments, Set<String> types) {
+        Collection<ContactChannel> contactChannels, Collection<Integer> years, String address, String comments,
+        Set<String> types) {
 
     public Sponsor(final String identifier, final Long number, final ProfileName name, final Instant birthDate,
-            final Collection<ContactChannel> contactChannels, final Collection<Integer> years, final String comments,
-            final Set<String> types) {
+            final Collection<ContactChannel> contactChannels, final Collection<Integer> years, final String address,
+            final String comments, final Set<String> types) {
         this.identifier = identifier;
         this.number = number;
         this.name = name;
         this.birthDate = birthDate;
         this.contactChannels = List.copyOf(contactChannels);
         this.years = List.copyOf(years);
+        this.address = StringUtils.trim(address);
         this.comments = StringUtils.trim(comments);
         this.types = Set.copyOf(types);
     }

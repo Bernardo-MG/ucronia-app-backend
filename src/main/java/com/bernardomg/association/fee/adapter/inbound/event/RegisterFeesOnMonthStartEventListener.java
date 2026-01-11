@@ -63,6 +63,7 @@ public final class RegisterFeesOnMonthStartEventListener implements EventListene
     @Override
     public final void handle(final MonthStartEvent event) {
         log.debug("Registering fees at the start of {}", event.getMonth());
+        // TODO: is this executed after updating member status?
         service.registerMonthFees();
         log.debug("Registered fees at the start of {}", event.getMonth());
     }

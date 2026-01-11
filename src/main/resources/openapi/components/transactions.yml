@@ -25,6 +25,7 @@ components:
           format: float
         description:
           type: string
+          maxLength: 200
     TransactionChange:
       type: object
       required: [date, amount, description]
@@ -36,6 +37,7 @@ components:
           format: float
         description:
           type: string
+          maxLength: 200
     Transaction:
       type: object
       properties:
@@ -48,14 +50,6 @@ components:
           format: float
         description:
           type: string
-    MinimalTransaction:
-      type: object
-      required: [index, date]
-      properties:
-        index:
-          $ref: '../common/ids.yml#/components/schemas/Id'
-        date:
-          $ref: '../common/dates.yml#/components/schemas/Date'
     TransactionPageResponse:
       allOf:
         - $ref: '../common/responses.yml#/components/schemas/PageResponse'

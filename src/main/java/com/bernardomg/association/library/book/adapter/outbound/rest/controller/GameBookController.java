@@ -27,13 +27,8 @@ package com.bernardomg.association.library.book.adapter.outbound.rest.controller
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.library.book.adapter.outbound.cache.LibraryBookCaches;
 import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookDtoMapper;
 import com.bernardomg.association.library.book.domain.model.GameBook;
 import com.bernardomg.association.library.book.usecase.service.GameBookService;
@@ -72,8 +67,6 @@ public class GameBookController implements GameBookApi {
 
     @Override
     @RequireResourceAuthorization(resource = "LIBRARY_BOOK", action = Actions.CREATE)
-    @Caching(put = { @CachePut(cacheNames = LibraryBookCaches.GAME_BOOK, key = "#result.content.number") },
-            evict = { @CacheEvict(cacheNames = { LibraryBookCaches.GAME_BOOKS }, allEntries = true) })
     public GameBookResponseDto createGameBook(@Valid final BookCreationDto bookCreationDto) {
         final GameBook gameBook;
 
@@ -84,8 +77,6 @@ public class GameBookController implements GameBookApi {
 
     @Override
     @RequireResourceAuthorization(resource = "LIBRARY_BOOK", action = Actions.DELETE)
-    @Caching(evict = { @CacheEvict(cacheNames = { LibraryBookCaches.GAME_BOOK }),
-            @CacheEvict(cacheNames = { LibraryBookCaches.GAME_BOOKS }, allEntries = true) })
     public GameBookResponseDto deleteGameBook(final Long number) {
         final GameBook gameBook;
 
@@ -96,7 +87,6 @@ public class GameBookController implements GameBookApi {
 
     @Override
     @RequireResourceAuthorization(resource = "LIBRARY_BOOK", action = Actions.READ)
-    @Cacheable(cacheNames = LibraryBookCaches.GAME_BOOKS)
     public GameBookPageResponseDto getAllGameBooks(@Valid final Integer page, @Valid final Integer size,
             @Valid final List<String> sort) {
         final Pagination     pagination;
@@ -112,7 +102,6 @@ public class GameBookController implements GameBookApi {
 
     @Override
     @RequireResourceAuthorization(resource = "LIBRARY_BOOK", action = Actions.READ)
-    @Cacheable(cacheNames = LibraryBookCaches.GAME_BOOK)
     public GameBookResponseDto getGameBookById(final Long number) {
         final Optional<GameBook> gameBook;
 
@@ -123,8 +112,6 @@ public class GameBookController implements GameBookApi {
 
     @Override
     @RequireResourceAuthorization(resource = "LIBRARY_BOOK", action = Actions.UPDATE)
-    @Caching(put = { @CachePut(cacheNames = LibraryBookCaches.GAME_BOOK, key = "#result.content.number") },
-            evict = { @CacheEvict(cacheNames = { LibraryBookCaches.GAME_BOOKS }, allEntries = true) })
     public GameBookResponseDto updateGameBook(final Long number, @Valid final GameBookUpdateDto gameBookUpdateDto) {
         final GameBook updated;
         final GameBook gameBook;

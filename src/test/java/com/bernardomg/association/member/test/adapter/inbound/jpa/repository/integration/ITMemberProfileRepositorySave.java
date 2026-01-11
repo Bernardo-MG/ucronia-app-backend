@@ -30,14 +30,15 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityConstants;
-import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberProfileEntity;
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.QueryMemberProfileSpringRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberProfileEntity;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberProfileSpringRepository;
 import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
+import com.bernardomg.association.member.test.configuration.factory.MemberProfileEntities;
 import com.bernardomg.association.member.test.configuration.factory.MemberProfiles;
-import com.bernardomg.association.member.test.configuration.factory.QueryMemberContactEntities;
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 import com.bernardomg.association.profile.test.configuration.data.annotation.EmailContactMethod;
@@ -48,13 +49,13 @@ import com.bernardomg.test.configuration.annotation.IntegrationTest;
 class ITMemberProfileRepositorySave {
 
     @Autowired
-    private ProfileSpringRepository            profileSpringRepository;
+    private ProfileSpringRepository       profileSpringRepository;
 
     @Autowired
-    private MemberProfileRepository            repository;
+    private MemberProfileRepository       repository;
 
     @Autowired
-    private QueryMemberProfileSpringRepository springRepository;
+    private MemberProfileSpringRepository springRepository;
 
     public ITMemberProfileRepositorySave() {
         super();
@@ -62,10 +63,11 @@ class ITMemberProfileRepositorySave {
 
     @Test
     @DisplayName("When a member exists, the member is persisted")
+    @PositiveFeeType
     @ActiveMember
     void testSave_Existing_PersistedData() {
-        final MemberProfile                      member;
-        final Iterable<QueryMemberProfileEntity> entities;
+        final MemberProfile                 member;
+        final Iterable<MemberProfileEntity> entities;
 
         // GIVEN
         member = MemberProfiles.active();
@@ -78,13 +80,14 @@ class ITMemberProfileRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "contactChannels.id",
-                "contactChannels.profileId", "contactChannels.profile")
-            .containsExactly(QueryMemberContactEntities.withEmail());
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.id", "profile.number",
+                "profile.contactChannels.id", "profile.contactChannels.profileId", "profile.contactChannels.profile")
+            .containsExactly(MemberProfileEntities.withEmail());
     }
 
     @Test
     @DisplayName("When a member exists, the created member is returned")
+    @PositiveFeeType
     @ActiveMember
     void testSave_Existing_ReturnedData() {
         final MemberProfile member;
@@ -104,10 +107,11 @@ class ITMemberProfileRepositorySave {
 
     @Test
     @DisplayName("With a member, the member is persisted")
+    @PositiveFeeType
     @EmailContactMethod
     void testSave_PersistedData() {
-        final MemberProfile                      member;
-        final Iterable<QueryMemberProfileEntity> entities;
+        final MemberProfile                 member;
+        final Iterable<MemberProfileEntity> entities;
 
         // GIVEN
         member = MemberProfiles.active();
@@ -120,17 +124,18 @@ class ITMemberProfileRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "contactChannels.id",
-                "contactChannels.profileId", "contactChannels.profile")
-            .containsExactly(QueryMemberContactEntities.withEmail());
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.id", "profile.number",
+                "profile.contactChannels.id", "profile.contactChannels.profileId", "profile.contactChannels.profile")
+            .containsExactly(MemberProfileEntities.withEmail());
     }
 
     @Test
     @DisplayName("When the type is removed, the member is not changed")
+    @PositiveFeeType
     @ActiveMember
     void testSave_RemoveType_NoChange() {
-        final MemberProfile                      member;
-        final Iterable<QueryMemberProfileEntity> entities;
+        final MemberProfile                 member;
+        final Iterable<MemberProfileEntity> entities;
 
         // GIVEN
         member = MemberProfiles.withoutType();
@@ -143,13 +148,14 @@ class ITMemberProfileRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "contactChannels.id",
-                "contactChannels.profileId", "contactChannels.profile")
-            .containsExactly(QueryMemberContactEntities.withEmail());
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.id", "profile.number",
+                "profile.contactChannels.id", "profile.contactChannels.profileId", "profile.contactChannels.profile")
+            .containsExactly(MemberProfileEntities.withEmail());
     }
 
     @Test
     @DisplayName("With a member, the created member is returned")
+    @PositiveFeeType
     @EmailContactMethod
     void testSave_ReturnedData() {
         final MemberProfile member;
@@ -169,6 +175,7 @@ class ITMemberProfileRepositorySave {
 
     @Test
     @DisplayName("When the member is persisted, the profile types includes the member type")
+    @PositiveFeeType
     @EmailContactMethod
     void testSave_SetsType() {
         final MemberProfile member;

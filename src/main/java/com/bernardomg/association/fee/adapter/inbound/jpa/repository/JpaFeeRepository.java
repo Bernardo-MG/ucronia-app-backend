@@ -30,6 +30,7 @@ import java.time.YearMonth;
 import java.time.ZoneOffset;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -42,18 +43,20 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeEntity;
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeEntityMapper;
+import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTypeEntity;
 import com.bernardomg.association.fee.adapter.inbound.jpa.specification.FeeSpecifications;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.domain.model.YearsRange;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
-import com.bernardomg.association.member.adapter.inbound.jpa.model.QueryMemberEntity;
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.QueryMemberSpringRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberProfileEntity;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberProfileSpringRepository;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.data.domain.Sorting.Property;
 import com.bernardomg.data.springframework.SpringPagination;
 import com.bernardomg.data.springframework.SpringSorting;
 
@@ -61,42 +64,46 @@ import com.bernardomg.data.springframework.SpringSorting;
 @Transactional
 public final class JpaFeeRepository implements FeeRepository {
 
-    private static final Collection<String>   MEMBER_PROPERTIES = List.of("firstName", "lastName", "member", "number");
-
     /**
      * Logger for the class.
      */
-    private static final Logger               log                = LoggerFactory.getLogger(JpaFeeRepository.class);
+    private static final Logger                 log                = LoggerFactory.getLogger(JpaFeeRepository.class);
 
-    private final FeeSpringRepository         feeSpringRepository;
+    private static final Collection<String>     PROFILE_PROPERTIES = List.of("firstName", "lastName", "number");
 
-    private final QueryMemberSpringRepository memberSpringRepository;
+    private final FeeSpringRepository           feeSpringRepository;
 
-    private final TransactionSpringRepository transactionSpringRepository;
+    private final FeeTypeSpringRepository       feeTypeSpringRepository;
 
-    public JpaFeeRepository(final FeeSpringRepository feeSpringRepo, final QueryMemberSpringRepository memberSpringRepo,
-            final TransactionSpringRepository transactionSpringRepo) {
+    private final MemberProfileSpringRepository memberProfileSpringRepository;
+
+    private final TransactionSpringRepository   transactionSpringRepository;
+
+    public JpaFeeRepository(final FeeSpringRepository feeSpringRepo,
+            final MemberProfileSpringRepository memberProfileSpringRepo,
+            final FeeTypeSpringRepository feeTypeSpringRepo, final TransactionSpringRepository transactionSpringRepo) {
         super();
 
-        feeSpringRepository = feeSpringRepo;
-        memberSpringRepository = memberSpringRepo;
-        transactionSpringRepository = transactionSpringRepo;
+        feeSpringRepository = Objects.requireNonNull(feeSpringRepo);
+        memberProfileSpringRepository = Objects.requireNonNull(memberProfileSpringRepo);
+        feeTypeSpringRepository = Objects.requireNonNull(feeTypeSpringRepo);
+        transactionSpringRepository = Objects.requireNonNull(transactionSpringRepo);
     }
 
     @Override
     public final void delete(final Long number, final YearMonth date) {
-        final Optional<QueryMemberEntity> member;
-        final Instant                     dateParsed;
+        final Optional<MemberProfileEntity> member;
+        final Instant                       dateParsed;
 
         log.debug("Deleting fee for member {} in date {}", number, date);
 
         // TODO: only members
-        member = memberSpringRepository.findByNumber(number);
+        member = memberProfileSpringRepository.findByNumber(number);
         if (member.isPresent()) {
             dateParsed = date.atDay(1)
                 .atStartOfDay(ZoneOffset.UTC)
                 .toInstant();
-            feeSpringRepository.deleteByMemberIdAndDate(member.get()
+            feeSpringRepository.deleteByMemberIdAndMonth(member.get()
                 .getId(), dateParsed);
 
             log.debug("Deleted fee for member {} in date {}", number, date);
@@ -116,7 +123,7 @@ public final class JpaFeeRepository implements FeeRepository {
         dateParsed = date.atDay(1)
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant();
-        exists = feeSpringRepository.existsByMemberNumberAndDate(number, dateParsed);
+        exists = feeSpringRepository.existsByMemberNumberAndMonth(number, dateParsed);
 
         log.debug("Fee exists for member {} in date {}: {}", number, date, exists);
 
@@ -128,12 +135,12 @@ public final class JpaFeeRepository implements FeeRepository {
         final boolean exists;
         final Instant dateParsed;
 
-        log.debug("checking a paid fee exists for member {} in date {}", number, date);
+        log.debug("Checking a paid fee exists for member {} in date {}", number, date);
 
         dateParsed = date.atDay(1)
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant();
-        exists = feeSpringRepository.existsByMemberNumberAndDateAndPaid(number, dateParsed);
+        exists = feeSpringRepository.existsByMemberNumberAndMonthAndPaid(number, dateParsed);
 
         log.debug("Paid fee exists for member {} in date {}: {}", number, date, exists);
 
@@ -145,20 +152,17 @@ public final class JpaFeeRepository implements FeeRepository {
         final Optional<Specification<FeeEntity>>        spec;
         final org.springframework.data.domain.Page<Fee> found;
         final Pageable                                  pageable;
-        final Sorting                                   correctedSorting;
+        final Sorting                                   fixedSorting;
         // TODO: Test reading with no last name
 
-        log.debug("Finding all fees with sample {}, pagination {} and sorting {}", query, pagination, sorting);
+        fixedSorting = fixSorting(sorting);
+        log.debug("Finding all fees with query {}, pagination {} and sorting {}", query, pagination, fixedSorting);
 
         spec = FeeSpecifications.fromQuery(query);
 
         if (spec.isEmpty()) {
-            correctedSorting = new Sorting(sorting.properties()
-                .stream()
-                .map(this::correct)
-                .toList());
-            pageable = SpringPagination.toPageable(pagination, correctedSorting);
-            found = feeSpringRepository.findAllWithMember(pageable)
+            pageable = SpringPagination.toPageable(pagination, fixedSorting);
+            found = feeSpringRepository.findAll(pageable)
                 .map(FeeEntityMapper::toDomain);
         } else {
             pageable = SpringPagination.toPageable(pagination, sorting);
@@ -166,7 +170,7 @@ public final class JpaFeeRepository implements FeeRepository {
                 .map(FeeEntityMapper::toDomain);
         }
 
-        log.debug("Found all fees with sample {}, pagination {} and sorting {}: {}", query, pagination, sorting, found);
+        log.debug("Found all fees with query {}, pagination {} and sorting {}: {}", query, pagination, sorting, found);
 
         return SpringPagination.toPage(found);
     }
@@ -175,15 +179,13 @@ public final class JpaFeeRepository implements FeeRepository {
     public final Page<Fee> findAllForProfile(final Long number, final Pagination pagination, final Sorting sorting) {
         final org.springframework.data.domain.Page<Fee> found;
         final Pageable                                  pageable;
-        final Sorting                                   correctedSorting;
+        final Sorting                                   fixedSorting;
 
-        log.debug("Finding all fees for profile {} with pagination {} and sorting {}", number, pagination, sorting);
+        fixedSorting = fixSorting(sorting);
+        log.debug("Finding all fees for profile {} with pagination {} and sorting {}", number, pagination,
+            fixedSorting);
 
-        correctedSorting = new Sorting(sorting.properties()
-            .stream()
-            .map(this::correct)
-            .toList());
-        pageable = SpringPagination.toPageable(pagination, correctedSorting);
+        pageable = SpringPagination.toPageable(pagination, fixedSorting);
         found = feeSpringRepository.findAllByMemberNumber(number, pageable)
             .map(FeeEntityMapper::toDomain);
 
@@ -194,44 +196,21 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     @Override
-    public final Collection<Fee> findAllInMonth(final YearMonth date) {
-        final Collection<Fee> fees;
-        final Instant         dateParsed;
-
-        log.debug("Finding all fees in month {}", date);
-
-        dateParsed = date.atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant();
-        fees = feeSpringRepository.findAllByDate(dateParsed)
-            .stream()
-            .map(FeeEntityMapper::toDomain)
-            .toList();
-
-        log.debug("Found all fees in month {}: {}", date, fees);
-
-        return fees;
-    }
-
-    @Override
     public final Collection<Fee> findAllInYear(final Year year, final Sorting sorting) {
         final Collection<Fee> fees;
         final Sort            sort;
-        final Sorting         correctedSorting;
+        final Sorting         fixedSorting;
 
-        log.debug("Finding all fees in year {}", year);
+        fixedSorting = fixSorting(sorting);
+        log.debug("Finding all fees in year {} sorting {}", year, fixedSorting);
 
-        correctedSorting = new Sorting(sorting.properties()
-            .stream()
-            .map(this::correct)
-            .toList());
-        sort = SpringSorting.toSort(correctedSorting);
+        sort = SpringSorting.toSort(fixedSorting);
         fees = feeSpringRepository.findAllForYear(year.getValue(), sort)
             .stream()
             .map(FeeEntityMapper::toDomain)
             .toList();
 
-        log.debug("Found all fees in year {}: {}", year, fees);
+        log.debug("Found all fees in year {} sorting {}: {}", year, fixedSorting, fees);
 
         return fees;
     }
@@ -241,25 +220,22 @@ public final class JpaFeeRepository implements FeeRepository {
         final Collection<Long> foundIds;
         final Collection<Fee>  found;
         final Sort             sort;
-        final Sorting          correctedSorting;
+        final Sorting          fixedSorting;
 
-        log.debug("Finding all fees for active members in year {}", year);
+        fixedSorting = fixSorting(sorting);
+        log.debug("Finding all fees for active members in year {} sorting {}", year, fixedSorting);
 
-        foundIds = memberSpringRepository.findAllActiveMemberIds();
+        foundIds = memberProfileSpringRepository.findAllActiveMemberIds();
 
         log.debug("Active members: {}", foundIds);
 
-        correctedSorting = new Sorting(sorting.properties()
-            .stream()
-            .map(this::correct)
-            .toList());
-        sort = SpringSorting.toSort(correctedSorting);
+        sort = SpringSorting.toSort(fixedSorting);
         found = feeSpringRepository.findAllForYearAndMembersIn(year.getValue(), foundIds, sort)
             .stream()
             .map(FeeEntityMapper::toDomain)
             .toList();
 
-        log.debug("Found all fees for active members in year {}: {}", year, found);
+        log.debug("Found all fees for active members in year {} sorting {}: {}", year, fixedSorting, found);
 
         return found;
     }
@@ -269,25 +245,22 @@ public final class JpaFeeRepository implements FeeRepository {
         final Collection<Long> foundIds;
         final Collection<Fee>  found;
         final Sort             sort;
-        final Sorting          correctedSorting;
+        final Sorting          fixedSorting;
 
-        log.debug("Finding all fees for inactive members in year {}", year);
+        fixedSorting = fixSorting(sorting);
+        log.debug("Finding all fees for inactive members in year {} sorting {}", year, fixedSorting);
 
-        foundIds = memberSpringRepository.findAllInactiveMemberIds();
+        foundIds = memberProfileSpringRepository.findAllInactiveMemberIds();
 
         log.debug("Inactive members: {}", foundIds);
 
-        correctedSorting = new Sorting(sorting.properties()
-            .stream()
-            .map(this::correct)
-            .toList());
-        sort = SpringSorting.toSort(correctedSorting);
+        sort = SpringSorting.toSort(fixedSorting);
         found = feeSpringRepository.findAllForYearAndMembersIn(year.getValue(), foundIds, sort)
             .stream()
             .map(FeeEntityMapper::toDomain)
             .toList();
 
-        log.debug("Found all fees for inactive members in year {}: {}", year, found);
+        log.debug("Found all fees for inactive members in year {} sorting {}: {}", year, fixedSorting, found);
 
         return found;
     }
@@ -366,16 +339,20 @@ public final class JpaFeeRepository implements FeeRepository {
         return FeeEntityMapper.toDomain(saved);
     }
 
-    private final Sorting.Property correct(final Sorting.Property property) {
-        final Sorting.Property corrected;
+    private final Sorting fixSorting(final Sorting sorting) {
+        final Collection<Property> properties;
 
-        if (MEMBER_PROPERTIES.contains(property.name())) {
-            corrected = new Sorting.Property("m." + property.name(), property.direction());
-        } else {
-            corrected = property;
-        }
+        properties = sorting.properties()
+            .stream()
+            .map(prop -> {
+                if (PROFILE_PROPERTIES.contains(prop.name())) {
+                    return new Property("member.profile." + prop.name(), prop.direction());
+                }
+                return prop;
+            })
+            .toList();
 
-        return corrected;
+        return new Sorting(properties);
     }
 
     private final void loadId(final FeeEntity fee) {
@@ -383,8 +360,8 @@ public final class JpaFeeRepository implements FeeRepository {
         final Optional<FeeEntity> read;
 
         // TODO: optimize to use a single query
-        read = feeSpringRepository.findByMemberIdAndDate(fee.getMember()
-            .getId(), fee.getDate());
+        read = feeSpringRepository.findByMemberIdAndMonth(fee.getMember()
+            .getId(), fee.getMonth());
         if (read.isPresent()) {
             id = read.get()
                 .getId();
@@ -393,20 +370,31 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     private final FeeEntity toEntity(final Fee fee) {
-        final Optional<QueryMemberEntity> member;
-        final Optional<TransactionEntity> transaction;
-        final boolean                     paid;
-        final FeeEntity                   entity;
-        final Instant                     date;
+        final Optional<MemberProfileEntity> member;
+        final Optional<FeeTypeEntity>       feeType;
+        final Optional<TransactionEntity>   transaction;
+        final boolean                       paid;
+        final FeeEntity                     entity;
+        final Instant                       date;
 
         // TODO: move to mapper
 
-        member = memberSpringRepository.findByNumber(fee.member()
+        member = memberProfileSpringRepository.findByNumber(fee.member()
             .number());
         if (!member.isPresent()) {
             log.warn("Profile with number {} not found", fee.member()
                 .number());
         }
+
+        feeType = feeTypeSpringRepository.findByNumber(member.get()
+            .getFeeType()
+            .getNumber());
+        if (!feeType.isPresent()) {
+            log.warn("Fee type with number {} not found", member.get()
+                .getFeeType()
+                .getNumber());
+        }
+
         if (fee.transaction()
             .isPresent()) {
             paid = true;
@@ -424,7 +412,7 @@ public final class JpaFeeRepository implements FeeRepository {
                         .date());
             }
         } else {
-            paid = false;
+            paid = fee.paid();
             transaction = Optional.empty();
         }
 
@@ -434,8 +422,9 @@ public final class JpaFeeRepository implements FeeRepository {
             .atDay(1)
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant();
-        entity.setDate(date);
+        entity.setMonth(date);
         entity.setPaid(paid);
+        entity.setFeeType(feeType.orElse(null));
         entity.setTransaction(transaction.orElse(null));
 
         return entity;

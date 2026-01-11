@@ -36,6 +36,7 @@ import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.data.annotation.NotPaidFee;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PaidAndNotPaidFee;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFee;
+import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
@@ -52,6 +53,7 @@ class ITFeeRepositoryFindAllInYearForInactiveMembers {
 
     @Test
     @DisplayName("With a not paid fee, and an inactive member, it returns nothing")
+    @PositiveFeeType
     @ActiveMember
     @NotPaidFee
     void testFindAllInYearForInactiveMembers_Active_NotPaid() {
@@ -72,6 +74,7 @@ class ITFeeRepositoryFindAllInYearForInactiveMembers {
 
     @Test
     @DisplayName("With a paid fee, and an inactive member, it returns nothing")
+    @PositiveFeeType
     @ActiveMember
     @PaidFee
     void testFindAllInYearForInactiveMembers_Active_Paid() {
@@ -92,6 +95,7 @@ class ITFeeRepositoryFindAllInYearForInactiveMembers {
 
     @Test
     @DisplayName("With a not paid fee, it returns the calendar")
+    @PositiveFeeType
     @InactiveMember
     @NotPaidFee
     void testFindAllInYearForInactiveMembers_Inactive_NotPaid() {
@@ -112,6 +116,7 @@ class ITFeeRepositoryFindAllInYearForInactiveMembers {
 
     @Test
     @DisplayName("With a not paid fee and searching for the next year, it returns nothing")
+    @PositiveFeeType
     @InactiveMember
     @NotPaidFee
     void testFindAllInYearForInactiveMembers_Inactive_NotPaid_SearchNextYear() {
@@ -132,6 +137,7 @@ class ITFeeRepositoryFindAllInYearForInactiveMembers {
 
     @Test
     @DisplayName("With a not paid fee and searching for the previous year, it returns nothing")
+    @PositiveFeeType
     @InactiveMember
     @NotPaidFee
     void testFindAllInYearForInactiveMembers_Inactive_NotPaid_SearchPreviousYear() {
@@ -152,6 +158,7 @@ class ITFeeRepositoryFindAllInYearForInactiveMembers {
 
     @Test
     @DisplayName("With a paid fee, it returns the calendar")
+    @PositiveFeeType
     @InactiveMember
     @PaidFee
     void testFindAllInYearForInactiveMembers_Inactive_Paid() {
@@ -172,6 +179,7 @@ class ITFeeRepositoryFindAllInYearForInactiveMembers {
 
     @Test
     @DisplayName("With a paid fee and searching for the next year, it returns nothing")
+    @PositiveFeeType
     @InactiveMember
     @PaidFee
     void testFindAllInYearForInactiveMembers_Inactive_Paid_SearchNextYear() {
@@ -192,6 +200,7 @@ class ITFeeRepositoryFindAllInYearForInactiveMembers {
 
     @Test
     @DisplayName("With a paid fee and searching for the previous year, it returns nothing")
+    @PositiveFeeType
     @InactiveMember
     @PaidFee
     void testFindAllInYearForInactiveMembers_Inactive_Paid_SearchPreviousYear() {
@@ -212,6 +221,7 @@ class ITFeeRepositoryFindAllInYearForInactiveMembers {
 
     @Test
     @DisplayName("With both a paid and not paid fees, it returns the calendar")
+    @PositiveFeeType
     @InactiveMember
     @PaidAndNotPaidFee
     void testFindAllInYearForInactiveMembers_Inactive_PaidAndNotPaid() {

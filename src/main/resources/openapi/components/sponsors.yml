@@ -35,6 +35,9 @@ components:
           type: array
           items:
             type: integer
+        address:
+          type: string
+          description: Sponsor address.
         comments:
           type: string
           description: Comments about the sponsor.
@@ -49,6 +52,7 @@ components:
         identifier:
           type: string
           description: Unique identifier of the sponsor.
+          maxLength: 15
         name:
           $ref: 'profiles.yml#/components/schemas/EditionProfileName'
     SponsorChange:
@@ -56,6 +60,7 @@ components:
       properties:
         identifier:
           type: string
+          maxLength: 15
         name:
           $ref: 'profiles.yml#/components/schemas/EditionProfileName'
         birthDate:
@@ -68,8 +73,13 @@ components:
           type: array
           items:
             type: integer
+        address:
+          type: string
+          description: Sponsor address.
+          maxLength: 250
         comments:
           type: string
+          maxLength: 250
     SponsorPageResponse:
       allOf:
         - $ref: '../common/responses.yml#/components/schemas/PageResponse'

@@ -31,6 +31,7 @@ import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.InstanceOfAssertFactories;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -43,10 +44,11 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.bernardomg.association.fee.domain.exception.MissingUserInSessionException;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
-import com.bernardomg.association.fee.usecase.service.DefaultMyFeesService;
+import com.bernardomg.association.fee.usecase.service.SpringSecurityMyFeesService;
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.association.profile.test.configuration.factory.Profiles;
 import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
@@ -60,19 +62,19 @@ import com.bernardomg.data.domain.Sorting;
 class TestMyFeesServiceGetAllForUserInSession {
 
     @Mock
-    private Authentication        authentication;
+    private Authentication              authentication;
 
     @Mock
-    private FeeRepository         feeRepository;
+    private FeeRepository               feeRepository;
 
     @InjectMocks
-    private DefaultMyFeesService  myFeesService;
+    private SpringSecurityMyFeesService myFeesService;
 
     @Mock
-    private UserDetails           userDetails;
+    private UserDetails                 userDetails;
 
     @Mock
-    private UserProfileRepository userProfileRepository;
+    private UserProfileRepository       userProfileRepository;
 
     @Test
     @DisplayName("When there is data it is returned")
@@ -111,9 +113,9 @@ class TestMyFeesServiceGetAllForUserInSession {
     @Test
     @DisplayName("When the user is anonymous, nothing is returned")
     void testGetAllForUserInSession_Anonymous() {
-        final Page<Fee>  fees;
-        final Pagination pagination;
-        final Sorting    sorting;
+        final Pagination       pagination;
+        final Sorting          sorting;
+        final ThrowingCallable execution;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -126,14 +128,11 @@ class TestMyFeesServiceGetAllForUserInSession {
             .setAuthentication(authentication);
 
         // WHEN
-        fees = myFeesService.getAllForUserInSession(pagination, sorting);
+        execution = () -> myFeesService.getAllForUserInSession(pagination, sorting);
 
         // THEN
-        Assertions.assertThat(fees)
-            .extracting(Page::content)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .as("fees")
-            .isEmpty();
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(MissingUserInSessionException.class);
     }
 
     @Test

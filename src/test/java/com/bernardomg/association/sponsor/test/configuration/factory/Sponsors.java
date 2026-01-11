@@ -24,7 +24,8 @@ public final class Sponsors {
         contactMethod = ContactMethods.email();
         contactChannel = new ContactChannel(contactMethod, ProfileConstants.EMAIL);
         return new Sponsor(ProfileConstants.IDENTIFIER, 1L, name, ProfileConstants.BIRTH_DATE, List.of(contactChannel),
-            List.of(SponsorConstants.YEAR), ProfileConstants.COMMENTS, Set.of(SponsorEntityConstants.PROFILE_TYPE));
+            List.of(SponsorConstants.YEAR), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS,
+            Set.of(SponsorEntityConstants.PROFILE_TYPE));
     }
 
     public static final Sponsor forNumber(final long number) {
@@ -32,7 +33,8 @@ public final class Sponsors {
 
         name = new ProfileName("Profile " + number, "Last name " + number);
         return new Sponsor(Objects.toString(number * 10), number * 10, name, ProfileConstants.BIRTH_DATE, List.of(),
-            List.of(SponsorConstants.YEAR), ProfileConstants.COMMENTS, Set.of(SponsorEntityConstants.PROFILE_TYPE));
+            List.of(SponsorConstants.YEAR), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS,
+            Set.of(SponsorEntityConstants.PROFILE_TYPE));
     }
 
     public static final Sponsor nameChange() {
@@ -40,7 +42,7 @@ public final class Sponsors {
 
         name = new ProfileName("Profile 123", "Last name");
         return new Sponsor(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name, ProfileConstants.BIRTH_DATE,
-            List.of(), List.of(SponsorConstants.YEAR), ProfileConstants.COMMENTS,
+            List.of(), List.of(SponsorConstants.YEAR), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS,
             Set.of(SponsorEntityConstants.PROFILE_TYPE));
     }
 
@@ -49,7 +51,7 @@ public final class Sponsors {
 
         name = new ProfileName("Profile 123", "Last name");
         return new Sponsor(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name, ProfileConstants.BIRTH_DATE,
-            List.of(), List.of(SponsorConstants.YEAR), ProfileConstants.COMMENTS,
+            List.of(), List.of(SponsorConstants.YEAR), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS,
             Set.of(SponsorEntityConstants.PROFILE_TYPE));
     }
 
@@ -58,7 +60,7 @@ public final class Sponsors {
 
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
         return new Sponsor(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name, ProfileConstants.BIRTH_DATE,
-            List.of(), List.of(SponsorConstants.YEAR), ProfileConstants.COMMENTS,
+            List.of(), List.of(SponsorConstants.YEAR), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS,
             Set.of(SponsorEntityConstants.PROFILE_TYPE));
     }
 
@@ -71,8 +73,8 @@ public final class Sponsors {
         contactMethod = ContactMethods.email();
         contactChannel = new ContactChannel(contactMethod, ProfileConstants.EMAIL);
         return new Sponsor(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name, ProfileConstants.BIRTH_DATE,
-            List.of(contactChannel), List.of(SponsorConstants.YEAR), ProfileConstants.COMMENTS,
-            Set.of(SponsorEntityConstants.PROFILE_TYPE));
+            List.of(contactChannel), List.of(SponsorConstants.YEAR), ProfileConstants.ADDRESS,
+            ProfileConstants.COMMENTS, Set.of(SponsorEntityConstants.PROFILE_TYPE));
     }
 
     public static final Sponsor toConvert() {
@@ -80,19 +82,7 @@ public final class Sponsors {
 
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
         return new Sponsor(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name, ProfileConstants.BIRTH_DATE,
-            List.of(), List.of(), ProfileConstants.COMMENTS, Set.of());
-    }
-
-    public static final Sponsor toCreate() {
-        final ProfileName    name;
-        final ContactChannel contactChannel;
-        final ContactMethod  contactMethod;
-
-        name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        contactMethod = ContactMethods.email();
-        contactChannel = new ContactChannel(contactMethod, ProfileConstants.EMAIL);
-        return new Sponsor(ProfileConstants.IDENTIFIER, 0L, name, ProfileConstants.BIRTH_DATE, List.of(contactChannel),
-            List.of(SponsorConstants.YEAR), ProfileConstants.COMMENTS, Set.of(SponsorEntityConstants.PROFILE_TYPE));
+            List.of(), List.of(), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS, Set.of());
     }
 
     public static final Sponsor valid() {
@@ -104,8 +94,8 @@ public final class Sponsors {
         contactMethod = ContactMethods.email();
         contactChannel = new ContactChannel(contactMethod, ProfileConstants.EMAIL);
         return new Sponsor(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name, ProfileConstants.BIRTH_DATE,
-            List.of(contactChannel), List.of(SponsorConstants.YEAR), ProfileConstants.COMMENTS,
-            Set.of(SponsorEntityConstants.PROFILE_TYPE));
+            List.of(contactChannel), List.of(SponsorConstants.YEAR), ProfileConstants.ADDRESS,
+            ProfileConstants.COMMENTS, Set.of(SponsorEntityConstants.PROFILE_TYPE));
     }
 
     public static final Sponsor withoutType() {
@@ -117,7 +107,8 @@ public final class Sponsors {
         contactMethod = ContactMethods.email();
         contactChannel = new ContactChannel(contactMethod, ProfileConstants.EMAIL);
         return new Sponsor(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name, ProfileConstants.BIRTH_DATE,
-            List.of(contactChannel), List.of(SponsorConstants.YEAR), ProfileConstants.COMMENTS, Set.of());
+            List.of(contactChannel), List.of(SponsorConstants.YEAR), ProfileConstants.ADDRESS,
+            ProfileConstants.COMMENTS, Set.of());
     }
 
 }

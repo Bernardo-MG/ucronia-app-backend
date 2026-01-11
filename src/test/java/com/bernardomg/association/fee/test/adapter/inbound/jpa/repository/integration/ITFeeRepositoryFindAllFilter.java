@@ -26,7 +26,6 @@ package com.bernardomg.association.fee.test.adapter.inbound.jpa.repository.integ
 
 import java.time.Month;
 import java.time.YearMonth;
-import java.time.ZoneOffset;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
@@ -40,6 +39,7 @@ import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.data.annotation.FeeFullYear;
 import com.bernardomg.association.fee.test.configuration.data.annotation.MultipleFees;
+import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.test.configuration.factory.FeesQuery;
@@ -59,6 +59,7 @@ class ITFeeRepositoryGetAllFilter {
 
     @Test
     @DisplayName("With a filter applied to the start date, the returned data is filtered")
+    @PositiveFeeType
     @MultipleInactiveMember
     @MultipleFees
     void testFindAll_From() {
@@ -69,12 +70,9 @@ class ITFeeRepositoryGetAllFilter {
 
         // GIVEN
         pagination = new Pagination(1, 20);
-        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
+        sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
 
-        feeQuery = FeesQuery.from(YearMonth.of(2020, Month.JUNE)
-            .atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant());
+        feeQuery = FeesQuery.from(YearMonth.of(2020, Month.JUNE));
 
         // WHEN
         fees = repository.findAll(feeQuery, pagination, sorting);
@@ -89,6 +87,7 @@ class ITFeeRepositoryGetAllFilter {
 
     @Test
     @DisplayName("With a filter applied to the start date which covers no fee, no data is returned")
+    @PositiveFeeType
     @MultipleInactiveMember
     @MultipleFees
     void testFindAll_From_NotInRange() {
@@ -99,12 +98,9 @@ class ITFeeRepositoryGetAllFilter {
 
         // GIVEN
         pagination = new Pagination(1, 20);
-        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
+        sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
 
-        feeQuery = FeesQuery.from(YearMonth.of(2020, Month.JULY)
-            .atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant());
+        feeQuery = FeesQuery.from(YearMonth.of(2020, Month.JULY));
 
         // WHEN
         fees = repository.findAll(feeQuery, pagination, sorting);
@@ -119,6 +115,7 @@ class ITFeeRepositoryGetAllFilter {
 
     @Test
     @DisplayName("With a filter applied to the date, the returned data is filtered")
+    @PositiveFeeType
     @MultipleInactiveMember
     @MultipleFees
     void testFindAll_InDate() {
@@ -129,12 +126,9 @@ class ITFeeRepositoryGetAllFilter {
 
         // GIVEN
         pagination = new Pagination(1, 20);
-        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
+        sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
 
-        feeQuery = FeesQuery.inDate(YearMonth.of(2020, Month.MARCH)
-            .atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant());
+        feeQuery = FeesQuery.inMonth(YearMonth.of(2020, Month.MARCH));
 
         // WHEN
         fees = repository.findAll(feeQuery, pagination, sorting);
@@ -149,6 +143,7 @@ class ITFeeRepositoryGetAllFilter {
 
     @Test
     @DisplayName("With a filter applied to the date using the lowest date of the year, the returned data is filtered")
+    @PositiveFeeType
     @ActiveMember
     @FeeFullYear
     void testFindAll_InDate_FirstDay_Data() {
@@ -159,12 +154,9 @@ class ITFeeRepositoryGetAllFilter {
 
         // GIVEN
         pagination = new Pagination(1, 20);
-        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
+        sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
 
-        feeQuery = FeesQuery.to(YearMonth.of(2020, Month.JANUARY)
-            .atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant());
+        feeQuery = FeesQuery.to(YearMonth.of(2020, Month.JANUARY));
 
         // WHEN
         fees = repository.findAll(feeQuery, pagination, sorting);
@@ -179,6 +171,7 @@ class ITFeeRepositoryGetAllFilter {
 
     @Test
     @DisplayName("With a filter applied to the date using the highest date of the year, the returned data is filtered")
+    @PositiveFeeType
     @ActiveMember
     @FeeFullYear
     void testFindAll_InDate_LastDay_Data() {
@@ -189,12 +182,9 @@ class ITFeeRepositoryGetAllFilter {
 
         // GIVEN
         pagination = new Pagination(1, 20);
-        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
+        sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
 
-        feeQuery = FeesQuery.inDate(YearMonth.of(2020, Month.DECEMBER)
-            .atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant());
+        feeQuery = FeesQuery.inMonth(YearMonth.of(2020, Month.DECEMBER));
 
         // WHEN
         fees = repository.findAll(feeQuery, pagination, sorting);
@@ -209,6 +199,7 @@ class ITFeeRepositoryGetAllFilter {
 
     @Test
     @DisplayName("With a filter applied to the date using a not existing date, no data is returned")
+    @PositiveFeeType
     @MultipleInactiveMember
     @MultipleFees
     void testFindAll_InDate_NotExisting() {
@@ -219,12 +210,9 @@ class ITFeeRepositoryGetAllFilter {
 
         // GIVEN
         pagination = new Pagination(1, 20);
-        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
+        sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
 
-        feeQuery = FeesQuery.inDate(YearMonth.of(2020, Month.NOVEMBER)
-            .atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant());
+        feeQuery = FeesQuery.inMonth(YearMonth.of(2020, Month.NOVEMBER));
 
         // WHEN
         fees = repository.findAll(feeQuery, pagination, sorting);
@@ -239,6 +227,7 @@ class ITFeeRepositoryGetAllFilter {
 
     @Test
     @DisplayName("With a filter applied to the end date, the returned data is filtered")
+    @PositiveFeeType
     @MultipleInactiveMember
     @MultipleFees
     void testFindAll_InRange() {
@@ -249,15 +238,9 @@ class ITFeeRepositoryGetAllFilter {
 
         // GIVEN
         pagination = new Pagination(1, 20);
-        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
+        sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
 
-        feeQuery = FeesQuery.inRange(FeeConstants.DATE.atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant(),
-            YearMonth.of(2020, Month.MAY)
-                .atDay(1)
-                .atStartOfDay(ZoneOffset.UTC)
-                .toInstant());
+        feeQuery = FeesQuery.inRange(FeeConstants.DATE, YearMonth.of(2020, Month.MAY));
 
         // WHEN
         fees = repository.findAll(feeQuery, pagination, sorting);
@@ -273,6 +256,7 @@ class ITFeeRepositoryGetAllFilter {
 
     @Test
     @DisplayName("With a filter applied to the end date, the returned data is filtered")
+    @PositiveFeeType
     @MultipleInactiveMember
     @MultipleFees
     void testFindAll_To() {
@@ -283,12 +267,10 @@ class ITFeeRepositoryGetAllFilter {
 
         // GIVEN
         pagination = new Pagination(1, 20);
-        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
+        sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
 
         // TODO: use constants for the dates
-        feeQuery = FeesQuery.to(FeeConstants.DATE.atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant());
+        feeQuery = FeesQuery.to(FeeConstants.DATE);
 
         // WHEN
         fees = repository.findAll(feeQuery, pagination, sorting);
@@ -303,6 +285,7 @@ class ITFeeRepositoryGetAllFilter {
 
     @Test
     @DisplayName("With a filter applied to the end date which covers no fee, no data is returned")
+    @PositiveFeeType
     @MultipleInactiveMember
     @MultipleFees
     void testFindAll_To_NotInRange() {
@@ -313,12 +296,9 @@ class ITFeeRepositoryGetAllFilter {
 
         // GIVEN
         pagination = new Pagination(1, 20);
-        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
+        sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
 
-        feeQuery = FeesQuery.to(YearMonth.of(2020, Month.JANUARY)
-            .atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant());
+        feeQuery = FeesQuery.to(YearMonth.of(2020, Month.JANUARY));
 
         // WHEN
         fees = repository.findAll(feeQuery, pagination, sorting);

@@ -32,7 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
-import com.bernardomg.association.sponsor.adapter.inbound.jpa.repository.QuerySponsorSpringRepository;
+import com.bernardomg.association.sponsor.adapter.inbound.jpa.repository.SponsorSpringRepository;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
 import com.bernardomg.association.sponsor.test.configuration.data.annotation.ValidSponsor;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -42,13 +42,13 @@ import com.bernardomg.test.configuration.annotation.IntegrationTest;
 class ITSponsorRepositoryDelete {
 
     @Autowired
-    private ProfileSpringRepository      profileSpringRepository;
+    private ProfileSpringRepository profileSpringRepository;
 
     @Autowired
-    private SponsorRepository            repository;
+    private SponsorRepository       repository;
 
     @Autowired
-    private QuerySponsorSpringRepository springRepository;
+    private SponsorSpringRepository springRepository;
 
     public ITSponsorRepositoryDelete() {
         super();

@@ -34,6 +34,7 @@ import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeSpringRe
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.data.annotation.NotPaidFee;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFee;
+import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
@@ -63,6 +64,7 @@ class ITFeeRepositoryDelete {
 
     @Test
     @DisplayName("When a not paid entity is deleted, it is removed")
+    @PositiveFeeType
     @ActiveMember
     @NotPaidFee
     void testDelete_NotPaid() {
@@ -77,6 +79,7 @@ class ITFeeRepositoryDelete {
 
     @Test
     @DisplayName("When a paid entity is deleted, it is removed")
+    @PositiveFeeType
     @ActiveMember
     @PaidFee
     @Disabled("Handle relationships")

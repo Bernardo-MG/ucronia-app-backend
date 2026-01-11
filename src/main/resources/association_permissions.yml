@@ -23,6 +23,12 @@ permissions:
       - update
       - delete
       - view
+  - resource: fee_type
+    actions:
+      - create
+      - read
+      - update
+      - delete
   - resource: my_fees
     actions:
       - read

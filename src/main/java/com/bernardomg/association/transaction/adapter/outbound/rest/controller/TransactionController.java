@@ -28,14 +28,8 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.fee.adapter.outbound.cache.FeeCaches;
-import com.bernardomg.association.transaction.adapter.outbound.cache.TransactionCaches;
 import com.bernardomg.association.transaction.adapter.outbound.rest.model.TransactionDtoMapper;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.model.TransactionQuery;
@@ -76,16 +70,6 @@ public class TransactionController implements TransactionApi {
 
     @Override
     @RequireResourceAuthorization(resource = "TRANSACTION", action = Actions.CREATE)
-    @Caching(put = { @CachePut(cacheNames = TransactionCaches.TRANSACTION, key = "#result.content.index") },
-            evict = { @CacheEvict(cacheNames = {
-                    // Transaction caches
-                    TransactionCaches.TRANSACTIONS,
-                    // Calendar caches
-                    TransactionCaches.CALENDAR, TransactionCaches.CALENDAR_RANGE,
-                    // Balance caches
-                    TransactionCaches.BALANCE, TransactionCaches.MONTHLY_BALANCE,
-                    // Fee caches
-                    FeeCaches.FEES, FeeCaches.FEE }, allEntries = true) })
     public TransactionResponseDto createTransaction(@Valid final TransactionCreationDto transactionCreationDto) {
         final Transaction transaction;
         final Transaction toCreate;
@@ -98,15 +82,6 @@ public class TransactionController implements TransactionApi {
 
     @Override
     @RequireResourceAuthorization(resource = "TRANSACTION", action = Actions.DELETE)
-    @Caching(evict = { @CacheEvict(cacheNames = { TransactionCaches.TRANSACTION }), @CacheEvict(cacheNames = {
-            // Transaction caches
-            TransactionCaches.TRANSACTIONS,
-            // Calendar caches
-            TransactionCaches.CALENDAR, TransactionCaches.CALENDAR_RANGE,
-            // Balance caches
-            TransactionCaches.BALANCE, TransactionCaches.MONTHLY_BALANCE,
-            // Fee caches
-            FeeCaches.FEES, FeeCaches.FEE }, allEntries = true) })
     public TransactionResponseDto deleteTransaction(final Long index) {
         final Transaction transaction;
 
@@ -117,7 +92,6 @@ public class TransactionController implements TransactionApi {
 
     @Override
     @RequireResourceAuthorization(resource = "TRANSACTION", action = Actions.READ)
-    @Cacheable(cacheNames = TransactionCaches.TRANSACTIONS)
     public TransactionPageResponseDto getAllTransactions(@Min(1) @Valid final Integer page,
             @Min(1) @Valid final Integer size, @Valid final List<String> sort, @Valid final Instant date,
             @Valid final Instant from, @Valid final Instant to) {
@@ -136,7 +110,6 @@ public class TransactionController implements TransactionApi {
 
     @Override
     @RequireResourceAuthorization(resource = "TRANSACTION", action = Actions.READ)
-    @Cacheable(cacheNames = TransactionCaches.TRANSACTION)
     public TransactionResponseDto getOneTransaction(final Long index) {
         final Optional<Transaction> transaction;
 
@@ -147,16 +120,6 @@ public class TransactionController implements TransactionApi {
 
     @Override
     @RequireResourceAuthorization(resource = "TRANSACTION", action = Actions.UPDATE)
-    @Caching(put = { @CachePut(cacheNames = TransactionCaches.TRANSACTION, key = "#result.content.index") },
-            evict = { @CacheEvict(cacheNames = {
-                    // Transaction caches
-                    TransactionCaches.TRANSACTIONS,
-                    // Calendar caches
-                    TransactionCaches.CALENDAR, TransactionCaches.CALENDAR_RANGE,
-                    // Balance caches
-                    TransactionCaches.BALANCE, TransactionCaches.MONTHLY_BALANCE,
-                    // Fee caches
-                    FeeCaches.FEES, FeeCaches.FEE }, allEntries = true) })
     public TransactionResponseDto updateTransaction(final Long index,
             @Valid final TransactionChangeDto transactionChangeDto) {
         final Transaction transaction;

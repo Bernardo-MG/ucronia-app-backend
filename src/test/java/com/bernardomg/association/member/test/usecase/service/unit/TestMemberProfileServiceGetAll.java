@@ -37,7 +37,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.member.domain.filter.MemberFilter;
+import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
+import com.bernardomg.association.member.domain.filter.MemberProfileFilter;
 import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
@@ -52,6 +53,9 @@ import com.bernardomg.data.domain.Sorting;
 class TestMemberProfileServiceGetAll {
 
     @Mock
+    private FeeTypeRepository           feeTypeRepository;
+
+    @Mock
     private MemberProfileRepository     memberProfileRepository;
 
     @InjectMocks
@@ -64,12 +68,12 @@ class TestMemberProfileServiceGetAll {
         final Page<MemberProfile> existing;
         final Pagination          pagination;
         final Sorting             sorting;
-        final MemberFilter        filter;
+        final MemberProfileFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.ALL, "");
+        filter = new MemberProfileFilter(MemberStatus.ALL, "");
 
         existing = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
         given(memberProfileRepository.findAll(filter, pagination, sorting)).willReturn(existing);
@@ -92,12 +96,12 @@ class TestMemberProfileServiceGetAll {
         final Page<MemberProfile> existing;
         final Pagination          pagination;
         final Sorting             sorting;
-        final MemberFilter        filter;
+        final MemberProfileFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.ALL, "");
+        filter = new MemberProfileFilter(MemberStatus.ALL, "");
 
         existing = new Page<>(List.of(MemberProfiles.active()), 0, 0, 0, 0, 0, false, false, sorting);
         given(memberProfileRepository.findAll(filter, pagination, sorting)).willReturn(existing);

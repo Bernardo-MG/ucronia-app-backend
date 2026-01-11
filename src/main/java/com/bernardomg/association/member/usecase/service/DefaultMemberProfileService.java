@@ -32,8 +32,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.association.fee.domain.exception.MissingFeeTypeException;
+import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
-import com.bernardomg.association.member.domain.filter.MemberFilter;
+import com.bernardomg.association.member.domain.filter.MemberProfileFilter;
 import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.profile.domain.model.ProfileName;
@@ -56,26 +58,25 @@ public final class DefaultMemberProfileService implements MemberProfileService {
      */
     private static final Logger           log = LoggerFactory.getLogger(DefaultMemberProfileService.class);
 
+    private final FeeTypeRepository       feeTypeRepository;
+
     private final MemberProfileRepository memberProfileRepository;
 
-    public DefaultMemberProfileService(final MemberProfileRepository memberProfileRepo) {
+    public DefaultMemberProfileService(final MemberProfileRepository memberProfileRepo,
+            final FeeTypeRepository feeTypeRepo) {
         super();
 
         memberProfileRepository = Objects.requireNonNull(memberProfileRepo);
+        feeTypeRepository = Objects.requireNonNull(feeTypeRepo);
     }
 
     @Override
     public final MemberProfile create(final MemberProfile memberProfile) {
-        final MemberProfile toCreate;
         final MemberProfile created;
 
         log.debug("Creating member profile {}", memberProfile);
 
-        toCreate = new MemberProfile(memberProfile.identifier(), 0L, memberProfile.name(), memberProfile.birthDate(),
-            memberProfile.contactChannels(), memberProfile.comments(), memberProfile.active(), memberProfile.renew(),
-            memberProfile.types());
-
-        created = memberProfileRepository.save(toCreate);
+        created = memberProfileRepository.save(memberProfile);
 
         log.debug("Created member profile {}", created);
 
@@ -102,7 +103,7 @@ public final class DefaultMemberProfileService implements MemberProfileService {
     }
 
     @Override
-    public final Page<MemberProfile> getAll(final MemberFilter filter, final Pagination pagination,
+    public final Page<MemberProfile> getAll(final MemberProfileFilter filter, final Pagination pagination,
             final Sorting sorting) {
         final Page<MemberProfile> memberProfiles;
 
@@ -147,6 +148,14 @@ public final class DefaultMemberProfileService implements MemberProfileService {
                 throw new MissingMemberException(memberProfile.number());
             });
 
+        if (!feeTypeRepository.exists(memberProfile.feeType()
+            .number())) {
+            log.error("Missing fee type {}", memberProfile.feeType()
+                .number());
+            throw new MissingFeeTypeException(memberProfile.feeType()
+                .number());
+        }
+
         toSave = copy(existing, memberProfile);
 
         saved = memberProfileRepository.save(toSave);
@@ -165,6 +174,14 @@ public final class DefaultMemberProfileService implements MemberProfileService {
         if (!memberProfileRepository.exists(memberProfile.number())) {
             log.error("Missing member profile {}", memberProfile.number());
             throw new MissingMemberException(memberProfile.number());
+        }
+
+        if (!feeTypeRepository.exists(memberProfile.feeType()
+            .number())) {
+            log.error("Missing fee type {}", memberProfile.feeType()
+                .number());
+            throw new MissingFeeTypeException(memberProfile.feeType()
+                .number());
         }
 
         saved = memberProfileRepository.save(memberProfile);
@@ -197,12 +214,16 @@ public final class DefaultMemberProfileService implements MemberProfileService {
                 .orElse(existing.birthDate()),
             Optional.ofNullable(updated.contactChannels())
                 .orElse(existing.contactChannels()),
+            Optional.ofNullable(updated.address())
+                .orElse(existing.address()),
             Optional.ofNullable(updated.comments())
                 .orElse(existing.comments()),
             Optional.ofNullable(updated.active())
                 .orElse(existing.active()),
             Optional.ofNullable(updated.renew())
                 .orElse(existing.renew()),
+            Optional.ofNullable(updated.feeType())
+                .orElse(existing.feeType()),
             Optional.ofNullable(updated.types())
                 .orElse(existing.types()));
     }

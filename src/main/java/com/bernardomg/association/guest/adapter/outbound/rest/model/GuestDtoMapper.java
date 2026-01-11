@@ -60,7 +60,7 @@ public final class GuestDtoMapper {
             creation.getName()
                 .getLastName());
 
-        return new Guest(creation.getIdentifier(), -1L, name, null, List.of(), List.of(), "", Set.of());
+        return new Guest(creation.getIdentifier(), -1L, name, null, List.of(), List.of(), "", "", Set.of());
     }
 
     public static final Guest toDomain(final long number, final GuestChangeDto change) {
@@ -77,7 +77,7 @@ public final class GuestDtoMapper {
             .toList();
 
         return new Guest(change.getIdentifier(), number, name, null, contactChannels,
-            new ArrayList<>(change.getGames()), change.getComments(), Set.of());
+            new ArrayList<>(change.getGames()), change.getAddress(), change.getComments(), Set.of());
     }
 
     public static final GuestResponseDto toResponseDto(final Guest profile) {
@@ -150,6 +150,7 @@ public final class GuestDtoMapper {
             .name(name)
             .birthDate(guest.birthDate())
             .contactChannels(contactChannels)
+            .address(guest.address())
             .comments(guest.comments())
             .games(new ArrayList<>(guest.games()))
             .types(new ArrayList<>(guest.types()));

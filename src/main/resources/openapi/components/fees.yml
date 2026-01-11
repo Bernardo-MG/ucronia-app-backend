@@ -24,8 +24,24 @@ components:
           $ref: '../common/dates.yml#/components/schemas/Month'
         paid:
           type: boolean
+        feeType:
+          $ref: '#/components/schemas/FeeFeeType'
         transaction:
-          $ref: 'transactions.yml#/components/schemas/MinimalTransaction'
+          $ref: '#/components/schemas/FeeTransaction'
+    FeeTransaction:
+      type: object
+      required: [index, date]
+      properties:
+        index:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        date:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+    FeeFeeType:
+      type: object
+      required: [number]
+      properties:
+        number:
+          $ref: '../common/ids.yml#/components/schemas/Id'
     FeeCreation:
       type: object
       required: [member, month]
@@ -38,6 +54,8 @@ components:
       type: object
       required: [member, transaction, months]
       properties:
+        feeType:
+          $ref: '../common/ids.yml#/components/schemas/Id'
         member:
           $ref: '../common/ids.yml#/components/schemas/Id'
         paymentDate:
@@ -48,8 +66,10 @@ components:
             $ref: '../common/dates.yml#/components/schemas/Month'
     FeeChange:
       type: object
-      required: [month, transaction]
+      required: [feeType, month]
       properties:
+        feeType:
+          $ref: '../common/ids.yml#/components/schemas/Id'
         month:
           $ref: '../common/dates.yml#/components/schemas/Month'
         transaction:

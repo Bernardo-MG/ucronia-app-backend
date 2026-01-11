@@ -34,6 +34,7 @@ components:
         value:
           type: string
           description: Updated value for the setting.
+          maxLength: 300
     PublicSettings:
       type: object
       properties:

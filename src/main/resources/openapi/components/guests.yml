@@ -23,6 +23,7 @@ components:
         identifier:
           type: string
           description: Unique identifier of the guest.
+          maxLength: 15
         name:
           $ref: 'profiles.yml#/components/schemas/ProfileName'
         birthDate:
@@ -35,9 +36,14 @@ components:
           type: array
           items:
             $ref: '../common/dates.yml#/components/schemas/Date'
+        address:
+          type: string
+          description: Guest address.
+          maxLength: 250
         comments:
           type: string
           description: Comments about the guest.
+          maxLength: 250
         types:
           type: array
           items:
@@ -51,6 +57,7 @@ components:
           description: Unique identifier of the contact.
         name:
           $ref: 'profiles.yml#/components/schemas/EditionProfileName'
+          maxLength: 250
     GuestChange:
       type: object
       properties:
@@ -68,8 +75,13 @@ components:
           type: array
           items:
             $ref: '../common/dates.yml#/components/schemas/Date'
+        address:
+          type: string
+          description: Guest address.
+          maxLength: 250
         comments:
           type: string
+          maxLength: 250
     GuestPageResponse:
       allOf:
         - $ref: '../common/responses.yml#/components/schemas/PageResponse'

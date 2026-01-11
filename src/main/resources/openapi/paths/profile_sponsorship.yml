@@ -1,6 +1,6 @@
 put:
-  summary: Add membership to a profile.
-  operationId: convertToMember
+  summary: Add sponsor role to a profile.
+  operationId: convertToSponsor
   tags: [ProfileSponsorship]
   parameters:
     - name: number

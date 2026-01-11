@@ -2,6 +2,12 @@ put:
   summary: Add membership to a profile.
   operationId: convertToMember
   tags: [ProfileMembership]
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/members.yml#/components/schemas/ProfileMembershipConversion'
   parameters:
     - name: number
       in: path
@@ -15,6 +21,6 @@ put:
       content:
         application/json:
           schema:
-            $ref: '../components/members.yml#/components/schemas/MemberResponse'
+            $ref: '../components/members.yml#/components/schemas/MemberProfileResponse'
     '404':
       description: Profile not found.

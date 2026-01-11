@@ -3,7 +3,6 @@ package com.bernardomg.association.test.architecture.test;
 
 import com.bernardomg.association.test.architecture.rule.EntityRules;
 import com.bernardomg.association.test.architecture.rule.SecurityRules;
-import com.bernardomg.framework.testing.architecture.rule.CacheRules;
 import com.bernardomg.framework.testing.architecture.rule.CodingRules;
 import com.bernardomg.framework.testing.architecture.rule.DependencyRules;
 import com.bernardomg.framework.testing.architecture.rule.JpaEntityRules;
@@ -23,9 +22,6 @@ import com.tngtech.archunit.junit.ArchTests;
                 "com.bernardomg.email", "com.bernardomg.exception", "com.bernardomg.jpa" },
         importOptions = ImportOption.DoNotIncludeTests.class)
 public class TestArchitectureRules {
-
-    @ArchTest
-    static final ArchTests cacheRules            = ArchTests.in(CacheRules.class);
 
     @ArchTest
     static final ArchTests codingRules           = ArchTests.in(CodingRules.class);
