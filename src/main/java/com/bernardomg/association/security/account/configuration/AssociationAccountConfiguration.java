@@ -32,7 +32,7 @@ import com.bernardomg.association.security.account.usecase.service.MemberAccount
 import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
 import com.bernardomg.security.account.domain.repository.AccountRepository;
 import com.bernardomg.security.account.usecase.service.AccountService;
-import com.bernardomg.security.account.usecase.service.DefaultAccountService;
+import com.bernardomg.security.account.usecase.service.SpringSecurityAccountService;
 
 @Configuration
 public class AssociationAccountConfiguration {
@@ -47,7 +47,7 @@ public class AssociationAccountConfiguration {
             final UserProfileRepository userProfileRepository) {
         final AccountService wrapped;
 
-        wrapped = new DefaultAccountService(accountRepository);
+        wrapped = new SpringSecurityAccountService(accountRepository);
         return new MemberAccountService(wrapped, userProfileRepository);
     }
 
