@@ -386,11 +386,11 @@ public final class JpaFeeRepository implements FeeRepository {
                 .number());
         }
 
-        feeType = feeTypeSpringRepository.findByNumber(fee.feeType()
-            .number());
-        if (!member.isPresent()) {
-            log.warn("Profile with number {} not found", fee.member()
-                .number());
+        feeType = feeTypeSpringRepository.findByNumber(member.get().getFeeType()
+            .getNumber());
+        if (!feeType.isPresent()) {
+            log.warn("Fee type with number {} not found", member.get().getFeeType()
+                .getNumber());
         }
 
         if (fee.transaction()
