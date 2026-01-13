@@ -53,18 +53,18 @@ import com.bernardomg.data.springframework.SpringPagination;
 
 @Repository
 @Transactional
-public final class JpaContactRepository implements ProfileRepository {
+public final class JpaProfileRepository implements ProfileRepository {
 
     /**
      * Logger for the class.
      */
-    private static final Logger                 log = LoggerFactory.getLogger(JpaContactRepository.class);
+    private static final Logger                 log = LoggerFactory.getLogger(JpaProfileRepository.class);
 
     private final ContactMethodSpringRepository contactMethodSpringRepository;
 
     private final ProfileSpringRepository       profileSpringRepository;
 
-    public JpaContactRepository(final ProfileSpringRepository profileSpringRepo,
+    public JpaProfileRepository(final ProfileSpringRepository profileSpringRepo,
             final ContactMethodSpringRepository contactMethodSpringRepo) {
         super();
 
