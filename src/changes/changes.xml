@@ -457,9 +457,14 @@
             Updated security dependency to fix password change.
          </action>
       </release>
-      <release version="0.6.7" date="2026-01-11" description="Auth corrections">
+      <release version="0.6.7" date="2026-01-13" description="Auth corrections">
          <action dev="bmg" type="fix">
             Updated security dependency.
+         </action>
+      </release>
+      <release version="0.6.8" date="2026-01-13" description="Fee payment fix">
+         <action dev="bmg" type="fix">
+            Fixed fee payment.
          </action>
       </release>
    </body>

@@ -54,8 +54,6 @@ components:
       type: object
       required: [member, transaction, months]
       properties:
-        feeType:
-          $ref: '../common/ids.yml#/components/schemas/Id'
         member:
           $ref: '../common/ids.yml#/components/schemas/Id'
         paymentDate:

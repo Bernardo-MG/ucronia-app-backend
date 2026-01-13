@@ -84,7 +84,7 @@ public final class FeeDtoMapper {
     }
 
     public static final FeePayments toDomain(final FeePaymentsDto dto) {
-        return new FeePayments(dto.getFeeType(), dto.getMember(), dto.getPaymentDate(), dto.getMonths());
+        return new FeePayments(dto.getMember(), dto.getPaymentDate(), dto.getMonths());
     }
 
     public static final MemberFeesResponseDto toMemberResponseDto(final Collection<MemberFees> fees) {
