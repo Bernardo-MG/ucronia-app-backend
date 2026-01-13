@@ -452,7 +452,10 @@
             Updated security dependency to fix role permissions.
          </action>
       </release>
-      <release version="1.0.0" date="2026-01-11" description="">
+      <release version="0.6.6" date="2026-01-11" description="Auth corrections">
+         <action dev="bmg" type="fix">
+            Updated security dependency to fix password change.
+         </action>
       </release>
    </body>
 </document>
