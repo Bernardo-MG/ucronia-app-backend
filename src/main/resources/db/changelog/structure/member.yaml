@@ -22,7 +22,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     foreignKeyName: fk_fees_fee_type
-                    references: association.fee_types(id)
+                    references: funds.fee_types(id)
                     deleteCascade: true
               - column:
                   name: active
@@ -38,6 +38,6 @@ databaseChangeLog:
       changes:
         -  createView:
             remarks: Monthly member balance
-            selectQuery: SELECT month, total FROM (SELECT DATE_TRUNC('month', month) AS month, COUNT(month) AS total FROM association.fees GROUP BY month) AS subquery
+            selectQuery: SELECT month, total FROM (SELECT DATE_TRUNC('month', month) AS month, COUNT(month) AS total FROM funds.fees GROUP BY month) AS subquery
             schemaName: directory
             viewName: monthly_membership_evolution
