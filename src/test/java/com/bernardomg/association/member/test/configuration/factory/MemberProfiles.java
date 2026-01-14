@@ -22,7 +22,8 @@ public final class MemberProfiles {
         final ContactMethod         contactMethod;
         final MemberProfile.FeeType feeType;
 
-        feeType = new MemberProfile.FeeType(FeeConstants.FEE_TYPE_NUMBER);
+        feeType = new MemberProfile.FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME,
+            FeeConstants.FEE_TYPE_AMOUNT);
 
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
         contactMethod = ContactMethods.email();
@@ -38,7 +39,8 @@ public final class MemberProfiles {
         final ContactMethod         contactMethod;
         final MemberProfile.FeeType feeType;
 
-        feeType = new MemberProfile.FeeType(FeeConstants.FEE_TYPE_NUMBER);
+        feeType = new MemberProfile.FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME,
+            FeeConstants.FEE_TYPE_AMOUNT);
 
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
         contactMethod = ContactMethods.email();
@@ -54,7 +56,8 @@ public final class MemberProfiles {
         final ContactMethod         contactMethod;
         final MemberProfile.FeeType feeType;
 
-        feeType = new MemberProfile.FeeType(FeeConstants.FEE_TYPE_NUMBER);
+        feeType = new MemberProfile.FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME,
+            FeeConstants.FEE_TYPE_AMOUNT);
 
         name = new ProfileName(ProfileConstants.ALTERNATIVE_FIRST_NAME, ProfileConstants.ALTERNATIVE_LAST_NAME);
         contactMethod = ContactMethods.email();
@@ -70,7 +73,8 @@ public final class MemberProfiles {
         final ContactMethod         contactMethod;
         final MemberProfile.FeeType feeType;
 
-        feeType = new MemberProfile.FeeType(FeeConstants.FEE_TYPE_NUMBER);
+        feeType = new MemberProfile.FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME,
+            FeeConstants.FEE_TYPE_AMOUNT);
 
         name = new ProfileName(ProfileConstants.ALTERNATIVE_FIRST_NAME, ProfileConstants.ALTERNATIVE_LAST_NAME);
         contactMethod = ContactMethods.email();
@@ -86,7 +90,8 @@ public final class MemberProfiles {
         final ContactMethod         contactMethod;
         final MemberProfile.FeeType feeType;
 
-        feeType = new MemberProfile.FeeType(FeeConstants.FEE_TYPE_NUMBER);
+        feeType = new MemberProfile.FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME,
+            FeeConstants.FEE_TYPE_AMOUNT);
 
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
         contactMethod = ContactMethods.email();
@@ -102,7 +107,8 @@ public final class MemberProfiles {
         final ContactMethod         contactMethod;
         final MemberProfile.FeeType feeType;
 
-        feeType = new MemberProfile.FeeType(FeeConstants.FEE_TYPE_NUMBER);
+        feeType = new MemberProfile.FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME,
+            FeeConstants.FEE_TYPE_AMOUNT);
 
         name = new ProfileName("Profile " + number, "Last name " + number);
         contactMethod = ContactMethods.email();
@@ -118,7 +124,8 @@ public final class MemberProfiles {
         final ContactMethod         contactMethod;
         final MemberProfile.FeeType feeType;
 
-        feeType = new MemberProfile.FeeType(FeeConstants.FEE_TYPE_NUMBER);
+        feeType = new MemberProfile.FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME,
+            FeeConstants.FEE_TYPE_AMOUNT);
 
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
         contactMethod = ContactMethods.email();
@@ -134,7 +141,8 @@ public final class MemberProfiles {
         final ContactMethod         contactMethod;
         final MemberProfile.FeeType feeType;
 
-        feeType = new MemberProfile.FeeType(FeeConstants.FEE_TYPE_NUMBER);
+        feeType = new MemberProfile.FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME,
+            FeeConstants.FEE_TYPE_AMOUNT);
 
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
         contactMethod = ContactMethods.email();
@@ -148,7 +156,8 @@ public final class MemberProfiles {
         final ProfileName           name;
         final MemberProfile.FeeType feeType;
 
-        feeType = new MemberProfile.FeeType(FeeConstants.FEE_TYPE_NUMBER);
+        feeType = new MemberProfile.FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME,
+            FeeConstants.FEE_TYPE_AMOUNT);
 
         name = new ProfileName("Profile 123", "Last name");
         return new MemberProfile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name,
@@ -160,7 +169,8 @@ public final class MemberProfiles {
         final ProfileName           name;
         final MemberProfile.FeeType feeType;
 
-        feeType = new MemberProfile.FeeType(FeeConstants.FEE_TYPE_NUMBER);
+        feeType = new MemberProfile.FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME,
+            FeeConstants.FEE_TYPE_AMOUNT);
 
         name = new ProfileName("Profile 123", "Last name");
         return new MemberProfile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name,
@@ -172,7 +182,8 @@ public final class MemberProfiles {
         final ProfileName           name;
         final MemberProfile.FeeType feeType;
 
-        feeType = new MemberProfile.FeeType(FeeConstants.FEE_TYPE_NUMBER);
+        feeType = new MemberProfile.FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME,
+            FeeConstants.FEE_TYPE_AMOUNT);
 
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
         return new MemberProfile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name,
@@ -184,7 +195,8 @@ public final class MemberProfiles {
         final ProfileName           name;
         final MemberProfile.FeeType feeType;
 
-        feeType = new MemberProfile.FeeType(FeeConstants.FEE_TYPE_NUMBER);
+        feeType = new MemberProfile.FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME,
+            FeeConstants.FEE_TYPE_AMOUNT);
 
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
         return new MemberProfile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name,
@@ -198,7 +210,8 @@ public final class MemberProfiles {
         final ContactMethod         contactMethod;
         final MemberProfile.FeeType feeType;
 
-        feeType = new MemberProfile.FeeType(FeeConstants.FEE_TYPE_NUMBER);
+        feeType = new MemberProfile.FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME,
+            FeeConstants.FEE_TYPE_AMOUNT);
 
         name = new ProfileName(" " + ProfileConstants.FIRST_NAME + " ", " " + ProfileConstants.LAST_NAME + " ");
         contactMethod = ContactMethods.email();
@@ -214,7 +227,25 @@ public final class MemberProfiles {
         final ContactMethod         contactMethod;
         final MemberProfile.FeeType feeType;
 
-        feeType = new MemberProfile.FeeType(FeeConstants.FEE_TYPE_NUMBER);
+        feeType = new MemberProfile.FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME,
+            FeeConstants.FEE_TYPE_AMOUNT);
+
+        name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
+        contactMethod = ContactMethods.email();
+        contactChannel = new ContactChannel(contactMethod, ProfileConstants.EMAIL);
+        return new MemberProfile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name,
+            ProfileConstants.BIRTH_DATE, List.of(contactChannel), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS,
+            true, true, feeType, Set.of());
+    }
+
+    public static final MemberProfile toCreate() {
+        final ProfileName           name;
+        final ContactChannel        contactChannel;
+        final ContactMethod         contactMethod;
+        final MemberProfile.FeeType feeType;
+
+        feeType = new MemberProfile.FeeType(FeeConstants.FEE_TYPE_NUMBER, "",
+            0f);
 
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
         contactMethod = ContactMethods.email();

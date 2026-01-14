@@ -58,6 +58,6 @@ public record Fee(YearMonth month, Boolean paid, Member member, FeeType feeType,
 
     public static record Transaction(Instant date, Long index) {}
 
-    public static record FeeType(Long number) {}
+    public static record FeeType(Long number, String name, Float amount) {}
 
 }

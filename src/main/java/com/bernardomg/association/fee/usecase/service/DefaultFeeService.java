@@ -158,7 +158,11 @@ public final class DefaultFeeService implements FeeService {
             });
 
         feeFeeType = new Fee.FeeType(member.feeType()
-            .number());
+            .number(),
+            member.feeType()
+                .name(),
+            member.feeType()
+                .amount());
 
         if (feeType.amount() == 0) {
             // No amount
@@ -328,8 +332,7 @@ public final class DefaultFeeService implements FeeService {
 
         feesToSave = feesPayments.months()
             .stream()
-            .map(month -> toPaidFee(member.feeType()
-                .number(), member, month, transaction))
+            .map(month -> toPaidFee(member.feeType(), member, month, transaction))
             .toList();
 
         created = feeRepository.save(feesToSave);
@@ -400,8 +403,7 @@ public final class DefaultFeeService implements FeeService {
             transaction = savePaymentTransaction(member, List.of(fee.month()), fee.transaction()
                 .get()
                 .date());
-            toSave = toPaidFee(fee.feeType()
-                .number(), member, fee.month(), transaction);
+            toSave = toPaidFee(fee.feeType(), member, fee.month(), transaction);
             updated = feeRepository.save(toSave);
         } else {
             if (changedPayment(fee, existing)) {
@@ -531,12 +533,22 @@ public final class DefaultFeeService implements FeeService {
         return new MemberFees.Fee(fee.month(), fee.paid());
     }
 
-    private final Fee toPaidFee(final Long type, final MemberProfile member, final YearMonth month,
+    private final Fee toPaidFee(final Fee.FeeType feeFeeType, final MemberProfile member, final YearMonth month,
             final Transaction transaction) {
         final Fee.FeeType     feeType;
         final Fee.Transaction feeTransaction;
 
-        feeType = new Fee.FeeType(type);
+        feeType = new Fee.FeeType(feeFeeType.number(), feeFeeType.name(), feeFeeType.amount());
+        feeTransaction = new Fee.Transaction(transaction.date(), transaction.index());
+        return Fee.paid(month, member.number(), member.name(), feeType, feeTransaction);
+    }
+
+    private final Fee toPaidFee(final MemberProfile.FeeType memberFeeType, final MemberProfile member,
+            final YearMonth month, final Transaction transaction) {
+        final Fee.FeeType     feeType;
+        final Fee.Transaction feeTransaction;
+
+        feeType = new Fee.FeeType(memberFeeType.number(), memberFeeType.name(), memberFeeType.amount());
         feeTransaction = new Fee.Transaction(transaction.date(), transaction.index());
         return Fee.paid(month, member.number(), member.name(), feeType, feeTransaction);
     }

@@ -66,18 +66,17 @@ public final class FeeDtoMapper {
         final Fee         fee;
         final FeeType     feeType;
 
+        feeType = new Fee.FeeType(change.getFeeType(), "", 0f);
         if ((change.getTransaction()
             .getIndex() == null)
                 && ((change.getTransaction()
                     .getDate() == null))) {
-            feeType = new Fee.FeeType(change.getFeeType());
             fee = Fee.unpaid(month, number, null, feeType);
         } else {
             transaction = new Fee.Transaction(change.getTransaction()
                 .getDate(),
                 change.getTransaction()
                     .getIndex());
-            feeType = new Fee.FeeType(change.getFeeType());
             fee = Fee.paid(month, number, null, feeType, transaction);
         }
 
@@ -145,7 +144,7 @@ public final class FeeDtoMapper {
         final ProfileNameDto    name;
         final MinimalProfileDto member;
         final FeeTransactionDto transaction;
-        final FeeFeeTypeDto feeType;
+        final FeeFeeTypeDto     feeType;
 
         name = new ProfileNameDto().firstName(fee.member()
             .name()
@@ -156,11 +155,11 @@ public final class FeeDtoMapper {
             .fullName(fee.member()
                 .name()
                 .fullName());
-        
+
         member = new MinimalProfileDto().name(name)
             .number(fee.member()
                 .number());
-        
+
         if (fee.transaction()
             .isPresent()) {
             transaction = new FeeTransactionDto().date(fee.transaction()
@@ -172,10 +171,15 @@ public final class FeeDtoMapper {
         } else {
             transaction = null;
         }
-        
+
         feeType = new FeeFeeTypeDto();
-        feeType.number(fee.feeType().number());
-        
+        feeType.number(fee.feeType()
+            .number());
+        feeType.name(fee.feeType()
+            .name());
+        feeType.amount(fee.feeType()
+            .amount());
+
         return new FeeDto().month(fee.month())
             .paid(fee.paid())
             .member(member)

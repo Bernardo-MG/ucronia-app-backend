@@ -54,6 +54,6 @@ public record MemberProfile(String identifier, Long number, ProfileName name, In
         this.types = Set.copyOf(types);
     }
 
-    public record FeeType(long number) {}
+    public record FeeType(Long number, String name, Float amount) {}
 
 }

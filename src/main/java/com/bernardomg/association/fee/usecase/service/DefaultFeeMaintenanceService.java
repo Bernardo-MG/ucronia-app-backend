@@ -122,7 +122,11 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
         feeType = feeTypes.get(member.feeType()
             .number());
         feeFeeType = new Fee.FeeType(member.feeType()
-            .number());
+            .number(),
+            member.feeType()
+                .name(),
+            member.feeType()
+                .amount());
 
         if (feeType.amount() == 0) {
             // No amount

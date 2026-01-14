@@ -38,10 +38,14 @@ components:
           $ref: '../common/dates.yml#/components/schemas/Date'
     FeeFeeType:
       type: object
-      required: [number]
       properties:
         number:
           $ref: '../common/ids.yml#/components/schemas/Id'
+        name:
+          type: string
+        amount:
+          type: number
+          format: float
     FeeCreation:
       type: object
       required: [member, month]
