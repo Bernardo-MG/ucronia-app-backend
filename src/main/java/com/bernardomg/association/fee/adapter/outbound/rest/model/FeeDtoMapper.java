@@ -42,6 +42,7 @@ import com.bernardomg.data.domain.Sorting.Property;
 import com.bernardomg.ucronia.openapi.model.FeeCalendarMemberDto;
 import com.bernardomg.ucronia.openapi.model.FeeChangeDto;
 import com.bernardomg.ucronia.openapi.model.FeeDto;
+import com.bernardomg.ucronia.openapi.model.FeeFeeTypeDto;
 import com.bernardomg.ucronia.openapi.model.FeePageResponseDto;
 import com.bernardomg.ucronia.openapi.model.FeePaymentsDto;
 import com.bernardomg.ucronia.openapi.model.FeeResponseDto;
@@ -144,6 +145,7 @@ public final class FeeDtoMapper {
         final ProfileNameDto    name;
         final MinimalProfileDto member;
         final FeeTransactionDto transaction;
+        final FeeFeeTypeDto feeType;
 
         name = new ProfileNameDto().firstName(fee.member()
             .name()
@@ -154,9 +156,11 @@ public final class FeeDtoMapper {
             .fullName(fee.member()
                 .name()
                 .fullName());
+        
         member = new MinimalProfileDto().name(name)
             .number(fee.member()
                 .number());
+        
         if (fee.transaction()
             .isPresent()) {
             transaction = new FeeTransactionDto().date(fee.transaction()
@@ -168,10 +172,15 @@ public final class FeeDtoMapper {
         } else {
             transaction = null;
         }
+        
+        feeType = new FeeFeeTypeDto();
+        feeType.number(fee.feeType().number());
+        
         return new FeeDto().month(fee.month())
             .paid(fee.paid())
             .member(member)
-            .transaction(transaction);
+            .transaction(transaction)
+            .feeType(feeType);
     }
 
     private static final MemberFeesDto toDto(final MemberFees memberFee) {
