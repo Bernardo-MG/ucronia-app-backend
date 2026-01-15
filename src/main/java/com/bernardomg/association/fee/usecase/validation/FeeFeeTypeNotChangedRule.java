@@ -36,18 +36,18 @@ import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRule;
 
 /**
- * Checks the fee's transaction was not changed or removed.
+ * Checks the fee's fee type was not changed or removed.
  */
-public final class FeeTransactionNotChangedRule implements FieldRule<Fee> {
+public final class FeeFeeTypeNotChangedRule implements FieldRule<Fee> {
 
     /**
      * Logger for the class.
      */
-    private static final Logger log = LoggerFactory.getLogger(FeeTransactionNotChangedRule.class);
+    private static final Logger log = LoggerFactory.getLogger(FeeFeeTypeNotChangedRule.class);
 
     private final FeeRepository feeRepository;
 
-    public FeeTransactionNotChangedRule(final FeeRepository feeRepo) {
+    public FeeFeeTypeNotChangedRule(final FeeRepository feeRepo) {
         super();
 
         feeRepository = Objects.requireNonNull(feeRepo);
@@ -62,11 +62,10 @@ public final class FeeTransactionNotChangedRule implements FieldRule<Fee> {
         existing = feeRepository.findOne(fee.member()
             .number(), fee.month())
             .get();
-        if (hasTransaction(fee, existing) && wasChanged(fee, existing)) {
-            log.error("Changed fee transaction");
-            fieldFailure = new FieldFailure("modified", "transaction", fee.transaction()
-                .get()
-                .index());
+        if ((fee.feeType() != null) && (wasChanged(fee, existing))) {
+            log.error("Changed fee's fee type");
+            fieldFailure = new FieldFailure("modified", "feeType", fee.feeType()
+                .number());
             failure = Optional.of(fieldFailure);
         } else {
             failure = Optional.empty();
@@ -75,22 +74,10 @@ public final class FeeTransactionNotChangedRule implements FieldRule<Fee> {
         return failure;
     }
 
-    private final boolean hasTransaction(final Fee fee, final Fee existing) {
-        return (fee.transaction()
-            .isPresent())
-                && (existing.transaction()
-                    .isPresent())
-                && (fee.transaction()
-                    .get()
-                    .index() != null);
-    }
-
     private final boolean wasChanged(final Fee fee, final Fee existing) {
-        return fee.transaction()
-            .get()
-            .index() != existing.transaction()
-                .get()
-                .index();
+        return (fee.feeType()
+            .number() != existing.feeType()
+                .number());
     }
 
 }

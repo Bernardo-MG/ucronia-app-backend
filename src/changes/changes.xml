@@ -467,5 +467,16 @@
             Fixed fee payment.
          </action>
       </release>
+      <release version="0.6.9" date="2026-01-13" description="Fees fixes">
+         <action dev="bmg" type="fix">
+            Fixed fee payment.
+         </action>
+         <action dev="bmg" type="fix">
+            Fixed fee type modification.
+         </action>
+         <action dev="bmg" type="update">
+            Changed funds schema.
+         </action>
+      </release>
    </body>
 </document>

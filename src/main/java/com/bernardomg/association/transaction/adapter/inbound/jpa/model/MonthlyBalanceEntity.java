@@ -39,7 +39,7 @@ import jakarta.persistence.Transient;
  * @author Bernardo Mart&iacute;nez Garrido
  */
 @Entity(name = "MonthlyBalance")
-@Table(schema = "association", name = "monthly_balances")
+@Table(schema = "funds", name = "monthly_balances")
 public class MonthlyBalanceEntity implements Serializable {
 
     @Transient

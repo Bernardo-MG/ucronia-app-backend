@@ -95,7 +95,7 @@ public final class DefaultProfileMembershipService implements ProfileMembershipS
             throw new MissingFeeTypeException(number);
         }
 
-        memberFeeType = new MemberProfile.FeeType(feeType);
+        memberFeeType = new MemberProfile.FeeType(feeType, "", 0f);
         toCreate = new MemberProfile(existing.identifier(), existing.number(), existing.name(), existing.birthDate(),
             existing.contactChannels(), existing.address(), existing.comments(), true, true, memberFeeType,
             existing.types());

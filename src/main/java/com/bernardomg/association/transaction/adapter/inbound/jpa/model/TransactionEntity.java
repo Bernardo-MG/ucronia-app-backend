@@ -36,7 +36,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
 @Entity(name = "Transaction")
-@Table(schema = "association", name = "transactions")
+@Table(schema = "funds", name = "transactions")
 public class TransactionEntity implements Serializable {
 
     @Transient

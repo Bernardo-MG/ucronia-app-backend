@@ -49,7 +49,7 @@ components:
           description: Comments about the member.
           maxLength: 250
         feeType:
-          $ref: '../common/ids.yml#/components/schemas/Id'
+          $ref: '#/components/schemas/MemberFeeType'
         active:
           type: boolean
           description: Whether the member is active.
@@ -105,6 +105,16 @@ components:
       type: string
       description: Status filter for member queries.
       enum: [ACTIVE, INACTIVE, ALL]
+    MemberFeeType:
+      type: object
+      properties:
+        number:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        name:
+          type: string
+        amount:
+          type: number
+          format: float
     ProfileMembershipConversion:
       type: object
       properties:

@@ -1,10 +1,20 @@
 databaseChangeLog:
   - changeSet:
+      id: association_schema
+      author: Bernardo
+      changes:
+        - sqlFile:
+            encoding: UTF-8
+            path: sql/create_funds_schema.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: true
+  - changeSet:
       id: funds
       author: Bernardo
       changes:
         - createTable:
-            schemaName: association
+            schemaName: funds
             tableName: transactions
             columns:
               - column:
@@ -38,7 +48,7 @@ databaseChangeLog:
                     nullable: false
                   defaultValueComputed: CURRENT_TIMESTAMP
         - addAutoIncrement:
-            schemaName: association
+            schemaName: funds
             tableName: transactions
             columnName: id
             columnDataType: bigint
@@ -54,15 +64,15 @@ databaseChangeLog:
       changes:
         -  createView:
             remarks: Monthly balance
-            selectQuery: SELECT month_year AS date, results, SUM(results) OVER (ORDER BY month_year) AS total FROM (SELECT DATE_TRUNC('month', date) AS month_year, SUM(amount) AS results FROM association.transactions GROUP BY month_year) AS subquery
-            schemaName: association
+            selectQuery: SELECT month_year AS date, results, SUM(results) OVER (ORDER BY month_year) AS total FROM (SELECT DATE_TRUNC('month', date) AS month_year, SUM(amount) AS results FROM funds.transactions GROUP BY month_year) AS subquery
+            schemaName: funds
             viewName: monthly_balances
   - changeSet:
       id: fees
       author: Bernardo
       changes:
         - createTable:
-            schemaName: association
+            schemaName: funds
             tableName: fee_types
             columns:
               - column:
@@ -90,14 +100,14 @@ databaseChangeLog:
                     nullable: false
                   defaultValueNumeric: 0
         - addAutoIncrement:
-            schemaName: association
+            schemaName: funds
             tableName: fee_types
             columnName: id
             columnDataType: bigint
             incrementBy: 1
             startWith: 1
         - createTable:
-            schemaName: association
+            schemaName: funds
             tableName: fees
             columns:
               - column:
@@ -132,7 +142,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     foreignKeyName: fk_fees_fee_type
-                    references: association.fee_types(id)
+                    references: funds.fee_types(id)
                     deleteCascade: true
               - column:
                   name: transaction_id
@@ -140,10 +150,10 @@ databaseChangeLog:
                   constraints:
                     nullable: true
                     foreignKeyName: fk_fees_transaction
-                    references: association.transactions(id)
+                    references: funds.transactions(id)
                     deleteCascade: true
         - addAutoIncrement:
-            schemaName: association
+            schemaName: funds
             tableName: fees
             columnName: id
             columnDataType: bigint
@@ -151,7 +161,7 @@ databaseChangeLog:
             startWith: 1
         - addUniqueConstraint:
             constraintName: fees_unique_date
-            schemaName: association
+            schemaName: funds
             tableName: fees
             columnNames: 'member_id, month'
       modifySql:

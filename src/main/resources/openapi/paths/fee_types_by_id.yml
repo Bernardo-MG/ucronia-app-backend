@@ -4,7 +4,7 @@ get:
   tags: [FeeType]
   parameters:
     - in: path
-      name: index
+      name: number
       required: true
       schema:
         $ref: '../common/ids.yml#/components/schemas/Id'
@@ -21,7 +21,7 @@ delete:
   tags: [FeeType]
   parameters:
     - in: path
-      name: index
+      name: number
       required: true
       schema:
         $ref: '../common/ids.yml#/components/schemas/Id'
@@ -38,7 +38,7 @@ put:
   tags: [FeeType]
   parameters:
     - in: path
-      name: index
+      name: number
       required: true
       schema:
         $ref: '../common/ids.yml#/components/schemas/Id'
