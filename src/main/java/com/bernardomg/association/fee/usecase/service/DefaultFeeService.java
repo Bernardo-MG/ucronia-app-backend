@@ -380,6 +380,7 @@ public final class DefaultFeeService implements FeeService {
                     .number());
             });
 
+        // TODO: no need to validate if it can't be changed
         if ((fee.transaction()
             .isPresent())
                 && (fee.transaction()

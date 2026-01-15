@@ -78,8 +78,6 @@ components:
       type: object
       required: [date]
       properties:
-        index:
-          $ref: '../common/ids.yml#/components/schemas/Id'
         date:
           $ref: '../common/dates.yml#/components/schemas/Date'
     FeePageResponse:

@@ -32,7 +32,6 @@ import java.util.Optional;
 
 import com.bernardomg.association.fee.domain.dto.FeePayments;
 import com.bernardomg.association.fee.domain.model.Fee;
-import com.bernardomg.association.fee.domain.model.Fee.FeeType;
 import com.bernardomg.association.fee.domain.model.Fee.Transaction;
 import com.bernardomg.association.fee.domain.model.MemberFees;
 import com.bernardomg.association.fee.domain.model.YearsRange;
@@ -64,20 +63,14 @@ public final class FeeDtoMapper {
     public static final Fee toDomain(final FeeChangeDto change, final YearMonth month, final long number) {
         final Transaction transaction;
         final Fee         fee;
-        final FeeType     feeType;
 
-        feeType = new Fee.FeeType(0L, "", 0f);
-        if ((change.getTransaction()
-            .getIndex() == null)
-                && ((change.getTransaction()
-                    .getDate() == null))) {
-            fee = Fee.unpaid(month, number, null, feeType);
+        if (change.getTransaction()
+            .getDate() == null) {
+            fee = Fee.unpaid(month, number, null, null);
         } else {
             transaction = new Fee.Transaction(change.getTransaction()
-                .getDate(),
-                change.getTransaction()
-                    .getIndex());
-            fee = Fee.paid(month, number, null, feeType, transaction);
+                .getDate(), null);
+            fee = Fee.paid(month, number, null, null, transaction);
         }
 
         return fee;
