@@ -80,7 +80,7 @@ public final class FeeTransactionNotChangedRule implements FieldRule<Fee> {
             .isPresent())
                 && (existing.transaction()
                     .isPresent())
-                && (existing.transaction()
+                && (fee.transaction()
                     .get()
                     .index() != null);
     }

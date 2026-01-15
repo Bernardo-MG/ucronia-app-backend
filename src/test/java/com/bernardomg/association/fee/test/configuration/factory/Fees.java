@@ -447,6 +447,24 @@ public final class Fees {
         return Fee.paid(FeeConstants.DATE, ProfileConstants.NUMBER, name, feeType, transaction);
     }
 
+    public static final Fee updatePaid() {
+        final Fee.Transaction transaction;
+        final ProfileName     name;
+
+        name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
+        transaction = new Fee.Transaction(null, FeeConstants.PAYMENT_DATE);
+        return Fee.paid(FeeConstants.DATE, ProfileConstants.NUMBER, name, null, transaction);
+    }
+
+    public static final Fee updatePaidAtDate(final Instant paymentDate) {
+        final Fee.Transaction transaction;
+        final ProfileName     name;
+
+        name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
+        transaction = new Fee.Transaction(null, paymentDate);
+        return Fee.paid(FeeConstants.DATE, ProfileConstants.NUMBER, name, null, transaction);
+    }
+
     private Fees() {
         super();
     }

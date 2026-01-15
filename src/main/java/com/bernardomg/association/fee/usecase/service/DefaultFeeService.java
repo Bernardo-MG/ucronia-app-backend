@@ -381,17 +381,17 @@ public final class DefaultFeeService implements FeeService {
 
         validatorUpdate.validate(fee);
 
-        if (addedPayment(fee)) {
+        if (addedPayment(fee, existing)) {
             // Added payment
             transaction = savePaymentTransaction(member, List.of(fee.month()), fee.transaction()
                 .get()
                 .date());
-            toSave = toPaidFee(fee.feeType(), member, fee.month(), transaction);
+            toSave = toPaidFee(member.feeType(), member, fee.month(), transaction);
         } else {
             if (changedPayment(fee, existing)) {
                 // Changed payment date
                 // Update transaction
-                existingPayment = transactionRepository.findOne(fee.transaction()
+                existingPayment = transactionRepository.findOne(existing.transaction()
                     .get()
                     .index())
                     .get();
@@ -415,12 +415,30 @@ public final class DefaultFeeService implements FeeService {
         return updated;
     }
 
-    private final boolean addedPayment(final Fee received) {
-        return ((received.transaction()
-            .isPresent())
-                && (received.transaction()
+    private final boolean addedPayment(final Fee received, final Fee existing) {
+        final Boolean added;
+
+        if (received.transaction()
+            .isPresent()) {
+            if (!existing.transaction()
+                .isPresent()) {
+                added = true;
+            } else if (received.transaction()
+                .get()
+                .index() == null) {
+                added = false;
+            } else {
+                added = received.transaction()
                     .get()
-                    .index() == null));
+                    .index() != existing.transaction()
+                        .get()
+                        .index();
+            }
+        } else {
+            added = false;
+        }
+
+        return added;
     }
 
     private final boolean changedPayment(final Fee received, final Fee existing) {
@@ -446,13 +464,13 @@ public final class DefaultFeeService implements FeeService {
         return changed;
     }
 
-    private final Fee copyToUpdate(final Fee fee, final Fee original) {
+    private final Fee copyToUpdate(final Fee fee, final Fee existing) {
         final Optional<Fee.Transaction> transaction;
         final Fee.Transaction           existingTransaction;
 
-        if (original.transaction()
+        if (existing.transaction()
             .isPresent()) {
-            existingTransaction = original.transaction()
+            existingTransaction = existing.transaction()
                 .get();
             transaction = Optional.of(new Fee.Transaction(existingTransaction.index(), fee.transaction()
                 .get()
@@ -466,7 +484,7 @@ public final class DefaultFeeService implements FeeService {
             transaction = Optional.empty();
         }
 
-        return new Fee(fee.month(), fee.paid(), fee.member(), original.feeType(), transaction);
+        return new Fee(fee.month(), fee.paid(), fee.member(), existing.feeType(), transaction);
     }
 
     private final String normalizeString(final String input) {
@@ -539,16 +557,6 @@ public final class DefaultFeeService implements FeeService {
 
     private final MemberFees.Fee toMemberFee(final Fee fee) {
         return new MemberFees.Fee(fee.month(), fee.paid());
-    }
-
-    private final Fee toPaidFee(final Fee.FeeType feeFeeType, final MemberProfile member, final YearMonth month,
-            final Transaction transaction) {
-        final Fee.FeeType     feeType;
-        final Fee.Transaction feeTransaction;
-
-        feeType = new Fee.FeeType(feeFeeType.number(), feeFeeType.name(), feeFeeType.amount());
-        feeTransaction = new Fee.Transaction(transaction.index(), transaction.date());
-        return Fee.paid(month, member.number(), member.name(), feeType, feeTransaction);
     }
 
     private final Fee toPaidFee(final MemberProfile.FeeType memberFeeType, final MemberProfile member,

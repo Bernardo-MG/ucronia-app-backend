@@ -102,7 +102,7 @@ class TestFeeServiceUpdate {
 
         given(feeRepository.findOne(ProfileConstants.NUMBER, FeeConstants.DATE))
             .willReturn(Optional.of(Fees.notPaid()));
-        given(feeRepository.save(toUpdate)).willReturn(Fees.paid());
+        given(feeRepository.save(toUpdate)).willReturn(Fees.updatePaid());
         given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
             .willReturn(Optional.of(MemberProfiles.active()));
         given(transactionRepository.findNextIndex()).willReturn(TransactionConstants.INDEX);
@@ -128,7 +128,7 @@ class TestFeeServiceUpdate {
 
         given(feeRepository.findOne(ProfileConstants.NUMBER, FeeConstants.DATE))
             .willReturn(Optional.of(Fees.notPaid()));
-        given(feeRepository.save(toUpdate)).willReturn(Fees.paid());
+        given(feeRepository.save(toUpdate)).willReturn(Fees.updatePaid());
         given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
             .willReturn(Optional.of(MemberProfiles.active()));
         given(transactionRepository.findNextIndex()).willReturn(TransactionConstants.INDEX);
@@ -154,7 +154,7 @@ class TestFeeServiceUpdate {
 
         given(feeRepository.findOne(ProfileConstants.NUMBER, FeeConstants.DATE))
             .willReturn(Optional.of(Fees.notPaid()));
-        given(feeRepository.save(toUpdate)).willReturn(toUpdate);
+        given(feeRepository.save(toUpdate)).willReturn(Fees.paid());
         given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
             .willReturn(Optional.of(MemberProfiles.active()));
         given(transactionRepository.save(Transactions.toCreate())).willReturn(Transactions.positive());
@@ -171,48 +171,6 @@ class TestFeeServiceUpdate {
     }
 
     @Test
-    @DisplayName("When the fee type is changed, an exception is thrown")
-    void testUpdate_ChangedFeeType() {
-        final ThrowingCallable execution;
-        final FieldFailure     failure;
-
-        // GIVEN
-        given(feeRepository.findOne(ProfileConstants.NUMBER, FeeConstants.DATE))
-            .willReturn(Optional.of(Fees.alternativeFeeType()));
-        given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
-            .willReturn(Optional.of(MemberProfiles.active()));
-
-        // WHEN
-        execution = () -> service.update(Fees.paid());
-
-        // THEN
-        failure = new FieldFailure("modified", "feeType", "feeType.modified", FeeConstants.FEE_TYPE_NUMBER);
-
-        ValidationAssertions.assertThatFieldFails(execution, failure);
-    }
-
-    @Test
-    @DisplayName("When the transaction is changed, an exception is thrown")
-    void testUpdate_ChangedPayment() {
-        final ThrowingCallable execution;
-        final FieldFailure     failure;
-
-        // GIVEN
-        given(feeRepository.findOne(ProfileConstants.NUMBER, FeeConstants.DATE))
-            .willReturn(Optional.of(Fees.alternativeTransaction()));
-        given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
-            .willReturn(Optional.of(MemberProfiles.active()));
-
-        // WHEN
-        execution = () -> service.update(Fees.paid());
-
-        // THEN
-        failure = new FieldFailure("modified", "transaction", "transaction.modified", TransactionConstants.INDEX);
-
-        ValidationAssertions.assertThatFieldFails(execution, failure);
-    }
-
-    @Test
     @DisplayName("With a not existing fee, an exception is thrown")
     void testUpdate_NotExistingFee() {
         final ThrowingCallable execution;
@@ -221,7 +179,7 @@ class TestFeeServiceUpdate {
         given(feeRepository.findOne(ProfileConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.update(Fees.paid());
+        execution = () -> service.update(Fees.updatePaid());
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -238,7 +196,7 @@ class TestFeeServiceUpdate {
         given(memberProfileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.update(Fees.paid());
+        execution = () -> service.update(Fees.updatePaid());
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -277,10 +235,10 @@ class TestFeeServiceUpdate {
             .plusMonths(1)
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant();
-        toUpdate = Fees.paidAtDate(date);
+        toUpdate = Fees.updatePaidAtDate(date);
 
         given(feeRepository.findOne(ProfileConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
-        given(feeRepository.save(toUpdate)).willReturn(toUpdate);
+        given(feeRepository.save(Fees.paidAtDate(date))).willReturn(toUpdate);
         given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
             .willReturn(Optional.of(MemberProfiles.active()));
         given(transactionRepository.findOne(TransactionConstants.INDEX))
@@ -306,10 +264,10 @@ class TestFeeServiceUpdate {
             .plusMonths(1)
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant();
-        toUpdate = Fees.paidAtDate(date);
+        toUpdate = Fees.updatePaidAtDate(date);
 
         given(feeRepository.findOne(ProfileConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
-        given(feeRepository.save(toUpdate)).willReturn(toUpdate);
+        given(feeRepository.save(Fees.paidAtDate(date))).willReturn(toUpdate);
         given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
             .willReturn(Optional.of(MemberProfiles.active()));
         given(transactionRepository.findOne(TransactionConstants.INDEX))
@@ -335,10 +293,10 @@ class TestFeeServiceUpdate {
             .plusMonths(1)
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant();
-        toUpdate = Fees.paidAtDate(date);
+        toUpdate = Fees.updatePaidAtDate(date);
 
         given(feeRepository.findOne(ProfileConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
-        given(feeRepository.save(toUpdate)).willReturn(toUpdate);
+        given(feeRepository.save(Fees.paidAtDate(date))).willReturn(toUpdate);
         given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
             .willReturn(Optional.of(MemberProfiles.active()));
         given(transactionRepository.findOne(TransactionConstants.INDEX))
@@ -348,7 +306,7 @@ class TestFeeServiceUpdate {
         service.update(toUpdate);
 
         // THEN
-        verify(feeRepository).save(toUpdate);
+        verify(feeRepository).save(Fees.paidAtDate(date));
     }
 
     @Test
@@ -362,10 +320,10 @@ class TestFeeServiceUpdate {
             .plusMonths(1)
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant();
-        toUpdate = Fees.paidAtDate(date);
+        toUpdate = Fees.updatePaidAtDate(date);
 
         given(feeRepository.findOne(ProfileConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
-        given(feeRepository.save(toUpdate)).willReturn(toUpdate);
+        given(feeRepository.save(Fees.paidAtDate(date))).willReturn(toUpdate);
         given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
             .willReturn(Optional.of(MemberProfiles.active()));
         given(transactionRepository.findOne(TransactionConstants.INDEX))
@@ -384,15 +342,15 @@ class TestFeeServiceUpdate {
         final Fee toUpdate;
 
         // GIVEN
-        toUpdate = Fees.paid();
+        toUpdate = Fees.updatePaid();
 
         given(feeRepository.findOne(ProfileConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
-        given(feeRepository.save(toUpdate)).willReturn(toUpdate);
+        given(feeRepository.save(Fees.paid())).willReturn(toUpdate);
         given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
             .willReturn(Optional.of(MemberProfiles.active()));
 
         // WHEN
-        service.update(Fees.paid());
+        service.update(Fees.updatePaid());
 
         // THEN
         verify(transactionRepository, Mockito.never()).save(ArgumentMatchers.any());
@@ -404,10 +362,10 @@ class TestFeeServiceUpdate {
         final Fee toUpdate;
 
         // GIVEN
-        toUpdate = Fees.paid();
+        toUpdate = Fees.updatePaid();
 
         given(feeRepository.findOne(ProfileConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
-        given(feeRepository.save(toUpdate)).willReturn(toUpdate);
+        given(feeRepository.save(Fees.paid())).willReturn(toUpdate);
         given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
             .willReturn(Optional.of(MemberProfiles.active()));
 
@@ -425,10 +383,10 @@ class TestFeeServiceUpdate {
         final Fee toUpdate;
 
         // GIVEN
-        toUpdate = Fees.paid();
+        toUpdate = Fees.updatePaid();
 
         given(feeRepository.findOne(ProfileConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
-        given(feeRepository.save(toUpdate)).willReturn(toUpdate);
+        given(feeRepository.save(Fees.paid())).willReturn(toUpdate);
         given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
             .willReturn(Optional.of(MemberProfiles.active()));
 
@@ -436,7 +394,7 @@ class TestFeeServiceUpdate {
         service.update(toUpdate);
 
         // THEN
-        verify(feeRepository).save(toUpdate);
+        verify(feeRepository).save(Fees.paid());
     }
 
     @Test
@@ -448,15 +406,15 @@ class TestFeeServiceUpdate {
         given(feeRepository.findOne(ProfileConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
         given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
             .willReturn(Optional.of(MemberProfiles.active()));
-        given(feeRepository.save(Fees.paid())).willReturn(Fees.paid());
+        given(feeRepository.save(Fees.paid())).willReturn(Fees.updatePaid());
 
         // WHEN
-        updated = service.update(Fees.paid());
+        updated = service.update(Fees.updatePaid());
 
         // THEN
         Assertions.assertThat(updated)
             .as("fee")
-            .isEqualTo(Fees.paid());
+            .isEqualTo(Fees.updatePaid());
     }
 
 }

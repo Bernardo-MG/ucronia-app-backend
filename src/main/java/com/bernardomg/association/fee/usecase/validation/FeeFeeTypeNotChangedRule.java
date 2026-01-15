@@ -75,9 +75,9 @@ public final class FeeFeeTypeNotChangedRule implements FieldRule<Fee> {
     }
 
     private final boolean wasChanged(final Fee fee, final Fee existing) {
-        return fee.feeType()
+        return (fee.feeType()
             .number() != existing.feeType()
-                .number();
+                .number());
     }
 
 }
