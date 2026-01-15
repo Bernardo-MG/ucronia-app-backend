@@ -66,9 +66,9 @@ public final class FeeEntityMapper {
                     .getNumber(), name, feeType);
             } else {
                 transaction = new Fee.Transaction(entity.getTransaction()
-                    .getDate(),
+                    .getIndex(),
                     entity.getTransaction()
-                        .getIndex());
+                        .getDate());
                 fee = Fee.paid(date, entity.getMember()
                     .getProfile()
                     .getNumber(), name, feeType, transaction);

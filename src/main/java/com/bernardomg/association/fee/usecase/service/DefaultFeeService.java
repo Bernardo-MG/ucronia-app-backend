@@ -68,7 +68,6 @@ import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.profile.domain.model.ProfileName;
-import com.bernardomg.association.transaction.domain.exception.MissingTransactionException;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.data.domain.Page;
@@ -380,25 +379,6 @@ public final class DefaultFeeService implements FeeService {
                     .number());
             });
 
-        // TODO: no need to validate if it can't be changed
-        if ((fee.transaction()
-            .isPresent())
-                && (fee.transaction()
-                    .get()
-                    .index() != null)
-                && (!transactionRepository.exists(fee.transaction()
-                    .get()
-                    .index()))) {
-            log.error("Missing transaction {}", fee.transaction()
-                .get()
-                .index());
-            throw new MissingTransactionException(fee.transaction()
-                .get()
-                .index());
-        }
-
-        // TODO: Don't allow changing the fee type
-
         validatorUpdate.validate(fee);
 
         if (addedPayment(fee)) {
@@ -422,7 +402,7 @@ public final class DefaultFeeService implements FeeService {
             }
             toSave = fee;
         }
-        updated = feeRepository.save(copyWithoutFeeType(toSave, existing));
+        updated = feeRepository.save(copyToUpdate(toSave, existing));
 
         if ((updated.transaction()
             .isPresent())
@@ -464,8 +444,27 @@ public final class DefaultFeeService implements FeeService {
         return changed;
     }
 
-    private final Fee copyWithoutFeeType(final Fee fee, final Fee original) {
-        return new Fee(fee.month(), fee.paid(), fee.member(), original.feeType(), fee.transaction());
+    private final Fee copyToUpdate(final Fee fee, final Fee original) {
+        final Optional<Fee.Transaction> transaction;
+        final Fee.Transaction           existingTransaction;
+
+        if (original.transaction()
+            .isPresent()) {
+            existingTransaction = original.transaction()
+                .get();
+            transaction = Optional.of(new Fee.Transaction(existingTransaction.index(), fee.transaction()
+                .get()
+                .date()));
+        } else if (fee.transaction()
+            .isPresent()) {
+            transaction = Optional.of(new Fee.Transaction(-1L, fee.transaction()
+                .get()
+                .date()));
+        } else {
+            transaction = Optional.empty();
+        }
+
+        return new Fee(fee.month(), fee.paid(), fee.member(), original.feeType(), transaction);
     }
 
     private final String normalizeString(final String input) {
@@ -546,7 +545,7 @@ public final class DefaultFeeService implements FeeService {
         final Fee.Transaction feeTransaction;
 
         feeType = new Fee.FeeType(feeFeeType.number(), feeFeeType.name(), feeFeeType.amount());
-        feeTransaction = new Fee.Transaction(transaction.date(), transaction.index());
+        feeTransaction = new Fee.Transaction(transaction.index(), transaction.date());
         return Fee.paid(month, member.number(), member.name(), feeType, feeTransaction);
     }
 
@@ -556,7 +555,7 @@ public final class DefaultFeeService implements FeeService {
         final Fee.Transaction feeTransaction;
 
         feeType = new Fee.FeeType(memberFeeType.number(), memberFeeType.name(), memberFeeType.amount());
-        feeTransaction = new Fee.Transaction(transaction.date(), transaction.index());
+        feeTransaction = new Fee.Transaction(transaction.index(), transaction.date());
         return Fee.paid(month, member.number(), member.name(), feeType, feeTransaction);
     }
 
