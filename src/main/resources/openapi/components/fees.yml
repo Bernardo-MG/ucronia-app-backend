@@ -68,7 +68,7 @@ components:
             $ref: '../common/dates.yml#/components/schemas/Month'
     FeeChange:
       type: object
-      required: [feeType, month]
+      required: [transaction]
       properties:
         transaction:
           $ref: '../common/dates.yml#/components/schemas/Date'
