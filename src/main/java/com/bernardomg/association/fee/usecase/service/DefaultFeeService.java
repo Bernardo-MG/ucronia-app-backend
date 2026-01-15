@@ -56,6 +56,7 @@ import com.bernardomg.association.fee.domain.model.MemberFees;
 import com.bernardomg.association.fee.domain.model.YearsRange;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
+import com.bernardomg.association.fee.usecase.validation.FeeFeeTypeNotChangedRule;
 import com.bernardomg.association.fee.usecase.validation.FeeMonthNotExistingRule;
 import com.bernardomg.association.fee.usecase.validation.FeeNotPaidInFutureRule;
 import com.bernardomg.association.fee.usecase.validation.FeePaymentsMonthsNotExistingRule;
@@ -130,7 +131,7 @@ public final class DefaultFeeService implements FeeService {
         // TODO: Test validation
         validatorCreate = new FieldRuleValidator<>(new FeeMonthNotExistingRule(memberProfileRepository, feeRepository));
         validatorUpdate = new FieldRuleValidator<>(new FeeNotPaidInFutureRule(),
-            new FeeTransactionNotChangedRule(feeRepository));
+            new FeeTransactionNotChangedRule(feeRepository), new FeeFeeTypeNotChangedRule(feeRepository));
     }
 
     @Override
@@ -370,7 +371,6 @@ public final class DefaultFeeService implements FeeService {
                     .number(), fee.month());
             });
 
-        // TODO: check member
         member = memberProfileRepository.findOne(fee.member()
             .number())
             .orElseThrow(() -> {
@@ -396,6 +396,8 @@ public final class DefaultFeeService implements FeeService {
                 .index());
         }
 
+        // TODO: Don't allow changing the fee type
+
         validatorUpdate.validate(fee);
 
         if (addedPayment(fee)) {
@@ -404,7 +406,6 @@ public final class DefaultFeeService implements FeeService {
                 .get()
                 .date());
             toSave = toPaidFee(fee.feeType(), member, fee.month(), transaction);
-            updated = feeRepository.save(toSave);
         } else {
             if (changedPayment(fee, existing)) {
                 // Changed payment date
@@ -418,8 +419,9 @@ public final class DefaultFeeService implements FeeService {
                     .date(), existingPayment.amount(), existingPayment.description());
                 transactionRepository.save(updatedPayment);
             }
-            updated = feeRepository.save(fee);
+            toSave = fee;
         }
+        updated = feeRepository.save(copyWithoutFeeType(toSave, existing));
 
         if ((updated.transaction()
             .isPresent())
@@ -459,6 +461,10 @@ public final class DefaultFeeService implements FeeService {
         }
 
         return changed;
+    }
+
+    private final Fee copyWithoutFeeType(final Fee fee, final Fee original) {
+        return new Fee(fee.month(), fee.paid(), fee.member(), original.feeType(), fee.transaction());
     }
 
     private final String normalizeString(final String input) {

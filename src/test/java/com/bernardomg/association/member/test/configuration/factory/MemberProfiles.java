@@ -221,14 +221,13 @@ public final class MemberProfiles {
             true, true, feeType, Set.of(MemberEntityConstants.PROFILE_TYPE));
     }
 
-    public static final MemberProfile withoutType() {
+    public static final MemberProfile toCreate() {
         final ProfileName           name;
         final ContactChannel        contactChannel;
         final ContactMethod         contactMethod;
         final MemberProfile.FeeType feeType;
 
-        feeType = new MemberProfile.FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME,
-            FeeConstants.FEE_TYPE_AMOUNT);
+        feeType = new MemberProfile.FeeType(FeeConstants.FEE_TYPE_NUMBER, "", 0f);
 
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
         contactMethod = ContactMethods.email();
@@ -238,14 +237,14 @@ public final class MemberProfiles {
             true, true, feeType, Set.of());
     }
 
-    public static final MemberProfile toCreate() {
+    public static final MemberProfile withoutType() {
         final ProfileName           name;
         final ContactChannel        contactChannel;
         final ContactMethod         contactMethod;
         final MemberProfile.FeeType feeType;
 
-        feeType = new MemberProfile.FeeType(FeeConstants.FEE_TYPE_NUMBER, "",
-            0f);
+        feeType = new MemberProfile.FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME,
+            FeeConstants.FEE_TYPE_AMOUNT);
 
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
         contactMethod = ContactMethods.email();

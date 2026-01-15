@@ -66,7 +66,7 @@ public final class FeeDtoMapper {
         final Fee         fee;
         final FeeType     feeType;
 
-        feeType = new Fee.FeeType(change.getFeeType(), "", 0f);
+        feeType = new Fee.FeeType(0L, "", 0f);
         if ((change.getTransaction()
             .getIndex() == null)
                 && ((change.getTransaction()

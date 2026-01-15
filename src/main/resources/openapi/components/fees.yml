@@ -70,8 +70,6 @@ components:
       type: object
       required: [feeType, month]
       properties:
-        feeType:
-          $ref: '../common/ids.yml#/components/schemas/Id'
         month:
           $ref: '../common/dates.yml#/components/schemas/Month'
         transaction:

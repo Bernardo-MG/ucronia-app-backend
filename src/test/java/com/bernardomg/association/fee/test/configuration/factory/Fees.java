@@ -36,6 +36,18 @@ public final class Fees {
         return Fee.paid(FeeConstants.DATE, ProfileConstants.ALTERNATIVE_NUMBER, name, feeType, transaction);
     }
 
+    public static final Fee alternativeFeeType() {
+        final Fee.FeeType     feeType;
+        final Fee.Transaction transaction;
+        final ProfileName     name;
+
+        name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
+        feeType = new Fee.FeeType(FeeConstants.FEE_TYPE_ALTERNATIVE_NUMBER, FeeConstants.FEE_TYPE_NAME,
+            FeeConstants.FEE_TYPE_AMOUNT);
+        transaction = new Fee.Transaction(FeeConstants.PAYMENT_DATE, TransactionConstants.INDEX);
+        return Fee.paid(FeeConstants.DATE, ProfileConstants.NUMBER, name, feeType, transaction);
+    }
+
     public static final Fee alternativeProfile() {
         final Fee.FeeType     feeType;
         final Fee.Transaction transaction;

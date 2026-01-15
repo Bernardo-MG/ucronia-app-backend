@@ -171,7 +171,29 @@ class TestFeeServiceUpdate {
     }
 
     @Test
-    @DisplayName("When the payment is changed, an exception is thrown")
+    @DisplayName("When the fee type is changed, an exception is thrown")
+    void testUpdate_ChangedFeeType() {
+        final ThrowingCallable execution;
+        final FieldFailure     failure;
+
+        // GIVEN
+        given(feeRepository.findOne(ProfileConstants.NUMBER, FeeConstants.DATE))
+            .willReturn(Optional.of(Fees.alternativeFeeType()));
+        given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
+            .willReturn(Optional.of(MemberProfiles.active()));
+        given(transactionRepository.exists(TransactionConstants.INDEX)).willReturn(true);
+
+        // WHEN
+        execution = () -> service.update(Fees.paid());
+
+        // THEN
+        failure = new FieldFailure("modified", "feeType", "feeType.modified", FeeConstants.FEE_TYPE_NUMBER);
+
+        ValidationAssertions.assertThatFieldFails(execution, failure);
+    }
+
+    @Test
+    @DisplayName("When the transaction is changed, an exception is thrown")
     void testUpdate_ChangedPayment() {
         final ThrowingCallable execution;
         final FieldFailure     failure;
