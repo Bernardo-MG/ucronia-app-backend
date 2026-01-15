@@ -429,7 +429,9 @@ public final class DefaultFeeService implements FeeService {
         final boolean changed;
 
         if (existing.transaction()
-            .isPresent()) {
+            .isPresent()
+                && received.transaction()
+                    .isPresent()) {
             receivedDate = received.transaction()
                 .get()
                 .date();
@@ -457,7 +459,7 @@ public final class DefaultFeeService implements FeeService {
                 .date()));
         } else if (fee.transaction()
             .isPresent()) {
-            transaction = Optional.of(new Fee.Transaction(-1L, fee.transaction()
+            transaction = Optional.of(new Fee.Transaction(null, fee.transaction()
                 .get()
                 .date()));
         } else {

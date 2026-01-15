@@ -74,4 +74,9 @@ public final class Transactions {
             TransactionConstants.DESCRIPTION);
     }
 
+    public static final Transaction toCreate() {
+        return new Transaction(0, TransactionConstants.DATE, TransactionConstants.AMOUNT,
+            TransactionConstants.DESCRIPTION);
+    }
+
 }

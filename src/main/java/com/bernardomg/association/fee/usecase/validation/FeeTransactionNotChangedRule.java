@@ -62,11 +62,7 @@ public final class FeeTransactionNotChangedRule implements FieldRule<Fee> {
         existing = feeRepository.findOne(fee.member()
             .number(), fee.month())
             .get();
-        if (wasRemoved(fee, existing)) {
-            log.error("Removed payment from fee");
-            fieldFailure = new FieldFailure("removed", "transaction", null);
-            failure = Optional.of(fieldFailure);
-        } else if (hasTransaction(fee, existing) && wasChanged(fee, existing)) {
+        if (hasTransaction(fee, existing) && wasChanged(fee, existing)) {
             log.error("Changed fee transaction");
             fieldFailure = new FieldFailure("modified", "transaction", fee.transaction()
                 .get()
@@ -83,7 +79,10 @@ public final class FeeTransactionNotChangedRule implements FieldRule<Fee> {
         return (fee.transaction()
             .isPresent())
                 && (existing.transaction()
-                    .isPresent());
+                    .isPresent())
+                && (existing.transaction()
+                    .get()
+                    .index() != null);
     }
 
     private final boolean wasChanged(final Fee fee, final Fee existing) {
@@ -92,13 +91,6 @@ public final class FeeTransactionNotChangedRule implements FieldRule<Fee> {
             .index() != existing.transaction()
                 .get()
                 .index();
-    }
-
-    private final boolean wasRemoved(final Fee fee, final Fee existing) {
-        return (fee.transaction()
-            .isEmpty())
-                && (existing.transaction()
-                    .isPresent());
     }
 
 }
