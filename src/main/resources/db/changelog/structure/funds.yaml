@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: association_schema
+      id: funds_schema
       author: Bernardo
       changes:
         - sqlFile:
