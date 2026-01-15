@@ -38,10 +38,14 @@ components:
           $ref: '../common/dates.yml#/components/schemas/Date'
     FeeFeeType:
       type: object
-      required: [number]
       properties:
         number:
           $ref: '../common/ids.yml#/components/schemas/Id'
+        name:
+          type: string
+        amount:
+          type: number
+          format: float
     FeeCreation:
       type: object
       required: [member, month]
@@ -64,21 +68,9 @@ components:
             $ref: '../common/dates.yml#/components/schemas/Month'
     FeeChange:
       type: object
-      required: [feeType, month]
+      required: [transaction]
       properties:
-        feeType:
-          $ref: '../common/ids.yml#/components/schemas/Id'
-        month:
-          $ref: '../common/dates.yml#/components/schemas/Month'
         transaction:
-          $ref: '#/components/schemas/FeeChangeTransaction'
-    FeeChangeTransaction:
-      type: object
-      required: [date]
-      properties:
-        index:
-          $ref: '../common/ids.yml#/components/schemas/Id'
-        date:
           $ref: '../common/dates.yml#/components/schemas/Date'
     FeePageResponse:
       allOf:

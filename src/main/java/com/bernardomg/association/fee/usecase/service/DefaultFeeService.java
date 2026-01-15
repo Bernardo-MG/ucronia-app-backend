@@ -56,6 +56,7 @@ import com.bernardomg.association.fee.domain.model.MemberFees;
 import com.bernardomg.association.fee.domain.model.YearsRange;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
+import com.bernardomg.association.fee.usecase.validation.FeeFeeTypeNotChangedRule;
 import com.bernardomg.association.fee.usecase.validation.FeeMonthNotExistingRule;
 import com.bernardomg.association.fee.usecase.validation.FeeNotPaidInFutureRule;
 import com.bernardomg.association.fee.usecase.validation.FeePaymentsMonthsNotExistingRule;
@@ -67,7 +68,6 @@ import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.profile.domain.model.ProfileName;
-import com.bernardomg.association.transaction.domain.exception.MissingTransactionException;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.data.domain.Page;
@@ -130,7 +130,7 @@ public final class DefaultFeeService implements FeeService {
         // TODO: Test validation
         validatorCreate = new FieldRuleValidator<>(new FeeMonthNotExistingRule(memberProfileRepository, feeRepository));
         validatorUpdate = new FieldRuleValidator<>(new FeeNotPaidInFutureRule(),
-            new FeeTransactionNotChangedRule(feeRepository));
+            new FeeTransactionNotChangedRule(feeRepository), new FeeFeeTypeNotChangedRule(feeRepository));
     }
 
     @Override
@@ -158,7 +158,11 @@ public final class DefaultFeeService implements FeeService {
             });
 
         feeFeeType = new Fee.FeeType(member.feeType()
-            .number());
+            .number(),
+            member.feeType()
+                .name(),
+            member.feeType()
+                .amount());
 
         if (feeType.amount() == 0) {
             // No amount
@@ -328,8 +332,7 @@ public final class DefaultFeeService implements FeeService {
 
         feesToSave = feesPayments.months()
             .stream()
-            .map(month -> toPaidFee(member.feeType()
-                .number(), member, month, transaction))
+            .map(month -> toPaidFee(member.feeType(), member, month, transaction))
             .toList();
 
         created = feeRepository.save(feesToSave);
@@ -367,7 +370,6 @@ public final class DefaultFeeService implements FeeService {
                     .number(), fee.month());
             });
 
-        // TODO: check member
         member = memberProfileRepository.findOne(fee.member()
             .number())
             .orElseThrow(() -> {
@@ -377,37 +379,19 @@ public final class DefaultFeeService implements FeeService {
                     .number());
             });
 
-        if ((fee.transaction()
-            .isPresent())
-                && (fee.transaction()
-                    .get()
-                    .index() != null)
-                && (!transactionRepository.exists(fee.transaction()
-                    .get()
-                    .index()))) {
-            log.error("Missing transaction {}", fee.transaction()
-                .get()
-                .index());
-            throw new MissingTransactionException(fee.transaction()
-                .get()
-                .index());
-        }
-
         validatorUpdate.validate(fee);
 
-        if (addedPayment(fee)) {
+        if (addedPayment(fee, existing)) {
             // Added payment
             transaction = savePaymentTransaction(member, List.of(fee.month()), fee.transaction()
                 .get()
                 .date());
-            toSave = toPaidFee(fee.feeType()
-                .number(), member, fee.month(), transaction);
-            updated = feeRepository.save(toSave);
+            toSave = toPaidFee(member.feeType(), member, fee.month(), transaction);
         } else {
             if (changedPayment(fee, existing)) {
                 // Changed payment date
                 // Update transaction
-                existingPayment = transactionRepository.findOne(fee.transaction()
+                existingPayment = transactionRepository.findOne(existing.transaction()
                     .get()
                     .index())
                     .get();
@@ -416,8 +400,9 @@ public final class DefaultFeeService implements FeeService {
                     .date(), existingPayment.amount(), existingPayment.description());
                 transactionRepository.save(updatedPayment);
             }
-            updated = feeRepository.save(fee);
+            toSave = fee;
         }
+        updated = feeRepository.save(copyToUpdate(toSave, existing));
 
         if ((updated.transaction()
             .isPresent())
@@ -430,12 +415,30 @@ public final class DefaultFeeService implements FeeService {
         return updated;
     }
 
-    private final boolean addedPayment(final Fee received) {
-        return ((received.transaction()
-            .isPresent())
-                && (received.transaction()
+    private final boolean addedPayment(final Fee received, final Fee existing) {
+        final Boolean added;
+
+        if (received.transaction()
+            .isPresent()) {
+            if (!existing.transaction()
+                .isPresent()) {
+                added = true;
+            } else if (received.transaction()
+                .get()
+                .index() == null) {
+                added = false;
+            } else {
+                added = received.transaction()
                     .get()
-                    .index() == null));
+                    .index() != existing.transaction()
+                        .get()
+                        .index();
+            }
+        } else {
+            added = false;
+        }
+
+        return added;
     }
 
     private final boolean changedPayment(final Fee received, final Fee existing) {
@@ -444,7 +447,9 @@ public final class DefaultFeeService implements FeeService {
         final boolean changed;
 
         if (existing.transaction()
-            .isPresent()) {
+            .isPresent()
+                && received.transaction()
+                    .isPresent()) {
             receivedDate = received.transaction()
                 .get()
                 .date();
@@ -457,6 +462,29 @@ public final class DefaultFeeService implements FeeService {
         }
 
         return changed;
+    }
+
+    private final Fee copyToUpdate(final Fee fee, final Fee existing) {
+        final Optional<Fee.Transaction> transaction;
+        final Fee.Transaction           existingTransaction;
+
+        if (existing.transaction()
+            .isPresent()) {
+            existingTransaction = existing.transaction()
+                .get();
+            transaction = Optional.of(new Fee.Transaction(existingTransaction.index(), fee.transaction()
+                .get()
+                .date()));
+        } else if (fee.transaction()
+            .isPresent()) {
+            transaction = Optional.of(new Fee.Transaction(null, fee.transaction()
+                .get()
+                .date()));
+        } else {
+            transaction = Optional.empty();
+        }
+
+        return new Fee(fee.month(), fee.paid(), fee.member(), existing.feeType(), transaction);
     }
 
     private final String normalizeString(final String input) {
@@ -531,13 +559,13 @@ public final class DefaultFeeService implements FeeService {
         return new MemberFees.Fee(fee.month(), fee.paid());
     }
 
-    private final Fee toPaidFee(final Long type, final MemberProfile member, final YearMonth month,
-            final Transaction transaction) {
+    private final Fee toPaidFee(final MemberProfile.FeeType memberFeeType, final MemberProfile member,
+            final YearMonth month, final Transaction transaction) {
         final Fee.FeeType     feeType;
         final Fee.Transaction feeTransaction;
 
-        feeType = new Fee.FeeType(type);
-        feeTransaction = new Fee.Transaction(transaction.date(), transaction.index());
+        feeType = new Fee.FeeType(memberFeeType.number(), memberFeeType.name(), memberFeeType.amount());
+        feeTransaction = new Fee.Transaction(transaction.index(), transaction.date());
         return Fee.paid(month, member.number(), member.name(), feeType, feeTransaction);
     }
 

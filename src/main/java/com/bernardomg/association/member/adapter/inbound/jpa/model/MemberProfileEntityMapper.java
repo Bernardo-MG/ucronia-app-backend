@@ -49,7 +49,11 @@ public final class MemberProfileEntityMapper {
         final Collection<ContactChannel> contactChannels;
 
         feeType = new MemberProfile.FeeType(entity.getFeeType()
-            .getNumber());
+            .getNumber(),
+            entity.getFeeType()
+                .getName(),
+            entity.getFeeType()
+                .getAmount());
 
         name = new ProfileName(entity.getProfile()
             .getFirstName(),
@@ -81,6 +85,7 @@ public final class MemberProfileEntityMapper {
         final MemberProfileEntity              entity;
         final ProfileEntity                    profile;
         final Collection<ContactChannelEntity> contactChannels;
+
         profile = new ProfileEntity();
         profile.setNumber(data.number());
         profile.setFirstName(data.name()

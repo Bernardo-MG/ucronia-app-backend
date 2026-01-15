@@ -127,11 +127,9 @@ class TestProfileMembershipServiceConvert {
     @Test
     @DisplayName("When converting to member, the change is persisted")
     void testConvertToMember_PersistedData() {
-        final MemberProfile member;
-        final Profile       profile;
+        final Profile profile;
 
         // GIVEN
-        member = MemberProfiles.withoutType();
         profile = Profiles.withEmail();
 
         given(profileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(profile));
@@ -142,24 +140,23 @@ class TestProfileMembershipServiceConvert {
         service.convertToMember(ProfileConstants.NUMBER, FeeConstants.FEE_TYPE_NUMBER);
 
         // THEN
-        verify(memberProfileRepository).save(member, ProfileConstants.NUMBER);
+        verify(memberProfileRepository).save(MemberProfiles.toCreate(), ProfileConstants.NUMBER);
     }
 
     @Test
     @DisplayName("When converting to member, the change is returned")
     void testConvertToMember_ReturnedData() {
-        final MemberProfile member;
         final Profile       profile;
         final MemberProfile updated;
 
         // GIVEN
-        member = MemberProfiles.withoutType();
         profile = Profiles.withEmail();
 
         given(profileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(profile));
         given(memberProfileRepository.exists(ProfileConstants.NUMBER)).willReturn(false);
         given(feeTypeRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
-        given(memberProfileRepository.save(member, ProfileConstants.NUMBER)).willReturn(member);
+        given(memberProfileRepository.save(MemberProfiles.toCreate(), ProfileConstants.NUMBER))
+            .willReturn(MemberProfiles.withoutType());
 
         // WHEN
         updated = service.convertToMember(ProfileConstants.NUMBER, FeeConstants.FEE_TYPE_NUMBER);

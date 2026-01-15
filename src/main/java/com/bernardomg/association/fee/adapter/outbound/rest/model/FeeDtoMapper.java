@@ -32,7 +32,6 @@ import java.util.Optional;
 
 import com.bernardomg.association.fee.domain.dto.FeePayments;
 import com.bernardomg.association.fee.domain.model.Fee;
-import com.bernardomg.association.fee.domain.model.Fee.FeeType;
 import com.bernardomg.association.fee.domain.model.Fee.Transaction;
 import com.bernardomg.association.fee.domain.model.MemberFees;
 import com.bernardomg.association.fee.domain.model.YearsRange;
@@ -42,6 +41,7 @@ import com.bernardomg.data.domain.Sorting.Property;
 import com.bernardomg.ucronia.openapi.model.FeeCalendarMemberDto;
 import com.bernardomg.ucronia.openapi.model.FeeChangeDto;
 import com.bernardomg.ucronia.openapi.model.FeeDto;
+import com.bernardomg.ucronia.openapi.model.FeeFeeTypeDto;
 import com.bernardomg.ucronia.openapi.model.FeePageResponseDto;
 import com.bernardomg.ucronia.openapi.model.FeePaymentsDto;
 import com.bernardomg.ucronia.openapi.model.FeeResponseDto;
@@ -63,21 +63,12 @@ public final class FeeDtoMapper {
     public static final Fee toDomain(final FeeChangeDto change, final YearMonth month, final long number) {
         final Transaction transaction;
         final Fee         fee;
-        final FeeType     feeType;
 
-        if ((change.getTransaction()
-            .getIndex() == null)
-                && ((change.getTransaction()
-                    .getDate() == null))) {
-            feeType = new Fee.FeeType(change.getFeeType());
-            fee = Fee.unpaid(month, number, null, feeType);
+        if (change.getTransaction() == null) {
+            fee = Fee.unpaid(month, number, null, null);
         } else {
-            transaction = new Fee.Transaction(change.getTransaction()
-                .getDate(),
-                change.getTransaction()
-                    .getIndex());
-            feeType = new Fee.FeeType(change.getFeeType());
-            fee = Fee.paid(month, number, null, feeType, transaction);
+            transaction = new Fee.Transaction(null, change.getTransaction());
+            fee = Fee.paid(month, number, null, null, transaction);
         }
 
         return fee;
@@ -144,6 +135,7 @@ public final class FeeDtoMapper {
         final ProfileNameDto    name;
         final MinimalProfileDto member;
         final FeeTransactionDto transaction;
+        final FeeFeeTypeDto     feeType;
 
         name = new ProfileNameDto().firstName(fee.member()
             .name()
@@ -154,9 +146,11 @@ public final class FeeDtoMapper {
             .fullName(fee.member()
                 .name()
                 .fullName());
+
         member = new MinimalProfileDto().name(name)
             .number(fee.member()
                 .number());
+
         if (fee.transaction()
             .isPresent()) {
             transaction = new FeeTransactionDto().date(fee.transaction()
@@ -168,10 +162,20 @@ public final class FeeDtoMapper {
         } else {
             transaction = null;
         }
+
+        feeType = new FeeFeeTypeDto();
+        feeType.number(fee.feeType()
+            .number());
+        feeType.name(fee.feeType()
+            .name());
+        feeType.amount(fee.feeType()
+            .amount());
+
         return new FeeDto().month(fee.month())
             .paid(fee.paid())
             .member(member)
-            .transaction(transaction);
+            .transaction(transaction)
+            .feeType(feeType);
     }
 
     private static final MemberFeesDto toDto(final MemberFees memberFee) {

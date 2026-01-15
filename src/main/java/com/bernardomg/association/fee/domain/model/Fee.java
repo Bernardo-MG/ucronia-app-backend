@@ -56,8 +56,8 @@ public record Fee(YearMonth month, Boolean paid, Member member, FeeType feeType,
 
     public static record Member(Long number, ProfileName name) {}
 
-    public static record Transaction(Instant date, Long index) {}
+    public static record Transaction(Long index, Instant date) {}
 
-    public static record FeeType(Long number) {}
+    public static record FeeType(Long number, String name, Float amount) {}
 
 }

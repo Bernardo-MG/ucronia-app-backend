@@ -40,6 +40,7 @@ import com.bernardomg.data.domain.Sorting.Property;
 import com.bernardomg.ucronia.openapi.model.ContactChannelDto;
 import com.bernardomg.ucronia.openapi.model.ContactMethodDto;
 import com.bernardomg.ucronia.openapi.model.EditionContactChannelDto;
+import com.bernardomg.ucronia.openapi.model.MemberFeeTypeDto;
 import com.bernardomg.ucronia.openapi.model.MemberProfileChangeDto;
 import com.bernardomg.ucronia.openapi.model.MemberProfileCreationDto;
 import com.bernardomg.ucronia.openapi.model.MemberProfileDto;
@@ -57,7 +58,7 @@ public final class MemberProfileDtoMapper {
         final Collection<ContactChannel> contactChannels;
         final MemberProfile.FeeType      feeType;
 
-        feeType = new MemberProfile.FeeType(change.getFeeType());
+        feeType = new MemberProfile.FeeType(change.getFeeType(), "", 0f);
 
         name = new ProfileName(change.getName()
             .getFirstName(),
@@ -76,7 +77,7 @@ public final class MemberProfileDtoMapper {
         final ProfileName           name;
         final MemberProfile.FeeType feeType;
 
-        feeType = new MemberProfile.FeeType(creation.getFeeType());
+        feeType = new MemberProfile.FeeType(creation.getFeeType(), "", 0f);
 
         name = new ProfileName(creation.getName()
             .getFirstName(),
@@ -140,6 +141,7 @@ public final class MemberProfileDtoMapper {
     private static final MemberProfileDto toDto(final MemberProfile memberProfile) {
         final ProfileNameDto          name;
         final List<ContactChannelDto> contactChannels;
+        final MemberFeeTypeDto        feeType;
 
         name = new ProfileNameDto().firstName(memberProfile.name()
             .firstName())
@@ -152,6 +154,14 @@ public final class MemberProfileDtoMapper {
             .map(MemberProfileDtoMapper::toDto)
             .toList();
 
+        feeType = new MemberFeeTypeDto();
+        feeType.number(memberProfile.feeType()
+            .number());
+        feeType.name(memberProfile.feeType()
+            .name());
+        feeType.amount(memberProfile.feeType()
+            .amount());
+
         return new MemberProfileDto().identifier(memberProfile.identifier())
             .number(memberProfile.number())
             .name(name)
@@ -161,8 +171,7 @@ public final class MemberProfileDtoMapper {
             .comments(memberProfile.comments())
             .active(memberProfile.active())
             .renew(memberProfile.renew())
-            .feeType(memberProfile.feeType()
-                .number())
+            .feeType(feeType)
             .types(new ArrayList<>(memberProfile.types()));
     }
 
