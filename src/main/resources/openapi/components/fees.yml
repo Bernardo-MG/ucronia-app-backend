@@ -73,12 +73,6 @@ components:
         month:
           $ref: '../common/dates.yml#/components/schemas/Month'
         transaction:
-          $ref: '#/components/schemas/FeeChangeTransaction'
-    FeeChangeTransaction:
-      type: object
-      required: [date]
-      properties:
-        date:
           $ref: '../common/dates.yml#/components/schemas/Date'
     FeePageResponse:
       allOf:

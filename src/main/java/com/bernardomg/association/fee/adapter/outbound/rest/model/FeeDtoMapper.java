@@ -64,12 +64,10 @@ public final class FeeDtoMapper {
         final Transaction transaction;
         final Fee         fee;
 
-        if (change.getTransaction()
-            .getDate() == null) {
+        if (change.getTransaction() == null) {
             fee = Fee.unpaid(month, number, null, null);
         } else {
-            transaction = new Fee.Transaction(null, change.getTransaction()
-                .getDate());
+            transaction = new Fee.Transaction(null, change.getTransaction());
             fee = Fee.paid(month, number, null, null, transaction);
         }
 
