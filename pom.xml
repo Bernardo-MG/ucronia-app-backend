@@ -21,7 +21,7 @@
 
    <groupId>com.bernardomg</groupId>
    <artifactId>ucronia-app-backend</artifactId>
-   <version>0.6.9</version>
+   <version>0.6.10</version>
    <packaging>war</packaging>
 
    <name>Ucronia App Backend</name>

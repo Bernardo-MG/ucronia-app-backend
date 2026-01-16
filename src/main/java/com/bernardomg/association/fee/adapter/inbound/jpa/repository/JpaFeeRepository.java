@@ -395,6 +395,7 @@ public final class JpaFeeRepository implements FeeRepository {
                 .getNumber());
         }
 
+        // TODO: this logic should go to the service
         if (fee.transaction()
             .isPresent()) {
             paid = true;

@@ -8,13 +8,13 @@ get:
       required: false
       description: Start year-month for filtering (inclusive).
       schema:
-        $ref: '../common/dates.yml#/components/schemas/Date'
+        $ref: '../common/dates.yml#/components/schemas/Month'
     - name: to
       in: query
       required: false
       description: End year-month for filtering (inclusive).
       schema:
-        $ref: '../common/dates.yml#/components/schemas/Date'
+        $ref: '../common/dates.yml#/components/schemas/Month'
     - name: memberNumber
       in: query
       required: false

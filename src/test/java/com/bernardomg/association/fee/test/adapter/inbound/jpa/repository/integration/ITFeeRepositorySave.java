@@ -13,6 +13,7 @@ import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeEntity;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeSpringRepository;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
+import com.bernardomg.association.fee.test.configuration.data.annotation.NotPaidFee;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFee;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.fee.test.configuration.factory.FeeEntities;
@@ -293,6 +294,32 @@ class ITFeeRepositorySave {
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "member.id", "member.feeType.id",
                 "member.profile.id", "member.profile.contactChannels.id", "memberId", "feeType.id", "transaction.id")
             .containsExactly(FeeEntities.paidNoTransaction());
+    }
+
+    @Test
+    @DisplayName("When updating from unpaid to paid, it is persisted")
+    @PositiveFeeType
+    @ActiveMember
+    @NotPaidFee
+    @FeeTransaction
+    void testSave_UnpaidToPaid_ChangeDate_PersistedData() {
+        final Iterable<FeeEntity> fees;
+        final Fee                 fee;
+
+        // GIVEN
+        fee = Fees.paid();
+
+        // WHEN
+        repository.save(fee);
+
+        // THEN
+        fees = springRepository.findAll();
+
+        Assertions.assertThat(fees)
+            .as("fees")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "member.id", "member.feeType.id",
+                "member.profile.id", "member.profile.contactChannels.id", "memberId", "feeType.id", "transaction.id")
+            .containsExactly(FeeEntities.paid());
     }
 
 }
