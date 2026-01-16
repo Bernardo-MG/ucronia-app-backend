@@ -477,9 +477,12 @@ public final class DefaultFeeService implements FeeService {
                 .date()));
         } else if (fee.transaction()
             .isPresent()) {
-            transaction = Optional.of(new Fee.Transaction(null, fee.transaction()
+            transaction = Optional.of(new Fee.Transaction(fee.transaction()
                 .get()
-                .date()));
+                .index(),
+                fee.transaction()
+                    .get()
+                    .date()));
         } else {
             transaction = Optional.empty();
         }
