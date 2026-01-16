@@ -74,12 +74,20 @@ public class MembershipEvolutionController implements MembershipEvolutionApi {
 
         zone = ZoneId.of("UTC");
 
-        fromInstant = from.atDay(1)
-            .atStartOfDay(zone)
-            .toInstant();
-        toInstant = to.atDay(1)
-            .atStartOfDay(zone)
-            .toInstant();
+        if (from == null) {
+            fromInstant = null;
+        } else {
+            fromInstant = from.atDay(1)
+                .atStartOfDay(zone)
+                .toInstant();
+        }
+        if (to == null) {
+            toInstant = null;
+        } else {
+            toInstant = to.atDay(1)
+                .atStartOfDay(zone)
+                .toInstant();
+        }
 
         query = new MembershipEvolutionQuery(fromInstant, toInstant);
         evolution = service.getMonthlyEvolution(query);

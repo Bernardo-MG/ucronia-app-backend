@@ -486,5 +486,10 @@
             Fixed fee payment.
          </action>
       </release>
+      <release version="0.6.11" date="2026-01-16" description="Member controller fix">
+         <action dev="bmg" type="fix">
+            Handle nulls on member history.
+         </action>
+      </release>
    </body>
 </document>
