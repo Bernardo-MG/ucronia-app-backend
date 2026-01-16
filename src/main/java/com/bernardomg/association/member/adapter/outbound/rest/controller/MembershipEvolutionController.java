@@ -25,6 +25,8 @@
 package com.bernardomg.association.member.adapter.outbound.rest.controller;
 
 import java.time.Instant;
+import java.time.YearMonth;
+import java.time.ZoneId;
 import java.util.Collection;
 
 import org.springframework.web.bind.annotation.RestController;
@@ -62,12 +64,24 @@ public class MembershipEvolutionController implements MembershipEvolutionApi {
 
     @Override
     @RequireResourceAuthorization(resource = "MEMBER", action = Actions.READ)
-    public MembershipMonthlyEvolutionResponseDto getMembershipMonthlyEvolution(@Valid final Instant from,
-            @Valid final Instant to, @Valid final Long memberNumber) {
+    public MembershipMonthlyEvolutionResponseDto getMembershipMonthlyEvolution(@Valid final YearMonth from,
+            @Valid final YearMonth to, @Valid final Long memberNumber) {
         final Collection<MembershipEvolutionMonth> evolution;
         final MembershipEvolutionQuery             query;
+        ZoneId                                     zone;
+        Instant                                    fromInstant;
+        Instant                                    toInstant;
 
-        query = new MembershipEvolutionQuery(from, to);
+        zone = ZoneId.of("UTC");
+
+        fromInstant = from.atDay(1)
+            .atStartOfDay(zone)
+            .toInstant();
+        toInstant = to.atDay(1)
+            .atStartOfDay(zone)
+            .toInstant();
+
+        query = new MembershipEvolutionQuery(fromInstant, toInstant);
         evolution = service.getMonthlyEvolution(query);
 
         return MembershipMonthlyEvolutionDtoMapper.toResponseDto(evolution);
