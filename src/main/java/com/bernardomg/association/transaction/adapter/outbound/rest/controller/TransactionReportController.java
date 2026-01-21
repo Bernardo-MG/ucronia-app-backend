@@ -45,7 +45,7 @@ import com.bernardomg.security.permission.domain.constant.Actions;
  *
  */
 @RestController
-@RequestMapping("/funds/transaction")
+@RequestMapping("/transaction")
 public class TransactionReportController {
 
     /**
