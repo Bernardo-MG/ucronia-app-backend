@@ -48,13 +48,14 @@ import com.bernardomg.data.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.FeeApi;
+import com.bernardomg.ucronia.openapi.model.FeeCalendarResponseDto;
 import com.bernardomg.ucronia.openapi.model.FeeChangeDto;
 import com.bernardomg.ucronia.openapi.model.FeeCreationDto;
 import com.bernardomg.ucronia.openapi.model.FeePageResponseDto;
 import com.bernardomg.ucronia.openapi.model.FeePaymentsDto;
 import com.bernardomg.ucronia.openapi.model.FeeResponseDto;
 import com.bernardomg.ucronia.openapi.model.FeesResponseDto;
-import com.bernardomg.ucronia.openapi.model.MemberFeesResponseDto;
+import com.bernardomg.ucronia.openapi.model.MemberStatusDto;
 import com.bernardomg.ucronia.openapi.model.YearsRangeResponseDto;
 
 import jakarta.validation.Valid;
@@ -121,27 +122,27 @@ public class FeeController implements FeeApi {
 
     @Override
     @RequireResourceAuthorization(resource = "FEE", action = Actions.READ)
-    public YearsRangeResponseDto getFeesYearsRange() {
-        final YearsRange range;
-
-        range = service.getRange();
-
-        return FeeDtoMapper.toResponseDto(range);
-    }
-
-    @Override
-    @RequireResourceAuthorization(resource = "FEE", action = Actions.READ)
-    public MemberFeesResponseDto getMemberFees(final Integer year, @NotNull @Valid final String status,
+    public FeeCalendarResponseDto getFeesByYear(final Integer year, @NotNull @Valid final MemberStatusDto status,
             @Valid final List<String> sort) {
         final MemberStatus           memberStatus;
         final Sorting                sorting;
         final Collection<MemberFees> fees;
 
         // TODO: use the fees listing and filter
-        memberStatus = MemberStatus.valueOf(status);
+        memberStatus = MemberStatus.valueOf(status.name());
         sorting = WebSorting.toSorting(sort);
         fees = service.getForYear(Year.of(year), memberStatus, sorting);
-        return FeeDtoMapper.toMemberResponseDto(fees);
+        return FeeDtoMapper.toCalendarResponseDto(fees);
+    }
+
+    @Override
+    @RequireResourceAuthorization(resource = "FEE", action = Actions.READ)
+    public YearsRangeResponseDto getFeesYearsRange() {
+        final YearsRange range;
+
+        range = service.getRange();
+
+        return FeeDtoMapper.toResponseDto(range);
     }
 
     @Override
