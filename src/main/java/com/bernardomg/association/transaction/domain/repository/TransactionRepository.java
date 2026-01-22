@@ -24,7 +24,6 @@
 
 package com.bernardomg.association.transaction.domain.repository;
 
-import java.time.Instant;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -44,8 +43,6 @@ public interface TransactionRepository {
     public Collection<Transaction> findAll(final Sorting sorting);
 
     public Page<Transaction> findAll(final TransactionQuery query, final Pagination pagination, final Sorting sorting);
-
-    public Collection<Transaction> findInRange(final Instant from, final Instant to, final Sorting sorting);
 
     public long findNextIndex();
 
