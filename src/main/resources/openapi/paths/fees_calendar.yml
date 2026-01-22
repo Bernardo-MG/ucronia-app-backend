@@ -1,7 +1,7 @@
 get:
   summary: Returns all the member fees for a year
-  operationId: getFeesByYear
-  tags: [Fee]
+  operationId: getFeesCalendar
+  tags: [FeeCalendar]
   parameters:
     - $ref: '../components/fees.yml#/components/parameters/feesSortParam'
     - name: year
