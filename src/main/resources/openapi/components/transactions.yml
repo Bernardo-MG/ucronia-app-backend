@@ -50,6 +50,19 @@ components:
           format: float
         description:
           type: string
+    TransactionMonthsRange:
+      type: object
+      required: [months]
+      properties:
+        months:
+          type: array
+          items:
+            $ref: '../common/dates.yml#/components/schemas/Month'
+    TransactionMonthsRangeResponse:
+      type: object
+      properties:
+        content:
+          $ref: '#/components/schemas/TransactionMonthsRange'
     TransactionPageResponse:
       allOf:
         - $ref: '../common/responses.yml#/components/schemas/PageResponse'

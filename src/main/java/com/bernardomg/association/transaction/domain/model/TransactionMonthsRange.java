@@ -22,23 +22,11 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.usecase.service;
+package com.bernardomg.association.transaction.domain.model;
 
-import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonthsRange;
+import java.time.YearMonth;
+import java.util.Collection;
 
-/**
- * Transaction calendar service.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
- */
-public interface TransactionCalendarService {
-
-    /**
-     * Returns the range of available months.
-     *
-     * @return the range of available months
-     */
-    public TransactionCalendarMonthsRange getRange();
+public record TransactionMonthsRange(Collection<YearMonth> months) {
 
 }

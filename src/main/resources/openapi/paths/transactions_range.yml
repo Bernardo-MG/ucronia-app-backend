@@ -1,0 +1,11 @@
+get:
+  summary: Get calendar range.
+  operationId: getTransactionRange
+  tags: [Transaction]
+  responses:
+    '200':
+      description: Transaction range
+      content:
+        application/json:
+          schema:
+            $ref: '../components/transactions.yml#/components/schemas/TransactionMonthsRangeResponse'

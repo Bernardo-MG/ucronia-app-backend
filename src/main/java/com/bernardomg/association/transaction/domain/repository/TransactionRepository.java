@@ -28,7 +28,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 import com.bernardomg.association.transaction.domain.model.Transaction;
-import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonthsRange;
+import com.bernardomg.association.transaction.domain.model.TransactionMonthsRange;
 import com.bernardomg.association.transaction.domain.model.TransactionQuery;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
@@ -48,7 +48,7 @@ public interface TransactionRepository {
 
     public Optional<Transaction> findOne(final Long index);
 
-    public TransactionCalendarMonthsRange findRange();
+    public TransactionMonthsRange findRange();
 
     public Transaction save(final Transaction transaction);
 

@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.transaction.adapter.outbound.rest.model.TransactionDtoMapper;
 import com.bernardomg.association.transaction.domain.model.Transaction;
+import com.bernardomg.association.transaction.domain.model.TransactionMonthsRange;
 import com.bernardomg.association.transaction.domain.model.TransactionQuery;
 import com.bernardomg.association.transaction.usecase.service.TransactionService;
 import com.bernardomg.data.domain.Page;
@@ -43,6 +44,7 @@ import com.bernardomg.security.permission.domain.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.TransactionApi;
 import com.bernardomg.ucronia.openapi.model.TransactionChangeDto;
 import com.bernardomg.ucronia.openapi.model.TransactionCreationDto;
+import com.bernardomg.ucronia.openapi.model.TransactionMonthsRangeResponseDto;
 import com.bernardomg.ucronia.openapi.model.TransactionPageResponseDto;
 import com.bernardomg.ucronia.openapi.model.TransactionResponseDto;
 
@@ -116,6 +118,16 @@ public class TransactionController implements TransactionApi {
         transaction = service.getOne(index);
 
         return TransactionDtoMapper.toResponseDto(transaction);
+    }
+
+    @Override
+    @RequireResourceAuthorization(resource = "TRANSACTION", action = Actions.READ)
+    public TransactionMonthsRangeResponseDto getTransactionRange() {
+        final TransactionMonthsRange range;
+
+        range = service.getRange();
+
+        return TransactionDtoMapper.toResponseDto(range);
     }
 
     @Override

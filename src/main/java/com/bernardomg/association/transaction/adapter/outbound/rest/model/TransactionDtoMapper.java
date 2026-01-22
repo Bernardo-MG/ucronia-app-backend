@@ -27,21 +27,21 @@ package com.bernardomg.association.transaction.adapter.outbound.rest.model;
 import java.util.Optional;
 
 import com.bernardomg.association.transaction.domain.model.Transaction;
-import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonthsRange;
 import com.bernardomg.association.transaction.domain.model.TransactionCurrentBalance;
+import com.bernardomg.association.transaction.domain.model.TransactionMonthsRange;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Sorting.Direction;
 import com.bernardomg.data.domain.Sorting.Property;
 import com.bernardomg.ucronia.openapi.model.PropertyDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
 import com.bernardomg.ucronia.openapi.model.SortingDto;
-import com.bernardomg.ucronia.openapi.model.TransactionCalendarMonthsRangeDto;
-import com.bernardomg.ucronia.openapi.model.TransactionCalendarMonthsRangeResponseDto;
 import com.bernardomg.ucronia.openapi.model.TransactionChangeDto;
 import com.bernardomg.ucronia.openapi.model.TransactionCreationDto;
 import com.bernardomg.ucronia.openapi.model.TransactionCurrentBalanceDto;
 import com.bernardomg.ucronia.openapi.model.TransactionCurrentBalanceResponseDto;
 import com.bernardomg.ucronia.openapi.model.TransactionDto;
+import com.bernardomg.ucronia.openapi.model.TransactionMonthsRangeDto;
+import com.bernardomg.ucronia.openapi.model.TransactionMonthsRangeResponseDto;
 import com.bernardomg.ucronia.openapi.model.TransactionPageResponseDto;
 import com.bernardomg.ucronia.openapi.model.TransactionResponseDto;
 
@@ -86,22 +86,21 @@ public final class TransactionDtoMapper {
         return new TransactionResponseDto().content(TransactionDtoMapper.toDto(transaction));
     }
 
-    public static final TransactionCalendarMonthsRangeResponseDto
-            toResponseDto(final TransactionCalendarMonthsRange range) {
-        final TransactionCalendarMonthsRangeDto rangeDto;
-
-        rangeDto = new TransactionCalendarMonthsRangeDto().months(range.months()
-            .stream()
-            .toList());
-        return new TransactionCalendarMonthsRangeResponseDto().content(rangeDto);
-    }
-
     public static final TransactionCurrentBalanceResponseDto toResponseDto(final TransactionCurrentBalance balance) {
         final TransactionCurrentBalanceDto balanceDto;
 
         balanceDto = new TransactionCurrentBalanceDto().results(balance.results())
             .total(balance.total());
         return new TransactionCurrentBalanceResponseDto().content(balanceDto);
+    }
+
+    public static final TransactionMonthsRangeResponseDto toResponseDto(final TransactionMonthsRange range) {
+        final TransactionMonthsRangeDto rangeDto;
+
+        rangeDto = new TransactionMonthsRangeDto().months(range.months()
+            .stream()
+            .toList());
+        return new TransactionMonthsRangeResponseDto().content(rangeDto);
     }
 
     private static final PropertyDto toDto(final Property property) {
