@@ -55,7 +55,33 @@ components:
           maxLength: 15
         name:
           $ref: 'profiles.yml#/components/schemas/EditionProfileName'
-    SponsorChange:
+    SponsorUpdate:
+      type: object
+      required: [name]
+      properties:
+        identifier:
+          type: string
+          maxLength: 15
+        name:
+          $ref: 'profiles.yml#/components/schemas/EditionProfileName'
+        birthDate:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+        contactChannels:
+          type: array
+          items:
+            $ref: 'profiles.yml#/components/schemas/EditionContactChannel'
+        years:
+          type: array
+          items:
+            type: integer
+        address:
+          type: string
+          description: Sponsor address.
+          maxLength: 250
+        comments:
+          type: string
+          maxLength: 
+    SponsorPatch:
       type: object
       properties:
         identifier:

@@ -62,7 +62,7 @@ put:
     content:
       application/json:
         schema:
-          $ref: '../components/fees.yml#/components/schemas/FeeChange'
+          $ref: '../components/fees.yml#/components/schemas/FeeUpdate'
   responses:
     '200':
       description: Fee updated

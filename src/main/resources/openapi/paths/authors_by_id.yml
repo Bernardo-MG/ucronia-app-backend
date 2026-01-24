@@ -34,7 +34,7 @@ put:
     content:
       application/json:
         schema:
-          $ref: '../components/authors.yml#/components/schemas/AuthorChange'
+          $ref: '../components/authors.yml#/components/schemas/AuthorUpdate'
   responses:
     '200':
       description: Author updated successfully

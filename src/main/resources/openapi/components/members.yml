@@ -72,8 +72,9 @@ components:
           maxLength: 15
         name:
           $ref: 'profiles.yml#/components/schemas/EditionProfileName'
-    MemberProfileChange:
+    MemberProfileUpdate:
       type: object
+      required: [name]
       properties:
         identifier:
           type: string

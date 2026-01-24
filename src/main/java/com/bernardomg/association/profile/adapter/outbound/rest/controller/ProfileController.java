@@ -40,10 +40,11 @@ import com.bernardomg.data.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.ProfileApi;
-import com.bernardomg.ucronia.openapi.model.ProfileChangeDto;
 import com.bernardomg.ucronia.openapi.model.ProfileCreationDto;
 import com.bernardomg.ucronia.openapi.model.ProfilePageResponseDto;
+import com.bernardomg.ucronia.openapi.model.ProfilePatchDto;
 import com.bernardomg.ucronia.openapi.model.ProfileResponseDto;
+import com.bernardomg.ucronia.openapi.model.ProfileUpdateDto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
@@ -119,11 +120,11 @@ public class ProfileController implements ProfileApi {
 
     @Override
     @RequireResourceAuthorization(resource = "PROFILE", action = Actions.UPDATE)
-    public ProfileResponseDto patchProfile(final Long number, @Valid final ProfileChangeDto profileChangeDto) {
+    public ProfileResponseDto patchProfile(final Long number, @Valid final ProfilePatchDto profilePatchDto) {
         final Profile profile;
         final Profile updated;
 
-        profile = ProfileDtoMapper.toDomain(number, profileChangeDto);
+        profile = ProfileDtoMapper.toDomain(number, profilePatchDto);
         updated = service.patch(profile);
 
         return ProfileDtoMapper.toResponseDto(updated);
@@ -131,11 +132,11 @@ public class ProfileController implements ProfileApi {
 
     @Override
     @RequireResourceAuthorization(resource = "PROFILE", action = Actions.UPDATE)
-    public ProfileResponseDto updateProfile(final Long number, @Valid final ProfileChangeDto profileChangeDto) {
+    public ProfileResponseDto updateProfile(final Long number, @Valid final ProfileUpdateDto profileUpdateDto) {
         final Profile profile;
         final Profile updated;
 
-        profile = ProfileDtoMapper.toDomain(number, profileChangeDto);
+        profile = ProfileDtoMapper.toDomain(number, profileUpdateDto);
         updated = service.update(profile);
 
         return ProfileDtoMapper.toResponseDto(updated);

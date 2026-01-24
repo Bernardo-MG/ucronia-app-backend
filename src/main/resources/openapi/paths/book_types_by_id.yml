@@ -34,7 +34,7 @@ put:
     content:
       application/json:
         schema:
-          $ref: '../components/book_types.yml#/components/schemas/BookTypeChange'
+          $ref: '../components/book_types.yml#/components/schemas/BookTypeUpdate'
   responses:
     '200':
       description: Book type updated successfully

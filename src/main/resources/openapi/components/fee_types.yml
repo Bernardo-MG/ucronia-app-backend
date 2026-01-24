@@ -24,7 +24,7 @@ components:
         amount:
           type: number
           format: float
-    FeeTypeChange:
+    FeeTypeUpdate:
       type: object
       required: [name, amount]
       properties:

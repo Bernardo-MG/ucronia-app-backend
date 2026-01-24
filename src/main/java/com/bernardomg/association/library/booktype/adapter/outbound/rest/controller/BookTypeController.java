@@ -39,10 +39,10 @@ import com.bernardomg.data.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.BookTypeApi;
-import com.bernardomg.ucronia.openapi.model.BookTypeChangeDto;
 import com.bernardomg.ucronia.openapi.model.BookTypeCreationDto;
 import com.bernardomg.ucronia.openapi.model.BookTypePageResponseDto;
 import com.bernardomg.ucronia.openapi.model.BookTypeResponseDto;
+import com.bernardomg.ucronia.openapi.model.BookTypeUpdateDto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
@@ -113,11 +113,11 @@ public class BookTypeController implements BookTypeApi {
 
     @Override
     @RequireResourceAuthorization(resource = "LIBRARY_AUTHOR", action = Actions.UPDATE)
-    public BookTypeResponseDto updateBookType(final Long number, @Valid final BookTypeChangeDto bookTypeChangeDto) {
+    public BookTypeResponseDto updateBookType(final Long number, @Valid final BookTypeUpdateDto bookTypeUpdateDto) {
         final BookType updated;
         final BookType bookType;
 
-        bookType = new BookType(number, bookTypeChangeDto.getName());
+        bookType = new BookType(number, bookTypeUpdateDto.getName());
         updated = service.update(bookType);
 
         return BookTypeDtoMapper.toResponseDto(updated);

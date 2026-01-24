@@ -41,10 +41,10 @@ import com.bernardomg.data.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.MemberProfileApi;
-import com.bernardomg.ucronia.openapi.model.MemberProfileChangeDto;
 import com.bernardomg.ucronia.openapi.model.MemberProfileCreationDto;
 import com.bernardomg.ucronia.openapi.model.MemberProfilePageResponseDto;
 import com.bernardomg.ucronia.openapi.model.MemberProfileResponseDto;
+import com.bernardomg.ucronia.openapi.model.MemberProfileUpdateDto;
 import com.bernardomg.ucronia.openapi.model.MemberStatusDto;
 
 import jakarta.validation.Valid;
@@ -131,11 +131,11 @@ public class MemberProfileController implements MemberProfileApi {
     @Override
     @RequireResourceAuthorization(resource = "MEMBER_PROFILE", action = Actions.UPDATE)
     public MemberProfileResponseDto patchMemberProfile(final Long number,
-            @Valid final MemberProfileChangeDto memberProfileChangeDto) {
+            @Valid final MemberProfileUpdateDto memberProfileUpdateDto) {
         final MemberProfile member;
         final MemberProfile updated;
 
-        member = MemberProfileDtoMapper.toDomain(number, memberProfileChangeDto);
+        member = MemberProfileDtoMapper.toDomain(number, memberProfileUpdateDto);
         updated = service.patch(member);
 
         return MemberProfileDtoMapper.toResponseDto(updated);
@@ -144,11 +144,11 @@ public class MemberProfileController implements MemberProfileApi {
     @Override
     @RequireResourceAuthorization(resource = "MEMBER_PROFILE", action = Actions.UPDATE)
     public MemberProfileResponseDto updateMemberProfile(final Long number,
-            @Valid final MemberProfileChangeDto memberProfileChangeDto) {
+            @Valid final MemberProfileUpdateDto memberProfileUpdateDto) {
         final MemberProfile member;
         final MemberProfile updated;
 
-        member = MemberProfileDtoMapper.toDomain(number, memberProfileChangeDto);
+        member = MemberProfileDtoMapper.toDomain(number, memberProfileUpdateDto);
         updated = service.update(member);
 
         return MemberProfileDtoMapper.toResponseDto(updated);

@@ -58,7 +58,32 @@ components:
         name:
           $ref: 'profiles.yml#/components/schemas/EditionProfileName'
           maxLength: 250
-    GuestChange:
+    GuestUpdate:
+      type: object
+      required: [name]
+      properties:
+        identifier:
+          type: string
+        name:
+          $ref: 'profiles.yml#/components/schemas/EditionProfileName'
+        birthDate:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+        contactChannels:
+          type: array
+          items:
+            $ref: 'profiles.yml#/components/schemas/EditionContactChannel'
+        games:
+          type: array
+          items:
+            $ref: '../common/dates.yml#/components/schemas/Date'
+        address:
+          type: string
+          description: Guest address.
+          maxLength: 250
+        comments:
+          type: string
+          maxLength: 250
+    GuestPatch:
       type: object
       properties:
         identifier:

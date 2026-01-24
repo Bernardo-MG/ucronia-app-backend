@@ -44,11 +44,11 @@ import com.bernardomg.data.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.FeeApi;
-import com.bernardomg.ucronia.openapi.model.FeeChangeDto;
 import com.bernardomg.ucronia.openapi.model.FeeCreationDto;
 import com.bernardomg.ucronia.openapi.model.FeePageResponseDto;
 import com.bernardomg.ucronia.openapi.model.FeePaymentsDto;
 import com.bernardomg.ucronia.openapi.model.FeeResponseDto;
+import com.bernardomg.ucronia.openapi.model.FeeUpdateDto;
 import com.bernardomg.ucronia.openapi.model.FeesResponseDto;
 
 import jakarta.validation.Valid;
@@ -136,11 +136,11 @@ public class FeeController implements FeeApi {
 
     @Override
     @RequireResourceAuthorization(resource = "FEE", action = Actions.UPDATE)
-    public FeeResponseDto updateFee(final Long member, final YearMonth month, @Valid final FeeChangeDto feeChangeDto) {
+    public FeeResponseDto updateFee(final Long member, final YearMonth month, @Valid final FeeUpdateDto feeUpdateDto) {
         final Fee fee;
         final Fee updated;
 
-        fee = FeeDtoMapper.toDomain(feeChangeDto, month, member);
+        fee = FeeDtoMapper.toDomain(feeUpdateDto, month, member);
         updated = service.update(fee);
         return FeeDtoMapper.toResponseDto(updated);
     }

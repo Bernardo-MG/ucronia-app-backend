@@ -42,11 +42,11 @@ import com.bernardomg.data.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.TransactionApi;
-import com.bernardomg.ucronia.openapi.model.TransactionChangeDto;
 import com.bernardomg.ucronia.openapi.model.TransactionCreationDto;
 import com.bernardomg.ucronia.openapi.model.TransactionMonthsRangeResponseDto;
 import com.bernardomg.ucronia.openapi.model.TransactionPageResponseDto;
 import com.bernardomg.ucronia.openapi.model.TransactionResponseDto;
+import com.bernardomg.ucronia.openapi.model.TransactionUpdateDto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
@@ -133,11 +133,11 @@ public class TransactionController implements TransactionApi {
     @Override
     @RequireResourceAuthorization(resource = "TRANSACTION", action = Actions.UPDATE)
     public TransactionResponseDto updateTransaction(final Long index,
-            @Valid final TransactionChangeDto transactionChangeDto) {
+            @Valid final TransactionUpdateDto transactionUpdateDto) {
         final Transaction transaction;
         final Transaction updated;
 
-        transaction = TransactionDtoMapper.toDomain(index, transactionChangeDto);
+        transaction = TransactionDtoMapper.toDomain(index, transactionUpdateDto);
         updated = service.update(transaction);
         return TransactionDtoMapper.toResponseDto(updated);
     }

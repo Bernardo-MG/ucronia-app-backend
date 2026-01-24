@@ -40,10 +40,11 @@ import com.bernardomg.data.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.GuestApi;
-import com.bernardomg.ucronia.openapi.model.GuestChangeDto;
 import com.bernardomg.ucronia.openapi.model.GuestCreationDto;
 import com.bernardomg.ucronia.openapi.model.GuestPageResponseDto;
+import com.bernardomg.ucronia.openapi.model.GuestPatchDto;
 import com.bernardomg.ucronia.openapi.model.GuestResponseDto;
+import com.bernardomg.ucronia.openapi.model.GuestUpdateDto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
@@ -120,11 +121,11 @@ public class GuestController implements GuestApi {
 
     @Override
     @RequireResourceAuthorization(resource = "GUEST", action = Actions.UPDATE)
-    public GuestResponseDto patchGuest(final Long number, @Valid final GuestChangeDto guestChangeDto) {
+    public GuestResponseDto patchGuest(final Long number, @Valid final GuestPatchDto guestUpdateDto) {
         final Guest member;
         final Guest updated;
 
-        member = GuestDtoMapper.toDomain(number, guestChangeDto);
+        member = GuestDtoMapper.toDomain(number, guestUpdateDto);
         updated = service.patch(member);
 
         return GuestDtoMapper.toResponseDto(updated);
@@ -132,11 +133,11 @@ public class GuestController implements GuestApi {
 
     @Override
     @RequireResourceAuthorization(resource = "GUEST", action = Actions.UPDATE)
-    public GuestResponseDto updateGuest(final Long number, @Valid final GuestChangeDto guestChangeDto) {
+    public GuestResponseDto updateGuest(final Long number, @Valid final GuestUpdateDto guestUpdateDto) {
         final Guest member;
         final Guest updated;
 
-        member = GuestDtoMapper.toDomain(number, guestChangeDto);
+        member = GuestDtoMapper.toDomain(number, guestUpdateDto);
         updated = service.update(member);
 
         return GuestDtoMapper.toResponseDto(updated);

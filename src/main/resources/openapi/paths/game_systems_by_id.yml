@@ -34,7 +34,7 @@ put:
     content:
       application/json:
         schema:
-          $ref: '../components/game_systems.yml#/components/schemas/GameSystemChange'
+          $ref: '../components/game_systems.yml#/components/schemas/GameSystemUpdate'
   responses:
     '200':
       description: Game system updated successfully

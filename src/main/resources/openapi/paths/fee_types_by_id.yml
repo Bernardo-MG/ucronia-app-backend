@@ -47,7 +47,7 @@ put:
     content:
       application/json:
         schema:
-          $ref: '../components/fee_types.yml#/components/schemas/FeeTypeChange'
+          $ref: '../components/fee_types.yml#/components/schemas/FeeTypeUpdate'
   responses:
     '200':
       description: FeeType updated

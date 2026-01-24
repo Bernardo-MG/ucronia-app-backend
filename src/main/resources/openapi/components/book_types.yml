@@ -30,7 +30,7 @@ components:
           type: string
           example: 'Core book'
           maxLength: 100
-    BookTypeChange:
+    BookTypeUpdate:
       type: object
       required: [name]
       properties:

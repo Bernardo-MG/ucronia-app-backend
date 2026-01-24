@@ -34,7 +34,7 @@ put:
     content:
       application/json:
         schema:
-          $ref: '../components/guests.yml#/components/schemas/GuestChange'
+          $ref: '../components/guests.yml#/components/schemas/GuestUpdate'
   responses:
     '200':
       description: Updated guest.
@@ -60,7 +60,7 @@ patch:
     content:
       application/json:
         schema:
-          $ref: '../components/guests.yml#/components/schemas/GuestChange'
+          $ref: '../components/guests.yml#/components/schemas/GuestPatch'
   responses:
     '200':
       description: Updated guest.

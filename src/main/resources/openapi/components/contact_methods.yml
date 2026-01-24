@@ -31,7 +31,7 @@ components:
           type: string
           description: Name of the new contact method.
           maxLength: 50
-    ContactMethodChange:
+    ContactMethodUpdate:
       type: object
       required: [name]
       properties:

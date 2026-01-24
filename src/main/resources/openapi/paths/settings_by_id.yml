@@ -35,7 +35,7 @@ put:
     content:
       application/json:
         schema:
-          $ref: '../components/settings.yml#/components/schemas/SettingChange'
+          $ref: '../components/settings.yml#/components/schemas/SettingUpdate'
   responses:
     '200':
       description: Updated setting.

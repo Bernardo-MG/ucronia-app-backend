@@ -47,7 +47,7 @@ put:
     content:
       application/json:
         schema:
-          $ref: '../components/transactions.yml#/components/schemas/TransactionChange'
+          $ref: '../components/transactions.yml#/components/schemas/TransactionUpdate'
   responses:
     '200':
       description: Transaction updated

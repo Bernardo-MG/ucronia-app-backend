@@ -30,7 +30,7 @@ components:
           type: string
           example: 'd20'
           maxLength: 100
-    GameSystemChange:
+    GameSystemUpdate:
       type: object
       required: [name]
       properties:

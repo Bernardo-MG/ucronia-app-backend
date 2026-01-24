@@ -30,11 +30,11 @@ import com.bernardomg.association.fee.domain.model.FeeType;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Sorting.Direction;
 import com.bernardomg.data.domain.Sorting.Property;
-import com.bernardomg.ucronia.openapi.model.FeeTypeChangeDto;
 import com.bernardomg.ucronia.openapi.model.FeeTypeCreationDto;
 import com.bernardomg.ucronia.openapi.model.FeeTypeDto;
 import com.bernardomg.ucronia.openapi.model.FeeTypePageResponseDto;
 import com.bernardomg.ucronia.openapi.model.FeeTypeResponseDto;
+import com.bernardomg.ucronia.openapi.model.FeeTypeUpdateDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
 import com.bernardomg.ucronia.openapi.model.SortingDto;
@@ -45,7 +45,7 @@ public final class FeeTypeDtoMapper {
         return new FeeType(-1, creation.getName(), creation.getAmount());
     }
 
-    public static final FeeType toDomain(final Long number, final FeeTypeChangeDto change) {
+    public static final FeeType toDomain(final Long number, final FeeTypeUpdateDto change) {
         return new FeeType(number, change.getName(), change.getAmount());
     }
 

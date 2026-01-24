@@ -35,7 +35,6 @@ import com.bernardomg.data.domain.Sorting.Property;
 import com.bernardomg.ucronia.openapi.model.PropertyDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
 import com.bernardomg.ucronia.openapi.model.SortingDto;
-import com.bernardomg.ucronia.openapi.model.TransactionChangeDto;
 import com.bernardomg.ucronia.openapi.model.TransactionCreationDto;
 import com.bernardomg.ucronia.openapi.model.TransactionCurrentBalanceDto;
 import com.bernardomg.ucronia.openapi.model.TransactionCurrentBalanceResponseDto;
@@ -44,10 +43,11 @@ import com.bernardomg.ucronia.openapi.model.TransactionMonthsRangeDto;
 import com.bernardomg.ucronia.openapi.model.TransactionMonthsRangeResponseDto;
 import com.bernardomg.ucronia.openapi.model.TransactionPageResponseDto;
 import com.bernardomg.ucronia.openapi.model.TransactionResponseDto;
+import com.bernardomg.ucronia.openapi.model.TransactionUpdateDto;
 
 public final class TransactionDtoMapper {
 
-    public static final Transaction toDomain(final Long index, final TransactionChangeDto change) {
+    public static final Transaction toDomain(final Long index, final TransactionUpdateDto change) {
         return new Transaction(index, change.getDate(), change.getAmount(), change.getDescription());
     }
 

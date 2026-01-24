@@ -30,11 +30,11 @@ import com.bernardomg.association.profile.domain.model.ContactMethod;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Sorting.Direction;
 import com.bernardomg.data.domain.Sorting.Property;
-import com.bernardomg.ucronia.openapi.model.ContactMethodChangeDto;
 import com.bernardomg.ucronia.openapi.model.ContactMethodCreationDto;
 import com.bernardomg.ucronia.openapi.model.ContactMethodDto;
 import com.bernardomg.ucronia.openapi.model.ContactMethodPageResponseDto;
 import com.bernardomg.ucronia.openapi.model.ContactMethodResponseDto;
+import com.bernardomg.ucronia.openapi.model.ContactMethodUpdateDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
 import com.bernardomg.ucronia.openapi.model.SortingDto;
@@ -45,7 +45,7 @@ public final class ContactMethodDtoMapper {
         return new ContactMethod(null, creation.getName());
     }
 
-    public static final ContactMethod toDomain(final Long number, final ContactMethodChangeDto change) {
+    public static final ContactMethod toDomain(final Long number, final ContactMethodUpdateDto change) {
         return new ContactMethod(number, change.getName());
     }
 

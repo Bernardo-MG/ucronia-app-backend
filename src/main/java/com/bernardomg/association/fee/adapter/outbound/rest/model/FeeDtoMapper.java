@@ -41,13 +41,13 @@ import com.bernardomg.data.domain.Sorting.Property;
 import com.bernardomg.ucronia.openapi.model.FeeCalendarDto;
 import com.bernardomg.ucronia.openapi.model.FeeCalendarMemberDto;
 import com.bernardomg.ucronia.openapi.model.FeeCalendarResponseDto;
-import com.bernardomg.ucronia.openapi.model.FeeChangeDto;
 import com.bernardomg.ucronia.openapi.model.FeeDto;
 import com.bernardomg.ucronia.openapi.model.FeeFeeTypeDto;
 import com.bernardomg.ucronia.openapi.model.FeePageResponseDto;
 import com.bernardomg.ucronia.openapi.model.FeePaymentsDto;
 import com.bernardomg.ucronia.openapi.model.FeeResponseDto;
 import com.bernardomg.ucronia.openapi.model.FeeTransactionDto;
+import com.bernardomg.ucronia.openapi.model.FeeUpdateDto;
 import com.bernardomg.ucronia.openapi.model.FeesResponseDto;
 import com.bernardomg.ucronia.openapi.model.MinimalProfileDto;
 import com.bernardomg.ucronia.openapi.model.MonthFeeDto;
@@ -66,7 +66,11 @@ public final class FeeDtoMapper {
             .toList());
     }
 
-    public static final Fee toDomain(final FeeChangeDto change, final YearMonth month, final long number) {
+    public static final FeePayments toDomain(final FeePaymentsDto dto) {
+        return new FeePayments(dto.getMember(), dto.getPaymentDate(), dto.getMonths());
+    }
+
+    public static final Fee toDomain(final FeeUpdateDto change, final YearMonth month, final long number) {
         final Transaction transaction;
         final Fee         fee;
 
@@ -78,10 +82,6 @@ public final class FeeDtoMapper {
         }
 
         return fee;
-    }
-
-    public static final FeePayments toDomain(final FeePaymentsDto dto) {
-        return new FeePayments(dto.getMember(), dto.getPaymentDate(), dto.getMonths());
     }
 
     public static final FeesResponseDto toResponseDto(final Collection<Fee> fees) {

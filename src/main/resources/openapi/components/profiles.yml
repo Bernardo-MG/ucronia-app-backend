@@ -106,9 +106,30 @@ components:
           maxLength: 15
         name:
           $ref: 'profiles.yml#/components/schemas/EditionProfileName'
-    ProfileChange:
+    ProfileUpdate:
       type: object
       required: [name]
+      properties:
+        identifier:
+          type: string
+          maxLength: 15
+        name:
+          $ref: 'profiles.yml#/components/schemas/EditionProfileName'
+        birthDate:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+        contactChannels:
+          type: array
+          items:
+            $ref: '#/components/schemas/EditionContactChannel'
+        address:
+          type: string
+          description: Profile address.
+          maxLength: 250
+        comments:
+          type: string
+          maxLength: 250
+    ProfilePatch:
+      type: object
       properties:
         identifier:
           type: string

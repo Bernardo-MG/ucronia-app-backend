@@ -34,7 +34,7 @@ put:
     content:
       application/json:
         schema:
-          $ref: '../components/members.yml#/components/schemas/MemberProfileChange'
+          $ref: '../components/members.yml#/components/schemas/MemberProfileUpdate'
   responses:
     '200':
       description: Updated member.
@@ -60,7 +60,7 @@ patch:
     content:
       application/json:
         schema:
-          $ref: '../components/members.yml#/components/schemas/MemberProfileChange'
+          $ref: '../components/members.yml#/components/schemas/MemberProfileUpdate'
   responses:
     '200':
       description: Updated member.

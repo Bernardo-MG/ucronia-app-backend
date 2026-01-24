@@ -40,10 +40,11 @@ import com.bernardomg.data.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.SponsorApi;
-import com.bernardomg.ucronia.openapi.model.SponsorChangeDto;
 import com.bernardomg.ucronia.openapi.model.SponsorCreationDto;
 import com.bernardomg.ucronia.openapi.model.SponsorPageResponseDto;
+import com.bernardomg.ucronia.openapi.model.SponsorPatchDto;
 import com.bernardomg.ucronia.openapi.model.SponsorResponseDto;
+import com.bernardomg.ucronia.openapi.model.SponsorUpdateDto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
@@ -120,11 +121,11 @@ public class SponsorController implements SponsorApi {
 
     @Override
     @RequireResourceAuthorization(resource = "SPONSOR", action = Actions.UPDATE)
-    public SponsorResponseDto patchSponsor(final Long number, @Valid final SponsorChangeDto sponsorChangeDto) {
+    public SponsorResponseDto patchSponsor(final Long number, @Valid final SponsorPatchDto sponsorPatchDto) {
         final Sponsor member;
         final Sponsor updated;
 
-        member = SponsorDtoMapper.toDomain(number, sponsorChangeDto);
+        member = SponsorDtoMapper.toDomain(number, sponsorPatchDto);
         updated = service.patch(member);
 
         return SponsorDtoMapper.toResponseDto(updated);
@@ -132,11 +133,11 @@ public class SponsorController implements SponsorApi {
 
     @Override
     @RequireResourceAuthorization(resource = "SPONSOR", action = Actions.UPDATE)
-    public SponsorResponseDto updateSponsor(final Long number, @Valid final SponsorChangeDto sponsorChangeDto) {
+    public SponsorResponseDto updateSponsor(final Long number, @Valid final SponsorUpdateDto sponsorUpdateDto) {
         final Sponsor member;
         final Sponsor updated;
 
-        member = SponsorDtoMapper.toDomain(number, sponsorChangeDto);
+        member = SponsorDtoMapper.toDomain(number, sponsorUpdateDto);
         updated = service.update(member);
 
         return SponsorDtoMapper.toResponseDto(updated);
