@@ -27,7 +27,7 @@ components:
         value:
           type: string
           description: Value of the setting.
-    SettingChange:
+    SettingUpdate:
       type: object
       required: [value]
       properties:

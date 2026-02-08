@@ -40,19 +40,37 @@ import com.bernardomg.data.domain.Sorting.Property;
 import com.bernardomg.ucronia.openapi.model.ContactChannelDto;
 import com.bernardomg.ucronia.openapi.model.ContactMethodDto;
 import com.bernardomg.ucronia.openapi.model.EditionContactChannelDto;
-import com.bernardomg.ucronia.openapi.model.ProfileChangeDto;
 import com.bernardomg.ucronia.openapi.model.ProfileCreationDto;
 import com.bernardomg.ucronia.openapi.model.ProfileDto;
 import com.bernardomg.ucronia.openapi.model.ProfileNameDto;
 import com.bernardomg.ucronia.openapi.model.ProfilePageResponseDto;
+import com.bernardomg.ucronia.openapi.model.ProfilePatchDto;
 import com.bernardomg.ucronia.openapi.model.ProfileResponseDto;
+import com.bernardomg.ucronia.openapi.model.ProfileUpdateDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
 import com.bernardomg.ucronia.openapi.model.SortingDto;
 
 public final class ProfileDtoMapper {
 
-    public static final Profile toDomain(final long number, final ProfileChangeDto change) {
+    public static final Profile toDomain(final long number, final ProfilePatchDto change) {
+        final ProfileName                name;
+        final Collection<ContactChannel> contactChannels;
+
+        name = new ProfileName(change.getName()
+            .getFirstName(),
+            change.getName()
+                .getLastName());
+        contactChannels = change.getContactChannels()
+            .stream()
+            .map(ProfileDtoMapper::toDomain)
+            .toList();
+
+        return new Profile(change.getIdentifier(), number, name, change.getBirthDate(), contactChannels,
+            change.getAddress(), change.getComments(), Set.of());
+    }
+
+    public static final Profile toDomain(final long number, final ProfileUpdateDto change) {
         final ProfileName                name;
         final Collection<ContactChannel> contactChannels;
 

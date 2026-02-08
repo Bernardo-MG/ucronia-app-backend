@@ -30,7 +30,7 @@ components:
           type: string
           example: 'Gary Gigax'
           maxLength: 100
-    AuthorChange:
+    AuthorUpdate:
       type: object
       required: [name]
       properties:

@@ -39,10 +39,10 @@ import com.bernardomg.data.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.ContactMethodApi;
-import com.bernardomg.ucronia.openapi.model.ContactMethodChangeDto;
 import com.bernardomg.ucronia.openapi.model.ContactMethodCreationDto;
 import com.bernardomg.ucronia.openapi.model.ContactMethodPageResponseDto;
 import com.bernardomg.ucronia.openapi.model.ContactMethodResponseDto;
+import com.bernardomg.ucronia.openapi.model.ContactMethodUpdateDto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
@@ -118,11 +118,11 @@ public class ContactMethodController implements ContactMethodApi {
     @Override
     @RequireResourceAuthorization(resource = "CONTACT_METHOD", action = Actions.UPDATE)
     public ContactMethodResponseDto updateContactMethod(final Long number,
-            @Valid final ContactMethodChangeDto contactMethodChangeDto) {
+            @Valid final ContactMethodUpdateDto contactMethodUpdateDto) {
         final ContactMethod contactMethod;
         final ContactMethod updated;
 
-        contactMethod = ContactMethodDtoMapper.toDomain(number, contactMethodChangeDto);
+        contactMethod = ContactMethodDtoMapper.toDomain(number, contactMethodUpdateDto);
         updated = service.update(contactMethod);
 
         return ContactMethodDtoMapper.toResponseDto(updated);

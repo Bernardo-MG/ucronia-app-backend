@@ -39,10 +39,10 @@ import com.bernardomg.data.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.GameSystemApi;
-import com.bernardomg.ucronia.openapi.model.GameSystemChangeDto;
 import com.bernardomg.ucronia.openapi.model.GameSystemCreationDto;
 import com.bernardomg.ucronia.openapi.model.GameSystemPageResponseDto;
 import com.bernardomg.ucronia.openapi.model.GameSystemResponseDto;
+import com.bernardomg.ucronia.openapi.model.GameSystemUpdateDto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
@@ -114,11 +114,11 @@ public class GameSystemController implements GameSystemApi {
     @Override
     @RequireResourceAuthorization(resource = "LIBRARY_AUTHOR", action = Actions.UPDATE)
     public GameSystemResponseDto updateGameSystem(final Long number,
-            @Valid final GameSystemChangeDto gameSystemChangeDto) {
+            @Valid final GameSystemUpdateDto gameSystemUpdateDto) {
         final GameSystem updated;
         final GameSystem gameSystem;
 
-        gameSystem = new GameSystem(number, gameSystemChangeDto.getName());
+        gameSystem = new GameSystem(number, gameSystemUpdateDto.getName());
         updated = service.update(gameSystem);
 
         return GameSystemDtoMapper.toResponseDto(updated);

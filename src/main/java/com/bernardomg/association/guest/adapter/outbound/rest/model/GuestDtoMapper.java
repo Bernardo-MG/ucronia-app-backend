@@ -40,11 +40,12 @@ import com.bernardomg.data.domain.Sorting.Property;
 import com.bernardomg.ucronia.openapi.model.ContactChannelDto;
 import com.bernardomg.ucronia.openapi.model.ContactMethodDto;
 import com.bernardomg.ucronia.openapi.model.EditionContactChannelDto;
-import com.bernardomg.ucronia.openapi.model.GuestChangeDto;
 import com.bernardomg.ucronia.openapi.model.GuestCreationDto;
 import com.bernardomg.ucronia.openapi.model.GuestDto;
 import com.bernardomg.ucronia.openapi.model.GuestPageResponseDto;
+import com.bernardomg.ucronia.openapi.model.GuestPatchDto;
 import com.bernardomg.ucronia.openapi.model.GuestResponseDto;
+import com.bernardomg.ucronia.openapi.model.GuestUpdateDto;
 import com.bernardomg.ucronia.openapi.model.ProfileNameDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
@@ -63,7 +64,24 @@ public final class GuestDtoMapper {
         return new Guest(creation.getIdentifier(), -1L, name, null, List.of(), List.of(), "", "", Set.of());
     }
 
-    public static final Guest toDomain(final long number, final GuestChangeDto change) {
+    public static final Guest toDomain(final long number, final GuestPatchDto change) {
+        final ProfileName                name;
+        final Collection<ContactChannel> contactChannels;
+
+        name = new ProfileName(change.getName()
+            .getFirstName(),
+            change.getName()
+                .getLastName());
+        contactChannels = change.getContactChannels()
+            .stream()
+            .map(GuestDtoMapper::toDomain)
+            .toList();
+
+        return new Guest(change.getIdentifier(), number, name, null, contactChannels,
+            new ArrayList<>(change.getGames()), change.getAddress(), change.getComments(), Set.of());
+    }
+
+    public static final Guest toDomain(final long number, final GuestUpdateDto change) {
         final ProfileName                name;
         final Collection<ContactChannel> contactChannels;
 

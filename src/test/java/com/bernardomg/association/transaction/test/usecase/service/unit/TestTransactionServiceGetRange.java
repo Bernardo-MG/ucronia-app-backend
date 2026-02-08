@@ -34,29 +34,29 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonthsRange;
+import com.bernardomg.association.transaction.domain.model.TransactionMonthsRange;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionCalendarMonthsRanges;
-import com.bernardomg.association.transaction.usecase.service.DefaultTransactionCalendarService;
+import com.bernardomg.association.transaction.usecase.service.DefaultTransactionService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Transaction calendar service - get range")
-class TestTransactionCalendarServiceGetRange {
+@DisplayName("Transaction service - get range")
+class TestTransactionServiceGetRange {
 
     @InjectMocks
-    private DefaultTransactionCalendarService service;
+    private DefaultTransactionService service;
 
     @Mock
-    private TransactionRepository             transactionRepository;
+    private TransactionRepository     transactionRepository;
 
-    public TestTransactionCalendarServiceGetRange() {
+    public TestTransactionServiceGetRange() {
         super();
     }
 
     @Test
     @DisplayName("When there is data it is returned")
     void testGetRange() {
-        final TransactionCalendarMonthsRange range;
+        final TransactionMonthsRange range;
 
         // GIVEN
         given(transactionRepository.findRange()).willReturn(TransactionCalendarMonthsRanges.fullYear());
@@ -73,7 +73,7 @@ class TestTransactionCalendarServiceGetRange {
     @Test
     @DisplayName("When there is no data nothing is returned")
     void testGetRange_NoData() {
-        final TransactionCalendarMonthsRange range;
+        final TransactionMonthsRange range;
 
         // GIVEN
         given(transactionRepository.findRange()).willReturn(TransactionCalendarMonthsRanges.empty());

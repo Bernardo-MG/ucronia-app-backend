@@ -39,10 +39,10 @@ import com.bernardomg.data.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.AuthorApi;
-import com.bernardomg.ucronia.openapi.model.AuthorChangeDto;
 import com.bernardomg.ucronia.openapi.model.AuthorCreationDto;
 import com.bernardomg.ucronia.openapi.model.AuthorPageResponseDto;
 import com.bernardomg.ucronia.openapi.model.AuthorResponseDto;
+import com.bernardomg.ucronia.openapi.model.AuthorUpdateDto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
@@ -113,11 +113,11 @@ public class AuthorController implements AuthorApi {
 
     @Override
     @RequireResourceAuthorization(resource = "FEE", action = Actions.CREATE)
-    public AuthorResponseDto updateAuthor(final Long number, @Valid final AuthorChangeDto authorChangeDto) {
+    public AuthorResponseDto updateAuthor(final Long number, @Valid final AuthorUpdateDto authorUpdateDto) {
         final Author updated;
         final Author author;
 
-        author = new Author(number, authorChangeDto.getName());
+        author = new Author(number, authorUpdateDto.getName());
         updated = service.update(author);
 
         return AuthorDtoMapper.toResponseDto(updated);

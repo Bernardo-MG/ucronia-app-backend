@@ -41,10 +41,10 @@ import com.bernardomg.data.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.PublisherApi;
-import com.bernardomg.ucronia.openapi.model.PublisherChangeDto;
 import com.bernardomg.ucronia.openapi.model.PublisherCreationDto;
 import com.bernardomg.ucronia.openapi.model.PublisherPageResponseDto;
 import com.bernardomg.ucronia.openapi.model.PublisherResponseDto;
+import com.bernardomg.ucronia.openapi.model.PublisherUpdateDto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
@@ -116,11 +116,11 @@ public class PublisherController implements PublisherApi {
 
     @Override
     @RequireResourceAuthorization(resource = "LIBRARY_AUTHOR", action = Actions.UPDATE)
-    public PublisherResponseDto updatePublisher(final Long number, @Valid final PublisherChangeDto publisherChangeDto) {
+    public PublisherResponseDto updatePublisher(final Long number, @Valid final PublisherUpdateDto publisherUpdateDto) {
         final Publisher updated;
         final Publisher publisher;
 
-        publisher = new Publisher(number, publisherChangeDto.getName());
+        publisher = new Publisher(number, publisherUpdateDto.getName());
         updated = service.update(publisher);
 
         return PublisherDtoMapper.toResponseDto(updated);

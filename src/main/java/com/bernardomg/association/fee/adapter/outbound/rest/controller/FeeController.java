@@ -25,7 +25,6 @@
 package com.bernardomg.association.fee.adapter.outbound.rest.controller;
 
 import java.time.Instant;
-import java.time.Year;
 import java.time.YearMonth;
 import java.util.Collection;
 import java.util.List;
@@ -37,10 +36,7 @@ import com.bernardomg.association.fee.adapter.outbound.rest.model.FeeDtoMapper;
 import com.bernardomg.association.fee.domain.dto.FeePayments;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
-import com.bernardomg.association.fee.domain.model.MemberFees;
-import com.bernardomg.association.fee.domain.model.YearsRange;
 import com.bernardomg.association.fee.usecase.service.FeeService;
-import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -48,18 +44,15 @@ import com.bernardomg.data.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.FeeApi;
-import com.bernardomg.ucronia.openapi.model.FeeChangeDto;
 import com.bernardomg.ucronia.openapi.model.FeeCreationDto;
 import com.bernardomg.ucronia.openapi.model.FeePageResponseDto;
 import com.bernardomg.ucronia.openapi.model.FeePaymentsDto;
 import com.bernardomg.ucronia.openapi.model.FeeResponseDto;
+import com.bernardomg.ucronia.openapi.model.FeeUpdateDto;
 import com.bernardomg.ucronia.openapi.model.FeesResponseDto;
-import com.bernardomg.ucronia.openapi.model.MemberFeesResponseDto;
-import com.bernardomg.ucronia.openapi.model.YearsRangeResponseDto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
 
 /**
  * Fee REST controller.
@@ -121,31 +114,6 @@ public class FeeController implements FeeApi {
 
     @Override
     @RequireResourceAuthorization(resource = "FEE", action = Actions.READ)
-    public YearsRangeResponseDto getFeesYearsRange() {
-        final YearsRange range;
-
-        range = service.getRange();
-
-        return FeeDtoMapper.toResponseDto(range);
-    }
-
-    @Override
-    @RequireResourceAuthorization(resource = "FEE", action = Actions.READ)
-    public MemberFeesResponseDto getMemberFees(final Integer year, @NotNull @Valid final String status,
-            @Valid final List<String> sort) {
-        final MemberStatus           memberStatus;
-        final Sorting                sorting;
-        final Collection<MemberFees> fees;
-
-        // TODO: use the fees listing and filter
-        memberStatus = MemberStatus.valueOf(status);
-        sorting = WebSorting.toSorting(sort);
-        fees = service.getForYear(Year.of(year), memberStatus, sorting);
-        return FeeDtoMapper.toMemberResponseDto(fees);
-    }
-
-    @Override
-    @RequireResourceAuthorization(resource = "FEE", action = Actions.READ)
     public FeeResponseDto getOneFee(final Long member, final YearMonth month) {
         final Optional<Fee> fee;
 
@@ -168,11 +136,11 @@ public class FeeController implements FeeApi {
 
     @Override
     @RequireResourceAuthorization(resource = "FEE", action = Actions.UPDATE)
-    public FeeResponseDto updateFee(final Long member, final YearMonth month, @Valid final FeeChangeDto feeChangeDto) {
+    public FeeResponseDto updateFee(final Long member, final YearMonth month, @Valid final FeeUpdateDto feeUpdateDto) {
         final Fee fee;
         final Fee updated;
 
-        fee = FeeDtoMapper.toDomain(feeChangeDto, month, member);
+        fee = FeeDtoMapper.toDomain(feeUpdateDto, month, member);
         updated = service.update(fee);
         return FeeDtoMapper.toResponseDto(updated);
     }

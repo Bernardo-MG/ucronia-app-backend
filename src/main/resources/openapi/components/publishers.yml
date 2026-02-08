@@ -30,7 +30,7 @@ components:
           type: string
           example: 'Wizards of the Coast'
           maxLength: 100
-    PublisherChange:
+    PublisherUpdate:
       type: object
       required: [name]
       properties:

@@ -34,7 +34,7 @@ put:
     content:
       application/json:
         schema:
-          $ref: '../components/publishers.yml#/components/schemas/PublisherChange'
+          $ref: '../components/publishers.yml#/components/schemas/PublisherUpdate'
   responses:
     '200':
       description: Publisher updated successfully

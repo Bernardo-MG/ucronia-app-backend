@@ -27,6 +27,7 @@ package com.bernardomg.association.transaction.usecase.service;
 import java.util.Optional;
 
 import com.bernardomg.association.transaction.domain.model.Transaction;
+import com.bernardomg.association.transaction.domain.model.TransactionMonthsRange;
 import com.bernardomg.association.transaction.domain.model.TransactionQuery;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
@@ -81,6 +82,13 @@ public interface TransactionService {
      * @return an {@code Optional} with the transaction, if it exists, of an empty {@code Optional} otherwise
      */
     public Optional<Transaction> getOne(final long id);
+
+    /**
+     * Returns the range of available months.
+     *
+     * @return the range of available months
+     */
+    public TransactionMonthsRange getRange();
 
     /**
      * Updates the received transaction.

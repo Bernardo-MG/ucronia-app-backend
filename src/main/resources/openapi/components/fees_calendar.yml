@@ -1,18 +1,4 @@
 components:
-  parameters:
-    feesCalendarSortParam:
-      name: sort
-      description: Sorting to apply.
-      in: query
-      style: form
-      explode: true
-      required: false
-      schema:
-        type: array
-        items:
-          type: string
-          pattern: '^(firstName|lastName|month|paymentDate|paid)\|(asc|desc)$'
-          example: name|asc
   schemas:
     FeeCalendarMember:
       type: object
@@ -33,7 +19,7 @@ components:
           items:
             type: integer
             example: 2023
-    MemberFees:
+    FeeCalendar:
       type: object
       required: [member, months]
       properties:
@@ -42,8 +28,8 @@ components:
         fees:
           type: array
           items:
-            $ref: '#/components/schemas/MemberFee'
-    MemberFee:
+            $ref: '#/components/schemas/MonthFee'
+    MonthFee:
       type: object
       required: [month, paid]
       properties:
@@ -56,10 +42,10 @@ components:
       properties:
         content:
           $ref: '#/components/schemas/YearsRange'
-    MemberFeesResponse:
+    FeeCalendarResponse:
       type: object
       properties:
         content:
           type: array
           items:
-            $ref: '#/components/schemas/MemberFees'
+            $ref: '#/components/schemas/FeeCalendar'

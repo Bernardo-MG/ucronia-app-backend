@@ -38,19 +38,19 @@ import com.bernardomg.association.fee.domain.model.YearsRange;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Sorting.Direction;
 import com.bernardomg.data.domain.Sorting.Property;
+import com.bernardomg.ucronia.openapi.model.FeeCalendarDto;
 import com.bernardomg.ucronia.openapi.model.FeeCalendarMemberDto;
-import com.bernardomg.ucronia.openapi.model.FeeChangeDto;
+import com.bernardomg.ucronia.openapi.model.FeeCalendarResponseDto;
 import com.bernardomg.ucronia.openapi.model.FeeDto;
 import com.bernardomg.ucronia.openapi.model.FeeFeeTypeDto;
 import com.bernardomg.ucronia.openapi.model.FeePageResponseDto;
 import com.bernardomg.ucronia.openapi.model.FeePaymentsDto;
 import com.bernardomg.ucronia.openapi.model.FeeResponseDto;
 import com.bernardomg.ucronia.openapi.model.FeeTransactionDto;
+import com.bernardomg.ucronia.openapi.model.FeeUpdateDto;
 import com.bernardomg.ucronia.openapi.model.FeesResponseDto;
-import com.bernardomg.ucronia.openapi.model.MemberFeeDto;
-import com.bernardomg.ucronia.openapi.model.MemberFeesDto;
-import com.bernardomg.ucronia.openapi.model.MemberFeesResponseDto;
 import com.bernardomg.ucronia.openapi.model.MinimalProfileDto;
+import com.bernardomg.ucronia.openapi.model.MonthFeeDto;
 import com.bernardomg.ucronia.openapi.model.ProfileNameDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
@@ -60,7 +60,17 @@ import com.bernardomg.ucronia.openapi.model.YearsRangeResponseDto;
 
 public final class FeeDtoMapper {
 
-    public static final Fee toDomain(final FeeChangeDto change, final YearMonth month, final long number) {
+    public static final FeeCalendarResponseDto toCalendarResponseDto(final Collection<MemberFees> fees) {
+        return new FeeCalendarResponseDto().content(fees.stream()
+            .map(FeeDtoMapper::toDto)
+            .toList());
+    }
+
+    public static final FeePayments toDomain(final FeePaymentsDto dto) {
+        return new FeePayments(dto.getMember(), dto.getPaymentDate(), dto.getMonths());
+    }
+
+    public static final Fee toDomain(final FeeUpdateDto change, final YearMonth month, final long number) {
         final Transaction transaction;
         final Fee         fee;
 
@@ -72,16 +82,6 @@ public final class FeeDtoMapper {
         }
 
         return fee;
-    }
-
-    public static final FeePayments toDomain(final FeePaymentsDto dto) {
-        return new FeePayments(dto.getMember(), dto.getPaymentDate(), dto.getMonths());
-    }
-
-    public static final MemberFeesResponseDto toMemberResponseDto(final Collection<MemberFees> fees) {
-        return new MemberFeesResponseDto().content(fees.stream()
-            .map(FeeDtoMapper::toDto)
-            .toList());
     }
 
     public static final FeesResponseDto toResponseDto(final Collection<Fee> fees) {
@@ -178,10 +178,10 @@ public final class FeeDtoMapper {
             .feeType(feeType);
     }
 
-    private static final MemberFeesDto toDto(final MemberFees memberFee) {
+    private static final FeeCalendarDto toDto(final MemberFees memberFee) {
         final FeeCalendarMemberDto member;
         final ProfileNameDto       name;
-        final List<MemberFeeDto>   months;
+        final List<MonthFeeDto>    months;
 
         name = new ProfileNameDto().firstName(memberFee.member()
             .name()
@@ -201,12 +201,12 @@ public final class FeeDtoMapper {
             .stream()
             .map(FeeDtoMapper::toDto)
             .toList();
-        return new MemberFeesDto().member(member)
+        return new FeeCalendarDto().member(member)
             .fees(months);
     }
 
-    private static final MemberFeeDto toDto(final MemberFees.Fee fee) {
-        return new MemberFeeDto().month(fee.month())
+    private static final MonthFeeDto toDto(final MemberFees.Fee fee) {
+        return new MonthFeeDto().month(fee.month())
             .paid(fee.paid());
     }
 

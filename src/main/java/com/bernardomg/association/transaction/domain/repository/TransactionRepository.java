@@ -24,12 +24,11 @@
 
 package com.bernardomg.association.transaction.domain.repository;
 
-import java.time.Instant;
 import java.util.Collection;
 import java.util.Optional;
 
 import com.bernardomg.association.transaction.domain.model.Transaction;
-import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonthsRange;
+import com.bernardomg.association.transaction.domain.model.TransactionMonthsRange;
 import com.bernardomg.association.transaction.domain.model.TransactionQuery;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
@@ -45,13 +44,11 @@ public interface TransactionRepository {
 
     public Page<Transaction> findAll(final TransactionQuery query, final Pagination pagination, final Sorting sorting);
 
-    public Collection<Transaction> findInRange(final Instant from, final Instant to, final Sorting sorting);
-
     public long findNextIndex();
 
     public Optional<Transaction> findOne(final Long index);
 
-    public TransactionCalendarMonthsRange findRange();
+    public TransactionMonthsRange findRange();
 
     public Transaction save(final Transaction transaction);
 

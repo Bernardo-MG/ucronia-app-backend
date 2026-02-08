@@ -36,8 +36,8 @@ import com.bernardomg.security.permission.domain.constant.Actions;
 import com.bernardomg.settings.domain.model.Setting;
 import com.bernardomg.settings.usecase.service.SettingService;
 import com.bernardomg.ucronia.openapi.api.AssociationSettingsApi;
-import com.bernardomg.ucronia.openapi.model.SettingChangeDto;
 import com.bernardomg.ucronia.openapi.model.SettingResponseDto;
+import com.bernardomg.ucronia.openapi.model.SettingUpdateDto;
 import com.bernardomg.ucronia.openapi.model.SettingsResponseDto;
 
 import jakarta.validation.Valid;
@@ -80,10 +80,10 @@ public class AssociationSettingController implements AssociationSettingsApi {
     @Override
     @RequireResourceAuthorization(resource = "ASSOCIATION_SETTINGS", action = Actions.UPDATE)
     public SettingResponseDto updateAssociationSetting(final String code,
-            @Valid final SettingChangeDto settingChangeDto) {
+            @Valid final SettingUpdateDto settingUpdateDto) {
         final Setting setting;
 
-        setting = service.update(code, settingChangeDto.getValue());
+        setting = service.update(code, settingUpdateDto.getValue());
         return SettingsDtoMapper.toResponseDto(setting);
     }
 

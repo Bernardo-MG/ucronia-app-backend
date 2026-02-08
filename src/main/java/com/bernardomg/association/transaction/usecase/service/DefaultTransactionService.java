@@ -34,6 +34,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.transaction.domain.exception.MissingTransactionException;
 import com.bernardomg.association.transaction.domain.model.Transaction;
+import com.bernardomg.association.transaction.domain.model.TransactionMonthsRange;
 import com.bernardomg.association.transaction.domain.model.TransactionQuery;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.association.transaction.usecase.validation.TransactionNotPaidInFutureRule;
@@ -145,6 +146,11 @@ public final class DefaultTransactionService implements TransactionService {
         log.debug("Read transaction with index {}: {}", index, transaction);
 
         return transaction;
+    }
+
+    @Override
+    public final TransactionMonthsRange getRange() {
+        return transactionRepository.findRange();
     }
 
     @Override

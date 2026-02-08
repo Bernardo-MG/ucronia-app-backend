@@ -22,68 +22,74 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.adapter.outbound.rest.controller;
+package com.bernardomg.association.fee.adapter.outbound.rest.controller;
 
-import java.time.Instant;
+import java.time.Year;
 import java.util.Collection;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.transaction.adapter.outbound.rest.model.TransactionDtoMapper;
-import com.bernardomg.association.transaction.domain.model.Transaction;
-import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonthsRange;
-import com.bernardomg.association.transaction.usecase.service.TransactionCalendarService;
+import com.bernardomg.association.fee.adapter.outbound.rest.model.FeeDtoMapper;
+import com.bernardomg.association.fee.domain.model.MemberFees;
+import com.bernardomg.association.fee.domain.model.YearsRange;
+import com.bernardomg.association.fee.usecase.service.FeeService;
+import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
-import com.bernardomg.ucronia.openapi.api.TransactionCalendarApi;
-import com.bernardomg.ucronia.openapi.model.TransactionCalendarMonthsRangeResponseDto;
-import com.bernardomg.ucronia.openapi.model.TransactionsResponseDto;
+import com.bernardomg.ucronia.openapi.api.FeeCalendarApi;
+import com.bernardomg.ucronia.openapi.model.FeeCalendarResponseDto;
+import com.bernardomg.ucronia.openapi.model.MemberStatusDto;
+import com.bernardomg.ucronia.openapi.model.YearsRangeResponseDto;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 
 /**
- * Funds calendar REST controller.
+ * Fee calendar REST controller.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 @RestController
-public class TransactionCalendarController implements TransactionCalendarApi {
+public class FeeCalendarController implements FeeCalendarApi {
 
     /**
-     * Funds calendar service.
+     * Fee service.
      */
-    private final TransactionCalendarService service;
+    private final FeeService service;
 
-    public TransactionCalendarController(final TransactionCalendarService service) {
+    public FeeCalendarController(final FeeService service) {
         super();
+
         this.service = service;
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "TRANSACTION", action = Actions.READ)
-    public TransactionsResponseDto getTransactionCalendar(@Valid final List<String> sort, @Valid final Instant from,
-            @Valid final Instant to) {
-        final Collection<Transaction> transactions;
-        final Sorting                 sorting;
+    @RequireResourceAuthorization(resource = "FEE", action = Actions.READ)
+    public FeeCalendarResponseDto getFeesCalendar(final Integer year, @NotNull @Valid final MemberStatusDto status,
+            @Valid final List<String> sort) {
+        final MemberStatus           memberStatus;
+        final Sorting                sorting;
+        final Collection<MemberFees> fees;
 
+        // TODO: use the fees listing and filter
+        memberStatus = MemberStatus.valueOf(status.name());
         sorting = WebSorting.toSorting(sort);
-        transactions = service.getInRange(from, to, sorting);
-
-        return TransactionDtoMapper.toResponseDto(transactions);
+        fees = service.getForYear(Year.of(year), memberStatus, sorting);
+        return FeeDtoMapper.toCalendarResponseDto(fees);
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "TRANSACTION", action = Actions.READ)
-    public TransactionCalendarMonthsRangeResponseDto getTransactionCalendarRange() {
-        final TransactionCalendarMonthsRange range;
+    @RequireResourceAuthorization(resource = "FEE", action = Actions.READ)
+    public YearsRangeResponseDto getFeesCalendarRange() {
+        final YearsRange range;
 
         range = service.getRange();
 
-        return TransactionDtoMapper.toResponseDto(range);
+        return FeeDtoMapper.toResponseDto(range);
     }
 
 }

@@ -44,15 +44,33 @@ import com.bernardomg.ucronia.openapi.model.ProfileNameDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
 import com.bernardomg.ucronia.openapi.model.SortingDto;
-import com.bernardomg.ucronia.openapi.model.SponsorChangeDto;
 import com.bernardomg.ucronia.openapi.model.SponsorCreationDto;
 import com.bernardomg.ucronia.openapi.model.SponsorDto;
 import com.bernardomg.ucronia.openapi.model.SponsorPageResponseDto;
+import com.bernardomg.ucronia.openapi.model.SponsorPatchDto;
 import com.bernardomg.ucronia.openapi.model.SponsorResponseDto;
+import com.bernardomg.ucronia.openapi.model.SponsorUpdateDto;
 
 public final class SponsorDtoMapper {
 
-    public static final Sponsor toDomain(final long number, final SponsorChangeDto change) {
+    public static final Sponsor toDomain(final long number, final SponsorPatchDto change) {
+        final ProfileName                name;
+        final Collection<ContactChannel> contactChannels;
+
+        name = new ProfileName(change.getName()
+            .getFirstName(),
+            change.getName()
+                .getLastName());
+        contactChannels = change.getContactChannels()
+            .stream()
+            .map(SponsorDtoMapper::toDomain)
+            .toList();
+
+        return new Sponsor(change.getIdentifier(), number, name, null, contactChannels,
+            new ArrayList<>(change.getYears()), change.getAddress(), change.getComments(), Set.of());
+    }
+
+    public static final Sponsor toDomain(final long number, final SponsorUpdateDto change) {
         final ProfileName                name;
         final Collection<ContactChannel> contactChannels;
 

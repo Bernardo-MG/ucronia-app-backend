@@ -39,10 +39,10 @@ import com.bernardomg.data.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.FeeTypeApi;
-import com.bernardomg.ucronia.openapi.model.FeeTypeChangeDto;
 import com.bernardomg.ucronia.openapi.model.FeeTypeCreationDto;
 import com.bernardomg.ucronia.openapi.model.FeeTypePageResponseDto;
 import com.bernardomg.ucronia.openapi.model.FeeTypeResponseDto;
+import com.bernardomg.ucronia.openapi.model.FeeTypeUpdateDto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
@@ -117,11 +117,11 @@ public class FeeTypeController implements FeeTypeApi {
 
     @Override
     @RequireResourceAuthorization(resource = "FEE_TYPE", action = Actions.UPDATE)
-    public FeeTypeResponseDto updateFeeType(final Long index, @Valid final FeeTypeChangeDto feeTypeChangeDto) {
+    public FeeTypeResponseDto updateFeeType(final Long index, @Valid final FeeTypeUpdateDto feeTypeUpdateDto) {
         final FeeType transaction;
         final FeeType updated;
 
-        transaction = FeeTypeDtoMapper.toDomain(index, feeTypeChangeDto);
+        transaction = FeeTypeDtoMapper.toDomain(index, feeTypeUpdateDto);
         updated = service.update(transaction);
         return FeeTypeDtoMapper.toResponseDto(updated);
     }

@@ -34,7 +34,7 @@ put:
     content:
       application/json:
         schema:
-          $ref: '../components/sponsors.yml#/components/schemas/SponsorChange'
+          $ref: '../components/sponsors.yml#/components/schemas/SponsorUpdate'
   responses:
     '200':
       description: Updated profile.
@@ -60,7 +60,7 @@ patch:
     content:
       application/json:
         schema:
-          $ref: '../components/sponsors.yml#/components/schemas/SponsorChange'
+          $ref: '../components/sponsors.yml#/components/schemas/SponsorPatch'
   responses:
     '200':
       description: Updated sponsor.

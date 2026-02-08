@@ -60,9 +60,9 @@ paths:
   /fee/pay:
     $ref: paths/fees_pay.yml
   /fee/range:
-    $ref: paths/fees_range.yml
+    $ref: paths/fees_calendar_range.yml
   /fee/{year}:
-    $ref: paths/fees_for_member.yml
+    $ref: paths/fees_calendar.yml
   /fee/balance:
     $ref: paths/fees_balance.yml
   /user/fee:
@@ -75,10 +75,8 @@ paths:
     $ref: paths/transactions_year_balance.yml
   /transaction/balance/monthly:
     $ref: paths/transactions_monthly_balance.yml
-  /transaction/calendar:
-    $ref: paths/transactions_calendar.yml
-  /transaction/calendar/range:
-    $ref: paths/transactions_calendar_range.yml
+  /transaction/range:
+    $ref: paths/transactions_range.yml
   /library/author:
     $ref: paths/authors.yml
   /library/author/{number}:

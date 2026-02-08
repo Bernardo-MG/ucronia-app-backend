@@ -22,41 +22,11 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.usecase.service;
+package com.bernardomg.association.transaction.domain.model;
 
-import java.time.Instant;
+import java.time.YearMonth;
 import java.util.Collection;
 
-import com.bernardomg.association.transaction.domain.model.Transaction;
-import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonthsRange;
-import com.bernardomg.data.domain.Sorting;
-
-/**
- * Transaction calendar service.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
- */
-public interface TransactionCalendarService {
-
-    /**
-     * Returns all the transactions in the range.
-     *
-     * @param from
-     *            starting date
-     * @param to
-     *            end date
-     * @param sorting
-     *            sorting to apply
-     * @return all the transactions for the month
-     */
-    public Collection<Transaction> getInRange(final Instant from, final Instant to, final Sorting sorting);
-
-    /**
-     * Returns the range of available months.
-     *
-     * @return the range of available months
-     */
-    public TransactionCalendarMonthsRange getRange();
+public record TransactionMonthsRange(Collection<YearMonth> months) {
 
 }

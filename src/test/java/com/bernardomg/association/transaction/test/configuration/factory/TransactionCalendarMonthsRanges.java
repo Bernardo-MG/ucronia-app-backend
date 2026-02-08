@@ -5,7 +5,7 @@ import java.time.Month;
 import java.time.YearMonth;
 import java.util.List;
 
-import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonthsRange;
+import com.bernardomg.association.transaction.domain.model.TransactionMonthsRange;
 
 public final class TransactionCalendarMonthsRanges {
 
@@ -35,12 +35,12 @@ public final class TransactionCalendarMonthsRanges {
         YearMonth.of(2022, Month.AUGUST), YearMonth.of(2022, Month.SEPTEMBER), YearMonth.of(2022, Month.OCTOBER),
         YearMonth.of(2022, Month.NOVEMBER), YearMonth.of(2022, Month.DECEMBER));
 
-    public static final TransactionCalendarMonthsRange empty() {
-        return new TransactionCalendarMonthsRange(List.of());
+    public static final TransactionMonthsRange empty() {
+        return new TransactionMonthsRange(List.of());
     }
 
-    public static final TransactionCalendarMonthsRange fullYear() {
-        return new TransactionCalendarMonthsRange(FULL_YEAR_MONTHS);
+    public static final TransactionMonthsRange fullYear() {
+        return new TransactionMonthsRange(FULL_YEAR_MONTHS);
     }
 
     private TransactionCalendarMonthsRanges() {

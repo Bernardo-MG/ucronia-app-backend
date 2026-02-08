@@ -37,7 +37,7 @@ import com.bernardomg.association.transaction.configuration.data.annotation.Full
 import com.bernardomg.association.transaction.configuration.data.annotation.FullTransactionYear;
 import com.bernardomg.association.transaction.configuration.data.annotation.MultipleTransactionsSameDay;
 import com.bernardomg.association.transaction.configuration.data.annotation.MultipleTransactionsSameMonth;
-import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonthsRange;
+import com.bernardomg.association.transaction.domain.model.TransactionMonthsRange;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionCalendarMonthsRanges;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -57,7 +57,7 @@ class ITTransactionRepositoryFindDates {
     @DisplayName("With two full consecutive years, a range for them is returned")
     @FullConsecutiveTransactionYears
     void testFindDates_ConsecutiveFullYear() {
-        final TransactionCalendarMonthsRange range;
+        final TransactionMonthsRange range;
 
         // WHEN
         range = repository.findRange();
@@ -73,7 +73,7 @@ class ITTransactionRepositoryFindDates {
     @DisplayName("With a full year, a range for the full year is returned")
     @FullTransactionYear
     void testFindDates_FullYear() {
-        final TransactionCalendarMonthsRange range;
+        final TransactionMonthsRange range;
 
         // WHEN
         range = repository.findRange();
@@ -89,7 +89,7 @@ class ITTransactionRepositoryFindDates {
     @DisplayName("With multiple transactions the same day, a single month is returned")
     @MultipleTransactionsSameDay
     void testFindDates_MultipleSameDay() {
-        final TransactionCalendarMonthsRange range;
+        final TransactionMonthsRange range;
 
         // WHEN
         range = repository.findRange();
@@ -105,7 +105,7 @@ class ITTransactionRepositoryFindDates {
     @DisplayName("With multiple transactions the same month, a single month is returned")
     @MultipleTransactionsSameMonth
     void testFindDates_MultipleSameMonth() {
-        final TransactionCalendarMonthsRange range;
+        final TransactionMonthsRange range;
 
         // WHEN
         range = repository.findRange();
@@ -120,7 +120,7 @@ class ITTransactionRepositoryFindDates {
     @Test
     @DisplayName("With no data, an empty range is returned")
     void testFindDates_NoData() {
-        final TransactionCalendarMonthsRange range;
+        final TransactionMonthsRange range;
 
         // WHEN
         range = repository.findRange();
@@ -135,7 +135,7 @@ class ITTransactionRepositoryFindDates {
     @DisplayName("With two full not consecutive years, a range for them is returned")
     @FullNotConsecutiveTransactionYears
     void testFindDates_NotConsecutiveFullYear() {
-        final TransactionCalendarMonthsRange range;
+        final TransactionMonthsRange range;
 
         // WHEN
         range = repository.findRange();

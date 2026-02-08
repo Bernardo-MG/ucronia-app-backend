@@ -34,7 +34,7 @@ put:
     content:
       application/json:
         schema:
-          $ref: '../components/contact_methods.yml#/components/schemas/ContactMethodChange'
+          $ref: '../components/contact_methods.yml#/components/schemas/ContactMethodUpdate'
   responses:
     '200':
       description: Updated contact method.

@@ -24,7 +24,6 @@
 
 package com.bernardomg.association.transaction.adapter.inbound.jpa.repository;
 
-import java.time.Instant;
 import java.time.YearMonth;
 import java.util.Collection;
 import java.util.Objects;
@@ -42,7 +41,7 @@ import com.bernardomg.association.transaction.adapter.inbound.jpa.model.Transact
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntityMapper;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.specification.TransactionSpecifications;
 import com.bernardomg.association.transaction.domain.model.Transaction;
-import com.bernardomg.association.transaction.domain.model.TransactionCalendarMonthsRange;
+import com.bernardomg.association.transaction.domain.model.TransactionMonthsRange;
 import com.bernardomg.association.transaction.domain.model.TransactionQuery;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.data.domain.Page;
@@ -144,26 +143,6 @@ public final class JpaTransactionRepository implements TransactionRepository {
     }
 
     @Override
-    public final Collection<Transaction> findInRange(final Instant from, final Instant to, final Sorting sorting) {
-        final Specification<TransactionEntity> spec;
-        final Collection<Transaction>          transactions;
-        final Sort                             sort;
-
-        log.debug("Finding transactions in range from {} to {}", from, to);
-
-        sort = SpringSorting.toSort(sorting);
-        spec = TransactionSpecifications.betweenIncluding(from, to);
-        transactions = transactionSpringRepository.findAll(spec, sort)
-            .stream()
-            .map(TransactionEntityMapper::toDomain)
-            .toList();
-
-        log.debug("Forund transactions in range from {} to {}: {}", from, to, transactions);
-
-        return transactions;
-    }
-
-    @Override
     public final long findNextIndex() {
         final long index;
 
@@ -191,9 +170,9 @@ public final class JpaTransactionRepository implements TransactionRepository {
     }
 
     @Override
-    public final TransactionCalendarMonthsRange findRange() {
-        final Collection<YearMonth>          months;
-        final TransactionCalendarMonthsRange range;
+    public final TransactionMonthsRange findRange() {
+        final Collection<YearMonth>  months;
+        final TransactionMonthsRange range;
 
         log.debug("Finding the transactions range");
 
@@ -202,7 +181,7 @@ public final class JpaTransactionRepository implements TransactionRepository {
             .map(m -> YearMonth.of(m.getYear(), m.getMonth()))
             .toList();
 
-        range = new TransactionCalendarMonthsRange(months);
+        range = new TransactionMonthsRange(months);
 
         log.debug("Found the transactions range: {}", range);
 
