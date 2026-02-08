@@ -272,7 +272,8 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
             entity.setProfile(profile.get());
         }
 
-        feeType = feeTypeSpringRepository.findByNumber(memberProfile.number());
+        feeType = feeTypeSpringRepository.findByNumber(memberProfile.feeType()
+            .number());
         if (feeType.isEmpty()) {
             log.warn("Missing fee type {}", memberProfile.feeType()
                 .number());
