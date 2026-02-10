@@ -491,7 +491,10 @@
             Handle nulls on member history.
          </action>
       </release>
-      <release version="1.0.0" date="2026-01-16" description="">
+      <release version="0.6.12" date="2026-02-09" description="Route fixes">
+         <action dev="bmg" type="fix">
+            Several corrections to controllers.
+         </action>
       </release>
    </body>
 </document>
