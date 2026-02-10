@@ -496,5 +496,10 @@
             Several corrections to controllers.
          </action>
       </release>
+      <release version="0.6.13" date="2026-02-11" description="Security update">
+         <action dev="bmg" type="update">
+            Updated security dependency.
+         </action>
+      </release>
    </body>
 </document>

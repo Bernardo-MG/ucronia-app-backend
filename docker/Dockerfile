@@ -41,7 +41,7 @@ VOLUME ./logs
 USER runner
 
 # Copy from build stage
-COPY --from=build ./app/target/*.war ./app.war
+COPY --from=build --chown=runner:runners ./app/target/*.war ./app.war
 
 # Run with remote debugging
 CMD ["java", "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=0.0.0.0:8000", "-jar", "app.war"]
