@@ -22,41 +22,24 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.settings.adapter.outbound.rest.controller;
+package com.bernardomg.association.settings.adapter.outbound.rest.model;
 
-import org.springframework.web.bind.annotation.RestController;
-
-import com.bernardomg.association.settings.adapter.outbound.rest.model.PublicSettingsDtoMapper;
 import com.bernardomg.association.settings.domain.PublicSettings;
-import com.bernardomg.association.settings.usecase.PublicSettingsService;
-import com.bernardomg.security.access.annotation.Unsecured;
-import com.bernardomg.ucronia.openapi.api.PublicSettingsApi;
+import com.bernardomg.ucronia.openapi.model.PublicSettingsDto;
 import com.bernardomg.ucronia.openapi.model.PublicSettingsResponseDto;
 
-/**
- * Settings REST controller.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
- */
-@RestController
-public class AssociationPublicSettingController implements PublicSettingsApi {
+public final class PublicSettingsDtoMapper {
 
-    private final PublicSettingsService service;
+    public static final PublicSettingsResponseDto toResponseDto(final PublicSettings settings) {
+        final PublicSettingsDto settingsDto;
 
-    public AssociationPublicSettingController(final PublicSettingsService service) {
-        super();
-        this.service = service;
+        settingsDto = new PublicSettingsDto().calendarCode(settings.calendarCode())
+            .mapCode(settings.mapCode());
+        return new PublicSettingsResponseDto().content(settingsDto);
     }
 
-    @Override
-    @Unsecured
-    public PublicSettingsResponseDto getPublicSettings() {
-        final PublicSettings publicSettings;
-
-        publicSettings = service.getSettings();
-
-        return PublicSettingsDtoMapper.toResponseDto(publicSettings);
+    private PublicSettingsDtoMapper() {
+        super();
     }
 
 }
