@@ -5,11 +5,15 @@ import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.settings.domain.PublicSettings;
 import com.bernardomg.settings.domain.model.Setting;
 import com.bernardomg.settings.domain.repository.SettingRepository;
 
+@Service
+@Transactional
 public final class DefaultPublicSettingsService implements PublicSettingsService {
 
     /**
