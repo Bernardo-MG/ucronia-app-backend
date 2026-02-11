@@ -33,8 +33,8 @@ public final class PublicSettingsDtoMapper {
     public static final PublicSettingsResponseDto toResponseDto(final PublicSettings settings) {
         final PublicSettingsDto settingsDto;
 
-        settingsDto = new PublicSettingsDto().calendarCode(settings.calendar())
-            .mapCode(settings.map())
+        settingsDto = new PublicSettingsDto().calendar(settings.calendar())
+            .map(settings.map())
             .email(settings.email())
             .instagram(settings.instagram());
         return new PublicSettingsResponseDto().content(settingsDto);
