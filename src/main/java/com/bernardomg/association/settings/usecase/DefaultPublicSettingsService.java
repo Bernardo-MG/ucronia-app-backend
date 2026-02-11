@@ -2,13 +2,11 @@
 package com.bernardomg.association.settings.usecase;
 
 import java.util.Objects;
-import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bernardomg.association.settings.domain.PublicSettings;
-import com.bernardomg.settings.domain.exception.MissingSettingException;
 import com.bernardomg.settings.domain.model.Setting;
 import com.bernardomg.settings.domain.repository.SettingRepository;
 
@@ -34,32 +32,26 @@ public final class DefaultPublicSettingsService implements PublicSettingsService
         final String email;
         final String instagram;
 
-        calendarCode = getOne(AssociationSettingsKey.TEAMUP).map(Setting::value)
-            .orElse(null);
-        mapCode = getOne(AssociationSettingsKey.GOOGLE_MAPS).map(Setting::value)
-            .orElse(null);
-        email = getOne(AssociationSettingsKey.EMAIL).map(Setting::value)
-            .orElse(null);
-        instagram = getOne(AssociationSettingsKey.INSTAGRAM).map(Setting::value)
-            .orElse(null);
+        calendarCode = getValue(AssociationSettingsKey.TEAMUP);
+        mapCode = getValue(AssociationSettingsKey.GOOGLE_MAPS);
+        email = getValue(AssociationSettingsKey.EMAIL);
+        instagram = getValue(AssociationSettingsKey.INSTAGRAM);
 
         return new PublicSettings(mapCode, calendarCode, email, instagram);
     }
 
-    private final Optional<Setting> getOne(final String code) {
-        final Optional<Setting> setting;
+    private final String getValue(final String code) {
+        final String value;
 
         log.debug("Reading setting {}", code);
 
-        setting = settingRepository.findOne(code);
-        if (setting.isEmpty()) {
-            log.error("Missing setting {}", code);
-            throw new MissingSettingException(code);
-        }
+        value = settingRepository.findOne(code)
+            .map(Setting::value)
+            .orElse("");
 
-        log.debug("Read setting {}", setting);
+        log.debug("Read setting {}: {}", code, value);
 
-        return setting;
+        return value;
     }
 
 }

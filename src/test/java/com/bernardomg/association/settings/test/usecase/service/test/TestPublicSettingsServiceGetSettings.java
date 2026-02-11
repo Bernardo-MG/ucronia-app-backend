@@ -58,7 +58,7 @@ class TestPublicSettingsServiceGetSettings {
     }
 
     @Test
-    @DisplayName("Returns the calendar code")
+    @DisplayName("When the calendar code exists, it is returned")
     void testGetSettings_CalendarCode() {
         final PublicSettings settings;
 
@@ -82,7 +82,30 @@ class TestPublicSettingsServiceGetSettings {
     }
 
     @Test
-    @DisplayName("Returns the email")
+    @DisplayName("When the calendar code is missing, an empty string is returned")
+    void testGetSettings_CalendarCode_Missing() {
+        final PublicSettings settings;
+
+        // GIVEN
+        given(settingRepository.findOne(AssociationSettingsKey.TEAMUP)).willReturn(Optional.empty());
+        given(settingRepository.findOne(AssociationSettingsKey.GOOGLE_MAPS))
+            .willReturn(Optional.of(AssociationSettings.googleMaps()));
+        given(settingRepository.findOne(AssociationSettingsKey.EMAIL))
+            .willReturn(Optional.of(AssociationSettings.email()));
+        given(settingRepository.findOne(AssociationSettingsKey.INSTAGRAM))
+            .willReturn(Optional.of(AssociationSettings.instagram()));
+
+        // WHEN
+        settings = service.getSettings();
+
+        // THEN
+        Assertions.assertThat(settings)
+            .extracting(PublicSettings::calendar)
+            .isEqualTo("");
+    }
+
+    @Test
+    @DisplayName("When the email exists, it is returned")
     void testGetSettings_Email() {
         final PublicSettings settings;
 
@@ -106,7 +129,30 @@ class TestPublicSettingsServiceGetSettings {
     }
 
     @Test
-    @DisplayName("Returns the instagram URL")
+    @DisplayName("When the email is missing, an empty string is returned")
+    void testGetSettings_Email_Missing() {
+        final PublicSettings settings;
+
+        // GIVEN
+        given(settingRepository.findOne(AssociationSettingsKey.TEAMUP))
+            .willReturn(Optional.of(AssociationSettings.teamUp()));
+        given(settingRepository.findOne(AssociationSettingsKey.GOOGLE_MAPS))
+            .willReturn(Optional.of(AssociationSettings.googleMaps()));
+        given(settingRepository.findOne(AssociationSettingsKey.EMAIL)).willReturn(Optional.empty());
+        given(settingRepository.findOne(AssociationSettingsKey.INSTAGRAM))
+            .willReturn(Optional.of(AssociationSettings.instagram()));
+
+        // WHEN
+        settings = service.getSettings();
+
+        // THEN
+        Assertions.assertThat(settings)
+            .extracting(PublicSettings::email)
+            .isEqualTo("");
+    }
+
+    @Test
+    @DisplayName("When the Instagram URL exists, it is returned")
     void testGetSettings_Instagram() {
         final PublicSettings settings;
 
@@ -130,8 +176,31 @@ class TestPublicSettingsServiceGetSettings {
     }
 
     @Test
-    @DisplayName("Returns the map code")
-    void testGetSettings_MapCode() {
+    @DisplayName("When the Instagram URL is missing, an empty string is returned")
+    void testGetSettings_Instagram_Missing() {
+        final PublicSettings settings;
+
+        // GIVEN
+        given(settingRepository.findOne(AssociationSettingsKey.TEAMUP))
+            .willReturn(Optional.of(AssociationSettings.teamUp()));
+        given(settingRepository.findOne(AssociationSettingsKey.GOOGLE_MAPS))
+            .willReturn(Optional.of(AssociationSettings.googleMaps()));
+        given(settingRepository.findOne(AssociationSettingsKey.EMAIL))
+            .willReturn(Optional.of(AssociationSettings.email()));
+        given(settingRepository.findOne(AssociationSettingsKey.INSTAGRAM)).willReturn(Optional.empty());
+
+        // WHEN
+        settings = service.getSettings();
+
+        // THEN
+        Assertions.assertThat(settings)
+            .extracting(PublicSettings::instagram)
+            .isEqualTo("");
+    }
+
+    @Test
+    @DisplayName("When the map code exists, it is returned")
+    void testGetSettings_Map() {
         final PublicSettings settings;
 
         // GIVEN
@@ -153,4 +222,26 @@ class TestPublicSettingsServiceGetSettings {
             .isEqualTo(AssociationSettingsConstants.GOOGLE_MAPS);
     }
 
+    @Test
+    @DisplayName("When the map code is missing, an empty string is returned")
+    void testGetSettings_Map_Missing() {
+        final PublicSettings settings;
+
+        // GIVEN
+        given(settingRepository.findOne(AssociationSettingsKey.TEAMUP))
+            .willReturn(Optional.of(AssociationSettings.teamUp()));
+        given(settingRepository.findOne(AssociationSettingsKey.GOOGLE_MAPS)).willReturn(Optional.empty());
+        given(settingRepository.findOne(AssociationSettingsKey.EMAIL))
+            .willReturn(Optional.of(AssociationSettings.email()));
+        given(settingRepository.findOne(AssociationSettingsKey.INSTAGRAM))
+            .willReturn(Optional.of(AssociationSettings.instagram()));
+
+        // WHEN
+        settings = service.getSettings();
+
+        // THEN
+        Assertions.assertThat(settings)
+            .extracting(PublicSettings::map)
+            .isEqualTo("");
+    }
 }
