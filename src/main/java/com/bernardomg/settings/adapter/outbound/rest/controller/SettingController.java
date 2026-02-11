@@ -22,20 +22,20 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.settings.adapter.outbound.rest.controller;
+package com.bernardomg.settings.adapter.outbound.rest.controller;
 
 import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.settings.adapter.outbound.rest.model.SettingsDtoMapper;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.access.annotation.Unsecured;
 import com.bernardomg.security.permission.domain.constant.Actions;
+import com.bernardomg.settings.adapter.outbound.rest.model.SettingsDtoMapper;
 import com.bernardomg.settings.domain.model.Setting;
 import com.bernardomg.settings.usecase.service.SettingService;
-import com.bernardomg.ucronia.openapi.api.AssociationSettingsApi;
+import com.bernardomg.ucronia.openapi.api.SettingsApi;
 import com.bernardomg.ucronia.openapi.model.SettingResponseDto;
 import com.bernardomg.ucronia.openapi.model.SettingUpdateDto;
 import com.bernardomg.ucronia.openapi.model.SettingsResponseDto;
@@ -49,11 +49,11 @@ import jakarta.validation.Valid;
  *
  */
 @RestController
-public class AssociationSettingController implements AssociationSettingsApi {
+public class SettingController implements SettingsApi {
 
     private final SettingService service;
 
-    public AssociationSettingController(final SettingService service) {
+    public SettingController(final SettingService service) {
         super();
         // TODO: are the permissions correct?
         this.service = service;
@@ -61,7 +61,7 @@ public class AssociationSettingController implements AssociationSettingsApi {
 
     @Override
     @Unsecured
-    public SettingsResponseDto getAllAssociationSettings() {
+    public SettingsResponseDto getAllSettings() {
         final Collection<Setting> settings;
 
         settings = service.getAll();
@@ -70,7 +70,7 @@ public class AssociationSettingController implements AssociationSettingsApi {
 
     @Override
     @Unsecured
-    public SettingResponseDto getAssociationSettingByCode(final String code) {
+    public SettingResponseDto getSettingByCode(final String code) {
         final Optional<Setting> setting;
 
         setting = service.getOne(code);
@@ -79,8 +79,7 @@ public class AssociationSettingController implements AssociationSettingsApi {
 
     @Override
     @RequireResourceAuthorization(resource = "ASSOCIATION_SETTINGS", action = Actions.UPDATE)
-    public SettingResponseDto updateAssociationSetting(final String code,
-            @Valid final SettingUpdateDto settingUpdateDto) {
+    public SettingResponseDto updateSetting(final String code, @Valid final SettingUpdateDto settingUpdateDto) {
         final Setting setting;
 
         setting = service.update(code, settingUpdateDto.getValue());

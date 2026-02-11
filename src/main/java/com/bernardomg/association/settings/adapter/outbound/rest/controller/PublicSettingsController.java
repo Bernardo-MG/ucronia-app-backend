@@ -40,11 +40,11 @@ import com.bernardomg.ucronia.openapi.model.PublicSettingsResponseDto;
  *
  */
 @RestController
-public class AssociationPublicSettingController implements PublicSettingsApi {
+public class PublicSettingsController implements PublicSettingsApi {
 
     private final PublicSettingsService service;
 
-    public AssociationPublicSettingController(final PublicSettingsService service) {
+    public PublicSettingsController(final PublicSettingsService service) {
         super();
         this.service = service;
     }

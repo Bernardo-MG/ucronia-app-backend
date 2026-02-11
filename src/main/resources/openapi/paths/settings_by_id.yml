@@ -1,7 +1,7 @@
 get:
   summary: Get a specific setting by code.
-  operationId: getAssociationSettingByCode
-  tags: [AssociationSettings]
+  operationId: getSettingByCode
+  tags: [Settings]
   parameters:
     - name: code
       in: path
@@ -21,8 +21,8 @@ get:
 
 put:
   summary: Update a setting by code.
-  operationId: updateAssociationSetting
-  tags: [AssociationSettings]
+  operationId: updateSetting
+  tags: [Settings]
   parameters:
     - name: code
       in: path
