@@ -77,7 +77,7 @@ class TestPublicSettingsServiceGetSettings {
 
         // THEN
         Assertions.assertThat(settings)
-            .extracting(PublicSettings::calendarCode)
+            .extracting(PublicSettings::calendar)
             .isEqualTo(AssociationSettingsConstants.TEAMUP);
     }
 
@@ -106,7 +106,7 @@ class TestPublicSettingsServiceGetSettings {
     }
 
     @Test
-    @DisplayName("Returns the instagram")
+    @DisplayName("Returns the instagram URL")
     void testGetSettings_Instagram() {
         final PublicSettings settings;
 
@@ -149,7 +149,7 @@ class TestPublicSettingsServiceGetSettings {
 
         // THEN
         Assertions.assertThat(settings)
-            .extracting(PublicSettings::mapCode)
+            .extracting(PublicSettings::map)
             .isEqualTo(AssociationSettingsConstants.GOOGLE_MAPS);
     }
 

@@ -38,9 +38,9 @@ components:
     PublicSettings:
       type: object
       properties:
-        mapCode:
+        map:
           type: string
-        calendarCode:
+        calendar:
           type: string
         email:
           type: string

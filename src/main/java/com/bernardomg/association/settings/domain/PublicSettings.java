@@ -1,6 +1,6 @@
 
 package com.bernardomg.association.settings.domain;
 
-public record PublicSettings(String mapCode, String calendarCode, String email, String instagram) {
+public record PublicSettings(String map, String calendar, String email, String instagram) {
 
 }
