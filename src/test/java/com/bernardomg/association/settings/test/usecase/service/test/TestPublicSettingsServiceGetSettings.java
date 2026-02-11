@@ -67,6 +67,10 @@ class TestPublicSettingsServiceGetSettings {
             .willReturn(Optional.of(AssociationSettings.teamUp()));
         given(settingRepository.findOne(AssociationSettingsKey.GOOGLE_MAPS))
             .willReturn(Optional.of(AssociationSettings.googleMaps()));
+        given(settingRepository.findOne(AssociationSettingsKey.EMAIL))
+            .willReturn(Optional.of(AssociationSettings.email()));
+        given(settingRepository.findOne(AssociationSettingsKey.INSTAGRAM))
+            .willReturn(Optional.of(AssociationSettings.instagram()));
 
         // WHEN
         settings = service.getSettings();
@@ -75,6 +79,54 @@ class TestPublicSettingsServiceGetSettings {
         Assertions.assertThat(settings)
             .extracting(PublicSettings::calendarCode)
             .isEqualTo(AssociationSettingsConstants.TEAMUP);
+    }
+
+    @Test
+    @DisplayName("Returns the email")
+    void testGetSettings_Email() {
+        final PublicSettings settings;
+
+        // GIVEN
+        given(settingRepository.findOne(AssociationSettingsKey.TEAMUP))
+            .willReturn(Optional.of(AssociationSettings.teamUp()));
+        given(settingRepository.findOne(AssociationSettingsKey.GOOGLE_MAPS))
+            .willReturn(Optional.of(AssociationSettings.googleMaps()));
+        given(settingRepository.findOne(AssociationSettingsKey.EMAIL))
+            .willReturn(Optional.of(AssociationSettings.email()));
+        given(settingRepository.findOne(AssociationSettingsKey.INSTAGRAM))
+            .willReturn(Optional.of(AssociationSettings.instagram()));
+
+        // WHEN
+        settings = service.getSettings();
+
+        // THEN
+        Assertions.assertThat(settings)
+            .extracting(PublicSettings::email)
+            .isEqualTo(AssociationSettingsConstants.EMAIL);
+    }
+
+    @Test
+    @DisplayName("Returns the instagram")
+    void testGetSettings_Instagram() {
+        final PublicSettings settings;
+
+        // GIVEN
+        given(settingRepository.findOne(AssociationSettingsKey.TEAMUP))
+            .willReturn(Optional.of(AssociationSettings.teamUp()));
+        given(settingRepository.findOne(AssociationSettingsKey.GOOGLE_MAPS))
+            .willReturn(Optional.of(AssociationSettings.googleMaps()));
+        given(settingRepository.findOne(AssociationSettingsKey.EMAIL))
+            .willReturn(Optional.of(AssociationSettings.email()));
+        given(settingRepository.findOne(AssociationSettingsKey.INSTAGRAM))
+            .willReturn(Optional.of(AssociationSettings.instagram()));
+
+        // WHEN
+        settings = service.getSettings();
+
+        // THEN
+        Assertions.assertThat(settings)
+            .extracting(PublicSettings::instagram)
+            .isEqualTo(AssociationSettingsConstants.INSTAGRAM);
     }
 
     @Test
@@ -87,6 +139,10 @@ class TestPublicSettingsServiceGetSettings {
             .willReturn(Optional.of(AssociationSettings.teamUp()));
         given(settingRepository.findOne(AssociationSettingsKey.GOOGLE_MAPS))
             .willReturn(Optional.of(AssociationSettings.googleMaps()));
+        given(settingRepository.findOne(AssociationSettingsKey.EMAIL))
+            .willReturn(Optional.of(AssociationSettings.email()));
+        given(settingRepository.findOne(AssociationSettingsKey.INSTAGRAM))
+            .willReturn(Optional.of(AssociationSettings.instagram()));
 
         // WHEN
         settings = service.getSettings();

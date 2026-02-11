@@ -42,6 +42,10 @@ components:
           type: string
         calendarCode:
           type: string
+        email:
+          type: string
+        instagram:
+          type: string
     PublicSettingsResponse:
       type: object
       properties:

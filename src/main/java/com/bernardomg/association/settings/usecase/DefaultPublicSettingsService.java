@@ -31,13 +31,19 @@ public final class DefaultPublicSettingsService implements PublicSettingsService
     public final PublicSettings getSettings() {
         final String calendarCode;
         final String mapCode;
+        final String email;
+        final String instagram;
 
         calendarCode = getOne(AssociationSettingsKey.TEAMUP).map(Setting::value)
             .orElse(null);
         mapCode = getOne(AssociationSettingsKey.GOOGLE_MAPS).map(Setting::value)
             .orElse(null);
+        email = getOne(AssociationSettingsKey.EMAIL).map(Setting::value)
+            .orElse(null);
+        instagram = getOne(AssociationSettingsKey.INSTAGRAM).map(Setting::value)
+            .orElse(null);
 
-        return new PublicSettings(mapCode, calendarCode);
+        return new PublicSettings(mapCode, calendarCode, email, instagram);
     }
 
     private final Optional<Setting> getOne(final String code) {

@@ -34,7 +34,9 @@ public final class PublicSettingsDtoMapper {
         final PublicSettingsDto settingsDto;
 
         settingsDto = new PublicSettingsDto().calendarCode(settings.calendarCode())
-            .mapCode(settings.mapCode());
+            .mapCode(settings.mapCode())
+            .email(settings.email())
+            .instagram(settings.instagram());
         return new PublicSettingsResponseDto().content(settingsDto);
     }
 
