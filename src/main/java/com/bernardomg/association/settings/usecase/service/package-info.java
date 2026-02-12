@@ -22,20 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.settings.usecase;
+/**
+ * Association settings service.
+ */
 
-public final class AssociationSettingsKey {
-
-    public static final String EMAIL       = "contact.email";
-
-    public static final String GOOGLE_MAPS = "social.googleMap.id";
-
-    public static final String INSTAGRAM   = "social.instagram";
-
-    public static final String TEAMUP      = "social.teamup.id";
-
-    private AssociationSettingsKey() {
-        super();
-    }
-
-}
+package com.bernardomg.association.settings.usecase.service;

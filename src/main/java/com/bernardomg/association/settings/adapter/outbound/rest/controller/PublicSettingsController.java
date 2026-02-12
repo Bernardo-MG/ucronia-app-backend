@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.settings.adapter.outbound.rest.model.PublicSettingsDtoMapper;
 import com.bernardomg.association.settings.domain.PublicSettings;
-import com.bernardomg.association.settings.usecase.PublicSettingsService;
+import com.bernardomg.association.settings.usecase.service.PublicSettingsService;
 import com.bernardomg.security.access.annotation.Unsecured;
 import com.bernardomg.ucronia.openapi.api.PublicSettingsApi;
 import com.bernardomg.ucronia.openapi.model.PublicSettingsResponseDto;

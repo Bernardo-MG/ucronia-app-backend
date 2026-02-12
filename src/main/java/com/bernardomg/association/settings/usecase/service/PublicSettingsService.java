@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.settings.usecase;
+package com.bernardomg.association.settings.usecase.service;
 
 import com.bernardomg.association.settings.domain.PublicSettings;
 

@@ -1,7 +1,7 @@
 
 package com.bernardomg.association.settings.test.configuration.factory;
 
-import com.bernardomg.association.settings.usecase.AssociationSettingsKey;
+import com.bernardomg.association.settings.usecase.service.AssociationSettingsKey;
 import com.bernardomg.settings.domain.model.Setting;
 import com.bernardomg.settings.test.configuration.factory.SettingConstants;
 
