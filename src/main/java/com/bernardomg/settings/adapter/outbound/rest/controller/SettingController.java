@@ -22,17 +22,25 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.settings.adapter.outbound.rest.controller;
+package com.bernardomg.settings.adapter.outbound.rest.controller;
+
+import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.settings.usecase.AssociationSettingsKey;
+import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.access.annotation.Unsecured;
+import com.bernardomg.security.permission.domain.constant.Actions;
+import com.bernardomg.settings.adapter.outbound.rest.model.SettingsDtoMapper;
 import com.bernardomg.settings.domain.model.Setting;
 import com.bernardomg.settings.usecase.service.SettingService;
-import com.bernardomg.ucronia.openapi.api.PublicSettingsApi;
-import com.bernardomg.ucronia.openapi.model.PublicSettingsDto;
-import com.bernardomg.ucronia.openapi.model.PublicSettingsResponseDto;
+import com.bernardomg.ucronia.openapi.api.SettingsApi;
+import com.bernardomg.ucronia.openapi.model.SettingResponseDto;
+import com.bernardomg.ucronia.openapi.model.SettingUpdateDto;
+import com.bernardomg.ucronia.openapi.model.SettingsResponseDto;
+
+import jakarta.validation.Valid;
 
 /**
  * Settings REST controller.
@@ -41,32 +49,41 @@ import com.bernardomg.ucronia.openapi.model.PublicSettingsResponseDto;
  *
  */
 @RestController
-public class AssociationPublicSettingController implements PublicSettingsApi {
+public class SettingController implements SettingsApi {
 
     private final SettingService service;
 
-    public AssociationPublicSettingController(final SettingService service) {
+    public SettingController(final SettingService service) {
         super();
+        // TODO: are the permissions correct?
         this.service = service;
     }
 
     @Override
     @Unsecured
-    public PublicSettingsResponseDto getPublicSettings() {
-        final String            calendarId;
-        final String            mapId;
-        final PublicSettingsDto settings;
+    public SettingsResponseDto getAllSettings() {
+        final Collection<Setting> settings;
 
-        calendarId = service.getOne(AssociationSettingsKey.TEAMUP)
-            .map(Setting::value)
-            .orElse(null);
-        mapId = service.getOne(AssociationSettingsKey.GOOGLE_MAPS)
-            .map(Setting::value)
-            .orElse(null);
+        settings = service.getAll();
+        return SettingsDtoMapper.toResponseDto(settings);
+    }
 
-        settings = new PublicSettingsDto().calendarCode(calendarId)
-            .mapCode(mapId);
-        return new PublicSettingsResponseDto().content(settings);
+    @Override
+    @Unsecured
+    public SettingResponseDto getSettingByCode(final String code) {
+        final Optional<Setting> setting;
+
+        setting = service.getOne(code);
+        return SettingsDtoMapper.toResponseDto(setting);
+    }
+
+    @Override
+    @RequireResourceAuthorization(resource = "ASSOCIATION_SETTINGS", action = Actions.UPDATE)
+    public SettingResponseDto updateSetting(final String code, @Valid final SettingUpdateDto settingUpdateDto) {
+        final Setting setting;
+
+        setting = service.update(code, settingUpdateDto.getValue());
+        return SettingsDtoMapper.toResponseDto(setting);
     }
 
 }

@@ -38,9 +38,13 @@ components:
     PublicSettings:
       type: object
       properties:
-        mapCode:
+        map:
           type: string
-        calendarCode:
+        calendar:
+          type: string
+        email:
+          type: string
+        instagram:
           type: string
     PublicSettingsResponse:
       type: object

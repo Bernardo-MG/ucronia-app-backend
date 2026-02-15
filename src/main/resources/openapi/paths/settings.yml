@@ -1,7 +1,7 @@
 get:
   summary: Get all settings.
-  operationId: getAllAssociationSettings
-  tags: [AssociationSettings]
+  operationId: getAllSettings
+  tags: [Settings]
   responses:
     '200':
       description: List of all association settings.

@@ -51,7 +51,7 @@ public class ITSettingRepositorySave {
     }
 
     @Test
-    @DisplayName("When saving the fee amount, the setting is persisted")
+    @DisplayName("When updating the fee amount, the setting is persisted")
     @CleanSetting
     @IntegerSetting
     void testSave_Persisted() {
@@ -74,7 +74,7 @@ public class ITSettingRepositorySave {
     }
 
     @Test
-    @DisplayName("When saving the fee amount, the setting is returned")
+    @DisplayName("When updating the fee amount, the setting is returned")
     @IntegerSetting
     void testSave_Returned() {
         final Setting setting;
