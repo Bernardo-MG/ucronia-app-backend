@@ -4,7 +4,7 @@ package com.bernardomg.association.settings.usecase.loader;
 import java.util.Collection;
 import java.util.List;
 
-import com.bernardomg.association.settings.usecase.service.AssociationSettingsKey;
+import com.bernardomg.association.settings.usecase.constant.AssociationSettingsKey;
 import com.bernardomg.security.initializer.usecase.loader.Loader;
 import com.bernardomg.settings.domain.model.Setting;
 import com.bernardomg.settings.domain.repository.SettingRepository;

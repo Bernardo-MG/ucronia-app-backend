@@ -39,7 +39,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.association.settings.domain.PublicSettings;
 import com.bernardomg.association.settings.test.configuration.factory.AssociationSettings;
 import com.bernardomg.association.settings.test.configuration.factory.AssociationSettingsConstants;
-import com.bernardomg.association.settings.usecase.service.AssociationSettingsKey;
+import com.bernardomg.association.settings.usecase.constant.AssociationSettingsKey;
 import com.bernardomg.association.settings.usecase.service.DefaultPublicSettingsService;
 import com.bernardomg.settings.domain.repository.SettingRepository;
 
