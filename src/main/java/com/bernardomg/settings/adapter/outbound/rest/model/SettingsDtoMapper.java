@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.settings.adapter.outbound.rest.model;
+package com.bernardomg.settings.adapter.outbound.rest.model;
 
 import java.util.Collection;
 import java.util.Optional;

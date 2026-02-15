@@ -23,7 +23,7 @@
  */
 
 /**
- * Association settings service.
+ * Settings configuration.
  */
 
-package com.bernardomg.association.settings.usecase;
+package com.bernardomg.settings.configuration;
