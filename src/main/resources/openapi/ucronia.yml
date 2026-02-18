@@ -47,6 +47,8 @@ paths:
     $ref: paths/member_profiles_by_id.yml
   /member:
     $ref: paths/members.yml
+  /member/summary:
+    $ref: paths/members_summary.yml
   /member/{number}:
     $ref: paths/members_by_id.yml
   /member/evolution:
