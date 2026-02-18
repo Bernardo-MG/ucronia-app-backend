@@ -22,27 +22,14 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.usecase.service;
+package com.bernardomg.association.transaction.domain.repository;
 
-import java.util.Collection;
+import java.util.Optional;
 
-import com.bernardomg.association.transaction.domain.model.TransactionBalanceQuery;
-import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
+import com.bernardomg.association.transaction.domain.model.TransactionSummary;
 
-/**
- * Transaction balance service.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- */
-public interface TransactionBalanceService {
+public interface TransactionSummaryRepository {
 
-    /**
-     * Returns the monthly balances for the query.
-     *
-     * @param query
-     *            query to filter balances
-     * @return the monthly balances
-     */
-    public Collection<TransactionMonthlyBalance> getMonthlyBalance(final TransactionBalanceQuery query);
+    public Optional<TransactionSummary> findSummary();
 
 }

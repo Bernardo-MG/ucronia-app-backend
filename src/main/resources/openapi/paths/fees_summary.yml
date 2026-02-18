@@ -1,5 +1,5 @@
 get:
-  summary: Returns fee payments balance
+  summary: Returns fee payments summary
   operationId: getFeeSummary
   tags: [FeeSummary]
   responses:

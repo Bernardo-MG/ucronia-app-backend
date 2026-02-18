@@ -36,50 +36,50 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.transaction.domain.model.TransactionCurrentBalance;
-import com.bernardomg.association.transaction.domain.repository.TransactionBalanceRepository;
+import com.bernardomg.association.transaction.domain.model.TransactionSummary;
+import com.bernardomg.association.transaction.domain.repository.TransactionSummaryRepository;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionCurrentBalances;
-import com.bernardomg.association.transaction.usecase.service.DefaultTransactionBalanceService;
+import com.bernardomg.association.transaction.usecase.service.DefaultTransactionSummaryService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Transaction balance service - get balance")
-class TestTransactionBalanceServiceGetBalance {
+@DisplayName("Transaction summary service - get summary")
+class TestTransactionBalanceServiceGetSummary {
 
     @InjectMocks
-    private DefaultTransactionBalanceService service;
+    private DefaultTransactionSummaryService service;
 
     @Mock
-    private TransactionBalanceRepository     transactionBalanceRepository;
+    private TransactionSummaryRepository     transactionSummaryRepository;
 
     @Test
     @DisplayName("When there is data it is returned")
     void testGetBalance() {
-        final TransactionCurrentBalance balance;
+        final TransactionSummary summary;
 
         // GIVEN
-        given(transactionBalanceRepository.findCurrent()).willReturn(Optional.of(TransactionCurrentBalances.amount(1)));
+        given(transactionSummaryRepository.findSummary()).willReturn(Optional.of(TransactionCurrentBalances.amount(1)));
 
         // WHEN
-        balance = service.getBalance();
+        summary = service.getSummary();
 
         // THEN
-        Assertions.assertThat(balance)
+        Assertions.assertThat(summary)
             .isEqualTo(TransactionCurrentBalances.amount(1));
     }
 
     @Test
     @DisplayName("When there is no data nothing is returned")
     void testGetBalance_NoData() {
-        final TransactionCurrentBalance balance;
+        final TransactionSummary summary;
 
         // GIVEN
-        given(transactionBalanceRepository.findCurrent()).willReturn(Optional.empty());
+        given(transactionSummaryRepository.findSummary()).willReturn(Optional.empty());
 
         // WHEN
-        balance = service.getBalance();
+        summary = service.getSummary();
 
         // THEN
-        Assertions.assertThat(balance)
+        Assertions.assertThat(summary)
             .isEqualTo(TransactionCurrentBalances.amount(0));
     }
 

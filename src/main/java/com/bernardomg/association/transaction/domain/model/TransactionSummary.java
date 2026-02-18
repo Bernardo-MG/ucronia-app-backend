@@ -24,6 +24,6 @@
 
 package com.bernardomg.association.transaction.domain.model;
 
-public record TransactionCurrentBalance(Float results, Float total) {
+public record TransactionSummary(Float results, Float total) {
 
 }

@@ -1,21 +1,17 @@
 components:
   schemas:
-    TransactionMonthlyBalance:
+    TransactionSummary:
       type: object
       required: [results, total]
       properties:
-        month:
-          $ref: '../common/dates.yml#/components/schemas/Month'
         results:
           type: number
           format: float
         total:
           type: number
           format: float
-    TransactionMonthlyBalanceResponse:
+    TransactionSummaryResponse:
       type: object
       properties:
         content:
-          type: array
-          items:
-            $ref: '#/components/schemas/TransactionMonthlyBalance'
+          $ref: '#/components/schemas/TransactionSummary'

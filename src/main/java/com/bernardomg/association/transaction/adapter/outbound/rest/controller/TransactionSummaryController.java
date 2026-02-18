@@ -24,21 +24,15 @@
 
 package com.bernardomg.association.transaction.adapter.outbound.rest.controller;
 
-import java.time.Instant;
-import java.util.Collection;
-
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.transaction.adapter.outbound.rest.model.TransactionBalanceDtoMapper;
-import com.bernardomg.association.transaction.domain.model.TransactionBalanceQuery;
-import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
-import com.bernardomg.association.transaction.usecase.service.TransactionBalanceService;
+import com.bernardomg.association.transaction.adapter.outbound.rest.model.TransactionDtoMapper;
+import com.bernardomg.association.transaction.domain.model.TransactionSummary;
+import com.bernardomg.association.transaction.usecase.service.TransactionSummaryService;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
-import com.bernardomg.ucronia.openapi.api.TransactionBalanceApi;
-import com.bernardomg.ucronia.openapi.model.TransactionMonthlyBalanceResponseDto;
-
-import jakarta.validation.Valid;
+import com.bernardomg.ucronia.openapi.api.TransactionSummaryApi;
+import com.bernardomg.ucronia.openapi.model.TransactionSummaryResponseDto;
 
 /**
  * Balance REST controller.
@@ -47,28 +41,26 @@ import jakarta.validation.Valid;
  *
  */
 @RestController
-public class TransactionBalanceController implements TransactionBalanceApi {
+public class TransactionSummaryController implements TransactionSummaryApi {
 
     /**
      * Balance service
      */
-    private final TransactionBalanceService service;
+    private final TransactionSummaryService service;
 
-    public TransactionBalanceController(final TransactionBalanceService service) {
+    public TransactionSummaryController(final TransactionSummaryService service) {
         super();
         this.service = service;
     }
 
     @Override
     @RequireResourceAuthorization(resource = "BALANCE", action = Actions.READ)
-    public TransactionMonthlyBalanceResponseDto getMonthlyTransactionBalance(@Valid final Instant from,
-            @Valid final Instant to) {
-        final Collection<TransactionMonthlyBalance> balance;
-        final TransactionBalanceQuery               query;
+    public TransactionSummaryResponseDto getTransactionSummary() {
+        final TransactionSummary summary;
 
-        query = new TransactionBalanceQuery(from, to);
-        balance = service.getMonthlyBalance(query);
-        return TransactionBalanceDtoMapper.toResponseDto(balance);
+        summary = service.getSummary();
+
+        return TransactionDtoMapper.toResponseDto(summary);
     }
 
 }

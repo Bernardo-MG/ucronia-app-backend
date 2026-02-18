@@ -24,41 +24,20 @@
 
 package com.bernardomg.association.transaction.usecase.service;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
-
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.bernardomg.association.transaction.domain.model.TransactionBalanceQuery;
-import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
-import com.bernardomg.association.transaction.domain.repository.TransactionBalanceRepository;
-import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.association.transaction.domain.model.TransactionSummary;
 
 /**
- * Default implementation of the balance service.
+ * Transaction summary service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
-@Service
-@Transactional
-public final class DefaultTransactionBalanceService implements TransactionBalanceService {
+public interface TransactionSummaryService {
 
-    private final TransactionBalanceRepository transactionBalanceRepository;
-
-    public DefaultTransactionBalanceService(final TransactionBalanceRepository transactionBalanceRepo) {
-        super();
-
-        transactionBalanceRepository = Objects.requireNonNull(transactionBalanceRepo);
-    }
-
-    @Override
-    public final Collection<TransactionMonthlyBalance> getMonthlyBalance(final TransactionBalanceQuery query) {
-        final Sorting sorting;
-
-        sorting = new Sorting(List.of(Sorting.Property.asc("month")));
-        return transactionBalanceRepository.findMonthlyBalance(query, sorting);
-    }
+    /**
+     * Returns the summary.
+     *
+     * @return the summary
+     */
+    public TransactionSummary getSummary();
 
 }
