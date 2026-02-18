@@ -22,8 +22,23 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.domain.model;
+package com.bernardomg.association.fee.usecase.service;
 
-public record FeeBalance(Long paid, Long unpaid) {
+import com.bernardomg.association.fee.domain.model.FeeSummary;
+
+/**
+ * Fee summary service.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+public interface FeeSummaryService {
+
+    /**
+     * Returns the fee payments summary.
+     *
+     * @return the fee payments summary
+     */
+    public FeeSummary getFeeSummary();
 
 }

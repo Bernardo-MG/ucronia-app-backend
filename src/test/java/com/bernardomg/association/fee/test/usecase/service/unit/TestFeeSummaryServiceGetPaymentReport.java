@@ -35,41 +35,41 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.fee.domain.model.FeeBalance;
-import com.bernardomg.association.fee.domain.repository.FeeBalanceRepository;
-import com.bernardomg.association.fee.test.configuration.factory.FeeBalances;
-import com.bernardomg.association.fee.usecase.service.DefaultFeeBalanceService;
+import com.bernardomg.association.fee.domain.model.FeeSummary;
+import com.bernardomg.association.fee.domain.repository.FeeSummaryRepository;
+import com.bernardomg.association.fee.test.configuration.factory.FeeSummaries;
+import com.bernardomg.association.fee.usecase.service.DefaultFeeSummaryService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Fee balance service - get fee balance")
-class TestFeeBalanceServiceGetPaymentReport {
+@DisplayName("Fee summary service - get fee summary")
+class TestFeeSummaryServiceGetPaymentReport {
 
     @Mock
-    private FeeBalanceRepository     feeBalanceRepository;
+    private FeeSummaryRepository     feeBalanceRepository;
 
     @InjectMocks
-    private DefaultFeeBalanceService service;
+    private DefaultFeeSummaryService service;
 
-    public TestFeeBalanceServiceGetPaymentReport() {
+    public TestFeeSummaryServiceGetPaymentReport() {
         super();
     }
 
     @Test
     @DisplayName("When there is data it is returned")
     void testGetFeeBalance() {
-        final FeeBalance balance;
-        final FeeBalance read;
+        final FeeSummary summary;
+        final FeeSummary read;
 
         // GIVEN
-        balance = FeeBalances.both();
-        given(feeBalanceRepository.findForMonth(ArgumentMatchers.any())).willReturn(balance);
+        summary = FeeSummaries.both();
+        given(feeBalanceRepository.findForMonth(ArgumentMatchers.any())).willReturn(summary);
 
         // WHEN
-        read = service.getFeeBalance();
+        read = service.getFeeSummary();
 
         // THEN
-        assertThat(read).as("balance")
-            .isEqualTo(balance);
+        assertThat(read).as("summary")
+            .isEqualTo(summary);
     }
 
 }

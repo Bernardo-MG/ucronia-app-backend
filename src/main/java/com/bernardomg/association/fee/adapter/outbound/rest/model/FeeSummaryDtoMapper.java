@@ -24,21 +24,21 @@
 
 package com.bernardomg.association.fee.adapter.outbound.rest.model;
 
-import com.bernardomg.association.fee.domain.model.FeeBalance;
-import com.bernardomg.ucronia.openapi.model.FeeBalanceDto;
-import com.bernardomg.ucronia.openapi.model.FeeBalanceResponseDto;
+import com.bernardomg.association.fee.domain.model.FeeSummary;
+import com.bernardomg.ucronia.openapi.model.FeeSummaryDto;
+import com.bernardomg.ucronia.openapi.model.FeeSummaryResponseDto;
 
-public final class FeeBalanceDtoMapper {
+public final class FeeSummaryDtoMapper {
 
-    public static final FeeBalanceResponseDto toResponseDto(final FeeBalance balance) {
-        final FeeBalanceDto reportDto;
+    public static final FeeSummaryResponseDto toResponseDto(final FeeSummary summary) {
+        final FeeSummaryDto reportDto;
 
-        reportDto = new FeeBalanceDto().paid(balance.paid())
-            .unpaid(balance.unpaid());
-        return new FeeBalanceResponseDto().content(reportDto);
+        reportDto = new FeeSummaryDto().paid(summary.paid())
+            .unpaid(summary.unpaid());
+        return new FeeSummaryResponseDto().content(reportDto);
     }
 
-    private FeeBalanceDtoMapper() {
+    private FeeSummaryDtoMapper() {
         super();
     }
 

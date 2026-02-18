@@ -1,0 +1,11 @@
+get:
+  summary: Returns fee payments balance
+  operationId: getFeeSummary
+  tags: [FeeSummary]
+  responses:
+    '200':
+      description: Fee payment summary
+      content:
+        application/json:
+          schema:
+            $ref: '../components/fees_summary.yml#/components/schemas/FeeSummaryResponse'

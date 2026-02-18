@@ -22,14 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.domain.repository;
+package com.bernardomg.association.fee.domain.model;
 
-import java.time.YearMonth;
-
-import com.bernardomg.association.fee.domain.model.FeeBalance;
-
-public interface FeeBalanceRepository {
-
-    public FeeBalance findForMonth(final YearMonth date);
+public record FeeSummary(Long paid, Long unpaid) {
 
 }

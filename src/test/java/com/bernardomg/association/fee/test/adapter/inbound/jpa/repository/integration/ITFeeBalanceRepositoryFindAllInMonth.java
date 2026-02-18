@@ -29,8 +29,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.fee.domain.model.FeeBalance;
-import com.bernardomg.association.fee.domain.repository.FeeBalanceRepository;
+import com.bernardomg.association.fee.domain.model.FeeSummary;
+import com.bernardomg.association.fee.domain.repository.FeeSummaryRepository;
 import com.bernardomg.association.fee.test.configuration.data.annotation.AlternativePaidFee;
 import com.bernardomg.association.fee.test.configuration.data.annotation.NotPaidFee;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFee;
@@ -42,48 +42,48 @@ import com.bernardomg.association.member.test.configuration.data.annotation.Inac
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("FeeBalanceRepository - find all in month")
-class ITFeeBalanceRepositoryFindForMonth {
+@DisplayName("FeeSummaryRepository - find all in month")
+class ITFeeSummaryRepositoryFindForMonth {
 
     @Autowired
-    private FeeBalanceRepository repository;
+    private FeeSummaryRepository repository;
 
     @Test
     @DisplayName("With no data, it returns nothing")
     void testFindForMonth_NoData() {
-        final FeeBalance balance;
+        final FeeSummary summary;
 
         // WHEN
-        balance = repository.findForMonth(FeeConstants.DATE);
+        summary = repository.findForMonth(FeeConstants.DATE);
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(balance.paid())
+            softly.assertThat(summary.paid())
                 .as("paid fees")
                 .isZero();
-            softly.assertThat(balance.unpaid())
+            softly.assertThat(summary.unpaid())
                 .as("unpaid fees")
                 .isZero();
         });
     }
 
     @Test
-    @DisplayName("With a paid fee, for an active member, the correct balance is returned")
+    @DisplayName("With a paid fee, for an active member, the correct summary is returned")
     @PositiveFeeType
     @ActiveMember
     @PaidFee
     void testFindForMonth_Paid_Active() {
-        final FeeBalance balance;
+        final FeeSummary summary;
 
         // WHEN
-        balance = repository.findForMonth(FeeConstants.DATE);
+        summary = repository.findForMonth(FeeConstants.DATE);
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(balance.paid())
+            softly.assertThat(summary.paid())
                 .as("paid fees")
                 .isEqualTo(1);
-            softly.assertThat(balance.unpaid())
+            softly.assertThat(summary.unpaid())
                 .as("unpaid fees")
                 .isZero();
         });
@@ -95,85 +95,85 @@ class ITFeeBalanceRepositoryFindForMonth {
     @ActiveMember
     @PaidFee
     void testFindForMonth_Paid_Active_WrongMonth() {
-        final FeeBalance balance;
+        final FeeSummary summary;
 
         // WHEN
-        balance = repository.findForMonth(FeeConstants.DATE.plusMonths(1));
+        summary = repository.findForMonth(FeeConstants.DATE.plusMonths(1));
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(balance.paid())
+            softly.assertThat(summary.paid())
                 .as("paid fees")
                 .isZero();
-            softly.assertThat(balance.unpaid())
+            softly.assertThat(summary.unpaid())
                 .as("unpaid fees")
                 .isZero();
         });
     }
 
     @Test
-    @DisplayName("With a paid fee, for an inactive member, the correct balance is returned")
+    @DisplayName("With a paid fee, for an inactive member, the correct summary is returned")
     @PositiveFeeType
     @InactiveMember
     @PaidFee
     void testFindForMonth_Paid_Inactive() {
-        final FeeBalance balance;
+        final FeeSummary summary;
 
         // WHEN
-        balance = repository.findForMonth(FeeConstants.DATE);
+        summary = repository.findForMonth(FeeConstants.DATE);
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(balance.paid())
+            softly.assertThat(summary.paid())
                 .as("paid fees")
                 .isEqualTo(1);
-            softly.assertThat(balance.unpaid())
+            softly.assertThat(summary.unpaid())
                 .as("unpaid fees")
                 .isZero();
         });
     }
 
     @Test
-    @DisplayName("With a paid fee, for an active member, the correct balance is returned")
+    @DisplayName("With a paid fee, for an active member, the correct summary is returned")
     @PositiveFeeType
     @ActiveMember
     @AlternativeActiveMember
     @NotPaidFee
     @AlternativePaidFee
     void testFindForMonth_PaidAndNotPaid_Active() {
-        final FeeBalance balance;
+        final FeeSummary summary;
 
         // WHEN
-        balance = repository.findForMonth(FeeConstants.DATE);
+        summary = repository.findForMonth(FeeConstants.DATE);
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(balance.paid())
+            softly.assertThat(summary.paid())
                 .as("paid fees")
                 .isEqualTo(1);
-            softly.assertThat(balance.unpaid())
+            softly.assertThat(summary.unpaid())
                 .as("unpaid fees")
                 .isEqualTo(1);
         });
     }
 
     @Test
-    @DisplayName("With an unpaid fee, for an active member, the correct balance is returned")
+    @DisplayName("With an unpaid fee, for an active member, the correct summary is returned")
     @PositiveFeeType
     @ActiveMember
     @NotPaidFee
     void testFindForMonth_Unpaid_Active() {
-        final FeeBalance balance;
+        final FeeSummary summary;
 
         // WHEN
-        balance = repository.findForMonth(FeeConstants.DATE);
+        summary = repository.findForMonth(FeeConstants.DATE);
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(balance.paid())
+            softly.assertThat(summary.paid())
                 .as("paid fees")
                 .isZero();
-            softly.assertThat(balance.unpaid())
+            softly.assertThat(summary.unpaid())
                 .as("unpaid fees")
                 .isEqualTo(1);
         });
@@ -185,39 +185,39 @@ class ITFeeBalanceRepositoryFindForMonth {
     @ActiveMember
     @NotPaidFee
     void testFindForMonth_Unpaid_Active_WrongMonth() {
-        final FeeBalance balance;
+        final FeeSummary summary;
 
         // WHEN
-        balance = repository.findForMonth(FeeConstants.DATE.plusMonths(1));
+        summary = repository.findForMonth(FeeConstants.DATE.plusMonths(1));
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(balance.paid())
+            softly.assertThat(summary.paid())
                 .as("paid fees")
                 .isZero();
-            softly.assertThat(balance.unpaid())
+            softly.assertThat(summary.unpaid())
                 .as("unpaid fees")
                 .isZero();
         });
     }
 
     @Test
-    @DisplayName("With an unpaid fee, for an inactive member, the correct balance is returned")
+    @DisplayName("With an unpaid fee, for an inactive member, the correct summary is returned")
     @PositiveFeeType
     @InactiveMember
     @NotPaidFee
     void testFindForMonth_Unpaid_Inactive() {
-        final FeeBalance balance;
+        final FeeSummary summary;
 
         // WHEN
-        balance = repository.findForMonth(FeeConstants.DATE);
+        summary = repository.findForMonth(FeeConstants.DATE);
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(balance.paid())
+            softly.assertThat(summary.paid())
                 .as("paid fees")
                 .isZero();
-            softly.assertThat(balance.unpaid())
+            softly.assertThat(summary.unpaid())
                 .as("unpaid fees")
                 .isEqualTo(1);
         });

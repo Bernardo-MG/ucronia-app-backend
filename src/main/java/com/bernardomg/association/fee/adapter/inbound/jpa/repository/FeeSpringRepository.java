@@ -37,7 +37,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeEntity;
-import com.bernardomg.association.fee.domain.model.FeeBalance;
+import com.bernardomg.association.fee.domain.model.FeeSummary;
 
 public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, JpaSpecificationExecutor<FeeEntity> {
 
@@ -168,13 +168,13 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
     public Collection<Integer> findYears();
 
     @Query("""
-            SELECT new com.bernardomg.association.fee.domain.model.FeeBalance(
+            SELECT new com.bernardomg.association.fee.domain.model.FeeSummary(
               COALESCE(SUM(CASE WHEN f.paid = TRUE THEN 1 ELSE 0 END), 0),
               COALESCE(SUM(CASE WHEN f.paid = FALSE THEN 1 ELSE 0 END), 0)
             )
             FROM Fee f
             WHERE f.month = :monthStart
             """)
-    FeeBalance findBalanceForMonth(@Param("monthStart") Instant monthStart);
+    FeeSummary findBalanceForMonth(@Param("monthStart") Instant monthStart);
 
 }
