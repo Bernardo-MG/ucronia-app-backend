@@ -22,26 +22,34 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.adapter.inbound.jpa.repository;
+package com.bernardomg.association.member.adapter.outbound.rest.controller;
 
-import java.util.Optional;
+import org.springframework.web.bind.annotation.RestController;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import com.bernardomg.association.member.usecase.service.MemberService;
+import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
+import com.bernardomg.security.permission.domain.constant.Actions;
+import com.bernardomg.ucronia.openapi.api.MemberSummaryApi;
+import com.bernardomg.ucronia.openapi.model.MemberSummaryResponseDto;
 
-import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
+/**
+ * Member summary REST controller.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+@RestController
+public class MemberSummaryController implements MemberSummaryApi {
 
-public interface MemberSpringRepository
-        extends JpaRepository<MemberEntity, Long>, JpaSpecificationExecutor<MemberEntity> {
+    public MemberSummaryController(final MemberService service) {
+        super();
+    }
 
-    public Page<MemberEntity> findAllByActiveTrue(final Pageable pageable);
-
-    public Optional<MemberEntity> findByNumberAndActiveTrue(final Long number);
-
-    long countByActiveTrue();
-
-    long countByActiveTrueAndRenewTrue();
+    @Override
+    @RequireResourceAuthorization(resource = "MEMBER", action = Actions.READ)
+    public MemberSummaryResponseDto getMemberSummary() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 }

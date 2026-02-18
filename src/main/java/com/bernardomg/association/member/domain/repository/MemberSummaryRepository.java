@@ -22,26 +22,12 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.adapter.inbound.jpa.repository;
+package com.bernardomg.association.member.domain.repository;
 
-import java.util.Optional;
+import com.bernardomg.association.member.domain.model.MemberSummary;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+public interface MemberSummaryRepository {
 
-import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
-
-public interface MemberSpringRepository
-        extends JpaRepository<MemberEntity, Long>, JpaSpecificationExecutor<MemberEntity> {
-
-    public Page<MemberEntity> findAllByActiveTrue(final Pageable pageable);
-
-    public Optional<MemberEntity> findByNumberAndActiveTrue(final Long number);
-
-    long countByActiveTrue();
-
-    long countByActiveTrueAndRenewTrue();
+    public MemberSummary findCurrent();
 
 }
