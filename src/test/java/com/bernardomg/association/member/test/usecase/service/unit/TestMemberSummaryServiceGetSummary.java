@@ -37,17 +37,17 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.association.member.domain.model.MemberSummary;
 import com.bernardomg.association.member.domain.repository.MemberSummaryRepository;
 import com.bernardomg.association.member.test.configuration.factory.MemberSummaries;
-import com.bernardomg.association.member.usecase.service.MemberSummaryService;
+import com.bernardomg.association.member.usecase.service.DefaultMemberSummaryService;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("MemberSummaryService - get summary")
 class TestMemberSummaryServiceGetSummary {
 
     @Mock
-    private MemberSummaryRepository memberSummaryRepository;
+    private MemberSummaryRepository     memberSummaryRepository;
 
     @InjectMocks
-    private MemberSummaryService    service;
+    private DefaultMemberSummaryService service;
 
     @Test
     @DisplayName("It returns the summary")
