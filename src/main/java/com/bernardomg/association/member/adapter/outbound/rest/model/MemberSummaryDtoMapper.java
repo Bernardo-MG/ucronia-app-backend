@@ -22,26 +22,25 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.adapter.inbound.jpa.repository;
+package com.bernardomg.association.member.adapter.outbound.rest.model;
 
-import java.util.Optional;
+import com.bernardomg.association.member.domain.model.MemberSummary;
+import com.bernardomg.ucronia.openapi.model.MemberSummaryDto;
+import com.bernardomg.ucronia.openapi.model.MemberSummaryResponseDto;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+public final class MemberSummaryDtoMapper {
 
-import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
+    public static final MemberSummaryResponseDto toResponseDto(final MemberSummary summary) {
+        return new MemberSummaryResponseDto().content(MemberSummaryDtoMapper.toDto(summary));
+    }
 
-public interface MemberSpringRepository
-        extends JpaRepository<MemberEntity, Long>, JpaSpecificationExecutor<MemberEntity> {
+    private static final MemberSummaryDto toDto(final MemberSummary summary) {
+        return new MemberSummaryDto().active(summary.active())
+            .renew(summary.renew());
+    }
 
-    public Page<MemberEntity> findAllByActiveTrue(final Pageable pageable);
-
-    public Optional<MemberEntity> findByNumberAndActiveTrue(final Long number);
-
-    long countByActiveTrue();
-
-    long countByActiveTrueAndRenewTrue();
+    private MemberSummaryDtoMapper() {
+        super();
+    }
 
 }

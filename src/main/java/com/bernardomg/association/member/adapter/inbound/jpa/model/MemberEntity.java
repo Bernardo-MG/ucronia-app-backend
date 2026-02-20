@@ -40,6 +40,9 @@ public class MemberEntity implements Serializable {
     @Column(name = "number", table = "profiles")
     private Long              number;
 
+    @Column(name = "renew_membership", table = "members", nullable = false)
+    private Boolean           renew;
+
     @Override
     public boolean equals(final Object obj) {
         if (this == obj) {
