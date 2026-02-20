@@ -22,6 +22,9 @@ components:
           $ref: '../common/ids.yml#/components/schemas/Id'
         name:
           $ref: 'profiles.yml#/components/schemas/ProfileName'
+        renew:
+          type: boolean
+          description: Whether the member is eligible for renewal.
     MemberProfile:
       type: object
       required: [number, name]

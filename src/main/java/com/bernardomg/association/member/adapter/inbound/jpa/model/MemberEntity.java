@@ -74,6 +74,10 @@ public class MemberEntity implements Serializable {
         return number;
     }
 
+    public Boolean getRenew() {
+        return renew;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(id);
@@ -99,10 +103,14 @@ public class MemberEntity implements Serializable {
         this.number = number;
     }
 
+    public void setRenew(final Boolean renew) {
+        this.renew = renew;
+    }
+
     @Override
     public String toString() {
         return "MemberEntity [id=" + id + ", number=" + number + ", firstName=" + firstName + ", lastName=" + lastName
-                + ", active=" + active + "]";
+                + ", active=" + active + ", renew=" + renew + "]";
     }
 
 }

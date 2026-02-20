@@ -36,7 +36,7 @@ public final class MemberEntityMapper {
         final ProfileName name;
 
         name = new ProfileName(entity.getFirstName(), entity.getLastName());
-        return new Member(entity.getNumber(), name);
+        return new Member(entity.getNumber(), name, entity.getRenew());
     }
 
     private MemberEntityMapper() {

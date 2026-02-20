@@ -35,6 +35,7 @@ import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveToNotRenewMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
 import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
@@ -121,6 +122,31 @@ class ITMemberRepositoryFindAll {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();
+    }
+
+    @Test
+    @DisplayName("With an active member with no renewal, it is returned")
+    @PositiveFeeType
+    @ActiveToNotRenewMember
+    void testFindAll_NoRenew() {
+        final Page<Member> members;
+        final Pagination   pagination;
+        final Sorting      sorting;
+        final MemberFilter filter;
+
+        // GIVEN
+        pagination = new Pagination(1, 100);
+        sorting = Sorting.unsorted();
+        filter = new MemberFilter("");
+
+        // WHEN
+        members = repository.findAll(filter, pagination, sorting);
+
+        // THEN
+        Assertions.assertThat(members)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .containsExactly(Members.noRenew());
     }
 
     @Test

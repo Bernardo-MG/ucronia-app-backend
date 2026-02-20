@@ -11,21 +11,28 @@ public final class Members {
         final ProfileName name;
 
         name = new ProfileName(ProfileConstants.ALTERNATIVE_FIRST_NAME, ProfileConstants.ALTERNATIVE_LAST_NAME);
-        return new Member(ProfileConstants.ALTERNATIVE_NUMBER, name);
+        return new Member(ProfileConstants.ALTERNATIVE_NUMBER, name, true);
     }
 
     public static final Member forNumber(final long number) {
         final ProfileName name;
 
         name = new ProfileName("Profile " + number, "Last name " + number);
-        return new Member(number * 10, name);
+        return new Member(number * 10, name, true);
+    }
+
+    public static final Member noRenew() {
+        final ProfileName name;
+
+        name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
+        return new Member(ProfileConstants.NUMBER, name, false);
     }
 
     public static final Member valid() {
         final ProfileName name;
 
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        return new Member(ProfileConstants.NUMBER, name);
+        return new Member(ProfileConstants.NUMBER, name, true);
     }
 
 }
