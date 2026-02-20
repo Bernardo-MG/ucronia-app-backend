@@ -22,45 +22,25 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.adapter.outbound.rest.controller;
+package com.bernardomg.association.member.adapter.outbound.rest.model;
 
-import org.springframework.web.bind.annotation.RestController;
-
-import com.bernardomg.association.member.adapter.outbound.rest.model.MemberSummaryDtoMapper;
 import com.bernardomg.association.member.domain.model.MemberSummary;
-import com.bernardomg.association.member.usecase.service.MemberSummaryService;
-import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
-import com.bernardomg.security.permission.domain.constant.Actions;
-import com.bernardomg.ucronia.openapi.api.MemberSummaryApi;
+import com.bernardomg.ucronia.openapi.model.MemberSummaryDto;
 import com.bernardomg.ucronia.openapi.model.MemberSummaryResponseDto;
 
-/**
- * Member summary REST controller.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
- */
-@RestController
-public class MemberSummaryController implements MemberSummaryApi {
+public final class MemberSummaryDtoMapper {
 
-    /**
-     * Member summary service.
-     */
-    private final MemberSummaryService service;
-
-    public MemberSummaryController(final MemberSummaryService service) {
-        super();
-
-        this.service = service;
+    public static final MemberSummaryResponseDto toResponseDto(final MemberSummary summary) {
+        return new MemberSummaryResponseDto().content(MemberSummaryDtoMapper.toDto(summary));
     }
 
-    @Override
-    @RequireResourceAuthorization(resource = "MEMBER", action = Actions.READ)
-    public MemberSummaryResponseDto getMemberSummary() {
-        final MemberSummary summary;
+    private static final MemberSummaryDto toDto(final MemberSummary summary) {
+        return new MemberSummaryDto().active(summary.active())
+            .renew(summary.renew());
+    }
 
-        summary = service.getSummary();
-        return MemberSummaryDtoMapper.toResponseDto(summary);
+    private MemberSummaryDtoMapper() {
+        super();
     }
 
 }
