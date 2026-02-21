@@ -55,6 +55,19 @@ public final class JpaSettingsRepository implements SettingRepository {
     }
 
     @Override
+    public final boolean exists(final String code) {
+        final boolean exists;
+
+        log.trace("Checking if setting {} exists", code);
+
+        exists = settingSpringRepository.existsByCode(code);
+
+        log.trace("Checked if setting {} exists: {}", code, exists);
+
+        return exists;
+    }
+
+    @Override
     public final Collection<Setting> findAll() {
         final Collection<Setting> settings;
         final Sort                sort;
