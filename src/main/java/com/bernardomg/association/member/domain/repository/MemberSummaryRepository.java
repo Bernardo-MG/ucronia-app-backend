@@ -22,25 +22,12 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.adapter.inbound.jpa.model;
+package com.bernardomg.association.member.domain.repository;
 
-import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.profile.domain.model.ProfileName;
+import com.bernardomg.association.member.domain.model.MemberSummary;
 
-/**
- * Query member entity mapper.
- */
-public final class MemberEntityMapper {
+public interface MemberSummaryRepository {
 
-    public static final Member toDomain(final MemberEntity entity) {
-        final ProfileName name;
-
-        name = new ProfileName(entity.getFirstName(), entity.getLastName());
-        return new Member(entity.getNumber(), name, entity.getRenew());
-    }
-
-    private MemberEntityMapper() {
-        super();
-    }
+    public MemberSummary findCurrent();
 
 }

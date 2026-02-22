@@ -30,15 +30,12 @@ import java.util.Collection;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.transaction.adapter.outbound.rest.model.TransactionBalanceDtoMapper;
-import com.bernardomg.association.transaction.adapter.outbound.rest.model.TransactionDtoMapper;
 import com.bernardomg.association.transaction.domain.model.TransactionBalanceQuery;
-import com.bernardomg.association.transaction.domain.model.TransactionCurrentBalance;
 import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
 import com.bernardomg.association.transaction.usecase.service.TransactionBalanceService;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.TransactionBalanceApi;
-import com.bernardomg.ucronia.openapi.model.TransactionCurrentBalanceResponseDto;
 import com.bernardomg.ucronia.openapi.model.TransactionMonthlyBalanceResponseDto;
 
 import jakarta.validation.Valid;
@@ -60,16 +57,6 @@ public class TransactionBalanceController implements TransactionBalanceApi {
     public TransactionBalanceController(final TransactionBalanceService service) {
         super();
         this.service = service;
-    }
-
-    @Override
-    @RequireResourceAuthorization(resource = "BALANCE", action = Actions.READ)
-    public TransactionCurrentBalanceResponseDto getCurrentTransactionBalance() {
-        final TransactionCurrentBalance balance;
-
-        balance = service.getBalance();
-
-        return TransactionDtoMapper.toResponseDto(balance);
     }
 
     @Override

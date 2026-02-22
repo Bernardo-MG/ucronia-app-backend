@@ -22,8 +22,24 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.domain.model;
+package com.bernardomg.association.fee.adapter.outbound.rest.model;
 
-public record FeeBalance(Long paid, Long unpaid) {
+import com.bernardomg.association.fee.domain.model.FeeSummary;
+import com.bernardomg.ucronia.openapi.model.FeeSummaryDto;
+import com.bernardomg.ucronia.openapi.model.FeeSummaryResponseDto;
+
+public final class FeeSummaryDtoMapper {
+
+    public static final FeeSummaryResponseDto toResponseDto(final FeeSummary summary) {
+        final FeeSummaryDto reportDto;
+
+        reportDto = new FeeSummaryDto().paid(summary.paid())
+            .unpaid(summary.unpaid());
+        return new FeeSummaryResponseDto().content(reportDto);
+    }
+
+    private FeeSummaryDtoMapper() {
+        super();
+    }
 
 }

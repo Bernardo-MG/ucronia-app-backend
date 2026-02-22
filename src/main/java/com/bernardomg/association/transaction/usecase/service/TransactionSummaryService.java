@@ -22,25 +22,22 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.adapter.inbound.jpa.model;
+package com.bernardomg.association.transaction.usecase.service;
 
-import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.profile.domain.model.ProfileName;
+import com.bernardomg.association.transaction.domain.model.TransactionSummary;
 
 /**
- * Query member entity mapper.
+ * Transaction summary service.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
  */
-public final class MemberEntityMapper {
+public interface TransactionSummaryService {
 
-    public static final Member toDomain(final MemberEntity entity) {
-        final ProfileName name;
-
-        name = new ProfileName(entity.getFirstName(), entity.getLastName());
-        return new Member(entity.getNumber(), name, entity.getRenew());
-    }
-
-    private MemberEntityMapper() {
-        super();
-    }
+    /**
+     * Returns the summary.
+     *
+     * @return the summary
+     */
+    public TransactionSummary getSummary();
 
 }

@@ -22,8 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.domain.model;
+package com.bernardomg.association.member.domain.model;
 
-public record TransactionCurrentBalance(Float results, Float total) {
+public record MemberSummary(Long active, Long renew) {
 
 }

@@ -22,54 +22,65 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.test.usecase.service.unit;
+package com.bernardomg.association.transaction.test.usecase.service.unit;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
+import java.util.Optional;
+
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.fee.domain.model.FeeBalance;
-import com.bernardomg.association.fee.domain.repository.FeeBalanceRepository;
-import com.bernardomg.association.fee.test.configuration.factory.FeeBalances;
-import com.bernardomg.association.fee.usecase.service.DefaultFeeBalanceService;
+import com.bernardomg.association.transaction.domain.model.TransactionSummary;
+import com.bernardomg.association.transaction.domain.repository.TransactionSummaryRepository;
+import com.bernardomg.association.transaction.test.configuration.factory.TransactionCurrentBalances;
+import com.bernardomg.association.transaction.usecase.service.DefaultTransactionSummaryService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Fee balance service - get fee balance")
-class TestFeeBalanceServiceGetPaymentReport {
-
-    @Mock
-    private FeeBalanceRepository     feeBalanceRepository;
+@DisplayName("Transaction summary service - get summary")
+class TestTransactionBalanceServiceGetSummary {
 
     @InjectMocks
-    private DefaultFeeBalanceService service;
+    private DefaultTransactionSummaryService service;
 
-    public TestFeeBalanceServiceGetPaymentReport() {
-        super();
-    }
+    @Mock
+    private TransactionSummaryRepository     transactionSummaryRepository;
 
     @Test
     @DisplayName("When there is data it is returned")
-    void testGetFeeBalance() {
-        final FeeBalance balance;
-        final FeeBalance read;
+    void testGetBalance() {
+        final TransactionSummary summary;
 
         // GIVEN
-        balance = FeeBalances.both();
-        given(feeBalanceRepository.findForMonth(ArgumentMatchers.any())).willReturn(balance);
+        given(transactionSummaryRepository.findSummary()).willReturn(Optional.of(TransactionCurrentBalances.amount(1)));
 
         // WHEN
-        read = service.getFeeBalance();
+        summary = service.getSummary();
 
         // THEN
-        assertThat(read).as("balance")
-            .isEqualTo(balance);
+        Assertions.assertThat(summary)
+            .isEqualTo(TransactionCurrentBalances.amount(1));
+    }
+
+    @Test
+    @DisplayName("When there is no data nothing is returned")
+    void testGetBalance_NoData() {
+        final TransactionSummary summary;
+
+        // GIVEN
+        given(transactionSummaryRepository.findSummary()).willReturn(Optional.empty());
+
+        // WHEN
+        summary = service.getSummary();
+
+        // THEN
+        Assertions.assertThat(summary)
+            .isEqualTo(TransactionCurrentBalances.amount(0));
     }
 
 }

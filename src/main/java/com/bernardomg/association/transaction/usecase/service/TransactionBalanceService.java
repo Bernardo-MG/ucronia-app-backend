@@ -27,7 +27,6 @@ package com.bernardomg.association.transaction.usecase.service;
 import java.util.Collection;
 
 import com.bernardomg.association.transaction.domain.model.TransactionBalanceQuery;
-import com.bernardomg.association.transaction.domain.model.TransactionCurrentBalance;
 import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
 
 /**
@@ -36,13 +35,6 @@ import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBal
  * @author Bernardo Mart&iacute;nez Garrido
  */
 public interface TransactionBalanceService {
-
-    /**
-     * Returns the current balance.
-     *
-     * @return the current balance
-     */
-    public TransactionCurrentBalance getBalance();
 
     /**
      * Returns the monthly balances for the query.

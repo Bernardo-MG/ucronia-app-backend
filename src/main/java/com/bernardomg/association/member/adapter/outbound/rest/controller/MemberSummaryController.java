@@ -22,50 +22,45 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.library.book.adapter.outbound.rest.controller;
+package com.bernardomg.association.member.adapter.outbound.rest.controller;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.UncheckedIOException;
-
-import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.library.book.usecase.service.BookReportService;
-import com.bernardomg.excel.web.ExcelResponses;
+import com.bernardomg.association.member.adapter.outbound.rest.model.MemberSummaryDtoMapper;
+import com.bernardomg.association.member.domain.model.MemberSummary;
+import com.bernardomg.association.member.usecase.service.MemberSummaryService;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
-import com.bernardomg.ucronia.openapi.api.BookReportApi;
+import com.bernardomg.ucronia.openapi.api.MemberSummaryApi;
+import com.bernardomg.ucronia.openapi.model.MemberSummaryResponseDto;
 
 /**
- * Transaction report REST controller.
+ * Member summary REST controller.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 @RestController
-public class BookReportController implements BookReportApi {
+public class MemberSummaryController implements MemberSummaryApi {
 
     /**
-     * Book report service.
+     * Member summary service.
      */
-    private final BookReportService service;
+    private final MemberSummaryService service;
 
-    public BookReportController(final BookReportService service) {
+    public MemberSummaryController(final MemberSummaryService service) {
         super();
+
         this.service = service;
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "LIBRARY_BOOK", action = Actions.READ)
-    public Resource getBookReport() {
-        try {
-            final ByteArrayOutputStream stream = service.getReport();
-            return ExcelResponses.response(stream, "library")
-                .getBody();
-        } catch (final IOException ex) {
-            throw new UncheckedIOException("Failed to generate Excel report", ex);
-        }
+    @RequireResourceAuthorization(resource = "MEMBER", action = Actions.READ)
+    public MemberSummaryResponseDto getMemberSummary() {
+        final MemberSummary summary;
+
+        summary = service.getSummary();
+        return MemberSummaryDtoMapper.toResponseDto(summary);
     }
 
 }

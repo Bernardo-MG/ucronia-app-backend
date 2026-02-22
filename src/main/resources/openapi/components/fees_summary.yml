@@ -1,6 +1,6 @@
 components:
   schemas:
-    FeeBalance:
+    FeeSummary:
       type: object
       required: [paid, unpaid]
       properties:
@@ -14,8 +14,8 @@ components:
           format: int64
           example: 30
           description: Number of fees that are still unpaid
-    FeeBalanceResponse:
+    FeeSummaryResponse:
       type: object
       properties:
         content:
-          $ref: '#/components/schemas/FeeBalance'
+          $ref: '#/components/schemas/FeeSummary'

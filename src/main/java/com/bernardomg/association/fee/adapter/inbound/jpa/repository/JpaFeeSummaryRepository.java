@@ -22,52 +22,53 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.usecase.service;
+package com.bernardomg.association.fee.adapter.inbound.jpa.repository;
 
+import java.time.Instant;
 import java.time.YearMonth;
+import java.time.ZoneOffset;
 import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.fee.domain.model.FeeBalance;
-import com.bernardomg.association.fee.domain.repository.FeeBalanceRepository;
+import com.bernardomg.association.fee.domain.model.FeeSummary;
+import com.bernardomg.association.fee.domain.repository.FeeSummaryRepository;
 
-/**
- * Default implementation of the fee report service.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- */
-@Service
+@Repository
 @Transactional
-public final class DefaultFeeBalanceService implements FeeBalanceService {
+public final class JpaFeeSummaryRepository implements FeeSummaryRepository {
 
     /**
      * Logger for the class.
      */
-    private static final Logger        log = LoggerFactory.getLogger(DefaultFeeBalanceService.class);
+    private static final Logger       log = LoggerFactory.getLogger(JpaFeeSummaryRepository.class);
 
-    private final FeeBalanceRepository feeBalanceRepository;
+    private final FeeSpringRepository feeSpringRepository;
 
-    public DefaultFeeBalanceService(final FeeBalanceRepository feeBalanceRepo) {
+    public JpaFeeSummaryRepository(final FeeSpringRepository feeSpringRepo) {
         super();
 
-        feeBalanceRepository = Objects.requireNonNull(feeBalanceRepo);
+        feeSpringRepository = Objects.requireNonNull(feeSpringRepo);
     }
 
     @Override
-    public final FeeBalance getFeeBalance() {
-        final FeeBalance balance;
+    public final FeeSummary findForMonth(final YearMonth date) {
+        final FeeSummary summary;
+        final Instant    dateParsed;
 
-        log.info("Getting fee balance");
+        log.debug("Finding summary for month {}", date);
 
-        balance = feeBalanceRepository.findForMonth(YearMonth.now());
+        dateParsed = date.atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
+        summary = feeSpringRepository.findBalanceForMonth(dateParsed);
 
-        log.debug("Got fee balance: {}", balance);
+        log.debug("Found summary for month {}: {}", date, summary);
 
-        return balance;
+        return summary;
     }
 
 }

@@ -22,25 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.adapter.inbound.jpa.model;
+package com.bernardomg.association.fee.domain.model;
 
-import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.profile.domain.model.ProfileName;
-
-/**
- * Query member entity mapper.
- */
-public final class MemberEntityMapper {
-
-    public static final Member toDomain(final MemberEntity entity) {
-        final ProfileName name;
-
-        name = new ProfileName(entity.getFirstName(), entity.getLastName());
-        return new Member(entity.getNumber(), name, entity.getRenew());
-    }
-
-    private MemberEntityMapper() {
-        super();
-    }
+public record FeeSummary(Long paid, Long unpaid) {
 
 }

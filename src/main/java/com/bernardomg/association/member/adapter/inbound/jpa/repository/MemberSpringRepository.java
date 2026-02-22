@@ -40,4 +40,8 @@ public interface MemberSpringRepository
 
     public Optional<MemberEntity> findByNumberAndActiveTrue(final Long number);
 
+    long countByActiveTrue();
+
+    long countByActiveTrueAndRenewTrue();
+
 }

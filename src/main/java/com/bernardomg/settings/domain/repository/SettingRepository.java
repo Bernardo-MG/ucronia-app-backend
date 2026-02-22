@@ -31,6 +31,8 @@ import com.bernardomg.settings.domain.model.Setting;
 
 public interface SettingRepository {
 
+    public boolean exists(final String code);
+
     public Collection<Setting> findAll();
 
     public Optional<Setting> findOne(final String code);

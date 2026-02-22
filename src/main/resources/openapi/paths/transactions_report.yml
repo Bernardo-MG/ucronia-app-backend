@@ -1,0 +1,24 @@
+get:
+  summary: Get Excel report with all the transactions
+  description: Returns an Excel (.xls) report containing all the transactions.
+  operationId: getTransactionReport
+  tags:
+    - TransactionReport
+  responses:
+    "200":
+      description: Excel report successfully generated.
+      content:
+        application/vnd.ms-excel:
+          schema:
+            type: string
+            format: binary
+    "500":
+      description: Failed to generate the Excel report (I/O error)
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: Error generating Excel report

@@ -22,43 +22,51 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.usecase.service;
+package com.bernardomg.association.member.adapter.inbound.jpa.repository;
 
-import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
 
-import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.transaction.domain.model.TransactionBalanceQuery;
-import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
-import com.bernardomg.association.transaction.domain.repository.TransactionBalanceRepository;
-import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.association.member.domain.model.MemberSummary;
+import com.bernardomg.association.member.domain.repository.MemberSummaryRepository;
 
-/**
- * Default implementation of the balance service.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- */
-@Service
+@Repository
 @Transactional
-public final class DefaultTransactionBalanceService implements TransactionBalanceService {
+public final class JpaMemberSummaryRepository implements MemberSummaryRepository {
 
-    private final TransactionBalanceRepository transactionBalanceRepository;
+    /**
+     * Logger for the class.
+     */
+    private static final Logger          log = LoggerFactory.getLogger(JpaMemberSummaryRepository.class);
 
-    public DefaultTransactionBalanceService(final TransactionBalanceRepository transactionBalanceRepo) {
+    private final MemberSpringRepository memberSpringRepository;
+
+    public JpaMemberSummaryRepository(final MemberSpringRepository memberSpringRepo) {
         super();
 
-        transactionBalanceRepository = Objects.requireNonNull(transactionBalanceRepo);
+        memberSpringRepository = Objects.requireNonNull(memberSpringRepo);
     }
 
     @Override
-    public final Collection<TransactionMonthlyBalance> getMonthlyBalance(final TransactionBalanceQuery query) {
-        final Sorting sorting;
+    public final MemberSummary findCurrent() {
+        final long          active;
+        final long          renew;
+        final MemberSummary summary;
 
-        sorting = new Sorting(List.of(Sorting.Property.asc("month")));
-        return transactionBalanceRepository.findMonthlyBalance(query, sorting);
+        log.debug("Finding current member summary");
+
+        active = memberSpringRepository.countByActiveTrue();
+        renew = memberSpringRepository.countByActiveTrueAndRenewTrue();
+
+        summary = new MemberSummary(active, renew);
+
+        log.debug("Found current member summary: {}", summary);
+
+        return summary;
     }
 
 }

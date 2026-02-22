@@ -22,53 +22,52 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.adapter.inbound.jpa.repository;
+package com.bernardomg.association.member.usecase.service;
 
-import java.time.Instant;
-import java.time.YearMonth;
-import java.time.ZoneOffset;
 import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.fee.domain.model.FeeBalance;
-import com.bernardomg.association.fee.domain.repository.FeeBalanceRepository;
+import com.bernardomg.association.member.domain.model.MemberSummary;
+import com.bernardomg.association.member.domain.repository.MemberSummaryRepository;
 
-@Repository
+/**
+ * Default implementation of the member service.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+@Service
 @Transactional
-public final class JpaFeeBalanceRepository implements FeeBalanceRepository {
+public final class DefaultMemberSummaryService implements MemberSummaryService {
 
     /**
      * Logger for the class.
      */
-    private static final Logger       log = LoggerFactory.getLogger(JpaFeeBalanceRepository.class);
+    private static final Logger           log = LoggerFactory.getLogger(DefaultMemberSummaryService.class);
 
-    private final FeeSpringRepository feeSpringRepository;
+    private final MemberSummaryRepository memberSummaryRepository;
 
-    public JpaFeeBalanceRepository(final FeeSpringRepository feeSpringRepo) {
+    public DefaultMemberSummaryService(final MemberSummaryRepository memberSummaryRepo) {
         super();
 
-        feeSpringRepository = Objects.requireNonNull(feeSpringRepo);
+        memberSummaryRepository = Objects.requireNonNull(memberSummaryRepo);
     }
 
     @Override
-    public final FeeBalance findForMonth(final YearMonth date) {
-        final FeeBalance balance;
-        final Instant    dateParsed;
+    public final MemberSummary getSummary() {
+        final MemberSummary summary;
 
-        log.debug("Finding balance for month {}", date);
+        log.debug("Reading summary");
 
-        dateParsed = date.atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant();
-        balance = feeSpringRepository.findBalanceForMonth(dateParsed);
+        summary = memberSummaryRepository.findCurrent();
 
-        log.debug("Found balance for month {}: {}", date, balance);
+        log.debug("Read summary: {}", summary);
 
-        return balance;
+        return summary;
     }
 
 }

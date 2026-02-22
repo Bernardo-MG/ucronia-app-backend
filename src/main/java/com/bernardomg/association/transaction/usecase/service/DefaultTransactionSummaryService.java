@@ -24,17 +24,14 @@
 
 package com.bernardomg.association.transaction.usecase.service;
 
-import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.transaction.domain.model.TransactionBalanceQuery;
-import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
-import com.bernardomg.association.transaction.domain.repository.TransactionBalanceRepository;
-import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.association.transaction.domain.model.TransactionSummary;
+import com.bernardomg.association.transaction.domain.repository.TransactionSummaryRepository;
 
 /**
  * Default implementation of the balance service.
@@ -43,22 +40,31 @@ import com.bernardomg.data.domain.Sorting;
  */
 @Service
 @Transactional
-public final class DefaultTransactionBalanceService implements TransactionBalanceService {
+public final class DefaultTransactionSummaryService implements TransactionSummaryService {
 
-    private final TransactionBalanceRepository transactionBalanceRepository;
+    private final TransactionSummaryRepository transactionSummaryRepository;
 
-    public DefaultTransactionBalanceService(final TransactionBalanceRepository transactionBalanceRepo) {
+    public DefaultTransactionSummaryService(final TransactionSummaryRepository transactionSummaryRepo) {
         super();
 
-        transactionBalanceRepository = Objects.requireNonNull(transactionBalanceRepo);
+        transactionSummaryRepository = Objects.requireNonNull(transactionSummaryRepo);
     }
 
     @Override
-    public final Collection<TransactionMonthlyBalance> getMonthlyBalance(final TransactionBalanceQuery query) {
-        final Sorting sorting;
+    public final TransactionSummary getSummary() {
+        final Optional<TransactionSummary> readBalance;
+        final TransactionSummary           currentBalance;
 
-        sorting = new Sorting(List.of(Sorting.Property.asc("month")));
-        return transactionBalanceRepository.findMonthlyBalance(query, sorting);
+        // Find latest monthly balance
+        readBalance = transactionSummaryRepository.findSummary();
+
+        if (readBalance.isEmpty()) {
+            currentBalance = new TransactionSummary(0F, 0F);
+        } else {
+            currentBalance = readBalance.get();
+        }
+
+        return currentBalance;
     }
 
 }

@@ -1,0 +1,11 @@
+get:
+  summary: Get transactions summary.
+  operationId: getTransactionSummary
+  tags: [TransactionSummary]
+  responses:
+    '200':
+      description: Transaction summary
+      content:
+        application/json:
+          schema:
+            $ref: '../components/transactions_summary.yml#/components/schemas/TransactionSummaryResponse'

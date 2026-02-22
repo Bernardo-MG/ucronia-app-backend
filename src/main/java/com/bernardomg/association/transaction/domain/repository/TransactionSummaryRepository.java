@@ -22,14 +22,14 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.domain.repository;
+package com.bernardomg.association.transaction.domain.repository;
 
-import java.time.YearMonth;
+import java.util.Optional;
 
-import com.bernardomg.association.fee.domain.model.FeeBalance;
+import com.bernardomg.association.transaction.domain.model.TransactionSummary;
 
-public interface FeeBalanceRepository {
+public interface TransactionSummaryRepository {
 
-    public FeeBalance findForMonth(final YearMonth date);
+    public Optional<TransactionSummary> findSummary();
 
 }

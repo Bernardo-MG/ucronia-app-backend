@@ -22,43 +22,52 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.usecase.service;
+package com.bernardomg.association.fee.usecase.service;
 
-import java.util.Collection;
-import java.util.List;
+import java.time.YearMonth;
 import java.util.Objects;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.transaction.domain.model.TransactionBalanceQuery;
-import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
-import com.bernardomg.association.transaction.domain.repository.TransactionBalanceRepository;
-import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.association.fee.domain.model.FeeSummary;
+import com.bernardomg.association.fee.domain.repository.FeeSummaryRepository;
 
 /**
- * Default implementation of the balance service.
+ * Default implementation of the fee report service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
 @Service
 @Transactional
-public final class DefaultTransactionBalanceService implements TransactionBalanceService {
+public final class DefaultFeeSummaryService implements FeeSummaryService {
 
-    private final TransactionBalanceRepository transactionBalanceRepository;
+    /**
+     * Logger for the class.
+     */
+    private static final Logger        log = LoggerFactory.getLogger(DefaultFeeSummaryService.class);
 
-    public DefaultTransactionBalanceService(final TransactionBalanceRepository transactionBalanceRepo) {
+    private final FeeSummaryRepository feeSummaryRepository;
+
+    public DefaultFeeSummaryService(final FeeSummaryRepository feeSummaryRepo) {
         super();
 
-        transactionBalanceRepository = Objects.requireNonNull(transactionBalanceRepo);
+        feeSummaryRepository = Objects.requireNonNull(feeSummaryRepo);
     }
 
     @Override
-    public final Collection<TransactionMonthlyBalance> getMonthlyBalance(final TransactionBalanceQuery query) {
-        final Sorting sorting;
+    public final FeeSummary getFeeSummary() {
+        final FeeSummary summary;
 
-        sorting = new Sorting(List.of(Sorting.Property.asc("month")));
-        return transactionBalanceRepository.findMonthlyBalance(query, sorting);
+        log.info("Getting fee summary");
+
+        summary = feeSummaryRepository.findForMonth(YearMonth.now());
+
+        log.debug("Got fee summary: {}", summary);
+
+        return summary;
     }
 
 }

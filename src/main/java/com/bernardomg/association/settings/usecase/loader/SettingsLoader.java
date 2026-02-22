@@ -27,15 +27,17 @@ public final class SettingsLoader implements Loader {
 
     @Override
     public final void load() {
-        final Collection<String> settingNames;
+        final Collection<String> codes;
         Setting                  setting;
 
-        settingNames = List.of(AssociationSettingsKey.EMAIL, AssociationSettingsKey.GOOGLE_MAPS,
+        codes = List.of(AssociationSettingsKey.EMAIL, AssociationSettingsKey.GOOGLE_MAPS,
             AssociationSettingsKey.INSTAGRAM, AssociationSettingsKey.TEAMUP);
-        for (final String settingName : settingNames) {
-            setting = new Setting("string", settingName, "");
+        for (final String code : codes) {
             // TODO: save as a list
-            settingRepository.save(setting);
+            if (!settingRepository.exists(code)) {
+                setting = new Setting("string", code, "");
+                settingRepository.save(setting);
+            }
         }
     }
 

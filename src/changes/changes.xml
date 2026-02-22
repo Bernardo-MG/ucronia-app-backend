@@ -509,5 +509,13 @@
             Instagram as public setting.
          </action>
       </release>
+      <release version="0.6.15" date="2026-02-22" description="">
+         <action dev="bmg" type="update">
+            Return status info for members.
+         </action>
+         <action dev="bmg" type="fix">
+            Avoid replacing existing config on start.
+         </action>
+      </release>
    </body>
 </document>

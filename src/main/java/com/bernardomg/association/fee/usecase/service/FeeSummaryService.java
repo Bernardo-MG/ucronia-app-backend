@@ -22,43 +22,23 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.adapter.outbound.rest.controller;
+package com.bernardomg.association.fee.usecase.service;
 
-import org.springframework.web.bind.annotation.RestController;
-
-import com.bernardomg.association.fee.adapter.outbound.rest.model.FeeBalanceDtoMapper;
-import com.bernardomg.association.fee.domain.model.FeeBalance;
-import com.bernardomg.association.fee.usecase.service.FeeBalanceService;
-import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
-import com.bernardomg.security.permission.domain.constant.Actions;
-import com.bernardomg.ucronia.openapi.api.FeeBalanceApi;
-import com.bernardomg.ucronia.openapi.model.FeeBalanceResponseDto;
+import com.bernardomg.association.fee.domain.model.FeeSummary;
 
 /**
- * Member fee report REST controller.
+ * Fee summary service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@RestController
-public class FeeBalanceController implements FeeBalanceApi {
+public interface FeeSummaryService {
 
-    private final FeeBalanceService service;
-
-    public FeeBalanceController(final FeeBalanceService service) {
-        super();
-
-        this.service = service;
-    }
-
-    @Override
-    @RequireResourceAuthorization(resource = "FEE", action = Actions.READ)
-    public FeeBalanceResponseDto getFeeBalance() {
-        final FeeBalance balance;
-
-        balance = service.getFeeBalance();
-
-        return FeeBalanceDtoMapper.toResponseDto(balance);
-    }
+    /**
+     * Returns the fee payments summary.
+     *
+     * @return the fee payments summary
+     */
+    public FeeSummary getFeeSummary();
 
 }

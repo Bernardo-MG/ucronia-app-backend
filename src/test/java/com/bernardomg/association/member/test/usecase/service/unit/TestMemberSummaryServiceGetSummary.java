@@ -22,11 +22,9 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.test.usecase.service.unit;
+package com.bernardomg.association.member.test.usecase.service.unit;
 
 import static org.mockito.BDDMockito.given;
-
-import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -36,51 +34,37 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.transaction.domain.model.TransactionCurrentBalance;
-import com.bernardomg.association.transaction.domain.repository.TransactionBalanceRepository;
-import com.bernardomg.association.transaction.test.configuration.factory.TransactionCurrentBalances;
-import com.bernardomg.association.transaction.usecase.service.DefaultTransactionBalanceService;
+import com.bernardomg.association.member.domain.model.MemberSummary;
+import com.bernardomg.association.member.domain.repository.MemberSummaryRepository;
+import com.bernardomg.association.member.test.configuration.factory.MemberSummaries;
+import com.bernardomg.association.member.usecase.service.DefaultMemberSummaryService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Transaction balance service - get balance")
-class TestTransactionBalanceServiceGetBalance {
-
-    @InjectMocks
-    private DefaultTransactionBalanceService service;
+@DisplayName("MemberSummaryService - get summary")
+class TestMemberSummaryServiceGetSummary {
 
     @Mock
-    private TransactionBalanceRepository     transactionBalanceRepository;
+    private MemberSummaryRepository     memberSummaryRepository;
+
+    @InjectMocks
+    private DefaultMemberSummaryService service;
 
     @Test
-    @DisplayName("When there is data it is returned")
-    void testGetBalance() {
-        final TransactionCurrentBalance balance;
+    @DisplayName("It returns the summary")
+    void testGetSummary_NoData() {
+        final MemberSummary summary;
+        final MemberSummary existing;
 
         // GIVEN
-        given(transactionBalanceRepository.findCurrent()).willReturn(Optional.of(TransactionCurrentBalances.amount(1)));
+        existing = MemberSummaries.valid();
+        given(memberSummaryRepository.findCurrent()).willReturn(existing);
 
         // WHEN
-        balance = service.getBalance();
+        summary = service.getSummary();
 
         // THEN
-        Assertions.assertThat(balance)
-            .isEqualTo(TransactionCurrentBalances.amount(1));
-    }
-
-    @Test
-    @DisplayName("When there is no data nothing is returned")
-    void testGetBalance_NoData() {
-        final TransactionCurrentBalance balance;
-
-        // GIVEN
-        given(transactionBalanceRepository.findCurrent()).willReturn(Optional.empty());
-
-        // WHEN
-        balance = service.getBalance();
-
-        // THEN
-        Assertions.assertThat(balance)
-            .isEqualTo(TransactionCurrentBalances.amount(0));
+        Assertions.assertThat(summary)
+            .isEqualTo(existing);
     }
 
 }

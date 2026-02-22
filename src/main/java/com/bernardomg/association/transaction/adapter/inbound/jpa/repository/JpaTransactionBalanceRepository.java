@@ -25,7 +25,6 @@
 package com.bernardomg.association.transaction.adapter.inbound.jpa.repository;
 
 import java.time.Instant;
-import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.ZoneOffset;
 import java.util.Collection;
@@ -43,7 +42,6 @@ import com.bernardomg.association.transaction.adapter.inbound.jpa.model.MonthlyB
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionBalanceEntityMapper;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.specification.MonthlyBalanceSpecifications;
 import com.bernardomg.association.transaction.domain.model.TransactionBalanceQuery;
-import com.bernardomg.association.transaction.domain.model.TransactionCurrentBalance;
 import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
 import com.bernardomg.association.transaction.domain.repository.TransactionBalanceRepository;
 import com.bernardomg.data.domain.Sorting;
@@ -64,52 +62,6 @@ public final class JpaTransactionBalanceRepository implements TransactionBalance
         super();
 
         monthlyBalanceRepository = Objects.requireNonNull(monthlyBalanceRepo);
-    }
-
-    @Override
-    public final Optional<TransactionCurrentBalance> findCurrent() {
-        final Optional<MonthlyBalanceEntity>      readBalance;
-        final Instant                             month;
-        final Optional<TransactionCurrentBalance> currentBalance;
-        final Instant                             balanceDate;
-        final LocalDate                           balanceDateParsed;
-        final LocalDate                           monthParsed;
-        final float                               results;
-
-        log.debug("Finding current balance");
-
-        // Find latest monthly balance
-        // Ignore future balances
-        month = YearMonth.now()
-            .atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant();
-        readBalance = monthlyBalanceRepository.findLatestInOrBefore(month);
-
-        if (readBalance.isEmpty()) {
-            currentBalance = Optional.empty();
-        } else {
-            balanceDate = readBalance.get()
-                .getMonth();
-
-            // Take the results only if it's the current year and month
-            balanceDateParsed = LocalDate.ofInstant(balanceDate, ZoneOffset.UTC);
-            monthParsed = LocalDate.ofInstant(month, ZoneOffset.UTC);
-            if ((balanceDateParsed.getYear() == monthParsed.getYear())
-                    && (balanceDateParsed.getMonth() == monthParsed.getMonth())) {
-                results = readBalance.get()
-                    .getResults();
-            } else {
-                results = 0;
-            }
-
-            currentBalance = Optional.of(new TransactionCurrentBalance(results, readBalance.get()
-                .getTotal()));
-        }
-
-        log.debug("Found current balance: {}", currentBalance);
-
-        return currentBalance;
     }
 
     @Override

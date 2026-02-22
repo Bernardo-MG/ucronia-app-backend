@@ -22,24 +22,24 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.adapter.inbound.jpa.model;
+package com.bernardomg.association.member.adapter.outbound.rest.model;
 
-import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.profile.domain.model.ProfileName;
+import com.bernardomg.association.member.domain.model.MemberSummary;
+import com.bernardomg.ucronia.openapi.model.MemberSummaryDto;
+import com.bernardomg.ucronia.openapi.model.MemberSummaryResponseDto;
 
-/**
- * Query member entity mapper.
- */
-public final class MemberEntityMapper {
+public final class MemberSummaryDtoMapper {
 
-    public static final Member toDomain(final MemberEntity entity) {
-        final ProfileName name;
-
-        name = new ProfileName(entity.getFirstName(), entity.getLastName());
-        return new Member(entity.getNumber(), name, entity.getRenew());
+    public static final MemberSummaryResponseDto toResponseDto(final MemberSummary summary) {
+        return new MemberSummaryResponseDto().content(MemberSummaryDtoMapper.toDto(summary));
     }
 
-    private MemberEntityMapper() {
+    private static final MemberSummaryDto toDto(final MemberSummary summary) {
+        return new MemberSummaryDto().active(summary.active())
+            .renew(summary.renew());
+    }
+
+    private MemberSummaryDtoMapper() {
         super();
     }
 
