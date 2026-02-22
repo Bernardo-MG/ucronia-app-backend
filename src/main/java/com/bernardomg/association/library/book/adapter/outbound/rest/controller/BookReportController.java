@@ -26,17 +26,16 @@ package com.bernardomg.association.library.book.adapter.outbound.rest.controller
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.library.book.usecase.service.BookReportService;
 import com.bernardomg.excel.web.ExcelResponses;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
+import com.bernardomg.ucronia.openapi.api.BookReportApi;
 
 /**
  * Transaction report REST controller.
@@ -45,8 +44,7 @@ import com.bernardomg.security.permission.domain.constant.Actions;
  *
  */
 @RestController
-@RequestMapping("/library/book")
-public class BookReportController {
+public class BookReportController implements BookReportApi {
 
     /**
      * Book report service.
@@ -58,21 +56,16 @@ public class BookReportController {
         this.service = service;
     }
 
-    /**
-     * Returns an Excel report with all the books.
-     *
-     * @return an Excel report with all the books
-     * @throws IOException
-     *             if there was a problem processing the excel
-     */
-    @GetMapping(produces = "application/vnd.ms-excel")
+    @Override
     @RequireResourceAuthorization(resource = "LIBRARY_BOOK", action = Actions.READ)
-    public ResponseEntity<InputStreamResource> readAll() throws IOException {
-        final ByteArrayOutputStream stream;
-
-        stream = service.getReport();
-
-        return ExcelResponses.response(stream, "library");
+    public Resource getBookReport() {
+        try {
+            final ByteArrayOutputStream stream = service.getReport();
+            return ExcelResponses.response(stream, "library")
+                .getBody();
+        } catch (final IOException ex) {
+            throw new UncheckedIOException("Failed to generate Excel report", ex);
+        }
     }
 
 }

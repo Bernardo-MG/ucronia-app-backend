@@ -79,6 +79,8 @@ paths:
     $ref: paths/transactions_monthly_balance.yml
   /transaction/range:
     $ref: paths/transactions_range.yml
+  /transaction/report:
+    $ref: paths/transactions_report.yml
   /library/author:
     $ref: paths/authors.yml
   /library/author/{number}:
@@ -105,3 +107,5 @@ paths:
     $ref: paths/books_game.yml
   /library/book/game/{number}:
     $ref: paths/books_game_by_id.yml
+  /library/book:
+    $ref: paths/books_report.yml
