@@ -79,7 +79,7 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
                SELECT f
                FROM MemberProfile m
                  INNER JOIN m.profile p
-                 INNER JOIN Fee f ON m.id = f.memberId
+                 INNER JOIN Fee f ON m.id = f.member.id
                  LEFT JOIN Transaction t ON f.transaction.id = t.id
                WHERE p.number = :memberNumber
                  AND f.month in :feeMonths
@@ -118,7 +118,7 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
             SELECT f
             FROM Fee f
             WHERE EXTRACT(YEAR FROM f.month) = :year
-              AND f.memberId IN :ids
+              AND f.member.id IN :ids
             """)
     public Collection<FeeEntity> findAllForYearAndMembersIn(@Param("year") int year, @Param("ids") Collection<Long> ids,
             Sort sort);
