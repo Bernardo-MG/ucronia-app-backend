@@ -176,7 +176,7 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     @Override
-    public final Page<Fee> findAllForProfile(final Long number, final Pagination pagination, final Sorting sorting) {
+    public final Page<Fee> findAllForMember(final Long number, final Pagination pagination, final Sorting sorting) {
         final org.springframework.data.domain.Page<Fee> found;
         final Pageable                                  pageable;
         final Sorting                                   fixedSorting;

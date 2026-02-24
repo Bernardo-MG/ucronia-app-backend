@@ -97,7 +97,7 @@ class TestMyFeesServiceGetAllForUserInSession {
         given(userProfileRepository.findByUsername(UserConstants.USERNAME)).willReturn(Optional.of(Profiles.valid()));
 
         existing = new Page<>(List.of(Fees.paid()), 0, 0, 0, 0, 0, false, false, sorting);
-        given(feeRepository.findAllForProfile(ProfileConstants.NUMBER, pagination, sorting)).willReturn(existing);
+        given(feeRepository.findAllForMember(ProfileConstants.NUMBER, pagination, sorting)).willReturn(existing);
 
         // WHEN
         fees = myFeesService.getAllForUserInSession(pagination, sorting);
@@ -156,7 +156,7 @@ class TestMyFeesServiceGetAllForUserInSession {
         given(userProfileRepository.findByUsername(UserConstants.USERNAME)).willReturn(Optional.of(Profiles.valid()));
 
         existing = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
-        given(feeRepository.findAllForProfile(ProfileConstants.NUMBER, pagination, sorting)).willReturn(existing);
+        given(feeRepository.findAllForMember(ProfileConstants.NUMBER, pagination, sorting)).willReturn(existing);
 
         // WHEN
         fees = myFeesService.getAllForUserInSession(pagination, sorting);

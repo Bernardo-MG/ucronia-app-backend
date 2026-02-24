@@ -46,15 +46,7 @@ public interface FeeRepository {
 
     public Page<Fee> findAll(final FeeQuery query, final Pagination pagination, final Sorting sorting);
 
-    /**
-     * TODO: all for member
-     *
-     * @param number
-     * @param pagination
-     * @param sorting
-     * @return
-     */
-    public Page<Fee> findAllForProfile(final Long number, final Pagination pagination, final Sorting sorting);
+    public Page<Fee> findAllForMember(final Long number, final Pagination pagination, final Sorting sorting);
 
     public Collection<Fee> findAllInYear(final Year year, final Sorting sorting);
 

@@ -63,7 +63,6 @@ public class FeeEntity implements Serializable {
     @JoinColumn(name = "member_id", referencedColumnName = "id")
     private MemberProfileEntity member;
 
-    // TODO: should be called month
     @Column(name = "month", nullable = false)
     private Instant             month;
 

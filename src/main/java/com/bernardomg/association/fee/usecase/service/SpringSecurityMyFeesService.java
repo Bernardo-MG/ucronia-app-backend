@@ -85,7 +85,7 @@ public final class SpringSecurityMyFeesService implements MyFeesService {
             log.warn("User {} has no member assigned", username);
             fees = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
         } else {
-            fees = feeRepository.findAllForProfile(profile.get()
+            fees = feeRepository.findAllForMember(profile.get()
                 .number(), pagination, sorting);
         }
 
