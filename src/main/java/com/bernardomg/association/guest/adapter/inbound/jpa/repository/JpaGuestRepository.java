@@ -30,6 +30,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,6 +50,7 @@ import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactMetho
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ContactMethodSpringRepository;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
+import com.bernardomg.association.profile.domain.exception.MissingContactMethodException;
 import com.bernardomg.association.profile.domain.model.ContactMethod;
 import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
 import com.bernardomg.data.domain.Page;
@@ -152,12 +154,11 @@ public final class JpaGuestRepository implements GuestRepository {
 
     @Override
     public final Guest save(final Guest guest) {
-        final Optional<GuestEntity>     existing;
-        final GuestEntity               entity;
-        final Guest                     created;
-        final List<Long>                contactMethodNumbers;
-        final List<ContactMethodEntity> contactMethods;
-        final Long                      number;
+        final Optional<GuestEntity>           existing;
+        final GuestEntity                     entity;
+        final Guest                           created;
+        final Collection<ContactMethodEntity> contactMethods;
+        final Long                            number;
 
         log.debug("Saving guest {}", guest);
 
@@ -165,12 +166,7 @@ public final class JpaGuestRepository implements GuestRepository {
         if (existing.isPresent()) {
             entity = GuestEntityMapper.toEntity(existing.get(), guest);
         } else {
-            contactMethodNumbers = guest.contactChannels()
-                .stream()
-                .map(ContactChannel::contactMethod)
-                .map(ContactMethod::number)
-                .toList();
-            contactMethods = contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
+            contactMethods = getContactMethods(guest.contactChannels());
             entity = GuestEntityMapper.toEntity(guest, contactMethods);
             number = guestSpringRepository.findNextNumber();
             entity.getProfile()
@@ -188,20 +184,14 @@ public final class JpaGuestRepository implements GuestRepository {
 
     @Override
     public final Guest save(final Guest guest, final long number) {
-        final GuestEntity               entity;
-        final Guest                     created;
-        final Optional<ProfileEntity>   profile;
-        final List<Long>                contactMethodNumbers;
-        final List<ContactMethodEntity> contactMethods;
+        final GuestEntity                     entity;
+        final Guest                           created;
+        final Optional<ProfileEntity>         profile;
+        final Collection<ContactMethodEntity> contactMethods;
 
         log.debug("Saving guest {} with number {}", guest, number);
 
-        contactMethodNumbers = guest.contactChannels()
-            .stream()
-            .map(ContactChannel::contactMethod)
-            .map(ContactMethod::number)
-            .toList();
-        contactMethods = contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
+        contactMethods = getContactMethods(guest.contactChannels());
         entity = GuestEntityMapper.toEntity(guest, contactMethods);
 
         profile = profileSpringRepository.findByNumber(number);
@@ -245,21 +235,15 @@ public final class JpaGuestRepository implements GuestRepository {
     }
 
     private final GuestEntity convert(final Guest guest, final AtomicLong number) {
-        final Optional<GuestEntity>     existing;
-        final GuestEntity               entity;
-        final List<Long>                contactMethodNumbers;
-        final List<ContactMethodEntity> contactMethods;
+        final Optional<GuestEntity>           existing;
+        final GuestEntity                     entity;
+        final Collection<ContactMethodEntity> contactMethods;
 
         existing = guestSpringRepository.findByNumber(guest.number());
         if (existing.isPresent()) {
             entity = GuestEntityMapper.toEntity(existing.get(), guest);
         } else {
-            contactMethodNumbers = guest.contactChannels()
-                .stream()
-                .map(ContactChannel::contactMethod)
-                .map(ContactMethod::number)
-                .toList();
-            contactMethods = contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
+            contactMethods = getContactMethods(guest.contactChannels());
             entity = GuestEntityMapper.toEntity(guest, contactMethods);
             entity.getProfile()
                 .setNumber(number.getAndIncrement());
@@ -282,6 +266,34 @@ public final class JpaGuestRepository implements GuestRepository {
             .toList();
 
         return new Sorting(properties);
+    }
+
+    private final Collection<ContactMethodEntity> getContactMethods(final Collection<ContactChannel> contactChannels) {
+        final Collection<Long>                contactMethodNumbers;
+        final Collection<ContactMethodEntity> contactMethods;
+        final Long                            missingNumber;
+        final Collection<Long>                existingNumbers;
+
+        contactMethodNumbers = contactChannels.stream()
+            .map(ContactChannel::contactMethod)
+            .map(ContactMethod::number)
+            .collect(Collectors.toSet());
+
+        contactMethods = contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
+
+        if (contactMethods.size() != contactMethodNumbers.size()) {
+            existingNumbers = contactMethods.stream()
+                .map(ContactMethodEntity::getNumber)
+                .collect(Collectors.toSet());
+            missingNumber = contactMethodNumbers.stream()
+                .filter(n -> !existingNumbers.contains(n))
+                .findFirst()
+                .orElse(null);
+            // TODO: throw an exception with all missing contact methods
+            throw new MissingContactMethodException(missingNumber);
+        }
+
+        return contactMethods;
     }
 
     private final void setType(final ProfileEntity entity) {
