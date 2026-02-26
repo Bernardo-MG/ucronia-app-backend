@@ -147,11 +147,46 @@ class ITFeeRepositoryFindRange {
     }
 
     @Test
+    @DisplayName("With no fee it returns nothing")
+    @PositiveFeeType
+    @ActiveMember
+    void testFindRange_NoFee() {
+        final YearsRange range;
+
+        // WHEN
+        range = repository.findRange();
+
+        // THEN
+        Assertions.assertThat(range.years())
+            .as("year range")
+            .isEmpty();
+    }
+
+    @Test
     @DisplayName("With no fees, the range is empty")
     @PositiveFeeType
     @ActiveMember
     void testFindRange_NoFees() {
         final YearsRange range;
+
+        // WHEN
+        range = repository.findRange();
+
+        // THEN
+        Assertions.assertThat(range.years())
+            .as("year range")
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("With a profile with no membership, it returns nothing")
+    @PositiveFeeType
+    @ValidProfile
+    void testFindRange_NoMembership() {
+        final YearsRange range;
+
+        // GIVEN
+        feeInitializer.registerFeeCurrentMonth(true);
 
         // WHEN
         range = repository.findRange();
@@ -198,41 +233,6 @@ class ITFeeRepositoryFindRange {
         Assertions.assertThat(range.years())
             .as("year range")
             .containsOnly(FeeConstants.CURRENT_YEAR);
-    }
-
-    @Test
-    @DisplayName("With no fee it returns nothing")
-    @PositiveFeeType
-    @ActiveMember
-    void testFindRange_NoFee() {
-        final YearsRange range;
-
-        // WHEN
-        range = repository.findRange();
-
-        // THEN
-        Assertions.assertThat(range.years())
-            .as("year range")
-            .isEmpty();
-    }
-
-    @Test
-    @DisplayName("With a profile with no membership, it returns nothing")
-    @PositiveFeeType
-    @ValidProfile
-    void testFindRange_NoMembership() {
-        final YearsRange range;
-
-        // GIVEN
-        feeInitializer.registerFeeCurrentMonth(true);
-
-        // WHEN
-        range = repository.findRange();
-
-        // THEN
-        Assertions.assertThat(range.years())
-            .as("year range")
-            .isEmpty();
     }
 
     @Test

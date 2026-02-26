@@ -85,6 +85,21 @@ class ITFeeRepositoryFindOne {
     }
 
     @Test
+    @DisplayName("With no fee it returns nothing")
+    @PositiveFeeType
+    @ActiveMember
+    void testFindOne_NoFee() {
+        final Optional<Fee> fee;
+
+        // WHEN
+        fee = repository.findOne(ProfileConstants.NUMBER, FeeConstants.DATE);
+
+        // THEN
+        Assertions.assertThat(fee)
+            .isEmpty();
+    }
+
+    @Test
     @DisplayName("With no last name, only the name is returned")
     @PositiveFeeType
     @ActiveMemberNoLastName
@@ -98,6 +113,22 @@ class ITFeeRepositoryFindOne {
         // THEN
         Assertions.assertThat(fee)
             .contains(Fees.noLastName());
+    }
+
+    @Test
+    @DisplayName("With a profile with no membership, it returns nothing")
+    @PositiveFeeType
+    @ValidProfile
+    @PaidFee
+    void testFindOne_NoMembership() {
+        final Optional<Fee> fee;
+
+        // WHEN
+        fee = repository.findOne(ProfileConstants.NUMBER, FeeConstants.DATE);
+
+        // THEN
+        Assertions.assertThat(fee)
+            .isEmpty();
     }
 
     @Test
@@ -130,37 +161,6 @@ class ITFeeRepositoryFindOne {
         // THEN
         Assertions.assertThat(fee)
             .contains(Fees.paid());
-    }
-
-    @Test
-    @DisplayName("With no fee it returns nothing")
-    @PositiveFeeType
-    @ActiveMember
-    void testFindOne_NoFee() {
-        final Optional<Fee> fee;
-
-        // WHEN
-        fee = repository.findOne(ProfileConstants.NUMBER, FeeConstants.DATE);
-
-        // THEN
-        Assertions.assertThat(fee)
-        .isEmpty();
-    }
-
-    @Test
-    @DisplayName("With a profile with no membership, it returns nothing")
-    @PositiveFeeType
-    @ValidProfile
-    @PaidFee
-    void testFindOne_NoMembership() {
-        final Optional<Fee> fee;
-
-        // WHEN
-        fee = repository.findOne(ProfileConstants.NUMBER, FeeConstants.DATE);
-
-        // THEN
-        Assertions.assertThat(fee)
-        .isEmpty();
     }
 
     @Test

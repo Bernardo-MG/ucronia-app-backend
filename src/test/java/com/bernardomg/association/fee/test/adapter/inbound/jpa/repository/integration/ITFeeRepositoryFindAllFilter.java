@@ -257,35 +257,6 @@ class ITFeeRepositoryGetAllFilter {
     }
 
     @Test
-    @DisplayName("With a filter applied to the end date, the returned data is filtered")
-    @PositiveFeeType
-    @MultipleInactiveMember
-    @MultipleFees
-    void testFindAll_To() {
-        final Page<Fee>  fees;
-        final FeeQuery   feeQuery;
-        final Pagination pagination;
-        final Sorting    sorting;
-
-        // GIVEN
-        pagination = new Pagination(1, 20);
-        sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
-
-        // TODO: use constants for the dates
-        feeQuery = FeesQuery.to(FeeConstants.DATE);
-
-        // WHEN
-        fees = repository.findAll(feeQuery, pagination, sorting);
-
-        // THEN
-        Assertions.assertThat(fees)
-            .extracting(Page::content)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .as("fees")
-            .containsExactly(Fees.paidForMonth(1, Month.FEBRUARY));
-    }
-
-    @Test
     @DisplayName("With no fee it returns nothing")
     @PositiveFeeType
     @ActiveMember
@@ -311,6 +282,7 @@ class ITFeeRepositoryGetAllFilter {
             .as("fees")
             .isEmpty();
     }
+
     @Test
     @DisplayName("With a paid fee for a profile, and not a member, it returns nothing")
     @PositiveFeeType
@@ -337,6 +309,35 @@ class ITFeeRepositoryGetAllFilter {
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("fees")
             .isEmpty();
+    }
+
+    @Test
+    @DisplayName("With a filter applied to the end date, the returned data is filtered")
+    @PositiveFeeType
+    @MultipleInactiveMember
+    @MultipleFees
+    void testFindAll_To() {
+        final Page<Fee>  fees;
+        final FeeQuery   feeQuery;
+        final Pagination pagination;
+        final Sorting    sorting;
+
+        // GIVEN
+        pagination = new Pagination(1, 20);
+        sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
+
+        // TODO: use constants for the dates
+        feeQuery = FeesQuery.to(FeeConstants.DATE);
+
+        // WHEN
+        fees = repository.findAll(feeQuery, pagination, sorting);
+
+        // THEN
+        Assertions.assertThat(fees)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .as("fees")
+            .containsExactly(Fees.paidForMonth(1, Month.FEBRUARY));
     }
 
     @Test

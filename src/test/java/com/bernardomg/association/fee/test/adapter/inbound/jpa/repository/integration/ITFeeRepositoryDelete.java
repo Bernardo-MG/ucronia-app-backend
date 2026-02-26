@@ -61,6 +61,7 @@ class ITFeeRepositoryDelete {
             .as("fees")
             .isZero();
     }
+
     @Test
     @DisplayName("When there is no fee, nothing is removed")
     @PositiveFeeType
@@ -73,6 +74,21 @@ class ITFeeRepositoryDelete {
         Assertions.assertThat(feeSpringRepository.count())
             .as("fees")
             .isZero();
+    }
+
+    @Test
+    @DisplayName("When a paid entity linked to a profile, and not a member, is deleted, nothing is removed")
+    @PositiveFeeType
+    @ValidProfile
+    @PaidFee
+    void testDelete_NoMembership() {
+        // WHEN
+        repository.delete(ProfileConstants.NUMBER, FeeConstants.DATE);
+
+        // THEN
+        Assertions.assertThat(feeSpringRepository.count())
+            .as("fees")
+            .isOne();
     }
 
     @Test
@@ -103,21 +119,6 @@ class ITFeeRepositoryDelete {
         Assertions.assertThat(feeSpringRepository.count())
             .as("fees")
             .isZero();
-    }
-
-    @Test
-    @DisplayName("When a paid entity linked to a profile, and not a member, is deleted, nothing is removed")
-    @PositiveFeeType
-    @ValidProfile
-    @PaidFee
-    void testDelete_NoMembership() {
-        // WHEN
-        repository.delete(ProfileConstants.NUMBER, FeeConstants.DATE);
-
-        // THEN
-        Assertions.assertThat(feeSpringRepository.count())
-            .as("fees")
-            .isOne();
     }
 
 }

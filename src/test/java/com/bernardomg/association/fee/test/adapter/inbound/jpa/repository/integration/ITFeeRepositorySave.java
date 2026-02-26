@@ -173,35 +173,11 @@ class ITFeeRepositorySave {
     }
 
     @Test
-    @DisplayName("Persists the data")
-    @PositiveFeeType
-    @ActiveMember
-    @FeeTransaction
-    void testSave_Paid_PersistedData() {
-        final Iterable<FeeEntity> fees;
-        final Fee                 fee;
-
-        // GIVEN
-        fee = Fees.paid();
-
-        // WHEN
-        repository.save(fee);
-
-        // THEN
-        fees = springRepository.findAll();
-
-        Assertions.assertThat(fees)
-            .as("fees")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "member.id", "member.feeType.id",
-                "member.profile.id", "member.profile.contactChannels.id", "memberId", "feeType.id", "transaction.id")
-            .containsExactly(FeeEntities.paid());
-    }
-    @Test
     @DisplayName("When the fee type doesn't exist, an exception is thrown")
     @ActiveMember
     @FeeTransaction
     void testSave_Paid_MissingFeeType() {
-        final Fee                 fee;
+        final Fee              fee;
         final ThrowingCallable execution;
 
         // GIVEN
@@ -212,7 +188,7 @@ class ITFeeRepositorySave {
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-        .isInstanceOf(NoSuchElementException.class);
+            .isInstanceOf(NoSuchElementException.class);
     }
 
     @Test
@@ -220,7 +196,7 @@ class ITFeeRepositorySave {
     @PositiveFeeType
     @FeeTransaction
     void testSave_Paid_MissingMember() {
-        final Fee                 fee;
+        final Fee              fee;
         final ThrowingCallable execution;
 
         // GIVEN
@@ -231,7 +207,7 @@ class ITFeeRepositorySave {
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-        .isInstanceOf(NoSuchElementException.class);
+            .isInstanceOf(NoSuchElementException.class);
     }
 
     @Test
@@ -256,6 +232,31 @@ class ITFeeRepositorySave {
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "member.id", "member.feeType.id",
                 "member.profile.id", "member.profile.contactChannels.id", "memberId", "feeType.id", "transaction.id")
             .containsExactly(FeeEntities.paidNoTransaction());
+    }
+
+    @Test
+    @DisplayName("Persists the data")
+    @PositiveFeeType
+    @ActiveMember
+    @FeeTransaction
+    void testSave_Paid_PersistedData() {
+        final Iterable<FeeEntity> fees;
+        final Fee                 fee;
+
+        // GIVEN
+        fee = Fees.paid();
+
+        // WHEN
+        repository.save(fee);
+
+        // THEN
+        fees = springRepository.findAll();
+
+        Assertions.assertThat(fees)
+            .as("fees")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "member.id", "member.feeType.id",
+                "member.profile.id", "member.profile.contactChannels.id", "memberId", "feeType.id", "transaction.id")
+            .containsExactly(FeeEntities.paid());
     }
 
     @Test

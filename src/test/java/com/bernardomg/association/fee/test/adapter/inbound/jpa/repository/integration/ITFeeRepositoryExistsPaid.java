@@ -48,23 +48,6 @@ class ITFeeRepositoryExistsPaid {
     private FeeRepository repository;
 
     @Test
-    @DisplayName("With an existing paid fee for a profile, and not a member, nothing exists")
-    @PositiveFeeType
-    @ValidProfile
-    @PaidFee
-    void testExistsPaid_NoMembership() {
-        final boolean exists;
-
-        // WHEN
-        exists = repository.existsPaid(ProfileConstants.NUMBER, FeeConstants.DATE);
-
-        // THEN
-        Assertions.assertThat(exists)
-            .as("exists")
-            .isFalse();
-    }
-
-    @Test
     @DisplayName("When there is no fee, nothing exists")
     @PositiveFeeType
     @ActiveMember
@@ -73,40 +56,6 @@ class ITFeeRepositoryExistsPaid {
 
         // WHEN
         exists = repository.existsPaid(ProfileConstants.NUMBER, FeeConstants.DATE);
-
-        // THEN
-        Assertions.assertThat(exists)
-            .as("exists")
-            .isFalse();
-    }
-
-    @Test
-    @DisplayName("With an existing  paid fee for an active member, and checking an invalid date, nothing exists")
-    @PositiveFeeType
-    @ActiveMember
-    @PaidFee
-    void testExistsPaid_WrongDate() {
-        final boolean exists;
-
-        // WHEN
-        exists = repository.existsPaid(ProfileConstants.NUMBER, FeeConstants.NEXT_DATE);
-
-        // THEN
-        Assertions.assertThat(exists)
-            .as("exists")
-            .isFalse();
-    }
-
-    @Test
-    @DisplayName("With an existing paid fee for an active member, and checking an invalid number, nothing exists")
-    @PositiveFeeType
-    @ActiveMember
-    @PaidFee
-    void testExistsPaid_WrongNumber() {
-        final boolean exists;
-
-        // WHEN
-        exists = repository.existsPaid(ProfileConstants.ALTERNATIVE_NUMBER, FeeConstants.DATE);
 
         // THEN
         Assertions.assertThat(exists)
@@ -189,6 +138,57 @@ class ITFeeRepositoryExistsPaid {
 
         // WHEN
         exists = repository.existsPaid(ProfileConstants.NUMBER, FeeConstants.DATE);
+
+        // THEN
+        Assertions.assertThat(exists)
+            .as("exists")
+            .isFalse();
+    }
+
+    @Test
+    @DisplayName("With an existing paid fee for a profile, and not a member, nothing exists")
+    @PositiveFeeType
+    @ValidProfile
+    @PaidFee
+    void testExistsPaid_NoMembership() {
+        final boolean exists;
+
+        // WHEN
+        exists = repository.existsPaid(ProfileConstants.NUMBER, FeeConstants.DATE);
+
+        // THEN
+        Assertions.assertThat(exists)
+            .as("exists")
+            .isFalse();
+    }
+
+    @Test
+    @DisplayName("With an existing  paid fee for an active member, and checking an invalid date, nothing exists")
+    @PositiveFeeType
+    @ActiveMember
+    @PaidFee
+    void testExistsPaid_WrongDate() {
+        final boolean exists;
+
+        // WHEN
+        exists = repository.existsPaid(ProfileConstants.NUMBER, FeeConstants.NEXT_DATE);
+
+        // THEN
+        Assertions.assertThat(exists)
+            .as("exists")
+            .isFalse();
+    }
+
+    @Test
+    @DisplayName("With an existing paid fee for an active member, and checking an invalid number, nothing exists")
+    @PositiveFeeType
+    @ActiveMember
+    @PaidFee
+    void testExistsPaid_WrongNumber() {
+        final boolean exists;
+
+        // WHEN
+        exists = repository.existsPaid(ProfileConstants.ALTERNATIVE_NUMBER, FeeConstants.DATE);
 
         // THEN
         Assertions.assertThat(exists)

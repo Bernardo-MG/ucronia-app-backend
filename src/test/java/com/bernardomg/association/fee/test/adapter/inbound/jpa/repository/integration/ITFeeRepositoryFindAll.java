@@ -205,34 +205,6 @@ class ITFeeRepositoryFindAll {
     }
 
     @Test
-    @DisplayName("With a not paid fee it returns all the fees")
-    @PositiveFeeType
-    @ActiveMember
-    @NotPaidFee
-    void testFindAll_NotPaid() {
-        final Page<Fee>  fees;
-        final FeeQuery   feeQuery;
-        final Pagination pagination;
-        final Sorting    sorting;
-
-        // GIVEN
-        pagination = new Pagination(1, 20);
-        sorting = Sorting.unsorted();
-
-        feeQuery = FeesQuery.empty();
-
-        // WHEN
-        fees = repository.findAll(feeQuery, pagination, sorting);
-
-        // THEN
-        Assertions.assertThat(fees)
-            .extracting(Page::content)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .as("fees")
-            .containsExactly(Fees.notPaid());
-    }
-
-    @Test
     @DisplayName("With a paid fee for a profile, and not a member, it returns nothing")
     @PositiveFeeType
     @ValidProfile
@@ -258,6 +230,34 @@ class ITFeeRepositoryFindAll {
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("fees")
             .isEmpty();
+    }
+
+    @Test
+    @DisplayName("With a not paid fee it returns all the fees")
+    @PositiveFeeType
+    @ActiveMember
+    @NotPaidFee
+    void testFindAll_NotPaid() {
+        final Page<Fee>  fees;
+        final FeeQuery   feeQuery;
+        final Pagination pagination;
+        final Sorting    sorting;
+
+        // GIVEN
+        pagination = new Pagination(1, 20);
+        sorting = Sorting.unsorted();
+
+        feeQuery = FeesQuery.empty();
+
+        // WHEN
+        fees = repository.findAll(feeQuery, pagination, sorting);
+
+        // THEN
+        Assertions.assertThat(fees)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .as("fees")
+            .containsExactly(Fees.notPaid());
     }
 
     @Test
