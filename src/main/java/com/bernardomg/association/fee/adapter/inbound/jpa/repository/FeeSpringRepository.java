@@ -123,6 +123,16 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
     public Collection<FeeEntity> findAllForYearAndMembersIn(@Param("year") int year, @Param("ids") Collection<Long> ids,
             Sort sort);
 
+    @Query("""
+            SELECT new com.bernardomg.association.fee.domain.model.FeeSummary(
+              COALESCE(SUM(CASE WHEN f.paid = TRUE THEN 1 ELSE 0 END), 0),
+              COALESCE(SUM(CASE WHEN f.paid = FALSE THEN 1 ELSE 0 END), 0)
+            )
+            FROM Fee f
+            WHERE f.month = :monthStart
+            """)
+    public FeeSummary findBalanceForMonth(@Param("monthStart") Instant monthStart);
+
     /**
      * Finds the fee for the member in a month.
      *
@@ -168,15 +178,5 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
               ORDER BY feeYear ASC
             """)
     public Collection<Integer> findYears();
-
-    @Query("""
-            SELECT new com.bernardomg.association.fee.domain.model.FeeSummary(
-              COALESCE(SUM(CASE WHEN f.paid = TRUE THEN 1 ELSE 0 END), 0),
-              COALESCE(SUM(CASE WHEN f.paid = FALSE THEN 1 ELSE 0 END), 0)
-            )
-            FROM Fee f
-            WHERE f.month = :monthStart
-            """)
-    FeeSummary findBalanceForMonth(@Param("monthStart") Instant monthStart);
 
 }
