@@ -124,10 +124,9 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
             Sort sort);
 
     @Query("""
-            SELECT new com.bernardomg.association.fee.domain.model.FeeSummary(
-              COALESCE(SUM(CASE WHEN f.paid = TRUE THEN 1 ELSE 0 END), 0),
-              COALESCE(SUM(CASE WHEN f.paid = FALSE THEN 1 ELSE 0 END), 0)
-            )
+            SELECT
+              COALESCE(SUM(CASE WHEN f.paid = TRUE THEN 1 ELSE 0 END), 0) AS paid,
+              COALESCE(SUM(CASE WHEN f.paid = FALSE THEN 1 ELSE 0 END), 0) AS unpaid
             FROM Fee f
             WHERE f.month = :monthStart
             """)
