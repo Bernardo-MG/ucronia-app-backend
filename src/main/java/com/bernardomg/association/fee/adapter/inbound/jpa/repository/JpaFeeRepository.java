@@ -386,13 +386,11 @@ public final class JpaFeeRepository implements FeeRepository {
                 .number());
         }
 
-        feeType = feeTypeSpringRepository.findByNumber(member.get()
-            .getFeeType()
-            .getNumber());
+        feeType = feeTypeSpringRepository.findByNumber(fee.feeType()
+            .number());
         if (!feeType.isPresent()) {
-            log.error("Fee type with number {} not found", member.get()
-                .getFeeType()
-                .getNumber());
+            log.error("Fee type with number {} not found", fee.feeType()
+                .number());
         }
 
         // TODO: this logic should go to the service
@@ -418,14 +416,14 @@ public final class JpaFeeRepository implements FeeRepository {
         }
 
         entity = new FeeEntity();
-        entity.setMember(member.orElse(null));
+        entity.setMember(member.get());
         date = fee.month()
             .atDay(1)
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant();
         entity.setMonth(date);
         entity.setPaid(paid);
-        entity.setFeeType(feeType.orElse(null));
+        entity.setFeeType(feeType.get());
         entity.setTransaction(transaction.orElse(null));
 
         return entity;

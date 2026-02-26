@@ -162,8 +162,10 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
     @Query("""
             SELECT extract(year from f.month) AS feeYear
             FROM Fee f
-             GROUP BY feeYear
-             ORDER BY feeYear ASC
+              INNER JOIN f.member m
+              WHERE m IS NOT NULL
+              GROUP BY feeYear
+              ORDER BY feeYear ASC
             """)
     public Collection<Integer> findYears();
 

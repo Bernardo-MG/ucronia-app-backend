@@ -174,6 +174,7 @@ class ITFeeRepositorySave {
 
     @Test
     @DisplayName("When the fee type doesn't exist, an exception is thrown")
+    @PositiveFeeType
     @ActiveMember
     @FeeTransaction
     void testSave_Paid_MissingFeeType() {
@@ -181,7 +182,7 @@ class ITFeeRepositorySave {
         final ThrowingCallable execution;
 
         // GIVEN
-        fee = Fees.paid();
+        fee = Fees.alternativeFeeType();
 
         // WHEN
         execution = () -> repository.save(fee);
