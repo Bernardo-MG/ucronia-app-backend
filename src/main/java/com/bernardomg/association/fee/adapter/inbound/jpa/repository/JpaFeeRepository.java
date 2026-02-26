@@ -97,7 +97,6 @@ public final class JpaFeeRepository implements FeeRepository {
 
         log.debug("Deleting fee for member {} in date {}", number, date);
 
-        // TODO: only members
         member = memberProfileSpringRepository.findByNumber(number);
         if (member.isPresent()) {
             dateParsed = date.atDay(1)
@@ -108,8 +107,7 @@ public final class JpaFeeRepository implements FeeRepository {
 
             log.debug("Deleted fee for member {} in date {}", number, date);
         } else {
-            // TODO: shouldn't throw an exception?
-            log.debug("Couldn't delete fee for member {} in date {}, as the member doesn't exist", number, date);
+            log.warn("Couldn't delete fee for member {} in date {}, as the member doesn't exist", number, date);
         }
     }
 
@@ -310,9 +308,8 @@ public final class JpaFeeRepository implements FeeRepository {
 
         entities = fees.stream()
             .map(this::toEntity)
+            .map(this::loadId)
             .toList();
-        // TODO: use map
-        entities.forEach(this::loadId);
         saved = feeSpringRepository.saveAll(entities)
             .stream()
             .map(FeeEntityMapper::toDomain)
@@ -355,7 +352,7 @@ public final class JpaFeeRepository implements FeeRepository {
         return new Sorting(properties);
     }
 
-    private final void loadId(final FeeEntity fee) {
+    private final FeeEntity loadId(final FeeEntity fee) {
         final Long                id;
         final Optional<FeeEntity> read;
 
@@ -367,6 +364,8 @@ public final class JpaFeeRepository implements FeeRepository {
                 .getId();
             fee.setId(id);
         }
+        
+        return fee;
     }
 
     private final FeeEntity toEntity(final Fee fee) {
