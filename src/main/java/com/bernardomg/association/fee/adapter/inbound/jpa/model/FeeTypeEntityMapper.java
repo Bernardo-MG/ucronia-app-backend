@@ -46,6 +46,14 @@ public final class FeeTypeEntityMapper {
         return entity;
     }
 
+    public static final FeeTypeEntity toEntity(final FeeTypeEntity entity, final FeeType domain) {
+
+        entity.setName(domain.name());
+        entity.setAmount(domain.amount());
+
+        return entity;
+    }
+
     private FeeTypeEntityMapper() {
         super();
     }

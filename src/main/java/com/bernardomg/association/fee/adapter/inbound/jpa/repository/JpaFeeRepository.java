@@ -364,7 +364,7 @@ public final class JpaFeeRepository implements FeeRepository {
                 .getId();
             fee.setId(id);
         }
-        
+
         return fee;
     }
 
@@ -392,7 +392,6 @@ public final class JpaFeeRepository implements FeeRepository {
                 .number());
         }
 
-        // TODO: this logic should go to the service
         if (fee.transaction()
             .isPresent()) {
             paid = true;
