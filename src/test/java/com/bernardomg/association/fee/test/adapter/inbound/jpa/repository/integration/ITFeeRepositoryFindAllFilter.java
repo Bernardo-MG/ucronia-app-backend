@@ -39,12 +39,14 @@ import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.data.annotation.FeeFullYear;
 import com.bernardomg.association.fee.test.configuration.data.annotation.MultipleFees;
+import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFee;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.test.configuration.factory.FeesQuery;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.MultipleInactiveMember;
+import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -281,6 +283,60 @@ class ITFeeRepositoryGetAllFilter {
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("fees")
             .containsExactly(Fees.paidForMonth(1, Month.FEBRUARY));
+    }
+
+    @Test
+    @DisplayName("With no fee it returns nothing")
+    @PositiveFeeType
+    @ActiveMember
+    void testFindAll_NoFee() {
+        final Page<Fee>  fees;
+        final FeeQuery   feeQuery;
+        final Pagination pagination;
+        final Sorting    sorting;
+
+        // GIVEN
+        pagination = new Pagination(1, 20);
+        sorting = Sorting.unsorted();
+
+        feeQuery = FeesQuery.to(YearMonth.of(2020, Month.JANUARY));
+
+        // WHEN
+        fees = repository.findAll(feeQuery, pagination, sorting);
+
+        // THEN
+        Assertions.assertThat(fees)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .as("fees")
+            .isEmpty();
+    }
+    @Test
+    @DisplayName("With a paid fee for a profile, and not a member, it returns nothing")
+    @PositiveFeeType
+    @ValidProfile
+    @PaidFee
+    void testFindAll_NoMembership() {
+        final Page<Fee>  fees;
+        final FeeQuery   feeQuery;
+        final Pagination pagination;
+        final Sorting    sorting;
+
+        // GIVEN
+        pagination = new Pagination(1, 20);
+        sorting = Sorting.unsorted();
+
+        feeQuery = FeesQuery.to(YearMonth.of(2020, Month.JANUARY));
+
+        // WHEN
+        fees = repository.findAll(feeQuery, pagination, sorting);
+
+        // THEN
+        Assertions.assertThat(fees)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .as("fees")
+            .isEmpty();
     }
 
     @Test

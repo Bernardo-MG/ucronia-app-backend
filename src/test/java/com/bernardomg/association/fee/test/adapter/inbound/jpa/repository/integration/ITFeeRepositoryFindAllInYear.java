@@ -48,6 +48,7 @@ import com.bernardomg.association.member.test.configuration.data.annotation.Alte
 import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.NoLastNameActiveMember;
 import com.bernardomg.association.member.test.configuration.factory.MemberCalendarConstants;
+import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
@@ -265,6 +266,49 @@ class ITFeeRepositoryFindAllInYear {
             .containsExactly(Fees.paidForMonth(1, Month.FEBRUARY));
     }
 
+
+    @Test
+    @DisplayName("With no fee it returns nothing")
+    @PositiveFeeType
+    @ActiveMember
+    void testFindAllInYear_NoFee() {
+        final Iterable<Fee> fees;
+        final Sorting       sorting;
+
+        // GIVEN
+        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
+            new Sorting.Property("month", Sorting.Direction.ASC)));
+
+        // WHEN
+        fees = repository.findAllInYear(FeeConstants.YEAR, sorting);
+
+        // THEN
+        Assertions.assertThat(fees)
+            .as("fees")
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("With a profile with no membership, it returns nothing")
+    @PositiveFeeType
+    @ValidProfile
+    @PaidFee
+    void testFindAllInYear_NoMembership() {
+        final Iterable<Fee> fees;
+        final Sorting       sorting;
+
+        // GIVEN
+        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
+            new Sorting.Property("month", Sorting.Direction.ASC)));
+
+        // WHEN
+        fees = repository.findAllInYear(FeeConstants.YEAR, sorting);
+
+        // THEN
+        Assertions.assertThat(fees)
+            .as("fees")
+            .isEmpty();
+    }
     @Test
     @DisplayName("With a paid fee and searching for the next year, it returns nothing")
     @PositiveFeeType

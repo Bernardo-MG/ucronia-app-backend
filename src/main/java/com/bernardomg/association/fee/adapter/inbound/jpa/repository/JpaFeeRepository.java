@@ -382,7 +382,7 @@ public final class JpaFeeRepository implements FeeRepository {
         member = memberProfileSpringRepository.findByNumber(fee.member()
             .number());
         if (!member.isPresent()) {
-            log.warn("Profile with number {} not found", fee.member()
+            log.error("Profile with number {} not found", fee.member()
                 .number());
         }
 
@@ -390,7 +390,7 @@ public final class JpaFeeRepository implements FeeRepository {
             .getFeeType()
             .getNumber());
         if (!feeType.isPresent()) {
-            log.warn("Fee type with number {} not found", member.get()
+            log.error("Fee type with number {} not found", member.get()
                 .getFeeType()
                 .getNumber());
         }

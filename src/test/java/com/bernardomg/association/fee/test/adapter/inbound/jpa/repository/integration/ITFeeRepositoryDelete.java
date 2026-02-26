@@ -25,7 +25,6 @@
 package com.bernardomg.association.fee.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +36,7 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFee
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
+import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
@@ -53,6 +53,19 @@ class ITFeeRepositoryDelete {
     @Test
     @DisplayName("When there is no data, nothing is removed")
     void testDelete_NoData() {
+        // WHEN
+        repository.delete(ProfileConstants.NUMBER, FeeConstants.DATE);
+
+        // THEN
+        Assertions.assertThat(feeSpringRepository.count())
+            .as("fees")
+            .isZero();
+    }
+    @Test
+    @DisplayName("When there is no fee, nothing is removed")
+    @PositiveFeeType
+    @ActiveMember
+    void testDelete_NoFee() {
         // WHEN
         repository.delete(ProfileConstants.NUMBER, FeeConstants.DATE);
 
@@ -82,7 +95,6 @@ class ITFeeRepositoryDelete {
     @PositiveFeeType
     @ActiveMember
     @PaidFee
-    @Disabled("Handle relationships")
     void testDelete_Paid() {
         // WHEN
         repository.delete(ProfileConstants.NUMBER, FeeConstants.DATE);
@@ -91,6 +103,21 @@ class ITFeeRepositoryDelete {
         Assertions.assertThat(feeSpringRepository.count())
             .as("fees")
             .isZero();
+    }
+
+    @Test
+    @DisplayName("When a paid entity linked to a profile, and not a member, is deleted, nothing is removed")
+    @PositiveFeeType
+    @ValidProfile
+    @PaidFee
+    void testDelete_NoMembership() {
+        // WHEN
+        repository.delete(ProfileConstants.NUMBER, FeeConstants.DATE);
+
+        // THEN
+        Assertions.assertThat(feeSpringRepository.count())
+            .as("fees")
+            .isOne();
     }
 
 }

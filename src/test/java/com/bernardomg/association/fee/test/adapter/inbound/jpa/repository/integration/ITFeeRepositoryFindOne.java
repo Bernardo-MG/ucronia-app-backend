@@ -42,6 +42,7 @@ import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMemberNoLastName;
 import com.bernardomg.association.member.test.configuration.data.annotation.AlternativeActiveMember;
+import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
@@ -129,6 +130,37 @@ class ITFeeRepositoryFindOne {
         // THEN
         Assertions.assertThat(fee)
             .contains(Fees.paid());
+    }
+
+    @Test
+    @DisplayName("With no fee it returns nothing")
+    @PositiveFeeType
+    @ActiveMember
+    void testFindOne_NoFee() {
+        final Optional<Fee> fee;
+
+        // WHEN
+        fee = repository.findOne(ProfileConstants.NUMBER, FeeConstants.DATE);
+
+        // THEN
+        Assertions.assertThat(fee)
+        .isEmpty();
+    }
+
+    @Test
+    @DisplayName("With a profile with no membership, it returns nothing")
+    @PositiveFeeType
+    @ValidProfile
+    @PaidFee
+    void testFindOne_NoMembership() {
+        final Optional<Fee> fee;
+
+        // WHEN
+        fee = repository.findOne(ProfileConstants.NUMBER, FeeConstants.DATE);
+
+        // THEN
+        Assertions.assertThat(fee)
+        .isEmpty();
     }
 
     @Test
