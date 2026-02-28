@@ -372,11 +372,6 @@ public final class JpaFeeRepository implements FeeRepository {
         final Optional<MemberProfileEntity> member;
         final Optional<FeeTypeEntity>       feeType;
         final Optional<TransactionEntity>   transaction;
-        final boolean                       paid;
-        final FeeEntity                     entity;
-        final Instant                       date;
-
-        // TODO: move to mapper
 
         member = memberProfileSpringRepository.findByNumber(fee.member()
             .number());
@@ -394,7 +389,6 @@ public final class JpaFeeRepository implements FeeRepository {
 
         if (fee.transaction()
             .isPresent()) {
-            paid = true;
             transaction = transactionSpringRepository.findByIndex(fee.transaction()
                 .get()
                 .index());
@@ -409,22 +403,10 @@ public final class JpaFeeRepository implements FeeRepository {
                         .date());
             }
         } else {
-            paid = fee.paid();
             transaction = Optional.empty();
         }
 
-        entity = new FeeEntity();
-        entity.setMember(member.get());
-        date = fee.month()
-            .atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant();
-        entity.setMonth(date);
-        entity.setPaid(paid);
-        entity.setFeeType(feeType.get());
-        entity.setTransaction(transaction.orElse(null));
-
-        return entity;
+        return FeeEntityMapper.toEntity(fee, member.get(), feeType.get(), transaction);
     }
 
 }
