@@ -121,11 +121,9 @@ public final class DefaultFeeService implements FeeService {
 
         messageSource = Objects.requireNonNull(msgSource);
 
-        // TODO: Test validation
         validatorPay = new FieldRuleValidator<>(new FeePaymentsNotPaidInFutureRule(),
             new FeePaymentsMonthsNotExistingRule(memberProfileRepository, feeRepository));
 
-        // TODO: Test validation
         validatorCreate = new FieldRuleValidator<>(new FeeMonthNotExistingRule(memberProfileRepository, feeRepository));
         validatorUpdate = new FieldRuleValidator<>(new FeeNotPaidInFutureRule(),
             new FeeTransactionNotChangedRule(feeRepository), new FeeFeeTypeNotChangedRule(feeRepository));
