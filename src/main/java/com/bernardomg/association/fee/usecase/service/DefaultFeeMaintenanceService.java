@@ -77,7 +77,6 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
     public final void registerMonthFees() {
         final Collection<Fee>           feesToCreate;
         final Collection<MemberProfile> toRenew;
-        final Collection<Long>          feeTypeIds;
         final Map<Long, FeeType>        feeTypes;
 
         log.info("Registering fees for this month");
@@ -85,13 +84,9 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
         // Find fees to extend into the current month
         toRenew = memberProfileRepository.findAllToRenew();
 
-        feeTypeIds = toRenew.stream()
-            .map(MemberProfile::feeType)
-            .map(MemberProfile.FeeType::number)
+        feeTypes = toRenew.stream()
+                .map(m -> m.feeType().number())
             .distinct()
-            .toList();
-
-        feeTypes = feeTypeIds.stream()
             .map(this::getFeeType)
             .collect(Collectors.toMap(FeeType::number, Function.identity()));
 

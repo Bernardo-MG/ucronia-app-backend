@@ -273,7 +273,7 @@ public final class DefaultFeeService implements FeeService {
             .fullName()));
         sortedCalendarFees = calendarFees.stream()
             .sorted(feeCalendarComparator)
-            .collect(Collectors.toList());
+            .toList();
 
         log.debug("Got fee calendar for year {} and status {}: {}", year, status, sortedCalendarFees);
 
