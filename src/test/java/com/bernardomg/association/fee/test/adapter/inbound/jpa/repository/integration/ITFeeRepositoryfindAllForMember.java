@@ -284,6 +284,30 @@ class ITFeeRepositoryfindAllForProfileForMember {
     }
 
     @Test
+    @DisplayName("With no fee it returns nothing")
+    @PositiveFeeType
+    @ActiveMember
+    void testFindAllForMember_NoFee() {
+        final Page<Fee>  fees;
+        final Pagination pagination;
+        final Sorting    sorting;
+
+        // GIVEN
+        pagination = new Pagination(1, 20);
+        sorting = new Sorting(List.of());
+
+        // WHEN
+        fees = repository.findAllForMember(ProfileConstants.NUMBER, pagination, sorting);
+
+        // THEN
+        Assertions.assertThat(fees)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .as("fees")
+            .isEmpty();
+    }
+
+    @Test
     @DisplayName("With a profile with no membership, it returns nothing")
     @ValidProfile
     void testFindAllForMember_NoMembership() {

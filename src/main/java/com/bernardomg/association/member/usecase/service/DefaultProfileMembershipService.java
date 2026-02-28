@@ -88,11 +88,13 @@ public final class DefaultProfileMembershipService implements ProfileMembershipS
             });
 
         if (memberProfileRepository.exists(number)) {
+            log.error("Missing member {}", number);
             throw new MemberExistsException(number);
         }
 
         if (!feeTypeRepository.exists(feeType)) {
-            throw new MissingFeeTypeException(number);
+            log.error("Missing fee type {}", feeType);
+            throw new MissingFeeTypeException(feeType);
         }
 
         memberFeeType = new MemberProfile.FeeType(feeType, "", 0f);
