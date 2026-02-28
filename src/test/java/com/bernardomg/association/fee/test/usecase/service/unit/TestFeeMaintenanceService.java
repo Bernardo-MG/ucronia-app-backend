@@ -7,6 +7,8 @@ import static org.mockito.Mockito.verify;
 import java.util.List;
 import java.util.Optional;
 
+import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,6 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.association.fee.domain.exception.MissingFeeTypeException;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
@@ -70,6 +73,23 @@ public class TestFeeMaintenanceService {
 
         // THEN
         verify(feeRepository).save(List.of());
+    }
+
+    @Test
+    @DisplayName("When the fee type doesn't exist, an exception is thrown")
+    void testRegisterMonthFees_NoFeeType() {
+        final ThrowingCallable execution;
+
+        // GIVEN
+        given(memberProfileRepository.findAllToRenew()).willReturn(List.of(MemberProfiles.active()));
+        given(feeTypeRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.empty());
+
+        // WHEN
+        execution = () -> service.registerMonthFees();
+
+        // THEN
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(MissingFeeTypeException.class);
     }
 
     @Test
