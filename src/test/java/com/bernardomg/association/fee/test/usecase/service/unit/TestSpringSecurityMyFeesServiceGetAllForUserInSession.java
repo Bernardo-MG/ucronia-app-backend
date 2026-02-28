@@ -39,12 +39,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.bernardomg.association.fee.domain.exception.MissingUserInSessionException;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
@@ -58,8 +58,8 @@ import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("My fees service - get all for user in session")
-class TestMyFeesServiceGetAllForUserInSession {
+@DisplayName("SpringSecurityMyFeesService - get all for user in session")
+class TestSpringSecurityMyFeesServiceGetAllForUserInSession {
 
     @Mock
     private Authentication              authentication;
@@ -132,7 +132,7 @@ class TestMyFeesServiceGetAllForUserInSession {
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingUserInSessionException.class);
+            .isInstanceOf(AuthenticationCredentialsNotFoundException.class);
     }
 
     @Test
