@@ -307,7 +307,7 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
 
     private final BookLendingInfo toDomain(final FictionBookEntity bookEntity, final BookLendingEntity entity) {
         final Borrower borrower;
-        borrower = memberProfileSpringRepository.findById(entity.getProfileId())
+        borrower = memberProfileSpringRepository.findByProfileId(entity.getProfileId())
             .map(BookEntityMapper::toDomain)
             .orElseThrow(() -> {
                 log.error("Missing profile {}", entity.getProfileId());

@@ -338,7 +338,7 @@ public final class JpaGameBookRepository implements GameBookRepository {
 
     private final BookLendingInfo toDomain(final GameBookEntity bookEntity, final BookLendingEntity entity) {
         final Borrower borrower;
-        borrower = memberProfileSpringRepository.findById(entity.getProfileId())
+        borrower = memberProfileSpringRepository.findByProfileId(entity.getProfileId())
             .map(BookEntityMapper::toDomain)
             .orElseThrow(() -> {
                 log.error("Missing profile {}", entity.getProfileId());
