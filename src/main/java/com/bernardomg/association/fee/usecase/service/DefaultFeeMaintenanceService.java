@@ -85,7 +85,8 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
         toRenew = memberProfileRepository.findAllToRenew();
 
         feeTypes = toRenew.stream()
-                .map(m -> m.feeType().number())
+            .map(m -> m.feeType()
+                .number())
             .distinct()
             .map(this::getFeeType)
             .collect(Collectors.toMap(FeeType::number, Function.identity()));

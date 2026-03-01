@@ -38,17 +38,17 @@ import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.model.BookEntity;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.model.BookEntityMapper;
 import com.bernardomg.association.library.book.domain.model.Book;
+import com.bernardomg.association.library.book.domain.model.BookLendingInfo;
 import com.bernardomg.association.library.book.domain.model.Donation;
 import com.bernardomg.association.library.book.domain.model.Donor;
 import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.library.book.domain.repository.BookRepository;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.BookLendingEntity;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.repository.BookLendingSpringRepository;
-import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.lending.domain.model.BookLending.Borrower;
-import com.bernardomg.association.library.lending.domain.model.BookLending.LentBook;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
-import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberProfileSpringRepository;
+import com.bernardomg.association.member.domain.exception.MissingMemberException;
 
 @Repository
 @Transactional
@@ -57,21 +57,21 @@ public final class JpaBookRepository implements BookRepository {
     /**
      * Logger for the class.
      */
-    private static final Logger               log = LoggerFactory.getLogger(JpaBookRepository.class);
+    private static final Logger                 log = LoggerFactory.getLogger(JpaBookRepository.class);
 
-    private final BookLendingSpringRepository bookLendingSpringRepository;
+    private final BookLendingSpringRepository   bookLendingSpringRepository;
 
-    private final BookSpringRepository        bookSpringRepository;
+    private final BookSpringRepository          bookSpringRepository;
 
-    private final ProfileSpringRepository     profileSpringRepository;
+    private final MemberProfileSpringRepository memberProfileSpringRepository;
 
-    public JpaBookRepository(final BookSpringRepository bookSpringRepo, final ProfileSpringRepository profileSpringRepo,
+    public JpaBookRepository(final BookSpringRepository bookSpringRepo,
+            final MemberProfileSpringRepository memberProfileSpringRepo,
             final BookLendingSpringRepository bookLendingSpringRepo) {
         super();
 
         bookSpringRepository = Objects.requireNonNull(bookSpringRepo);
-        // TODO: maybe should be members only
-        profileSpringRepository = Objects.requireNonNull(profileSpringRepo);
+        memberProfileSpringRepository = Objects.requireNonNull(memberProfileSpringRepo);
         bookLendingSpringRepository = Objects.requireNonNull(bookLendingSpringRepo);
     }
 
@@ -90,15 +90,15 @@ public final class JpaBookRepository implements BookRepository {
     }
 
     private final Book toDomain(final BookEntity entity) {
-        final Collection<Publisher>   publishers;
-        final Collection<Donor>       donors;
-        final Collection<Author>      authors;
-        final boolean                 lent;
-        final Collection<BookLending> lendings;
-        final Title                   title;
-        final String                  supertitle;
-        final String                  subtitle;
-        final Optional<Donation>      donation;
+        final Collection<Publisher>       publishers;
+        final Collection<Donor>           donors;
+        final Collection<Author>          authors;
+        final boolean                     lent;
+        final Collection<BookLendingInfo> lendings;
+        final Title                       title;
+        final String                      supertitle;
+        final String                      subtitle;
+        final Optional<Donation>          donation;
 
         // Publishers
         if (entity.getPublishers() == null) {
@@ -162,17 +162,17 @@ public final class JpaBookRepository implements BookRepository {
             lent, authors, lendings, publishers, donation);
     }
 
-    private final BookLending toDomain(final BookEntity bookEntity, final BookLendingEntity entity) {
-        final Optional<Borrower> borrower;
-        final LentBook           lentBook;
-        final Title              title;
-
-        // TODO: should not contain all the member data
-        borrower = profileSpringRepository.findById(entity.getProfileId())
-            .map(BookEntityMapper::toDomain);
-        title = new Title(bookEntity.getSupertitle(), bookEntity.getTitle(), bookEntity.getSubtitle());
-        lentBook = new LentBook(bookEntity.getNumber(), title);
-        return new BookLending(lentBook, borrower.get(), entity.getLendingDate(), entity.getReturnDate());
+    private final BookLendingInfo toDomain(final BookEntity bookEntity, final BookLendingEntity entity) {
+        final Borrower borrower;
+        borrower = memberProfileSpringRepository.findByProfileId(entity.getProfileId())
+            .map(BookEntityMapper::toDomain)
+            .orElseThrow(() -> {
+                // TODO: Wrong id
+                log.error("Missing member {}", entity.getProfileId());
+                throw new MissingMemberException(entity.getProfileId());
+            });
+        new Title(bookEntity.getSupertitle(), bookEntity.getTitle(), bookEntity.getSubtitle());
+        return new BookLendingInfo(borrower, entity.getLendingDate(), entity.getReturnDate());
     }
 
 }
