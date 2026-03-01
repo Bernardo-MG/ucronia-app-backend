@@ -26,7 +26,6 @@ package com.bernardomg.association.library.book.adapter.inbound.jpa.repository;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -43,6 +42,7 @@ import com.bernardomg.association.library.author.adapter.inbound.jpa.repository.
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.model.BookEntityMapper;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.model.GameBookEntity;
+import com.bernardomg.association.library.book.adapter.inbound.jpa.model.GameBookEntityMapper;
 import com.bernardomg.association.library.book.domain.model.BookLendingInfo;
 import com.bernardomg.association.library.book.domain.model.Donation;
 import com.bernardomg.association.library.book.domain.model.Donor;
@@ -51,10 +51,8 @@ import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.library.book.domain.repository.GameBookRepository;
 import com.bernardomg.association.library.booktype.adapter.inbound.jpa.model.BookTypeEntity;
 import com.bernardomg.association.library.booktype.adapter.inbound.jpa.repository.BookTypeSpringRepository;
-import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.gamesystem.adapter.inbound.jpa.model.GameSystemEntity;
 import com.bernardomg.association.library.gamesystem.adapter.inbound.jpa.repository.GameSystemSpringRepository;
-import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.BookLendingEntity;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.repository.BookLendingSpringRepository;
 import com.bernardomg.association.library.lending.domain.model.BookLending.Borrower;
@@ -248,92 +246,17 @@ public final class JpaGameBookRepository implements GameBookRepository {
     }
 
     private final GameBook toDomain(final GameBookEntity entity) {
-        final Collection<Publisher>       publishers;
-        final Optional<GameSystem>        gameSystem;
-        final Optional<BookType>          bookType;
-        final Collection<Donor>           donors;
-        final Collection<Author>          authors;
         final boolean                     lent;
         final Collection<BookLendingInfo> lendings;
-        final Title                       title;
-        final String                      supertitle;
-        final String                      subtitle;
-        final Optional<Donation>          donation;
-
-        // Game system
-        if (entity.getGameSystem() == null) {
-            gameSystem = Optional.empty();
-        } else {
-            gameSystem = Optional.of(BookEntityMapper.toDomain(entity.getGameSystem()));
-        }
-
-        // Book type
-        if (entity.getBookType() == null) {
-            bookType = Optional.empty();
-        } else {
-            bookType = Optional.of(BookEntityMapper.toDomain(entity.getBookType()));
-        }
-
-        // Publishers
-        if (entity.getPublishers() == null) {
-            publishers = List.of();
-        } else {
-            publishers = entity.getPublishers()
-                .stream()
-                .map(BookEntityMapper::toDomain)
-                .toList();
-        }
-
-        // Authors
-        if (entity.getAuthors() == null) {
-            authors = List.of();
-        } else {
-            authors = entity.getAuthors()
-                .stream()
-                .map(BookEntityMapper::toDomain)
-                .toList();
-        }
-
-        // Donation
-        if (entity.getDonors() == null) {
-            donors = List.of();
-        } else {
-            donors = entity.getDonors()
-                .stream()
-                .map(BookEntityMapper::toDonorDomain)
-                .toList();
-        }
-        if ((entity.getDonationDate() != null) && (!donors.isEmpty())) {
-            donation = Optional.of(new Donation(entity.getDonationDate(), donors));
-        } else if (entity.getDonationDate() != null) {
-            donation = Optional.of(new Donation(entity.getDonationDate(), List.of()));
-        } else if (!donors.isEmpty()) {
-            donation = Optional.of(new Donation(null, donors));
-        } else {
-            donation = Optional.empty();
-        }
 
         // Lendings
         lendings = bookLendingSpringRepository.findAllByBookId(entity.getId())
             .stream()
             .map(l -> toDomain(entity, l))
             .toList();
-
-        if (entity.getSupertitle() == null) {
-            supertitle = "";
-        } else {
-            supertitle = entity.getSupertitle();
-        }
-        if (entity.getSubtitle() == null) {
-            subtitle = "";
-        } else {
-            subtitle = entity.getSubtitle();
-        }
-        title = new Title(supertitle, entity.getTitle(), subtitle);
-
         lent = bookSpringRepository.isLent(entity.getId());
-        return new GameBook(entity.getNumber(), title, entity.getIsbn(), entity.getLanguage(), entity.getPublishDate(),
-            lent, authors, lendings, publishers, donation, bookType, gameSystem);
+
+        return GameBookEntityMapper.toDomain(entity, lent, lendings);
     }
 
     private final BookLendingInfo toDomain(final GameBookEntity bookEntity, final BookLendingEntity entity) {
