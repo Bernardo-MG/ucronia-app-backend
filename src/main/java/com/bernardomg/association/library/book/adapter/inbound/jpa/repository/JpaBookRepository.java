@@ -43,7 +43,7 @@ import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.Book
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.repository.BookLendingSpringRepository;
 import com.bernardomg.association.library.lending.domain.model.BookLending.Borrower;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberProfileSpringRepository;
-import com.bernardomg.association.member.domain.exception.MissingMemberException;
+import com.bernardomg.association.profile.domain.exception.MissingProfileException;
 
 @Repository
 @Transactional
@@ -103,9 +103,8 @@ public final class JpaBookRepository implements BookRepository {
         borrower = memberProfileSpringRepository.findByProfileId(entity.getProfileId())
             .map(BookEntityMapper::toDomain)
             .orElseThrow(() -> {
-                // TODO: Wrong id
-                log.error("Missing member {}", entity.getProfileId());
-                throw new MissingMemberException(entity.getProfileId());
+                log.error("Missing profile {}", entity.getProfileId());
+                throw new MissingProfileException(entity.getProfileId());
             });
         new Title(bookEntity.getSupertitle(), bookEntity.getTitle(), bookEntity.getSubtitle());
         return new BookLendingInfo(borrower, entity.getLendingDate(), entity.getReturnDate());
