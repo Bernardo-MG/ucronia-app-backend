@@ -114,6 +114,7 @@ public final class JpaAuthorRepository implements AuthorRepository {
 
         log.debug("Finding authors with pagination {} and sorting {}", pagination, sorting);
 
+        // TODO: test pagination and sorting
         pageable = SpringPagination.toPageable(pagination, sorting);
         read = authorSpringRepository.findAll(pageable)
             .map(AuthorEntityMapper::toDomain);
