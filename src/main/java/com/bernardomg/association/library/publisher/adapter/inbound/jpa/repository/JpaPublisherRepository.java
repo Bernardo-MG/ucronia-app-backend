@@ -114,6 +114,7 @@ public final class JpaPublisherRepository implements PublisherRepository {
 
         log.debug("Finding publishers with pagination {} and sorting {}", pagination, sorting);
 
+        // TODO: test pagination and sorting
         pageable = SpringPagination.toPageable(pagination, sorting);
         read = publisherSpringRepository.findAll(pageable)
             .map(PublisherEntityMapper::toDomain);

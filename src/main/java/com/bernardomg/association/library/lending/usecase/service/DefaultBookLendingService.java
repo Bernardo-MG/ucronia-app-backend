@@ -161,7 +161,6 @@ public final class DefaultBookLendingService implements BookLendingService {
 
         lending = read.returned(date);
 
-        // TODO: not allow returning a book lent to another
         returnBookValidator.validate(lending);
 
         returned = bookLendingRepository.save(lending);

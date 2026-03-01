@@ -41,8 +41,6 @@ public record BookLending(LentBook book, Borrower borrower, Instant lendingDate,
     }
 
     public record LentBook(long number, Title title) {
-        // TODO: not all the info is being returned to the frontend?
-
     }
 
     public record Borrower(long number, ProfileName name) {

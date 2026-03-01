@@ -114,6 +114,7 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
 
         log.debug("Finding game systems with pagination {} and sorting {}", pagination, sorting);
 
+        // TODO: test pagination and sorting
         pageable = SpringPagination.toPageable(pagination, sorting);
         read = gameSystemSpringRepository.findAll(pageable)
             .map(GameSystemEntityMapper::toDomain);

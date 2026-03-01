@@ -122,8 +122,6 @@ public final class DefaultGameBookService implements GameBookService {
 
         log.debug("Creating book {}", book);
 
-        // TODO: verify the language is a valid code
-
         validateRelationships(book);
 
         // Get number
@@ -225,9 +223,6 @@ public final class DefaultGameBookService implements GameBookService {
         final GameBook              updated;
 
         log.debug("Updating book with number {} using data {}", book.number(), book);
-
-        // TODO: verify the language is a valid code
-        // TODO: validate isbn
 
         // Check book exists
         if (!bookRepository.exists(book.number())) {

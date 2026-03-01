@@ -28,34 +28,20 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-import com.bernardomg.association.library.author.adapter.inbound.jpa.model.AuthorEntity;
 import com.bernardomg.association.library.author.domain.model.Author;
-import com.bernardomg.association.library.book.domain.model.Book;
 import com.bernardomg.association.library.book.domain.model.BookLendingInfo;
 import com.bernardomg.association.library.book.domain.model.Donation;
 import com.bernardomg.association.library.book.domain.model.Donor;
+import com.bernardomg.association.library.book.domain.model.FictionBook;
 import com.bernardomg.association.library.book.domain.model.Title;
-import com.bernardomg.association.library.booktype.adapter.inbound.jpa.model.BookTypeEntity;
-import com.bernardomg.association.library.booktype.domain.model.BookType;
-import com.bernardomg.association.library.gamesystem.adapter.inbound.jpa.model.GameSystemEntity;
-import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
-import com.bernardomg.association.library.lending.domain.model.BookLending.Borrower;
-import com.bernardomg.association.library.publisher.adapter.inbound.jpa.model.PublisherEntity;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
-import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberProfileEntity;
-import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
-import com.bernardomg.association.profile.domain.model.ProfileName;
 
 /**
  * Author repository mapper.
  */
-public final class BookEntityMapper {
+public final class FictionBookEntityMapper {
 
-    public static final Author toDomain(final AuthorEntity entity) {
-        return new Author(entity.getNumber(), entity.getName());
-    }
-
-    public static final Book toDomain(final BookEntity entity, final boolean lent,
+    public static final FictionBook toDomain(final FictionBookEntity entity, final boolean lent,
             final Collection<BookLendingInfo> lendings) {
         final Collection<Publisher> publishers;
         final Collection<Donor>     donors;
@@ -116,41 +102,11 @@ public final class BookEntityMapper {
         }
         title = new Title(supertitle, entity.getTitle(), subtitle);
 
-        return new Book(entity.getNumber(), title, entity.getIsbn(), entity.getLanguage(), entity.getPublishDate(),
-            lent, authors, lendings, publishers, donation);
+        return new FictionBook(entity.getNumber(), title, entity.getIsbn(), entity.getLanguage(),
+            entity.getPublishDate(), lent, authors, lendings, publishers, donation);
     }
 
-    public static final BookType toDomain(final BookTypeEntity entity) {
-        return new BookType(entity.getNumber(), entity.getName());
-    }
-
-    public static final GameSystem toDomain(final GameSystemEntity entity) {
-        return new GameSystem(entity.getNumber(), entity.getName());
-    }
-
-    public static final Borrower toDomain(final MemberProfileEntity entity) {
-        final ProfileName name;
-
-        name = new ProfileName(entity.getProfile()
-            .getFirstName(),
-            entity.getProfile()
-                .getLastName());
-        return new Borrower(entity.getProfile()
-            .getNumber(), name);
-    }
-
-    public static final Publisher toDomain(final PublisherEntity entity) {
-        return new Publisher(entity.getNumber(), entity.getName());
-    }
-
-    public static final Donor toDonorDomain(final ProfileEntity entity) {
-        final ProfileName name;
-
-        name = new ProfileName(entity.getFirstName(), entity.getLastName());
-        return new Donor(entity.getNumber(), name);
-    }
-
-    private BookEntityMapper() {
+    private FictionBookEntityMapper() {
         super();
     }
 

@@ -29,11 +29,10 @@ import java.util.Collection;
 import java.util.Optional;
 
 import com.bernardomg.association.library.author.domain.model.Author;
-import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
 
 public record Book(long number, Title title, String isbn, String language, Instant publishDate, boolean lent,
-        Collection<Author> authors, Collection<BookLending> lendings, Collection<Publisher> publishers,
+        Collection<Author> authors, Collection<BookLendingInfo> lendings, Collection<Publisher> publishers,
         Optional<Donation> donation) {
 
 }

@@ -41,6 +41,7 @@ import com.bernardomg.association.library.author.adapter.inbound.jpa.repository.
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.model.BookEntityMapper;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.model.FictionBookEntity;
+import com.bernardomg.association.library.book.adapter.inbound.jpa.model.FictionBookEntityMapper;
 import com.bernardomg.association.library.book.domain.model.BookLendingInfo;
 import com.bernardomg.association.library.book.domain.model.Donation;
 import com.bernardomg.association.library.book.domain.model.Donor;
@@ -53,8 +54,10 @@ import com.bernardomg.association.library.lending.domain.model.BookLending.Borro
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.model.PublisherEntity;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.repository.PublisherSpringRepository;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberProfileSpringRepository;
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
+import com.bernardomg.association.profile.domain.exception.MissingProfileException;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -68,27 +71,30 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
     /**
      * Logger for the class.
      */
-    private static final Logger               log = LoggerFactory.getLogger(JpaFictionBookRepository.class);
+    private static final Logger                 log = LoggerFactory.getLogger(JpaFictionBookRepository.class);
 
-    private final AuthorSpringRepository      authorSpringRepository;
+    private final AuthorSpringRepository        authorSpringRepository;
 
-    private final BookLendingSpringRepository bookLendingSpringRepository;
+    private final BookLendingSpringRepository   bookLendingSpringRepository;
 
-    private final FictionBookSpringRepository bookSpringRepository;
+    private final FictionBookSpringRepository   bookSpringRepository;
 
-    private final ProfileSpringRepository     profileSpringRepository;
+    private final MemberProfileSpringRepository memberProfileSpringRepository;
 
-    private final PublisherSpringRepository   publisherSpringRepository;
+    private final ProfileSpringRepository       profileSpringRepository;
+
+    private final PublisherSpringRepository     publisherSpringRepository;
 
     public JpaFictionBookRepository(final FictionBookSpringRepository bookSpringRepo,
             final AuthorSpringRepository authorSpringRepo, final PublisherSpringRepository publisherSpringRepo,
+            final MemberProfileSpringRepository memberProfileSpringRepo,
             final ProfileSpringRepository profileSpringRepo, final BookLendingSpringRepository bookLendingSpringRepo) {
         super();
 
         bookSpringRepository = Objects.requireNonNull(bookSpringRepo);
         authorSpringRepository = Objects.requireNonNull(authorSpringRepo);
         publisherSpringRepository = Objects.requireNonNull(publisherSpringRepo);
-        // TODO: maybe should be members only
+        memberProfileSpringRepository = Objects.requireNonNull(memberProfileSpringRepo);
         profileSpringRepository = Objects.requireNonNull(profileSpringRepo);
         bookLendingSpringRepository = Objects.requireNonNull(bookLendingSpringRepo);
     }
@@ -228,85 +234,30 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
     }
 
     private final FictionBook toDomain(final FictionBookEntity entity) {
-        final Collection<Publisher>       publishers;
-        final Collection<Donor>           donors;
-        final Collection<Author>          authors;
         final boolean                     lent;
         final Collection<BookLendingInfo> lendings;
-        final Title                       title;
-        final String                      supertitle;
-        final String                      subtitle;
-        final Optional<Donation>          donation;
-
-        // Publishers
-        if (entity.getPublishers() == null) {
-            publishers = List.of();
-        } else {
-            publishers = entity.getPublishers()
-                .stream()
-                .map(BookEntityMapper::toDomain)
-                .toList();
-        }
-
-        // Authors
-        if (entity.getAuthors() == null) {
-            authors = List.of();
-        } else {
-            authors = entity.getAuthors()
-                .stream()
-                .map(BookEntityMapper::toDomain)
-                .toList();
-        }
-
-        // Donation
-        if (entity.getDonors() == null) {
-            donors = List.of();
-        } else {
-            donors = entity.getDonors()
-                .stream()
-                .map(BookEntityMapper::toDonorDomain)
-                .toList();
-        }
-        if ((entity.getDonationDate() != null) && (!donors.isEmpty())) {
-            donation = Optional.of(new Donation(entity.getDonationDate(), donors));
-        } else if (entity.getDonationDate() != null) {
-            donation = Optional.of(new Donation(entity.getDonationDate(), List.of()));
-        } else if (!donors.isEmpty()) {
-            donation = Optional.of(new Donation(null, donors));
-        } else {
-            donation = Optional.empty();
-        }
 
         // Lendings
         lendings = bookLendingSpringRepository.findAllByBookId(entity.getId())
             .stream()
             .map(l -> toDomain(entity, l))
             .toList();
-
-        if (entity.getSupertitle() == null) {
-            supertitle = "";
-        } else {
-            supertitle = entity.getSupertitle();
-        }
-        if (entity.getSubtitle() == null) {
-            subtitle = "";
-        } else {
-            subtitle = entity.getSubtitle();
-        }
-        title = new Title(supertitle, entity.getTitle(), subtitle);
-
         lent = bookSpringRepository.isLent(entity.getId());
-        return new FictionBook(entity.getNumber(), title, entity.getIsbn(), entity.getLanguage(),
-            entity.getPublishDate(), lent, authors, lendings, publishers, donation);
+
+        return FictionBookEntityMapper.toDomain(entity, lent, lendings);
     }
 
     private final BookLendingInfo toDomain(final FictionBookEntity bookEntity, final BookLendingEntity entity) {
-        final Optional<Borrower> borrower;
-        // TODO: should not contain all the member data
-        borrower = profileSpringRepository.findById(entity.getProfileId())
-            .map(BookEntityMapper::toDomain);
+        final Borrower borrower;
+        borrower = memberProfileSpringRepository.findByProfileId(entity.getProfileId())
+            .map(BookEntityMapper::toDomain)
+            .orElseThrow(() -> {
+                log.error("Missing profile {}", entity.getProfileId());
+                throw new MissingProfileException(entity.getProfileId());
+            });
+
         new Title(bookEntity.getSupertitle(), bookEntity.getTitle(), bookEntity.getSubtitle());
-        return new BookLendingInfo(borrower.get(), entity.getLendingDate(), entity.getReturnDate());
+        return new BookLendingInfo(borrower, entity.getLendingDate(), entity.getReturnDate());
     }
 
     private final FictionBookEntity toEntity(final FictionBook domain) {

@@ -114,6 +114,7 @@ public final class JpaBookTypeRepository implements BookTypeRepository {
 
         log.debug("Finding book types with pagination {} and sorting {}", pagination, sorting);
 
+        // TODO: test pagination and sorting
         pageable = SpringPagination.toPageable(pagination, sorting);
         read = bookTypeSpringRepository.findAll(pageable)
             .map(BookTypeEntityMapper::toDomain);
