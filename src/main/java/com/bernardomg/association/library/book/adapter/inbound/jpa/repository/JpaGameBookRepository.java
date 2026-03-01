@@ -64,6 +64,7 @@ import com.bernardomg.association.library.publisher.domain.model.Publisher;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberProfileSpringRepository;
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
+import com.bernardomg.association.profile.domain.exception.MissingProfileException;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -336,12 +337,16 @@ public final class JpaGameBookRepository implements GameBookRepository {
     }
 
     private final BookLendingInfo toDomain(final GameBookEntity bookEntity, final BookLendingEntity entity) {
-        final Optional<Borrower> borrower;
-        // TODO: should not contain all the member data
+        final Borrower borrower;
         borrower = memberProfileSpringRepository.findById(entity.getProfileId())
-            .map(BookEntityMapper::toDomain);
+            .map(BookEntityMapper::toDomain)
+            .orElseThrow(() -> {
+                log.error("Missing profile {}", entity.getProfileId());
+                throw new MissingProfileException(entity.getProfileId());
+            });
+
         new Title(bookEntity.getSupertitle(), bookEntity.getTitle(), bookEntity.getSubtitle());
-        return new BookLendingInfo(borrower.get(), entity.getLendingDate(), entity.getReturnDate());
+        return new BookLendingInfo(borrower, entity.getLendingDate(), entity.getReturnDate());
     }
 
     private final GameBookEntity toEntity(final GameBook domain) {
