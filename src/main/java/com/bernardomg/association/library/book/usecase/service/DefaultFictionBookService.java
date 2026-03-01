@@ -108,8 +108,6 @@ public final class DefaultFictionBookService implements FictionBookService {
 
         log.debug("Creating book {}", book);
 
-        // TODO: verify the language is a valid code
-
         validateRelationships(book);
 
         // Get number
@@ -211,9 +209,6 @@ public final class DefaultFictionBookService implements FictionBookService {
         final FictionBook           updated;
 
         log.debug("Updating book with number {} using data {}", book.number(), book);
-
-        // TODO: verify the language is a valid code
-        // TODO: validate isbn
 
         // Check book exists
         if (!bookRepository.exists(book.number())) {
