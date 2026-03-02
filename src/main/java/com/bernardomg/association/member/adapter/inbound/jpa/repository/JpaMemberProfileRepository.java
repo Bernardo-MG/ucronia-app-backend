@@ -41,6 +41,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTypeEntity;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeTypeSpringRepository;
+import com.bernardomg.association.fee.domain.exception.MissingFeeTypeException;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityConstants;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberProfileEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberProfileEntityMapper;
@@ -89,7 +90,6 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
         memberProfileSpringRepository = Objects.requireNonNull(updateMemberProfileSpringRepo);
         contactMethodSpringRepository = Objects.requireNonNull(contactMethodSpringRepo);
         feeTypeSpringRepository = Objects.requireNonNull(feeTypeSpringRepo);
-        // TODO: remove profile repository
         profileSpringRepository = Objects.requireNonNull(profileSpringRepo);
     }
 
@@ -366,7 +366,6 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
         final List<ContactMethodEntity>     contactMethods;
         final Optional<FeeTypeEntity>       feeType;
 
-        // TODO: move to repository
         existing = memberProfileSpringRepository.findByNumber(memberProfile.number());
         if (existing.isPresent()) {
             entity = MemberProfileEntityMapper.toEntity(existing.get(), memberProfile);
@@ -381,10 +380,13 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
             entity.getProfile()
                 .setNumber(number.getAndIncrement());
         }
-        // TODO: verify it exists
-        feeType = feeTypeSpringRepository.findByNumber(memberProfile.number());
+
+        feeType = feeTypeSpringRepository.findByNumber(memberProfile.feeType()
+            .number());
         if (feeType.isEmpty()) {
-            log.warn("Missing fee type {}", memberProfile.feeType()
+            log.error("Missing fee type {}", memberProfile.feeType()
+                .number());
+            throw new MissingFeeTypeException(memberProfile.feeType()
                 .number());
         }
         entity.setFeeType(feeType.orElse(null));
