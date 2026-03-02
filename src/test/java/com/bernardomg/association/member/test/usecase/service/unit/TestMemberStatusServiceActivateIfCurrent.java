@@ -45,8 +45,8 @@ import com.bernardomg.association.member.usecase.service.DefaultMemberStatusServ
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Member status service - deactivate")
-class TestMemberProfilestatusServiceDeactivate {
+@DisplayName("Member status service - activate if current")
+class TestMemberStatusServiceActivateIfCurrent {
 
     @Mock
     private MemberProfileRepository    memberProfileRepository;
@@ -54,32 +54,50 @@ class TestMemberProfilestatusServiceDeactivate {
     @InjectMocks
     private DefaultMemberStatusService service;
 
-    public TestMemberProfilestatusServiceDeactivate() {
+    public TestMemberStatusServiceActivateIfCurrent() {
         super();
     }
 
     @Test
-    @DisplayName("When activating for the current month, the member is deactivated")
-    void testDeactivate_CurrentMonth() {
+    @DisplayName("When activating for the current month, the member is activated")
+    void testActivateIfCurrent_CurrentMonth() {
         final YearMonth date;
         final Long      number;
 
         // GIVEN
         given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
-            .willReturn(Optional.of(MemberProfiles.active()));
+            .willReturn(Optional.of(MemberProfiles.inactive()));
         date = YearMonth.now();
         number = ProfileConstants.NUMBER;
 
         // WHEN
-        service.deactivate(date, number);
+        service.activateIfCurrent(date, number);
 
         // THEN
-        verify(memberProfileRepository).save(MemberProfiles.inactiveNoRenew());
+        verify(memberProfileRepository).save(MemberProfiles.active());
     }
 
     @Test
-    @DisplayName("When activating for the previous month, the member is not deactivated")
-    void testDeactivate_PreviousMonth() {
+    @DisplayName("When activating for the next month, the member is not activated")
+    void testActivateIfCurrent_NextMonth() {
+        final YearMonth date;
+        final Long      number;
+
+        // GIVEN
+        date = YearMonth.now()
+            .plusMonths(1);
+        number = ProfileConstants.NUMBER;
+
+        // WHEN
+        service.activateIfCurrent(date, number);
+
+        // THEN
+        verify(memberProfileRepository, never()).save(any());
+    }
+
+    @Test
+    @DisplayName("When activating for the previous month, the member is not activated")
+    void testActivateIfCurrent_PreviousMonth() {
         final YearMonth date;
         final Long      number;
 
@@ -89,7 +107,7 @@ class TestMemberProfilestatusServiceDeactivate {
         number = ProfileConstants.NUMBER;
 
         // WHEN
-        service.deactivate(date, number);
+        service.activateIfCurrent(date, number);
 
         // THEN
         verify(memberProfileRepository, never()).save(any());

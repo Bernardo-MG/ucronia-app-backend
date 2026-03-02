@@ -56,7 +56,7 @@ public final class DefaultMemberStatusService implements MemberStatusService {
     }
 
     @Override
-    public final void activate(final YearMonth date, final Long memberNumber) {
+    public final void activateIfCurrent(final YearMonth date, final Long memberNumber) {
         final Optional<MemberProfile> member;
         final MemberProfile           activated;
 
@@ -106,7 +106,7 @@ public final class DefaultMemberStatusService implements MemberStatusService {
     }
 
     @Override
-    public final void deactivate(final YearMonth date, final Long memberNumber) {
+    public final void deactivateIfCurrent(final YearMonth date, final Long memberNumber) {
         final Optional<MemberProfile> member;
         final MemberProfile           deactivated;
 
