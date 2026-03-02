@@ -56,4 +56,14 @@ public record MemberProfile(String identifier, Long number, ProfileName name, In
 
     public record FeeType(Long number, String name, Float amount) {}
 
+    public MemberProfile deactivated() {
+        return new MemberProfile(identifier, number, name, birthDate, contactChannels, address, comments, false, false,
+            feeType, types);
+    }
+
+    public MemberProfile activated() {
+        return new MemberProfile(identifier, number, name, birthDate, contactChannels, address, comments, true, true,
+            feeType, types);
+    }
+
 }
