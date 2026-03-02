@@ -40,8 +40,7 @@ public record BookLending(LentBook book, Borrower borrower, Instant lendingDate,
         return new BookLending(book, borrower, lendingDate, date);
     }
 
-    public record LentBook(long number, Title title) {
-    }
+    public record LentBook(long number, Title title) {}
 
     public record Borrower(long number, ProfileName name) {
 

@@ -30,6 +30,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,6 +52,7 @@ import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactMetho
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ContactMethodSpringRepository;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
+import com.bernardomg.association.profile.domain.exception.MissingContactMethodException;
 import com.bernardomg.association.profile.domain.model.ContactMethod;
 import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
 import com.bernardomg.data.domain.Page;
@@ -250,12 +252,14 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
 
     @Override
     public final MemberProfile save(final MemberProfile memberProfile, final long number) {
-        final MemberProfileEntity       entity;
-        final MemberProfile             created;
-        final Optional<ProfileEntity>   profile;
-        final Optional<FeeTypeEntity>   feeType;
-        final List<Long>                contactMethodNumbers;
-        final List<ContactMethodEntity> contactMethods;
+        final MemberProfileEntity             entity;
+        final MemberProfile                   created;
+        final Optional<ProfileEntity>         profile;
+        final Optional<FeeTypeEntity>         feeType;
+        final Collection<Long>                contactMethodNumbers;
+        final Collection<ContactMethodEntity> contactMethods;
+        final Collection<Long>                foundNumbers;
+        final Optional<Long>                  missing;
 
         log.debug("Saving member profile {} with number {}", memberProfile, number);
 
@@ -263,8 +267,23 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
             .stream()
             .map(ContactChannel::contactMethod)
             .map(ContactMethod::number)
-            .toList();
+            .collect(Collectors.toSet());
+
         contactMethods = contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
+        foundNumbers = contactMethods.stream()
+            .map(ContactMethodEntity::getNumber)
+            .collect(Collectors.toSet());
+
+        missing = contactMethodNumbers.stream()
+            .filter(num -> !foundNumbers.contains(num))
+            .findFirst();
+
+        // TODO: throw an exception with all missing ids
+        if (missing.isPresent()) {
+            log.error("Missing contact method {}", missing.get());
+            throw new MissingContactMethodException(missing.get());
+        }
+
         entity = MemberProfileEntityMapper.toEntity(memberProfile, contactMethods);
 
         profile = profileSpringRepository.findByNumber(number);
