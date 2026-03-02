@@ -79,8 +79,6 @@ public final class DefaultProfileMembershipService implements ProfileMembershipS
 
         log.debug("Converting profile {} to member", number);
 
-        // TODO: check the fee type exists
-
         existing = profileRepository.findOne(number)
             .orElseThrow(() -> {
                 log.error("Missing profile {}", number);
