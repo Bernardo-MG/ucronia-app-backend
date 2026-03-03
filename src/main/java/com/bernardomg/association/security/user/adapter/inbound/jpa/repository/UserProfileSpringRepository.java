@@ -34,7 +34,7 @@ import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserPr
 
 public interface UserProfileSpringRepository extends JpaRepository<UserProfileEntity, Long> {
 
-    public void deleteByUserId(final long id);
+    public void deleteByUserUsername(final String username);
 
     @Query("""
                SELECT CASE WHEN COUNT(up) > 0 THEN TRUE ELSE FALSE END AS exists
@@ -48,6 +48,6 @@ public interface UserProfileSpringRepository extends JpaRepository<UserProfileEn
 
     public boolean existsByUserId(final long id);
 
-    public Optional<UserProfileEntity> findByUserId(final long id);
+    public Optional<UserProfileEntity> findByUserUsername(final String username);
 
 }
