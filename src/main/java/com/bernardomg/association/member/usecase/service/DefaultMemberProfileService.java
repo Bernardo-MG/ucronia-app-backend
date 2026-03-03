@@ -76,6 +76,14 @@ public final class DefaultMemberProfileService implements MemberProfileService {
 
         log.debug("Creating member profile {}", memberProfile);
 
+        if (!feeTypeRepository.exists(memberProfile.feeType()
+            .number())) {
+            log.error("Missing fee type {}", memberProfile.feeType()
+                .number());
+            throw new MissingFeeTypeException(memberProfile.feeType()
+                .number());
+        }
+
         created = memberProfileRepository.save(memberProfile);
 
         log.debug("Created member profile {}", created);

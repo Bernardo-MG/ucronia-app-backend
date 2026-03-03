@@ -53,7 +53,6 @@ import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactMetho
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ContactMethodSpringRepository;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
-import com.bernardomg.association.profile.domain.exception.MissingContactMethodException;
 import com.bernardomg.association.profile.domain.model.ContactMethod;
 import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
 import com.bernardomg.data.domain.Page;
@@ -232,14 +231,9 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
                 .setNumber(number);
         }
 
-        // TODO: verify it exists
         feeType = feeTypeSpringRepository.findByNumber(memberProfile.feeType()
             .number());
-        if (feeType.isEmpty()) {
-            log.warn("Missing fee type {}", memberProfile.feeType()
-                .number());
-        }
-        entity.setFeeType(feeType.orElse(null));
+        entity.setFeeType(feeType.get());
 
         setType(entity.getProfile());
 
@@ -258,8 +252,6 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
         final Optional<FeeTypeEntity>         feeType;
         final Collection<Long>                contactMethodNumbers;
         final Collection<ContactMethodEntity> contactMethods;
-        final Collection<Long>                foundNumbers;
-        final Optional<Long>                  missing;
 
         log.debug("Saving member profile {} with number {}", memberProfile, number);
 
@@ -270,19 +262,6 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
             .collect(Collectors.toSet());
 
         contactMethods = contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
-        foundNumbers = contactMethods.stream()
-            .map(ContactMethodEntity::getNumber)
-            .collect(Collectors.toSet());
-
-        missing = contactMethodNumbers.stream()
-            .filter(num -> !foundNumbers.contains(num))
-            .findFirst();
-
-        // TODO: throw an exception with all missing ids
-        if (missing.isPresent()) {
-            log.error("Missing contact method {}", missing.get());
-            throw new MissingContactMethodException(missing.get());
-        }
 
         entity = MemberProfileEntityMapper.toEntity(memberProfile, contactMethods);
 
