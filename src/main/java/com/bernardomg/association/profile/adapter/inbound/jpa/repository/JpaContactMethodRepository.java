@@ -165,11 +165,9 @@ public final class JpaContactMethodRepository implements ContactMethodRepository
             entity.setId(existing.get()
                 .getId());
         }
-        // TODO: if we got a number, and it doesn't exist, then we have a problem
 
         created = contactMethodSpringRepository.save(entity);
 
-        // TODO: Why not returning the saved one?
         saved = contactMethodSpringRepository.findByNumber(created.getNumber())
             .map(ContactMethodEntityMapper::toDomain)
             .get();
