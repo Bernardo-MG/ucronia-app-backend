@@ -162,8 +162,6 @@ public final class DefaultProfileService implements ProfileService {
 
         log.debug("Patching profile {} using data {}", profile.number(), profile);
 
-        // TODO: Apply the creation validations
-
         existing = profileRepository.findOne(profile.number())
             .orElseThrow(() -> {
                 log.error("Missing profile {}", profile.number());
@@ -192,9 +190,6 @@ public final class DefaultProfileService implements ProfileService {
         final Profile saved;
 
         log.debug("Updating profile {} using data {}", profile.number(), profile);
-
-        // TODO: Identificator must be unique or empty
-        // TODO: The membership maybe can't be removed
 
         if (!profileRepository.exists(profile.number())) {
             log.error("Missing profile {}", profile.number());
