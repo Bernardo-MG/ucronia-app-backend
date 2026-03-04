@@ -75,6 +75,7 @@ class TestGuestServicePatch {
         // GIVEN
         guest = Guests.valid();
 
+        given(contactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(true);
         given(guestRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(guest));
         given(guestRepository.existsByIdentifierForAnother(ProfileConstants.NUMBER, ProfileConstants.IDENTIFIER))
             .willReturn(true);

@@ -72,6 +72,7 @@ class TestSponsorServiceCreate {
         // GIVEN
         sponsor = Sponsors.valid();
 
+        given(contactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(true);
         given(sponsorRepository.existsByIdentifier(ProfileConstants.IDENTIFIER)).willReturn(true);
 
         // WHEN

@@ -72,6 +72,7 @@ class TestGuestServiceCreate {
         // GIVEN
         guest = Guests.valid();
 
+        given(contactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(true);
         given(guestRepository.existsByIdentifier(ProfileConstants.IDENTIFIER)).willReturn(true);
 
         // WHEN

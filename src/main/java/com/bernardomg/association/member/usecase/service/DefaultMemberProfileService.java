@@ -38,8 +38,8 @@ import com.bernardomg.association.member.domain.exception.MissingMemberException
 import com.bernardomg.association.member.domain.filter.MemberProfileFilter;
 import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
-import com.bernardomg.association.member.usecase.validator.MemberProfileIdentifierNotExistForAnotherRule;
-import com.bernardomg.association.member.usecase.validator.MemberProfileIdentifierNotExistRule;
+import com.bernardomg.association.member.usecase.validation.MemberProfileIdentifierNotExistForAnotherRule;
+import com.bernardomg.association.member.usecase.validation.MemberProfileIdentifierNotExistRule;
 import com.bernardomg.association.profile.domain.exception.MissingContactMethodException;
 import com.bernardomg.association.profile.domain.model.ContactMethod;
 import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;

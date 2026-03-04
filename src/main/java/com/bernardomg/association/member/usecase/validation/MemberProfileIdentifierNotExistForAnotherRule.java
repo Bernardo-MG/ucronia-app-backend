@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.usecase.validator;
+package com.bernardomg.association.member.usecase.validation;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -37,18 +37,19 @@ import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRule;
 
 /**
- * Checks the guest identifier is not already registered.
+ * Checks the guest identifier is not already registered for another guest.
  */
-public final class MemberProfileIdentifierNotExistRule implements FieldRule<MemberProfile> {
+public final class MemberProfileIdentifierNotExistForAnotherRule implements FieldRule<MemberProfile> {
 
     /**
      * Logger for the class.
      */
-    private static final Logger           log = LoggerFactory.getLogger(MemberProfileIdentifierNotExistRule.class);
+    private static final Logger           log = LoggerFactory
+        .getLogger(MemberProfileIdentifierNotExistForAnotherRule.class);
 
     private final MemberProfileRepository memberProfileRepository;
 
-    public MemberProfileIdentifierNotExistRule(final MemberProfileRepository memberProfileRepo) {
+    public MemberProfileIdentifierNotExistForAnotherRule(final MemberProfileRepository memberProfileRepo) {
         super();
 
         memberProfileRepository = Objects.requireNonNull(memberProfileRepo);
@@ -60,10 +61,10 @@ public final class MemberProfileIdentifierNotExistRule implements FieldRule<Memb
         final FieldFailure           fieldFailure;
 
         if (StringUtils.isBlank(member.identifier())
-                || !memberProfileRepository.existsByIdentifier(member.identifier())) {
+                || !memberProfileRepository.existsByIdentifierForAnother(member.number(), member.identifier())) {
             failure = Optional.empty();
         } else {
-            log.error("Existing identifier {}", member.identifier());
+            log.error("Existing identifier {} for a guest distinct of {}", member.identifier(), member.number());
             fieldFailure = new FieldFailure("existing", "identifier", member.identifier());
             failure = Optional.of(fieldFailure);
         }

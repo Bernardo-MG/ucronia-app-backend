@@ -77,6 +77,8 @@ class TestMemberProfileServiceCreate {
         // GIVEN
         member = MemberProfiles.active();
 
+        given(contactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(true);
+        given(feeTypeRepository.exists(FeeConstants.FEE_TYPE_NUMBER)).willReturn(true);
         given(memberProfileRepository.existsByIdentifier(ProfileConstants.IDENTIFIER)).willReturn(true);
 
         // WHEN

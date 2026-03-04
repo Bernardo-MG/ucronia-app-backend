@@ -75,6 +75,7 @@ class TestSponsorServicePatch {
         // GIVEN
         sponsor = Sponsors.valid();
 
+        given(contactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(true);
         given(sponsorRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(sponsor));
         given(sponsorRepository.existsByIdentifierForAnother(ProfileConstants.NUMBER, ProfileConstants.IDENTIFIER))
             .willReturn(true);
