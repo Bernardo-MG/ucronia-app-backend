@@ -51,9 +51,10 @@ import com.bernardomg.association.profile.test.configuration.factory.ProfileCons
 class TestMemberProfileServiceGetOne {
 
     @Mock
-    private FeeTypeRepository           feeTypeRepository;
+    private ContactMethodRepository     contactMethodRepository;
+
     @Mock
-    private  ContactMethodRepository contactMethodRepository;
+    private FeeTypeRepository           feeTypeRepository;
 
     @Mock
     private MemberProfileRepository     memberProfileRepository;
@@ -68,22 +69,22 @@ class TestMemberProfileServiceGetOne {
     @Test
     @DisplayName("When there is data it is returned")
     void testGetOne() {
-        final Optional<MemberProfile> guest;
+        final Optional<MemberProfile> member;
 
         // GIVEN
         given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
             .willReturn(Optional.of(MemberProfiles.active()));
 
         // WHEN
-        guest = service.getOne(ProfileConstants.NUMBER);
+        member = service.getOne(ProfileConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(guest)
+        Assertions.assertThat(member)
             .contains(MemberProfiles.active());
     }
 
     @Test
-    @DisplayName("When the guest doesn't exist an exception is thrown")
+    @DisplayName("When the member doesn't exist an exception is thrown")
     void testGetOne_NotExisting() {
         final ThrowingCallable execution;
 

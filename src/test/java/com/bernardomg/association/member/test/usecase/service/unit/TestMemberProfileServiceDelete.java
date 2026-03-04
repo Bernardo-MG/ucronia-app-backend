@@ -51,9 +51,10 @@ import com.bernardomg.association.profile.test.configuration.factory.ProfileCons
 class TestMemberProfileServiceDelete {
 
     @Mock
-    private FeeTypeRepository           feeTypeRepository;
+    private ContactMethodRepository     contactMethodRepository;
+
     @Mock
-    private  ContactMethodRepository contactMethodRepository;
+    private FeeTypeRepository           feeTypeRepository;
 
     @Mock
     private MemberProfileRepository     memberProfileRepository;

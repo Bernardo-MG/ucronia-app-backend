@@ -51,13 +51,14 @@ import com.bernardomg.data.domain.Sorting;
 @DisplayName("DefaultSponsorService - get all")
 class TestSponsorServiceGetAll {
 
-    @InjectMocks
-    private DefaultSponsorService service;
     @Mock
-    private  ContactMethodRepository contactMethodRepository;
+    private ContactMethodRepository contactMethodRepository;
+
+    @InjectMocks
+    private DefaultSponsorService   service;
 
     @Mock
-    private SponsorRepository     sponsorRepository;
+    private SponsorRepository       sponsorRepository;
 
     @Test
     @DisplayName("When there is no data, it returns nothing")

@@ -50,12 +50,13 @@ import com.bernardomg.association.profile.test.configuration.factory.ProfileCons
 class TestGuestServiceDelete {
 
     @Mock
-    private GuestRepository     guestRepository;
+    private ContactMethodRepository contactMethodRepository;
+
     @Mock
-    private  ContactMethodRepository contactMethodRepository;
+    private GuestRepository         guestRepository;
 
     @InjectMocks
-    private DefaultGuestService service;
+    private DefaultGuestService     service;
 
     public TestGuestServiceDelete() {
         super();

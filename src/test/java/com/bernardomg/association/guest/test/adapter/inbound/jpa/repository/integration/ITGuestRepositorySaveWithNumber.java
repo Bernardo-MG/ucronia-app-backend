@@ -31,7 +31,6 @@ import org.assertj.core.api.InstanceOfAssertFactories;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.guest.adapter.inbound.jpa.model.GuestEntity;
@@ -43,7 +42,6 @@ import com.bernardomg.association.guest.test.configuration.factory.GuestEntities
 import com.bernardomg.association.guest.test.configuration.factory.Guests;
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
-import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
 import com.bernardomg.association.profile.test.configuration.data.annotation.EmailContactMethod;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
@@ -55,8 +53,6 @@ class ITGuestRepositorySaveWithNumber {
 
     @Autowired
     private ProfileSpringRepository profileSpringRepository;
-    @Mock
-    private  ContactMethodRepository contactMethodRepository;
 
     @Autowired
     private GuestRepository         repository;
@@ -72,20 +68,20 @@ class ITGuestRepositorySaveWithNumber {
     @DisplayName("With no profile, an exception is thrown")
     @EmailContactMethod
     void testSave_NoProfile() {
-        final Guest                 guest;
+        final Guest            guest;
         final ThrowingCallable execution;
 
         // GIVEN
         guest = Guests.valid();
 
-        
         // WHEN
         execution = () -> repository.save(guest, ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-        .isInstanceOf(NoSuchElementException.class);
+            .isInstanceOf(NoSuchElementException.class);
     }
+
     @Test
     @DisplayName("With a guest, the guest is persisted")
     @EmailContactMethod
@@ -141,7 +137,6 @@ class ITGuestRepositorySaveWithNumber {
         // GIVEN
         guest = Guests.valid();
 
-        
         // WHEN
         saved = repository.save(guest, ProfileConstants.NUMBER);
 

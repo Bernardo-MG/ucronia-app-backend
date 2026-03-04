@@ -52,12 +52,13 @@ import com.bernardomg.data.domain.Sorting;
 class TestGuestServiceGetAll {
 
     @Mock
-    private GuestRepository     guestRepository;
+    private ContactMethodRepository contactMethodRepository;
+
     @Mock
-    private  ContactMethodRepository contactMethodRepository;
+    private GuestRepository         guestRepository;
 
     @InjectMocks
-    private DefaultGuestService service;
+    private DefaultGuestService     service;
 
     @Test
     @DisplayName("When there is no data, it returns nothing")

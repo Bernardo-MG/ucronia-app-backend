@@ -41,9 +41,13 @@ import com.bernardomg.association.sponsor.domain.exception.MissingSponsorExcepti
 import com.bernardomg.association.sponsor.domain.filter.SponsorFilter;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
+import com.bernardomg.association.sponsor.usecase.validation.SponsorIdentifierNotExistForAnotherRule;
+import com.bernardomg.association.sponsor.usecase.validation.SponsorIdentifierNotExistRule;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.validation.validator.FieldRuleValidator;
+import com.bernardomg.validation.validator.Validator;
 
 /**
  * Default implementation of the sponsor service.
@@ -58,16 +62,27 @@ public final class DefaultSponsorService implements SponsorService {
     /**
      * Logger for the class.
      */
-    private static final Logger     log = LoggerFactory.getLogger(DefaultSponsorService.class);
+    private static final Logger           log = LoggerFactory.getLogger(DefaultSponsorService.class);
 
-    private final SponsorRepository sponsorRepository;
     private final ContactMethodRepository contactMethodRepository;
 
-    public DefaultSponsorService(final SponsorRepository sponsorRepo,final ContactMethodRepository contactMethodRepo) {
+    private final Validator<Sponsor>      createValidator;
+
+    private final Validator<Sponsor>      patchValidator;
+
+    private final SponsorRepository       sponsorRepository;
+
+    private final Validator<Sponsor>      updateValidator;
+
+    public DefaultSponsorService(final SponsorRepository sponsorRepo, final ContactMethodRepository contactMethodRepo) {
         super();
 
         sponsorRepository = Objects.requireNonNull(sponsorRepo);
         contactMethodRepository = Objects.requireNonNull(contactMethodRepo);
+
+        createValidator = new FieldRuleValidator<>(new SponsorIdentifierNotExistRule(sponsorRepository));
+        updateValidator = new FieldRuleValidator<>(new SponsorIdentifierNotExistForAnotherRule(sponsorRepository));
+        patchValidator = new FieldRuleValidator<>(new SponsorIdentifierNotExistForAnotherRule(sponsorRepository));
     }
 
     @Override
@@ -81,6 +96,8 @@ public final class DefaultSponsorService implements SponsorService {
             .stream()
             .map(ContactChannel::contactMethod)
             .forEach(this::checkContactMethodExists);
+
+        createValidator.validate(sponsor);
 
         created = sponsorRepository.save(sponsor);
 
@@ -161,6 +178,8 @@ public final class DefaultSponsorService implements SponsorService {
 
         toSave = copy(existing, sponsor);
 
+        patchValidator.validate(toSave);
+
         saved = sponsorRepository.save(toSave);
 
         log.debug("Patched sponsor {}: {}", sponsor.number(), saved);
@@ -184,6 +203,8 @@ public final class DefaultSponsorService implements SponsorService {
             .stream()
             .map(ContactChannel::contactMethod)
             .forEach(this::checkContactMethodExists);
+
+        updateValidator.validate(sponsor);
 
         saved = sponsorRepository.save(sponsor);
 

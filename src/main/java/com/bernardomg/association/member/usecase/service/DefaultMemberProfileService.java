@@ -38,6 +38,8 @@ import com.bernardomg.association.member.domain.exception.MissingMemberException
 import com.bernardomg.association.member.domain.filter.MemberProfileFilter;
 import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
+import com.bernardomg.association.member.usecase.validator.MemberProfileIdentifierNotExistForAnotherRule;
+import com.bernardomg.association.member.usecase.validator.MemberProfileIdentifierNotExistRule;
 import com.bernardomg.association.profile.domain.exception.MissingContactMethodException;
 import com.bernardomg.association.profile.domain.model.ContactMethod;
 import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
@@ -46,6 +48,8 @@ import com.bernardomg.association.profile.domain.repository.ContactMethodReposit
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.validation.validator.FieldRuleValidator;
+import com.bernardomg.validation.validator.Validator;
 
 /**
  * Default implementation of the member profile service.
@@ -60,21 +64,32 @@ public final class DefaultMemberProfileService implements MemberProfileService {
     /**
      * Logger for the class.
      */
-    private static final Logger           log = LoggerFactory.getLogger(DefaultMemberProfileService.class);
+    private static final Logger            log = LoggerFactory.getLogger(DefaultMemberProfileService.class);
 
-    private final FeeTypeRepository       feeTypeRepository;
+    private final ContactMethodRepository  contactMethodRepository;
 
-    private final MemberProfileRepository memberProfileRepository;
-    private final ContactMethodRepository contactMethodRepository;
+    private final Validator<MemberProfile> createValidator;
+
+    private final FeeTypeRepository        feeTypeRepository;
+
+    private final MemberProfileRepository  memberProfileRepository;
+
+    private final Validator<MemberProfile> patchValidator;
+
+    private final Validator<MemberProfile> updateValidator;
 
     public DefaultMemberProfileService(final MemberProfileRepository memberProfileRepo,
-            final ContactMethodRepository contactMethodRepo,
-            final FeeTypeRepository feeTypeRepo) {
+            final ContactMethodRepository contactMethodRepo, final FeeTypeRepository feeTypeRepo) {
         super();
 
         memberProfileRepository = Objects.requireNonNull(memberProfileRepo);
         contactMethodRepository = Objects.requireNonNull(contactMethodRepo);
         feeTypeRepository = Objects.requireNonNull(feeTypeRepo);
+
+        createValidator = new FieldRuleValidator<>(new MemberProfileIdentifierNotExistRule(memberProfileRepo));
+        updateValidator = new FieldRuleValidator<>(
+            new MemberProfileIdentifierNotExistForAnotherRule(memberProfileRepo));
+        patchValidator = new FieldRuleValidator<>(new MemberProfileIdentifierNotExistForAnotherRule(memberProfileRepo));
     }
 
     @Override
@@ -97,19 +112,13 @@ public final class DefaultMemberProfileService implements MemberProfileService {
             .map(ContactChannel::contactMethod)
             .forEach(this::checkContactMethodExists);
 
+        createValidator.validate(memberProfile);
 
         created = memberProfileRepository.save(memberProfile);
 
         log.debug("Created member profile {}", created);
 
         return created;
-    }
-
-    private final void checkContactMethodExists(final ContactMethod contactMethod) {
-        if (!contactMethodRepository.exists(contactMethod.number())) {
-            log.error("Missing contact method {}", contactMethod.number());
-            throw new MissingContactMethodException(contactMethod.number());
-        }
     }
 
     @Override
@@ -193,6 +202,8 @@ public final class DefaultMemberProfileService implements MemberProfileService {
 
         toSave = copy(existing, memberProfile);
 
+        patchValidator.validate(toSave);
+
         saved = memberProfileRepository.save(toSave);
 
         log.debug("Patched member profile {}: {}", memberProfile.number(), saved);
@@ -225,11 +236,20 @@ public final class DefaultMemberProfileService implements MemberProfileService {
             .map(ContactChannel::contactMethod)
             .forEach(this::checkContactMethodExists);
 
+        updateValidator.validate(memberProfile);
+
         saved = memberProfileRepository.save(memberProfile);
 
         log.debug("Updated member profile {}: {}", memberProfile.number(), saved);
 
         return saved;
+    }
+
+    private final void checkContactMethodExists(final ContactMethod contactMethod) {
+        if (!contactMethodRepository.exists(contactMethod.number())) {
+            log.error("Missing contact method {}", contactMethod.number());
+            throw new MissingContactMethodException(contactMethod.number());
+        }
     }
 
     private final MemberProfile copy(final MemberProfile existing, final MemberProfile updated) {

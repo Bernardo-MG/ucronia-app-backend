@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.profile.usecase.validation;
+package com.bernardomg.association.sponsor.usecase.validation;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -31,39 +31,40 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bernardomg.association.profile.domain.model.Profile;
-import com.bernardomg.association.profile.domain.repository.ProfileRepository;
+import com.bernardomg.association.sponsor.domain.model.Sponsor;
+import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRule;
 
 /**
- * Checks the profile identifier is not already registered.
+ * Checks the guest identifier is not already registered for another guest.
  */
-public final class ProfileIdentifierNotExistRule implements FieldRule<Profile> {
+public final class SponsorIdentifierNotExistForAnotherRule implements FieldRule<Sponsor> {
 
     /**
      * Logger for the class.
      */
-    private static final Logger     log = LoggerFactory.getLogger(ProfileIdentifierNotExistRule.class);
+    private static final Logger     log = LoggerFactory.getLogger(SponsorIdentifierNotExistForAnotherRule.class);
 
-    private final ProfileRepository profileRepository;
+    private final SponsorRepository sponsorRepository;
 
-    public ProfileIdentifierNotExistRule(final ProfileRepository profileRepo) {
+    public SponsorIdentifierNotExistForAnotherRule(final SponsorRepository sponsorRepo) {
         super();
 
-        profileRepository = Objects.requireNonNull(profileRepo);
+        sponsorRepository = Objects.requireNonNull(sponsorRepo);
     }
 
     @Override
-    public final Optional<FieldFailure> check(final Profile profile) {
+    public final Optional<FieldFailure> check(final Sponsor sponsor) {
         final Optional<FieldFailure> failure;
         final FieldFailure           fieldFailure;
 
-        if (StringUtils.isBlank(profile.identifier()) || !profileRepository.existsByIdentifier(profile.identifier())) {
+        if (StringUtils.isBlank(sponsor.identifier())
+                || !sponsorRepository.existsByIdentifierForAnother(sponsor.number(), sponsor.identifier())) {
             failure = Optional.empty();
         } else {
-            log.error("Existing identifier {}", profile.identifier());
-            fieldFailure = new FieldFailure("existing", "identifier", profile.identifier());
+            log.error("Existing identifier {} for a guest distinct of {}", sponsor.identifier(), sponsor.number());
+            fieldFailure = new FieldFailure("existing", "identifier", sponsor.identifier());
             failure = Optional.of(fieldFailure);
         }
 

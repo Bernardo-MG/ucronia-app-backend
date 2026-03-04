@@ -54,9 +54,10 @@ import com.bernardomg.data.domain.Sorting;
 class TestMemberProfileServiceGetAll {
 
     @Mock
-    private FeeTypeRepository           feeTypeRepository;
+    private ContactMethodRepository     contactMethodRepository;
+
     @Mock
-    private  ContactMethodRepository contactMethodRepository;
+    private FeeTypeRepository           feeTypeRepository;
 
     @Mock
     private MemberProfileRepository     memberProfileRepository;
@@ -67,7 +68,7 @@ class TestMemberProfileServiceGetAll {
     @Test
     @DisplayName("When there is no data, it returns nothing")
     void testGetAll_NoData() {
-        final Page<MemberProfile> guests;
+        final Page<MemberProfile> members;
         final Page<MemberProfile> existing;
         final Pagination          pagination;
         final Sorting             sorting;
@@ -82,20 +83,20 @@ class TestMemberProfileServiceGetAll {
         given(memberProfileRepository.findAll(filter, pagination, sorting)).willReturn(existing);
 
         // WHEN
-        guests = service.getAll(filter, pagination, sorting);
+        members = service.getAll(filter, pagination, sorting);
 
         // THEN
-        Assertions.assertThat(guests)
+        Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .as("guests")
+            .as("members")
             .isEmpty();
     }
 
     @Test
-    @DisplayName("When there is data, it returns all the guests")
+    @DisplayName("When there is data, it returns all the members")
     void testGetAll_ReturnsData() {
-        final Page<MemberProfile> guests;
+        final Page<MemberProfile> members;
         final Page<MemberProfile> existing;
         final Pagination          pagination;
         final Sorting             sorting;
@@ -110,13 +111,13 @@ class TestMemberProfileServiceGetAll {
         given(memberProfileRepository.findAll(filter, pagination, sorting)).willReturn(existing);
 
         // WHEN
-        guests = service.getAll(filter, pagination, sorting);
+        members = service.getAll(filter, pagination, sorting);
 
         // THEN
-        Assertions.assertThat(guests)
+        Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .as("guests")
+            .as("members")
             .containsExactly(MemberProfiles.active());
     }
 

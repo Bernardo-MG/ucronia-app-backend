@@ -66,22 +66,23 @@ public final class DefaultProfileService implements ProfileService {
 
     private final ContactMethodRepository contactMethodRepository;
 
-    private final Validator<Profile>      createProfileValidator;
+    private final Validator<Profile>      createValidator;
 
-    private final Validator<Profile>      patchProfileValidator;
+    private final Validator<Profile>      patchValidator;
 
     private final ProfileRepository       profileRepository;
 
-    private final Validator<Profile>      updateProfileValidator;
+    private final Validator<Profile>      updateValidator;
 
     public DefaultProfileService(final ProfileRepository profileRepo, final ContactMethodRepository contactMethodRepo) {
         super();
 
         profileRepository = Objects.requireNonNull(profileRepo);
         contactMethodRepository = Objects.requireNonNull(contactMethodRepo);
-        createProfileValidator = new FieldRuleValidator<>(new ProfileIdentifierNotExistRule(profileRepo));
-        updateProfileValidator = new FieldRuleValidator<>(new ProfileIdentifierNotExistForAnotherRule(profileRepo));
-        patchProfileValidator = new FieldRuleValidator<>(new ProfileIdentifierNotExistForAnotherRule(profileRepo));
+
+        createValidator = new FieldRuleValidator<>(new ProfileIdentifierNotExistRule(profileRepo));
+        updateValidator = new FieldRuleValidator<>(new ProfileIdentifierNotExistForAnotherRule(profileRepo));
+        patchValidator = new FieldRuleValidator<>(new ProfileIdentifierNotExistForAnotherRule(profileRepo));
     }
 
     @Override
@@ -96,7 +97,7 @@ public final class DefaultProfileService implements ProfileService {
             .map(ContactChannel::contactMethod)
             .forEach(this::checkContactMethodExists);
 
-        createProfileValidator.validate(profile);
+        createValidator.validate(profile);
 
         created = profileRepository.save(profile);
 
@@ -176,7 +177,7 @@ public final class DefaultProfileService implements ProfileService {
 
         toSave = copy(existing, profile);
 
-        patchProfileValidator.validate(toSave);
+        patchValidator.validate(toSave);
 
         saved = profileRepository.save(toSave);
 
@@ -202,7 +203,7 @@ public final class DefaultProfileService implements ProfileService {
             .map(ContactChannel::contactMethod)
             .forEach(this::checkContactMethodExists);
 
-        updateProfileValidator.validate(profile);
+        updateValidator.validate(profile);
 
         saved = profileRepository.save(profile);
 

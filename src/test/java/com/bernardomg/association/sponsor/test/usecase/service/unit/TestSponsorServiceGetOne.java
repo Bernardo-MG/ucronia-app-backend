@@ -49,13 +49,14 @@ import com.bernardomg.association.sponsor.usecase.service.DefaultSponsorService;
 @DisplayName("DefaultSponsorService - get one")
 class TestSponsorServiceGetOne {
 
-    @InjectMocks
-    private DefaultSponsorService service;
     @Mock
-    private  ContactMethodRepository contactMethodRepository;
+    private ContactMethodRepository contactMethodRepository;
+
+    @InjectMocks
+    private DefaultSponsorService   service;
 
     @Mock
-    private SponsorRepository     sponsorRepository;
+    private SponsorRepository       sponsorRepository;
 
     public TestSponsorServiceGetOne() {
         super();
