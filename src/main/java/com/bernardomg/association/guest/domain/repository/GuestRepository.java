@@ -39,6 +39,10 @@ public interface GuestRepository {
 
     public boolean exists(final long number);
 
+    public boolean existsByIdentifier(final String identifier);
+
+    public boolean existsByIdentifierForAnother(final long number, final String identifier);
+
     public Page<Guest> findAll(final GuestFilter filter, final Pagination pagination, final Sorting sorting);
 
     public Optional<Guest> findOne(final Long number);

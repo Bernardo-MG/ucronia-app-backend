@@ -112,6 +112,32 @@ public final class JpaSponsorRepository implements SponsorRepository {
     }
 
     @Override
+    public final boolean existsByIdentifier(final String identifier) {
+        final boolean exists;
+
+        log.debug("Checking if sponsor identifier {} exists", identifier);
+
+        exists = profileSpringRepository.existsByIdentifier(identifier);
+
+        log.debug("Sponsor identifier {} exists: {}", identifier, exists);
+
+        return exists;
+    }
+
+    @Override
+    public final boolean existsByIdentifierForAnother(final long number, final String identifier) {
+        final boolean exists;
+
+        log.debug("Checking if identifier {} exists for a sponsor distinct from {}", identifier, number);
+
+        exists = profileSpringRepository.existsByIdentifierForAnother(number, identifier);
+
+        log.debug("Identifier {} exists for a sponsor distinct from {}: {}", identifier, number, exists);
+
+        return exists;
+    }
+
+    @Override
     public final Page<Sponsor> findAll(final SponsorFilter filter, final Pagination pagination, final Sorting sorting) {
         final org.springframework.data.domain.Page<Sponsor> read;
         final Pageable                                      pageable;

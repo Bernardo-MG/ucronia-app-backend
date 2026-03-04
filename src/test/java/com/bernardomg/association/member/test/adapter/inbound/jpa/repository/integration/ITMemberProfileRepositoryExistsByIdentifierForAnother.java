@@ -22,28 +22,30 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.profile.test.adapter.inbound.jpa.repository.integration;
+package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.association.profile.domain.repository.ProfileRepository;
-import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
+import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
+import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("ProfileRepository - exists by identifier for another")
-class ITProfileRepositoryExistsByIdentifierForAnother {
+@DisplayName("MemberProfileRepository - exists by identifier for another")
+class ITMemberProfileRepositoryExistsByIdentifierForAnother {
 
     @Autowired
-    private ProfileRepository repository;
+    private MemberProfileRepository repository;
 
     @Test
-    @DisplayName("With another profile, it exists")
-    @ValidProfile
+    @DisplayName("With another member profile, it exists")
+    @PositiveFeeType
+    @ActiveMember
     void testExists_AnotherUser() {
         final boolean exists;
 
@@ -59,7 +61,8 @@ class ITProfileRepositoryExistsByIdentifierForAnother {
 
     @Test
     @DisplayName("With an existing identifier, it exists")
-    @ValidProfile
+    @PositiveFeeType
+    @ActiveMember
     void testExists_Existing() {
         final boolean exists;
 
@@ -73,7 +76,7 @@ class ITProfileRepositoryExistsByIdentifierForAnother {
     }
 
     @Test
-    @DisplayName("With no profile, nothing exists")
+    @DisplayName("With no member profile, nothing exists")
     void testExists_NoData() {
         final boolean exists;
 
@@ -88,7 +91,8 @@ class ITProfileRepositoryExistsByIdentifierForAnother {
 
     @Test
     @DisplayName("With a not existing identifier, it doesn't exist")
-    @ValidProfile
+    @PositiveFeeType
+    @ActiveMember
     void testExists_NotExisting() {
         final boolean exists;
 

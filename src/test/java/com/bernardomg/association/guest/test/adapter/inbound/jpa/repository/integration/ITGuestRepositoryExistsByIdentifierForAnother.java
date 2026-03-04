@@ -22,28 +22,28 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.profile.test.adapter.inbound.jpa.repository.integration;
+package com.bernardomg.association.guest.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.association.guest.test.configuration.data.annotation.ValidGuest;
 import com.bernardomg.association.profile.domain.repository.ProfileRepository;
-import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("ProfileRepository - exists by identifier for another")
-class ITProfileRepositoryExistsByIdentifierForAnother {
+@DisplayName("GuestRepository - exists by identifier for another")
+class ITGuestRepositoryExistsByIdentifierForAnother {
 
     @Autowired
     private ProfileRepository repository;
 
     @Test
-    @DisplayName("With another profile, it exists")
-    @ValidProfile
+    @DisplayName("With another guest, it exists")
+    @ValidGuest
     void testExists_AnotherUser() {
         final boolean exists;
 
@@ -59,7 +59,7 @@ class ITProfileRepositoryExistsByIdentifierForAnother {
 
     @Test
     @DisplayName("With an existing identifier, it exists")
-    @ValidProfile
+    @ValidGuest
     void testExists_Existing() {
         final boolean exists;
 
@@ -73,7 +73,7 @@ class ITProfileRepositoryExistsByIdentifierForAnother {
     }
 
     @Test
-    @DisplayName("With no profile, nothing exists")
+    @DisplayName("With no guest, nothing exists")
     void testExists_NoData() {
         final boolean exists;
 
@@ -88,7 +88,7 @@ class ITProfileRepositoryExistsByIdentifierForAnother {
 
     @Test
     @DisplayName("With a not existing identifier, it doesn't exist")
-    @ValidProfile
+    @ValidGuest
     void testExists_NotExisting() {
         final boolean exists;
 

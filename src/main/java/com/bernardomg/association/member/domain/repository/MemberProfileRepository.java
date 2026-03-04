@@ -39,6 +39,10 @@ public interface MemberProfileRepository {
 
     public boolean exists(final long number);
 
+    public boolean existsByIdentifier(final String identifier);
+
+    public boolean existsByIdentifierForAnother(final long number, final String identifier);
+
     public Page<MemberProfile> findAll(final MemberProfileFilter filter, final Pagination pagination,
             final Sorting sorting);
 

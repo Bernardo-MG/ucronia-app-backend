@@ -112,6 +112,32 @@ public final class JpaGuestRepository implements GuestRepository {
     }
 
     @Override
+    public final boolean existsByIdentifier(final String identifier) {
+        final boolean exists;
+
+        log.debug("Checking if guest identifier {} exists", identifier);
+
+        exists = profileSpringRepository.existsByIdentifier(identifier);
+
+        log.debug("Guest identifier {} exists: {}", identifier, exists);
+
+        return exists;
+    }
+
+    @Override
+    public final boolean existsByIdentifierForAnother(final long number, final String identifier) {
+        final boolean exists;
+
+        log.debug("Checking if identifier {} exists for a guest distinct from {}", identifier, number);
+
+        exists = profileSpringRepository.existsByIdentifierForAnother(number, identifier);
+
+        log.debug("Identifier {} exists for a guest distinct from {}: {}", identifier, number, exists);
+
+        return exists;
+    }
+
+    @Override
     public final Page<Guest> findAll(final GuestFilter filter, final Pagination pagination, final Sorting sorting) {
         final org.springframework.data.domain.Page<Guest> read;
         final Pageable                                    pageable;
