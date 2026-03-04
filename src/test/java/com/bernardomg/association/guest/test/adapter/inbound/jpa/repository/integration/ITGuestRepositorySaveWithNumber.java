@@ -24,10 +24,14 @@
 
 package com.bernardomg.association.guest.test.adapter.inbound.jpa.repository.integration;
 
+import java.util.NoSuchElementException;
+
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.InstanceOfAssertFactories;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.guest.adapter.inbound.jpa.model.GuestEntity;
@@ -39,6 +43,7 @@ import com.bernardomg.association.guest.test.configuration.factory.GuestEntities
 import com.bernardomg.association.guest.test.configuration.factory.Guests;
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
+import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
 import com.bernardomg.association.profile.test.configuration.data.annotation.EmailContactMethod;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
@@ -50,6 +55,8 @@ class ITGuestRepositorySaveWithNumber {
 
     @Autowired
     private ProfileSpringRepository profileSpringRepository;
+    @Mock
+    private  ContactMethodRepository contactMethodRepository;
 
     @Autowired
     private GuestRepository         repository;
@@ -62,10 +69,28 @@ class ITGuestRepositorySaveWithNumber {
     }
 
     @Test
+    @DisplayName("With no profile, an exception is thrown")
+    @EmailContactMethod
+    void testSave_NoProfile() {
+        final Guest                 guest;
+        final ThrowingCallable execution;
+
+        // GIVEN
+        guest = Guests.valid();
+
+        
+        // WHEN
+        execution = () -> repository.save(guest, ProfileConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThatThrownBy(execution)
+        .isInstanceOf(NoSuchElementException.class);
+    }
+    @Test
     @DisplayName("With a guest, the guest is persisted")
     @EmailContactMethod
     @ValidProfile
-    void testSaveWithNumber_PersistedData() {
+    void testSave_PersistedData() {
         final Guest                 guest;
         final Iterable<GuestEntity> entities;
 
@@ -88,7 +113,7 @@ class ITGuestRepositorySaveWithNumber {
     @DisplayName("With a guest, the created guest is returned")
     @EmailContactMethod
     @ValidProfile
-    void testSaveWithNumber_ReturnedData() {
+    void testSave_ReturnedData() {
         final Guest guest;
         final Guest saved;
 
@@ -107,7 +132,8 @@ class ITGuestRepositorySaveWithNumber {
     @Test
     @DisplayName("When the guest is persisted, the profile types includes the guest type")
     @EmailContactMethod
-    void testSaveWithNumber_SetsType() {
+    @ValidProfile
+    void testSave_SetsType() {
         final Guest         guest;
         final Guest         saved;
         final ProfileEntity profile;
@@ -115,6 +141,7 @@ class ITGuestRepositorySaveWithNumber {
         // GIVEN
         guest = Guests.valid();
 
+        
         // WHEN
         saved = repository.save(guest, ProfileConstants.NUMBER);
 

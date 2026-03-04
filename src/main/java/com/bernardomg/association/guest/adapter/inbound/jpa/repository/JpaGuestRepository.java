@@ -195,9 +195,7 @@ public final class JpaGuestRepository implements GuestRepository {
         entity = GuestEntityMapper.toEntity(guest, contactMethods);
 
         profile = profileSpringRepository.findByNumber(number);
-        if (profile.isPresent()) {
-            entity.setProfile(profile.get());
-        }
+        entity.setProfile(profile.get());
 
         setType(entity.getProfile());
 
