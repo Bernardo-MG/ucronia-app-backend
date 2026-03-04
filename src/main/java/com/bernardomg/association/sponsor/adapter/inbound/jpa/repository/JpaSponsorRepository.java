@@ -246,56 +246,6 @@ public final class JpaSponsorRepository implements SponsorRepository {
         return created;
     }
 
-    @Override
-    public final Collection<Sponsor> saveAll(final Collection<Sponsor> sponsors) {
-        final List<SponsorEntity> entities;
-        final List<Sponsor>       saved;
-        final AtomicLong          number;
-
-        log.debug("Saving sponsors {}", sponsors);
-
-        number = new AtomicLong(sponsorSpringRepository.findNextNumber());
-        entities = sponsors.stream()
-            .map(m -> convert(m, number))
-            .toList();
-
-        entities.stream()
-            .forEach(m -> setType(m.getProfile()));
-
-        saved = sponsorSpringRepository.saveAll(entities)
-            .stream()
-            .map(SponsorEntityMapper::toDomain)
-            .toList();
-
-        log.debug("Saved sponsors {}", saved);
-
-        return saved;
-    }
-
-    private final SponsorEntity convert(final Sponsor sponsor, final AtomicLong number) {
-        final Optional<SponsorEntity>   existing;
-        final SponsorEntity             entity;
-        final List<Long>                contactMethodNumbers;
-        final List<ContactMethodEntity> contactMethods;
-
-        existing = sponsorSpringRepository.findByNumber(sponsor.number());
-        if (existing.isPresent()) {
-            entity = SponsorEntityMapper.toEntity(existing.get(), sponsor);
-        } else {
-            contactMethodNumbers = sponsor.contactChannels()
-                .stream()
-                .map(ContactChannel::contactMethod)
-                .map(ContactMethod::number)
-                .toList();
-            contactMethods = contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
-            entity = SponsorEntityMapper.toEntity(sponsor, contactMethods);
-            entity.getProfile()
-                .setNumber(number.getAndIncrement());
-        }
-
-        return entity;
-    }
-
     private final Sorting fixSorting(final Sorting sorting) {
         final Collection<Property> properties;
 

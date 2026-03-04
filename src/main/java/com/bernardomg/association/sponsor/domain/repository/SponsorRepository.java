@@ -51,6 +51,4 @@ public interface SponsorRepository {
 
     public Sponsor save(final Sponsor member, final long number);
 
-    public Collection<Sponsor> saveAll(final Collection<Sponsor> members);
-
 }

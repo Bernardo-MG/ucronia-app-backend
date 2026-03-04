@@ -24,7 +24,6 @@
 
 package com.bernardomg.association.guest.domain.repository;
 
-import java.util.Collection;
 import java.util.Optional;
 
 import com.bernardomg.association.guest.domain.filter.GuestFilter;
@@ -50,7 +49,5 @@ public interface GuestRepository {
     public Guest save(final Guest guest);
 
     public Guest save(final Guest guest, final long number);
-
-    public Collection<Guest> saveAll(final Collection<Guest> guests);
 
 }

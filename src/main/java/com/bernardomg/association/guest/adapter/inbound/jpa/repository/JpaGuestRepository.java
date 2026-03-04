@@ -29,7 +29,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -230,50 +229,6 @@ public final class JpaGuestRepository implements GuestRepository {
         log.debug("Saved guest {} with number {}", created, number);
 
         return created;
-    }
-
-    @Override
-    public final Collection<Guest> saveAll(final Collection<Guest> guests) {
-        final List<GuestEntity> entities;
-        final List<Guest>       saved;
-        final AtomicLong        number;
-
-        log.debug("Saving guests {}", guests);
-
-        number = new AtomicLong(guestSpringRepository.findNextNumber());
-        entities = guests.stream()
-            .map(m -> convert(m, number))
-            .toList();
-
-        entities.stream()
-            .forEach(m -> setType(m.getProfile()));
-
-        saved = guestSpringRepository.saveAll(entities)
-            .stream()
-            .map(GuestEntityMapper::toDomain)
-            .toList();
-
-        log.debug("Saved guests {}", saved);
-
-        return saved;
-    }
-
-    private final GuestEntity convert(final Guest guest, final AtomicLong number) {
-        final Optional<GuestEntity>           existing;
-        final GuestEntity                     entity;
-        final Collection<ContactMethodEntity> contactMethods;
-
-        existing = guestSpringRepository.findByNumber(guest.number());
-        if (existing.isPresent()) {
-            entity = GuestEntityMapper.toEntity(existing.get(), guest);
-        } else {
-            contactMethods = getContactMethods(guest.contactChannels());
-            entity = GuestEntityMapper.toEntity(guest, contactMethods);
-            entity.getProfile()
-                .setNumber(number.getAndIncrement());
-        }
-
-        return entity;
     }
 
     private final Sorting fixSorting(final Sorting sorting) {
