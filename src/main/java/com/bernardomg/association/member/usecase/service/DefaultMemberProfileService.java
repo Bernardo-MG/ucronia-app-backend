@@ -38,7 +38,11 @@ import com.bernardomg.association.member.domain.exception.MissingMemberException
 import com.bernardomg.association.member.domain.filter.MemberProfileFilter;
 import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
+import com.bernardomg.association.profile.domain.exception.MissingContactMethodException;
+import com.bernardomg.association.profile.domain.model.ContactMethod;
+import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
 import com.bernardomg.association.profile.domain.model.ProfileName;
+import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -61,12 +65,15 @@ public final class DefaultMemberProfileService implements MemberProfileService {
     private final FeeTypeRepository       feeTypeRepository;
 
     private final MemberProfileRepository memberProfileRepository;
+    private final ContactMethodRepository contactMethodRepository;
 
     public DefaultMemberProfileService(final MemberProfileRepository memberProfileRepo,
+            final ContactMethodRepository contactMethodRepo,
             final FeeTypeRepository feeTypeRepo) {
         super();
 
         memberProfileRepository = Objects.requireNonNull(memberProfileRepo);
+        contactMethodRepository = Objects.requireNonNull(contactMethodRepo);
         feeTypeRepository = Objects.requireNonNull(feeTypeRepo);
     }
 
@@ -84,11 +91,25 @@ public final class DefaultMemberProfileService implements MemberProfileService {
                 .number());
         }
 
+        // TODO: maybe send an exception with all
+        memberProfile.contactChannels()
+            .stream()
+            .map(ContactChannel::contactMethod)
+            .forEach(this::checkContactMethodExists);
+
+
         created = memberProfileRepository.save(memberProfile);
 
         log.debug("Created member profile {}", created);
 
         return created;
+    }
+
+    private final void checkContactMethodExists(final ContactMethod contactMethod) {
+        if (!contactMethodRepository.exists(contactMethod.number())) {
+            log.error("Missing contact method {}", contactMethod.number());
+            throw new MissingContactMethodException(contactMethod.number());
+        }
     }
 
     @Override
@@ -164,6 +185,12 @@ public final class DefaultMemberProfileService implements MemberProfileService {
                 .number());
         }
 
+        // TODO: maybe send an exception with all
+        memberProfile.contactChannels()
+            .stream()
+            .map(ContactChannel::contactMethod)
+            .forEach(this::checkContactMethodExists);
+
         toSave = copy(existing, memberProfile);
 
         saved = memberProfileRepository.save(toSave);
@@ -191,6 +218,12 @@ public final class DefaultMemberProfileService implements MemberProfileService {
             throw new MissingFeeTypeException(memberProfile.feeType()
                 .number());
         }
+
+        // TODO: maybe send an exception with all
+        memberProfile.contactChannels()
+            .stream()
+            .map(ContactChannel::contactMethod)
+            .forEach(this::checkContactMethodExists);
 
         saved = memberProfileRepository.save(memberProfile);
 

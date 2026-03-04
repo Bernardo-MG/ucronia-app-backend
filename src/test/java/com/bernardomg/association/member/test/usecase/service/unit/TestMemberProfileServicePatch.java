@@ -46,6 +46,8 @@ import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.member.test.configuration.factory.MemberProfiles;
 import com.bernardomg.association.member.usecase.service.DefaultMemberProfileService;
+import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
+import com.bernardomg.association.profile.test.configuration.factory.ContactMethodConstants;
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 
 @ExtendWith(MockitoExtension.class)
@@ -54,6 +56,8 @@ class TestMemberProfileServicePatch {
 
     @Mock
     private FeeTypeRepository           feeTypeRepository;
+    @Mock
+    private  ContactMethodRepository contactMethodRepository;
 
     @Mock
     private MemberProfileRepository     memberProfileRepository;
@@ -132,6 +136,7 @@ class TestMemberProfileServicePatch {
         // GIVEN
         guest = MemberProfiles.padded();
 
+        given(contactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(true);
         given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
             .willReturn(Optional.of(MemberProfiles.active()));
         given(feeTypeRepository.exists(FeeTypeConstants.NUMBER)).willReturn(true);

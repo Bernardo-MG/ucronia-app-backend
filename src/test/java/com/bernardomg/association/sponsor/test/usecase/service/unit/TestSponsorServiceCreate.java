@@ -35,6 +35,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
+import com.bernardomg.association.profile.test.configuration.factory.ContactMethodConstants;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
 import com.bernardomg.association.sponsor.test.configuration.factory.Sponsors;
@@ -46,6 +48,8 @@ class TestSponsorServiceCreate {
 
     @InjectMocks
     private DefaultSponsorService service;
+    @Mock
+    private  ContactMethodRepository contactMethodRepository;
 
     @Mock
     private SponsorRepository     sponsorRepository;
@@ -62,6 +66,8 @@ class TestSponsorServiceCreate {
         // GIVEN
         sponsor = Sponsors.padded();
 
+        given(contactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(true);
+        
         // WHEN
         service.create(sponsor);
 
@@ -77,6 +83,8 @@ class TestSponsorServiceCreate {
         // GIVEN
         sponsor = Sponsors.valid();
 
+        given(contactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(true);
+        
         // WHEN
         service.create(sponsor);
 
@@ -93,6 +101,7 @@ class TestSponsorServiceCreate {
         // GIVEN
         sponsor = Sponsors.valid();
 
+        given(contactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(true);
         given(sponsorRepository.save(sponsor)).willReturn(Sponsors.valid());
 
         // WHEN

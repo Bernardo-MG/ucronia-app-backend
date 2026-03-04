@@ -32,7 +32,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.association.profile.domain.exception.MissingContactMethodException;
+import com.bernardomg.association.profile.domain.model.ContactMethod;
+import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
 import com.bernardomg.association.profile.domain.model.ProfileName;
+import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
 import com.bernardomg.association.sponsor.domain.exception.MissingSponsorException;
 import com.bernardomg.association.sponsor.domain.filter.SponsorFilter;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
@@ -57,11 +61,13 @@ public final class DefaultSponsorService implements SponsorService {
     private static final Logger     log = LoggerFactory.getLogger(DefaultSponsorService.class);
 
     private final SponsorRepository sponsorRepository;
+    private final ContactMethodRepository contactMethodRepository;
 
-    public DefaultSponsorService(final SponsorRepository sponsorRepo) {
+    public DefaultSponsorService(final SponsorRepository sponsorRepo,final ContactMethodRepository contactMethodRepo) {
         super();
 
         sponsorRepository = Objects.requireNonNull(sponsorRepo);
+        contactMethodRepository = Objects.requireNonNull(contactMethodRepo);
     }
 
     @Override
@@ -69,6 +75,12 @@ public final class DefaultSponsorService implements SponsorService {
         final Sponsor created;
 
         log.debug("Creating sponsor {}", sponsor);
+
+        // TODO: maybe send an exception with all
+        sponsor.contactChannels()
+            .stream()
+            .map(ContactChannel::contactMethod)
+            .forEach(this::checkContactMethodExists);
 
         created = sponsorRepository.save(sponsor);
 
@@ -141,6 +153,12 @@ public final class DefaultSponsorService implements SponsorService {
                 throw new MissingSponsorException(sponsor.number());
             });
 
+        // TODO: maybe send an exception with all
+        sponsor.contactChannels()
+            .stream()
+            .map(ContactChannel::contactMethod)
+            .forEach(this::checkContactMethodExists);
+
         toSave = copy(existing, sponsor);
 
         saved = sponsorRepository.save(toSave);
@@ -161,11 +179,24 @@ public final class DefaultSponsorService implements SponsorService {
             throw new MissingSponsorException(sponsor.number());
         }
 
+        // TODO: maybe send an exception with all
+        sponsor.contactChannels()
+            .stream()
+            .map(ContactChannel::contactMethod)
+            .forEach(this::checkContactMethodExists);
+
         saved = sponsorRepository.save(sponsor);
 
         log.debug("Updated sponsor {}: {}", sponsor.number(), saved);
 
         return saved;
+    }
+
+    private final void checkContactMethodExists(final ContactMethod contactMethod) {
+        if (!contactMethodRepository.exists(contactMethod.number())) {
+            log.error("Missing contact method {}", contactMethod.number());
+            throw new MissingContactMethodException(contactMethod.number());
+        }
     }
 
     private final Sponsor copy(final Sponsor existing, final Sponsor updated) {

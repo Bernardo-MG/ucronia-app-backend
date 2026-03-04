@@ -37,6 +37,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
 import com.bernardomg.association.sponsor.domain.filter.SponsorFilter;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
@@ -52,6 +53,8 @@ class TestSponsorServiceGetAll {
 
     @InjectMocks
     private DefaultSponsorService service;
+    @Mock
+    private  ContactMethodRepository contactMethodRepository;
 
     @Mock
     private SponsorRepository     sponsorRepository;

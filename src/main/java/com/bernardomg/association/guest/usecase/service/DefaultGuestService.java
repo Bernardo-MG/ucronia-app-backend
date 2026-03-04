@@ -36,7 +36,11 @@ import com.bernardomg.association.guest.domain.exception.MissingGuestException;
 import com.bernardomg.association.guest.domain.filter.GuestFilter;
 import com.bernardomg.association.guest.domain.model.Guest;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
+import com.bernardomg.association.profile.domain.exception.MissingContactMethodException;
+import com.bernardomg.association.profile.domain.model.ContactMethod;
+import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
 import com.bernardomg.association.profile.domain.model.ProfileName;
+import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -56,12 +60,14 @@ public final class DefaultGuestService implements GuestService {
      */
     private static final Logger   log = LoggerFactory.getLogger(DefaultGuestService.class);
 
+    private final ContactMethodRepository contactMethodRepository;
     private final GuestRepository guestRepository;
 
-    public DefaultGuestService(final GuestRepository guestRepo) {
+    public DefaultGuestService(final GuestRepository guestRepo,final ContactMethodRepository contactMethodRepo) {
         super();
 
         guestRepository = Objects.requireNonNull(guestRepo);
+        contactMethodRepository = Objects.requireNonNull(contactMethodRepo);
     }
 
     @Override
@@ -70,11 +76,24 @@ public final class DefaultGuestService implements GuestService {
 
         log.debug("Creating guest {}", guest);
 
+        // TODO: maybe send an exception with all
+        guest.contactChannels()
+            .stream()
+            .map(ContactChannel::contactMethod)
+            .forEach(this::checkContactMethodExists);
+
         created = guestRepository.save(guest);
 
         log.debug("Created guest {}", created);
 
         return created;
+    }
+
+    private final void checkContactMethodExists(final ContactMethod contactMethod) {
+        if (!contactMethodRepository.exists(contactMethod.number())) {
+            log.error("Missing contact method {}", contactMethod.number());
+            throw new MissingContactMethodException(contactMethod.number());
+        }
     }
 
     @Override
@@ -140,6 +159,12 @@ public final class DefaultGuestService implements GuestService {
                 throw new MissingGuestException(guest.number());
             });
 
+        // TODO: maybe send an exception with all
+        guest.contactChannels()
+            .stream()
+            .map(ContactChannel::contactMethod)
+            .forEach(this::checkContactMethodExists);
+
         toSave = copy(existing, guest);
 
         saved = guestRepository.save(toSave);
@@ -159,6 +184,12 @@ public final class DefaultGuestService implements GuestService {
             log.error("Missing guest {}", guest.number());
             throw new MissingGuestException(guest.number());
         }
+
+        // TODO: maybe send an exception with all
+        guest.contactChannels()
+            .stream()
+            .map(ContactChannel::contactMethod)
+            .forEach(this::checkContactMethodExists);
 
         saved = guestRepository.save(guest);
 

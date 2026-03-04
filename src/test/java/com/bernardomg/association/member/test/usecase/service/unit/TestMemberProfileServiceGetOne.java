@@ -43,6 +43,7 @@ import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.member.test.configuration.factory.MemberProfiles;
 import com.bernardomg.association.member.usecase.service.DefaultMemberProfileService;
+import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 
 @ExtendWith(MockitoExtension.class)
@@ -51,6 +52,8 @@ class TestMemberProfileServiceGetOne {
 
     @Mock
     private FeeTypeRepository           feeTypeRepository;
+    @Mock
+    private  ContactMethodRepository contactMethodRepository;
 
     @Mock
     private MemberProfileRepository     memberProfileRepository;

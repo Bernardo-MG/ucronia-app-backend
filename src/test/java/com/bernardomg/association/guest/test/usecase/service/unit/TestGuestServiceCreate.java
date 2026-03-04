@@ -39,6 +39,8 @@ import com.bernardomg.association.guest.domain.model.Guest;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
 import com.bernardomg.association.guest.test.configuration.factory.Guests;
 import com.bernardomg.association.guest.usecase.service.DefaultGuestService;
+import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
+import com.bernardomg.association.profile.test.configuration.factory.ContactMethodConstants;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultGuestService - create")
@@ -46,6 +48,8 @@ class TestGuestServiceCreate {
 
     @Mock
     private GuestRepository     guestRepository;
+    @Mock
+    private  ContactMethodRepository contactMethodRepository;
 
     @InjectMocks
     private DefaultGuestService service;
@@ -62,6 +66,8 @@ class TestGuestServiceCreate {
         // GIVEN
         guest = Guests.padded();
 
+        given(contactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(true);
+
         // WHEN
         service.create(guest);
 
@@ -76,6 +82,8 @@ class TestGuestServiceCreate {
 
         // GIVEN
         guest = Guests.valid();
+
+        given(contactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(true);
 
         // WHEN
         service.create(guest);
@@ -93,6 +101,7 @@ class TestGuestServiceCreate {
         // GIVEN
         guest = Guests.valid();
 
+        given(contactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(true);
         given(guestRepository.save(guest)).willReturn(Guests.valid());
 
         // WHEN

@@ -42,6 +42,7 @@ import com.bernardomg.association.guest.domain.model.Guest;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
 import com.bernardomg.association.guest.test.configuration.factory.Guests;
 import com.bernardomg.association.guest.usecase.service.DefaultGuestService;
+import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -52,6 +53,8 @@ class TestGuestServiceGetAll {
 
     @Mock
     private GuestRepository     guestRepository;
+    @Mock
+    private  ContactMethodRepository contactMethodRepository;
 
     @InjectMocks
     private DefaultGuestService service;

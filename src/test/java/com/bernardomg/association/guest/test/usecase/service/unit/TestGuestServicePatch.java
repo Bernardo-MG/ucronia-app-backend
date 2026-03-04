@@ -43,6 +43,8 @@ import com.bernardomg.association.guest.domain.model.Guest;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
 import com.bernardomg.association.guest.test.configuration.factory.Guests;
 import com.bernardomg.association.guest.usecase.service.DefaultGuestService;
+import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
+import com.bernardomg.association.profile.test.configuration.factory.ContactMethodConstants;
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 
 @ExtendWith(MockitoExtension.class)
@@ -51,6 +53,8 @@ class TestGuestServicePatch {
 
     @Mock
     private GuestRepository     guestRepository;
+    @Mock
+    private  ContactMethodRepository contactMethodRepository;
 
     @InjectMocks
     private DefaultGuestService service;
@@ -103,6 +107,7 @@ class TestGuestServicePatch {
         // GIVEN
         guest = Guests.padded();
 
+        given(contactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(true);
         given(guestRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(Guests.valid()));
 
         // WHEN

@@ -44,6 +44,7 @@ import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.member.test.configuration.factory.MemberProfiles;
 import com.bernardomg.association.member.usecase.service.DefaultMemberProfileService;
+import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -54,6 +55,8 @@ class TestMemberProfileServiceGetAll {
 
     @Mock
     private FeeTypeRepository           feeTypeRepository;
+    @Mock
+    private  ContactMethodRepository contactMethodRepository;
 
     @Mock
     private MemberProfileRepository     memberProfileRepository;
