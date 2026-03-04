@@ -36,9 +36,17 @@ public final class SettingsEntityMapper {
     }
 
     public static final SettingsEntity toEntity(final Setting model) {
-        SettingsEntity entity;
+        final SettingsEntity entity;
 
         entity = new SettingsEntity();
+        entity.setCode(model.code());
+        entity.setValue(model.value());
+        entity.setType(model.type());
+
+        return entity;
+    }
+
+    public static final SettingsEntity toEntity(final Setting model, final SettingsEntity entity) {
         entity.setCode(model.code());
         entity.setValue(model.value());
         entity.setType(model.type());

@@ -295,6 +295,8 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
 
         log.debug("Saving member profiles {}", memberProfiles);
 
+        // TODO: is not doing the same as saving a single one
+
         number = new AtomicLong(memberProfileSpringRepository.findNextNumber());
         entities = memberProfiles.stream()
             .map(m -> toEntity(m, number))
