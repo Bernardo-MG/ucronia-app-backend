@@ -33,6 +33,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.profile.domain.filter.ProfileQuery;
 import com.bernardomg.association.profile.domain.model.Profile;
 import com.bernardomg.association.profile.domain.repository.ProfileRepository;
+import com.bernardomg.association.profile.test.configuration.data.annotation.EmailContactMethod;
+import com.bernardomg.association.profile.test.configuration.data.annotation.ProfileWithEmail;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ProfileWithType;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
@@ -51,7 +53,7 @@ class ITProfileRepositoryFindAll {
     private ProfileRepository repository;
 
     @Test
-    @DisplayName("With a valid profile, it is returned")
+    @DisplayName("With a profile, it is returned")
     @ValidProfile
     void testFindAll() {
         final Page<Profile> profiles;
@@ -95,6 +97,31 @@ class ITProfileRepositoryFindAll {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();
+    }
+
+    @Test
+    @DisplayName("With a profile with a contact method, it is returned")
+    @EmailContactMethod
+    @ProfileWithEmail
+    void testFindAll_WithContactMethods() {
+        final Page<Profile> profiles;
+        final Pagination    pagination;
+        final Sorting       sorting;
+        final ProfileQuery  filter;
+
+        // GIVEN
+        pagination = new Pagination(1, 100);
+        sorting = Sorting.unsorted();
+        filter = ProfileQueries.empty();
+
+        // WHEN
+        profiles = repository.findAll(filter, pagination, sorting);
+
+        // THEN
+        Assertions.assertThat(profiles)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .containsExactly(Profiles.withEmail());
     }
 
     @Test

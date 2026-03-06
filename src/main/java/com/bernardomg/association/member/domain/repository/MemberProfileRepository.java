@@ -56,8 +56,6 @@ public interface MemberProfileRepository {
 
     public MemberProfile save(final MemberProfile member);
 
-    public MemberProfile save(final MemberProfile member, final long number);
-
     public Collection<MemberProfile> saveAll(final Collection<MemberProfile> members);
 
 }

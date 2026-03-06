@@ -42,7 +42,6 @@ import com.bernardomg.association.guest.domain.repository.GuestRepository;
 import com.bernardomg.association.guest.test.configuration.factory.Guests;
 import com.bernardomg.association.guest.usecase.service.DefaultGuestService;
 import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
-import com.bernardomg.association.profile.test.configuration.factory.ContactMethodConstants;
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
@@ -112,7 +111,6 @@ class TestGuestServiceUpdate {
         // GIVEN
         guest = Guests.padded();
 
-        given(contactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(true);
         given(guestRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
 
         // WHEN

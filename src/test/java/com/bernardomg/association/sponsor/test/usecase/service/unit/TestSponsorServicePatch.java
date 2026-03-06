@@ -39,7 +39,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
-import com.bernardomg.association.profile.test.configuration.factory.ContactMethodConstants;
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.association.sponsor.domain.exception.MissingSponsorException;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
@@ -75,7 +74,6 @@ class TestSponsorServicePatch {
         // GIVEN
         sponsor = Sponsors.valid();
 
-        given(contactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(true);
         given(sponsorRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(sponsor));
         given(sponsorRepository.existsByIdentifierForAnother(ProfileConstants.NUMBER, ProfileConstants.IDENTIFIER))
             .willReturn(true);
@@ -132,7 +130,6 @@ class TestSponsorServicePatch {
         // GIVEN
         sponsor = Sponsors.padded();
 
-        given(contactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(true);
         given(sponsorRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(Sponsors.valid()));
 
         // WHEN

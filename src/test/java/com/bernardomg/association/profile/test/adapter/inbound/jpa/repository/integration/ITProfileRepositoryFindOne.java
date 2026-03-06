@@ -34,9 +34,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.profile.domain.model.Profile;
 import com.bernardomg.association.profile.domain.repository.ProfileRepository;
 import com.bernardomg.association.profile.test.configuration.data.annotation.EmailContactMethod;
+import com.bernardomg.association.profile.test.configuration.data.annotation.ProfileWithEmail;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ProfileWithType;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
-import com.bernardomg.association.profile.test.configuration.data.annotation.WithContactChannel;
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.association.profile.test.configuration.factory.Profiles;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -78,7 +78,7 @@ class ITProfileRepositoryFindOne {
     @Test
     @DisplayName("With a profile having a contact channel, it is returned")
     @EmailContactMethod
-    @WithContactChannel
+    @ProfileWithEmail
     void testFindOne_WithContactChannel() {
         final Optional<Profile> profile;
 

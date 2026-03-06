@@ -86,7 +86,7 @@ public final class DefaultProfileSponsorshipService implements ProfileSponsorshi
         toCreate = new Sponsor(existing.identifier(), existing.number(), existing.name(), existing.birthDate(),
             existing.contactChannels(), List.of(), existing.address(), existing.comments(), existing.types());
 
-        created = sponsorRepository.save(toCreate, number);
+        created = sponsorRepository.save(toCreate);
 
         log.debug("Converted profile {} to sponsor", number);
 

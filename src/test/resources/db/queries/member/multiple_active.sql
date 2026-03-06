@@ -10,12 +10,3 @@ INSERT INTO directory.members (id, fee_type_id, active, renew_membership) VALUES
    (3, 1, true, true),
    (4, 1, true, true),
    (5, 1, true, true);
-
-INSERT INTO directory.contact_methods (id, number, name) VALUES
-   (1, 10, 'email');
-INSERT INTO directory.contact_channels (id, contact_method_id, profile_id, detail) VALUES
-   (1, 1, 1, 'email@somewhere.com'),
-   (2, 1, 2, 'email@somewhere.com'),
-   (3, 1, 3, 'email@somewhere.com'),
-   (4, 1, 4, 'email@somewhere.com'),
-   (5, 1, 5, 'email@somewhere.com');

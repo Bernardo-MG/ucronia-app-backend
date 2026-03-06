@@ -35,6 +35,7 @@ import com.bernardomg.association.profile.test.configuration.data.annotation.Val
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
+import com.bernardomg.association.sponsor.test.configuration.data.annotation.SponsorWithEmail;
 import com.bernardomg.association.sponsor.test.configuration.data.annotation.ValidSponsor;
 import com.bernardomg.association.sponsor.test.configuration.factory.Sponsors;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -85,6 +86,20 @@ class ITSponsorRepositoryFindOne {
         // THEN
         Assertions.assertThat(sponsor)
             .isEmpty();
+    }
+
+    @Test
+    @DisplayName("With an sponsor with a contact method, it is returned")
+    @SponsorWithEmail
+    void testFindOne_WithEmail() {
+        final Optional<Sponsor> sponsor;
+
+        // WHEN
+        sponsor = repository.findOne(ProfileConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(sponsor)
+            .contains(Sponsors.withEmail());
     }
 
 }

@@ -73,7 +73,6 @@ class TestSponsorServiceUpdate {
         // GIVEN
         sponsor = Sponsors.valid();
 
-        given(contactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(true);
         given(sponsorRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
         given(sponsorRepository.existsByIdentifierForAnother(ProfileConstants.NUMBER, ProfileConstants.IDENTIFIER))
             .willReturn(true);
@@ -113,8 +112,7 @@ class TestSponsorServiceUpdate {
         // GIVEN
         sponsor = Sponsors.padded();
 
-        given(contactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(true);
-        given(sponsorRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
+        given(sponsorRepository.exists(ContactMethodConstants.NUMBER)).willReturn(true);
 
         // WHEN
         service.update(sponsor);

@@ -24,7 +24,6 @@
 
 package com.bernardomg.association.sponsor.domain.repository;
 
-import java.util.Collection;
 import java.util.Optional;
 
 import com.bernardomg.association.sponsor.domain.filter.SponsorFilter;
@@ -48,7 +47,5 @@ public interface SponsorRepository {
     public Optional<Sponsor> findOne(final Long number);
 
     public Sponsor save(final Sponsor member);
-
-    public Sponsor save(final Sponsor member, final long number);
 
 }

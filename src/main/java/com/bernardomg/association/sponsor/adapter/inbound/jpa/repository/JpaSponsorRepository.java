@@ -30,7 +30,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicLong;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -186,6 +185,7 @@ public final class JpaSponsorRepository implements SponsorRepository {
         final List<Long>                contactMethodNumbers;
         final List<ContactMethodEntity> contactMethods;
         final Long                      number;
+        final Optional<ProfileEntity>   profile;
 
         log.debug("Saving sponsor {}", sponsor);
 
@@ -200,9 +200,15 @@ public final class JpaSponsorRepository implements SponsorRepository {
                 .toList();
             contactMethods = contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
             entity = SponsorEntityMapper.toEntity(sponsor, contactMethods);
-            number = sponsorSpringRepository.findNextNumber();
-            entity.getProfile()
-                .setNumber(number);
+
+            profile = profileSpringRepository.findByNumber(sponsor.number());
+            if (profile.isPresent()) {
+                entity.setProfile(profile.get());
+            } else {
+                number = sponsorSpringRepository.findNextNumber();
+                entity.getProfile()
+                    .setNumber(number);
+            }
         }
 
         setType(entity.getProfile());
@@ -210,38 +216,6 @@ public final class JpaSponsorRepository implements SponsorRepository {
         created = SponsorEntityMapper.toDomain(sponsorSpringRepository.save(entity));
 
         log.debug("Saved sponsor {}", created);
-
-        return created;
-    }
-
-    @Override
-    public final Sponsor save(final Sponsor sponsor, final long number) {
-        final SponsorEntity             entity;
-        final Sponsor                   created;
-        final Optional<ProfileEntity>   profile;
-        final List<Long>                contactMethodNumbers;
-        final List<ContactMethodEntity> contactMethods;
-
-        log.debug("Saving sponsor {} with number {}", sponsor, number);
-
-        contactMethodNumbers = sponsor.contactChannels()
-            .stream()
-            .map(ContactChannel::contactMethod)
-            .map(ContactMethod::number)
-            .toList();
-        contactMethods = contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
-        entity = SponsorEntityMapper.toEntity(sponsor, contactMethods);
-
-        profile = profileSpringRepository.findByNumber(number);
-        if (profile.isPresent()) {
-            entity.setProfile(profile.get());
-        }
-
-        setType(entity.getProfile());
-
-        created = SponsorEntityMapper.toDomain(sponsorSpringRepository.save(entity));
-
-        log.debug("Saved sponsor {} with number {}", created, number);
 
         return created;
     }

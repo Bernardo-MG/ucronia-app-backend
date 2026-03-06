@@ -43,7 +43,6 @@ import com.bernardomg.association.member.domain.repository.MemberProfileReposito
 import com.bernardomg.association.member.test.configuration.factory.MemberProfiles;
 import com.bernardomg.association.member.usecase.service.DefaultMemberProfileService;
 import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
-import com.bernardomg.association.profile.test.configuration.factory.ContactMethodConstants;
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
@@ -77,7 +76,6 @@ class TestMemberProfileServiceCreate {
         // GIVEN
         member = MemberProfiles.active();
 
-        given(contactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(true);
         given(feeTypeRepository.exists(FeeConstants.FEE_TYPE_NUMBER)).willReturn(true);
         given(memberProfileRepository.existsByIdentifier(ProfileConstants.IDENTIFIER)).willReturn(true);
 
@@ -97,7 +95,6 @@ class TestMemberProfileServiceCreate {
         // GIVEN
         member = MemberProfiles.padded();
 
-        given(contactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(true);
         given(feeTypeRepository.exists(FeeConstants.FEE_TYPE_NUMBER)).willReturn(true);
 
         // WHEN
@@ -115,7 +112,6 @@ class TestMemberProfileServiceCreate {
         // GIVEN
         member = MemberProfiles.active();
 
-        given(contactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(true);
         given(feeTypeRepository.exists(FeeConstants.FEE_TYPE_NUMBER)).willReturn(true);
 
         // WHEN
@@ -134,7 +130,6 @@ class TestMemberProfileServiceCreate {
         // GIVEN
         member = MemberProfiles.active();
 
-        given(contactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(true);
         given(memberProfileRepository.save(member)).willReturn(MemberProfiles.active());
         given(feeTypeRepository.exists(FeeConstants.FEE_TYPE_NUMBER)).willReturn(true);
 

@@ -98,7 +98,7 @@ public final class ProfileEntities {
         entity.setLastName(ProfileConstants.LAST_NAME);
         entity.setBirthDate(ProfileConstants.BIRTH_DATE);
         entity.setIdentifier(ProfileConstants.IDENTIFIER);
-        entity.setContactChannels(new ArrayList<>());
+        entity.setContactChannels(new ArrayList<>(List.of()));
         entity.setAddress(ProfileConstants.ADDRESS);
         entity.setComments(ProfileConstants.COMMENTS);
         entity.setTypes(new HashSet<>());

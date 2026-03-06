@@ -35,6 +35,7 @@ import com.bernardomg.association.profile.test.configuration.factory.ProfileCons
 import com.bernardomg.association.sponsor.domain.filter.SponsorFilter;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
+import com.bernardomg.association.sponsor.test.configuration.data.annotation.SponsorWithEmail;
 import com.bernardomg.association.sponsor.test.configuration.data.annotation.ValidSponsor;
 import com.bernardomg.association.sponsor.test.configuration.factory.Sponsors;
 import com.bernardomg.data.domain.Page;
@@ -194,7 +195,7 @@ class ITSponsorRepositoryFindAllQueryName {
 
     @Test
     @DisplayName("With a sponsor having an active sponsorship and wrong name, nothing is returned")
-    @ValidSponsor
+    @SponsorWithEmail
     void testFindAll_WrongName() {
         final Page<Sponsor> sponsors;
         final Pagination    pagination;

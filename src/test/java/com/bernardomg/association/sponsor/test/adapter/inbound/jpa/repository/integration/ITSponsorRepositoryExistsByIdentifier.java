@@ -31,7 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
-import com.bernardomg.association.sponsor.test.configuration.data.annotation.ValidSponsor;
+import com.bernardomg.association.sponsor.test.configuration.data.annotation.SponsorWithEmail;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -43,7 +43,7 @@ class ITSponsorRepositoryExistsByIdentifier {
 
     @Test
     @DisplayName("With an existing identifier, it exists")
-    @ValidSponsor
+    @SponsorWithEmail
     void testExists_Existing() {
         final boolean exists;
 
@@ -72,7 +72,7 @@ class ITSponsorRepositoryExistsByIdentifier {
 
     @Test
     @DisplayName("With a not existing identifier, it doesn't exist")
-    @ValidSponsor
+    @SponsorWithEmail
     void testExists_NotExisting() {
         final boolean exists;
 

@@ -48,6 +48,4 @@ public interface GuestRepository {
 
     public Guest save(final Guest guest);
 
-    public Guest save(final Guest guest, final long number);
-
 }

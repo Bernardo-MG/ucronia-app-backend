@@ -10,11 +10,11 @@ import java.lang.annotation.Target;
 
 import org.springframework.test.context.jdbc.Sql;
 
-@Sql("/db/queries/profile/with_contact_channel.sql")
+@Sql("/db/queries/profile/with_email.sql")
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-public @interface WithContactChannel {
+public @interface ProfileWithEmail {
 
 }

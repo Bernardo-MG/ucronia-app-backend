@@ -35,6 +35,7 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.Positiv
 import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMemberWithEmail;
 import com.bernardomg.association.member.test.configuration.factory.MemberProfiles;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
@@ -87,6 +88,21 @@ class ITMemberProfileRepositoryFindOne {
         // THEN
         Assertions.assertThat(member)
             .isEmpty();
+    }
+
+    @Test
+    @DisplayName("With a member with contact method, it is returned")
+    @PositiveFeeType
+    @ActiveMemberWithEmail
+    void testFindOne_WithContactMethod() {
+        final Optional<MemberProfile> member;
+
+        // WHEN
+        member = repository.findOne(ProfileConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(member)
+            .contains(MemberProfiles.withEmail());
     }
 
 }

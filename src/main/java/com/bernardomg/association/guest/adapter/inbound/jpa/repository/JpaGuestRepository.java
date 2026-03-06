@@ -184,6 +184,7 @@ public final class JpaGuestRepository implements GuestRepository {
         final Guest                           created;
         final Collection<ContactMethodEntity> contactMethods;
         final Long                            number;
+        final Optional<ProfileEntity>         profile;
 
         log.debug("Saving guest {}", guest);
 
@@ -193,9 +194,15 @@ public final class JpaGuestRepository implements GuestRepository {
         } else {
             contactMethods = getContactMethods(guest.contactChannels());
             entity = GuestEntityMapper.toEntity(guest, contactMethods);
-            number = guestSpringRepository.findNextNumber();
-            entity.getProfile()
-                .setNumber(number);
+
+            profile = profileSpringRepository.findByNumber(guest.number());
+            if (profile.isPresent()) {
+                entity.setProfile(profile.get());
+            } else {
+                number = guestSpringRepository.findNextNumber();
+                entity.getProfile()
+                    .setNumber(number);
+            }
         }
 
         setType(entity.getProfile());
@@ -203,30 +210,6 @@ public final class JpaGuestRepository implements GuestRepository {
         created = GuestEntityMapper.toDomain(guestSpringRepository.save(entity));
 
         log.debug("Saved guest {}", created);
-
-        return created;
-    }
-
-    @Override
-    public final Guest save(final Guest guest, final long number) {
-        final GuestEntity                     entity;
-        final Guest                           created;
-        final Optional<ProfileEntity>         profile;
-        final Collection<ContactMethodEntity> contactMethods;
-
-        log.debug("Saving guest {} with number {}", guest, number);
-
-        contactMethods = getContactMethods(guest.contactChannels());
-        entity = GuestEntityMapper.toEntity(guest, contactMethods);
-
-        profile = profileSpringRepository.findByNumber(number);
-        entity.setProfile(profile.get());
-
-        setType(entity.getProfile());
-
-        created = GuestEntityMapper.toDomain(guestSpringRepository.save(entity));
-
-        log.debug("Saved guest {} with number {}", created, number);
 
         return created;
     }

@@ -16,14 +16,10 @@ import com.bernardomg.association.profile.test.configuration.factory.ProfileCons
 public final class Guests {
 
     public static final Guest created() {
-        final ProfileName    name;
-        final ContactChannel contactChannel;
-        final ContactMethod  contactMethod;
+        final ProfileName name;
 
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        contactMethod = ContactMethods.email();
-        contactChannel = new ContactChannel(contactMethod, ProfileConstants.EMAIL);
-        return new Guest(ProfileConstants.IDENTIFIER, 1L, name, ProfileConstants.BIRTH_DATE, List.of(contactChannel),
+        return new Guest(ProfileConstants.IDENTIFIER, 1L, name, ProfileConstants.BIRTH_DATE, List.of(),
             List.of(GuestConstants.DATE), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS,
             Set.of(GuestEntityConstants.PROFILE_TYPE));
     }
@@ -74,19 +70,24 @@ public final class Guests {
     }
 
     public static final Guest padded() {
-        final ProfileName    name;
-        final ContactChannel contactChannel;
-        final ContactMethod  contactMethod;
+        final ProfileName name;
 
         name = new ProfileName(" " + ProfileConstants.FIRST_NAME + " ", " " + ProfileConstants.LAST_NAME + " ");
-        contactMethod = ContactMethods.email();
-        contactChannel = new ContactChannel(contactMethod, ProfileConstants.EMAIL);
         return new Guest(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name, ProfileConstants.BIRTH_DATE,
-            List.of(contactChannel), List.of(GuestConstants.DATE), " " + ProfileConstants.ADDRESS + " ",
+            List.of(), List.of(GuestConstants.DATE), " " + ProfileConstants.ADDRESS + " ",
             " " + ProfileConstants.COMMENTS + " ", Set.of(GuestEntityConstants.PROFILE_TYPE));
     }
 
     public static final Guest valid() {
+        final ProfileName name;
+
+        name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
+        return new Guest(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name, ProfileConstants.BIRTH_DATE,
+            List.of(), List.of(GuestConstants.DATE), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS,
+            Set.of(GuestEntityConstants.PROFILE_TYPE));
+    }
+
+    public static final Guest withEmail() {
         final ProfileName    name;
         final ContactChannel contactChannel;
         final ContactMethod  contactMethod;
@@ -100,16 +101,11 @@ public final class Guests {
     }
 
     public static final Guest withoutType() {
-        final ProfileName    name;
-        final ContactChannel contactChannel;
-        final ContactMethod  contactMethod;
+        final ProfileName name;
 
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        contactMethod = ContactMethods.email();
-        contactChannel = new ContactChannel(contactMethod, ProfileConstants.EMAIL);
         return new Guest(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name, ProfileConstants.BIRTH_DATE,
-            List.of(contactChannel), List.of(GuestConstants.DATE), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS,
-            Set.of());
+            List.of(), List.of(GuestConstants.DATE), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS, Set.of());
     }
 
 }

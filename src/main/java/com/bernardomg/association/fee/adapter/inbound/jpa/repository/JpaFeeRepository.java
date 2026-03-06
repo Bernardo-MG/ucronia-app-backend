@@ -306,6 +306,7 @@ public final class JpaFeeRepository implements FeeRepository {
 
         log.debug("Saving fees {}", fees);
 
+        // TODO: get types and members once
         entities = fees.stream()
             .map(this::toEntity)
             .map(this::loadId)

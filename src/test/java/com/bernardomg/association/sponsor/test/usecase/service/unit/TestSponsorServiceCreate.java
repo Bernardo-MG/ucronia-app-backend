@@ -37,7 +37,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
-import com.bernardomg.association.profile.test.configuration.factory.ContactMethodConstants;
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
@@ -72,7 +71,6 @@ class TestSponsorServiceCreate {
         // GIVEN
         sponsor = Sponsors.valid();
 
-        given(contactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(true);
         given(sponsorRepository.existsByIdentifier(ProfileConstants.IDENTIFIER)).willReturn(true);
 
         // WHEN
@@ -91,8 +89,6 @@ class TestSponsorServiceCreate {
         // GIVEN
         sponsor = Sponsors.padded();
 
-        given(contactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(true);
-
         // WHEN
         service.create(sponsor);
 
@@ -107,8 +103,6 @@ class TestSponsorServiceCreate {
 
         // GIVEN
         sponsor = Sponsors.valid();
-
-        given(contactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(true);
 
         // WHEN
         service.create(sponsor);
@@ -126,7 +120,6 @@ class TestSponsorServiceCreate {
         // GIVEN
         sponsor = Sponsors.valid();
 
-        given(contactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(true);
         given(sponsorRepository.save(sponsor)).willReturn(Sponsors.valid());
 
         // WHEN

@@ -100,7 +100,7 @@ public final class DefaultProfileMembershipService implements ProfileMembershipS
             existing.contactChannels(), existing.address(), existing.comments(), true, true, memberFeeType,
             existing.types());
 
-        created = memberProfileRepository.save(toCreate, number);
+        created = memberProfileRepository.save(toCreate);
 
         log.debug("Converted profile {} to member", number);
 

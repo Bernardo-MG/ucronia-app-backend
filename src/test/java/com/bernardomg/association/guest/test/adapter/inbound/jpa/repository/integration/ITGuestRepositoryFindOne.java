@@ -33,6 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.guest.domain.model.Guest;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
+import com.bernardomg.association.guest.test.configuration.data.annotation.GuestWithEmail;
 import com.bernardomg.association.guest.test.configuration.data.annotation.ValidGuest;
 import com.bernardomg.association.guest.test.configuration.factory.Guests;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
@@ -85,6 +86,20 @@ class ITGuestRepositoryFindOne {
         // THEN
         Assertions.assertThat(guest)
             .isEmpty();
+    }
+
+    @Test
+    @DisplayName("With a guest with a contact method, it is returned")
+    @GuestWithEmail
+    void testFindOne_WithContactMethod() {
+        final Optional<Guest> guest;
+
+        // WHEN
+        guest = repository.findOne(ProfileConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(guest)
+            .contains(Guests.withEmail());
     }
 
 }

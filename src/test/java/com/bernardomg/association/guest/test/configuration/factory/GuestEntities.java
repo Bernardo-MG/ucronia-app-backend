@@ -29,7 +29,7 @@ public final class GuestEntities {
 
         entity = new GuestEntity();
         entity.setId(1L);
-        entity.setProfile(ProfileEntities.withEmail());
+        entity.setProfile(ProfileEntities.valid());
         entity.setGames(new ArrayList<>(List.of(GuestConstants.DATE)));
         entity.getProfile()
             .setTypes(Set.of(GuestEntityConstants.PROFILE_TYPE));
@@ -44,6 +44,8 @@ public final class GuestEntities {
         entity.setId(1L);
         entity.setProfile(ProfileEntities.valid());
         entity.setGames(new ArrayList<>(List.of(GuestConstants.DATE)));
+        entity.getProfile()
+            .setTypes(Set.of(GuestEntityConstants.PROFILE_TYPE));
 
         return entity;
     }

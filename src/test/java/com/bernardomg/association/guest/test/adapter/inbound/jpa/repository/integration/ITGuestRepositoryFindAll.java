@@ -35,6 +35,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.association.guest.domain.filter.GuestFilter;
 import com.bernardomg.association.guest.domain.model.Guest;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
+import com.bernardomg.association.guest.test.configuration.data.annotation.GuestWithEmail;
 import com.bernardomg.association.guest.test.configuration.data.annotation.ValidGuest;
 import com.bernardomg.association.guest.test.configuration.factory.Guests;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
@@ -123,6 +124,30 @@ class ITGuestRepositoryFindAll {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();
+    }
+
+    @Test
+    @DisplayName("With a guest with email, it is returned")
+    @GuestWithEmail
+    void testFindAll_WithEmail() {
+        final Page<Guest> guests;
+        final Pagination  pagination;
+        final Sorting     sorting;
+        final GuestFilter filter;
+
+        // GIVEN
+        pagination = new Pagination(1, 10);
+        sorting = new Sorting(List.of());
+        filter = new GuestFilter("");
+
+        // WHEN
+        guests = repository.findAll(filter, pagination, sorting);
+
+        // THEN
+        Assertions.assertThat(guests)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .containsExactly(Guests.withEmail());
     }
 
 }

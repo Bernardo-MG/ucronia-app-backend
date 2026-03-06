@@ -30,7 +30,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -238,6 +237,7 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
         final List<ContactMethodEntity>     contactMethods;
         final Long                          number;
         final Optional<FeeTypeEntity>       feeType;
+        final Optional<ProfileEntity>       profile;
 
         log.debug("Saving member profile {}", memberProfile);
 
@@ -252,9 +252,15 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
                 .toList();
             contactMethods = contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
             entity = MemberProfileEntityMapper.toEntity(memberProfile, contactMethods);
-            number = memberProfileSpringRepository.findNextNumber();
-            entity.getProfile()
-                .setNumber(number);
+
+            profile = profileSpringRepository.findByNumber(memberProfile.number());
+            if (profile.isPresent()) {
+                entity.setProfile(profile.get());
+            } else {
+                number = memberProfileSpringRepository.findNextNumber();
+                entity.getProfile()
+                    .setNumber(number);
+            }
         }
 
         feeType = feeTypeSpringRepository.findByNumber(memberProfile.feeType()
@@ -266,49 +272,6 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
         created = MemberProfileEntityMapper.toDomain(memberProfileSpringRepository.save(entity));
 
         log.debug("Saved member profile {}", created);
-
-        return created;
-    }
-
-    @Override
-    public final MemberProfile save(final MemberProfile memberProfile, final long number) {
-        final MemberProfileEntity             entity;
-        final MemberProfile                   created;
-        final Optional<ProfileEntity>         profile;
-        final Optional<FeeTypeEntity>         feeType;
-        final Collection<Long>                contactMethodNumbers;
-        final Collection<ContactMethodEntity> contactMethods;
-
-        log.debug("Saving member profile {} with number {}", memberProfile, number);
-
-        contactMethodNumbers = memberProfile.contactChannels()
-            .stream()
-            .map(ContactChannel::contactMethod)
-            .map(ContactMethod::number)
-            .collect(Collectors.toSet());
-
-        contactMethods = contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
-
-        entity = MemberProfileEntityMapper.toEntity(memberProfile, contactMethods);
-
-        profile = profileSpringRepository.findByNumber(number);
-        if (profile.isPresent()) {
-            entity.setProfile(profile.get());
-        }
-
-        feeType = feeTypeSpringRepository.findByNumber(memberProfile.feeType()
-            .number());
-        if (feeType.isEmpty()) {
-            log.warn("Missing fee type {}", memberProfile.feeType()
-                .number());
-        }
-        entity.setFeeType(feeType.orElse(null));
-
-        setType(entity.getProfile());
-
-        created = MemberProfileEntityMapper.toDomain(memberProfileSpringRepository.save(entity));
-
-        log.debug("Saved member profile {} with number {}", created, number);
 
         return created;
     }

@@ -34,7 +34,7 @@ import com.bernardomg.association.profile.test.configuration.data.annotation.Val
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.repository.SponsorSpringRepository;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
-import com.bernardomg.association.sponsor.test.configuration.data.annotation.ValidSponsor;
+import com.bernardomg.association.sponsor.test.configuration.data.annotation.SponsorWithEmail;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -56,7 +56,7 @@ class ITSponsorRepositoryDelete {
 
     @Test
     @DisplayName("When deleting an sponsor, it is deleted")
-    @ValidSponsor
+    @SponsorWithEmail
     void testDelete_Active() {
         // WHEN
         repository.delete(ProfileConstants.NUMBER);
@@ -68,7 +68,7 @@ class ITSponsorRepositoryDelete {
 
     @Test
     @DisplayName("When deleting an sponsor, the profile is deleted")
-    @ValidSponsor
+    @SponsorWithEmail
     void testDelete_Active_Profile() {
         // WHEN
         repository.delete(ProfileConstants.NUMBER);

@@ -40,7 +40,7 @@ import com.bernardomg.association.guest.test.configuration.factory.GuestEntities
 import com.bernardomg.association.guest.test.configuration.factory.Guests;
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
-import com.bernardomg.association.profile.test.configuration.data.annotation.EmailContactMethod;
+import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -58,6 +58,29 @@ class ITGuestRepositorySave {
 
     public ITGuestRepositorySave() {
         super();
+    }
+
+    @Test
+    @DisplayName("When a guest exists and a contact method is added, the guest is persisted")
+    @ValidGuest
+    void testSave_Existing_AddContactMethod_PersistedData() {
+        final Guest                 guest;
+        final Iterable<GuestEntity> entities;
+
+        // GIVEN
+        guest = Guests.withEmail();
+
+        // WHEN
+        repository.save(guest);
+
+        // THEN
+        entities = springRepository.findAll();
+
+        Assertions.assertThat(entities)
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.contactChannels.id",
+                "profile.contactChannels.profileId", "profile.contactChannels.profile")
+            .containsExactly(GuestEntities.createdWithEmail());
     }
 
     @Test
@@ -80,7 +103,7 @@ class ITGuestRepositorySave {
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.contactChannels.id",
                 "profile.contactChannels.profileId", "profile.contactChannels.profile")
-            .containsExactly(GuestEntities.createdWithEmail());
+            .containsExactly(GuestEntities.created());
     }
 
     @Test
@@ -103,8 +126,30 @@ class ITGuestRepositorySave {
     }
 
     @Test
+    @DisplayName("When the guest doesn't exist but the profile exists, the guest is persisted")
+    @ValidProfile
+    void testSave_ExistingProfile_PersistedData() {
+        final Guest                 guest;
+        final Iterable<GuestEntity> entities;
+
+        // GIVEN
+        guest = Guests.valid();
+
+        // WHEN
+        repository.save(guest);
+
+        // THEN
+        entities = springRepository.findAll();
+
+        Assertions.assertThat(entities)
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.contactChannels.id",
+                "profile.contactChannels.profileId", "profile.contactChannels.profile")
+            .containsExactly(GuestEntities.valid());
+    }
+
+    @Test
     @DisplayName("With a guest, the guest is persisted")
-    @EmailContactMethod
     void testSave_PersistedData() {
         final Guest                 guest;
         final Iterable<GuestEntity> entities;
@@ -122,12 +167,11 @@ class ITGuestRepositorySave {
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.id", "profile.number",
                 "profile.contactChannels.id", "profile.contactChannels.profileId", "profile.contactChannels.profile")
-            .containsExactly(GuestEntities.createdWithEmail());
+            .containsExactly(GuestEntities.created());
     }
 
     @Test
     @DisplayName("When the type is removed, the guest is not changed")
-    @EmailContactMethod
     void testSave_RemoveType_NoChange() {
         final Guest                 guest;
         final Iterable<GuestEntity> entities;
@@ -145,12 +189,11 @@ class ITGuestRepositorySave {
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.id", "profile.number",
                 "profile.contactChannels.id", "profile.contactChannels.profileId", "profile.contactChannels.profile")
-            .containsExactly(GuestEntities.createdWithEmail());
+            .containsExactly(GuestEntities.created());
     }
 
     @Test
     @DisplayName("With a guest, the created guest is returned")
-    @EmailContactMethod
     void testSave_ReturnedData() {
         final Guest guest;
         final Guest saved;
@@ -169,7 +212,6 @@ class ITGuestRepositorySave {
 
     @Test
     @DisplayName("When the guest is persisted, the profile types includes the guest type")
-    @EmailContactMethod
     void testSave_SetsType() {
         final Guest         guest;
         final ProfileEntity profile;
