@@ -127,9 +127,9 @@ class ITSponsorRepositoryFindAll {
     }
 
     @Test
-    @DisplayName("With an sponsor with email, it is returned")
+    @DisplayName("With an sponsor with contact method, it is returned")
     @SponsorWithEmail
-    void testFindAll_WithEmail() {
+    void testFindAll_WithContactMethod() {
         final Page<Sponsor> sponsors;
         final Pagination    pagination;
         final Sorting       sorting;

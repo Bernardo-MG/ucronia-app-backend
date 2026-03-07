@@ -24,7 +24,7 @@
 
 package com.bernardomg.association.profile.adapter.inbound.jpa.repository;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -158,21 +158,15 @@ public final class JpaProfileRepository implements ProfileRepository {
 
     @Override
     public final Profile save(final Profile profile) {
-        final Optional<ProfileEntity>   existing;
-        final ProfileEntity             entity;
-        final Profile                   created;
-        final List<Long>                contactMethodNumbers;
-        final List<ContactMethodEntity> contactMethods;
-        final Long                      number;
+        final Optional<ProfileEntity>         existing;
+        final ProfileEntity                   entity;
+        final Profile                         created;
+        final Collection<ContactMethodEntity> contactMethods;
+        final Long                            number;
 
         log.debug("Saving profile {}", profile);
 
-        contactMethodNumbers = profile.contactChannels()
-            .stream()
-            .map(ContactChannel::contactMethod)
-            .map(ContactMethod::number)
-            .toList();
-        contactMethods = contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
+        contactMethods = getContactMethods(profile);
         entity = ProfileEntityMapper.toEntity(profile, contactMethods);
 
         existing = profileSpringRepository.findByNumber(profile.number());
@@ -192,6 +186,17 @@ public final class JpaProfileRepository implements ProfileRepository {
         log.debug("Saved profile {}", created);
 
         return created;
+    }
+
+    private final Collection<ContactMethodEntity> getContactMethods(final Profile profile) {
+        final Collection<Long> contactMethodNumbers;
+
+        contactMethodNumbers = profile.contactChannels()
+            .stream()
+            .map(ContactChannel::contactMethod)
+            .map(ContactMethod::number)
+            .toList();
+        return contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
     }
 
 }

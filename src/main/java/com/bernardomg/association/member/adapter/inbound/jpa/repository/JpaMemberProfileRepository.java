@@ -40,7 +40,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTypeEntity;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeTypeSpringRepository;
-import com.bernardomg.association.fee.domain.exception.MissingFeeTypeException;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityConstants;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberProfileEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberProfileEntityMapper;
@@ -230,27 +229,21 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
 
     @Override
     public final MemberProfile save(final MemberProfile memberProfile) {
-        final Optional<MemberProfileEntity> existing;
-        final MemberProfileEntity           entity;
-        final MemberProfile                 created;
-        final List<Long>                    contactMethodNumbers;
-        final List<ContactMethodEntity>     contactMethods;
-        final Long                          number;
-        final Optional<FeeTypeEntity>       feeType;
-        final Optional<ProfileEntity>       profile;
+        final Optional<MemberProfileEntity>   existing;
+        final MemberProfileEntity             entity;
+        final MemberProfile                   created;
+        final Collection<ContactMethodEntity> contactMethods;
+        final Long                            number;
+        final Optional<FeeTypeEntity>         feeType;
+        final Optional<ProfileEntity>         profile;
 
         log.debug("Saving member profile {}", memberProfile);
 
         existing = memberProfileSpringRepository.findByNumber(memberProfile.number());
+        contactMethods = getContactMethods(memberProfile);
         if (existing.isPresent()) {
-            entity = MemberProfileEntityMapper.toEntity(existing.get(), memberProfile);
+            entity = MemberProfileEntityMapper.toEntity(existing.get(), memberProfile, contactMethods);
         } else {
-            contactMethodNumbers = memberProfile.contactChannels()
-                .stream()
-                .map(ContactChannel::contactMethod)
-                .map(ContactMethod::number)
-                .toList();
-            contactMethods = contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
             entity = MemberProfileEntityMapper.toEntity(memberProfile, contactMethods);
 
             profile = profileSpringRepository.findByNumber(memberProfile.number());
@@ -318,6 +311,17 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
         return new Sorting(properties);
     }
 
+    private final Collection<ContactMethodEntity> getContactMethods(final MemberProfile memberProfile) {
+        final Collection<Long> contactMethodNumbers;
+
+        contactMethodNumbers = memberProfile.contactChannels()
+            .stream()
+            .map(ContactChannel::contactMethod)
+            .map(ContactMethod::number)
+            .toList();
+        return contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
+    }
+
     private final void setType(final ProfileEntity entity) {
         if (entity.getTypes() == null) {
             entity.setTypes(Set.of(MemberEntityConstants.PROFILE_TYPE));
@@ -328,22 +332,16 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
     }
 
     private final MemberProfileEntity toEntity(final MemberProfile memberProfile, final AtomicLong number) {
-        final Optional<MemberProfileEntity> existing;
-        final MemberProfileEntity           entity;
-        final List<Long>                    contactMethodNumbers;
-        final List<ContactMethodEntity>     contactMethods;
-        final Optional<FeeTypeEntity>       feeType;
+        final Optional<MemberProfileEntity>   existing;
+        final MemberProfileEntity             entity;
+        final Collection<ContactMethodEntity> contactMethods;
+        final Optional<FeeTypeEntity>         feeType;
 
         existing = memberProfileSpringRepository.findByNumber(memberProfile.number());
+        contactMethods = getContactMethods(memberProfile);
         if (existing.isPresent()) {
-            entity = MemberProfileEntityMapper.toEntity(existing.get(), memberProfile);
+            entity = MemberProfileEntityMapper.toEntity(existing.get(), memberProfile, contactMethods);
         } else {
-            contactMethodNumbers = memberProfile.contactChannels()
-                .stream()
-                .map(ContactChannel::contactMethod)
-                .map(ContactMethod::number)
-                .toList();
-            contactMethods = contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
             entity = MemberProfileEntityMapper.toEntity(memberProfile, contactMethods);
             entity.getProfile()
                 .setNumber(number.getAndIncrement());
@@ -351,12 +349,6 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
 
         feeType = feeTypeSpringRepository.findByNumber(memberProfile.feeType()
             .number());
-        if (feeType.isEmpty()) {
-            log.error("Missing fee type {}", memberProfile.feeType()
-                .number());
-            throw new MissingFeeTypeException(memberProfile.feeType()
-                .number());
-        }
         entity.setFeeType(feeType.orElse(null));
 
         return entity;

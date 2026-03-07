@@ -32,6 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
+import com.bernardomg.association.profile.test.configuration.data.annotation.EmailContactMethod;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.SponsorEntity;
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.SponsorEntityConstants;
@@ -62,6 +63,30 @@ class ITSponsorRepositorySave {
     }
 
     @Test
+    @DisplayName("When a sponsor exists and a contact method is added, the sponsor is persisted")
+    @EmailContactMethod
+    @ValidSponsor
+    void testSave_Existing_AddContactMethod_PersistedData() {
+        final Sponsor                 sponsor;
+        final Iterable<SponsorEntity> entities;
+
+        // GIVEN
+        sponsor = Sponsors.withEmail();
+
+        // WHEN
+        repository.save(sponsor);
+
+        // THEN
+        entities = springRepository.findAll();
+
+        Assertions.assertThat(entities)
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.contactChannels.id",
+                "profile.contactChannels.profileId", "profile.contactChannels.profile")
+            .containsExactly(SponsorEntities.withEmail());
+    }
+
+    @Test
     @DisplayName("When a sponsor exists, the sponsor is persisted")
     @ValidSponsor
     void testSave_Existing_PersistedData() {
@@ -85,28 +110,9 @@ class ITSponsorRepositorySave {
     }
 
     @Test
-    @DisplayName("When a sponsor exists, the created sponsor is returned")
-    @ValidSponsor
-    void testSave_Existing_ReturnedData() {
-        final Sponsor sponsor;
-        final Sponsor saved;
-
-        // GIVEN
-        sponsor = Sponsors.valid();
-
-        // WHEN
-        saved = repository.save(sponsor);
-
-        // THEN
-        Assertions.assertThat(saved)
-            .as("sponsor")
-            .isEqualTo(Sponsors.valid());
-    }
-
-    @Test
-    @DisplayName("When a sponsor exists and has email, the sponsor is persisted")
+    @DisplayName("When a sponsor exists and a contact method is removed, the sponsor is persisted")
     @SponsorWithEmail
-    void testSave_Existing_WithEmail_PersistedData() {
+    void testSave_Existing_RemoveContactMethod_PersistedData() {
         final Sponsor                 sponsor;
         final Iterable<SponsorEntity> entities;
 
@@ -123,7 +129,26 @@ class ITSponsorRepositorySave {
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.contactChannels.id",
                 "profile.contactChannels.profileId", "profile.contactChannels.profile")
-            .containsExactly(SponsorEntities.createdWithEmail());
+            .containsExactly(SponsorEntities.valid());
+    }
+
+    @Test
+    @DisplayName("When a sponsor exists, the created sponsor is returned")
+    @ValidSponsor
+    void testSave_Existing_ReturnedData() {
+        final Sponsor sponsor;
+        final Sponsor saved;
+
+        // GIVEN
+        sponsor = Sponsors.valid();
+
+        // WHEN
+        saved = repository.save(sponsor);
+
+        // THEN
+        Assertions.assertThat(saved)
+            .as("sponsor")
+            .isEqualTo(Sponsors.valid());
     }
 
     @Test
@@ -232,6 +257,29 @@ class ITSponsorRepositorySave {
             .extracting(ProfileEntity::getTypes)
             .asInstanceOf(InstanceOfAssertFactories.SET)
             .containsExactly(SponsorEntityConstants.PROFILE_TYPE);
+    }
+
+    @Test
+    @DisplayName("With an sponsor with contact method, the sponsor is persisted")
+    @EmailContactMethod
+    void testSave_WithContactMethod_PersistedData() {
+        final Sponsor                 sponsor;
+        final Iterable<SponsorEntity> entities;
+
+        // GIVEN
+        sponsor = Sponsors.withEmail();
+
+        // WHEN
+        repository.save(sponsor);
+
+        // THEN
+        entities = springRepository.findAll();
+
+        Assertions.assertThat(entities)
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.id", "profile.number",
+                "profile.contactChannels.id", "profile.contactChannels.profileId", "profile.contactChannels.profile")
+            .containsExactly(SponsorEntities.createdWithEmail());
     }
 
 }

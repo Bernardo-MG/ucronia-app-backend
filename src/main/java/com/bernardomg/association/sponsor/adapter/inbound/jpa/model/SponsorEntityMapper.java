@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactChannelEntity;
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactChannelEntityMapper;
@@ -93,7 +94,14 @@ public final class SponsorEntityMapper {
             .stream()
             .map(c -> toEntity(profile, c, contactMethods))
             .toList();
-        profile.setContactChannels(contactChannels);
+        if (profile.getContactChannels() != null) {
+            profile.getContactChannels()
+                .clear();
+            profile.getContactChannels()
+                .addAll(contactChannels);
+        } else {
+            profile.setContactChannels(contactChannels);
+        }
 
         profile.setTypes(new HashSet<>(data.types()));
 
@@ -104,25 +112,47 @@ public final class SponsorEntityMapper {
         return entity;
     }
 
-    public static final SponsorEntity toEntity(final SponsorEntity entity, final Sponsor data) {
+    public static final SponsorEntity toEntity(final SponsorEntity entity, final Sponsor data,
+            final Collection<ContactMethodEntity> contactMethods) {
+        final ProfileEntity                    profile;
+        final Collection<ContactChannelEntity> contactChannels;
 
-        entity.getProfile()
-            .setFirstName(data.name()
-                .firstName());
-        entity.getProfile()
-            .setLastName(data.name()
-                .lastName());
+        profile = entity.getProfile();
+        profile.setFirstName(data.name()
+            .firstName());
+        profile.setLastName(data.name()
+            .lastName());
+        profile.setIdentifier(data.identifier());
+        profile.setBirthDate(data.birthDate());
+        profile.setAddress(data.address());
+        profile.setComments(data.comments());
+
+        contactChannels = data.contactChannels()
+            .stream()
+            .map(c -> toEntity(profile, c, contactMethods))
+            .collect(Collectors.toCollection(ArrayList::new));
+        if (profile.getContactChannels() != null) {
+            profile.getContactChannels()
+                .clear();
+            profile.getContactChannels()
+                .addAll(contactChannels);
+        } else {
+            profile.setContactChannels(contactChannels);
+        }
+
+        profile.setTypes(new HashSet<>(data.types()));
+
         entity.setYears(new ArrayList<>(data.years()));
 
         return entity;
     }
 
     private static final ContactChannelEntity toEntity(final ProfileEntity profile, final ContactChannel data,
-            final Collection<ContactMethodEntity> concatMethods) {
+            final Collection<ContactMethodEntity> contactMethods) {
         final ContactChannelEntity          entity;
         final Optional<ContactMethodEntity> contactMethod;
 
-        contactMethod = concatMethods.stream()
+        contactMethod = contactMethods.stream()
             .filter(m -> m.getNumber()
                 .equals(data.contactMethod()
                     .number()))

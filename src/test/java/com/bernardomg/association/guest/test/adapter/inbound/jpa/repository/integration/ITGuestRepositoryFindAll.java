@@ -127,9 +127,9 @@ class ITGuestRepositoryFindAll {
     }
 
     @Test
-    @DisplayName("With a guest with email, it is returned")
+    @DisplayName("With a guest with a contact method, it is returned")
     @GuestWithEmail
-    void testFindAll_WithEmail() {
+    void testFindAll_WithContactMethod() {
         final Page<Guest> guests;
         final Pagination  pagination;
         final Sorting     sorting;

@@ -179,26 +179,20 @@ public final class JpaSponsorRepository implements SponsorRepository {
 
     @Override
     public final Sponsor save(final Sponsor sponsor) {
-        final Optional<SponsorEntity>   existing;
-        final SponsorEntity             entity;
-        final Sponsor                   created;
-        final List<Long>                contactMethodNumbers;
-        final List<ContactMethodEntity> contactMethods;
-        final Long                      number;
-        final Optional<ProfileEntity>   profile;
+        final Optional<SponsorEntity>         existing;
+        final SponsorEntity                   entity;
+        final Sponsor                         created;
+        final Collection<ContactMethodEntity> contactMethods;
+        final Long                            number;
+        final Optional<ProfileEntity>         profile;
 
         log.debug("Saving sponsor {}", sponsor);
 
         existing = sponsorSpringRepository.findByNumber(sponsor.number());
+        contactMethods = getContactMethods(sponsor);
         if (existing.isPresent()) {
-            entity = SponsorEntityMapper.toEntity(existing.get(), sponsor);
+            entity = SponsorEntityMapper.toEntity(existing.get(), sponsor, contactMethods);
         } else {
-            contactMethodNumbers = sponsor.contactChannels()
-                .stream()
-                .map(ContactChannel::contactMethod)
-                .map(ContactMethod::number)
-                .toList();
-            contactMethods = contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
             entity = SponsorEntityMapper.toEntity(sponsor, contactMethods);
 
             profile = profileSpringRepository.findByNumber(sponsor.number());
@@ -234,6 +228,17 @@ public final class JpaSponsorRepository implements SponsorRepository {
             .toList();
 
         return new Sorting(properties);
+    }
+
+    private final Collection<ContactMethodEntity> getContactMethods(final Sponsor sponsor) {
+        final Collection<Long> contactMethodNumbers;
+
+        contactMethodNumbers = sponsor.contactChannels()
+            .stream()
+            .map(ContactChannel::contactMethod)
+            .map(ContactMethod::number)
+            .toList();
+        return contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
     }
 
     private final void setType(final ProfileEntity entity) {

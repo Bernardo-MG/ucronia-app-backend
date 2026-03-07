@@ -91,7 +91,7 @@ class ITSponsorRepositoryFindOne {
     @Test
     @DisplayName("With an sponsor with a contact method, it is returned")
     @SponsorWithEmail
-    void testFindOne_WithEmail() {
+    void testFindOne_WithContactMethod() {
         final Optional<Sponsor> sponsor;
 
         // WHEN

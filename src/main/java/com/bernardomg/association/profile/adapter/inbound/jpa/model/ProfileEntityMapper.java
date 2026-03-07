@@ -24,12 +24,10 @@
 
 package com.bernardomg.association.profile.adapter.inbound.jpa.model;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import com.bernardomg.association.profile.domain.exception.MissingContactMethodException;
 import com.bernardomg.association.profile.domain.model.Profile;
@@ -75,8 +73,15 @@ public final class ProfileEntityMapper {
         contactChannels = data.contactChannels()
             .stream()
             .map(c -> toEntity(entity, c, contactMethods))
-            .collect(Collectors.toCollection(ArrayList::new));
-        entity.setContactChannels(contactChannels);
+            .toList();
+        if (entity.getContactChannels() != null) {
+            entity.getContactChannels()
+                .clear();
+            entity.getContactChannels()
+                .addAll(contactChannels);
+        } else {
+            entity.setContactChannels(contactChannels);
+        }
 
         entity.setTypes(new HashSet<>(data.types()));
 
@@ -102,11 +107,15 @@ public final class ProfileEntityMapper {
         contactChannels = data.contactChannels()
             .stream()
             .map(c -> toEntity(entity, c, contactMethods))
-            .collect(Collectors.toCollection(ArrayList::new));
-        entity.getContactChannels()
-            .clear();
-        entity.getContactChannels()
-            .addAll(contactChannels);
+            .toList();
+        if (entity.getContactChannels() != null) {
+            entity.getContactChannels()
+                .clear();
+            entity.getContactChannels()
+                .addAll(contactChannels);
+        } else {
+            entity.setContactChannels(contactChannels);
+        }
 
         types = new HashSet<>(data.types());
         types.addAll(entity.getTypes());
@@ -116,11 +125,11 @@ public final class ProfileEntityMapper {
     }
 
     private static final ContactChannelEntity toEntity(final ProfileEntity contact, final ContactChannel data,
-            final Collection<ContactMethodEntity> concatMethods) {
+            final Collection<ContactMethodEntity> contactMethods) {
         final ContactChannelEntity          entity;
         final Optional<ContactMethodEntity> contactMethod;
 
-        contactMethod = concatMethods.stream()
+        contactMethod = contactMethods.stream()
             .filter(m -> m.getNumber()
                 .equals(data.contactMethod()
                     .number()))

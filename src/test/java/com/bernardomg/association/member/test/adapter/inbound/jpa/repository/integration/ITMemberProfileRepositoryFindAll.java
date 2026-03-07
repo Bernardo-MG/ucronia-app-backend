@@ -126,6 +126,31 @@ class ITMemberProfileRepositoryFindAll {
     }
 
     @Test
+    @DisplayName("With a member with a contact method, it is returned")
+    @PositiveFeeType
+    @ActiveMemberWithEmail
+    void testFindAll_Active_WithContactMethod() {
+        final Page<MemberProfile> members;
+        final Pagination          pagination;
+        final Sorting             sorting;
+        final MemberProfileFilter filter;
+
+        // GIVEN
+        pagination = new Pagination(1, 100);
+        sorting = Sorting.unsorted();
+        filter = new MemberProfileFilter(MemberStatus.ACTIVE, "");
+
+        // WHEN
+        members = repository.findAll(filter, pagination, sorting);
+
+        // THEN
+        Assertions.assertThat(members)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .containsExactly(MemberProfiles.withEmail());
+    }
+
+    @Test
     @DisplayName("With a profile with no member role and filtering by active, nothing is returned")
     @ValidProfile
     void testFindAll_Active_WithoutMembership() {
@@ -341,31 +366,6 @@ class ITMemberProfileRepositoryFindAll {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();
-    }
-
-    @Test
-    @DisplayName("With a member with email, it is returned")
-    @PositiveFeeType
-    @ActiveMemberWithEmail
-    void testFindAll_WithEmail() {
-        final Page<MemberProfile> members;
-        final Pagination          pagination;
-        final Sorting             sorting;
-        final MemberProfileFilter filter;
-
-        // GIVEN
-        pagination = new Pagination(1, 100);
-        sorting = Sorting.unsorted();
-        filter = new MemberProfileFilter(MemberStatus.ACTIVE, "");
-
-        // WHEN
-        members = repository.findAll(filter, pagination, sorting);
-
-        // THEN
-        Assertions.assertThat(members)
-            .extracting(Page::content)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(MemberProfiles.withEmail());
     }
 
 }

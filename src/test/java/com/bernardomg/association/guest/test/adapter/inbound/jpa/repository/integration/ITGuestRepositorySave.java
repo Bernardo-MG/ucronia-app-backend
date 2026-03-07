@@ -40,6 +40,7 @@ import com.bernardomg.association.guest.test.configuration.factory.GuestEntities
 import com.bernardomg.association.guest.test.configuration.factory.Guests;
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
+import com.bernardomg.association.profile.test.configuration.data.annotation.EmailContactMethod;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
@@ -62,6 +63,7 @@ class ITGuestRepositorySave {
 
     @Test
     @DisplayName("When a guest exists and a contact method is added, the guest is persisted")
+    @EmailContactMethod
     @ValidGuest
     void testSave_Existing_AddContactMethod_PersistedData() {
         final Guest                 guest;
@@ -231,6 +233,29 @@ class ITGuestRepositorySave {
             .extracting(ProfileEntity::getTypes)
             .asInstanceOf(InstanceOfAssertFactories.SET)
             .containsExactly(GuestEntityConstants.PROFILE_TYPE);
+    }
+
+    @Test
+    @DisplayName("With a guest with a contact method, the guest is persisted")
+    @EmailContactMethod
+    void testSave_WithContactMethod_PersistedData() {
+        final Guest                 guest;
+        final Iterable<GuestEntity> entities;
+
+        // GIVEN
+        guest = Guests.withEmail();
+
+        // WHEN
+        repository.save(guest);
+
+        // THEN
+        entities = springRepository.findAll();
+
+        Assertions.assertThat(entities)
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.id", "profile.number",
+                "profile.contactChannels.id", "profile.contactChannels.profileId", "profile.contactChannels.profile")
+            .containsExactly(GuestEntities.createdWithEmail());
     }
 
 }

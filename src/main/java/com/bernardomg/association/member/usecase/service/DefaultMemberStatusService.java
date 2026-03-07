@@ -89,6 +89,8 @@ public final class DefaultMemberStatusService implements MemberStatusService {
 
         members = memberProfileRepository.findAllWithRenewalMismatch();
 
+        // TODO: check relationships exist
+
         toActivate = members.stream()
             .filter(p -> !p.active())
             .map(MemberProfile::activated)

@@ -61,7 +61,7 @@ class ITProfileRepositorySave {
     @DisplayName("When a profile exists and a contact method is added, the profile is persisted")
     @EmailContactMethod
     @ValidProfile
-    void testSave_Existing_AddContact_PersistedData() {
+    void testSave_Existing_AddContactMethod_PersistedData() {
         final Profile                 profile;
         final Iterable<ProfileEntity> entities;
 
@@ -106,7 +106,7 @@ class ITProfileRepositorySave {
     @DisplayName("When a profile exists and a contact method is removed, the profile is persisted")
     @EmailContactMethod
     @ProfileWithEmail
-    void testSave_Existing_RemoveContact_PersistedData() {
+    void testSave_Existing_RemoveContactMethod_PersistedData() {
         final Profile                 profile;
         final Iterable<ProfileEntity> entities;
 
