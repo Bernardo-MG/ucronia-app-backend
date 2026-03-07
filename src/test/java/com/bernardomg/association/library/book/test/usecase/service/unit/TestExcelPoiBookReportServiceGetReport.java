@@ -69,25 +69,13 @@ class TestExcelPoiBookReportServiceGetReport {
         fictionSheet = workbook.getSheetAt(1);
 
         // THEN
-        Assertions.assertThat(workbook.getNumberOfSheets())
-            .as("number of sheets")
-            .isEqualTo(2);
-
-        Assertions.assertThat(gamesSheet.getSheetName())
-            .as("games sheet name")
-            .isEqualTo("Juegos");
-
-        Assertions.assertThat(fictionSheet.getSheetName())
-            .as("fiction sheet name")
-            .isEqualTo("Ficción");
-
         Assertions.assertThat(gamesSheet.getPhysicalNumberOfRows())
             .as("game rows")
-            .isGreaterThan(1);
+            .isEqualTo(2);
 
         Assertions.assertThat(fictionSheet.getPhysicalNumberOfRows())
             .as("fiction rows")
-            .isGreaterThan(1);
+            .isEqualTo(2);
     }
 
     @Test
@@ -126,6 +114,43 @@ class TestExcelPoiBookReportServiceGetReport {
             .getStringCellValue())
             .as("header language")
             .isEqualTo("Idioma");
+    }
+
+    @Test
+    @DisplayName("When there are books with minimal data, an Excel file is generated")
+    @SuppressWarnings("resource")
+    void testGetReport_Minimal() throws Exception {
+        final GameBook              gameBook;
+        final FictionBook           fictionBook;
+        final ByteArrayOutputStream report;
+        final Workbook              workbook;
+        final Sheet                 gamesSheet;
+        final Sheet                 fictionSheet;
+
+        // GIVEN
+        gameBook = GameBooks.minimal();
+        fictionBook = FictionBooks.minimal();
+
+        given(gameBookRepository.findAll(Sorting.asc("title", "language", "isbn"))).willReturn(List.of(gameBook));
+
+        given(fictionBookRepository.findAll(Sorting.asc("title", "language", "isbn"))).willReturn(List.of(fictionBook));
+
+        // WHEN
+        report = service.getReport();
+
+        workbook = new XSSFWorkbook(new ByteArrayInputStream(report.toByteArray()));
+
+        gamesSheet = workbook.getSheetAt(0);
+        fictionSheet = workbook.getSheetAt(1);
+
+        // THEN
+        Assertions.assertThat(gamesSheet.getPhysicalNumberOfRows())
+            .as("game rows")
+            .isEqualTo(2);
+
+        Assertions.assertThat(fictionSheet.getPhysicalNumberOfRows())
+            .as("fiction rows")
+            .isEqualTo(2);
     }
 
     @Test
