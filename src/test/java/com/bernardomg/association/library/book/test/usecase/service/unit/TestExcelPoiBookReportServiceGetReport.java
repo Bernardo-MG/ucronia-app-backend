@@ -79,6 +79,43 @@ class TestExcelPoiBookReportServiceGetReport {
     }
 
     @Test
+    @DisplayName("When there are books with donation without date, an Excel file is generated")
+    @SuppressWarnings("resource")
+    void testGetReport_DonationNoDate() throws Exception {
+        final GameBook              gameBook;
+        final FictionBook           fictionBook;
+        final ByteArrayOutputStream report;
+        final Workbook              workbook;
+        final Sheet                 gamesSheet;
+        final Sheet                 fictionSheet;
+
+        // GIVEN
+        gameBook = GameBooks.donationNoDate();
+        fictionBook = FictionBooks.donationNoDate();
+
+        given(gameBookRepository.findAll(Sorting.asc("title", "language", "isbn"))).willReturn(List.of(gameBook));
+
+        given(fictionBookRepository.findAll(Sorting.asc("title", "language", "isbn"))).willReturn(List.of(fictionBook));
+
+        // WHEN
+        report = service.getReport();
+
+        workbook = new XSSFWorkbook(new ByteArrayInputStream(report.toByteArray()));
+
+        gamesSheet = workbook.getSheetAt(0);
+        fictionSheet = workbook.getSheetAt(1);
+
+        // THEN
+        Assertions.assertThat(gamesSheet.getPhysicalNumberOfRows())
+            .as("game rows")
+            .isEqualTo(2);
+
+        Assertions.assertThat(fictionSheet.getPhysicalNumberOfRows())
+            .as("fiction rows")
+            .isEqualTo(2);
+    }
+
+    @Test
     @DisplayName("Generated Excel contains correct headers")
     @SuppressWarnings("resource")
     void testGetReport_Headers() throws Exception {
@@ -114,6 +151,43 @@ class TestExcelPoiBookReportServiceGetReport {
             .getStringCellValue())
             .as("header language")
             .isEqualTo("Idioma");
+    }
+
+    @Test
+    @DisplayName("When there are lent books, an Excel file is generated")
+    @SuppressWarnings("resource")
+    void testGetReport_Lent() throws Exception {
+        final GameBook              gameBook;
+        final FictionBook           fictionBook;
+        final ByteArrayOutputStream report;
+        final Workbook              workbook;
+        final Sheet                 gamesSheet;
+        final Sheet                 fictionSheet;
+
+        // GIVEN
+        gameBook = GameBooks.lent();
+        fictionBook = FictionBooks.lent();
+
+        given(gameBookRepository.findAll(Sorting.asc("title", "language", "isbn"))).willReturn(List.of(gameBook));
+
+        given(fictionBookRepository.findAll(Sorting.asc("title", "language", "isbn"))).willReturn(List.of(fictionBook));
+
+        // WHEN
+        report = service.getReport();
+
+        workbook = new XSSFWorkbook(new ByteArrayInputStream(report.toByteArray()));
+
+        gamesSheet = workbook.getSheetAt(0);
+        fictionSheet = workbook.getSheetAt(1);
+
+        // THEN
+        Assertions.assertThat(gamesSheet.getPhysicalNumberOfRows())
+            .as("game rows")
+            .isEqualTo(2);
+
+        Assertions.assertThat(fictionSheet.getPhysicalNumberOfRows())
+            .as("fiction rows")
+            .isEqualTo(2);
     }
 
     @Test
