@@ -44,7 +44,6 @@ import com.bernardomg.association.member.test.configuration.factory.MemberProfil
 import com.bernardomg.association.member.test.configuration.factory.MemberProfiles;
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
-import com.bernardomg.association.profile.test.configuration.data.annotation.EmailContactMethod;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -85,13 +84,12 @@ class ITMemberProfileRepositorySaveAll {
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.id", "profile.number",
                 "profile.contactChannels.id", "profile.contactChannels.profileId", "profile.contactChannels.profile")
-            .containsExactly(MemberProfileEntities.withEmail());
+            .containsExactly(MemberProfileEntities.active());
     }
 
     @Test
     @DisplayName("With a valid member, the member is persisted")
     @PositiveFeeType
-    @EmailContactMethod
     void testSaveAll_PersistedData() {
         final MemberProfile                 member;
         final Iterable<MemberProfileEntity> entities;
@@ -109,7 +107,7 @@ class ITMemberProfileRepositorySaveAll {
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.id", "profile.number",
                 "profile.contactChannels.id", "profile.contactChannels.profileId", "profile.contactChannels.profile")
-            .containsExactly(MemberProfileEntities.withEmail());
+            .containsExactly(MemberProfileEntities.active());
     }
 
     @Test
@@ -133,13 +131,12 @@ class ITMemberProfileRepositorySaveAll {
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.id", "profile.number",
                 "profile.contactChannels.id", "profile.contactChannels.profileId", "profile.contactChannels.profile")
-            .containsExactly(MemberProfileEntities.withEmail());
+            .containsExactly(MemberProfileEntities.active());
     }
 
     @Test
     @DisplayName("With a valid member, the created member is returned")
     @PositiveFeeType
-    @EmailContactMethod
     void testSaveAll_ReturnedData() {
         final MemberProfile             member;
         final Collection<MemberProfile> saved;
@@ -159,7 +156,6 @@ class ITMemberProfileRepositorySaveAll {
     @Test
     @DisplayName("When the member is persisted, the profile types includes the member type")
     @PositiveFeeType
-    @EmailContactMethod
     void testSaveAll_SetsType() {
         final MemberProfile member;
         final ProfileEntity profile;

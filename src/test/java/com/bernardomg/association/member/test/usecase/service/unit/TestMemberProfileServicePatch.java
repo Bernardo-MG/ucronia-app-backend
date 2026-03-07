@@ -40,17 +40,24 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.fee.domain.exception.MissingFeeTypeException;
 import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
+import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.FeeTypeConstants;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.member.test.configuration.factory.MemberProfiles;
 import com.bernardomg.association.member.usecase.service.DefaultMemberProfileService;
+import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
+import com.bernardomg.validation.domain.model.FieldFailure;
+import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultMemberProfileService - patch")
 class TestMemberProfileServicePatch {
+
+    @Mock
+    private ContactMethodRepository     contactMethodRepository;
 
     @Mock
     private FeeTypeRepository           feeTypeRepository;
@@ -66,18 +73,41 @@ class TestMemberProfileServicePatch {
     }
 
     @Test
+    @DisplayName("With a member with an existing identifier, an exception is thrown")
+    void testPatch_IdentifierExists() {
+        final ThrowingCallable execution;
+        final MemberProfile    member;
+
+        // GIVEN
+        member = MemberProfiles.active();
+
+        given(feeTypeRepository.exists(FeeConstants.FEE_TYPE_NUMBER)).willReturn(true);
+        given(memberProfileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(member));
+        given(
+            memberProfileRepository.existsByIdentifierForAnother(ProfileConstants.NUMBER, ProfileConstants.IDENTIFIER))
+                .willReturn(true);
+
+        // WHEN
+        execution = () -> service.patch(member);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution,
+            new FieldFailure("existing", "identifier", ProfileConstants.IDENTIFIER));
+    }
+
+    @Test
     @DisplayName("With a not existing member, an exception is thrown")
     void testPatch_NotExisting_Exception() {
-        final MemberProfile    guest;
+        final MemberProfile    member;
         final ThrowingCallable execution;
 
         // GIVEN
-        guest = MemberProfiles.nameChange();
+        member = MemberProfiles.nameChange();
 
         given(memberProfileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.patch(guest);
+        execution = () -> service.patch(member);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -87,18 +117,18 @@ class TestMemberProfileServicePatch {
     @Test
     @DisplayName("With a not existing feeType, an exception is thrown")
     void testPatch_NotExistingFeeType_Exception() {
-        final MemberProfile    guest;
+        final MemberProfile    member;
         final ThrowingCallable execution;
 
         // GIVEN
-        guest = MemberProfiles.nameChange();
+        member = MemberProfiles.nameChange();
 
         given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
             .willReturn(Optional.of(MemberProfiles.active()));
         given(feeTypeRepository.exists(FeeTypeConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        execution = () -> service.patch(guest);
+        execution = () -> service.patch(member);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -108,68 +138,68 @@ class TestMemberProfileServicePatch {
     @Test
     @DisplayName("When patching the name, the change is persisted")
     void testPatch_OnlyName_PersistedData() {
-        final MemberProfile guest;
+        final MemberProfile member;
 
         // GIVEN
-        guest = MemberProfiles.nameChangePatch();
+        member = MemberProfiles.nameChangePatch();
 
         given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
             .willReturn(Optional.of(MemberProfiles.active()));
         given(feeTypeRepository.exists(FeeTypeConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        service.patch(guest);
+        service.patch(member);
 
         // THEN
         verify(memberProfileRepository).save(MemberProfiles.nameChange());
     }
 
     @Test
-    @DisplayName("With a guest having padding whitespaces in first and last name, these whitespaces are removed")
+    @DisplayName("With a member having padding whitespaces in first and last name, these whitespaces are removed")
     void testPatch_Padded_PersistedData() {
-        final MemberProfile guest;
+        final MemberProfile member;
 
         // GIVEN
-        guest = MemberProfiles.padded();
+        member = MemberProfiles.padded();
 
         given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
             .willReturn(Optional.of(MemberProfiles.active()));
         given(feeTypeRepository.exists(FeeTypeConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        service.patch(guest);
+        service.patch(member);
 
         // THEN
         verify(memberProfileRepository).save(MemberProfiles.active());
     }
 
     @Test
-    @DisplayName("When updating a guest, the change is persisted")
+    @DisplayName("When updating a member, the change is persisted")
     void testPatch_PersistedData() {
-        final MemberProfile guest;
+        final MemberProfile member;
 
         // GIVEN
-        guest = MemberProfiles.nameChange();
+        member = MemberProfiles.nameChange();
 
         given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
             .willReturn(Optional.of(MemberProfiles.active()));
         given(feeTypeRepository.exists(FeeTypeConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        service.patch(guest);
+        service.patch(member);
 
         // THEN
         verify(memberProfileRepository).save(MemberProfiles.nameChange());
     }
 
     @Test
-    @DisplayName("When updating a guest, the change is returned")
+    @DisplayName("When updating a member, the change is returned")
     void testPatch_ReturnedData() {
-        final MemberProfile guest;
+        final MemberProfile member;
         final MemberProfile updated;
 
         // GIVEN
-        guest = MemberProfiles.nameChange();
+        member = MemberProfiles.nameChange();
 
         given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
             .willReturn(Optional.of(MemberProfiles.active()));
@@ -177,11 +207,11 @@ class TestMemberProfileServicePatch {
         given(memberProfileRepository.save(MemberProfiles.nameChange())).willReturn(MemberProfiles.nameChange());
 
         // WHEN
-        updated = service.patch(guest);
+        updated = service.patch(member);
 
         // THEN
         Assertions.assertThat(updated)
-            .as("guest")
+            .as("member")
             .isEqualTo(MemberProfiles.nameChange());
     }
 

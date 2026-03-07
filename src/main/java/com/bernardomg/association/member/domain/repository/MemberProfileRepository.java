@@ -39,6 +39,10 @@ public interface MemberProfileRepository {
 
     public boolean exists(final long number);
 
+    public boolean existsByIdentifier(final String identifier);
+
+    public boolean existsByIdentifierForAnother(final long number, final String identifier);
+
     public Page<MemberProfile> findAll(final MemberProfileFilter filter, final Pagination pagination,
             final Sorting sorting);
 
@@ -51,8 +55,6 @@ public interface MemberProfileRepository {
     public boolean isActive(final long number);
 
     public MemberProfile save(final MemberProfile member);
-
-    public MemberProfile save(final MemberProfile member, final long number);
 
     public Collection<MemberProfile> saveAll(final Collection<MemberProfile> members);
 

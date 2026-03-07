@@ -32,14 +32,22 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.association.profile.domain.exception.MissingContactMethodException;
+import com.bernardomg.association.profile.domain.model.ContactMethod;
+import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
 import com.bernardomg.association.profile.domain.model.ProfileName;
+import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
 import com.bernardomg.association.sponsor.domain.exception.MissingSponsorException;
 import com.bernardomg.association.sponsor.domain.filter.SponsorFilter;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
+import com.bernardomg.association.sponsor.usecase.validation.SponsorIdentifierNotExistForAnotherRule;
+import com.bernardomg.association.sponsor.usecase.validation.SponsorIdentifierNotExistRule;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.validation.validator.FieldRuleValidator;
+import com.bernardomg.validation.validator.Validator;
 
 /**
  * Default implementation of the sponsor service.
@@ -54,14 +62,27 @@ public final class DefaultSponsorService implements SponsorService {
     /**
      * Logger for the class.
      */
-    private static final Logger     log = LoggerFactory.getLogger(DefaultSponsorService.class);
+    private static final Logger           log = LoggerFactory.getLogger(DefaultSponsorService.class);
 
-    private final SponsorRepository sponsorRepository;
+    private final ContactMethodRepository contactMethodRepository;
 
-    public DefaultSponsorService(final SponsorRepository sponsorRepo) {
+    private final Validator<Sponsor>      createValidator;
+
+    private final Validator<Sponsor>      patchValidator;
+
+    private final SponsorRepository       sponsorRepository;
+
+    private final Validator<Sponsor>      updateValidator;
+
+    public DefaultSponsorService(final SponsorRepository sponsorRepo, final ContactMethodRepository contactMethodRepo) {
         super();
 
         sponsorRepository = Objects.requireNonNull(sponsorRepo);
+        contactMethodRepository = Objects.requireNonNull(contactMethodRepo);
+
+        createValidator = new FieldRuleValidator<>(new SponsorIdentifierNotExistRule(sponsorRepository));
+        updateValidator = new FieldRuleValidator<>(new SponsorIdentifierNotExistForAnotherRule(sponsorRepository));
+        patchValidator = new FieldRuleValidator<>(new SponsorIdentifierNotExistForAnotherRule(sponsorRepository));
     }
 
     @Override
@@ -69,6 +90,14 @@ public final class DefaultSponsorService implements SponsorService {
         final Sponsor created;
 
         log.debug("Creating sponsor {}", sponsor);
+
+        // TODO: maybe send an exception with all
+        sponsor.contactChannels()
+            .stream()
+            .map(ContactChannel::contactMethod)
+            .forEach(this::checkContactMethodExists);
+
+        createValidator.validate(sponsor);
 
         created = sponsorRepository.save(sponsor);
 
@@ -141,7 +170,15 @@ public final class DefaultSponsorService implements SponsorService {
                 throw new MissingSponsorException(sponsor.number());
             });
 
+        // TODO: maybe send an exception with all
+        sponsor.contactChannels()
+            .stream()
+            .map(ContactChannel::contactMethod)
+            .forEach(this::checkContactMethodExists);
+
         toSave = copy(existing, sponsor);
+
+        patchValidator.validate(toSave);
 
         saved = sponsorRepository.save(toSave);
 
@@ -161,11 +198,26 @@ public final class DefaultSponsorService implements SponsorService {
             throw new MissingSponsorException(sponsor.number());
         }
 
+        // TODO: maybe send an exception with all
+        sponsor.contactChannels()
+            .stream()
+            .map(ContactChannel::contactMethod)
+            .forEach(this::checkContactMethodExists);
+
+        updateValidator.validate(sponsor);
+
         saved = sponsorRepository.save(sponsor);
 
         log.debug("Updated sponsor {}: {}", sponsor.number(), saved);
 
         return saved;
+    }
+
+    private final void checkContactMethodExists(final ContactMethod contactMethod) {
+        if (!contactMethodRepository.exists(contactMethod.number())) {
+            log.error("Missing contact method {}", contactMethod.number());
+            throw new MissingContactMethodException(contactMethod.number());
+        }
     }
 
     private final Sponsor copy(final Sponsor existing, final Sponsor updated) {

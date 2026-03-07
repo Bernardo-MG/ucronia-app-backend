@@ -30,7 +30,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +40,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTypeEntity;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeTypeSpringRepository;
-import com.bernardomg.association.fee.domain.exception.MissingFeeTypeException;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityConstants;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberProfileEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberProfileEntityMapper;
@@ -112,6 +110,32 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
         exists = memberProfileSpringRepository.existsByNumber(number);
 
         log.debug("Member profile {} exists: {}", number, exists);
+
+        return exists;
+    }
+
+    @Override
+    public final boolean existsByIdentifier(final String identifier) {
+        final boolean exists;
+
+        log.debug("Checking if member profile identifier {} exists", identifier);
+
+        exists = profileSpringRepository.existsByIdentifier(identifier);
+
+        log.debug("Member profile identifier {} exists: {}", identifier, exists);
+
+        return exists;
+    }
+
+    @Override
+    public final boolean existsByIdentifierForAnother(final long number, final String identifier) {
+        final boolean exists;
+
+        log.debug("Checking if identifier {} exists for a member profile distinct from {}", identifier, number);
+
+        exists = profileSpringRepository.existsByIdentifierForAnother(number, identifier);
+
+        log.debug("Identifier {} exists for a member profile distinct from {}: {}", identifier, number, exists);
 
         return exists;
     }
@@ -205,30 +229,31 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
 
     @Override
     public final MemberProfile save(final MemberProfile memberProfile) {
-        final Optional<MemberProfileEntity> existing;
-        final MemberProfileEntity           entity;
-        final MemberProfile                 created;
-        final List<Long>                    contactMethodNumbers;
-        final List<ContactMethodEntity>     contactMethods;
-        final Long                          number;
-        final Optional<FeeTypeEntity>       feeType;
+        final Optional<MemberProfileEntity>   existing;
+        final MemberProfileEntity             entity;
+        final MemberProfile                   created;
+        final Collection<ContactMethodEntity> contactMethods;
+        final Long                            number;
+        final Optional<FeeTypeEntity>         feeType;
+        final Optional<ProfileEntity>         profile;
 
         log.debug("Saving member profile {}", memberProfile);
 
         existing = memberProfileSpringRepository.findByNumber(memberProfile.number());
+        contactMethods = getContactMethods(memberProfile);
         if (existing.isPresent()) {
-            entity = MemberProfileEntityMapper.toEntity(existing.get(), memberProfile);
+            entity = MemberProfileEntityMapper.toEntity(existing.get(), memberProfile, contactMethods);
         } else {
-            contactMethodNumbers = memberProfile.contactChannels()
-                .stream()
-                .map(ContactChannel::contactMethod)
-                .map(ContactMethod::number)
-                .toList();
-            contactMethods = contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
             entity = MemberProfileEntityMapper.toEntity(memberProfile, contactMethods);
-            number = memberProfileSpringRepository.findNextNumber();
-            entity.getProfile()
-                .setNumber(number);
+
+            profile = profileSpringRepository.findByNumber(memberProfile.number());
+            if (profile.isPresent()) {
+                entity.setProfile(profile.get());
+            } else {
+                number = memberProfileSpringRepository.findNextNumber();
+                entity.getProfile()
+                    .setNumber(number);
+            }
         }
 
         feeType = feeTypeSpringRepository.findByNumber(memberProfile.feeType()
@@ -240,49 +265,6 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
         created = MemberProfileEntityMapper.toDomain(memberProfileSpringRepository.save(entity));
 
         log.debug("Saved member profile {}", created);
-
-        return created;
-    }
-
-    @Override
-    public final MemberProfile save(final MemberProfile memberProfile, final long number) {
-        final MemberProfileEntity             entity;
-        final MemberProfile                   created;
-        final Optional<ProfileEntity>         profile;
-        final Optional<FeeTypeEntity>         feeType;
-        final Collection<Long>                contactMethodNumbers;
-        final Collection<ContactMethodEntity> contactMethods;
-
-        log.debug("Saving member profile {} with number {}", memberProfile, number);
-
-        contactMethodNumbers = memberProfile.contactChannels()
-            .stream()
-            .map(ContactChannel::contactMethod)
-            .map(ContactMethod::number)
-            .collect(Collectors.toSet());
-
-        contactMethods = contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
-
-        entity = MemberProfileEntityMapper.toEntity(memberProfile, contactMethods);
-
-        profile = profileSpringRepository.findByNumber(number);
-        if (profile.isPresent()) {
-            entity.setProfile(profile.get());
-        }
-
-        feeType = feeTypeSpringRepository.findByNumber(memberProfile.feeType()
-            .number());
-        if (feeType.isEmpty()) {
-            log.warn("Missing fee type {}", memberProfile.feeType()
-                .number());
-        }
-        entity.setFeeType(feeType.orElse(null));
-
-        setType(entity.getProfile());
-
-        created = MemberProfileEntityMapper.toDomain(memberProfileSpringRepository.save(entity));
-
-        log.debug("Saved member profile {} with number {}", created, number);
 
         return created;
     }
@@ -331,6 +313,17 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
         return new Sorting(properties);
     }
 
+    private final Collection<ContactMethodEntity> getContactMethods(final MemberProfile memberProfile) {
+        final Collection<Long> contactMethodNumbers;
+
+        contactMethodNumbers = memberProfile.contactChannels()
+            .stream()
+            .map(ContactChannel::contactMethod)
+            .map(ContactMethod::number)
+            .toList();
+        return contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
+    }
+
     private final void setType(final ProfileEntity entity) {
         if (entity.getTypes() == null) {
             entity.setTypes(Set.of(MemberEntityConstants.PROFILE_TYPE));
@@ -341,22 +334,16 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
     }
 
     private final MemberProfileEntity toEntity(final MemberProfile memberProfile, final AtomicLong number) {
-        final Optional<MemberProfileEntity> existing;
-        final MemberProfileEntity           entity;
-        final List<Long>                    contactMethodNumbers;
-        final List<ContactMethodEntity>     contactMethods;
-        final Optional<FeeTypeEntity>       feeType;
+        final Optional<MemberProfileEntity>   existing;
+        final MemberProfileEntity             entity;
+        final Collection<ContactMethodEntity> contactMethods;
+        final Optional<FeeTypeEntity>         feeType;
 
         existing = memberProfileSpringRepository.findByNumber(memberProfile.number());
+        contactMethods = getContactMethods(memberProfile);
         if (existing.isPresent()) {
-            entity = MemberProfileEntityMapper.toEntity(existing.get(), memberProfile);
+            entity = MemberProfileEntityMapper.toEntity(existing.get(), memberProfile, contactMethods);
         } else {
-            contactMethodNumbers = memberProfile.contactChannels()
-                .stream()
-                .map(ContactChannel::contactMethod)
-                .map(ContactMethod::number)
-                .toList();
-            contactMethods = contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
             entity = MemberProfileEntityMapper.toEntity(memberProfile, contactMethods);
             entity.getProfile()
                 .setNumber(number.getAndIncrement());
@@ -364,12 +351,6 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
 
         feeType = feeTypeSpringRepository.findByNumber(memberProfile.feeType()
             .number());
-        if (feeType.isEmpty()) {
-            log.error("Missing fee type {}", memberProfile.feeType()
-                .number());
-            throw new MissingFeeTypeException(memberProfile.feeType()
-                .number());
-        }
         entity.setFeeType(feeType.orElse(null));
 
         return entity;

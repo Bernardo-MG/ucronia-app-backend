@@ -36,6 +36,7 @@ import com.bernardomg.association.profile.test.configuration.data.annotation.Val
 import com.bernardomg.association.sponsor.domain.filter.SponsorFilter;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
+import com.bernardomg.association.sponsor.test.configuration.data.annotation.SponsorWithEmail;
 import com.bernardomg.association.sponsor.test.configuration.data.annotation.ValidSponsor;
 import com.bernardomg.association.sponsor.test.configuration.factory.Sponsors;
 import com.bernardomg.data.domain.Page;
@@ -123,6 +124,30 @@ class ITSponsorRepositoryFindAll {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();
+    }
+
+    @Test
+    @DisplayName("With an sponsor with contact method, it is returned")
+    @SponsorWithEmail
+    void testFindAll_WithContactMethod() {
+        final Page<Sponsor> sponsors;
+        final Pagination    pagination;
+        final Sorting       sorting;
+        final SponsorFilter filter;
+
+        // GIVEN
+        pagination = new Pagination(1, 10);
+        sorting = new Sorting(List.of());
+        filter = new SponsorFilter("");
+
+        // WHEN
+        sponsors = repository.findAll(filter, pagination, sorting);
+
+        // THEN
+        Assertions.assertThat(sponsors)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .containsExactly(Sponsors.withEmail());
     }
 
 }

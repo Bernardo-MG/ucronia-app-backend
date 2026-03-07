@@ -43,20 +43,47 @@ import com.bernardomg.association.guest.domain.model.Guest;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
 import com.bernardomg.association.guest.test.configuration.factory.Guests;
 import com.bernardomg.association.guest.usecase.service.DefaultGuestService;
+import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
+import com.bernardomg.validation.domain.model.FieldFailure;
+import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultGuestService - patch")
 class TestGuestServicePatch {
 
     @Mock
-    private GuestRepository     guestRepository;
+    private ContactMethodRepository contactMethodRepository;
+
+    @Mock
+    private GuestRepository         guestRepository;
 
     @InjectMocks
-    private DefaultGuestService service;
+    private DefaultGuestService     service;
 
     public TestGuestServicePatch() {
         super();
+    }
+
+    @Test
+    @DisplayName("With a guest with an existing identifier, an exception is thrown")
+    void testPatch_IdentifierExists() {
+        final ThrowingCallable execution;
+        final Guest            guest;
+
+        // GIVEN
+        guest = Guests.valid();
+
+        given(guestRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(guest));
+        given(guestRepository.existsByIdentifierForAnother(ProfileConstants.NUMBER, ProfileConstants.IDENTIFIER))
+            .willReturn(true);
+
+        // WHEN
+        execution = () -> service.patch(guest);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution,
+            new FieldFailure("existing", "identifier", ProfileConstants.IDENTIFIER));
     }
 
     @Test

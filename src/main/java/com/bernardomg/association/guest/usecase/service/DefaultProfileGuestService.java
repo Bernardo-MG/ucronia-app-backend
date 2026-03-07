@@ -86,7 +86,7 @@ public final class DefaultProfileGuestService implements ProfileGuestService {
         toCreate = new Guest(existing.identifier(), existing.number(), existing.name(), existing.birthDate(),
             existing.contactChannels(), List.of(), existing.address(), existing.comments(), existing.types());
 
-        created = guestRepository.save(toCreate, number);
+        created = guestRepository.save(toCreate);
 
         log.debug("Converted profile {} to guest", number);
 

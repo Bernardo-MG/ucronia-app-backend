@@ -123,7 +123,7 @@ class TestProfileGuestServiceConvert {
         service.convertToGuest(ProfileConstants.NUMBER);
 
         // THEN
-        verify(guestRepository).save(guest, ProfileConstants.NUMBER);
+        verify(guestRepository).save(guest);
     }
 
     @Test
@@ -139,7 +139,7 @@ class TestProfileGuestServiceConvert {
 
         given(profileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(profile));
         given(guestRepository.exists(ProfileConstants.NUMBER)).willReturn(false);
-        given(guestRepository.save(guest, ProfileConstants.NUMBER)).willReturn(guest);
+        given(guestRepository.save(guest)).willReturn(guest);
 
         // WHEN
         updated = service.convertToGuest(ProfileConstants.NUMBER);

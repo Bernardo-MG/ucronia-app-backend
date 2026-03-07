@@ -24,7 +24,6 @@
 
 package com.bernardomg.association.profile.domain.repository;
 
-import java.util.Collection;
 import java.util.Optional;
 
 import com.bernardomg.association.profile.domain.filter.ProfileQuery;
@@ -48,7 +47,5 @@ public interface ProfileRepository {
     public Optional<Profile> findOne(final Long number);
 
     public Profile save(final Profile profile);
-
-    public Collection<Profile> saveAll(final Collection<Profile> profiles);
 
 }
