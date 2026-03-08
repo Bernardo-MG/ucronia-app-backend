@@ -37,6 +37,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
 import com.bernardomg.association.sponsor.domain.filter.SponsorFilter;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
@@ -50,11 +51,14 @@ import com.bernardomg.data.domain.Sorting;
 @DisplayName("DefaultSponsorService - get all")
 class TestSponsorServiceGetAll {
 
+    @Mock
+    private ContactMethodRepository contactMethodRepository;
+
     @InjectMocks
-    private DefaultSponsorService service;
+    private DefaultSponsorService   service;
 
     @Mock
-    private SponsorRepository     sponsorRepository;
+    private SponsorRepository       sponsorRepository;
 
     @Test
     @DisplayName("When there is no data, it returns nothing")

@@ -3,8 +3,10 @@ package com.bernardomg.association.fee.test.adapter.inbound.jpa.repository.integ
 
 import java.time.Instant;
 import java.time.ZonedDateTime;
+import java.util.NoSuchElementException;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -168,6 +170,69 @@ class ITFeeRepositorySave {
             .usingRecursiveComparison()
             .ignoringFields("id", "member.id", "memberId", "transaction.id")
             .isEqualTo(Fees.paidAtDate(date));
+    }
+
+    @Test
+    @DisplayName("When the fee type doesn't exist, an exception is thrown")
+    @PositiveFeeType
+    @ActiveMember
+    @FeeTransaction
+    void testSave_Paid_MissingFeeType() {
+        final Fee              fee;
+        final ThrowingCallable execution;
+
+        // GIVEN
+        fee = Fees.alternativeFeeType();
+
+        // WHEN
+        execution = () -> repository.save(fee);
+
+        // THEN
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(NoSuchElementException.class);
+    }
+
+    @Test
+    @DisplayName("When the member doesn't exist, an exception is thrown")
+    @PositiveFeeType
+    @FeeTransaction
+    void testSave_Paid_MissingMember() {
+        final Fee              fee;
+        final ThrowingCallable execution;
+
+        // GIVEN
+        fee = Fees.paid();
+
+        // WHEN
+        execution = () -> repository.save(fee);
+
+        // THEN
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(NoSuchElementException.class);
+    }
+
+    @Test
+    @DisplayName("When the transaction doesn't exist, the transaction is ignored")
+    @PositiveFeeType
+    @ActiveMember
+    void testSave_Paid_MissingTransaction() {
+        final Iterable<FeeEntity> fees;
+        final Fee                 fee;
+
+        // GIVEN
+        fee = Fees.paid();
+
+        // WHEN
+        repository.save(fee);
+
+        // THEN
+        fees = springRepository.findAll();
+
+        Assertions.assertThat(fees)
+            .as("fees")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "member.id", "member.feeType.id",
+                "member.profile.id", "member.profile.contactChannels.id", "memberId", "feeType.id", "transaction.id")
+            .containsExactly(FeeEntities.paidNoTransaction());
     }
 
     @Test

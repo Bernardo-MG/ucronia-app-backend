@@ -97,7 +97,6 @@ public final class JpaFeeRepository implements FeeRepository {
 
         log.debug("Deleting fee for member {} in date {}", number, date);
 
-        // TODO: only members
         member = memberProfileSpringRepository.findByNumber(number);
         if (member.isPresent()) {
             dateParsed = date.atDay(1)
@@ -108,8 +107,7 @@ public final class JpaFeeRepository implements FeeRepository {
 
             log.debug("Deleted fee for member {} in date {}", number, date);
         } else {
-            // TODO: shouldn't throw an exception?
-            log.debug("Couldn't delete fee for member {} in date {}, as the member doesn't exist", number, date);
+            log.warn("Couldn't delete fee for member {} in date {}, as the member doesn't exist", number, date);
         }
     }
 
@@ -176,7 +174,7 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     @Override
-    public final Page<Fee> findAllForProfile(final Long number, final Pagination pagination, final Sorting sorting) {
+    public final Page<Fee> findAllForMember(final Long number, final Pagination pagination, final Sorting sorting) {
         final org.springframework.data.domain.Page<Fee> found;
         final Pageable                                  pageable;
         final Sorting                                   fixedSorting;
@@ -308,11 +306,11 @@ public final class JpaFeeRepository implements FeeRepository {
 
         log.debug("Saving fees {}", fees);
 
+        // TODO: get types and members once
         entities = fees.stream()
             .map(this::toEntity)
+            .map(this::loadId)
             .toList();
-        // TODO: use map
-        entities.forEach(this::loadId);
         saved = feeSpringRepository.saveAll(entities)
             .stream()
             .map(FeeEntityMapper::toDomain)
@@ -355,7 +353,7 @@ public final class JpaFeeRepository implements FeeRepository {
         return new Sorting(properties);
     }
 
-    private final void loadId(final FeeEntity fee) {
+    private final FeeEntity loadId(final FeeEntity fee) {
         final Long                id;
         final Optional<FeeEntity> read;
 
@@ -367,38 +365,31 @@ public final class JpaFeeRepository implements FeeRepository {
                 .getId();
             fee.setId(id);
         }
+
+        return fee;
     }
 
     private final FeeEntity toEntity(final Fee fee) {
         final Optional<MemberProfileEntity> member;
         final Optional<FeeTypeEntity>       feeType;
         final Optional<TransactionEntity>   transaction;
-        final boolean                       paid;
-        final FeeEntity                     entity;
-        final Instant                       date;
-
-        // TODO: move to mapper
 
         member = memberProfileSpringRepository.findByNumber(fee.member()
             .number());
         if (!member.isPresent()) {
-            log.warn("Profile with number {} not found", fee.member()
+            log.error("Profile with number {} not found", fee.member()
                 .number());
         }
 
-        feeType = feeTypeSpringRepository.findByNumber(member.get()
-            .getFeeType()
-            .getNumber());
+        feeType = feeTypeSpringRepository.findByNumber(fee.feeType()
+            .number());
         if (!feeType.isPresent()) {
-            log.warn("Fee type with number {} not found", member.get()
-                .getFeeType()
-                .getNumber());
+            log.error("Fee type with number {} not found", fee.feeType()
+                .number());
         }
 
-        // TODO: this logic should go to the service
         if (fee.transaction()
             .isPresent()) {
-            paid = true;
             transaction = transactionSpringRepository.findByIndex(fee.transaction()
                 .get()
                 .index());
@@ -413,22 +404,10 @@ public final class JpaFeeRepository implements FeeRepository {
                         .date());
             }
         } else {
-            paid = fee.paid();
             transaction = Optional.empty();
         }
 
-        entity = new FeeEntity();
-        entity.setMember(member.orElse(null));
-        date = fee.month()
-            .atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant();
-        entity.setMonth(date);
-        entity.setPaid(paid);
-        entity.setFeeType(feeType.orElse(null));
-        entity.setTransaction(transaction.orElse(null));
-
-        return entity;
+        return FeeEntityMapper.toEntity(fee, member.get(), feeType.get(), transaction);
     }
 
 }

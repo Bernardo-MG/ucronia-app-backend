@@ -60,7 +60,6 @@ import com.bernardomg.association.fee.usecase.validation.FeeFeeTypeNotChangedRul
 import com.bernardomg.association.fee.usecase.validation.FeeMonthNotExistingRule;
 import com.bernardomg.association.fee.usecase.validation.FeeNotPaidInFutureRule;
 import com.bernardomg.association.fee.usecase.validation.FeePaymentsMonthsNotExistingRule;
-import com.bernardomg.association.fee.usecase.validation.FeePaymentsNoDuplicatedMonthsRule;
 import com.bernardomg.association.fee.usecase.validation.FeePaymentsNotPaidInFutureRule;
 import com.bernardomg.association.fee.usecase.validation.FeeTransactionNotChangedRule;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
@@ -122,12 +121,9 @@ public final class DefaultFeeService implements FeeService {
 
         messageSource = Objects.requireNonNull(msgSource);
 
-        // TODO: Test validation
-        validatorPay = new FieldRuleValidator<>(new FeePaymentsNoDuplicatedMonthsRule(),
-            new FeePaymentsNotPaidInFutureRule(),
+        validatorPay = new FieldRuleValidator<>(new FeePaymentsNotPaidInFutureRule(),
             new FeePaymentsMonthsNotExistingRule(memberProfileRepository, feeRepository));
 
-        // TODO: Test validation
         validatorCreate = new FieldRuleValidator<>(new FeeMonthNotExistingRule(memberProfileRepository, feeRepository));
         validatorUpdate = new FieldRuleValidator<>(new FeeNotPaidInFutureRule(),
             new FeeTransactionNotChangedRule(feeRepository), new FeeFeeTypeNotChangedRule(feeRepository));
@@ -273,7 +269,7 @@ public final class DefaultFeeService implements FeeService {
             .fullName()));
         sortedCalendarFees = calendarFees.stream()
             .sorted(feeCalendarComparator)
-            .collect(Collectors.toList());
+            .toList();
 
         log.debug("Got fee calendar for year {} and status {}: {}", year, status, sortedCalendarFees);
 
@@ -312,10 +308,11 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     public final Collection<Fee> payFees(final FeePayments feesPayments) {
-        final Collection<Fee> feesToSave;
-        final MemberProfile   member;
-        final Collection<Fee> created;
-        final Transaction     transaction;
+        final Collection<Fee>       feesToSave;
+        final MemberProfile         member;
+        final Collection<Fee>       created;
+        final Transaction           transaction;
+        final Collection<YearMonth> feeMonths;
 
         log.info("Paying fees for {} for months {}, paid in {}", feesPayments.member(), feesPayments.months(),
             feesPayments.paymentDate());
@@ -328,7 +325,13 @@ public final class DefaultFeeService implements FeeService {
 
         validatorPay.validate(feesPayments);
 
-        transaction = savePaymentTransaction(member, feesPayments.months(), feesPayments.paymentDate());
+        // Remove duplicated
+        feeMonths = feesPayments.months()
+            .stream()
+            .distinct()
+            .sorted()
+            .toList();
+        transaction = savePaymentTransaction(member, feeMonths, feesPayments.paymentDate());
 
         feesToSave = feesPayments.months()
             .stream()

@@ -78,7 +78,6 @@ public final class FeePaymentsMonthsNotExistingRule implements FieldRule<FeePaym
             .toList();
         if (!existing.isEmpty()) {
             log.error("Dates {} are already registered", existing);
-            // TODO: this is not a field in the model
             fieldFailure = new FieldFailure("existing", "months[]", existing);
             failure = Optional.of(fieldFailure);
         } else {

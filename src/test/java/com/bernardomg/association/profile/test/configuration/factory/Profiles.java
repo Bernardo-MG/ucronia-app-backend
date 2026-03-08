@@ -62,13 +62,6 @@ public final class Profiles {
         return new Profile(null, ProfileConstants.NUMBER, name, null, List.of(), "", "", Set.of());
     }
 
-    public static final Profile noIdentifier() {
-        final ProfileName name;
-
-        name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        return new Profile("", ProfileConstants.NUMBER, name, ProfileConstants.BIRTH_DATE, List.of(), "", "", Set.of());
-    }
-
     public static final Profile padded() {
         final ProfileName name;
 

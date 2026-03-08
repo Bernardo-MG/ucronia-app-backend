@@ -111,24 +111,15 @@ public final class JpaUserProfileRepository implements UserProfileRepository {
 
     @Override
     public final Optional<Profile> findByUsername(final String username) {
-        final Optional<UserEntity>        user;
         final Optional<UserProfileEntity> userMember;
         final Optional<Profile>           profile;
 
         log.trace("Finding profile for username {}", username);
 
-        user = userSpringRepository.findByUsername(username);
-        if (user.isPresent()) {
-            // TODO: Simplify this, use JPA relationships
-            userMember = userProfileSpringRepository.findByUserId(user.get()
-                .getId());
-            if ((userMember.isPresent()) && (userMember.get()
-                .getProfile() != null)) {
-                profile = Optional.of(ProfileEntityMapper.toDomain(userMember.get()
-                    .getProfile()));
-            } else {
-                profile = Optional.empty();
-            }
+        userMember = userProfileSpringRepository.findByUserUsername(username);
+        if (userMember.isPresent()) {
+            profile = Optional.of(ProfileEntityMapper.toDomain(userMember.get()
+                .getProfile()));
         } else {
             profile = Optional.empty();
         }
@@ -140,24 +131,15 @@ public final class JpaUserProfileRepository implements UserProfileRepository {
 
     @Override
     public final Profile unassignProfile(final String username) {
-        final Optional<UserEntity> user;
-        final Profile              profile;
+        final Profile profile;
 
-        log.debug("Deleting user {}", username);
+        log.debug("Unassigning profile to user {}", username);
 
-        user = userSpringRepository.findByUsername(username);
-        if (user.isPresent()) {
-            profile = findByUsername(username).orElse(null);
+        profile = findByUsername(username).orElse(null);
 
-            // TODO: handle relationships
-            // TODO: why not delete by username?
-            userProfileSpringRepository.deleteByUserId(user.get()
-                .getId());
+        userProfileSpringRepository.deleteByUserUsername(username);
 
-            log.debug("Deleted user {}", username);
-        } else {
-            profile = null;
-        }
+        log.debug("Unassigned profile to user {}", username);
 
         return profile;
     }

@@ -24,7 +24,6 @@
 
 package com.bernardomg.association.sponsor.domain.repository;
 
-import java.util.Collection;
 import java.util.Optional;
 
 import com.bernardomg.association.sponsor.domain.filter.SponsorFilter;
@@ -39,14 +38,14 @@ public interface SponsorRepository {
 
     public boolean exists(final long number);
 
+    public boolean existsByIdentifier(final String identifier);
+
+    public boolean existsByIdentifierForAnother(final long number, final String identifier);
+
     public Page<Sponsor> findAll(final SponsorFilter filter, final Pagination pagination, final Sorting sorting);
 
     public Optional<Sponsor> findOne(final Long number);
 
     public Sponsor save(final Sponsor member);
-
-    public Sponsor save(final Sponsor member, final long number);
-
-    public Collection<Sponsor> saveAll(final Collection<Sponsor> members);
 
 }

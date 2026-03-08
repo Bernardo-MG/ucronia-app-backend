@@ -16,14 +16,10 @@ import com.bernardomg.association.sponsor.domain.model.Sponsor;
 public final class Sponsors {
 
     public static final Sponsor created() {
-        final ProfileName    name;
-        final ContactChannel contactChannel;
-        final ContactMethod  contactMethod;
+        final ProfileName name;
 
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        contactMethod = ContactMethods.email();
-        contactChannel = new ContactChannel(contactMethod, ProfileConstants.EMAIL);
-        return new Sponsor(ProfileConstants.IDENTIFIER, 1L, name, ProfileConstants.BIRTH_DATE, List.of(contactChannel),
+        return new Sponsor(ProfileConstants.IDENTIFIER, 1L, name, ProfileConstants.BIRTH_DATE, List.of(),
             List.of(SponsorConstants.YEAR), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS,
             Set.of(SponsorEntityConstants.PROFILE_TYPE));
     }
@@ -65,16 +61,12 @@ public final class Sponsors {
     }
 
     public static final Sponsor padded() {
-        final ProfileName    name;
-        final ContactChannel contactChannel;
-        final ContactMethod  contactMethod;
+        final ProfileName name;
 
         name = new ProfileName(" " + ProfileConstants.FIRST_NAME + " ", " " + ProfileConstants.LAST_NAME + " ");
-        contactMethod = ContactMethods.email();
-        contactChannel = new ContactChannel(contactMethod, ProfileConstants.EMAIL);
         return new Sponsor(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name, ProfileConstants.BIRTH_DATE,
-            List.of(contactChannel), List.of(SponsorConstants.YEAR), ProfileConstants.ADDRESS,
-            ProfileConstants.COMMENTS, Set.of(SponsorEntityConstants.PROFILE_TYPE));
+            List.of(), List.of(SponsorConstants.YEAR), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS,
+            Set.of(SponsorEntityConstants.PROFILE_TYPE));
     }
 
     public static final Sponsor toConvert() {
@@ -86,6 +78,15 @@ public final class Sponsors {
     }
 
     public static final Sponsor valid() {
+        final ProfileName name;
+
+        name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
+        return new Sponsor(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name, ProfileConstants.BIRTH_DATE,
+            List.of(), List.of(SponsorConstants.YEAR), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS,
+            Set.of(SponsorEntityConstants.PROFILE_TYPE));
+    }
+
+    public static final Sponsor withEmail() {
         final ProfileName    name;
         final ContactChannel contactChannel;
         final ContactMethod  contactMethod;
@@ -99,16 +100,11 @@ public final class Sponsors {
     }
 
     public static final Sponsor withoutType() {
-        final ProfileName    name;
-        final ContactChannel contactChannel;
-        final ContactMethod  contactMethod;
+        final ProfileName name;
 
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        contactMethod = ContactMethods.email();
-        contactChannel = new ContactChannel(contactMethod, ProfileConstants.EMAIL);
         return new Sponsor(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name, ProfileConstants.BIRTH_DATE,
-            List.of(contactChannel), List.of(SponsorConstants.YEAR), ProfileConstants.ADDRESS,
-            ProfileConstants.COMMENTS, Set.of());
+            List.of(), List.of(SponsorConstants.YEAR), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS, Set.of());
     }
 
 }

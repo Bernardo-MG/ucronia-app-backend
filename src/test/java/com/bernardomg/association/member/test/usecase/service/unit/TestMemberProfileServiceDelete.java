@@ -43,11 +43,15 @@ import com.bernardomg.association.member.domain.exception.MissingMemberException
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.member.test.configuration.factory.MemberProfiles;
 import com.bernardomg.association.member.usecase.service.DefaultMemberProfileService;
+import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultMemberProfileService - delete")
 class TestMemberProfileServiceDelete {
+
+    @Mock
+    private ContactMethodRepository     contactMethodRepository;
 
     @Mock
     private FeeTypeRepository           feeTypeRepository;

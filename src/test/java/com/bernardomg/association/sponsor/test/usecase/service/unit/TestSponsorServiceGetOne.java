@@ -37,6 +37,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.association.sponsor.domain.exception.MissingSponsorException;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
@@ -48,11 +49,14 @@ import com.bernardomg.association.sponsor.usecase.service.DefaultSponsorService;
 @DisplayName("DefaultSponsorService - get one")
 class TestSponsorServiceGetOne {
 
+    @Mock
+    private ContactMethodRepository contactMethodRepository;
+
     @InjectMocks
-    private DefaultSponsorService service;
+    private DefaultSponsorService   service;
 
     @Mock
-    private SponsorRepository     sponsorRepository;
+    private SponsorRepository       sponsorRepository;
 
     public TestSponsorServiceGetOne() {
         super();

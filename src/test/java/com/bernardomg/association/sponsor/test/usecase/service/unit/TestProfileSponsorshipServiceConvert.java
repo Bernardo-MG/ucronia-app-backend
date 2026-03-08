@@ -122,7 +122,7 @@ class TestProfileSponsorshipServiceConvert {
         service.convertToSponsor(ProfileConstants.NUMBER);
 
         // THEN
-        verify(sponsorRepository).save(sponsor, ProfileConstants.NUMBER);
+        verify(sponsorRepository).save(sponsor);
     }
 
     @Test
@@ -138,7 +138,7 @@ class TestProfileSponsorshipServiceConvert {
 
         given(profileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(profile));
         given(sponsorRepository.exists(ProfileConstants.NUMBER)).willReturn(false);
-        given(sponsorRepository.save(sponsor, ProfileConstants.NUMBER)).willReturn(sponsor);
+        given(sponsorRepository.save(sponsor)).willReturn(sponsor);
 
         // WHEN
         updated = service.convertToSponsor(ProfileConstants.NUMBER);

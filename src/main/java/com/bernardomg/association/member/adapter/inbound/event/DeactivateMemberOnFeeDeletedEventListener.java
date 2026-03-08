@@ -64,7 +64,7 @@ public final class DeactivateMemberOnFeeDeletedEventListener implements EventLis
     public final void handle(final FeeDeletedEvent event) {
         log.debug("Handling fee deleted event at {} for member with number {}", event.getDate(),
             event.getProfileNumber());
-        memberStatusService.deactivate(event.getDate(), event.getProfileNumber());
+        memberStatusService.deactivateIfCurrent(event.getDate(), event.getProfileNumber());
         log.debug("Handled fee deleted event at {} for member with number {}", event.getDate(),
             event.getProfileNumber());
     }

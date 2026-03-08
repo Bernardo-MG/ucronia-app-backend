@@ -24,13 +24,17 @@
 
 package com.bernardomg.association.fee.adapter.inbound.jpa.model;
 
+import java.time.Instant;
 import java.time.YearMonth;
 import java.time.ZoneOffset;
+import java.util.Optional;
 
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.Fee.FeeType;
 import com.bernardomg.association.fee.domain.model.Fee.Transaction;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberProfileEntity;
 import com.bernardomg.association.profile.domain.model.ProfileName;
+import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
 
 /**
  * Fee repository mapper.
@@ -80,6 +84,33 @@ public final class FeeEntityMapper {
         }
 
         return fee;
+    }
+
+    public static final FeeEntity toEntity(final Fee fee, final MemberProfileEntity member, final FeeTypeEntity feeType,
+            final Optional<TransactionEntity> transaction) {
+        final FeeEntity entity;
+        final Instant   date;
+        final Boolean   paid;
+
+        date = fee.month()
+            .atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
+
+        if (transaction.isEmpty()) {
+            paid = fee.paid();
+        } else {
+            paid = true;
+        }
+
+        entity = new FeeEntity();
+        entity.setMember(member);
+        entity.setMonth(date);
+        entity.setPaid(paid);
+        entity.setFeeType(feeType);
+        entity.setTransaction(transaction.orElse(null));
+
+        return entity;
     }
 
     private FeeEntityMapper() {

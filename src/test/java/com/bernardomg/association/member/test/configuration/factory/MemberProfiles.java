@@ -18,138 +18,106 @@ public final class MemberProfiles {
 
     public static final MemberProfile active() {
         final ProfileName           name;
-        final ContactChannel        contactChannel;
-        final ContactMethod         contactMethod;
         final MemberProfile.FeeType feeType;
 
         feeType = new MemberProfile.FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME,
             FeeConstants.FEE_TYPE_AMOUNT);
 
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        contactMethod = ContactMethods.email();
-        contactChannel = new ContactChannel(contactMethod, ProfileConstants.EMAIL);
         return new MemberProfile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name,
-            ProfileConstants.BIRTH_DATE, List.of(contactChannel), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS,
-            true, true, feeType, Set.of(MemberEntityConstants.PROFILE_TYPE));
+            ProfileConstants.BIRTH_DATE, List.of(), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS, true, true,
+            feeType, Set.of(MemberEntityConstants.PROFILE_TYPE));
     }
 
     public static final MemberProfile activeNoRenew() {
         final ProfileName           name;
-        final ContactChannel        contactChannel;
-        final ContactMethod         contactMethod;
         final MemberProfile.FeeType feeType;
 
         feeType = new MemberProfile.FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME,
             FeeConstants.FEE_TYPE_AMOUNT);
 
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        contactMethod = ContactMethods.email();
-        contactChannel = new ContactChannel(contactMethod, ProfileConstants.EMAIL);
         return new MemberProfile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name,
-            ProfileConstants.BIRTH_DATE, List.of(contactChannel), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS,
-            true, false, feeType, Set.of(MemberEntityConstants.PROFILE_TYPE));
+            ProfileConstants.BIRTH_DATE, List.of(), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS, true, false,
+            feeType, Set.of(MemberEntityConstants.PROFILE_TYPE));
     }
 
     public static final MemberProfile alternativeActive() {
         final ProfileName           name;
-        final ContactChannel        contactChannel;
-        final ContactMethod         contactMethod;
         final MemberProfile.FeeType feeType;
 
         feeType = new MemberProfile.FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME,
             FeeConstants.FEE_TYPE_AMOUNT);
 
         name = new ProfileName(ProfileConstants.ALTERNATIVE_FIRST_NAME, ProfileConstants.ALTERNATIVE_LAST_NAME);
-        contactMethod = ContactMethods.email();
-        contactChannel = new ContactChannel(contactMethod, ProfileConstants.ALTERNATIVE_EMAIL);
         return new MemberProfile(ProfileConstants.ALTERNATIVE_IDENTIFIER, ProfileConstants.ALTERNATIVE_NUMBER, name,
-            ProfileConstants.BIRTH_DATE, List.of(contactChannel), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS,
-            true, true, feeType, Set.of(MemberEntityConstants.PROFILE_TYPE));
+            ProfileConstants.BIRTH_DATE, List.of(), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS, true, true,
+            feeType, Set.of(MemberEntityConstants.PROFILE_TYPE));
     }
 
     public static final MemberProfile alternativeInactive() {
         final ProfileName           name;
-        final ContactChannel        contactChannel;
-        final ContactMethod         contactMethod;
         final MemberProfile.FeeType feeType;
 
         feeType = new MemberProfile.FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME,
             FeeConstants.FEE_TYPE_AMOUNT);
 
         name = new ProfileName(ProfileConstants.ALTERNATIVE_FIRST_NAME, ProfileConstants.ALTERNATIVE_LAST_NAME);
-        contactMethod = ContactMethods.email();
-        contactChannel = new ContactChannel(contactMethod, ProfileConstants.ALTERNATIVE_EMAIL);
         return new MemberProfile(ProfileConstants.ALTERNATIVE_IDENTIFIER, ProfileConstants.ALTERNATIVE_NUMBER, name,
-            ProfileConstants.BIRTH_DATE, List.of(contactChannel), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS,
-            false, true, feeType, Set.of(MemberEntityConstants.PROFILE_TYPE));
+            ProfileConstants.BIRTH_DATE, List.of(), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS, false, true,
+            feeType, Set.of(MemberEntityConstants.PROFILE_TYPE));
     }
 
     public static final MemberProfile created() {
         final ProfileName           name;
-        final ContactChannel        contactChannel;
-        final ContactMethod         contactMethod;
         final MemberProfile.FeeType feeType;
 
         feeType = new MemberProfile.FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME,
             FeeConstants.FEE_TYPE_AMOUNT);
 
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        contactMethod = ContactMethods.email();
-        contactChannel = new ContactChannel(contactMethod, ProfileConstants.EMAIL);
-        return new MemberProfile(ProfileConstants.IDENTIFIER, 1L, name, ProfileConstants.BIRTH_DATE,
-            List.of(contactChannel), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS, true, true, feeType,
+        return new MemberProfile(ProfileConstants.IDENTIFIER, 1L, name, ProfileConstants.BIRTH_DATE, List.of(),
+            ProfileConstants.ADDRESS, ProfileConstants.COMMENTS, true, true, feeType,
             Set.of(MemberEntityConstants.PROFILE_TYPE));
     }
 
     public static final MemberProfile forNumber(final long number) {
         final ProfileName           name;
-        final ContactChannel        contactChannel;
-        final ContactMethod         contactMethod;
         final MemberProfile.FeeType feeType;
 
         feeType = new MemberProfile.FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME,
             FeeConstants.FEE_TYPE_AMOUNT);
 
         name = new ProfileName("Profile " + number, "Last name " + number);
-        contactMethod = ContactMethods.email();
-        contactChannel = new ContactChannel(contactMethod, ProfileConstants.EMAIL);
         return new MemberProfile(Objects.toString(number * 10), number * 10, name, ProfileConstants.BIRTH_DATE,
-            List.of(contactChannel), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS, true, true, feeType,
+            List.of(), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS, true, true, feeType,
             Set.of(MemberEntityConstants.PROFILE_TYPE));
     }
 
     public static final MemberProfile inactive() {
         final ProfileName           name;
-        final ContactChannel        contactChannel;
-        final ContactMethod         contactMethod;
         final MemberProfile.FeeType feeType;
 
         feeType = new MemberProfile.FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME,
             FeeConstants.FEE_TYPE_AMOUNT);
 
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        contactMethod = ContactMethods.email();
-        contactChannel = new ContactChannel(contactMethod, ProfileConstants.EMAIL);
         return new MemberProfile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name,
-            ProfileConstants.BIRTH_DATE, List.of(contactChannel), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS,
-            false, true, feeType, Set.of(MemberEntityConstants.PROFILE_TYPE));
+            ProfileConstants.BIRTH_DATE, List.of(), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS, false, true,
+            feeType, Set.of(MemberEntityConstants.PROFILE_TYPE));
     }
 
     public static final MemberProfile inactiveNoRenew() {
         final ProfileName           name;
-        final ContactChannel        contactChannel;
-        final ContactMethod         contactMethod;
         final MemberProfile.FeeType feeType;
 
         feeType = new MemberProfile.FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME,
             FeeConstants.FEE_TYPE_AMOUNT);
 
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        contactMethod = ContactMethods.email();
-        contactChannel = new ContactChannel(contactMethod, ProfileConstants.EMAIL);
         return new MemberProfile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name,
-            ProfileConstants.BIRTH_DATE, List.of(contactChannel), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS,
-            false, false, feeType, Set.of(MemberEntityConstants.PROFILE_TYPE));
+            ProfileConstants.BIRTH_DATE, List.of(), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS, false, false,
+            feeType, Set.of(MemberEntityConstants.PROFILE_TYPE));
     }
 
     public static final MemberProfile nameChange() {
@@ -206,26 +174,34 @@ public final class MemberProfiles {
 
     public static final MemberProfile padded() {
         final ProfileName           name;
-        final ContactChannel        contactChannel;
-        final ContactMethod         contactMethod;
         final MemberProfile.FeeType feeType;
 
         feeType = new MemberProfile.FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME,
             FeeConstants.FEE_TYPE_AMOUNT);
 
         name = new ProfileName(" " + ProfileConstants.FIRST_NAME + " ", " " + ProfileConstants.LAST_NAME + " ");
-        contactMethod = ContactMethods.email();
-        contactChannel = new ContactChannel(contactMethod, ProfileConstants.EMAIL);
         return new MemberProfile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name,
-            ProfileConstants.BIRTH_DATE, List.of(contactChannel), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS,
-            true, true, feeType, Set.of(MemberEntityConstants.PROFILE_TYPE));
+            ProfileConstants.BIRTH_DATE, List.of(), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS, true, true,
+            feeType, Set.of(MemberEntityConstants.PROFILE_TYPE));
     }
 
     public static final MemberProfile toCreate() {
         final ProfileName           name;
+        final MemberProfile.FeeType feeType;
+
+        feeType = new MemberProfile.FeeType(FeeConstants.FEE_TYPE_NUMBER, "", 0f);
+
+        name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
+        return new MemberProfile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name,
+            ProfileConstants.BIRTH_DATE, List.of(), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS, true, true,
+            feeType, Set.of());
+    }
+
+    public static final MemberProfile toCreateWithEmail() {
+        final ProfileName           name;
+        final MemberProfile.FeeType feeType;
         final ContactChannel        contactChannel;
         final ContactMethod         contactMethod;
-        final MemberProfile.FeeType feeType;
 
         feeType = new MemberProfile.FeeType(FeeConstants.FEE_TYPE_NUMBER, "", 0f);
 
@@ -237,7 +213,7 @@ public final class MemberProfiles {
             true, true, feeType, Set.of());
     }
 
-    public static final MemberProfile withoutType() {
+    public static final MemberProfile withEmail() {
         final ProfileName           name;
         final ContactChannel        contactChannel;
         final ContactMethod         contactMethod;
@@ -251,7 +227,20 @@ public final class MemberProfiles {
         contactChannel = new ContactChannel(contactMethod, ProfileConstants.EMAIL);
         return new MemberProfile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name,
             ProfileConstants.BIRTH_DATE, List.of(contactChannel), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS,
-            true, true, feeType, Set.of());
+            true, true, feeType, Set.of(MemberEntityConstants.PROFILE_TYPE));
+    }
+
+    public static final MemberProfile withoutType() {
+        final ProfileName           name;
+        final MemberProfile.FeeType feeType;
+
+        feeType = new MemberProfile.FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME,
+            FeeConstants.FEE_TYPE_AMOUNT);
+
+        name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
+        return new MemberProfile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name,
+            ProfileConstants.BIRTH_DATE, List.of(), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS, true, true,
+            feeType, Set.of());
     }
 
 }

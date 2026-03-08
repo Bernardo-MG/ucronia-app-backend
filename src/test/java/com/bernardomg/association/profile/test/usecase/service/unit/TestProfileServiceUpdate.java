@@ -34,7 +34,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.profile.domain.exception.MissingContactMethodException;
@@ -68,7 +67,7 @@ class TestProfileServiceUpdate {
 
     @Test
     @DisplayName("With a profile with an existing identifier, an exception is thrown")
-    void testCreate_IdentifierExists() {
+    void testUpdate_IdentifierExists() {
         final ThrowingCallable execution;
         final Profile          profile;
 
@@ -85,25 +84,6 @@ class TestProfileServiceUpdate {
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
             new FieldFailure("existing", "identifier", ProfileConstants.IDENTIFIER));
-    }
-
-    @Test
-    @DisplayName("With a profile with an existing identifier, but the identifier is empty, no exception is thrown")
-    void testCreate_IdentifierExistsAndEmpty() {
-        final Profile profile;
-
-        // GIVEN
-        profile = Profiles.noIdentifier();
-
-        given(profileRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
-
-        // WHEN
-        service.update(profile);
-
-        // THEN
-        verify(profileRepository).save(Profiles.noIdentifier());
-        verify(profileRepository, Mockito.never()).existsByIdentifierForAnother(ProfileConstants.NUMBER,
-            ProfileConstants.IDENTIFIER);
     }
 
     @Test

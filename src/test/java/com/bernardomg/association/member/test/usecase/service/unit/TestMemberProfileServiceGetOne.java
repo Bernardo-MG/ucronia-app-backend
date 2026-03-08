@@ -43,11 +43,15 @@ import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.member.test.configuration.factory.MemberProfiles;
 import com.bernardomg.association.member.usecase.service.DefaultMemberProfileService;
+import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultMemberProfileService - get one")
 class TestMemberProfileServiceGetOne {
+
+    @Mock
+    private ContactMethodRepository     contactMethodRepository;
 
     @Mock
     private FeeTypeRepository           feeTypeRepository;
@@ -65,22 +69,22 @@ class TestMemberProfileServiceGetOne {
     @Test
     @DisplayName("When there is data it is returned")
     void testGetOne() {
-        final Optional<MemberProfile> guest;
+        final Optional<MemberProfile> member;
 
         // GIVEN
         given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
             .willReturn(Optional.of(MemberProfiles.active()));
 
         // WHEN
-        guest = service.getOne(ProfileConstants.NUMBER);
+        member = service.getOne(ProfileConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(guest)
+        Assertions.assertThat(member)
             .contains(MemberProfiles.active());
     }
 
     @Test
-    @DisplayName("When the guest doesn't exist an exception is thrown")
+    @DisplayName("When the member doesn't exist an exception is thrown")
     void testGetOne_NotExisting() {
         final ThrowingCallable execution;
 

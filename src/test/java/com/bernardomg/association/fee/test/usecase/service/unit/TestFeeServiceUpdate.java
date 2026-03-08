@@ -171,6 +171,26 @@ class TestFeeServiceUpdate {
     }
 
     @Test
+    @DisplayName("With a changed fee type, it throws an exception")
+    void testUpdate_FeeTypeChanged() {
+        final ThrowingCallable execution;
+        final FieldFailure     failure;
+
+        // GIVEN
+        given(feeRepository.findOne(ProfileConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
+        given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
+            .willReturn(Optional.of(MemberProfiles.active()));
+
+        // WHEN
+        execution = () -> service.update(Fees.alternativeFeeType());
+
+        // THEN
+        failure = new FieldFailure("modified", "feeType", "feeType.modified", FeeConstants.FEE_TYPE_ALTERNATIVE_NUMBER);
+
+        ValidationAssertions.assertThatFieldFails(execution, failure);
+    }
+
+    @Test
     @DisplayName("With a not existing fee, an exception is thrown")
     void testUpdate_NotExistingFee() {
         final ThrowingCallable execution;
@@ -415,6 +435,27 @@ class TestFeeServiceUpdate {
         Assertions.assertThat(updated)
             .as("fee")
             .isEqualTo(Fees.updatePaid());
+    }
+
+    @Test
+    @DisplayName("With a changed transaction, it throws an exception")
+    void testUpdate_TransactionChanged() {
+        final ThrowingCallable execution;
+        final FieldFailure     failure;
+
+        // GIVEN
+        given(feeRepository.findOne(ProfileConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
+        given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
+            .willReturn(Optional.of(MemberProfiles.active()));
+
+        // WHEN
+        execution = () -> service.update(Fees.alternativeTransaction());
+
+        // THEN
+        failure = new FieldFailure("modified", "transaction", "transaction.modified",
+            TransactionConstants.ALTERNATIVE_INDEX);
+
+        ValidationAssertions.assertThatFieldFails(execution, failure);
     }
 
 }

@@ -34,7 +34,6 @@ import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactChann
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactChannelEntityMapper;
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactMethodEntity;
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
-import com.bernardomg.association.profile.domain.exception.MissingContactMethodException;
 import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
 import com.bernardomg.association.profile.domain.model.ProfileName;
 
@@ -101,7 +100,14 @@ public final class MemberProfileEntityMapper {
             .stream()
             .map(c -> toEntity(profile, c, contactMethods))
             .collect(Collectors.toCollection(ArrayList::new));
-        profile.setContactChannels(contactChannels);
+        if (profile.getContactChannels() != null) {
+            profile.getContactChannels()
+                .clear();
+            profile.getContactChannels()
+                .addAll(contactChannels);
+        } else {
+            profile.setContactChannels(contactChannels);
+        }
 
         profile.setTypes(profile.getTypes());
 
@@ -113,14 +119,36 @@ public final class MemberProfileEntityMapper {
         return entity;
     }
 
-    public static final MemberProfileEntity toEntity(final MemberProfileEntity entity, final MemberProfile data) {
+    public static final MemberProfileEntity toEntity(final MemberProfileEntity entity, final MemberProfile data,
+            final Collection<ContactMethodEntity> contactMethods) {
+        final ProfileEntity                    profile;
+        final Collection<ContactChannelEntity> contactChannels;
 
-        entity.getProfile()
-            .setFirstName(data.name()
-                .firstName());
-        entity.getProfile()
-            .setLastName(data.name()
-                .lastName());
+        profile = entity.getProfile();
+        profile.setFirstName(data.name()
+            .firstName());
+        profile.setLastName(data.name()
+            .lastName());
+        profile.setIdentifier(data.identifier());
+        profile.setBirthDate(data.birthDate());
+        profile.setAddress(data.address());
+        profile.setComments(data.comments());
+
+        contactChannels = data.contactChannels()
+            .stream()
+            .map(c -> toEntity(profile, c, contactMethods))
+            .collect(Collectors.toCollection(ArrayList::new));
+        if (profile.getContactChannels() != null) {
+            profile.getContactChannels()
+                .clear();
+            profile.getContactChannels()
+                .addAll(contactChannels);
+        } else {
+            profile.setContactChannels(contactChannels);
+        }
+
+        profile.setTypes(profile.getTypes());
+
         entity.setActive(data.active());
         entity.setRenew(data.renew());
 
@@ -128,21 +156,15 @@ public final class MemberProfileEntityMapper {
     }
 
     private static final ContactChannelEntity toEntity(final ProfileEntity contact, final ContactChannel data,
-            final Collection<ContactMethodEntity> concatMethods) {
+            final Collection<ContactMethodEntity> contactMethods) {
         final ContactChannelEntity          entity;
         final Optional<ContactMethodEntity> contactMethod;
 
-        contactMethod = concatMethods.stream()
+        contactMethod = contactMethods.stream()
             .filter(m -> m.getNumber()
                 .equals(data.contactMethod()
                     .number()))
             .findFirst();
-
-        // TODO: do this outside
-        if (contactMethod.isEmpty()) {
-            throw new MissingContactMethodException(data.contactMethod()
-                .number());
-        }
 
         entity = new ContactChannelEntity();
         entity.setProfile(contact);

@@ -31,13 +31,13 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.fee.domain.exception.MissingUserInSessionException;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.profile.domain.model.Profile;
@@ -85,7 +85,7 @@ public final class SpringSecurityMyFeesService implements MyFeesService {
             log.warn("User {} has no member assigned", username);
             fees = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
         } else {
-            fees = feeRepository.findAllForProfile(profile.get()
+            fees = feeRepository.findAllForMember(profile.get()
                 .number(), pagination, sorting);
         }
 
@@ -109,7 +109,7 @@ public final class SpringSecurityMyFeesService implements MyFeesService {
             .getAuthentication();
         if ((authentication instanceof AnonymousAuthenticationToken)
                 || !(authentication.getPrincipal() instanceof UserDetails)) {
-            throw new MissingUserInSessionException();
+            throw new AuthenticationCredentialsNotFoundException("No authenticated user in session");
         }
 
         userDetails = (UserDetails) authentication.getPrincipal();

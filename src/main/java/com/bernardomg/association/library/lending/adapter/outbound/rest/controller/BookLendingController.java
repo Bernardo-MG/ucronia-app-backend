@@ -72,7 +72,6 @@ public class BookLendingController implements BookLendingApi {
         final Page<BookLending> lendings;
         final Pagination        pagination;
         final Sorting           sorting;
-        // TODO: reapply cache
 
         pagination = new Pagination(page, size);
         sorting = WebSorting.toSorting(sort);

@@ -41,4 +41,6 @@ public interface SettingRepository {
 
     public Setting save(final Setting setting);
 
+    public Collection<Setting> saveAll(final Collection<Setting> settings);
+
 }

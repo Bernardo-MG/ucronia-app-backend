@@ -357,7 +357,9 @@ public final class ExcelPoiBookReportService implements BookReportService {
                 cell.setCellStyle(style);
 
                 cell = row.createCell(8);
-                cell.setCellValue(Date.from(donation.date()));
+                if (donation.date() != null) {
+                    cell.setCellValue(Date.from(donation.date()));
+                }
                 cell.setCellStyle(dateStyle);
             }
 
@@ -466,7 +468,9 @@ public final class ExcelPoiBookReportService implements BookReportService {
                 cell.setCellStyle(style);
 
                 cell = row.createCell(10);
-                cell.setCellValue(Date.from(donation.date()));
+                if (donation.date() != null) {
+                    cell.setCellValue(Date.from(donation.date()));
+                }
                 cell.setCellStyle(dateStyle);
             }
 

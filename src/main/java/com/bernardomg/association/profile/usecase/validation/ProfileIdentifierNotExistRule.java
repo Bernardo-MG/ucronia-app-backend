@@ -37,7 +37,7 @@ import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRule;
 
 /**
- * Checks the person has a name.
+ * Checks the profile identifier is not already registered.
  */
 public final class ProfileIdentifierNotExistRule implements FieldRule<Profile> {
 

@@ -36,25 +36,53 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
+import com.bernardomg.association.profile.test.configuration.factory.ContactMethodConstants;
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.association.sponsor.domain.exception.MissingSponsorException;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
 import com.bernardomg.association.sponsor.test.configuration.factory.Sponsors;
 import com.bernardomg.association.sponsor.usecase.service.DefaultSponsorService;
+import com.bernardomg.validation.domain.model.FieldFailure;
+import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultSponsorService - update")
 class TestSponsorServiceUpdate {
 
+    @Mock
+    private ContactMethodRepository contactMethodRepository;
+
     @InjectMocks
-    private DefaultSponsorService service;
+    private DefaultSponsorService   service;
 
     @Mock
-    private SponsorRepository     sponsorRepository;
+    private SponsorRepository       sponsorRepository;
 
     public TestSponsorServiceUpdate() {
         super();
+    }
+
+    @Test
+    @DisplayName("With a sponsor with an existing identifier, an exception is thrown")
+    void testUpdate_IdentifierExists() {
+        final ThrowingCallable execution;
+        final Sponsor          sponsor;
+
+        // GIVEN
+        sponsor = Sponsors.valid();
+
+        given(sponsorRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
+        given(sponsorRepository.existsByIdentifierForAnother(ProfileConstants.NUMBER, ProfileConstants.IDENTIFIER))
+            .willReturn(true);
+
+        // WHEN
+        execution = () -> service.update(sponsor);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution,
+            new FieldFailure("existing", "identifier", ProfileConstants.IDENTIFIER));
     }
 
     @Test
@@ -84,7 +112,7 @@ class TestSponsorServiceUpdate {
         // GIVEN
         sponsor = Sponsors.padded();
 
-        given(sponsorRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
+        given(sponsorRepository.exists(ContactMethodConstants.NUMBER)).willReturn(true);
 
         // WHEN
         service.update(sponsor);

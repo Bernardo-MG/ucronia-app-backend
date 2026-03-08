@@ -29,7 +29,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicLong;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -110,6 +109,32 @@ public final class JpaGuestRepository implements GuestRepository {
     }
 
     @Override
+    public final boolean existsByIdentifier(final String identifier) {
+        final boolean exists;
+
+        log.debug("Checking if guest identifier {} exists", identifier);
+
+        exists = profileSpringRepository.existsByIdentifier(identifier);
+
+        log.debug("Guest identifier {} exists: {}", identifier, exists);
+
+        return exists;
+    }
+
+    @Override
+    public final boolean existsByIdentifierForAnother(final long number, final String identifier) {
+        final boolean exists;
+
+        log.debug("Checking if identifier {} exists for a guest distinct from {}", identifier, number);
+
+        exists = profileSpringRepository.existsByIdentifierForAnother(number, identifier);
+
+        log.debug("Identifier {} exists for a guest distinct from {}: {}", identifier, number, exists);
+
+        return exists;
+    }
+
+    @Override
     public final Page<Guest> findAll(final GuestFilter filter, final Pagination pagination, final Sorting sorting) {
         final org.springframework.data.domain.Page<Guest> read;
         final Pageable                                    pageable;
@@ -152,29 +177,30 @@ public final class JpaGuestRepository implements GuestRepository {
 
     @Override
     public final Guest save(final Guest guest) {
-        final Optional<GuestEntity>     existing;
-        final GuestEntity               entity;
-        final Guest                     created;
-        final List<Long>                contactMethodNumbers;
-        final List<ContactMethodEntity> contactMethods;
-        final Long                      number;
+        final Optional<GuestEntity>           existing;
+        final GuestEntity                     entity;
+        final Guest                           created;
+        final Collection<ContactMethodEntity> contactMethods;
+        final Long                            number;
+        final Optional<ProfileEntity>         profile;
 
         log.debug("Saving guest {}", guest);
 
         existing = guestSpringRepository.findByNumber(guest.number());
+        contactMethods = getContactMethods(guest);
         if (existing.isPresent()) {
-            entity = GuestEntityMapper.toEntity(existing.get(), guest);
+            entity = GuestEntityMapper.toEntity(existing.get(), guest, contactMethods);
         } else {
-            contactMethodNumbers = guest.contactChannels()
-                .stream()
-                .map(ContactChannel::contactMethod)
-                .map(ContactMethod::number)
-                .toList();
-            contactMethods = contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
             entity = GuestEntityMapper.toEntity(guest, contactMethods);
-            number = guestSpringRepository.findNextNumber();
-            entity.getProfile()
-                .setNumber(number);
+
+            profile = profileSpringRepository.findByNumber(guest.number());
+            if (profile.isPresent()) {
+                entity.setProfile(profile.get());
+            } else {
+                number = guestSpringRepository.findNextNumber();
+                entity.getProfile()
+                    .setNumber(number);
+            }
         }
 
         setType(entity.getProfile());
@@ -184,88 +210,6 @@ public final class JpaGuestRepository implements GuestRepository {
         log.debug("Saved guest {}", created);
 
         return created;
-    }
-
-    @Override
-    public final Guest save(final Guest guest, final long number) {
-        final GuestEntity               entity;
-        final Guest                     created;
-        final Optional<ProfileEntity>   profile;
-        final List<Long>                contactMethodNumbers;
-        final List<ContactMethodEntity> contactMethods;
-
-        log.debug("Saving guest {} with number {}", guest, number);
-
-        contactMethodNumbers = guest.contactChannels()
-            .stream()
-            .map(ContactChannel::contactMethod)
-            .map(ContactMethod::number)
-            .toList();
-        contactMethods = contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
-        entity = GuestEntityMapper.toEntity(guest, contactMethods);
-
-        profile = profileSpringRepository.findByNumber(number);
-        if (profile.isPresent()) {
-            entity.setProfile(profile.get());
-        }
-
-        setType(entity.getProfile());
-
-        created = GuestEntityMapper.toDomain(guestSpringRepository.save(entity));
-
-        log.debug("Saved guest {} with number {}", created, number);
-
-        return created;
-    }
-
-    @Override
-    public final Collection<Guest> saveAll(final Collection<Guest> guests) {
-        final List<GuestEntity> entities;
-        final List<Guest>       saved;
-        final AtomicLong        number;
-
-        log.debug("Saving guests {}", guests);
-
-        number = new AtomicLong(guestSpringRepository.findNextNumber());
-        entities = guests.stream()
-            .map(m -> convert(m, number))
-            .toList();
-
-        entities.stream()
-            .forEach(m -> setType(m.getProfile()));
-
-        saved = guestSpringRepository.saveAll(entities)
-            .stream()
-            .map(GuestEntityMapper::toDomain)
-            .toList();
-
-        log.debug("Saved guests {}", saved);
-
-        return saved;
-    }
-
-    private final GuestEntity convert(final Guest guest, final AtomicLong number) {
-        final Optional<GuestEntity>     existing;
-        final GuestEntity               entity;
-        final List<Long>                contactMethodNumbers;
-        final List<ContactMethodEntity> contactMethods;
-
-        existing = guestSpringRepository.findByNumber(guest.number());
-        if (existing.isPresent()) {
-            entity = GuestEntityMapper.toEntity(existing.get(), guest);
-        } else {
-            contactMethodNumbers = guest.contactChannels()
-                .stream()
-                .map(ContactChannel::contactMethod)
-                .map(ContactMethod::number)
-                .toList();
-            contactMethods = contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
-            entity = GuestEntityMapper.toEntity(guest, contactMethods);
-            entity.getProfile()
-                .setNumber(number.getAndIncrement());
-        }
-
-        return entity;
     }
 
     private final Sorting fixSorting(final Sorting sorting) {
@@ -282,6 +226,17 @@ public final class JpaGuestRepository implements GuestRepository {
             .toList();
 
         return new Sorting(properties);
+    }
+
+    private final Collection<ContactMethodEntity> getContactMethods(final Guest guest) {
+        final Collection<Long> contactMethodNumbers;
+
+        contactMethodNumbers = guest.contactChannels()
+            .stream()
+            .map(ContactChannel::contactMethod)
+            .map(ContactMethod::number)
+            .toList();
+        return contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
     }
 
     private final void setType(final ProfileEntity entity) {

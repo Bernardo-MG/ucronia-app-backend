@@ -63,13 +63,6 @@ public class FeeEntity implements Serializable {
     @JoinColumn(name = "member_id", referencedColumnName = "id")
     private MemberProfileEntity member;
 
-    /**
-     * TODO: Is this needed?
-     */
-    @Column(name = "member_id", insertable = false, updatable = false)
-    private Long                memberId;
-
-    // TODO: should be called month
     @Column(name = "month", nullable = false)
     private Instant             month;
 
@@ -90,10 +83,6 @@ public class FeeEntity implements Serializable {
 
     public MemberProfileEntity getMember() {
         return member;
-    }
-
-    public Long getMemberId() {
-        return memberId;
     }
 
     public Instant getMonth() {
@@ -120,10 +109,6 @@ public class FeeEntity implements Serializable {
         this.member = member;
     }
 
-    public void setMemberId(final Long memberId) {
-        this.memberId = memberId;
-    }
-
     public void setMonth(final Instant month) {
         this.month = month;
     }
@@ -138,8 +123,8 @@ public class FeeEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "FeeEntity [date=" + month + ", id=" + id + ", paid=" + paid + ", member=" + member + ", memberId="
-                + memberId + ", feeType=" + feeType + ", transaction=" + transaction + "]";
+        return "FeeEntity [date=" + month + ", id=" + id + ", paid=" + paid + ", member=" + member + ", feeType="
+                + feeType + ", transaction=" + transaction + "]";
     }
 
 }

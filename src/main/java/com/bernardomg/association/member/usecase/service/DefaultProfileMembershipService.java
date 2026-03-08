@@ -79,8 +79,6 @@ public final class DefaultProfileMembershipService implements ProfileMembershipS
 
         log.debug("Converting profile {} to member", number);
 
-        // TODO: check the fee type exists
-
         existing = profileRepository.findOne(number)
             .orElseThrow(() -> {
                 log.error("Missing profile {}", number);
@@ -88,11 +86,13 @@ public final class DefaultProfileMembershipService implements ProfileMembershipS
             });
 
         if (memberProfileRepository.exists(number)) {
+            log.error("Missing member {}", number);
             throw new MemberExistsException(number);
         }
 
         if (!feeTypeRepository.exists(feeType)) {
-            throw new MissingFeeTypeException(number);
+            log.error("Missing fee type {}", feeType);
+            throw new MissingFeeTypeException(feeType);
         }
 
         memberFeeType = new MemberProfile.FeeType(feeType, "", 0f);
@@ -100,7 +100,7 @@ public final class DefaultProfileMembershipService implements ProfileMembershipS
             existing.contactChannels(), existing.address(), existing.comments(), true, true, memberFeeType,
             existing.types());
 
-        created = memberProfileRepository.save(toCreate, number);
+        created = memberProfileRepository.save(toCreate);
 
         log.debug("Converted profile {} to member", number);
 

@@ -36,6 +36,7 @@ import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMemberWithEmail;
 import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
 import com.bernardomg.association.member.test.configuration.factory.MemberProfiles;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
@@ -122,6 +123,31 @@ class ITMemberProfileRepositoryFindAll {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();
+    }
+
+    @Test
+    @DisplayName("With a member with a contact method, it is returned")
+    @PositiveFeeType
+    @ActiveMemberWithEmail
+    void testFindAll_Active_WithContactMethod() {
+        final Page<MemberProfile> members;
+        final Pagination          pagination;
+        final Sorting             sorting;
+        final MemberProfileFilter filter;
+
+        // GIVEN
+        pagination = new Pagination(1, 100);
+        sorting = Sorting.unsorted();
+        filter = new MemberProfileFilter(MemberStatus.ACTIVE, "");
+
+        // WHEN
+        members = repository.findAll(filter, pagination, sorting);
+
+        // THEN
+        Assertions.assertThat(members)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .containsExactly(MemberProfiles.withEmail());
     }
 
     @Test

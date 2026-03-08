@@ -28,7 +28,6 @@ import java.time.YearMonth;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -37,6 +36,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.association.fee.domain.exception.MissingFeeTypeException;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeType;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
@@ -77,7 +77,6 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
     public final void registerMonthFees() {
         final Collection<Fee>           feesToCreate;
         final Collection<MemberProfile> toRenew;
-        final Collection<Long>          feeTypeIds;
         final Map<Long, FeeType>        feeTypes;
 
         log.info("Registering fees for this month");
@@ -85,16 +84,11 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
         // Find fees to extend into the current month
         toRenew = memberProfileRepository.findAllToRenew();
 
-        feeTypeIds = toRenew.stream()
-            .map(MemberProfile::feeType)
-            .map(MemberProfile.FeeType::number)
+        feeTypes = toRenew.stream()
+            .map(m -> m.feeType()
+                .number())
             .distinct()
-            .toList();
-        // TODO: verify the fee types exist
-        feeTypes = feeTypeIds.stream()
-            .map(id -> feeTypeRepository.findOne(id))
-            .filter(Optional::isPresent)
-            .map(Optional::get)
+            .map(this::getFeeType)
             .collect(Collectors.toMap(FeeType::number, Function.identity()));
 
         feesToCreate = toRenew.stream()
@@ -107,6 +101,14 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
         feeRepository.save(feesToCreate);
 
         log.debug("Registered {} fees for this month", feesToCreate.size());
+    }
+
+    private final FeeType getFeeType(final Long number) {
+        return feeTypeRepository.findOne(number)
+            .orElseThrow(() -> {
+                log.error("Missing fee type {}", number);
+                throw new MissingFeeTypeException(number);
+            });
     }
 
     private final boolean notExists(final Fee fee) {

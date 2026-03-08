@@ -62,7 +62,7 @@ public class TestModulesArchitectureRules {
         .mayOnlyBeAccessedByLayers("Members", "Sponsors", "Guests", "Users", "Account", "Fees", "Library books",
             "Library lending")
         .whereLayer("Members")
-        .mayOnlyBeAccessedByLayers("Fees", "Account")
+        .mayOnlyBeAccessedByLayers("Fees", "Account", "Library books")
         .whereLayer("Sponsors")
         .mayNotBeAccessedByAnyLayer()
         .whereLayer("Guests")

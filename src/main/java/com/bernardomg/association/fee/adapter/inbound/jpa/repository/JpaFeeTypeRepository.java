@@ -123,14 +123,11 @@ public final class JpaFeeTypeRepository implements FeeTypeRepository {
 
         log.debug("Saving fee type {}", feeType);
 
-        entity = FeeTypeEntityMapper.toEntity(feeType);
-
         existing = feeTypeSpringRepository.findByNumber(feeType.number());
         if (existing.isPresent()) {
-            // TODO: do like sponsor repository
-            entity.setId(existing.get()
-                .getId());
+            entity = FeeTypeEntityMapper.toEntity(existing.get(), feeType);
         } else {
+            entity = FeeTypeEntityMapper.toEntity(feeType);
             number = feeTypeSpringRepository.findNextNumber();
             entity.setNumber(number);
         }

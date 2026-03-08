@@ -111,7 +111,7 @@ class TestProfileMembershipServiceConvert {
         final Profile          profile;
 
         // GIVEN
-        profile = Profiles.withEmail();
+        profile = Profiles.valid();
 
         given(profileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(profile));
         given(feeTypeRepository.exists(ProfileConstants.NUMBER)).willReturn(false);
@@ -130,7 +130,7 @@ class TestProfileMembershipServiceConvert {
         final Profile profile;
 
         // GIVEN
-        profile = Profiles.withEmail();
+        profile = Profiles.valid();
 
         given(profileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(profile));
         given(memberProfileRepository.exists(ProfileConstants.NUMBER)).willReturn(false);
@@ -140,7 +140,7 @@ class TestProfileMembershipServiceConvert {
         service.convertToMember(ProfileConstants.NUMBER, FeeConstants.FEE_TYPE_NUMBER);
 
         // THEN
-        verify(memberProfileRepository).save(MemberProfiles.toCreate(), ProfileConstants.NUMBER);
+        verify(memberProfileRepository).save(MemberProfiles.toCreate());
     }
 
     @Test
@@ -150,13 +150,12 @@ class TestProfileMembershipServiceConvert {
         final MemberProfile updated;
 
         // GIVEN
-        profile = Profiles.withEmail();
+        profile = Profiles.valid();
 
         given(profileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(profile));
         given(memberProfileRepository.exists(ProfileConstants.NUMBER)).willReturn(false);
         given(feeTypeRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
-        given(memberProfileRepository.save(MemberProfiles.toCreate(), ProfileConstants.NUMBER))
-            .willReturn(MemberProfiles.withoutType());
+        given(memberProfileRepository.save(MemberProfiles.toCreate())).willReturn(MemberProfiles.withoutType());
 
         // WHEN
         updated = service.convertToMember(ProfileConstants.NUMBER, FeeConstants.FEE_TYPE_NUMBER);

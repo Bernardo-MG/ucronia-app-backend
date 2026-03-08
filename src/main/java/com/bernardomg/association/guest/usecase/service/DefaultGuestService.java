@@ -36,10 +36,18 @@ import com.bernardomg.association.guest.domain.exception.MissingGuestException;
 import com.bernardomg.association.guest.domain.filter.GuestFilter;
 import com.bernardomg.association.guest.domain.model.Guest;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
+import com.bernardomg.association.guest.usecase.validation.GuestIdentifierNotExistForAnotherRule;
+import com.bernardomg.association.guest.usecase.validation.GuestIdentifierNotExistRule;
+import com.bernardomg.association.profile.domain.exception.MissingContactMethodException;
+import com.bernardomg.association.profile.domain.model.ContactMethod;
+import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
 import com.bernardomg.association.profile.domain.model.ProfileName;
+import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.validation.validator.FieldRuleValidator;
+import com.bernardomg.validation.validator.Validator;
 
 /**
  * Default implementation of the guest service.
@@ -54,14 +62,27 @@ public final class DefaultGuestService implements GuestService {
     /**
      * Logger for the class.
      */
-    private static final Logger   log = LoggerFactory.getLogger(DefaultGuestService.class);
+    private static final Logger           log = LoggerFactory.getLogger(DefaultGuestService.class);
 
-    private final GuestRepository guestRepository;
+    private final ContactMethodRepository contactMethodRepository;
 
-    public DefaultGuestService(final GuestRepository guestRepo) {
+    private final Validator<Guest>        createValidator;
+
+    private final GuestRepository         guestRepository;
+
+    private final Validator<Guest>        patchValidator;
+
+    private final Validator<Guest>        updateValidator;
+
+    public DefaultGuestService(final GuestRepository guestRepo, final ContactMethodRepository contactMethodRepo) {
         super();
 
         guestRepository = Objects.requireNonNull(guestRepo);
+        contactMethodRepository = Objects.requireNonNull(contactMethodRepo);
+
+        createValidator = new FieldRuleValidator<>(new GuestIdentifierNotExistRule(guestRepo));
+        updateValidator = new FieldRuleValidator<>(new GuestIdentifierNotExistForAnotherRule(guestRepo));
+        patchValidator = new FieldRuleValidator<>(new GuestIdentifierNotExistForAnotherRule(guestRepo));
     }
 
     @Override
@@ -69,6 +90,14 @@ public final class DefaultGuestService implements GuestService {
         final Guest created;
 
         log.debug("Creating guest {}", guest);
+
+        // TODO: maybe send an exception with all
+        guest.contactChannels()
+            .stream()
+            .map(ContactChannel::contactMethod)
+            .forEach(this::checkContactMethodExists);
+
+        createValidator.validate(guest);
 
         created = guestRepository.save(guest);
 
@@ -140,7 +169,15 @@ public final class DefaultGuestService implements GuestService {
                 throw new MissingGuestException(guest.number());
             });
 
+        // TODO: maybe send an exception with all
+        guest.contactChannels()
+            .stream()
+            .map(ContactChannel::contactMethod)
+            .forEach(this::checkContactMethodExists);
+
         toSave = copy(existing, guest);
+
+        patchValidator.validate(toSave);
 
         saved = guestRepository.save(toSave);
 
@@ -160,11 +197,26 @@ public final class DefaultGuestService implements GuestService {
             throw new MissingGuestException(guest.number());
         }
 
+        // TODO: maybe send an exception with all
+        guest.contactChannels()
+            .stream()
+            .map(ContactChannel::contactMethod)
+            .forEach(this::checkContactMethodExists);
+
+        updateValidator.validate(guest);
+
         saved = guestRepository.save(guest);
 
         log.debug("Updated guest {}: {}", guest.number(), saved);
 
         return saved;
+    }
+
+    private final void checkContactMethodExists(final ContactMethod contactMethod) {
+        if (!contactMethodRepository.exists(contactMethod.number())) {
+            log.error("Missing contact method {}", contactMethod.number());
+            throw new MissingContactMethodException(contactMethod.number());
+        }
     }
 
     private final Guest copy(final Guest existing, final Guest updated) {

@@ -22,58 +22,51 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.usecase.validation;
+package com.bernardomg.association.member.usecase.validation;
 
-import java.time.YearMonth;
-import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bernardomg.association.fee.domain.dto.FeePayments;
+import com.bernardomg.association.member.domain.model.MemberProfile;
+import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRule;
 
 /**
- * Checks the fees's months are not duplicated.
+ * Checks the guest identifier is not already registered for another guest.
  */
-public final class FeePaymentsNoDuplicatedMonthsRule implements FieldRule<FeePayments> {
+public final class MemberProfileIdentifierNotExistForAnotherRule implements FieldRule<MemberProfile> {
 
     /**
      * Logger for the class.
      */
-    private static final Logger log = LoggerFactory.getLogger(FeePaymentsNoDuplicatedMonthsRule.class);
+    private static final Logger           log = LoggerFactory
+        .getLogger(MemberProfileIdentifierNotExistForAnotherRule.class);
 
-    public FeePaymentsNoDuplicatedMonthsRule() {
+    private final MemberProfileRepository memberProfileRepository;
+
+    public MemberProfileIdentifierNotExistForAnotherRule(final MemberProfileRepository memberProfileRepo) {
         super();
+
+        memberProfileRepository = Objects.requireNonNull(memberProfileRepo);
     }
 
     @Override
-    public final Optional<FieldFailure> check(final FeePayments payments) {
+    public final Optional<FieldFailure> check(final MemberProfile member) {
         final Optional<FieldFailure> failure;
         final FieldFailure           fieldFailure;
-        final List<YearMonth>        uniqueMonths;
-        final long                   duplicates;
 
-        uniqueMonths = payments.months()
-            .stream()
-            .distinct()
-            .sorted()
-            .toList();
-        if (uniqueMonths.size() < payments.months()
-            .size()) {
-            // We have repeated dates
-            // TODO: is this really an error? It can be corrected easily
-            duplicates = (payments.months()
-                .size() - uniqueMonths.size());
-            log.error("Received {} fee months, but {} are duplicates", payments.months()
-                .size(), duplicates);
-            // TODO: set duplicates, not number
-            fieldFailure = new FieldFailure("duplicated", "months[]", duplicates);
-            failure = Optional.of(fieldFailure);
-        } else {
+        if (StringUtils.isBlank(member.identifier())
+                || !memberProfileRepository.existsByIdentifierForAnother(member.number(), member.identifier())) {
             failure = Optional.empty();
+        } else {
+            log.error("Existing identifier {} for a guest distinct of {}", member.identifier(), member.number());
+            fieldFailure = new FieldFailure("existing", "identifier", member.identifier());
+            failure = Optional.of(fieldFailure);
         }
 
         return failure;

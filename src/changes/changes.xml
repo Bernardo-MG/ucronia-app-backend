@@ -509,12 +509,23 @@
             Instagram as public setting.
          </action>
       </release>
-      <release version="0.6.15" date="2026-02-22" description="">
+      <release version="0.6.15" date="2026-02-22" description="Small fixes">
          <action dev="bmg" type="update">
             Return status info for members.
          </action>
          <action dev="bmg" type="fix">
             Avoid replacing existing config on start.
+         </action>
+      </release>
+      <release version="0.6.16" date="2026-03-08" description="">
+         <action dev="bmg" type="fix">
+            Several fixes.
+         </action>
+         <action dev="bmg" type="fix">
+            Corrected error when changing member renewal at month start.
+         </action>
+         <action dev="bmg" type="fix">
+            Fixed error on null date in library report.
          </action>
       </release>
    </body>

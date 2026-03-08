@@ -33,8 +33,8 @@ import com.bernardomg.settings.domain.repository.SettingRepository;
 @Configuration
 public class SettingsConfiguration {
 
-    @Bean(name = "settingsLoader", initMethod = "load")
-    public SettingsLoader permissionsLoader(final SettingRepository settingRepository) {
+    @Bean(name = "settingsLoader", initMethod = "run")
+    public Runnable permissionsLoader(final SettingRepository settingRepository) {
         return new SettingsLoader(settingRepository);
     }
 

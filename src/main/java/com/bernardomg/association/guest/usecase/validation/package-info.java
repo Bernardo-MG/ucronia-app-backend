@@ -22,22 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.domain.exception;
-
 /**
- * Missing user in session exception.
- * <p>
- * TODO: move to the libraries
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Guest validators.
  */
-public final class MissingUserInSessionException extends RuntimeException {
 
-    private static final long serialVersionUID = 5233429705770268427L;
-
-    public MissingUserInSessionException() {
-        super();
-    }
-
-}
+package com.bernardomg.association.guest.usecase.validation;

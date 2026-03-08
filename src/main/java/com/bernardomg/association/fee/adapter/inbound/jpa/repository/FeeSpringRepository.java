@@ -79,7 +79,7 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
                SELECT f
                FROM MemberProfile m
                  INNER JOIN m.profile p
-                 INNER JOIN Fee f ON m.id = f.memberId
+                 INNER JOIN Fee f ON m.id = f.member.id
                  LEFT JOIN Transaction t ON f.transaction.id = t.id
                WHERE p.number = :memberNumber
                  AND f.month in :feeMonths
@@ -118,10 +118,19 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
             SELECT f
             FROM Fee f
             WHERE EXTRACT(YEAR FROM f.month) = :year
-              AND f.memberId IN :ids
+              AND f.member.id IN :ids
             """)
     public Collection<FeeEntity> findAllForYearAndMembersIn(@Param("year") int year, @Param("ids") Collection<Long> ids,
             Sort sort);
+
+    @Query("""
+            SELECT
+              COALESCE(SUM(CASE WHEN f.paid = TRUE THEN 1 ELSE 0 END), 0) AS paid,
+              COALESCE(SUM(CASE WHEN f.paid = FALSE THEN 1 ELSE 0 END), 0) AS unpaid
+            FROM Fee f
+            WHERE f.month = :monthStart
+            """)
+    public FeeSummary findBalanceForMonth(@Param("monthStart") Instant monthStart);
 
     /**
      * Finds the fee for the member in a month.
@@ -162,19 +171,11 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
     @Query("""
             SELECT extract(year from f.month) AS feeYear
             FROM Fee f
-             GROUP BY feeYear
-             ORDER BY feeYear ASC
+              INNER JOIN f.member m
+              WHERE m IS NOT NULL
+              GROUP BY feeYear
+              ORDER BY feeYear ASC
             """)
     public Collection<Integer> findYears();
-
-    @Query("""
-            SELECT new com.bernardomg.association.fee.domain.model.FeeSummary(
-              COALESCE(SUM(CASE WHEN f.paid = TRUE THEN 1 ELSE 0 END), 0),
-              COALESCE(SUM(CASE WHEN f.paid = FALSE THEN 1 ELSE 0 END), 0)
-            )
-            FROM Fee f
-            WHERE f.month = :monthStart
-            """)
-    FeeSummary findBalanceForMonth(@Param("monthStart") Instant monthStart);
 
 }

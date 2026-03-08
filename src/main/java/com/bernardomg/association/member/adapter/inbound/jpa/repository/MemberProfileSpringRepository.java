@@ -91,6 +91,14 @@ public interface MemberProfileSpringRepository
             """)
     public Optional<MemberProfileEntity> findByNumber(@Param("number") final Long number);
 
+    @Query("""
+            SELECT m
+            FROM MemberProfile m
+              JOIN m.profile p
+            WHERE p.id = :id
+            """)
+    public Optional<MemberProfileEntity> findByProfileId(@Param("id") final Long id);
+
     @Query("SELECT COALESCE(MAX(p.number), 0) + 1 FROM Profile p")
     public Long findNextNumber();
 

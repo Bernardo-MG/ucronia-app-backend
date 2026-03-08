@@ -25,6 +25,7 @@
 package com.bernardomg.settings.adapter.inbound.jpa.repository;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -144,6 +145,41 @@ public final class JpaSettingsRepository implements SettingRepository {
         log.trace("Saved setting {}", saved);
 
         return SettingsEntityMapper.toDomain(saved);
+    }
+
+    @Override
+    public final Collection<Setting> saveAll(final Collection<Setting> settings) {
+        final List<SettingsEntity> entities;
+        final List<Setting>        saved;
+
+        log.trace("Saving settings {}", settings);
+
+        entities = settings.stream()
+            .map(this::convert)
+            .toList();
+
+        saved = settingSpringRepository.saveAll(entities)
+            .stream()
+            .map(SettingsEntityMapper::toDomain)
+            .toList();
+
+        log.trace("Saved settings {}", saved);
+
+        return saved;
+    }
+
+    private final SettingsEntity convert(final Setting setting) {
+        final Optional<SettingsEntity> existing;
+        final SettingsEntity           entity;
+
+        existing = settingSpringRepository.findByCode(setting.code());
+        if (existing.isPresent()) {
+            entity = SettingsEntityMapper.toEntity(setting, existing.get());
+        } else {
+            entity = SettingsEntityMapper.toEntity(setting);
+        }
+
+        return entity;
     }
 
 }

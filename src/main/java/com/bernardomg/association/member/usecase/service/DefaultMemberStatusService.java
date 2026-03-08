@@ -56,7 +56,7 @@ public final class DefaultMemberStatusService implements MemberStatusService {
     }
 
     @Override
-    public final void activate(final YearMonth date, final Long memberNumber) {
+    public final void activateIfCurrent(final YearMonth date, final Long memberNumber) {
         final Optional<MemberProfile> member;
         final MemberProfile           activated;
 
@@ -69,7 +69,8 @@ public final class DefaultMemberStatusService implements MemberStatusService {
                 log.warn("Missing member {}", memberNumber);
                 // TODO: no exception?
             } else {
-                activated = activated(member.get());
+                activated = member.get()
+                    .activated();
                 memberProfileRepository.save(activated);
 
                 log.debug("Activated member {}", memberNumber);
@@ -90,12 +91,12 @@ public final class DefaultMemberStatusService implements MemberStatusService {
 
         toActivate = members.stream()
             .filter(p -> !p.active())
-            .map(this::activated)
+            .map(MemberProfile::activated)
             .toList();
 
         toDeactivate = members.stream()
             .filter(MemberProfile::active)
-            .map(this::deactivated)
+            .map(MemberProfile::deactivated)
             .toList();
 
         toSave = Stream.concat(toActivate.stream(), toDeactivate.stream())
@@ -106,7 +107,7 @@ public final class DefaultMemberStatusService implements MemberStatusService {
     }
 
     @Override
-    public final void deactivate(final YearMonth date, final Long memberNumber) {
+    public final void deactivateIfCurrent(final YearMonth date, final Long memberNumber) {
         final Optional<MemberProfile> member;
         final MemberProfile           deactivated;
 
@@ -120,24 +121,13 @@ public final class DefaultMemberStatusService implements MemberStatusService {
                 log.warn("Missing member {}", memberNumber);
                 // TODO: no exception?
             } else {
-                deactivated = deactivated(member.get());
+                deactivated = member.get()
+                    .deactivated();
                 memberProfileRepository.save(deactivated);
 
                 log.debug("Deactivated member {}", memberNumber);
             }
         }
-    }
-
-    private final MemberProfile activated(final MemberProfile original) {
-        return new MemberProfile(original.identifier(), original.number(), original.name(), original.birthDate(),
-            original.contactChannels(), original.address(), original.comments(), true, true, original.feeType(),
-            original.types());
-    }
-
-    private final MemberProfile deactivated(final MemberProfile original) {
-        return new MemberProfile(original.identifier(), original.number(), original.name(), original.birthDate(),
-            original.contactChannels(), original.address(), original.comments(), false, false, original.feeType(),
-            original.types());
     }
 
 }

@@ -35,9 +35,9 @@ import com.bernardomg.association.profile.domain.model.Profile;
 import com.bernardomg.association.profile.domain.repository.ProfileRepository;
 import com.bernardomg.association.profile.test.configuration.data.annotation.EmailContactMethod;
 import com.bernardomg.association.profile.test.configuration.data.annotation.PhoneContactMethod;
+import com.bernardomg.association.profile.test.configuration.data.annotation.ProfileWithEmail;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ProfileWithType;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
-import com.bernardomg.association.profile.test.configuration.data.annotation.WithContactChannel;
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.association.profile.test.configuration.factory.ProfileEntities;
 import com.bernardomg.association.profile.test.configuration.factory.Profiles;
@@ -58,10 +58,10 @@ class ITProfileRepositorySave {
     }
 
     @Test
-    @DisplayName("When a profile exists and a profile is added, the profile is persisted")
+    @DisplayName("When a profile exists and a contact method is added, the profile is persisted")
     @EmailContactMethod
     @ValidProfile
-    void testSave_Existing_AddContact_PersistedData() {
+    void testSave_Existing_AddContactMethod_PersistedData() {
         final Profile                 profile;
         final Iterable<ProfileEntity> entities;
 
@@ -103,10 +103,10 @@ class ITProfileRepositorySave {
     }
 
     @Test
-    @DisplayName("When a profile exists and a profile method is removed, the profile is persisted")
+    @DisplayName("When a profile exists and a contact method is removed, the profile is persisted")
     @EmailContactMethod
-    @WithContactChannel
-    void testSave_Existing_RemoveContact_PersistedData() {
+    @ProfileWithEmail
+    void testSave_Existing_RemoveContactMethod_PersistedData() {
         final Profile                 profile;
         final Iterable<ProfileEntity> entities;
 
@@ -206,9 +206,9 @@ class ITProfileRepositorySave {
     }
 
     @Test
-    @DisplayName("With a profile with a profile channel, the profile is persisted")
+    @DisplayName("With a profile with a contact method, the profile is persisted")
     @EmailContactMethod
-    void testSave_WithContactChannel_PersistedData() {
+    void testSave_WithContactMethod_PersistedData() {
         final Profile                 profile;
         final Iterable<ProfileEntity> entities;
 
@@ -229,9 +229,9 @@ class ITProfileRepositorySave {
     }
 
     @Test
-    @DisplayName("With a profile with a profile channel, the profile is returned")
+    @DisplayName("With a profile with a contact method, the profile is returned")
     @EmailContactMethod
-    void testSave_WithContactChannel_ReturnedData() {
+    void testSave_WithContactMethod_ReturnedData() {
         final Profile profile;
         final Profile saved;
 
@@ -251,7 +251,7 @@ class ITProfileRepositorySave {
     @DisplayName("With a profile with two profile channels for different methods, the profile is persisted")
     @EmailContactMethod
     @PhoneContactMethod
-    void testSave_WithTwoContactChannel_DifferentMethod_PersistedData() {
+    void testSave_WithTwoContactMethods_DifferentMethod_PersistedData() {
         final Profile                 profile;
         final Iterable<ProfileEntity> entities;
 
@@ -274,7 +274,7 @@ class ITProfileRepositorySave {
     @Test
     @DisplayName("With a profile with two profile channels for the same method, the profile is persisted")
     @EmailContactMethod
-    void testSave_WithTwoContactChannel_SameMethod_PersistedData() {
+    void testSave_WithTwoContactMethods_SameMethod_PersistedData() {
         final Profile                 profile;
         final Iterable<ProfileEntity> entities;
 

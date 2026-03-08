@@ -39,12 +39,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.bernardomg.association.fee.domain.exception.MissingUserInSessionException;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
@@ -58,8 +58,8 @@ import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("My fees service - get all for user in session")
-class TestMyFeesServiceGetAllForUserInSession {
+@DisplayName("SpringSecurityMyFeesService - get all for user in session")
+class TestSpringSecurityMyFeesServiceGetAllForUserInSession {
 
     @Mock
     private Authentication              authentication;
@@ -97,7 +97,7 @@ class TestMyFeesServiceGetAllForUserInSession {
         given(userProfileRepository.findByUsername(UserConstants.USERNAME)).willReturn(Optional.of(Profiles.valid()));
 
         existing = new Page<>(List.of(Fees.paid()), 0, 0, 0, 0, 0, false, false, sorting);
-        given(feeRepository.findAllForProfile(ProfileConstants.NUMBER, pagination, sorting)).willReturn(existing);
+        given(feeRepository.findAllForMember(ProfileConstants.NUMBER, pagination, sorting)).willReturn(existing);
 
         // WHEN
         fees = myFeesService.getAllForUserInSession(pagination, sorting);
@@ -132,7 +132,7 @@ class TestMyFeesServiceGetAllForUserInSession {
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingUserInSessionException.class);
+            .isInstanceOf(AuthenticationCredentialsNotFoundException.class);
     }
 
     @Test
@@ -156,7 +156,7 @@ class TestMyFeesServiceGetAllForUserInSession {
         given(userProfileRepository.findByUsername(UserConstants.USERNAME)).willReturn(Optional.of(Profiles.valid()));
 
         existing = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
-        given(feeRepository.findAllForProfile(ProfileConstants.NUMBER, pagination, sorting)).willReturn(existing);
+        given(feeRepository.findAllForMember(ProfileConstants.NUMBER, pagination, sorting)).willReturn(existing);
 
         // WHEN
         fees = myFeesService.getAllForUserInSession(pagination, sorting);

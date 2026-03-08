@@ -43,6 +43,7 @@ import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.NoLastNameActiveMember;
+import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
@@ -50,7 +51,7 @@ import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("FeeRepository - find all for profile")
+@DisplayName("FeeRepository - find all for member")
 class ITFeeRepositoryfindAllForProfileForMember {
 
     @Autowired
@@ -61,7 +62,7 @@ class ITFeeRepositoryfindAllForProfileForMember {
     @PositiveFeeType
     @ActiveMember
     @FeeFullYear
-    void testFindAllForProfile_Active_FullYear() {
+    void testFindAllForMember_Active_FullYear() {
         final Page<Fee>  fees;
         final Pagination pagination;
         final Sorting    sorting;
@@ -71,7 +72,7 @@ class ITFeeRepositoryfindAllForProfileForMember {
         sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
 
         // WHEN
-        fees = repository.findAllForProfile(ProfileConstants.NUMBER, pagination, sorting);
+        fees = repository.findAllForMember(ProfileConstants.NUMBER, pagination, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -87,20 +88,20 @@ class ITFeeRepositoryfindAllForProfileForMember {
     }
 
     @Test
-    @DisplayName("With no data it returns nothing")
+    @DisplayName("With no fee it returns nothing")
     @PositiveFeeType
     @ActiveMember
-    void testFindAllForProfile_Active_NoFee() {
+    void testFindAllForMember_Active_NoFee() {
         final Page<Fee>  fees;
         final Pagination pagination;
         final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
-        sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
+        sorting = new Sorting(List.of());
 
         // WHEN
-        fees = repository.findAllForProfile(ProfileConstants.NUMBER, pagination, sorting);
+        fees = repository.findAllForMember(ProfileConstants.NUMBER, pagination, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -115,17 +116,17 @@ class ITFeeRepositoryfindAllForProfileForMember {
     @PositiveFeeType
     @NoLastNameActiveMember
     @PaidFee
-    void testFindAllForProfile_Active_NoLastName() {
+    void testFindAllForMember_Active_NoLastName() {
         final Page<Fee>  fees;
         final Pagination pagination;
         final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
-        sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
+        sorting = new Sorting(List.of());
 
         // WHEN
-        fees = repository.findAllForProfile(ProfileConstants.NUMBER, pagination, sorting);
+        fees = repository.findAllForMember(ProfileConstants.NUMBER, pagination, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -140,17 +141,17 @@ class ITFeeRepositoryfindAllForProfileForMember {
     @PositiveFeeType
     @ActiveMember
     @NotPaidFee
-    void testFindAllForProfile_Active_NotPaid() {
+    void testFindAllForMember_Active_NotPaid() {
         final Page<Fee>  fees;
         final Pagination pagination;
         final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
-        sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
+        sorting = new Sorting(List.of());
 
         // WHEN
-        fees = repository.findAllForProfile(ProfileConstants.NUMBER, pagination, sorting);
+        fees = repository.findAllForMember(ProfileConstants.NUMBER, pagination, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -165,17 +166,17 @@ class ITFeeRepositoryfindAllForProfileForMember {
     @PositiveFeeType
     @ActiveMember
     @PaidFee
-    void testFindAllForProfile_Active_Paid() {
+    void testFindAllForMember_Active_Paid() {
         final Page<Fee>  fees;
         final Pagination pagination;
         final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
-        sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
+        sorting = new Sorting(List.of());
 
         // WHEN
-        fees = repository.findAllForProfile(ProfileConstants.NUMBER, pagination, sorting);
+        fees = repository.findAllForMember(ProfileConstants.NUMBER, pagination, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -190,17 +191,17 @@ class ITFeeRepositoryfindAllForProfileForMember {
     @PositiveFeeType
     @ActiveMember
     @PaidFee
-    void testFindAllForProfile_Active_WrongMember() {
+    void testFindAllForMember_Active_WrongMember() {
         final Page<Fee>  fees;
         final Pagination pagination;
         final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
-        sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
+        sorting = new Sorting(List.of());
 
         // WHEN
-        fees = repository.findAllForProfile(-1L, pagination, sorting);
+        fees = repository.findAllForMember(-1L, pagination, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -215,17 +216,17 @@ class ITFeeRepositoryfindAllForProfileForMember {
     @PositiveFeeType
     @InactiveMember
     @NotPaidFee
-    void testFindAllForProfile_Inactive_NotPaid() {
+    void testFindAllForMember_Inactive_NotPaid() {
         final Page<Fee>  fees;
         final Pagination pagination;
         final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
-        sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
+        sorting = new Sorting(List.of());
 
         // WHEN
-        fees = repository.findAllForProfile(ProfileConstants.NUMBER, pagination, sorting);
+        fees = repository.findAllForMember(ProfileConstants.NUMBER, pagination, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -240,17 +241,17 @@ class ITFeeRepositoryfindAllForProfileForMember {
     @PositiveFeeType
     @InactiveMember
     @PaidFee
-    void testFindAllForProfile_Inactive_Paid() {
+    void testFindAllForMember_Inactive_Paid() {
         final Page<Fee>  fees;
         final Pagination pagination;
         final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
-        sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
+        sorting = new Sorting(List.of());
 
         // WHEN
-        fees = repository.findAllForProfile(ProfileConstants.NUMBER, pagination, sorting);
+        fees = repository.findAllForMember(ProfileConstants.NUMBER, pagination, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -258,6 +259,75 @@ class ITFeeRepositoryfindAllForProfileForMember {
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("fees")
             .containsExactly(Fees.paid());
+    }
+
+    @Test
+    @DisplayName("With no data, it returns nothing")
+    void testFindAllForMember_NoData() {
+        final Page<Fee>  fees;
+        final Pagination pagination;
+        final Sorting    sorting;
+
+        // GIVEN
+        pagination = new Pagination(1, 20);
+        sorting = new Sorting(List.of());
+
+        // WHEN
+        fees = repository.findAllForMember(ProfileConstants.NUMBER, pagination, sorting);
+
+        // THEN
+        Assertions.assertThat(fees)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .as("fees")
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("With no fee it returns nothing")
+    @PositiveFeeType
+    @ActiveMember
+    void testFindAllForMember_NoFee() {
+        final Page<Fee>  fees;
+        final Pagination pagination;
+        final Sorting    sorting;
+
+        // GIVEN
+        pagination = new Pagination(1, 20);
+        sorting = new Sorting(List.of());
+
+        // WHEN
+        fees = repository.findAllForMember(ProfileConstants.NUMBER, pagination, sorting);
+
+        // THEN
+        Assertions.assertThat(fees)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .as("fees")
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("With a profile with no membership, it returns nothing")
+    @ValidProfile
+    void testFindAllForMember_NoMembership() {
+        final Page<Fee>  fees;
+        final Pagination pagination;
+        final Sorting    sorting;
+
+        // GIVEN
+        pagination = new Pagination(1, 20);
+        sorting = new Sorting(List.of());
+
+        // WHEN
+        fees = repository.findAllForMember(ProfileConstants.NUMBER, pagination, sorting);
+
+        // THEN
+        Assertions.assertThat(fees)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .as("fees")
+            .isEmpty();
     }
 
 }

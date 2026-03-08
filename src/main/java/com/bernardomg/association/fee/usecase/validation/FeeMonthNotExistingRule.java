@@ -71,7 +71,6 @@ public final class FeeMonthNotExistingRule implements FieldRule<Fee> {
         existing = feeRepository.exists(member.number(), fee.month());
         if (existing) {
             log.error("Fee for month {} already exists for by {}", fee.month(), member.number());
-            // TODO: this is not a field in the model
             fieldFailure = new FieldFailure("existing", "month", fee.month());
             failure = Optional.of(fieldFailure);
         } else {

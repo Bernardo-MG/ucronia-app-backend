@@ -43,6 +43,21 @@ public final class SponsorEntities {
         entity.setId(1L);
         entity.setProfile(ProfileEntities.valid());
         entity.setYears(List.of(SponsorConstants.YEAR));
+        entity.getProfile()
+            .setTypes(Set.of(SponsorEntityConstants.PROFILE_TYPE));
+
+        return entity;
+    }
+
+    public static final SponsorEntity withEmail() {
+        final SponsorEntity entity;
+
+        entity = new SponsorEntity();
+        entity.setId(1L);
+        entity.setProfile(ProfileEntities.withEmail());
+        entity.setYears(List.of(SponsorConstants.YEAR));
+        entity.getProfile()
+            .setTypes(Set.of(SponsorEntityConstants.PROFILE_TYPE));
 
         return entity;
     }

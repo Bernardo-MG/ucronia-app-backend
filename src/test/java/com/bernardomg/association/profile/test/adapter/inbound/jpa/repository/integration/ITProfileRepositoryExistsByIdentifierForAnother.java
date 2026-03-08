@@ -42,7 +42,7 @@ class ITProfileRepositoryExistsByIdentifierForAnother {
     private ProfileRepository repository;
 
     @Test
-    @DisplayName("With another user, it exists")
+    @DisplayName("With another profile, it exists")
     @ValidProfile
     void testExists_AnotherUser() {
         final boolean exists;

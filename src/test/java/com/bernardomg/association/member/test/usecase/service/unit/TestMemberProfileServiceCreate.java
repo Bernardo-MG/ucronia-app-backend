@@ -28,6 +28,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -36,14 +37,22 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
+import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.member.test.configuration.factory.MemberProfiles;
 import com.bernardomg.association.member.usecase.service.DefaultMemberProfileService;
+import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
+import com.bernardomg.validation.domain.model.FieldFailure;
+import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultMemberProfileService - create")
 class TestMemberProfileServiceCreate {
+
+    @Mock
+    private ContactMethodRepository     contactMethodRepository;
 
     @Mock
     private FeeTypeRepository           feeTypeRepository;
@@ -59,48 +68,73 @@ class TestMemberProfileServiceCreate {
     }
 
     @Test
-    @DisplayName("With a guest having padding whitespaces in first and last name, these whitespaces are removed and the profile is persisted")
+    @DisplayName("With a member with an existing identifier, an exception is thrown")
+    void testCreate_IdentifierExists() {
+        final ThrowingCallable execution;
+        final MemberProfile    member;
+
+        // GIVEN
+        member = MemberProfiles.active();
+
+        given(feeTypeRepository.exists(FeeConstants.FEE_TYPE_NUMBER)).willReturn(true);
+        given(memberProfileRepository.existsByIdentifier(ProfileConstants.IDENTIFIER)).willReturn(true);
+
+        // WHEN
+        execution = () -> service.create(member);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution,
+            new FieldFailure("existing", "identifier", ProfileConstants.IDENTIFIER));
+    }
+
+    @Test
+    @DisplayName("With a member having padding whitespaces in first and last name, these whitespaces are removed and the profile is persisted")
     void testCreate_Padded_PersistedData() {
-        final MemberProfile guest;
+        final MemberProfile member;
 
         // GIVEN
-        guest = MemberProfiles.padded();
+        member = MemberProfiles.padded();
+
+        given(feeTypeRepository.exists(FeeConstants.FEE_TYPE_NUMBER)).willReturn(true);
 
         // WHEN
-        service.create(guest);
+        service.create(member);
 
         // THEN
         verify(memberProfileRepository).save(MemberProfiles.active());
     }
 
     @Test
-    @DisplayName("With a valid guest, the profile is persisted")
+    @DisplayName("With a valid member, the profile is persisted")
     void testCreate_PersistedData() {
-        final MemberProfile guest;
+        final MemberProfile member;
 
         // GIVEN
-        guest = MemberProfiles.active();
+        member = MemberProfiles.active();
+
+        given(feeTypeRepository.exists(FeeConstants.FEE_TYPE_NUMBER)).willReturn(true);
 
         // WHEN
-        service.create(guest);
+        service.create(member);
 
         // THEN
         verify(memberProfileRepository).save(MemberProfiles.active());
     }
 
     @Test
-    @DisplayName("With a valid guest, the created profile is returned")
+    @DisplayName("With a valid member, the created profile is returned")
     void testCreate_ReturnedData() {
-        final MemberProfile guest;
+        final MemberProfile member;
         final MemberProfile created;
 
         // GIVEN
-        guest = MemberProfiles.active();
+        member = MemberProfiles.active();
 
-        given(memberProfileRepository.save(guest)).willReturn(MemberProfiles.active());
+        given(memberProfileRepository.save(member)).willReturn(MemberProfiles.active());
+        given(feeTypeRepository.exists(FeeConstants.FEE_TYPE_NUMBER)).willReturn(true);
 
         // WHEN
-        created = service.create(guest);
+        created = service.create(member);
 
         // THEN
         Assertions.assertThat(created)

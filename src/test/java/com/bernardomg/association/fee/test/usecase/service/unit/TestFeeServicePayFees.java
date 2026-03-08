@@ -92,22 +92,26 @@ class TestFeeServicePayFees {
     private TransactionRepository   transactionRepository;
 
     @Test
-    @DisplayName("With duplicated dates, it throws an exception")
+    @DisplayName("With duplicated dates, they are removed")
     void testPayFees_DuplicatedDates() {
-        final ThrowingCallable execution;
-        final FieldFailure     failure;
+        final Collection<Fee> fees;
 
         // GIVEN
         given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
             .willReturn(Optional.of(MemberProfiles.active()));
+        given(feeRepository.save(ArgumentMatchers.anyCollection())).willReturn(List.of(Fees.paid()));
+        given(feeTypeRepository.findOne(FeeTypeConstants.NUMBER)).willReturn(Optional.of(FeeTypes.positive()));
+        given(messageSource.getMessage(any(), any(), any())).willReturn("", TransactionConstants.DESCRIPTION);
+        given(transactionRepository.findNextIndex()).willReturn(TransactionConstants.INDEX);
+        given(transactionRepository.save(Transactions.positive())).willReturn(Transactions.positive());
 
         // WHEN
-        execution = () -> service.payFees(FeesPayments.duplicated());
+        fees = service.payFees(FeesPayments.duplicated());
 
         // THEN
-        failure = new FieldFailure("duplicated", "months[]", "months[].duplicated", 1L);
-
-        ValidationAssertions.assertThatFieldFails(execution, failure);
+        Assertions.assertThat(fees)
+            .as("fees")
+            .containsExactly(Fees.paid());
     }
 
     @Test

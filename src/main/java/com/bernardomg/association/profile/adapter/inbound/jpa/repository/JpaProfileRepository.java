@@ -25,10 +25,8 @@
 package com.bernardomg.association.profile.adapter.inbound.jpa.repository;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicLong;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -160,21 +158,15 @@ public final class JpaProfileRepository implements ProfileRepository {
 
     @Override
     public final Profile save(final Profile profile) {
-        final Optional<ProfileEntity>   existing;
-        final ProfileEntity             entity;
-        final Profile                   created;
-        final List<Long>                contactMethodNumbers;
-        final List<ContactMethodEntity> contactMethods;
-        final Long                      number;
+        final Optional<ProfileEntity>         existing;
+        final ProfileEntity                   entity;
+        final Profile                         created;
+        final Collection<ContactMethodEntity> contactMethods;
+        final Long                            number;
 
         log.debug("Saving profile {}", profile);
 
-        contactMethodNumbers = profile.contactChannels()
-            .stream()
-            .map(ContactChannel::contactMethod)
-            .map(ContactMethod::number)
-            .toList();
-        contactMethods = contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
+        contactMethods = getContactMethods(profile);
         entity = ProfileEntityMapper.toEntity(profile, contactMethods);
 
         existing = profileSpringRepository.findByNumber(profile.number());
@@ -196,53 +188,15 @@ public final class JpaProfileRepository implements ProfileRepository {
         return created;
     }
 
-    @Override
-    public final Collection<Profile> saveAll(final Collection<Profile> profiles) {
-        final List<ProfileEntity>       entities;
-        final List<Profile>             saved;
-        final List<Long>                contactMethodNumbers;
-        final List<ContactMethodEntity> contactMethods;
-        final AtomicLong                number;
+    private final Collection<ContactMethodEntity> getContactMethods(final Profile profile) {
+        final Collection<Long> contactMethodNumbers;
 
-        log.debug("Saving profiles {}", profiles);
-
-        contactMethodNumbers = profiles.stream()
-            .map(Profile::contactChannels)
-            .flatMap(Collection::stream)
+        contactMethodNumbers = profile.contactChannels()
+            .stream()
             .map(ContactChannel::contactMethod)
             .map(ContactMethod::number)
             .toList();
-        contactMethods = contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
-
-        number = new AtomicLong(profileSpringRepository.findNextNumber());
-        entities = profiles.stream()
-            .map(m -> convert(m, contactMethods, number))
-            .toList();
-
-        saved = profileSpringRepository.saveAll(entities)
-            .stream()
-            .map(ProfileEntityMapper::toDomain)
-            .toList();
-
-        log.debug("Saved profiles {}", saved);
-
-        return saved;
-    }
-
-    private final ProfileEntity convert(final Profile profile, final List<ContactMethodEntity> contactMethods,
-            final AtomicLong number) {
-        final Optional<ProfileEntity> existing;
-        final ProfileEntity           entity;
-
-        existing = profileSpringRepository.findByNumber(profile.number());
-        if (existing.isPresent()) {
-            entity = ProfileEntityMapper.toEntity(profile, contactMethods, existing.get());
-        } else {
-            entity = ProfileEntityMapper.toEntity(profile, contactMethods);
-            entity.setNumber(number.getAndIncrement());
-        }
-
-        return entity;
+        return contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
     }
 
 }
