@@ -517,7 +517,7 @@
             Avoid replacing existing config on start.
          </action>
       </release>
-      <release version="0.6.16" date="2026-03-08" description="">
+      <release version="0.6.16" date="2026-03-08" description="Fixes">
          <action dev="bmg" type="fix">
             Several fixes.
          </action>
@@ -527,6 +527,8 @@
          <action dev="bmg" type="fix">
             Fixed error on null date in library report.
          </action>
+      </release>
+      <release version="1.0.0" date="2026-03-08" description="">
       </release>
    </body>
 </document>
