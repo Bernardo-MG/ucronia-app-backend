@@ -27,9 +27,7 @@ package com.bernardomg.association.profile.adapter.inbound.jpa.model;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Optional;
-import java.util.Set;
 
-import com.bernardomg.association.profile.domain.exception.MissingContactMethodException;
 import com.bernardomg.association.profile.domain.model.Profile;
 import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
 import com.bernardomg.association.profile.domain.model.ProfileName;
@@ -88,42 +86,6 @@ public final class ProfileEntityMapper {
         return entity;
     }
 
-    public static final ProfileEntity toEntity(final Profile data, final Collection<ContactMethodEntity> contactMethods,
-            final ProfileEntity entity) {
-        final Collection<ContactChannelEntity> contactChannels;
-        final Set<String>                      types;
-
-        entity.setNumber(data.number());
-        entity.setFirstName(data.name()
-            .firstName());
-        entity.setLastName(data.name()
-            .lastName());
-        entity.setIdentifier(data.identifier());
-        entity.setBirthDate(data.birthDate());
-        entity.setAddress(data.address());
-        entity.setAddress(data.address());
-        entity.setComments(data.comments());
-
-        contactChannels = data.contactChannels()
-            .stream()
-            .map(c -> toEntity(entity, c, contactMethods))
-            .toList();
-        if (entity.getContactChannels() != null) {
-            entity.getContactChannels()
-                .clear();
-            entity.getContactChannels()
-                .addAll(contactChannels);
-        } else {
-            entity.setContactChannels(contactChannels);
-        }
-
-        types = new HashSet<>(data.types());
-        types.addAll(entity.getTypes());
-        entity.setTypes(types);
-
-        return entity;
-    }
-
     private static final ContactChannelEntity toEntity(final ProfileEntity contact, final ContactChannel data,
             final Collection<ContactMethodEntity> contactMethods) {
         final ContactChannelEntity          entity;
@@ -134,12 +96,6 @@ public final class ProfileEntityMapper {
                 .equals(data.contactMethod()
                     .number()))
             .findFirst();
-
-        // TODO: do this outside
-        if (contactMethod.isEmpty()) {
-            throw new MissingContactMethodException(data.contactMethod()
-                .number());
-        }
 
         entity = new ContactChannelEntity();
         entity.setProfile(contact);

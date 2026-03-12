@@ -34,7 +34,6 @@ import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactChann
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactChannelEntityMapper;
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactMethodEntity;
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
-import com.bernardomg.association.profile.domain.exception.MissingContactMethodException;
 import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
 import com.bernardomg.association.profile.domain.model.ProfileName;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
@@ -157,12 +156,6 @@ public final class SponsorEntityMapper {
                 .equals(data.contactMethod()
                     .number()))
             .findFirst();
-
-        // TODO: do this outside
-        if (contactMethod.isEmpty()) {
-            throw new MissingContactMethodException(data.contactMethod()
-                .number());
-        }
 
         entity = new ContactChannelEntity();
         entity.setProfile(profile);
