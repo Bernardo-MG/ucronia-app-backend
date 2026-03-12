@@ -326,7 +326,6 @@ class ITFeeRepositoryGetAllFilter {
         pagination = new Pagination(1, 20);
         sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
 
-        // TODO: use constants for the dates
         feeQuery = FeesQuery.to(FeeConstants.DATE);
 
         // WHEN

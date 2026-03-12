@@ -14,7 +14,6 @@ public final class Settings {
     }
 
     public static final Setting intValue() {
-        // TODO: shouldn't all use the code constant?
         return new Setting(SettingConstants.NUMBER_TYPE, SettingConstants.CODE, SettingConstants.NUMBER_VALUE);
     }
 

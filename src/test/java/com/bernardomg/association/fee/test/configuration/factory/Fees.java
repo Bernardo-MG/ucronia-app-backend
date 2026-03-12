@@ -121,7 +121,6 @@ public final class Fees {
         name = new ProfileName("Profile " + index, "Last name " + index);
         feeType = new Fee.FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME,
             FeeConstants.FEE_TYPE_AMOUNT);
-        // TODO: check this number, it should use a constant
         return Fee.unpaid(YearMonth.of(FeeConstants.YEAR_VALUE, month), index * 10, name, feeType);
     }
 
@@ -288,7 +287,6 @@ public final class Fees {
         feeType = new Fee.FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME,
             FeeConstants.FEE_TYPE_AMOUNT);
         transaction = new Fee.Transaction((long) month, FeeConstants.PAYMENT_DATE);
-        // TODO: don't use member calendar
         return Fee.paid(YearMonth.of(FeeConstants.PREVIOUS_YEAR_TO_DEFAULT.getValue(), month), ProfileConstants.NUMBER,
             name, feeType, transaction);
     }

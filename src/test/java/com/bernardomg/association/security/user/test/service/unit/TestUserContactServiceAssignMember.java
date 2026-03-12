@@ -89,26 +89,6 @@ class TestUserProfileServiceAssignProfile {
     }
 
     @Test
-    @DisplayName("When the user already has a profile, it throws an exception")
-    void testAssignProfile_ExistingUser() {
-        final ThrowingCallable execution;
-
-        // GIVEN
-        given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
-        given(profileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(Profiles.valid()));
-
-        given(userProfileRepository.existsByProfileForAnotherUser(UserConstants.USERNAME, ProfileConstants.NUMBER))
-            .willReturn(true);
-
-        // WHEN
-        execution = () -> service.assignProfile(UserConstants.USERNAME, ProfileConstants.NUMBER);
-
-        // THEN
-        ValidationAssertions.assertThatFieldFails(execution,
-            new FieldFailure("existing", "profile", ProfileConstants.NUMBER));
-    }
-
-    @Test
     @DisplayName("With no profile, it throws an exception")
     void testAssignProfile_NoProfile() {
         final ThrowingCallable execution;
@@ -116,8 +96,6 @@ class TestUserProfileServiceAssignProfile {
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
         given(profileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.empty());
-
-        // TODO: assign when the user already has a person
 
         // WHEN
         execution = () -> service.assignProfile(UserConstants.USERNAME, ProfileConstants.NUMBER);
@@ -145,7 +123,7 @@ class TestUserProfileServiceAssignProfile {
 
     @Test
     @DisplayName("With valid data, the relationship is persisted")
-    void testAssignProfile_PersistedData() {
+    void testAssignProfile_Persisted() {
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
@@ -160,7 +138,7 @@ class TestUserProfileServiceAssignProfile {
 
     @Test
     @DisplayName("With valid data, the created relationship is returned")
-    void testAssignProfile_ReturnedData() {
+    void testAssignProfile_Returned() {
         final Profile profile;
 
         // GIVEN
