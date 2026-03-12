@@ -31,7 +31,6 @@ public final class SettingsLoader implements Runnable {
         codes = List.of(AssociationSettingsKey.EMAIL, AssociationSettingsKey.GOOGLE_MAPS,
             AssociationSettingsKey.INSTAGRAM, AssociationSettingsKey.TEAMUP);
         for (final String code : codes) {
-            // TODO: save as a list
             settings = new ArrayList<>();
             if (!settingRepository.exists(code)) {
                 setting = new Setting("string", code, "");
