@@ -300,7 +300,22 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     @Override
-    public final Collection<Fee> save(final Collection<Fee> fees) {
+    public final Fee save(final Fee fee) {
+        final FeeEntity entity;
+        final FeeEntity saved;
+
+        log.debug("Saving fee {}", fee);
+
+        entity = toEntity(fee);
+        saved = feeSpringRepository.save(entity);
+
+        log.debug("Saved fee {}", fee);
+
+        return FeeEntityMapper.toDomain(saved);
+    }
+
+    @Override
+    public final Collection<Fee> saveAll(final Collection<Fee> fees) {
         final Collection<FeeEntity> entities;
         final Collection<Fee>       saved;
 
@@ -309,7 +324,6 @@ public final class JpaFeeRepository implements FeeRepository {
         // TODO: get types and members once
         entities = fees.stream()
             .map(this::toEntity)
-            .map(this::loadId)
             .toList();
         saved = feeSpringRepository.saveAll(entities)
             .stream()
@@ -319,22 +333,6 @@ public final class JpaFeeRepository implements FeeRepository {
         log.debug("Saved fees {}", fees);
 
         return saved;
-    }
-
-    @Override
-    public final Fee save(final Fee fee) {
-        final FeeEntity entity;
-        final FeeEntity saved;
-
-        log.debug("Saving fee {}", fee);
-
-        entity = toEntity(fee);
-        loadId(entity);
-        saved = feeSpringRepository.save(entity);
-
-        log.debug("Saved fee {}", fee);
-
-        return FeeEntityMapper.toDomain(saved);
     }
 
     private final Sorting fixSorting(final Sorting sorting) {
@@ -353,26 +351,13 @@ public final class JpaFeeRepository implements FeeRepository {
         return new Sorting(properties);
     }
 
-    private final FeeEntity loadId(final FeeEntity fee) {
-        final Long                id;
-        final Optional<FeeEntity> read;
-
-        // TODO: optimize to use a single query
-        read = feeSpringRepository.findByMemberIdAndMonth(fee.getMember()
-            .getId(), fee.getMonth());
-        if (read.isPresent()) {
-            id = read.get()
-                .getId();
-            fee.setId(id);
-        }
-
-        return fee;
-    }
-
     private final FeeEntity toEntity(final Fee fee) {
+        final Optional<FeeEntity>           existing;
         final Optional<MemberProfileEntity> member;
         final Optional<FeeTypeEntity>       feeType;
         final Optional<TransactionEntity>   transaction;
+        final FeeEntity                     entity;
+        final Instant                       month;
 
         member = memberProfileSpringRepository.findByNumber(fee.member()
             .number());
@@ -407,7 +392,19 @@ public final class JpaFeeRepository implements FeeRepository {
             transaction = Optional.empty();
         }
 
-        return FeeEntityMapper.toEntity(fee, member.get(), feeType.get(), transaction);
+        month = fee.month()
+            .atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
+        existing = feeSpringRepository.findByMemberProfileNumberAndMonth(fee.member()
+            .number(), month);
+        if (existing.isPresent()) {
+            entity = FeeEntityMapper.toEntity(existing.get(), member.get(), feeType.get(), transaction);
+        } else {
+            entity = FeeEntityMapper.toEntity(fee, member.get(), feeType.get(), transaction);
+        }
+
+        return entity;
     }
 
 }

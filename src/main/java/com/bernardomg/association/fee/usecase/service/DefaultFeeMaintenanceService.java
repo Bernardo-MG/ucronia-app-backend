@@ -98,7 +98,7 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
             .filter(this::notExists)
             .toList();
 
-        feeRepository.save(feesToCreate);
+        feeRepository.saveAll(feesToCreate);
 
         log.debug("Registered {} fees for this month", feesToCreate.size());
     }

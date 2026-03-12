@@ -126,19 +126,12 @@ public final class JpaSettingsRepository implements SettingRepository {
 
     @Override
     public final Setting save(final Setting setting) {
-        final SettingsEntity           entity;
-        final SettingsEntity           saved;
-        final Optional<SettingsEntity> existing;
+        final SettingsEntity entity;
+        final SettingsEntity saved;
 
         log.trace("Saving setting {}", setting);
 
-        entity = SettingsEntityMapper.toEntity(setting);
-
-        existing = settingSpringRepository.findByCode(setting.code());
-        if (existing.isPresent()) {
-            entity.setId(existing.get()
-                .getId());
-        }
+        entity = toEntity(setting);
 
         saved = settingSpringRepository.save(entity);
 
@@ -155,7 +148,7 @@ public final class JpaSettingsRepository implements SettingRepository {
         log.trace("Saving settings {}", settings);
 
         entities = settings.stream()
-            .map(this::convert)
+            .map(this::toEntity)
             .toList();
 
         saved = settingSpringRepository.saveAll(entities)
@@ -168,7 +161,7 @@ public final class JpaSettingsRepository implements SettingRepository {
         return saved;
     }
 
-    private final SettingsEntity convert(final Setting setting) {
+    private final SettingsEntity toEntity(final Setting setting) {
         final Optional<SettingsEntity> existing;
         final SettingsEntity           entity;
 

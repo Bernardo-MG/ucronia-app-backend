@@ -133,17 +133,6 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
     public FeeSummary findBalanceForMonth(@Param("monthStart") Instant monthStart);
 
     /**
-     * Finds the fee for the member in a month.
-     *
-     * @param memberId
-     *            member to filter by
-     * @param month
-     *            month to filter by
-     * @return fee for the member in a month
-     */
-    public Optional<FeeEntity> findByMemberIdAndMonth(final Long memberId, final Instant month);
-
-    /**
      * Finds the fee for the member in the month.
      *
      * @param number
@@ -162,6 +151,17 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
             """)
     public Optional<FeeEntity> findByMemberNumberAndDate(@Param("number") final Long number,
             @Param("month") final Instant month);
+
+    /**
+     * Finds the fee for the member in a month.
+     *
+     * @param number
+     *            member to filter by
+     * @param month
+     *            month to filter by
+     * @return fee for the member in a month
+     */
+    public Optional<FeeEntity> findByMemberProfileNumberAndMonth(final Long number, final Instant month);
 
     /**
      * Returns all the years based on the existing fees.

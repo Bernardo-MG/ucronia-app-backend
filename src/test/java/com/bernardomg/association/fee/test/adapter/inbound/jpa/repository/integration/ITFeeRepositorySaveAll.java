@@ -28,8 +28,8 @@ import com.bernardomg.association.transaction.test.configuration.factory.Transac
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("FeeRepository - save collection")
-class ITFeeRepositorySaveCollection {
+@DisplayName("FeeRepository - save all")
+class ITFeeRepositorySaveAll {
 
     @Autowired
     private FeeRepository               repository;
@@ -44,7 +44,7 @@ class ITFeeRepositorySaveCollection {
     @DisplayName("When a not paid fee, it is persisted")
     @PositiveFeeType
     @ActiveMember
-    void testSave_NotPaid_PersistedData() {
+    void testSaveAll_NotPaid_PersistedData() {
         final Iterable<FeeEntity> fees;
         final Fee                 fee;
 
@@ -52,7 +52,7 @@ class ITFeeRepositorySaveCollection {
         fee = Fees.notPaid();
 
         // WHEN
-        repository.save(List.of(fee));
+        repository.saveAll(List.of(fee));
 
         // THEN
         fees = springRepository.findAll();
@@ -68,7 +68,7 @@ class ITFeeRepositorySaveCollection {
     @DisplayName("When a not paid fee, it is returned")
     @PositiveFeeType
     @ActiveMember
-    void testSave_NotPaid_ReturnedData() {
+    void testSaveAll_NotPaid_ReturnedData() {
         final Collection<Fee> created;
         final Fee             fee;
 
@@ -76,7 +76,7 @@ class ITFeeRepositorySaveCollection {
         fee = Fees.notPaid();
 
         // WHEN
-        created = repository.save(List.of(fee));
+        created = repository.saveAll(List.of(fee));
 
         // THEN
         Assertions.assertThat(created)
@@ -90,7 +90,7 @@ class ITFeeRepositorySaveCollection {
     @ActiveMember
     @FeeTransaction
     @NotPaidFee
-    void testSave_Paid_ChangeDate_PersistedData() {
+    void testSaveAll_Paid_ChangeDate_PersistedData() {
         final Iterable<FeeEntity> fees;
         final Fee                 fee;
         final Instant             date;
@@ -102,7 +102,7 @@ class ITFeeRepositorySaveCollection {
         fee = Fees.paidAtDate(date);
 
         // WHEN
-        repository.save(List.of(fee));
+        repository.saveAll(List.of(fee));
 
         // THEN
         fees = springRepository.findAll();
@@ -119,7 +119,7 @@ class ITFeeRepositorySaveCollection {
     @PositiveFeeType
     @ActiveMember
     @PaidFee
-    void testSave_Paid_ChangeDate_PersistedTransaction() {
+    void testSaveAll_Paid_ChangeDate_PersistedTransaction() {
         final Fee                         fee;
         final Instant                     date;
         final Iterable<TransactionEntity> transactions;
@@ -131,7 +131,7 @@ class ITFeeRepositorySaveCollection {
         fee = Fees.paidAtDate(date);
 
         // WHEN
-        repository.save(List.of(fee));
+        repository.saveAll(List.of(fee));
 
         // THEN
         transactions = transactionSpringRepository.findAll();
@@ -150,7 +150,7 @@ class ITFeeRepositorySaveCollection {
     @ActiveMember
     @FeeTransaction
     @NotPaidFee
-    void testSave_Paid_ChangeDate_ReturnedData() {
+    void testSaveAll_Paid_ChangeDate_ReturnedData() {
         final Iterable<Fee> created;
         final Fee           fee;
         final Instant       date;
@@ -162,7 +162,7 @@ class ITFeeRepositorySaveCollection {
         fee = Fees.paidAtDate(date);
 
         // WHEN
-        created = repository.save(List.of(fee));
+        created = repository.saveAll(List.of(fee));
 
         // THEN
 
@@ -177,7 +177,7 @@ class ITFeeRepositorySaveCollection {
     @PositiveFeeType
     @ActiveMember
     @FeeTransaction
-    void testSave_Paid_PersistedData() {
+    void testSaveAll_Paid_PersistedData() {
         final Iterable<FeeEntity> fees;
         final Fee                 fee;
 
@@ -185,7 +185,7 @@ class ITFeeRepositorySaveCollection {
         fee = Fees.paid();
 
         // WHEN
-        repository.save(List.of(fee));
+        repository.saveAll(List.of(fee));
 
         // THEN
         fees = springRepository.findAll();
@@ -202,7 +202,7 @@ class ITFeeRepositorySaveCollection {
     @PositiveFeeType
     @ActiveMember
     @FeeTransaction
-    void testSave_Paid_PersistedRelationship() {
+    void testSaveAll_Paid_PersistedRelationship() {
         final Fee               fee;
         final FeeEntity         feeEntity;
         final TransactionEntity transactionEntity;
@@ -211,7 +211,7 @@ class ITFeeRepositorySaveCollection {
         fee = Fees.paid();
 
         // WHEN
-        repository.save(List.of(fee));
+        repository.saveAll(List.of(fee));
 
         // THEN
         feeEntity = springRepository.findAll()
@@ -233,7 +233,7 @@ class ITFeeRepositorySaveCollection {
     @PositiveFeeType
     @ActiveMember
     @FeeTransaction
-    void testSave_Paid_PersistedTransaction() {
+    void testSaveAll_Paid_PersistedTransaction() {
         final Iterable<TransactionEntity> transactions;
         final Fee                         fee;
 
@@ -241,7 +241,7 @@ class ITFeeRepositorySaveCollection {
         fee = Fees.paid();
 
         // WHEN
-        repository.save(List.of(fee));
+        repository.saveAll(List.of(fee));
 
         // THEN
         transactions = transactionSpringRepository.findAll();
@@ -257,7 +257,7 @@ class ITFeeRepositorySaveCollection {
     @PositiveFeeType
     @ActiveMember
     @FeeTransaction
-    void testSave_Paid_ReturnedData() {
+    void testSaveAll_Paid_ReturnedData() {
         final Collection<Fee> fees;
         final Fee             fee;
 
@@ -265,7 +265,7 @@ class ITFeeRepositorySaveCollection {
         fee = Fees.paid();
 
         // WHEN
-        fees = repository.save(List.of(fee));
+        fees = repository.saveAll(List.of(fee));
 
         // THEN
         Assertions.assertThat(fees)

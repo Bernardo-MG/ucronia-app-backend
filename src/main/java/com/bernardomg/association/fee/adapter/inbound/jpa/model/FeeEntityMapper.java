@@ -113,6 +113,24 @@ public final class FeeEntityMapper {
         return entity;
     }
 
+    public static final FeeEntity toEntity(final FeeEntity entity, final MemberProfileEntity member,
+            final FeeTypeEntity feeType, final Optional<TransactionEntity> transaction) {
+        final Boolean paid;
+
+        if (transaction.isEmpty()) {
+            paid = entity.getPaid();
+        } else {
+            paid = true;
+        }
+
+        entity.setMember(member);
+        entity.setPaid(paid);
+        entity.setFeeType(feeType);
+        entity.setTransaction(transaction.orElse(null));
+
+        return entity;
+    }
+
     private FeeEntityMapper() {
         super();
     }

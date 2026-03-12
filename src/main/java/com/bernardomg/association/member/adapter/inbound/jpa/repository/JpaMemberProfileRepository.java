@@ -229,38 +229,14 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
 
     @Override
     public final MemberProfile save(final MemberProfile memberProfile) {
-        final Optional<MemberProfileEntity>   existing;
-        final MemberProfileEntity             entity;
-        final MemberProfile                   created;
-        final Collection<ContactMethodEntity> contactMethods;
-        final Long                            number;
-        final Optional<FeeTypeEntity>         feeType;
-        final Optional<ProfileEntity>         profile;
+        final MemberProfileEntity entity;
+        final MemberProfile       created;
+        final Long                number;
 
         log.debug("Saving member profile {}", memberProfile);
 
-        existing = memberProfileSpringRepository.findByNumber(memberProfile.number());
-        contactMethods = getContactMethods(memberProfile);
-        if (existing.isPresent()) {
-            entity = MemberProfileEntityMapper.toEntity(existing.get(), memberProfile, contactMethods);
-        } else {
-            entity = MemberProfileEntityMapper.toEntity(memberProfile, contactMethods);
-
-            profile = profileSpringRepository.findByNumber(memberProfile.number());
-            if (profile.isPresent()) {
-                entity.setProfile(profile.get());
-            } else {
-                number = memberProfileSpringRepository.findNextNumber();
-                entity.getProfile()
-                    .setNumber(number);
-            }
-        }
-
-        feeType = feeTypeSpringRepository.findByNumber(memberProfile.feeType()
-            .number());
-        entity.setFeeType(feeType.get());
-
-        setType(entity.getProfile());
+        number = memberProfileSpringRepository.findNextNumber();
+        entity = toEntity(memberProfile, number);
 
         created = MemberProfileEntityMapper.toDomain(memberProfileSpringRepository.save(entity));
 
@@ -281,11 +257,8 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
 
         number = new AtomicLong(memberProfileSpringRepository.findNextNumber());
         entities = memberProfiles.stream()
-            .map(m -> toEntity(m, number))
+            .map(m -> toEntity(m, number.getAndIncrement()))
             .toList();
-
-        entities.stream()
-            .forEach(m -> setType(m.getProfile()));
 
         saved = memberProfileSpringRepository.saveAll(entities)
             .stream()
@@ -333,11 +306,12 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
         }
     }
 
-    private final MemberProfileEntity toEntity(final MemberProfile memberProfile, final AtomicLong number) {
+    private final MemberProfileEntity toEntity(final MemberProfile memberProfile, final Long number) {
         final Optional<MemberProfileEntity>   existing;
         final MemberProfileEntity             entity;
         final Collection<ContactMethodEntity> contactMethods;
         final Optional<FeeTypeEntity>         feeType;
+        final Optional<ProfileEntity>         profile;
 
         existing = memberProfileSpringRepository.findByNumber(memberProfile.number());
         contactMethods = getContactMethods(memberProfile);
@@ -345,13 +319,21 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
             entity = MemberProfileEntityMapper.toEntity(existing.get(), memberProfile, contactMethods);
         } else {
             entity = MemberProfileEntityMapper.toEntity(memberProfile, contactMethods);
-            entity.getProfile()
-                .setNumber(number.getAndIncrement());
+
+            profile = profileSpringRepository.findByNumber(memberProfile.number());
+            if (profile.isPresent()) {
+                entity.setProfile(profile.get());
+            } else {
+                entity.getProfile()
+                    .setNumber(number);
+            }
         }
 
         feeType = feeTypeSpringRepository.findByNumber(memberProfile.feeType()
             .number());
         entity.setFeeType(feeType.orElse(null));
+
+        setType(entity.getProfile());
 
         return entity;
     }

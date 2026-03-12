@@ -58,8 +58,8 @@ public interface FeeRepository {
 
     public YearsRange findRange();
 
-    public Collection<Fee> save(final Collection<Fee> fees);
-
     public Fee save(final Fee fee);
+
+    public Collection<Fee> saveAll(final Collection<Fee> fees);
 
 }

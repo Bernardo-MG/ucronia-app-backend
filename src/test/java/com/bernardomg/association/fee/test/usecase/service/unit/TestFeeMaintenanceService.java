@@ -56,7 +56,7 @@ public class TestFeeMaintenanceService {
         service.registerMonthFees();
 
         // THEN
-        verify(feeRepository).save(List.of(Fees.notPaidCurrentMonth()));
+        verify(feeRepository).saveAll(List.of(Fees.notPaidCurrentMonth()));
     }
 
     @Test
@@ -72,7 +72,7 @@ public class TestFeeMaintenanceService {
         service.registerMonthFees();
 
         // THEN
-        verify(feeRepository).save(List.of());
+        verify(feeRepository).saveAll(List.of());
     }
 
     @Test
@@ -103,7 +103,7 @@ public class TestFeeMaintenanceService {
         service.registerMonthFees();
 
         // THEN
-        verify(feeRepository).save(List.of());
+        verify(feeRepository).saveAll(List.of());
     }
 
     @Test
@@ -119,7 +119,7 @@ public class TestFeeMaintenanceService {
         service.registerMonthFees();
 
         // THEN
-        verify(feeRepository).save(List.of(Fees.paidNoTransactionCurrentMonth()));
+        verify(feeRepository).saveAll(List.of(Fees.paidNoTransactionCurrentMonth()));
     }
 
 }

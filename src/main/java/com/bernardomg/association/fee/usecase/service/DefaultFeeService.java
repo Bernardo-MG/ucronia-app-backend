@@ -338,7 +338,7 @@ public final class DefaultFeeService implements FeeService {
             .map(month -> toPaidFee(member.feeType(), member, month, transaction))
             .toList();
 
-        created = feeRepository.save(feesToSave);
+        created = feeRepository.saveAll(feesToSave);
 
         // Send events for paid fees
         created.stream()
