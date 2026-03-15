@@ -8,6 +8,8 @@ import java.time.ZoneOffset;
 
 public final class BookConstants {
 
+    public static final String  CHANGED_TITLE      = "Title 123";
+
     public static final Instant DONATION_DATE      = LocalDate.of(1995, Month.JANUARY, 2)
         .atStartOfDay(ZoneOffset.UTC)
         .toInstant();

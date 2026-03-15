@@ -87,14 +87,14 @@ class ITSponsorRepositorySave {
     }
 
     @Test
-    @DisplayName("When a sponsor exists, the sponsor is persisted")
+    @DisplayName("When a sponsor name is changed, the sponsor is persisted")
     @ValidSponsor
-    void testSave_Existing_PersistedData() {
+    void testSave_Existing_ChangeName_PersistedData() {
         final Sponsor                 sponsor;
         final Iterable<SponsorEntity> entities;
 
         // GIVEN
-        sponsor = Sponsors.valid();
+        sponsor = Sponsors.firstNameChange();
 
         // WHEN
         repository.save(sponsor);
@@ -106,7 +106,26 @@ class ITSponsorRepositorySave {
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.contactChannels.id",
                 "profile.contactChannels.profileId", "profile.contactChannels.profile")
-            .containsExactly(SponsorEntities.created());
+            .containsExactly(SponsorEntities.firstNameChange());
+    }
+
+    @Test
+    @DisplayName("When a sponsor name is changed, the created sponsor is returned")
+    @ValidSponsor
+    void testSave_Existing_ChangeName_ReturnedData() {
+        final Sponsor sponsor;
+        final Sponsor saved;
+
+        // GIVEN
+        sponsor = Sponsors.firstNameChange();
+
+        // WHEN
+        saved = repository.save(sponsor);
+
+        // THEN
+        Assertions.assertThat(saved)
+            .as("sponsor")
+            .isEqualTo(Sponsors.firstNameChange());
     }
 
     @Test
@@ -133,28 +152,9 @@ class ITSponsorRepositorySave {
     }
 
     @Test
-    @DisplayName("When a sponsor exists, the created sponsor is returned")
-    @ValidSponsor
-    void testSave_Existing_ReturnedData() {
-        final Sponsor sponsor;
-        final Sponsor saved;
-
-        // GIVEN
-        sponsor = Sponsors.valid();
-
-        // WHEN
-        saved = repository.save(sponsor);
-
-        // THEN
-        Assertions.assertThat(saved)
-            .as("sponsor")
-            .isEqualTo(Sponsors.valid());
-    }
-
-    @Test
     @DisplayName("When a sponsor doesn't exist but the profile does, the sponsor is persisted")
     @ValidProfile
-    void testSave_ExistingProfile_PersistedData() {
+    void testSave_ExistingProfile_ChangeName_PersistedData() {
         final Sponsor                 sponsor;
         final Iterable<SponsorEntity> entities;
 

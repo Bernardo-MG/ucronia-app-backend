@@ -81,6 +81,19 @@ public final class MemberProfiles {
             Set.of(MemberEntityConstants.PROFILE_TYPE));
     }
 
+    public static final MemberProfile firstNameChange() {
+        final ProfileName           name;
+        final MemberProfile.FeeType feeType;
+
+        feeType = new MemberProfile.FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME,
+            FeeConstants.FEE_TYPE_AMOUNT);
+
+        name = new ProfileName(ProfileConstants.CHANGED_FIRST_NAME, ProfileConstants.LAST_NAME);
+        return new MemberProfile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name,
+            ProfileConstants.BIRTH_DATE, List.of(), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS, true, true,
+            feeType, Set.of(MemberEntityConstants.PROFILE_TYPE));
+    }
+
     public static final MemberProfile forNumber(final long number) {
         final ProfileName           name;
         final MemberProfile.FeeType feeType;

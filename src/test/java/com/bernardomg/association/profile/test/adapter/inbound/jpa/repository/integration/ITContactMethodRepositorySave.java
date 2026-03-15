@@ -33,6 +33,7 @@ import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactMetho
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ContactMethodSpringRepository;
 import com.bernardomg.association.profile.domain.model.ContactMethod;
 import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
+import com.bernardomg.association.profile.test.configuration.data.annotation.EmailContactMethod;
 import com.bernardomg.association.profile.test.configuration.factory.ContactMethodEntities;
 import com.bernardomg.association.profile.test.configuration.factory.ContactMethods;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
@@ -49,6 +50,28 @@ class ITContactMethodRepositorySave {
 
     public ITContactMethodRepositorySave() {
         super();
+    }
+
+    @Test
+    @DisplayName("When changing a contact method, the contact method is persisted")
+    @EmailContactMethod
+    void testSave_Change_PersistedData() {
+        final ContactMethod                 contactMethod;
+        final Iterable<ContactMethodEntity> entities;
+
+        // GIVEN
+        contactMethod = ContactMethods.phoneChange();
+
+        // WHEN
+        repository.save(contactMethod);
+
+        // THEN
+        entities = springRepository.findAll();
+
+        Assertions.assertThat(entities)
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
+            .containsExactly(ContactMethodEntities.phoneChange());
     }
 
     @Test

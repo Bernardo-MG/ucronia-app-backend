@@ -29,32 +29,10 @@ public class ITSettingRepositorySave {
     private SettingsSpringRepository settingSpringRepository;
 
     @Test
-    @DisplayName("When saving the fee amount and with no existing setting, the setting is persisted")
-    @CleanSetting
-    void testSave_NoData_Persisted() {
-        final Setting                    setting;
-        final Collection<SettingsEntity> settings;
-
-        // GIVEN
-        setting = Settings.intValue();
-
-        // WHEN
-        repository.save(setting);
-
-        // THEN
-        settings = settingSpringRepository.findAll();
-
-        Assertions.assertThat(settings)
-            .as("settings")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
-            .containsExactly(SettingEntities.intValue());
-    }
-
-    @Test
     @DisplayName("When updating the fee amount, the setting is persisted")
     @CleanSetting
     @IntegerSetting
-    void testSave_Persisted() {
+    void testSave_ChangeAmount_Persisted() {
         final Setting                    setting;
         final Collection<SettingsEntity> settings;
 
@@ -76,7 +54,7 @@ public class ITSettingRepositorySave {
     @Test
     @DisplayName("When updating the fee amount, the setting is returned")
     @IntegerSetting
-    void testSave_Returned() {
+    void testSave_ChangeAmount_Returned() {
         final Setting setting;
         final Setting created;
 
@@ -90,6 +68,28 @@ public class ITSettingRepositorySave {
         Assertions.assertThat(created)
             .as("created")
             .isEqualTo(Settings.intValue());
+    }
+
+    @Test
+    @DisplayName("When saving the fee amount and with no existing setting, the setting is persisted")
+    @CleanSetting
+    void testSave_Persisted() {
+        final Setting                    setting;
+        final Collection<SettingsEntity> settings;
+
+        // GIVEN
+        setting = Settings.intValue();
+
+        // WHEN
+        repository.save(setting);
+
+        // THEN
+        settings = settingSpringRepository.findAll();
+
+        Assertions.assertThat(settings)
+            .as("settings")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .containsExactly(SettingEntities.intValue());
     }
 
 }

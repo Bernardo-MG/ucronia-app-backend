@@ -74,7 +74,7 @@ class TestProfileGuestServiceConvert {
         final Profile          profile;
 
         // GIVEN
-        Guests.nameChange();
+        Guests.firstNameChange();
         profile = Profiles.valid();
 
         given(profileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(profile));
@@ -94,7 +94,7 @@ class TestProfileGuestServiceConvert {
         final ThrowingCallable execution;
 
         // GIVEN
-        Guests.nameChange();
+        Guests.firstNameChange();
 
         given(profileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.empty());
 

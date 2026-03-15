@@ -48,12 +48,12 @@ class ITGameSystemRepositorySave {
     private GameSystemSpringRepository springRepository;
 
     @Test
-    @DisplayName("When the game system exists, it is updated")
-    void testSave_Existing_Persisted() {
+    @DisplayName("When the game system name is changed, it is persisted")
+    void testSave_NameChange_Persisted() {
         final GameSystem gameSystem;
 
         // GIVEN
-        gameSystem = GameSystems.valid();
+        gameSystem = GameSystems.nameChange();
 
         // WHEN
         repository.save(gameSystem);
@@ -62,18 +62,18 @@ class ITGameSystemRepositorySave {
         Assertions.assertThat(springRepository.findAll())
             .as("game systems")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
-            .contains(GameSystemEntities.valid());
+            .contains(GameSystemEntities.nameChange());
     }
 
     @Test
-    @DisplayName("When the game system exists, it is returned")
+    @DisplayName("When the game system name is changed, it is returned")
     @ValidGameSystem
-    void testSave_Existing_Returned() {
+    void testSave_NameChange_Returned() {
         final GameSystem gameSystem;
         final GameSystem created;
 
         // GIVEN
-        gameSystem = GameSystems.valid();
+        gameSystem = GameSystems.nameChange();
 
         // WHEN
         created = repository.save(gameSystem);
@@ -81,7 +81,7 @@ class ITGameSystemRepositorySave {
         // THEN
         Assertions.assertThat(created)
             .as("game system")
-            .isEqualTo(GameSystems.valid());
+            .isEqualTo(GameSystems.nameChange());
     }
 
     @Test

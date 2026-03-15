@@ -3,8 +3,10 @@ package com.bernardomg.association.library.author.test.configuration.factory;
 
 public final class AuthorConstants {
 
-    public static final String NAME   = "Author";
+    public static final String CHANGED_NAME = "Author 123";
 
-    public static final Long   NUMBER = 1L;
+    public static final String NAME         = "Author";
+
+    public static final Long   NUMBER       = 1L;
 
 }

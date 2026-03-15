@@ -275,4 +275,12 @@ public final class GameBooks {
             Optional.of(GameSystems.valid()));
     }
 
+    public static final GameBook titleChange() {
+        final Title title;
+
+        title = new Title("", BookConstants.CHANGED_TITLE, "");
+        return new GameBook(BookConstants.NUMBER, title, BookConstants.ISBN_10, BookConstants.LANGUAGE, null, false,
+            List.of(), List.of(), List.of(), Optional.empty(), Optional.empty(), Optional.empty());
+    }
+
 }

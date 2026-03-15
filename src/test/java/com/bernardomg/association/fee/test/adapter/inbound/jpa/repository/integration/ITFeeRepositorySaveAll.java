@@ -41,6 +41,23 @@ class ITFeeRepositorySaveAll {
     private TransactionSpringRepository transactionSpringRepository;
 
     @Test
+    @DisplayName("When there is no data, nothing is saved")
+    @PositiveFeeType
+    @ActiveMember
+    @FeeTransaction
+    void testSaveAll_Empty() {
+        final Collection<Fee> fees;
+
+        // WHEN
+        fees = repository.saveAll(List.of());
+
+        // THEN
+        Assertions.assertThat(fees)
+            .as("fees")
+            .isEmpty();
+    }
+
+    @Test
     @DisplayName("When a not paid fee, it is persisted")
     @PositiveFeeType
     @ActiveMember

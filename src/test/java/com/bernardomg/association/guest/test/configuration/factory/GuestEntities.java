@@ -37,6 +37,19 @@ public final class GuestEntities {
         return entity;
     }
 
+    public static final GuestEntity firstNameChange() {
+        final GuestEntity entity;
+
+        entity = new GuestEntity();
+        entity.setId(1L);
+        entity.setProfile(ProfileEntities.firstNameChange());
+        entity.setGames(new ArrayList<>(List.of(GuestConstants.DATE)));
+        entity.getProfile()
+            .setTypes(Set.of(GuestEntityConstants.PROFILE_TYPE));
+
+        return entity;
+    }
+
     public static final GuestEntity valid() {
         final GuestEntity entity;
 

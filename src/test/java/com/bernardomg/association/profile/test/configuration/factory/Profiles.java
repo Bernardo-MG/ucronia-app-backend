@@ -47,6 +47,14 @@ public final class Profiles {
             List.of(), "", "", Set.of());
     }
 
+    public static final Profile firstNameChange() {
+        final ProfileName name;
+
+        name = new ProfileName(ProfileConstants.CHANGED_FIRST_NAME, ProfileConstants.LAST_NAME);
+        return new Profile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name, ProfileConstants.BIRTH_DATE,
+            List.of(), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS, Set.of());
+    }
+
     public static final Profile nameChange() {
         final ProfileName name;
 

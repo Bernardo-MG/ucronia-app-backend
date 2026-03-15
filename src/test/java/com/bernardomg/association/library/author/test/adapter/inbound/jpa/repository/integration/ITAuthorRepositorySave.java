@@ -48,13 +48,13 @@ class ITAuthorRepositorySave {
     private AuthorSpringRepository springRepository;
 
     @Test
-    @DisplayName("When the author exists, it is updated")
+    @DisplayName("When the author name is changed, it is updated")
     @ValidAuthor
-    void testSave_Existing_Persisted() {
+    void testSave_Existing_ChangeName_Persisted() {
         final Author author;
 
         // GIVEN
-        author = Authors.valid();
+        author = Authors.nameChange();
 
         // WHEN
         repository.save(author);
@@ -63,18 +63,18 @@ class ITAuthorRepositorySave {
         Assertions.assertThat(springRepository.findAll())
             .as("authors")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
-            .containsExactly(AuthorEntities.valid());
+            .containsExactly(AuthorEntities.nameChange());
     }
 
     @Test
-    @DisplayName("When the author exists, it is returned")
+    @DisplayName("When the author name is changed, it is returned")
     @ValidAuthor
-    void testSave_Existing_Returned() {
+    void testSave_Existing_ChangeName_Returned() {
         final Author author;
         final Author created;
 
         // GIVEN
-        author = Authors.valid();
+        author = Authors.nameChange();
 
         // WHEN
         created = repository.save(author);
@@ -82,7 +82,7 @@ class ITAuthorRepositorySave {
         // THEN
         Assertions.assertThat(created)
             .as("author")
-            .isEqualTo(Authors.valid());
+            .isEqualTo(Authors.nameChange());
     }
 
     @Test

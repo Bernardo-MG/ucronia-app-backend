@@ -93,7 +93,7 @@ class TestGuestServicePatch {
         final ThrowingCallable execution;
 
         // GIVEN
-        guest = Guests.nameChange();
+        guest = Guests.firstNameChange();
 
         given(guestRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.empty());
 
@@ -119,7 +119,7 @@ class TestGuestServicePatch {
         service.patch(guest);
 
         // THEN
-        verify(guestRepository).save(Guests.nameChange());
+        verify(guestRepository).save(Guests.firstNameChange());
     }
 
     @Test
@@ -145,7 +145,7 @@ class TestGuestServicePatch {
         final Guest guest;
 
         // GIVEN
-        guest = Guests.nameChange();
+        guest = Guests.firstNameChange();
 
         given(guestRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(Guests.valid()));
 
@@ -153,7 +153,7 @@ class TestGuestServicePatch {
         service.patch(guest);
 
         // THEN
-        verify(guestRepository).save(Guests.nameChange());
+        verify(guestRepository).save(Guests.firstNameChange());
     }
 
     @Test
@@ -163,10 +163,10 @@ class TestGuestServicePatch {
         final Guest updated;
 
         // GIVEN
-        guest = Guests.nameChange();
+        guest = Guests.firstNameChange();
 
         given(guestRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(Guests.valid()));
-        given(guestRepository.save(Guests.nameChange())).willReturn(Guests.nameChange());
+        given(guestRepository.save(Guests.firstNameChange())).willReturn(Guests.firstNameChange());
 
         // WHEN
         updated = service.patch(guest);
@@ -174,7 +174,7 @@ class TestGuestServicePatch {
         // THEN
         Assertions.assertThat(updated)
             .as("guest")
-            .isEqualTo(Guests.nameChange());
+            .isEqualTo(Guests.firstNameChange());
     }
 
 }

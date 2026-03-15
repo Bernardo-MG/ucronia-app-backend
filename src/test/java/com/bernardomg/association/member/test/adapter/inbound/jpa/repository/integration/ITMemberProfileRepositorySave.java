@@ -89,15 +89,15 @@ class ITMemberProfileRepositorySave {
     }
 
     @Test
-    @DisplayName("When a member exists, the member is persisted")
+    @DisplayName("When a member name is changed, the member is persisted")
     @PositiveFeeType
     @ActiveMember
-    void testSave_Existing_PersistedData() {
+    void testSave_Existing_NameChange_PersistedData() {
         final MemberProfile                 member;
         final Iterable<MemberProfileEntity> entities;
 
         // GIVEN
-        member = MemberProfiles.active();
+        member = MemberProfiles.firstNameChange();
 
         // WHEN
         repository.save(member);
@@ -109,7 +109,7 @@ class ITMemberProfileRepositorySave {
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.id", "profile.number",
                 "profile.contactChannels.id", "profile.contactChannels.profileId", "profile.contactChannels.profile")
-            .containsExactly(MemberProfileEntities.active());
+            .containsExactly(MemberProfileEntities.firstNameChange());
     }
 
     @Test

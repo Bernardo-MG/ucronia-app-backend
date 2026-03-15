@@ -70,7 +70,7 @@ class TestGuestServiceUpdate {
         final Guest            guest;
 
         // GIVEN
-        guest = Guests.nameChange();
+        guest = Guests.firstNameChange();
 
         given(guestRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
         given(guestRepository.existsByIdentifierForAnother(ProfileConstants.NUMBER, ProfileConstants.IDENTIFIER))
@@ -91,7 +91,7 @@ class TestGuestServiceUpdate {
         final ThrowingCallable execution;
 
         // GIVEN
-        guest = Guests.nameChange();
+        guest = Guests.firstNameChange();
 
         given(guestRepository.exists(ProfileConstants.NUMBER)).willReturn(false);
 
@@ -126,16 +126,16 @@ class TestGuestServiceUpdate {
         final Guest guest;
 
         // GIVEN
-        guest = Guests.nameChange();
+        guest = Guests.firstNameChange();
 
         given(guestRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
-        given(guestRepository.save(Guests.nameChange())).willReturn(Guests.nameChange());
+        given(guestRepository.save(Guests.firstNameChange())).willReturn(Guests.firstNameChange());
 
         // WHEN
         service.update(guest);
 
         // THEN
-        verify(guestRepository).save(Guests.nameChange());
+        verify(guestRepository).save(Guests.firstNameChange());
     }
 
     @Test
@@ -145,10 +145,10 @@ class TestGuestServiceUpdate {
         final Guest updated;
 
         // GIVEN
-        guest = Guests.nameChange();
+        guest = Guests.firstNameChange();
 
         given(guestRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
-        given(guestRepository.save(Guests.nameChange())).willReturn(Guests.nameChange());
+        given(guestRepository.save(Guests.firstNameChange())).willReturn(Guests.firstNameChange());
 
         // WHEN
         updated = service.update(guest);
@@ -156,7 +156,7 @@ class TestGuestServiceUpdate {
         // THEN
         Assertions.assertThat(updated)
             .as("guest")
-            .isEqualTo(Guests.nameChange());
+            .isEqualTo(Guests.firstNameChange());
     }
 
 }

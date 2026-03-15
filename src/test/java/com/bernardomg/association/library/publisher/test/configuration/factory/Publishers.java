@@ -9,6 +9,10 @@ public final class Publishers {
         return new Publisher(PublisherConstants.NUMBER, " ");
     }
 
+    public static final Publisher nameChange() {
+        return new Publisher(PublisherConstants.NUMBER, PublisherConstants.CHANGED_NAME);
+    }
+
     public static final Publisher padded() {
         return new Publisher(-1L, " " + PublisherConstants.NAME + " ");
     }

@@ -9,6 +9,10 @@ public final class Authors {
         return new Author(AuthorConstants.NUMBER, " ");
     }
 
+    public static final Author nameChange() {
+        return new Author(AuthorConstants.NUMBER, AuthorConstants.CHANGED_NAME);
+    }
+
     public static final Author padded() {
         return new Author(-1L, " " + AuthorConstants.NAME + " ");
     }

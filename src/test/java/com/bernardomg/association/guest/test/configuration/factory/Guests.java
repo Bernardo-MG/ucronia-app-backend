@@ -24,6 +24,15 @@ public final class Guests {
             Set.of(GuestEntityConstants.PROFILE_TYPE));
     }
 
+    public static final Guest firstNameChange() {
+        final ProfileName name;
+
+        name = new ProfileName(ProfileConstants.CHANGED_FIRST_NAME, ProfileConstants.LAST_NAME);
+        return new Guest(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name, ProfileConstants.BIRTH_DATE,
+            List.of(), List.of(GuestConstants.DATE), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS,
+            Set.of(GuestEntityConstants.PROFILE_TYPE));
+    }
+
     public static final Guest forNumber(final long number) {
         final ProfileName name;
 
@@ -33,19 +42,10 @@ public final class Guests {
             Set.of(GuestEntityConstants.PROFILE_TYPE));
     }
 
-    public static final Guest nameChange() {
-        final ProfileName name;
-
-        name = new ProfileName("Profile 123", "Last name");
-        return new Guest(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name, ProfileConstants.BIRTH_DATE,
-            List.of(), List.of(GuestConstants.DATE), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS,
-            Set.of(GuestEntityConstants.PROFILE_TYPE));
-    }
-
     public static final Guest nameChangePatch() {
         final ProfileName name;
 
-        name = new ProfileName("Profile 123", "Last name");
+        name = new ProfileName(ProfileConstants.CHANGED_FIRST_NAME, ProfileConstants.LAST_NAME);
         return new Guest(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name, ProfileConstants.BIRTH_DATE,
             List.of(), List.of(GuestConstants.DATE), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS,
             Set.of(GuestEntityConstants.PROFILE_TYPE));

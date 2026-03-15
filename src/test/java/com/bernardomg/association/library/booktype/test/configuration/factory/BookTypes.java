@@ -9,6 +9,10 @@ public final class BookTypes {
         return new BookType(BookTypeConstants.NUMBER, " ");
     }
 
+    public static final BookType nameChange() {
+        return new BookType(BookTypeConstants.NUMBER, BookTypeConstants.CHANGED_NAME);
+    }
+
     public static final BookType padded() {
         return new BookType(-1L, " " + BookTypeConstants.NAME + " ");
     }

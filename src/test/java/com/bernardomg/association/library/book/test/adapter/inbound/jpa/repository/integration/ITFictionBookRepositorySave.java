@@ -97,6 +97,51 @@ class ITFictionBookRepositorySave {
     }
 
     @Test
+    @DisplayName("When the book title is changed, it is persisted")
+    @ValidProfile
+    @ValidAuthor
+    @ValidPublisher
+    @MinimalFictionBook
+    void testSave_Existing_ChangeTitle_Persisted() {
+        final FictionBook book;
+
+        // GIVEN
+        book = FictionBooks.titleChange();
+
+        // WHEN
+        repository.save(book);
+
+        // THEN
+        Assertions.assertThat(springRepository.findAll())
+            .as("books")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "authors.id", "bookType.id", "donors.id",
+                "gameSystem.id", "publishers.id")
+            .contains(FictionBookEntities.titleChange());
+    }
+
+    @Test
+    @DisplayName("When the book title is changed, it is returned")
+    @ValidProfile
+    @ValidAuthor
+    @ValidPublisher
+    @MinimalFictionBook
+    void testSave_Existing_ChangeTitle_Returned() {
+        final FictionBook book;
+        final FictionBook created;
+
+        // GIVEN
+        book = FictionBooks.titleChange();
+
+        // WHEN
+        created = repository.save(book);
+
+        // THEN
+        Assertions.assertThat(created)
+            .as("book")
+            .isEqualTo(FictionBooks.titleChange());
+    }
+
+    @Test
     @DisplayName("When there is an existing game book, and relationships also already exist, it is persisted")
     @ValidProfile
     @FullFictionBook

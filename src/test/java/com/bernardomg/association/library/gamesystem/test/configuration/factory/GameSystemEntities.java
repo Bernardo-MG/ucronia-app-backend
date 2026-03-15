@@ -5,6 +5,16 @@ import com.bernardomg.association.library.gamesystem.adapter.inbound.jpa.model.G
 
 public final class GameSystemEntities {
 
+    public static final GameSystemEntity nameChange() {
+        final GameSystemEntity entity;
+
+        entity = new GameSystemEntity();
+        entity.setNumber(GameSystemConstants.NUMBER);
+        entity.setName(GameSystemConstants.CHANGED_NAME);
+
+        return entity;
+    }
+
     public static final GameSystemEntity valid() {
         final GameSystemEntity entity;
 

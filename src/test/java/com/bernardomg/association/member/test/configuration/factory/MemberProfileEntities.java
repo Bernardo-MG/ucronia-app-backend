@@ -77,6 +77,28 @@ public final class MemberProfileEntities {
         return entity;
     }
 
+    public static final MemberProfileEntity firstNameChange() {
+        final MemberProfileEntity entity;
+        final FeeTypeEntity       feeType;
+
+        feeType = new FeeTypeEntity();
+        feeType.setId(1L);
+        feeType.setNumber(FeeConstants.FEE_TYPE_NUMBER);
+        feeType.setName(FeeConstants.FEE_TYPE_NAME);
+        feeType.setAmount(FeeConstants.FEE_TYPE_AMOUNT);
+
+        entity = new MemberProfileEntity();
+        entity.setId(1L);
+        entity.setProfile(ProfileEntities.firstNameChange());
+        entity.setFeeType(feeType);
+        entity.setActive(true);
+        entity.setRenew(true);
+        entity.getProfile()
+            .setTypes(Set.of(MemberEntityConstants.PROFILE_TYPE));
+
+        return entity;
+    }
+
     public static final MemberProfileEntity withEmail() {
         final MemberProfileEntity entity;
         final FeeTypeEntity       feeType;

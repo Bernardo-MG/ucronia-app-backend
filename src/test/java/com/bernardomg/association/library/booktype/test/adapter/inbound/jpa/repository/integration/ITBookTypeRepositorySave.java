@@ -48,13 +48,13 @@ class ITBookTypeRepositorySave {
     private BookTypeSpringRepository springRepository;
 
     @Test
-    @DisplayName("When the book type exists, it is updated")
+    @DisplayName("When the book title is changed, it is persisted")
     @ValidBookType
-    void testSave_Existing_Persisted() {
+    void testSave_NameChange_Persisted() {
         final BookType bookType;
 
         // GIVEN
-        bookType = BookTypes.valid();
+        bookType = BookTypes.nameChange();
 
         // WHEN
         repository.save(bookType);
@@ -63,18 +63,18 @@ class ITBookTypeRepositorySave {
         Assertions.assertThat(springRepository.findAll())
             .as("book types")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
-            .containsExactly(BookTypeEntities.valid());
+            .containsExactly(BookTypeEntities.nameChange());
     }
 
     @Test
-    @DisplayName("When the book type exists, it is returned")
+    @DisplayName("When the book title is changed, it is returned")
     @ValidBookType
-    void testSave_Existing_Returned() {
+    void testSave_NameChange_Returned() {
         final BookType bookType;
         final BookType created;
 
         // GIVEN
-        bookType = BookTypes.valid();
+        bookType = BookTypes.nameChange();
 
         // WHEN
         created = repository.save(bookType);
@@ -82,7 +82,7 @@ class ITBookTypeRepositorySave {
         // THEN
         Assertions.assertThat(created)
             .as("book type")
-            .isEqualTo(BookTypes.valid());
+            .isEqualTo(BookTypes.nameChange());
     }
 
     @Test

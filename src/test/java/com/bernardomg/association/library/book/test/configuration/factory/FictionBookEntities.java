@@ -72,6 +72,20 @@ public final class FictionBookEntities {
         return entity;
     }
 
+    public static final FictionBookEntity titleChange() {
+        final FictionBookEntity entity = new FictionBookEntity();
+        entity.setNumber(BookConstants.NUMBER);
+        entity.setSupertitle("");
+        entity.setTitle(BookConstants.CHANGED_TITLE);
+        entity.setSubtitle("");
+        entity.setIsbn(BookConstants.ISBN_10);
+        entity.setLanguage(BookConstants.LANGUAGE);
+        entity.setAuthors(List.of());
+        entity.setDonors(List.of());
+        entity.setPublishers(List.of());
+        return entity;
+    }
+
     private FictionBookEntities() {
         super();
     }

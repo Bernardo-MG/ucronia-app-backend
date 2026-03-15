@@ -48,13 +48,13 @@ class ITPublisherRepositorySave {
     private PublisherSpringRepository springRepository;
 
     @Test
-    @DisplayName("When the publisher exists, it is updated")
+    @DisplayName("When the publisher name is changed, it is updated")
     @ValidPublisher
-    void testSave_Existing_Persisted() {
+    void testSave_NameChange_Persisted() {
         final Publisher publisher;
 
         // GIVEN
-        publisher = Publishers.valid();
+        publisher = Publishers.nameChange();
 
         // WHEN
         repository.save(publisher);
@@ -63,18 +63,18 @@ class ITPublisherRepositorySave {
         Assertions.assertThat(springRepository.findAll())
             .as("publishers")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
-            .containsExactly(PublisherEntities.valid());
+            .containsExactly(PublisherEntities.nameChange());
     }
 
     @Test
-    @DisplayName("When the publisher exists, it is updated")
+    @DisplayName("When the publisher name is changed, it is updated")
     @ValidPublisher
-    void testSave_Existing_Returned() {
+    void testSave_NameChange_Returned() {
         final Publisher publisher;
         final Publisher created;
 
         // GIVEN
-        publisher = Publishers.valid();
+        publisher = Publishers.nameChange();
 
         // WHEN
         created = repository.save(publisher);
@@ -82,7 +82,7 @@ class ITPublisherRepositorySave {
         // THEN
         Assertions.assertThat(created)
             .as("publisher")
-            .isEqualTo(Publishers.valid());
+            .isEqualTo(Publishers.nameChange());
     }
 
     @Test

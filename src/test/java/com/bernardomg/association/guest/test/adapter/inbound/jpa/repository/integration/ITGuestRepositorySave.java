@@ -88,12 +88,12 @@ class ITGuestRepositorySave {
     @Test
     @DisplayName("When a guest exists, the guest is persisted")
     @ValidGuest
-    void testSave_Existing_PersistedData() {
+    void testSave_Existing_ChangeName_PersistedData() {
         final Guest                 guest;
         final Iterable<GuestEntity> entities;
 
         // GIVEN
-        guest = Guests.valid();
+        guest = Guests.firstNameChange();
 
         // WHEN
         repository.save(guest);
@@ -105,18 +105,18 @@ class ITGuestRepositorySave {
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.contactChannels.id",
                 "profile.contactChannels.profileId", "profile.contactChannels.profile")
-            .containsExactly(GuestEntities.created());
+            .containsExactly(GuestEntities.firstNameChange());
     }
 
     @Test
     @DisplayName("When a guest exists, the created guest is returned")
     @ValidGuest
-    void testSave_Existing_ReturnedData() {
+    void testSave_Existing_ChangeName_ReturnedData() {
         final Guest guest;
         final Guest saved;
 
         // GIVEN
-        guest = Guests.valid();
+        guest = Guests.firstNameChange();
 
         // WHEN
         saved = repository.save(guest);
@@ -124,7 +124,7 @@ class ITGuestRepositorySave {
         // THEN
         Assertions.assertThat(saved)
             .as("guest")
-            .isEqualTo(Guests.valid());
+            .isEqualTo(Guests.firstNameChange());
     }
 
     @Test

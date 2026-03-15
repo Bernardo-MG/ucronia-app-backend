@@ -36,6 +36,7 @@ import com.bernardomg.association.library.book.test.configuration.data.annotatio
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.repository.BookLendingSpringRepository;
 import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.lending.domain.repository.BookLendingRepository;
+import com.bernardomg.association.library.lending.test.configuration.data.annotation.LentBookLending;
 import com.bernardomg.association.library.lending.test.configuration.factory.BookLendingEntities;
 import com.bernardomg.association.library.lending.test.configuration.factory.BookLendings;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
@@ -87,6 +88,27 @@ class ITBookLendingRepositorySave {
             .as("lendings")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
             .contains(BookLendingEntities.lent());
+    }
+
+    @Test
+    @DisplayName("When changing a fiction bool from lent to returned, it is persisted")
+    @ValidProfile
+    @FullFictionBook
+    @LentBookLending
+    void testSave_FictionBook_Return() {
+        final BookLending lending;
+
+        // GIVEN
+        lending = BookLendings.returned();
+
+        // WHEN
+        repository.save(lending);
+
+        // THEN
+        Assertions.assertThat(springRepository.findAll())
+            .as("lendings")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .contains(BookLendingEntities.returned());
     }
 
     @Test
@@ -145,6 +167,27 @@ class ITBookLendingRepositorySave {
             .as("lendings")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
             .contains(BookLendingEntities.lent());
+    }
+
+    @Test
+    @DisplayName("When changing a fiction bool from lent to returned, it is persisted")
+    @ValidProfile
+    @FullGameBook
+    @LentBookLending
+    void testSave_GameBook_Return() {
+        final BookLending lending;
+
+        // GIVEN
+        lending = BookLendings.returned();
+
+        // WHEN
+        repository.save(lending);
+
+        // THEN
+        Assertions.assertThat(springRepository.findAll())
+            .as("lendings")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .contains(BookLendingEntities.returned());
     }
 
     @Test

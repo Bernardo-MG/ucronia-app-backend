@@ -83,12 +83,12 @@ class ITProfileRepositorySave {
     @Test
     @DisplayName("When a profile exists, the profile is persisted")
     @ValidProfile
-    void testSave_Existing_PersistedData() {
+    void testSave_Existing_NameChange_PersistedData() {
         final Profile                 profile;
         final Iterable<ProfileEntity> entities;
 
         // GIVEN
-        profile = Profiles.valid();
+        profile = Profiles.firstNameChange();
 
         // WHEN
         repository.save(profile);
@@ -99,7 +99,26 @@ class ITProfileRepositorySave {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
-            .containsExactly(ProfileEntities.valid());
+            .containsExactly(ProfileEntities.firstNameChange());
+    }
+
+    @Test
+    @DisplayName("When a profile exists, the created profile is returned")
+    @ValidProfile
+    void testSave_Existing_NameChange_ReturnedData() {
+        final Profile profile;
+        final Profile saved;
+
+        // GIVEN
+        profile = Profiles.firstNameChange();
+
+        // WHEN
+        saved = repository.save(profile);
+
+        // THEN
+        Assertions.assertThat(saved)
+            .as("profile")
+            .isEqualTo(Profiles.firstNameChange());
     }
 
     @Test
@@ -145,25 +164,6 @@ class ITProfileRepositorySave {
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
             .containsExactly(ProfileEntities.withType(ProfileConstants.TYPE_MEMBER));
-    }
-
-    @Test
-    @DisplayName("When a profile exists, the created profile is returned")
-    @ValidProfile
-    void testSave_Existing_ReturnedData() {
-        final Profile profile;
-        final Profile saved;
-
-        // GIVEN
-        profile = Profiles.valid();
-
-        // WHEN
-        saved = repository.save(profile);
-
-        // THEN
-        Assertions.assertThat(saved)
-            .as("profile")
-            .isEqualTo(Profiles.valid());
     }
 
     @Test

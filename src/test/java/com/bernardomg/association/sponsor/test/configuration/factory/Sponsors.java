@@ -24,6 +24,15 @@ public final class Sponsors {
             Set.of(SponsorEntityConstants.PROFILE_TYPE));
     }
 
+    public static final Sponsor firstNameChange() {
+        final ProfileName name;
+
+        name = new ProfileName(ProfileConstants.CHANGED_FIRST_NAME, ProfileConstants.LAST_NAME);
+        return new Sponsor(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name, ProfileConstants.BIRTH_DATE,
+            List.of(), List.of(SponsorConstants.YEAR), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS,
+            Set.of(SponsorEntityConstants.PROFILE_TYPE));
+    }
+
     public static final Sponsor forNumber(final long number) {
         final ProfileName name;
 

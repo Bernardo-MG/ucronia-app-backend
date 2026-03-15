@@ -9,6 +9,10 @@ public final class GameSystems {
         return new GameSystem(GameSystemConstants.NUMBER, " ");
     }
 
+    public static final GameSystem nameChange() {
+        return new GameSystem(GameSystemConstants.NUMBER, GameSystemConstants.CHANGED_NAME);
+    }
+
     public static final GameSystem padded() {
         return new GameSystem(-1L, " " + GameSystemConstants.NAME + " ");
     }

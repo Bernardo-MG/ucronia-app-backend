@@ -78,6 +78,20 @@ public final class GameBookEntities {
         return entity;
     }
 
+    public static final GameBookEntity titleChange() {
+        final GameBookEntity entity = new GameBookEntity();
+        entity.setNumber(BookConstants.NUMBER);
+        entity.setSupertitle("");
+        entity.setTitle(BookConstants.CHANGED_TITLE);
+        entity.setSubtitle("");
+        entity.setIsbn(BookConstants.ISBN_10);
+        entity.setLanguage(BookConstants.LANGUAGE);
+        entity.setAuthors(List.of());
+        entity.setDonors(List.of());
+        entity.setPublishers(List.of());
+        return entity;
+    }
+
     private GameBookEntities() {
         super();
     }

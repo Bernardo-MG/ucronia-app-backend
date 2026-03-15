@@ -36,6 +36,19 @@ public final class SponsorEntities {
         return entity;
     }
 
+    public static final SponsorEntity firstNameChange() {
+        final SponsorEntity entity;
+
+        entity = new SponsorEntity();
+        entity.setId(1L);
+        entity.setProfile(ProfileEntities.firstNameChange());
+        entity.setYears(List.of(SponsorConstants.YEAR));
+        entity.getProfile()
+            .setTypes(Set.of(SponsorEntityConstants.PROFILE_TYPE));
+
+        return entity;
+    }
+
     public static final SponsorEntity valid() {
         final SponsorEntity entity;
 

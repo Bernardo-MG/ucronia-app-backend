@@ -26,6 +26,8 @@ public final class ProfileConstants {
         .atStartOfDay(ZoneOffset.UTC)
         .toInstant();
 
+    public static final String  CHANGED_FIRST_NAME     = "Profile 3";
+
     public static final String  COMMENTS               = "Comments";
 
     public static final String  EMAIL                  = "email@somewhere.com";

@@ -264,4 +264,12 @@ public final class FictionBooks {
             List.of(Publishers.valid()), Optional.of(donation));
     }
 
+    public static final FictionBook titleChange() {
+        final Title title;
+
+        title = new Title("", BookConstants.CHANGED_TITLE, "");
+        return new FictionBook(BookConstants.NUMBER, title, BookConstants.ISBN_10, BookConstants.LANGUAGE, null, false,
+            List.of(), List.of(), List.of(), Optional.empty());
+    }
+
 }

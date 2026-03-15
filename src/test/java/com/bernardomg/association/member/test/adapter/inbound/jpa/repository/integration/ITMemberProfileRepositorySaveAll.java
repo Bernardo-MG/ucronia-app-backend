@@ -64,15 +64,31 @@ class ITMemberProfileRepositorySaveAll {
     }
 
     @Test
-    @DisplayName("With an existing member, the member is persisted")
+    @DisplayName("When no data is received, nothing is saved")
+    void testSaveAll_Empty() {
+        final Iterable<MemberProfileEntity> entities;
+
+        // WHEN
+        repository.saveAll(List.of());
+
+        // THEN
+        entities = springRepository.findAll();
+
+        Assertions.assertThat(entities)
+            .as("entities")
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("When changing the member name, the member is persisted")
     @PositiveFeeType
     @ActiveMember
-    void testSaveAll_Existing_PersistedData() {
+    void testSaveAll_Existing_NameChange_PersistedData() {
         final MemberProfile                 member;
         final Iterable<MemberProfileEntity> entities;
 
         // GIVEN
-        member = MemberProfiles.active();
+        member = MemberProfiles.firstNameChange();
 
         // WHEN
         repository.saveAll(List.of(member));
@@ -84,7 +100,7 @@ class ITMemberProfileRepositorySaveAll {
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.id", "profile.number",
                 "profile.contactChannels.id", "profile.contactChannels.profileId", "profile.contactChannels.profile")
-            .containsExactly(MemberProfileEntities.active());
+            .containsExactly(MemberProfileEntities.firstNameChange());
     }
 
     @Test

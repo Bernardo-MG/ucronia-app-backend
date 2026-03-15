@@ -5,6 +5,16 @@ import com.bernardomg.association.library.author.adapter.inbound.jpa.model.Autho
 
 public final class AuthorEntities {
 
+    public static final AuthorEntity nameChange() {
+        final AuthorEntity entity;
+
+        entity = new AuthorEntity();
+        entity.setNumber(AuthorConstants.NUMBER);
+        entity.setName(AuthorConstants.CHANGED_NAME);
+
+        return entity;
+    }
+
     public static final AuthorEntity valid() {
         final AuthorEntity entity;
 

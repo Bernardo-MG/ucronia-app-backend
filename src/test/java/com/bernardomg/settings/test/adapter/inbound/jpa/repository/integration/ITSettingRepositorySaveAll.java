@@ -30,32 +30,10 @@ public class ITSettingRepositorySaveAll {
     private SettingsSpringRepository settingSpringRepository;
 
     @Test
-    @DisplayName("When saving the fee amount and with no existing setting, the setting is persisted")
-    @CleanSetting
-    void testSaveAll_NoData_Persisted() {
-        final Setting                    setting;
-        final Collection<SettingsEntity> settings;
-
-        // GIVEN
-        setting = Settings.intValue();
-
-        // WHEN
-        repository.saveAll(List.of(setting));
-
-        // THEN
-        settings = settingSpringRepository.findAll();
-
-        Assertions.assertThat(settings)
-            .as("settings")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
-            .containsExactly(SettingEntities.intValue());
-    }
-
-    @Test
     @DisplayName("When updating the fee amount, the setting is persisted")
     @CleanSetting
     @IntegerSetting
-    void testSaveAll_Persisted() {
+    void testSaveAll_ChangeAmount_Persisted() {
         final Setting                    setting;
         final Collection<SettingsEntity> settings;
 
@@ -77,7 +55,7 @@ public class ITSettingRepositorySaveAll {
     @Test
     @DisplayName("When updating the fee amount, the setting is returned")
     @IntegerSetting
-    void testSaveAll_Returned() {
+    void testSaveAll_ChangeAmount_Returned() {
         final Setting             setting;
         final Collection<Setting> created;
 
@@ -91,6 +69,43 @@ public class ITSettingRepositorySaveAll {
         Assertions.assertThat(created)
             .as("created")
             .containsExactly(Settings.intValue());
+    }
+
+    @Test
+    @DisplayName("When no data is received, nothing is saved")
+    @IntegerSetting
+    void testSaveAll_Empty() {
+        final Collection<Setting> created;
+
+        // WHEN
+        created = repository.saveAll(List.of());
+
+        // THEN
+        Assertions.assertThat(created)
+            .as("created")
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("When saving the fee amount and with no existing setting, the setting is persisted")
+    @CleanSetting
+    void testSaveAll_Persisted() {
+        final Setting                    setting;
+        final Collection<SettingsEntity> settings;
+
+        // GIVEN
+        setting = Settings.intValue();
+
+        // WHEN
+        repository.saveAll(List.of(setting));
+
+        // THEN
+        settings = settingSpringRepository.findAll();
+
+        Assertions.assertThat(settings)
+            .as("settings")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .containsExactly(SettingEntities.intValue());
     }
 
 }

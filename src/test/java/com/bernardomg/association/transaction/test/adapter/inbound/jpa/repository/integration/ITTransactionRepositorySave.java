@@ -71,9 +71,9 @@ class ITTransactionRepositorySave {
     }
 
     @Test
-    @DisplayName("When the transaction exists it is updated")
+    @DisplayName("When the transaction value is changed, it is updated")
     @PositiveTransaction
-    void testSave_Existing_PersistedData() {
+    void testSave_Existing_ChangeValue_PersistedData() {
         final Iterable<TransactionEntity> transactions;
         final Transaction                 transaction;
 
@@ -93,9 +93,9 @@ class ITTransactionRepositorySave {
     }
 
     @Test
-    @DisplayName("When the transaction exists it is returned")
+    @DisplayName("When the transaction value is changed, it is returned")
     @PositiveTransaction
-    void testSave_Existing_ReturnedData() {
+    void testSave_Existing_ChangeValue_ReturnedData() {
         final Transaction created;
         final Transaction transaction;
 
