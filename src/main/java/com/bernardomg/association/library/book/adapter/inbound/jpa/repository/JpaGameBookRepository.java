@@ -250,7 +250,7 @@ public final class JpaGameBookRepository implements GameBookRepository {
         final Collection<BookLendingInfo> lendings;
 
         // Lendings
-        lendings = bookLendingSpringRepository.findAllByBookId(entity.getId())
+        lendings = bookLendingSpringRepository.findAllByBookIdOrderByReturnDate(entity.getId())
             .stream()
             .map(l -> toDomain(entity, l))
             .toList();

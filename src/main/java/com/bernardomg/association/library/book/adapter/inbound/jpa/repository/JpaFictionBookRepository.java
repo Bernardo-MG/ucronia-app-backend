@@ -238,7 +238,7 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
         final Collection<BookLendingInfo> lendings;
 
         // Lendings
-        lendings = bookLendingSpringRepository.findAllByBookId(entity.getId())
+        lendings = bookLendingSpringRepository.findAllByBookIdOrderByReturnDate(entity.getId())
             .stream()
             .map(l -> toDomain(entity, l))
             .toList();

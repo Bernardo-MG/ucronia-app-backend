@@ -51,7 +51,7 @@ public interface BookLendingSpringRepository extends JpaRepository<BookLendingEn
     public List<BookLendingEntity> find(@Param("bookNumber") final long bookNumber,
             @Param("profileNumber") final long profileNumber, final Pageable pageable);
 
-    public Collection<BookLendingEntity> findAllByBookId(Long id);
+    public Collection<BookLendingEntity> findAllByBookIdOrderByReturnDate(Long id);
 
     @Query("""
                SELECT l
