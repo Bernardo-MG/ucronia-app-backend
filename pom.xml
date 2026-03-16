@@ -22,7 +22,7 @@
    <groupId>com.bernardomg</groupId>
    <artifactId>ucronia-app-backend</artifactId>
    <version>1.0.0-SNAPSHOT</version>
-   <packaging>war</packaging>
+   <packaging>pom</packaging>
 
    <name>Ucronia App Backend</name>
    <description>Backend application for the Ucronía RPG association.</description>
@@ -36,6 +36,15 @@
          <distribution>repo</distribution>
       </license>
    </licenses>
+
+   <!-- ********************************************** -->
+   <!-- ******************* MODULES ****************** -->
+   <!-- ********************************************** -->
+
+   <modules>
+     <module>core</module>
+     <module>app</module>
+   </modules>
 
    <!-- ********************************************** -->
    <!-- ************ RESOURCES AND SERVICES ********** -->
@@ -243,6 +252,14 @@
             <version>${spring.data.version}</version>
             <type>pom</type>
             <scope>import</scope>
+         </dependency>
+         <!-- ============================================== -->
+         <!-- ================= PROJECT ==================== -->
+         <!-- ============================================== -->
+         <dependency>
+            <groupId>com.bernardomg</groupId>
+            <artifactId>ucronia-core</artifactId>
+            <version>${project.version}</version>
          </dependency>
       </dependencies>
    </dependencyManagement>
@@ -777,69 +794,53 @@
                </dependency>
             </dependencies>
          </plugin>
-         <plugin>
-            <!-- WAR -->
-            <!-- Generates the WAR package. -->
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-war-plugin</artifactId>
-         </plugin>
-         <plugin>
-            <!-- Spring Boot -->
-            <!-- Takes care of running Spring Boot application -->
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-maven-plugin</artifactId>
-            <version>${plugin.spring.boot.version}</version>
-            <executions>
-               <execution>
-                  <goals>
-                     <goal>repackage</goal>
-                  </goals>
-               </execution>
-            </executions>
-         </plugin>
-         <plugin>
-            <groupId>org.openapitools</groupId>
-            <artifactId>openapi-generator-maven-plugin</artifactId>
-            <version>${plugin.openapi.version}</version>
-            <executions>
-               <execution>
-                  <goals>
-                     <goal>generate</goal>
-                  </goals>
-                  <configuration>
-                     <inputSpec>${project.basedir}/src/main/resources/openapi/ucronia.yml</inputSpec>
-                     <generatorName>spring</generatorName>
-                     <library>spring-boot</library>
-                     <apiPackage>com.bernardomg.ucronia.openapi.api</apiPackage>
-                     <modelPackage>com.bernardomg.ucronia.openapi.model</modelPackage>
-                     <modelNameSuffix>Dto</modelNameSuffix>
-                     <typeMappings>
-                       <typeMapping>string+date-time=Instant</typeMapping>
-                       <typeMapping>string+month=YearMonth</typeMapping>
-                       <typeMapping>InstantDto=Instant</typeMapping>
-                       <typeMapping>YearMonthDto=YearMonth</typeMapping>
-                     </typeMappings>
-                     <importMappings>
-                       <importMapping>InstantDto=java.time.Instant</importMapping>
-                       <importMapping>YearMonthDto=java.time.YearMonth</importMapping>
-                     </importMappings>
-                     <configOptions>
-                        <interfaceOnly>true</interfaceOnly>
-                        <skipDefaultInterface>true</skipDefaultInterface>
-                        <requestMappingMode>api_interface</requestMappingMode>
-                        <useTags>true</useTags>
-                        <dateLibrary>java8</dateLibrary>
-                        <hideGenerationTimestamp>true</hideGenerationTimestamp>
-                        <useSpringBoot3>true</useSpringBoot3>
-                        <useSpringBuiltInValidation>true</useSpringBuiltInValidation>
-                        <useSpringController>true</useSpringController>
-                        <useResponseEntity>false</useResponseEntity>
-                     </configOptions>
-                  </configuration>
-               </execution>
-            </executions>
-         </plugin>
       </plugins>
+      <pluginManagement>
+         <plugins>
+            <plugin>
+               <groupId>org.openapitools</groupId>
+               <artifactId>openapi-generator-maven-plugin</artifactId>
+               <version>${plugin.openapi.version}</version>
+               <executions>
+                  <execution>
+                     <goals>
+                        <goal>generate</goal>
+                     </goals>
+                     <configuration>
+                        <inputSpec>${project.basedir}/src/main/resources/openapi/ucronia.yml</inputSpec>
+                        <generatorName>spring</generatorName>
+                        <library>spring-boot</library>
+                        <apiPackage>com.bernardomg.ucronia.openapi.api</apiPackage>
+                        <modelPackage>com.bernardomg.ucronia.openapi.model</modelPackage>
+                        <modelNameSuffix>Dto</modelNameSuffix>
+                        <typeMappings>
+                          <typeMapping>string+date-time=Instant</typeMapping>
+                          <typeMapping>string+month=YearMonth</typeMapping>
+                          <typeMapping>InstantDto=Instant</typeMapping>
+                          <typeMapping>YearMonthDto=YearMonth</typeMapping>
+                        </typeMappings>
+                        <importMappings>
+                          <importMapping>InstantDto=java.time.Instant</importMapping>
+                          <importMapping>YearMonthDto=java.time.YearMonth</importMapping>
+                        </importMappings>
+                        <configOptions>
+                           <interfaceOnly>true</interfaceOnly>
+                           <skipDefaultInterface>true</skipDefaultInterface>
+                           <requestMappingMode>api_interface</requestMappingMode>
+                           <useTags>true</useTags>
+                           <dateLibrary>java8</dateLibrary>
+                           <hideGenerationTimestamp>true</hideGenerationTimestamp>
+                           <useSpringBoot3>true</useSpringBoot3>
+                           <useSpringBuiltInValidation>true</useSpringBuiltInValidation>
+                           <useSpringController>true</useSpringController>
+                           <useResponseEntity>false</useResponseEntity>
+                        </configOptions>
+                     </configuration>
+                  </execution>
+               </executions>
+            </plugin>
+         </plugins>
+      </pluginManagement>
    </build>
 
    <!-- ********************************************** -->

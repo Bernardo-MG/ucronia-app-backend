@@ -53,7 +53,7 @@ public class TestApplication {
     public static void main(final String[] args) {
         // TODO: This shouldn't be needed
         Locale.setDefault(Locale.of("es", "ES"));
-        SpringApplication.run(UcroniaApplication.class, args);
+        SpringApplication.run(TestApplication.class, args);
     }
 
     /**
