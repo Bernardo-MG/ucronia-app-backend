@@ -257,8 +257,8 @@
          <!-- ================= PROJECT ==================== -->
          <!-- ============================================== -->
          <dependency>
-            <groupId>com.bernardomg</groupId>
-            <artifactId>ucronia-core</artifactId>
+            <groupId>com.bernardomg.association</groupId>
+            <artifactId>core</artifactId>
             <version>${project.version}</version>
          </dependency>
       </dependencies>

@@ -18,9 +18,11 @@
    <!-- **************** PROJECT INFO **************** -->
    <!-- ********************************************** -->
 
-   <groupId>com.bernardomg</groupId>
-   <artifactId>ucronia-app</artifactId>
+   <groupId>com.bernardomg.ucronia</groupId>
+   <artifactId>app</artifactId>
    <packaging>war</packaging>
+
+   <name>Ucronia App</name>
 
    <!-- ********************************************** -->
    <!-- *************** DEPENDENCIES ***************** -->
@@ -28,8 +30,8 @@
 
    <dependencies>
       <dependency>
-         <groupId>com.bernardomg</groupId>
-         <artifactId>ucronia-core</artifactId>
+         <groupId>com.bernardomg.association</groupId>
+         <artifactId>core</artifactId>
       </dependency>
    </dependencies>
 

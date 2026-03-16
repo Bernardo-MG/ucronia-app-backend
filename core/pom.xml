@@ -18,9 +18,11 @@
    <!-- **************** PROJECT INFO **************** -->
    <!-- ********************************************** -->
 
-   <groupId>com.bernardomg</groupId>
-   <artifactId>ucronia-core</artifactId>
+   <groupId>com.bernardomg.association</groupId>
+   <artifactId>core</artifactId>
    <packaging>jar</packaging>
+
+   <name>Association Core</name>
 
    <!-- ********************************************** -->
    <!-- **************** PROPERTIES ****************** -->
