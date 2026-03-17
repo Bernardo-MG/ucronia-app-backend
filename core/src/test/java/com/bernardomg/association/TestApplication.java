@@ -32,7 +32,6 @@ import org.springframework.context.annotation.Import;
 
 import com.bernardomg.event.configuration.EventConfiguration;
 import com.bernardomg.security.initializer.configuration.PermissionLoaderAutoConfiguration;
-import com.bernardomg.settings.configuration.SettingsConfiguration;
 
 /**
  * Application runnable class. This allows Spring Boot to run the application.
@@ -41,7 +40,7 @@ import com.bernardomg.settings.configuration.SettingsConfiguration;
  *
  */
 @SpringBootApplication(exclude = { PermissionLoaderAutoConfiguration.class })
-@Import({ SettingsConfiguration.class, EventConfiguration.class })
+@Import({ EventConfiguration.class })
 public class TestApplication {
 
     /**
