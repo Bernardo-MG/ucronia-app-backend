@@ -33,7 +33,7 @@
      <module>testing</module>
      <module>usecase</module>
      <module>rest-adapter</module>
-     <module>configuration</module>
+     <module>spring-starter</module>
    </modules>
 
    <!-- ********************************************** -->

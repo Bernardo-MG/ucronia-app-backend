@@ -53,7 +53,7 @@
    <dependencies>
       <dependency>
          <groupId>com.bernardomg.settings</groupId>
-         <artifactId>settings-configuration</artifactId>
+         <artifactId>settings-spring-starter</artifactId>
       </dependency>
       <!-- ============================================== -->
       <!-- ================ FRAMEWORK =================== -->

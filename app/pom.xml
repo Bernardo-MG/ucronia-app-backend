@@ -35,11 +35,11 @@
       </dependency>
       <dependency>
          <groupId>com.bernardomg.settings</groupId>
-         <artifactId>settings-configuration</artifactId>
+         <artifactId>settings-spring-starter</artifactId>
       </dependency>
       <dependency>
          <groupId>com.bernardomg.association.settings</groupId>
-         <artifactId>association-settings-configuration</artifactId>
+         <artifactId>association-settings-spring-starter</artifactId>
       </dependency>
       <!-- ============================================== -->
       <!-- ================== LOGGING =================== -->

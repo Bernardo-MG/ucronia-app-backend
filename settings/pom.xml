@@ -34,7 +34,7 @@
      <module>usecase</module>
      <module>spring-jpa-adapter</module>
      <module>rest-adapter</module>
-     <module>configuration</module>
+     <module>spring-starter</module>
    </modules>
 
    <!-- ********************************************** -->

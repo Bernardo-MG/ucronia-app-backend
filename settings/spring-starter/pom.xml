@@ -19,10 +19,10 @@
    <!-- ********************************************** -->
 
    <groupId>com.bernardomg.settings</groupId>
-   <artifactId>settings-configuration</artifactId>
+   <artifactId>settings-spring-starter</artifactId>
    <packaging>jar</packaging>
 
-   <name>Settings Configuration</name>
+   <name>Settings Spring Starter</name>
 
    <!-- ********************************************** -->
    <!-- *************** DEPENDENCIES ***************** -->
