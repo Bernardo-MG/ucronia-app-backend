@@ -19,10 +19,10 @@
    <!-- ********************************************** -->
 
    <groupId>com.bernardomg.settings</groupId>
-   <artifactId>settings-jpa-adapter</artifactId>
+   <artifactId>settings-spring-jpa-adapter</artifactId>
    <packaging>jar</packaging>
 
-   <name>Settings JPA Adapter</name>
+   <name>Settings Spring JPA Adapter</name>
 
    <!-- ********************************************** -->
    <!-- *************** DEPENDENCIES ***************** -->

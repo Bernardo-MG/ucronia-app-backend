@@ -32,7 +32,7 @@
      <module>domain</module>
      <module>testing</module>
      <module>usecase</module>
-     <module>jpa-adapter</module>
+     <module>spring-jpa-adapter</module>
      <module>rest-adapter</module>
      <module>configuration</module>
    </modules>
@@ -63,7 +63,7 @@
          </dependency>
          <dependency>
             <groupId>com.bernardomg.settings</groupId>
-            <artifactId>settings-jpa-adapter</artifactId>
+            <artifactId>settings-spring-jpa-adapter</artifactId>
             <version>${project.version}</version>
          </dependency>
          <dependency>

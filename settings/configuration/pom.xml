@@ -39,7 +39,7 @@
       </dependency>
       <dependency>
          <groupId>com.bernardomg.settings</groupId>
-         <artifactId>settings-jpa-adapter</artifactId>
+         <artifactId>settings-spring-jpa-adapter</artifactId>
       </dependency>
       <dependency>
          <groupId>com.bernardomg.settings</groupId>
