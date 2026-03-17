@@ -28,10 +28,10 @@ import java.util.Locale;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 
 import com.bernardomg.event.configuration.EventConfiguration;
-import com.bernardomg.settings.configuration.SettingsConfiguration;
 
 /**
  * Application runnable class. This allows Spring Boot to run the application.
@@ -40,7 +40,8 @@ import com.bernardomg.settings.configuration.SettingsConfiguration;
  *
  */
 @SpringBootApplication
-@Import({ SettingsConfiguration.class, EventConfiguration.class })
+@Import({ EventConfiguration.class })
+@ComponentScan({ "com.bernardomg.settings", "com.bernardomg.association.settings" })
 public class UcroniaApplication {
 
     /**

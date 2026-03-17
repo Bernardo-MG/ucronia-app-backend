@@ -32,7 +32,6 @@ import org.springframework.context.annotation.Configuration;
 import com.bernardomg.settings.adapter.inbound.jpa.repository.JpaSettingsRepository;
 import com.bernardomg.settings.adapter.inbound.jpa.repository.SettingsSpringRepository;
 import com.bernardomg.settings.domain.repository.SettingRepository;
-import com.bernardomg.settings.usecase.loader.SettingsLoader;
 import com.bernardomg.settings.usecase.service.DefaultSettingService;
 import com.bernardomg.settings.usecase.service.SettingService;
 
@@ -49,11 +48,6 @@ public class SettingsConfiguration {
     @Bean("settingService")
     public SettingService getSettingService(final SettingRepository settingRepository) {
         return new DefaultSettingService(settingRepository);
-    }
-
-    @Bean(name = "settingsLoader", initMethod = "run")
-    public Runnable permissionsLoader(final SettingRepository settingRepository) {
-        return new SettingsLoader(settingRepository);
     }
 
 }

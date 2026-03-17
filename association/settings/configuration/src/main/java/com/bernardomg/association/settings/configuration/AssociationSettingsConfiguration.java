@@ -35,7 +35,7 @@ import com.bernardomg.settings.domain.repository.SettingRepository;
 
 @Configuration
 @ComponentScan({ "com.bernardomg.association.settings.adapter.outbound.rest.controller" })
-public class SettingsConfiguration {
+public class AssociationSettingsConfiguration {
 
     @Bean("settingWhitelist")
     public WhitelistRoute getSettingWhitelist() {
