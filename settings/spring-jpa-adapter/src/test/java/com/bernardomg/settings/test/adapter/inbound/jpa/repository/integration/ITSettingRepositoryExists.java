@@ -5,13 +5,16 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
+import com.bernardomg.settings.TestApplication;
 import com.bernardomg.settings.domain.repository.SettingRepository;
 import com.bernardomg.settings.test.configuration.data.annotation.FloatSetting;
 import com.bernardomg.settings.test.factory.SettingConstants;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
+@SpringBootTest(classes = TestApplication.class)
 @DisplayName("SettingRepository - exists")
 public class ITSettingRepositoryExists {
 

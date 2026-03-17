@@ -22,38 +22,39 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.settings.domain.exception;
+package com.bernardomg.settings;
 
-import java.io.Serializable;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Import;
+
+import com.bernardomg.settings.test.configuration.TestConfiguration;
 
 /**
- * Missing setting exception.
+ * Application runnable class. This allows Spring Boot to run the application.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final class MissingSettingException extends RuntimeException {
-
-    private static final long serialVersionUID = 2786821546505029631L;
+@SpringBootApplication
+@Import({ TestConfiguration.class })
+public class TestApplication {
 
     /**
-     * Key which caused the exception.
+     * Runnable main method.
+     *
+     * @param args
+     *            execution parameters
      */
-    private final String key;
-    
-    public MissingSettingException(final String key) {
-        super(String.format("Missing key %s for setting", key));
-
-        this.key = key;
+    public static void main(final String[] args) {
+        SpringApplication.run(TestApplication.class, args);
     }
 
     /**
-     * Returns the key which caused the exception.
-     *
-     * @return the key which caused the exception
+     * Default constructor.
      */
-    public final Serializable getKey() {
-        return key;
+    public TestApplication() {
+        super();
     }
 
 }
