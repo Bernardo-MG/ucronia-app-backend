@@ -51,6 +51,10 @@
    <!-- ********************************************** -->
 
    <dependencies>
+      <dependency>
+         <groupId>com.bernardomg.settings</groupId>
+         <artifactId>settings-configuration</artifactId>
+      </dependency>
       <!-- ============================================== -->
       <!-- ================ FRAMEWORK =================== -->
       <!-- ============================================== -->

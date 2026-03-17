@@ -37,6 +37,10 @@
          <groupId>com.bernardomg.settings</groupId>
          <artifactId>settings-configuration</artifactId>
       </dependency>
+      <dependency>
+         <groupId>com.bernardomg.association.settings</groupId>
+         <artifactId>association-settings-configuration</artifactId>
+      </dependency>
       <!-- ============================================== -->
       <!-- ================== LOGGING =================== -->
       <!-- ============================================== -->

@@ -7,7 +7,9 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
+import com.bernardomg.settings.TestApplication;
 import com.bernardomg.settings.adapter.inbound.jpa.model.SettingsEntity;
 import com.bernardomg.settings.adapter.inbound.jpa.repository.SettingsSpringRepository;
 import com.bernardomg.settings.domain.model.Setting;
@@ -19,6 +21,7 @@ import com.bernardomg.settings.test.factory.Settings;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
+@SpringBootTest(classes = TestApplication.class)
 @DisplayName("SettingRepository - save")
 public class ITSettingRepositorySave {
 

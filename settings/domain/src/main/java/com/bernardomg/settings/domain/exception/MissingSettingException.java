@@ -39,8 +39,8 @@ public final class MissingSettingException extends RuntimeException {
     /**
      * Key which caused the exception.
      */
-    private final String key;
-    
+    private final String      key;
+
     public MissingSettingException(final String key) {
         super(String.format("Missing key %s for setting", key));
 

@@ -37,15 +37,15 @@ import com.bernardomg.settings.domain.repository.SettingRepository;
 @ComponentScan({ "com.bernardomg.association.settings.adapter.outbound.rest.controller" })
 public class SettingsConfiguration {
 
-    @Bean(name = "settingsLoader", initMethod = "run")
-    public Runnable permissionsLoader(final SettingRepository settingRepository) {
-        return new SettingsLoader(settingRepository);
-    }
-
     @Bean("settingWhitelist")
     public WhitelistRoute getSettingWhitelist() {
         // TODO: this is for the public settings
         return WhitelistRoute.of("/settings/public/**", HttpMethod.GET);
+    }
+
+    @Bean(name = "settingsLoader", initMethod = "run")
+    public Runnable permissionsLoader(final SettingRepository settingRepository) {
+        return new SettingsLoader(settingRepository);
     }
 
 }

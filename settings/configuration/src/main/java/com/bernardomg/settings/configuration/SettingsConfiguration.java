@@ -41,11 +41,6 @@ import com.bernardomg.settings.usecase.service.SettingService;
 @AutoConfigurationPackage(basePackages = { "com.bernardomg.settings.adapter.inbound.jpa" })
 public class SettingsConfiguration {
 
-    @Bean(name = "settingsLoader", initMethod = "run")
-    public Runnable permissionsLoader(final SettingRepository settingRepository) {
-        return new SettingsLoader(settingRepository);
-    }
-
     @Bean("settingRepository")
     public SettingRepository getSettingRepository(final SettingsSpringRepository settingSpringRepo) {
         return new JpaSettingsRepository(settingSpringRepo);
@@ -54,6 +49,11 @@ public class SettingsConfiguration {
     @Bean("settingService")
     public SettingService getSettingService(final SettingRepository settingRepository) {
         return new DefaultSettingService(settingRepository);
+    }
+
+    @Bean(name = "settingsLoader", initMethod = "run")
+    public Runnable permissionsLoader(final SettingRepository settingRepository) {
+        return new SettingsLoader(settingRepository);
     }
 
 }
