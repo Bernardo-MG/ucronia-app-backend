@@ -9,8 +9,8 @@
    <!-- ********************************************** -->
 
    <parent>
-      <groupId>com.bernardomg</groupId>
-      <artifactId>ucronia-app-backend</artifactId>
+      <groupId>com.bernardomg.settings</groupId>
+      <artifactId>settings</artifactId>
       <version>1.0.0-SNAPSHOT</version>
    </parent>
 
@@ -18,11 +18,19 @@
    <!-- **************** PROJECT INFO **************** -->
    <!-- ********************************************** -->
 
-   <groupId>com.bernardomg.ucronia</groupId>
-   <artifactId>app</artifactId>
-   <packaging>war</packaging>
+   <groupId>com.bernardomg.settings</groupId>
+   <artifactId>settings-rest-adapter</artifactId>
+   <packaging>jar</packaging>
 
-   <name>Ucronia App</name>
+   <name>Settings REST Adapter</name>
+
+   <!-- ********************************************** -->
+   <!-- **************** PROPERTIES ****************** -->
+   <!-- ********************************************** -->
+
+   <properties>
+     <openapi.generator.maven.plugin.inputSpec>${project.basedir}/src/main/resources/openapi/settings.yml</openapi.generator.maven.plugin.inputSpec>
+   </properties>
 
    <!-- ********************************************** -->
    <!-- *************** DEPENDENCIES ***************** -->
@@ -30,12 +38,17 @@
 
    <dependencies>
       <dependency>
-         <groupId>com.bernardomg.association</groupId>
-         <artifactId>core</artifactId>
+         <groupId>com.bernardomg.settings</groupId>
+         <artifactId>settings-domain</artifactId>
       </dependency>
       <dependency>
          <groupId>com.bernardomg.settings</groupId>
-         <artifactId>settings-configuration</artifactId>
+         <artifactId>settings-usecase</artifactId>
+      </dependency>
+      <dependency>
+         <!-- Spring WS Security Starter -->
+         <groupId>com.bernardomg.framework.spring</groupId>
+         <artifactId>spring-ws-security-starter</artifactId>
       </dependency>
    </dependencies>
 
@@ -44,28 +57,12 @@
    <!-- ********************************************** -->
 
    <build>
-      <defaultGoal>clean package</defaultGoal>
       <plugins>
-         <plugin>
-            <!-- WAR -->
-            <!-- Generates the WAR package. -->
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-war-plugin</artifactId>
-         </plugin>
-         <plugin>
-            <!-- Spring Boot -->
-            <!-- Takes care of running Spring Boot application -->
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-maven-plugin</artifactId>
-            <version>${plugin.spring.boot.version}</version>
-            <executions>
-               <execution>
-                  <goals>
-                     <goal>repackage</goal>
-                  </goals>
-               </execution>
-            </executions>
-         </plugin>
+          <plugin>
+             <groupId>org.openapitools</groupId>
+             <artifactId>openapi-generator-maven-plugin</artifactId>
+             <version>${plugin.openapi.version}</version>
+          </plugin>
       </plugins>
    </build>
 

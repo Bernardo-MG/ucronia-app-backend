@@ -11,12 +11,6 @@ paths:
     $ref: paths/user_profile.yml
   /security/user/{username}/profile/{memberNumber}:
     $ref: paths/user_profile_by_id.yml
-  /settings:
-    $ref: paths/settings.yml
-  /settings/{code}:
-    $ref: paths/settings_by_id.yml
-  /settings/public:
-    $ref: paths/settings_public.yml
   /fee:
     $ref: paths/fees.yml
   /profile:
