@@ -1,8 +1,7 @@
 databaseChangeLog:
   # General
   - include:
-      file: structure/configuration.yaml
-      relativeToChangelogFile: true
+      file: classpath:db/changelog/settings.yaml
   - include:
       file: structure/directory.yaml
       relativeToChangelogFile: true

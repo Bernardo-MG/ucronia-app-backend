@@ -5,3 +5,6 @@
 spring:
   aop:
     proxy-target-class: false
+  liquibase:
+    enabled: true
+    change-log: classpath:/db/changelog/settings.yaml
