@@ -1,5 +1,5 @@
 
-package com.bernardomg.settings.usecase.service;
+package com.bernardomg.association.settings.usecase.service;
 
 import java.util.Objects;
 
@@ -7,10 +7,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.bernardomg.settings.domain.model.PublicSettings;
+import com.bernardomg.association.settings.domain.model.PublicSettings;
+import com.bernardomg.association.settings.usecase.constants.AssociationSettingsKey;
 import com.bernardomg.settings.domain.model.Setting;
 import com.bernardomg.settings.domain.repository.SettingRepository;
-import com.bernardomg.settings.usecase.constants.AssociationSettingsKey;
 
 import jakarta.transaction.Transactional;
 

@@ -22,41 +22,20 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.settings.adapter.outbound.rest.controller;
+package com.bernardomg.association.settings.usecase.constants;
 
-import org.springframework.web.bind.annotation.RestController;
+public final class AssociationSettingsKey {
 
-import com.bernardomg.security.access.annotation.Unsecured;
-import com.bernardomg.settings.adapter.outbound.rest.model.PublicSettingsDtoMapper;
-import com.bernardomg.settings.domain.model.PublicSettings;
-import com.bernardomg.settings.usecase.service.PublicSettingsService;
-import com.bernardomg.ucronia.openapi.api.PublicSettingsApi;
-import com.bernardomg.ucronia.openapi.model.PublicSettingsResponseDto;
+    public static final String EMAIL       = "contact.email";
 
-/**
- * Settings REST controller.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
- */
-@RestController
-public class PublicSettingsController implements PublicSettingsApi {
+    public static final String GOOGLE_MAPS = "contact.googleMap";
 
-    private final PublicSettingsService service;
+    public static final String INSTAGRAM   = "contact.instagram";
 
-    public PublicSettingsController(final PublicSettingsService service) {
+    public static final String TEAMUP      = "contact.teamup";
+
+    private AssociationSettingsKey() {
         super();
-        this.service = service;
-    }
-
-    @Override
-    @Unsecured
-    public PublicSettingsResponseDto getPublicSettings() {
-        final PublicSettings publicSettings;
-
-        publicSettings = service.getSettings();
-
-        return PublicSettingsDtoMapper.toResponseDto(publicSettings);
     }
 
 }

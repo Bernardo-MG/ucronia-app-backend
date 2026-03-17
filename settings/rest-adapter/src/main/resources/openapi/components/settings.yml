@@ -35,22 +35,6 @@ components:
           type: string
           description: Updated value for the setting.
           maxLength: 300
-    PublicSettings:
-      type: object
-      properties:
-        map:
-          type: string
-        calendar:
-          type: string
-        email:
-          type: string
-        instagram:
-          type: string
-    PublicSettingsResponse:
-      type: object
-      properties:
-        content:
-          $ref: '#/components/schemas/PublicSettings'
     SettingsResponse:
       type: object
       properties:

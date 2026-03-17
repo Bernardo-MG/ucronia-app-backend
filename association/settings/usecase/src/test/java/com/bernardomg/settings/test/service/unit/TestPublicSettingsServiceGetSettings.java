@@ -36,12 +36,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.settings.domain.model.PublicSettings;
+import com.bernardomg.association.settings.domain.model.PublicSettings;
+import com.bernardomg.association.settings.test.factory.AssociationSettings;
+import com.bernardomg.association.settings.test.factory.AssociationSettingsConstants;
+import com.bernardomg.association.settings.usecase.constants.AssociationSettingsKey;
+import com.bernardomg.association.settings.usecase.service.DefaultPublicSettingsService;
 import com.bernardomg.settings.domain.repository.SettingRepository;
-import com.bernardomg.settings.test.factory.AssociationSettings;
-import com.bernardomg.settings.test.factory.AssociationSettingsConstants;
-import com.bernardomg.settings.usecase.constants.AssociationSettingsKey;
-import com.bernardomg.settings.usecase.service.DefaultPublicSettingsService;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("PublicSettingsService - getSettings")

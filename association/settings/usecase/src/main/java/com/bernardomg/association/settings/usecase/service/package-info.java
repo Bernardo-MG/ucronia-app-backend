@@ -22,26 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.settings.adapter.outbound.rest.model;
+/**
+ * Settings services.
+ */
 
-import com.bernardomg.settings.domain.model.PublicSettings;
-import com.bernardomg.ucronia.openapi.model.PublicSettingsDto;
-import com.bernardomg.ucronia.openapi.model.PublicSettingsResponseDto;
-
-public final class PublicSettingsDtoMapper {
-
-    public static final PublicSettingsResponseDto toResponseDto(final PublicSettings settings) {
-        final PublicSettingsDto settingsDto;
-
-        settingsDto = new PublicSettingsDto().calendar(settings.calendar())
-            .map(settings.map())
-            .email(settings.email())
-            .instagram(settings.instagram());
-        return new PublicSettingsResponseDto().content(settingsDto);
-    }
-
-    private PublicSettingsDtoMapper() {
-        super();
-    }
-
-}
+package com.bernardomg.association.settings.usecase.service;

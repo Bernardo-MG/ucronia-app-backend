@@ -45,6 +45,7 @@
      <module>core</module>
      <module>common</module>
      <module>settings</module>
+     <module>association</module>
      <module>app</module>
    </modules>
 
