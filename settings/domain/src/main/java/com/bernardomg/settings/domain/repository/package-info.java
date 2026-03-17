@@ -23,7 +23,7 @@
  */
 
 /**
- * Setting exceptions.
+ * Setting repositories.
  */
 
-package com.bernardomg.settings.domain.exception;
+package com.bernardomg.settings.domain.repository;
