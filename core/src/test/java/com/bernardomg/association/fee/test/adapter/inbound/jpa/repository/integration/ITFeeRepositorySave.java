@@ -23,8 +23,8 @@ import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
-import com.bernardomg.association.transaction.configuration.data.annotation.FeeTransaction;
-import com.bernardomg.association.transaction.test.configuration.factory.TransactionEntities;
+import com.bernardomg.association.transaction.test.configuration.data.annotation.FeeTransaction;
+import com.bernardomg.association.transaction.test.factory.TransactionEntities;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest

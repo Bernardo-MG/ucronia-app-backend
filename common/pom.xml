@@ -30,6 +30,7 @@
 
    <modules>
      <module>testing</module>
+     <module>excel</module>
    </modules>
 
    <!-- ********************************************** -->

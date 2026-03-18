@@ -30,6 +30,7 @@
 
    <modules>
      <module>settings</module>
+     <module>transactions</module>
    </modules>
 
 </project>

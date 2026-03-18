@@ -63,18 +63,6 @@ paths:
     $ref: paths/fees_summary.yml
   /user/fee:
     $ref: paths/user_fees.yml
-  /transaction:
-    $ref: paths/transactions.yml
-  /transaction/{index}:
-    $ref: paths/transactions_by_id.yml
-  /transaction/summary:
-    $ref: paths/transactions_summary.yml
-  /transaction/balance/monthly:
-    $ref: paths/transactions_monthly_balance.yml
-  /transaction/range:
-    $ref: paths/transactions_range.yml
-  /transaction/report:
-    $ref: paths/transactions_report.yml
   /library/author:
     $ref: paths/authors.yml
   /library/author/{number}:

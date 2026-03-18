@@ -8,10 +8,19 @@ import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeSpringRe
 import com.bernardomg.association.fee.test.configuration.factory.FeeEntities;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
-import com.bernardomg.association.transaction.test.configuration.factory.TransactionEntities;
+import com.bernardomg.association.transaction.test.configuration.factory.TransactionConstants;
 
 @Component
 public final class FeeInitializer {
+
+    private static final TransactionEntity indexTransaction(final long index) {
+        final TransactionEntity entity = new TransactionEntity();
+        entity.setIndex(index);
+        entity.setAmount(TransactionConstants.AMOUNT);
+        entity.setDate(TransactionConstants.DATE);
+        entity.setDescription(TransactionConstants.DESCRIPTION);
+        return entity;
+    }
 
     private final FeeSpringRepository         feeRepository;
 
@@ -86,7 +95,7 @@ public final class FeeInitializer {
         final Long              index;
 
         index = transactionRepository.count() + 1;
-        toSave = TransactionEntities.index(index);
+        toSave = indexTransaction(index);
         saved = transactionRepository.save(toSave);
         transactionRepository.flush();
 

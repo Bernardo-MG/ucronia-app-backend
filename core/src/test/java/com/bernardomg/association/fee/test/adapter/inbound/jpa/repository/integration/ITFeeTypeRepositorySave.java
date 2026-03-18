@@ -14,7 +14,7 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.Positiv
 import com.bernardomg.association.fee.test.configuration.factory.FeeTypeEntities;
 import com.bernardomg.association.fee.test.configuration.factory.FeeTypes;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
-import com.bernardomg.association.transaction.configuration.data.annotation.FeeTransaction;
+import com.bernardomg.association.transaction.test.configuration.data.annotation.FeeTransaction;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest
