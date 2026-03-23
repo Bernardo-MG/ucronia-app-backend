@@ -37,7 +37,7 @@ import com.bernardomg.settings.usecase.service.SettingService;
 
 @AutoConfiguration
 @ComponentScan({ "com.bernardomg.settings.adapter.outbound.rest.controller" })
-@AutoConfigurationPackage(basePackages = { "com.bernardomg.security.permission.adapter.inbound.jpa" })
+@AutoConfigurationPackage(basePackages = { "com.bernardomg.settings.adapter.inbound.jpa" })
 public class SettingsAutoConfiguration {
 
     @Bean("settingRepository")
