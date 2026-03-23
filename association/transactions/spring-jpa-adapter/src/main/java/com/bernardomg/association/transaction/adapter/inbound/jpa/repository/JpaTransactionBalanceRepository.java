@@ -35,7 +35,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.stereotype.Repository;
 
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.MonthlyBalanceEntity;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionBalanceEntityMapper;
@@ -48,7 +47,6 @@ import com.bernardomg.pagination.springframework.SpringSorting;
 
 import jakarta.transaction.Transactional;
 
-@Repository
 @Transactional
 public final class JpaTransactionBalanceRepository implements TransactionBalanceRepository {
 

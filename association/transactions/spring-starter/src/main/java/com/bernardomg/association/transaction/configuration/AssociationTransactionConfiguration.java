@@ -28,6 +28,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.JpaTransactionBalanceRepository;
+import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.JpaTransactionRepository;
+import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.JpaTransactionSummaryRepository;
+import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.MonthlyBalanceSpringRepository;
+import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
 import com.bernardomg.association.transaction.domain.repository.TransactionBalanceRepository;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.association.transaction.domain.repository.TransactionSummaryRepository;
@@ -45,6 +50,12 @@ import com.bernardomg.association.transaction.usecase.service.TransactionSummary
         "com.bernardomg.association.transaction.adapter.inbound.jpa" })
 public class AssociationTransactionConfiguration {
 
+    @Bean("transactionBalanceRepository")
+    public TransactionBalanceRepository
+            getTransactionBalanceRepository(final MonthlyBalanceSpringRepository monthlyBalanceRepository) {
+        return new JpaTransactionBalanceRepository(monthlyBalanceRepository);
+    }
+
     @Bean("transactionBalanceService")
     public TransactionBalanceService
             getTransactionBalanceService(final TransactionBalanceRepository transactionBalanceRepository) {
@@ -56,9 +67,21 @@ public class AssociationTransactionConfiguration {
         return new ExcelPoiTransactionReportService(transactionRepository);
     }
 
+    @Bean("transactionRepository")
+    public TransactionRepository
+            getTransactionRepository(final TransactionSpringRepository transactionSpringRepository) {
+        return new JpaTransactionRepository(transactionSpringRepository);
+    }
+
     @Bean("transactionService")
     public TransactionService getTransactionService(final TransactionRepository transactionRepository) {
         return new DefaultTransactionService(transactionRepository);
+    }
+
+    @Bean("transactionSummaryRepository")
+    public TransactionSummaryRepository
+            getTransactionSummaryRepository(final MonthlyBalanceSpringRepository monthlyBalanceRepository) {
+        return new JpaTransactionSummaryRepository(monthlyBalanceRepository);
     }
 
     @Bean("transactionSummaryService")

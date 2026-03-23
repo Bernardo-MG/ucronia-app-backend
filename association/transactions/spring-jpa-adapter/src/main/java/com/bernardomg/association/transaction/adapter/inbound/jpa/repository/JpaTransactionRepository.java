@@ -34,7 +34,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.stereotype.Repository;
 
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntityMapper;
@@ -51,7 +50,6 @@ import com.bernardomg.pagination.springframework.SpringSorting;
 
 import jakarta.transaction.Transactional;
 
-@Repository
 @Transactional
 public final class JpaTransactionRepository implements TransactionRepository {
 

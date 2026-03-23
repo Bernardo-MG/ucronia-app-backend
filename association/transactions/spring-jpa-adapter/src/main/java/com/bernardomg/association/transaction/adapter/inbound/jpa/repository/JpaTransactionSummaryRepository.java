@@ -33,7 +33,6 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Repository;
 
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.MonthlyBalanceEntity;
 import com.bernardomg.association.transaction.domain.model.TransactionSummary;
@@ -41,7 +40,6 @@ import com.bernardomg.association.transaction.domain.repository.TransactionSumma
 
 import jakarta.transaction.Transactional;
 
-@Repository
 @Transactional
 public final class JpaTransactionSummaryRepository implements TransactionSummaryRepository {
 
