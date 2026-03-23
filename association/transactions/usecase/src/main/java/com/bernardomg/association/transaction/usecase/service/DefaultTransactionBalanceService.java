@@ -28,12 +28,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
-import org.springframework.stereotype.Service;
-
 import com.bernardomg.association.transaction.domain.model.TransactionBalanceQuery;
 import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
 import com.bernardomg.association.transaction.domain.repository.TransactionBalanceRepository;
-import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.pagination.domain.Sorting;
 
 import jakarta.transaction.Transactional;
 
@@ -42,7 +40,6 @@ import jakarta.transaction.Transactional;
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
-@Service
 @Transactional
 public final class DefaultTransactionBalanceService implements TransactionBalanceService {
 

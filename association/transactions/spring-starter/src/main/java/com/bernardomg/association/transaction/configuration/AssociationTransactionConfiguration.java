@@ -24,12 +24,47 @@
 
 package com.bernardomg.association.transaction.configuration;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+
+import com.bernardomg.association.transaction.domain.repository.TransactionBalanceRepository;
+import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
+import com.bernardomg.association.transaction.domain.repository.TransactionSummaryRepository;
+import com.bernardomg.association.transaction.usecase.service.DefaultTransactionBalanceService;
+import com.bernardomg.association.transaction.usecase.service.DefaultTransactionService;
+import com.bernardomg.association.transaction.usecase.service.DefaultTransactionSummaryService;
+import com.bernardomg.association.transaction.usecase.service.ExcelPoiTransactionReportService;
+import com.bernardomg.association.transaction.usecase.service.TransactionBalanceService;
+import com.bernardomg.association.transaction.usecase.service.TransactionReportService;
+import com.bernardomg.association.transaction.usecase.service.TransactionService;
+import com.bernardomg.association.transaction.usecase.service.TransactionSummaryService;
 
 @Configuration
 @ComponentScan({ "com.bernardomg.association.transaction.adapter.outbound.rest.controller",
         "com.bernardomg.association.transaction.adapter.inbound.jpa" })
 public class AssociationTransactionConfiguration {
+
+    @Bean("transactionBalanceService")
+    public TransactionBalanceService
+            getTransactionBalanceService(final TransactionBalanceRepository transactionBalanceRepository) {
+        return new DefaultTransactionBalanceService(transactionBalanceRepository);
+    }
+
+    @Bean("transactionReportService")
+    public TransactionReportService getTransactionReportService(final TransactionRepository transactionRepository) {
+        return new ExcelPoiTransactionReportService(transactionRepository);
+    }
+
+    @Bean("transactionService")
+    public TransactionService getTransactionService(final TransactionRepository transactionRepository) {
+        return new DefaultTransactionService(transactionRepository);
+    }
+
+    @Bean("transactionSummaryService")
+    public TransactionSummaryService
+            getTransactionSummaryService(final TransactionSummaryRepository transactionSummaryRepository) {
+        return new DefaultTransactionSummaryService(transactionSummaryRepository);
+    }
 
 }

@@ -42,6 +42,19 @@
          <artifactId>jakarta.transaction-api</artifactId>
       </dependency>
       <!-- ============================================== -->
+      <!-- ================ FRAMEWORK =================== -->
+      <!-- ============================================== -->
+      <dependency>
+         <!-- Validation -->
+         <groupId>com.bernardomg.framework</groupId>
+         <artifactId>validation</artifactId>
+      </dependency>
+      <dependency>
+         <!-- Pagination -->
+         <groupId>com.bernardomg.framework</groupId>
+         <artifactId>pagination</artifactId>
+      </dependency>
+      <!-- ============================================== -->
       <!-- =============== APACHE POI =================== -->
       <!-- ============================================== -->
       <dependency>

@@ -43,8 +43,8 @@ import com.bernardomg.association.transaction.adapter.inbound.jpa.specification.
 import com.bernardomg.association.transaction.domain.model.TransactionBalanceQuery;
 import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
 import com.bernardomg.association.transaction.domain.repository.TransactionBalanceRepository;
-import com.bernardomg.data.domain.Sorting;
-import com.bernardomg.data.springframework.SpringSorting;
+import com.bernardomg.pagination.domain.Sorting;
+import com.bernardomg.pagination.springframework.SpringSorting;
 
 import jakarta.transaction.Transactional;
 

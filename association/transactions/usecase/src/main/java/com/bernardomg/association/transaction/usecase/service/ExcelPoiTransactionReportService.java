@@ -38,16 +38,14 @@ import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
 
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
-import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.excel.ExcelParsing;
+import com.bernardomg.pagination.domain.Sorting;
 
 import jakarta.transaction.Transactional;
 
-@Service
 @Transactional
 public final class ExcelPoiTransactionReportService implements TransactionReportService {
 

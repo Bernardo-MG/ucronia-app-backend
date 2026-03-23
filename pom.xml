@@ -196,6 +196,7 @@
       <!-- ============================================== -->
       <apache.poi.version>5.4.1</apache.poi.version>
       <archunit.version>1.4.1</archunit.version>
+      <bernardomg.framework.pagination.version>1.0.1</bernardomg.framework.pagination.version>
       <bernardomg.framework.test.architecture>1.0.7</bernardomg.framework.test.architecture>
       <bernardomg.framework.validation.version>0.2.5</bernardomg.framework.validation.version>
       <bernardomg.framework.ws.version>0.4.6</bernardomg.framework.ws.version>
@@ -302,6 +303,12 @@
             <groupId>com.bernardomg.framework</groupId>
             <artifactId>validation</artifactId>
             <version>${bernardomg.framework.validation.version}</version>
+         </dependency>
+         <dependency>
+            <!-- Pagination -->
+            <groupId>com.bernardomg.framework</groupId>
+            <artifactId>pagination</artifactId>
+            <version>${bernardomg.framework.pagination.version}</version>
          </dependency>
          <dependency>
             <!-- Spring WS Starter -->

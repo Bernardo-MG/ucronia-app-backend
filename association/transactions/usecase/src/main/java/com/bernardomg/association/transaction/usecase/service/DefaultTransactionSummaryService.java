@@ -27,8 +27,6 @@ package com.bernardomg.association.transaction.usecase.service;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.stereotype.Service;
-
 import com.bernardomg.association.transaction.domain.model.TransactionSummary;
 import com.bernardomg.association.transaction.domain.repository.TransactionSummaryRepository;
 
@@ -39,7 +37,6 @@ import jakarta.transaction.Transactional;
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
-@Service
 @Transactional
 public final class DefaultTransactionSummaryService implements TransactionSummaryService {
 

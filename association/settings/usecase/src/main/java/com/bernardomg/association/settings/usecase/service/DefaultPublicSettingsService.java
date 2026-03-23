@@ -5,7 +5,6 @@ import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
 
 import com.bernardomg.association.settings.domain.model.PublicSettings;
 import com.bernardomg.association.settings.usecase.constants.AssociationSettingsKey;
@@ -14,7 +13,6 @@ import com.bernardomg.settings.domain.repository.SettingRepository;
 
 import jakarta.transaction.Transactional;
 
-@Service
 @Transactional
 public final class DefaultPublicSettingsService implements PublicSettingsService {
 

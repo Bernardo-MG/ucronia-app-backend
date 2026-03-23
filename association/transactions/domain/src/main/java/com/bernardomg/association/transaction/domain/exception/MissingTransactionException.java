@@ -49,20 +49,33 @@ package com.bernardomg.association.transaction.domain.exception;
 
 import java.io.Serializable;
 
-import com.bernardomg.exception.MissingIdException;
-
 /**
  * Missing transaction exception.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final class MissingTransactionException extends MissingIdException {
+public final class MissingTransactionException extends RuntimeException {
 
-    private static final long serialVersionUID = 2786821546505029631L;
+    private static final long  serialVersionUID = 2786821546505029631L;
 
-    public MissingTransactionException(final Serializable id) {
-        super("transaction", id);
+    /**
+     * Id which caused the exception.
+     */
+    private final Serializable id;
+
+    public MissingTransactionException(final Long id) {
+        super(String.format("Missing id %s for transaction", id));
+
+        this.id = id;
     }
 
+    /**
+     * Returns the id which caused the exception.
+     *
+     * @return the id which caused the exception
+     */
+    public final Serializable getId() {
+        return id;
+    }
 }

@@ -29,7 +29,6 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
 
 import com.bernardomg.association.transaction.domain.exception.MissingTransactionException;
 import com.bernardomg.association.transaction.domain.model.Transaction;
@@ -37,9 +36,9 @@ import com.bernardomg.association.transaction.domain.model.TransactionMonthsRang
 import com.bernardomg.association.transaction.domain.model.TransactionQuery;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.association.transaction.usecase.validation.TransactionNotPaidInFutureRule;
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Pagination;
-import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
 
@@ -51,7 +50,6 @@ import jakarta.transaction.Transactional;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Service
 @Transactional
 public final class DefaultTransactionService implements TransactionService {
 

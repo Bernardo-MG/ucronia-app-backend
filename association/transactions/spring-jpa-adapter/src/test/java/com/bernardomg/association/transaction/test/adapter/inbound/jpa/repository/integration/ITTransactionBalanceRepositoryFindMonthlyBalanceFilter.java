@@ -40,7 +40,7 @@ import com.bernardomg.association.transaction.domain.repository.TransactionBalan
 import com.bernardomg.association.transaction.test.configuration.data.annotation.FullTransactionYear;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionBalanceQueries;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionMonthlyBalances;
-import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest

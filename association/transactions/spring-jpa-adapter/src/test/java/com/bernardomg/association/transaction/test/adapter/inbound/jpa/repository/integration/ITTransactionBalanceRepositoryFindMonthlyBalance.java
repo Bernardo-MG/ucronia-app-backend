@@ -47,7 +47,7 @@ import com.bernardomg.association.transaction.test.configuration.data.annotation
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionBalanceQueries;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionMonthlyBalances;
 import com.bernardomg.association.transaction.test.util.initializer.TransactionInitializer;
-import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.test.annotation.IntegrationTest;
 import com.bernardomg.test.configuration.argument.AroundZeroArgumentsProvider;
 import com.bernardomg.test.configuration.argument.DecimalArgumentsProvider;
