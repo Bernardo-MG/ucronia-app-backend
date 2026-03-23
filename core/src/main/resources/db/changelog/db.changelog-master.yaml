@@ -7,6 +7,9 @@ databaseChangeLog:
       relativeToChangelogFile: true
   # Association
   - include:
+      file: funds.yaml
+      relativeToChangelogFile: true
+  - include:
       file: structure/member.yaml
       relativeToChangelogFile: true
   - include:
