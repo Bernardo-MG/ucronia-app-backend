@@ -33,6 +33,7 @@
          <!-- Spring WS Starter -->
          <groupId>com.bernardomg.framework.spring</groupId>
          <artifactId>spring-ws-starter</artifactId>
+         <scope>provided</scope>
       </dependency>
       <dependency>
          <groupId>org.springframework</groupId>

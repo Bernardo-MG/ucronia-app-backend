@@ -25,12 +25,22 @@
 package com.bernardomg.association.transaction.test.configuration;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.JpaTransactionRepository;
+import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
+import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
+
 @Configuration
-@EnableJpaRepositories(basePackages = "com.bernardomg.transaction.adapter.inbound.jpa")
-@EntityScan(basePackages = "com.bernardomg.transaction.adapter.inbound.jpa")
+@EnableJpaRepositories(basePackages = "com.bernardomg.association.transaction.adapter.inbound.jpa")
+@EntityScan(basePackages = "com.bernardomg.association.transaction.adapter.inbound.jpa")
 public class TestConfiguration {
+
+    @Bean("transactionRepository")
+    public TransactionRepository getTransactionRepository(final TransactionSpringRepository transactionSpringRepository) {
+        return new JpaTransactionRepository(transactionSpringRepository);
+    }
 
 }

@@ -25,14 +25,6 @@
    <name>Association Transactions REST Adapter</name>
 
    <!-- ********************************************** -->
-   <!-- **************** PROPERTIES ****************** -->
-   <!-- ********************************************** -->
-
-   <properties>
-     <openapi.generator.maven.plugin.inputSpec>${project.basedir}/src/main/resources/openapi/transactions.yml</openapi.generator.maven.plugin.inputSpec>
-   </properties>
-
-   <!-- ********************************************** -->
    <!-- *************** DEPENDENCIES ***************** -->
    <!-- ********************************************** -->
 

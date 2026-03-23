@@ -31,7 +31,9 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
+import com.bernardomg.association.transaction.TestApplication;
 import com.bernardomg.association.transaction.domain.model.TransactionMonthsRange;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.association.transaction.test.configuration.data.annotation.FullConsecutiveTransactionYears;
@@ -43,6 +45,7 @@ import com.bernardomg.association.transaction.test.configuration.factory.Transac
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
+@SpringBootTest(classes = TestApplication.class)
 @DisplayName("TransactionRepository - find dates")
 class ITTransactionRepositoryFindDates {
 

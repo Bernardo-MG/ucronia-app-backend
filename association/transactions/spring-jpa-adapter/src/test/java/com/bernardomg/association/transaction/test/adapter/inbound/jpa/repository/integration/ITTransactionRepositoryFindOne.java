@@ -32,7 +32,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
+import com.bernardomg.association.transaction.TestApplication;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
@@ -46,6 +48,7 @@ import com.bernardomg.test.configuration.argument.AroundZeroArgumentsProvider;
 import com.bernardomg.test.configuration.argument.DecimalArgumentsProvider;
 
 @IntegrationTest
+@SpringBootTest(classes = TestApplication.class)
 @DisplayName("TransactionRepository - find one")
 class ITTransactionRepositoryFindOne {
 

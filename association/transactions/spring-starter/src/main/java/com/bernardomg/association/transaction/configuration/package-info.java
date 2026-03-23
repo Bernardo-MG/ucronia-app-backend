@@ -23,7 +23,7 @@
  */
 
 /**
- * Settings configuration.
+ * Transaction configuration.
  */
 
 package com.bernardomg.association.transaction.configuration;

@@ -34,7 +34,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
+import com.bernardomg.association.transaction.TestApplication;
 import com.bernardomg.association.transaction.domain.model.TransactionBalanceQuery;
 import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
 import com.bernardomg.association.transaction.domain.repository.TransactionBalanceRepository;
@@ -51,6 +53,7 @@ import com.bernardomg.test.configuration.argument.AroundZeroArgumentsProvider;
 import com.bernardomg.test.configuration.argument.DecimalArgumentsProvider;
 
 @IntegrationTest
+@SpringBootTest(classes = TestApplication.class)
 @DisplayName("TransactionBalanceRepository - find monthly balance")
 class ITTransactionBalanceRepositoryFindMonthlyBalance {
 
