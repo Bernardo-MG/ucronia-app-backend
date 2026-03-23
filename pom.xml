@@ -300,6 +300,11 @@
             <artifactId>association-transaction-testing</artifactId>
             <version>${project.version}</version>
          </dependency>
+         <dependency>
+            <groupId>com.bernardomg.association.profile</groupId>
+            <artifactId>association-profile-testing</artifactId>
+            <version>${project.version}</version>
+         </dependency>
          <!-- ============================================== -->
          <!-- ================ FRAMEWORK =================== -->
          <!-- ============================================== -->
