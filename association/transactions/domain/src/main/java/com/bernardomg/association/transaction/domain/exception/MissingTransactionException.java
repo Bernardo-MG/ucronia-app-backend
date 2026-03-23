@@ -57,12 +57,12 @@ import java.io.Serializable;
  */
 public final class MissingTransactionException extends RuntimeException {
 
-    private static final long  serialVersionUID = 2786821546505029631L;
+    private static final long serialVersionUID = 2786821546505029631L;
 
     /**
      * Id which caused the exception.
      */
-    private final Serializable id;
+    private final Long        id;
 
     public MissingTransactionException(final Long id) {
         super(String.format("Missing id %s for transaction", id));
@@ -78,4 +78,5 @@ public final class MissingTransactionException extends RuntimeException {
     public final Serializable getId() {
         return id;
     }
+
 }

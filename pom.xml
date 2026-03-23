@@ -291,6 +291,11 @@
             <version>${project.version}</version>
          </dependency>
          <dependency>
+            <groupId>com.bernardomg.association.profile</groupId>
+            <artifactId>association-profile-spring-starter</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
             <groupId>com.bernardomg.association.transaction</groupId>
             <artifactId>association-transaction-testing</artifactId>
             <version>${project.version}</version>
