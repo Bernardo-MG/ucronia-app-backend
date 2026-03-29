@@ -41,7 +41,7 @@ import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
-import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest

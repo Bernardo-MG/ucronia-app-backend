@@ -24,20 +24,34 @@
 
 package com.bernardomg.association.library.gamesystem.domain.exception;
 
-import com.bernardomg.exception.MissingIdException;
-
 /**
  * Missing game system exception.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final class MissingGameSystemException extends MissingIdException {
+public final class MissingGameSystemException extends RuntimeException {
 
     private static final long serialVersionUID = 2786821546505029631L;
 
+    /**
+     * Id which caused the exception.
+     */
+    private final Long        number;
+
     public MissingGameSystemException(final Long number) {
-        super("game_system", number);
+        super(String.format("Missing id %s for game system", number));
+
+        this.number = number;
+    }
+
+    /**
+     * Returns the id which caused the exception.
+     *
+     * @return the id which caused the exception
+     */
+    public final Long getNumber() {
+        return number;
     }
 
 }

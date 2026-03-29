@@ -17,7 +17,7 @@ import com.bernardomg.association.member.test.configuration.data.annotation.Acti
 import com.bernardomg.association.member.test.configuration.factory.MembershipEvolutionMonthConstants;
 import com.bernardomg.association.member.test.configuration.factory.MembershipEvolutionMonths;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
-import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest

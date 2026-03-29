@@ -45,7 +45,7 @@ import com.bernardomg.association.member.test.configuration.data.annotation.Acti
 import com.bernardomg.association.member.test.configuration.data.annotation.AlternativeActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.MultipleActiveMemberAccents;
 import com.bernardomg.association.member.test.configuration.factory.MemberCalendarConstants;
-import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest

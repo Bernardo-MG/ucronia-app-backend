@@ -46,10 +46,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.event.domain.FeeDeletedEvent;
 import com.bernardomg.association.event.domain.FeePaidEvent;
-import com.bernardomg.association.fee.domain.dto.FeePayments;
 import com.bernardomg.association.fee.domain.exception.MissingFeeException;
 import com.bernardomg.association.fee.domain.exception.MissingFeeTypeException;
 import com.bernardomg.association.fee.domain.model.Fee;
+import com.bernardomg.association.fee.domain.model.FeePayments;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.domain.model.FeeType;
 import com.bernardomg.association.fee.domain.model.MemberFees;
@@ -69,10 +69,10 @@ import com.bernardomg.association.member.domain.repository.MemberProfileReposito
 import com.bernardomg.association.profile.domain.model.ProfileName;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Pagination;
-import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.event.emitter.EventEmitter;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
 
@@ -182,17 +182,23 @@ public final class DefaultFeeService implements FeeService {
         final Fee fee;
 
         log.info("Deleting fee for {} in {}", number, date);
-
-        fee = feeRepository.findOne(number, date)
-            .orElseThrow(() -> {
-                log.error("Missing fee for {} in {}", number, date);
-                throw new MissingFeeException(number, date);
-            });
+        try {
+            fee = feeRepository.findOne(number, date)
+                .orElseThrow(() -> {
+                    log.error("Missing fee for {} in {}", number, date);
+                    throw new MissingFeeException(number, date);
+                });
+        } catch (final Exception e) {
+            log.error(e.getLocalizedMessage(), e);
+            e.printStackTrace();
+            throw e;
+        }
 
         feeRepository.delete(number, date);
 
         // Send events for deleted fees
-        eventEmitter.emit(new FeeDeletedEvent(fee, date, number));
+        // TODO: set source
+        eventEmitter.emit(new FeeDeletedEvent(null, date, number));
 
         log.info("Deleted fee for {} in {}", number, date);
 
@@ -541,7 +547,8 @@ public final class DefaultFeeService implements FeeService {
     }
 
     private final void sendFeePaidEvent(final Fee fee) {
-        eventEmitter.emit(new FeePaidEvent(fee, fee.month(), fee.member()
+        // TODO: set source
+        eventEmitter.emit(new FeePaidEvent(null, fee.month(), fee.member()
             .number()));
     }
 

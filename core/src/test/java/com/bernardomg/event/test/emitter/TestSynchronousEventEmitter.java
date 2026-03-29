@@ -72,7 +72,8 @@ class TestSynchronousEventEmitter {
 
         emitter = new SynchronousEventEmitter(listeners);
 
-        event = new TestEvent(this);
+        // TODO: set source
+        event = new TestEvent(null);
 
         // WHEN
         emitter.emit(event);
@@ -94,7 +95,8 @@ class TestSynchronousEventEmitter {
         emitter = new SynchronousEventEmitter(listeners);
 
         // WHEN
-        emitter.emit(new TestEvent(this));
+        // TODO: set source
+        emitter.emit(new TestEvent(null));
 
         // THEN
     }
@@ -115,7 +117,8 @@ class TestSynchronousEventEmitter {
 
         emitter = new SynchronousEventEmitter(listeners);
 
-        event = new TestEvent(this);
+        // TODO: set source
+        event = new TestEvent(null);
 
         // WHEN
         emitter.emit(event);
@@ -140,7 +143,8 @@ class TestSynchronousEventEmitter {
 
         emitter = new SynchronousEventEmitter(listeners);
 
-        event = new AlternativeTestEvent(this);
+        // TODO: set source
+        event = new AlternativeTestEvent(null);
 
         // WHEN
         emitter.emit(event);

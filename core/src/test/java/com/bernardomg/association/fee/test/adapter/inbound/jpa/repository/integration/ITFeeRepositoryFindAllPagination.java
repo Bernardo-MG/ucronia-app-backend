@@ -40,9 +40,9 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.Positiv
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.test.configuration.factory.FeesQuery;
 import com.bernardomg.association.member.test.configuration.data.annotation.MultipleInactiveMember;
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Pagination;
-import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 import com.bernardomg.test.pagination.AbstractPaginationIT;
 

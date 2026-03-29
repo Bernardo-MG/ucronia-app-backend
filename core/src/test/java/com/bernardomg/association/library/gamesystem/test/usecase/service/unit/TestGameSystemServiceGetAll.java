@@ -41,9 +41,9 @@ import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.gamesystem.domain.repository.GameSystemRepository;
 import com.bernardomg.association.library.gamesystem.test.configuration.factory.GameSystems;
 import com.bernardomg.association.library.gamesystem.usecase.service.DefaultGameSystemService;
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Pagination;
-import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("GameSystemService - get all")

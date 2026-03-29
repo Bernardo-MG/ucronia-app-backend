@@ -26,7 +26,7 @@ import com.bernardomg.association.library.book.domain.repository.GameBookReposit
 import com.bernardomg.association.library.book.test.configuration.factory.FictionBooks;
 import com.bernardomg.association.library.book.test.configuration.factory.GameBooks;
 import com.bernardomg.association.library.book.usecase.service.ExcelPoiBookReportService;
-import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.pagination.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("ExcelPoiBookReportService - get report")

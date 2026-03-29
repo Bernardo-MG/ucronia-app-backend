@@ -43,9 +43,9 @@ import com.bernardomg.association.sponsor.domain.model.Sponsor;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
 import com.bernardomg.association.sponsor.usecase.validation.SponsorIdentifierNotExistForAnotherRule;
 import com.bernardomg.association.sponsor.usecase.validation.SponsorIdentifierNotExistRule;
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Pagination;
-import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
 

@@ -48,8 +48,8 @@ import com.bernardomg.association.member.domain.repository.MemberProfileReposito
 import com.bernardomg.association.member.test.configuration.factory.MemberCalendarConstants;
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
-import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.event.emitter.EventEmitter;
+import com.bernardomg.pagination.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Fee service - get for year")

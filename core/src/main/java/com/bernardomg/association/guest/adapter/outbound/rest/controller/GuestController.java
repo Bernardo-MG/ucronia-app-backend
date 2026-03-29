@@ -33,10 +33,10 @@ import com.bernardomg.association.guest.adapter.outbound.rest.model.GuestDtoMapp
 import com.bernardomg.association.guest.domain.filter.GuestFilter;
 import com.bernardomg.association.guest.domain.model.Guest;
 import com.bernardomg.association.guest.usecase.service.GuestService;
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Pagination;
-import com.bernardomg.data.domain.Sorting;
-import com.bernardomg.data.web.WebSorting;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
+import com.bernardomg.pagination.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
 import com.bernardomg.ucronia.openapi.api.GuestApi;

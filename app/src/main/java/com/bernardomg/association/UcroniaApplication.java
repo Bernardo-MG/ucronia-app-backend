@@ -28,9 +28,6 @@ import java.util.Locale;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Import;
-
-import com.bernardomg.event.configuration.EventConfiguration;
 
 /**
  * Application runnable class. This allows Spring Boot to run the application.
@@ -39,7 +36,6 @@ import com.bernardomg.event.configuration.EventConfiguration;
  *
  */
 @SpringBootApplication
-@Import({ EventConfiguration.class })
 public class UcroniaApplication {
 
     /**

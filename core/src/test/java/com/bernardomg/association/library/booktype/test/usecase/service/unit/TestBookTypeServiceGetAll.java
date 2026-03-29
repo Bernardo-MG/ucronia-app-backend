@@ -41,9 +41,9 @@ import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.booktype.domain.repository.BookTypeRepository;
 import com.bernardomg.association.library.booktype.test.configuration.factory.BookTypes;
 import com.bernardomg.association.library.booktype.usecase.service.DefaultBookTypeService;
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Pagination;
-import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("BookTypeService - get all")

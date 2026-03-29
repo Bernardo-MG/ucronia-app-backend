@@ -58,9 +58,9 @@ import com.bernardomg.association.library.publisher.domain.exception.MissingPubl
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
 import com.bernardomg.association.profile.domain.repository.ProfileRepository;
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Pagination;
-import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
 

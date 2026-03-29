@@ -39,7 +39,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.association.member.domain.filter.MembershipEvolutionQuery;
 import com.bernardomg.association.member.domain.model.MembershipEvolutionMonth;
 import com.bernardomg.association.member.domain.repository.MembershipEvolutionRepository;
-import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.pagination.domain.Sorting;
 
 /**
  * Default implementation of the membership evolution service.

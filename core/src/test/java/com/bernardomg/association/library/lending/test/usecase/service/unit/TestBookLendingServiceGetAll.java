@@ -43,9 +43,9 @@ import com.bernardomg.association.library.lending.domain.repository.BookLendingR
 import com.bernardomg.association.library.lending.test.configuration.factory.BookLendings;
 import com.bernardomg.association.library.lending.usecase.service.DefaultBookLendingService;
 import com.bernardomg.association.profile.domain.repository.ProfileRepository;
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Pagination;
-import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("BookLendingService - get all")

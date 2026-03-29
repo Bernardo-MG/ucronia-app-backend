@@ -53,9 +53,9 @@ import com.bernardomg.association.profile.domain.exception.MissingProfileExcepti
 import com.bernardomg.association.profile.domain.model.Profile;
 import com.bernardomg.association.profile.domain.model.ProfileName;
 import com.bernardomg.association.profile.domain.repository.ProfileRepository;
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Pagination;
-import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
 
@@ -156,7 +156,7 @@ public final class DefaultBookLendingService implements BookLendingService {
         read = bookLendingRepository.findOne(bookNumber, borrower)
             .orElseThrow(() -> {
                 log.error("Missing book {}", bookNumber + "-" + borrower);
-                throw new MissingBookLendingException(bookNumber + "-" + borrower);
+                throw new MissingBookLendingException(bookNumber, borrower);
             });
 
         lending = read.returned(date);

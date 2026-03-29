@@ -32,6 +32,7 @@
      <module>settings</module>
      <module>transactions</module>
      <module>profiles</module>
+     <module>fees</module>
    </modules>
 
 </project>

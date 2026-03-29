@@ -24,23 +24,37 @@
 
 package com.bernardomg.association.sponsor.domain.exception;
 
-import com.bernardomg.exception.MissingIdException;
-
 /**
  * Missing member exception.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final class MissingSponsorException extends MissingIdException {
+public final class MissingSponsorException extends RuntimeException {
 
     /**
      *
      */
     private static final long serialVersionUID = 7047503453574986947L;
 
-    public MissingSponsorException(final long number) {
-        super("sponsor", number);
+    /**
+     * Id which caused the exception.
+     */
+    private final Long        number;
+
+    public MissingSponsorException(final Long number) {
+        super(String.format("Missing id %s for sponsor", number));
+
+        this.number = number;
+    }
+
+    /**
+     * Returns the id which caused the exception.
+     *
+     * @return the id which caused the exception
+     */
+    public final Long getNumber() {
+        return number;
     }
 
 }

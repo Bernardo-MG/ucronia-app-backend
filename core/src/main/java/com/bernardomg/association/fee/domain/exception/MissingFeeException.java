@@ -26,20 +26,33 @@ package com.bernardomg.association.fee.domain.exception;
 
 import java.time.YearMonth;
 
-import com.bernardomg.exception.MissingIdException;
-
 /**
  * Missing fee exception.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final class MissingFeeException extends MissingIdException {
+public final class MissingFeeException extends RuntimeException {
 
     private static final long serialVersionUID = 2786821546505029631L;
 
+    private final YearMonth   date;
+
+    private final Long        profileNumber;
+
     public MissingFeeException(final long profileNumber, final YearMonth date) {
-        super("fee", profileNumber + " " + String.valueOf(date));
+        super(String.format("Missing fee for profile %s and date %s", profileNumber, date));
+
+        this.profileNumber = profileNumber;
+        this.date = date;
+    }
+
+    public YearMonth getDate() {
+        return date;
+    }
+
+    public Long getProfileNumber() {
+        return profileNumber;
     }
 
 }

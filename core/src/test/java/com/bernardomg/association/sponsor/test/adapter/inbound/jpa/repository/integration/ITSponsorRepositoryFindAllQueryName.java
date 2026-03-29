@@ -38,9 +38,9 @@ import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
 import com.bernardomg.association.sponsor.test.configuration.data.annotation.SponsorWithEmail;
 import com.bernardomg.association.sponsor.test.configuration.data.annotation.ValidSponsor;
 import com.bernardomg.association.sponsor.test.configuration.factory.Sponsors;
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Pagination;
-import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest

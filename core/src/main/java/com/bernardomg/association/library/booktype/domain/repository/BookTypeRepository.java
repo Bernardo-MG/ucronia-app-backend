@@ -27,9 +27,9 @@ package com.bernardomg.association.library.booktype.domain.repository;
 import java.util.Optional;
 
 import com.bernardomg.association.library.booktype.domain.model.BookType;
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Pagination;
-import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
 
 public interface BookTypeRepository {
 

@@ -27,9 +27,9 @@ package com.bernardomg.association.library.publisher.adapter.outbound.rest.model
 import java.util.Optional;
 
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Sorting.Direction;
-import com.bernardomg.data.domain.Sorting.Property;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Sorting.Direction;
+import com.bernardomg.pagination.domain.Sorting.Property;
 import com.bernardomg.ucronia.openapi.model.PropertyDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
 import com.bernardomg.ucronia.openapi.model.PublisherDto;

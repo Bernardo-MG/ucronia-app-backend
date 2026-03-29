@@ -50,11 +50,11 @@ import com.bernardomg.association.profile.adapter.inbound.jpa.repository.Contact
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 import com.bernardomg.association.profile.domain.model.ContactMethod;
 import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Pagination;
-import com.bernardomg.data.domain.Sorting;
-import com.bernardomg.data.domain.Sorting.Property;
-import com.bernardomg.data.springframework.SpringPagination;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
+import com.bernardomg.pagination.domain.Sorting.Property;
+import com.bernardomg.pagination.springframework.SpringPagination;
 
 @Repository
 @Transactional

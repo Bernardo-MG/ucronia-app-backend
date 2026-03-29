@@ -27,9 +27,9 @@ package com.bernardomg.association.library.lending.usecase.service;
 import java.time.Instant;
 
 import com.bernardomg.association.library.lending.domain.model.BookLending;
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Pagination;
-import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
 
 public interface BookLendingService {
 

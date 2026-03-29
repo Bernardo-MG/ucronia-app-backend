@@ -24,8 +24,6 @@
 
 package com.bernardomg.association.profile.domain.exception;
 
-import java.io.Serializable;
-
 /**
  * Missing profile exception.
  *
@@ -52,7 +50,7 @@ public final class MissingProfileException extends RuntimeException {
      *
      * @return the id which caused the exception
      */
-    public final Serializable getId() {
+    public final Long getId() {
         return id;
     }
 

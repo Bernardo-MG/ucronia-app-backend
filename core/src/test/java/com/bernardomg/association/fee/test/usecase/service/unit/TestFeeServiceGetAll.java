@@ -47,10 +47,10 @@ import com.bernardomg.association.fee.test.configuration.factory.FeesQuery;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Pagination;
-import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.event.emitter.EventEmitter;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Fee service - get all")

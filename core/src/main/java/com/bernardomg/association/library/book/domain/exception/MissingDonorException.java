@@ -24,20 +24,34 @@
 
 package com.bernardomg.association.library.book.domain.exception;
 
-import com.bernardomg.exception.MissingIdException;
-
 /**
  * Missing donor exception.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final class MissingDonorException extends MissingIdException {
+public final class MissingDonorException extends RuntimeException {
 
     private static final long serialVersionUID = -534547975981655791L;
 
-    public MissingDonorException(final long index) {
-        super("donor", index);
+    /**
+     * Id which caused the exception.
+     */
+    private final Long        number;
+
+    public MissingDonorException(final Long number) {
+        super(String.format("Missing id %s for donor", number));
+
+        this.number = number;
+    }
+
+    /**
+     * Returns the id which caused the exception.
+     *
+     * @return the id which caused the exception
+     */
+    public final Long getNumber() {
+        return number;
     }
 
 }

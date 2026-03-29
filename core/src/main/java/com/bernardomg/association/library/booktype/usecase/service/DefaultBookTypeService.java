@@ -38,9 +38,9 @@ import com.bernardomg.association.library.booktype.domain.repository.BookTypeRep
 import com.bernardomg.association.library.booktype.usecase.validation.BookTypeNameNotEmptyRule;
 import com.bernardomg.association.library.booktype.usecase.validation.BookTypeNameNotExistsForAnotherRule;
 import com.bernardomg.association.library.booktype.usecase.validation.BookTypeNameNotExistsRule;
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Pagination;
-import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
 

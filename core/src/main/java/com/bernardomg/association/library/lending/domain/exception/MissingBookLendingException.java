@@ -24,20 +24,33 @@
 
 package com.bernardomg.association.library.lending.domain.exception;
 
-import com.bernardomg.exception.MissingIdException;
-
 /**
  * Missing book lending exception.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final class MissingBookLendingException extends MissingIdException {
+public final class MissingBookLendingException extends RuntimeException {
 
     private static final long serialVersionUID = 2786821546505029631L;
 
-    public MissingBookLendingException(final String name) {
-        super("book_lending", name);
+    private final Long        bookNumber;
+
+    private final Long        borrower;
+
+    public MissingBookLendingException(final long bookNumber, final long borrower) {
+        super(String.format("Missing book lending for book %d and borrower %d", bookNumber, borrower));
+
+        this.bookNumber = bookNumber;
+        this.borrower = borrower;
+    }
+
+    public Long getBookNumber() {
+        return bookNumber;
+    }
+
+    public Long getBorrower() {
+        return borrower;
     }
 
 }

@@ -37,10 +37,10 @@ import com.bernardomg.association.library.gamesystem.adapter.inbound.jpa.model.G
 import com.bernardomg.association.library.gamesystem.adapter.inbound.jpa.model.GameSystemEntityMapper;
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.gamesystem.domain.repository.GameSystemRepository;
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Pagination;
-import com.bernardomg.data.domain.Sorting;
-import com.bernardomg.data.springframework.SpringPagination;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
+import com.bernardomg.pagination.springframework.SpringPagination;
 
 @Repository
 @Transactional

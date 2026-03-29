@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.event.domain;
 
+import java.io.Serializable;
 import java.time.YearMonth;
 import java.util.Objects;
 
@@ -40,7 +41,7 @@ public final class FeePaidEvent extends AbstractEvent {
 
     private final Long        profileNumber;
 
-    public FeePaidEvent(final Object source, final YearMonth d, final Long number) {
+    public FeePaidEvent(final Serializable source, final YearMonth d, final Long number) {
         super(source);
 
         date = Objects.requireNonNull(d);

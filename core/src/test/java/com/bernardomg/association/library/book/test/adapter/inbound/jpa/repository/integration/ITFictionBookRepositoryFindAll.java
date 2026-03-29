@@ -41,7 +41,7 @@ import com.bernardomg.association.library.lending.test.configuration.data.annota
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.AlternativeActiveMember;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
-import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest

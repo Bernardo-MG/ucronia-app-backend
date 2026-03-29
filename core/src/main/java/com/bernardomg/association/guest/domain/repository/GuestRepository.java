@@ -28,9 +28,9 @@ import java.util.Optional;
 
 import com.bernardomg.association.guest.domain.filter.GuestFilter;
 import com.bernardomg.association.guest.domain.model.Guest;
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Pagination;
-import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
 
 public interface GuestRepository {
 

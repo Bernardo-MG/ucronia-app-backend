@@ -1,0 +1,461 @@
+/**
+ * The MIT License (MIT)
+ * <p>
+ * Copyright (c) 2022-2025 Bernardo Martínez Garrido
+ * <p>
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * <p>
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * <p>
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+package com.bernardomg.transaction.fee.service.unit;
+
+import static org.mockito.ArgumentMatchers.assertArg;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
+
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.util.Optional;
+
+import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.MessageSource;
+
+import com.bernardomg.association.fee.domain.event.FeePaidEvent;
+import com.bernardomg.association.fee.domain.exception.MissingFeeException;
+import com.bernardomg.association.fee.domain.model.Fee;
+import com.bernardomg.association.fee.domain.repository.FeeRepository;
+import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
+import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
+import com.bernardomg.association.fee.test.configuration.factory.FeeTypeConstants;
+import com.bernardomg.association.fee.test.configuration.factory.FeeTypes;
+import com.bernardomg.association.fee.test.configuration.factory.Fees;
+import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
+import com.bernardomg.association.member.domain.exception.MissingMemberException;
+import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
+import com.bernardomg.association.member.test.configuration.factory.MemberProfiles;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
+import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
+import com.bernardomg.association.transaction.test.configuration.factory.TransactionConstants;
+import com.bernardomg.association.transaction.test.configuration.factory.Transactions;
+import com.bernardomg.event.emitter.EventEmitter;
+import com.bernardomg.validation.domain.model.FieldFailure;
+import com.bernardomg.validation.test.assertion.ValidationAssertions;
+
+@ExtendWith(MockitoExtension.class)
+@DisplayName("Fee service - update")
+class TestFeeServiceUpdate {
+
+    @Mock
+    private EventEmitter            eventEmitter;
+
+    @Mock
+    private FeeRepository           feeRepository;
+
+    @Mock
+    private FeeTypeRepository       feeTypeRepository;
+
+    @Mock
+    private MemberProfileRepository memberProfileRepository;
+
+    @Mock
+    private MessageSource           messageSource;
+
+    @InjectMocks
+    private DefaultFeeService       service;
+
+    @Mock
+    private TransactionRepository   transactionRepository;
+
+    @Test
+    @DisplayName("When a payment is added, the fee is saved")
+    void testUpdate_AddedPayment_SaveFee() {
+        final Fee toUpdate;
+
+        // GIVEN
+        toUpdate = Fees.addPayment();
+
+        given(feeRepository.findOne(ProfileConstants.NUMBER, FeeConstants.DATE))
+            .willReturn(Optional.of(Fees.notPaid()));
+        given(feeRepository.save(Fees.paid())).willReturn(Fees.paid());
+        given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
+            .willReturn(Optional.of(MemberProfiles.active()));
+        given(transactionRepository.findNextIndex()).willReturn(TransactionConstants.INDEX);
+        given(transactionRepository.save(Transactions.positive())).willReturn(Transactions.positive());
+        given(feeTypeRepository.findOne(FeeTypeConstants.NUMBER)).willReturn(Optional.of(FeeTypes.positive()));
+        given(messageSource.getMessage(ArgumentMatchers.anyString(), ArgumentMatchers.any(), ArgumentMatchers.any()))
+            .willReturn(TransactionConstants.DESCRIPTION);
+
+        // WHEN
+        service.update(toUpdate);
+
+        // THEN
+        verify(feeRepository).save(Fees.paid());
+    }
+
+    @Test
+    @DisplayName("When a payment is added, the payment is saved")
+    void testUpdate_AddedPayment_SavePayment() {
+        final Fee toUpdate;
+
+        // GIVEN
+        toUpdate = Fees.addPayment();
+
+        given(feeRepository.findOne(ProfileConstants.NUMBER, FeeConstants.DATE))
+            .willReturn(Optional.of(Fees.notPaid()));
+        given(feeRepository.save(Fees.paid())).willReturn(Fees.paid());
+        given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
+            .willReturn(Optional.of(MemberProfiles.active()));
+        given(transactionRepository.findNextIndex()).willReturn(TransactionConstants.INDEX);
+        given(transactionRepository.save(Transactions.positive())).willReturn(Transactions.positive());
+        given(feeTypeRepository.findOne(FeeTypeConstants.NUMBER)).willReturn(Optional.of(FeeTypes.positive()));
+        given(messageSource.getMessage(ArgumentMatchers.anyString(), ArgumentMatchers.any(), ArgumentMatchers.any()))
+            .willReturn(TransactionConstants.DESCRIPTION);
+
+        // WHEN
+        service.update(toUpdate);
+
+        // THEN
+        verify(transactionRepository).save(Transactions.positive());
+    }
+
+    @Test
+    @DisplayName("When updating a fee, and a payment is added, an event is sent")
+    void testUpdate_AddedPayment_SendEvent() {
+        final Fee toUpdate;
+
+        // GIVEN
+        toUpdate = Fees.addPayment();
+
+        given(feeRepository.findOne(ProfileConstants.NUMBER, FeeConstants.DATE))
+            .willReturn(Optional.of(Fees.notPaid()));
+        given(feeRepository.save(Fees.paid())).willReturn(Fees.paid());
+        given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
+            .willReturn(Optional.of(MemberProfiles.active()));
+        given(transactionRepository.save(Transactions.toCreate())).willReturn(Transactions.positive());
+        given(messageSource.getMessage(ArgumentMatchers.anyString(), ArgumentMatchers.any(), ArgumentMatchers.any()))
+            .willReturn(TransactionConstants.DESCRIPTION);
+        given(feeTypeRepository.findOne(FeeTypeConstants.NUMBER)).willReturn(Optional.of(FeeTypes.positive()));
+
+        // WHEN
+        service.update(toUpdate);
+
+        // THEN
+        verify(eventEmitter).emit(assertArg(e -> Assertions.assertThat(e)
+            .isInstanceOf(FeePaidEvent.class)));
+    }
+
+    @Test
+    @DisplayName("With a changed fee type, it throws an exception")
+    void testUpdate_FeeTypeChanged() {
+        final ThrowingCallable execution;
+        final FieldFailure     failure;
+
+        // GIVEN
+        given(feeRepository.findOne(ProfileConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
+        given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
+            .willReturn(Optional.of(MemberProfiles.active()));
+
+        // WHEN
+        execution = () -> service.update(Fees.alternativeFeeType());
+
+        // THEN
+        failure = new FieldFailure("modified", "feeType", "feeType.modified", FeeConstants.FEE_TYPE_ALTERNATIVE_NUMBER);
+
+        ValidationAssertions.assertThatFieldFails(execution, failure);
+    }
+
+    @Test
+    @DisplayName("With a not existing fee, an exception is thrown")
+    void testUpdate_NotExistingFee() {
+        final ThrowingCallable execution;
+
+        // GIVEN
+        given(feeRepository.findOne(ProfileConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.empty());
+
+        // WHEN
+        execution = () -> service.update(Fees.updatePaid());
+
+        // THEN
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(MissingFeeException.class);
+    }
+
+    @Test
+    @DisplayName("With a not existing member, an exception is thrown")
+    void testUpdate_NotExistingMember() {
+        final ThrowingCallable execution;
+
+        // GIVEN
+        given(feeRepository.findOne(ProfileConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
+        given(memberProfileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.empty());
+
+        // WHEN
+        execution = () -> service.update(Fees.updatePaid());
+
+        // THEN
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(MissingMemberException.class);
+    }
+
+    @Test
+    @DisplayName("With the fee is paid in the future, it throws an exception")
+    void testUpdate_PaidInFuture() {
+        final ThrowingCallable execution;
+        final FieldFailure     failure;
+
+        // GIVEN
+        given(feeRepository.findOne(ProfileConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
+        given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
+            .willReturn(Optional.of(MemberProfiles.active()));
+
+        // WHEN
+        execution = () -> service.update(Fees.paidInFuture());
+
+        // THEN
+        failure = new FieldFailure("invalid", "transaction.date", "transaction.date.invalid",
+            FeeConstants.PAYMENT_DATE_FUTURE);
+
+        ValidationAssertions.assertThatFieldFails(execution, failure);
+    }
+
+    @Test
+    @DisplayName("When updating a fee, and a payment is changed, no event is sent")
+    void testUpdate_PaymentDateChanged_NotSendEvent() {
+        final Instant date;
+        final Fee     toUpdate;
+
+        // GIVEN
+        date = LocalDate.ofInstant(FeeConstants.PAYMENT_DATE, ZoneId.systemDefault())
+            .plusMonths(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
+        toUpdate = Fees.updatePaidAtDate(date);
+
+        given(feeRepository.findOne(ProfileConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
+        given(feeRepository.save(Fees.paidAtDate(date))).willReturn(toUpdate);
+        given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
+            .willReturn(Optional.of(MemberProfiles.active()));
+        given(transactionRepository.findOne(TransactionConstants.INDEX))
+            .willReturn(Optional.of(Transactions.positive()));
+
+        // WHEN
+        service.update(toUpdate);
+
+        // THEN
+        verify(eventEmitter, Mockito.never()).emit(assertArg(e -> Assertions.assertThat(e)
+            .isInstanceOf(FeePaidEvent.class)));
+    }
+
+    @Test
+    @DisplayName("When the payment date is changed, the change is returned")
+    void testUpdate_PaymentDateChanged_ReturnedData() {
+        final Fee     toUpdate;
+        final Instant date;
+        final Fee     updated;
+
+        // GIVEN
+        date = LocalDate.ofInstant(FeeConstants.PAYMENT_DATE, ZoneId.systemDefault())
+            .plusMonths(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
+        toUpdate = Fees.updatePaidAtDate(date);
+
+        given(feeRepository.findOne(ProfileConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
+        given(feeRepository.save(Fees.paidAtDate(date))).willReturn(toUpdate);
+        given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
+            .willReturn(Optional.of(MemberProfiles.active()));
+        given(transactionRepository.findOne(TransactionConstants.INDEX))
+            .willReturn(Optional.of(Transactions.positive()));
+
+        // WHEN
+        updated = service.update(toUpdate);
+
+        // THEN
+        Assertions.assertThat(updated)
+            .as("fee")
+            .isEqualTo(toUpdate);
+    }
+
+    @Test
+    @DisplayName("When the payment date is changed, the fee is saved")
+    void testUpdate_PaymentDateChanged_SaveFee() {
+        final Fee     toUpdate;
+        final Instant date;
+
+        // GIVEN
+        date = LocalDate.ofInstant(FeeConstants.PAYMENT_DATE, ZoneId.systemDefault())
+            .plusMonths(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
+        toUpdate = Fees.updatePaidAtDate(date);
+
+        given(feeRepository.findOne(ProfileConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
+        given(feeRepository.save(Fees.paidAtDate(date))).willReturn(toUpdate);
+        given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
+            .willReturn(Optional.of(MemberProfiles.active()));
+        given(transactionRepository.findOne(TransactionConstants.INDEX))
+            .willReturn(Optional.of(Transactions.positive()));
+
+        // WHEN
+        service.update(toUpdate);
+
+        // THEN
+        verify(feeRepository).save(Fees.paidAtDate(date));
+    }
+
+    @Test
+    @DisplayName("When the payment date is changed, the payment is updated")
+    void testUpdate_PaymentDateChanged_SavePayment() {
+        final Fee     toUpdate;
+        final Instant date;
+
+        // GIVEN
+        date = LocalDate.ofInstant(FeeConstants.PAYMENT_DATE, ZoneId.systemDefault())
+            .plusMonths(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
+        toUpdate = Fees.updatePaidAtDate(date);
+
+        given(feeRepository.findOne(ProfileConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
+        given(feeRepository.save(Fees.paidAtDate(date))).willReturn(toUpdate);
+        given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
+            .willReturn(Optional.of(MemberProfiles.active()));
+        given(transactionRepository.findOne(TransactionConstants.INDEX))
+            .willReturn(Optional.of(Transactions.positive()));
+
+        // WHEN
+        service.update(toUpdate);
+
+        // THEN
+        verify(transactionRepository).save(Transactions.forDate(date));
+    }
+
+    @Test
+    @DisplayName("When the payment date is not changed, no payment is saved")
+    void testUpdate_PaymentDateNotChanged() {
+        final Fee toUpdate;
+
+        // GIVEN
+        toUpdate = Fees.updatePaid();
+
+        given(feeRepository.findOne(ProfileConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
+        given(feeRepository.save(Fees.paid())).willReturn(toUpdate);
+        given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
+            .willReturn(Optional.of(MemberProfiles.active()));
+
+        // WHEN
+        service.update(Fees.updatePaid());
+
+        // THEN
+        verify(transactionRepository, Mockito.never()).save(ArgumentMatchers.any());
+    }
+
+    @Test
+    @DisplayName("When the payment date is not changed, no event is sent")
+    void testUpdate_PaymentDateNotChanged_NotSendEvent() {
+        final Fee toUpdate;
+
+        // GIVEN
+        toUpdate = Fees.updatePaid();
+
+        given(feeRepository.findOne(ProfileConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
+        given(feeRepository.save(Fees.paid())).willReturn(toUpdate);
+        given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
+            .willReturn(Optional.of(MemberProfiles.active()));
+
+        // WHEN
+        service.update(toUpdate);
+
+        // THEN
+        verify(eventEmitter, Mockito.never()).emit(assertArg(e -> Assertions.assertThat(e)
+            .isInstanceOf(FeePaidEvent.class)));
+    }
+
+    @Test
+    @DisplayName("When updating a fee, the change is persisted")
+    void testUpdate_PersistedData() {
+        final Fee toUpdate;
+
+        // GIVEN
+        toUpdate = Fees.updatePaid();
+
+        given(feeRepository.findOne(ProfileConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
+        given(feeRepository.save(Fees.paid())).willReturn(toUpdate);
+        given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
+            .willReturn(Optional.of(MemberProfiles.active()));
+
+        // WHEN
+        service.update(toUpdate);
+
+        // THEN
+        verify(feeRepository).save(Fees.paid());
+    }
+
+    @Test
+    @DisplayName("When updating a fee, the change is returned")
+    void testUpdate_ReturnedData() {
+        final Fee updated;
+
+        // GIVEN
+        given(feeRepository.findOne(ProfileConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
+        given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
+            .willReturn(Optional.of(MemberProfiles.active()));
+        given(feeRepository.save(Fees.paid())).willReturn(Fees.updatePaid());
+
+        // WHEN
+        updated = service.update(Fees.updatePaid());
+
+        // THEN
+        Assertions.assertThat(updated)
+            .as("fee")
+            .isEqualTo(Fees.updatePaid());
+    }
+
+    @Test
+    @DisplayName("With a changed transaction, it throws an exception")
+    void testUpdate_TransactionChanged() {
+        final ThrowingCallable execution;
+        final FieldFailure     failure;
+
+        // GIVEN
+        given(feeRepository.findOne(ProfileConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
+        given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
+            .willReturn(Optional.of(MemberProfiles.active()));
+
+        // WHEN
+        execution = () -> service.update(Fees.alternativeTransaction());
+
+        // THEN
+        failure = new FieldFailure("modified", "transaction", "transaction.modified",
+            TransactionConstants.ALTERNATIVE_INDEX);
+
+        ValidationAssertions.assertThatFieldFails(execution, failure);
+    }
+
+}

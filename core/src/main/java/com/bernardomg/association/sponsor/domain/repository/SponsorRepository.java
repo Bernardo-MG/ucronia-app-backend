@@ -28,9 +28,9 @@ import java.util.Optional;
 
 import com.bernardomg.association.sponsor.domain.filter.SponsorFilter;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Pagination;
-import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
 
 public interface SponsorRepository {
 

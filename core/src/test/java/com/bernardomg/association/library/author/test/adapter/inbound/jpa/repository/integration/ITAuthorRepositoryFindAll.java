@@ -34,9 +34,9 @@ import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.author.domain.repository.AuthorRepository;
 import com.bernardomg.association.library.author.test.configuration.data.annotation.ValidAuthor;
 import com.bernardomg.association.library.author.test.configuration.factory.Authors;
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Pagination;
-import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest

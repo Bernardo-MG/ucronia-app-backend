@@ -42,9 +42,9 @@ import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.profile.domain.model.Profile;
 import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Pagination;
-import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
 
 /**
  * My fees service based on Spring Security.

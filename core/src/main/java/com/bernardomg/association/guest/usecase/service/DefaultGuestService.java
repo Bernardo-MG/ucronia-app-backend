@@ -43,9 +43,9 @@ import com.bernardomg.association.profile.domain.model.ContactMethod;
 import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
 import com.bernardomg.association.profile.domain.model.ProfileName;
 import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Pagination;
-import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
 

@@ -45,10 +45,10 @@ import com.bernardomg.association.library.lending.domain.model.BookLending.LentB
 import com.bernardomg.association.library.lending.domain.repository.BookLendingRepository;
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Pagination;
-import com.bernardomg.data.domain.Sorting;
-import com.bernardomg.data.springframework.SpringPagination;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
+import com.bernardomg.pagination.springframework.SpringPagination;
 
 @Repository
 @Transactional

@@ -27,9 +27,9 @@ package com.bernardomg.association.library.booktype.adapter.outbound.rest.model;
 import java.util.Optional;
 
 import com.bernardomg.association.library.booktype.domain.model.BookType;
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Sorting.Direction;
-import com.bernardomg.data.domain.Sorting.Property;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Sorting.Direction;
+import com.bernardomg.pagination.domain.Sorting.Property;
 import com.bernardomg.ucronia.openapi.model.BookTypeDto;
 import com.bernardomg.ucronia.openapi.model.BookTypePageResponseDto;
 import com.bernardomg.ucronia.openapi.model.BookTypeResponseDto;

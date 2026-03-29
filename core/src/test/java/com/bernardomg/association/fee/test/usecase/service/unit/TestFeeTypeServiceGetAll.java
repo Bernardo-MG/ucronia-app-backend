@@ -41,9 +41,9 @@ import com.bernardomg.association.fee.domain.model.FeeType;
 import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.FeeTypes;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeTypeService;
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Pagination;
-import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Fee type service - get all")

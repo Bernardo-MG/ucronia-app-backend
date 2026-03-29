@@ -54,8 +54,8 @@ import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
 import com.bernardomg.association.profile.domain.model.ProfileName;
-import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.excel.ExcelParsing;
+import com.bernardomg.pagination.domain.Sorting;
 
 @Service
 @Transactional

@@ -46,9 +46,9 @@ import com.bernardomg.association.library.booktype.domain.repository.BookTypeRep
 import com.bernardomg.association.library.gamesystem.domain.repository.GameSystemRepository;
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
 import com.bernardomg.association.profile.domain.repository.ProfileRepository;
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Pagination;
-import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("BookService - get all")

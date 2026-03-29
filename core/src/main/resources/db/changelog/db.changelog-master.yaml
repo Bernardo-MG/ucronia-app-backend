@@ -29,5 +29,5 @@ databaseChangeLog:
   - include:
       file: classpath:db/changelog/auth/initialize.yaml
   - include:
-      file: structure/auth.yaml
+      file: auth.yaml
       relativeToChangelogFile: true

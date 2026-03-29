@@ -37,9 +37,9 @@ import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Pagination;
-import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.test.configuration.annotation.IntegrationTest;
 
 @IntegrationTest

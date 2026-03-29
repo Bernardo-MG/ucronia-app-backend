@@ -38,9 +38,9 @@ import com.bernardomg.association.library.author.domain.repository.AuthorReposit
 import com.bernardomg.association.library.author.usecase.validation.AuthorNameNotEmptyRule;
 import com.bernardomg.association.library.author.usecase.validation.AuthorNameNotExistsForAnotherRule;
 import com.bernardomg.association.library.author.usecase.validation.AuthorNameNotExistsRule;
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Pagination;
-import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
 

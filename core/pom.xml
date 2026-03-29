@@ -77,6 +77,10 @@
          <artifactId>association-profile-testing</artifactId>
          <scope>test</scope>
       </dependency>
+      <dependency>
+         <groupId>com.bernardomg.security</groupId>
+         <artifactId>security-core</artifactId>
+      </dependency>
       <!-- ============================================== -->
       <!-- ================ FRAMEWORK =================== -->
       <!-- ============================================== -->

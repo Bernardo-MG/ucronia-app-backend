@@ -9,7 +9,7 @@
    <!-- ***************** PARENT POM ***************** -->
    <!-- ********************************************** -->
 
-   <parent>
+   <parent> 
       <groupId>com.bernardomg.maven</groupId>
       <artifactId>base-pom</artifactId>
       <version>1.5.12</version>
@@ -44,6 +44,7 @@
    <modules>
      <module>core</module>
      <module>common</module>
+     <module>security</module>
      <module>settings</module>
      <module>association</module>
      <module>app</module>
@@ -196,11 +197,12 @@
       <!-- ============================================== -->
       <apache.poi.version>5.4.1</apache.poi.version>
       <archunit.version>1.4.1</archunit.version>
-      <bernardomg.framework.pagination.version>1.0.1</bernardomg.framework.pagination.version>
+      <bernardomg.framework.event.version>1.0.0</bernardomg.framework.event.version>
+      <bernardomg.framework.pagination.version>1.0.2</bernardomg.framework.pagination.version>
       <bernardomg.framework.test.architecture>1.0.7</bernardomg.framework.test.architecture>
       <bernardomg.framework.validation.version>0.2.5</bernardomg.framework.validation.version>
-      <bernardomg.framework.ws.version>0.4.6</bernardomg.framework.ws.version>
-      <bernardomg.framework.ws.security.version>0.4.46</bernardomg.framework.ws.security.version>
+      <bernardomg.framework.ws.version>0.5.1</bernardomg.framework.ws.version>
+      <bernardomg.framework.ws.security.version>0.4.48</bernardomg.framework.ws.security.version>
       <commons.lang3.version>3.20.0</commons.lang3.version>
       <jackson.annotations.version>2.20</jackson.annotations.version>
       <jakarta.validation.version>3.1.1</jakarta.validation.version>
@@ -266,6 +268,11 @@
             <version>${project.version}</version>
          </dependency>
          <dependency>
+            <groupId>com.bernardomg.security</groupId>
+            <artifactId>security-core</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
             <groupId>com.bernardomg</groupId>
             <artifactId>testing</artifactId>
             <version>${project.version}</version>
@@ -287,12 +294,32 @@
          </dependency>
          <dependency>
             <groupId>com.bernardomg.association.transaction</groupId>
+            <artifactId>association-transaction-domain</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.association.transaction</groupId>
             <artifactId>association-transaction-spring-starter</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.association.transaction</groupId>
+            <artifactId>association-transaction-spring-jpa-adapter</artifactId>
             <version>${project.version}</version>
          </dependency>
          <dependency>
             <groupId>com.bernardomg.association.profile</groupId>
             <artifactId>association-profile-spring-starter</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.association.profile</groupId>
+            <artifactId>association-profile-domain</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.association.profile</groupId>
+            <artifactId>association-profile-spring-jpa-adapter</artifactId>
             <version>${project.version}</version>
          </dependency>
          <dependency>
@@ -305,6 +332,16 @@
             <artifactId>association-profile-testing</artifactId>
             <version>${project.version}</version>
          </dependency>
+         <dependency>
+            <groupId>com.bernardomg.association.fee</groupId>
+            <artifactId>association-fee-domain</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.association.fee</groupId>
+            <artifactId>association-fee-usecase</artifactId>
+            <version>${project.version}</version>
+         </dependency>
          <!-- ============================================== -->
          <!-- ================ FRAMEWORK =================== -->
          <!-- ============================================== -->
@@ -313,6 +350,12 @@
             <groupId>com.bernardomg.framework</groupId>
             <artifactId>validation</artifactId>
             <version>${bernardomg.framework.validation.version}</version>
+         </dependency>
+         <dependency>
+            <!-- Event -->
+            <groupId>com.bernardomg.framework</groupId>
+            <artifactId>event</artifactId>
+            <version>${bernardomg.framework.event.version}</version>
          </dependency>
          <dependency>
             <!-- Pagination -->

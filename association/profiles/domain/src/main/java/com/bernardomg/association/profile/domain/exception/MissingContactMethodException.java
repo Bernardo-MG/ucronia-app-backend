@@ -24,8 +24,6 @@
 
 package com.bernardomg.association.profile.domain.exception;
 
-import java.io.Serializable;
-
 /**
  * Missing contact method exception.
  *
@@ -39,7 +37,7 @@ public final class MissingContactMethodException extends RuntimeException {
     /**
      * Id which caused the exception.
      */
-    private final Long id;
+    private final Long        id;
 
     public MissingContactMethodException(final Long id) {
         super(String.format("Missing id %s for contact method", id));
@@ -52,8 +50,8 @@ public final class MissingContactMethodException extends RuntimeException {
      *
      * @return the id which caused the exception
      */
-    public final Serializable getId() {
+    public final Long getId() {
         return id;
     }
-    
+
 }

@@ -41,9 +41,9 @@ import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.author.domain.repository.AuthorRepository;
 import com.bernardomg.association.library.author.test.configuration.factory.Authors;
 import com.bernardomg.association.library.author.usecase.service.DefaultAuthorService;
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Pagination;
-import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("AuthorService - get all")

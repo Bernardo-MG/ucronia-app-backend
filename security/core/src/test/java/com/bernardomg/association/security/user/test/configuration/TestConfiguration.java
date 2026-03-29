@@ -1,0 +1,86 @@
+/**
+ * The MIT License (MIT)
+ * <p>
+ * Copyright (c) 2022-2025 Bernardo Martínez Garrido
+ * <p>
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * <p>
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * <p>
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+package com.bernardomg.association.security.user.test.configuration;
+
+import java.util.Collection;
+
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+
+import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ContactMethodSpringRepository;
+import com.bernardomg.association.profile.adapter.inbound.jpa.repository.JpaContactMethodRepository;
+import com.bernardomg.association.profile.adapter.inbound.jpa.repository.JpaProfileRepository;
+import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
+import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
+import com.bernardomg.association.profile.domain.repository.ProfileRepository;
+import com.bernardomg.event.emitter.EventEmitter;
+import com.bernardomg.event.emitter.SynchronousEventEmitter;
+import com.bernardomg.event.listener.EventListener;
+import com.bernardomg.security.jwt.encoding.TokenDecoder;
+import com.bernardomg.security.jwt.encoding.TokenValidator;
+
+@Configuration
+@EnableJpaRepositories(basePackages = { "com.bernardomg.security.account.adapter.inbound.jpa",
+        "com.bernardomg.security.user.adapter.inbound.jpa", "com.bernardomg.security.role.adapter.inbound.jpa",
+        "com.bernardomg.security.permission.adapter.inbound.jpa",
+        "com.bernardomg.association.security.user.adapter.inbound.jpa",
+        "com.bernardomg.association.profile.adapter.inbound.jpa" })
+@EntityScan(basePackages = { "com.bernardomg.security.account.adapter.inbound.jpa",
+        "com.bernardomg.security.user.adapter.inbound.jpa", "com.bernardomg.security.role.adapter.inbound.jpa",
+        "com.bernardomg.security.permission.adapter.inbound.jpa",
+        "com.bernardomg.association.security.user.adapter.inbound.jpa",
+        "com.bernardomg.association.profile.adapter.inbound.jpa" })
+public class TestConfiguration {
+
+    @Bean("contactMethodRepository")
+    public ContactMethodRepository
+            getContactMethodRepository(final ContactMethodSpringRepository contactMethodSpringRepository) {
+        return new JpaContactMethodRepository(contactMethodSpringRepository);
+    }
+
+    @Bean("eventEmitter")
+    public EventEmitter getEventEmitter(final Collection<EventListener<?>> listeners) {
+        return new SynchronousEventEmitter(listeners);
+    }
+
+    @Bean("profileRepository")
+    public ProfileRepository getProfileRepository(final ProfileSpringRepository profileSpringRepository,
+            final ContactMethodSpringRepository contactMethodSpringRepository) {
+        return new JpaProfileRepository(profileSpringRepository, contactMethodSpringRepository);
+    }
+
+    @Bean("tokenDecoder")
+    public TokenDecoder getTokenDecoder() {
+        return token -> null;
+    }
+
+    @Bean("tokenValidator")
+    public TokenValidator getTokenValidator() {
+        return token -> false;
+    }
+
+}

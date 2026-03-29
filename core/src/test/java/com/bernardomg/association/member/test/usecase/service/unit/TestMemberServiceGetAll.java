@@ -42,9 +42,9 @@ import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.association.member.usecase.service.DefaultMemberService;
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Pagination;
-import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultMemberService - get all")

@@ -75,7 +75,7 @@ public final class MissingTransactionException extends RuntimeException {
      *
      * @return the id which caused the exception
      */
-    public final Serializable getId() {
+    public final Long getId() {
         return id;
     }
 

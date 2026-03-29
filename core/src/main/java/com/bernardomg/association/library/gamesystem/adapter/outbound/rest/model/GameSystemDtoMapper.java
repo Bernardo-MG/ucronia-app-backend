@@ -27,9 +27,9 @@ package com.bernardomg.association.library.gamesystem.adapter.outbound.rest.mode
 import java.util.Optional;
 
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Sorting.Direction;
-import com.bernardomg.data.domain.Sorting.Property;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Sorting.Direction;
+import com.bernardomg.pagination.domain.Sorting.Property;
 import com.bernardomg.ucronia.openapi.model.GameSystemDto;
 import com.bernardomg.ucronia.openapi.model.GameSystemPageResponseDto;
 import com.bernardomg.ucronia.openapi.model.GameSystemResponseDto;
