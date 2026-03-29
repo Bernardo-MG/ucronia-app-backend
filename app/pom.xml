@@ -45,6 +45,10 @@
          <groupId>com.bernardomg.association.profile</groupId>
          <artifactId>association-profile-spring-starter</artifactId>
       </dependency>
+      <dependency>
+         <groupId>com.bernardomg.association.profile</groupId>
+         <artifactId>association-member-spring-starter</artifactId>
+      </dependency>
       <!-- ============================================== -->
       <!-- ================== LOGGING =================== -->
       <!-- ============================================== -->

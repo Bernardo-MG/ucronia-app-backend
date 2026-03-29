@@ -334,6 +334,11 @@
          </dependency>
          <dependency>
             <groupId>com.bernardomg.association.member</groupId>
+            <artifactId>association-member-spring-starter</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.association.member</groupId>
             <artifactId>association-member-domain</artifactId>
             <version>${project.version}</version>
          </dependency>
