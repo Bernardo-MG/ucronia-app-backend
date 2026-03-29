@@ -32,7 +32,7 @@
      <module>settings</module>
      <module>transactions</module>
      <module>profiles</module>
-     <module>fees</module>
+     <module>members</module>
    </modules>
 
 </project>

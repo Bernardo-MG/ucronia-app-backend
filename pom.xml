@@ -333,13 +333,13 @@
             <version>${project.version}</version>
          </dependency>
          <dependency>
-            <groupId>com.bernardomg.association.fee</groupId>
-            <artifactId>association-fee-domain</artifactId>
+            <groupId>com.bernardomg.association.member</groupId>
+            <artifactId>association-member-domain</artifactId>
             <version>${project.version}</version>
          </dependency>
          <dependency>
-            <groupId>com.bernardomg.association.fee</groupId>
-            <artifactId>association-fee-usecase</artifactId>
+            <groupId>com.bernardomg.association.member</groupId>
+            <artifactId>association-member-usecase</artifactId>
             <version>${project.version}</version>
          </dependency>
          <!-- ============================================== -->

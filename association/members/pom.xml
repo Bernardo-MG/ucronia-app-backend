@@ -18,11 +18,11 @@
    <!-- **************** PROJECT INFO **************** -->
    <!-- ********************************************** -->
 
-   <groupId>com.bernardomg.association.fee</groupId>
-   <artifactId>association-fee</artifactId>
+   <groupId>com.bernardomg.association.member</groupId>
+   <artifactId>association-member</artifactId>
    <packaging>pom</packaging>
 
-   <name>Association Transactions</name>
+   <name>Association Members</name>
 
    <!-- ********************************************** -->
    <!-- ******************* MODULES ****************** -->
@@ -47,28 +47,28 @@
          <!-- ================= PROJECT ==================== -->
          <!-- ============================================== -->
          <dependency>
-            <groupId>com.bernardomg.association.fee</groupId>
-            <artifactId>association-fee-testing</artifactId>
+            <groupId>com.bernardomg.association.member</groupId>
+            <artifactId>association-member-testing</artifactId>
             <version>${project.version}</version>
          </dependency>
          <dependency>
-            <groupId>com.bernardomg.association.fee</groupId>
-            <artifactId>association-fee-domain</artifactId>
+            <groupId>com.bernardomg.association.member</groupId>
+            <artifactId>association-member-domain</artifactId>
             <version>${project.version}</version>
          </dependency>
          <dependency>
-            <groupId>com.bernardomg.association.fee</groupId>
-            <artifactId>association-fee-usecase</artifactId>
+            <groupId>com.bernardomg.association.member</groupId>
+            <artifactId>association-member-usecase</artifactId>
             <version>${project.version}</version>
          </dependency>
          <dependency>
-            <groupId>com.bernardomg.association.fee</groupId>
-            <artifactId>association-fee-spring-jpa-adapter</artifactId>
+            <groupId>com.bernardomg.association.member</groupId>
+            <artifactId>association-member-spring-jpa-adapter</artifactId>
             <version>${project.version}</version>
          </dependency>
          <dependency>
-            <groupId>com.bernardomg.association.fee</groupId>
-            <artifactId>association-fee-rest-adapter</artifactId>
+            <groupId>com.bernardomg.association.member</groupId>
+            <artifactId>association-member-rest-adapter</artifactId>
             <version>${project.version}</version>
          </dependency>
       </dependencies>
