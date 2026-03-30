@@ -39,8 +39,6 @@ public class TestModulesArchitectureRules {
         .definedBy("com.bernardomg.settings..")
         .layer("Association settings")
         .definedBy("com.bernardomg.association.settings..")
-        .layer("Association events")
-        .definedBy("com.bernardomg.association.event..")
 
         // Library modules
         .layer("Library authors")
@@ -82,8 +80,6 @@ public class TestModulesArchitectureRules {
         .mayOnlyBeAccessedByLayers("Association settings", "Fees", "Members")
         .whereLayer("Association settings")
         .mayOnlyBeAccessedByLayers("Fees")
-        .whereLayer("Association events")
-        .mayOnlyBeAccessedByLayers("Members", "Fees", "Profiles")
 
         // Library modules
         .whereLayer("Library authors")
