@@ -38,7 +38,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeEntity;
@@ -60,7 +59,6 @@ import com.bernardomg.pagination.domain.Sorting.Property;
 import com.bernardomg.pagination.springframework.SpringPagination;
 import com.bernardomg.pagination.springframework.SpringSorting;
 
-@Repository
 @Transactional
 public final class JpaFeeRepository implements FeeRepository {
 

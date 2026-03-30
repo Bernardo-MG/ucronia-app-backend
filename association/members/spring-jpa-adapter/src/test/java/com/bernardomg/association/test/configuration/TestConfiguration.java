@@ -29,36 +29,45 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.JpaTransactionBalanceRepository;
-import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.JpaTransactionRepository;
-import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.JpaTransactionSummaryRepository;
-import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.MonthlyBalanceSpringRepository;
+import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeSpringRepository;
+import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeTypeSpringRepository;
+import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaFeeRepository;
+import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaFeeSummaryRepository;
+import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaFeeTypeRepository;
+import com.bernardomg.association.fee.domain.repository.FeeRepository;
+import com.bernardomg.association.fee.domain.repository.FeeSummaryRepository;
+import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberProfileSpringRepository;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
-import com.bernardomg.association.transaction.domain.repository.TransactionBalanceRepository;
-import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
-import com.bernardomg.association.transaction.domain.repository.TransactionSummaryRepository;
 
 @Configuration
-@EnableJpaRepositories(basePackages = "com.bernardomg.association.transaction.adapter.inbound.jpa")
-@EntityScan(basePackages = "com.bernardomg.association.transaction.adapter.inbound.jpa")
+@EnableJpaRepositories(basePackages = { "com.bernardomg.association.member.adapter.inbound.jpa",
+        "com.bernardomg.association.fee.adapter.inbound.jpa",
+        "com.bernardomg.association.transaction.adapter.inbound.jpa",
+        "com.bernardomg.association.profile.adapter.inbound.jpa" })
+@EntityScan(basePackages = { "com.bernardomg.association.member.adapter.inbound.jpa",
+        "com.bernardomg.association.fee.adapter.inbound.jpa",
+        "com.bernardomg.association.transaction.adapter.inbound.jpa",
+        "com.bernardomg.association.profile.adapter.inbound.jpa" })
 public class TestConfiguration {
 
-    @Bean("transactionBalanceRepository")
-    public TransactionBalanceRepository
-            getTransactionBalanceRepository(final MonthlyBalanceSpringRepository monthlyBalanceRepository) {
-        return new JpaTransactionBalanceRepository(monthlyBalanceRepository);
+    @Bean("feeRepository")
+    public FeeRepository getFeeRepository(final FeeSpringRepository feeSpringRepository,
+            final MemberProfileSpringRepository memberProfileSpringRepository,
+            final FeeTypeSpringRepository feeTypeSpringRepository,
+            final TransactionSpringRepository transactionSpringRepository) {
+        return new JpaFeeRepository(feeSpringRepository, memberProfileSpringRepository, feeTypeSpringRepository,
+            transactionSpringRepository);
     }
 
-    @Bean("transactionRepository")
-    public TransactionRepository
-            getTransactionRepository(final TransactionSpringRepository transactionSpringRepository) {
-        return new JpaTransactionRepository(transactionSpringRepository);
+    @Bean("feeSummaryRepository")
+    public FeeSummaryRepository getFeeSummaryRepository(final FeeSpringRepository feeSpringRepository) {
+        return new JpaFeeSummaryRepository(feeSpringRepository);
     }
 
-    @Bean("transactionSummaryRepository")
-    public TransactionSummaryRepository
-            getTransactionSummaryRepository(final MonthlyBalanceSpringRepository monthlyBalanceRepository) {
-        return new JpaTransactionSummaryRepository(monthlyBalanceRepository);
+    @Bean("feeTypeRepository")
+    public FeeTypeRepository getFeeTypeRepository(final FeeTypeSpringRepository feeTypeSpringRepository) {
+        return new JpaFeeTypeRepository(feeTypeSpringRepository);
     }
 
 }

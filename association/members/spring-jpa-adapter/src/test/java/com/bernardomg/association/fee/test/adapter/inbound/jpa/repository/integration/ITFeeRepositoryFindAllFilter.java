@@ -33,6 +33,7 @@ import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
@@ -47,12 +48,14 @@ import com.bernardomg.association.fee.test.configuration.factory.FeesQuery;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.MultipleInactiveMember;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
+import com.bernardomg.association.TestApplication;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
+@SpringBootTest(classes = TestApplication.class)
 @DisplayName("FeeRepository - find all - filter")
 class ITFeeRepositoryGetAllFilter {
 

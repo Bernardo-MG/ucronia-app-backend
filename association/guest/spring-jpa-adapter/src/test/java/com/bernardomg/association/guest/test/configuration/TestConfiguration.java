@@ -36,8 +36,10 @@ import com.bernardomg.association.profile.adapter.inbound.jpa.repository.Contact
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 
 @Configuration
-@EnableJpaRepositories(basePackages = "com.bernardomg.association.guest.adapter.inbound.jpa")
-@EntityScan(basePackages = "com.bernardomg.association.guest.adapter.inbound.jpa")
+@EnableJpaRepositories(basePackages = { "com.bernardomg.association.guest.adapter.inbound.jpa",
+        "com.bernardomg.association.profile.adapter.inbound.jpa" })
+@EntityScan(basePackages = { "com.bernardomg.association.guest.adapter.inbound.jpa",
+        "com.bernardomg.association.profile.adapter.inbound.jpa" })
 public class TestConfiguration {
 
     @Bean("guestRepository")

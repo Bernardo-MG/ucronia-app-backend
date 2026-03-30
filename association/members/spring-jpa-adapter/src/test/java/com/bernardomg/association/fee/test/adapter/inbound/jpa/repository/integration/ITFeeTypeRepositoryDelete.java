@@ -28,14 +28,17 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeTypeSpringRepository;
 import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.fee.test.configuration.factory.FeeTypeConstants;
+import com.bernardomg.association.TestApplication;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
+@SpringBootTest(classes = TestApplication.class)
 @DisplayName("FeeTypeRepository - delete")
 class ITFeeTypeRepositoryDelete {
 

@@ -29,7 +29,9 @@ import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
+import com.bernardomg.association.guest.TestApplication;
 import com.bernardomg.association.guest.domain.filter.GuestFilter;
 import com.bernardomg.association.guest.domain.model.Guest;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
@@ -42,6 +44,7 @@ import com.bernardomg.test.annotation.IntegrationTest;
 import com.bernardomg.test.pagination.AbstractPaginationIT;
 
 @IntegrationTest
+@SpringBootTest(classes = TestApplication.class)
 @DisplayName("GuestRepository - find all public - pagination")
 @MultipleGuests
 class ITGuestRepositoryFindAllPaginated extends AbstractPaginationIT<Guest> {

@@ -28,7 +28,9 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
+import com.bernardomg.association.TestApplication;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
@@ -37,6 +39,7 @@ import com.bernardomg.association.profile.test.configuration.factory.ProfileCons
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
+@SpringBootTest(classes = TestApplication.class)
 @DisplayName("MemberProfileRepository - exists by identifier")
 class ITMemberProfileRepositoryExistsByIdentifier {
 

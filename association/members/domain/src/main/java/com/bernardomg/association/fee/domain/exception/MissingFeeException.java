@@ -41,7 +41,7 @@ public final class MissingFeeException extends RuntimeException {
     private final Long        profileNumber;
 
     public MissingFeeException(final long profileNumber, final YearMonth date) {
-        super(String.format("Missing id %s for fee for profile %s and date %s", profileNumber, date));
+        super(String.format("Missing fee for profile %s and date %s", profileNumber, date));
 
         this.profileNumber = profileNumber;
         this.date = date;

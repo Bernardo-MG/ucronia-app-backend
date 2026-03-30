@@ -8,7 +8,9 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
+import com.bernardomg.association.TestApplication;
 import com.bernardomg.association.fee.test.configuration.data.annotation.FeeFullYear;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.member.domain.model.MembershipEvolutionMonth;
@@ -21,6 +23,7 @@ import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
+@SpringBootTest(classes = TestApplication.class)
 @DisplayName("MembershipEvolutionRepository - find in range")
 class ITMembershipEvolutionRepositoryFindInRange {
 

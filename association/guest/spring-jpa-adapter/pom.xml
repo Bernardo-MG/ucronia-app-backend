@@ -22,7 +22,7 @@
    <artifactId>association-guest-spring-jpa-adapter</artifactId>
    <packaging>jar</packaging>
 
-   <name>Association Guests REST Adapter</name>
+   <name>Association Guests Spring JPA Adapter</name>
 
    <!-- ********************************************** -->
    <!-- *************** DEPENDENCIES ***************** -->
@@ -87,6 +87,18 @@
                <artifactId>logback-classic</artifactId>
             </exclusion>
          </exclusions>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <!-- Jackson -->
+         <groupId>com.fasterxml.jackson.core</groupId>
+         <artifactId>jackson-core</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <!-- Jackson databinding -->
+         <groupId>com.fasterxml.jackson.core</groupId>
+         <artifactId>jackson-databind</artifactId>
          <scope>test</scope>
       </dependency>
    </dependencies>

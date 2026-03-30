@@ -29,7 +29,9 @@ import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
+import com.bernardomg.association.TestApplication;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.member.domain.filter.MemberProfileFilter;
 import com.bernardomg.association.member.domain.model.MemberProfile;
@@ -44,6 +46,7 @@ import com.bernardomg.test.annotation.IntegrationTest;
 import com.bernardomg.test.pagination.AbstractPaginationIT;
 
 @IntegrationTest
+@SpringBootTest(classes = TestApplication.class)
 @DisplayName("MemberProfileRepository - find all public - pagination")
 @PositiveFeeType
 @MultipleActiveMember

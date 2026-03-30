@@ -5,6 +5,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTypeEntity;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeTypeSpringRepository;
@@ -14,10 +15,12 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.Positiv
 import com.bernardomg.association.fee.test.configuration.factory.FeeTypeEntities;
 import com.bernardomg.association.fee.test.configuration.factory.FeeTypes;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
+import com.bernardomg.association.TestApplication;
 import com.bernardomg.association.transaction.test.configuration.data.annotation.FeeTransaction;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
+@SpringBootTest(classes = TestApplication.class)
 @DisplayName("FeeTypeRepository - save")
 class ITFeeTypeRepositorySave {
 

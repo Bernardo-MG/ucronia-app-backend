@@ -57,7 +57,7 @@ import com.bernardomg.association.profile.domain.repository.ProfileRepository;
 public class AssociationMemberConfiguration {
 
     @Bean("memberProfileService")
-    public MemberProfileService getFeeMaintenanceService(final MemberProfileRepository memberProfileRepository,
+    public MemberProfileService getMemberProfileService(final MemberProfileRepository memberProfileRepository,
             final ContactMethodRepository contactMethodRepository, final FeeTypeRepository feeTypeRepository) {
         return new DefaultMemberProfileService(memberProfileRepository, contactMethodRepository, feeTypeRepository);
     }
@@ -81,7 +81,7 @@ public class AssociationMemberConfiguration {
     }
 
     @Bean("memberService")
-    public MemberService getFeeMaintenanceService(final MemberRepository memberRepository) {
+    public MemberService getMemberService(final MemberRepository memberRepository) {
         return new DefaultMemberService(memberRepository);
     }
 

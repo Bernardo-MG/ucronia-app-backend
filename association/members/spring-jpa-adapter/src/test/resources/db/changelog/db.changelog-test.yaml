@@ -5,3 +5,6 @@ databaseChangeLog:
   - include:
       file: funds.yaml
       relativeToChangelogFile: true
+  - include:
+      file: member.yaml
+      relativeToChangelogFile: true
