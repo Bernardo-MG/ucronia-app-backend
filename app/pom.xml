@@ -46,8 +46,12 @@
          <artifactId>association-profile-spring-starter</artifactId>
       </dependency>
       <dependency>
-         <groupId>com.bernardomg.association.profile</groupId>
+         <groupId>com.bernardomg.association.member</groupId>
          <artifactId>association-member-spring-starter</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.association.guest</groupId>
+         <artifactId>association-guest-spring-starter</artifactId>
       </dependency>
       <!-- ============================================== -->
       <!-- ================== LOGGING =================== -->

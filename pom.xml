@@ -352,6 +352,11 @@
             <artifactId>association-member-event-adapter</artifactId>
             <version>${project.version}</version>
          </dependency>
+         <dependency>
+            <groupId>com.bernardomg.association.guest</groupId>
+            <artifactId>association-guest-spring-starter</artifactId>
+            <version>${project.version}</version>
+         </dependency>
          <!-- ============================================== -->
          <!-- ================ FRAMEWORK =================== -->
          <!-- ============================================== -->

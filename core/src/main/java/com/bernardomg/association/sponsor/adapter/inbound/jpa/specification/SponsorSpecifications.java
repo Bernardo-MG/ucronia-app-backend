@@ -30,7 +30,6 @@ import java.util.function.BinaryOperator;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.bernardomg.association.guest.adapter.inbound.jpa.model.GuestEntity;
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.SponsorEntity;
 import com.bernardomg.association.sponsor.domain.filter.SponsorFilter;
@@ -71,7 +70,7 @@ public final class SponsorSpecifications {
         final String likePattern = "%" + pattern.toLowerCase() + "%";
 
         return (root, query, cb) -> {
-            final Join<GuestEntity, ProfileEntity> profile = root.join("profile", JoinType.INNER);
+            final Join<ProfileEntity, ProfileEntity> profile = root.join("profile", JoinType.INNER);
 
             return cb.or(cb.like(cb.lower(profile.get("firstName")), likePattern),
                 cb.like(cb.lower(profile.get("lastName")), likePattern),

@@ -13,16 +13,10 @@ paths:
     $ref: paths/user_profile_by_id.yml
   /profile/{number}/sponsor:
     $ref: paths/profile_sponsorship.yml
-  /profile/{number}/guest:
-    $ref: paths/profile_guest.yml
   /profile/sponsor:
     $ref: paths/sponsors.yml
   /profile/sponsor/{number}:
     $ref: paths/sponsors_by_id.yml
-  /profile/guest:
-    $ref: paths/guests.yml
-  /profile/guest/{number}:
-    $ref: paths/guests_by_id.yml
   /library/author:
     $ref: paths/authors.yml
   /library/author/{number}:
