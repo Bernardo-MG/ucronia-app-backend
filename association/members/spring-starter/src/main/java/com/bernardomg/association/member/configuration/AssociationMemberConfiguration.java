@@ -28,10 +28,18 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeTypeSpringRepository;
 import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
 import com.bernardomg.association.member.adapter.inbound.event.ActivateMemberOnFeePaidEventListener;
 import com.bernardomg.association.member.adapter.inbound.event.ApplyRenewalOnMonthStartEventListener;
 import com.bernardomg.association.member.adapter.inbound.event.DeactivateMemberOnFeeDeletedEventListener;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberProfileRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberSummaryRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMembershipEvolutionRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberProfileSpringRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.MembershipEvolutionSpringRepository;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.domain.repository.MemberSummaryRepository;
@@ -48,6 +56,8 @@ import com.bernardomg.association.member.usecase.service.MemberStatusService;
 import com.bernardomg.association.member.usecase.service.MemberSummaryService;
 import com.bernardomg.association.member.usecase.service.MembershipEvolutionService;
 import com.bernardomg.association.member.usecase.service.ProfileMembershipService;
+import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ContactMethodSpringRepository;
+import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
 import com.bernardomg.association.profile.domain.repository.ProfileRepository;
 
@@ -105,6 +115,32 @@ public class AssociationMemberConfiguration {
     public ProfileMembershipService getProfileMembershipService(final MemberProfileRepository memberProfileRepository,
             final ProfileRepository profileRepository, final FeeTypeRepository feeTypeRepository) {
         return new DefaultProfileMembershipService(memberProfileRepository, profileRepository, feeTypeRepository);
+    }
+
+    @Bean("memberProfileRepository")
+    public MemberProfileRepository getMemberProfileRepository(
+            final MemberProfileSpringRepository updateMemberProfileSpringRepository,
+            final ContactMethodSpringRepository contactMethodSpringRepository,
+            final ProfileSpringRepository profileSpringRepository,
+            final FeeTypeSpringRepository feeTypeSpringRepository) {
+        return new JpaMemberProfileRepository(updateMemberProfileSpringRepository, contactMethodSpringRepository,
+            profileSpringRepository, feeTypeSpringRepository);
+    }
+
+    @Bean("memberRepository")
+    public MemberRepository getMemberRepository(final MemberSpringRepository memberSpringRepository) {
+        return new JpaMemberRepository(memberSpringRepository);
+    }
+
+    @Bean("membershipEvolutionRepository")
+    public MembershipEvolutionRepository getMembershipEvolutionRepository(
+            final MembershipEvolutionSpringRepository membershipEvolutionSpringRepository) {
+        return new JpaMembershipEvolutionRepository(membershipEvolutionSpringRepository);
+    }
+
+    @Bean("memberSummaryRepository")
+    public MemberSummaryRepository getMemberSummaryRepository(final MemberSpringRepository memberSpringRepository) {
+        return new JpaMemberSummaryRepository(memberSpringRepository);
     }
 
 }

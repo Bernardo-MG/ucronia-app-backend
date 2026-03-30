@@ -31,7 +31,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
@@ -45,7 +44,6 @@ import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.springframework.SpringPagination;
 
-@Repository
 @Transactional
 public final class JpaMemberRepository implements MemberRepository {
 

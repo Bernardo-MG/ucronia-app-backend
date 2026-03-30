@@ -33,7 +33,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MembershipEvolutionMonthEntity;
@@ -44,7 +43,6 @@ import com.bernardomg.association.member.domain.repository.MembershipEvolutionRe
 import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.springframework.SpringSorting;
 
-@Repository
 @Transactional
 public final class JpaMembershipEvolutionRepository implements MembershipEvolutionRepository {
 

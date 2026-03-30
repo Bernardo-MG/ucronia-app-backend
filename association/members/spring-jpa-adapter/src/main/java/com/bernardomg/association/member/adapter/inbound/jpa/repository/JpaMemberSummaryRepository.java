@@ -28,13 +28,11 @@ import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.member.domain.model.MemberSummary;
 import com.bernardomg.association.member.domain.repository.MemberSummaryRepository;
 
-@Repository
 @Transactional
 public final class JpaMemberSummaryRepository implements MemberSummaryRepository {
 
