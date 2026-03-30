@@ -36,6 +36,7 @@
          <!-- Spring Web -->
          <groupId>org.springframework</groupId>
          <artifactId>spring-web</artifactId>
+         <scope>provided</scope>
       </dependency>
       <!-- ============================================== -->
       <!-- =============== APACHE POI =================== -->

@@ -29,6 +29,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
+import com.bernardomg.association.member.adapter.inbound.event.ActivateMemberOnFeePaidEventListener;
+import com.bernardomg.association.member.adapter.inbound.event.ApplyRenewalOnMonthStartEventListener;
+import com.bernardomg.association.member.adapter.inbound.event.DeactivateMemberOnFeeDeletedEventListener;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.domain.repository.MemberSummaryRepository;
@@ -57,6 +60,24 @@ public class AssociationMemberConfiguration {
     public MemberProfileService getFeeMaintenanceService(final MemberProfileRepository memberProfileRepository,
             final ContactMethodRepository contactMethodRepository, final FeeTypeRepository feeTypeRepository) {
         return new DefaultMemberProfileService(memberProfileRepository, contactMethodRepository, feeTypeRepository);
+    }
+
+    @Bean("activateMemberOnFeePaidEventListener")
+    public ActivateMemberOnFeePaidEventListener
+            getActivateMemberOnFeePaidEventListener(final MemberStatusService service) {
+        return new ActivateMemberOnFeePaidEventListener(service);
+    }
+
+    @Bean("applyRenewalOnMonthStartEventListener")
+    public ApplyRenewalOnMonthStartEventListener
+            getApplyRenewalOnMonthStartEventListener(final MemberStatusService service) {
+        return new ApplyRenewalOnMonthStartEventListener(service);
+    }
+
+    @Bean("deactivateMemberOnFeeDeletedEventListener")
+    public DeactivateMemberOnFeeDeletedEventListener
+            getDeactivateMemberOnFeeDeletedEventListener(final MemberStatusService service) {
+        return new DeactivateMemberOnFeeDeletedEventListener(service);
     }
 
     @Bean("memberService")

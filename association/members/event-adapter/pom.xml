@@ -19,16 +19,20 @@
    <!-- ********************************************** -->
 
    <groupId>com.bernardomg.association.member</groupId>
-   <artifactId>association-member-spring-starter</artifactId>
+   <artifactId>association-member-event-adapter</artifactId>
    <packaging>jar</packaging>
 
-   <name>Association Members Spring Starter</name>
+   <name>Association Members Event Adapter</name>
 
    <!-- ********************************************** -->
    <!-- *************** DEPENDENCIES ***************** -->
    <!-- ********************************************** -->
 
    <dependencies>
+      <dependency>
+         <groupId>com.bernardomg.framework</groupId>
+         <artifactId>event</artifactId>
+      </dependency>
       <dependency>
          <groupId>com.bernardomg.association.member</groupId>
          <artifactId>association-member-domain</artifactId>
@@ -37,34 +41,23 @@
          <groupId>com.bernardomg.association.member</groupId>
          <artifactId>association-member-usecase</artifactId>
       </dependency>
+      <!-- ============================================== -->
+      <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
+      <!-- ============================================== -->
       <dependency>
          <groupId>com.bernardomg.association.member</groupId>
-         <artifactId>association-member-event-adapter</artifactId>
+         <artifactId>association-member-testing</artifactId>
+         <scope>test</scope>
       </dependency>
       <dependency>
-         <groupId>com.bernardomg.association.member</groupId>
-         <artifactId>association-member-spring-jpa-adapter</artifactId>
+         <groupId>com.bernardomg.association.profile</groupId>
+         <artifactId>association-profile-testing</artifactId>
+         <scope>test</scope>
       </dependency>
       <dependency>
-         <groupId>com.bernardomg.association.member</groupId>
-         <artifactId>association-member-rest-adapter</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>org.springframework.boot</groupId>
-         <artifactId>spring-boot-autoconfigure</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.association.transaction</groupId>
-         <artifactId>association-transaction-domain</artifactId>
-      </dependency>
-      <dependency>
-         <!-- Spring WS Security Starter -->
-         <groupId>com.bernardomg.framework.spring</groupId>
-         <artifactId>spring-ws-security-starter</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>org.springframework</groupId>
-         <artifactId>spring-context</artifactId>
+         <groupId>com.bernardomg</groupId>
+         <artifactId>testing</artifactId>
+         <scope>test</scope>
       </dependency>
    </dependencies>
 

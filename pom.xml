@@ -347,6 +347,11 @@
             <artifactId>association-member-usecase</artifactId>
             <version>${project.version}</version>
          </dependency>
+         <dependency>
+            <groupId>com.bernardomg.association.member</groupId>
+            <artifactId>association-member-event-adapter</artifactId>
+            <version>${project.version}</version>
+         </dependency>
          <!-- ============================================== -->
          <!-- ================ FRAMEWORK =================== -->
          <!-- ============================================== -->

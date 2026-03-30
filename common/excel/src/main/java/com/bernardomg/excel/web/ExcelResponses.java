@@ -33,6 +33,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
+/**
+ * TODO: move to another module
+ */
 public final class ExcelResponses {
 
     public static final ResponseEntity<InputStreamResource> response(final ByteArrayOutputStream stream,

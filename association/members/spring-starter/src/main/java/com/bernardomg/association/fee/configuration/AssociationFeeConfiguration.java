@@ -29,6 +29,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+import com.bernardomg.association.fee.adapter.inbound.event.RegisterFeesOnMonthStartEventListener;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.domain.repository.FeeSummaryRepository;
 import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
@@ -62,7 +63,8 @@ public class AssociationFeeConfiguration {
     public FeeService getFeeService(final FeeRepository feeRepository, final FeeTypeRepository feeTypeRepository,
             final MemberProfileRepository memberProfileRepository, final TransactionRepository transactionRepository,
             final EventEmitter evntEmitter, final MessageSource msgSource) {
-        return new DefaultFeeService(feeRepository, feeTypeRepository, memberProfileRepository, transactionRepository, evntEmitter, msgSource);
+        return new DefaultFeeService(feeRepository, feeTypeRepository, memberProfileRepository, transactionRepository,
+            evntEmitter, msgSource);
     }
 
     @Bean("feeSummaryService")
@@ -76,8 +78,15 @@ public class AssociationFeeConfiguration {
     }
 
     @Bean("myFeesService")
-    public MyFeesService getMyFeesService(final FeeRepository feeRepository, final UserProfileRepository userProfileRepository) {
+    public MyFeesService getMyFeesService(final FeeRepository feeRepository,
+            final UserProfileRepository userProfileRepository) {
         return new SpringSecurityMyFeesService(feeRepository, userProfileRepository);
+    }
+
+    @Bean("registerFeesOnMonthStartEventListener")
+    public RegisterFeesOnMonthStartEventListener
+            getRegisterFeesOnMonthStartEventListener(final FeeMaintenanceService service) {
+        return new RegisterFeesOnMonthStartEventListener(service);
     }
 
 }
