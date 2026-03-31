@@ -13,7 +13,7 @@ databaseChangeLog:
       file: member.yaml
       relativeToChangelogFile: true
   - include:
-      file: structure/sponsor.yaml
+      file: sponsor.yaml
       relativeToChangelogFile: true
   - include:
       file: structure/guest.yaml

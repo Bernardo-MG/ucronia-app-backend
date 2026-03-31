@@ -11,12 +11,6 @@ paths:
     $ref: paths/user_profile.yml
   /security/user/{username}/profile/{memberNumber}:
     $ref: paths/user_profile_by_id.yml
-  /profile/{number}/sponsor:
-    $ref: paths/profile_sponsorship.yml
-  /profile/sponsor:
-    $ref: paths/sponsors.yml
-  /profile/sponsor/{number}:
-    $ref: paths/sponsors_by_id.yml
   /library/author:
     $ref: paths/authors.yml
   /library/author/{number}:
