@@ -24,9 +24,9 @@
 
 package com.bernardomg.association.settings.configuration;
 
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 
 import com.bernardomg.association.settings.usecase.loader.SettingsLoader;
@@ -35,9 +35,9 @@ import com.bernardomg.association.settings.usecase.service.PublicSettingsService
 import com.bernardomg.security.web.whitelist.WhitelistRoute;
 import com.bernardomg.settings.domain.repository.SettingRepository;
 
-@Configuration
+@AutoConfiguration
 @ComponentScan({ "com.bernardomg.association.settings.adapter.outbound.rest.controller" })
-public class AssociationSettingsConfiguration {
+public class AssociationSettingsAutoConfiguration {
 
     @Bean(name = "publicSettingsService")
     public PublicSettingsService getPublicSettingsService(final SettingRepository settingRepository) {

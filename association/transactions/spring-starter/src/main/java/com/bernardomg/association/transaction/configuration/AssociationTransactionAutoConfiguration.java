@@ -24,9 +24,9 @@
 
 package com.bernardomg.association.transaction.configuration;
 
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.JpaTransactionBalanceRepository;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.JpaTransactionRepository;
@@ -45,10 +45,10 @@ import com.bernardomg.association.transaction.usecase.service.TransactionReportS
 import com.bernardomg.association.transaction.usecase.service.TransactionService;
 import com.bernardomg.association.transaction.usecase.service.TransactionSummaryService;
 
-@Configuration
+@AutoConfiguration
 @ComponentScan({ "com.bernardomg.association.transaction.adapter.outbound.rest.controller",
         "com.bernardomg.association.transaction.adapter.inbound.jpa" })
-public class AssociationTransactionConfiguration {
+public class AssociationTransactionAutoConfiguration {
 
     @Bean("transactionBalanceRepository")
     public TransactionBalanceRepository

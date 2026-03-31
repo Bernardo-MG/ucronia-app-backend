@@ -64,7 +64,7 @@ import com.bernardomg.association.profile.domain.repository.ProfileRepository;
 @Configuration
 @ComponentScan({ "com.bernardomg.association.member.adapter.outbound.rest.controller",
         "com.bernardomg.association.member.adapter.inbound.jpa" })
-public class AssociationMemberConfiguration {
+public class AssociationMemberAutoConfiguration {
 
     @Bean("memberProfileService")
     public MemberProfileService getMemberProfileService(final MemberProfileRepository memberProfileRepository,

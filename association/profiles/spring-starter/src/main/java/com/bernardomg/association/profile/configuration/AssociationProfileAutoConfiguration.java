@@ -24,9 +24,9 @@
 
 package com.bernardomg.association.profile.configuration;
 
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ContactMethodSpringRepository;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.JpaContactMethodRepository;
@@ -39,10 +39,10 @@ import com.bernardomg.association.profile.usecase.service.DefaultContactMethodSe
 import com.bernardomg.association.profile.usecase.service.DefaultProfileService;
 import com.bernardomg.association.profile.usecase.service.ProfileService;
 
-@Configuration
+@AutoConfiguration
 @ComponentScan({ "com.bernardomg.association.profile.adapter.outbound.rest.controller",
         "com.bernardomg.association.profile.adapter.inbound.jpa" })
-public class ProfileTransactionConfiguration {
+public class AssociationProfileAutoConfiguration {
 
     @Bean("contactMethodService")
     public ContactMethodService getContactMethodService(final ContactMethodRepository contactMethodRepository) {

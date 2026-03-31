@@ -1,1 +1,2 @@
-com.bernardomg.association.settings.configuration.AssociationSettingsConfiguration
+com.bernardomg.association.fee.configuration.AssociationFeeAutoConfiguration
+com.bernardomg.association.member.configuration.AssociationMemberAutoConfiguration

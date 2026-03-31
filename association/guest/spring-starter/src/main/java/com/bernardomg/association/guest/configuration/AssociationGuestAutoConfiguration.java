@@ -24,9 +24,9 @@
 
 package com.bernardomg.association.guest.configuration;
 
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 
 import com.bernardomg.association.guest.adapter.inbound.jpa.repository.GuestSpringRepository;
 import com.bernardomg.association.guest.adapter.inbound.jpa.repository.JpaGuestRepository;
@@ -40,10 +40,10 @@ import com.bernardomg.association.profile.adapter.inbound.jpa.repository.Profile
 import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
 import com.bernardomg.association.profile.domain.repository.ProfileRepository;
 
-@Configuration
+@AutoConfiguration
 @ComponentScan({ "com.bernardomg.association.guest.adapter.outbound.rest.controller",
         "com.bernardomg.association.guest.adapter.inbound.jpa" })
-public class AssociationTransactionConfiguration {
+public class AssociationGuestAutoConfiguration {
 
     @Bean("guestService")
     public GuestService getGuestService(final GuestRepository guestRepository,

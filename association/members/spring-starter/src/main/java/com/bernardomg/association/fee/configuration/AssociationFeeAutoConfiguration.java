@@ -24,10 +24,10 @@
 
 package com.bernardomg.association.fee.configuration;
 
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 
 import com.bernardomg.association.fee.adapter.inbound.event.RegisterFeesOnMonthStartEventListener;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeSpringRepository;
@@ -55,10 +55,10 @@ import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.Tra
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.event.emitter.EventEmitter;
 
-@Configuration
+@AutoConfiguration
 @ComponentScan({ "com.bernardomg.association.fee.adapter.outbound.rest.controller",
         "com.bernardomg.association.fee.adapter.inbound.jpa" })
-public class AssociationFeeConfiguration {
+public class AssociationFeeAutoConfiguration {
 
     @Bean("feeMaintenanceService")
     public FeeMaintenanceService getFeeMaintenanceService(final FeeRepository feeRepository,

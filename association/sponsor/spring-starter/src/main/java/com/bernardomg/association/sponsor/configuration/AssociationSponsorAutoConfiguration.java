@@ -24,9 +24,9 @@
 
 package com.bernardomg.association.sponsor.configuration;
 
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 
 import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
 import com.bernardomg.association.profile.domain.repository.ProfileRepository;
@@ -36,10 +36,10 @@ import com.bernardomg.association.sponsor.usecase.service.DefaultSponsorService;
 import com.bernardomg.association.sponsor.usecase.service.ProfileSponsorshipService;
 import com.bernardomg.association.sponsor.usecase.service.SponsorService;
 
-@Configuration
+@AutoConfiguration
 @ComponentScan({ "com.bernardomg.association.sponsor.adapter.outbound.rest.controller",
         "com.bernardomg.association.sponsor.adapter.inbound.jpa" })
-public class AssociationSponsorConfiguration {
+public class AssociationSponsorAutoConfiguration {
 
     @Bean("profileSponsorshipService")
     public ProfileSponsorshipService getProfileSponsorshipService(final SponsorRepository sponsorRepository,
