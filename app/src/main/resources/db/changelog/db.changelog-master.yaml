@@ -16,7 +16,7 @@ databaseChangeLog:
       file: sponsor.yaml
       relativeToChangelogFile: true
   - include:
-      file: structure/guest.yaml
+      file: guest.yaml
       relativeToChangelogFile: true
   # Inventory
   - include:
