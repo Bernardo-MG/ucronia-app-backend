@@ -367,6 +367,14 @@
          <groupId>commons-codec</groupId>
          <artifactId>commons-codec</artifactId>
       </dependency>
+      <!-- ============================================== -->
+      <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
+      <!-- ============================================== -->
+      <dependency>
+         <!-- Architecture Tests -->
+         <groupId>com.bernardomg.framework.testing</groupId>
+         <artifactId>architecture-tests</artifactId>
+      </dependency>
    </dependencies>
 
    <!-- ********************************************** -->
