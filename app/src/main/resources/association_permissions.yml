@@ -1,0 +1,134 @@
+actions:
+  - view
+permissions:
+  - resource: permission
+    actions:
+      - read
+  - resource: transaction
+    actions:
+      - create
+      - read
+      - update
+      - delete
+  - resource: balance
+    actions:
+      - read
+  - resource: funds
+    actions:
+      - view
+  - resource: fee
+    actions:
+      - create
+      - read
+      - update
+      - delete
+      - view
+  - resource: fee_type
+    actions:
+      - create
+      - read
+      - update
+      - delete
+  - resource: my_fees
+    actions:
+      - read
+      - view
+  - resource: inventory_donor
+    actions:
+      - create
+      - read
+      - update
+      - delete
+  - resource: library_author
+    actions:
+      - create
+      - read
+      - update
+      - delete
+      - view
+  - resource: library_publisher
+    actions:
+      - create
+      - read
+      - update
+      - delete
+      - view
+  - resource: library_book
+    actions:
+      - create
+      - read
+      - update
+      - delete
+      - view
+  - resource: library_book_type
+    actions:
+      - create
+      - read
+      - update
+      - delete
+      - view
+  - resource: library_game_system
+    actions:
+      - create
+      - read
+      - update
+      - delete
+      - view
+  - resource: library_lending
+    actions:
+      - create
+      - read
+      - update
+      - delete
+      - view
+  - resource: library
+    actions:
+      - view
+  - resource: profile
+    actions:
+      - create
+      - read
+      - update
+      - delete
+      - view
+  - resource: contact_method
+    actions:
+      - create
+      - read
+      - update
+      - delete
+  - resource: member
+    actions:
+      - read
+      - view
+  - resource: member_profile
+    actions:
+      - create
+      - read
+      - update
+      - delete
+      - view
+  - resource: sponsor
+    actions:
+      - create
+      - read
+      - update
+      - delete
+      - view
+  - resource: guest
+    actions:
+      - create
+      - read
+      - update
+      - delete
+      - view
+  - resource: security
+    actions:
+      - view
+  - resource: association_settings
+    actions:
+      - create
+      - read
+      - update
+      - delete
+      - view
