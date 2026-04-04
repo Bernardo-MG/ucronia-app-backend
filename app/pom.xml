@@ -61,6 +61,10 @@
          <groupId>com.bernardomg.association.library</groupId>
          <artifactId>association-library-spring-starter</artifactId>
       </dependency>
+      <dependency>
+         <groupId>com.bernardomg.association.security</groupId>
+         <artifactId>association-security-spring-starter</artifactId>
+      </dependency>
       <!-- ============================================== -->
       <!-- ================== LOGGING =================== -->
       <!-- ============================================== -->
