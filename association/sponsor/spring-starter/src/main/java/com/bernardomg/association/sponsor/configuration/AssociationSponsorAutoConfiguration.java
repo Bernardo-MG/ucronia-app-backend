@@ -28,8 +28,12 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
+import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ContactMethodSpringRepository;
+import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
 import com.bernardomg.association.profile.domain.repository.ProfileRepository;
+import com.bernardomg.association.sponsor.adapter.inbound.jpa.repository.JpaSponsorRepository;
+import com.bernardomg.association.sponsor.adapter.inbound.jpa.repository.SponsorSpringRepository;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
 import com.bernardomg.association.sponsor.usecase.service.DefaultProfileSponsorshipService;
 import com.bernardomg.association.sponsor.usecase.service.DefaultSponsorService;
@@ -50,6 +54,13 @@ public class AssociationSponsorAutoConfiguration {
     @Bean("sponsorService")
     public SponsorService getSponsorService(final SponsorRepository sponsorRepository, final ContactMethodRepository contactMethodRepository) {
         return new DefaultSponsorService(sponsorRepository, contactMethodRepository);
+    }
+
+    @Bean("sponsorRepository")
+    public SponsorRepository getSponsorRepository(final SponsorSpringRepository sponsorSpringRepository,
+            final ContactMethodSpringRepository contactMethodSpringRepository,
+            final ProfileSpringRepository profileSpringRepository) {
+        return new JpaSponsorRepository(sponsorSpringRepository, contactMethodSpringRepository, profileSpringRepository);
     }
 
 }
