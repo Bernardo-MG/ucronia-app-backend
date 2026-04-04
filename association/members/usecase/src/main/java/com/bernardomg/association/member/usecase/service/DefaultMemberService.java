@@ -29,7 +29,6 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.filter.MemberFilter;
@@ -38,6 +37,8 @@ import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
+
+import jakarta.transaction.Transactional;
 
 /**
  * Default implementation of the member service.

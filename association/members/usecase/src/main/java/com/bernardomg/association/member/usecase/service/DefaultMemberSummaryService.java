@@ -28,10 +28,11 @@ import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.member.domain.model.MemberSummary;
 import com.bernardomg.association.member.domain.repository.MemberSummaryRepository;
+
+import jakarta.transaction.Transactional;
 
 /**
  * Default implementation of the member service.

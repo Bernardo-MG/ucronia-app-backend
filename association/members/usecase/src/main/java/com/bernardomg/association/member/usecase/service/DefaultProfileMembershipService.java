@@ -28,7 +28,6 @@ import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.fee.domain.exception.MissingFeeTypeException;
 import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
@@ -38,6 +37,8 @@ import com.bernardomg.association.member.domain.repository.MemberProfileReposito
 import com.bernardomg.association.profile.domain.exception.MissingProfileException;
 import com.bernardomg.association.profile.domain.model.Profile;
 import com.bernardomg.association.profile.domain.repository.ProfileRepository;
+
+import jakarta.transaction.Transactional;
 
 /**
  * Default implementation of the profile to member service.

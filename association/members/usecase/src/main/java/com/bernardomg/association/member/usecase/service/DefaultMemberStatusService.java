@@ -32,10 +32,11 @@ import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
+
+import jakarta.transaction.Transactional;
 
 @Transactional
 public final class DefaultMemberStatusService implements MemberStatusService {

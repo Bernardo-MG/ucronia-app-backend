@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+   <modelVersion>4.0.0</modelVersion>
+
+   <!-- ********************************************** -->
+   <!-- ****************** BASE POM ****************** -->
+   <!-- ********************************************** -->
+
+   <parent>
+      <groupId>com.bernardomg.association.security</groupId>
+      <artifactId>association-security</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
+   </parent>
+
+   <!-- ********************************************** -->
+   <!-- **************** PROJECT INFO **************** -->
+   <!-- ********************************************** -->
+
+   <groupId>com.bernardomg.association.security</groupId>
+   <artifactId>association-security-spring-starter</artifactId>
+   <packaging>jar</packaging>
+
+   <name>Association Security Spring Starter</name>
+
+   <!-- ********************************************** -->
+   <!-- *************** DEPENDENCIES ***************** -->
+   <!-- ********************************************** -->
+
+   <dependencies>
+      <dependency>
+         <groupId>com.bernardomg.association.security</groupId>
+         <artifactId>association-security-domain</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.association.security</groupId>
+         <artifactId>association-security-usecase</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.association.security</groupId>
+         <artifactId>association-security-spring-jpa-adapter</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.association.security</groupId>
+         <artifactId>association-security-rest-adapter</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-autoconfigure</artifactId>
+      </dependency>
+      <dependency>
+         <!-- Spring WS Security Starter -->
+         <groupId>com.bernardomg.framework.spring</groupId>
+         <artifactId>spring-ws-security-starter</artifactId>
+      </dependency>
+   </dependencies>
+
+</project>

@@ -18,8 +18,8 @@
    <!-- **************** PROJECT INFO **************** -->
    <!-- ********************************************** -->
 
-   <groupId>com.bernardomg.security</groupId>
-   <artifactId>security</artifactId>
+   <groupId>com.bernardomg.association.security</groupId>
+   <artifactId>association-security</artifactId>
    <packaging>pom</packaging>
 
    <name>Security</name>
@@ -29,7 +29,12 @@
    <!-- ********************************************** -->
 
    <modules>
-     <module>core</module>
+     <module>domain</module>
+     <module>testing</module>
+     <module>usecase</module>
+     <module>spring-jpa-adapter</module>
+     <module>rest-adapter</module>
+     <module>spring-starter</module>
    </modules>
 
    <!-- ********************************************** -->
@@ -44,6 +49,31 @@
          <dependency>
             <groupId>com.bernardomg</groupId>
             <artifactId>testing</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.association.security</groupId>
+            <artifactId>association-security-testing</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.association.security</groupId>
+            <artifactId>association-security-domain</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.association.security</groupId>
+            <artifactId>association-security-usecase</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.association.security</groupId>
+            <artifactId>association-security-spring-jpa-adapter</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.association.security</groupId>
+            <artifactId>association-security-rest-adapter</artifactId>
             <version>${project.version}</version>
          </dependency>
       </dependencies>

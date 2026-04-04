@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+   <modelVersion>4.0.0</modelVersion>
+
+   <!-- ********************************************** -->
+   <!-- ****************** BASE POM ****************** -->
+   <!-- ********************************************** -->
+
+   <parent>
+      <groupId>com.bernardomg.association.security</groupId>
+      <artifactId>association-security</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
+   </parent>
+
+   <!-- ********************************************** -->
+   <!-- **************** PROJECT INFO **************** -->
+   <!-- ********************************************** -->
+
+   <groupId>com.bernardomg.association.security</groupId>
+   <artifactId>association-security-spring-jpa-adapter</artifactId>
+   <packaging>jar</packaging>
+
+   <name>Association Security REST Adapter</name>
+
+   <!-- ********************************************** -->
+   <!-- *************** DEPENDENCIES ***************** -->
+   <!-- ********************************************** -->
+
+   <dependencies>
+      <dependency>
+         <groupId>com.bernardomg.association.security</groupId>
+         <artifactId>association-security-domain</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.association.profile</groupId>
+         <artifactId>association-profile-spring-jpa-adapter</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>org.springframework.data</groupId>
+         <artifactId>spring-data-jpa</artifactId>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- ============== JPA DEPENDENCIES ============== -->
+      <!-- ============================================== -->
+      <dependency>
+         <!-- JPA API -->
+         <groupId>jakarta.persistence</groupId>
+         <artifactId>jakarta.persistence-api</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>jakarta.transaction</groupId>
+         <artifactId>jakarta.transaction-api</artifactId>
+      </dependency>
+      <dependency>
+	     <groupId>org.hibernate.orm</groupId>
+	     <artifactId>hibernate-core</artifactId>
+	  </dependency>
+      <!-- ============================================== -->
+      <!-- ================ VALIDATION ================== -->
+      <!-- ============================================== -->
+      <dependency>
+         <!-- Jakarta validation -->
+         <groupId>jakarta.validation</groupId>
+         <artifactId>jakarta.validation-api</artifactId>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
+      <!-- ============================================== -->
+      <dependency>
+         <groupId>com.bernardomg.association.security</groupId>
+         <artifactId>association-security-testing</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg</groupId>
+         <artifactId>testing</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-starter-data-jpa</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <!-- Postgres connector -->
+         <groupId>org.postgresql</groupId>
+         <artifactId>postgresql</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <!-- Liquibase -->
+         <groupId>org.liquibase</groupId>
+         <artifactId>liquibase-core</artifactId>
+         <exclusions>
+            <exclusion>
+               <groupId>ch.qos.logback</groupId>
+               <artifactId>logback-classic</artifactId>
+            </exclusion>
+         </exclusions>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <!-- Jackson -->
+         <groupId>com.fasterxml.jackson.core</groupId>
+         <artifactId>jackson-core</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <!-- Jackson databinding -->
+         <groupId>com.fasterxml.jackson.core</groupId>
+         <artifactId>jackson-databind</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>org.hibernate.validator</groupId>
+         <artifactId>hibernate-validator</artifactId>
+         <scope>test</scope>
+      </dependency>
+   </dependencies>
+
+</project>

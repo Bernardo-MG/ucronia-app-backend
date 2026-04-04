@@ -42,12 +42,12 @@
          <artifactId>association-member-domain</artifactId>
       </dependency>
       <dependency>
-         <groupId>com.bernardomg.security</groupId>
-         <artifactId>security-core</artifactId>
-      </dependency>
-      <dependency>
          <groupId>com.bernardomg.association.profile</groupId>
          <artifactId>association-profile-domain</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.association.security</groupId>
+         <artifactId>association-security-domain</artifactId>
       </dependency>
       <dependency>
          <groupId>jakarta.transaction</groupId>

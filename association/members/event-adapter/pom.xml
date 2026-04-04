@@ -41,6 +41,11 @@
          <groupId>com.bernardomg.association.member</groupId>
          <artifactId>association-member-usecase</artifactId>
       </dependency>
+      <dependency>
+         <!-- Spring WS Starter -->
+         <groupId>com.bernardomg.framework.spring</groupId>
+         <artifactId>spring-ws-starter</artifactId>
+      </dependency>
       <!-- ============================================== -->
       <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
       <!-- ============================================== -->

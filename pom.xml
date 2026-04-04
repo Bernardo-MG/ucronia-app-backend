@@ -267,11 +267,6 @@
             <version>${project.version}</version>
          </dependency>
          <dependency>
-            <groupId>com.bernardomg.security</groupId>
-            <artifactId>security-core</artifactId>
-            <version>${project.version}</version>
-         </dependency>
-         <dependency>
             <groupId>com.bernardomg</groupId>
             <artifactId>testing</artifactId>
             <version>${project.version}</version>
@@ -369,6 +364,11 @@
          <dependency>
             <groupId>com.bernardomg.association.library</groupId>
             <artifactId>association-library-spring-starter</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.association.security</groupId>
+            <artifactId>association-security-domain</artifactId>
             <version>${project.version}</version>
          </dependency>
          <!-- ============================================== -->
