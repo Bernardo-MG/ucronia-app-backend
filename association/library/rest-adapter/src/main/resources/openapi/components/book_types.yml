@@ -1,0 +1,54 @@
+components:
+  parameters:
+    bookTypesSortParam:
+      name: sort
+      description: Sorting to apply.
+      in: query
+      style: form
+      explode: true
+      required: false
+      schema:
+        type: array
+        items:
+          type: string
+          pattern: '^(name)\|(asc|desc)$'
+          example: name|asc
+  schemas:
+    BookType:
+      type: object
+      properties:
+        number:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        name:
+          type: string
+          example: 'Core book'
+    BookTypeCreation:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+          example: 'Core book'
+          maxLength: 100
+    BookTypeUpdate:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+          example: 'Core book'
+          maxLength: 100
+    BookTypePageResponse:
+      allOf:
+        - $ref: '../common/responses.yml#/components/schemas/PageResponse'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/BookType'
+    BookTypeResponse:
+      type: object
+      properties:
+        content:
+          $ref: '#/components/schemas/BookType'

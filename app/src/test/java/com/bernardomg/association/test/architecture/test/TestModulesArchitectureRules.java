@@ -53,12 +53,14 @@ public class TestModulesArchitectureRules {
         .definedBy("com.bernardomg.association.library.publisher..")
         .layer("Library lending")
         .definedBy("com.bernardomg.association.library.lending..")
+        .layer("Library configuration")
+        .definedBy("com.bernardomg.association.library.configuration..")
 
         .whereLayer("Profiles")
         .mayOnlyBeAccessedByLayers("Members", "Sponsors", "Guests", "Users", "Account", "Fees", "Library books",
-            "Library lending")
+            "Library lending", "Library configuration")
         .whereLayer("Members")
-        .mayOnlyBeAccessedByLayers("Fees", "Account", "Library books")
+        .mayOnlyBeAccessedByLayers("Fees", "Account", "Library books", "Library configuration")
         .whereLayer("Sponsors")
         .mayNotBeAccessedByAnyLayer()
         .whereLayer("Guests")
@@ -83,16 +85,16 @@ public class TestModulesArchitectureRules {
 
         // Library modules
         .whereLayer("Library authors")
-        .mayOnlyBeAccessedByLayers("Library books")
+        .mayOnlyBeAccessedByLayers("Library books", "Library configuration")
         .whereLayer("Library books")
-        .mayOnlyBeAccessedByLayers("Library lending")
+        .mayOnlyBeAccessedByLayers("Library lending", "Library configuration")
         .whereLayer("Library book types")
-        .mayOnlyBeAccessedByLayers("Library books")
+        .mayOnlyBeAccessedByLayers("Library books", "Library configuration")
         .whereLayer("Library game systems")
-        .mayOnlyBeAccessedByLayers("Library books")
+        .mayOnlyBeAccessedByLayers("Library books", "Library configuration")
         .whereLayer("Library publisher")
-        .mayOnlyBeAccessedByLayers("Library books")
+        .mayOnlyBeAccessedByLayers("Library books", "Library configuration")
         .whereLayer("Library lending")
-        .mayOnlyBeAccessedByLayers("Library books");
+        .mayOnlyBeAccessedByLayers("Library books", "Library configuration");
 
 }

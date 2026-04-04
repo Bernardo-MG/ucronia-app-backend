@@ -20,10 +20,10 @@ databaseChangeLog:
       relativeToChangelogFile: true
   # Inventory
   - include:
-      file: structure/inventory.yaml
+      file: inventory.yaml
       relativeToChangelogFile: true
   - include:
-      file: structure/library.yaml
+      file: library.yaml
       relativeToChangelogFile: true
   # Security
   - include:

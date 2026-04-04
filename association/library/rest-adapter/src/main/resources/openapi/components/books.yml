@@ -1,0 +1,198 @@
+components:
+  parameters:
+    booksSortParam:
+      name: sort
+      description: Sorting to apply.
+      in: query
+      style: form
+      explode: true
+      required: false
+      schema:
+        type: array
+        items:
+          type: string
+          pattern: '^(supertitle|subtitle|title|number)\|(asc|desc)$'
+          example: title|asc
+  schemas:
+    BookCreation:
+      type: object
+      required: [title, isbn, language]
+      properties:
+        title:
+          $ref: '#/components/schemas/BookTitle'
+        isbn:
+          type: string
+          maxLength: 17
+        language:
+          type: string
+          maxLength: 15
+    FictionBookUpdate:
+      type: object
+      required: [title, isbn, language]
+      properties:
+        title:
+          $ref: '#/components/schemas/BookTitle'
+        isbn:
+          type: string
+          maxLength: 17
+        language:
+          type: string
+          maxLength: 15
+        publishDate:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+          nullable: true
+        authors:
+          type: array
+          items:
+            $ref: '../common/ids.yml#/components/schemas/Id'
+        publishers:
+          type: array
+          items:
+            $ref: '../common/ids.yml#/components/schemas/Id'
+        donation:
+          $ref: '#/components/schemas/Donation'
+    GameBookUpdate:
+      type: object
+      required: [title, isbn, language]
+      properties:
+        title:
+          $ref: '#/components/schemas/BookTitle'
+        isbn:
+          type: string
+          maxLength: 17
+        language:
+          type: string
+          maxLength: 15
+        publishDate:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+          nullable: true
+        authors:
+          type: array
+          items:
+            $ref: '../common/ids.yml#/components/schemas/Id'
+        publishers:
+          type: array
+          items:
+            $ref: '../common/ids.yml#/components/schemas/Id'
+        bookType:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        gameSystem:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        donation:
+          $ref: '#/components/schemas/Donation'
+    BookTitle:
+      type: object
+      required: [title]
+      properties:
+        supertitle:
+          type: string
+        title:
+          type: string
+        subtitle:
+          type: string
+        fullTitle:
+          type: string
+    Donation:
+      type: object
+      properties:
+        date:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+          nullable: true
+        donors:
+          type: array
+          items:
+            $ref: 'profiles.yml#/components/schemas/MinimalProfile'
+    FictionBook:
+      type: object
+      properties:
+        number:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        title:
+          $ref: '#/components/schemas/BookTitle'
+        isbn:
+          type: string
+        language:
+          type: string
+        publishDate:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+          nullable: true
+        lent:
+          type: boolean
+        authors:
+          type: array
+          items:
+            $ref: 'authors.yml#/components/schemas/Author'
+        publishers:
+          type: array
+          items:
+            $ref: 'publishers.yml#/components/schemas/Publisher'
+        lendings:
+          type: array
+          items:
+            $ref: 'book_lendings.yml#/components/schemas/BookLendingInfo'
+        donation:
+          $ref: '#/components/schemas/Donation'
+          nullable: true
+    GameBook:
+      type: object
+      properties:
+        number:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        title:
+          $ref: '#/components/schemas/BookTitle'
+        isbn:
+          type: string
+        language:
+          type: string
+        publishDate:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+          nullable: true
+        lent:
+          type: boolean
+        authors:
+          type: array
+          items:
+            $ref: 'authors.yml#/components/schemas/Author'
+        publishers:
+          type: array
+          items:
+            $ref: 'publishers.yml#/components/schemas/Publisher'
+        lendings:
+          type: array
+          items:
+            $ref: 'book_lendings.yml#/components/schemas/BookLendingInfo'
+        bookType:
+          $ref: 'book_types.yml#/components/schemas/BookType'
+        gameSystem:
+          $ref: 'game_systems.yml#/components/schemas/GameSystem'
+        donation:
+          $ref: '#/components/schemas/Donation'
+          nullable: true
+    FictionBookPageResponse:
+      allOf:
+        - $ref: '../common/responses.yml#/components/schemas/PageResponse'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/FictionBook'
+    GameBookPageResponse:
+      allOf:
+        - $ref: '../common/responses.yml#/components/schemas/PageResponse'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/GameBook'
+    FictionBookResponse:
+      type: object
+      properties:
+        content:
+          $ref: '#/components/schemas/FictionBook'
+    GameBookResponse:
+      type: object
+      properties:
+        content:
+          $ref: '#/components/schemas/GameBook'
