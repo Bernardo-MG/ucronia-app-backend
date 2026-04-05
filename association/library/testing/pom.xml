@@ -33,6 +33,10 @@
          <groupId>com.bernardomg.association.library</groupId>
          <artifactId>association-library-domain</artifactId>
       </dependency>
+      <dependency>
+         <groupId>com.bernardomg.association.profile</groupId>
+         <artifactId>association-profile-testing</artifactId>
+      </dependency>
    </dependencies>
 
 </project>

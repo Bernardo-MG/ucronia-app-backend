@@ -43,7 +43,7 @@
       </dependency>
       <dependency>
          <groupId>com.bernardomg.association.profile</groupId>
-         <artifactId>association-profile-testing</artifactId>
+         <artifactId>association-profile-domain</artifactId>
       </dependency>
    </dependencies>
 

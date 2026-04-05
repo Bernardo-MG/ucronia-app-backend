@@ -30,8 +30,8 @@
 
    <dependencies>
       <dependency>
-         <groupId>com.bernardomg.association.member</groupId>
-         <artifactId>association-member-domain</artifactId>
+         <groupId>com.bernardomg.association.profile</groupId>
+         <artifactId>association-profile-domain</artifactId>
       </dependency>
       <dependency>
          <groupId>com.bernardomg.framework</groupId>

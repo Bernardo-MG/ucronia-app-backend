@@ -38,6 +38,10 @@
          <artifactId>association-transaction-testing</artifactId>
       </dependency>
       <dependency>
+         <groupId>com.bernardomg.association.profile</groupId>
+         <artifactId>association-profile-testing</artifactId>
+      </dependency>
+      <dependency>
          <!-- JUnit Jupiter Params -->
          <groupId>org.junit.jupiter</groupId>
          <artifactId>junit-jupiter-params</artifactId>

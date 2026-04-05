@@ -46,24 +46,6 @@
          <groupId>com.bernardomg.framework.spring</groupId>
          <artifactId>spring-ws-starter</artifactId>
       </dependency>
-      <!-- ============================================== -->
-      <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
-      <!-- ============================================== -->
-      <dependency>
-         <groupId>com.bernardomg.association.member</groupId>
-         <artifactId>association-member-testing</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.association.profile</groupId>
-         <artifactId>association-profile-testing</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg</groupId>
-         <artifactId>testing</artifactId>
-         <scope>test</scope>
-      </dependency>
    </dependencies>
 
 </project>
