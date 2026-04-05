@@ -33,6 +33,8 @@ public class TestModulesArchitectureRules {
         .definedBy("com.bernardomg.association.security.user..")
         .layer("Account")
         .definedBy("com.bernardomg.association.security.account..")
+        .layer("Security configuration")
+        .definedBy("com.bernardomg.association.security.configuration..")
 
         // Misc modules
         .layer("Settings")
@@ -58,7 +60,7 @@ public class TestModulesArchitectureRules {
 
         .whereLayer("Profiles")
         .mayOnlyBeAccessedByLayers("Members", "Sponsors", "Guests", "Users", "Account", "Fees", "Library books",
-            "Library lending", "Library configuration")
+            "Library lending", "Library configuration", "Security configuration")
         .whereLayer("Members")
         .mayOnlyBeAccessedByLayers("Fees", "Account", "Library books", "Library configuration")
         .whereLayer("Sponsors")
@@ -73,9 +75,9 @@ public class TestModulesArchitectureRules {
 
         // Security modules
         .whereLayer("Users")
-        .mayOnlyBeAccessedByLayers("Account", "Fees")
+        .mayOnlyBeAccessedByLayers("Account", "Fees", "Security configuration")
         .whereLayer("Account")
-        .mayNotBeAccessedByAnyLayer()
+        .mayOnlyBeAccessedByLayers("Security configuration")
 
         // Misc modules
         .whereLayer("Settings")
