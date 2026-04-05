@@ -45,6 +45,13 @@ import com.bernardomg.association.profile.domain.repository.ProfileRepository;
         "com.bernardomg.association.guest.adapter.inbound.jpa" })
 public class AssociationGuestAutoConfiguration {
 
+    @Bean("guestRepository")
+    public GuestRepository getGuestRepository(final GuestSpringRepository guestSpringRepository,
+            final ContactMethodSpringRepository contactMethodSpringRepository,
+            final ProfileSpringRepository profileSpringRepository) {
+        return new JpaGuestRepository(guestSpringRepository, contactMethodSpringRepository, profileSpringRepository);
+    }
+
     @Bean("guestService")
     public GuestService getGuestService(final GuestRepository guestRepository,
             final ContactMethodRepository contactMethodRepository) {
@@ -52,16 +59,9 @@ public class AssociationGuestAutoConfiguration {
     }
 
     @Bean("profileGuestService")
-    public ProfileGuestService getProfileGuestService(final GuestRepository guestRepository, final ProfileRepository profileRepository) {
+    public ProfileGuestService getProfileGuestService(final GuestRepository guestRepository,
+            final ProfileRepository profileRepository) {
         return new DefaultProfileGuestService(guestRepository, profileRepository);
-    }
-
-    @Bean("guestRepository")
-    public GuestRepository
-            getGuestRepository(final GuestSpringRepository guestSpringRepository,
-                final ContactMethodSpringRepository contactMethodSpringRepository,
-                final ProfileSpringRepository profileSpringRepository) {
-        return new JpaGuestRepository(guestSpringRepository, contactMethodSpringRepository, profileSpringRepository);
     }
 
 }

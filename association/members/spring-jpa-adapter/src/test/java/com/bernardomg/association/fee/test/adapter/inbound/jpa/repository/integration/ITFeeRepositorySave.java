@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.bernardomg.association.TestApplication;
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeEntity;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeSpringRepository;
 import com.bernardomg.association.fee.domain.model.Fee;
@@ -22,7 +23,6 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.Positiv
 import com.bernardomg.association.fee.test.configuration.factory.FeeEntities;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
-import com.bernardomg.association.TestApplication;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
 import com.bernardomg.association.transaction.test.configuration.data.annotation.FeeTransaction;

@@ -32,6 +32,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.bernardomg.association.TestApplication;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.data.annotation.AlternativePaidFee;
@@ -45,7 +46,6 @@ import com.bernardomg.association.member.test.configuration.data.annotation.Acti
 import com.bernardomg.association.member.test.configuration.data.annotation.AlternativeActiveMember;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
-import com.bernardomg.association.TestApplication;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest

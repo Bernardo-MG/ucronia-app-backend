@@ -43,9 +43,9 @@ import com.bernardomg.security.web.configuration.WebSecurityAutoConfiguration;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@SpringBootApplication(
-        exclude = { WebSecurityAutoConfiguration.class, JwtAutoConfiguration.class, LoginAutoConfiguration.class,
-                PasswordAutoConfiguration.class, UserAutoConfiguration.class, PermissionLoaderAutoConfiguration.class,SpringAutoConfiguration.class })
+@SpringBootApplication(exclude = { WebSecurityAutoConfiguration.class, JwtAutoConfiguration.class,
+        LoginAutoConfiguration.class, PasswordAutoConfiguration.class, UserAutoConfiguration.class,
+        PermissionLoaderAutoConfiguration.class, SpringAutoConfiguration.class })
 @Import({ TestConfiguration.class })
 public class TestApplication {
 

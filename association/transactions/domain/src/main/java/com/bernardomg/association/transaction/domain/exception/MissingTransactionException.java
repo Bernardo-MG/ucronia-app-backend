@@ -47,8 +47,6 @@
 
 package com.bernardomg.association.transaction.domain.exception;
 
-import java.io.Serializable;
-
 /**
  * Missing transaction exception.
  *

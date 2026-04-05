@@ -74,7 +74,8 @@ public final class Guests {
         name = new ProfileName(" " + ProfileConstants.FIRST_NAME + " ", " " + ProfileConstants.LAST_NAME + " ");
         return new Guest(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name, ProfileConstants.BIRTH_DATE,
             List.of(), List.of(GuestConstants.DATE), " " + ProfileConstants.ADDRESS + " ",
-            " " + ProfileConstants.COMMENTS + " ", Set.of(com.bernardomg.association.guest.domain.model.GuestConstants.PROFILE_TYPE));
+            " " + ProfileConstants.COMMENTS + " ",
+            Set.of(com.bernardomg.association.guest.domain.model.GuestConstants.PROFILE_TYPE));
     }
 
     public static final Guest valid() {

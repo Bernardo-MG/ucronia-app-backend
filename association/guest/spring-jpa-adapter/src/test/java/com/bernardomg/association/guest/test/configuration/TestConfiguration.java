@@ -43,10 +43,9 @@ import com.bernardomg.association.profile.adapter.inbound.jpa.repository.Profile
 public class TestConfiguration {
 
     @Bean("guestRepository")
-    public GuestRepository
-            getGuestRepository(final GuestSpringRepository guestSpringRepository,
-                final ContactMethodSpringRepository contactMethodSpringRepository,
-                final ProfileSpringRepository profileSpringRepository) {
+    public GuestRepository getGuestRepository(final GuestSpringRepository guestSpringRepository,
+            final ContactMethodSpringRepository contactMethodSpringRepository,
+            final ProfileSpringRepository profileSpringRepository) {
         return new JpaGuestRepository(guestSpringRepository, contactMethodSpringRepository, profileSpringRepository);
     }
 

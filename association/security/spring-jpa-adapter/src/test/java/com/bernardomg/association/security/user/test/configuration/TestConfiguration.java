@@ -29,28 +29,21 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ContactMethodSpringRepository;
-import com.bernardomg.association.profile.adapter.inbound.jpa.repository.JpaContactMethodRepository;
-import com.bernardomg.association.profile.adapter.inbound.jpa.repository.JpaProfileRepository;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
-import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
-import com.bernardomg.association.profile.domain.repository.ProfileRepository;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.JpaUserProfileRepository;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.UserProfileSpringRepository;
 import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserSpringRepository;
 
 @Configuration
-@EnableJpaRepositories(basePackages = {"com.bernardomg.association.security.user.adapter.inbound.jpa",
-        "com.bernardomg.security.user.adapter.inbound.jpa",
-        "com.bernardomg.security.role.adapter.inbound.jpa",
+@EnableJpaRepositories(basePackages = { "com.bernardomg.association.security.user.adapter.inbound.jpa",
+        "com.bernardomg.security.user.adapter.inbound.jpa", "com.bernardomg.security.role.adapter.inbound.jpa",
         "com.bernardomg.security.permission.adapter.inbound.jpa",
-        "com.bernardomg.association.profile.adapter.inbound.jpa"})
-@EntityScan(basePackages = {"com.bernardomg.association.security.user.adapter.inbound.jpa",
-        "com.bernardomg.security.user.adapter.inbound.jpa",
-        "com.bernardomg.security.role.adapter.inbound.jpa",
+        "com.bernardomg.association.profile.adapter.inbound.jpa" })
+@EntityScan(basePackages = { "com.bernardomg.association.security.user.adapter.inbound.jpa",
+        "com.bernardomg.security.user.adapter.inbound.jpa", "com.bernardomg.security.role.adapter.inbound.jpa",
         "com.bernardomg.security.permission.adapter.inbound.jpa",
-        "com.bernardomg.association.profile.adapter.inbound.jpa"})
+        "com.bernardomg.association.profile.adapter.inbound.jpa" })
 public class TestConfiguration {
 
     @Bean("userProfileRepository")
@@ -58,5 +51,5 @@ public class TestConfiguration {
             final UserSpringRepository userSpringRepository, final ProfileSpringRepository profileSpringRepository) {
         return new JpaUserProfileRepository(userProfileSpringRepository, userSpringRepository, profileSpringRepository);
     }
-    
+
 }

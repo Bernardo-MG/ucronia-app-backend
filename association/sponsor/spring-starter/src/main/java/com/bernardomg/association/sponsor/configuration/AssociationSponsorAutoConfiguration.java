@@ -51,16 +51,18 @@ public class AssociationSponsorAutoConfiguration {
         return new DefaultProfileSponsorshipService(sponsorRepository, profileRepository);
     }
 
-    @Bean("sponsorService")
-    public SponsorService getSponsorService(final SponsorRepository sponsorRepository, final ContactMethodRepository contactMethodRepository) {
-        return new DefaultSponsorService(sponsorRepository, contactMethodRepository);
-    }
-
     @Bean("sponsorRepository")
     public SponsorRepository getSponsorRepository(final SponsorSpringRepository sponsorSpringRepository,
             final ContactMethodSpringRepository contactMethodSpringRepository,
             final ProfileSpringRepository profileSpringRepository) {
-        return new JpaSponsorRepository(sponsorSpringRepository, contactMethodSpringRepository, profileSpringRepository);
+        return new JpaSponsorRepository(sponsorSpringRepository, contactMethodSpringRepository,
+            profileSpringRepository);
+    }
+
+    @Bean("sponsorService")
+    public SponsorService getSponsorService(final SponsorRepository sponsorRepository,
+            final ContactMethodRepository contactMethodRepository) {
+        return new DefaultSponsorService(sponsorRepository, contactMethodRepository);
     }
 
 }

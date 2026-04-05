@@ -42,12 +42,13 @@ import com.bernardomg.association.profile.domain.repository.ProfileRepository;
 public class TestConfiguration {
 
     @Bean("contactMethodRepository")
-    public ContactMethodRepository getContactMethodRepository(final ContactMethodSpringRepository contactMethodSpringRepository) {
+    public ContactMethodRepository
+            getContactMethodRepository(final ContactMethodSpringRepository contactMethodSpringRepository) {
         return new JpaContactMethodRepository(contactMethodSpringRepository);
     }
 
     @Bean("profileRepository")
-    public ProfileRepository getProfileRepository(final ProfileSpringRepository       profileSpringRepository,
+    public ProfileRepository getProfileRepository(final ProfileSpringRepository profileSpringRepository,
             final ContactMethodSpringRepository contactMethodSpringRepository) {
         return new JpaProfileRepository(profileSpringRepository, contactMethodSpringRepository);
     }

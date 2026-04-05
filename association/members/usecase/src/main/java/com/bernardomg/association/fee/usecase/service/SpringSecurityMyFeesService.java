@@ -65,7 +65,7 @@ public final class SpringSecurityMyFeesService implements MyFeesService {
 
     public SpringSecurityMyFeesService(final FeeRepository feeRepo, final UserProfileRepository userProfileRepo) {
         super();
-        
+
         // TODO: move to a Spring module
 
         feeRepository = Objects.requireNonNull(feeRepo);

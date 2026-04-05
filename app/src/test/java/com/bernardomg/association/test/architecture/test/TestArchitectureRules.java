@@ -52,7 +52,7 @@ public class TestArchitectureRules {
 
     // TODO: fix so it accepts jakarta annotations
     // @ArchTest
-    // static final ArchTests transactionalRules    = ArchTests.in(TransactionalRules.class);
+    // static final ArchTests transactionalRules = ArchTests.in(TransactionalRules.class);
 
     @ArchTest
     static final ArchTests validationRules       = ArchTests.in(ValidationRules.class);

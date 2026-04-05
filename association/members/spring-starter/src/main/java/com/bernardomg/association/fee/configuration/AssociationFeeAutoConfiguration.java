@@ -66,6 +66,15 @@ public class AssociationFeeAutoConfiguration {
         return new DefaultFeeMaintenanceService(feeRepository, feeTypeRepository, memberProfileRepository);
     }
 
+    @Bean("feeRepository")
+    public FeeRepository getFeeRepository(final FeeSpringRepository feeSpringRepository,
+            final MemberProfileSpringRepository memberProfileSpringRepository,
+            final FeeTypeSpringRepository feeTypeSpringRepository,
+            final TransactionSpringRepository transactionSpringRepository) {
+        return new JpaFeeRepository(feeSpringRepository, memberProfileSpringRepository, feeTypeSpringRepository,
+            transactionSpringRepository);
+    }
+
     @Bean("feeService")
     public FeeService getFeeService(final FeeRepository feeRepository, final FeeTypeRepository feeTypeRepository,
             final MemberProfileRepository memberProfileRepository, final TransactionRepository transactionRepository,
@@ -74,9 +83,19 @@ public class AssociationFeeAutoConfiguration {
             evntEmitter, msgSource);
     }
 
+    @Bean("feeSummaryRepository")
+    public FeeSummaryRepository getFeeSummaryRepository(final FeeSpringRepository feeSpringRepository) {
+        return new JpaFeeSummaryRepository(feeSpringRepository);
+    }
+
     @Bean("feeSummaryService")
     public FeeSummaryService getFeeSummaryService(final FeeSummaryRepository feeSummaryRepository) {
         return new DefaultFeeSummaryService(feeSummaryRepository);
+    }
+
+    @Bean("feeTypeRepository")
+    public FeeTypeRepository getFeeTypeRepository(final FeeTypeSpringRepository feeTypeSpringRepository) {
+        return new JpaFeeTypeRepository(feeTypeSpringRepository);
     }
 
     @Bean("feeTypeService")
@@ -94,25 +113,6 @@ public class AssociationFeeAutoConfiguration {
     public RegisterFeesOnMonthStartEventListener
             getRegisterFeesOnMonthStartEventListener(final FeeMaintenanceService service) {
         return new RegisterFeesOnMonthStartEventListener(service);
-    }
-
-    @Bean("feeRepository")
-    public FeeRepository getFeeRepository(final FeeSpringRepository feeSpringRepository,
-            final MemberProfileSpringRepository memberProfileSpringRepository,
-            final FeeTypeSpringRepository feeTypeSpringRepository,
-            final TransactionSpringRepository transactionSpringRepository) {
-        return new JpaFeeRepository(feeSpringRepository, memberProfileSpringRepository, feeTypeSpringRepository,
-            transactionSpringRepository);
-    }
-
-    @Bean("feeSummaryRepository")
-    public FeeSummaryRepository getFeeSummaryRepository(final FeeSpringRepository feeSpringRepository) {
-        return new JpaFeeSummaryRepository(feeSpringRepository);
-    }
-
-    @Bean("feeTypeRepository")
-    public FeeTypeRepository getFeeTypeRepository(final FeeTypeSpringRepository feeTypeSpringRepository) {
-        return new JpaFeeTypeRepository(feeTypeSpringRepository);
     }
 
 }

@@ -104,7 +104,8 @@ public final class Sponsors {
         contactChannel = new ContactChannel(contactMethod, ProfileConstants.EMAIL);
         return new Sponsor(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name, ProfileConstants.BIRTH_DATE,
             List.of(contactChannel), List.of(SponsorConstants.YEAR), ProfileConstants.ADDRESS,
-            ProfileConstants.COMMENTS, Set.of(com.bernardomg.association.sponsor.domain.model.SponsorConstants.PROFILE_TYPE));
+            ProfileConstants.COMMENTS,
+            Set.of(com.bernardomg.association.sponsor.domain.model.SponsorConstants.PROFILE_TYPE));
     }
 
     public static final Sponsor withoutType() {

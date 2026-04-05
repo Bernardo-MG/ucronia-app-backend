@@ -44,26 +44,27 @@ import com.bernardomg.association.profile.usecase.service.ProfileService;
         "com.bernardomg.association.profile.adapter.inbound.jpa" })
 public class AssociationProfileAutoConfiguration {
 
+    @Bean("contactMethodRepository")
+    public ContactMethodRepository
+            getContactMethodRepository(final ContactMethodSpringRepository contactMethodSpringRepository) {
+        return new JpaContactMethodRepository(contactMethodSpringRepository);
+    }
+
     @Bean("contactMethodService")
     public ContactMethodService getContactMethodService(final ContactMethodRepository contactMethodRepository) {
         return new DefaultContactMethodService(contactMethodRepository);
+    }
+
+    @Bean("profileRepository")
+    public ProfileRepository getProfileRepository(final ProfileSpringRepository profileSpringRepository,
+            final ContactMethodSpringRepository contactMethodSpringRepository) {
+        return new JpaProfileRepository(profileSpringRepository, contactMethodSpringRepository);
     }
 
     @Bean("profileService")
     public ProfileService getProfileService(final ProfileRepository profileRepository,
             final ContactMethodRepository contactMethodRepository) {
         return new DefaultProfileService(profileRepository, contactMethodRepository);
-    }
-
-    @Bean("contactMethodRepository")
-    public ContactMethodRepository getContactMethodRepository(final ContactMethodSpringRepository contactMethodSpringRepository) {
-        return new JpaContactMethodRepository(contactMethodSpringRepository);
-    }
-
-    @Bean("profileRepository")
-    public ProfileRepository getProfileRepository(final ProfileSpringRepository       profileSpringRepository,
-            final ContactMethodSpringRepository contactMethodSpringRepository) {
-        return new JpaProfileRepository(profileSpringRepository, contactMethodSpringRepository);
     }
 
 }

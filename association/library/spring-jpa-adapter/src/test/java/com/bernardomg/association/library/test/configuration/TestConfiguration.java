@@ -58,13 +58,11 @@ import com.bernardomg.association.profile.adapter.inbound.jpa.repository.Profile
 
 @Configuration
 @EnableJpaRepositories(basePackages = { "com.bernardomg.association.library.**.adapter.inbound.jpa",
-        "com.bernardomg.association.member.adapter.inbound.jpa",
-        "com.bernardomg.association.fee.adapter.inbound.jpa",
+        "com.bernardomg.association.member.adapter.inbound.jpa", "com.bernardomg.association.fee.adapter.inbound.jpa",
         "com.bernardomg.association.transaction.adapter.inbound.jpa",
         "com.bernardomg.association.profile.adapter.inbound.jpa" })
 @EntityScan(basePackages = { "com.bernardomg.association.library.**.adapter.inbound.jpa",
-        "com.bernardomg.association.member.adapter.inbound.jpa",
-        "com.bernardomg.association.fee.adapter.inbound.jpa",
+        "com.bernardomg.association.member.adapter.inbound.jpa", "com.bernardomg.association.fee.adapter.inbound.jpa",
         "com.bernardomg.association.transaction.adapter.inbound.jpa",
         "com.bernardomg.association.profile.adapter.inbound.jpa" })
 public class TestConfiguration {
@@ -74,6 +72,12 @@ public class TestConfiguration {
         return new JpaAuthorRepository(authorSpringRepository);
     }
 
+    @Bean("bookLendingRepository")
+    public BookLendingRepository getBookLendingRepository(final BookLendingSpringRepository bookLendingSpringRepository,
+            final BookSpringRepository bookSpringRepository, final ProfileSpringRepository profileSpringRepository) {
+        return new JpaBookLendingRepository(bookLendingSpringRepository, bookSpringRepository, profileSpringRepository);
+    }
+
     @Bean("bookRepository")
     public BookRepository getBookRepository(final BookSpringRepository bookSpringRepository,
             final MemberProfileSpringRepository memberProfileSpringRepository,
@@ -81,37 +85,39 @@ public class TestConfiguration {
         return new JpaBookRepository(bookSpringRepository, memberProfileSpringRepository, bookLendingSpringRepository);
     }
 
-    @Bean("fictionBookRepository")
-    public FictionBookRepository getFictionBookRepository(final FictionBookSpringRepository bookSpringRepository,
-            final AuthorSpringRepository authorSpringRepository, final PublisherSpringRepository publisherSpringRepository,
-            final MemberProfileSpringRepository memberProfileSpringRepository,
-            final ProfileSpringRepository profileSpringRepository, final BookLendingSpringRepository bookLendingSpringRepository) {
-        return new JpaFictionBookRepository(bookSpringRepository, authorSpringRepository, publisherSpringRepository, memberProfileSpringRepository, profileSpringRepository, bookLendingSpringRepository);
-    }
-
-    @Bean("gameBookRepository")
-    public GameBookRepository getGameBookRepository(final GameBookSpringRepository bookSpringRepository,
-            final AuthorSpringRepository authorSpringRepository, final PublisherSpringRepository publisherSpringRepository,
-            final BookTypeSpringRepository bookTypeSpringRepository, final GameSystemSpringRepository gameSystemSpringRepository,
-            final MemberProfileSpringRepository memberProfileSpringRepository,
-            final ProfileSpringRepository profileSpringRepository, final BookLendingSpringRepository bookLendingSpringRepository) {
-        return new JpaGameBookRepository(bookSpringRepository, authorSpringRepository, publisherSpringRepository, bookTypeSpringRepository, gameSystemSpringRepository, memberProfileSpringRepository, profileSpringRepository, bookLendingSpringRepository);
-    }
-
     @Bean("bookTypeRepository")
     public BookTypeRepository getBookTypeRepository(final BookTypeSpringRepository bookTypeSpringRepository) {
         return new JpaBookTypeRepository(bookTypeSpringRepository);
     }
 
+    @Bean("fictionBookRepository")
+    public FictionBookRepository getFictionBookRepository(final FictionBookSpringRepository bookSpringRepository,
+            final AuthorSpringRepository authorSpringRepository,
+            final PublisherSpringRepository publisherSpringRepository,
+            final MemberProfileSpringRepository memberProfileSpringRepository,
+            final ProfileSpringRepository profileSpringRepository,
+            final BookLendingSpringRepository bookLendingSpringRepository) {
+        return new JpaFictionBookRepository(bookSpringRepository, authorSpringRepository, publisherSpringRepository,
+            memberProfileSpringRepository, profileSpringRepository, bookLendingSpringRepository);
+    }
+
+    @Bean("gameBookRepository")
+    public GameBookRepository getGameBookRepository(final GameBookSpringRepository bookSpringRepository,
+            final AuthorSpringRepository authorSpringRepository,
+            final PublisherSpringRepository publisherSpringRepository,
+            final BookTypeSpringRepository bookTypeSpringRepository,
+            final GameSystemSpringRepository gameSystemSpringRepository,
+            final MemberProfileSpringRepository memberProfileSpringRepository,
+            final ProfileSpringRepository profileSpringRepository,
+            final BookLendingSpringRepository bookLendingSpringRepository) {
+        return new JpaGameBookRepository(bookSpringRepository, authorSpringRepository, publisherSpringRepository,
+            bookTypeSpringRepository, gameSystemSpringRepository, memberProfileSpringRepository,
+            profileSpringRepository, bookLendingSpringRepository);
+    }
+
     @Bean("gameSystemRepository")
     public GameSystemRepository getGameSystemRepository(final GameSystemSpringRepository gameSystemRepository) {
         return new JpaGameSystemRepository(gameSystemRepository);
-    }
-
-    @Bean("bookLendingRepository")
-    public BookLendingRepository getBookLendingRepository(final BookLendingSpringRepository bookLendingSpringRepository,
-            final BookSpringRepository bookSpringRepository, final ProfileSpringRepository profileSpringRepository) {
-        return new JpaBookLendingRepository(bookLendingSpringRepository, bookSpringRepository, profileSpringRepository);
     }
 
     @Bean("publisherRepository")

@@ -77,54 +77,32 @@ import com.bernardomg.association.profile.domain.repository.ProfileRepository;
         "com.bernardomg.association.library.**.adapter.inbound.jpa" })
 public class AssociationLibraryAutoConfiguration {
 
+    @Bean("authorRepository")
+    public AuthorRepository getAuthorRepository(final AuthorSpringRepository authorSpringRepository) {
+        return new JpaAuthorRepository(authorSpringRepository);
+    }
+
     @Bean("authorService")
     public AuthorService getAuthorService(final AuthorRepository authorRepository) {
         return new DefaultAuthorService(authorRepository);
     }
 
-    @Bean("fictionBookService")
-    public FictionBookService getFictionBookService(final FictionBookRepository bookRepository, final AuthorRepository authorRepository,
-            final PublisherRepository publisherRepository, final ProfileRepository profileRepository) {
-        return new DefaultFictionBookService(bookRepository, authorRepository, publisherRepository, profileRepository);
+    @Bean("bookLendingRepository")
+    public BookLendingRepository getBookLendingRepository(final BookLendingSpringRepository bookLendingSpringRepository,
+            final BookSpringRepository bookSpringRepository, final ProfileSpringRepository profileSpringRepository) {
+        return new JpaBookLendingRepository(bookLendingSpringRepository, bookSpringRepository, profileSpringRepository);
     }
 
-    @Bean("gameBookService")
-    public GameBookService getGameBookService(final GameBookRepository bookRepository, final AuthorRepository authorRepository,
-            final PublisherRepository publisherRepository, final BookTypeRepository bookTypeRepository,
-            final GameSystemRepository gameSystemRepository, final ProfileRepository profileRepository) {
-        return new DefaultGameBookService(bookRepository, authorRepository, publisherRepository, bookTypeRepository, gameSystemRepository, profileRepository);
+    @Bean("bookLendingService")
+    public BookLendingService getBookLendingService(final BookLendingRepository bookLendingRepository,
+            final BookRepository bookRepository, final ProfileRepository profileRepository) {
+        return new DefaultBookLendingService(bookLendingRepository, bookRepository, profileRepository);
     }
 
     @Bean("bookReportService")
     public BookReportService getBookReportService(final GameBookRepository gameBookRepository,
             final FictionBookRepository fictionBookRepository) {
         return new ExcelPoiBookReportService(gameBookRepository, fictionBookRepository);
-    }
-
-    @Bean("bookTypeService")
-    public BookTypeService getBookTypeService(final BookTypeRepository bookTypeRepository) {
-        return new DefaultBookTypeService(bookTypeRepository);
-    }
-
-    @Bean("gameSystemService")
-    public GameSystemService getGameSystemService(final GameSystemRepository gameSystemRepository) {
-        return new DefaultGameSystemService(gameSystemRepository);
-    }
-
-    @Bean("bookLendingService")
-    public BookLendingService getBookLendingService(final BookLendingRepository bookLendingRepository, final BookRepository bookRepository,
-            final ProfileRepository profileRepository) {
-        return new DefaultBookLendingService(bookLendingRepository, bookRepository, profileRepository);
-    }
-
-    @Bean("publisherService")
-    public PublisherService getPublisherService(final PublisherRepository publisherRepository) {
-        return new DefaultPublisherService(publisherRepository);
-    }
-
-    @Bean("authorRepository")
-    public AuthorRepository getAuthorRepository(final AuthorSpringRepository authorSpringRepository) {
-        return new JpaAuthorRepository(authorSpringRepository);
     }
 
     @Bean("bookRepository")
@@ -134,26 +112,55 @@ public class AssociationLibraryAutoConfiguration {
         return new JpaBookRepository(bookSpringRepository, memberProfileSpringRepository, bookLendingSpringRepository);
     }
 
+    @Bean("bookTypeRepository")
+    public BookTypeRepository getBookTypeRepository(final BookTypeSpringRepository bookTypeSpringRepository) {
+        return new JpaBookTypeRepository(bookTypeSpringRepository);
+    }
+
+    @Bean("bookTypeService")
+    public BookTypeService getBookTypeService(final BookTypeRepository bookTypeRepository) {
+        return new DefaultBookTypeService(bookTypeRepository);
+    }
+
     @Bean("fictionBookRepository")
     public FictionBookRepository getFictionBookRepository(final FictionBookSpringRepository bookSpringRepository,
-            final AuthorSpringRepository authorSpringRepository, final PublisherSpringRepository publisherSpringRepository,
+            final AuthorSpringRepository authorSpringRepository,
+            final PublisherSpringRepository publisherSpringRepository,
             final MemberProfileSpringRepository memberProfileSpringRepository,
-            final ProfileSpringRepository profileSpringRepository, final BookLendingSpringRepository bookLendingSpringRepository) {
-        return new JpaFictionBookRepository(bookSpringRepository, authorSpringRepository, publisherSpringRepository, memberProfileSpringRepository, profileSpringRepository, bookLendingSpringRepository);
+            final ProfileSpringRepository profileSpringRepository,
+            final BookLendingSpringRepository bookLendingSpringRepository) {
+        return new JpaFictionBookRepository(bookSpringRepository, authorSpringRepository, publisherSpringRepository,
+            memberProfileSpringRepository, profileSpringRepository, bookLendingSpringRepository);
+    }
+
+    @Bean("fictionBookService")
+    public FictionBookService getFictionBookService(final FictionBookRepository bookRepository,
+            final AuthorRepository authorRepository, final PublisherRepository publisherRepository,
+            final ProfileRepository profileRepository) {
+        return new DefaultFictionBookService(bookRepository, authorRepository, publisherRepository, profileRepository);
     }
 
     @Bean("gameBookRepository")
     public GameBookRepository getGameBookRepository(final GameBookSpringRepository bookSpringRepository,
-            final AuthorSpringRepository authorSpringRepository, final PublisherSpringRepository publisherSpringRepository,
-            final BookTypeSpringRepository bookTypeSpringRepository, final GameSystemSpringRepository gameSystemSpringRepository,
+            final AuthorSpringRepository authorSpringRepository,
+            final PublisherSpringRepository publisherSpringRepository,
+            final BookTypeSpringRepository bookTypeSpringRepository,
+            final GameSystemSpringRepository gameSystemSpringRepository,
             final MemberProfileSpringRepository memberProfileSpringRepository,
-            final ProfileSpringRepository profileSpringRepository, final BookLendingSpringRepository bookLendingSpringRepository) {
-        return new JpaGameBookRepository(bookSpringRepository, authorSpringRepository, publisherSpringRepository, bookTypeSpringRepository, gameSystemSpringRepository, memberProfileSpringRepository, profileSpringRepository, bookLendingSpringRepository);
+            final ProfileSpringRepository profileSpringRepository,
+            final BookLendingSpringRepository bookLendingSpringRepository) {
+        return new JpaGameBookRepository(bookSpringRepository, authorSpringRepository, publisherSpringRepository,
+            bookTypeSpringRepository, gameSystemSpringRepository, memberProfileSpringRepository,
+            profileSpringRepository, bookLendingSpringRepository);
     }
 
-    @Bean("bookTypeRepository")
-    public BookTypeRepository getBookTypeRepository(final BookTypeSpringRepository bookTypeSpringRepository) {
-        return new JpaBookTypeRepository(bookTypeSpringRepository);
+    @Bean("gameBookService")
+    public GameBookService getGameBookService(final GameBookRepository bookRepository,
+            final AuthorRepository authorRepository, final PublisherRepository publisherRepository,
+            final BookTypeRepository bookTypeRepository, final GameSystemRepository gameSystemRepository,
+            final ProfileRepository profileRepository) {
+        return new DefaultGameBookService(bookRepository, authorRepository, publisherRepository, bookTypeRepository,
+            gameSystemRepository, profileRepository);
     }
 
     @Bean("gameSystemRepository")
@@ -161,15 +168,19 @@ public class AssociationLibraryAutoConfiguration {
         return new JpaGameSystemRepository(gameSystemRepository);
     }
 
-    @Bean("bookLendingRepository")
-    public BookLendingRepository getBookLendingRepository(final BookLendingSpringRepository bookLendingSpringRepository,
-            final BookSpringRepository bookSpringRepository, final ProfileSpringRepository profileSpringRepository) {
-        return new JpaBookLendingRepository(bookLendingSpringRepository, bookSpringRepository, profileSpringRepository);
+    @Bean("gameSystemService")
+    public GameSystemService getGameSystemService(final GameSystemRepository gameSystemRepository) {
+        return new DefaultGameSystemService(gameSystemRepository);
     }
 
     @Bean("publisherRepository")
     public PublisherRepository getPublisherRepository(final PublisherSpringRepository publisherSpringRepository) {
         return new JpaPublisherRepository(publisherSpringRepository);
+    }
+
+    @Bean("publisherService")
+    public PublisherService getPublisherService(final PublisherRepository publisherRepository) {
+        return new DefaultPublisherService(publisherRepository);
     }
 
 }

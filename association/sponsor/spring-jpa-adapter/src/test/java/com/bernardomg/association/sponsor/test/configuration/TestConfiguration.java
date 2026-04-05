@@ -46,7 +46,8 @@ public class TestConfiguration {
     public SponsorRepository getSponsorRepository(final SponsorSpringRepository sponsorSpringRepository,
             final ContactMethodSpringRepository contactMethodSpringRepository,
             final ProfileSpringRepository profileSpringRepository) {
-        return new JpaSponsorRepository(sponsorSpringRepository, contactMethodSpringRepository, profileSpringRepository);
+        return new JpaSponsorRepository(sponsorSpringRepository, contactMethodSpringRepository,
+            profileSpringRepository);
     }
 
 }

@@ -58,16 +58,16 @@ public class AssociationSecurityAutoConfiguration {
         return new MemberAccountService(wrapped, userProfileRepository);
     }
 
-    @Bean("userProfileService")
-    public UserProfileService getUserProfileService(final UserRepository userRepository, final ProfileRepository profileRepository,
-            final UserProfileRepository userProfileRepository) {
-        return new DefaultUserProfileService(userRepository, profileRepository, userProfileRepository);
-    }
-
     @Bean("userProfileRepository")
     public UserProfileRepository getUserProfileRepository(final UserProfileSpringRepository userProfileSpringRepository,
             final UserSpringRepository userSpringRepository, final ProfileSpringRepository profileSpringRepository) {
         return new JpaUserProfileRepository(userProfileSpringRepository, userSpringRepository, profileSpringRepository);
     }
-    
+
+    @Bean("userProfileService")
+    public UserProfileService getUserProfileService(final UserRepository userRepository,
+            final ProfileRepository profileRepository, final UserProfileRepository userProfileRepository) {
+        return new DefaultUserProfileService(userRepository, profileRepository, userProfileRepository);
+    }
+
 }

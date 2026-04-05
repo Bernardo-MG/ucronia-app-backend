@@ -37,7 +37,7 @@ public final class MissingFeeTypeException extends RuntimeException {
     /**
      * Id which caused the exception.
      */
-    private final Long id;
+    private final Long        id;
 
     public MissingFeeTypeException(final Long id) {
         super(String.format("Missing id %s for feeType", id));
@@ -53,5 +53,5 @@ public final class MissingFeeTypeException extends RuntimeException {
     public final Long getId() {
         return id;
     }
-    
+
 }

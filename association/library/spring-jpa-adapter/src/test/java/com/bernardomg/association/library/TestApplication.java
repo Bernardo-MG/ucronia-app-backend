@@ -30,7 +30,6 @@ import org.springframework.context.annotation.Import;
 
 import com.bernardomg.association.library.test.configuration.TestConfiguration;
 
-
 /**
  * Application runnable class. This allows Spring Boot to run the application.
  *

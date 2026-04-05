@@ -36,12 +36,12 @@ public final class MissingMemberException extends RuntimeException {
 
     private final long        number;
 
-    public MissingMemberException(final long        number) {
+    public MissingMemberException(final long number) {
         super(String.format("Missing number %s for member", number));
 
         this.number = number;
     }
-    
+
     public final long getNumber() {
         return number;
     }
