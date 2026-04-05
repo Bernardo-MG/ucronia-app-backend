@@ -19,10 +19,10 @@
    <!-- ********************************************** -->
 
    <groupId>com.bernardomg.association.member</groupId>
-   <artifactId>association-member-testing</artifactId>
+   <artifactId>association-fee-testing</artifactId>
    <packaging>jar</packaging>
 
-   <name>Association Members Testing</name>
+   <name>Association Fee Testing</name>
 
    <!-- ********************************************** -->
    <!-- *************** DEPENDENCIES ***************** -->
@@ -34,12 +34,8 @@
          <artifactId>association-fee-domain</artifactId>
       </dependency>
       <dependency>
-         <groupId>com.bernardomg.association.member</groupId>
-         <artifactId>association-member-domain</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.association.member</groupId>
-         <artifactId>association-fee-testing</artifactId>
+         <groupId>com.bernardomg.association.transaction</groupId>
+         <artifactId>association-transaction-testing</artifactId>
       </dependency>
       <dependency>
          <!-- JUnit Jupiter Params -->

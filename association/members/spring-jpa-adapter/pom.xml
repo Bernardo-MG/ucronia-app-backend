@@ -31,6 +31,10 @@
    <dependencies>
       <dependency>
          <groupId>com.bernardomg.association.member</groupId>
+         <artifactId>association-fee-domain</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.association.member</groupId>
          <artifactId>association-member-domain</artifactId>
       </dependency>
       <dependency>

@@ -34,8 +34,8 @@
          <artifactId>excel</artifactId>
       </dependency>
       <dependency>
-         <groupId>com.bernardomg.association.transaction</groupId>
-         <artifactId>association-transaction-domain</artifactId>
+         <groupId>com.bernardomg.association.member</groupId>
+         <artifactId>association-fee-domain</artifactId>
       </dependency>
       <dependency>
          <groupId>com.bernardomg.association.member</groupId>
@@ -44,10 +44,6 @@
       <dependency>
          <groupId>com.bernardomg.association.profile</groupId>
          <artifactId>association-profile-domain</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.association.security</groupId>
-         <artifactId>association-security-domain</artifactId>
       </dependency>
       <dependency>
          <groupId>jakarta.transaction</groupId>

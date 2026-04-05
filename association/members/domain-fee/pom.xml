@@ -19,10 +19,10 @@
    <!-- ********************************************** -->
 
    <groupId>com.bernardomg.association.member</groupId>
-   <artifactId>association-member-event-adapter</artifactId>
+   <artifactId>association-fee-domain</artifactId>
    <packaging>jar</packaging>
 
-   <name>Association Members Event Adapter</name>
+   <name>Association Fee Domain</name>
 
    <!-- ********************************************** -->
    <!-- *************** DEPENDENCIES ***************** -->
@@ -34,39 +34,16 @@
          <artifactId>event</artifactId>
       </dependency>
       <dependency>
-         <groupId>com.bernardomg.association.member</groupId>
-         <artifactId>association-fee-domain</artifactId>
+         <groupId>com.bernardomg.framework</groupId>
+         <artifactId>pagination</artifactId>
       </dependency>
       <dependency>
-         <groupId>com.bernardomg.association.member</groupId>
-         <artifactId>association-member-domain</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.association.member</groupId>
-         <artifactId>association-member-usecase</artifactId>
-      </dependency>
-      <dependency>
-         <!-- Spring WS Starter -->
-         <groupId>com.bernardomg.framework.spring</groupId>
-         <artifactId>spring-ws-starter</artifactId>
-      </dependency>
-      <!-- ============================================== -->
-      <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
-      <!-- ============================================== -->
-      <dependency>
-         <groupId>com.bernardomg.association.member</groupId>
-         <artifactId>association-member-testing</artifactId>
-         <scope>test</scope>
+         <groupId>org.apache.commons</groupId>
+         <artifactId>commons-lang3</artifactId>
       </dependency>
       <dependency>
          <groupId>com.bernardomg.association.profile</groupId>
          <artifactId>association-profile-testing</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg</groupId>
-         <artifactId>testing</artifactId>
-         <scope>test</scope>
       </dependency>
    </dependencies>
 

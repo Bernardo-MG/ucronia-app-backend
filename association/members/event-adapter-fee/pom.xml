@@ -19,10 +19,10 @@
    <!-- ********************************************** -->
 
    <groupId>com.bernardomg.association.member</groupId>
-   <artifactId>association-member-event-adapter</artifactId>
+   <artifactId>association-fee-event-adapter</artifactId>
    <packaging>jar</packaging>
 
-   <name>Association Members Event Adapter</name>
+   <name>Association Fee Event Adapter</name>
 
    <!-- ********************************************** -->
    <!-- *************** DEPENDENCIES ***************** -->
@@ -39,11 +39,7 @@
       </dependency>
       <dependency>
          <groupId>com.bernardomg.association.member</groupId>
-         <artifactId>association-member-domain</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.association.member</groupId>
-         <artifactId>association-member-usecase</artifactId>
+         <artifactId>association-fee-usecase</artifactId>
       </dependency>
       <dependency>
          <!-- Spring WS Starter -->

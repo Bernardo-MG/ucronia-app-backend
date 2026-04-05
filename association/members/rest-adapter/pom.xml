@@ -29,7 +29,7 @@
    <!-- ********************************************** -->
 
    <properties>
-     <openapi.generator.maven.plugin.inputSpec>${project.basedir}/src/main/resources/openapi/fee.yml</openapi.generator.maven.plugin.inputSpec>
+     <openapi.generator.maven.plugin.inputSpec>${project.basedir}/src/main/resources/openapi/member.yml</openapi.generator.maven.plugin.inputSpec>
    </properties>
 
    <!-- ********************************************** -->
