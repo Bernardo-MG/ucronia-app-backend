@@ -41,7 +41,7 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.Multipl
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.test.configuration.factory.FeesQuery;
-import com.bernardomg.association.member.test.configuration.data.annotation.MultipleInactiveMember;
+import com.bernardomg.association.profile.test.configuration.data.annotation.MultipleProfiles;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
@@ -52,7 +52,7 @@ import com.bernardomg.test.pagination.AbstractPaginationIT;
 @SpringBootTest(classes = TestApplication.class)
 @DisplayName("FeeRepository - find all - pagination")
 @PositiveFeeType
-@MultipleInactiveMember
+@MultipleProfiles
 @MultipleFees
 class ITFeeRepositoryFindAllPagination extends AbstractPaginationIT<Fee> {
 

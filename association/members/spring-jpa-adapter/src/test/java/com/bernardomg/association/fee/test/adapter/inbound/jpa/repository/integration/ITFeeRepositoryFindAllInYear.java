@@ -45,11 +45,8 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.Positiv
 import com.bernardomg.association.fee.test.configuration.data.annotation.TwoFeeYearsConnected;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
-import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
-import com.bernardomg.association.member.test.configuration.data.annotation.AlternativeActiveMember;
-import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
-import com.bernardomg.association.member.test.configuration.data.annotation.NoLastNameActiveMember;
 import com.bernardomg.association.member.test.configuration.factory.MemberCalendarConstants;
+import com.bernardomg.association.profile.test.configuration.data.annotation.AlternativeProfile;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.test.annotation.IntegrationTest;
@@ -65,9 +62,9 @@ class ITFeeRepositoryFindAllInYear {
     @Test
     @DisplayName("With a full year it returns all data")
     @PositiveFeeType
-    @ActiveMember
+    @ValidProfile
     @FeeFullYear
-    void testFindAllInYear_Active_FullYear() {
+    void testFindAllInYear_FullYear() {
         final Iterable<Fee> fees;
         final Sorting       sorting;
 
@@ -92,11 +89,11 @@ class ITFeeRepositoryFindAllInYear {
     @Test
     @DisplayName("With a full year it returns all the data")
     @PositiveFeeType
-    @ActiveMember
-    @AlternativeActiveMember
+    @ValidProfile
+    @AlternativeProfile
     @FeeFullYear
     @AlternativeFeeFullYear
-    void testFindAllInYear_Active_FullYear_TwoMembers() {
+    void testFindAllInYear_FullYear_TwoMembers() {
         final Iterable<Fee> fees;
         final Sorting       sorting;
 
@@ -130,310 +127,6 @@ class ITFeeRepositoryFindAllInYear {
     }
 
     @Test
-    @DisplayName("With no fees, it nothing")
-    @PositiveFeeType
-    @ActiveMember
-    void testFindAllInYear_Active_NoFees() {
-        final Iterable<Fee> fees;
-        final Sorting       sorting;
-
-        // GIVEN
-        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
-            new Sorting.Property("month", Sorting.Direction.ASC)));
-
-        // WHEN
-        fees = repository.findAllInYear(FeeConstants.YEAR, sorting);
-
-        // THEN
-        Assertions.assertThat(fees)
-            .as("fees")
-            .isEmpty();
-    }
-
-    @Test
-    @DisplayName("With user without last name it returns all data")
-    @PositiveFeeType
-    @NoLastNameActiveMember
-    @FeeFullYear
-    void testFindAllInYear_Active_NoLastName() {
-        final Iterable<Fee> fees;
-        final Sorting       sorting;
-
-        // GIVEN
-        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
-            new Sorting.Property("month", Sorting.Direction.ASC)));
-
-        // WHEN
-        fees = repository.findAllInYear(MemberCalendarConstants.YEAR, sorting);
-
-        // THEN
-        Assertions.assertThat(fees)
-            .as("fees")
-            .containsExactly(Fees.paidForMonthNoLastName(Month.JANUARY.getValue()),
-                Fees.paidForMonthNoLastName(Month.FEBRUARY.getValue()),
-                Fees.paidForMonthNoLastName(Month.MARCH.getValue()),
-                Fees.paidForMonthNoLastName(Month.APRIL.getValue()), Fees.paidForMonthNoLastName(Month.MAY.getValue()),
-                Fees.paidForMonthNoLastName(Month.JUNE.getValue()), Fees.paidForMonthNoLastName(Month.JULY.getValue()),
-                Fees.paidForMonthNoLastName(Month.AUGUST.getValue()),
-                Fees.paidForMonthNoLastName(Month.SEPTEMBER.getValue()),
-                Fees.paidForMonthNoLastName(Month.OCTOBER.getValue()),
-                Fees.paidForMonthNoLastName(Month.NOVEMBER.getValue()),
-                Fees.paidForMonthNoLastName(Month.DECEMBER.getValue()));
-    }
-
-    @Test
-    @DisplayName("With a not paid fee, it returns them")
-    @PositiveFeeType
-    @ActiveMember
-    @NotPaidFee
-    void testFindAllInYear_Active_NotPaid() {
-        final Iterable<Fee> fees;
-        final Sorting       sorting;
-
-        // GIVEN
-        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
-            new Sorting.Property("month", Sorting.Direction.ASC)));
-
-        // WHEN
-        fees = repository.findAllInYear(FeeConstants.YEAR, sorting);
-
-        // THEN
-        Assertions.assertThat(fees)
-            .as("fees")
-            .containsExactly(Fees.notPaidForMonth(1, Month.FEBRUARY));
-    }
-
-    @Test
-    @DisplayName("With a not paid fee and searching for the next year, it returns nothing")
-    @PositiveFeeType
-    @ActiveMember
-    @NotPaidFee
-    void testFindAllInYear_Active_NotPaid_SearchNextYear() {
-        final Iterable<Fee> fees;
-        final Sorting       sorting;
-
-        // GIVEN
-        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
-            new Sorting.Property("month", Sorting.Direction.ASC)));
-
-        // WHEN
-        fees = repository.findAllInYear(FeeConstants.NEXT_YEAR, sorting);
-
-        // THEN
-        Assertions.assertThat(fees)
-            .as("fees")
-            .isEmpty();
-    }
-
-    @Test
-    @DisplayName("With a not paid fee and searching for the previous year, it returns nothing")
-    @PositiveFeeType
-    @ActiveMember
-    @NotPaidFee
-    void testFindAllInYear_Active_NotPaid_SearchPreviousYear() {
-        final Iterable<Fee> fees;
-        final Sorting       sorting;
-
-        // GIVEN
-        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
-            new Sorting.Property("month", Sorting.Direction.ASC)));
-
-        // WHEN
-        fees = repository.findAllInYear(FeeConstants.PREVIOUS_YEAR, sorting);
-
-        // THEN
-        Assertions.assertThat(fees)
-            .as("fees")
-            .isEmpty();
-    }
-
-    @Test
-    @DisplayName("With a paid fee in the current month, it returns them")
-    @PositiveFeeType
-    @ActiveMember
-    @PaidFee
-    void testFindAllInYear_Active_Paid() {
-        final Iterable<Fee> fees;
-        final Sorting       sorting;
-
-        // GIVEN
-        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
-            new Sorting.Property("month", Sorting.Direction.ASC)));
-
-        // WHEN
-        fees = repository.findAllInYear(FeeConstants.YEAR, sorting);
-
-        // THEN
-        Assertions.assertThat(fees)
-            .as("fees")
-            .containsExactly(Fees.paidForMonth(1, Month.FEBRUARY));
-    }
-
-    @Test
-    @DisplayName("With a paid fee and searching for the next year, it returns nothing")
-    @PositiveFeeType
-    @ActiveMember
-    @PaidFee
-    void testFindAllInYear_Active_Paid_SearchNextYear() {
-        final Iterable<Fee> fees;
-        final Sorting       sorting;
-
-        // GIVEN
-        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
-            new Sorting.Property("month", Sorting.Direction.ASC)));
-
-        // WHEN
-        fees = repository.findAllInYear(FeeConstants.NEXT_YEAR, sorting);
-
-        // THEN
-        Assertions.assertThat(fees)
-            .as("fees")
-            .isEmpty();
-    }
-
-    @Test
-    @DisplayName("With a paid fee and searching for the previous year, it returns nothing")
-    @PositiveFeeType
-    @ActiveMember
-    @PaidFee
-    void testFindAllInYear_Active_Paid_SearchPreviousYear() {
-        final Iterable<Fee> fees;
-        final Sorting       sorting;
-
-        // GIVEN
-        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
-            new Sorting.Property("month", Sorting.Direction.ASC)));
-
-        // WHEN
-        fees = repository.findAllInYear(FeeConstants.PREVIOUS_YEAR, sorting);
-
-        // THEN
-        Assertions.assertThat(fees)
-            .as("fees")
-            .isEmpty();
-    }
-
-    @Test
-    @DisplayName("With both a paid and not paid fees, for an active member, it returns the calendar")
-    @PositiveFeeType
-    @ActiveMember
-    @PaidAndNotPaidFee
-    void testFindAllInYear_Active_PaidAndNotPaid() {
-        final Iterable<Fee> fees;
-        final Sorting       sorting;
-
-        // GIVEN
-        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
-            new Sorting.Property("month", Sorting.Direction.ASC)));
-
-        // WHEN
-        fees = repository.findAllInYear(FeeConstants.YEAR, sorting);
-
-        // THEN
-        Assertions.assertThat(fees)
-            .as("fees")
-            .containsExactly(Fees.paidForMonth(1, Month.FEBRUARY), Fees.notPaidForMonth(2, 10, Month.MARCH));
-    }
-
-    @Test
-    @DisplayName("With two connected years when reading the second it returns all data for the queried year")
-    @PositiveFeeType
-    @ActiveMember
-    @TwoFeeYearsConnected
-    void testFindAllInYear_Active_TwoConnectedYears_First() {
-        final Iterable<Fee> fees;
-        final Sorting       sorting;
-
-        // GIVEN
-        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
-            new Sorting.Property("month", Sorting.Direction.ASC)));
-
-        // WHEN
-        fees = repository.findAllInYear(MemberCalendarConstants.PREVIOUS_YEAR, sorting);
-
-        // THEN
-        Assertions.assertThat(fees)
-            .as("fees")
-            .containsExactly(Fees.paidForMonthPreviousYear(Month.OCTOBER.getValue(), 1),
-                Fees.paidForMonthPreviousYear(Month.NOVEMBER.getValue(), 2),
-                Fees.paidForMonthPreviousYear(Month.DECEMBER.getValue(), 3));
-    }
-
-    @Test
-    @DisplayName("With two connected years when reading the second it returns all data for the queried year")
-    @PositiveFeeType
-    @ActiveMember
-    @TwoFeeYearsConnected
-    void testFindAllInYear_Active_TwoConnectedYears_Second() {
-        final Iterable<Fee> fees;
-        final Sorting       sorting;
-
-        // GIVEN
-        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
-            new Sorting.Property("month", Sorting.Direction.ASC)));
-
-        // WHEN
-        fees = repository.findAllInYear(MemberCalendarConstants.YEAR, sorting);
-
-        // THEN
-        Assertions.assertThat(fees)
-            .as("fees")
-            .containsExactly(Fees.paidForMonth(Month.JANUARY.getValue(), 4),
-                Fees.paidForMonth(Month.FEBRUARY.getValue(), 5), Fees.paidForMonth(Month.MARCH.getValue(), 6),
-                Fees.paidForMonth(Month.APRIL.getValue(), 7), Fees.paidForMonth(Month.MAY.getValue(), 8),
-                Fees.paidForMonth(Month.JUNE.getValue(), 9), Fees.paidForMonth(Month.JULY.getValue(), 10));
-    }
-
-    @Test
-    @DisplayName("With a full year, for an inactive member, it returns all data")
-    @PositiveFeeType
-    @InactiveMember
-    @FeeFullYear
-    void testFindAllInYear_Inactive_FullYear() {
-        final Iterable<Fee> fees;
-        final Sorting       sorting;
-
-        // GIVEN
-        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
-            new Sorting.Property("month", Sorting.Direction.ASC)));
-
-        // WHEN
-        fees = repository.findAllInYear(MemberCalendarConstants.YEAR, sorting);
-
-        // THEN
-        Assertions.assertThat(fees)
-            .as("fees")
-            .containsExactly(Fees.paidForMonth(Month.JANUARY.getValue()), Fees.paidForMonth(Month.FEBRUARY.getValue()),
-                Fees.paidForMonth(Month.MARCH.getValue()), Fees.paidForMonth(Month.APRIL.getValue()),
-                Fees.paidForMonth(Month.MAY.getValue()), Fees.paidForMonth(Month.JUNE.getValue()),
-                Fees.paidForMonth(Month.JULY.getValue()), Fees.paidForMonth(Month.AUGUST.getValue()),
-                Fees.paidForMonth(Month.SEPTEMBER.getValue()), Fees.paidForMonth(Month.OCTOBER.getValue()),
-                Fees.paidForMonth(Month.NOVEMBER.getValue()), Fees.paidForMonth(Month.DECEMBER.getValue()));
-    }
-
-    @Test
-    @DisplayName("With both a paid and not paid fees, for an inactive member, it returns the calendar")
-    @PositiveFeeType
-    @InactiveMember
-    @PaidAndNotPaidFee
-    void testFindAllInYear_Inactive_PaidAndNotPaid() {
-        final Iterable<Fee> fees;
-        final Sorting       sorting;
-
-        // GIVEN
-        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
-            new Sorting.Property("month", Sorting.Direction.ASC)));
-
-        // WHEN
-        fees = repository.findAllInYear(FeeConstants.YEAR, sorting);
-
-        // THEN
-        Assertions.assertThat(fees)
-            .as("fees")
-            .containsExactly(Fees.paidForMonth(1, Month.FEBRUARY), Fees.notPaidForMonth(2, 10, Month.MARCH));
-    }
-
-    @Test
     @DisplayName("With no data, it returns nothing")
     void testFindAllInYear_NoData() {
         final Iterable<Fee> fees;
@@ -455,7 +148,7 @@ class ITFeeRepositoryFindAllInYear {
     @Test
     @DisplayName("With no fee it returns nothing")
     @PositiveFeeType
-    @ActiveMember
+    @ValidProfile
     void testFindAllInYear_NoFee() {
         final Iterable<Fee> fees;
         final Sorting       sorting;
@@ -474,11 +167,10 @@ class ITFeeRepositoryFindAllInYear {
     }
 
     @Test
-    @DisplayName("With a profile with no membership, it returns nothing")
+    @DisplayName("With no fees, it nothing")
     @PositiveFeeType
     @ValidProfile
-    @PaidFee
-    void testFindAllInYear_NoMembership() {
+    void testFindAllInYear_NoFees() {
         final Iterable<Fee> fees;
         final Sorting       sorting;
 
@@ -493,6 +185,209 @@ class ITFeeRepositoryFindAllInYear {
         Assertions.assertThat(fees)
             .as("fees")
             .isEmpty();
+    }
+
+    @Test
+    @DisplayName("With a not paid fee, it returns them")
+    @PositiveFeeType
+    @ValidProfile
+    @NotPaidFee
+    void testFindAllInYear_NotPaid() {
+        final Iterable<Fee> fees;
+        final Sorting       sorting;
+
+        // GIVEN
+        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
+            new Sorting.Property("month", Sorting.Direction.ASC)));
+
+        // WHEN
+        fees = repository.findAllInYear(FeeConstants.YEAR, sorting);
+
+        // THEN
+        Assertions.assertThat(fees)
+            .as("fees")
+            .containsExactly(Fees.notPaidForMonth(1, Month.FEBRUARY));
+    }
+
+    @Test
+    @DisplayName("With a not paid fee and searching for the next year, it returns nothing")
+    @PositiveFeeType
+    @ValidProfile
+    @NotPaidFee
+    void testFindAllInYear_NotPaid_SearchNextYear() {
+        final Iterable<Fee> fees;
+        final Sorting       sorting;
+
+        // GIVEN
+        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
+            new Sorting.Property("month", Sorting.Direction.ASC)));
+
+        // WHEN
+        fees = repository.findAllInYear(FeeConstants.NEXT_YEAR, sorting);
+
+        // THEN
+        Assertions.assertThat(fees)
+            .as("fees")
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("With a not paid fee and searching for the previous year, it returns nothing")
+    @PositiveFeeType
+    @ValidProfile
+    @NotPaidFee
+    void testFindAllInYear_NotPaid_SearchPreviousYear() {
+        final Iterable<Fee> fees;
+        final Sorting       sorting;
+
+        // GIVEN
+        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
+            new Sorting.Property("month", Sorting.Direction.ASC)));
+
+        // WHEN
+        fees = repository.findAllInYear(FeeConstants.PREVIOUS_YEAR, sorting);
+
+        // THEN
+        Assertions.assertThat(fees)
+            .as("fees")
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("With a paid fee in the current month, it returns them")
+    @PositiveFeeType
+    @ValidProfile
+    @PaidFee
+    void testFindAllInYear_Paid() {
+        final Iterable<Fee> fees;
+        final Sorting       sorting;
+
+        // GIVEN
+        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
+            new Sorting.Property("month", Sorting.Direction.ASC)));
+
+        // WHEN
+        fees = repository.findAllInYear(FeeConstants.YEAR, sorting);
+
+        // THEN
+        Assertions.assertThat(fees)
+            .as("fees")
+            .containsExactly(Fees.paidForMonth(1, Month.FEBRUARY));
+    }
+
+    @Test
+    @DisplayName("With a paid fee and searching for the next year, it returns nothing")
+    @PositiveFeeType
+    @ValidProfile
+    @PaidFee
+    void testFindAllInYear_Paid_SearchNextYear() {
+        final Iterable<Fee> fees;
+        final Sorting       sorting;
+
+        // GIVEN
+        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
+            new Sorting.Property("month", Sorting.Direction.ASC)));
+
+        // WHEN
+        fees = repository.findAllInYear(FeeConstants.NEXT_YEAR, sorting);
+
+        // THEN
+        Assertions.assertThat(fees)
+            .as("fees")
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("With a paid fee and searching for the previous year, it returns nothing")
+    @PositiveFeeType
+    @ValidProfile
+    @PaidFee
+    void testFindAllInYear_Paid_SearchPreviousYear() {
+        final Iterable<Fee> fees;
+        final Sorting       sorting;
+
+        // GIVEN
+        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
+            new Sorting.Property("month", Sorting.Direction.ASC)));
+
+        // WHEN
+        fees = repository.findAllInYear(FeeConstants.PREVIOUS_YEAR, sorting);
+
+        // THEN
+        Assertions.assertThat(fees)
+            .as("fees")
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("With both a paid and not paid fees, for an active member, it returns the calendar")
+    @PositiveFeeType
+    @ValidProfile
+    @PaidAndNotPaidFee
+    void testFindAllInYear_PaidAndNotPaid() {
+        final Iterable<Fee> fees;
+        final Sorting       sorting;
+
+        // GIVEN
+        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
+            new Sorting.Property("month", Sorting.Direction.ASC)));
+
+        // WHEN
+        fees = repository.findAllInYear(FeeConstants.YEAR, sorting);
+
+        // THEN
+        Assertions.assertThat(fees)
+            .as("fees")
+            .containsExactly(Fees.paidForMonth(1, Month.FEBRUARY), Fees.notPaidForMonth(2, 10, Month.MARCH));
+    }
+
+    @Test
+    @DisplayName("With two connected years when reading the second it returns all data for the queried year")
+    @PositiveFeeType
+    @ValidProfile
+    @TwoFeeYearsConnected
+    void testFindAllInYear_TwoConnectedYears_First() {
+        final Iterable<Fee> fees;
+        final Sorting       sorting;
+
+        // GIVEN
+        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
+            new Sorting.Property("month", Sorting.Direction.ASC)));
+
+        // WHEN
+        fees = repository.findAllInYear(MemberCalendarConstants.PREVIOUS_YEAR, sorting);
+
+        // THEN
+        Assertions.assertThat(fees)
+            .as("fees")
+            .containsExactly(Fees.paidForMonthPreviousYear(Month.OCTOBER.getValue(), 1),
+                Fees.paidForMonthPreviousYear(Month.NOVEMBER.getValue(), 2),
+                Fees.paidForMonthPreviousYear(Month.DECEMBER.getValue(), 3));
+    }
+
+    @Test
+    @DisplayName("With two connected years when reading the second it returns all data for the queried year")
+    @PositiveFeeType
+    @ValidProfile
+    @TwoFeeYearsConnected
+    void testFindAllInYear_TwoConnectedYears_Second() {
+        final Iterable<Fee> fees;
+        final Sorting       sorting;
+
+        // GIVEN
+        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC),
+            new Sorting.Property("month", Sorting.Direction.ASC)));
+
+        // WHEN
+        fees = repository.findAllInYear(MemberCalendarConstants.YEAR, sorting);
+
+        // THEN
+        Assertions.assertThat(fees)
+            .as("fees")
+            .containsExactly(Fees.paidForMonth(Month.JANUARY.getValue(), 4),
+                Fees.paidForMonth(Month.FEBRUARY.getValue(), 5), Fees.paidForMonth(Month.MARCH.getValue(), 6),
+                Fees.paidForMonth(Month.APRIL.getValue(), 7), Fees.paidForMonth(Month.MAY.getValue(), 8),
+                Fees.paidForMonth(Month.JUNE.getValue(), 9), Fees.paidForMonth(Month.JULY.getValue(), 10));
     }
 
 }

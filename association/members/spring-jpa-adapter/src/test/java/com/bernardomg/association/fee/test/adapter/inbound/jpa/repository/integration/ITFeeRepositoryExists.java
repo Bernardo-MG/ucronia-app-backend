@@ -36,8 +36,6 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.NotPaid
 import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFee;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
-import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
-import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.test.annotation.IntegrationTest;
@@ -53,7 +51,7 @@ class ITFeeRepositoryExists {
     @Test
     @DisplayName("With an existing not paid fee for an active member, it exists")
     @PositiveFeeType
-    @ActiveMember
+    @ValidProfile
     @NotPaidFee
     void testExists_Active_NotPaid() {
         final boolean exists;
@@ -70,43 +68,9 @@ class ITFeeRepositoryExists {
     @Test
     @DisplayName("With an existing paid fee for an active member, it exists")
     @PositiveFeeType
-    @ActiveMember
+    @ValidProfile
     @PaidFee
     void testExists_Active_Paid() {
-        final boolean exists;
-
-        // WHEN
-        exists = repository.exists(ProfileConstants.NUMBER, FeeConstants.DATE);
-
-        // THEN
-        Assertions.assertThat(exists)
-            .as("exists")
-            .isTrue();
-    }
-
-    @Test
-    @DisplayName("With an existing not paid fee for an inactive member, it exists")
-    @PositiveFeeType
-    @InactiveMember
-    @NotPaidFee
-    void testExists_Inactive_NotPaid() {
-        final boolean exists;
-
-        // WHEN
-        exists = repository.exists(ProfileConstants.NUMBER, FeeConstants.DATE);
-
-        // THEN
-        Assertions.assertThat(exists)
-            .as("exists")
-            .isTrue();
-    }
-
-    @Test
-    @DisplayName("With an existing paid fee for an inactive member, it exists")
-    @PositiveFeeType
-    @InactiveMember
-    @PaidFee
-    void testExists_Inactive_Paid() {
         final boolean exists;
 
         // WHEN
@@ -135,25 +99,8 @@ class ITFeeRepositoryExists {
     @Test
     @DisplayName("When there is no fee, nothing exists")
     @PositiveFeeType
-    @ActiveMember
-    void testExists_NoFee() {
-        final boolean exists;
-
-        // WHEN
-        exists = repository.exists(ProfileConstants.NUMBER, FeeConstants.DATE);
-
-        // THEN
-        Assertions.assertThat(exists)
-            .as("exists")
-            .isFalse();
-    }
-
-    @Test
-    @DisplayName("With an existing not paid fee for a profile, and not a member, nothing exists")
-    @PositiveFeeType
     @ValidProfile
-    @NotPaidFee
-    void testExists_NoMembership() {
+    void testExists_NoFee() {
         final boolean exists;
 
         // WHEN
@@ -168,7 +115,7 @@ class ITFeeRepositoryExists {
     @Test
     @DisplayName("With an existing not paid fee for an active member, and checking an invalid date, nothing exists")
     @PositiveFeeType
-    @ActiveMember
+    @ValidProfile
     @NotPaidFee
     void testExists_WrongDate() {
         final boolean exists;
@@ -185,7 +132,7 @@ class ITFeeRepositoryExists {
     @Test
     @DisplayName("With an existing not paid fee for an active member, and checking an invalid number, nothing exists")
     @PositiveFeeType
-    @ActiveMember
+    @ValidProfile
     @NotPaidFee
     void testExists_WrongNumber() {
         final boolean exists;

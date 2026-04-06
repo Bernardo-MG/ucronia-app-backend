@@ -43,10 +43,10 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.FeeFull
 import com.bernardomg.association.fee.test.configuration.data.annotation.MultipleFees;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
-import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
-import com.bernardomg.association.member.test.configuration.data.annotation.AlternativeActiveMember;
-import com.bernardomg.association.member.test.configuration.data.annotation.MultipleActiveMemberAccents;
 import com.bernardomg.association.member.test.configuration.factory.MemberCalendarConstants;
+import com.bernardomg.association.profile.test.configuration.data.annotation.AlternativeProfile;
+import com.bernardomg.association.profile.test.configuration.data.annotation.MultipleProfilesAccents;
+import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.test.annotation.IntegrationTest;
 
@@ -61,7 +61,7 @@ class ITFeeRepositoryFindAllInYearSort {
     @Test
     @DisplayName("With ascending order by name it returns the ordered data")
     @PositiveFeeType
-    @MultipleActiveMemberAccents
+    @MultipleProfilesAccents
     @MultipleFees
     @Disabled("Database dependant")
     void testFindAllInYear_Accents_Name_Asc() {
@@ -106,8 +106,8 @@ class ITFeeRepositoryFindAllInYearSort {
     @Test
     @DisplayName("With ascending order by name it returns the ordered data")
     @PositiveFeeType
-    @ActiveMember
-    @AlternativeActiveMember
+    @ValidProfile
+    @AlternativeProfile
     @FeeFullYear
     @AlternativeFeeFullYear
     void testFindAllInYear_TwoMembers_Name_Asc() {
@@ -146,8 +146,8 @@ class ITFeeRepositoryFindAllInYearSort {
     @Test
     @DisplayName("With descending order by name it returns the ordered data")
     @PositiveFeeType
-    @ActiveMember
-    @AlternativeActiveMember
+    @ValidProfile
+    @AlternativeProfile
     @FeeFullYear
     @AlternativeFeeFullYear
     void testFindAllInYear_TwoMembers_Name_Desc() {

@@ -65,11 +65,12 @@ public class TestConfiguration {
 
     @Bean("feeRepository")
     public FeeRepository getFeeRepository(final FeeSpringRepository feeSpringRepository,
+            final ProfileSpringRepository profileSpringRepository,
             final MemberProfileSpringRepository memberProfileSpringRepository,
             final FeeTypeSpringRepository feeTypeSpringRepository,
             final TransactionSpringRepository transactionSpringRepository) {
-        return new JpaFeeRepository(feeSpringRepository, memberProfileSpringRepository, feeTypeSpringRepository,
-            transactionSpringRepository);
+        return new JpaFeeRepository(feeSpringRepository, profileSpringRepository, memberProfileSpringRepository,
+            feeTypeSpringRepository, transactionSpringRepository);
     }
 
     @Bean("feeSummaryRepository")

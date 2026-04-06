@@ -37,7 +37,6 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.NotPaid
 import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFee;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
-import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.test.annotation.IntegrationTest;
@@ -68,7 +67,7 @@ class ITFeeRepositoryDelete {
     @Test
     @DisplayName("When there is no fee, nothing is removed")
     @PositiveFeeType
-    @ActiveMember
+    @ValidProfile
     void testDelete_NoFee() {
         // WHEN
         repository.delete(ProfileConstants.NUMBER, FeeConstants.DATE);
@@ -80,24 +79,9 @@ class ITFeeRepositoryDelete {
     }
 
     @Test
-    @DisplayName("When a paid entity linked to a profile, and not a member, is deleted, nothing is removed")
-    @PositiveFeeType
-    @ValidProfile
-    @PaidFee
-    void testDelete_NoMembership() {
-        // WHEN
-        repository.delete(ProfileConstants.NUMBER, FeeConstants.DATE);
-
-        // THEN
-        Assertions.assertThat(feeSpringRepository.count())
-            .as("fees")
-            .isOne();
-    }
-
-    @Test
     @DisplayName("When a not paid entity is deleted, it is removed")
     @PositiveFeeType
-    @ActiveMember
+    @ValidProfile
     @NotPaidFee
     void testDelete_NotPaid() {
         // WHEN
@@ -112,7 +96,7 @@ class ITFeeRepositoryDelete {
     @Test
     @DisplayName("When a paid entity is deleted, it is removed")
     @PositiveFeeType
-    @ActiveMember
+    @ValidProfile
     @PaidFee
     void testDelete_Paid() {
         // WHEN

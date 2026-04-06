@@ -45,7 +45,7 @@ public final class MemberProfileEntities {
 
         entity = new MemberProfileEntity();
         entity.setId(1L);
-        entity.setProfile(ProfileEntities.valid());
+        entity.setProfile(ProfileEntities.alternative());
         entity.setFeeType(feeType);
         entity.setActive(true);
         entity.setRenew(true);

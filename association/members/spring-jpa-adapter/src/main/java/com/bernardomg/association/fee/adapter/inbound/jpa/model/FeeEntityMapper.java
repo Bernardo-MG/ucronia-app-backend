@@ -32,7 +32,7 @@ import java.util.Optional;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.Fee.FeeType;
 import com.bernardomg.association.fee.domain.model.Fee.Transaction;
-import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberProfileEntity;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
 import com.bernardomg.association.profile.domain.model.ProfileName;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
 
@@ -49,10 +49,8 @@ public final class FeeEntityMapper {
         final FeeType     feeType;
 
         name = new ProfileName(entity.getMember()
-            .getProfile()
             .getFirstName(),
             entity.getMember()
-                .getProfile()
                 .getLastName());
 
         date = YearMonth.from(entity.getMonth()
@@ -66,7 +64,6 @@ public final class FeeEntityMapper {
         if (entity.getPaid()) {
             if (entity.getTransaction() == null) {
                 fee = Fee.paid(date, entity.getMember()
-                    .getProfile()
                     .getNumber(), name, feeType);
             } else {
                 transaction = new Fee.Transaction(entity.getTransaction()
@@ -74,19 +71,17 @@ public final class FeeEntityMapper {
                     entity.getTransaction()
                         .getDate());
                 fee = Fee.paid(date, entity.getMember()
-                    .getProfile()
                     .getNumber(), name, feeType, transaction);
             }
         } else {
             fee = Fee.unpaid(date, entity.getMember()
-                .getProfile()
                 .getNumber(), name, feeType);
         }
 
         return fee;
     }
 
-    public static final FeeEntity toEntity(final Fee fee, final MemberProfileEntity member, final FeeTypeEntity feeType,
+    public static final FeeEntity toEntity(final Fee fee, final ProfileEntity member, final FeeTypeEntity feeType,
             final Optional<TransactionEntity> transaction) {
         final FeeEntity entity;
         final Instant   date;
@@ -113,7 +108,7 @@ public final class FeeEntityMapper {
         return entity;
     }
 
-    public static final FeeEntity toEntity(final FeeEntity entity, final MemberProfileEntity member,
+    public static final FeeEntity toEntity(final FeeEntity entity, final ProfileEntity member,
             final FeeTypeEntity feeType, final Optional<TransactionEntity> transaction) {
         final Boolean paid;
 

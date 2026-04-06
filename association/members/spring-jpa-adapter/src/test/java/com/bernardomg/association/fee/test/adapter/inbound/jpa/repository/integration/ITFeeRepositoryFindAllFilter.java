@@ -41,13 +41,11 @@ import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.data.annotation.FeeFullYear;
 import com.bernardomg.association.fee.test.configuration.data.annotation.MultipleFees;
-import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFee;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.test.configuration.factory.FeesQuery;
-import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
-import com.bernardomg.association.member.test.configuration.data.annotation.MultipleInactiveMember;
+import com.bernardomg.association.profile.test.configuration.data.annotation.MultipleProfiles;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -65,7 +63,7 @@ class ITFeeRepositoryGetAllFilter {
     @Test
     @DisplayName("With a filter applied to the start date, the returned data is filtered")
     @PositiveFeeType
-    @MultipleInactiveMember
+    @MultipleProfiles
     @MultipleFees
     void testFindAll_From() {
         final Page<Fee>  fees;
@@ -93,7 +91,7 @@ class ITFeeRepositoryGetAllFilter {
     @Test
     @DisplayName("With a filter applied to the start date which covers no fee, no data is returned")
     @PositiveFeeType
-    @MultipleInactiveMember
+    @MultipleProfiles
     @MultipleFees
     void testFindAll_From_NotInRange() {
         final Page<Fee>  fees;
@@ -121,7 +119,7 @@ class ITFeeRepositoryGetAllFilter {
     @Test
     @DisplayName("With a filter applied to the date, the returned data is filtered")
     @PositiveFeeType
-    @MultipleInactiveMember
+    @MultipleProfiles
     @MultipleFees
     void testFindAll_InDate() {
         final Page<Fee>  fees;
@@ -149,7 +147,7 @@ class ITFeeRepositoryGetAllFilter {
     @Test
     @DisplayName("With a filter applied to the date using the lowest date of the year, the returned data is filtered")
     @PositiveFeeType
-    @ActiveMember
+    @ValidProfile
     @FeeFullYear
     void testFindAll_InDate_FirstDay_Data() {
         final Page<Fee>  fees;
@@ -177,7 +175,7 @@ class ITFeeRepositoryGetAllFilter {
     @Test
     @DisplayName("With a filter applied to the date using the highest date of the year, the returned data is filtered")
     @PositiveFeeType
-    @ActiveMember
+    @ValidProfile
     @FeeFullYear
     void testFindAll_InDate_LastDay_Data() {
         final Page<Fee>  fees;
@@ -205,7 +203,7 @@ class ITFeeRepositoryGetAllFilter {
     @Test
     @DisplayName("With a filter applied to the date using a not existing date, no data is returned")
     @PositiveFeeType
-    @MultipleInactiveMember
+    @MultipleProfiles
     @MultipleFees
     void testFindAll_InDate_NotExisting() {
         final Page<Fee>  fees;
@@ -233,7 +231,7 @@ class ITFeeRepositoryGetAllFilter {
     @Test
     @DisplayName("With a filter applied to the end date, the returned data is filtered")
     @PositiveFeeType
-    @MultipleInactiveMember
+    @MultipleProfiles
     @MultipleFees
     void testFindAll_InRange() {
         final Page<Fee>  fees;
@@ -262,36 +260,8 @@ class ITFeeRepositoryGetAllFilter {
     @Test
     @DisplayName("With no fee it returns nothing")
     @PositiveFeeType
-    @ActiveMember
-    void testFindAll_NoFee() {
-        final Page<Fee>  fees;
-        final FeeQuery   feeQuery;
-        final Pagination pagination;
-        final Sorting    sorting;
-
-        // GIVEN
-        pagination = new Pagination(1, 20);
-        sorting = Sorting.unsorted();
-
-        feeQuery = FeesQuery.to(YearMonth.of(2020, Month.JANUARY));
-
-        // WHEN
-        fees = repository.findAll(feeQuery, pagination, sorting);
-
-        // THEN
-        Assertions.assertThat(fees)
-            .extracting(Page::content)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .as("fees")
-            .isEmpty();
-    }
-
-    @Test
-    @DisplayName("With a paid fee for a profile, and not a member, it returns nothing")
-    @PositiveFeeType
     @ValidProfile
-    @PaidFee
-    void testFindAll_NoMembership() {
+    void testFindAll_NoFee() {
         final Page<Fee>  fees;
         final FeeQuery   feeQuery;
         final Pagination pagination;
@@ -317,7 +287,7 @@ class ITFeeRepositoryGetAllFilter {
     @Test
     @DisplayName("With a filter applied to the end date, the returned data is filtered")
     @PositiveFeeType
-    @MultipleInactiveMember
+    @MultipleProfiles
     @MultipleFees
     void testFindAll_To() {
         final Page<Fee>  fees;
@@ -345,7 +315,7 @@ class ITFeeRepositoryGetAllFilter {
     @Test
     @DisplayName("With a filter applied to the end date which covers no fee, no data is returned")
     @PositiveFeeType
-    @MultipleInactiveMember
+    @MultipleProfiles
     @MultipleFees
     void testFindAll_To_NotInRange() {
         final Page<Fee>  fees;

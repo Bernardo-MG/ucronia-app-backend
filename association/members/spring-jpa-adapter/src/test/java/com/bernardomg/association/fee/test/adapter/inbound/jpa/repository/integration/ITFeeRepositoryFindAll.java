@@ -29,7 +29,6 @@ import java.util.List;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.InstanceOfAssertFactories;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,9 +45,7 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFee
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.test.configuration.factory.FeesQuery;
-import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
-import com.bernardomg.association.member.test.configuration.data.annotation.MultipleInactiveMember;
-import com.bernardomg.association.member.test.configuration.data.annotation.NoLastNameActiveMember;
+import com.bernardomg.association.profile.test.configuration.data.annotation.MultipleProfiles;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -66,7 +63,7 @@ class ITFeeRepositoryFindAll {
     @Test
     @DisplayName("With a full year it returns all the fees")
     @PositiveFeeType
-    @ActiveMember
+    @ValidProfile
     @FeeFullYear
     void testFindAll_FullYear() {
         final Page<Fee>  fees;
@@ -99,7 +96,7 @@ class ITFeeRepositoryFindAll {
     @Test
     @DisplayName("With multiple fees it returns all the fees")
     @PositiveFeeType
-    @MultipleInactiveMember
+    @MultipleProfiles
     @MultipleFees
     void testFindAll_Multiple() {
         final Page<Fee>  fees;
@@ -129,7 +126,7 @@ class ITFeeRepositoryFindAll {
     @Test
     @DisplayName("With no data it returns nothing")
     @PositiveFeeType
-    @ActiveMember
+    @ValidProfile
     void testFindAll_NoData() {
         final Page<Fee>  fees;
         final FeeQuery   feeQuery;
@@ -156,65 +153,8 @@ class ITFeeRepositoryFindAll {
     @Test
     @DisplayName("With no fee it returns nothing")
     @PositiveFeeType
-    @ActiveMember
-    void testFindAll_NoFee() {
-        final Page<Fee>  fees;
-        final FeeQuery   feeQuery;
-        final Pagination pagination;
-        final Sorting    sorting;
-
-        // GIVEN
-        pagination = new Pagination(1, 20);
-        sorting = Sorting.unsorted();
-
-        feeQuery = FeesQuery.empty();
-
-        // WHEN
-        fees = repository.findAll(feeQuery, pagination, sorting);
-
-        // THEN
-        Assertions.assertThat(fees)
-            .extracting(Page::content)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .as("fees")
-            .isEmpty();
-    }
-
-    @Test
-    @DisplayName("With no last name it returns only the name")
-    @PositiveFeeType
-    @NoLastNameActiveMember
-    @PaidFee
-    void testFindAll_NoLastName() {
-        final Page<Fee>  fees;
-        final FeeQuery   feeQuery;
-        final Pagination pagination;
-        final Sorting    sorting;
-
-        // GIVEN
-        pagination = new Pagination(1, 20);
-        sorting = Sorting.unsorted();
-
-        feeQuery = FeesQuery.empty();
-
-        // WHEN
-        fees = repository.findAll(feeQuery, pagination, sorting);
-
-        // THEN
-        Assertions.assertThat(fees)
-            .extracting(Page::content)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .as("fees")
-            .containsExactly(Fees.noLastName());
-    }
-
-    @Test
-    @DisplayName("With a paid fee for a profile, and not a member, it returns nothing")
-    @PositiveFeeType
     @ValidProfile
-    @PaidFee
-    @Disabled("Breaks due to being linked to the wrong entity")
-    void testFindAll_NoMembership() {
+    void testFindAll_NoFee() {
         final Page<Fee>  fees;
         final FeeQuery   feeQuery;
         final Pagination pagination;
@@ -240,7 +180,7 @@ class ITFeeRepositoryFindAll {
     @Test
     @DisplayName("With a not paid fee it returns all the fees")
     @PositiveFeeType
-    @ActiveMember
+    @ValidProfile
     @NotPaidFee
     void testFindAll_NotPaid() {
         final Page<Fee>  fees;
@@ -268,7 +208,7 @@ class ITFeeRepositoryFindAll {
     @Test
     @DisplayName("With a paid fee it returns all the fees")
     @PositiveFeeType
-    @ActiveMember
+    @ValidProfile
     @PaidFee
     void testFindAll_Paid() {
         final Page<Fee>  fees;

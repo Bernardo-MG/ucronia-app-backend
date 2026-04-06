@@ -38,9 +38,8 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.NotPaid
 import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFee;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
-import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
-import com.bernardomg.association.member.test.configuration.data.annotation.AlternativeActiveMember;
-import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
+import com.bernardomg.association.profile.test.configuration.data.annotation.AlternativeProfile;
+import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -73,9 +72,9 @@ class ITFeeSummaryRepositoryFindForMonth {
     @Test
     @DisplayName("With a paid fee, for an active member, the correct summary is returned")
     @PositiveFeeType
-    @ActiveMember
+    @ValidProfile
     @PaidFee
-    void testFindForMonth_Paid_Active() {
+    void testFindForMonth_Paid() {
         final FeeSummary summary;
 
         // WHEN
@@ -95,9 +94,9 @@ class ITFeeSummaryRepositoryFindForMonth {
     @Test
     @DisplayName("With a paid fee for a month without data, for an active member, nothing is returned")
     @PositiveFeeType
-    @ActiveMember
+    @ValidProfile
     @PaidFee
-    void testFindForMonth_Paid_Active_WrongMonth() {
+    void testFindForMonth_Paid_WrongMonth() {
         final FeeSummary summary;
 
         // WHEN
@@ -115,35 +114,13 @@ class ITFeeSummaryRepositoryFindForMonth {
     }
 
     @Test
-    @DisplayName("With a paid fee, for an inactive member, the correct summary is returned")
-    @PositiveFeeType
-    @InactiveMember
-    @PaidFee
-    void testFindForMonth_Paid_Inactive() {
-        final FeeSummary summary;
-
-        // WHEN
-        summary = repository.findForMonth(FeeConstants.DATE);
-
-        // THEN
-        SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(summary.paid())
-                .as("paid fees")
-                .isEqualTo(1);
-            softly.assertThat(summary.unpaid())
-                .as("unpaid fees")
-                .isZero();
-        });
-    }
-
-    @Test
     @DisplayName("With a paid fee, for an active member, the correct summary is returned")
     @PositiveFeeType
-    @ActiveMember
-    @AlternativeActiveMember
+    @ValidProfile
+    @AlternativeProfile
     @NotPaidFee
     @AlternativePaidFee
-    void testFindForMonth_PaidAndNotPaid_Active() {
+    void testFindForMonth_PaidAndNotPaid() {
         final FeeSummary summary;
 
         // WHEN
@@ -163,9 +140,9 @@ class ITFeeSummaryRepositoryFindForMonth {
     @Test
     @DisplayName("With an unpaid fee, for an active member, the correct summary is returned")
     @PositiveFeeType
-    @ActiveMember
+    @ValidProfile
     @NotPaidFee
-    void testFindForMonth_Unpaid_Active() {
+    void testFindForMonth_Unpaid() {
         final FeeSummary summary;
 
         // WHEN
@@ -185,9 +162,9 @@ class ITFeeSummaryRepositoryFindForMonth {
     @Test
     @DisplayName("With an unpaid fee for a month without data, for an active member, nothing is returned")
     @PositiveFeeType
-    @ActiveMember
+    @ValidProfile
     @NotPaidFee
-    void testFindForMonth_Unpaid_Active_WrongMonth() {
+    void testFindForMonth_Unpaid_WrongMonth() {
         final FeeSummary summary;
 
         // WHEN
@@ -201,28 +178,6 @@ class ITFeeSummaryRepositoryFindForMonth {
             softly.assertThat(summary.unpaid())
                 .as("unpaid fees")
                 .isZero();
-        });
-    }
-
-    @Test
-    @DisplayName("With an unpaid fee, for an inactive member, the correct summary is returned")
-    @PositiveFeeType
-    @InactiveMember
-    @NotPaidFee
-    void testFindForMonth_Unpaid_Inactive() {
-        final FeeSummary summary;
-
-        // WHEN
-        summary = repository.findForMonth(FeeConstants.DATE);
-
-        // THEN
-        SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(summary.paid())
-                .as("paid fees")
-                .isZero();
-            softly.assertThat(summary.unpaid())
-                .as("unpaid fees")
-                .isEqualTo(1);
         });
     }
 

@@ -38,7 +38,6 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.Positiv
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
-import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.test.annotation.IntegrationTest;
 
@@ -137,23 +136,6 @@ class ITFeeRepositoryExistsPaid {
     @Test
     @DisplayName("With no data, nothing exists")
     void testExistsPaid_NoData() {
-        final boolean exists;
-
-        // WHEN
-        exists = repository.existsPaid(ProfileConstants.NUMBER, FeeConstants.DATE);
-
-        // THEN
-        Assertions.assertThat(exists)
-            .as("exists")
-            .isFalse();
-    }
-
-    @Test
-    @DisplayName("With an existing paid fee for a profile, and not a member, nothing exists")
-    @PositiveFeeType
-    @ValidProfile
-    @PaidFee
-    void testExistsPaid_NoMembership() {
         final boolean exists;
 
         // WHEN

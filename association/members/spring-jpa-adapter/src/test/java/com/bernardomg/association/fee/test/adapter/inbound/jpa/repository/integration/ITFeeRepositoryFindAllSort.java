@@ -47,8 +47,8 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.Positiv
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.test.configuration.factory.FeesQuery;
-import com.bernardomg.association.member.test.configuration.data.annotation.MultipleInactiveMember;
-import com.bernardomg.association.member.test.configuration.data.annotation.MultipleInactiveMemberAccents;
+import com.bernardomg.association.profile.test.configuration.data.annotation.MultipleProfiles;
+import com.bernardomg.association.profile.test.configuration.data.annotation.MultipleProfilesAccents;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
@@ -65,7 +65,7 @@ class ITFeeRepositoryFindAllSort {
     @Test
     @DisplayName("With ascending order by name with accents it returns the ordered data")
     @PositiveFeeType
-    @MultipleInactiveMemberAccents
+    @MultipleProfilesAccents
     @MultipleFees
     @Disabled("Database dependant")
     void testFindAll_Accents_Name_Asc() {
@@ -98,7 +98,7 @@ class ITFeeRepositoryFindAllSort {
     @Test
     @DisplayName("With ascending order by month it returns the ordered data")
     @PositiveFeeType
-    @MultipleInactiveMember
+    @MultipleProfiles
     @MultipleFees
     void testFindAll_Month_Asc() {
         final Page<Fee>  fees;
@@ -129,7 +129,7 @@ class ITFeeRepositoryFindAllSort {
     @Test
     @DisplayName("With descending order by month it returns the ordered data")
     @PositiveFeeType
-    @MultipleInactiveMember
+    @MultipleProfiles
     @MultipleFees
     void testFindAll_Month_Desc() {
         final Page<Fee>  fees;
@@ -161,7 +161,7 @@ class ITFeeRepositoryFindAllSort {
     @Test
     @DisplayName("With ascending order by name it returns the ordered data")
     @PositiveFeeType
-    @MultipleInactiveMember
+    @MultipleProfiles
     @MultipleFees
     void testFindAll_Name_Asc() {
         final Page<Fee>  fees;
@@ -193,7 +193,7 @@ class ITFeeRepositoryFindAllSort {
     @Test
     @DisplayName("With descending order by name it returns the ordered data")
     @PositiveFeeType
-    @MultipleInactiveMember
+    @MultipleProfiles
     @MultipleFees
     void testFindAll_Name_Desc() {
         final Page<Fee>  fees;
@@ -226,7 +226,7 @@ class ITFeeRepositoryFindAllSort {
     @DisplayName("With an invalid field ordering throws an exception")
     @PositiveFeeType
     @Disabled
-    @MultipleInactiveMember
+    @MultipleProfiles
     @MultipleFees
     void testFindAll_NotExisting() {
         final FeeQuery         feeQuery;
@@ -251,7 +251,7 @@ class ITFeeRepositoryFindAllSort {
     @Test
     @DisplayName("With ascending order by paid flag it returns the ordered data")
     @PositiveFeeType
-    @MultipleInactiveMember
+    @MultipleProfiles
     @MultipleFees
     void testFindAll_Paid_Asc() {
         final Page<Fee>  fees;
@@ -281,7 +281,7 @@ class ITFeeRepositoryFindAllSort {
     @Test
     @DisplayName("With descending order by paid flag it returns the ordered data")
     @PositiveFeeType
-    @MultipleInactiveMember
+    @MultipleProfiles
     @MultipleFees
     void testFindAll_Paid_Desc() {
         final Page<Fee>  fees;

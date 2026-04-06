@@ -22,7 +22,7 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFee
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.fee.test.configuration.factory.FeeEntities;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
-import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
+import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
 import com.bernardomg.association.transaction.test.configuration.data.annotation.FeeTransaction;
@@ -46,7 +46,7 @@ class ITFeeRepositorySaveAll {
     @Test
     @DisplayName("When there is no data, nothing is saved")
     @PositiveFeeType
-    @ActiveMember
+    @ValidProfile
     @FeeTransaction
     void testSaveAll_Empty() {
         final Collection<Fee> fees;
@@ -63,7 +63,7 @@ class ITFeeRepositorySaveAll {
     @Test
     @DisplayName("When a not paid fee, it is persisted")
     @PositiveFeeType
-    @ActiveMember
+    @ValidProfile
     void testSaveAll_NotPaid_PersistedData() {
         final Iterable<FeeEntity> fees;
         final Fee                 fee;
@@ -87,7 +87,7 @@ class ITFeeRepositorySaveAll {
     @Test
     @DisplayName("When a not paid fee, it is returned")
     @PositiveFeeType
-    @ActiveMember
+    @ValidProfile
     void testSaveAll_NotPaid_ReturnedData() {
         final Collection<Fee> created;
         final Fee             fee;
@@ -107,7 +107,7 @@ class ITFeeRepositorySaveAll {
     @Test
     @DisplayName("When changing a fee date, it is persisted")
     @PositiveFeeType
-    @ActiveMember
+    @ValidProfile
     @FeeTransaction
     @NotPaidFee
     void testSaveAll_Paid_ChangeDate_PersistedData() {
@@ -137,7 +137,7 @@ class ITFeeRepositorySaveAll {
     @Test
     @DisplayName("When changing a fee date, it is persisted in the transaction")
     @PositiveFeeType
-    @ActiveMember
+    @ValidProfile
     @PaidFee
     void testSaveAll_Paid_ChangeDate_PersistedTransaction() {
         final Fee                         fee;
@@ -167,7 +167,7 @@ class ITFeeRepositorySaveAll {
     @Test
     @DisplayName("When changing a fee date, it is returned")
     @PositiveFeeType
-    @ActiveMember
+    @ValidProfile
     @FeeTransaction
     @NotPaidFee
     void testSaveAll_Paid_ChangeDate_ReturnedData() {
@@ -195,7 +195,7 @@ class ITFeeRepositorySaveAll {
     @Test
     @DisplayName("When a paid fee, it is persisted")
     @PositiveFeeType
-    @ActiveMember
+    @ValidProfile
     @FeeTransaction
     void testSaveAll_Paid_PersistedData() {
         final Iterable<FeeEntity> fees;
@@ -220,7 +220,7 @@ class ITFeeRepositorySaveAll {
     @Test
     @DisplayName("Persists the fee to transaction relationship")
     @PositiveFeeType
-    @ActiveMember
+    @ValidProfile
     @FeeTransaction
     void testSaveAll_Paid_PersistedRelationship() {
         final Fee               fee;
@@ -251,7 +251,7 @@ class ITFeeRepositorySaveAll {
     @Test
     @DisplayName("Persists the transaction")
     @PositiveFeeType
-    @ActiveMember
+    @ValidProfile
     @FeeTransaction
     void testSaveAll_Paid_PersistedTransaction() {
         final Iterable<TransactionEntity> transactions;
@@ -275,7 +275,7 @@ class ITFeeRepositorySaveAll {
     @Test
     @DisplayName("When a paid fee, it is returned")
     @PositiveFeeType
-    @ActiveMember
+    @ValidProfile
     @FeeTransaction
     void testSaveAll_Paid_ReturnedData() {
         final Collection<Fee> fees;
