@@ -48,7 +48,6 @@ import com.bernardomg.association.fee.usecase.service.FeeSummaryService;
 import com.bernardomg.association.fee.usecase.service.FeeTypeService;
 import com.bernardomg.association.fee.usecase.service.MyFeesService;
 import com.bernardomg.association.fee.usecase.service.SpringSecurityMyFeesService;
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberProfileSpringRepository;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
@@ -70,11 +69,10 @@ public class AssociationFeeAutoConfiguration {
     @Bean("feeRepository")
     public FeeRepository getFeeRepository(final FeeSpringRepository feeSpringRepository,
             final ProfileSpringRepository profileSpringRepository,
-            final MemberProfileSpringRepository memberProfileSpringRepository,
             final FeeTypeSpringRepository feeTypeSpringRepository,
             final TransactionSpringRepository transactionSpringRepository) {
-        return new JpaFeeRepository(feeSpringRepository, profileSpringRepository, memberProfileSpringRepository,
-            feeTypeSpringRepository, transactionSpringRepository);
+        return new JpaFeeRepository(feeSpringRepository, profileSpringRepository, feeTypeSpringRepository,
+            transactionSpringRepository);
     }
 
     @Bean("feeService")

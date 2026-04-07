@@ -99,6 +99,34 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
             """)
     public Collection<FeeEntity> findAllForYear(@Param("year") int year, Sort sort);
 
+    @Query("""
+            SELECT f
+            FROM Fee f
+            WHERE EXTRACT(YEAR FROM f.month) = :year
+              AND f.member.id IN
+              (
+                SELECT m.id AS id
+                  FROM MemberProfile m
+                WHERE m.active = true
+                ORDER BY id ASC
+              )
+            """)
+    public Collection<FeeEntity> findAllForYearAndActiveMembers(@Param("year") int year, Sort sort);
+
+    @Query("""
+            SELECT f
+            FROM Fee f
+            WHERE EXTRACT(YEAR FROM f.month) = :year
+              AND f.member.id IN
+              (
+                SELECT m.id AS id
+                  FROM MemberProfile m
+                WHERE m.active = false
+                ORDER BY id ASC
+              )
+            """)
+    public Collection<FeeEntity> findAllForYearAndInactiveMembers(@Param("year") int year, Sort sort);
+
     /**
      * Returns all member fees with any of the received ids, and which are in the year.
      *

@@ -48,7 +48,6 @@ import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.domain.model.YearsRange;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberProfileSpringRepository;
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
@@ -66,28 +65,24 @@ public final class JpaFeeRepository implements FeeRepository {
     /**
      * Logger for the class.
      */
-    private static final Logger                 log                = LoggerFactory.getLogger(JpaFeeRepository.class);
+    private static final Logger               log                = LoggerFactory.getLogger(JpaFeeRepository.class);
 
-    private static final Collection<String>     PROFILE_PROPERTIES = List.of("firstName", "lastName", "number");
+    private static final Collection<String>   PROFILE_PROPERTIES = List.of("firstName", "lastName", "number");
 
-    private final FeeSpringRepository           feeSpringRepository;
+    private final FeeSpringRepository         feeSpringRepository;
 
-    private final FeeTypeSpringRepository       feeTypeSpringRepository;
+    private final FeeTypeSpringRepository     feeTypeSpringRepository;
 
-    private final MemberProfileSpringRepository memberProfileSpringRepository;
+    private final ProfileSpringRepository     profileSpringRepository;
 
-    private final ProfileSpringRepository       profileSpringRepository;
-
-    private final TransactionSpringRepository   transactionSpringRepository;
+    private final TransactionSpringRepository transactionSpringRepository;
 
     public JpaFeeRepository(final FeeSpringRepository feeSpringRepo, final ProfileSpringRepository profileSpringRepo,
-            final MemberProfileSpringRepository memberProfileSpringRepo,
             final FeeTypeSpringRepository feeTypeSpringRepo, final TransactionSpringRepository transactionSpringRepo) {
         super();
 
         feeSpringRepository = Objects.requireNonNull(feeSpringRepo);
         profileSpringRepository = Objects.requireNonNull(profileSpringRepo);
-        memberProfileSpringRepository = Objects.requireNonNull(memberProfileSpringRepo);
         feeTypeSpringRepository = Objects.requireNonNull(feeTypeSpringRepo);
         transactionSpringRepository = Objects.requireNonNull(transactionSpringRepo);
     }
@@ -217,20 +212,15 @@ public final class JpaFeeRepository implements FeeRepository {
 
     @Override
     public final Collection<Fee> findAllInYearForActiveMembers(final Year year, final Sorting sorting) {
-        final Collection<Long> foundIds;
-        final Collection<Fee>  found;
-        final Sort             sort;
-        final Sorting          fixedSorting;
+        final Collection<Fee> found;
+        final Sort            sort;
+        final Sorting         fixedSorting;
 
         fixedSorting = fixSorting(sorting);
         log.debug("Finding all fees for active members in year {} sorting {}", year, fixedSorting);
 
-        foundIds = memberProfileSpringRepository.findAllActiveMemberIds();
-
-        log.debug("Active members: {}", foundIds);
-
         sort = SpringSorting.toSort(fixedSorting);
-        found = feeSpringRepository.findAllForYearAndMembersIn(year.getValue(), foundIds, sort)
+        found = feeSpringRepository.findAllForYearAndActiveMembers(year.getValue(), sort)
             .stream()
             .map(FeeEntityMapper::toDomain)
             .toList();
@@ -242,20 +232,15 @@ public final class JpaFeeRepository implements FeeRepository {
 
     @Override
     public final Collection<Fee> findAllInYearForInactiveMembers(final Year year, final Sorting sorting) {
-        final Collection<Long> foundIds;
-        final Collection<Fee>  found;
-        final Sort             sort;
-        final Sorting          fixedSorting;
+        final Collection<Fee> found;
+        final Sort            sort;
+        final Sorting         fixedSorting;
 
         fixedSorting = fixSorting(sorting);
         log.debug("Finding all fees for inactive members in year {} sorting {}", year, fixedSorting);
 
-        foundIds = memberProfileSpringRepository.findAllInactiveMemberIds();
-
-        log.debug("Inactive members: {}", foundIds);
-
         sort = SpringSorting.toSort(fixedSorting);
-        found = feeSpringRepository.findAllForYearAndMembersIn(year.getValue(), foundIds, sort)
+        found = feeSpringRepository.findAllForYearAndInactiveMembers(year.getValue(), sort)
             .stream()
             .map(FeeEntityMapper::toDomain)
             .toList();
