@@ -11,14 +11,6 @@ import com.bernardomg.association.profile.domain.model.ProfileName;
 
 public final class Profiles {
 
-    public static final Profile alternative() {
-        final ProfileName name;
-
-        name = new ProfileName(ProfileConstants.ALTERNATIVE_FIRST_NAME, ProfileConstants.ALTERNATIVE_LAST_NAME);
-        return new Profile(ProfileConstants.ALTERNATIVE_IDENTIFIER, ProfileConstants.ALTERNATIVE_NUMBER, name,
-            ProfileConstants.BIRTH_DATE, List.of(), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS, Set.of());
-    }
-
     public static final Profile created() {
         final ProfileName name;
 
@@ -37,14 +29,6 @@ public final class Profiles {
         contactChannel = new ContactChannel(contactMethod, ProfileConstants.EMAIL);
         return new Profile(ProfileConstants.IDENTIFIER, 1L, name, ProfileConstants.BIRTH_DATE, List.of(contactChannel),
             ProfileConstants.ADDRESS, ProfileConstants.COMMENTS, Set.of());
-    }
-
-    public static final Profile emptyName() {
-        final ProfileName name;
-
-        name = new ProfileName(" ", " ");
-        return new Profile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name, ProfileConstants.BIRTH_DATE,
-            List.of(), "", "", Set.of());
     }
 
     public static final Profile firstNameChange() {
@@ -78,26 +62,12 @@ public final class Profiles {
             List.of(), " " + ProfileConstants.ADDRESS + " ", " " + ProfileConstants.COMMENTS + " ", Set.of());
     }
 
-    public static final Profile toCreateNoIdentifier() {
-        final ProfileName name;
-
-        name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        return new Profile("", 0L, name, ProfileConstants.BIRTH_DATE, List.of(), "", "", Set.of());
-    }
-
     public static final Profile valid() {
         final ProfileName name;
 
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
         return new Profile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name, ProfileConstants.BIRTH_DATE,
             List.of(), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS, Set.of());
-    }
-
-    public static final Profile validNew() {
-        final ProfileName name;
-
-        name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        return new Profile("", ProfileConstants.NUMBER, name, null, List.of(), "", "", Set.of());
     }
 
     public static final Profile withEmail() {

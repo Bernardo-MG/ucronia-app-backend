@@ -61,7 +61,7 @@ class ITGuestRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(guest)
-            .contains(Guests.valid());
+            .contains(Guests.noGames());
     }
 
     @Test

@@ -72,7 +72,7 @@ class TestGuestServicePatch {
         final Guest            guest;
 
         // GIVEN
-        guest = Guests.valid();
+        guest = Guests.noGames();
 
         given(guestRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(guest));
         given(guestRepository.existsByIdentifierForAnother(ProfileConstants.NUMBER, ProfileConstants.IDENTIFIER))
@@ -113,7 +113,7 @@ class TestGuestServicePatch {
         // GIVEN
         guest = Guests.nameChangePatch();
 
-        given(guestRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(Guests.valid()));
+        given(guestRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(Guests.noGames()));
 
         // WHEN
         service.patch(guest);
@@ -130,13 +130,13 @@ class TestGuestServicePatch {
         // GIVEN
         guest = Guests.padded();
 
-        given(guestRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(Guests.valid()));
+        given(guestRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(Guests.noGames()));
 
         // WHEN
         service.patch(guest);
 
         // THEN
-        verify(guestRepository).save(Guests.valid());
+        verify(guestRepository).save(Guests.noGames());
     }
 
     @Test
@@ -147,7 +147,7 @@ class TestGuestServicePatch {
         // GIVEN
         guest = Guests.firstNameChange();
 
-        given(guestRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(Guests.valid()));
+        given(guestRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(Guests.noGames()));
 
         // WHEN
         service.patch(guest);
@@ -165,7 +165,7 @@ class TestGuestServicePatch {
         // GIVEN
         guest = Guests.firstNameChange();
 
-        given(guestRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(Guests.valid()));
+        given(guestRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(Guests.noGames()));
         given(guestRepository.save(Guests.firstNameChange())).willReturn(Guests.firstNameChange());
 
         // WHEN

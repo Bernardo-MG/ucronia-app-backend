@@ -20,10 +20,6 @@ public final class TransactionMonthlyBalances {
         return new TransactionMonthlyBalance(MONTH, amount, amount);
     }
 
-    public static final TransactionMonthlyBalance forAmount(final Month month, final float amount) {
-        return new TransactionMonthlyBalance(YearMonth.of(2020, month), amount, amount);
-    }
-
     public static final TransactionMonthlyBalance forAmount(final Month month, final float amount, final float total) {
         return new TransactionMonthlyBalance(YearMonth.of(2020, month), amount, total);
     }

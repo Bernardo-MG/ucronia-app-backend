@@ -59,15 +59,6 @@ public final class Sponsors {
             Set.of(com.bernardomg.association.sponsor.domain.model.SponsorConstants.PROFILE_TYPE));
     }
 
-    public static final Sponsor noContactChannel() {
-        final ProfileName name;
-
-        name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        return new Sponsor(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name, ProfileConstants.BIRTH_DATE,
-            List.of(), List.of(SponsorConstants.YEAR), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS,
-            Set.of(com.bernardomg.association.sponsor.domain.model.SponsorConstants.PROFILE_TYPE));
-    }
-
     public static final Sponsor padded() {
         final ProfileName name;
 

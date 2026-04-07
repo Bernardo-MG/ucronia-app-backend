@@ -20,17 +20,6 @@ public final class Transactions {
             TransactionConstants.AMOUNT_DECIMAL, TransactionConstants.DESCRIPTION);
     }
 
-    public static final Transaction descriptionChange() {
-        return new Transaction(TransactionConstants.INDEX, TransactionConstants.DATE, TransactionConstants.AMOUNT,
-            TransactionConstants.DESCRIPTION + " 123");
-    }
-
-    public static final Transaction february() {
-        return new Transaction(2, LocalDate.of(2020, Month.FEBRUARY, 1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant(), TransactionConstants.AMOUNT, "Transaction 2");
-    }
-
     public static final Transaction forAmount(final Float amount) {
         return new Transaction(TransactionConstants.INDEX, TransactionConstants.DATE, amount,
             TransactionConstants.DESCRIPTION);
@@ -57,11 +46,6 @@ public final class Transactions {
     public static final Transaction future() {
         return new Transaction(TransactionConstants.INDEX, TransactionConstants.DATE_FUTURE,
             TransactionConstants.AMOUNT, TransactionConstants.DESCRIPTION);
-    }
-
-    public static final Transaction newlyCreated() {
-        return new Transaction(1, TransactionConstants.DATE, TransactionConstants.AMOUNT,
-            TransactionConstants.DESCRIPTION);
     }
 
     public static final Transaction padded() {

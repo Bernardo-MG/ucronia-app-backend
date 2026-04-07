@@ -69,7 +69,7 @@ class TestGuestServiceCreate {
         final Guest            guest;
 
         // GIVEN
-        guest = Guests.valid();
+        guest = Guests.noGames();
 
         given(guestRepository.existsByIdentifier(ProfileConstants.IDENTIFIER)).willReturn(true);
 
@@ -93,7 +93,7 @@ class TestGuestServiceCreate {
         service.create(guest);
 
         // THEN
-        verify(guestRepository).save(Guests.valid());
+        verify(guestRepository).save(Guests.noGames());
     }
 
     @Test
@@ -102,13 +102,13 @@ class TestGuestServiceCreate {
         final Guest guest;
 
         // GIVEN
-        guest = Guests.valid();
+        guest = Guests.noGames();
 
         // WHEN
         service.create(guest);
 
         // THEN
-        verify(guestRepository).save(Guests.valid());
+        verify(guestRepository).save(Guests.noGames());
     }
 
     @Test
@@ -118,9 +118,9 @@ class TestGuestServiceCreate {
         final Guest created;
 
         // GIVEN
-        guest = Guests.valid();
+        guest = Guests.noGames();
 
-        given(guestRepository.save(guest)).willReturn(Guests.valid());
+        given(guestRepository.save(guest)).willReturn(Guests.noGames());
 
         // WHEN
         created = service.create(guest);
@@ -128,7 +128,7 @@ class TestGuestServiceCreate {
         // THEN
         Assertions.assertThat(created)
             .as("profile")
-            .isEqualTo(Guests.valid());
+            .isEqualTo(Guests.noGames());
     }
 
 }

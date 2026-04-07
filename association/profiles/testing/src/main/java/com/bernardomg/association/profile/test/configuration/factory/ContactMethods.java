@@ -9,10 +9,6 @@ public final class ContactMethods {
         return new ContactMethod(ContactMethodConstants.NUMBER, ContactMethodConstants.EMAIL);
     }
 
-    public static final ContactMethod emptyName() {
-        return new ContactMethod(ContactMethodConstants.NUMBER, "");
-    }
-
     public static final ContactMethod phone() {
         return new ContactMethod(ContactMethodConstants.ALTERNATIVE_NUMBER, ContactMethodConstants.PHONE);
     }

@@ -138,7 +138,7 @@ class ITGuestRepositorySave {
         final Iterable<GuestEntity> entities;
 
         // GIVEN
-        guest = Guests.valid();
+        guest = Guests.noGames();
 
         // WHEN
         repository.save(guest);
@@ -160,7 +160,7 @@ class ITGuestRepositorySave {
         final Iterable<GuestEntity> entities;
 
         // GIVEN
-        guest = Guests.valid();
+        guest = Guests.noGames();
 
         // WHEN
         repository.save(guest);
@@ -204,7 +204,7 @@ class ITGuestRepositorySave {
         final Guest saved;
 
         // GIVEN
-        guest = Guests.valid();
+        guest = Guests.noGames();
 
         // WHEN
         saved = repository.save(guest);
@@ -222,7 +222,7 @@ class ITGuestRepositorySave {
         final ProfileEntity profile;
 
         // GIVEN
-        guest = Guests.valid();
+        guest = Guests.noGames();
 
         // WHEN
         repository.save(guest);

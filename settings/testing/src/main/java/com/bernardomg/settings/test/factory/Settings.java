@@ -25,10 +25,6 @@ public final class Settings {
         return new Setting(SettingConstants.STRING_TYPE, SettingConstants.CODE, SettingConstants.STRING_VALUE);
     }
 
-    public static final Setting valid() {
-        return new Setting(SettingConstants.STRING_TYPE, SettingConstants.CODE, SettingConstants.STRING_VALUE);
-    }
-
     private Settings() {
         super();
     }

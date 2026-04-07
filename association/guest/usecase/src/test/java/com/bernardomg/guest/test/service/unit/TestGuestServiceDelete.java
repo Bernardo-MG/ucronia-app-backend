@@ -66,7 +66,7 @@ class TestGuestServiceDelete {
     @DisplayName("When deleting the repository is called")
     void testDelete_CallsRepository() {
         // GIVEN
-        given(guestRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(Guests.valid()));
+        given(guestRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(Guests.noGames()));
 
         // WHEN
         service.delete(ProfileConstants.NUMBER);

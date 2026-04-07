@@ -7,7 +7,7 @@ import java.util.Set;
 
 import com.bernardomg.association.guest.adapter.inbound.jpa.model.GuestEntity;
 import com.bernardomg.association.guest.adapter.inbound.jpa.model.GuestEntityConstants;
-import com.bernardomg.association.guest.test.configuration.factory.GuestConstants;
+import com.bernardomg.association.guest.test.configuration.factory.Guests;
 import com.bernardomg.association.profile.test.configuration.factory.ProfileEntities;
 
 public final class GuestEntities {
@@ -18,7 +18,7 @@ public final class GuestEntities {
         entity = new GuestEntity();
         entity.setId(1L);
         entity.setProfile(ProfileEntities.valid());
-        entity.setGames(new ArrayList<>(List.of(GuestConstants.DATE)));
+        entity.setGames(new ArrayList<>(List.of(Guests.DATE)));
         entity.getProfile()
             .setTypes(Set.of(GuestEntityConstants.PROFILE_TYPE));
 
@@ -31,7 +31,7 @@ public final class GuestEntities {
         entity = new GuestEntity();
         entity.setId(1L);
         entity.setProfile(ProfileEntities.withEmail());
-        entity.setGames(new ArrayList<>(List.of(GuestConstants.DATE)));
+        entity.setGames(new ArrayList<>(List.of(Guests.DATE)));
         entity.getProfile()
             .setTypes(Set.of(GuestEntityConstants.PROFILE_TYPE));
 
@@ -44,7 +44,7 @@ public final class GuestEntities {
         entity = new GuestEntity();
         entity.setId(1L);
         entity.setProfile(ProfileEntities.firstNameChange());
-        entity.setGames(new ArrayList<>(List.of(GuestConstants.DATE)));
+        entity.setGames(new ArrayList<>(List.of(Guests.DATE)));
         entity.getProfile()
             .setTypes(Set.of(GuestEntityConstants.PROFILE_TYPE));
 
@@ -57,7 +57,7 @@ public final class GuestEntities {
         entity = new GuestEntity();
         entity.setId(1L);
         entity.setProfile(ProfileEntities.valid());
-        entity.setGames(new ArrayList<>(List.of(GuestConstants.DATE)));
+        entity.setGames(new ArrayList<>(List.of(Guests.DATE)));
         entity.getProfile()
             .setTypes(Set.of(GuestEntityConstants.PROFILE_TYPE));
 
