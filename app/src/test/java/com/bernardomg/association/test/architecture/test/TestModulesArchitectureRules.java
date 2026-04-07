@@ -1,0 +1,102 @@
+
+package com.bernardomg.association.test.architecture.test;
+
+import static com.tngtech.archunit.library.Architectures.layeredArchitecture;
+
+import com.tngtech.archunit.core.importer.ImportOption;
+import com.tngtech.archunit.junit.AnalyzeClasses;
+import com.tngtech.archunit.junit.ArchTest;
+import com.tngtech.archunit.lang.ArchRule;
+
+@AnalyzeClasses(packages = { "com.bernardomg.association", "com.bernardomg.async", "com.bernardomg.exception",
+        "com.bernardomg.jpa", "com.bernardomg.settings" }, importOptions = ImportOption.DoNotIncludeTests.class)
+public class TestModulesArchitectureRules {
+
+    @ArchTest
+    static final ArchRule module_dependencies_are_respected = layeredArchitecture().consideringAllDependencies()
+
+        .layer("Profiles")
+        .definedBy("com.bernardomg.association.profile..")
+        .layer("Members")
+        .definedBy("com.bernardomg.association.member..")
+        .layer("Sponsors")
+        .definedBy("com.bernardomg.association.sponsor..")
+        .layer("Guests")
+        .definedBy("com.bernardomg.association.guest..")
+        .layer("Transactions")
+        .definedBy("com.bernardomg.association.transaction..")
+        .layer("Fees")
+        .definedBy("com.bernardomg.association.fee..")
+
+        // Security modules
+        .layer("Users")
+        .definedBy("com.bernardomg.association.security.user..")
+        .layer("Account")
+        .definedBy("com.bernardomg.association.security.account..")
+        .layer("Security configuration")
+        .definedBy("com.bernardomg.association.security.configuration..")
+
+        // Misc modules
+        .layer("Settings")
+        .definedBy("com.bernardomg.settings..")
+        .layer("Association settings")
+        .definedBy("com.bernardomg.association.settings..")
+
+        // Library modules
+        .layer("Library authors")
+        .definedBy("com.bernardomg.association.library.author..")
+        .layer("Library books")
+        .definedBy("com.bernardomg.association.library.book..")
+        .layer("Library book types")
+        .definedBy("com.bernardomg.association.library.booktype..")
+        .layer("Library game systems")
+        .definedBy("com.bernardomg.association.library.gamesystem..")
+        .layer("Library publisher")
+        .definedBy("com.bernardomg.association.library.publisher..")
+        .layer("Library lending")
+        .definedBy("com.bernardomg.association.library.lending..")
+        .layer("Library configuration")
+        .definedBy("com.bernardomg.association.library.configuration..")
+
+        .whereLayer("Profiles")
+        .mayOnlyBeAccessedByLayers("Members", "Sponsors", "Guests", "Users", "Account", "Fees", "Library books",
+            "Library lending", "Library configuration", "Security configuration")
+        .whereLayer("Members")
+        .mayOnlyBeAccessedByLayers("Fees", "Account", "Library books", "Library configuration")
+        .whereLayer("Sponsors")
+        .mayNotBeAccessedByAnyLayer()
+        .whereLayer("Guests")
+        .mayNotBeAccessedByAnyLayer()
+        .whereLayer("Transactions")
+        .mayOnlyBeAccessedByLayers("Fees")
+        .whereLayer("Fees")
+        // TODO: circular dependency
+        .mayOnlyBeAccessedByLayers("Members")
+
+        // Security modules
+        .whereLayer("Users")
+        .mayOnlyBeAccessedByLayers("Account", "Fees", "Security configuration")
+        .whereLayer("Account")
+        .mayOnlyBeAccessedByLayers("Security configuration")
+
+        // Misc modules
+        .whereLayer("Settings")
+        .mayOnlyBeAccessedByLayers("Association settings", "Fees", "Members")
+        .whereLayer("Association settings")
+        .mayOnlyBeAccessedByLayers("Fees")
+
+        // Library modules
+        .whereLayer("Library authors")
+        .mayOnlyBeAccessedByLayers("Library books", "Library configuration")
+        .whereLayer("Library books")
+        .mayOnlyBeAccessedByLayers("Library lending", "Library configuration")
+        .whereLayer("Library book types")
+        .mayOnlyBeAccessedByLayers("Library books", "Library configuration")
+        .whereLayer("Library game systems")
+        .mayOnlyBeAccessedByLayers("Library books", "Library configuration")
+        .whereLayer("Library publisher")
+        .mayOnlyBeAccessedByLayers("Library books", "Library configuration")
+        .whereLayer("Library lending")
+        .mayOnlyBeAccessedByLayers("Library books", "Library configuration");
+
+}

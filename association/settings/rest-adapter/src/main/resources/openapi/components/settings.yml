@@ -1,0 +1,32 @@
+components:
+  parameters:
+    settingsSortParam:
+      name: sort
+      description: Sorting to apply.
+      in: query
+      style: form
+      explode: true
+      required: false
+      schema:
+        type: array
+        items:
+          type: string
+          pattern: '^(code|type)\|(asc|desc)$'
+          example: code|asc
+  schemas:
+    PublicSettings:
+      type: object
+      properties:
+        map:
+          type: string
+        calendar:
+          type: string
+        email:
+          type: string
+        instagram:
+          type: string
+    PublicSettingsResponse:
+      type: object
+      properties:
+        content:
+          $ref: '#/components/schemas/PublicSettings'

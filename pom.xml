@@ -9,7 +9,7 @@
    <!-- ***************** PARENT POM ***************** -->
    <!-- ********************************************** -->
 
-   <parent>
+   <parent> 
       <groupId>com.bernardomg.maven</groupId>
       <artifactId>base-pom</artifactId>
       <version>1.5.12</version>
@@ -22,7 +22,7 @@
    <groupId>com.bernardomg</groupId>
    <artifactId>ucronia-app-backend</artifactId>
    <version>1.0.0-SNAPSHOT</version>
-   <packaging>war</packaging>
+   <packaging>pom</packaging>
 
    <name>Ucronia App Backend</name>
    <description>Backend application for the Ucronía RPG association.</description>
@@ -36,6 +36,17 @@
          <distribution>repo</distribution>
       </license>
    </licenses>
+
+   <!-- ********************************************** -->
+   <!-- ******************* MODULES ****************** -->
+   <!-- ********************************************** -->
+
+   <modules>
+     <module>common</module>
+     <module>settings</module>
+     <module>association</module>
+     <module>app</module>
+   </modules>
 
    <!-- ********************************************** -->
    <!-- ************ RESOURCES AND SERVICES ********** -->
@@ -184,10 +195,12 @@
       <!-- ============================================== -->
       <apache.poi.version>5.4.1</apache.poi.version>
       <archunit.version>1.4.1</archunit.version>
+      <bernardomg.framework.event.version>1.0.0</bernardomg.framework.event.version>
+      <bernardomg.framework.pagination.version>1.0.2</bernardomg.framework.pagination.version>
       <bernardomg.framework.test.architecture>1.0.7</bernardomg.framework.test.architecture>
       <bernardomg.framework.validation.version>0.2.5</bernardomg.framework.validation.version>
-      <bernardomg.framework.ws.version>0.4.6</bernardomg.framework.ws.version>
-      <bernardomg.framework.ws.security.version>0.4.46</bernardomg.framework.ws.security.version>
+      <bernardomg.framework.ws.version>0.5.1</bernardomg.framework.ws.version>
+      <bernardomg.framework.ws.security.version>0.4.48</bernardomg.framework.ws.security.version>
       <commons.lang3.version>3.20.0</commons.lang3.version>
       <jackson.annotations.version>2.20</jackson.annotations.version>
       <jakarta.validation.version>3.1.1</jakarta.validation.version>
@@ -244,319 +257,238 @@
             <type>pom</type>
             <scope>import</scope>
          </dependency>
+         <!-- ============================================== -->
+         <!-- ================= PROJECT ==================== -->
+         <!-- ============================================== -->
+         <dependency>
+            <groupId>com.bernardomg.association</groupId>
+            <artifactId>core</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg</groupId>
+            <artifactId>testing</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg</groupId>
+            <artifactId>excel</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.settings</groupId>
+            <artifactId>settings-spring-starter</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.association.settings</groupId>
+            <artifactId>association-settings-spring-starter</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.association.transaction</groupId>
+            <artifactId>association-transaction-domain</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.association.transaction</groupId>
+            <artifactId>association-transaction-spring-starter</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.association.transaction</groupId>
+            <artifactId>association-transaction-spring-jpa-adapter</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.association.profile</groupId>
+            <artifactId>association-profile-spring-starter</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.association.profile</groupId>
+            <artifactId>association-profile-domain</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.association.profile</groupId>
+            <artifactId>association-profile-spring-jpa-adapter</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.association.transaction</groupId>
+            <artifactId>association-transaction-testing</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.association.profile</groupId>
+            <artifactId>association-profile-testing</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.association.member</groupId>
+            <artifactId>association-member-spring-starter</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.association.member</groupId>
+            <artifactId>association-member-domain</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.association.member</groupId>
+            <artifactId>association-member-usecase</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.association.member</groupId>
+            <artifactId>association-member-event-adapter</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.association.member</groupId>
+            <artifactId>association-member-spring-jpa-adapter</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.association.guest</groupId>
+            <artifactId>association-guest-spring-starter</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.association.sponsor</groupId>
+            <artifactId>association-sponsor-spring-starter</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.association.library</groupId>
+            <artifactId>association-library-spring-starter</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.association.security</groupId>
+            <artifactId>association-security-domain</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.association.security</groupId>
+            <artifactId>association-security-spring-starter</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <!-- ============================================== -->
+         <!-- ================ FRAMEWORK =================== -->
+         <!-- ============================================== -->
+         <dependency>
+            <!-- Validation -->
+            <groupId>com.bernardomg.framework</groupId>
+            <artifactId>validation</artifactId>
+            <version>${bernardomg.framework.validation.version}</version>
+         </dependency>
+         <dependency>
+            <!-- Event -->
+            <groupId>com.bernardomg.framework</groupId>
+            <artifactId>event</artifactId>
+            <version>${bernardomg.framework.event.version}</version>
+         </dependency>
+         <dependency>
+            <!-- Pagination -->
+            <groupId>com.bernardomg.framework</groupId>
+            <artifactId>pagination</artifactId>
+            <version>${bernardomg.framework.pagination.version}</version>
+         </dependency>
+         <dependency>
+            <!-- Spring WS Starter -->
+            <groupId>com.bernardomg.framework.spring</groupId>
+            <artifactId>spring-ws-starter</artifactId>
+            <version>${bernardomg.framework.ws.version}</version>
+         </dependency>
+         <dependency>
+            <!-- Spring WS Security Starter -->
+            <groupId>com.bernardomg.framework.spring</groupId>
+            <artifactId>spring-ws-security-starter</artifactId>
+            <version>${bernardomg.framework.ws.security.version}</version>
+         </dependency>
+         <dependency>
+            <!-- Architecture Tests -->
+            <groupId>com.bernardomg.framework.testing</groupId>
+            <artifactId>architecture-tests</artifactId>
+            <version>${bernardomg.framework.test.architecture}</version>
+         </dependency>
+         <!-- ============================================== -->
+         <!-- ================ VALIDATION ================== -->
+         <!-- ============================================== -->
+         <dependency>
+            <!-- Jakarta validation -->
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+            <version>${jakarta.validation.version}</version>
+         </dependency>
+         <!-- ============================================== -->
+         <!-- ================== OpenAPI =================== -->
+         <!-- ============================================== -->
+         <dependency>
+           <groupId>org.openapitools</groupId>
+           <artifactId>jackson-databind-nullable</artifactId>
+           <version>${openapitools.jackson}</version>
+         </dependency>
+         <dependency>
+           <groupId>io.swagger.core.v3</groupId>
+           <artifactId>swagger-annotations</artifactId>
+           <version>${swagger.version}</version>
+         </dependency>
+         <dependency>
+           <groupId>org.springdoc</groupId>
+           <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+           <version>${springdoc.version}</version>
+         </dependency>
+         <!-- ============================================== -->
+         <!-- ================= JACKSON ==================== -->
+         <!-- ============================================== -->
+         <dependency>
+            <!-- Jackson -->
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson.version}</version>
+         </dependency>
+         <dependency>
+            <!-- Jackson databinding -->
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+         </dependency>
+         <dependency>
+            <!-- Jackson annotations -->
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${jackson.annotations.version}</version>
+         </dependency>
+         <!-- ============================================== -->
+         <!-- ========= DEPENDENCY CONVERGENCE ============= -->
+         <!-- ============================================== -->
+         <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons.lang3.version}</version>
+         </dependency>
+         <!-- ============================================== -->
+         <!-- =============== APACHE POI =================== -->
+         <!-- ============================================== -->
+         <dependency>
+            <!-- Apache POI -->
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>${apache.poi.version}</version>
+         </dependency>
+         <dependency>
+            <!-- Apache POI OOXML -->
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>${apache.poi.version}</version>
+         </dependency>
       </dependencies>
    </dependencyManagement>
 
    <dependencies>
-      <!-- ============================================== -->
-      <!-- ================ FRAMEWORK =================== -->
-      <!-- ============================================== -->
-      <dependency>
-         <!-- Validation -->
-         <groupId>com.bernardomg.framework</groupId>
-         <artifactId>validation</artifactId>
-         <version>${bernardomg.framework.validation.version}</version>
-      </dependency>
-      <dependency>
-         <!-- Spring WS Starter -->
-         <groupId>com.bernardomg.framework.spring</groupId>
-         <artifactId>spring-ws-starter</artifactId>
-         <version>${bernardomg.framework.ws.version}</version>
-      </dependency>
-      <dependency>
-         <!-- Spring WS Security Starter -->
-         <groupId>com.bernardomg.framework.spring</groupId>
-         <artifactId>spring-ws-security-starter</artifactId>
-         <version>${bernardomg.framework.ws.security.version}</version>
-      </dependency>
-      <dependency>
-         <!-- Architecture Tests -->
-         <groupId>com.bernardomg.framework.testing</groupId>
-         <artifactId>architecture-tests</artifactId>
-         <version>${bernardomg.framework.test.architecture}</version>
-      </dependency>
-      <!-- ============================================== -->
-      <!-- ================== SPRING ==================== -->
-      <!-- ============================================== -->
-      <dependency>
-         <!-- Spring AOP -->
-         <groupId>org.springframework</groupId>
-         <artifactId>spring-aop</artifactId>
-      </dependency>
-      <dependency>
-         <!-- Spring beans -->
-         <groupId>org.springframework</groupId>
-         <artifactId>spring-beans</artifactId>
-      </dependency>
-      <dependency>
-         <!-- Spring context -->
-         <groupId>org.springframework</groupId>
-         <artifactId>spring-context</artifactId>
-      </dependency>
-      <dependency>
-         <!-- Spring context support -->
-         <groupId>org.springframework</groupId>
-         <artifactId>spring-context-support</artifactId>
-      </dependency>
-      <dependency>
-         <!-- Spring Core -->
-         <groupId>org.springframework</groupId>
-         <artifactId>spring-core</artifactId>
-      </dependency>
-      <dependency>
-         <!-- Spring JDBC -->
-         <groupId>org.springframework</groupId>
-         <artifactId>spring-jdbc</artifactId>
-      </dependency>
-      <dependency>
-         <!-- Spring Data JPA -->
-         <groupId>org.springframework.data</groupId>
-         <artifactId>spring-data-jpa</artifactId>
-      </dependency>
-      <dependency>
-         <!-- Spring transactions -->
-         <groupId>org.springframework</groupId>
-         <artifactId>spring-tx</artifactId>
-      </dependency>
-      <dependency>
-         <!-- Spring Web -->
-         <groupId>org.springframework</groupId>
-         <artifactId>spring-web</artifactId>
-      </dependency>
-      <dependency>
-         <!-- Spring ORM -->
-         <groupId>org.springframework</groupId>
-         <artifactId>spring-orm</artifactId>
-      </dependency>
-      <!-- ============================================== -->
-      <!-- =============== SPRING BOOT ================== -->
-      <!-- ============================================== -->
-      <dependency>
-         <!-- Spring Boot Starter: Web -->
-         <groupId>org.springframework.boot</groupId>
-         <artifactId>spring-boot-starter-web</artifactId>
-         <exclusions>
-            <exclusion>
-               <groupId>ch.qos.logback</groupId>
-               <artifactId>logback-classic</artifactId>
-            </exclusion>
-            <exclusion>
-               <groupId>org.apache.logging.log4j</groupId>
-               <artifactId>log4j-to-slf4j</artifactId>
-            </exclusion>
-         </exclusions>
-      </dependency>
-      <dependency>
-         <!-- Spring Boot Starter: AOP -->
-         <groupId>org.springframework.boot</groupId>
-         <artifactId>spring-boot-starter-aop</artifactId>
-      </dependency>
-      <dependency>
-         <!-- Spring Boot Starter: Validation -->
-         <groupId>org.springframework.boot</groupId>
-         <artifactId>spring-boot-starter-validation</artifactId>
-         <exclusions>
-            <exclusion>
-               <groupId>ch.qos.logback</groupId>
-               <artifactId>logback-classic</artifactId>
-            </exclusion>
-            <exclusion>
-               <groupId>org.apache.logging.log4j</groupId>
-               <artifactId>log4j-to-slf4j</artifactId>
-            </exclusion>
-         </exclusions>
-      </dependency>
-      <dependency>
-         <!-- Spring Boot Starter: Cache -->
-         <groupId>org.springframework.boot</groupId>
-         <artifactId>spring-boot-starter-cache</artifactId>
-      </dependency>
-      <dependency>
-         <!-- Spring Boot Starter: log4j -->
-         <groupId>org.springframework.boot</groupId>
-         <artifactId>spring-boot-starter-log4j2</artifactId>
-      </dependency>
-      <dependency>
-         <!-- Spring Boot Starter: Security -->
-         <groupId>org.springframework.boot</groupId>
-         <artifactId>spring-boot-starter-security</artifactId>
-      </dependency>
-      <dependency>
-         <!-- Spring Boot Starter: Mail -->
-         <groupId>org.springframework.boot</groupId>
-         <artifactId>spring-boot-starter-mail</artifactId>
-      </dependency>
-      <dependency>
-         <!-- Spring Boot Starter: Actuator -->
-         <groupId>org.springframework.boot</groupId>
-         <artifactId>spring-boot-starter-actuator</artifactId>
-      </dependency>
-      <dependency>
-         <!-- Spring Boot Configuration: Thymeleaf -->
-         <groupId>org.springframework.boot</groupId>
-         <artifactId>spring-boot-starter-thymeleaf</artifactId>
-      </dependency>
-      <dependency>
-         <!-- Spring Boot Starter: Devtools -->
-         <groupId>org.springframework.boot</groupId>
-         <artifactId>spring-boot-devtools</artifactId>
-         <scope>runtime</scope>
-         <optional>true</optional>
-      </dependency>
-      <dependency>
-         <!-- Spring Boot Configuration Processor -->
-         <groupId>org.springframework.boot</groupId>
-         <artifactId>spring-boot-configuration-processor</artifactId>
-         <optional>true</optional>
-      </dependency>
-      <!-- ============================================== -->
-      <!-- ================== OpenAPI =================== -->
-      <!-- ============================================== -->
-      <dependency>
-        <groupId>org.openapitools</groupId>
-        <artifactId>jackson-databind-nullable</artifactId>
-        <version>${openapitools.jackson}</version>
-      </dependency>
-      <dependency>
-        <groupId>io.swagger.core.v3</groupId>
-        <artifactId>swagger-annotations</artifactId>
-        <version>${swagger.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.springdoc</groupId>
-        <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-        <version>${springdoc.version}</version>
-      </dependency>
-      <!-- ============================================== -->
-      <!-- =================== CACHE ==================== -->
-      <!-- ============================================== -->
-      <dependency>
-         <groupId>com.github.ben-manes.caffeine</groupId>
-         <artifactId>caffeine</artifactId>
-         <exclusions>
-            <exclusion>
-               <groupId>org.checkerframework</groupId>
-               <artifactId>checker-qual</artifactId>
-            </exclusion>
-         </exclusions>
-      </dependency>
-      <!-- ============================================== -->
-      <!-- ============== JPA DEPENDENCIES ============== -->
-      <!-- ============================================== -->
-      <dependency>
-         <!-- JPA API -->
-         <groupId>jakarta.persistence</groupId>
-         <artifactId>jakarta.persistence-api</artifactId>
-      </dependency>
-      <!-- ============================================== -->
-      <!-- ================ VALIDATION ================== -->
-      <!-- ============================================== -->
-      <dependency>
-         <!-- Jakarta validation -->
-         <groupId>jakarta.validation</groupId>
-         <artifactId>jakarta.validation-api</artifactId>
-         <version>${jakarta.validation.version}</version>
-      </dependency>
-      <!-- ============================================== -->
-      <!-- ================ HIBERNATE =================== -->
-      <!-- ============================================== -->
-      <dependency>
-         <!-- Hibernate Core -->
-         <groupId>org.hibernate.orm</groupId>
-         <artifactId>hibernate-core</artifactId>
-      </dependency>
-      <dependency>
-         <!-- Hikari CP -->
-         <groupId>com.zaxxer</groupId>
-         <artifactId>HikariCP</artifactId>
-         <exclusions>
-            <exclusion>
-               <!-- SL4J API -->
-               <groupId>org.slf4j</groupId>
-               <artifactId>slf4j-api</artifactId>
-            </exclusion>
-         </exclusions>
-      </dependency>
-      <!-- ============================================== -->
-      <!-- ================ LIQUIBASE =================== -->
-      <!-- ============================================== -->
-      <dependency>
-         <!-- Liquibase -->
-         <groupId>org.liquibase</groupId>
-         <artifactId>liquibase-core</artifactId>
-         <exclusions>
-            <exclusion>
-               <groupId>ch.qos.logback</groupId>
-               <artifactId>logback-classic</artifactId>
-            </exclusion>
-         </exclusions>
-      </dependency>
-      <!-- ============================================== -->
-      <!-- ================ POSTGRES ==================== -->
-      <!-- ============================================== -->
-      <dependency>
-         <!-- Postgres connector -->
-         <groupId>org.postgresql</groupId>
-         <artifactId>postgresql</artifactId>
-      </dependency>
-      <!-- ============================================== -->
-      <!-- ================== MAIL ====================== -->
-      <!-- ============================================== -->
-      <dependency>
-         <groupId>jakarta.mail</groupId>
-         <artifactId>jakarta.mail-api</artifactId>
-      </dependency>
-      <!-- ============================================== -->
-      <!-- ================ MICROMETER ================== -->
-      <!-- ============================================== -->
-      <dependency>
-         <groupId>io.micrometer</groupId>
-         <artifactId>micrometer-registry-prometheus</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>io.micrometer</groupId>
-         <artifactId>micrometer-observation</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>io.micrometer</groupId>
-         <artifactId>micrometer-commons</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>io.micrometer</groupId>
-         <artifactId>micrometer-core</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>io.prometheus</groupId>
-         <artifactId>prometheus-metrics-core</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>io.prometheus</groupId>
-         <artifactId>prometheus-metrics-tracer-common</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>io.prometheus</groupId>
-         <artifactId>prometheus-metrics-config</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>io.prometheus</groupId>
-         <artifactId>prometheus-metrics-model</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>io.prometheus</groupId>
-         <artifactId>prometheus-metrics-exposition-formats</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>io.prometheus</groupId>
-         <artifactId>prometheus-metrics-tracer-initializer</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>io.prometheus</groupId>
-         <artifactId>prometheus-metrics-tracer-otel-agent</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>io.prometheus</groupId>
-         <artifactId>prometheus-metrics-tracer-otel</artifactId>
-      </dependency>
       <!-- ============================================== -->
       <!-- ================== LOGGING =================== -->
       <!-- ============================================== -->
@@ -590,54 +522,6 @@
          <!-- Log4j Web -->
          <groupId>org.apache.logging.log4j</groupId>
          <artifactId>log4j-web</artifactId>
-      </dependency>
-      <!-- ============================================== -->
-      <!-- ================= JACKSON ==================== -->
-      <!-- ============================================== -->
-      <dependency>
-         <!-- Jackson -->
-         <groupId>com.fasterxml.jackson.core</groupId>
-         <artifactId>jackson-core</artifactId>
-         <version>${jackson.version}</version>
-      </dependency>
-      <dependency>
-         <!-- Jackson databinding -->
-         <groupId>com.fasterxml.jackson.core</groupId>
-         <artifactId>jackson-databind</artifactId>
-         <version>${jackson.version}</version>
-      </dependency>
-      <dependency>
-         <!-- Jackson annotations -->
-         <groupId>com.fasterxml.jackson.core</groupId>
-         <artifactId>jackson-annotations</artifactId>
-         <version>${jackson.annotations.version}</version>
-      </dependency>
-      <!-- ============================================== -->
-      <!-- =============== APACHE POI =================== -->
-      <!-- ============================================== -->
-      <dependency>
-         <!-- Apache POI -->
-         <groupId>org.apache.poi</groupId>
-         <artifactId>poi</artifactId>
-         <version>${apache.poi.version}</version>
-      </dependency>
-      <dependency>
-         <!-- Apache POI OOXML -->
-         <groupId>org.apache.poi</groupId>
-         <artifactId>poi-ooxml</artifactId>
-         <version>${apache.poi.version}</version>
-      </dependency>
-      <dependency>
-         <groupId>commons-codec</groupId>
-         <artifactId>commons-codec</artifactId>
-      </dependency>
-      <!-- ============================================== -->
-      <!-- ========= DEPENDENCY CONVERGENCE ============= -->
-      <!-- ============================================== -->
-      <dependency>
-         <groupId>org.apache.commons</groupId>
-         <artifactId>commons-lang3</artifactId>
-         <version>${commons.lang3.version}</version>
       </dependency>
       <!-- ============================================== -->
       <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
@@ -687,6 +571,14 @@
             <exclusion>
                <groupId>org.junit.vintage</groupId>
                <artifactId>junit-vintage-engine</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>org.apache.logging.log4j</groupId>
+               <artifactId>log4j-to-slf4j</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>ch.qos.logback</groupId>
+               <artifactId>logback-classic</artifactId>
             </exclusion>
          </exclusions>
       </dependency>
@@ -777,69 +669,53 @@
                </dependency>
             </dependencies>
          </plugin>
-         <plugin>
-            <!-- WAR -->
-            <!-- Generates the WAR package. -->
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-war-plugin</artifactId>
-         </plugin>
-         <plugin>
-            <!-- Spring Boot -->
-            <!-- Takes care of running Spring Boot application -->
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-maven-plugin</artifactId>
-            <version>${plugin.spring.boot.version}</version>
-            <executions>
-               <execution>
-                  <goals>
-                     <goal>repackage</goal>
-                  </goals>
-               </execution>
-            </executions>
-         </plugin>
-         <plugin>
-            <groupId>org.openapitools</groupId>
-            <artifactId>openapi-generator-maven-plugin</artifactId>
-            <version>${plugin.openapi.version}</version>
-            <executions>
-               <execution>
-                  <goals>
-                     <goal>generate</goal>
-                  </goals>
-                  <configuration>
-                     <inputSpec>${project.basedir}/src/main/resources/openapi/ucronia.yml</inputSpec>
-                     <generatorName>spring</generatorName>
-                     <library>spring-boot</library>
-                     <apiPackage>com.bernardomg.ucronia.openapi.api</apiPackage>
-                     <modelPackage>com.bernardomg.ucronia.openapi.model</modelPackage>
-                     <modelNameSuffix>Dto</modelNameSuffix>
-                     <typeMappings>
-                       <typeMapping>string+date-time=Instant</typeMapping>
-                       <typeMapping>string+month=YearMonth</typeMapping>
-                       <typeMapping>InstantDto=Instant</typeMapping>
-                       <typeMapping>YearMonthDto=YearMonth</typeMapping>
-                     </typeMappings>
-                     <importMappings>
-                       <importMapping>InstantDto=java.time.Instant</importMapping>
-                       <importMapping>YearMonthDto=java.time.YearMonth</importMapping>
-                     </importMappings>
-                     <configOptions>
-                        <interfaceOnly>true</interfaceOnly>
-                        <skipDefaultInterface>true</skipDefaultInterface>
-                        <requestMappingMode>api_interface</requestMappingMode>
-                        <useTags>true</useTags>
-                        <dateLibrary>java8</dateLibrary>
-                        <hideGenerationTimestamp>true</hideGenerationTimestamp>
-                        <useSpringBoot3>true</useSpringBoot3>
-                        <useSpringBuiltInValidation>true</useSpringBuiltInValidation>
-                        <useSpringController>true</useSpringController>
-                        <useResponseEntity>false</useResponseEntity>
-                     </configOptions>
-                  </configuration>
-               </execution>
-            </executions>
-         </plugin>
       </plugins>
+      <pluginManagement>
+         <plugins>
+            <plugin>
+               <groupId>org.openapitools</groupId>
+               <artifactId>openapi-generator-maven-plugin</artifactId>
+               <version>${plugin.openapi.version}</version>
+               <executions>
+                  <execution>
+                     <goals>
+                        <goal>generate</goal>
+                     </goals>
+                     <configuration>
+                        <generatorName>spring</generatorName>
+                        <library>spring-boot</library>
+                        <apiPackage>com.bernardomg.ucronia.openapi.api</apiPackage>
+                        <modelPackage>com.bernardomg.ucronia.openapi.model</modelPackage>
+                        <modelNameSuffix>Dto</modelNameSuffix>
+                        <generateSupportingFiles>false</generateSupportingFiles>
+                        <typeMappings>
+                          <typeMapping>string+date-time=Instant</typeMapping>
+                          <typeMapping>string+month=YearMonth</typeMapping>
+                          <typeMapping>InstantDto=Instant</typeMapping>
+                          <typeMapping>YearMonthDto=YearMonth</typeMapping>
+                        </typeMappings>
+                        <importMappings>
+                          <importMapping>InstantDto=java.time.Instant</importMapping>
+                          <importMapping>YearMonthDto=java.time.YearMonth</importMapping>
+                        </importMappings>
+                        <configOptions>
+                           <interfaceOnly>true</interfaceOnly>
+                           <skipDefaultInterface>true</skipDefaultInterface>
+                           <requestMappingMode>api_interface</requestMappingMode>
+                           <useTags>true</useTags>
+                           <dateLibrary>java8</dateLibrary>
+                           <hideGenerationTimestamp>true</hideGenerationTimestamp>
+                           <useSpringBoot3>true</useSpringBoot3>
+                           <useSpringBuiltInValidation>true</useSpringBuiltInValidation>
+                           <useSpringController>true</useSpringController>
+                           <useResponseEntity>false</useResponseEntity>
+                        </configOptions>
+                     </configuration>
+                  </execution>
+               </executions>
+            </plugin>
+         </plugins>
+      </pluginManagement>
    </build>
 
    <!-- ********************************************** -->
