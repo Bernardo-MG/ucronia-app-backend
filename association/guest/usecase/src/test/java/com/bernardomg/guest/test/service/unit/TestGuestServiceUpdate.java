@@ -117,7 +117,7 @@ class TestGuestServiceUpdate {
         service.update(guest);
 
         // THEN
-        verify(guestRepository).save(Guests.noGames());
+        verify(guestRepository).save(Guests.withGames());
     }
 
     @Test

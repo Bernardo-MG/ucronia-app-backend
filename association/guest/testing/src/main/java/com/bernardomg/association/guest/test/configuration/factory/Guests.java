@@ -90,6 +90,15 @@ public final class Guests {
             Set.of(GuestConstants.PROFILE_TYPE));
     }
 
+    public static final Guest withGames() {
+        final ProfileName name;
+
+        name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
+        return new Guest(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name, ProfileConstants.BIRTH_DATE,
+            List.of(), List.of(Guests.DATE), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS,
+            Set.of(GuestConstants.PROFILE_TYPE));
+    }
+
     public static final Guest withoutType() {
         final ProfileName name;
 

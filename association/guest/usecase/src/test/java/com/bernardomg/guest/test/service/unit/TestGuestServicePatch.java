@@ -136,7 +136,7 @@ class TestGuestServicePatch {
         service.patch(guest);
 
         // THEN
-        verify(guestRepository).save(Guests.noGames());
+        verify(guestRepository).save(Guests.withGames());
     }
 
     @Test
