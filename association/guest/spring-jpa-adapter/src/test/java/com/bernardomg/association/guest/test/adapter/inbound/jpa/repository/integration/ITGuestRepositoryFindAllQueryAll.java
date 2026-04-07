@@ -72,7 +72,7 @@ class ITGuestRepositoryFindAllQueryAll {
         Assertions.assertThat(guests)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Guests.noGames());
+            .containsExactly(Guests.withGames());
     }
 
     @Test

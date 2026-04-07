@@ -51,7 +51,19 @@ public final class GuestEntities {
         return entity;
     }
 
-    public static final GuestEntity valid() {
+    public static final GuestEntity noGames() {
+        final GuestEntity entity;
+
+        entity = new GuestEntity();
+        entity.setId(1L);
+        entity.setProfile(ProfileEntities.valid());
+        entity.getProfile()
+            .setTypes(Set.of(GuestEntityConstants.PROFILE_TYPE));
+
+        return entity;
+    }
+
+    public static final GuestEntity withGames() {
         final GuestEntity entity;
 
         entity = new GuestEntity();

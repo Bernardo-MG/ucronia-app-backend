@@ -27,9 +27,8 @@ public final class Guests {
         final ProfileName name;
 
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        return new Guest(ProfileConstants.IDENTIFIER, 1L, name, ProfileConstants.BIRTH_DATE, List.of(),
-            List.of(Guests.DATE), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS,
-            Set.of(GuestConstants.PROFILE_TYPE));
+        return new Guest(ProfileConstants.IDENTIFIER, 1L, name, ProfileConstants.BIRTH_DATE, List.of(), List.of(),
+            ProfileConstants.ADDRESS, ProfileConstants.COMMENTS, Set.of(GuestConstants.PROFILE_TYPE));
     }
 
     public static final Guest firstNameChange() {

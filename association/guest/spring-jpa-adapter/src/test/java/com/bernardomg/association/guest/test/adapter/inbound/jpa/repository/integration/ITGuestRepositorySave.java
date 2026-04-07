@@ -150,7 +150,7 @@ class ITGuestRepositorySave {
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.contactChannels.id",
                 "profile.contactChannels.profileId", "profile.contactChannels.profile")
-            .containsExactly(GuestEntities.valid());
+            .containsExactly(GuestEntities.noGames());
     }
 
     @Test
@@ -172,7 +172,7 @@ class ITGuestRepositorySave {
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.id", "profile.number",
                 "profile.contactChannels.id", "profile.contactChannels.profileId", "profile.contactChannels.profile")
-            .containsExactly(GuestEntities.created());
+            .containsExactly(GuestEntities.noGames());
     }
 
     @Test
