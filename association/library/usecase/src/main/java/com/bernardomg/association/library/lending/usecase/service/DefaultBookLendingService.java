@@ -36,10 +36,12 @@ import com.bernardomg.association.library.book.domain.model.Book;
 import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.library.book.domain.repository.BookRepository;
 import com.bernardomg.association.library.lending.domain.exception.MissingBookLendingException;
+import com.bernardomg.association.library.lending.domain.exception.MissingBorrowerException;
 import com.bernardomg.association.library.lending.domain.model.BookLending;
-import com.bernardomg.association.library.lending.domain.model.BookLending.Borrower;
 import com.bernardomg.association.library.lending.domain.model.BookLending.LentBook;
+import com.bernardomg.association.library.lending.domain.model.Borrower;
 import com.bernardomg.association.library.lending.domain.repository.BookLendingRepository;
+import com.bernardomg.association.library.lending.domain.repository.BorrowerRepository;
 import com.bernardomg.association.library.lending.usecase.validation.BookLendingNotAlreadyLentRule;
 import com.bernardomg.association.library.lending.usecase.validation.BookLendingNotAlreadyReturnedRule;
 import com.bernardomg.association.library.lending.usecase.validation.BookLendingNotLentBeforeLastReturnRule;
@@ -47,10 +49,6 @@ import com.bernardomg.association.library.lending.usecase.validation.BookLending
 import com.bernardomg.association.library.lending.usecase.validation.BookLendingNotReturnedBeforeLastReturnRule;
 import com.bernardomg.association.library.lending.usecase.validation.BookLendingNotReturnedBeforeLentRule;
 import com.bernardomg.association.library.lending.usecase.validation.BookLendingNotReturnedInFutureRule;
-import com.bernardomg.association.profile.domain.exception.MissingProfileException;
-import com.bernardomg.association.profile.domain.model.Profile;
-import com.bernardomg.association.profile.domain.model.ProfileName;
-import com.bernardomg.association.profile.domain.repository.ProfileRepository;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
@@ -71,19 +69,19 @@ public final class DefaultBookLendingService implements BookLendingService {
 
     private final BookRepository         bookRepository;
 
-    private final Validator<BookLending> lendBookValidator;
+    private final BorrowerRepository     borrowerRepository;
 
-    private final ProfileRepository      profileRepository;
+    private final Validator<BookLending> lendBookValidator;
 
     private final Validator<BookLending> returnBookValidator;
 
     public DefaultBookLendingService(final BookLendingRepository bookLendingRepo, final BookRepository bookRepo,
-            final ProfileRepository profileRepo) {
+            final BorrowerRepository borrowerRepo) {
         super();
 
         bookLendingRepository = Objects.requireNonNull(bookLendingRepo);
         bookRepository = Objects.requireNonNull(bookRepo);
-        profileRepository = Objects.requireNonNull(profileRepo);
+        borrowerRepository = Objects.requireNonNull(borrowerRepo);
 
         lendBookValidator = new FieldRuleValidator<>(new BookLendingNotAlreadyLentRule(bookLendingRepo),
             new BookLendingNotLentBeforeLastReturnRule(bookLendingRepo), new BookLendingNotLentInFutureRule());
@@ -124,11 +122,10 @@ public final class DefaultBookLendingService implements BookLendingService {
         }
         book = readBook.get();
 
-        borrower = profileRepository.findOne(borrowerNumber)
-            .map(this::toBorrower)
+        borrower = borrowerRepository.findOne(borrowerNumber)
             .orElseThrow(() -> {
                 log.debug("Missing profile {}", borrowerNumber);
-                throw new MissingProfileException(borrowerNumber);
+                throw new MissingBorrowerException(borrowerNumber);
             });
 
         title = book.title();
@@ -167,16 +164,6 @@ public final class DefaultBookLendingService implements BookLendingService {
         log.debug("Returned book {} from {}", bookNumber, borrower);
 
         return returned;
-    }
-
-    private final Borrower toBorrower(final Profile profile) {
-        final ProfileName name;
-
-        name = new ProfileName(profile.name()
-            .firstName(),
-            profile.name()
-                .lastName());
-        return new Borrower(profile.number(), name);
     }
 
 }

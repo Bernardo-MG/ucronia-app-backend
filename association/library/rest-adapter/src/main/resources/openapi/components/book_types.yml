@@ -11,7 +11,7 @@ components:
         type: array
         items:
           type: string
-          pattern: '^(name)\|(asc|desc)$'
+          pattern: '^(name|number)\|(asc|desc)$'
           example: name|asc
   schemas:
     BookType:

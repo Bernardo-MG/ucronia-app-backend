@@ -40,6 +40,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.association.library.author.domain.repository.AuthorRepository;
 import com.bernardomg.association.library.book.domain.exception.MissingBookException;
 import com.bernardomg.association.library.book.domain.model.GameBook;
+import com.bernardomg.association.library.book.domain.repository.DonorRepository;
 import com.bernardomg.association.library.book.domain.repository.GameBookRepository;
 import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
 import com.bernardomg.association.library.book.test.configuration.factory.GameBooks;
@@ -47,7 +48,6 @@ import com.bernardomg.association.library.book.usecase.service.DefaultGameBookSe
 import com.bernardomg.association.library.booktype.domain.repository.BookTypeRepository;
 import com.bernardomg.association.library.gamesystem.domain.repository.GameSystemRepository;
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
-import com.bernardomg.association.profile.domain.repository.ProfileRepository;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("BookService - get one")
@@ -63,10 +63,10 @@ class TestGameBookServiceGetOne {
     private BookTypeRepository     bookTypeRepository;
 
     @Mock
-    private GameSystemRepository   gameSystemRepository;
+    private DonorRepository        donorRepository;
 
     @Mock
-    private ProfileRepository      profileRepository;
+    private GameSystemRepository   gameSystemRepository;
 
     @Mock
     private PublisherRepository    publisherRepository;

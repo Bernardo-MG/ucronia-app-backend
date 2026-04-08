@@ -22,28 +22,10 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.library.lending.domain.repository;
+package com.bernardomg.association.library.book.domain.repository;
 
-import java.time.Instant;
-import java.util.Optional;
+public interface DonorRepository {
 
-import com.bernardomg.association.library.lending.domain.model.BookLending;
-import com.bernardomg.pagination.domain.Page;
-import com.bernardomg.pagination.domain.Pagination;
-import com.bernardomg.pagination.domain.Sorting;
-
-public interface BookLendingRepository {
-
-    public Page<BookLending> findAll(final Pagination pagination, final Sorting sorting);
-
-    public Optional<BookLending> findLent(final long book);
-
-    public Optional<BookLending> findOne(final long book, final long borrower);
-
-    public Optional<BookLending> findReturned(final long book);
-
-    public Optional<BookLending> findReturned(final long book, final long borrower, final Instant lendingDate);
-
-    public BookLending save(final BookLending lending);
+    public boolean exists(final long number);
 
 }

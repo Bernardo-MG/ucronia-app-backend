@@ -24,26 +24,12 @@
 
 package com.bernardomg.association.library.lending.domain.repository;
 
-import java.time.Instant;
 import java.util.Optional;
 
-import com.bernardomg.association.library.lending.domain.model.BookLending;
-import com.bernardomg.pagination.domain.Page;
-import com.bernardomg.pagination.domain.Pagination;
-import com.bernardomg.pagination.domain.Sorting;
+import com.bernardomg.association.library.lending.domain.model.Borrower;
 
-public interface BookLendingRepository {
+public interface BorrowerRepository {
 
-    public Page<BookLending> findAll(final Pagination pagination, final Sorting sorting);
-
-    public Optional<BookLending> findLent(final long book);
-
-    public Optional<BookLending> findOne(final long book, final long borrower);
-
-    public Optional<BookLending> findReturned(final long book);
-
-    public Optional<BookLending> findReturned(final long book, final long borrower, final Instant lendingDate);
-
-    public BookLending save(final BookLending lending);
+    public Optional<Borrower> findOne(final Long number);
 
 }

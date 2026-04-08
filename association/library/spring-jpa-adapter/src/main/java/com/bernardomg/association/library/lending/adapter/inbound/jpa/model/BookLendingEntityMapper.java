@@ -27,10 +27,9 @@ package com.bernardomg.association.library.lending.adapter.inbound.jpa.model;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.model.BookEntity;
 import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.library.lending.domain.model.BookLending;
-import com.bernardomg.association.library.lending.domain.model.BookLending.Borrower;
 import com.bernardomg.association.library.lending.domain.model.BookLending.LentBook;
+import com.bernardomg.association.library.lending.domain.model.Borrower;
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
-import com.bernardomg.association.profile.domain.model.ProfileName;
 
 /**
  * Author repository mapper.
@@ -43,17 +42,10 @@ public final class BookLendingEntityMapper {
         final LentBook lentBook;
         final Title    title;
 
-        borrower = toDomain(profileEntity);
+        borrower = BorrowerEntityMapper.toDomain(profileEntity);
         title = new Title(bookEntity.getSupertitle(), bookEntity.getTitle(), bookEntity.getSubtitle());
         lentBook = new LentBook(bookEntity.getNumber(), title);
         return new BookLending(lentBook, borrower, entity.getLendingDate(), entity.getReturnDate());
-    }
-
-    public static final Borrower toDomain(final ProfileEntity entity) {
-        final ProfileName name;
-
-        name = new ProfileName(entity.getFirstName(), entity.getLastName());
-        return new Borrower(entity.getNumber(), name);
     }
 
     public static final BookLendingEntity toEntity(final BookLending domain, final BookEntity bookEntity,

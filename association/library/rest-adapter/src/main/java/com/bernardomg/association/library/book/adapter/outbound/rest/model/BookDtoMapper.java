@@ -34,13 +34,13 @@ import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.book.domain.model.BookLendingInfo;
 import com.bernardomg.association.library.book.domain.model.Donation;
 import com.bernardomg.association.library.book.domain.model.Donor;
+import com.bernardomg.association.library.book.domain.model.DonorName;
 import com.bernardomg.association.library.book.domain.model.FictionBook;
 import com.bernardomg.association.library.book.domain.model.GameBook;
 import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
-import com.bernardomg.association.profile.domain.model.ProfileName;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
 import com.bernardomg.pagination.domain.Sorting.Property;
@@ -49,7 +49,11 @@ import com.bernardomg.ucronia.openapi.model.BookCreationDto;
 import com.bernardomg.ucronia.openapi.model.BookLendingInfoDto;
 import com.bernardomg.ucronia.openapi.model.BookTitleDto;
 import com.bernardomg.ucronia.openapi.model.BookTypeDto;
+import com.bernardomg.ucronia.openapi.model.BorrowerDto;
+import com.bernardomg.ucronia.openapi.model.BorrowerNameDto;
 import com.bernardomg.ucronia.openapi.model.DonationDto;
+import com.bernardomg.ucronia.openapi.model.DonorDto;
+import com.bernardomg.ucronia.openapi.model.DonorNameDto;
 import com.bernardomg.ucronia.openapi.model.FictionBookDto;
 import com.bernardomg.ucronia.openapi.model.FictionBookPageResponseDto;
 import com.bernardomg.ucronia.openapi.model.FictionBookResponseDto;
@@ -59,8 +63,6 @@ import com.bernardomg.ucronia.openapi.model.GameBookPageResponseDto;
 import com.bernardomg.ucronia.openapi.model.GameBookResponseDto;
 import com.bernardomg.ucronia.openapi.model.GameBookUpdateDto;
 import com.bernardomg.ucronia.openapi.model.GameSystemDto;
-import com.bernardomg.ucronia.openapi.model.MinimalProfileDto;
-import com.bernardomg.ucronia.openapi.model.ProfileNameDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
 import com.bernardomg.ucronia.openapi.model.PublisherDto;
@@ -110,7 +112,7 @@ public final class BookDtoMapper {
                     .getDonors()
                     .stream()
                     .filter(Objects::nonNull)
-                    .map(d -> new Donor(d.getNumber(), new ProfileName("", "")))
+                    .map(d -> new Donor(d.getNumber(), new DonorName("", "")))
                     .toList();
             }
             if (fictionBookUpdateDto.getDonation()
@@ -206,7 +208,7 @@ public final class BookDtoMapper {
                     .getDonors()
                     .stream()
                     .filter(Objects::nonNull)
-                    .map(d -> new Donor(d.getNumber(), new ProfileName("", "")))
+                    .map(d -> new Donor(d.getNumber(), new DonorName("", "")))
                     .toList();
             }
             if (gameBookUpdateDto.getDonation()
@@ -364,10 +366,10 @@ public final class BookDtoMapper {
     }
 
     private static final BookLendingInfoDto toDto(final BookLendingInfo lending) {
-        final ProfileNameDto    profileName;
-        final MinimalProfileDto borrower;
+        final BorrowerNameDto name;
+        final BorrowerDto     borrower;
 
-        profileName = new ProfileNameDto().firstName(lending.borrower()
+        name = new BorrowerNameDto().firstName(lending.borrower()
             .name()
             .firstName())
             .lastName(lending.borrower()
@@ -376,7 +378,7 @@ public final class BookDtoMapper {
             .fullName(lending.borrower()
                 .name()
                 .fullName());
-        borrower = new MinimalProfileDto().name(profileName)
+        borrower = new BorrowerDto().name(name)
             .number(lending.borrower()
                 .number());
         return new BookLendingInfoDto().borrower(borrower)
@@ -391,7 +393,7 @@ public final class BookDtoMapper {
     }
 
     private static final DonationDto toDto(final Donation donation) {
-        final List<MinimalProfileDto> donors;
+        final List<DonorDto> donors;
 
         donors = donation.donors()
             .stream()
@@ -401,17 +403,17 @@ public final class BookDtoMapper {
             .donors(donors);
     }
 
-    private static final MinimalProfileDto toDto(final Donor donor) {
-        final ProfileNameDto profileName;
+    private static final DonorDto toDto(final Donor donor) {
+        final DonorNameDto name;
 
-        profileName = new ProfileNameDto().firstName(donor.name()
+        name = new DonorNameDto().firstName(donor.name()
             .firstName())
             .lastName(donor.name()
                 .lastName())
             .fullName(donor.name()
                 .fullName());
-        return new MinimalProfileDto().number(donor.number())
-            .name(profileName);
+        return new DonorDto().number(donor.number())
+            .name(name);
     }
 
     private static final FictionBookDto toDto(final FictionBook fictionBook) {

@@ -22,28 +22,23 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.library.lending.domain.repository;
+package com.bernardomg.association.library.book.domain.model;
 
-import java.time.Instant;
-import java.util.Optional;
+import org.apache.commons.lang3.StringUtils;
 
-import com.bernardomg.association.library.lending.domain.model.BookLending;
-import com.bernardomg.pagination.domain.Page;
-import com.bernardomg.pagination.domain.Pagination;
-import com.bernardomg.pagination.domain.Sorting;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-public interface BookLendingRepository {
+public record DonorName(String firstName, String lastName) {
 
-    public Page<BookLending> findAll(final Pagination pagination, final Sorting sorting);
+    public DonorName(final String firstName, final String lastName) {
+        this.firstName = StringUtils.trim(firstName);
+        this.lastName = StringUtils.trim(lastName);
+    }
 
-    public Optional<BookLending> findLent(final long book);
-
-    public Optional<BookLending> findOne(final long book, final long borrower);
-
-    public Optional<BookLending> findReturned(final long book);
-
-    public Optional<BookLending> findReturned(final long book, final long borrower, final Instant lendingDate);
-
-    public BookLending save(final BookLending lending);
+    @JsonProperty("fullName")
+    public final String fullName() {
+        return String.format("%s %s", firstName, lastName)
+            .trim();
+    }
 
 }

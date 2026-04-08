@@ -28,7 +28,6 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
 import com.bernardomg.association.library.book.domain.model.Title;
-import com.bernardomg.association.profile.domain.model.ProfileName;
 
 public record BookLending(LentBook book, Borrower borrower, Instant lendingDate, Instant returnDate) {
 
@@ -41,10 +40,6 @@ public record BookLending(LentBook book, Borrower borrower, Instant lendingDate,
     }
 
     public record LentBook(long number, Title title) {}
-
-    public record Borrower(long number, ProfileName name) {
-
-    }
 
     public Long getDays() {
         final Long days;

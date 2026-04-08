@@ -36,8 +36,8 @@ import com.bernardomg.ucronia.openapi.model.BookLendingDto;
 import com.bernardomg.ucronia.openapi.model.BookLendingPageResponseDto;
 import com.bernardomg.ucronia.openapi.model.BookLendingResponseDto;
 import com.bernardomg.ucronia.openapi.model.BookTitleDto;
-import com.bernardomg.ucronia.openapi.model.MinimalProfileDto;
-import com.bernardomg.ucronia.openapi.model.ProfileNameDto;
+import com.bernardomg.ucronia.openapi.model.BorrowerDto;
+import com.bernardomg.ucronia.openapi.model.BorrowerNameDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
 import com.bernardomg.ucronia.openapi.model.SortingDto;
@@ -76,10 +76,10 @@ public final class BookLendingDtoMapper {
     }
 
     private static final BookLendingDto toDto(final BookLending lending) {
-        final ProfileNameDto    name;
-        final MinimalProfileDto borrower;
+        final BorrowerNameDto name;
+        final BorrowerDto     borrower;
 
-        name = new ProfileNameDto().firstName(lending.borrower()
+        name = new BorrowerNameDto().firstName(lending.borrower()
             .name()
             .firstName())
             .lastName(lending.borrower()
@@ -88,7 +88,7 @@ public final class BookLendingDtoMapper {
             .fullName(lending.borrower()
                 .name()
                 .fullName());
-        borrower = new MinimalProfileDto().name(name)
+        borrower = new BorrowerDto().name(name)
             .number(lending.borrower()
                 .number());
         return new BookLendingDto().book(toDto(lending.book()))
