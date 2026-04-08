@@ -60,6 +60,7 @@ import com.bernardomg.association.profile.domain.exception.MissingProfileExcepti
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
+import com.bernardomg.pagination.domain.Sorting.Property;
 import com.bernardomg.pagination.springframework.SpringPagination;
 import com.bernardomg.pagination.springframework.SpringSorting;
 
@@ -149,10 +150,13 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
     public final Page<FictionBook> findAll(final Pagination pagination, final Sorting sorting) {
         final org.springframework.data.domain.Page<FictionBook> read;
         final Pageable                                          pageable;
+        final Sorting                                           fixedSorting;
 
+        // TODO: test sorting
         log.debug("Finding books with pagination {} and sorting {}", pagination, sorting);
 
-        pageable = SpringPagination.toPageable(pagination, sorting);
+        fixedSorting = fixSorting(sorting);
+        pageable = SpringPagination.toPageable(pagination, fixedSorting);
         read = bookSpringRepository.findAll(pageable)
             .map(this::toDomain);
 
@@ -165,10 +169,13 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
     public final Collection<FictionBook> findAll(final Sorting sorting) {
         final Collection<FictionBook> read;
         final Sort                    sort;
+        final Sorting                 fixedSorting;
 
+        // TODO: test sorting
         log.debug("Finding books with sorting {}", sorting);
 
-        sort = SpringSorting.toSort(sorting);
+        fixedSorting = fixSorting(sorting);
+        sort = SpringSorting.toSort(fixedSorting);
         read = bookSpringRepository.findAll(sort)
             .stream()
             .map(this::toDomain)
@@ -229,6 +236,24 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
         log.debug("Saved book {}", saved);
 
         return saved;
+    }
+
+    private final Sorting fixSorting(final Sorting sorting) {
+        final Collection<Property> properties;
+
+        properties = sorting.properties()
+            .stream()
+            .map(prop -> {
+                if (prop.name()
+                    .startsWith("title.")) {
+                    return new Property(prop.name()
+                        .replaceFirst("title\\.", ""), prop.direction());
+                }
+                return prop;
+            })
+            .toList();
+
+        return new Sorting(properties);
     }
 
     private final FictionBook toDomain(final FictionBookEntity entity) {
