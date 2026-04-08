@@ -64,7 +64,7 @@ class ITFeeRepositoryFindAllInYearForInactiveMembers {
         final Sorting       sorting;
 
         // GIVEN
-        sorting = Sorting.unsorted();
+        sorting = Sorting.asc("month");
 
         // WHEN
         fees = repository.findAllInYearForInactiveMembers(FeeConstants.YEAR, sorting);
@@ -85,7 +85,7 @@ class ITFeeRepositoryFindAllInYearForInactiveMembers {
         final Sorting       sorting;
 
         // GIVEN
-        sorting = Sorting.unsorted();
+        sorting = Sorting.asc("month");
 
         // WHEN
         fees = repository.findAllInYearForInactiveMembers(FeeConstants.YEAR, sorting);
@@ -106,7 +106,7 @@ class ITFeeRepositoryFindAllInYearForInactiveMembers {
         final Sorting       sorting;
 
         // GIVEN
-        sorting = Sorting.unsorted();
+        sorting = Sorting.asc("month");
 
         // WHEN
         fees = repository.findAllInYearForInactiveMembers(FeeConstants.YEAR, sorting);
@@ -127,7 +127,7 @@ class ITFeeRepositoryFindAllInYearForInactiveMembers {
         final Sorting       sorting;
 
         // GIVEN
-        sorting = Sorting.unsorted();
+        sorting = Sorting.asc("month");
 
         // WHEN
         fees = repository.findAllInYearForInactiveMembers(FeeConstants.YEAR.plusYears(1), sorting);
@@ -148,7 +148,7 @@ class ITFeeRepositoryFindAllInYearForInactiveMembers {
         final Sorting       sorting;
 
         // GIVEN
-        sorting = Sorting.unsorted();
+        sorting = Sorting.asc("month");
 
         // WHEN
         fees = repository.findAllInYearForInactiveMembers(FeeConstants.YEAR.minusYears(1), sorting);
@@ -169,7 +169,7 @@ class ITFeeRepositoryFindAllInYearForInactiveMembers {
         final Sorting       sorting;
 
         // GIVEN
-        sorting = Sorting.unsorted();
+        sorting = Sorting.asc("month");
 
         // WHEN
         fees = repository.findAllInYearForInactiveMembers(FeeConstants.YEAR, sorting);
@@ -190,7 +190,7 @@ class ITFeeRepositoryFindAllInYearForInactiveMembers {
         final Sorting       sorting;
 
         // GIVEN
-        sorting = Sorting.unsorted();
+        sorting = Sorting.asc("month");
 
         // WHEN
         fees = repository.findAllInYearForInactiveMembers(FeeConstants.YEAR.plusYears(1), sorting);
@@ -211,7 +211,7 @@ class ITFeeRepositoryFindAllInYearForInactiveMembers {
         final Sorting       sorting;
 
         // GIVEN
-        sorting = Sorting.unsorted();
+        sorting = Sorting.asc("month");
 
         // WHEN
         fees = repository.findAllInYearForInactiveMembers(FeeConstants.YEAR.minusYears(1), sorting);
@@ -232,7 +232,7 @@ class ITFeeRepositoryFindAllInYearForInactiveMembers {
         final Sorting       sorting;
 
         // GIVEN
-        sorting = Sorting.unsorted();
+        sorting = Sorting.asc("month");
 
         // WHEN
         fees = repository.findAllInYearForInactiveMembers(FeeConstants.YEAR, sorting);
