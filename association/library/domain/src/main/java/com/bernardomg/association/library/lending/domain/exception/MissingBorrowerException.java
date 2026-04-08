@@ -22,28 +22,36 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.library.lending.domain.repository;
+package com.bernardomg.association.library.lending.domain.exception;
 
-import java.time.Instant;
-import java.util.Optional;
+/**
+ * Missing borrower exception.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+public final class MissingBorrowerException extends RuntimeException {
 
-import com.bernardomg.association.library.lending.domain.model.BookLending;
-import com.bernardomg.pagination.domain.Page;
-import com.bernardomg.pagination.domain.Pagination;
-import com.bernardomg.pagination.domain.Sorting;
+    private static final long serialVersionUID = 2786821546505029631L;
 
-public interface BookLendingRepository {
+    /**
+     * Id which caused the exception.
+     */
+    private final Long        id;
 
-    public Page<BookLending> findAll(final Pagination pagination, final Sorting sorting);
+    public MissingBorrowerException(final Long id) {
+        super(String.format("Missing id %s for borrower", id));
 
-    public Optional<BookLending> findLent(final long book);
+        this.id = id;
+    }
 
-    public Optional<BookLending> findOne(final long book, final long borrower);
-
-    public Optional<BookLending> findReturned(final long book);
-
-    public Optional<BookLending> findReturned(final long book, final long borrower, final Instant lendingDate);
-
-    public BookLending save(final BookLending lending);
+    /**
+     * Returns the id which caused the exception.
+     *
+     * @return the id which caused the exception
+     */
+    public final Long getId() {
+        return id;
+    }
 
 }

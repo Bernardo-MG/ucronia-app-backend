@@ -10,9 +10,9 @@ import org.junit.jupiter.api.Test;
 
 import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.library.lending.domain.model.BookLending;
-import com.bernardomg.association.library.lending.domain.model.BookLending.Borrower;
 import com.bernardomg.association.library.lending.domain.model.BookLending.LentBook;
-import com.bernardomg.association.profile.domain.model.ProfileName;
+import com.bernardomg.association.library.lending.domain.model.Borrower;
+import com.bernardomg.association.library.lending.domain.model.BorrowerName;
 
 @DisplayName("BookLending")
 public class TestBookLending {
@@ -36,7 +36,7 @@ public class TestBookLending {
         // GIVEN
         title = new Title(SUPERTITLE, TITLE, SUBTITLE);
         book = new LentBook(NUMBER, title);
-        borrower = new Borrower(0, new ProfileName("", ""));
+        borrower = new Borrower(0, new BorrowerName("", ""));
         lending = new BookLending(book, borrower, Instant.now()
             .minus(1L, ChronoUnit.DAYS));
 
@@ -56,7 +56,7 @@ public class TestBookLending {
         // GIVEN
         title = new Title(SUPERTITLE, TITLE, SUBTITLE);
         book = new LentBook(NUMBER, title);
-        borrower = new Borrower(0, new ProfileName("", ""));
+        borrower = new Borrower(0, new BorrowerName("", ""));
         lending = new BookLending(book, borrower, Instant.now());
 
         // WHEN + THEN
@@ -75,7 +75,7 @@ public class TestBookLending {
         // GIVEN
         title = new Title(SUPERTITLE, TITLE, SUBTITLE);
         book = new LentBook(NUMBER, title);
-        borrower = new Borrower(0, new ProfileName("", ""));
+        borrower = new Borrower(0, new BorrowerName("", ""));
         lending = new BookLending(book, borrower, Instant.now(), Instant.now());
 
         // WHEN + THEN
@@ -94,7 +94,7 @@ public class TestBookLending {
         // GIVEN
         title = new Title(SUPERTITLE, TITLE, SUBTITLE);
         book = new LentBook(NUMBER, title);
-        borrower = new Borrower(0, new ProfileName("", ""));
+        borrower = new Borrower(0, new BorrowerName("", ""));
         lending = new BookLending(book, borrower, Instant.now()
             .minus(1L, ChronoUnit.DAYS),
             Instant.now()

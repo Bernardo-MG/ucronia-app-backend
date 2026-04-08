@@ -34,17 +34,18 @@ import com.bernardomg.association.library.book.domain.model.Book;
 import com.bernardomg.association.library.book.domain.model.BookLendingInfo;
 import com.bernardomg.association.library.book.domain.model.Donation;
 import com.bernardomg.association.library.book.domain.model.Donor;
+import com.bernardomg.association.library.book.domain.model.DonorName;
 import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.library.booktype.adapter.inbound.jpa.model.BookTypeEntity;
 import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.gamesystem.adapter.inbound.jpa.model.GameSystemEntity;
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
-import com.bernardomg.association.library.lending.domain.model.BookLending.Borrower;
+import com.bernardomg.association.library.lending.domain.model.Borrower;
+import com.bernardomg.association.library.lending.domain.model.BorrowerName;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.model.PublisherEntity;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberProfileEntity;
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
-import com.bernardomg.association.profile.domain.model.ProfileName;
 
 /**
  * Author repository mapper.
@@ -129,9 +130,9 @@ public final class BookEntityMapper {
     }
 
     public static final Borrower toDomain(final MemberProfileEntity entity) {
-        final ProfileName name;
+        final BorrowerName name;
 
-        name = new ProfileName(entity.getProfile()
+        name = new BorrowerName(entity.getProfile()
             .getFirstName(),
             entity.getProfile()
                 .getLastName());
@@ -144,9 +145,9 @@ public final class BookEntityMapper {
     }
 
     public static final Donor toDonorDomain(final ProfileEntity entity) {
-        final ProfileName name;
+        final DonorName name;
 
-        name = new ProfileName(entity.getFirstName(), entity.getLastName());
+        name = new DonorName(entity.getFirstName(), entity.getLastName());
         return new Donor(entity.getNumber(), name);
     }
 

@@ -43,8 +43,10 @@ import com.bernardomg.association.library.author.domain.repository.AuthorReposit
 import com.bernardomg.association.library.author.test.configuration.factory.AuthorConstants;
 import com.bernardomg.association.library.book.domain.exception.MissingBookException;
 import com.bernardomg.association.library.book.domain.model.GameBook;
+import com.bernardomg.association.library.book.domain.repository.DonorRepository;
 import com.bernardomg.association.library.book.domain.repository.GameBookRepository;
 import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
+import com.bernardomg.association.library.book.test.configuration.factory.DonorConstants;
 import com.bernardomg.association.library.book.test.configuration.factory.GameBooks;
 import com.bernardomg.association.library.book.usecase.service.DefaultGameBookService;
 import com.bernardomg.association.library.booktype.domain.exception.MissingBookTypeException;
@@ -56,8 +58,6 @@ import com.bernardomg.association.library.gamesystem.test.configuration.factory.
 import com.bernardomg.association.library.publisher.domain.exception.MissingPublisherException;
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
 import com.bernardomg.association.library.publisher.test.configuration.factory.PublisherConstants;
-import com.bernardomg.association.profile.domain.repository.ProfileRepository;
-import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
@@ -75,10 +75,10 @@ class TestGameBookServiceUpdate {
     private BookTypeRepository     bookTypeRepository;
 
     @Mock
-    private GameSystemRepository   gameSystemRepository;
+    private DonorRepository        donorRepository;
 
     @Mock
-    private ProfileRepository      profileRepository;
+    private GameSystemRepository   gameSystemRepository;
 
     @Mock
     private PublisherRepository    publisherRepository;
@@ -103,7 +103,7 @@ class TestGameBookServiceUpdate {
         given(publisherRepository.exists(PublisherConstants.NUMBER)).willReturn(true);
         given(gameSystemRepository.exists(GameSystemConstants.NUMBER)).willReturn(true);
         given(bookTypeRepository.exists(BookTypeConstants.NUMBER)).willReturn(true);
-        given(profileRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
+        given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
 
         // WHEN
         service.update(book);
@@ -125,7 +125,7 @@ class TestGameBookServiceUpdate {
         given(publisherRepository.exists(PublisherConstants.NUMBER)).willReturn(true);
         given(gameSystemRepository.exists(GameSystemConstants.NUMBER)).willReturn(true);
         given(bookTypeRepository.exists(BookTypeConstants.NUMBER)).willReturn(true);
-        given(profileRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
+        given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
 
         // WHEN
         service.update(book);
@@ -147,7 +147,7 @@ class TestGameBookServiceUpdate {
         given(publisherRepository.exists(PublisherConstants.NUMBER)).willReturn(true);
         given(gameSystemRepository.exists(GameSystemConstants.NUMBER)).willReturn(true);
         given(bookTypeRepository.exists(BookTypeConstants.NUMBER)).willReturn(true);
-        given(profileRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
+        given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
 
         // WHEN
         service.update(book);
@@ -166,7 +166,7 @@ class TestGameBookServiceUpdate {
         given(publisherRepository.exists(PublisherConstants.NUMBER)).willReturn(true);
         given(gameSystemRepository.exists(GameSystemConstants.NUMBER)).willReturn(true);
         given(bookTypeRepository.exists(BookTypeConstants.NUMBER)).willReturn(true);
-        given(profileRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
+        given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
 
         // WHEN
         service.update(book);
@@ -209,7 +209,7 @@ class TestGameBookServiceUpdate {
         given(publisherRepository.exists(PublisherConstants.NUMBER)).willReturn(true);
         given(gameSystemRepository.exists(GameSystemConstants.NUMBER)).willReturn(true);
         given(bookTypeRepository.exists(BookTypeConstants.NUMBER)).willReturn(true);
-        given(profileRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
+        given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
 
         given(bookRepository.existsByIsbnForAnother(BookConstants.NUMBER, BookConstants.ISBN_10)).willReturn(true);
 
@@ -235,7 +235,7 @@ class TestGameBookServiceUpdate {
         given(publisherRepository.exists(PublisherConstants.NUMBER)).willReturn(true);
         given(gameSystemRepository.exists(GameSystemConstants.NUMBER)).willReturn(true);
         given(bookTypeRepository.exists(BookTypeConstants.NUMBER)).willReturn(true);
-        given(profileRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
+        given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
 
         given(bookRepository.existsByIsbnForAnother(BookConstants.NUMBER, BookConstants.INVALID_ISBN))
             .willReturn(false);
@@ -262,7 +262,7 @@ class TestGameBookServiceUpdate {
         given(publisherRepository.exists(PublisherConstants.NUMBER)).willReturn(true);
         given(gameSystemRepository.exists(GameSystemConstants.NUMBER)).willReturn(true);
         given(bookTypeRepository.exists(BookTypeConstants.NUMBER)).willReturn(true);
-        given(profileRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
+        given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
 
         // WHEN
         execution = () -> service.update(book);
@@ -426,7 +426,7 @@ class TestGameBookServiceUpdate {
         given(publisherRepository.exists(PublisherConstants.NUMBER)).willReturn(true);
         given(gameSystemRepository.exists(GameSystemConstants.NUMBER)).willReturn(true);
         given(bookTypeRepository.exists(BookTypeConstants.NUMBER)).willReturn(true);
-        given(profileRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
+        given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
 
         // WHEN
         service.update(book);
@@ -449,7 +449,7 @@ class TestGameBookServiceUpdate {
         given(publisherRepository.exists(PublisherConstants.NUMBER)).willReturn(true);
         given(gameSystemRepository.exists(GameSystemConstants.NUMBER)).willReturn(true);
         given(bookTypeRepository.exists(BookTypeConstants.NUMBER)).willReturn(true);
-        given(profileRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
+        given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
 
         given(bookRepository.save(GameBooks.full())).willReturn(GameBooks.full());
 

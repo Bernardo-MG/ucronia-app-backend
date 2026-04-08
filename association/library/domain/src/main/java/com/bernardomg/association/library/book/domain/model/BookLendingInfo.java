@@ -27,7 +27,7 @@ package com.bernardomg.association.library.book.domain.model;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
-import com.bernardomg.association.library.lending.domain.model.BookLending.Borrower;
+import com.bernardomg.association.library.lending.domain.model.Borrower;
 
 public record BookLendingInfo(Borrower borrower, Instant lendingDate, Instant returnDate) {
 

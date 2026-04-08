@@ -22,28 +22,26 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.library.lending.domain.repository;
+package com.bernardomg.association.library.lending.adapter.inbound.jpa.model;
 
-import java.time.Instant;
-import java.util.Optional;
+import com.bernardomg.association.library.lending.domain.model.Borrower;
+import com.bernardomg.association.library.lending.domain.model.BorrowerName;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
 
-import com.bernardomg.association.library.lending.domain.model.BookLending;
-import com.bernardomg.pagination.domain.Page;
-import com.bernardomg.pagination.domain.Pagination;
-import com.bernardomg.pagination.domain.Sorting;
+/**
+ * Author repository mapper.
+ */
+public final class BorrowerEntityMapper {
 
-public interface BookLendingRepository {
+    public static final Borrower toDomain(final ProfileEntity entity) {
+        final BorrowerName name;
 
-    public Page<BookLending> findAll(final Pagination pagination, final Sorting sorting);
+        name = new BorrowerName(entity.getFirstName(), entity.getLastName());
+        return new Borrower(entity.getNumber(), name);
+    }
 
-    public Optional<BookLending> findLent(final long book);
-
-    public Optional<BookLending> findOne(final long book, final long borrower);
-
-    public Optional<BookLending> findReturned(final long book);
-
-    public Optional<BookLending> findReturned(final long book, final long borrower, final Instant lendingDate);
-
-    public BookLending save(final BookLending lending);
+    private BorrowerEntityMapper() {
+        super();
+    }
 
 }

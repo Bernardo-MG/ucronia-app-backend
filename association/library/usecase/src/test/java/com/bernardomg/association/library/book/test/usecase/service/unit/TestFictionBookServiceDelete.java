@@ -40,12 +40,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.library.author.domain.repository.AuthorRepository;
 import com.bernardomg.association.library.book.domain.exception.MissingBookException;
+import com.bernardomg.association.library.book.domain.repository.DonorRepository;
 import com.bernardomg.association.library.book.domain.repository.FictionBookRepository;
 import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
 import com.bernardomg.association.library.book.test.configuration.factory.FictionBooks;
 import com.bernardomg.association.library.book.usecase.service.DefaultFictionBookService;
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
-import com.bernardomg.association.profile.domain.repository.ProfileRepository;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("BookService - delete")
@@ -58,7 +58,7 @@ class TestFictionBookServiceDelete {
     private FictionBookRepository     bookRepository;
 
     @Mock
-    private ProfileRepository         profileRepository;
+    private DonorRepository           donorRepository;
 
     @Mock
     private PublisherRepository       publisherRepository;

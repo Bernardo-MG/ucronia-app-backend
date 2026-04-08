@@ -38,9 +38,10 @@ import com.bernardomg.association.library.book.adapter.inbound.jpa.repository.Bo
 import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.BookLendingEntity;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.BookLendingEntityMapper;
+import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.BorrowerEntityMapper;
 import com.bernardomg.association.library.lending.domain.model.BookLending;
-import com.bernardomg.association.library.lending.domain.model.BookLending.Borrower;
 import com.bernardomg.association.library.lending.domain.model.BookLending.LentBook;
+import com.bernardomg.association.library.lending.domain.model.Borrower;
 import com.bernardomg.association.library.lending.domain.repository.BookLendingRepository;
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
@@ -108,19 +109,19 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
     }
 
     @Override
-    public final Optional<BookLending> findOne(final long book, final long profile) {
+    public final Optional<BookLending> findOne(final long book, final long borrower) {
         final Optional<BookLending> lending;
         final Pageable              pageable;
 
-        log.debug("Finding book lending for book {} and profile {}", book, profile);
+        log.debug("Finding book lending for book {} and borrower {}", book, borrower);
 
         pageable = Pageable.ofSize(1);
-        lending = bookLendingSpringRepository.find(book, profile, pageable)
+        lending = bookLendingSpringRepository.find(book, borrower, pageable)
             .stream()
             .findFirst()
             .map(this::toDomain);
 
-        log.debug("Found lending for book {} and profile {}: {}", book, profile, lending);
+        log.debug("Found lending for book {} and borrower {}: {}", book, borrower, lending);
 
         return lending;
     }
@@ -144,14 +145,14 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
     }
 
     @Override
-    public final Optional<BookLending> findReturned(final long book, final long profile, final Instant lendingDate) {
+    public final Optional<BookLending> findReturned(final long book, final long borrower, final Instant lendingDate) {
         final Optional<BookLending> lending;
         final Pageable              pageable;
 
-        log.debug("Finding returned book {} for profile {} and date {}", book, profile, lendingDate);
+        log.debug("Finding returned book {} for borrower {} and date {}", book, borrower, lendingDate);
 
         pageable = Pageable.ofSize(1);
-        lending = bookLendingSpringRepository.findAllReturned(book, profile, lendingDate, pageable)
+        lending = bookLendingSpringRepository.findAllReturned(book, borrower, lendingDate, pageable)
             .stream()
             .findFirst()
             .map(this::toDomain);
@@ -199,7 +200,7 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
 
         bookEntity = bookSpringRepository.findById(entity.getBookId());
         borrower = profileSpringRepository.findById(entity.getProfileId())
-            .map(BookLendingEntityMapper::toDomain);
+            .map(BorrowerEntityMapper::toDomain);
         title = new Title(bookEntity.get()
             .getSupertitle(),
             bookEntity.get()

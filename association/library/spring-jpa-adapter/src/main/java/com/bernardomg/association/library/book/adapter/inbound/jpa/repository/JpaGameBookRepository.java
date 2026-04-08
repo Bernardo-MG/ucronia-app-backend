@@ -54,7 +54,7 @@ import com.bernardomg.association.library.gamesystem.adapter.inbound.jpa.model.G
 import com.bernardomg.association.library.gamesystem.adapter.inbound.jpa.repository.GameSystemSpringRepository;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.BookLendingEntity;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.repository.BookLendingSpringRepository;
-import com.bernardomg.association.library.lending.domain.model.BookLending.Borrower;
+import com.bernardomg.association.library.lending.domain.model.Borrower;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.model.PublisherEntity;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.repository.PublisherSpringRepository;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
@@ -65,6 +65,7 @@ import com.bernardomg.association.profile.domain.exception.MissingProfileExcepti
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
+import com.bernardomg.pagination.domain.Sorting.Property;
 import com.bernardomg.pagination.springframework.SpringPagination;
 import com.bernardomg.pagination.springframework.SpringSorting;
 
@@ -161,10 +162,13 @@ public final class JpaGameBookRepository implements GameBookRepository {
     public final Page<GameBook> findAll(final Pagination pagination, final Sorting sorting) {
         final org.springframework.data.domain.Page<GameBook> read;
         final Pageable                                       pageable;
+        final Sorting                                        fixedSorting;
 
+        // TODO: test sorting
         log.debug("Finding books with pagination {} and sorting {}", pagination, sorting);
 
-        pageable = SpringPagination.toPageable(pagination, sorting);
+        fixedSorting = fixSorting(sorting);
+        pageable = SpringPagination.toPageable(pagination, fixedSorting);
         read = bookSpringRepository.findAll(pageable)
             .map(this::toDomain);
 
@@ -177,10 +181,13 @@ public final class JpaGameBookRepository implements GameBookRepository {
     public final Collection<GameBook> findAll(final Sorting sorting) {
         final Collection<GameBook> read;
         final Sort                 sort;
+        final Sorting              fixedSorting;
 
+        // TODO: test sorting
         log.debug("Finding books with sorting {}", sorting);
 
-        sort = SpringSorting.toSort(sorting);
+        fixedSorting = fixSorting(sorting);
+        sort = SpringSorting.toSort(fixedSorting);
         read = bookSpringRepository.findAll(sort)
             .stream()
             .map(this::toDomain)
@@ -241,6 +248,24 @@ public final class JpaGameBookRepository implements GameBookRepository {
         log.debug("Saved book {}", saved);
 
         return saved;
+    }
+
+    private final Sorting fixSorting(final Sorting sorting) {
+        final Collection<Property> properties;
+
+        properties = sorting.properties()
+            .stream()
+            .map(prop -> {
+                if (prop.name()
+                    .startsWith("title.")) {
+                    return new Property(prop.name()
+                        .replaceFirst("title\\.", ""), prop.direction());
+                }
+                return prop;
+            })
+            .toList();
+
+        return new Sorting(properties);
     }
 
     private final GameBook toDomain(final GameBookEntity entity) {

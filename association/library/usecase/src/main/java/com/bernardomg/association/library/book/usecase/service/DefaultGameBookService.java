@@ -40,6 +40,7 @@ import com.bernardomg.association.library.book.domain.exception.MissingDonorExce
 import com.bernardomg.association.library.book.domain.model.Donation;
 import com.bernardomg.association.library.book.domain.model.Donor;
 import com.bernardomg.association.library.book.domain.model.GameBook;
+import com.bernardomg.association.library.book.domain.repository.DonorRepository;
 import com.bernardomg.association.library.book.domain.repository.GameBookRepository;
 import com.bernardomg.association.library.book.usecase.validation.GameBookIsbnNotExistsForAnotherRule;
 import com.bernardomg.association.library.book.usecase.validation.GameBookIsbnNotExistsRule;
@@ -55,7 +56,6 @@ import com.bernardomg.association.library.gamesystem.domain.repository.GameSyste
 import com.bernardomg.association.library.publisher.domain.exception.MissingPublisherException;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
-import com.bernardomg.association.profile.domain.repository.ProfileRepository;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
@@ -80,9 +80,9 @@ public final class DefaultGameBookService implements GameBookService {
 
     private final Validator<GameBook>  createBookValidator;
 
-    private final GameSystemRepository gameSystemRepository;
+    private final DonorRepository      donorRepository;
 
-    private final ProfileRepository    profileRepository;
+    private final GameSystemRepository gameSystemRepository;
 
     private final PublisherRepository  publisherRepository;
 
@@ -90,7 +90,7 @@ public final class DefaultGameBookService implements GameBookService {
 
     public DefaultGameBookService(final GameBookRepository bookRepo, final AuthorRepository authorRepo,
             final PublisherRepository publisherRepo, final BookTypeRepository bookTypeRepo,
-            final GameSystemRepository gameSystemRepo, final ProfileRepository profileRepo) {
+            final GameSystemRepository gameSystemRepo, final DonorRepository donorRepo) {
         super();
 
         bookRepository = Objects.requireNonNull(bookRepo);
@@ -98,7 +98,7 @@ public final class DefaultGameBookService implements GameBookService {
         publisherRepository = Objects.requireNonNull(publisherRepo);
         bookTypeRepository = Objects.requireNonNull(bookTypeRepo);
         gameSystemRepository = Objects.requireNonNull(gameSystemRepo);
-        profileRepository = Objects.requireNonNull(profileRepo);
+        donorRepository = Objects.requireNonNull(donorRepo);
 
         // TODO: validate relationships exist
         createBookValidator = new FieldRuleValidator<>(new GameBookTitleNotEmptyRule(),
@@ -325,7 +325,7 @@ public final class DefaultGameBookService implements GameBookService {
             .map(Donation::donors)
             .orElse(List.of())
             .stream()
-            .filter(d -> !profileRepository.exists(d.number()))
+            .filter(d -> !donorRepository.exists(d.number()))
             .findAny();
         if (invalidDonor.isPresent()) {
             log.error("Missing donor {}", invalidDonor.get()
