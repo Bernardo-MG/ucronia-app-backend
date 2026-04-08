@@ -190,7 +190,7 @@ class ITFeeRepositoryFindAllInYearForActiveMembers {
         final Sorting       sorting;
 
         // GIVEN
-        sorting = Sorting.unsorted();
+        sorting = Sorting.asc("month");
 
         // WHEN
         fees = repository.findAllInYearForActiveMembers(FeeConstants.YEAR, sorting);
