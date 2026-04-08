@@ -36,6 +36,7 @@ import org.slf4j.LoggerFactory;
 
 import com.bernardomg.association.fee.domain.exception.MissingFeeTypeException;
 import com.bernardomg.association.fee.domain.model.Fee;
+import com.bernardomg.association.fee.domain.model.FeeMember;
 import com.bernardomg.association.fee.domain.model.FeeType;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
@@ -116,9 +117,10 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
     }
 
     private final Fee toFeeThisMonth(final MemberProfile member, final Map<Long, FeeType> feeTypes) {
-        final Fee.FeeType feeFeeType;
-        final FeeType     feeType;
-        final Fee         fee;
+        final Fee.FeeType          feeFeeType;
+        final FeeType              feeType;
+        final Fee                  fee;
+        final FeeMember.MemberName name;
 
         feeType = feeTypes.get(member.feeType()
             .number());
@@ -129,12 +131,17 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
             member.feeType()
                 .amount());
 
+        name = new FeeMember.MemberName(member.name()
+            .firstName(),
+            member.name()
+                .lastName());
+
         if (feeType.amount() == 0) {
             // No amount
             // Set to paid automatically
-            fee = Fee.paid(YearMonth.now(), member.number(), member.name(), feeFeeType);
+            fee = Fee.paid(YearMonth.now(), member.number(), name, feeFeeType);
         } else {
-            fee = Fee.unpaid(YearMonth.now(), member.number(), member.name(), feeFeeType);
+            fee = Fee.unpaid(YearMonth.now(), member.number(), name, feeFeeType);
         }
 
         return fee;

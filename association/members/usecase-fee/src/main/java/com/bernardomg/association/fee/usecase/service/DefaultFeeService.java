@@ -47,10 +47,13 @@ import com.bernardomg.association.fee.domain.event.FeePaidEvent;
 import com.bernardomg.association.fee.domain.exception.MissingFeeException;
 import com.bernardomg.association.fee.domain.exception.MissingFeeTypeException;
 import com.bernardomg.association.fee.domain.model.Fee;
+import com.bernardomg.association.fee.domain.model.FeeMember;
+import com.bernardomg.association.fee.domain.model.FeeMember.MemberName;
 import com.bernardomg.association.fee.domain.model.FeePayments;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.domain.model.FeeType;
 import com.bernardomg.association.fee.domain.model.MemberFees;
+import com.bernardomg.association.fee.domain.model.MemberFees.Member;
 import com.bernardomg.association.fee.domain.model.YearsRange;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
@@ -64,7 +67,6 @@ import com.bernardomg.association.member.domain.exception.MissingMemberException
 import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
-import com.bernardomg.association.profile.domain.model.ProfileName;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.event.emitter.EventEmitter;
@@ -131,11 +133,12 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     public final Fee createFee(final YearMonth date, final Long number) {
-        final Fee           newFee;
-        final Fee           created;
-        final MemberProfile member;
-        final FeeType       feeType;
-        final Fee.FeeType   feeFeeType;
+        final Fee                  newFee;
+        final Fee                  created;
+        final MemberProfile        member;
+        final FeeType              feeType;
+        final Fee.FeeType          feeFeeType;
+        final FeeMember.MemberName name;
 
         log.info("Creating unpaid fee for {} for month {}", number, date);
 
@@ -160,12 +163,17 @@ public final class DefaultFeeService implements FeeService {
             member.feeType()
                 .amount());
 
+        name = new FeeMember.MemberName(member.name()
+            .firstName(),
+            member.name()
+                .lastName());
+
         if (feeType.amount() == 0) {
             // No amount
             // Set to paid automatically
-            newFee = Fee.paid(date, member.number(), member.name(), feeFeeType);
+            newFee = Fee.paid(date, member.number(), name, feeFeeType);
         } else {
-            newFee = Fee.unpaid(date, member.number(), member.name(), feeFeeType);
+            newFee = Fee.unpaid(date, member.number(), name, feeFeeType);
         }
 
         validatorCreate.validate(newFee);
@@ -224,7 +232,7 @@ public final class DefaultFeeService implements FeeService {
         List<Fee>                    fees;
         MemberFees                   calendarFee;
         Collection<MemberFees.Fee>   membFees;
-        ProfileName                  name;
+        MemberName                   name;
 
         log.info("Getting fee calendar for year {} and status {}", year, status);
 
@@ -245,7 +253,7 @@ public final class DefaultFeeService implements FeeService {
 
         memberNumbers = readFees.stream()
             .map(Fee::member)
-            .map(Fee.Member::number)
+            .map(FeeMember::number)
             .distinct()
             .sorted()
             .toList();
@@ -262,6 +270,7 @@ public final class DefaultFeeService implements FeeService {
                 .next()
                 .member()
                 .name();
+
             calendarFee = toFeeYear(memberNumber, name, status, membFees);
             calendarFees.add(calendarFee);
         }
@@ -547,10 +556,10 @@ public final class DefaultFeeService implements FeeService {
             .number()));
     }
 
-    private final MemberFees toFeeYear(final Long number, final ProfileName name, final MemberStatus status,
+    private final MemberFees toFeeYear(final Long number, final MemberName name, final MemberStatus status,
             final Collection<MemberFees.Fee> fees) {
-        final boolean           active;
-        final MemberFees.Member member;
+        final boolean active;
+        final Member  member;
 
         active = switch (status) {
             case ACTIVE -> true;
@@ -571,10 +580,16 @@ public final class DefaultFeeService implements FeeService {
             final YearMonth month, final Transaction transaction) {
         final Fee.FeeType     feeType;
         final Fee.Transaction feeTransaction;
+        final MemberName      name;
 
+        // TODO: should receive a member
         feeType = new Fee.FeeType(memberFeeType.number(), memberFeeType.name(), memberFeeType.amount());
         feeTransaction = new Fee.Transaction(transaction.index(), transaction.date());
-        return Fee.paid(month, member.number(), member.name(), feeType, feeTransaction);
+        name = new MemberName(member.name()
+            .firstName(),
+            member.name()
+                .lastName());
+        return Fee.paid(month, member.number(), name, feeType, feeTransaction);
     }
 
 }
