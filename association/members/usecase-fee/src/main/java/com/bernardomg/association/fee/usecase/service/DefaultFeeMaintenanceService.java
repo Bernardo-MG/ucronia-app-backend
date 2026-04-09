@@ -117,14 +117,14 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
     }
 
     private final Fee toFeeThisMonth(final MemberProfile member, final Map<Long, FeeType> feeTypes) {
-        final Fee.FeeType          feeFeeType;
+        final FeeType              feeFeeType;
         final FeeType              feeType;
         final Fee                  fee;
         final FeeMember.MemberName name;
 
         feeType = feeTypes.get(member.feeType()
             .number());
-        feeFeeType = new Fee.FeeType(member.feeType()
+        feeFeeType = new FeeType(member.feeType()
             .number(),
             member.feeType()
                 .name(),

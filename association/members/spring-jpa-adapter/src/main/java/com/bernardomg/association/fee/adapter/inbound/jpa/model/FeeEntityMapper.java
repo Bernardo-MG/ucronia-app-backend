@@ -30,9 +30,9 @@ import java.time.ZoneOffset;
 import java.util.Optional;
 
 import com.bernardomg.association.fee.domain.model.Fee;
-import com.bernardomg.association.fee.domain.model.Fee.FeeType;
 import com.bernardomg.association.fee.domain.model.Fee.Transaction;
 import com.bernardomg.association.fee.domain.model.FeeMember.MemberName;
+import com.bernardomg.association.fee.domain.model.FeeType;
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
 
@@ -55,7 +55,7 @@ public final class FeeEntityMapper {
 
         date = YearMonth.from(entity.getMonth()
             .atZone(ZoneOffset.UTC));
-        feeType = new Fee.FeeType(entity.getFeeType()
+        feeType = new FeeType(entity.getFeeType()
             .getNumber(),
             entity.getFeeType()
                 .getName(),

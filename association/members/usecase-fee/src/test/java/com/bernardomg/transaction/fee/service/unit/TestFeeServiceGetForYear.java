@@ -38,12 +38,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.MessageSource;
 
 import com.bernardomg.association.fee.domain.model.MemberFees;
+import com.bernardomg.association.fee.domain.repository.FeeMemberRepository;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
-import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
 import com.bernardomg.association.member.domain.model.MemberStatus;
-import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.member.test.configuration.factory.MemberCalendarConstants;
 import com.bernardomg.association.member.test.configuration.factory.MembersFees;
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
@@ -56,25 +55,22 @@ import com.bernardomg.pagination.domain.Sorting;
 class TestFeeServiceGetForYear {
 
     @Mock
-    private EventEmitter            eventEmitter;
+    private EventEmitter          eventEmitter;
 
     @Mock
-    private FeeRepository           feeRepository;
+    private FeeMemberRepository   feeMemberRepository;
 
     @Mock
-    private FeeTypeRepository       feeTypeRepository;
+    private FeeRepository         feeRepository;
 
     @Mock
-    private MemberProfileRepository memberProfileRepository;
-
-    @Mock
-    private MessageSource           messageSource;
+    private MessageSource         messageSource;
 
     @InjectMocks
-    private DefaultFeeService       service;
+    private DefaultFeeService     service;
 
     @Mock
-    private TransactionRepository   transactionRepository;
+    private TransactionRepository transactionRepository;
 
     @Test
     @DisplayName("When filtering by active the correct query is used")
@@ -107,7 +103,7 @@ class TestFeeServiceGetForYear {
 
         given(feeRepository.findAllInYear(MemberCalendarConstants.CURRENT_YEAR, sorting))
             .willReturn(List.of(Fees.paidCurrentMonth()));
-        given(memberProfileRepository.isActive(ProfileConstants.NUMBER)).willReturn(true);
+        given(feeMemberRepository.isActive(ProfileConstants.NUMBER)).willReturn(true);
 
         // WHEN
         calendars = service.getForYear(MemberCalendarConstants.CURRENT_YEAR, MemberStatus.ALL, sorting);

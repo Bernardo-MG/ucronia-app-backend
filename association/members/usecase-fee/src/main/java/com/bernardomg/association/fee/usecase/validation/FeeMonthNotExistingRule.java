@@ -31,9 +31,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bernardomg.association.fee.domain.model.Fee;
+import com.bernardomg.association.fee.domain.model.FeeMember;
+import com.bernardomg.association.fee.domain.repository.FeeMemberRepository;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
-import com.bernardomg.association.member.domain.model.MemberProfile;
-import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRule;
 
@@ -45,16 +45,16 @@ public final class FeeMonthNotExistingRule implements FieldRule<Fee> {
     /**
      * Logger for the class.
      */
-    private static final Logger           log = LoggerFactory.getLogger(FeeMonthNotExistingRule.class);
+    private static final Logger       log = LoggerFactory.getLogger(FeeMonthNotExistingRule.class);
 
-    private final FeeRepository           feeRepository;
+    private final FeeMemberRepository feeMemberRepository;
 
-    private final MemberProfileRepository memberProfileRepository;
+    private final FeeRepository       feeRepository;
 
-    public FeeMonthNotExistingRule(final MemberProfileRepository memberProfileRepo, final FeeRepository feeRepo) {
+    public FeeMonthNotExistingRule(final FeeMemberRepository feeMemberRepo, final FeeRepository feeRepo) {
         super();
 
-        memberProfileRepository = Objects.requireNonNull(memberProfileRepo);
+        feeMemberRepository = Objects.requireNonNull(feeMemberRepo);
         feeRepository = Objects.requireNonNull(feeRepo);
     }
 
@@ -63,9 +63,9 @@ public final class FeeMonthNotExistingRule implements FieldRule<Fee> {
         final Optional<FieldFailure> failure;
         final FieldFailure           fieldFailure;
         final boolean                existing;
-        final MemberProfile          member;
+        final FeeMember              member;
 
-        member = memberProfileRepository.findOne(fee.member()
+        member = feeMemberRepository.findOne(fee.member()
             .number())
             .get();
         existing = feeRepository.exists(member.number(), fee.month());

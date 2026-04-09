@@ -32,10 +32,10 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.bernardomg.association.fee.domain.model.FeeMember;
 import com.bernardomg.association.fee.domain.model.FeePayments;
+import com.bernardomg.association.fee.domain.repository.FeeMemberRepository;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
-import com.bernardomg.association.member.domain.model.MemberProfile;
-import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRule;
 
@@ -48,17 +48,16 @@ public final class FeePaymentsMonthsNotExistingRule implements FieldRule<FeePaym
     /**
      * Logger for the class.
      */
-    private static final Logger           log = LoggerFactory.getLogger(FeePaymentsMonthsNotExistingRule.class);
+    private static final Logger       log = LoggerFactory.getLogger(FeePaymentsMonthsNotExistingRule.class);
 
-    private final FeeRepository           feeRepository;
+    private final FeeMemberRepository feeMemberRepository;
 
-    private final MemberProfileRepository memberProfileRepository;
+    private final FeeRepository       feeRepository;
 
-    public FeePaymentsMonthsNotExistingRule(final MemberProfileRepository memberProfileRepo,
-            final FeeRepository feeRepo) {
+    public FeePaymentsMonthsNotExistingRule(final FeeMemberRepository feeMemberRepo, final FeeRepository feeRepo) {
         super();
 
-        memberProfileRepository = Objects.requireNonNull(memberProfileRepo);
+        feeMemberRepository = Objects.requireNonNull(feeMemberRepo);
         feeRepository = Objects.requireNonNull(feeRepo);
     }
 
@@ -67,9 +66,9 @@ public final class FeePaymentsMonthsNotExistingRule implements FieldRule<FeePaym
         final Optional<FieldFailure> failure;
         final FieldFailure           fieldFailure;
         final List<YearMonth>        existing;
-        final MemberProfile          member;
+        final FeeMember              member;
 
-        member = memberProfileRepository.findOne(payments.member())
+        member = feeMemberRepository.findOne(payments.member())
             .get();
         // TODO: use a single query
         existing = payments.months()

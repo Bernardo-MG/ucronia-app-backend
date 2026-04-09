@@ -22,38 +22,31 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.domain.model;
+package com.bernardomg.association.fee.adapter.inbound.jpa.model;
 
-import java.time.Instant;
-import java.time.YearMonth;
-import java.util.Optional;
-
+import com.bernardomg.association.fee.domain.model.FeeMember;
 import com.bernardomg.association.fee.domain.model.FeeMember.MemberName;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberProfileEntity;
 
-public record Fee(YearMonth month, Boolean paid, FeeMember member, FeeType feeType, Optional<Transaction> transaction) {
+/**
+ * Fee repository mapper.
+ */
+public final class FeeMemberEntityMapper {
 
-    public static Fee unpaid(final YearMonth month, final Long number, final MemberName name, final FeeType feeType) {
-        final FeeMember member;
+    public static final FeeMember toDomain(final MemberProfileEntity entity) {
+        final MemberName name;
 
-        member = new FeeMember(number, name);
-        return new Fee(month, false, member, feeType, Optional.empty());
+        name = new MemberName(entity.getProfile()
+            .getFirstName(),
+            entity.getProfile()
+                .getLastName());
+
+        return new FeeMember(entity.getProfile()
+            .getNumber(), name);
     }
 
-    public static Fee paid(final YearMonth month, final Long number, final MemberName name, final FeeType feeType,
-            final Transaction transaction) {
-        final FeeMember member;
-
-        member = new FeeMember(number, name);
-        return new Fee(month, true, member, feeType, Optional.of(transaction));
+    private FeeMemberEntityMapper() {
+        super();
     }
-
-    public static Fee paid(final YearMonth month, final Long number, final MemberName name, final FeeType feeType) {
-        final FeeMember member;
-
-        member = new FeeMember(number, name);
-        return new Fee(month, true, member, feeType, Optional.empty());
-    }
-
-    public static record Transaction(Long index, Instant date) {}
 
 }
