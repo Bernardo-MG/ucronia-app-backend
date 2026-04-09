@@ -75,6 +75,16 @@
          <groupId>org.apache.poi</groupId>
          <artifactId>poi-ooxml</artifactId>
       </dependency>
+      <dependency>
+         <groupId>com.bernardomg.association.member</groupId>
+         <artifactId>association-fee-testing</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.association.profile</groupId>
+         <artifactId>association-profile-testing</artifactId>
+         <scope>test</scope>
+      </dependency>
    </dependencies>
 
 </project>

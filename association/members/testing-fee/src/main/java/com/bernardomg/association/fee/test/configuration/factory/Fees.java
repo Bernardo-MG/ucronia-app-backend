@@ -345,15 +345,6 @@ public final class Fees {
         return Fee.paid(FeeConstants.DATE, MemberConstants.NUMBER, name, feeType);
     }
 
-    public static final Fee paidNoTransactionNoAmount() {
-        final FeeType              feeType;
-        final FeeMember.MemberName name;
-
-        name = new FeeMember.MemberName(MemberConstants.FIRST_NAME, MemberConstants.LAST_NAME);
-        feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, 0F);
-        return Fee.paid(FeeConstants.DATE, MemberConstants.NUMBER, name, feeType);
-    }
-
     public static final Fee paidNoTransactionCurrentMonthNoAmount() {
         final FeeType              feeType;
         final FeeMember.MemberName name;
@@ -361,6 +352,15 @@ public final class Fees {
         name = new FeeMember.MemberName(MemberConstants.FIRST_NAME, MemberConstants.LAST_NAME);
         feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, 0F);
         return Fee.paid(FeeConstants.CURRENT_MONTH, MemberConstants.NUMBER, name, feeType);
+    }
+
+    public static final Fee paidNoTransactionNoAmount() {
+        final FeeType              feeType;
+        final FeeMember.MemberName name;
+
+        name = new FeeMember.MemberName(MemberConstants.FIRST_NAME, MemberConstants.LAST_NAME);
+        feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, 0F);
+        return Fee.paid(FeeConstants.DATE, MemberConstants.NUMBER, name, feeType);
     }
 
     public static final Fee paidPreviousMonth() {

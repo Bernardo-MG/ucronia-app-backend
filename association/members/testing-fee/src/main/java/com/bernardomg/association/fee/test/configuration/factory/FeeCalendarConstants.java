@@ -1,10 +1,10 @@
 
-package com.bernardomg.association.member.test.configuration.factory;
+package com.bernardomg.association.fee.test.configuration.factory;
 
 import java.time.Year;
 import java.time.YearMonth;
 
-public final class MemberCalendarConstants {
+public final class FeeCalendarConstants {
 
     public static final YearMonth CURRENT_DATE         = YearMonth.now();
 
@@ -23,7 +23,7 @@ public final class MemberCalendarConstants {
 
     public static final Year      YEAR                 = Year.of(2020);
 
-    private MemberCalendarConstants() {
+    private FeeCalendarConstants() {
         super();
     }
 

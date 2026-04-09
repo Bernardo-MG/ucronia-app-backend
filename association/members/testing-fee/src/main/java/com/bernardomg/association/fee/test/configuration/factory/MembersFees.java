@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.member.test.configuration.factory;
+package com.bernardomg.association.fee.test.configuration.factory;
 
 import java.util.Collection;
 import java.util.List;
@@ -7,8 +7,6 @@ import java.util.List;
 import com.bernardomg.association.fee.domain.model.FeeMember.MemberName;
 import com.bernardomg.association.fee.domain.model.MemberFees;
 import com.bernardomg.association.fee.domain.model.MemberFees.Fee;
-import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
-import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 
 public final class MembersFees {
 
@@ -17,8 +15,8 @@ public final class MembersFees {
         final Collection<MemberFees.Fee> months;
         final MemberName                 name;
 
-        name = new MemberName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        profile = new MemberFees.Member(ProfileConstants.NUMBER, name, true);
+        name = new MemberName(MemberConstants.FIRST_NAME, MemberConstants.LAST_NAME);
+        profile = new MemberFees.Member(MemberConstants.NUMBER, name, true);
         months = List.of(paid());
         return new MemberFees(profile, months);
     }
@@ -28,8 +26,8 @@ public final class MembersFees {
         final Collection<MemberFees.Fee> months;
         final MemberName                 name;
 
-        name = new MemberName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        profile = new MemberFees.Member(ProfileConstants.NUMBER, name, false);
+        name = new MemberName(MemberConstants.FIRST_NAME, MemberConstants.LAST_NAME);
+        profile = new MemberFees.Member(MemberConstants.NUMBER, name, false);
         months = List.of(paid());
         return new MemberFees(profile, months);
     }

@@ -48,8 +48,8 @@ import com.bernardomg.association.fee.domain.repository.FeeMemberRepository;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
+import com.bernardomg.association.fee.test.configuration.factory.MemberConstants;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
-import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.event.emitter.EventEmitter;
 
@@ -83,11 +83,11 @@ class TestFeeServiceDelete {
     @DisplayName("When deleting the current month fee, an event is sent")
     void testDelete_CurrentMonth_SendEvent() {
         // GIVEN
-        given(feeRepository.findOne(ProfileConstants.NUMBER, FeeConstants.CURRENT_MONTH))
+        given(feeRepository.findOne(MemberConstants.NUMBER, FeeConstants.CURRENT_MONTH))
             .willReturn(Optional.of(Fees.paidCurrentMonth()));
 
         // WHEN
-        service.delete(ProfileConstants.NUMBER, FeeConstants.CURRENT_MONTH);
+        service.delete(MemberConstants.NUMBER, FeeConstants.CURRENT_MONTH);
 
         // THEN
         verify(eventEmitter).emit(assertArg(e -> SoftAssertions.assertSoftly(soft -> {
@@ -100,7 +100,7 @@ class TestFeeServiceDelete {
             soft.assertThat(e)
                 .asInstanceOf(InstanceOfAssertFactories.type(FeeDeletedEvent.class))
                 .extracting(FeeDeletedEvent::getProfileNumber)
-                .isEqualTo(ProfileConstants.NUMBER);
+                .isEqualTo(MemberConstants.NUMBER);
         })));
     }
 
@@ -110,10 +110,10 @@ class TestFeeServiceDelete {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(feeRepository.findOne(ProfileConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.empty());
+        given(feeRepository.findOne(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.delete(ProfileConstants.NUMBER, FeeConstants.DATE);
+        execution = () -> service.delete(MemberConstants.NUMBER, FeeConstants.DATE);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -124,11 +124,11 @@ class TestFeeServiceDelete {
     @DisplayName("When deleting the previous month fee, an event is sent")
     void testDelete_PreviousMonth_SendEvent() {
         // GIVEN
-        given(feeRepository.findOne(ProfileConstants.NUMBER, FeeConstants.PREVIOUS_MONTH))
+        given(feeRepository.findOne(MemberConstants.NUMBER, FeeConstants.PREVIOUS_MONTH))
             .willReturn(Optional.of(Fees.paidPreviousMonth()));
 
         // WHEN
-        service.delete(ProfileConstants.NUMBER, FeeConstants.PREVIOUS_MONTH);
+        service.delete(MemberConstants.NUMBER, FeeConstants.PREVIOUS_MONTH);
 
         // THEN
         verify(eventEmitter).emit(assertArg(e -> SoftAssertions.assertSoftly(soft -> {
@@ -141,7 +141,7 @@ class TestFeeServiceDelete {
             soft.assertThat(e)
                 .asInstanceOf(InstanceOfAssertFactories.type(FeeDeletedEvent.class))
                 .extracting(FeeDeletedEvent::getProfileNumber)
-                .isEqualTo(ProfileConstants.NUMBER);
+                .isEqualTo(MemberConstants.NUMBER);
         })));
     }
 
@@ -149,13 +149,13 @@ class TestFeeServiceDelete {
     @DisplayName("When deleting the repository is called")
     void testDelete_RemovesEntity() {
         // GIVEN
-        given(feeRepository.findOne(ProfileConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
+        given(feeRepository.findOne(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
 
         // WHEN
-        service.delete(ProfileConstants.NUMBER, FeeConstants.DATE);
+        service.delete(MemberConstants.NUMBER, FeeConstants.DATE);
 
         // THEN
-        verify(feeRepository).delete(ProfileConstants.NUMBER, FeeConstants.DATE);
+        verify(feeRepository).delete(MemberConstants.NUMBER, FeeConstants.DATE);
     }
 
 }

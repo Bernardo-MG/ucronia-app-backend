@@ -207,7 +207,8 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    public final Collection<MemberFees> getForYear(final Year year, final FeeMemberStatus status, final Sorting sorting) {
+    public final Collection<MemberFees> getForYear(final Year year, final FeeMemberStatus status,
+            final Sorting sorting) {
         final Collection<Fee>        readFees;
         final Map<Object, List<Fee>> memberFees;
         final Collection<MemberFees> calendarFees;

@@ -23,8 +23,8 @@ import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.FeeMembers;
 import com.bernardomg.association.fee.test.configuration.factory.FeeTypes;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
+import com.bernardomg.association.fee.test.configuration.factory.MemberConstants;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeMaintenanceService;
-import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultFeeMaintenanceService")
@@ -45,8 +45,8 @@ public class TestFeeMaintenanceService {
 
         // GIVEN
         given(feeMemberRepository.findAllToRenew()).willReturn(List.of(FeeMembers.valid()));
-        given(feeMemberRepository.findFeeType(ProfileConstants.NUMBER)).willReturn(Optional.of(FeeTypes.positive()));
-        given(feeRepository.exists(ProfileConstants.NUMBER, FeeConstants.CURRENT_MONTH)).willReturn(false);
+        given(feeMemberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.of(FeeTypes.positive()));
+        given(feeRepository.exists(MemberConstants.NUMBER, FeeConstants.CURRENT_MONTH)).willReturn(false);
 
         // WHEN
         service.registerMonthFees();
@@ -61,8 +61,8 @@ public class TestFeeMaintenanceService {
 
         // GIVEN
         given(feeMemberRepository.findAllToRenew()).willReturn(List.of(FeeMembers.valid()));
-        given(feeMemberRepository.findFeeType(ProfileConstants.NUMBER)).willReturn(Optional.of(FeeTypes.positive()));
-        given(feeRepository.exists(ProfileConstants.NUMBER, FeeConstants.CURRENT_MONTH)).willReturn(true);
+        given(feeMemberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.of(FeeTypes.positive()));
+        given(feeRepository.exists(MemberConstants.NUMBER, FeeConstants.CURRENT_MONTH)).willReturn(true);
 
         // WHEN
         service.registerMonthFees();
@@ -78,7 +78,7 @@ public class TestFeeMaintenanceService {
 
         // GIVEN
         given(feeMemberRepository.findAllToRenew()).willReturn(List.of(FeeMembers.valid()));
-        given(feeMemberRepository.findFeeType(ProfileConstants.NUMBER)).willReturn(Optional.empty());
+        given(feeMemberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
         execution = () -> service.registerMonthFees();
@@ -108,8 +108,8 @@ public class TestFeeMaintenanceService {
 
         // GIVEN
         given(feeMemberRepository.findAllToRenew()).willReturn(List.of(FeeMembers.valid()));
-        given(feeMemberRepository.findFeeType(ProfileConstants.NUMBER)).willReturn(Optional.of(FeeTypes.zero()));
-        given(feeRepository.exists(ProfileConstants.NUMBER, FeeConstants.CURRENT_MONTH)).willReturn(false);
+        given(feeMemberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.of(FeeTypes.zero()));
+        given(feeRepository.exists(MemberConstants.NUMBER, FeeConstants.CURRENT_MONTH)).willReturn(false);
 
         // WHEN
         service.registerMonthFees();

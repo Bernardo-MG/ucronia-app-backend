@@ -47,8 +47,8 @@ import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.FeeMembers;
 import com.bernardomg.association.fee.test.configuration.factory.FeeTypes;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
+import com.bernardomg.association.fee.test.configuration.factory.MemberConstants;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
-import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.validation.domain.model.FieldFailure;
@@ -82,13 +82,13 @@ class TestFeeServiceCreateFee {
         final Fee fee;
 
         // GIVEN
-        given(feeMemberRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(FeeMembers.valid()));
-        given(feeMemberRepository.findFeeType(ProfileConstants.NUMBER)).willReturn(Optional.of(FeeTypes.positive()));
+        given(feeMemberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(FeeMembers.valid()));
+        given(feeMemberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.of(FeeTypes.positive()));
         given(feeRepository.save(Fees.notPaid())).willReturn(Fees.notPaid());
-        given(feeRepository.exists(ProfileConstants.NUMBER, FeeConstants.DATE)).willReturn(false);
+        given(feeRepository.exists(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(false);
 
         // WHEN
-        fee = service.createFee(FeeConstants.DATE, ProfileConstants.NUMBER);
+        fee = service.createFee(FeeConstants.DATE, MemberConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(fee)
@@ -103,12 +103,12 @@ class TestFeeServiceCreateFee {
         final FieldFailure     failure;
 
         // GIVEN
-        given(feeMemberRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(FeeMembers.valid()));
-        given(feeMemberRepository.findFeeType(ProfileConstants.NUMBER)).willReturn(Optional.of(FeeTypes.positive()));
-        given(feeRepository.exists(ProfileConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
+        given(feeMemberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(FeeMembers.valid()));
+        given(feeMemberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.of(FeeTypes.positive()));
+        given(feeRepository.exists(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
 
         // WHEN
-        execution = () -> service.createFee(FeeConstants.DATE, ProfileConstants.NUMBER);
+        execution = () -> service.createFee(FeeConstants.DATE, MemberConstants.NUMBER);
 
         // THEN
         failure = new FieldFailure("existing", "month", "month.existing", FeeConstants.DATE);
@@ -122,13 +122,13 @@ class TestFeeServiceCreateFee {
         final Fee fee;
 
         // GIVEN
-        given(feeMemberRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(FeeMembers.valid()));
-        given(feeMemberRepository.findFeeType(ProfileConstants.NUMBER)).willReturn(Optional.of(FeeTypes.zero()));
+        given(feeMemberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(FeeMembers.valid()));
+        given(feeMemberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.of(FeeTypes.zero()));
         given(feeRepository.save(Fees.paidNoTransactionNoAmount())).willReturn(Fees.paidNoTransactionNoAmount());
-        given(feeRepository.exists(ProfileConstants.NUMBER, FeeConstants.DATE)).willReturn(false);
+        given(feeRepository.exists(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(false);
 
         // WHEN
-        fee = service.createFee(FeeConstants.DATE, ProfileConstants.NUMBER);
+        fee = service.createFee(FeeConstants.DATE, MemberConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(fee)
@@ -142,11 +142,11 @@ class TestFeeServiceCreateFee {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(feeMemberRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(FeeMembers.valid()));
-        given(feeMemberRepository.findFeeType(ProfileConstants.NUMBER)).willReturn(Optional.empty());
+        given(feeMemberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(FeeMembers.valid()));
+        given(feeMemberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.createFee(FeeConstants.DATE, ProfileConstants.NUMBER);
+        execution = () -> service.createFee(FeeConstants.DATE, MemberConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -159,10 +159,10 @@ class TestFeeServiceCreateFee {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(feeMemberRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.empty());
+        given(feeMemberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.createFee(FeeConstants.DATE, ProfileConstants.NUMBER);
+        execution = () -> service.createFee(FeeConstants.DATE, MemberConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)

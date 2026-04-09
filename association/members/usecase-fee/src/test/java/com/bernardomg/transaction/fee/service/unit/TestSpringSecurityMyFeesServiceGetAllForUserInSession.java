@@ -48,9 +48,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
+import com.bernardomg.association.fee.test.configuration.factory.MemberConstants;
 import com.bernardomg.association.fee.test.configuration.factory.UserConstants;
 import com.bernardomg.association.fee.usecase.service.SpringSecurityMyFeesService;
-import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.association.profile.test.configuration.factory.Profiles;
 import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
 import com.bernardomg.pagination.domain.Page;
@@ -74,7 +74,7 @@ class TestSpringSecurityMyFeesServiceGetAllForUserInSession {
     private UserDetails                 userDetails;
 
     @Mock
-    private UserProfileRepository       userProfileRepository;
+    private UserProfileRepository       userProfileConstantsRepository;
 
     @Test
     @DisplayName("When there is data it is returned")
@@ -94,10 +94,11 @@ class TestSpringSecurityMyFeesServiceGetAllForUserInSession {
         SecurityContextHolder.getContext()
             .setAuthentication(authentication);
 
-        given(userProfileRepository.findByUsername(UserConstants.USERNAME)).willReturn(Optional.of(Profiles.valid()));
+        given(userProfileConstantsRepository.findByUsername(UserConstants.USERNAME))
+            .willReturn(Optional.of(Profiles.valid()));
 
         existing = new Page<>(List.of(Fees.paid()), 0, 0, 0, 0, 0, false, false, sorting);
-        given(feeRepository.findAllForMember(ProfileConstants.NUMBER, pagination, sorting)).willReturn(existing);
+        given(feeRepository.findAllForMember(MemberConstants.NUMBER, pagination, sorting)).willReturn(existing);
 
         // WHEN
         fees = myFeesService.getAllForUserInSession(pagination, sorting);
@@ -153,10 +154,11 @@ class TestSpringSecurityMyFeesServiceGetAllForUserInSession {
         SecurityContextHolder.getContext()
             .setAuthentication(authentication);
 
-        given(userProfileRepository.findByUsername(UserConstants.USERNAME)).willReturn(Optional.of(Profiles.valid()));
+        given(userProfileConstantsRepository.findByUsername(UserConstants.USERNAME))
+            .willReturn(Optional.of(Profiles.valid()));
 
         existing = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
-        given(feeRepository.findAllForMember(ProfileConstants.NUMBER, pagination, sorting)).willReturn(existing);
+        given(feeRepository.findAllForMember(MemberConstants.NUMBER, pagination, sorting)).willReturn(existing);
 
         // WHEN
         fees = myFeesService.getAllForUserInSession(pagination, sorting);
@@ -186,7 +188,7 @@ class TestSpringSecurityMyFeesServiceGetAllForUserInSession {
         SecurityContextHolder.getContext()
             .setAuthentication(authentication);
 
-        given(userProfileRepository.findByUsername(UserConstants.USERNAME)).willReturn(Optional.empty());
+        given(userProfileConstantsRepository.findByUsername(UserConstants.USERNAME)).willReturn(Optional.empty());
 
         // WHEN
         fees = myFeesService.getAllForUserInSession(pagination, sorting);
