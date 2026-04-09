@@ -37,16 +37,15 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.MessageSource;
 
+import com.bernardomg.association.fee.domain.model.FeeMemberStatus;
 import com.bernardomg.association.fee.domain.model.MemberFees;
+import com.bernardomg.association.fee.domain.repository.FeeMemberRepository;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
-import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
+import com.bernardomg.association.fee.test.configuration.factory.FeeCalendarConstants;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
+import com.bernardomg.association.fee.test.configuration.factory.MemberConstants;
+import com.bernardomg.association.fee.test.configuration.factory.MembersFees;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
-import com.bernardomg.association.member.domain.model.MemberStatus;
-import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
-import com.bernardomg.association.member.test.configuration.factory.MemberCalendarConstants;
-import com.bernardomg.association.member.test.configuration.factory.MembersFees;
-import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.pagination.domain.Sorting;
@@ -56,25 +55,22 @@ import com.bernardomg.pagination.domain.Sorting;
 class TestFeeServiceGetForYear {
 
     @Mock
-    private EventEmitter            eventEmitter;
+    private EventEmitter          eventEmitter;
 
     @Mock
-    private FeeRepository           feeRepository;
+    private FeeMemberRepository   feeMemberRepository;
 
     @Mock
-    private FeeTypeRepository       feeTypeRepository;
+    private FeeRepository         feeRepository;
 
     @Mock
-    private MemberProfileRepository memberProfileRepository;
-
-    @Mock
-    private MessageSource           messageSource;
+    private MessageSource         messageSource;
 
     @InjectMocks
-    private DefaultFeeService       service;
+    private DefaultFeeService     service;
 
     @Mock
-    private TransactionRepository   transactionRepository;
+    private TransactionRepository transactionRepository;
 
     @Test
     @DisplayName("When filtering by active the correct query is used")
@@ -85,11 +81,11 @@ class TestFeeServiceGetForYear {
         // GIVEN
         sorting = Sorting.unsorted();
 
-        given(feeRepository.findAllInYearForActiveMembers(MemberCalendarConstants.CURRENT_YEAR, sorting))
+        given(feeRepository.findAllInYearForActiveMembers(FeeCalendarConstants.CURRENT_YEAR, sorting))
             .willReturn(List.of(Fees.paidCurrentMonth()));
 
         // WHEN
-        calendars = service.getForYear(MemberCalendarConstants.CURRENT_YEAR, MemberStatus.ACTIVE, sorting);
+        calendars = service.getForYear(FeeCalendarConstants.CURRENT_YEAR, FeeMemberStatus.ACTIVE, sorting);
 
         // THEN
         Assertions.assertThat(calendars)
@@ -105,12 +101,12 @@ class TestFeeServiceGetForYear {
         // GIVEN
         sorting = Sorting.unsorted();
 
-        given(feeRepository.findAllInYear(MemberCalendarConstants.CURRENT_YEAR, sorting))
+        given(feeRepository.findAllInYear(FeeCalendarConstants.CURRENT_YEAR, sorting))
             .willReturn(List.of(Fees.paidCurrentMonth()));
-        given(memberProfileRepository.isActive(ProfileConstants.NUMBER)).willReturn(true);
+        given(feeMemberRepository.isActive(MemberConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        calendars = service.getForYear(MemberCalendarConstants.CURRENT_YEAR, MemberStatus.ALL, sorting);
+        calendars = service.getForYear(FeeCalendarConstants.CURRENT_YEAR, FeeMemberStatus.ALL, sorting);
 
         // THEN
         Assertions.assertThat(calendars)
@@ -126,11 +122,11 @@ class TestFeeServiceGetForYear {
         // GIVEN
         sorting = Sorting.unsorted();
 
-        given(feeRepository.findAllInYearForInactiveMembers(MemberCalendarConstants.CURRENT_YEAR, sorting))
+        given(feeRepository.findAllInYearForInactiveMembers(FeeCalendarConstants.CURRENT_YEAR, sorting))
             .willReturn(List.of(Fees.paidCurrentMonth()));
 
         // WHEN
-        calendars = service.getForYear(MemberCalendarConstants.CURRENT_YEAR, MemberStatus.INACTIVE, sorting);
+        calendars = service.getForYear(FeeCalendarConstants.CURRENT_YEAR, FeeMemberStatus.INACTIVE, sorting);
 
         // THEN
         Assertions.assertThat(calendars)

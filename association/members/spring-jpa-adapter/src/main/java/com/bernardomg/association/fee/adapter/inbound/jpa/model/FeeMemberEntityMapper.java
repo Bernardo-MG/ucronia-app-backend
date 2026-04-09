@@ -22,17 +22,31 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.domain.model;
+package com.bernardomg.association.fee.adapter.inbound.jpa.model;
 
-import java.time.YearMonth;
-import java.util.Collection;
-
+import com.bernardomg.association.fee.domain.model.FeeMember;
 import com.bernardomg.association.fee.domain.model.FeeMember.MemberName;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberProfileEntity;
 
-public record MemberFees(Member member, Collection<Fee> fees) {
+/**
+ * Fee repository mapper.
+ */
+public final class FeeMemberEntityMapper {
 
-    public record Fee(YearMonth month, Boolean paid) {}
+    public static final FeeMember toDomain(final MemberProfileEntity entity) {
+        final MemberName name;
 
-    public static record Member(Long number, MemberName name, Boolean active) {}
+        name = new MemberName(entity.getProfile()
+            .getFirstName(),
+            entity.getProfile()
+                .getLastName());
+
+        return new FeeMember(entity.getProfile()
+            .getNumber(), name);
+    }
+
+    private FeeMemberEntityMapper() {
+        super();
+    }
 
 }

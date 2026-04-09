@@ -26,21 +26,17 @@ package com.bernardomg.association.fee.usecase.service;
 
 import java.time.YearMonth;
 import java.util.Collection;
-import java.util.Map;
 import java.util.Objects;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bernardomg.association.fee.domain.exception.MissingFeeTypeException;
 import com.bernardomg.association.fee.domain.model.Fee;
+import com.bernardomg.association.fee.domain.model.FeeMember;
 import com.bernardomg.association.fee.domain.model.FeeType;
+import com.bernardomg.association.fee.domain.repository.FeeMemberRepository;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
-import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
-import com.bernardomg.association.member.domain.model.MemberProfile;
-import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -55,44 +51,32 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
     /**
      * Logger for the class.
      */
-    private static final Logger           log = LoggerFactory.getLogger(DefaultFeeMaintenanceService.class);
+    private static final Logger       log = LoggerFactory.getLogger(DefaultFeeMaintenanceService.class);
 
-    private final FeeRepository           feeRepository;
+    private final FeeMemberRepository feeMemberRepository;
 
-    private final FeeTypeRepository       feeTypeRepository;
+    private final FeeRepository       feeRepository;
 
-    private final MemberProfileRepository memberProfileRepository;
-
-    public DefaultFeeMaintenanceService(final FeeRepository feeRepo, final FeeTypeRepository feeTypeRepo,
-            final MemberProfileRepository memberProfileRepo) {
+    public DefaultFeeMaintenanceService(final FeeRepository feeRepo, final FeeMemberRepository feeMemberRepo) {
         super();
 
         feeRepository = Objects.requireNonNull(feeRepo);
-        feeTypeRepository = Objects.requireNonNull(feeTypeRepo);
-        memberProfileRepository = Objects.requireNonNull(memberProfileRepo);
+        feeMemberRepository = Objects.requireNonNull(feeMemberRepo);
     }
 
     @Override
     public final void registerMonthFees() {
-        final Collection<Fee>           feesToCreate;
-        final Collection<MemberProfile> toRenew;
-        final Map<Long, FeeType>        feeTypes;
+        final Collection<Fee>       feesToCreate;
+        final Collection<FeeMember> toRenew;
 
         log.info("Registering fees for this month");
 
         // Find fees to extend into the current month
-        toRenew = memberProfileRepository.findAllToRenew();
-
-        feeTypes = toRenew.stream()
-            .map(m -> m.feeType()
-                .number())
-            .distinct()
-            .map(this::getFeeType)
-            .collect(Collectors.toMap(FeeType::number, Function.identity()));
+        toRenew = feeMemberRepository.findAllToRenew();
 
         feesToCreate = toRenew.stream()
             // Prepare for the current month
-            .map(member -> toFeeThisMonth(member, feeTypes))
+            .map(this::toFeeThisMonth)
             // Make sure it doesn't exist
             .filter(this::notExists)
             .toList();
@@ -102,39 +86,34 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
         log.debug("Registered {} fees for this month", feesToCreate.size());
     }
 
-    private final FeeType getFeeType(final Long number) {
-        return feeTypeRepository.findOne(number)
-            .orElseThrow(() -> {
-                log.error("Missing fee type {}", number);
-                throw new MissingFeeTypeException(number);
-            });
-    }
-
     private final boolean notExists(final Fee fee) {
         return !feeRepository.exists(fee.member()
             .number(), fee.month());
     }
 
-    private final Fee toFeeThisMonth(final MemberProfile member, final Map<Long, FeeType> feeTypes) {
-        final Fee.FeeType feeFeeType;
-        final FeeType     feeType;
-        final Fee         fee;
+    private final Fee toFeeThisMonth(final FeeMember member) {
+        final FeeType              feeType;
+        final Fee                  fee;
+        final FeeMember.MemberName name;
 
-        feeType = feeTypes.get(member.feeType()
-            .number());
-        feeFeeType = new Fee.FeeType(member.feeType()
-            .number(),
-            member.feeType()
-                .name(),
-            member.feeType()
-                .amount());
+        feeType = feeMemberRepository.findFeeType(member.number())
+            .orElseThrow(() -> {
+                // TODO: is not the correct number
+                log.error("Missing fee type {}", member.number());
+                throw new MissingFeeTypeException(member.number());
+            });
+
+        name = new FeeMember.MemberName(member.name()
+            .firstName(),
+            member.name()
+                .lastName());
 
         if (feeType.amount() == 0) {
             // No amount
             // Set to paid automatically
-            fee = Fee.paid(YearMonth.now(), member.number(), member.name(), feeFeeType);
+            fee = Fee.paid(YearMonth.now(), member.number(), name, feeType);
         } else {
-            fee = Fee.unpaid(YearMonth.now(), member.number(), member.name(), feeFeeType);
+            fee = Fee.unpaid(YearMonth.now(), member.number(), name, feeType);
         }
 
         return fee;

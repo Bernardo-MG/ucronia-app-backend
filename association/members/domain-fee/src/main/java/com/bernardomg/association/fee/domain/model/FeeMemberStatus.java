@@ -24,15 +24,6 @@
 
 package com.bernardomg.association.fee.domain.model;
 
-import java.time.YearMonth;
-import java.util.Collection;
-
-import com.bernardomg.association.fee.domain.model.FeeMember.MemberName;
-
-public record MemberFees(Member member, Collection<Fee> fees) {
-
-    public record Fee(YearMonth month, Boolean paid) {}
-
-    public static record Member(Long number, MemberName name, Boolean active) {}
-
+public enum FeeMemberStatus {
+    ACTIVE, ALL, INACTIVE
 }

@@ -1,18 +1,4 @@
 components:
-  parameters:
-    membersSortParam:
-      name: sort
-      description: Sorting to apply.
-      in: query
-      style: form
-      explode: true
-      required: false
-      schema:
-        type: array
-        items:
-          type: string
-          pattern: '^(firstName|lastName|number)\|(asc|desc)$'
-          example: username|asc
   schemas:
     Member:
       type: object
@@ -21,134 +7,24 @@ components:
         number:
           $ref: '../common/ids.yml#/components/schemas/Id'
         name:
-          $ref: 'profiles.yml#/components/schemas/ProfileName'
-        renew:
-          type: boolean
-          description: Whether the member is eligible for renewal.
-    MemberProfile:
+          $ref: '#/components/schemas/MemberName'
+    MemberName:
       type: object
-      required: [number, name]
+      required: [firstName, lastName, fullName]
       properties:
-        number:
-          $ref: '../common/ids.yml#/components/schemas/Id'
-        identifier:
+        firstName:
           type: string
-          description: Unique identifier of the member.
-          maxLength: 15
-        name:
-          $ref: 'profiles.yml#/components/schemas/ProfileName'
-        birthDate:
-          $ref: '../common/dates.yml#/components/schemas/Date'
-        contactChannels:
-          type: array
-          items:
-            $ref: 'profiles.yml#/components/schemas/ContactChannel'
-        address:
+          example: 'John'
+          maxLength: 50
+        lastName:
           type: string
-          description: Member address.
-          maxLength: 250
-        comments:
+          example: 'Smith'
+          maxLength: 50
+        fullName:
           type: string
-          description: Comments about the member.
-          maxLength: 250
-        feeType:
-          $ref: '#/components/schemas/MemberFeeType'
-        active:
-          type: boolean
-          description: Whether the member is active.
-        renew:
-          type: boolean
-          description: Whether the member is eligible for renewal.
-        types:
-          type: array
-          items:
-            type: string
-    MemberProfileCreation:
-      type: object
-      required: [name]
-      properties:
-        feeType:
-          $ref: '../common/ids.yml#/components/schemas/Id'
-        identifier:
-          type: string
-          description: Unique identifier of the member.
-          maxLength: 15
-        name:
-          $ref: 'profiles.yml#/components/schemas/EditionProfileName'
-    MemberProfileUpdate:
-      type: object
-      required: [name]
-      properties:
-        identifier:
-          type: string
-          maxLength: 15
-        feeType:
-          $ref: '../common/ids.yml#/components/schemas/Id'
-        name:
-          $ref: 'profiles.yml#/components/schemas/EditionProfileName'
-        birthDate:
-          $ref: '../common/dates.yml#/components/schemas/Date'
-        contactChannels:
-          type: array
-          items:
-            $ref: 'profiles.yml#/components/schemas/EditionContactChannel'
-        address:
-          type: string
-          description: Member address.
-          maxLength: 250
-        comments:
-          type: string
-          maxLength: 250
-        active:
-          type: boolean
-          description: Whether the member is active.
-        renew:
-          type: boolean
-          description: Whether the member is eligible for renewal.
+          example: 'John Smith'
+          maxLength: 100
     MemberStatus:
       type: string
       description: Status filter for member queries.
       enum: [ACTIVE, INACTIVE, ALL]
-    MemberFeeType:
-      type: object
-      properties:
-        number:
-          $ref: '../common/ids.yml#/components/schemas/Id'
-        name:
-          type: string
-        amount:
-          type: number
-          format: float
-    ProfileMembershipConversion:
-      type: object
-      properties:
-        feeType:
-          $ref: '../common/ids.yml#/components/schemas/Id'
-    MemberPageResponse:
-      allOf:
-        - $ref: '../common/responses.yml#/components/schemas/PageResponse'
-        - type: object
-          properties:
-            content:
-              type: array
-              items:
-                $ref: '#/components/schemas/Member'
-    MemberProfilePageResponse:
-      allOf:
-        - $ref: '../common/responses.yml#/components/schemas/PageResponse'
-        - type: object
-          properties:
-            content:
-              type: array
-              items:
-                $ref: '#/components/schemas/MemberProfile'
-    MemberResponse:
-      type: object
-      properties:
-        content:
-          $ref: '#/components/schemas/Member'
-    MemberProfileResponse:
-      type: object
-      properties:
-        content:
-          $ref: '#/components/schemas/MemberProfile'

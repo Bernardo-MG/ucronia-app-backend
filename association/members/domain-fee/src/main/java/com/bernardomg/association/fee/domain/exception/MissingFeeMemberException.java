@@ -22,17 +22,31 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.domain.model;
+package com.bernardomg.association.fee.domain.exception;
 
-import java.time.YearMonth;
-import java.util.Collection;
+/**
+ * Missing fee exception.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+public final class MissingFeeMemberException extends RuntimeException {
 
-import com.bernardomg.association.fee.domain.model.FeeMember.MemberName;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 3805120995272475781L;
 
-public record MemberFees(Member member, Collection<Fee> fees) {
+    private final long        number;
 
-    public record Fee(YearMonth month, Boolean paid) {}
+    public MissingFeeMemberException(final long number) {
+        super(String.format("Missing number %s for member", number));
 
-    public static record Member(Long number, MemberName name, Boolean active) {}
+        this.number = number;
+    }
+
+    public final long getNumber() {
+        return number;
+    }
 
 }

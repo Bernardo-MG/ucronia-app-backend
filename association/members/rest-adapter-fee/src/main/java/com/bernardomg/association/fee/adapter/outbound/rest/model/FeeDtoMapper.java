@@ -49,9 +49,9 @@ import com.bernardomg.ucronia.openapi.model.FeeResponseDto;
 import com.bernardomg.ucronia.openapi.model.FeeTransactionDto;
 import com.bernardomg.ucronia.openapi.model.FeeUpdateDto;
 import com.bernardomg.ucronia.openapi.model.FeesResponseDto;
-import com.bernardomg.ucronia.openapi.model.MinimalProfileDto;
+import com.bernardomg.ucronia.openapi.model.MemberDto;
+import com.bernardomg.ucronia.openapi.model.MemberNameDto;
 import com.bernardomg.ucronia.openapi.model.MonthFeeDto;
-import com.bernardomg.ucronia.openapi.model.ProfileNameDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
 import com.bernardomg.ucronia.openapi.model.SortingDto;
@@ -132,12 +132,12 @@ public final class FeeDtoMapper {
     }
 
     private static final FeeDto toDto(final Fee fee) {
-        final ProfileNameDto    name;
-        final MinimalProfileDto member;
+        final MemberNameDto     name;
+        final MemberDto         member;
         final FeeTransactionDto transaction;
         final FeeFeeTypeDto     feeType;
 
-        name = new ProfileNameDto().firstName(fee.member()
+        name = new MemberNameDto().firstName(fee.member()
             .name()
             .firstName())
             .lastName(fee.member()
@@ -147,7 +147,7 @@ public final class FeeDtoMapper {
                 .name()
                 .fullName());
 
-        member = new MinimalProfileDto().name(name)
+        member = new MemberDto().name(name)
             .number(fee.member()
                 .number());
 
@@ -180,10 +180,10 @@ public final class FeeDtoMapper {
 
     private static final FeeCalendarDto toDto(final MemberFees memberFee) {
         final FeeCalendarMemberDto member;
-        final ProfileNameDto       name;
+        final MemberNameDto        name;
         final List<MonthFeeDto>    months;
 
-        name = new ProfileNameDto().firstName(memberFee.member()
+        name = new MemberNameDto().firstName(memberFee.member()
             .name()
             .firstName())
             .lastName(memberFee.member()

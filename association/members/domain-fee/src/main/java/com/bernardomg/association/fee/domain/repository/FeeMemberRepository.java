@@ -22,17 +22,22 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.domain.model;
+package com.bernardomg.association.fee.domain.repository;
 
-import java.time.YearMonth;
 import java.util.Collection;
+import java.util.Optional;
 
-import com.bernardomg.association.fee.domain.model.FeeMember.MemberName;
+import com.bernardomg.association.fee.domain.model.FeeMember;
+import com.bernardomg.association.fee.domain.model.FeeType;
 
-public record MemberFees(Member member, Collection<Fee> fees) {
+public interface FeeMemberRepository {
 
-    public record Fee(YearMonth month, Boolean paid) {}
+    public Collection<FeeMember> findAllToRenew();
 
-    public static record Member(Long number, MemberName name, Boolean active) {}
+    public Optional<FeeType> findFeeType(final Long number);
+
+    public Optional<FeeMember> findOne(final Long number);
+
+    public boolean isActive(final long number);
 
 }

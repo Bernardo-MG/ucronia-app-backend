@@ -40,12 +40,11 @@ import org.springframework.context.MessageSource;
 
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
+import com.bernardomg.association.fee.domain.repository.FeeMemberRepository;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
-import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.test.configuration.factory.FeesQuery;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
-import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.pagination.domain.Page;
@@ -57,25 +56,22 @@ import com.bernardomg.pagination.domain.Sorting;
 class TestFeeServiceGetAll {
 
     @Mock
-    private EventEmitter            eventEmitter;
+    private EventEmitter          eventEmitter;
 
     @Mock
-    private FeeRepository           feeRepository;
+    private FeeMemberRepository   feeMemberRepository;
 
     @Mock
-    private FeeTypeRepository       feeTypeRepository;
+    private FeeRepository         feeRepository;
 
     @Mock
-    private MemberProfileRepository memberProfileRepository;
-
-    @Mock
-    private MessageSource           messageSource;
+    private MessageSource         messageSource;
 
     @InjectMocks
-    private DefaultFeeService       service;
+    private DefaultFeeService     service;
 
     @Mock
-    private TransactionRepository   transactionRepository;
+    private TransactionRepository transactionRepository;
 
     @Test
     @DisplayName("When there is data it is returned")

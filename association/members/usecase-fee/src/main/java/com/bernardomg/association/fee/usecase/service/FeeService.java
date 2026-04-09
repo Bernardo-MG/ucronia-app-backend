@@ -30,11 +30,11 @@ import java.util.Collection;
 import java.util.Optional;
 
 import com.bernardomg.association.fee.domain.model.Fee;
+import com.bernardomg.association.fee.domain.model.FeeMemberStatus;
 import com.bernardomg.association.fee.domain.model.FeePayments;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.domain.model.MemberFees;
 import com.bernardomg.association.fee.domain.model.YearsRange;
-import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
@@ -94,7 +94,7 @@ public interface FeeService {
      *            sorting to apply
      * @return all the member fees for a year
      */
-    public Collection<MemberFees> getForYear(final Year year, final MemberStatus status, final Sorting sorting);
+    public Collection<MemberFees> getForYear(final Year year, final FeeMemberStatus status, final Sorting sorting);
 
     /**
      * Returns the fee for the received member in the received date, if it exists. Otherwise an empty {@code Optional}
