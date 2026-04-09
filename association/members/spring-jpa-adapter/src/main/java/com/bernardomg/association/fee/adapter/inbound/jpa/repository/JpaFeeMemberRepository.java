@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.fee.adapter.inbound.jpa.repository;
 
+import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -53,6 +54,22 @@ public final class JpaFeeMemberRepository implements FeeMemberRepository {
         super();
 
         memberProfileSpringRepository = Objects.requireNonNull(memberProfileSpringRepo);
+    }
+
+    @Override
+    public final Collection<FeeMember> findAllToRenew() {
+        final Collection<FeeMember> members;
+
+        log.debug("Finding all the members to renew");
+
+        members = memberProfileSpringRepository.findAllByRenewTrue()
+            .stream()
+            .map(FeeMemberEntityMapper::toDomain)
+            .toList();
+
+        log.debug("Found all the members to renew: {}", members);
+
+        return members;
     }
 
     @Override

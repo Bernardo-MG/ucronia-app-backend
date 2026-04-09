@@ -58,7 +58,6 @@ import com.bernardomg.association.fee.domain.model.MemberFees.Member;
 import com.bernardomg.association.fee.domain.model.YearsRange;
 import com.bernardomg.association.fee.domain.repository.FeeMemberRepository;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
-import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
 import com.bernardomg.association.fee.usecase.validation.FeeFeeTypeNotChangedRule;
 import com.bernardomg.association.fee.usecase.validation.FeeMonthNotExistingRule;
 import com.bernardomg.association.fee.usecase.validation.FeeNotPaidInFutureRule;
@@ -106,9 +105,9 @@ public final class DefaultFeeService implements FeeService {
 
     private final Validator<Fee>         validatorUpdate;
 
-    public DefaultFeeService(final FeeRepository feeRepo, 
-            final FeeMemberRepository feeMemberRepo, final TransactionRepository transactionRepo,
-            final EventEmitter evntEmitter, final MessageSource msgSource) {
+    public DefaultFeeService(final FeeRepository feeRepo, final FeeMemberRepository feeMemberRepo,
+            final TransactionRepository transactionRepo, final EventEmitter evntEmitter,
+            final MessageSource msgSource) {
         super();
 
         feeRepository = Objects.requireNonNull(feeRepo);
