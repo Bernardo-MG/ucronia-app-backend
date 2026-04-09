@@ -42,11 +42,11 @@ import com.bernardomg.ucronia.openapi.model.ContactMethodDto;
 import com.bernardomg.ucronia.openapi.model.EditionContactChannelDto;
 import com.bernardomg.ucronia.openapi.model.GuestCreationDto;
 import com.bernardomg.ucronia.openapi.model.GuestDto;
+import com.bernardomg.ucronia.openapi.model.GuestNameDto;
 import com.bernardomg.ucronia.openapi.model.GuestPageResponseDto;
 import com.bernardomg.ucronia.openapi.model.GuestPatchDto;
 import com.bernardomg.ucronia.openapi.model.GuestResponseDto;
 import com.bernardomg.ucronia.openapi.model.GuestUpdateDto;
-import com.bernardomg.ucronia.openapi.model.ProfileNameDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
 import com.bernardomg.ucronia.openapi.model.SortingDto;
@@ -149,10 +149,10 @@ public final class GuestDtoMapper {
     }
 
     private static final GuestDto toDto(final Guest guest) {
-        ProfileNameDto          name;
+        GuestNameDto          name;
         List<ContactChannelDto> contactChannels;
 
-        name = new ProfileNameDto().firstName(guest.name()
+        name = new GuestNameDto().firstName(guest.name()
             .firstName())
             .lastName(guest.name()
                 .lastName())

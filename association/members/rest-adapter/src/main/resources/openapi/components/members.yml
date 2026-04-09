@@ -14,6 +14,70 @@ components:
           pattern: '^(firstName|lastName|number)\|(asc|desc)$'
           example: username|asc
   schemas:
+    MemberName:
+      type: object
+      required: [firstName, lastName, fullName]
+      properties:
+        firstName:
+          type: string
+          example: 'John'
+          maxLength: 50
+        lastName:
+          type: string
+          example: 'Smith'
+          maxLength: 50
+        fullName:
+          type: string
+          example: 'John Smith'
+          maxLength: 100
+    EditionMemberName:
+      type: object
+      required: [firstName, lastName]
+      properties:
+        firstName:
+          type: string
+          example: 'John'
+          maxLength: 50
+        lastName:
+          type: string
+          example: 'Smith'
+          maxLength: 50
+    ContactMethod:
+      type: object
+      required: [number, name]
+      properties:
+        number:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        name:
+          type: string
+          description: Name of the contact method.
+    ContactChannel:
+      type: object
+      required: [method, detail]
+      properties:
+        method:
+          $ref: '#/components/schemas/ContactMethod'
+        detail:
+          type: string
+          description: Contact channel detail.
+    EditionContactChannel:
+      type: object
+      required: [method, detail]
+      properties:
+        method:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        detail:
+          type: string
+          description: Contact detail.
+          maxLength: 50
+    MinimalMember:
+      type: object
+      required: [number, name]
+      properties:
+        number:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        name:
+          $ref: '#/components/schemas/ProfileName'
     Member:
       type: object
       required: [number, name]
@@ -21,7 +85,7 @@ components:
         number:
           $ref: '../common/ids.yml#/components/schemas/Id'
         name:
-          $ref: 'profiles.yml#/components/schemas/ProfileName'
+          $ref: '#/components/schemas/MemberName'
         renew:
           type: boolean
           description: Whether the member is eligible for renewal.
@@ -36,13 +100,13 @@ components:
           description: Unique identifier of the member.
           maxLength: 15
         name:
-          $ref: 'profiles.yml#/components/schemas/ProfileName'
+          $ref: '#/components/schemas/MemberName'
         birthDate:
           $ref: '../common/dates.yml#/components/schemas/Date'
         contactChannels:
           type: array
           items:
-            $ref: 'profiles.yml#/components/schemas/ContactChannel'
+            $ref: '#/components/schemas/ContactChannel'
         address:
           type: string
           description: Member address.
@@ -74,7 +138,7 @@ components:
           description: Unique identifier of the member.
           maxLength: 15
         name:
-          $ref: 'profiles.yml#/components/schemas/EditionProfileName'
+          $ref: '#/components/schemas/EditionMemberName'
     MemberProfileUpdate:
       type: object
       required: [name]
@@ -85,13 +149,13 @@ components:
         feeType:
           $ref: '../common/ids.yml#/components/schemas/Id'
         name:
-          $ref: 'profiles.yml#/components/schemas/EditionProfileName'
+          $ref: '#/components/schemas/EditionMemberName'
         birthDate:
           $ref: '../common/dates.yml#/components/schemas/Date'
         contactChannels:
           type: array
           items:
-            $ref: 'profiles.yml#/components/schemas/EditionContactChannel'
+            $ref: '#/components/schemas/EditionContactChannel'
         address:
           type: string
           description: Member address.

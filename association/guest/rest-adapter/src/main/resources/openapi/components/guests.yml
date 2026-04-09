@@ -14,6 +14,53 @@ components:
           pattern: '^(firstName|lastName|number)\|(asc|desc)$'
           example: username|asc
   schemas:
+    GuestName:
+      type: object
+      required: [firstName, lastName, fullName]
+      properties:
+        firstName:
+          type: string
+          example: 'John'
+          maxLength: 50
+        lastName:
+          type: string
+          example: 'Smith'
+          maxLength: 50
+        fullName:
+          type: string
+          example: 'John Smith'
+          maxLength: 100
+    EditionGuestName:
+      type: object
+      required: [firstName, lastName]
+      properties:
+        firstName:
+          type: string
+          example: 'John'
+          maxLength: 50
+        lastName:
+          type: string
+          example: 'Smith'
+          maxLength: 50
+    ContactChannel:
+      type: object
+      required: [method, detail]
+      properties:
+        method:
+          $ref: 'contact_methods.yml#/components/schemas/ContactMethod'
+        detail:
+          type: string
+          description: Contact channel detail.
+    EditionContactChannel:
+      type: object
+      required: [method, detail]
+      properties:
+        method:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        detail:
+          type: string
+          description: Contact detail.
+          maxLength: 50
     Guest:
       type: object
       required: [number, name]
@@ -25,13 +72,13 @@ components:
           description: Unique identifier of the guest.
           maxLength: 15
         name:
-          $ref: 'profiles.yml#/components/schemas/ProfileName'
+          $ref: '#/components/schemas/GuestName'
         birthDate:
           $ref: '../common/dates.yml#/components/schemas/Date'
         contactChannels:
           type: array
           items:
-            $ref: 'profiles.yml#/components/schemas/ContactChannel'
+            $ref: '#/components/schemas/ContactChannel'
         games:
           type: array
           items:
@@ -56,7 +103,7 @@ components:
           type: string
           description: Unique identifier of the contact.
         name:
-          $ref: 'profiles.yml#/components/schemas/EditionProfileName'
+          $ref: '#/components/schemas/EditionGuestName'
           maxLength: 250
     GuestUpdate:
       type: object
@@ -65,13 +112,13 @@ components:
         identifier:
           type: string
         name:
-          $ref: 'profiles.yml#/components/schemas/EditionProfileName'
+          $ref: '#/components/schemas/EditionGuestName'
         birthDate:
           $ref: '../common/dates.yml#/components/schemas/Date'
         contactChannels:
           type: array
           items:
-            $ref: 'profiles.yml#/components/schemas/EditionContactChannel'
+            $ref: '#/components/schemas/EditionContactChannel'
         games:
           type: array
           items:
@@ -89,13 +136,13 @@ components:
         identifier:
           type: string
         name:
-          $ref: 'profiles.yml#/components/schemas/EditionProfileName'
+          $ref: '#/components/schemas/EditionGuestName'
         birthDate:
           $ref: '../common/dates.yml#/components/schemas/Date'
         contactChannels:
           type: array
           items:
-            $ref: 'profiles.yml#/components/schemas/EditionContactChannel'
+            $ref: '#/components/schemas/EditionContactChannel'
         games:
           type: array
           items:

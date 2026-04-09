@@ -14,6 +14,62 @@ components:
           pattern: '^(firstName|lastName|number)\|(asc|desc)$'
           example: username|asc
   schemas:
+    SponsorName:
+      type: object
+      required: [firstName, lastName, fullName]
+      properties:
+        firstName:
+          type: string
+          example: 'John'
+          maxLength: 50
+        lastName:
+          type: string
+          example: 'Smith'
+          maxLength: 50
+        fullName:
+          type: string
+          example: 'John Smith'
+          maxLength: 100
+    EditionSponsorName:
+      type: object
+      required: [firstName, lastName]
+      properties:
+        firstName:
+          type: string
+          example: 'John'
+          maxLength: 50
+        lastName:
+          type: string
+          example: 'Smith'
+          maxLength: 50
+    ContactMethod:
+      type: object
+      required: [number, name]
+      properties:
+        number:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        name:
+          type: string
+          description: Name of the contact method.
+    ContactChannel:
+      type: object
+      required: [method, detail]
+      properties:
+        method:
+          $ref: 'contact_methods.yml#/components/schemas/ContactMethod'
+        detail:
+          type: string
+          description: Contact channel detail.
+    EditionContactChannel:
+      type: object
+      required: [method, detail]
+      properties:
+        method:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        detail:
+          type: string
+          description: Contact detail.
+          maxLength: 50
     Sponsor:
       type: object
       required: [number, name]
@@ -24,13 +80,13 @@ components:
           type: string
           description: Unique identifier of the sponsor.
         name:
-          $ref: 'profiles.yml#/components/schemas/ProfileName'
+          $ref: '#/components/schemas/SponsorName'
         birthDate:
           $ref: '../common/dates.yml#/components/schemas/Date'
         contactChannels:
           type: array
           items:
-            $ref: 'profiles.yml#/components/schemas/ContactChannel'
+            $ref: '#/components/schemas/ContactChannel'
         years:
           type: array
           items:
@@ -54,7 +110,7 @@ components:
           description: Unique identifier of the sponsor.
           maxLength: 15
         name:
-          $ref: 'profiles.yml#/components/schemas/EditionProfileName'
+          $ref: '#/components/schemas/EditionSponsorName'
     SponsorUpdate:
       type: object
       required: [name]
@@ -63,13 +119,13 @@ components:
           type: string
           maxLength: 15
         name:
-          $ref: 'profiles.yml#/components/schemas/EditionProfileName'
+          $ref: '#/components/schemas/EditionSponsorName'
         birthDate:
           $ref: '../common/dates.yml#/components/schemas/Date'
         contactChannels:
           type: array
           items:
-            $ref: 'profiles.yml#/components/schemas/EditionContactChannel'
+            $ref: '#/components/schemas/EditionContactChannel'
         years:
           type: array
           items:
@@ -88,13 +144,13 @@ components:
           type: string
           maxLength: 15
         name:
-          $ref: 'profiles.yml#/components/schemas/EditionProfileName'
+          $ref: '#/components/schemas/EditionSponsorName'
         birthDate:
           $ref: '../common/dates.yml#/components/schemas/Date'
         contactChannels:
           type: array
           items:
-            $ref: 'profiles.yml#/components/schemas/EditionContactChannel'
+            $ref: '#/components/schemas/EditionContactChannel'
         years:
           type: array
           items:

@@ -31,9 +31,9 @@ import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
 import com.bernardomg.pagination.domain.Sorting.Property;
 import com.bernardomg.ucronia.openapi.model.MemberDto;
+import com.bernardomg.ucronia.openapi.model.MemberNameDto;
 import com.bernardomg.ucronia.openapi.model.MemberPageResponseDto;
 import com.bernardomg.ucronia.openapi.model.MemberResponseDto;
-import com.bernardomg.ucronia.openapi.model.ProfileNameDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
 import com.bernardomg.ucronia.openapi.model.SortingDto;
@@ -72,9 +72,9 @@ public final class MemberDtoMapper {
     }
 
     private static final MemberDto toDto(final Member member) {
-        final ProfileNameDto profileName;
+        final MemberNameDto profileName;
 
-        profileName = new ProfileNameDto().firstName(member.name()
+        profileName = new MemberNameDto().firstName(member.name()
             .firstName())
             .lastName(member.name()
                 .lastName())

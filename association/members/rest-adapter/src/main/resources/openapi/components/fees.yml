@@ -19,7 +19,7 @@ components:
       required: [member, month, paid]
       properties:
         member:
-          $ref: 'profiles.yml#/components/schemas/MinimalProfile'
+          $ref: '#/components/schemas/MinimalMember'
         month:
           $ref: '../common/dates.yml#/components/schemas/Month'
         paid:

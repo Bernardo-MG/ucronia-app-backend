@@ -40,12 +40,12 @@ import com.bernardomg.pagination.domain.Sorting.Property;
 import com.bernardomg.ucronia.openapi.model.ContactChannelDto;
 import com.bernardomg.ucronia.openapi.model.ContactMethodDto;
 import com.bernardomg.ucronia.openapi.model.EditionContactChannelDto;
-import com.bernardomg.ucronia.openapi.model.ProfileNameDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
 import com.bernardomg.ucronia.openapi.model.SortingDto;
 import com.bernardomg.ucronia.openapi.model.SponsorCreationDto;
 import com.bernardomg.ucronia.openapi.model.SponsorDto;
+import com.bernardomg.ucronia.openapi.model.SponsorNameDto;
 import com.bernardomg.ucronia.openapi.model.SponsorPageResponseDto;
 import com.bernardomg.ucronia.openapi.model.SponsorPatchDto;
 import com.bernardomg.ucronia.openapi.model.SponsorResponseDto;
@@ -162,10 +162,10 @@ public final class SponsorDtoMapper {
     }
 
     private static final SponsorDto toDto(final Sponsor sponsor) {
-        ProfileNameDto          name;
+        SponsorNameDto          name;
         List<ContactChannelDto> contactChannels;
 
-        name = new ProfileNameDto().firstName(sponsor.name()
+        name = new SponsorNameDto().firstName(sponsor.name()
             .firstName())
             .lastName(sponsor.name()
                 .lastName())

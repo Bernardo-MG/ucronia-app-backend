@@ -41,12 +41,12 @@ import com.bernardomg.ucronia.openapi.model.ContactChannelDto;
 import com.bernardomg.ucronia.openapi.model.ContactMethodDto;
 import com.bernardomg.ucronia.openapi.model.EditionContactChannelDto;
 import com.bernardomg.ucronia.openapi.model.MemberFeeTypeDto;
+import com.bernardomg.ucronia.openapi.model.MemberNameDto;
 import com.bernardomg.ucronia.openapi.model.MemberProfileCreationDto;
 import com.bernardomg.ucronia.openapi.model.MemberProfileDto;
 import com.bernardomg.ucronia.openapi.model.MemberProfilePageResponseDto;
 import com.bernardomg.ucronia.openapi.model.MemberProfileResponseDto;
 import com.bernardomg.ucronia.openapi.model.MemberProfileUpdateDto;
-import com.bernardomg.ucronia.openapi.model.ProfileNameDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
 import com.bernardomg.ucronia.openapi.model.SortingDto;
@@ -139,11 +139,11 @@ public final class MemberProfileDtoMapper {
     }
 
     private static final MemberProfileDto toDto(final MemberProfile memberProfile) {
-        final ProfileNameDto          name;
+        final MemberNameDto          name;
         final List<ContactChannelDto> contactChannels;
         final MemberFeeTypeDto        feeType;
 
-        name = new ProfileNameDto().firstName(memberProfile.name()
+        name = new MemberNameDto().firstName(memberProfile.name()
             .firstName())
             .lastName(memberProfile.name()
                 .lastName())
