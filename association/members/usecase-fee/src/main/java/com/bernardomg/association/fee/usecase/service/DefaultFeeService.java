@@ -50,6 +50,7 @@ import com.bernardomg.association.fee.domain.exception.MissingFeeTypeException;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeMember;
 import com.bernardomg.association.fee.domain.model.FeeMember.MemberName;
+import com.bernardomg.association.fee.domain.model.FeeMemberStatus;
 import com.bernardomg.association.fee.domain.model.FeePayments;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.domain.model.FeeType;
@@ -64,7 +65,6 @@ import com.bernardomg.association.fee.usecase.validation.FeeNotPaidInFutureRule;
 import com.bernardomg.association.fee.usecase.validation.FeePaymentsMonthsNotExistingRule;
 import com.bernardomg.association.fee.usecase.validation.FeePaymentsNotPaidInFutureRule;
 import com.bernardomg.association.fee.usecase.validation.FeeTransactionNotChangedRule;
-import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.event.emitter.EventEmitter;
@@ -207,7 +207,7 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    public final Collection<MemberFees> getForYear(final Year year, final MemberStatus status, final Sorting sorting) {
+    public final Collection<MemberFees> getForYear(final Year year, final FeeMemberStatus status, final Sorting sorting) {
         final Collection<Fee>        readFees;
         final Map<Object, List<Fee>> memberFees;
         final Collection<MemberFees> calendarFees;
@@ -546,7 +546,7 @@ public final class DefaultFeeService implements FeeService {
             .number()));
     }
 
-    private final MemberFees toFeeYear(final Long number, final MemberName name, final MemberStatus status,
+    private final MemberFees toFeeYear(final Long number, final MemberName name, final FeeMemberStatus status,
             final Collection<MemberFees.Fee> fees) {
         final boolean active;
         final Member  member;

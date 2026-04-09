@@ -37,12 +37,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.MessageSource;
 
+import com.bernardomg.association.fee.domain.model.FeeMemberStatus;
 import com.bernardomg.association.fee.domain.model.MemberFees;
 import com.bernardomg.association.fee.domain.repository.FeeMemberRepository;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
-import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.test.configuration.factory.MemberCalendarConstants;
 import com.bernardomg.association.member.test.configuration.factory.MembersFees;
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
@@ -85,7 +85,7 @@ class TestFeeServiceGetForYear {
             .willReturn(List.of(Fees.paidCurrentMonth()));
 
         // WHEN
-        calendars = service.getForYear(MemberCalendarConstants.CURRENT_YEAR, MemberStatus.ACTIVE, sorting);
+        calendars = service.getForYear(MemberCalendarConstants.CURRENT_YEAR, FeeMemberStatus.ACTIVE, sorting);
 
         // THEN
         Assertions.assertThat(calendars)
@@ -106,7 +106,7 @@ class TestFeeServiceGetForYear {
         given(feeMemberRepository.isActive(ProfileConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        calendars = service.getForYear(MemberCalendarConstants.CURRENT_YEAR, MemberStatus.ALL, sorting);
+        calendars = service.getForYear(MemberCalendarConstants.CURRENT_YEAR, FeeMemberStatus.ALL, sorting);
 
         // THEN
         Assertions.assertThat(calendars)
@@ -126,7 +126,7 @@ class TestFeeServiceGetForYear {
             .willReturn(List.of(Fees.paidCurrentMonth()));
 
         // WHEN
-        calendars = service.getForYear(MemberCalendarConstants.CURRENT_YEAR, MemberStatus.INACTIVE, sorting);
+        calendars = service.getForYear(MemberCalendarConstants.CURRENT_YEAR, FeeMemberStatus.INACTIVE, sorting);
 
         // THEN
         Assertions.assertThat(calendars)

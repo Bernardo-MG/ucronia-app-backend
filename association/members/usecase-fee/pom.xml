@@ -42,14 +42,6 @@
          <artifactId>association-transaction-domain</artifactId>
       </dependency>
       <dependency>
-         <groupId>com.bernardomg.association.member</groupId>
-         <artifactId>association-member-domain</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.association.profile</groupId>
-         <artifactId>association-profile-domain</artifactId>
-      </dependency>
-      <dependency>
          <groupId>com.bernardomg.association.security</groupId>
          <artifactId>association-security-domain</artifactId>
       </dependency>
@@ -82,11 +74,6 @@
          <!-- Apache POI OOXML -->
          <groupId>org.apache.poi</groupId>
          <artifactId>poi-ooxml</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.association.member</groupId>
-         <artifactId>association-member-testing</artifactId>
-         <scope>test</scope>
       </dependency>
    </dependencies>
 
