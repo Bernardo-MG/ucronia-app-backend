@@ -146,10 +146,10 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
         final Optional<Specification<MemberProfileEntity>>        spec;
         final Sorting                                             fixedSorting;
 
-        fixedSorting = fixSorting(sorting);
         log.debug("Finding all the member profiles with filter {}, pagination {} and sorting {}", filter, pagination,
-            fixedSorting);
+            sorting);
 
+        fixedSorting = fixSorting(sorting);
         pageable = SpringPagination.toPageable(pagination, fixedSorting);
         spec = MemberProfileSpecifications.query(filter);
         if (spec.isEmpty()) {
@@ -271,6 +271,16 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
 
         properties = sorting.properties()
             .stream()
+            // Fix name
+            .map(prop -> {
+                if (prop.name()
+                    .startsWith("name.")) {
+                    return new Property(prop.name()
+                        .replaceFirst("name\\.", ""), prop.direction());
+                }
+                return prop;
+            })
+            // Fix profile properties
             .map(prop -> {
                 if (PROFILE_PROPERTIES.contains(prop.name())) {
                     return new Property("profile." + prop.name(), prop.direction());

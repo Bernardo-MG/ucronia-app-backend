@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.member.adapter.inbound.jpa.repository;
 
+import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -42,6 +43,7 @@ import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
+import com.bernardomg.pagination.domain.Sorting.Property;
 import com.bernardomg.pagination.springframework.SpringPagination;
 
 @Transactional
@@ -65,10 +67,12 @@ public final class JpaMemberRepository implements MemberRepository {
         final org.springframework.data.domain.Page<Member> read;
         final Pageable                                     pageable;
         final Optional<Specification<MemberEntity>>        spec;
+        final Sorting                                      fixedSorting;
 
         log.debug("Finding all the members with filter {}, pagination {} and sorting {}", filter, pagination, sorting);
 
-        pageable = SpringPagination.toPageable(pagination, sorting);
+        fixedSorting = fixSorting(sorting);
+        pageable = SpringPagination.toPageable(pagination, fixedSorting);
         spec = MemberSpecifications.query(filter);
         if (spec.isEmpty()) {
             read = memberSpringRepository.findAllByActiveTrue(pageable)
@@ -78,8 +82,8 @@ public final class JpaMemberRepository implements MemberRepository {
                 .map(MemberEntityMapper::toDomain);
         }
 
-        log.debug("Found all the members with filter {}, pagination {} and sorting {}: {}", filter, pagination, sorting,
-            read);
+        log.debug("Found all the members with filter {}, pagination {} and sorting {}: {}", filter, pagination,
+            fixedSorting, read);
 
         return SpringPagination.toPage(read);
     }
@@ -96,6 +100,25 @@ public final class JpaMemberRepository implements MemberRepository {
         log.trace("Found member with number {}: {}", number, member);
 
         return member;
+    }
+
+    private final Sorting fixSorting(final Sorting sorting) {
+        final Collection<Property> properties;
+
+        properties = sorting.properties()
+            .stream()
+            // Fix name
+            .map(prop -> {
+                if (prop.name()
+                    .startsWith("name.")) {
+                    return new Property(prop.name()
+                        .replaceFirst("name\\.", ""), prop.direction());
+                }
+                return prop;
+            })
+            .toList();
+
+        return new Sorting(properties);
     }
 
 }

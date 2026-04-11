@@ -217,6 +217,16 @@ public final class JpaSponsorRepository implements SponsorRepository {
 
         properties = sorting.properties()
             .stream()
+            // Fix name
+            .map(prop -> {
+                if (prop.name()
+                    .startsWith("name.")) {
+                    return new Property(prop.name()
+                        .replaceFirst("name\\.", ""), prop.direction());
+                }
+                return prop;
+            })
+            // Fix profile properties
             .map(prop -> {
                 if (PROFILE_PROPERTIES.contains(prop.name())) {
                     return new Property("profile." + prop.name(), prop.direction());

@@ -46,6 +46,7 @@ import com.bernardomg.association.profile.domain.repository.ProfileRepository;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
+import com.bernardomg.pagination.domain.Sorting.Property;
 import com.bernardomg.pagination.springframework.SpringPagination;
 
 @Transactional
@@ -121,10 +122,12 @@ public final class JpaProfileRepository implements ProfileRepository {
         final org.springframework.data.domain.Page<Profile> read;
         final Pageable                                      pageable;
         final Optional<Specification<ProfileEntity>>        spec;
+        final Sorting                                             fixedSorting;
 
         log.debug("Finding all the profiles with filter {}, pagination {} and sorting {}", filter, pagination, sorting);
 
-        pageable = SpringPagination.toPageable(pagination, sorting);
+        fixedSorting = fixSorting(sorting);
+        pageable = SpringPagination.toPageable(pagination, fixedSorting);
         spec = ProfileSpecifications.query(filter);
         if (spec.isEmpty()) {
             read = profileSpringRepository.findAll(pageable)
@@ -135,7 +138,7 @@ public final class JpaProfileRepository implements ProfileRepository {
         }
 
         log.debug("Found all the profiles with filter {}, pagination {} and sorting {}: {}", filter, pagination,
-            sorting, read);
+            fixedSorting, read);
 
         return SpringPagination.toPage(read);
     }
@@ -184,6 +187,25 @@ public final class JpaProfileRepository implements ProfileRepository {
         log.debug("Saved profile {}", created);
 
         return created;
+    }
+
+    private final Sorting fixSorting(final Sorting sorting) {
+        final Collection<Property> properties;
+
+        properties = sorting.properties()
+            .stream()
+            // Fix name
+            .map(prop -> {
+                if (prop.name()
+                    .startsWith("name.")) {
+                    return new Property(prop.name()
+                        .replaceFirst("name\\.", ""), prop.direction());
+                }
+                return prop;
+            })
+            .toList();
+
+        return new Sorting(properties);
     }
 
     private final Collection<ContactMethodEntity> getContactMethods(final Profile profile) {

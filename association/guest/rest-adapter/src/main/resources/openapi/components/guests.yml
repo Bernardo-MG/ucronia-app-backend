@@ -11,7 +11,7 @@ components:
         type: array
         items:
           type: string
-          pattern: '^(firstName|lastName|number)\|(asc|desc)$'
+          pattern: '^(name.firstName|name.lastName|number)\|(asc|desc)$'
           example: username|asc
   schemas:
     GuestName:
