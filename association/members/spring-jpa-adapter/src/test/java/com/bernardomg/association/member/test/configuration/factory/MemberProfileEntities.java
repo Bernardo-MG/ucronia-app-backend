@@ -6,6 +6,7 @@ import java.util.Set;
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTypeEntity;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityConstants;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberFeeTypeEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberProfileEntity;
 import com.bernardomg.association.profile.test.factory.ProfileEntities;
 
@@ -13,9 +14,9 @@ public final class MemberProfileEntities {
 
     public static final MemberProfileEntity active() {
         final MemberProfileEntity entity;
-        final FeeTypeEntity       feeType;
+        final MemberFeeTypeEntity       feeType;
 
-        feeType = new FeeTypeEntity();
+        feeType = new MemberFeeTypeEntity();
         feeType.setId(1L);
         feeType.setNumber(FeeConstants.FEE_TYPE_NUMBER);
         feeType.setName(FeeConstants.FEE_TYPE_NAME);
@@ -35,9 +36,9 @@ public final class MemberProfileEntities {
 
     public static final MemberProfileEntity alternative() {
         final MemberProfileEntity entity;
-        final FeeTypeEntity       feeType;
+        final MemberFeeTypeEntity       feeType;
 
-        feeType = new FeeTypeEntity();
+        feeType = new MemberFeeTypeEntity();
         feeType.setId(1L);
         feeType.setNumber(FeeConstants.FEE_TYPE_NUMBER);
         feeType.setName(FeeConstants.FEE_TYPE_NAME);
@@ -57,9 +58,9 @@ public final class MemberProfileEntities {
 
     public static final MemberProfileEntity created() {
         final MemberProfileEntity entity;
-        final FeeTypeEntity       feeType;
+        final MemberFeeTypeEntity       feeType;
 
-        feeType = new FeeTypeEntity();
+        feeType = new MemberFeeTypeEntity();
         feeType.setId(1L);
         feeType.setNumber(FeeConstants.FEE_TYPE_NUMBER);
         feeType.setName(FeeConstants.FEE_TYPE_NAME);
@@ -79,9 +80,9 @@ public final class MemberProfileEntities {
 
     public static final MemberProfileEntity firstNameChange() {
         final MemberProfileEntity entity;
-        final FeeTypeEntity       feeType;
+        final MemberFeeTypeEntity       feeType;
 
-        feeType = new FeeTypeEntity();
+        feeType = new MemberFeeTypeEntity();
         feeType.setId(1L);
         feeType.setNumber(FeeConstants.FEE_TYPE_NUMBER);
         feeType.setName(FeeConstants.FEE_TYPE_NAME);
@@ -101,9 +102,9 @@ public final class MemberProfileEntities {
 
     public static final MemberProfileEntity withEmail() {
         final MemberProfileEntity entity;
-        final FeeTypeEntity       feeType;
+        final MemberFeeTypeEntity       feeType;
 
-        feeType = new FeeTypeEntity();
+        feeType = new MemberFeeTypeEntity();
         feeType.setId(1L);
         feeType.setNumber(FeeConstants.FEE_TYPE_NUMBER);
         feeType.setName(FeeConstants.FEE_TYPE_NAME);

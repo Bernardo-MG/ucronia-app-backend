@@ -1,7 +1,0 @@
-databaseChangeLog:
-  - include:
-      file: directory.yaml
-      relativeToChangelogFile: true
-  - include:
-      file: funds.yaml
-      relativeToChangelogFile: true

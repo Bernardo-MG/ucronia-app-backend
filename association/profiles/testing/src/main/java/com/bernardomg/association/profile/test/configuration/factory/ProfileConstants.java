@@ -26,15 +26,15 @@ public final class ProfileConstants {
         .atStartOfDay(ZoneOffset.UTC)
         .toInstant();
 
-    public static final String  CHANGED_FIRST_NAME     = "Profile 3";
+    public static final String  CHANGED_FIRST_NAME     = "Name 3";
 
     public static final String  COMMENTS               = "Comments";
 
     public static final String  EMAIL                  = "email@somewhere.com";
 
-    public static final String  FIRST_NAME             = "Profile 1";
+    public static final String  FIRST_NAME             = "Name 1";
 
-    public static final String  FULL_NAME              = "Profile 1 Last name 1";
+    public static final String  FULL_NAME              = "Name 1 Last name 1";
 
     public static final String  IDENTIFIER             = "6789";
 

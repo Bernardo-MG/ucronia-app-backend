@@ -140,7 +140,7 @@ public final class MemberProfiles {
         feeType = new MemberProfile.FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME,
             FeeConstants.FEE_TYPE_AMOUNT);
 
-        name = new ProfileName("Profile 123", "Last name");
+        name = new ProfileName("Name 123", "Last name");
         return new MemberProfile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name,
             ProfileConstants.BIRTH_DATE, List.of(), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS, true, true,
             feeType, Set.of(MemberEntityConstants.PROFILE_TYPE));
@@ -153,7 +153,7 @@ public final class MemberProfiles {
         feeType = new MemberProfile.FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME,
             FeeConstants.FEE_TYPE_AMOUNT);
 
-        name = new ProfileName("Profile 123", "Last name");
+        name = new ProfileName("Name 123", "Last name");
         return new MemberProfile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name,
             ProfileConstants.BIRTH_DATE, List.of(), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS, true, true,
             feeType, Set.of(MemberEntityConstants.PROFILE_TYPE));

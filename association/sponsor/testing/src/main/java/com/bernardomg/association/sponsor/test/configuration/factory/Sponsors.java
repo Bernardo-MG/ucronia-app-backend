@@ -44,7 +44,7 @@ public final class Sponsors {
     public static final Sponsor nameChange() {
         final ProfileName name;
 
-        name = new ProfileName("Profile 123", "Last name");
+        name = new ProfileName("Name 123", "Last name");
         return new Sponsor(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name, ProfileConstants.BIRTH_DATE,
             List.of(), List.of(SponsorConstants.YEAR), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS,
             Set.of(com.bernardomg.association.sponsor.domain.model.SponsorConstants.PROFILE_TYPE));
@@ -53,7 +53,7 @@ public final class Sponsors {
     public static final Sponsor nameChangePatch() {
         final ProfileName name;
 
-        name = new ProfileName("Profile 123", "Last name");
+        name = new ProfileName("Name 123", "Last name");
         return new Sponsor(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name, ProfileConstants.BIRTH_DATE,
             List.of(), List.of(SponsorConstants.YEAR), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS,
             Set.of(com.bernardomg.association.sponsor.domain.model.SponsorConstants.PROFILE_TYPE));

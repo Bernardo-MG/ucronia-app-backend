@@ -42,7 +42,7 @@ public final class Profiles {
     public static final Profile nameChange() {
         final ProfileName name;
 
-        name = new ProfileName("Profile 123", "Last name");
+        name = new ProfileName("Name 123", "Last name");
         return new Profile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name, ProfileConstants.BIRTH_DATE,
             List.of(), "", "", Set.of());
     }
@@ -50,7 +50,7 @@ public final class Profiles {
     public static final Profile nameChangePatch() {
         final ProfileName name;
 
-        name = new ProfileName("Profile 123", "Last name");
+        name = new ProfileName("Name 123", "Last name");
         return new Profile(null, ProfileConstants.NUMBER, name, null, List.of(), "", "", Set.of());
     }
 
