@@ -40,6 +40,7 @@
      <module>testing-fee</module>
      <module>usecase-fee</module>
      <module>event-adapter-fee</module>
+     <module>spring-jpa-adapter-fee</module>
      <module>rest-adapter-fee</module>
    </modules>
 
@@ -75,6 +76,11 @@
          <dependency>
             <groupId>com.bernardomg.association.member</groupId>
             <artifactId>association-fee-testing</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.association.member</groupId>
+            <artifactId>association-fee-spring-jpa-adapter</artifactId>
             <version>${project.version}</version>
          </dependency>
          <dependency>

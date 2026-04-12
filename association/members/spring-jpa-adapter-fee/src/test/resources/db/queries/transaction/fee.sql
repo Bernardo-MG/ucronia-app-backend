@@ -1,0 +1,2 @@
+INSERT INTO funds.transactions (index, description, amount, date) VALUES
+   (10, 'Cuota de Name 1 Last name 1 para Febrero 2020', 2, '2020-02-01');

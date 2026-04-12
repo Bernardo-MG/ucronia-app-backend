@@ -22,14 +22,13 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.configuration;
+package com.bernardomg.association.test.configuration;
 
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.context.MessageSource;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-import com.bernardomg.association.fee.adapter.inbound.event.RegisterFeesOnMonthStartEventListener;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeMemberSpringRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeSpringRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeTypeSpringRepository;
@@ -41,34 +40,22 @@ import com.bernardomg.association.fee.domain.repository.FeeMemberRepository;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.domain.repository.FeeSummaryRepository;
 import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
-import com.bernardomg.association.fee.usecase.service.DefaultFeeMaintenanceService;
-import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
-import com.bernardomg.association.fee.usecase.service.DefaultFeeSummaryService;
-import com.bernardomg.association.fee.usecase.service.DefaultFeeTypeService;
-import com.bernardomg.association.fee.usecase.service.FeeMaintenanceService;
-import com.bernardomg.association.fee.usecase.service.FeeService;
-import com.bernardomg.association.fee.usecase.service.FeeSummaryService;
-import com.bernardomg.association.fee.usecase.service.FeeTypeService;
-import com.bernardomg.association.fee.usecase.service.MyFeesService;
-import com.bernardomg.association.fee.usecase.service.SpringSecurityMyFeesService;
-import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
-import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
-import com.bernardomg.event.emitter.EventEmitter;
 
-@AutoConfiguration
-@ComponentScan({ "com.bernardomg.association.fee.adapter.outbound.rest.controller",
-        "com.bernardomg.association.fee.adapter.inbound.jpa" })
-public class AssociationFeeAutoConfiguration {
-
-    @Bean("feeMaintenanceService")
-    public FeeMaintenanceService getFeeMaintenanceService(final FeeRepository feeRepository,
-            final FeeMemberRepository feeMemberRepository) {
-        return new DefaultFeeMaintenanceService(feeRepository, feeMemberRepository);
-    }
+@Configuration
+@EnableJpaRepositories(basePackages = { "com.bernardomg.association.member.adapter.inbound.jpa",
+        "com.bernardomg.association.fee.adapter.inbound.jpa",
+        "com.bernardomg.association.transaction.adapter.inbound.jpa",
+        "com.bernardomg.association.profile.adapter.inbound.jpa" })
+@EntityScan(basePackages = { "com.bernardomg.association.member.adapter.inbound.jpa",
+        "com.bernardomg.association.fee.adapter.inbound.jpa",
+        "com.bernardomg.association.transaction.adapter.inbound.jpa",
+        "com.bernardomg.association.profile.adapter.inbound.jpa" })
+public class TestConfiguration {
 
     @Bean("feeMemberRepository")
-    public FeeMemberRepository getFeeMemberRepository(final FeeMemberSpringRepository feeMemberSpringRepository) {
+    public FeeMemberRepository
+            getFeeMemberRepository(final FeeMemberSpringRepository feeMemberSpringRepository) {
         return new JpaFeeMemberRepository(feeMemberSpringRepository);
     }
 
@@ -81,43 +68,14 @@ public class AssociationFeeAutoConfiguration {
             transactionSpringRepository);
     }
 
-    @Bean("feeService")
-    public FeeService getFeeService(final FeeRepository feeRepository, final FeeMemberRepository feeMemberRepository,
-            final TransactionRepository transactionRepository, final EventEmitter evntEmitter,
-            final MessageSource msgSource) {
-        return new DefaultFeeService(feeRepository, feeMemberRepository, transactionRepository, evntEmitter, msgSource);
-    }
-
     @Bean("feeSummaryRepository")
     public FeeSummaryRepository getFeeSummaryRepository(final FeeSpringRepository feeSpringRepository) {
         return new JpaFeeSummaryRepository(feeSpringRepository);
     }
 
-    @Bean("feeSummaryService")
-    public FeeSummaryService getFeeSummaryService(final FeeSummaryRepository feeSummaryRepository) {
-        return new DefaultFeeSummaryService(feeSummaryRepository);
-    }
-
     @Bean("feeTypeRepository")
     public FeeTypeRepository getFeeTypeRepository(final FeeTypeSpringRepository feeTypeSpringRepository) {
         return new JpaFeeTypeRepository(feeTypeSpringRepository);
-    }
-
-    @Bean("feeTypeService")
-    public FeeTypeService getFeeTypeService(final FeeTypeRepository feeTypeRepository) {
-        return new DefaultFeeTypeService(feeTypeRepository);
-    }
-
-    @Bean("myFeesService")
-    public MyFeesService getMyFeesService(final FeeRepository feeRepository,
-            final UserProfileRepository userProfileRepository) {
-        return new SpringSecurityMyFeesService(feeRepository, userProfileRepository);
-    }
-
-    @Bean("registerFeesOnMonthStartEventListener")
-    public RegisterFeesOnMonthStartEventListener
-            getRegisterFeesOnMonthStartEventListener(final FeeMaintenanceService service) {
-        return new RegisterFeesOnMonthStartEventListener(service);
     }
 
 }
