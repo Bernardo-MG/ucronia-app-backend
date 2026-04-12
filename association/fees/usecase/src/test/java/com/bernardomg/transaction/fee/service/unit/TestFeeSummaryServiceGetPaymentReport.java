@@ -1,0 +1,75 @@
+/**
+ * The MIT License (MIT)
+ * <p>
+ * Copyright (c) 2022-2025 Bernardo Martínez Garrido
+ * <p>
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * <p>
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * <p>
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+package com.bernardomg.transaction.fee.service.unit;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.BDDMockito.given;
+
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import com.bernardomg.association.fee.domain.model.FeeSummary;
+import com.bernardomg.association.fee.domain.repository.FeeSummaryRepository;
+import com.bernardomg.association.fee.test.configuration.factory.FeeSummaries;
+import com.bernardomg.association.fee.usecase.service.DefaultFeeSummaryService;
+
+@ExtendWith(MockitoExtension.class)
+@DisplayName("Fee summary service - get fee summary")
+class TestFeeSummaryServiceGetPaymentReport {
+
+    @Mock
+    private FeeSummaryRepository     feeBalanceRepository;
+
+    @InjectMocks
+    private DefaultFeeSummaryService service;
+
+    public TestFeeSummaryServiceGetPaymentReport() {
+        super();
+    }
+
+    @Test
+    @DisplayName("When there is data it is returned")
+    void testGetFeeBalance() {
+        final FeeSummary summary;
+        final FeeSummary read;
+
+        // GIVEN
+        summary = FeeSummaries.both();
+        given(feeBalanceRepository.findForMonth(ArgumentMatchers.any())).willReturn(summary);
+
+        // WHEN
+        read = service.getFeeSummary();
+
+        // THEN
+        assertThat(read).as("summary")
+            .isEqualTo(summary);
+    }
+
+}

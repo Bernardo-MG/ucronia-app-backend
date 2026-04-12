@@ -1,0 +1,2 @@
+INSERT INTO directory.profiles (id, number, first_name, last_name, identifier, birth_date, address, comments) VALUES
+   (1, 10, 'Name 1', 'Last name 1', '6789', '1990-01-01 0:0:0', 'Address', 'Comments');

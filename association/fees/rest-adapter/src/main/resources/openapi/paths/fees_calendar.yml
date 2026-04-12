@@ -1,0 +1,24 @@
+get:
+  summary: Returns all the member fees for a year
+  operationId: getFeesCalendar
+  tags: [FeeCalendar]
+  parameters:
+    - $ref: '../components/fees.yml#/components/parameters/feesSortParam'
+    - name: year
+      in: path
+      required: true
+      schema:
+        type: integer
+        example: 2025
+    - name: status
+      in: query
+      required: true
+      schema:
+        $ref: '../components/members.yml#/components/schemas/MemberStatus'
+  responses:
+    '200':
+      description: All the member fees for the given year
+      content:
+        application/json:
+          schema:
+            $ref: '../components/fees_calendar.yml#/components/schemas/FeeCalendarResponse'

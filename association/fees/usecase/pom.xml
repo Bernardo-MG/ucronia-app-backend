@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+   <modelVersion>4.0.0</modelVersion>
+
+   <!-- ********************************************** -->
+   <!-- ****************** BASE POM ****************** -->
+   <!-- ********************************************** -->
+
+   <parent>
+      <groupId>com.bernardomg.association.fee</groupId>
+      <artifactId>association-fee</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
+   </parent>
+
+   <!-- ********************************************** -->
+   <!-- **************** PROJECT INFO **************** -->
+   <!-- ********************************************** -->
+
+   <groupId>com.bernardomg.association.fee</groupId>
+   <artifactId>association-fee-usecase</artifactId>
+   <packaging>jar</packaging>
+
+   <name>Association Fee Usecase</name>
+
+   <!-- ********************************************** -->
+   <!-- *************** DEPENDENCIES ***************** -->
+   <!-- ********************************************** -->
+
+   <dependencies>
+      <dependency>
+         <groupId>com.bernardomg</groupId>
+         <artifactId>excel</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.association.fee</groupId>
+         <artifactId>association-fee-domain</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.association.transaction</groupId>
+         <artifactId>association-transaction-domain</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.association.security</groupId>
+         <artifactId>association-security-domain</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>jakarta.transaction</groupId>
+         <artifactId>jakarta.transaction-api</artifactId>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- ================ FRAMEWORK =================== -->
+      <!-- ============================================== -->
+      <dependency>
+         <!-- Validation -->
+         <groupId>com.bernardomg.framework</groupId>
+         <artifactId>validation</artifactId>
+      </dependency>
+      <dependency>
+         <!-- Pagination -->
+         <groupId>com.bernardomg.framework</groupId>
+         <artifactId>pagination</artifactId>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- =============== APACHE POI =================== -->
+      <!-- ============================================== -->
+      <dependency>
+         <!-- Apache POI -->
+         <groupId>org.apache.poi</groupId>
+         <artifactId>poi</artifactId>
+      </dependency>
+      <dependency>
+         <!-- Apache POI OOXML -->
+         <groupId>org.apache.poi</groupId>
+         <artifactId>poi-ooxml</artifactId>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
+      <!-- ============================================== -->
+      <dependency>
+         <groupId>com.bernardomg.association.fee</groupId>
+         <artifactId>association-fee-testing</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.association.profile</groupId>
+         <artifactId>association-profile-testing</artifactId>
+         <scope>test</scope>
+      </dependency>
+   </dependencies>
+
+</project>
