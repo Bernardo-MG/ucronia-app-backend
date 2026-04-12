@@ -30,6 +30,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
 import com.bernardomg.association.fee.adapter.inbound.event.RegisterFeesOnMonthStartEventListener;
+import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeMemberSpringRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeSpringRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeTypeSpringRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaFeeMemberRepository;
@@ -51,7 +52,6 @@ import com.bernardomg.association.fee.usecase.service.FeeTypeService;
 import com.bernardomg.association.fee.usecase.service.MyFeesService;
 import com.bernardomg.association.fee.usecase.service.SpringSecurityMyFeesService;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberProfileSpringRepository;
-import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
@@ -76,10 +76,10 @@ public class AssociationFeeAutoConfiguration {
 
     @Bean("feeRepository")
     public FeeRepository getFeeRepository(final FeeSpringRepository feeSpringRepository,
-            final ProfileSpringRepository profileSpringRepository,
+            final FeeMemberSpringRepository feeMemberSpringRepository,
             final FeeTypeSpringRepository feeTypeSpringRepository,
             final TransactionSpringRepository transactionSpringRepository) {
-        return new JpaFeeRepository(feeSpringRepository, profileSpringRepository, feeTypeSpringRepository,
+        return new JpaFeeRepository(feeSpringRepository, feeMemberSpringRepository, feeTypeSpringRepository,
             transactionSpringRepository);
     }
 

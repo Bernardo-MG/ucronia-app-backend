@@ -25,23 +25,19 @@
 package com.bernardomg.association.fee.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
-import java.time.Instant;
-
-import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
+import java.util.Objects;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
-@Entity(name = "Fee")
-@Table(schema = "funds", name = "fees")
-public class FeeEntity implements Serializable {
+@Entity(name = "FeeMember")
+@Table(schema = "directory", name = "profiles")
+public class FeeMemberEntity implements Serializable {
 
     /**
      * Serialization ID.
@@ -49,81 +45,72 @@ public class FeeEntity implements Serializable {
     @Transient
     private static final long serialVersionUID = 1328776989450853491L;
 
-    @OneToOne
-    @JoinColumn(name = "fee_type_id", referencedColumnName = "id")
-    private FeeTypeEntity     feeType;
+    @Column(name = "first_name", nullable = false)
+    private String            firstName;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
     private Long              id;
 
-    @OneToOne(optional = false)
-    @JoinColumn(name = "member_id", referencedColumnName = "id")
-    private FeeMemberEntity   member;
+    @Column(name = "last_name")
+    private String            lastName;
 
-    @Column(name = "month", nullable = false)
-    private Instant           month;
+    @Column(name = "number")
+    private Long              number;
 
-    @Column(name = "paid")
-    private Boolean           paid;
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof final FeeMemberEntity other)) {
+            return false;
+        }
+        return Objects.equals(id, other.id);
+    }
 
-    @OneToOne
-    @JoinColumn(name = "transaction_id", referencedColumnName = "id")
-    private TransactionEntity transaction;
-
-    public FeeTypeEntity getFeeType() {
-        return feeType;
+    public String getFirstName() {
+        return firstName;
     }
 
     public Long getId() {
         return id;
     }
 
-    public FeeMemberEntity getMember() {
-        return member;
+    public String getLastName() {
+        return lastName;
     }
 
-    public Instant getMonth() {
-        return month;
+    public Long getNumber() {
+        return number;
     }
 
-    public Boolean getPaid() {
-        return paid;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
-    public TransactionEntity getTransaction() {
-        return transaction;
-    }
-
-    public void setFeeType(final FeeTypeEntity feeType) {
-        this.feeType = feeType;
+    public void setFirstName(final String firstName) {
+        this.firstName = firstName;
     }
 
     public void setId(final Long id) {
         this.id = id;
     }
 
-    public void setMember(final FeeMemberEntity member) {
-        this.member = member;
+    public void setLastName(final String lastName) {
+        this.lastName = lastName;
     }
 
-    public void setMonth(final Instant month) {
-        this.month = month;
-    }
-
-    public void setPaid(final Boolean paid) {
-        this.paid = paid;
-    }
-
-    public void setTransaction(final TransactionEntity transaction) {
-        this.transaction = transaction;
+    public void setNumber(final Long number) {
+        this.number = number;
     }
 
     @Override
     public String toString() {
-        return "FeeEntity [date=" + month + ", id=" + id + ", paid=" + paid + ", member=" + member + ", feeType="
-                + feeType + ", transaction=" + transaction + "]";
+        return "ProfileEntity [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", number=" + number
+                + "]";
     }
 
 }

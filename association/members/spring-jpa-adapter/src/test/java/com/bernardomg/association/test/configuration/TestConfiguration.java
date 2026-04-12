@@ -29,6 +29,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeMemberSpringRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeSpringRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeTypeSpringRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaFeeMemberRepository;
@@ -74,10 +75,10 @@ public class TestConfiguration {
 
     @Bean("feeRepository")
     public FeeRepository getFeeRepository(final FeeSpringRepository feeSpringRepository,
-            final ProfileSpringRepository profileSpringRepository,
+            final FeeMemberSpringRepository feeMemberSpringRepository,
             final FeeTypeSpringRepository feeTypeSpringRepository,
             final TransactionSpringRepository transactionSpringRepository) {
-        return new JpaFeeRepository(feeSpringRepository, profileSpringRepository, feeTypeSpringRepository,
+        return new JpaFeeRepository(feeSpringRepository, feeMemberSpringRepository, feeTypeSpringRepository,
             transactionSpringRepository);
     }
 
