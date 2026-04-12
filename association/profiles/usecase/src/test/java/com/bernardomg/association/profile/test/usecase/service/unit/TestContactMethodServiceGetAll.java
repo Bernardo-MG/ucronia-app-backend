@@ -51,7 +51,7 @@ import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.domain.Sorting.Property;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Profile method service - get all")
+@DisplayName("Contact method service - get all")
 class TestContactMethodServiceGetAll {
 
     @Mock

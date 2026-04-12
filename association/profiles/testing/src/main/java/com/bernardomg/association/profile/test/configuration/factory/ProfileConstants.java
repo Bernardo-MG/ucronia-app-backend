@@ -12,9 +12,9 @@ public final class ProfileConstants {
 
     public static final String  ALTERNATIVE_EMAIL      = "email2@somewhere.com";
 
-    public static final String  ALTERNATIVE_FIRST_NAME = "Profile 2";
+    public static final String  ALTERNATIVE_FIRST_NAME = "Name 2";
 
-    public static final String  ALTERNATIVE_FULL_NAME  = "Profile 2 Last name 2";
+    public static final String  ALTERNATIVE_FULL_NAME  = "Name 2 Last name 2";
 
     public static final String  ALTERNATIVE_IDENTIFIER = "67890";
 

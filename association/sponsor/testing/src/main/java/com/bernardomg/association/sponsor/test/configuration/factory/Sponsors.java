@@ -35,7 +35,7 @@ public final class Sponsors {
     public static final Sponsor forNumber(final long number) {
         final ProfileName name;
 
-        name = new ProfileName("Profile " + number, "Last name " + number);
+        name = new ProfileName("Name " + number, "Last name " + number);
         return new Sponsor(Objects.toString(number * 10), number * 10, name, ProfileConstants.BIRTH_DATE, List.of(),
             List.of(SponsorConstants.YEAR), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS,
             Set.of(com.bernardomg.association.sponsor.domain.model.SponsorConstants.PROFILE_TYPE));

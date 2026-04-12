@@ -101,7 +101,7 @@ public final class MemberProfiles {
         feeType = new MemberProfile.FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME,
             FeeConstants.FEE_TYPE_AMOUNT);
 
-        name = new ProfileName("Profile " + number, "Last name " + number);
+        name = new ProfileName("Name " + number, "Last name " + number);
         return new MemberProfile(Objects.toString(number * 10), number * 10, name, ProfileConstants.BIRTH_DATE,
             List.of(), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS, true, true, feeType,
             Set.of(MemberConstants.PROFILE_TYPE));

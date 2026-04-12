@@ -110,7 +110,7 @@ public final class Fees {
         final FeeType              feeType;
         final FeeMember.MemberName name;
 
-        name = new FeeMember.MemberName("Profile " + index, "Last name " + index);
+        name = new FeeMember.MemberName("Name " + index, "Last name " + index);
         feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
         return Fee.unpaid(YearMonth.of(FeeConstants.YEAR_VALUE, month), index * 10, name, feeType);
     }
@@ -226,7 +226,7 @@ public final class Fees {
         final Fee.Transaction      transaction;
         final FeeMember.MemberName name;
 
-        name = new FeeMember.MemberName("Profile " + index, "Last name " + index);
+        name = new FeeMember.MemberName("Name " + index, "Last name " + index);
         feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
         transaction = new Fee.Transaction(index * 10, FeeConstants.PAYMENT_DATE);
         return Fee.paid(YearMonth.of(FeeConstants.YEAR_VALUE, month), index * 10, name, feeType, transaction);
