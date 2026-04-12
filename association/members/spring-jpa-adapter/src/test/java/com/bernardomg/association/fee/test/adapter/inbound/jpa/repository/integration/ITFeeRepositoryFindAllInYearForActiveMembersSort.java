@@ -74,8 +74,8 @@ class ITFeeRepositoryFindAllInYearForActiveMembersSort {
                 .name()
                 .fullName())
             .as("fee full names")
-            .containsExactly("Name a Last name 1", "Name é Last name 2", "Name i Last name 3",
-                "Name o Last name 4", "Name u Last name 5");
+            .containsExactly("Name a Last name 1", "Name é Last name 2", "Name i Last name 3", "Name o Last name 4",
+                "Name u Last name 5");
     }
 
     @Test
@@ -99,8 +99,8 @@ class ITFeeRepositoryFindAllInYearForActiveMembersSort {
                 .name()
                 .fullName())
             .as("fee full names")
-            .containsExactly("Name 1 Last name 1", "Name 2 Last name 2", "Name 3 Last name 3",
-                "Name 4 Last name 4", "Name 5 Last name 5");
+            .containsExactly("Name 1 Last name 1", "Name 2 Last name 2", "Name 3 Last name 3", "Name 4 Last name 4",
+                "Name 5 Last name 5");
     }
 
     @Test
@@ -124,8 +124,8 @@ class ITFeeRepositoryFindAllInYearForActiveMembersSort {
                 .name()
                 .fullName())
             .as("fee full names")
-            .containsExactly("Name 5 Last name 5", "Name 4 Last name 4", "Name 3 Last name 3",
-                "Name 2 Last name 2", "Name 1 Last name 1");
+            .containsExactly("Name 5 Last name 5", "Name 4 Last name 4", "Name 3 Last name 3", "Name 2 Last name 2",
+                "Name 1 Last name 1");
     }
 
 }

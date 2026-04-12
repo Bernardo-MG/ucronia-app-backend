@@ -3,7 +3,6 @@ package com.bernardomg.association.member.test.configuration.factory;
 
 import java.util.Set;
 
-import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTypeEntity;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityConstants;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberFeeTypeEntity;
@@ -14,7 +13,7 @@ public final class MemberProfileEntities {
 
     public static final MemberProfileEntity active() {
         final MemberProfileEntity entity;
-        final MemberFeeTypeEntity       feeType;
+        final MemberFeeTypeEntity feeType;
 
         feeType = new MemberFeeTypeEntity();
         feeType.setId(1L);
@@ -36,7 +35,7 @@ public final class MemberProfileEntities {
 
     public static final MemberProfileEntity alternative() {
         final MemberProfileEntity entity;
-        final MemberFeeTypeEntity       feeType;
+        final MemberFeeTypeEntity feeType;
 
         feeType = new MemberFeeTypeEntity();
         feeType.setId(1L);
@@ -58,7 +57,7 @@ public final class MemberProfileEntities {
 
     public static final MemberProfileEntity created() {
         final MemberProfileEntity entity;
-        final MemberFeeTypeEntity       feeType;
+        final MemberFeeTypeEntity feeType;
 
         feeType = new MemberFeeTypeEntity();
         feeType.setId(1L);
@@ -80,7 +79,7 @@ public final class MemberProfileEntities {
 
     public static final MemberProfileEntity firstNameChange() {
         final MemberProfileEntity entity;
-        final MemberFeeTypeEntity       feeType;
+        final MemberFeeTypeEntity feeType;
 
         feeType = new MemberFeeTypeEntity();
         feeType.setId(1L);
@@ -102,7 +101,7 @@ public final class MemberProfileEntities {
 
     public static final MemberProfileEntity withEmail() {
         final MemberProfileEntity entity;
-        final MemberFeeTypeEntity       feeType;
+        final MemberFeeTypeEntity feeType;
 
         feeType = new MemberFeeTypeEntity();
         feeType.setId(1L);

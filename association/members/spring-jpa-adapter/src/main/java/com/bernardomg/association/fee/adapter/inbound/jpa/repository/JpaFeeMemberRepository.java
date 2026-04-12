@@ -33,10 +33,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeMemberEntityMapper;
-import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTypeEntityMapper;
 import com.bernardomg.association.fee.domain.model.FeeMember;
 import com.bernardomg.association.fee.domain.model.FeeType;
 import com.bernardomg.association.fee.domain.repository.FeeMemberRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberFeeTypeEntityMapper;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberProfileEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberProfileSpringRepository;
 
@@ -80,7 +80,7 @@ public final class JpaFeeMemberRepository implements FeeMemberRepository {
 
         feeType = memberProfileSpringRepository.findByNumber(number)
             .map(MemberProfileEntity::getFeeType)
-            .map(FeeTypeEntityMapper::toDomain);
+            .map(MemberFeeTypeEntityMapper::toDomain);
 
         log.trace("Found fee type for member {}: {}", number, feeType);
 
@@ -89,16 +89,16 @@ public final class JpaFeeMemberRepository implements FeeMemberRepository {
 
     @Override
     public final Optional<FeeMember> findOne(final Long number) {
-        final Optional<FeeMember> memberProfile;
+        final Optional<FeeMember> member;
 
-        log.trace("Finding member profile with number {}", number);
+        log.trace("Finding member with number {}", number);
 
-        memberProfile = memberProfileSpringRepository.findByNumber(number)
+        member = memberProfileSpringRepository.findByNumber(number)
             .map(FeeMemberEntityMapper::toDomain);
 
-        log.trace("Found member profile with number {}: {}", number, memberProfile);
+        log.trace("Found member with number {}: {}", number, member);
 
-        return memberProfile;
+        return member;
     }
 
     @Override

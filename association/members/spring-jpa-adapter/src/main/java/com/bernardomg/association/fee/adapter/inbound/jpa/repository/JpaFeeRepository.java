@@ -349,7 +349,7 @@ public final class JpaFeeRepository implements FeeRepository {
         member = profileSpringRepository.findByNumber(fee.member()
             .number());
         if (!member.isPresent()) {
-            log.error("Profile with number {} not found", fee.member()
+            log.error("Member with number {} not found", fee.member()
                 .number());
         }
 

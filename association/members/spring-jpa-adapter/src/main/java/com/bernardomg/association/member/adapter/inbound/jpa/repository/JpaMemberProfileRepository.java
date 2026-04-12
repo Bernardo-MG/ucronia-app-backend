@@ -37,9 +37,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTypeEntity;
-import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeTypeSpringRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityConstants;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberFeeTypeEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberProfileEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberProfileEntityMapper;
 import com.bernardomg.association.member.adapter.inbound.jpa.specification.MemberProfileSpecifications;
@@ -71,7 +70,7 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
 
     private final ContactMethodSpringRepository contactMethodSpringRepository;
 
-    private final FeeTypeSpringRepository       feeTypeSpringRepository;
+    private final MemberFeeTypeSpringRepository memberFeeTypeSpringRepository;
 
     private final MemberProfileSpringRepository memberProfileSpringRepository;
 
@@ -79,12 +78,13 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
 
     public JpaMemberProfileRepository(final MemberProfileSpringRepository updateMemberProfileSpringRepo,
             final ContactMethodSpringRepository contactMethodSpringRepo,
-            final ProfileSpringRepository profileSpringRepo, final FeeTypeSpringRepository feeTypeSpringRepo) {
+            final ProfileSpringRepository profileSpringRepo,
+            final MemberFeeTypeSpringRepository memberFeeTypeSpringRepo) {
         super();
 
         memberProfileSpringRepository = Objects.requireNonNull(updateMemberProfileSpringRepo);
         contactMethodSpringRepository = Objects.requireNonNull(contactMethodSpringRepo);
-        feeTypeSpringRepository = Objects.requireNonNull(feeTypeSpringRepo);
+        memberFeeTypeSpringRepository = Objects.requireNonNull(memberFeeTypeSpringRepo);
         profileSpringRepository = Objects.requireNonNull(profileSpringRepo);
     }
 
@@ -316,7 +316,7 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
         final Optional<MemberProfileEntity>   existing;
         final MemberProfileEntity             entity;
         final Collection<ContactMethodEntity> contactMethods;
-        final Optional<FeeTypeEntity>         feeType;
+        final Optional<MemberFeeTypeEntity>   feeType;
         final Optional<ProfileEntity>         profile;
 
         existing = memberProfileSpringRepository.findByNumber(memberProfile.number());
@@ -335,7 +335,7 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
             }
         }
 
-        feeType = feeTypeSpringRepository.findByNumber(memberProfile.feeType()
+        feeType = memberFeeTypeSpringRepository.findByNumber(memberProfile.feeType()
             .number());
         entity.setFeeType(feeType.orElse(null));
 

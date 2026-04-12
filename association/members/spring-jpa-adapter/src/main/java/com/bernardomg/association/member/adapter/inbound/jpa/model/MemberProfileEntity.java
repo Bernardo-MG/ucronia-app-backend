@@ -4,7 +4,6 @@ package com.bernardomg.association.member.adapter.inbound.jpa.model;
 import java.io.Serializable;
 import java.util.Objects;
 
-import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTypeEntity;
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
 
 import jakarta.persistence.CascadeType;
@@ -27,27 +26,27 @@ public class MemberProfileEntity implements Serializable {
      *
      */
     @Transient
-    private static final long serialVersionUID = 8139806507534262996L;
+    private static final long   serialVersionUID = 8139806507534262996L;
 
     @Column(name = "active", nullable = false)
-    private Boolean           active;
+    private Boolean             active;
 
     @OneToOne
     @JoinColumn(name = "fee_type_id", referencedColumnName = "id")
-    private FeeTypeEntity     feeType;
+    private MemberFeeTypeEntity feeType;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
-    private Long              id;
+    private Long                id;
 
     @OneToOne(cascade = CascadeType.ALL)
     @MapsId
     @JoinColumn(name = "id")
-    private ProfileEntity     profile;
+    private ProfileEntity       profile;
 
     @Column(name = "renew_membership", table = "members", nullable = false)
-    private Boolean           renew;
+    private Boolean             renew;
 
     @Override
     public boolean equals(final Object obj) {
@@ -64,7 +63,7 @@ public class MemberProfileEntity implements Serializable {
         return active;
     }
 
-    public FeeTypeEntity getFeeType() {
+    public MemberFeeTypeEntity getFeeType() {
         return feeType;
     }
 
@@ -89,7 +88,7 @@ public class MemberProfileEntity implements Serializable {
         this.active = active;
     }
 
-    public void setFeeType(final FeeTypeEntity feeType) {
+    public void setFeeType(final MemberFeeTypeEntity feeType) {
         this.feeType = feeType;
     }
 
