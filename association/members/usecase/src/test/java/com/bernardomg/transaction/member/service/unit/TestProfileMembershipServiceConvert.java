@@ -38,11 +38,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.fee.domain.exception.MissingFeeTypeException;
-import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.member.domain.exception.MemberExistsException;
+import com.bernardomg.association.member.domain.exception.MissingMemberFeeTypeException;
 import com.bernardomg.association.member.domain.model.MemberProfile;
+import com.bernardomg.association.member.domain.repository.MemberFeeTypeRepository;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.member.test.configuration.factory.MemberProfiles;
 import com.bernardomg.association.member.usecase.service.DefaultProfileMembershipService;
@@ -57,7 +57,7 @@ import com.bernardomg.association.profile.test.configuration.factory.Profiles;
 class TestProfileMembershipServiceConvert {
 
     @Mock
-    private FeeTypeRepository               feeTypeRepository;
+    private MemberFeeTypeRepository         memberFeeTypeRepository;
 
     @Mock
     private MemberProfileRepository         memberProfileRepository;
@@ -114,14 +114,14 @@ class TestProfileMembershipServiceConvert {
         profile = Profiles.valid();
 
         given(profileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(profile));
-        given(feeTypeRepository.exists(ProfileConstants.NUMBER)).willReturn(false);
+        given(memberFeeTypeRepository.exists(ProfileConstants.NUMBER)).willReturn(false);
 
         // WHEN
         execution = () -> service.convertToMember(ProfileConstants.NUMBER, FeeConstants.FEE_TYPE_NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingFeeTypeException.class);
+            .isInstanceOf(MissingMemberFeeTypeException.class);
     }
 
     @Test
@@ -134,7 +134,7 @@ class TestProfileMembershipServiceConvert {
 
         given(profileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(profile));
         given(memberProfileRepository.exists(ProfileConstants.NUMBER)).willReturn(false);
-        given(feeTypeRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
+        given(memberFeeTypeRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
 
         // WHEN
         service.convertToMember(ProfileConstants.NUMBER, FeeConstants.FEE_TYPE_NUMBER);
@@ -154,7 +154,7 @@ class TestProfileMembershipServiceConvert {
 
         given(profileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(profile));
         given(memberProfileRepository.exists(ProfileConstants.NUMBER)).willReturn(false);
-        given(feeTypeRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
+        given(memberFeeTypeRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
         given(memberProfileRepository.save(MemberProfiles.toCreate())).willReturn(MemberProfiles.withoutType());
 
         // WHEN

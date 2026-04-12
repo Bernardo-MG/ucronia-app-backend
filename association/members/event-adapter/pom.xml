@@ -34,7 +34,7 @@
          <artifactId>event</artifactId>
       </dependency>
       <dependency>
-         <groupId>com.bernardomg.association.member</groupId>
+         <groupId>com.bernardomg.association.fee</groupId>
          <artifactId>association-fee-domain</artifactId>
       </dependency>
       <dependency>

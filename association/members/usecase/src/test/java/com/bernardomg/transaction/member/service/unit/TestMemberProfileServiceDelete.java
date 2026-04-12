@@ -38,8 +38,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
+import com.bernardomg.association.member.domain.repository.MemberFeeTypeRepository;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.member.test.configuration.factory.MemberProfiles;
 import com.bernardomg.association.member.usecase.service.DefaultMemberProfileService;
@@ -54,7 +54,7 @@ class TestMemberProfileServiceDelete {
     private ContactMethodRepository     contactMethodRepository;
 
     @Mock
-    private FeeTypeRepository           feeTypeRepository;
+    private MemberFeeTypeRepository     memberFeeTypeRepository;
 
     @Mock
     private MemberProfileRepository     memberProfileRepository;

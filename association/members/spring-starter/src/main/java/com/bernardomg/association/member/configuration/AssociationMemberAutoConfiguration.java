@@ -28,7 +28,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
 import com.bernardomg.association.member.adapter.inbound.event.ActivateMemberOnFeePaidEventListener;
 import com.bernardomg.association.member.adapter.inbound.event.ApplyRenewalOnMonthStartEventListener;
 import com.bernardomg.association.member.adapter.inbound.event.DeactivateMemberOnFeeDeletedEventListener;
@@ -40,6 +39,7 @@ import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberFe
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberProfileSpringRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MembershipEvolutionSpringRepository;
+import com.bernardomg.association.member.domain.repository.MemberFeeTypeRepository;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.domain.repository.MemberSummaryRepository;
@@ -96,8 +96,10 @@ public class AssociationMemberAutoConfiguration {
 
     @Bean("memberProfileService")
     public MemberProfileService getMemberProfileService(final MemberProfileRepository memberProfileRepository,
-            final ContactMethodRepository contactMethodRepository, final FeeTypeRepository feeTypeRepository) {
-        return new DefaultMemberProfileService(memberProfileRepository, contactMethodRepository, feeTypeRepository);
+            final ContactMethodRepository contactMethodRepository,
+            final MemberFeeTypeRepository memberFeeTypeRepository) {
+        return new DefaultMemberProfileService(memberProfileRepository, contactMethodRepository,
+            memberFeeTypeRepository);
     }
 
     @Bean("memberRepository")
@@ -139,8 +141,8 @@ public class AssociationMemberAutoConfiguration {
 
     @Bean("profileMembershipService")
     public ProfileMembershipService getProfileMembershipService(final MemberProfileRepository memberProfileRepository,
-            final ProfileRepository profileRepository, final FeeTypeRepository feeTypeRepository) {
-        return new DefaultProfileMembershipService(memberProfileRepository, profileRepository, feeTypeRepository);
+            final ProfileRepository profileRepository, final MemberFeeTypeRepository memberFeeTypeRepository) {
+        return new DefaultProfileMembershipService(memberProfileRepository, profileRepository, memberFeeTypeRepository);
     }
 
 }

@@ -31,22 +31,6 @@
    <dependencies>
       <dependency>
          <groupId>com.bernardomg.association.member</groupId>
-         <artifactId>association-fee-domain</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.association.member</groupId>
-         <artifactId>association-fee-event-adapter</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.association.member</groupId>
-         <artifactId>association-fee-rest-adapter</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.association.member</groupId>
-         <artifactId>association-fee-spring-jpa-adapter</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.association.member</groupId>
          <artifactId>association-member-domain</artifactId>
       </dependency>
       <dependency>

@@ -36,9 +36,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.member.domain.model.MemberProfile;
+import com.bernardomg.association.member.domain.repository.MemberFeeTypeRepository;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.member.test.configuration.factory.MemberProfiles;
 import com.bernardomg.association.member.usecase.service.DefaultMemberProfileService;
@@ -55,7 +55,7 @@ class TestMemberProfileServiceCreate {
     private ContactMethodRepository     contactMethodRepository;
 
     @Mock
-    private FeeTypeRepository           feeTypeRepository;
+    private MemberFeeTypeRepository     memberFeeTypeRepository;
 
     @Mock
     private MemberProfileRepository     memberProfileRepository;
@@ -76,7 +76,7 @@ class TestMemberProfileServiceCreate {
         // GIVEN
         member = MemberProfiles.active();
 
-        given(feeTypeRepository.exists(FeeConstants.FEE_TYPE_NUMBER)).willReturn(true);
+        given(memberFeeTypeRepository.exists(FeeConstants.FEE_TYPE_NUMBER)).willReturn(true);
         given(memberProfileRepository.existsByIdentifier(ProfileConstants.IDENTIFIER)).willReturn(true);
 
         // WHEN
@@ -95,7 +95,7 @@ class TestMemberProfileServiceCreate {
         // GIVEN
         member = MemberProfiles.padded();
 
-        given(feeTypeRepository.exists(FeeConstants.FEE_TYPE_NUMBER)).willReturn(true);
+        given(memberFeeTypeRepository.exists(FeeConstants.FEE_TYPE_NUMBER)).willReturn(true);
 
         // WHEN
         service.create(member);
@@ -112,7 +112,7 @@ class TestMemberProfileServiceCreate {
         // GIVEN
         member = MemberProfiles.active();
 
-        given(feeTypeRepository.exists(FeeConstants.FEE_TYPE_NUMBER)).willReturn(true);
+        given(memberFeeTypeRepository.exists(FeeConstants.FEE_TYPE_NUMBER)).willReturn(true);
 
         // WHEN
         service.create(member);
@@ -131,7 +131,7 @@ class TestMemberProfileServiceCreate {
         member = MemberProfiles.active();
 
         given(memberProfileRepository.save(member)).willReturn(MemberProfiles.active());
-        given(feeTypeRepository.exists(FeeConstants.FEE_TYPE_NUMBER)).willReturn(true);
+        given(memberFeeTypeRepository.exists(FeeConstants.FEE_TYPE_NUMBER)).willReturn(true);
 
         // WHEN
         created = service.create(member);
