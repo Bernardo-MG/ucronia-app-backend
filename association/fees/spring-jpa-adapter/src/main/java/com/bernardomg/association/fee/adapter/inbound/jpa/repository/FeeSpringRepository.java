@@ -106,7 +106,7 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
               AND f.member.id IN
               (
                 SELECT m.id AS id
-                  FROM MemberProfile m
+                  FROM FeeMember m
                 WHERE m.active = true
                 ORDER BY id ASC
               )
@@ -120,7 +120,7 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
               AND f.member.id IN
               (
                 SELECT m.id AS id
-                  FROM MemberProfile m
+                  FROM FeeMember m
                 WHERE m.active = false
                 ORDER BY id ASC
               )
