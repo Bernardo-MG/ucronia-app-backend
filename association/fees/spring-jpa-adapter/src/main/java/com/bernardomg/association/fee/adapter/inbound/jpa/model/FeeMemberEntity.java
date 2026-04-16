@@ -29,43 +29,47 @@ import java.util.Objects;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrimaryKeyJoinColumn;
+import jakarta.persistence.SecondaryTable;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
+/**
+ * TODO: Shouldn't members be the root table?
+ */
 @Entity(name = "FeeMember")
 @Table(schema = "directory", name = "profiles")
+@SecondaryTable(schema = "directory", name = "members",
+        pkJoinColumns = @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id"))
 public class FeeMemberEntity implements Serializable {
 
     /**
-     * Serialization ID.
+     *
      */
     @Transient
-    private static final long serialVersionUID = 1328776989450853491L;
+    private static final long serialVersionUID = 8139806507534262996L;
 
-    @Column(name = "active", nullable = false)
+    @Column(name = "active", table = "members", nullable = false)
     private Boolean           active;
 
     @OneToOne
-    @JoinColumn(name = "fee_type_id", referencedColumnName = "id")
+    @JoinColumn(name = "fee_type_id", table = "members", referencedColumnName = "id")
     private FeeTypeEntity     feeType;
 
-    @Column(name = "first_name", nullable = false)
+    @Column(name = "first_name", table = "profiles", nullable = false)
     private String            firstName;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false, unique = true)
+    @Column(name = "id", table = "members", nullable = false, unique = true)
     private Long              id;
 
-    @Column(name = "last_name")
+    @Column(name = "last_name", table = "profiles")
     private String            lastName;
 
-    @Column(name = "number")
+    @Column(name = "number", table = "profiles")
     private Long              number;
 
     @Column(name = "renew_membership", table = "members", nullable = false)
@@ -119,7 +123,7 @@ public class FeeMemberEntity implements Serializable {
         this.active = active;
     }
 
-    public void setFeeType(final FeeTypeEntity feeType) {
+    public void setFeeType(FeeTypeEntity feeType) {
         this.feeType = feeType;
     }
 
@@ -145,8 +149,8 @@ public class FeeMemberEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "FeeMemberEntity [active=" + active + ", feeType=" + feeType + ", firstName=" + firstName + ", id=" + id
-                + ", lastName=" + lastName + ", number=" + number + ", renew=" + renew + "]";
+        return "FeeMemberEntity [id=" + id + ", number=" + number + ", firstName=" + firstName + ", lastName="
+                + lastName + ", feeType=" + feeType + ", active=" + active + ", renew=" + renew + "]";
     }
 
 }
