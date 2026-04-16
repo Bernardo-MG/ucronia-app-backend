@@ -68,6 +68,9 @@ public class FeeMemberEntity implements Serializable {
     @Column(name = "number")
     private Long              number;
 
+    @Column(name = "renew_membership", table = "members", nullable = false)
+    private Boolean           renew;
+
     @Override
     public boolean equals(final Object obj) {
         if (this == obj) {
@@ -103,6 +106,10 @@ public class FeeMemberEntity implements Serializable {
         return number;
     }
 
+    public Boolean getRenew() {
+        return renew;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(id);
@@ -132,10 +139,14 @@ public class FeeMemberEntity implements Serializable {
         this.number = number;
     }
 
+    public void setRenew(final Boolean renew) {
+        this.renew = renew;
+    }
+
     @Override
     public String toString() {
-        return "ProfileEntity [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", number=" + number
-                + "]";
+        return "FeeMemberEntity [active=" + active + ", feeType=" + feeType + ", firstName=" + firstName + ", id=" + id
+                + ", lastName=" + lastName + ", number=" + number + ", renew=" + renew + "]";
     }
 
 }
