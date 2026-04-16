@@ -36,12 +36,12 @@ import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
 public interface MemberSpringRepository
         extends JpaRepository<MemberEntity, Long>, JpaSpecificationExecutor<MemberEntity> {
 
+    public long countByActiveTrue();
+
+    public long countByActiveTrueAndRenewTrue();
+
     public Page<MemberEntity> findAllByActiveTrue(final Pageable pageable);
 
     public Optional<MemberEntity> findByNumberAndActiveTrue(final Long number);
-
-    long countByActiveTrue();
-
-    long countByActiveTrueAndRenewTrue();
 
 }
