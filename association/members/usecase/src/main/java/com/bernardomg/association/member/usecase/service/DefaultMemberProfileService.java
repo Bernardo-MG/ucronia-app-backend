@@ -30,11 +30,11 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bernardomg.association.fee.domain.exception.MissingFeeTypeException;
-import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
+import com.bernardomg.association.member.domain.exception.MissingMemberFeeTypeException;
 import com.bernardomg.association.member.domain.filter.MemberProfileFilter;
 import com.bernardomg.association.member.domain.model.MemberProfile;
+import com.bernardomg.association.member.domain.repository.MemberFeeTypeRepository;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.member.usecase.validation.MemberProfileIdentifierNotExistForAnotherRule;
 import com.bernardomg.association.member.usecase.validation.MemberProfileIdentifierNotExistRule;
@@ -69,7 +69,7 @@ public final class DefaultMemberProfileService implements MemberProfileService {
 
     private final Validator<MemberProfile> createValidator;
 
-    private final FeeTypeRepository        feeTypeRepository;
+    private final MemberFeeTypeRepository  memberFeeTypeRepository;
 
     private final MemberProfileRepository  memberProfileRepository;
 
@@ -78,12 +78,12 @@ public final class DefaultMemberProfileService implements MemberProfileService {
     private final Validator<MemberProfile> updateValidator;
 
     public DefaultMemberProfileService(final MemberProfileRepository memberProfileRepo,
-            final ContactMethodRepository contactMethodRepo, final FeeTypeRepository feeTypeRepo) {
+            final ContactMethodRepository contactMethodRepo, final MemberFeeTypeRepository memberFeeTypeRepo) {
         super();
 
         memberProfileRepository = Objects.requireNonNull(memberProfileRepo);
         contactMethodRepository = Objects.requireNonNull(contactMethodRepo);
-        feeTypeRepository = Objects.requireNonNull(feeTypeRepo);
+        memberFeeTypeRepository = Objects.requireNonNull(memberFeeTypeRepo);
 
         createValidator = new FieldRuleValidator<>(new MemberProfileIdentifierNotExistRule(memberProfileRepo));
         updateValidator = new FieldRuleValidator<>(
@@ -97,11 +97,11 @@ public final class DefaultMemberProfileService implements MemberProfileService {
 
         log.debug("Creating member profile {}", memberProfile);
 
-        if (!feeTypeRepository.exists(memberProfile.feeType()
+        if (!memberFeeTypeRepository.exists(memberProfile.feeType()
             .number())) {
             log.error("Missing fee type {}", memberProfile.feeType()
                 .number());
-            throw new MissingFeeTypeException(memberProfile.feeType()
+            throw new MissingMemberFeeTypeException(memberProfile.feeType()
                 .number());
         }
 
@@ -185,11 +185,11 @@ public final class DefaultMemberProfileService implements MemberProfileService {
                 throw new MissingMemberException(memberProfile.number());
             });
 
-        if (!feeTypeRepository.exists(memberProfile.feeType()
+        if (!memberFeeTypeRepository.exists(memberProfile.feeType()
             .number())) {
             log.error("Missing fee type {}", memberProfile.feeType()
                 .number());
-            throw new MissingFeeTypeException(memberProfile.feeType()
+            throw new MissingMemberFeeTypeException(memberProfile.feeType()
                 .number());
         }
 
@@ -221,11 +221,11 @@ public final class DefaultMemberProfileService implements MemberProfileService {
             throw new MissingMemberException(memberProfile.number());
         }
 
-        if (!feeTypeRepository.exists(memberProfile.feeType()
+        if (!memberFeeTypeRepository.exists(memberProfile.feeType()
             .number())) {
             log.error("Missing fee type {}", memberProfile.feeType()
                 .number());
-            throw new MissingFeeTypeException(memberProfile.feeType()
+            throw new MissingMemberFeeTypeException(memberProfile.feeType()
                 .number());
         }
 

@@ -73,7 +73,7 @@ public final class JpaContactMethodRepository implements ContactMethodRepository
 
         exists = contactMethodSpringRepository.existsByNumber(number);
 
-        log.debug("Profile method {} exists: {}", number, exists);
+        log.debug("Contact method {} exists: {}", number, exists);
 
         return exists;
     }
@@ -86,7 +86,7 @@ public final class JpaContactMethodRepository implements ContactMethodRepository
 
         exists = contactMethodSpringRepository.existsByName(name);
 
-        log.debug("Profile method exists by name {}: {}", name, exists);
+        log.debug("Contact method exists by name {}: {}", name, exists);
 
         return exists;
     }
@@ -99,7 +99,7 @@ public final class JpaContactMethodRepository implements ContactMethodRepository
 
         exists = contactMethodSpringRepository.existsByNameAndNumberNot(name, number);
 
-        log.debug("Profile method exists by name {} for a contact method distinct of {}: {}", name, number, exists);
+        log.debug("Contact method exists by name {} for a contact method distinct of {}: {}", name, number, exists);
 
         return exists;
     }

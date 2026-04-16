@@ -38,12 +38,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.fee.domain.exception.MissingFeeTypeException;
-import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.FeeTypeConstants;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
+import com.bernardomg.association.member.domain.exception.MissingMemberFeeTypeException;
 import com.bernardomg.association.member.domain.model.MemberProfile;
+import com.bernardomg.association.member.domain.repository.MemberFeeTypeRepository;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.member.test.configuration.factory.MemberProfiles;
 import com.bernardomg.association.member.usecase.service.DefaultMemberProfileService;
@@ -60,7 +60,7 @@ class TestMemberProfileServicePatch {
     private ContactMethodRepository     contactMethodRepository;
 
     @Mock
-    private FeeTypeRepository           feeTypeRepository;
+    private MemberFeeTypeRepository     memberFeeTypeRepository;
 
     @Mock
     private MemberProfileRepository     memberProfileRepository;
@@ -81,7 +81,7 @@ class TestMemberProfileServicePatch {
         // GIVEN
         member = MemberProfiles.active();
 
-        given(feeTypeRepository.exists(FeeConstants.FEE_TYPE_NUMBER)).willReturn(true);
+        given(memberFeeTypeRepository.exists(FeeConstants.FEE_TYPE_NUMBER)).willReturn(true);
         given(memberProfileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(member));
         given(
             memberProfileRepository.existsByIdentifierForAnother(ProfileConstants.NUMBER, ProfileConstants.IDENTIFIER))
@@ -125,14 +125,14 @@ class TestMemberProfileServicePatch {
 
         given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
             .willReturn(Optional.of(MemberProfiles.active()));
-        given(feeTypeRepository.exists(FeeTypeConstants.NUMBER)).willReturn(false);
+        given(memberFeeTypeRepository.exists(FeeTypeConstants.NUMBER)).willReturn(false);
 
         // WHEN
         execution = () -> service.patch(member);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingFeeTypeException.class);
+            .isInstanceOf(MissingMemberFeeTypeException.class);
     }
 
     @Test
@@ -145,7 +145,7 @@ class TestMemberProfileServicePatch {
 
         given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
             .willReturn(Optional.of(MemberProfiles.active()));
-        given(feeTypeRepository.exists(FeeTypeConstants.NUMBER)).willReturn(true);
+        given(memberFeeTypeRepository.exists(FeeTypeConstants.NUMBER)).willReturn(true);
 
         // WHEN
         service.patch(member);
@@ -164,7 +164,7 @@ class TestMemberProfileServicePatch {
 
         given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
             .willReturn(Optional.of(MemberProfiles.active()));
-        given(feeTypeRepository.exists(FeeTypeConstants.NUMBER)).willReturn(true);
+        given(memberFeeTypeRepository.exists(FeeTypeConstants.NUMBER)).willReturn(true);
 
         // WHEN
         service.patch(member);
@@ -183,7 +183,7 @@ class TestMemberProfileServicePatch {
 
         given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
             .willReturn(Optional.of(MemberProfiles.active()));
-        given(feeTypeRepository.exists(FeeTypeConstants.NUMBER)).willReturn(true);
+        given(memberFeeTypeRepository.exists(FeeTypeConstants.NUMBER)).willReturn(true);
 
         // WHEN
         service.patch(member);
@@ -203,7 +203,7 @@ class TestMemberProfileServicePatch {
 
         given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
             .willReturn(Optional.of(MemberProfiles.active()));
-        given(feeTypeRepository.exists(FeeTypeConstants.NUMBER)).willReturn(true);
+        given(memberFeeTypeRepository.exists(FeeTypeConstants.NUMBER)).willReturn(true);
         given(memberProfileRepository.save(MemberProfiles.nameChange())).willReturn(MemberProfiles.nameChange());
 
         // WHEN

@@ -43,7 +43,7 @@ public final class Guests {
     public static final Guest forNumber(final long number) {
         final ProfileName name;
 
-        name = new ProfileName("Profile " + number, "Last name " + number);
+        name = new ProfileName("Name " + number, "Last name " + number);
         return new Guest(Objects.toString(number * 10), number * 10, name, ProfileConstants.BIRTH_DATE, List.of(),
             List.of(Guests.DATE), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS,
             Set.of(GuestConstants.PROFILE_TYPE));

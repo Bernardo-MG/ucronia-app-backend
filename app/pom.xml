@@ -50,6 +50,10 @@
          <artifactId>association-member-spring-starter</artifactId>
       </dependency>
       <dependency>
+         <groupId>com.bernardomg.association.fee</groupId>
+         <artifactId>association-fee-spring-starter</artifactId>
+      </dependency>
+      <dependency>
          <groupId>com.bernardomg.association.guest</groupId>
          <artifactId>association-guest-spring-starter</artifactId>
       </dependency>

@@ -32,6 +32,7 @@
      <module>security</module>
      <module>settings</module>
      <module>transactions</module>
+     <module>fees</module>
      <module>profiles</module>
      <module>members</module>
      <module>guest</module>

@@ -1,0 +1,131 @@
+/**
+ * The MIT License (MIT)
+ * <p>
+ * Copyright (c) 2022-2025 Bernardo Martínez Garrido
+ * <p>
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * <p>
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * <p>
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+package com.bernardomg.association.fee.test.adapter.inbound.jpa.repository.integration;
+
+import java.util.List;
+
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import com.bernardomg.association.TestApplication;
+import com.bernardomg.association.fee.domain.model.Fee;
+import com.bernardomg.association.fee.domain.repository.FeeRepository;
+import com.bernardomg.association.fee.test.configuration.data.annotation.MultipleFees;
+import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
+import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
+import com.bernardomg.association.member.test.configuration.data.annotation.MultipleInactiveMember;
+import com.bernardomg.association.member.test.configuration.data.annotation.MultipleInactiveMemberAccents;
+import com.bernardomg.pagination.domain.Sorting;
+import com.bernardomg.test.annotation.IntegrationTest;
+
+@IntegrationTest
+@SpringBootTest(classes = TestApplication.class)
+@DisplayName("FeeRepository - find all in year for inactive - sort")
+class ITFeeRepositoryFindAllInYearForInactiveMembersSort {
+
+    @Autowired
+    private FeeRepository repository;
+
+    @Test
+    @DisplayName("With ascending order by name with accents it returns the ordered data")
+    @PositiveFeeType
+    @MultipleInactiveMemberAccents
+    @MultipleFees
+    @Disabled("Database dependant")
+    void testFindAllInYearForInactiveMembers_Accents_Name_Asc() {
+        final Iterable<Fee> fees;
+        final Sorting       sorting;
+
+        // GIVEN
+        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC)));
+
+        // WHEN
+        fees = repository.findAllInYearForInactiveMembers(FeeConstants.YEAR, sorting);
+
+        // THEN
+        Assertions.assertThat(fees)
+            .extracting(fee -> fee.member()
+                .name()
+                .fullName())
+            .as("fee full names")
+            .containsExactly("Name a Last name 1", "Name é Last name 2", "Name i Last name 3", "Name o Last name 4",
+                "Name u Last name 5");
+    }
+
+    @Test
+    @DisplayName("With ascending order by name it returns the ordered data")
+    @PositiveFeeType
+    @MultipleInactiveMember
+    @MultipleFees
+    void testFindAllInYearForInactiveMembers_Name_Asc() {
+        final Iterable<Fee> fees;
+        final Sorting       sorting;
+
+        // GIVEN
+        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC)));
+
+        // WHEN
+        fees = repository.findAllInYearForInactiveMembers(FeeConstants.YEAR, sorting);
+
+        // THEN
+        Assertions.assertThat(fees)
+            .extracting(fee -> fee.member()
+                .name()
+                .fullName())
+            .as("fee full names")
+            .containsExactly("Name 1 Last name 1", "Name 2 Last name 2", "Name 3 Last name 3", "Name 4 Last name 4",
+                "Name 5 Last name 5");
+    }
+
+    @Test
+    @DisplayName("With descending order by name it returns the ordered data")
+    @PositiveFeeType
+    @MultipleInactiveMember
+    @MultipleFees
+    void testFindAllInYearForInactiveMembers_Name_Desc() {
+        final Iterable<Fee> fees;
+        final Sorting       sorting;
+
+        // GIVEN
+        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.DESC)));
+
+        // WHEN
+        fees = repository.findAllInYearForInactiveMembers(FeeConstants.YEAR, sorting);
+
+        // THEN
+        Assertions.assertThat(fees)
+            .extracting(fee -> fee.member()
+                .name()
+                .fullName())
+            .as("fee full names")
+            .containsExactly("Name 5 Last name 5", "Name 4 Last name 4", "Name 3 Last name 3", "Name 2 Last name 2",
+                "Name 1 Last name 1");
+    }
+
+}

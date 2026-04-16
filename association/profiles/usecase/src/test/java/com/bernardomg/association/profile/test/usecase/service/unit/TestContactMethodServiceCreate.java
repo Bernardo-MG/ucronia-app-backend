@@ -45,7 +45,7 @@ import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Profile method service - create")
+@DisplayName("Contact method service - create")
 class TestContactMethodServiceCreate {
 
     @Mock

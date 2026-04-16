@@ -139,7 +139,7 @@ public final class MemberProfileDtoMapper {
     }
 
     private static final MemberProfileDto toDto(final MemberProfile memberProfile) {
-        final MemberNameDto          name;
+        final MemberNameDto           name;
         final List<ContactChannelDto> contactChannels;
         final MemberFeeTypeDto        feeType;
 

@@ -17,7 +17,7 @@ public final class Members {
     public static final Member forNumber(final long number) {
         final ProfileName name;
 
-        name = new ProfileName("Profile " + number, "Last name " + number);
+        name = new ProfileName("Name " + number, "Last name " + number);
         return new Member(number * 10, name, true);
     }
 

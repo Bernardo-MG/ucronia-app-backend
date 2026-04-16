@@ -45,7 +45,7 @@ import com.bernardomg.association.profile.test.configuration.factory.ContactMeth
 import com.bernardomg.association.profile.usecase.service.DefaultContactMethodService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Profile method service - get one")
+@DisplayName("Contact method service - get one")
 class TestContactMethodServiceGetOne {
 
     @Mock
