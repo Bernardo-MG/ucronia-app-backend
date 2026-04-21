@@ -79,7 +79,7 @@ class ITFeeMemberRepositoryFindOne {
     }
 
     @Test
-    @DisplayName("With a member with no member role, it returns nothing")
+    @DisplayName("With a member with no member role, it is returned")
     @ValidProfile
     void testFindOne_NoMembership() {
         final Optional<FeeMember> member;
@@ -89,7 +89,7 @@ class ITFeeMemberRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(member)
-            .isEmpty();
+            .contains(FeeMembers.valid());
     }
 
 }
