@@ -37,9 +37,9 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
-@Entity(name = "MemberContactChannel")
+@Entity(name = "ReadMemberContactChannel")
 @Table(schema = "directory", name = "contact_channels")
-public class MemberContactChannelEntity implements Serializable {
+public class ReadMemberContactChannelEntity implements Serializable {
 
     /**
      * Serialization ID.
@@ -61,14 +61,14 @@ public class MemberContactChannelEntity implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "profile_id", nullable = false)
-    private MemberInnerProfileEntity  profile;
+    private ReadMemberProfileEntity   profile;
 
     @Override
     public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof final MemberContactChannelEntity other)) {
+        if (!(obj instanceof final ReadMemberContactChannelEntity other)) {
             return false;
         }
         return Objects.equals(id, other.id);
@@ -86,7 +86,7 @@ public class MemberContactChannelEntity implements Serializable {
         return id;
     }
 
-    public MemberInnerProfileEntity getProfile() {
+    public ReadMemberProfileEntity getProfile() {
         return profile;
     }
 
@@ -107,7 +107,7 @@ public class MemberContactChannelEntity implements Serializable {
         this.id = id;
     }
 
-    public void setProfile(final MemberInnerProfileEntity profile) {
+    public void setProfile(final ReadMemberProfileEntity profile) {
         this.profile = profile;
     }
 

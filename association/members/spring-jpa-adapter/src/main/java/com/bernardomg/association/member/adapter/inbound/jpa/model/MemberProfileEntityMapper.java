@@ -26,7 +26,6 @@ package com.bernardomg.association.member.adapter.inbound.jpa.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -41,6 +40,43 @@ import com.bernardomg.association.profile.domain.model.ProfileName;
 public final class MemberProfileEntityMapper {
 
     public static final MemberProfile toDomain(final MemberProfileEntity entity) {
+        final MemberProfile.FeeType      feeType;
+        final ProfileName                name;
+        final Collection<ContactChannel> contactChannels;
+
+        feeType = new MemberProfile.FeeType(entity.getFeeType()
+            .getNumber(),
+            entity.getFeeType()
+                .getName(),
+            entity.getFeeType()
+                .getAmount());
+
+        name = new ProfileName(entity.getProfile()
+            .getFirstName(),
+            entity.getProfile()
+                .getLastName());
+
+        contactChannels = entity.getProfile()
+            .getContactChannels()
+            .stream()
+            .map(MemberProfileEntityMapper::toDomain)
+            .toList();
+
+        return new MemberProfile(entity.getProfile()
+            .getIdentifier(),
+            entity.getProfile()
+                .getNumber(),
+            name, entity.getProfile()
+                .getBirthDate(),
+            contactChannels, entity.getProfile()
+                .getAddress(),
+            entity.getProfile()
+                .getComments(),
+            entity.getActive(), entity.getRenew(), feeType, entity.getProfile()
+                .getTypes());
+    }
+
+    public static final MemberProfile toDomain(final ReadMemberProfileEntity entity) {
         final MemberProfile.FeeType      feeType;
         final ProfileName                name;
         final Collection<ContactChannel> contactChannels;
@@ -67,45 +103,11 @@ public final class MemberProfileEntityMapper {
     public static final MemberProfileEntity toEntity(final MemberProfile data,
             final Collection<MemberContactMethodEntity> contactMethods) {
         final MemberProfileEntity                    entity;
+        final MemberInnerProfileEntity               profile;
         final Collection<MemberContactChannelEntity> contactChannels;
 
-        entity = new MemberProfileEntity();
-        entity.setNumber(data.number());
-        entity.setFirstName(data.name()
-            .firstName());
-        entity.setLastName(data.name()
-            .lastName());
-        entity.setIdentifier(data.identifier());
-        entity.setBirthDate(data.birthDate());
-        entity.setAddress(data.address());
-        entity.setComments(data.comments());
-
-        contactChannels = data.contactChannels()
-            .stream()
-            .map(c -> toEntity(entity, c, contactMethods))
-            .collect(Collectors.toCollection(ArrayList::new));
-        if (entity.getContactChannels() != null) {
-            entity.getContactChannels()
-                .clear();
-            entity.getContactChannels()
-                .addAll(contactChannels);
-        } else {
-            entity.setContactChannels(contactChannels);
-        }
-
-        entity.setTypes(new HashSet<>(data.types()));
-        entity.setActive(data.active());
-        entity.setRenew(data.renew());
-
-        return entity;
-    }
-
-    public static final MemberProfileEntity toEntity(final MemberProfileEntity entity, final MemberProfile data,
-            final Collection<MemberContactMethodEntity> contactMethods) {
-        final MemberProfileEntity                    profile;
-        final Collection<MemberContactChannelEntity> contactChannels;
-
-        profile = entity;
+        profile = new MemberInnerProfileEntity();
+        profile.setNumber(data.number());
         profile.setFirstName(data.name()
             .firstName());
         profile.setLastName(data.name()
@@ -128,6 +130,46 @@ public final class MemberProfileEntityMapper {
             profile.setContactChannels(contactChannels);
         }
 
+        profile.setTypes(profile.getTypes());
+
+        entity = new MemberProfileEntity();
+        entity.setProfile(profile);
+        entity.setActive(data.active());
+        entity.setRenew(data.renew());
+
+        return entity;
+    }
+
+    public static final MemberProfileEntity toEntity(final MemberProfileEntity entity, final MemberProfile data,
+            final Collection<MemberContactMethodEntity> contactMethods) {
+        final MemberInnerProfileEntity               profile;
+        final Collection<MemberContactChannelEntity> contactChannels;
+
+        profile = entity.getProfile();
+        profile.setFirstName(data.name()
+            .firstName());
+        profile.setLastName(data.name()
+            .lastName());
+        profile.setIdentifier(data.identifier());
+        profile.setBirthDate(data.birthDate());
+        profile.setAddress(data.address());
+        profile.setComments(data.comments());
+
+        contactChannels = data.contactChannels()
+            .stream()
+            .map(c -> toEntity(profile, c, contactMethods))
+            .collect(Collectors.toCollection(ArrayList::new));
+        if (profile.getContactChannels() != null) {
+            profile.getContactChannels()
+                .clear();
+            profile.getContactChannels()
+                .addAll(contactChannels);
+        } else {
+            profile.setContactChannels(contactChannels);
+        }
+
+        profile.setTypes(profile.getTypes());
+
         entity.setActive(data.active());
         entity.setRenew(data.renew());
 
@@ -145,7 +187,14 @@ public final class MemberProfileEntityMapper {
         return new ContactMethod(entity.getNumber(), entity.getName());
     }
 
-    private static final MemberContactChannelEntity toEntity(final MemberProfileEntity profile,
+    private static final ContactChannel toDomain(final ReadMemberContactChannelEntity entity) {
+        final ContactMethod method;
+
+        method = toDomain(entity.getContactMethod());
+        return new ContactChannel(method, entity.getDetail());
+    }
+
+    private static final MemberContactChannelEntity toEntity(final MemberInnerProfileEntity profile,
             final ContactChannel data, final Collection<MemberContactMethodEntity> contactMethods) {
         final MemberContactChannelEntity          entity;
         final Optional<MemberContactMethodEntity> contactMethod;

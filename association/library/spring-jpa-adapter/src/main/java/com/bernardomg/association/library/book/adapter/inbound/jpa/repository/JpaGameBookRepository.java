@@ -58,7 +58,7 @@ import com.bernardomg.association.library.lending.domain.model.Borrower;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.model.PublisherEntity;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.repository.PublisherSpringRepository;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberProfileSpringRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.ReadMemberProfileSpringRepository;
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 import com.bernardomg.association.profile.domain.exception.MissingProfileException;
@@ -87,7 +87,7 @@ public final class JpaGameBookRepository implements GameBookRepository {
 
     private final GameSystemSpringRepository    gameSystemSpringRepository;
 
-    private final MemberProfileSpringRepository memberProfileSpringRepository;
+    private final ReadMemberProfileSpringRepository memberProfileSpringRepository;
 
     private final ProfileSpringRepository       profileSpringRepository;
 
@@ -96,7 +96,7 @@ public final class JpaGameBookRepository implements GameBookRepository {
     public JpaGameBookRepository(final GameBookSpringRepository bookSpringRepo,
             final AuthorSpringRepository authorSpringRepo, final PublisherSpringRepository publisherSpringRepo,
             final BookTypeSpringRepository bookTypeSpringRepo, final GameSystemSpringRepository gameSystemSpringRepo,
-            final MemberProfileSpringRepository memberProfileSpringRepo,
+            final ReadMemberProfileSpringRepository memberProfileSpringRepo,
             final ProfileSpringRepository profileSpringRepo, final BookLendingSpringRepository bookLendingSpringRepo) {
         super();
 

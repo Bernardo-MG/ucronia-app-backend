@@ -37,13 +37,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.bernardomg.association.TestApplication;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityConstants;
-import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberProfileEntity;
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberProfileSpringRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.ReadMemberProfileEntity;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.ReadMemberProfileSpringRepository;
 import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
-import com.bernardomg.association.member.test.configuration.factory.MemberProfileEntities;
 import com.bernardomg.association.member.test.configuration.factory.MemberProfiles;
+import com.bernardomg.association.member.test.configuration.factory.ReadMemberProfileEntities;
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 import com.bernardomg.test.annotation.IntegrationTest;
@@ -54,13 +54,13 @@ import com.bernardomg.test.annotation.IntegrationTest;
 class ITMemberProfileRepositorySaveAll {
 
     @Autowired
-    private ProfileSpringRepository       profileSpringRepository;
+    private ProfileSpringRepository           profileSpringRepository;
 
     @Autowired
-    private MemberProfileRepository       repository;
+    private MemberProfileRepository           repository;
 
     @Autowired
-    private MemberProfileSpringRepository springRepository;
+    private ReadMemberProfileSpringRepository springRepository;
 
     public ITMemberProfileRepositorySaveAll() {
         super();
@@ -69,7 +69,7 @@ class ITMemberProfileRepositorySaveAll {
     @Test
     @DisplayName("When no data is received, nothing is saved")
     void testSaveAll_Empty() {
-        final Iterable<MemberProfileEntity> entities;
+        final Iterable<ReadMemberProfileEntity> entities;
 
         // WHEN
         repository.saveAll(List.of());
@@ -87,8 +87,8 @@ class ITMemberProfileRepositorySaveAll {
     @PositiveFeeType
     @ActiveMember
     void testSaveAll_Existing_NameChange_PersistedData() {
-        final MemberProfile                 member;
-        final Iterable<MemberProfileEntity> entities;
+        final MemberProfile                     member;
+        final Iterable<ReadMemberProfileEntity> entities;
 
         // GIVEN
         member = MemberProfiles.firstNameChange();
@@ -103,15 +103,15 @@ class ITMemberProfileRepositorySaveAll {
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.id", "profile.number",
                 "profile.contactChannels.id", "profile.contactChannels.profileId", "profile.contactChannels.profile")
-            .containsExactly(MemberProfileEntities.firstNameChange());
+            .containsExactly(ReadMemberProfileEntities.firstNameChange());
     }
 
     @Test
     @DisplayName("With a valid member, the member is persisted")
     @PositiveFeeType
     void testSaveAll_PersistedData() {
-        final MemberProfile                 member;
-        final Iterable<MemberProfileEntity> entities;
+        final MemberProfile                     member;
+        final Iterable<ReadMemberProfileEntity> entities;
 
         // GIVEN
         member = MemberProfiles.active();
@@ -126,7 +126,7 @@ class ITMemberProfileRepositorySaveAll {
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.id", "profile.number",
                 "profile.contactChannels.id", "profile.contactChannels.profileId", "profile.contactChannels.profile")
-            .containsExactly(MemberProfileEntities.active());
+            .containsExactly(ReadMemberProfileEntities.active());
     }
 
     @Test
@@ -134,8 +134,8 @@ class ITMemberProfileRepositorySaveAll {
     @PositiveFeeType
     @ActiveMember
     void testSaveAll_RemoveType_NoChange() {
-        final MemberProfile                 member;
-        final Iterable<MemberProfileEntity> entities;
+        final MemberProfile                     member;
+        final Iterable<ReadMemberProfileEntity> entities;
 
         // GIVEN
         member = MemberProfiles.withoutType();
@@ -150,7 +150,7 @@ class ITMemberProfileRepositorySaveAll {
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.id", "profile.number",
                 "profile.contactChannels.id", "profile.contactChannels.profileId", "profile.contactChannels.profile")
-            .containsExactly(MemberProfileEntities.active());
+            .containsExactly(ReadMemberProfileEntities.active());
     }
 
     @Test

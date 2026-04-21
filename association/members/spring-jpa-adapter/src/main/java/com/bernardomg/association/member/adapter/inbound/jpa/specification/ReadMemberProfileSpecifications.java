@@ -30,17 +30,17 @@ import java.util.function.BinaryOperator;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberProfileEntity;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.ReadMemberProfileEntity;
 import com.bernardomg.association.member.domain.filter.MemberProfileFilter;
 
-public final class MemberProfileSpecifications {
+public final class ReadMemberProfileSpecifications {
 
     private static final String ACTIVE_FIELD = "active";
 
-    public static Optional<Specification<MemberProfileEntity>> query(final MemberProfileFilter filter) {
-        final Optional<Specification<MemberProfileEntity>> nameSpec;
-        final Optional<Specification<MemberProfileEntity>> statusSpec;
-        final Specification<MemberProfileEntity>           spec;
+    public static Optional<Specification<ReadMemberProfileEntity>> query(final MemberProfileFilter filter) {
+        final Optional<Specification<ReadMemberProfileEntity>> nameSpec;
+        final Optional<Specification<ReadMemberProfileEntity>> statusSpec;
+        final Specification<ReadMemberProfileEntity>           spec;
 
         if (filter.name()
             .isBlank()) {
@@ -59,7 +59,7 @@ public final class MemberProfileSpecifications {
             .stream()
             .filter(Optional::isPresent)
             .map(Optional::get)
-            .reduce((BinaryOperator<Specification<MemberProfileEntity>>) Specification::and)
+            .reduce((BinaryOperator<Specification<ReadMemberProfileEntity>>) Specification::and)
             .orElse(null);
         return Optional.ofNullable(spec);
     }
@@ -69,7 +69,7 @@ public final class MemberProfileSpecifications {
      *
      * @return active specification
      */
-    private static Specification<MemberProfileEntity> active() {
+    private static Specification<ReadMemberProfileEntity> active() {
         return (root, query, cb) -> cb.isTrue(root.get(ACTIVE_FIELD));
     }
 
@@ -78,7 +78,7 @@ public final class MemberProfileSpecifications {
      *
      * @return inactive specification
      */
-    private static Specification<MemberProfileEntity> inactive() {
+    private static Specification<ReadMemberProfileEntity> inactive() {
         return (root, query, cb) -> cb.isFalse(root.get(ACTIVE_FIELD));
     }
 
@@ -89,7 +89,7 @@ public final class MemberProfileSpecifications {
      *            pattern to match
      * @return name specification
      */
-    private static Specification<MemberProfileEntity> name(final String pattern) {
+    private static Specification<ReadMemberProfileEntity> name(final String pattern) {
         final String likePattern = "%" + pattern.toLowerCase() + "%";
 
         return (root, query, cb) -> cb.or(cb.like(cb.lower(root.get("firstName")), likePattern),
@@ -97,7 +97,7 @@ public final class MemberProfileSpecifications {
             cb.like(cb.lower(cb.concat(root.get("firstName"), cb.concat(" ", root.get("lastName")))), likePattern));
     }
 
-    private MemberProfileSpecifications() {
+    private ReadMemberProfileSpecifications() {
         super();
     }
 

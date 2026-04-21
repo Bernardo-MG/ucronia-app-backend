@@ -38,6 +38,7 @@ import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberFe
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberProfileSpringRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MembershipEvolutionSpringRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.ReadMemberProfileSpringRepository;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.domain.repository.MemberSummaryRepository;
@@ -56,11 +57,12 @@ public class TestConfiguration {
 
     @Bean("memberProfileRepository")
     public MemberProfileRepository getMemberProfileRepository(
-            final MemberProfileSpringRepository updateMemberProfileSpringRepository,
+            final ReadMemberProfileSpringRepository updateMemberProfileSpringRepository,
+            final MemberProfileSpringRepository memberProfileSpringRepo,
             final MemberContactMethodSpringRepository memberContactMethodSpringRepository,
             final MemberFeeTypeSpringRepository memberFeeTypeSpringRepository) {
-        return new JpaMemberProfileRepository(updateMemberProfileSpringRepository, memberContactMethodSpringRepository,
-            memberFeeTypeSpringRepository);
+        return new JpaMemberProfileRepository(updateMemberProfileSpringRepository, memberProfileSpringRepo,
+            memberContactMethodSpringRepository, memberFeeTypeSpringRepository);
     }
 
     @Bean("memberRepository")

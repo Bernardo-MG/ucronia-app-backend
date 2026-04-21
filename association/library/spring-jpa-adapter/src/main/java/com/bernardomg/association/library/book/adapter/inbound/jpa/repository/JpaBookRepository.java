@@ -41,7 +41,7 @@ import com.bernardomg.association.library.book.domain.repository.BookRepository;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.BookLendingEntity;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.repository.BookLendingSpringRepository;
 import com.bernardomg.association.library.lending.domain.model.Borrower;
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberProfileSpringRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.ReadMemberProfileSpringRepository;
 import com.bernardomg.association.profile.domain.exception.MissingProfileException;
 
 @Transactional
@@ -56,10 +56,10 @@ public final class JpaBookRepository implements BookRepository {
 
     private final BookSpringRepository          bookSpringRepository;
 
-    private final MemberProfileSpringRepository memberProfileSpringRepository;
+    private final ReadMemberProfileSpringRepository memberProfileSpringRepository;
 
     public JpaBookRepository(final BookSpringRepository bookSpringRepo,
-            final MemberProfileSpringRepository memberProfileSpringRepo,
+            final ReadMemberProfileSpringRepository memberProfileSpringRepo,
             final BookLendingSpringRepository bookLendingSpringRepo) {
         super();
 

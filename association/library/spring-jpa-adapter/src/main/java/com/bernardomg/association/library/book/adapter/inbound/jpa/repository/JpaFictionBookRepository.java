@@ -53,7 +53,7 @@ import com.bernardomg.association.library.lending.domain.model.Borrower;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.model.PublisherEntity;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.repository.PublisherSpringRepository;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberProfileSpringRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.ReadMemberProfileSpringRepository;
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 import com.bernardomg.association.profile.domain.exception.MissingProfileException;
@@ -78,7 +78,7 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
 
     private final FictionBookSpringRepository   bookSpringRepository;
 
-    private final MemberProfileSpringRepository memberProfileSpringRepository;
+    private final ReadMemberProfileSpringRepository memberProfileSpringRepository;
 
     private final ProfileSpringRepository       profileSpringRepository;
 
@@ -86,7 +86,7 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
 
     public JpaFictionBookRepository(final FictionBookSpringRepository bookSpringRepo,
             final AuthorSpringRepository authorSpringRepo, final PublisherSpringRepository publisherSpringRepo,
-            final MemberProfileSpringRepository memberProfileSpringRepo,
+            final ReadMemberProfileSpringRepository memberProfileSpringRepo,
             final ProfileSpringRepository profileSpringRepo, final BookLendingSpringRepository bookLendingSpringRepo) {
         super();
 

@@ -38,10 +38,6 @@
          <artifactId>association-transaction-spring-jpa-adapter</artifactId>
       </dependency>
       <dependency>
-         <groupId>com.bernardomg.association.profile</groupId>
-         <artifactId>association-profile-spring-jpa-adapter</artifactId>
-      </dependency>
-      <dependency>
          <groupId>com.bernardomg.association.fee</groupId>
          <artifactId>association-fee-spring-jpa-adapter</artifactId>
       </dependency>
@@ -61,6 +57,10 @@
          <groupId>jakarta.transaction</groupId>
          <artifactId>jakarta.transaction-api</artifactId>
       </dependency>
+      <dependency>
+	     <groupId>org.hibernate.orm</groupId>
+	     <artifactId>hibernate-core</artifactId>
+	  </dependency>
       <!-- ============================================== -->
       <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
       <!-- ============================================== -->
@@ -113,6 +113,13 @@
          <groupId>com.fasterxml.jackson.core</groupId>
          <artifactId>jackson-databind</artifactId>
          <scope>test</scope>
+      </dependency>
+      <dependency>
+      	<groupId>com.bernardomg.association.profile</groupId>
+      	<artifactId>
+      		association-profile-spring-jpa-adapter
+      	</artifactId>
+      	<version>1.0.0-SNAPSHOT</version>
       </dependency>
    </dependencies>
 

@@ -57,7 +57,7 @@ import com.bernardomg.association.library.lending.domain.repository.BorrowerRepo
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.repository.JpaPublisherRepository;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.repository.PublisherSpringRepository;
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberProfileSpringRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.ReadMemberProfileSpringRepository;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 
 @Configuration
@@ -84,7 +84,7 @@ public class TestConfiguration {
 
     @Bean("bookRepository")
     public BookRepository getBookRepository(final BookSpringRepository bookSpringRepository,
-            final MemberProfileSpringRepository memberProfileSpringRepository,
+            final ReadMemberProfileSpringRepository memberProfileSpringRepository,
             final BookLendingSpringRepository bookLendingSpringRepository) {
         return new JpaBookRepository(bookSpringRepository, memberProfileSpringRepository, bookLendingSpringRepository);
     }
@@ -108,7 +108,7 @@ public class TestConfiguration {
     public FictionBookRepository getFictionBookRepository(final FictionBookSpringRepository bookSpringRepository,
             final AuthorSpringRepository authorSpringRepository,
             final PublisherSpringRepository publisherSpringRepository,
-            final MemberProfileSpringRepository memberProfileSpringRepository,
+            final ReadMemberProfileSpringRepository memberProfileSpringRepository,
             final ProfileSpringRepository profileSpringRepository,
             final BookLendingSpringRepository bookLendingSpringRepository) {
         return new JpaFictionBookRepository(bookSpringRepository, authorSpringRepository, publisherSpringRepository,
@@ -121,7 +121,7 @@ public class TestConfiguration {
             final PublisherSpringRepository publisherSpringRepository,
             final BookTypeSpringRepository bookTypeSpringRepository,
             final GameSystemSpringRepository gameSystemSpringRepository,
-            final MemberProfileSpringRepository memberProfileSpringRepository,
+            final ReadMemberProfileSpringRepository memberProfileSpringRepository,
             final ProfileSpringRepository profileSpringRepository,
             final BookLendingSpringRepository bookLendingSpringRepository) {
         return new JpaGameBookRepository(bookSpringRepository, authorSpringRepository, publisherSpringRepository,

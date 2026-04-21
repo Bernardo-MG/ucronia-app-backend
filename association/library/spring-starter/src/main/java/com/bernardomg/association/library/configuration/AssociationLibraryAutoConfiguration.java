@@ -72,7 +72,7 @@ import com.bernardomg.association.library.publisher.adapter.inbound.jpa.reposito
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
 import com.bernardomg.association.library.publisher.usecase.service.DefaultPublisherService;
 import com.bernardomg.association.library.publisher.usecase.service.PublisherService;
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberProfileSpringRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.ReadMemberProfileSpringRepository;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 
 @AutoConfiguration
@@ -110,7 +110,7 @@ public class AssociationLibraryAutoConfiguration {
 
     @Bean("bookRepository")
     public BookRepository getBookRepository(final BookSpringRepository bookSpringRepository,
-            final MemberProfileSpringRepository memberProfileSpringRepository,
+            final ReadMemberProfileSpringRepository memberProfileSpringRepository,
             final BookLendingSpringRepository bookLendingSpringRepository) {
         return new JpaBookRepository(bookSpringRepository, memberProfileSpringRepository, bookLendingSpringRepository);
     }
@@ -139,7 +139,7 @@ public class AssociationLibraryAutoConfiguration {
     public FictionBookRepository getFictionBookRepository(final FictionBookSpringRepository bookSpringRepository,
             final AuthorSpringRepository authorSpringRepository,
             final PublisherSpringRepository publisherSpringRepository,
-            final MemberProfileSpringRepository memberProfileSpringRepository,
+            final ReadMemberProfileSpringRepository memberProfileSpringRepository,
             final ProfileSpringRepository profileSpringRepository,
             final BookLendingSpringRepository bookLendingSpringRepository) {
         return new JpaFictionBookRepository(bookSpringRepository, authorSpringRepository, publisherSpringRepository,
@@ -159,7 +159,7 @@ public class AssociationLibraryAutoConfiguration {
             final PublisherSpringRepository publisherSpringRepository,
             final BookTypeSpringRepository bookTypeSpringRepository,
             final GameSystemSpringRepository gameSystemSpringRepository,
-            final MemberProfileSpringRepository memberProfileSpringRepository,
+            final ReadMemberProfileSpringRepository memberProfileSpringRepository,
             final ProfileSpringRepository profileSpringRepository,
             final BookLendingSpringRepository bookLendingSpringRepository) {
         return new JpaGameBookRepository(bookSpringRepository, authorSpringRepository, publisherSpringRepository,

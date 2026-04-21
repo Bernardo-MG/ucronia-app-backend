@@ -24,75 +24,22 @@
 
 package com.bernardomg.association.member.adapter.inbound.jpa.repository;
 
-import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberProfileEntity;
 
-public interface MemberProfileSpringRepository
-        extends JpaRepository<MemberProfileEntity, Long>, JpaSpecificationExecutor<MemberProfileEntity> {
-
-    @Modifying
-    @Query("""
-            DELETE FROM MemberProfile m
-            WHERE m.number = :number
-            """)
-    public void deleteByNumber(@Param("number") final Long number);
-
-    public boolean existsByIdentifier(final String identifier);
-
-    @Query("""
-            SELECT CASE WHEN COUNT(m) > 0 THEN TRUE ELSE FALSE END AS exists
-            FROM MemberProfile m
-            WHERE m.number != :number
-              AND m.identifier = :identifier
-            """)
-    public boolean existsByIdentifierForAnother(final long number, final String identifier);
-
-    @Query("""
-            SELECT CASE WHEN COUNT(m) > 0 THEN TRUE ELSE FALSE END AS exists
-            FROM MemberProfile m
-            WHERE m.number = :number
-            """)
-    public boolean existsByNumber(@Param("number") final Long number);
-
-    public Collection<MemberProfileEntity> findAllByRenewTrue();
+public interface MemberProfileSpringRepository extends JpaRepository<MemberProfileEntity, Long> {
 
     @Query("""
             SELECT m
             FROM MemberProfile m
-            WHERE m.active != m.renew
-            """)
-    public Collection<MemberProfileEntity> findAllWithRenewalMismatch();
-
-    @Query("""
-            SELECT m
-            FROM MemberProfile m
-            WHERE m.number = :number
+              JOIN m.profile p
+            WHERE p.number = :number
             """)
     public Optional<MemberProfileEntity> findByNumber(@Param("number") final Long number);
-
-    @Query("""
-            SELECT m
-            FROM MemberProfile m
-            WHERE m.id = :id
-            """)
-    public Optional<MemberProfileEntity> findByProfileId(@Param("id") final Long id);
-
-    @Query("SELECT COALESCE(MAX(m.number), 0) + 1 FROM MemberProfile m")
-    public Long findNextNumber();
-
-    @Query("""
-            SELECT m.active
-            FROM MemberProfile m
-            WHERE m.number = :number
-            """)
-    public Boolean isActive(@Param("number") final Long number);
 
 }
