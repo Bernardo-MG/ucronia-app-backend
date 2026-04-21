@@ -9,48 +9,48 @@ import java.time.ZoneOffset;
 
 import org.springframework.stereotype.Component;
 
-import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
-import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
+import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTransactionEntity;
+import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeTransactionSpringRepository;
 import com.bernardomg.association.transaction.test.factory.TransactionEntities;
 
 @Component
 public final class TransactionInitializer {
 
-    public static final Instant               CURRENT_MONTH       = YearMonth.now()
+    public static final Instant                  CURRENT_MONTH       = YearMonth.now()
         .atDay(10)
         .atStartOfDay(ZoneOffset.UTC)
         .toInstant();
 
-    public static final Instant               CURRENT_MONTH_END   = YearMonth.now()
+    public static final Instant                  CURRENT_MONTH_END   = YearMonth.now()
         .atEndOfMonth()
         .atTime(23, 59)
         .toInstant(ZoneOffset.UTC);
 
-    public static final Instant               CURRENT_MONTH_START = YearMonth.now()
+    public static final Instant                  CURRENT_MONTH_START = YearMonth.now()
         .atDay(1)
         .atStartOfDay(ZoneOffset.UTC)
         .toInstant();
 
-    public static final Instant               NEXT_MONTH          = LocalDate.now()
+    public static final Instant                  NEXT_MONTH          = LocalDate.now()
         .plusMonths(1)
         .atStartOfDay(ZoneOffset.UTC)
         .toInstant();
 
-    public static final Instant               PREVIOUS_MONTH      = LocalDate.now()
+    public static final Instant                  PREVIOUS_MONTH      = LocalDate.now()
         .minusMonths(1)
         .atStartOfDay(ZoneOffset.UTC)
         .toInstant();
 
-    private final TransactionSpringRepository transactionRepository;
+    private final FeeTransactionSpringRepository transactionRepository;
 
-    public TransactionInitializer(final TransactionSpringRepository transactionRepository) {
+    public TransactionInitializer(final FeeTransactionSpringRepository transactionRepository) {
         super();
         this.transactionRepository = transactionRepository;
     }
 
     public final void registerAt(final int year, final Month month) {
-        final TransactionEntity transaction;
-        final Instant           date;
+        final FeeTransactionEntity transaction;
+        final Instant              date;
 
         date = LocalDate.of(year, month, 1)
             .atStartOfDay(ZoneOffset.UTC)
@@ -62,7 +62,7 @@ public final class TransactionInitializer {
     }
 
     public final void registerCurrentMonth(final float amount) {
-        final TransactionEntity transaction;
+        final FeeTransactionEntity transaction;
 
         transaction = TransactionEntities.forAmount(amount, CURRENT_MONTH);
 
@@ -71,7 +71,7 @@ public final class TransactionInitializer {
     }
 
     public final void registerCurrentMonth(final float amount, final long index) {
-        final TransactionEntity transaction;
+        final FeeTransactionEntity transaction;
 
         transaction = TransactionEntities.forAmount(amount, CURRENT_MONTH, index);
 
@@ -80,7 +80,7 @@ public final class TransactionInitializer {
     }
 
     public final void registerCurrentMonthEnd(final float amount) {
-        final TransactionEntity transaction;
+        final FeeTransactionEntity transaction;
 
         transaction = TransactionEntities.forAmount(amount, CURRENT_MONTH_END);
 
@@ -89,7 +89,7 @@ public final class TransactionInitializer {
     }
 
     public final void registerCurrentMonthStart(final float amount) {
-        final TransactionEntity transaction;
+        final FeeTransactionEntity transaction;
 
         transaction = TransactionEntities.forAmount(amount, CURRENT_MONTH_START);
 
@@ -98,8 +98,8 @@ public final class TransactionInitializer {
     }
 
     public final void registerMonthsBack(final float amount, final Integer diff, final long index) {
-        final TransactionEntity transaction;
-        final Instant           month;
+        final FeeTransactionEntity transaction;
+        final Instant              month;
 
         month = LocalDate.now()
             .minusMonths(diff)
@@ -112,7 +112,7 @@ public final class TransactionInitializer {
     }
 
     public final void registerNextMonth(final float amount) {
-        final TransactionEntity transaction;
+        final FeeTransactionEntity transaction;
 
         transaction = TransactionEntities.forAmount(amount, NEXT_MONTH);
 
@@ -121,7 +121,7 @@ public final class TransactionInitializer {
     }
 
     public final void registerPreviousMonth(final float amount) {
-        final TransactionEntity transaction;
+        final FeeTransactionEntity transaction;
 
         transaction = TransactionEntities.forAmount(amount, PREVIOUS_MONTH);
 
@@ -130,7 +130,7 @@ public final class TransactionInitializer {
     }
 
     public final void registerPreviousMonth(final float amount, final long index) {
-        final TransactionEntity transaction;
+        final FeeTransactionEntity transaction;
 
         transaction = TransactionEntities.forAmount(amount, PREVIOUS_MONTH, index);
 

@@ -4,17 +4,17 @@ package com.bernardomg.association.fee.test.configuration.initializer;
 import org.springframework.stereotype.Component;
 
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeEntity;
+import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTransactionEntity;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeSpringRepository;
+import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeTransactionSpringRepository;
 import com.bernardomg.association.fee.test.configuration.factory.FeeEntities;
-import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
-import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionConstants;
 
 @Component
 public final class FeeInitializer {
 
-    private static final TransactionEntity indexTransaction(final long index) {
-        final TransactionEntity entity = new TransactionEntity();
+    private static final FeeTransactionEntity indexTransaction(final long index) {
+        final FeeTransactionEntity entity = new FeeTransactionEntity();
         entity.setIndex(index);
         entity.setAmount(TransactionConstants.AMOUNT);
         entity.setDate(TransactionConstants.DATE);
@@ -22,12 +22,12 @@ public final class FeeInitializer {
         return entity;
     }
 
-    private final FeeSpringRepository         feeRepository;
+    private final FeeSpringRepository            feeRepository;
 
-    private final TransactionSpringRepository transactionRepository;
+    private final FeeTransactionSpringRepository transactionRepository;
 
     public FeeInitializer(final FeeSpringRepository feeRepository,
-            final TransactionSpringRepository transactionRepository) {
+            final FeeTransactionSpringRepository transactionRepository) {
         super();
         this.feeRepository = feeRepository;
         this.transactionRepository = transactionRepository;
@@ -89,10 +89,10 @@ public final class FeeInitializer {
         save(fee, paid);
     }
 
-    private final TransactionEntity registerTransaction() {
-        final TransactionEntity toSave;
-        final TransactionEntity saved;
-        final Long              index;
+    private final FeeTransactionEntity registerTransaction() {
+        final FeeTransactionEntity toSave;
+        final FeeTransactionEntity saved;
+        final Long                 index;
 
         index = transactionRepository.count() + 1;
         toSave = indexTransaction(index);
@@ -103,7 +103,7 @@ public final class FeeInitializer {
     }
 
     private final void save(final FeeEntity fee, final Boolean paid) {
-        final TransactionEntity transaction;
+        final FeeTransactionEntity transaction;
 
         if (paid) {
             transaction = registerTransaction();

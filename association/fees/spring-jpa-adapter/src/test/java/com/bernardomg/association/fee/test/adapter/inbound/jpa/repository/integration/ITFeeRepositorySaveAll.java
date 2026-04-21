@@ -14,7 +14,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.TestApplication;
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeEntity;
+import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTransactionEntity;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeSpringRepository;
+import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeTransactionSpringRepository;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.data.annotation.NotPaidFee;
@@ -23,8 +25,6 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.Positiv
 import com.bernardomg.association.fee.test.configuration.factory.FeeEntities;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
-import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
-import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
 import com.bernardomg.association.transaction.test.configuration.data.annotation.FeeTransaction;
 import com.bernardomg.association.transaction.test.factory.TransactionEntities;
 import com.bernardomg.test.annotation.IntegrationTest;
@@ -35,13 +35,13 @@ import com.bernardomg.test.annotation.IntegrationTest;
 class ITFeeRepositorySaveAll {
 
     @Autowired
-    private FeeRepository               repository;
+    private FeeRepository                  repository;
 
     @Autowired
-    private FeeSpringRepository         springRepository;
+    private FeeSpringRepository            springRepository;
 
     @Autowired
-    private TransactionSpringRepository transactionSpringRepository;
+    private FeeTransactionSpringRepository transactionSpringRepository;
 
     @Test
     @DisplayName("When there is no data, nothing is saved")
@@ -140,9 +140,9 @@ class ITFeeRepositorySaveAll {
     @ValidProfile
     @PaidFee
     void testSaveAll_Paid_ChangeDate_PersistedTransaction() {
-        final Fee                         fee;
-        final Instant                     date;
-        final Iterable<TransactionEntity> transactions;
+        final Fee                            fee;
+        final Instant                        date;
+        final Iterable<FeeTransactionEntity> transactions;
 
         // GIVEN
         date = ZonedDateTime.now()
@@ -160,7 +160,7 @@ class ITFeeRepositorySaveAll {
             .as("transactions")
             .hasSize(1)
             .first()
-            .extracting(TransactionEntity::getDate)
+            .extracting(FeeTransactionEntity::getDate)
             .isEqualTo(date);
     }
 
@@ -223,9 +223,9 @@ class ITFeeRepositorySaveAll {
     @ValidProfile
     @FeeTransaction
     void testSaveAll_Paid_PersistedRelationship() {
-        final Fee               fee;
-        final FeeEntity         feeEntity;
-        final TransactionEntity transactionEntity;
+        final Fee                  fee;
+        final FeeEntity            feeEntity;
+        final FeeTransactionEntity transactionEntity;
 
         // GIVEN
         fee = Fees.paid();
@@ -244,7 +244,7 @@ class ITFeeRepositorySaveAll {
         Assertions.assertThat(feeEntity)
             .as("fee entity")
             .extracting(FeeEntity::getTransaction)
-            .extracting(TransactionEntity::getId)
+            .extracting(FeeTransactionEntity::getId)
             .isEqualTo(transactionEntity.getId());
     }
 
@@ -254,8 +254,8 @@ class ITFeeRepositorySaveAll {
     @ValidProfile
     @FeeTransaction
     void testSaveAll_Paid_PersistedTransaction() {
-        final Iterable<TransactionEntity> transactions;
-        final Fee                         fee;
+        final Iterable<FeeTransactionEntity> transactions;
+        final Fee                            fee;
 
         // GIVEN
         fee = Fees.paid();

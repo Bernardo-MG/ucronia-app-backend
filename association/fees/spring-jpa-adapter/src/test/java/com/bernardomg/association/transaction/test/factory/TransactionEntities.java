@@ -3,13 +3,13 @@ package com.bernardomg.association.transaction.test.factory;
 
 import java.time.Instant;
 
-import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
+import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTransactionEntity;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionConstants;
 
 public final class TransactionEntities {
 
-    public static final TransactionEntity februaryFee() {
-        final TransactionEntity entity = new TransactionEntity();
+    public static final FeeTransactionEntity februaryFee() {
+        final FeeTransactionEntity entity = new FeeTransactionEntity();
         entity.setIndex(TransactionConstants.INDEX);
         entity.setAmount(TransactionConstants.AMOUNT_BIGGER);
         entity.setDate(TransactionConstants.DATE);
@@ -17,8 +17,8 @@ public final class TransactionEntities {
         return entity;
     }
 
-    public static final TransactionEntity forAmount(final Float value, final Instant date) {
-        final TransactionEntity entity = new TransactionEntity();
+    public static final FeeTransactionEntity forAmount(final Float value, final Instant date) {
+        final FeeTransactionEntity entity = new FeeTransactionEntity();
         entity.setIndex(TransactionConstants.INDEX);
         entity.setAmount(value);
         entity.setDate(date);
@@ -26,8 +26,8 @@ public final class TransactionEntities {
         return entity;
     }
 
-    public static final TransactionEntity forAmount(final Float value, final Instant date, final Long index) {
-        final TransactionEntity entity = new TransactionEntity();
+    public static final FeeTransactionEntity forAmount(final Float value, final Instant date, final Long index) {
+        final FeeTransactionEntity entity = new FeeTransactionEntity();
         entity.setIndex(index);
         entity.setAmount(value);
         entity.setDate(date);
