@@ -41,9 +41,8 @@ public interface FeeMemberSpringRepository extends JpaRepository<FeeMemberEntity
 
     @Query("""
             SELECT m.active
-            FROM MemberProfile m
-              JOIN m.profile p
-            WHERE p.number = :number
+            FROM FeeMember m
+            WHERE m.number = :number
             """)
     public Boolean isActive(@Param("number") final Long number);
 

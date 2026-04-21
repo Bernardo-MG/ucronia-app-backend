@@ -42,8 +42,8 @@
          <artifactId>association-profile-spring-jpa-adapter</artifactId>
       </dependency>
       <dependency>
-         <groupId>com.bernardomg.association.transaction</groupId>
-         <artifactId>association-transaction-spring-jpa-adapter</artifactId>
+         <groupId>com.bernardomg.association.fee</groupId>
+         <artifactId>association-fee-spring-jpa-adapter</artifactId>
       </dependency>
       <dependency>
          <groupId>org.springframework.data</groupId>

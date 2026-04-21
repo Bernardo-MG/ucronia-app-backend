@@ -7,7 +7,7 @@ databaseChangeLog:
       relativeToChangelogFile: true
   # Association
   - include:
-      file: funds.yaml
+      file: transactions.yaml
       relativeToChangelogFile: true
   - include:
       file: fees.yaml

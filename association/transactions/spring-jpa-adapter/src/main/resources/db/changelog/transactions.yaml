@@ -1,16 +1,16 @@
 databaseChangeLog:
   - changeSet:
-      id: funds_schema
+      id: transactions_schema
       author: Bernardo
       changes:
         - sqlFile:
             encoding: UTF-8
-            path: sql/create_funds_schema.sql
+            path: sql/create_transactions_schema.sql
             relativeToChangelogFile: true
             splitStatements: true
             stripComments: true
   - changeSet:
-      id: funds
+      id: transactions
       author: Bernardo
       changes:
         - createTable:
@@ -59,7 +59,7 @@ databaseChangeLog:
             dbms: mysql
             value: ' ENGINE=InnoDB DEFAULT CHARSET=latin1'
   - changeSet:
-      id: funds_views
+      id: transactions_views
       author: Bernardo
       changes:
         -  createView:

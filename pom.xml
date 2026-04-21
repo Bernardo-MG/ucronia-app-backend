@@ -361,6 +361,11 @@
             <version>${project.version}</version>
          </dependency>
          <dependency>
+            <groupId>com.bernardomg.association.fee</groupId>
+            <artifactId>association-fee-spring-jpa-adapter</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
             <groupId>com.bernardomg.association.guest</groupId>
             <artifactId>association-guest-spring-starter</artifactId>
             <version>${project.version}</version>
