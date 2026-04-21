@@ -32,10 +32,6 @@ import org.springframework.data.jpa.domain.Specification;
 
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberProfileEntity;
 import com.bernardomg.association.member.domain.filter.MemberProfileFilter;
-import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
-
-import jakarta.persistence.criteria.Join;
-import jakarta.persistence.criteria.JoinType;
 
 public final class MemberProfileSpecifications {
 
@@ -96,14 +92,9 @@ public final class MemberProfileSpecifications {
     private static Specification<MemberProfileEntity> name(final String pattern) {
         final String likePattern = "%" + pattern.toLowerCase() + "%";
 
-        return (root, query, cb) -> {
-            final Join<ProfileEntity, ProfileEntity> profile = root.join("profile", JoinType.INNER);
-
-            return cb.or(cb.like(cb.lower(profile.get("firstName")), likePattern),
-                cb.like(cb.lower(profile.get("lastName")), likePattern),
-                cb.like(cb.lower(cb.concat(profile.get("firstName"), cb.concat(" ", profile.get("lastName")))),
-                    likePattern));
-        };
+        return (root, query, cb) -> cb.or(cb.like(cb.lower(root.get("firstName")), likePattern),
+            cb.like(cb.lower(root.get("lastName")), likePattern),
+            cb.like(cb.lower(cb.concat(root.get("firstName"), cb.concat(" ", root.get("lastName")))), likePattern));
     }
 
     private MemberProfileSpecifications() {

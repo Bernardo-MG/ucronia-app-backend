@@ -25,10 +25,10 @@
 package com.bernardomg.association.guest.adapter.inbound.jpa.repository;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -249,7 +249,7 @@ public final class JpaGuestRepository implements GuestRepository {
 
     private final void setType(final ProfileEntity entity) {
         if (entity.getTypes() == null) {
-            entity.setTypes(Set.of(GuestEntityConstants.PROFILE_TYPE));
+            entity.setTypes(new HashSet<>(List.of(GuestEntityConstants.PROFILE_TYPE)));
         } else {
             entity.getTypes()
                 .add(GuestEntityConstants.PROFILE_TYPE);

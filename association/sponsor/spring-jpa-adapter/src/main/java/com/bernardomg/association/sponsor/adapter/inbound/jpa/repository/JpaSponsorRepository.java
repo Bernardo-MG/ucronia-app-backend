@@ -29,7 +29,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -251,7 +250,7 @@ public final class JpaSponsorRepository implements SponsorRepository {
 
     private final void setType(final ProfileEntity entity) {
         if (entity.getTypes() == null) {
-            entity.setTypes(Set.of(SponsorEntityConstants.PROFILE_TYPE));
+            entity.setTypes(new HashSet<>(List.of(SponsorEntityConstants.PROFILE_TYPE)));
         } else {
             entity.setTypes(new HashSet<>(entity.getTypes()));
             entity.getTypes()

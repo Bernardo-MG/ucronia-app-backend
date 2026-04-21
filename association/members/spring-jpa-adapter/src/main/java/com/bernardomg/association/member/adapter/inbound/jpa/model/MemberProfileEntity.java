@@ -2,9 +2,13 @@
 package com.bernardomg.association.member.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
+import java.time.Instant;
+import java.util.Collection;
 import java.util.Objects;
+import java.util.Set;
 
-import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -13,40 +17,67 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.MapsId;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrimaryKeyJoinColumn;
+import jakarta.persistence.SecondaryTable;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
 @Entity(name = "MemberProfile")
 @Table(schema = "directory", name = "members")
+@SecondaryTable(schema = "directory", name = "profiles",
+        pkJoinColumns = @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id"))
 public class MemberProfileEntity implements Serializable {
 
     /**
      *
      */
     @Transient
-    private static final long   serialVersionUID = 8139806507534262996L;
+    private static final long                      serialVersionUID = 8139806507534262996L;
 
     @Column(name = "active", nullable = false)
-    private Boolean             active;
+    private Boolean                                active;
+
+    @Column(name = "address", table = "profiles")
+    private String                                 address;
+
+    @Column(name = "birth_date", table = "profiles")
+    private Instant                                birthDate;
+
+    @Column(name = "comments", table = "profiles")
+    private String                                 comments;
+
+    @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Collection<MemberContactChannelEntity> contactChannels;
 
     @OneToOne
     @JoinColumn(name = "fee_type_id", referencedColumnName = "id")
-    private MemberFeeTypeEntity feeType;
+    private MemberFeeTypeEntity                    feeType;
+
+    @Column(name = "first_name", table = "profiles", nullable = false)
+    private String                                 firstName;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
-    private Long                id;
+    private Long                                   id;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @MapsId
-    @JoinColumn(name = "id")
-    private ProfileEntity       profile;
+    @Column(name = "identifier", table = "profiles")
+    private String                                 identifier;
+
+    @Column(name = "last_name", table = "profiles")
+    private String                                 lastName;
+
+    @Column(name = "number", table = "profiles")
+    private Long                                   number;
 
     @Column(name = "renew_membership", table = "members", nullable = false)
-    private Boolean             renew;
+    private Boolean                                renew;
+
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "types", table = "profiles")
+    private Set<String>                            types;
 
     @Override
     public boolean equals(final Object obj) {
@@ -63,20 +94,52 @@ public class MemberProfileEntity implements Serializable {
         return active;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public Instant getBirthDate() {
+        return birthDate;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+
+    public Collection<MemberContactChannelEntity> getContactChannels() {
+        return contactChannels;
+    }
+
     public MemberFeeTypeEntity getFeeType() {
         return feeType;
+    }
+
+    public String getFirstName() {
+        return firstName;
     }
 
     public Long getId() {
         return id;
     }
 
-    public ProfileEntity getProfile() {
-        return profile;
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public Long getNumber() {
+        return number;
     }
 
     public Boolean getRenew() {
         return renew;
+    }
+
+    public Set<String> getTypes() {
+        return types;
     }
 
     @Override
@@ -88,26 +151,60 @@ public class MemberProfileEntity implements Serializable {
         this.active = active;
     }
 
+    public void setAddress(final String address) {
+        this.address = address;
+    }
+
+    public void setBirthDate(final Instant birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public void setComments(final String comments) {
+        this.comments = comments;
+    }
+
+    public void setContactChannels(final Collection<MemberContactChannelEntity> contactChannels) {
+        this.contactChannels = contactChannels;
+    }
+
     public void setFeeType(final MemberFeeTypeEntity feeType) {
         this.feeType = feeType;
+    }
+
+    public void setFirstName(final String firstName) {
+        this.firstName = firstName;
     }
 
     public void setId(final Long id) {
         this.id = id;
     }
 
-    public void setProfile(final ProfileEntity profile) {
-        this.profile = profile;
+    public void setIdentifier(final String identifier) {
+        this.identifier = identifier;
+    }
+
+    public void setLastName(final String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setNumber(final Long number) {
+        this.number = number;
     }
 
     public void setRenew(final Boolean renew) {
         this.renew = renew;
     }
 
+    public void setTypes(final Set<String> types) {
+        this.types = types;
+    }
+
     @Override
     public String toString() {
-        return "MemberProfileEntity [id=" + id + ", feeType=" + feeType + ", profile=" + profile + ", active=" + active
-                + ", renew=" + renew + "]";
+        return "MemberProfileEntity [id=" + id + ", active=" + active + ", feeType=" + feeType + ", number=" + number
+                + ", firstName=" + firstName + ", lastName=" + lastName + ", renew=" + renew + ", identifier="
+                + identifier + ", address=" + address + ", birthDate=" + birthDate + ", comments=" + comments
+                + ", types=" + types + ", contactChannels=" + contactChannels + "]";
     }
 
 }

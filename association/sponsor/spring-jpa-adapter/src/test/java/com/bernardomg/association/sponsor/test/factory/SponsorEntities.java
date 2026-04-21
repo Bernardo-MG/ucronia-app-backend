@@ -1,8 +1,8 @@
 
 package com.bernardomg.association.sponsor.test.factory;
 
+import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import com.bernardomg.association.profile.test.configuration.factory.ProfileEntities;
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.SponsorEntity;
@@ -19,7 +19,7 @@ public final class SponsorEntities {
         entity.setProfile(ProfileEntities.valid());
         entity.setYears(List.of(SponsorConstants.YEAR));
         entity.getProfile()
-            .setTypes(Set.of(SponsorEntityConstants.PROFILE_TYPE));
+            .setTypes(new HashSet<>(List.of(SponsorEntityConstants.PROFILE_TYPE)));
 
         return entity;
     }
@@ -32,7 +32,7 @@ public final class SponsorEntities {
         entity.setProfile(ProfileEntities.withEmail());
         entity.setYears(List.of(SponsorConstants.YEAR));
         entity.getProfile()
-            .setTypes(Set.of(SponsorEntityConstants.PROFILE_TYPE));
+            .setTypes(new HashSet<>(List.of(SponsorEntityConstants.PROFILE_TYPE)));
 
         return entity;
     }
@@ -45,7 +45,7 @@ public final class SponsorEntities {
         entity.setProfile(ProfileEntities.firstNameChange());
         entity.setYears(List.of(SponsorConstants.YEAR));
         entity.getProfile()
-            .setTypes(Set.of(SponsorEntityConstants.PROFILE_TYPE));
+            .setTypes(new HashSet<>(List.of(SponsorEntityConstants.PROFILE_TYPE)));
 
         return entity;
     }
@@ -58,7 +58,7 @@ public final class SponsorEntities {
         entity.setProfile(ProfileEntities.valid());
         entity.setYears(List.of(SponsorConstants.YEAR));
         entity.getProfile()
-            .setTypes(Set.of(SponsorEntityConstants.PROFILE_TYPE));
+            .setTypes(new HashSet<>(List.of(SponsorEntityConstants.PROFILE_TYPE)));
 
         return entity;
     }
@@ -71,7 +71,7 @@ public final class SponsorEntities {
         entity.setProfile(ProfileEntities.withEmail());
         entity.setYears(List.of(SponsorConstants.YEAR));
         entity.getProfile()
-            .setTypes(Set.of(SponsorEntityConstants.PROFILE_TYPE));
+            .setTypes(new HashSet<>(List.of(SponsorEntityConstants.PROFILE_TYPE)));
 
         return entity;
     }

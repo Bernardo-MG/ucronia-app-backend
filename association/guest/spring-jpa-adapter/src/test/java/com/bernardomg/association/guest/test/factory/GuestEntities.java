@@ -2,8 +2,8 @@
 package com.bernardomg.association.guest.test.factory;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import com.bernardomg.association.guest.adapter.inbound.jpa.model.GuestEntity;
 import com.bernardomg.association.guest.adapter.inbound.jpa.model.GuestEntityConstants;
@@ -20,7 +20,7 @@ public final class GuestEntities {
         entity.setProfile(ProfileEntities.valid());
         entity.setGames(new ArrayList<>(List.of(Guests.DATE)));
         entity.getProfile()
-            .setTypes(Set.of(GuestEntityConstants.PROFILE_TYPE));
+            .setTypes(new HashSet<>(List.of(GuestEntityConstants.PROFILE_TYPE)));
 
         return entity;
     }
@@ -33,7 +33,7 @@ public final class GuestEntities {
         entity.setProfile(ProfileEntities.withEmail());
         entity.setGames(new ArrayList<>(List.of(Guests.DATE)));
         entity.getProfile()
-            .setTypes(Set.of(GuestEntityConstants.PROFILE_TYPE));
+            .setTypes(new HashSet<>(List.of(GuestEntityConstants.PROFILE_TYPE)));
 
         return entity;
     }
@@ -46,7 +46,7 @@ public final class GuestEntities {
         entity.setProfile(ProfileEntities.firstNameChange());
         entity.setGames(new ArrayList<>(List.of(Guests.DATE)));
         entity.getProfile()
-            .setTypes(Set.of(GuestEntityConstants.PROFILE_TYPE));
+            .setTypes(new HashSet<>(List.of(GuestEntityConstants.PROFILE_TYPE)));
 
         return entity;
     }
@@ -58,7 +58,7 @@ public final class GuestEntities {
         entity.setId(1L);
         entity.setProfile(ProfileEntities.valid());
         entity.getProfile()
-            .setTypes(Set.of(GuestEntityConstants.PROFILE_TYPE));
+            .setTypes(new HashSet<>(List.of(GuestEntityConstants.PROFILE_TYPE)));
 
         return entity;
     }
@@ -71,7 +71,7 @@ public final class GuestEntities {
         entity.setProfile(ProfileEntities.valid());
         entity.setGames(new ArrayList<>(List.of(Guests.DATE)));
         entity.getProfile()
-            .setTypes(Set.of(GuestEntityConstants.PROFILE_TYPE));
+            .setTypes(new HashSet<>(List.of(GuestEntityConstants.PROFILE_TYPE)));
 
         return entity;
     }

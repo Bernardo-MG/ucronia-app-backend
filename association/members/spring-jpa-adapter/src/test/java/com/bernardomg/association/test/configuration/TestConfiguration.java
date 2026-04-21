@@ -33,6 +33,7 @@ import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMembe
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberSummaryRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMembershipEvolutionRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberContactMethodSpringRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberFeeTypeSpringRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberProfileSpringRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
@@ -41,8 +42,6 @@ import com.bernardomg.association.member.domain.repository.MemberProfileReposito
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.domain.repository.MemberSummaryRepository;
 import com.bernardomg.association.member.domain.repository.MembershipEvolutionRepository;
-import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ContactMethodSpringRepository;
-import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 
 @Configuration
 @EnableJpaRepositories(basePackages = { "com.bernardomg.association.member.adapter.inbound.jpa",
@@ -58,11 +57,10 @@ public class TestConfiguration {
     @Bean("memberProfileRepository")
     public MemberProfileRepository getMemberProfileRepository(
             final MemberProfileSpringRepository updateMemberProfileSpringRepository,
-            final ContactMethodSpringRepository contactMethodSpringRepository,
-            final ProfileSpringRepository profileSpringRepository,
+            final MemberContactMethodSpringRepository memberContactMethodSpringRepository,
             final MemberFeeTypeSpringRepository memberFeeTypeSpringRepository) {
-        return new JpaMemberProfileRepository(updateMemberProfileSpringRepository, contactMethodSpringRepository,
-            profileSpringRepository, memberFeeTypeSpringRepository);
+        return new JpaMemberProfileRepository(updateMemberProfileSpringRepository, memberContactMethodSpringRepository,
+            memberFeeTypeSpringRepository);
     }
 
     @Bean("memberRepository")

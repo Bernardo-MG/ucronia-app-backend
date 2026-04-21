@@ -41,20 +41,24 @@ public interface MemberProfileSpringRepository
     @Modifying
     @Query("""
             DELETE FROM MemberProfile m
-            WHERE m.id IN (
-                SELECT m2.id
-                FROM MemberProfile m2
-                JOIN m2.profile p
-                WHERE p.number = :number
-            )
+            WHERE m.number = :number
             """)
     public void deleteByNumber(@Param("number") final Long number);
+
+    public boolean existsByIdentifier(final String identifier);
 
     @Query("""
             SELECT CASE WHEN COUNT(m) > 0 THEN TRUE ELSE FALSE END AS exists
             FROM MemberProfile m
-              JOIN m.profile p
-            WHERE p.number = :number
+            WHERE m.number != :number
+              AND m.identifier = :identifier
+            """)
+    public boolean existsByIdentifierForAnother(final long number, final String identifier);
+
+    @Query("""
+            SELECT CASE WHEN COUNT(m) > 0 THEN TRUE ELSE FALSE END AS exists
+            FROM MemberProfile m
+            WHERE m.number = :number
             """)
     public boolean existsByNumber(@Param("number") final Long number);
 
@@ -70,27 +74,24 @@ public interface MemberProfileSpringRepository
     @Query("""
             SELECT m
             FROM MemberProfile m
-              JOIN m.profile p
-            WHERE p.number = :number
+            WHERE m.number = :number
             """)
     public Optional<MemberProfileEntity> findByNumber(@Param("number") final Long number);
 
     @Query("""
             SELECT m
             FROM MemberProfile m
-              JOIN m.profile p
-            WHERE p.id = :id
+            WHERE m.id = :id
             """)
     public Optional<MemberProfileEntity> findByProfileId(@Param("id") final Long id);
 
-    @Query("SELECT COALESCE(MAX(p.number), 0) + 1 FROM Profile p")
+    @Query("SELECT COALESCE(MAX(m.number), 0) + 1 FROM MemberProfile m")
     public Long findNextNumber();
 
     @Query("""
             SELECT m.active
             FROM MemberProfile m
-              JOIN m.profile p
-            WHERE p.number = :number
+            WHERE m.number = :number
             """)
     public Boolean isActive(@Param("number") final Long number);
 
