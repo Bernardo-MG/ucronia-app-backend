@@ -1,9 +1,9 @@
 
 package com.bernardomg.association.member.test.configuration.factory;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.member.domain.model.MemberConstants;
@@ -26,7 +26,7 @@ public final class MemberProfiles {
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
         return new MemberProfile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name,
             ProfileConstants.BIRTH_DATE, List.of(), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS, true, true,
-            feeType, Set.of(MemberConstants.PROFILE_TYPE));
+            feeType, new HashSet<>(List.of(MemberConstants.PROFILE_TYPE)));
     }
 
     public static final MemberProfile activeNoRenew() {
@@ -39,7 +39,7 @@ public final class MemberProfiles {
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
         return new MemberProfile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name,
             ProfileConstants.BIRTH_DATE, List.of(), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS, true, false,
-            feeType, Set.of(MemberConstants.PROFILE_TYPE));
+            feeType, new HashSet<>(List.of(MemberConstants.PROFILE_TYPE)));
     }
 
     public static final MemberProfile alternativeActive() {
@@ -52,7 +52,7 @@ public final class MemberProfiles {
         name = new ProfileName(ProfileConstants.ALTERNATIVE_FIRST_NAME, ProfileConstants.ALTERNATIVE_LAST_NAME);
         return new MemberProfile(ProfileConstants.ALTERNATIVE_IDENTIFIER, ProfileConstants.ALTERNATIVE_NUMBER, name,
             ProfileConstants.BIRTH_DATE, List.of(), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS, true, true,
-            feeType, Set.of(MemberConstants.PROFILE_TYPE));
+            feeType, new HashSet<>(List.of(MemberConstants.PROFILE_TYPE)));
     }
 
     public static final MemberProfile alternativeInactive() {
@@ -65,7 +65,7 @@ public final class MemberProfiles {
         name = new ProfileName(ProfileConstants.ALTERNATIVE_FIRST_NAME, ProfileConstants.ALTERNATIVE_LAST_NAME);
         return new MemberProfile(ProfileConstants.ALTERNATIVE_IDENTIFIER, ProfileConstants.ALTERNATIVE_NUMBER, name,
             ProfileConstants.BIRTH_DATE, List.of(), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS, false, true,
-            feeType, Set.of(MemberConstants.PROFILE_TYPE));
+            feeType, new HashSet<>(List.of(MemberConstants.PROFILE_TYPE)));
     }
 
     public static final MemberProfile created() {
@@ -78,7 +78,7 @@ public final class MemberProfiles {
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
         return new MemberProfile(ProfileConstants.IDENTIFIER, 1L, name, ProfileConstants.BIRTH_DATE, List.of(),
             ProfileConstants.ADDRESS, ProfileConstants.COMMENTS, true, true, feeType,
-            Set.of(MemberConstants.PROFILE_TYPE));
+            new HashSet<>(List.of(MemberConstants.PROFILE_TYPE)));
     }
 
     public static final MemberProfile firstNameChange() {
@@ -91,7 +91,7 @@ public final class MemberProfiles {
         name = new ProfileName(ProfileConstants.CHANGED_FIRST_NAME, ProfileConstants.LAST_NAME);
         return new MemberProfile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name,
             ProfileConstants.BIRTH_DATE, List.of(), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS, true, true,
-            feeType, Set.of(MemberConstants.PROFILE_TYPE));
+            feeType, new HashSet<>(List.of(MemberConstants.PROFILE_TYPE)));
     }
 
     public static final MemberProfile forNumber(final long number) {
@@ -104,7 +104,7 @@ public final class MemberProfiles {
         name = new ProfileName("Name " + number, "Last name " + number);
         return new MemberProfile(Objects.toString(number * 10), number * 10, name, ProfileConstants.BIRTH_DATE,
             List.of(), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS, true, true, feeType,
-            Set.of(MemberConstants.PROFILE_TYPE));
+            new HashSet<>(List.of(MemberConstants.PROFILE_TYPE)));
     }
 
     public static final MemberProfile inactive() {
@@ -117,7 +117,7 @@ public final class MemberProfiles {
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
         return new MemberProfile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name,
             ProfileConstants.BIRTH_DATE, List.of(), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS, false, true,
-            feeType, Set.of(MemberConstants.PROFILE_TYPE));
+            feeType, new HashSet<>(List.of(MemberConstants.PROFILE_TYPE)));
     }
 
     public static final MemberProfile inactiveNoRenew() {
@@ -130,7 +130,7 @@ public final class MemberProfiles {
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
         return new MemberProfile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name,
             ProfileConstants.BIRTH_DATE, List.of(), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS, false, false,
-            feeType, Set.of(MemberConstants.PROFILE_TYPE));
+            feeType, new HashSet<>(List.of(MemberConstants.PROFILE_TYPE)));
     }
 
     public static final MemberProfile nameChange() {
@@ -143,7 +143,7 @@ public final class MemberProfiles {
         name = new ProfileName("Name 123", "Last name");
         return new MemberProfile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name,
             ProfileConstants.BIRTH_DATE, List.of(), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS, true, true,
-            feeType, Set.of(MemberConstants.PROFILE_TYPE));
+            feeType, new HashSet<>(List.of(MemberConstants.PROFILE_TYPE)));
     }
 
     public static final MemberProfile nameChangePatch() {
@@ -156,7 +156,7 @@ public final class MemberProfiles {
         name = new ProfileName("Name 123", "Last name");
         return new MemberProfile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name,
             ProfileConstants.BIRTH_DATE, List.of(), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS, true, true,
-            feeType, Set.of(MemberConstants.PROFILE_TYPE));
+            feeType, new HashSet<>(List.of(MemberConstants.PROFILE_TYPE)));
     }
 
     public static final MemberProfile noContactChannel() {
@@ -169,7 +169,7 @@ public final class MemberProfiles {
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
         return new MemberProfile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name,
             ProfileConstants.BIRTH_DATE, List.of(), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS, true, true,
-            feeType, Set.of(MemberConstants.PROFILE_TYPE));
+            feeType, new HashSet<>(List.of(MemberConstants.PROFILE_TYPE)));
     }
 
     public static final MemberProfile noGames() {
@@ -182,7 +182,7 @@ public final class MemberProfiles {
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
         return new MemberProfile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name,
             ProfileConstants.BIRTH_DATE, List.of(), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS, true, true,
-            feeType, Set.of(MemberConstants.PROFILE_TYPE));
+            feeType, new HashSet<>(List.of(MemberConstants.PROFILE_TYPE)));
     }
 
     public static final MemberProfile padded() {
@@ -195,7 +195,7 @@ public final class MemberProfiles {
         name = new ProfileName(" " + ProfileConstants.FIRST_NAME + " ", " " + ProfileConstants.LAST_NAME + " ");
         return new MemberProfile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name,
             ProfileConstants.BIRTH_DATE, List.of(), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS, true, true,
-            feeType, Set.of(MemberConstants.PROFILE_TYPE));
+            feeType, new HashSet<>(List.of(MemberConstants.PROFILE_TYPE)));
     }
 
     public static final MemberProfile toCreate() {
@@ -207,7 +207,7 @@ public final class MemberProfiles {
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
         return new MemberProfile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name,
             ProfileConstants.BIRTH_DATE, List.of(), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS, true, true,
-            feeType, Set.of());
+            feeType, new HashSet<>());
     }
 
     public static final MemberProfile toCreateWithEmail() {
@@ -223,7 +223,7 @@ public final class MemberProfiles {
         contactChannel = new ContactChannel(contactMethod, ProfileConstants.EMAIL);
         return new MemberProfile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name,
             ProfileConstants.BIRTH_DATE, List.of(contactChannel), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS,
-            true, true, feeType, Set.of());
+            true, true, feeType, new HashSet<>());
     }
 
     public static final MemberProfile withEmail() {
@@ -240,7 +240,7 @@ public final class MemberProfiles {
         contactChannel = new ContactChannel(contactMethod, ProfileConstants.EMAIL);
         return new MemberProfile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name,
             ProfileConstants.BIRTH_DATE, List.of(contactChannel), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS,
-            true, true, feeType, Set.of(MemberConstants.PROFILE_TYPE));
+            true, true, feeType, new HashSet<>(List.of(MemberConstants.PROFILE_TYPE)));
     }
 
     public static final MemberProfile withoutType() {
@@ -253,7 +253,7 @@ public final class MemberProfiles {
         name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
         return new MemberProfile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name,
             ProfileConstants.BIRTH_DATE, List.of(), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS, true, true,
-            feeType, Set.of());
+            feeType, new HashSet<>());
     }
 
 }

@@ -35,10 +35,12 @@ import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMembe
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberSummaryRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMembershipEvolutionRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberContactMethodSpringRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberFeeTypeSpringRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberProfileSpringRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MembershipEvolutionSpringRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.ReadMemberProfileSpringRepository;
 import com.bernardomg.association.member.domain.repository.MemberFeeTypeRepository;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
@@ -56,8 +58,6 @@ import com.bernardomg.association.member.usecase.service.MemberStatusService;
 import com.bernardomg.association.member.usecase.service.MemberSummaryService;
 import com.bernardomg.association.member.usecase.service.MembershipEvolutionService;
 import com.bernardomg.association.member.usecase.service.ProfileMembershipService;
-import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ContactMethodSpringRepository;
-import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
 import com.bernardomg.association.profile.domain.repository.ProfileRepository;
 
@@ -86,12 +86,12 @@ public class AssociationMemberAutoConfiguration {
 
     @Bean("memberProfileRepository")
     public MemberProfileRepository getMemberProfileRepository(
-            final MemberProfileSpringRepository updateMemberProfileSpringRepository,
-            final ContactMethodSpringRepository contactMethodSpringRepository,
-            final ProfileSpringRepository profileSpringRepository,
+            final ReadMemberProfileSpringRepository readMemberProfileSpringRepository,
+            final MemberProfileSpringRepository memberProfileSpringRepo,
+            final MemberContactMethodSpringRepository contactMethodSpringRepository,
             final MemberFeeTypeSpringRepository memberFeeTypeSpringRepository) {
-        return new JpaMemberProfileRepository(updateMemberProfileSpringRepository, contactMethodSpringRepository,
-            profileSpringRepository, memberFeeTypeSpringRepository);
+        return new JpaMemberProfileRepository(readMemberProfileSpringRepository, memberProfileSpringRepo,
+            contactMethodSpringRepository, memberFeeTypeSpringRepository);
     }
 
     @Bean("memberProfileService")

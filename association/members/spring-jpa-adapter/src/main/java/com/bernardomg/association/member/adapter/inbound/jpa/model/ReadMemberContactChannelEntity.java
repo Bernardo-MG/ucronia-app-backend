@@ -22,10 +22,10 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.adapter.inbound.jpa.model;
+package com.bernardomg.association.member.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
-import java.time.Instant;
+import java.util.Objects;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -33,95 +33,87 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
-@Entity(name = "Fee")
-@Table(schema = "funds", name = "fees")
-public class FeeEntity implements Serializable {
+@Entity(name = "ReadMemberContactChannel")
+@Table(schema = "directory", name = "contact_channels")
+public class ReadMemberContactChannelEntity implements Serializable {
 
     /**
      * Serialization ID.
      */
     @Transient
-    private static final long    serialVersionUID = 1328776989450853491L;
+    private static final long         serialVersionUID = -3239435918896603554L;
 
-    @OneToOne
-    @JoinColumn(name = "fee_type_id", referencedColumnName = "id")
-    private FeeTypeEntity        feeType;
+    @ManyToOne
+    @JoinColumn(name = "contact_method_id", nullable = false)
+    private MemberContactMethodEntity contactMethod;
+
+    @Column(name = "detail", nullable = false)
+    private String                    detail;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
-    private Long                 id;
+    private Long                      id;
 
-    @OneToOne(optional = false)
-    @JoinColumn(name = "member_id", referencedColumnName = "id")
-    private FeeMemberEntity      member;
+    @ManyToOne
+    @JoinColumn(name = "profile_id", nullable = false)
+    private ReadMemberProfileEntity   profile;
 
-    @Column(name = "month", nullable = false)
-    private Instant              month;
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof final ReadMemberContactChannelEntity other)) {
+            return false;
+        }
+        return Objects.equals(id, other.id);
+    }
 
-    @Column(name = "paid")
-    private Boolean              paid;
+    public MemberContactMethodEntity getContactMethod() {
+        return contactMethod;
+    }
 
-    @OneToOne
-    @JoinColumn(name = "transaction_id", referencedColumnName = "id")
-    private FeeTransactionEntity transaction;
-
-    public FeeTypeEntity getFeeType() {
-        return feeType;
+    public String getDetail() {
+        return detail;
     }
 
     public Long getId() {
         return id;
     }
 
-    public FeeMemberEntity getMember() {
-        return member;
+    public ReadMemberProfileEntity getProfile() {
+        return profile;
     }
 
-    public Instant getMonth() {
-        return month;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
-    public Boolean getPaid() {
-        return paid;
+    public void setContactMethod(final MemberContactMethodEntity contactMethod) {
+        this.contactMethod = contactMethod;
     }
 
-    public FeeTransactionEntity getTransaction() {
-        return transaction;
-    }
-
-    public void setFeeType(final FeeTypeEntity feeType) {
-        this.feeType = feeType;
+    public void setDetail(final String code) {
+        detail = code;
     }
 
     public void setId(final Long id) {
         this.id = id;
     }
 
-    public void setMember(final FeeMemberEntity member) {
-        this.member = member;
-    }
-
-    public void setMonth(final Instant month) {
-        this.month = month;
-    }
-
-    public void setPaid(final Boolean paid) {
-        this.paid = paid;
-    }
-
-    public void setTransaction(final FeeTransactionEntity transaction) {
-        this.transaction = transaction;
+    public void setProfile(final ReadMemberProfileEntity profile) {
+        this.profile = profile;
     }
 
     @Override
     public String toString() {
-        return "FeeEntity [date=" + month + ", id=" + id + ", paid=" + paid + ", member=" + member + ", feeType="
-                + feeType + ", transaction=" + transaction + "]";
+        return "ContactChannelEntity [id=" + id + ", contactMethod=" + contactMethod + ", detail=" + detail + "]";
     }
 
 }

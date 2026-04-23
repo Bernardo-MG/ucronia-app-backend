@@ -25,10 +25,10 @@
 package com.bernardomg.association.member.adapter.inbound.jpa.repository;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.slf4j.Logger;
@@ -37,18 +37,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberContactMethodEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityConstants;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberFeeTypeEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberProfileEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberProfileEntityMapper;
-import com.bernardomg.association.member.adapter.inbound.jpa.specification.MemberProfileSpecifications;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.ReadMemberProfileEntity;
+import com.bernardomg.association.member.adapter.inbound.jpa.specification.ReadMemberProfileSpecifications;
 import com.bernardomg.association.member.domain.filter.MemberProfileFilter;
 import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
-import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactMethodEntity;
-import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
-import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ContactMethodSpringRepository;
-import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 import com.bernardomg.association.profile.domain.model.ContactMethod;
 import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
 import com.bernardomg.pagination.domain.Page;
@@ -63,29 +61,26 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
     /**
      * Logger for the class.
      */
-    private static final Logger                 log                = LoggerFactory
-        .getLogger(JpaMemberProfileRepository.class);
+    private static final Logger                       log = LoggerFactory.getLogger(JpaMemberProfileRepository.class);
 
-    private static final Collection<String>     PROFILE_PROPERTIES = List.of("firstName", "lastName", "number");
+    private final MemberContactMethodSpringRepository memberContactMethodSpringRepository;
 
-    private final ContactMethodSpringRepository contactMethodSpringRepository;
+    private final MemberFeeTypeSpringRepository       memberFeeTypeSpringRepository;
 
-    private final MemberFeeTypeSpringRepository memberFeeTypeSpringRepository;
+    private final MemberProfileSpringRepository       memberProfileSpringRepository;
 
-    private final MemberProfileSpringRepository memberProfileSpringRepository;
+    private final ReadMemberProfileSpringRepository   readMemberProfileSpringRepository;
 
-    private final ProfileSpringRepository       profileSpringRepository;
-
-    public JpaMemberProfileRepository(final MemberProfileSpringRepository updateMemberProfileSpringRepo,
-            final ContactMethodSpringRepository contactMethodSpringRepo,
-            final ProfileSpringRepository profileSpringRepo,
+    public JpaMemberProfileRepository(final ReadMemberProfileSpringRepository readMemberProfileSpringRepo,
+            final MemberProfileSpringRepository memberProfileSpringRepo,
+            final MemberContactMethodSpringRepository memberContactMethodSpringRepo,
             final MemberFeeTypeSpringRepository memberFeeTypeSpringRepo) {
         super();
 
-        memberProfileSpringRepository = Objects.requireNonNull(updateMemberProfileSpringRepo);
-        contactMethodSpringRepository = Objects.requireNonNull(contactMethodSpringRepo);
+        readMemberProfileSpringRepository = Objects.requireNonNull(readMemberProfileSpringRepo);
+        memberProfileSpringRepository = Objects.requireNonNull(memberProfileSpringRepo);
+        memberContactMethodSpringRepository = Objects.requireNonNull(memberContactMethodSpringRepo);
         memberFeeTypeSpringRepository = Objects.requireNonNull(memberFeeTypeSpringRepo);
-        profileSpringRepository = Objects.requireNonNull(profileSpringRepo);
     }
 
     @Override
@@ -93,8 +88,7 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
         log.debug("Deleting member profile {}", number);
 
         // TODO: delete on cascade from the profile
-        memberProfileSpringRepository.deleteByNumber(number);
-        profileSpringRepository.deleteByNumber(number);
+        readMemberProfileSpringRepository.deleteByNumber(number);
 
         log.debug("Deleted member profile {}", number);
     }
@@ -105,7 +99,7 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
 
         log.debug("Checking if member profile {} exists", number);
 
-        exists = memberProfileSpringRepository.existsByNumber(number);
+        exists = readMemberProfileSpringRepository.existsByNumber(number);
 
         log.debug("Member profile {} exists: {}", number, exists);
 
@@ -118,7 +112,7 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
 
         log.debug("Checking if member profile identifier {} exists", identifier);
 
-        exists = profileSpringRepository.existsByIdentifier(identifier);
+        exists = readMemberProfileSpringRepository.existsByIdentifier(identifier);
 
         log.debug("Member profile identifier {} exists: {}", identifier, exists);
 
@@ -131,7 +125,7 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
 
         log.debug("Checking if identifier {} exists for a member profile distinct from {}", identifier, number);
 
-        exists = profileSpringRepository.existsByIdentifierForAnother(number, identifier);
+        exists = readMemberProfileSpringRepository.existsByIdentifierForAnother(number, identifier);
 
         log.debug("Identifier {} exists for a member profile distinct from {}: {}", identifier, number, exists);
 
@@ -143,7 +137,7 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
             final Sorting sorting) {
         final org.springframework.data.domain.Page<MemberProfile> read;
         final Pageable                                            pageable;
-        final Optional<Specification<MemberProfileEntity>>        spec;
+        final Optional<Specification<ReadMemberProfileEntity>>    spec;
         final Sorting                                             fixedSorting;
 
         log.debug("Finding all the member profiles with filter {}, pagination {} and sorting {}", filter, pagination,
@@ -151,12 +145,12 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
 
         fixedSorting = fixSorting(sorting);
         pageable = SpringPagination.toPageable(pagination, fixedSorting);
-        spec = MemberProfileSpecifications.query(filter);
+        spec = ReadMemberProfileSpecifications.query(filter);
         if (spec.isEmpty()) {
-            read = memberProfileSpringRepository.findAll(pageable)
+            read = readMemberProfileSpringRepository.findAll(pageable)
                 .map(MemberProfileEntityMapper::toDomain);
         } else {
-            read = memberProfileSpringRepository.findAll(spec.get(), pageable)
+            read = readMemberProfileSpringRepository.findAll(spec.get(), pageable)
                 .map(MemberProfileEntityMapper::toDomain);
         }
 
@@ -172,7 +166,7 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
 
         log.debug("Finding all the members to renew");
 
-        members = memberProfileSpringRepository.findAllByRenewTrue()
+        members = readMemberProfileSpringRepository.findAllByRenewTrue()
             .stream()
             .map(MemberProfileEntityMapper::toDomain)
             .toList();
@@ -188,7 +182,7 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
 
         log.debug("Finding all the members with a renewal mismatch");
 
-        members = memberProfileSpringRepository.findAllWithRenewalMismatch()
+        members = readMemberProfileSpringRepository.findAllWithRenewalMismatch()
             .stream()
             .map(MemberProfileEntityMapper::toDomain)
             .toList();
@@ -204,7 +198,7 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
 
         log.trace("Finding member profile with number {}", number);
 
-        memberProfile = memberProfileSpringRepository.findByNumber(number)
+        memberProfile = readMemberProfileSpringRepository.findByNumber(number)
             .map(MemberProfileEntityMapper::toDomain);
 
         log.trace("Found member profile with number {}: {}", number, memberProfile);
@@ -218,7 +212,7 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
 
         log.trace("Checking if member {} is active", number);
 
-        active = memberProfileSpringRepository.isActive(number);
+        active = readMemberProfileSpringRepository.isActive(number);
 
         log.trace("Member {} is active: {}", number, active);
 
@@ -233,7 +227,7 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
 
         log.debug("Saving member profile {}", memberProfile);
 
-        number = memberProfileSpringRepository.findNextNumber();
+        number = readMemberProfileSpringRepository.findNextNumber();
         entity = toEntity(memberProfile, number);
 
         created = MemberProfileEntityMapper.toDomain(memberProfileSpringRepository.save(entity));
@@ -251,7 +245,7 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
 
         log.debug("Saving member profiles {}", memberProfiles);
 
-        number = new AtomicLong(memberProfileSpringRepository.findNextNumber());
+        number = new AtomicLong(readMemberProfileSpringRepository.findNextNumber());
         entities = memberProfiles.stream()
             .map(m -> toEntity(m, number.getAndIncrement()))
             .toList();
@@ -280,19 +274,12 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
                 }
                 return prop;
             })
-            // Fix profile properties
-            .map(prop -> {
-                if (PROFILE_PROPERTIES.contains(prop.name())) {
-                    return new Property("profile." + prop.name(), prop.direction());
-                }
-                return prop;
-            })
             .toList();
 
         return new Sorting(properties);
     }
 
-    private final Collection<ContactMethodEntity> getContactMethods(final MemberProfile memberProfile) {
+    private final Collection<MemberContactMethodEntity> getContactMethods(final MemberProfile memberProfile) {
         final Collection<Long> contactMethodNumbers;
 
         contactMethodNumbers = memberProfile.contactChannels()
@@ -300,24 +287,27 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
             .map(ContactChannel::contactMethod)
             .map(ContactMethod::number)
             .toList();
-        return contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
+        return memberContactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
     }
 
-    private final void setType(final ProfileEntity entity) {
-        if (entity.getTypes() == null) {
-            entity.setTypes(Set.of(MemberEntityConstants.PROFILE_TYPE));
+    private final void setType(final MemberProfileEntity entity) {
+        if (entity.getProfile()
+            .getTypes() == null) {
+            entity.getProfile()
+                .setTypes(new HashSet<>(List.of(MemberEntityConstants.PROFILE_TYPE)));
         } else {
-            entity.getTypes()
+            entity.getProfile()
+                .getTypes()
                 .add(MemberEntityConstants.PROFILE_TYPE);
         }
     }
 
     private final MemberProfileEntity toEntity(final MemberProfile memberProfile, final Long number) {
-        final Optional<MemberProfileEntity>   existing;
-        final MemberProfileEntity             entity;
-        final Collection<ContactMethodEntity> contactMethods;
-        final Optional<MemberFeeTypeEntity>   feeType;
-        final Optional<ProfileEntity>         profile;
+        final Optional<MemberProfileEntity>         existing;
+        final MemberProfileEntity                   entity;
+        final Collection<MemberContactMethodEntity> contactMethods;
+        final Optional<MemberFeeTypeEntity>         feeType;
+        final Optional<ReadMemberProfileEntity>     profile;
 
         existing = memberProfileSpringRepository.findByNumber(memberProfile.number());
         contactMethods = getContactMethods(memberProfile);
@@ -326,9 +316,11 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
         } else {
             entity = MemberProfileEntityMapper.toEntity(memberProfile, contactMethods);
 
-            profile = profileSpringRepository.findByNumber(memberProfile.number());
+            profile = readMemberProfileSpringRepository.findByNumber(memberProfile.number());
             if (profile.isPresent()) {
-                entity.setProfile(profile.get());
+                entity.getProfile()
+                    .setNumber(profile.get()
+                        .getNumber());
             } else {
                 entity.getProfile()
                     .setNumber(number);
@@ -339,7 +331,7 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
             .number());
         entity.setFeeType(feeType.orElse(null));
 
-        setType(entity.getProfile());
+        setType(entity);
 
         return entity;
     }

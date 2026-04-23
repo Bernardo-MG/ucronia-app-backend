@@ -22,29 +22,17 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.adapter.inbound.jpa.repository;
+package com.bernardomg.association.member.adapter.inbound.jpa.repository;
 
 import java.util.Collection;
-import java.util.Optional;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.jpa.repository.Query;
 
-import com.bernardomg.association.transaction.adapter.inbound.jpa.model.Month;
-import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberContactMethodEntity;
 
-public interface TransactionSpringRepository
-        extends JpaRepository<TransactionEntity, Long>, JpaSpecificationExecutor<TransactionEntity> {
+public interface MemberContactMethodSpringRepository extends JpaRepository<MemberContactMethodEntity, Long> {
 
-    public boolean existsByIndex(final long index);
-
-    public Optional<TransactionEntity> findByIndex(final long index);
-
-    @Query("SELECT extract(year from date) AS year, extract(month from date) AS month FROM Transaction t GROUP BY year, month ORDER BY year, month ASC")
-    public Collection<Month> findMonths();
-
-    @Query("SELECT COALESCE(MAX(t.index), 0) + 1 FROM Transaction t")
-    public Long findNextIndex();
+    public List<MemberContactMethodEntity> findAllByNumberIn(final Collection<Long> numbers);
 
 }

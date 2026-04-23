@@ -32,96 +32,77 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
-@Entity(name = "Fee")
-@Table(schema = "funds", name = "fees")
-public class FeeEntity implements Serializable {
+@Entity(name = "FeeTransaction")
+@Table(schema = "funds", name = "transactions")
+public class FeeTransactionEntity implements Serializable {
 
-    /**
-     * Serialization ID.
-     */
     @Transient
-    private static final long    serialVersionUID = 1328776989450853491L;
+    private static final long serialVersionUID = 4603617058960663867L;
 
-    @OneToOne
-    @JoinColumn(name = "fee_type_id", referencedColumnName = "id")
-    private FeeTypeEntity        feeType;
+    @Column(name = "amount", nullable = false)
+    private Float             amount;
+
+    @Column(name = "date", nullable = false)
+    private Instant           date;
+
+    @Column(name = "description", length = 200)
+    private String            description;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
-    private Long                 id;
+    private Long              id;
 
-    @OneToOne(optional = false)
-    @JoinColumn(name = "member_id", referencedColumnName = "id")
-    private FeeMemberEntity      member;
+    @Column(name = "index", nullable = false, unique = true)
+    private Long              index;
 
-    @Column(name = "month", nullable = false)
-    private Instant              month;
+    public Float getAmount() {
+        return amount;
+    }
 
-    @Column(name = "paid")
-    private Boolean              paid;
+    public Instant getDate() {
+        return date;
+    }
 
-    @OneToOne
-    @JoinColumn(name = "transaction_id", referencedColumnName = "id")
-    private FeeTransactionEntity transaction;
-
-    public FeeTypeEntity getFeeType() {
-        return feeType;
+    public String getDescription() {
+        return description;
     }
 
     public Long getId() {
         return id;
     }
 
-    public FeeMemberEntity getMember() {
-        return member;
+    public Long getIndex() {
+        return index;
     }
 
-    public Instant getMonth() {
-        return month;
+    public void setAmount(final Float amount) {
+        this.amount = amount;
     }
 
-    public Boolean getPaid() {
-        return paid;
+    public void setDate(final Instant date) {
+        this.date = date;
     }
 
-    public FeeTransactionEntity getTransaction() {
-        return transaction;
-    }
-
-    public void setFeeType(final FeeTypeEntity feeType) {
-        this.feeType = feeType;
+    public void setDescription(final String description) {
+        this.description = description;
     }
 
     public void setId(final Long id) {
         this.id = id;
     }
 
-    public void setMember(final FeeMemberEntity member) {
-        this.member = member;
-    }
-
-    public void setMonth(final Instant month) {
-        this.month = month;
-    }
-
-    public void setPaid(final Boolean paid) {
-        this.paid = paid;
-    }
-
-    public void setTransaction(final FeeTransactionEntity transaction) {
-        this.transaction = transaction;
+    public void setIndex(final Long index) {
+        this.index = index;
     }
 
     @Override
     public String toString() {
-        return "FeeEntity [date=" + month + ", id=" + id + ", paid=" + paid + ", member=" + member + ", feeType="
-                + feeType + ", transaction=" + transaction + "]";
+        return "TransactionEntity [amount=" + amount + ", date=" + date + ", description=" + description + ", id=" + id
+                + ", index=" + index + "]";
     }
 
 }

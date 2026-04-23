@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.adapter.inbound.jpa.model;
+package com.bernardomg.association.member.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -32,86 +32,51 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.PrimaryKeyJoinColumn;
-import jakarta.persistence.SecondaryTable;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
-@Entity(name = "FeeMember")
-@Table(schema = "directory", name = "profiles")
-@SecondaryTable(schema = "directory", name = "members",
-        pkJoinColumns = @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id"))
-public class FeeMemberEntity implements Serializable {
+@Entity(name = "MemberContactMethod")
+@Table(schema = "directory", name = "contact_methods")
+public class MemberContactMethodEntity implements Serializable {
 
     /**
      * Serialization ID.
      */
     @Transient
-    private static final long serialVersionUID = 1328776989450853491L;
-
-    @Column(name = "active", table = "members", nullable = false)
-    private Boolean           active;
-
-    @OneToOne
-    @JoinColumn(name = "fee_type_id", table = "members", referencedColumnName = "id")
-    private FeeTypeEntity     feeType;
-
-    @Column(name = "first_name", table = "profiles", nullable = false)
-    private String            firstName;
+    private static final long serialVersionUID = 1065094985806801809L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
     private Long              id;
 
-    @Column(name = "last_name", table = "profiles")
-    private String            lastName;
+    @Column(name = "name", nullable = false)
+    private String            name;
 
-    @Column(name = "number", table = "profiles")
+    @Column(name = "number")
     private Long              number;
-
-    @Column(name = "renew_membership", table = "members", nullable = false)
-    private Boolean           renew;
 
     @Override
     public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof final FeeMemberEntity other)) {
+        if (!(obj instanceof final MemberContactMethodEntity other)) {
             return false;
         }
         return Objects.equals(id, other.id);
-    }
-
-    public Boolean getActive() {
-        return active;
-    }
-
-    public FeeTypeEntity getFeeType() {
-        return feeType;
-    }
-
-    public String getFirstName() {
-        return firstName;
     }
 
     public Long getId() {
         return id;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getName() {
+        return name;
     }
 
     public Long getNumber() {
         return number;
-    }
-
-    public Boolean getRenew() {
-        return renew;
     }
 
     @Override
@@ -119,38 +84,21 @@ public class FeeMemberEntity implements Serializable {
         return Objects.hash(id);
     }
 
-    public void setActive(final Boolean active) {
-        this.active = active;
-    }
-
-    public void setFeeType(final FeeTypeEntity feeType) {
-        this.feeType = feeType;
-    }
-
-    public void setFirstName(final String firstName) {
-        this.firstName = firstName;
-    }
-
     public void setId(final Long id) {
         this.id = id;
     }
 
-    public void setLastName(final String lastName) {
-        this.lastName = lastName;
+    public void setName(final String name) {
+        this.name = name;
     }
 
     public void setNumber(final Long number) {
         this.number = number;
     }
 
-    public void setRenew(final Boolean renew) {
-        this.renew = renew;
-    }
-
     @Override
     public String toString() {
-        return "ProfileEntity [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", number=" + number
-                + ", renew=" + renew + "]";
+        return "ContactMethodEntity [id=" + id + ", name=" + name + ", number=" + number + "]";
     }
 
 }

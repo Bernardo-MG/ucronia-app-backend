@@ -3,5 +3,5 @@ databaseChangeLog:
       file: directory.yaml
       relativeToChangelogFile: true
   - include:
-      file: funds.yaml
+      file: transactions.yaml
       relativeToChangelogFile: true

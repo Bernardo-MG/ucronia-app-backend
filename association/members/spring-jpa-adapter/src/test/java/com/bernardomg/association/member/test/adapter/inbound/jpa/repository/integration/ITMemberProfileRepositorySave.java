@@ -34,14 +34,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.bernardomg.association.TestApplication;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityConstants;
-import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberProfileEntity;
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberProfileSpringRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.ReadMemberProfileEntity;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.ReadMemberProfileSpringRepository;
 import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMemberWithEmail;
-import com.bernardomg.association.member.test.configuration.factory.MemberProfileEntities;
 import com.bernardomg.association.member.test.configuration.factory.MemberProfiles;
+import com.bernardomg.association.member.test.configuration.factory.ReadMemberProfileEntities;
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 import com.bernardomg.association.profile.test.configuration.data.annotation.EmailContactMethod;
@@ -54,13 +54,13 @@ import com.bernardomg.test.annotation.IntegrationTest;
 class ITMemberProfileRepositorySave {
 
     @Autowired
-    private ProfileSpringRepository       profileSpringRepository;
+    private ProfileSpringRepository           profileSpringRepository;
 
     @Autowired
-    private MemberProfileRepository       repository;
+    private MemberProfileRepository           repository;
 
     @Autowired
-    private MemberProfileSpringRepository springRepository;
+    private ReadMemberProfileSpringRepository springRepository;
 
     public ITMemberProfileRepositorySave() {
         super();
@@ -72,8 +72,8 @@ class ITMemberProfileRepositorySave {
     @EmailContactMethod
     @ActiveMember
     void testSave_Existing_AddContactMethod_PersistedData() {
-        final MemberProfile                 member;
-        final Iterable<MemberProfileEntity> entities;
+        final MemberProfile                     member;
+        final Iterable<ReadMemberProfileEntity> entities;
 
         // GIVEN
         member = MemberProfiles.withEmail();
@@ -87,8 +87,8 @@ class ITMemberProfileRepositorySave {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.id", "profile.number",
-                "profile.contactChannels.id", "profile.contactChannels.profileId", "profile.contactChannels.profile")
-            .containsExactly(MemberProfileEntities.withEmail());
+                "contactChannels.id", "contactChannels.profileId", "contactChannels.profile")
+            .containsExactly(ReadMemberProfileEntities.withEmail());
     }
 
     @Test
@@ -96,8 +96,8 @@ class ITMemberProfileRepositorySave {
     @PositiveFeeType
     @ActiveMember
     void testSave_Existing_NameChange_PersistedData() {
-        final MemberProfile                 member;
-        final Iterable<MemberProfileEntity> entities;
+        final MemberProfile                     member;
+        final Iterable<ReadMemberProfileEntity> entities;
 
         // GIVEN
         member = MemberProfiles.firstNameChange();
@@ -112,7 +112,7 @@ class ITMemberProfileRepositorySave {
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.id", "profile.number",
                 "profile.contactChannels.id", "profile.contactChannels.profileId", "profile.contactChannels.profile")
-            .containsExactly(MemberProfileEntities.firstNameChange());
+            .containsExactly(ReadMemberProfileEntities.firstNameChange());
     }
 
     @Test
@@ -120,8 +120,8 @@ class ITMemberProfileRepositorySave {
     @PositiveFeeType
     @ActiveMemberWithEmail
     void testSave_Existing_RemoveContactMethod_PersistedData() {
-        final MemberProfile                 member;
-        final Iterable<MemberProfileEntity> entities;
+        final MemberProfile                     member;
+        final Iterable<ReadMemberProfileEntity> entities;
 
         // GIVEN
         member = MemberProfiles.active();
@@ -135,8 +135,8 @@ class ITMemberProfileRepositorySave {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.id", "profile.number",
-                "profile.contactChannels.id", "profile.contactChannels.profileId", "profile.contactChannels.profile")
-            .containsExactly(MemberProfileEntities.active());
+                "contactChannels.id", "contactChannels.profileId", "contactChannels.profile")
+            .containsExactly(ReadMemberProfileEntities.withEmail());
     }
 
     @Test
@@ -164,8 +164,8 @@ class ITMemberProfileRepositorySave {
     @PositiveFeeType
     @ValidProfile
     void testSave_ExistingProfile_PersistedData() {
-        final MemberProfile                 member;
-        final Iterable<MemberProfileEntity> entities;
+        final MemberProfile                     member;
+        final Iterable<ReadMemberProfileEntity> entities;
 
         // GIVEN
         member = MemberProfiles.active();
@@ -180,15 +180,15 @@ class ITMemberProfileRepositorySave {
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.id", "profile.number",
                 "profile.contactChannels.id", "profile.contactChannels.profileId", "profile.contactChannels.profile")
-            .containsExactly(MemberProfileEntities.active());
+            .containsExactly(ReadMemberProfileEntities.active());
     }
 
     @Test
     @DisplayName("With a member, the member is persisted")
     @PositiveFeeType
     void testSave_PersistedData() {
-        final MemberProfile                 member;
-        final Iterable<MemberProfileEntity> entities;
+        final MemberProfile                     member;
+        final Iterable<ReadMemberProfileEntity> entities;
 
         // GIVEN
         member = MemberProfiles.active();
@@ -203,7 +203,7 @@ class ITMemberProfileRepositorySave {
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.id", "profile.number",
                 "profile.contactChannels.id", "profile.contactChannels.profileId", "profile.contactChannels.profile")
-            .containsExactly(MemberProfileEntities.active());
+            .containsExactly(ReadMemberProfileEntities.active());
     }
 
     @Test
@@ -211,8 +211,8 @@ class ITMemberProfileRepositorySave {
     @PositiveFeeType
     @ActiveMember
     void testSave_RemoveType_NoChange() {
-        final MemberProfile                 member;
-        final Iterable<MemberProfileEntity> entities;
+        final MemberProfile                     member;
+        final Iterable<ReadMemberProfileEntity> entities;
 
         // GIVEN
         member = MemberProfiles.withoutType();
@@ -227,7 +227,7 @@ class ITMemberProfileRepositorySave {
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.id", "profile.number",
                 "profile.contactChannels.id", "profile.contactChannels.profileId", "profile.contactChannels.profile")
-            .containsExactly(MemberProfileEntities.active());
+            .containsExactly(ReadMemberProfileEntities.active());
     }
 
     @Test
@@ -278,8 +278,8 @@ class ITMemberProfileRepositorySave {
     @PositiveFeeType
     @EmailContactMethod
     void testSave_WithContactMethod_PersistedData() {
-        final MemberProfile                 member;
-        final Iterable<MemberProfileEntity> entities;
+        final MemberProfile                     member;
+        final Iterable<ReadMemberProfileEntity> entities;
 
         // GIVEN
         member = MemberProfiles.withEmail();
@@ -293,8 +293,8 @@ class ITMemberProfileRepositorySave {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.id", "profile.number",
-                "profile.contactChannels.id", "profile.contactChannels.profileId", "profile.contactChannels.profile")
-            .containsExactly(MemberProfileEntities.withEmail());
+                "contactChannels.id", "contactChannels.profileId", "contactChannels.profile")
+            .containsExactly(ReadMemberProfileEntities.withEmail());
     }
 
 }

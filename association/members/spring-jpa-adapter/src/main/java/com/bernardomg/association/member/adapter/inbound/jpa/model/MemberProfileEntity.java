@@ -4,8 +4,6 @@ package com.bernardomg.association.member.adapter.inbound.jpa.model;
 import java.io.Serializable;
 import java.util.Objects;
 
-import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -26,27 +24,27 @@ public class MemberProfileEntity implements Serializable {
      *
      */
     @Transient
-    private static final long   serialVersionUID = 8139806507534262996L;
+    private static final long serialVersionUID = -4798244714782690891L;
 
     @Column(name = "active", nullable = false)
-    private Boolean             active;
+    private Boolean                  active;
 
     @OneToOne
     @JoinColumn(name = "fee_type_id", referencedColumnName = "id")
-    private MemberFeeTypeEntity feeType;
+    private MemberFeeTypeEntity      feeType;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
-    private Long                id;
+    private Long                     id;
 
     @OneToOne(cascade = CascadeType.ALL)
     @MapsId
     @JoinColumn(name = "id")
-    private ProfileEntity       profile;
+    private MemberInnerProfileEntity profile;
 
     @Column(name = "renew_membership", table = "members", nullable = false)
-    private Boolean             renew;
+    private Boolean                  renew;
 
     @Override
     public boolean equals(final Object obj) {
@@ -71,7 +69,7 @@ public class MemberProfileEntity implements Serializable {
         return id;
     }
 
-    public ProfileEntity getProfile() {
+    public MemberInnerProfileEntity getProfile() {
         return profile;
     }
 
@@ -96,7 +94,7 @@ public class MemberProfileEntity implements Serializable {
         this.id = id;
     }
 
-    public void setProfile(final ProfileEntity profile) {
+    public void setProfile(final MemberInnerProfileEntity profile) {
         this.profile = profile;
     }
 

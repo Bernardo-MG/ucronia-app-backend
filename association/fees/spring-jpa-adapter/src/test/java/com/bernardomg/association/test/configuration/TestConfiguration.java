@@ -31,6 +31,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeMemberSpringRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeSpringRepository;
+import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeTransactionSpringRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeTypeSpringRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaFeeMemberRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaFeeRepository;
@@ -40,7 +41,6 @@ import com.bernardomg.association.fee.domain.repository.FeeMemberRepository;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.domain.repository.FeeSummaryRepository;
 import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
-import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
 
 @Configuration
 @EnableJpaRepositories(basePackages = { "com.bernardomg.association.member.adapter.inbound.jpa",
@@ -62,7 +62,7 @@ public class TestConfiguration {
     public FeeRepository getFeeRepository(final FeeSpringRepository feeSpringRepository,
             final FeeMemberSpringRepository feeMemberSpringRepository,
             final FeeTypeSpringRepository feeTypeSpringRepository,
-            final TransactionSpringRepository transactionSpringRepository) {
+            final FeeTransactionSpringRepository transactionSpringRepository) {
         return new JpaFeeRepository(feeSpringRepository, feeMemberSpringRepository, feeTypeSpringRepository,
             transactionSpringRepository);
     }

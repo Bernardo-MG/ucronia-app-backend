@@ -122,7 +122,7 @@ public final class JpaProfileRepository implements ProfileRepository {
         final org.springframework.data.domain.Page<Profile> read;
         final Pageable                                      pageable;
         final Optional<Specification<ProfileEntity>>        spec;
-        final Sorting                                             fixedSorting;
+        final Sorting                                       fixedSorting;
 
         log.debug("Finding all the profiles with filter {}, pagination {} and sorting {}", filter, pagination, sorting);
 

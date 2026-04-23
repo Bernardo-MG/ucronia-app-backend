@@ -6,9 +6,9 @@ import java.time.ZoneOffset;
 
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeEntity;
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeMemberEntity;
+import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTransactionEntity;
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTypeEntity;
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
-import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionConstants;
 
 public final class FeeEntities {
@@ -51,8 +51,8 @@ public final class FeeEntities {
         return entity;
     }
 
-    public static final TransactionEntity februaryFee() {
-        final TransactionEntity entity = new TransactionEntity();
+    public static final FeeTransactionEntity februaryFee() {
+        final FeeTransactionEntity entity = new FeeTransactionEntity();
         entity.setIndex(TransactionConstants.INDEX);
         entity.setAmount(TransactionConstants.AMOUNT_BIGGER);
         entity.setDate(TransactionConstants.DATE);
@@ -60,8 +60,8 @@ public final class FeeEntities {
         return entity;
     }
 
-    public static final TransactionEntity multipleFeesEndYear() {
-        final TransactionEntity entity = new TransactionEntity();
+    public static final FeeTransactionEntity multipleFeesEndYear() {
+        final FeeTransactionEntity entity = new FeeTransactionEntity();
         entity.setIndex(TransactionConstants.INDEX);
         entity.setAmount(TransactionConstants.AMOUNT_FEES);
         entity.setDate(TransactionConstants.DATE);
@@ -69,8 +69,8 @@ public final class FeeEntities {
         return entity;
     }
 
-    public static final TransactionEntity multipleFeesStartYear() {
-        final TransactionEntity entity = new TransactionEntity();
+    public static final FeeTransactionEntity multipleFeesStartYear() {
+        final FeeTransactionEntity entity = new FeeTransactionEntity();
         entity.setIndex(TransactionConstants.INDEX);
         entity.setAmount(TransactionConstants.AMOUNT_FEES);
         entity.setDate(TransactionConstants.DATE);
@@ -158,9 +158,9 @@ public final class FeeEntities {
     }
 
     public static final FeeEntity paidAtDate(final Instant date) {
-        final FeeEntity         entity;
-        final FeeTypeEntity     feeType;
-        final TransactionEntity transaction;
+        final FeeEntity            entity;
+        final FeeTypeEntity        feeType;
+        final FeeTransactionEntity transaction;
 
         feeType = new FeeTypeEntity();
         feeType.setId(1L);
@@ -345,8 +345,8 @@ public final class FeeEntities {
         return entity;
     }
 
-    public static final TransactionEntity transactionWithIndex(final long index) {
-        final TransactionEntity entity = new TransactionEntity();
+    public static final FeeTransactionEntity transactionWithIndex(final long index) {
+        final FeeTransactionEntity entity = new FeeTransactionEntity();
         entity.setIndex(index);
         entity.setAmount(TransactionConstants.AMOUNT);
         entity.setDate(TransactionConstants.DATE);

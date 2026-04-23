@@ -33,7 +33,6 @@ import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.Fee.Transaction;
 import com.bernardomg.association.fee.domain.model.FeeMember.MemberName;
 import com.bernardomg.association.fee.domain.model.FeeType;
-import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
 
 /**
  * Fee repository mapper.
@@ -81,7 +80,7 @@ public final class FeeEntityMapper {
     }
 
     public static final FeeEntity toEntity(final Fee fee, final FeeMemberEntity member, final FeeTypeEntity feeType,
-            final Optional<TransactionEntity> transaction) {
+            final Optional<FeeTransactionEntity> transaction) {
         final FeeEntity entity;
         final Instant   date;
         final Boolean   paid;
@@ -108,7 +107,7 @@ public final class FeeEntityMapper {
     }
 
     public static final FeeEntity toEntity(final FeeEntity entity, final FeeMemberEntity member,
-            final FeeTypeEntity feeType, final Optional<TransactionEntity> transaction) {
+            final FeeTypeEntity feeType, final Optional<FeeTransactionEntity> transaction) {
         final Boolean paid;
 
         if (transaction.isEmpty()) {

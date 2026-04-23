@@ -39,4 +39,8 @@ public final class ContactMethodEntities {
         return entity;
     }
 
+    private ContactMethodEntities() {
+        super();
+    }
+
 }

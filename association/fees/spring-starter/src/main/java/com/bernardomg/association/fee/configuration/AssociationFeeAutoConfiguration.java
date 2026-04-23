@@ -32,6 +32,7 @@ import org.springframework.context.annotation.ComponentScan;
 import com.bernardomg.association.fee.adapter.inbound.event.RegisterFeesOnMonthStartEventListener;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeMemberSpringRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeSpringRepository;
+import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeTransactionSpringRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeTypeSpringRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaFeeMemberRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaFeeRepository;
@@ -52,7 +53,6 @@ import com.bernardomg.association.fee.usecase.service.FeeTypeService;
 import com.bernardomg.association.fee.usecase.service.MyFeesService;
 import com.bernardomg.association.fee.usecase.service.SpringSecurityMyFeesService;
 import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
-import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.event.emitter.EventEmitter;
 
@@ -76,9 +76,9 @@ public class AssociationFeeAutoConfiguration {
     public FeeRepository getFeeRepository(final FeeSpringRepository feeSpringRepository,
             final FeeMemberSpringRepository feeMemberSpringRepository,
             final FeeTypeSpringRepository feeTypeSpringRepository,
-            final TransactionSpringRepository transactionSpringRepository) {
+            final FeeTransactionSpringRepository feeTransactionSpringRepository) {
         return new JpaFeeRepository(feeSpringRepository, feeMemberSpringRepository, feeTypeSpringRepository,
-            transactionSpringRepository);
+            feeTransactionSpringRepository);
     }
 
     @Bean("feeService")

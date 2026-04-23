@@ -32,7 +32,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.TestApplication;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberProfileSpringRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.ReadMemberProfileSpringRepository;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
@@ -46,13 +46,13 @@ import com.bernardomg.test.annotation.IntegrationTest;
 class ITMemberProfileRepositoryDelete {
 
     @Autowired
-    private ProfileSpringRepository       profileSpringRepository;
+    private ProfileSpringRepository           profileSpringRepository;
 
     @Autowired
-    private MemberProfileRepository       repository;
+    private MemberProfileRepository           repository;
 
     @Autowired
-    private MemberProfileSpringRepository springRepository;
+    private ReadMemberProfileSpringRepository springRepository;
 
     public ITMemberProfileRepositoryDelete() {
         super();
