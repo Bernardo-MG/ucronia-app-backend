@@ -73,11 +73,6 @@
          <scope>test</scope>
       </dependency>
       <dependency>
-         <groupId>com.bernardomg.association.member</groupId>
-         <artifactId>association-member-spring-jpa-adapter</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
          <groupId>com.bernardomg</groupId>
          <artifactId>testing</artifactId>
          <scope>test</scope>
