@@ -30,10 +30,7 @@ import java.util.HashSet;
 import java.util.Optional;
 
 import com.bernardomg.association.guest.domain.model.Guest;
-import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactChannelEntity;
-import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactChannelEntityMapper;
-import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactMethodEntity;
-import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
+import com.bernardomg.association.profile.domain.model.ContactMethod;
 import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
 import com.bernardomg.association.profile.domain.model.ProfileName;
 
@@ -54,7 +51,7 @@ public final class GuestEntityMapper {
         contactChannels = entity.getProfile()
             .getContactChannels()
             .stream()
-            .map(ContactChannelEntityMapper::toDomain)
+            .map(GuestEntityMapper::toDomain)
             .toList();
 
         return new Guest(entity.getProfile()
@@ -71,12 +68,28 @@ public final class GuestEntityMapper {
                 .getTypes());
     }
 
-    public static final GuestEntity toEntity(final Guest data, final Collection<ContactMethodEntity> contactMethods) {
-        final GuestEntity                      entity;
-        final ProfileEntity                    profile;
-        final Collection<ContactChannelEntity> contactChannels;
+    public static final Guest toDomain(final ReadGuestEntity entity) {
+        final ProfileName                name;
+        final Collection<ContactChannel> contactChannels;
 
-        profile = new ProfileEntity();
+        name = new ProfileName(entity.getFirstName(), entity.getLastName());
+
+        contactChannels = entity.getContactChannels()
+            .stream()
+            .map(GuestEntityMapper::toDomain)
+            .toList();
+
+        return new Guest(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(), contactChannels,
+            entity.getGames(), entity.getAddress(), entity.getComments(), entity.getTypes());
+    }
+
+    public static final GuestEntity toEntity(final Guest data,
+            final Collection<GuestContactMethodEntity> contactMethods) {
+        final GuestEntity                           entity;
+        final GuestInnerProfileEntity               profile;
+        final Collection<GuestContactChannelEntity> contactChannels;
+
+        profile = new GuestInnerProfileEntity();
         profile.setNumber(data.number());
         profile.setFirstName(data.name()
             .firstName());
@@ -110,9 +123,9 @@ public final class GuestEntityMapper {
     }
 
     public static final GuestEntity toEntity(final GuestEntity entity, final Guest data,
-            final Collection<ContactMethodEntity> contactMethods) {
-        final ProfileEntity                    profile;
-        final Collection<ContactChannelEntity> contactChannels;
+            final Collection<GuestContactMethodEntity> contactMethods) {
+        final GuestInnerProfileEntity               profile;
+        final Collection<GuestContactChannelEntity> contactChannels;
 
         profile = entity.getProfile();
         profile.setFirstName(data.name()
@@ -144,10 +157,28 @@ public final class GuestEntityMapper {
         return entity;
     }
 
-    private static final ContactChannelEntity toEntity(final ProfileEntity profile, final ContactChannel data,
-            final Collection<ContactMethodEntity> contactMethods) {
-        final ContactChannelEntity          entity;
-        final Optional<ContactMethodEntity> contactMethod;
+    private static final ContactChannel toDomain(final GuestContactChannelEntity entity) {
+        final ContactMethod method;
+
+        method = toDomain(entity.getContactMethod());
+        return new ContactChannel(method, entity.getDetail());
+    }
+
+    private static final ContactMethod toDomain(final GuestContactMethodEntity entity) {
+        return new ContactMethod(entity.getNumber(), entity.getName());
+    }
+
+    private static final ContactChannel toDomain(final ReadGuestContactChannelEntity entity) {
+        final ContactMethod method;
+
+        method = toDomain(entity.getContactMethod());
+        return new ContactChannel(method, entity.getDetail());
+    }
+
+    private static final GuestContactChannelEntity toEntity(final GuestInnerProfileEntity profile,
+            final ContactChannel data, final Collection<GuestContactMethodEntity> contactMethods) {
+        final GuestContactChannelEntity          entity;
+        final Optional<GuestContactMethodEntity> contactMethod;
 
         contactMethod = contactMethods.stream()
             .filter(m -> m.getNumber()
@@ -155,7 +186,7 @@ public final class GuestEntityMapper {
                     .number()))
             .findFirst();
 
-        entity = new ContactChannelEntity();
+        entity = new GuestContactChannelEntity();
         entity.setProfile(profile);
         entity.setContactMethod(contactMethod.get());
         entity.setDetail(data.detail());
