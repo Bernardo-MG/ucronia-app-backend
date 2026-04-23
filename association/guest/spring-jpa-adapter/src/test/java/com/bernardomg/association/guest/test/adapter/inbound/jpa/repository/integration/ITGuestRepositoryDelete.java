@@ -60,24 +60,12 @@ class ITGuestRepositoryDelete {
     @Test
     @DisplayName("When deleting a guest, it is deleted")
     @ValidGuest
-    void testDelete_Active() {
+    void testDelete() {
         // WHEN
         repository.delete(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(springRepository.count())
-            .isZero();
-    }
-
-    @Test
-    @DisplayName("When deleting a guest, the profile is deleted")
-    @ValidGuest
-    void testDelete_Active_Profile() {
-        // WHEN
-        repository.delete(ProfileConstants.NUMBER);
-
-        // THEN
-        Assertions.assertThat(profileSpringRepository.count())
             .isZero();
     }
 
@@ -93,14 +81,26 @@ class ITGuestRepositoryDelete {
     }
 
     @Test
-    @DisplayName("With a profile with no sponsor role, nothing is deleted")
+    @DisplayName("With a profile with no guest role, nothing is deleted")
     @ValidProfile
-    void testDelete_NoSponsor() {
+    void testDelete_NoGuest() {
         // WHEN
         repository.delete(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(springRepository.count())
+            .isZero();
+    }
+
+    @Test
+    @DisplayName("When deleting a guest, the profile is deleted")
+    @ValidGuest
+    void testDelete_Profile() {
+        // WHEN
+        repository.delete(ProfileConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(profileSpringRepository.count())
             .isZero();
     }
 

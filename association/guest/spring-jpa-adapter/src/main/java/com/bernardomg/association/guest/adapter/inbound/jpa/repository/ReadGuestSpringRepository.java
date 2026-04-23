@@ -24,12 +24,8 @@
 
 package com.bernardomg.association.guest.adapter.inbound.jpa.repository;
 
-import java.util.Collection;
-import java.util.Optional;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -38,62 +34,15 @@ import com.bernardomg.association.guest.adapter.inbound.jpa.model.ReadGuestEntit
 public interface ReadGuestSpringRepository
         extends JpaRepository<ReadGuestEntity, Long>, JpaSpecificationExecutor<ReadGuestEntity> {
 
-    @Modifying
-    @Query("""
-            DELETE FROM ReadGuestEntity g
-            WHERE g.number = :number
-            """)
-    public void deleteByNumber(@Param("number") final Long number);
-
     public boolean existsByIdentifier(final String identifier);
 
     @Query("""
-            SELECT CASE WHEN COUNT(m) > 0 THEN TRUE ELSE FALSE END AS exists
+            SELECT CASE WHEN COUNT(g) > 0 THEN TRUE ELSE FALSE END AS exists
             FROM ReadGuestEntity g
             WHERE g.number != :number
               AND g.identifier = :identifier
             """)
     public boolean existsByIdentifierForAnother(@Param("number") final Long number,
             @Param("identifier") final String identifier);
-
-    @Query("""
-            SELECT CASE WHEN COUNT(m) > 0 THEN TRUE ELSE FALSE END AS exists
-            FROM ReadGuestEntity g
-            WHERE g.number = :number
-            """)
-    public boolean existsByNumber(@Param("number") final Long number);
-
-    public Collection<ReadGuestEntity> findAllByRenewTrue();
-
-    @Query("""
-            SELECT m
-            FROM ReadGuestEntity g
-            WHERE g.active != g.renew
-            """)
-    public Collection<ReadGuestEntity> findAllWithRenewalMismatch();
-
-    @Query("""
-            SELECT m
-            FROM ReadGuestEntity g
-            WHERE g.number = :number
-            """)
-    public Optional<ReadGuestEntity> findByNumber(@Param("number") final Long number);
-
-    @Query("""
-            SELECT m
-            FROM ReadGuestEntity g
-            WHERE g.id = :id
-            """)
-    public Optional<ReadGuestEntity> findByProfileId(@Param("id") final Long id);
-
-    @Query("SELECT COALESCE(MAX(m.number), 0) + 1 FROM ReadGuestEntity g")
-    public Long findNextNumber();
-
-    @Query("""
-            SELECT g.active
-            FROM ReadGuestEntity g
-            WHERE g.number = :number
-            """)
-    public Boolean isActive(@Param("number") final Long number);
 
 }

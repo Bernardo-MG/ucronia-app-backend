@@ -60,10 +60,7 @@ public final class JpaGuestRepository implements GuestRepository {
     /**
      * Logger for the class.
      */
-    private static final Logger                      log                = LoggerFactory
-        .getLogger(JpaGuestRepository.class);
-
-    private static final Collection<String>          PROFILE_PROPERTIES = List.of("firstName", "lastName", "number");
+    private static final Logger                      log = LoggerFactory.getLogger(JpaGuestRepository.class);
 
     private final GuestContactMethodSpringRepository guestContactMethodSpringRepository;
 
@@ -220,13 +217,6 @@ public final class JpaGuestRepository implements GuestRepository {
                     .startsWith("name.")) {
                     return new Property(prop.name()
                         .replaceFirst("name\\.", ""), prop.direction());
-                }
-                return prop;
-            })
-            // Fix profile properties
-            .map(prop -> {
-                if (PROFILE_PROPERTIES.contains(prop.name())) {
-                    return new Property("profile." + prop.name(), prop.direction());
                 }
                 return prop;
             })

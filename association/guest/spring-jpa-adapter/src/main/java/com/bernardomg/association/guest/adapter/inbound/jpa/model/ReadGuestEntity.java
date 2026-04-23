@@ -26,7 +26,7 @@ import jakarta.persistence.SecondaryTable;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
-@Entity(name = "ReadMemberProfile")
+@Entity(name = "ReadGuestEntity")
 @Table(schema = "directory", name = "guests")
 @SecondaryTable(schema = "directory", name = "profiles",
         pkJoinColumns = @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id"))
@@ -37,9 +37,6 @@ public class ReadGuestEntity implements Serializable {
      */
     @Transient
     private static final long                         serialVersionUID = 8139806507534262996L;
-
-    @Column(name = "active", nullable = false)
-    private Boolean                                   active;
 
     @Column(name = "address", table = "profiles")
     private String                                    address;
@@ -88,10 +85,6 @@ public class ReadGuestEntity implements Serializable {
             return false;
         }
         return Objects.equals(id, other.id);
-    }
-
-    public Boolean getActive() {
-        return active;
     }
 
     public String getAddress() {
@@ -143,10 +136,6 @@ public class ReadGuestEntity implements Serializable {
         return Objects.hash(id);
     }
 
-    public void setActive(final Boolean active) {
-        this.active = active;
-    }
-
     public void setAddress(final String address) {
         this.address = address;
     }
@@ -193,10 +182,10 @@ public class ReadGuestEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "ReadGuestEntity [id=" + id + ", active=" + active + ", address=" + address + ", birthDate=" + birthDate
-                + ", comments=" + comments + ", contactChannels=" + contactChannels + ", firstName=" + firstName
-                + ", identifier=" + identifier + ", lastName=" + lastName + ", number=" + number + ", types=" + types
-                + ", games=" + games + "]";
+        return "ReadGuestEntity [id=" + id + ", address=" + address + ", birthDate=" + birthDate + ", comments="
+                + comments + ", contactChannels=" + contactChannels + ", firstName=" + firstName + ", identifier="
+                + identifier + ", lastName=" + lastName + ", number=" + number + ", types=" + types + ", games=" + games
+                + "]";
     }
 
 }
