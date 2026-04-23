@@ -1,14 +1,4 @@
 databaseChangeLog:
-  - changeSet:
-      id: fees_schema
-      author: Bernardo
-      changes:
-        - sqlFile:
-            encoding: UTF-8
-            path: sql/create_fees_schema.sql
-            relativeToChangelogFile: true
-            splitStatements: true
-            stripComments: true
   - include:
       file: directory.yaml
       relativeToChangelogFile: true
