@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.member.adapter.inbound.jpa.model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import jakarta.persistence.CascadeType;
@@ -17,13 +18,13 @@ import jakarta.persistence.Transient;
 
 @Entity(name = "MemberProfile")
 @Table(schema = "directory", name = "members")
-public class MemberProfileEntity {
+public class MemberProfileEntity implements Serializable {
 
     /**
      *
      */
     @Transient
-    private static final long        serialVersionUID = 8139806507534262996L;
+    private static final long serialVersionUID = -4798244714782690891L;
 
     @Column(name = "active", nullable = false)
     private Boolean                  active;
