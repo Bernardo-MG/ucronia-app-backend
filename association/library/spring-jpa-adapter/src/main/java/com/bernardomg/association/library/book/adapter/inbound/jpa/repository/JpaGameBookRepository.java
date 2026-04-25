@@ -58,7 +58,6 @@ import com.bernardomg.association.library.lending.domain.model.Borrower;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.model.PublisherEntity;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.repository.PublisherSpringRepository;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.ReadMemberProfileSpringRepository;
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 import com.bernardomg.association.profile.domain.exception.MissingProfileException;
@@ -75,29 +74,29 @@ public final class JpaGameBookRepository implements GameBookRepository {
     /**
      * Logger for the class.
      */
-    private static final Logger                 log = LoggerFactory.getLogger(JpaGameBookRepository.class);
+    private static final Logger               log = LoggerFactory.getLogger(JpaGameBookRepository.class);
 
-    private final AuthorSpringRepository        authorSpringRepository;
+    private final AuthorSpringRepository      authorSpringRepository;
 
-    private final BookLendingSpringRepository   bookLendingSpringRepository;
+    private final BookLendingSpringRepository bookLendingSpringRepository;
 
-    private final GameBookSpringRepository      bookSpringRepository;
+    private final GameBookSpringRepository    bookSpringRepository;
 
-    private final BookTypeSpringRepository      bookTypeSpringRepository;
+    private final BookTypeSpringRepository    bookTypeSpringRepository;
 
-    private final GameSystemSpringRepository    gameSystemSpringRepository;
+    private final BorrowerSpringRepository    borrowerSpringRepository;
 
-    private final ReadMemberProfileSpringRepository memberProfileSpringRepository;
+    private final GameSystemSpringRepository  gameSystemSpringRepository;
 
-    private final ProfileSpringRepository       profileSpringRepository;
+    private final ProfileSpringRepository     profileSpringRepository;
 
-    private final PublisherSpringRepository     publisherSpringRepository;
+    private final PublisherSpringRepository   publisherSpringRepository;
 
     public JpaGameBookRepository(final GameBookSpringRepository bookSpringRepo,
             final AuthorSpringRepository authorSpringRepo, final PublisherSpringRepository publisherSpringRepo,
             final BookTypeSpringRepository bookTypeSpringRepo, final GameSystemSpringRepository gameSystemSpringRepo,
-            final ReadMemberProfileSpringRepository memberProfileSpringRepo,
-            final ProfileSpringRepository profileSpringRepo, final BookLendingSpringRepository bookLendingSpringRepo) {
+            final BorrowerSpringRepository borrowerSpringRepo, final ProfileSpringRepository profileSpringRepo,
+            final BookLendingSpringRepository bookLendingSpringRepo) {
         super();
 
         bookSpringRepository = Objects.requireNonNull(bookSpringRepo);
@@ -105,7 +104,7 @@ public final class JpaGameBookRepository implements GameBookRepository {
         publisherSpringRepository = Objects.requireNonNull(publisherSpringRepo);
         bookTypeSpringRepository = Objects.requireNonNull(bookTypeSpringRepo);
         gameSystemSpringRepository = Objects.requireNonNull(gameSystemSpringRepo);
-        memberProfileSpringRepository = Objects.requireNonNull(memberProfileSpringRepo);
+        borrowerSpringRepository = Objects.requireNonNull(borrowerSpringRepo);
         profileSpringRepository = Objects.requireNonNull(profileSpringRepo);
         bookLendingSpringRepository = Objects.requireNonNull(bookLendingSpringRepo);
     }
@@ -284,7 +283,7 @@ public final class JpaGameBookRepository implements GameBookRepository {
 
     private final BookLendingInfo toDomain(final GameBookEntity bookEntity, final BookLendingEntity entity) {
         final Borrower borrower;
-        borrower = memberProfileSpringRepository.findByProfileId(entity.getProfileId())
+        borrower = borrowerSpringRepository.findByProfileId(entity.getProfileId())
             .map(BookEntityMapper::toDomain)
             .orElseThrow(() -> {
                 log.error("Missing profile {}", entity.getProfileId());

@@ -33,6 +33,7 @@ import com.bernardomg.association.library.author.adapter.inbound.jpa.repository.
 import com.bernardomg.association.library.author.adapter.inbound.jpa.repository.JpaAuthorRepository;
 import com.bernardomg.association.library.author.domain.repository.AuthorRepository;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.repository.BookSpringRepository;
+import com.bernardomg.association.library.book.adapter.inbound.jpa.repository.BorrowerSpringRepository;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.repository.FictionBookSpringRepository;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.repository.GameBookSpringRepository;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.repository.JpaBookRepository;
@@ -57,7 +58,6 @@ import com.bernardomg.association.library.lending.domain.repository.BorrowerRepo
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.repository.JpaPublisherRepository;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.repository.PublisherSpringRepository;
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.ReadMemberProfileSpringRepository;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 
 @Configuration
@@ -84,9 +84,9 @@ public class TestConfiguration {
 
     @Bean("bookRepository")
     public BookRepository getBookRepository(final BookSpringRepository bookSpringRepository,
-            final ReadMemberProfileSpringRepository memberProfileSpringRepository,
+            final BorrowerSpringRepository borrowerSpringRepository,
             final BookLendingSpringRepository bookLendingSpringRepository) {
-        return new JpaBookRepository(bookSpringRepository, memberProfileSpringRepository, bookLendingSpringRepository);
+        return new JpaBookRepository(bookSpringRepository, borrowerSpringRepository, bookLendingSpringRepository);
     }
 
     @Bean("bookTypeRepository")
@@ -108,11 +108,11 @@ public class TestConfiguration {
     public FictionBookRepository getFictionBookRepository(final FictionBookSpringRepository bookSpringRepository,
             final AuthorSpringRepository authorSpringRepository,
             final PublisherSpringRepository publisherSpringRepository,
-            final ReadMemberProfileSpringRepository memberProfileSpringRepository,
+            final BorrowerSpringRepository borrowerSpringRepository,
             final ProfileSpringRepository profileSpringRepository,
             final BookLendingSpringRepository bookLendingSpringRepository) {
         return new JpaFictionBookRepository(bookSpringRepository, authorSpringRepository, publisherSpringRepository,
-            memberProfileSpringRepository, profileSpringRepository, bookLendingSpringRepository);
+            borrowerSpringRepository, profileSpringRepository, bookLendingSpringRepository);
     }
 
     @Bean("gameBookRepository")
@@ -121,12 +121,12 @@ public class TestConfiguration {
             final PublisherSpringRepository publisherSpringRepository,
             final BookTypeSpringRepository bookTypeSpringRepository,
             final GameSystemSpringRepository gameSystemSpringRepository,
-            final ReadMemberProfileSpringRepository memberProfileSpringRepository,
+            final BorrowerSpringRepository borrowerSpringRepository,
             final ProfileSpringRepository profileSpringRepository,
             final BookLendingSpringRepository bookLendingSpringRepository) {
         return new JpaGameBookRepository(bookSpringRepository, authorSpringRepository, publisherSpringRepository,
-            bookTypeSpringRepository, gameSystemSpringRepository, memberProfileSpringRepository,
-            profileSpringRepository, bookLendingSpringRepository);
+            bookTypeSpringRepository, gameSystemSpringRepository, borrowerSpringRepository, profileSpringRepository,
+            bookLendingSpringRepository);
     }
 
     @Bean("gameSystemRepository")
