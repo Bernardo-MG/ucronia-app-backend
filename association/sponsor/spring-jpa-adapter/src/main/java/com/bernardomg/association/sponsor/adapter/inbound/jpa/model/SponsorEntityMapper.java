@@ -30,10 +30,7 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactChannelEntity;
-import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactChannelEntityMapper;
-import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactMethodEntity;
-import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
+import com.bernardomg.association.profile.domain.model.ContactMethod;
 import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
 import com.bernardomg.association.profile.domain.model.ProfileName;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
@@ -42,6 +39,21 @@ import com.bernardomg.association.sponsor.domain.model.Sponsor;
  * Update sponsor entity mapper.
  */
 public final class SponsorEntityMapper {
+
+    public static final Sponsor toDomain(final ReadSponsorEntity entity) {
+        final ProfileName                name;
+        final Collection<ContactChannel> contactChannels;
+
+        name = new ProfileName(entity.getFirstName(), entity.getLastName());
+
+        contactChannels = entity.getContactChannels()
+            .stream()
+            .map(SponsorEntityMapper::toDomain)
+            .toList();
+
+        return new Sponsor(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(), contactChannels,
+            entity.getYears(), entity.getAddress(), entity.getComments(), entity.getTypes());
+    }
 
     public static final Sponsor toDomain(final SponsorEntity entity) {
         final ProfileName                name;
@@ -55,7 +67,7 @@ public final class SponsorEntityMapper {
         contactChannels = entity.getProfile()
             .getContactChannels()
             .stream()
-            .map(ContactChannelEntityMapper::toDomain)
+            .map(SponsorEntityMapper::toDomain)
             .toList();
 
         return new Sponsor(entity.getProfile()
@@ -73,12 +85,12 @@ public final class SponsorEntityMapper {
     }
 
     public static final SponsorEntity toEntity(final Sponsor data,
-            final Collection<ContactMethodEntity> contactMethods) {
-        final SponsorEntity                    entity;
-        final ProfileEntity                    profile;
-        final Collection<ContactChannelEntity> contactChannels;
+            final Collection<SponsorContactMethodEntity> contactMethods) {
+        final SponsorEntity                           entity;
+        final SponsorInnerProfileEntity               profile;
+        final Collection<SponsorContactChannelEntity> contactChannels;
 
-        profile = new ProfileEntity();
+        profile = new SponsorInnerProfileEntity();
         profile.setNumber(data.number());
         profile.setFirstName(data.name()
             .firstName());
@@ -112,9 +124,9 @@ public final class SponsorEntityMapper {
     }
 
     public static final SponsorEntity toEntity(final SponsorEntity entity, final Sponsor data,
-            final Collection<ContactMethodEntity> contactMethods) {
-        final ProfileEntity                    profile;
-        final Collection<ContactChannelEntity> contactChannels;
+            final Collection<SponsorContactMethodEntity> contactMethods) {
+        final SponsorInnerProfileEntity               profile;
+        final Collection<SponsorContactChannelEntity> contactChannels;
 
         profile = entity.getProfile();
         profile.setFirstName(data.name()
@@ -146,10 +158,28 @@ public final class SponsorEntityMapper {
         return entity;
     }
 
-    private static final ContactChannelEntity toEntity(final ProfileEntity profile, final ContactChannel data,
-            final Collection<ContactMethodEntity> contactMethods) {
-        final ContactChannelEntity          entity;
-        final Optional<ContactMethodEntity> contactMethod;
+    private static final ContactChannel toDomain(final ReadSponsorContactChannelEntity entity) {
+        final ContactMethod method;
+
+        method = toDomain(entity.getContactMethod());
+        return new ContactChannel(method, entity.getDetail());
+    }
+
+    private static final ContactChannel toDomain(final SponsorContactChannelEntity entity) {
+        final ContactMethod method;
+
+        method = toDomain(entity.getContactMethod());
+        return new ContactChannel(method, entity.getDetail());
+    }
+
+    private static final ContactMethod toDomain(final SponsorContactMethodEntity entity) {
+        return new ContactMethod(entity.getNumber(), entity.getName());
+    }
+
+    private static final SponsorContactChannelEntity toEntity(final SponsorInnerProfileEntity profile,
+            final ContactChannel data, final Collection<SponsorContactMethodEntity> contactMethods) {
+        final SponsorContactChannelEntity          entity;
+        final Optional<SponsorContactMethodEntity> contactMethod;
 
         contactMethod = contactMethods.stream()
             .filter(m -> m.getNumber()
@@ -157,7 +187,7 @@ public final class SponsorEntityMapper {
                     .number()))
             .findFirst();
 
-        entity = new ContactChannelEntity();
+        entity = new SponsorContactChannelEntity();
         entity.setProfile(profile);
         entity.setContactMethod(contactMethod.get());
         entity.setDetail(data.detail());

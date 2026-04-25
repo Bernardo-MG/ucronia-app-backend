@@ -30,18 +30,14 @@ import java.util.function.BinaryOperator;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
-import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.SponsorEntity;
+import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.ReadSponsorEntity;
 import com.bernardomg.association.sponsor.domain.filter.SponsorFilter;
-
-import jakarta.persistence.criteria.Join;
-import jakarta.persistence.criteria.JoinType;
 
 public final class SponsorSpecifications {
 
-    public static Optional<Specification<SponsorEntity>> query(final SponsorFilter filter) {
-        final Optional<Specification<SponsorEntity>> nameSpec;
-        final Specification<SponsorEntity>           spec;
+    public static Optional<Specification<ReadSponsorEntity>> query(final SponsorFilter filter) {
+        final Optional<Specification<ReadSponsorEntity>> nameSpec;
+        final Specification<ReadSponsorEntity>           spec;
 
         if (filter.name()
             .isBlank()) {
@@ -54,7 +50,7 @@ public final class SponsorSpecifications {
             .stream()
             .filter(Optional::isPresent)
             .map(Optional::get)
-            .reduce((BinaryOperator<Specification<SponsorEntity>>) Specification::and)
+            .reduce((BinaryOperator<Specification<ReadSponsorEntity>>) Specification::and)
             .orElse(null);
         return Optional.ofNullable(spec);
     }
@@ -66,17 +62,12 @@ public final class SponsorSpecifications {
      *            pattern to match
      * @return name specification
      */
-    private static Specification<SponsorEntity> name(final String pattern) {
+    private static Specification<ReadSponsorEntity> name(final String pattern) {
         final String likePattern = "%" + pattern.toLowerCase() + "%";
 
-        return (root, query, cb) -> {
-            final Join<ProfileEntity, ProfileEntity> profile = root.join("profile", JoinType.INNER);
-
-            return cb.or(cb.like(cb.lower(profile.get("firstName")), likePattern),
-                cb.like(cb.lower(profile.get("lastName")), likePattern),
-                cb.like(cb.lower(cb.concat(profile.get("firstName"), cb.concat(" ", profile.get("lastName")))),
-                    likePattern));
-        };
+        return (root, query, cb) -> cb.or(cb.like(cb.lower(root.get("firstName")), likePattern),
+            cb.like(cb.lower(root.get("lastName")), likePattern),
+            cb.like(cb.lower(cb.concat(root.get("firstName"), cb.concat(" ", root.get("lastName")))), likePattern));
     }
 
     private SponsorSpecifications() {
