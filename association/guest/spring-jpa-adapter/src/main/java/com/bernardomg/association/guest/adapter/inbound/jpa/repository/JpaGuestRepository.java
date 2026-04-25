@@ -64,17 +64,21 @@ public final class JpaGuestRepository implements GuestRepository {
 
     private final GuestContactMethodSpringRepository guestContactMethodSpringRepository;
 
+    private final GuestInnerProfileSpringRepository  guestInnerProfileSpringRepository;
+
     private final GuestSpringRepository              guestSpringRepository;
 
     private final ReadGuestSpringRepository          readGuestSpringRepository;
 
     public JpaGuestRepository(final GuestSpringRepository guestSpringRepo,
             final ReadGuestSpringRepository readGuestSpringRepo,
+            final GuestInnerProfileSpringRepository guestInnerProfileSpringRepo,
             final GuestContactMethodSpringRepository guestContactMethodSpringRepo) {
         super();
 
         guestSpringRepository = Objects.requireNonNull(guestSpringRepo);
         readGuestSpringRepository = Objects.requireNonNull(readGuestSpringRepo);
+        guestInnerProfileSpringRepository = Objects.requireNonNull(guestInnerProfileSpringRepo);
         guestContactMethodSpringRepository = Objects.requireNonNull(guestContactMethodSpringRepo);
     }
 
@@ -84,6 +88,7 @@ public final class JpaGuestRepository implements GuestRepository {
 
         // TODO: delete on cascade from the profile
         guestSpringRepository.deleteByNumber(number);
+        guestInnerProfileSpringRepository.deleteByNumber(number);
 
         log.debug("Deleted guest {}", number);
     }
@@ -175,7 +180,7 @@ public final class JpaGuestRepository implements GuestRepository {
         final Guest                                created;
         final Collection<GuestContactMethodEntity> contactMethods;
         final Long                                 number;
-        final Optional<GuestEntity>                profile;
+        final Optional<GuestInnerProfileEntity>    profile;
 
         log.debug("Saving guest {}", guest);
 
@@ -186,10 +191,9 @@ public final class JpaGuestRepository implements GuestRepository {
         } else {
             entity = GuestEntityMapper.toEntity(guest, contactMethods);
 
-            profile = guestSpringRepository.findByNumber(guest.number());
+            profile = guestInnerProfileSpringRepository.findByNumber(guest.number());
             if (profile.isPresent()) {
-                entity.setProfile(profile.get()
-                    .getProfile());
+                entity.setProfile(profile.get());
             } else {
                 number = guestSpringRepository.findNextNumber();
                 entity.getProfile()
