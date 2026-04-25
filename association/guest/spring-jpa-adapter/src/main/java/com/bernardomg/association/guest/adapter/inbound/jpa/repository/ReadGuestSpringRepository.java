@@ -24,8 +24,11 @@
 
 package com.bernardomg.association.guest.adapter.inbound.jpa.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -34,15 +37,29 @@ import com.bernardomg.association.guest.adapter.inbound.jpa.model.ReadGuestEntit
 public interface ReadGuestSpringRepository
         extends JpaRepository<ReadGuestEntity, Long>, JpaSpecificationExecutor<ReadGuestEntity> {
 
+    @Modifying
+    @Query("""
+            DELETE FROM ReadGuest g
+            WHERE g.number = :number
+            """)
+    public void deleteByNumber(@Param("number") final Long number);
+
     public boolean existsByIdentifier(final String identifier);
 
     @Query("""
             SELECT CASE WHEN COUNT(g) > 0 THEN TRUE ELSE FALSE END AS exists
-            FROM ReadGuestEntity g
+            FROM ReadGuest g
             WHERE g.number != :number
               AND g.identifier = :identifier
             """)
     public boolean existsByIdentifierForAnother(@Param("number") final Long number,
             @Param("identifier") final String identifier);
+
+    public boolean existsByNumber(final Long number);
+
+    public Optional<ReadGuestEntity> findByNumber(final Long number);
+
+    @Query("SELECT COALESCE(MAX(p.number), 0) + 1 FROM GuestInnerProfile p")
+    public Long findNextNumber();
 
 }

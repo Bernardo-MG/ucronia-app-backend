@@ -86,9 +86,7 @@ public final class JpaGuestRepository implements GuestRepository {
     public final void delete(final long number) {
         log.debug("Deleting guest {}", number);
 
-        // TODO: delete on cascade from the profile
-        guestSpringRepository.deleteByNumber(number);
-        guestInnerProfileSpringRepository.deleteByNumber(number);
+        readGuestSpringRepository.deleteByNumber(number);
 
         log.debug("Deleted guest {}", number);
     }
@@ -99,7 +97,7 @@ public final class JpaGuestRepository implements GuestRepository {
 
         log.debug("Checking if guest {} exists", number);
 
-        exists = guestSpringRepository.existsByNumber(number);
+        exists = readGuestSpringRepository.existsByNumber(number);
 
         log.debug("Guest {} exists: {}", number, exists);
 
@@ -165,7 +163,7 @@ public final class JpaGuestRepository implements GuestRepository {
 
         log.trace("Finding guest with number {}", number);
 
-        guest = guestSpringRepository.findByNumber(number)
+        guest = readGuestSpringRepository.findByNumber(number)
             .map(GuestEntityMapper::toDomain);
 
         log.trace("Found guest with number {}: {}", number, guest);
@@ -195,7 +193,7 @@ public final class JpaGuestRepository implements GuestRepository {
             if (profile.isPresent()) {
                 entity.setProfile(profile.get());
             } else {
-                number = guestSpringRepository.findNextNumber();
+                number = readGuestSpringRepository.findNextNumber();
                 entity.getProfile()
                     .setNumber(number);
             }

@@ -26,7 +26,7 @@ import jakarta.persistence.SecondaryTable;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
-@Entity(name = "ReadGuestEntity")
+@Entity(name = "ReadGuest")
 @Table(schema = "directory", name = "guests")
 @SecondaryTable(schema = "directory", name = "profiles",
         pkJoinColumns = @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id"))

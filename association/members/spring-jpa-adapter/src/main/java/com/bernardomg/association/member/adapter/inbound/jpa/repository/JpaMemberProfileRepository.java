@@ -87,7 +87,6 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
     public final void delete(final long number) {
         log.debug("Deleting member profile {}", number);
 
-        // TODO: delete on cascade from the profile
         readMemberProfileSpringRepository.deleteByNumber(number);
 
         log.debug("Deleted member profile {}", number);
