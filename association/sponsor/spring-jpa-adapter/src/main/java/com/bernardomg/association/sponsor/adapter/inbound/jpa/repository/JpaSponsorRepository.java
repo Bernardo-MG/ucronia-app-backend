@@ -98,7 +98,7 @@ public final class JpaSponsorRepository implements SponsorRepository {
 
         log.debug("Checking if sponsor {} exists", number);
 
-        exists = sponsorSpringRepository.existsByNumber(number);
+        exists = readSponsorSpringRepository.existsByNumber(number);
 
         log.debug("Sponsor {} exists: {}", number, exists);
 
@@ -194,7 +194,7 @@ public final class JpaSponsorRepository implements SponsorRepository {
             if (profile.isPresent()) {
                 entity.setProfile(profile.get());
             } else {
-                number = sponsorSpringRepository.findNextNumber();
+                number = readSponsorSpringRepository.findNextNumber();
                 entity.getProfile()
                     .setNumber(number);
             }

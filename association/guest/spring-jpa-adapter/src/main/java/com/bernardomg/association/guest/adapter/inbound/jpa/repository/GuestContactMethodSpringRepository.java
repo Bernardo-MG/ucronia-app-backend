@@ -26,28 +26,13 @@ package com.bernardomg.association.guest.adapter.inbound.jpa.repository;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
 import com.bernardomg.association.guest.adapter.inbound.jpa.model.GuestContactMethodEntity;
 
 public interface GuestContactMethodSpringRepository extends JpaRepository<GuestContactMethodEntity, Long> {
 
-    public void deleteByNumber(final Long number);
-
-    public boolean existsByName(final String name);
-
-    public boolean existsByNameAndNumberNot(final String name, final long number);
-
-    public boolean existsByNumber(final Long number);
-
     public List<GuestContactMethodEntity> findAllByNumberIn(final Collection<Long> numbers);
-
-    public Optional<GuestContactMethodEntity> findByNumber(final Long number);
-
-    @Query("SELECT COALESCE(MAX(m.number), 0) + 1 FROM ContactMethod m")
-    public Long findNextNumber();
 
 }
