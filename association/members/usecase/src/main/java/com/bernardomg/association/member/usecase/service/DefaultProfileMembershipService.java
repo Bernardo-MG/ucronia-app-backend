@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.member.usecase.service;
 
+import java.util.Collection;
 import java.util.Objects;
 
 import org.slf4j.Logger;
@@ -71,10 +72,12 @@ public final class DefaultProfileMembershipService implements ProfileMembershipS
 
     @Override
     public final MemberProfile convertToMember(final long number, final long feeType) {
-        final Profile               existing;
-        final MemberProfile         toCreate;
-        final MemberProfile         created;
-        final MemberProfile.FeeType memberFeeType;
+        final Profile                                  existing;
+        final MemberProfile                            toCreate;
+        final MemberProfile                            created;
+        final MemberProfile.FeeType                    memberFeeType;
+        final Collection<MemberProfile.ContactChannel> contactChannels;
+        final MemberProfile.Name                       name;
 
         log.debug("Converting profile {} to member", number);
 
@@ -94,16 +97,33 @@ public final class DefaultProfileMembershipService implements ProfileMembershipS
             throw new MissingMemberFeeTypeException(feeType);
         }
 
+        contactChannels = existing.contactChannels()
+            .stream()
+            .map(this::toMemberContactChannel)
+            .toList();
         memberFeeType = new MemberProfile.FeeType(feeType, "", 0f);
-        toCreate = new MemberProfile(existing.identifier(), existing.number(), existing.name(), existing.birthDate(),
-            existing.contactChannels(), existing.address(), existing.comments(), true, true, memberFeeType,
-            existing.types());
+        name = new MemberProfile.Name(existing.name()
+            .firstName(),
+            existing.name()
+                .lastName());
+        toCreate = new MemberProfile(existing.identifier(), existing.number(), name, existing.birthDate(),
+            contactChannels, existing.address(), existing.comments(), true, true, memberFeeType, existing.types());
 
         created = memberProfileRepository.save(toCreate);
 
         log.debug("Converted profile {} to member", number);
 
         return created;
+    }
+
+    private final MemberProfile.ContactChannel toMemberContactChannel(final Profile.ContactChannel contactChannel) {
+        final MemberProfile.ContactMethod contactMethod;
+
+        contactMethod = new MemberProfile.ContactMethod(contactChannel.contactMethod()
+            .number(),
+            contactChannel.contactMethod()
+                .name());
+        return new MemberProfile.ContactChannel(contactMethod, contactChannel.detail());
     }
 
 }

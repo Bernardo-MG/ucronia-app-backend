@@ -41,10 +41,10 @@ import com.bernardomg.association.member.domain.exception.MissingMemberException
 import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.repository.MemberFeeTypeRepository;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
+import com.bernardomg.association.member.test.configuration.factory.MemberConstants;
 import com.bernardomg.association.member.test.configuration.factory.MemberProfiles;
 import com.bernardomg.association.member.usecase.service.DefaultMemberProfileService;
 import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
-import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultMemberProfileService - get one")
@@ -72,11 +72,10 @@ class TestMemberProfileServiceGetOne {
         final Optional<MemberProfile> member;
 
         // GIVEN
-        given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
-            .willReturn(Optional.of(MemberProfiles.active()));
+        given(memberProfileRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(MemberProfiles.active()));
 
         // WHEN
-        member = service.getOne(ProfileConstants.NUMBER);
+        member = service.getOne(MemberConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(member)
@@ -89,10 +88,10 @@ class TestMemberProfileServiceGetOne {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(memberProfileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.empty());
+        given(memberProfileRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.getOne(ProfileConstants.NUMBER);
+        execution = () -> service.getOne(MemberConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)

@@ -31,9 +31,9 @@ import java.util.Optional;
 import java.util.Set;
 
 import com.bernardomg.association.member.domain.model.MemberProfile;
-import com.bernardomg.association.profile.domain.model.ContactMethod;
-import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
-import com.bernardomg.association.profile.domain.model.ProfileName;
+import com.bernardomg.association.member.domain.model.MemberProfile.ContactChannel;
+import com.bernardomg.association.member.domain.model.MemberProfile.ContactMethod;
+import com.bernardomg.association.member.domain.model.MemberProfile.Name;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
 import com.bernardomg.pagination.domain.Sorting.Property;
@@ -54,13 +54,13 @@ import com.bernardomg.ucronia.openapi.model.SortingDto;
 public final class MemberProfileDtoMapper {
 
     public static final MemberProfile toDomain(final long number, final MemberProfileUpdateDto change) {
-        final ProfileName                name;
+        final Name                       name;
         final Collection<ContactChannel> contactChannels;
         final MemberProfile.FeeType      feeType;
 
         feeType = new MemberProfile.FeeType(change.getFeeType(), "", 0f);
 
-        name = new ProfileName(change.getName()
+        name = new Name(change.getName()
             .getFirstName(),
             change.getName()
                 .getLastName());
@@ -74,12 +74,12 @@ public final class MemberProfileDtoMapper {
     }
 
     public static final MemberProfile toDomain(final MemberProfileCreationDto creation) {
-        final ProfileName           name;
+        final Name                  name;
         final MemberProfile.FeeType feeType;
 
         feeType = new MemberProfile.FeeType(creation.getFeeType(), "", 0f);
 
-        name = new ProfileName(creation.getName()
+        name = new Name(creation.getName()
             .getFirstName(),
             creation.getName()
                 .getLastName());

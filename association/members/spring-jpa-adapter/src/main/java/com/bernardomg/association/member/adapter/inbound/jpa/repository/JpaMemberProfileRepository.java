@@ -46,9 +46,9 @@ import com.bernardomg.association.member.adapter.inbound.jpa.model.ReadMemberPro
 import com.bernardomg.association.member.adapter.inbound.jpa.specification.ReadMemberProfileSpecifications;
 import com.bernardomg.association.member.domain.filter.MemberProfileFilter;
 import com.bernardomg.association.member.domain.model.MemberProfile;
+import com.bernardomg.association.member.domain.model.MemberProfile.ContactChannel;
+import com.bernardomg.association.member.domain.model.MemberProfile.ContactMethod;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
-import com.bernardomg.association.profile.domain.model.ContactMethod;
-import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;

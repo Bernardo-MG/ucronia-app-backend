@@ -31,14 +31,15 @@ import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
-import com.bernardomg.association.profile.domain.model.ProfileName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-public record MemberProfile(String identifier, Long number, ProfileName name, Instant birthDate,
+public record MemberProfile(String identifier, Long number, Name name, Instant birthDate,
         Collection<ContactChannel> contactChannels, String address, String comments, Boolean active, Boolean renew,
         FeeType feeType, Set<String> types) {
 
-    public MemberProfile(final String identifier, final Long number, final ProfileName name, final Instant birthDate,
+    public static final String PROFILE_TYPE = "member";
+
+    public MemberProfile(final String identifier, final Long number, final Name name, final Instant birthDate,
             final Collection<ContactChannel> contactChannels, final String address, final String comments,
             final Boolean active, final Boolean renew, final FeeType feeType, final Set<String> types) {
         this.identifier = identifier;
@@ -54,6 +55,21 @@ public record MemberProfile(String identifier, Long number, ProfileName name, In
         this.types = Set.copyOf(types);
     }
 
+    public record Name(String firstName, String lastName) {
+
+        public Name(final String firstName, final String lastName) {
+            this.firstName = StringUtils.trim(firstName);
+            this.lastName = StringUtils.trim(lastName);
+        }
+
+        @JsonProperty("fullName")
+        public final String fullName() {
+            return String.format("%s %s", firstName, lastName)
+                .trim();
+        }
+
+    }
+
     public record FeeType(Long number, String name, Float amount) {}
 
     public MemberProfile deactivated() {
@@ -64,6 +80,14 @@ public record MemberProfile(String identifier, Long number, ProfileName name, In
     public MemberProfile activated() {
         return new MemberProfile(identifier, number, name, birthDate, contactChannels, address, comments, true, true,
             feeType, types);
+    }
+
+    public record ContactChannel(ContactMethod contactMethod, String detail) {
+
+    }
+
+    public record ContactMethod(Long number, String name) {
+
     }
 
 }

@@ -24,7 +24,7 @@ public class MemberProfileEntity implements Serializable {
      *
      */
     @Transient
-    private static final long serialVersionUID = -4798244714782690891L;
+    private static final long        serialVersionUID = -4798244714782690891L;
 
     @Column(name = "active", nullable = false)
     private Boolean                  active;

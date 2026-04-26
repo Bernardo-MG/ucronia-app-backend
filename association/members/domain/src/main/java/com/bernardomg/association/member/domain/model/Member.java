@@ -24,8 +24,25 @@
 
 package com.bernardomg.association.member.domain.model;
 
-import com.bernardomg.association.profile.domain.model.ProfileName;
+import org.apache.commons.lang3.StringUtils;
 
-public record Member(Long number, ProfileName name, boolean renew) {
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public record Member(Long number, Name name, boolean renew) {
+
+    public record Name(String firstName, String lastName) {
+
+        public Name(final String firstName, final String lastName) {
+            this.firstName = StringUtils.trim(firstName);
+            this.lastName = StringUtils.trim(lastName);
+        }
+
+        @JsonProperty("fullName")
+        public final String fullName() {
+            return String.format("%s %s", firstName, lastName)
+                .trim();
+        }
+
+    }
 
 }

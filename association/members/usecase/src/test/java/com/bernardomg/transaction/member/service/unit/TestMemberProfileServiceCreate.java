@@ -40,10 +40,10 @@ import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.repository.MemberFeeTypeRepository;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
+import com.bernardomg.association.member.test.configuration.factory.MemberConstants;
 import com.bernardomg.association.member.test.configuration.factory.MemberProfiles;
 import com.bernardomg.association.member.usecase.service.DefaultMemberProfileService;
 import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
-import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
@@ -77,14 +77,14 @@ class TestMemberProfileServiceCreate {
         member = MemberProfiles.active();
 
         given(memberFeeTypeRepository.exists(FeeConstants.FEE_TYPE_NUMBER)).willReturn(true);
-        given(memberProfileRepository.existsByIdentifier(ProfileConstants.IDENTIFIER)).willReturn(true);
+        given(memberProfileRepository.existsByIdentifier(MemberConstants.IDENTIFIER)).willReturn(true);
 
         // WHEN
         execution = () -> service.create(member);
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
-            new FieldFailure("existing", "identifier", ProfileConstants.IDENTIFIER));
+            new FieldFailure("existing", "identifier", MemberConstants.IDENTIFIER));
     }
 
     @Test

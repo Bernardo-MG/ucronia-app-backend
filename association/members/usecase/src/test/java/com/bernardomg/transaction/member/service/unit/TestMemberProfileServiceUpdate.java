@@ -43,10 +43,10 @@ import com.bernardomg.association.member.domain.exception.MissingMemberFeeTypeEx
 import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.repository.MemberFeeTypeRepository;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
+import com.bernardomg.association.member.test.configuration.factory.MemberConstants;
 import com.bernardomg.association.member.test.configuration.factory.MemberProfiles;
 import com.bernardomg.association.member.usecase.service.DefaultMemberProfileService;
 import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
-import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
@@ -80,17 +80,16 @@ class TestMemberProfileServiceUpdate {
         member = MemberProfiles.active();
 
         given(memberFeeTypeRepository.exists(FeeConstants.FEE_TYPE_NUMBER)).willReturn(true);
-        given(memberProfileRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
-        given(
-            memberProfileRepository.existsByIdentifierForAnother(ProfileConstants.NUMBER, ProfileConstants.IDENTIFIER))
-                .willReturn(true);
+        given(memberProfileRepository.exists(MemberConstants.NUMBER)).willReturn(true);
+        given(memberProfileRepository.existsByIdentifierForAnother(MemberConstants.NUMBER, MemberConstants.IDENTIFIER))
+            .willReturn(true);
 
         // WHEN
         execution = () -> service.update(member);
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
-            new FieldFailure("existing", "identifier", ProfileConstants.IDENTIFIER));
+            new FieldFailure("existing", "identifier", MemberConstants.IDENTIFIER));
     }
 
     @Test
@@ -102,7 +101,7 @@ class TestMemberProfileServiceUpdate {
         // GIVEN
         member = MemberProfiles.nameChange();
 
-        given(memberProfileRepository.exists(ProfileConstants.NUMBER)).willReturn(false);
+        given(memberProfileRepository.exists(MemberConstants.NUMBER)).willReturn(false);
 
         // WHEN
         execution = () -> service.update(member);
@@ -121,7 +120,7 @@ class TestMemberProfileServiceUpdate {
         // GIVEN
         member = MemberProfiles.nameChange();
 
-        given(memberProfileRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
+        given(memberProfileRepository.exists(MemberConstants.NUMBER)).willReturn(true);
         given(memberFeeTypeRepository.exists(FeeTypeConstants.NUMBER)).willReturn(false);
 
         // WHEN
@@ -140,7 +139,7 @@ class TestMemberProfileServiceUpdate {
         // GIVEN
         member = MemberProfiles.padded();
 
-        given(memberProfileRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
+        given(memberProfileRepository.exists(MemberConstants.NUMBER)).willReturn(true);
         given(memberFeeTypeRepository.exists(FeeTypeConstants.NUMBER)).willReturn(true);
 
         // WHEN
@@ -157,7 +156,7 @@ class TestMemberProfileServiceUpdate {
 
         // GIVEN
         member = MemberProfiles.nameChange();
-        given(memberProfileRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
+        given(memberProfileRepository.exists(MemberConstants.NUMBER)).willReturn(true);
         given(memberFeeTypeRepository.exists(FeeTypeConstants.NUMBER)).willReturn(true);
         given(memberProfileRepository.save(MemberProfiles.nameChange())).willReturn(MemberProfiles.nameChange());
 
@@ -177,7 +176,7 @@ class TestMemberProfileServiceUpdate {
         // GIVEN
         member = MemberProfiles.nameChange();
 
-        given(memberProfileRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
+        given(memberProfileRepository.exists(MemberConstants.NUMBER)).willReturn(true);
         given(memberFeeTypeRepository.exists(FeeTypeConstants.NUMBER)).willReturn(true);
         given(memberProfileRepository.save(MemberProfiles.nameChange())).willReturn(MemberProfiles.nameChange());
 

@@ -41,10 +41,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.repository.MemberFeeTypeRepository;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
+import com.bernardomg.association.member.test.configuration.factory.MemberConstants;
 import com.bernardomg.association.member.test.configuration.factory.MemberProfiles;
 import com.bernardomg.association.member.usecase.service.DefaultMemberProfileService;
 import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
-import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultMemberProfileService - delete")
@@ -70,14 +70,13 @@ class TestMemberProfileServiceDelete {
     @DisplayName("When deleting the repository is called")
     void testDelete_CallsRepository() {
         // GIVEN
-        given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
-            .willReturn(Optional.of(MemberProfiles.active()));
+        given(memberProfileRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(MemberProfiles.active()));
 
         // WHEN
-        service.delete(ProfileConstants.NUMBER);
+        service.delete(MemberConstants.NUMBER);
 
         // THEN
-        verify(memberProfileRepository).delete(ProfileConstants.NUMBER);
+        verify(memberProfileRepository).delete(MemberConstants.NUMBER);
     }
 
     @Test
@@ -86,10 +85,10 @@ class TestMemberProfileServiceDelete {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(memberProfileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.empty());
+        given(memberProfileRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.delete(ProfileConstants.NUMBER);
+        execution = () -> service.delete(MemberConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)

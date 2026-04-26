@@ -40,9 +40,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.test.configuration.factory.MemberConstants;
 import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.association.member.usecase.service.DefaultMemberService;
-import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultMemberService - get one")
@@ -64,10 +64,10 @@ class TestMemberServiceGetOne {
         final Optional<Member> member;
 
         // GIVEN
-        given(memberRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(Members.valid()));
+        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.valid()));
 
         // WHEN
-        member = service.getOne(ProfileConstants.NUMBER);
+        member = service.getOne(MemberConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(member)
@@ -80,10 +80,10 @@ class TestMemberServiceGetOne {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(memberRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.empty());
+        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.getOne(ProfileConstants.NUMBER);
+        execution = () -> service.getOne(MemberConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)

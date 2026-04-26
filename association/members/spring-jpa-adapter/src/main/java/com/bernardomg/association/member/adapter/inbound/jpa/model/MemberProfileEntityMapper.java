@@ -30,9 +30,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.bernardomg.association.member.domain.model.MemberProfile;
-import com.bernardomg.association.profile.domain.model.ContactMethod;
-import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
-import com.bernardomg.association.profile.domain.model.ProfileName;
+import com.bernardomg.association.member.domain.model.MemberProfile.ContactChannel;
+import com.bernardomg.association.member.domain.model.MemberProfile.ContactMethod;
+import com.bernardomg.association.member.domain.model.MemberProfile.Name;
 
 /**
  * Update guest entity mapper.
@@ -41,7 +41,7 @@ public final class MemberProfileEntityMapper {
 
     public static final MemberProfile toDomain(final MemberProfileEntity entity) {
         final MemberProfile.FeeType      feeType;
-        final ProfileName                name;
+        final Name                       name;
         final Collection<ContactChannel> contactChannels;
 
         feeType = new MemberProfile.FeeType(entity.getFeeType()
@@ -51,7 +51,7 @@ public final class MemberProfileEntityMapper {
             entity.getFeeType()
                 .getAmount());
 
-        name = new ProfileName(entity.getProfile()
+        name = new Name(entity.getProfile()
             .getFirstName(),
             entity.getProfile()
                 .getLastName());
@@ -78,7 +78,7 @@ public final class MemberProfileEntityMapper {
 
     public static final MemberProfile toDomain(final ReadMemberProfileEntity entity) {
         final MemberProfile.FeeType      feeType;
-        final ProfileName                name;
+        final Name                       name;
         final Collection<ContactChannel> contactChannels;
 
         feeType = new MemberProfile.FeeType(entity.getFeeType()
@@ -88,7 +88,7 @@ public final class MemberProfileEntityMapper {
             entity.getFeeType()
                 .getAmount());
 
-        name = new ProfileName(entity.getFirstName(), entity.getLastName());
+        name = new Name(entity.getFirstName(), entity.getLastName());
 
         contactChannels = entity.getContactChannels()
             .stream()

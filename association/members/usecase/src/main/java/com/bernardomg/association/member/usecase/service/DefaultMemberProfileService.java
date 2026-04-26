@@ -34,14 +34,14 @@ import com.bernardomg.association.member.domain.exception.MissingMemberException
 import com.bernardomg.association.member.domain.exception.MissingMemberFeeTypeException;
 import com.bernardomg.association.member.domain.filter.MemberProfileFilter;
 import com.bernardomg.association.member.domain.model.MemberProfile;
+import com.bernardomg.association.member.domain.model.MemberProfile.ContactChannel;
+import com.bernardomg.association.member.domain.model.MemberProfile.ContactMethod;
+import com.bernardomg.association.member.domain.model.MemberProfile.Name;
 import com.bernardomg.association.member.domain.repository.MemberFeeTypeRepository;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.member.usecase.validation.MemberProfileIdentifierNotExistForAnotherRule;
 import com.bernardomg.association.member.usecase.validation.MemberProfileIdentifierNotExistRule;
 import com.bernardomg.association.profile.domain.exception.MissingContactMethodException;
-import com.bernardomg.association.profile.domain.model.ContactMethod;
-import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
-import com.bernardomg.association.profile.domain.model.ProfileName;
 import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -252,12 +252,12 @@ public final class DefaultMemberProfileService implements MemberProfileService {
     }
 
     private final MemberProfile copy(final MemberProfile existing, final MemberProfile updated) {
-        final ProfileName name;
+        final Name name;
 
         if (updated.name() == null) {
             name = existing.name();
         } else {
-            name = new ProfileName(Optional.ofNullable(updated.name()
+            name = new Name(Optional.ofNullable(updated.name()
                 .firstName())
                 .orElse(existing.name()
                     .firstName()),

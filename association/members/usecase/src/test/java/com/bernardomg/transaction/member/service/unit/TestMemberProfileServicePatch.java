@@ -45,10 +45,10 @@ import com.bernardomg.association.member.domain.exception.MissingMemberFeeTypeEx
 import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.repository.MemberFeeTypeRepository;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
+import com.bernardomg.association.member.test.configuration.factory.MemberConstants;
 import com.bernardomg.association.member.test.configuration.factory.MemberProfiles;
 import com.bernardomg.association.member.usecase.service.DefaultMemberProfileService;
 import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
-import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
@@ -82,17 +82,16 @@ class TestMemberProfileServicePatch {
         member = MemberProfiles.active();
 
         given(memberFeeTypeRepository.exists(FeeConstants.FEE_TYPE_NUMBER)).willReturn(true);
-        given(memberProfileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(member));
-        given(
-            memberProfileRepository.existsByIdentifierForAnother(ProfileConstants.NUMBER, ProfileConstants.IDENTIFIER))
-                .willReturn(true);
+        given(memberProfileRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(member));
+        given(memberProfileRepository.existsByIdentifierForAnother(MemberConstants.NUMBER, MemberConstants.IDENTIFIER))
+            .willReturn(true);
 
         // WHEN
         execution = () -> service.patch(member);
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
-            new FieldFailure("existing", "identifier", ProfileConstants.IDENTIFIER));
+            new FieldFailure("existing", "identifier", MemberConstants.IDENTIFIER));
     }
 
     @Test
@@ -104,7 +103,7 @@ class TestMemberProfileServicePatch {
         // GIVEN
         member = MemberProfiles.nameChange();
 
-        given(memberProfileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.empty());
+        given(memberProfileRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
         execution = () -> service.patch(member);
@@ -123,8 +122,7 @@ class TestMemberProfileServicePatch {
         // GIVEN
         member = MemberProfiles.nameChange();
 
-        given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
-            .willReturn(Optional.of(MemberProfiles.active()));
+        given(memberProfileRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(MemberProfiles.active()));
         given(memberFeeTypeRepository.exists(FeeTypeConstants.NUMBER)).willReturn(false);
 
         // WHEN
@@ -143,8 +141,7 @@ class TestMemberProfileServicePatch {
         // GIVEN
         member = MemberProfiles.nameChangePatch();
 
-        given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
-            .willReturn(Optional.of(MemberProfiles.active()));
+        given(memberProfileRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(MemberProfiles.active()));
         given(memberFeeTypeRepository.exists(FeeTypeConstants.NUMBER)).willReturn(true);
 
         // WHEN
@@ -162,8 +159,7 @@ class TestMemberProfileServicePatch {
         // GIVEN
         member = MemberProfiles.padded();
 
-        given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
-            .willReturn(Optional.of(MemberProfiles.active()));
+        given(memberProfileRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(MemberProfiles.active()));
         given(memberFeeTypeRepository.exists(FeeTypeConstants.NUMBER)).willReturn(true);
 
         // WHEN
@@ -181,8 +177,7 @@ class TestMemberProfileServicePatch {
         // GIVEN
         member = MemberProfiles.nameChange();
 
-        given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
-            .willReturn(Optional.of(MemberProfiles.active()));
+        given(memberProfileRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(MemberProfiles.active()));
         given(memberFeeTypeRepository.exists(FeeTypeConstants.NUMBER)).willReturn(true);
 
         // WHEN
@@ -201,8 +196,7 @@ class TestMemberProfileServicePatch {
         // GIVEN
         member = MemberProfiles.nameChange();
 
-        given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
-            .willReturn(Optional.of(MemberProfiles.active()));
+        given(memberProfileRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(MemberProfiles.active()));
         given(memberFeeTypeRepository.exists(FeeTypeConstants.NUMBER)).willReturn(true);
         given(memberProfileRepository.save(MemberProfiles.nameChange())).willReturn(MemberProfiles.nameChange());
 

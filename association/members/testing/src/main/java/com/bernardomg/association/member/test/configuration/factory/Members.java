@@ -2,37 +2,36 @@
 package com.bernardomg.association.member.test.configuration.factory;
 
 import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.profile.domain.model.ProfileName;
-import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
+import com.bernardomg.association.member.domain.model.Member.Name;
 
 public final class Members {
 
     public static final Member alternative() {
-        final ProfileName name;
+        final Name name;
 
-        name = new ProfileName(ProfileConstants.ALTERNATIVE_FIRST_NAME, ProfileConstants.ALTERNATIVE_LAST_NAME);
-        return new Member(ProfileConstants.ALTERNATIVE_NUMBER, name, true);
+        name = new Name(MemberConstants.ALTERNATIVE_FIRST_NAME, MemberConstants.ALTERNATIVE_LAST_NAME);
+        return new Member(MemberConstants.ALTERNATIVE_NUMBER, name, true);
     }
 
     public static final Member forNumber(final long number) {
-        final ProfileName name;
+        final Name name;
 
-        name = new ProfileName("Name " + number, "Last name " + number);
+        name = new Name("Name " + number, "Last name " + number);
         return new Member(number * 10, name, true);
     }
 
     public static final Member noRenew() {
-        final ProfileName name;
+        final Name name;
 
-        name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        return new Member(ProfileConstants.NUMBER, name, false);
+        name = new Name(MemberConstants.FIRST_NAME, MemberConstants.LAST_NAME);
+        return new Member(MemberConstants.NUMBER, name, false);
     }
 
     public static final Member valid() {
-        final ProfileName name;
+        final Name name;
 
-        name = new ProfileName(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        return new Member(ProfileConstants.NUMBER, name, true);
+        name = new Name(MemberConstants.FIRST_NAME, MemberConstants.LAST_NAME);
+        return new Member(MemberConstants.NUMBER, name, true);
     }
 
 }

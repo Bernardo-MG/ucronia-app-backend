@@ -40,9 +40,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
+import com.bernardomg.association.member.test.configuration.factory.MemberConstants;
 import com.bernardomg.association.member.test.configuration.factory.MemberProfiles;
 import com.bernardomg.association.member.usecase.service.DefaultMemberStatusService;
-import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Member status service - activate if current")
@@ -65,10 +65,10 @@ class TestMemberStatusServiceActivateIfCurrent {
         final Long      number;
 
         // GIVEN
-        given(memberProfileRepository.findOne(ProfileConstants.NUMBER))
+        given(memberProfileRepository.findOne(MemberConstants.NUMBER))
             .willReturn(Optional.of(MemberProfiles.inactive()));
         date = YearMonth.now();
-        number = ProfileConstants.NUMBER;
+        number = MemberConstants.NUMBER;
 
         // WHEN
         service.activateIfCurrent(date, number);
@@ -86,7 +86,7 @@ class TestMemberStatusServiceActivateIfCurrent {
         // GIVEN
         date = YearMonth.now()
             .plusMonths(1);
-        number = ProfileConstants.NUMBER;
+        number = MemberConstants.NUMBER;
 
         // WHEN
         service.activateIfCurrent(date, number);
@@ -104,7 +104,7 @@ class TestMemberStatusServiceActivateIfCurrent {
         // GIVEN
         date = YearMonth.now()
             .minusMonths(1);
-        number = ProfileConstants.NUMBER;
+        number = MemberConstants.NUMBER;
 
         // WHEN
         service.activateIfCurrent(date, number);
