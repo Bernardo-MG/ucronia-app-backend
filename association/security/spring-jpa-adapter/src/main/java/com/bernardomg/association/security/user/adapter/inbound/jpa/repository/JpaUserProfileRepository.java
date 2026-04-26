@@ -31,10 +31,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
-import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntityMapper;
-import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 import com.bernardomg.association.profile.domain.model.Profile;
+import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserInnerProfileEntity;
+import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserInnerProfileEntityMapper;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserProfileEntity;
 import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
 import com.bernardomg.security.user.adapter.inbound.jpa.model.UserEntity;
@@ -46,16 +45,16 @@ public final class JpaUserProfileRepository implements UserProfileRepository {
     /**
      * Logger for the class.
      */
-    private static final Logger               log = LoggerFactory.getLogger(JpaUserProfileRepository.class);
+    private static final Logger                    log = LoggerFactory.getLogger(JpaUserProfileRepository.class);
 
-    private final ProfileSpringRepository     profileSpringRepository;
+    private final UserInnerProfileSpringRepository profileSpringRepository;
 
-    private final UserProfileSpringRepository userProfileSpringRepository;
+    private final UserProfileSpringRepository      userProfileSpringRepository;
 
-    private final UserSpringRepository        userSpringRepository;
+    private final UserSpringRepository             userSpringRepository;
 
     public JpaUserProfileRepository(final UserProfileSpringRepository userProfileSpringRepo,
-            final UserSpringRepository userSpringRepo, final ProfileSpringRepository profileSpringRepo) {
+            final UserSpringRepository userSpringRepo, final UserInnerProfileSpringRepository profileSpringRepo) {
         super();
 
         userProfileSpringRepository = Objects.requireNonNull(userProfileSpringRepo);
@@ -65,10 +64,10 @@ public final class JpaUserProfileRepository implements UserProfileRepository {
 
     @Override
     public final Profile assignProfile(final String username, final long number) {
-        final UserProfileEntity       userProfile;
-        final Optional<UserEntity>    user;
-        final Optional<ProfileEntity> profile;
-        final Profile                 result;
+        final UserProfileEntity                userProfile;
+        final Optional<UserEntity>             user;
+        final Optional<UserInnerProfileEntity> profile;
+        final Profile                          result;
 
         log.trace("Assigning profile {} to username {}", number, username);
 
@@ -82,7 +81,7 @@ public final class JpaUserProfileRepository implements UserProfileRepository {
             userProfile.setUser(user.get());
 
             userProfileSpringRepository.save(userProfile);
-            result = ProfileEntityMapper.toDomain(profile.get());
+            result = UserInnerProfileEntityMapper.toDomain(profile.get());
 
             log.trace("Assigned profile {} to username {}", number, username);
         } else {
@@ -116,7 +115,7 @@ public final class JpaUserProfileRepository implements UserProfileRepository {
 
         userMember = userProfileSpringRepository.findByUserUsername(username);
         if (userMember.isPresent()) {
-            profile = Optional.of(ProfileEntityMapper.toDomain(userMember.get()
+            profile = Optional.of(UserInnerProfileEntityMapper.toDomain(userMember.get()
                 .getProfile()));
         } else {
             profile = Optional.empty();

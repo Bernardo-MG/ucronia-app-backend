@@ -6,8 +6,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
 
-import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
@@ -30,22 +28,22 @@ public class SponsorEntity implements Serializable {
      *
      */
     @Transient
-    private static final long   serialVersionUID = 8139806507534262996L;
+    private static final long         serialVersionUID = 8139806507534262996L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
-    private Long                id;
+    private Long                      id;
 
     @OneToOne(cascade = CascadeType.ALL)
     @MapsId
     @JoinColumn(name = "id")
-    private ProfileEntity       profile;
+    private SponsorInnerProfileEntity profile;
 
     @ElementCollection
     @CollectionTable(name = "sponsor_years", schema = "directory", joinColumns = @JoinColumn(name = "sponsor_id"))
     @Column(name = "year")
-    private Collection<Integer> years            = new HashSet<>();
+    private Collection<Integer>       years            = new HashSet<>();
 
     @Override
     public boolean equals(final Object obj) {
@@ -62,7 +60,7 @@ public class SponsorEntity implements Serializable {
         return id;
     }
 
-    public ProfileEntity getProfile() {
+    public SponsorInnerProfileEntity getProfile() {
         return profile;
     }
 
@@ -79,7 +77,7 @@ public class SponsorEntity implements Serializable {
         this.id = id;
     }
 
-    public void setProfile(final ProfileEntity profile) {
+    public void setProfile(final SponsorInnerProfileEntity profile) {
         this.profile = profile;
     }
 

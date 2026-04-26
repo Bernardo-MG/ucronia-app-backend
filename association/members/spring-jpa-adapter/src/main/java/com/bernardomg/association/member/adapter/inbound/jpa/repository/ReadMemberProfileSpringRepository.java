@@ -79,13 +79,6 @@ public interface ReadMemberProfileSpringRepository
             """)
     public Optional<ReadMemberProfileEntity> findByNumber(@Param("number") final Long number);
 
-    @Query("""
-            SELECT m
-            FROM ReadMemberProfile m
-            WHERE m.id = :id
-            """)
-    public Optional<ReadMemberProfileEntity> findByProfileId(@Param("id") final Long id);
-
     @Query("SELECT COALESCE(MAX(m.number), 0) + 1 FROM ReadMemberProfile m")
     public Long findNextNumber();
 

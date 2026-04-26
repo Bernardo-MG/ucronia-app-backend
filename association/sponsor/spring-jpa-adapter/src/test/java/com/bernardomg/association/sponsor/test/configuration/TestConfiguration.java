@@ -29,9 +29,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ContactMethodSpringRepository;
-import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.repository.JpaSponsorRepository;
+import com.bernardomg.association.sponsor.adapter.inbound.jpa.repository.ReadSponsorSpringRepository;
+import com.bernardomg.association.sponsor.adapter.inbound.jpa.repository.SponsorContactMethodSpringRepository;
+import com.bernardomg.association.sponsor.adapter.inbound.jpa.repository.SponsorInnerProfileSpringRepository;
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.repository.SponsorSpringRepository;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
 
@@ -44,10 +45,11 @@ public class TestConfiguration {
 
     @Bean("sponsorRepository")
     public SponsorRepository getSponsorRepository(final SponsorSpringRepository sponsorSpringRepository,
-            final ContactMethodSpringRepository contactMethodSpringRepository,
-            final ProfileSpringRepository profileSpringRepository) {
-        return new JpaSponsorRepository(sponsorSpringRepository, contactMethodSpringRepository,
-            profileSpringRepository);
+            final ReadSponsorSpringRepository readSponsorSpringRepository,
+            final SponsorContactMethodSpringRepository contactMethodSpringRepository,
+            final SponsorInnerProfileSpringRepository sponsorInnerProfileSpringRepository) {
+        return new JpaSponsorRepository(sponsorSpringRepository, readSponsorSpringRepository,
+            contactMethodSpringRepository, sponsorInnerProfileSpringRepository);
     }
 
 }

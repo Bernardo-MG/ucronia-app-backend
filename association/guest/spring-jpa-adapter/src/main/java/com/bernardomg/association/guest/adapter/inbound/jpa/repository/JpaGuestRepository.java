@@ -36,17 +36,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.association.guest.adapter.inbound.jpa.model.GuestContactMethodEntity;
 import com.bernardomg.association.guest.adapter.inbound.jpa.model.GuestEntity;
 import com.bernardomg.association.guest.adapter.inbound.jpa.model.GuestEntityConstants;
 import com.bernardomg.association.guest.adapter.inbound.jpa.model.GuestEntityMapper;
+import com.bernardomg.association.guest.adapter.inbound.jpa.model.GuestInnerProfileEntity;
+import com.bernardomg.association.guest.adapter.inbound.jpa.model.ReadGuestEntity;
 import com.bernardomg.association.guest.adapter.inbound.jpa.specification.GuestSpecifications;
 import com.bernardomg.association.guest.domain.filter.GuestFilter;
 import com.bernardomg.association.guest.domain.model.Guest;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
-import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactMethodEntity;
-import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
-import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ContactMethodSpringRepository;
-import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 import com.bernardomg.association.profile.domain.model.ContactMethod;
 import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
 import com.bernardomg.pagination.domain.Page;
@@ -61,34 +60,33 @@ public final class JpaGuestRepository implements GuestRepository {
     /**
      * Logger for the class.
      */
-    private static final Logger                 log                = LoggerFactory.getLogger(JpaGuestRepository.class);
+    private static final Logger                      log = LoggerFactory.getLogger(JpaGuestRepository.class);
 
-    private static final Collection<String>     PROFILE_PROPERTIES = List.of("firstName", "lastName", "number");
+    private final GuestContactMethodSpringRepository guestContactMethodSpringRepository;
 
-    private final ContactMethodSpringRepository contactMethodSpringRepository;
+    private final GuestInnerProfileSpringRepository  guestInnerProfileSpringRepository;
 
-    private final GuestSpringRepository         guestSpringRepository;
+    private final GuestSpringRepository              guestSpringRepository;
 
-    private final ProfileSpringRepository       profileSpringRepository;
+    private final ReadGuestSpringRepository          readGuestSpringRepository;
 
     public JpaGuestRepository(final GuestSpringRepository guestSpringRepo,
-            final ContactMethodSpringRepository contactMethodSpringRepo,
-            final ProfileSpringRepository profileSpringRepo) {
+            final ReadGuestSpringRepository readGuestSpringRepo,
+            final GuestInnerProfileSpringRepository guestInnerProfileSpringRepo,
+            final GuestContactMethodSpringRepository guestContactMethodSpringRepo) {
         super();
 
         guestSpringRepository = Objects.requireNonNull(guestSpringRepo);
-        contactMethodSpringRepository = Objects.requireNonNull(contactMethodSpringRepo);
-        // TODO: remove profile repository
-        profileSpringRepository = Objects.requireNonNull(profileSpringRepo);
+        readGuestSpringRepository = Objects.requireNonNull(readGuestSpringRepo);
+        guestInnerProfileSpringRepository = Objects.requireNonNull(guestInnerProfileSpringRepo);
+        guestContactMethodSpringRepository = Objects.requireNonNull(guestContactMethodSpringRepo);
     }
 
     @Override
     public final void delete(final long number) {
         log.debug("Deleting guest {}", number);
 
-        // TODO: delete on cascade from the profile
-        guestSpringRepository.deleteByNumber(number);
-        profileSpringRepository.deleteByNumber(number);
+        readGuestSpringRepository.deleteByNumber(number);
 
         log.debug("Deleted guest {}", number);
     }
@@ -99,7 +97,7 @@ public final class JpaGuestRepository implements GuestRepository {
 
         log.debug("Checking if guest {} exists", number);
 
-        exists = guestSpringRepository.existsByNumber(number);
+        exists = readGuestSpringRepository.existsByNumber(number);
 
         log.debug("Guest {} exists: {}", number, exists);
 
@@ -112,7 +110,7 @@ public final class JpaGuestRepository implements GuestRepository {
 
         log.debug("Checking if guest identifier {} exists", identifier);
 
-        exists = profileSpringRepository.existsByIdentifier(identifier);
+        exists = readGuestSpringRepository.existsByIdentifier(identifier);
 
         log.debug("Guest identifier {} exists: {}", identifier, exists);
 
@@ -125,7 +123,7 @@ public final class JpaGuestRepository implements GuestRepository {
 
         log.debug("Checking if identifier {} exists for a guest distinct from {}", identifier, number);
 
-        exists = profileSpringRepository.existsByIdentifierForAnother(number, identifier);
+        exists = readGuestSpringRepository.existsByIdentifierForAnother(number, identifier);
 
         log.debug("Identifier {} exists for a guest distinct from {}: {}", identifier, number, exists);
 
@@ -136,7 +134,7 @@ public final class JpaGuestRepository implements GuestRepository {
     public final Page<Guest> findAll(final GuestFilter filter, final Pagination pagination, final Sorting sorting) {
         final org.springframework.data.domain.Page<Guest> read;
         final Pageable                                    pageable;
-        final Optional<Specification<GuestEntity>>        spec;
+        final Optional<Specification<ReadGuestEntity>>    spec;
         final Sorting                                     fixedSorting;
 
         fixedSorting = fixSorting(sorting);
@@ -146,10 +144,10 @@ public final class JpaGuestRepository implements GuestRepository {
         pageable = SpringPagination.toPageable(pagination, fixedSorting);
         spec = GuestSpecifications.query(filter);
         if (spec.isEmpty()) {
-            read = guestSpringRepository.findAll(pageable)
+            read = readGuestSpringRepository.findAll(pageable)
                 .map(GuestEntityMapper::toDomain);
         } else {
-            read = guestSpringRepository.findAll(spec.get(), pageable)
+            read = readGuestSpringRepository.findAll(spec.get(), pageable)
                 .map(GuestEntityMapper::toDomain);
         }
 
@@ -165,7 +163,7 @@ public final class JpaGuestRepository implements GuestRepository {
 
         log.trace("Finding guest with number {}", number);
 
-        guest = guestSpringRepository.findByNumber(number)
+        guest = readGuestSpringRepository.findByNumber(number)
             .map(GuestEntityMapper::toDomain);
 
         log.trace("Found guest with number {}: {}", number, guest);
@@ -175,12 +173,12 @@ public final class JpaGuestRepository implements GuestRepository {
 
     @Override
     public final Guest save(final Guest guest) {
-        final Optional<GuestEntity>           existing;
-        final GuestEntity                     entity;
-        final Guest                           created;
-        final Collection<ContactMethodEntity> contactMethods;
-        final Long                            number;
-        final Optional<ProfileEntity>         profile;
+        final Optional<GuestEntity>                existing;
+        final GuestEntity                          entity;
+        final Guest                                created;
+        final Collection<GuestContactMethodEntity> contactMethods;
+        final Long                                 number;
+        final Optional<GuestInnerProfileEntity>    profile;
 
         log.debug("Saving guest {}", guest);
 
@@ -191,11 +189,11 @@ public final class JpaGuestRepository implements GuestRepository {
         } else {
             entity = GuestEntityMapper.toEntity(guest, contactMethods);
 
-            profile = profileSpringRepository.findByNumber(guest.number());
+            profile = guestInnerProfileSpringRepository.findByNumber(guest.number());
             if (profile.isPresent()) {
                 entity.setProfile(profile.get());
             } else {
-                number = guestSpringRepository.findNextNumber();
+                number = readGuestSpringRepository.findNextNumber();
                 entity.getProfile()
                     .setNumber(number);
             }
@@ -224,19 +222,12 @@ public final class JpaGuestRepository implements GuestRepository {
                 }
                 return prop;
             })
-            // Fix profile properties
-            .map(prop -> {
-                if (PROFILE_PROPERTIES.contains(prop.name())) {
-                    return new Property("profile." + prop.name(), prop.direction());
-                }
-                return prop;
-            })
             .toList();
 
         return new Sorting(properties);
     }
 
-    private final Collection<ContactMethodEntity> getContactMethods(final Guest guest) {
+    private final Collection<GuestContactMethodEntity> getContactMethods(final Guest guest) {
         final Collection<Long> contactMethodNumbers;
 
         contactMethodNumbers = guest.contactChannels()
@@ -244,10 +235,10 @@ public final class JpaGuestRepository implements GuestRepository {
             .map(ContactChannel::contactMethod)
             .map(ContactMethod::number)
             .toList();
-        return contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
+        return guestContactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
     }
 
-    private final void setType(final ProfileEntity entity) {
+    private final void setType(final GuestInnerProfileEntity entity) {
         if (entity.getTypes() == null) {
             entity.setTypes(new HashSet<>(List.of(GuestEntityConstants.PROFILE_TYPE)));
         } else {

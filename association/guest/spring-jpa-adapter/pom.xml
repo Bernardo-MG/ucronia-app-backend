@@ -34,10 +34,6 @@
          <artifactId>association-guest-domain</artifactId>
       </dependency>
       <dependency>
-         <groupId>com.bernardomg.association.profile</groupId>
-         <artifactId>association-profile-spring-jpa-adapter</artifactId>
-      </dependency>
-      <dependency>
          <groupId>org.springframework.data</groupId>
          <artifactId>spring-data-jpa</artifactId>
       </dependency>
@@ -53,12 +49,22 @@
          <groupId>jakarta.transaction</groupId>
          <artifactId>jakarta.transaction-api</artifactId>
       </dependency>
+      <dependency>
+	     <groupId>org.hibernate.orm</groupId>
+	     <artifactId>hibernate-core</artifactId>
+	     <scope>provided</scope>
+	  </dependency>
       <!-- ============================================== -->
       <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
       <!-- ============================================== -->
       <dependency>
          <groupId>com.bernardomg.association.guest</groupId>
          <artifactId>association-guest-testing</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.association.profile</groupId>
+         <artifactId>association-profile-spring-jpa-adapter</artifactId>
          <scope>test</scope>
       </dependency>
       <dependency>

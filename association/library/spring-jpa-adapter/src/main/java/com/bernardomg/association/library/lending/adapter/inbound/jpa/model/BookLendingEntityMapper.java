@@ -29,7 +29,6 @@ import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.lending.domain.model.BookLending.LentBook;
 import com.bernardomg.association.library.lending.domain.model.Borrower;
-import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
 
 /**
  * Author repository mapper.
@@ -37,24 +36,24 @@ import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntit
 public final class BookLendingEntityMapper {
 
     public static final BookLending toDomain(final BookLendingEntity entity, final BookEntity bookEntity,
-            final ProfileEntity profileEntity) {
+            final BorrowerEntity borrowerEntity) {
         final Borrower borrower;
         final LentBook lentBook;
         final Title    title;
 
-        borrower = BorrowerEntityMapper.toDomain(profileEntity);
+        borrower = BorrowerEntityMapper.toDomain(borrowerEntity);
         title = new Title(bookEntity.getSupertitle(), bookEntity.getTitle(), bookEntity.getSubtitle());
         lentBook = new LentBook(bookEntity.getNumber(), title);
         return new BookLending(lentBook, borrower, entity.getLendingDate(), entity.getReturnDate());
     }
 
     public static final BookLendingEntity toEntity(final BookLending domain, final BookEntity bookEntity,
-            final ProfileEntity profileEntity) {
+            final BorrowerEntity borrowerEntity) {
         final BookLendingEntity entity;
 
         entity = new BookLendingEntity();
         entity.setBookId(bookEntity.getId());
-        entity.setProfileId(profileEntity.getId());
+        entity.setProfileId(borrowerEntity.getId());
         entity.setLendingDate(domain.lendingDate());
         entity.setReturnDate(domain.returnDate());
 

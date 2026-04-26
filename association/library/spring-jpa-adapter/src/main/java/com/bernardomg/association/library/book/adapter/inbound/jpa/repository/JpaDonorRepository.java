@@ -8,8 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.library.book.domain.repository.DonorRepository;
-import com.bernardomg.association.profile.adapter.inbound.jpa.repository.JpaProfileRepository;
-import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 
 @Transactional
 public final class JpaDonorRepository implements DonorRepository {
@@ -17,25 +15,25 @@ public final class JpaDonorRepository implements DonorRepository {
     /**
      * Logger for the class.
      */
-    private static final Logger           log = LoggerFactory.getLogger(JpaProfileRepository.class);
+    private static final Logger         log = LoggerFactory.getLogger(JpaDonorRepository.class);
 
-    private final ProfileSpringRepository profileSpringRepository;
+    private final DonorSpringRepository donorSpringRepository;
 
-    public JpaDonorRepository(final ProfileSpringRepository profileSpringRepo) {
+    public JpaDonorRepository(final DonorSpringRepository donorSpringRepo) {
         super();
 
-        profileSpringRepository = Objects.requireNonNull(profileSpringRepo);
+        donorSpringRepository = Objects.requireNonNull(donorSpringRepo);
     }
 
     @Override
     public final boolean exists(final long number) {
         final boolean exists;
 
-        log.debug("Checking if profile {} exists", number);
+        log.debug("Checking if donor {} exists", number);
 
-        exists = profileSpringRepository.existsByNumber(number);
+        exists = donorSpringRepository.existsByNumber(number);
 
-        log.debug("Profile {} exists: {}", number, exists);
+        log.debug("Donor {} exists: {}", number, exists);
 
         return exists;
     }

@@ -38,13 +38,12 @@ import com.bernardomg.association.library.book.adapter.inbound.jpa.repository.Bo
 import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.BookLendingEntity;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.BookLendingEntityMapper;
+import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.BorrowerEntity;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.BorrowerEntityMapper;
 import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.lending.domain.model.BookLending.LentBook;
 import com.bernardomg.association.library.lending.domain.model.Borrower;
 import com.bernardomg.association.library.lending.domain.repository.BookLendingRepository;
-import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
-import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
@@ -62,15 +61,15 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
 
     private final BookSpringRepository        bookSpringRepository;
 
-    private final ProfileSpringRepository     profileSpringRepository;
+    private final BorrowerSpringRepository    borrowerSpringRepository;
 
     public JpaBookLendingRepository(final BookLendingSpringRepository bookLendingSpringRepo,
-            final BookSpringRepository bookSpringRepo, final ProfileSpringRepository profileSpringRepo) {
+            final BookSpringRepository bookSpringRepo, final BorrowerSpringRepository borrowerSpringRepo) {
         super();
 
         bookLendingSpringRepository = Objects.requireNonNull(bookLendingSpringRepo);
         bookSpringRepository = Objects.requireNonNull(bookSpringRepo);
-        profileSpringRepository = Objects.requireNonNull(profileSpringRepo);
+        borrowerSpringRepository = Objects.requireNonNull(borrowerSpringRepo);
     }
 
     @Override
@@ -164,24 +163,24 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
 
     @Override
     public final BookLending save(final BookLending lending) {
-        final BookLendingEntity       toCreate;
-        final BookLendingEntity       created;
-        final BookLending             saved;
-        final Optional<BookEntity>    bookEntity;
-        final Optional<ProfileEntity> profileEntity;
+        final BookLendingEntity        toCreate;
+        final BookLendingEntity        created;
+        final BookLending              saved;
+        final Optional<BookEntity>     bookEntity;
+        final Optional<BorrowerEntity> borrower;
 
         log.debug("Saving book lending {}", lending);
 
         bookEntity = bookSpringRepository.findByNumber(lending.book()
             .number());
-        profileEntity = profileSpringRepository.findByNumber(lending.borrower()
+        borrower = borrowerSpringRepository.findByNumber(lending.borrower()
             .number());
 
-        if ((bookEntity.isPresent()) && (profileEntity.isPresent())) {
-            toCreate = BookLendingEntityMapper.toEntity(lending, bookEntity.get(), profileEntity.get());
+        if ((bookEntity.isPresent()) && (borrower.isPresent())) {
+            toCreate = BookLendingEntityMapper.toEntity(lending, bookEntity.get(), borrower.get());
 
             created = bookLendingSpringRepository.save(toCreate);
-            saved = BookLendingEntityMapper.toDomain(created, bookEntity.get(), profileEntity.get());
+            saved = BookLendingEntityMapper.toDomain(created, bookEntity.get(), borrower.get());
 
             log.debug("Saved book lending {}", lending);
         } else {
@@ -199,7 +198,7 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
         final Title                title;
 
         bookEntity = bookSpringRepository.findById(entity.getBookId());
-        borrower = profileSpringRepository.findById(entity.getProfileId())
+        borrower = borrowerSpringRepository.findById(entity.getProfileId())
             .map(BorrowerEntityMapper::toDomain);
         title = new Title(bookEntity.get()
             .getSupertitle(),

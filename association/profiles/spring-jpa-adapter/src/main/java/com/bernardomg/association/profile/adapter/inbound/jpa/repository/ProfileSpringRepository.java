@@ -24,7 +24,6 @@
 
 package com.bernardomg.association.profile.adapter.inbound.jpa.repository;
 
-import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -51,8 +50,6 @@ public interface ProfileSpringRepository
             @Param("identifier") final String identifier);
 
     public boolean existsByNumber(final Long number);
-
-    public Collection<ProfileEntity> findAllByNumberIn(final Collection<Long> numbers);
 
     public Optional<ProfileEntity> findByNumber(final Long number);
 

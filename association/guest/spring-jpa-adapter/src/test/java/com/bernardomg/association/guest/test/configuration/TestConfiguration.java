@@ -29,11 +29,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+import com.bernardomg.association.guest.adapter.inbound.jpa.repository.GuestContactMethodSpringRepository;
+import com.bernardomg.association.guest.adapter.inbound.jpa.repository.GuestInnerProfileSpringRepository;
 import com.bernardomg.association.guest.adapter.inbound.jpa.repository.GuestSpringRepository;
 import com.bernardomg.association.guest.adapter.inbound.jpa.repository.JpaGuestRepository;
+import com.bernardomg.association.guest.adapter.inbound.jpa.repository.ReadGuestSpringRepository;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
-import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ContactMethodSpringRepository;
-import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 
 @Configuration
 @EnableJpaRepositories(basePackages = { "com.bernardomg.association.guest.adapter.inbound.jpa",
@@ -44,9 +45,11 @@ public class TestConfiguration {
 
     @Bean("guestRepository")
     public GuestRepository getGuestRepository(final GuestSpringRepository guestSpringRepository,
-            final ContactMethodSpringRepository contactMethodSpringRepository,
-            final ProfileSpringRepository profileSpringRepository) {
-        return new JpaGuestRepository(guestSpringRepository, contactMethodSpringRepository, profileSpringRepository);
+            final ReadGuestSpringRepository readGuestSpringRepository,
+            final GuestInnerProfileSpringRepository guestInnerProfileSpringRepository,
+            final GuestContactMethodSpringRepository contactMethodSpringRepository) {
+        return new JpaGuestRepository(guestSpringRepository, readGuestSpringRepository,
+            guestInnerProfileSpringRepository, contactMethodSpringRepository);
     }
 
 }
