@@ -9,15 +9,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.PrimaryKeyJoinColumn;
-import jakarta.persistence.SecondaryTable;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
 @Entity(name = "Borrower")
-@Table(schema = "directory", name = "members")
-@SecondaryTable(schema = "directory", name = "profiles",
-        pkJoinColumns = @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id"))
+@Table(schema = "directory", name = "profiles")
 public class BorrowerEntity implements Serializable {
 
     /**
@@ -26,7 +22,7 @@ public class BorrowerEntity implements Serializable {
     @Transient
     private static final long serialVersionUID = 8139806507534262996L;
 
-    @Column(name = "first_name", table = "profiles", nullable = false)
+    @Column(name = "first_name", nullable = false)
     private String            firstName;
 
     @Id
@@ -34,13 +30,13 @@ public class BorrowerEntity implements Serializable {
     @Column(name = "id", nullable = false, unique = true)
     private Long              id;
 
-    @Column(name = "identifier", table = "profiles")
+    @Column(name = "identifier")
     private String            identifier;
 
-    @Column(name = "last_name", table = "profiles")
+    @Column(name = "last_name")
     private String            lastName;
 
-    @Column(name = "number", table = "profiles")
+    @Column(name = "number")
     private Long              number;
 
     @Override
