@@ -30,7 +30,6 @@ import java.util.Collection;
 
 import com.bernardomg.association.library.author.adapter.inbound.jpa.model.AuthorEntity;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.model.PublisherEntity;
-import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -66,7 +65,7 @@ public class BookEntity implements Serializable {
     @JoinTable(schema = "inventory", name = "book_donors",
             joinColumns = { @JoinColumn(name = "book_id", referencedColumnName = "id") },
             inverseJoinColumns = { @JoinColumn(name = "donor_id", referencedColumnName = "id") })
-    private Collection<ProfileEntity>   donors;
+    private Collection<DonorEntity>     donors;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -108,7 +107,7 @@ public class BookEntity implements Serializable {
         return donationDate;
     }
 
-    public Collection<ProfileEntity> getDonors() {
+    public Collection<DonorEntity> getDonors() {
         return donors;
     }
 
@@ -156,7 +155,7 @@ public class BookEntity implements Serializable {
         this.donationDate = donationDate;
     }
 
-    public void setDonors(final Collection<ProfileEntity> donors) {
+    public void setDonors(final Collection<DonorEntity> donors) {
         this.donors = donors;
     }
 

@@ -11,8 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.BorrowerEntityMapper;
 import com.bernardomg.association.library.lending.domain.model.Borrower;
 import com.bernardomg.association.library.lending.domain.repository.BorrowerRepository;
-import com.bernardomg.association.profile.adapter.inbound.jpa.repository.JpaProfileRepository;
-import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 
 @Transactional
 public final class JpaBorrowerRepository implements BorrowerRepository {
@@ -20,14 +18,14 @@ public final class JpaBorrowerRepository implements BorrowerRepository {
     /**
      * Logger for the class.
      */
-    private static final Logger           log = LoggerFactory.getLogger(JpaProfileRepository.class);
+    private static final Logger            log = LoggerFactory.getLogger(JpaBorrowerRepository.class);
 
-    private final ProfileSpringRepository profileSpringRepository;
+    private final BorrowerSpringRepository borrowerSpringRepository;
 
-    public JpaBorrowerRepository(final ProfileSpringRepository profileSpringRepo) {
+    public JpaBorrowerRepository(final BorrowerSpringRepository borrowerSpringRepo) {
         super();
 
-        profileSpringRepository = Objects.requireNonNull(profileSpringRepo);
+        borrowerSpringRepository = Objects.requireNonNull(borrowerSpringRepo);
     }
 
     @Override
@@ -36,7 +34,7 @@ public final class JpaBorrowerRepository implements BorrowerRepository {
 
         log.debug("Finding borrower with number {}", number);
 
-        borrower = profileSpringRepository.findByNumber(number)
+        borrower = borrowerSpringRepository.findByNumber(number)
             .map(BorrowerEntityMapper::toDomain);
 
         log.debug("Found borrower with number {}: {}", number, borrower);

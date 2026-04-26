@@ -26,14 +26,13 @@ package com.bernardomg.association.library.lending.adapter.inbound.jpa.model;
 
 import com.bernardomg.association.library.lending.domain.model.Borrower;
 import com.bernardomg.association.library.lending.domain.model.BorrowerName;
-import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
 
 /**
  * Author repository mapper.
  */
 public final class BorrowerEntityMapper {
 
-    public static final Borrower toDomain(final ProfileEntity entity) {
+    public static final Borrower toDomain(final BorrowerEntity entity) {
         final BorrowerName name;
 
         name = new BorrowerName(entity.getFirstName(), entity.getLastName());

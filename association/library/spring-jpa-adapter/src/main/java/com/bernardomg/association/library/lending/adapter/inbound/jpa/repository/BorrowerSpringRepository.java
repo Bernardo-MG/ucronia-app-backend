@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.library.book.adapter.inbound.jpa.repository;
+package com.bernardomg.association.library.lending.adapter.inbound.jpa.repository;
 
 import java.util.Optional;
 
@@ -30,9 +30,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.bernardomg.association.library.book.adapter.inbound.jpa.model.BorrowerEntity;
+import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.BorrowerEntity;
 
 public interface BorrowerSpringRepository extends JpaRepository<BorrowerEntity, Long> {
+
+    public Optional<BorrowerEntity> findByNumber(final long number);
 
     @Query("""
             SELECT m

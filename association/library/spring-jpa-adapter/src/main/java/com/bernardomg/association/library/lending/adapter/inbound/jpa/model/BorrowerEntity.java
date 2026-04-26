@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.library.book.adapter.inbound.jpa.model;
+package com.bernardomg.association.library.lending.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
 import java.util.Objects;

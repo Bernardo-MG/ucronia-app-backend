@@ -22,38 +22,18 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.profile.adapter.inbound.jpa.repository;
+package com.bernardomg.association.library.book.adapter.inbound.jpa.repository;
 
-import java.util.Optional;
+import java.util.Collection;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
-import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
+import com.bernardomg.association.library.book.adapter.inbound.jpa.model.DonorEntity;
 
-public interface ProfileSpringRepository
-        extends JpaRepository<ProfileEntity, Long>, JpaSpecificationExecutor<ProfileEntity> {
-
-    public void deleteByNumber(final Long number);
-
-    public boolean existsByIdentifier(final String identifier);
-
-    @Query("""
-            SELECT CASE WHEN COUNT(p) > 0 THEN TRUE ELSE FALSE END AS exists
-            FROM Profile p
-            WHERE p.number != :number
-              AND p.identifier = :identifier
-            """)
-    public boolean existsByIdentifierForAnother(@Param("number") final Long number,
-            @Param("identifier") final String identifier);
+public interface DonorSpringRepository extends JpaRepository<DonorEntity, Long> {
 
     public boolean existsByNumber(final Long number);
 
-    public Optional<ProfileEntity> findByNumber(final Long number);
-
-    @Query("SELECT COALESCE(MAX(p.number), 0) + 1 FROM Profile p")
-    public Long findNextNumber();
+    public Collection<DonorEntity> findAllByNumberIn(final Collection<Long> numbers);
 
 }

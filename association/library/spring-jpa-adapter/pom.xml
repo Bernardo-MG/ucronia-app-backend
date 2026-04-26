@@ -37,14 +37,6 @@
          <groupId>org.springframework.data</groupId>
          <artifactId>spring-data-jpa</artifactId>
       </dependency>
-      <dependency>
-         <groupId>com.bernardomg.association.profile</groupId>
-         <artifactId>association-profile-spring-jpa-adapter</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.association.transaction</groupId>
-         <artifactId>association-transaction-spring-jpa-adapter</artifactId>
-      </dependency>
       <!-- ============================================== -->
       <!-- ============== JPA DEPENDENCIES ============== -->
       <!-- ============================================== -->
@@ -73,6 +65,16 @@
       <dependency>
          <groupId>com.bernardomg.association.fee</groupId>
          <artifactId>association-fee-spring-jpa-adapter</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.association.profile</groupId>
+         <artifactId>association-profile-spring-jpa-adapter</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.association.transaction</groupId>
+         <artifactId>association-transaction-spring-jpa-adapter</artifactId>
          <scope>test</scope>
       </dependency>
       <dependency>

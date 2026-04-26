@@ -40,8 +40,10 @@ import com.bernardomg.association.library.author.adapter.inbound.jpa.model.Autho
 import com.bernardomg.association.library.author.adapter.inbound.jpa.repository.AuthorSpringRepository;
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.model.BookEntityMapper;
+import com.bernardomg.association.library.book.adapter.inbound.jpa.model.DonorEntity;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.model.GameBookEntity;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.model.GameBookEntityMapper;
+import com.bernardomg.association.library.book.domain.exception.MissingDonorException;
 import com.bernardomg.association.library.book.domain.model.BookLendingInfo;
 import com.bernardomg.association.library.book.domain.model.Donation;
 import com.bernardomg.association.library.book.domain.model.Donor;
@@ -54,13 +56,11 @@ import com.bernardomg.association.library.gamesystem.adapter.inbound.jpa.model.G
 import com.bernardomg.association.library.gamesystem.adapter.inbound.jpa.repository.GameSystemSpringRepository;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.BookLendingEntity;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.repository.BookLendingSpringRepository;
+import com.bernardomg.association.library.lending.adapter.inbound.jpa.repository.BorrowerSpringRepository;
 import com.bernardomg.association.library.lending.domain.model.Borrower;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.model.PublisherEntity;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.repository.PublisherSpringRepository;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
-import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
-import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
-import com.bernardomg.association.profile.domain.exception.MissingProfileException;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
@@ -86,16 +86,16 @@ public final class JpaGameBookRepository implements GameBookRepository {
 
     private final BorrowerSpringRepository    borrowerSpringRepository;
 
-    private final GameSystemSpringRepository  gameSystemSpringRepository;
+    private final DonorSpringRepository       donorSpringRepository;
 
-    private final ProfileSpringRepository     profileSpringRepository;
+    private final GameSystemSpringRepository  gameSystemSpringRepository;
 
     private final PublisherSpringRepository   publisherSpringRepository;
 
     public JpaGameBookRepository(final GameBookSpringRepository bookSpringRepo,
             final AuthorSpringRepository authorSpringRepo, final PublisherSpringRepository publisherSpringRepo,
             final BookTypeSpringRepository bookTypeSpringRepo, final GameSystemSpringRepository gameSystemSpringRepo,
-            final BorrowerSpringRepository borrowerSpringRepo, final ProfileSpringRepository profileSpringRepo,
+            final BorrowerSpringRepository borrowerSpringRepo, final DonorSpringRepository donorSpringRepo,
             final BookLendingSpringRepository bookLendingSpringRepo) {
         super();
 
@@ -105,7 +105,7 @@ public final class JpaGameBookRepository implements GameBookRepository {
         bookTypeSpringRepository = Objects.requireNonNull(bookTypeSpringRepo);
         gameSystemSpringRepository = Objects.requireNonNull(gameSystemSpringRepo);
         borrowerSpringRepository = Objects.requireNonNull(borrowerSpringRepo);
-        profileSpringRepository = Objects.requireNonNull(profileSpringRepo);
+        donorSpringRepository = Objects.requireNonNull(donorSpringRepo);
         bookLendingSpringRepository = Objects.requireNonNull(bookLendingSpringRepo);
     }
 
@@ -286,8 +286,8 @@ public final class JpaGameBookRepository implements GameBookRepository {
         borrower = borrowerSpringRepository.findByProfileId(entity.getProfileId())
             .map(BookEntityMapper::toDomain)
             .orElseThrow(() -> {
-                log.error("Missing profile {}", entity.getProfileId());
-                throw new MissingProfileException(entity.getProfileId());
+                log.error("Missing donor {}", entity.getProfileId());
+                throw new MissingDonorException(entity.getProfileId());
             });
 
         new Title(bookEntity.getSupertitle(), bookEntity.getTitle(), bookEntity.getSubtitle());
@@ -301,7 +301,7 @@ public final class JpaGameBookRepository implements GameBookRepository {
         final Collection<PublisherEntity> publishers;
         final Optional<BookTypeEntity>    bookType;
         final Optional<GameSystemEntity>  gameSystem;
-        final Collection<ProfileEntity>   donors;
+        final Collection<DonorEntity>     donors;
         final Collection<AuthorEntity>    authors;
         final GameBookEntity              entity;
 
@@ -341,7 +341,7 @@ public final class JpaGameBookRepository implements GameBookRepository {
                 .stream()
                 .map(Donor::number)
                 .collect(Collectors.toCollection(ArrayList::new));
-            donors = profileSpringRepository.findAllByNumberIn(donorNumbers);
+            donors = donorSpringRepository.findAllByNumberIn(donorNumbers);
         } else {
             donors = new ArrayList<>();
         }
