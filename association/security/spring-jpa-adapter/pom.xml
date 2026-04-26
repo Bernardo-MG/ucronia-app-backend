@@ -34,10 +34,6 @@
          <artifactId>association-security-domain</artifactId>
       </dependency>
       <dependency>
-         <groupId>com.bernardomg.association.profile</groupId>
-         <artifactId>association-profile-spring-jpa-adapter</artifactId>
-      </dependency>
-      <dependency>
          <groupId>org.springframework.data</groupId>
          <artifactId>spring-data-jpa</artifactId>
       </dependency>
@@ -77,6 +73,11 @@
       <dependency>
          <groupId>com.bernardomg</groupId>
          <artifactId>testing</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.association.profile</groupId>
+         <artifactId>association-profile-spring-jpa-adapter</artifactId>
          <scope>test</scope>
       </dependency>
       <dependency>

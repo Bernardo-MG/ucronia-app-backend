@@ -26,7 +26,6 @@ package com.bernardomg.association.security.user.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
 
-import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
 import com.bernardomg.security.user.adapter.inbound.jpa.model.UserEntity;
 
 import jakarta.persistence.CascadeType;
@@ -46,21 +45,21 @@ public class UserProfileEntity implements Serializable {
      * Serialization ID.
      */
     @Transient
-    private static final long serialVersionUID = -3540074544521251838L;
+    private static final long      serialVersionUID = -3540074544521251838L;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "profile_id", referencedColumnName = "id")
-    private ProfileEntity     profile;
+    private UserInnerProfileEntity profile;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private UserEntity        user;
+    private UserEntity             user;
 
     @Id
     @Column(name = "user_id", nullable = false, unique = true)
-    private Long              userId;
+    private Long                   userId;
 
-    public ProfileEntity getProfile() {
+    public UserInnerProfileEntity getProfile() {
         return profile;
     }
 
@@ -72,7 +71,7 @@ public class UserProfileEntity implements Serializable {
         return userId;
     }
 
-    public void setProfile(final ProfileEntity profile) {
+    public void setProfile(final UserInnerProfileEntity profile) {
         this.profile = profile;
     }
 
