@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.guest.usecase.service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -32,9 +33,11 @@ import org.slf4j.LoggerFactory;
 
 import com.bernardomg.association.guest.domain.exception.GuestExistsException;
 import com.bernardomg.association.guest.domain.model.Guest;
+import com.bernardomg.association.guest.domain.model.Guest.Name;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
 import com.bernardomg.association.profile.domain.exception.MissingProfileException;
 import com.bernardomg.association.profile.domain.model.Profile;
+import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
 import com.bernardomg.association.profile.domain.repository.ProfileRepository;
 
 import jakarta.transaction.Transactional;
@@ -66,9 +69,11 @@ public final class DefaultProfileGuestService implements ProfileGuestService {
 
     @Override
     public final Guest convertToGuest(final long number) {
-        final Profile existing;
-        final Guest   toCreate;
-        final Guest   created;
+        final Profile                          existing;
+        final Guest                            toCreate;
+        final Guest                            created;
+        final Collection<Guest.ContactChannel> contactChannels;
+        final Name                             name;
 
         log.debug("Converting profile {} to guest", number);
 
@@ -82,14 +87,32 @@ public final class DefaultProfileGuestService implements ProfileGuestService {
             throw new GuestExistsException(number);
         }
 
-        toCreate = new Guest(existing.identifier(), existing.number(), existing.name(), existing.birthDate(),
-            existing.contactChannels(), List.of(), existing.address(), existing.comments(), existing.types());
+        contactChannels = existing.contactChannels()
+            .stream()
+            .map(this::toGuestContactChannel)
+            .toList();
+        name = new Name(existing.name()
+            .firstName(),
+            existing.name()
+                .lastName());
+        toCreate = new Guest(existing.identifier(), existing.number(), name, existing.birthDate(), contactChannels,
+            List.of(), existing.address(), existing.comments(), existing.types());
 
         created = guestRepository.save(toCreate);
 
         log.debug("Converted profile {} to guest", number);
 
         return created;
+    }
+
+    private final Guest.ContactChannel toGuestContactChannel(final ContactChannel contactChannel) {
+        final Guest.ContactMethod contactMethod;
+
+        contactMethod = new Guest.ContactMethod(contactChannel.contactMethod()
+            .number(),
+            contactChannel.contactMethod()
+                .name());
+        return new Guest.ContactChannel(contactMethod, contactChannel.detail());
     }
 
 }

@@ -38,10 +38,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.guest.domain.model.Guest;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
+import com.bernardomg.association.guest.test.configuration.factory.GuestConstants;
 import com.bernardomg.association.guest.test.configuration.factory.Guests;
 import com.bernardomg.association.guest.usecase.service.DefaultGuestService;
 import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
-import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
@@ -71,14 +71,14 @@ class TestGuestServiceCreate {
         // GIVEN
         guest = Guests.noGames();
 
-        given(guestRepository.existsByIdentifier(ProfileConstants.IDENTIFIER)).willReturn(true);
+        given(guestRepository.existsByIdentifier(GuestConstants.IDENTIFIER)).willReturn(true);
 
         // WHEN
         execution = () -> service.create(guest);
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
-            new FieldFailure("existing", "identifier", ProfileConstants.IDENTIFIER));
+            new FieldFailure("existing", "identifier", GuestConstants.IDENTIFIER));
     }
 
     @Test

@@ -33,7 +33,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.bernardomg.association.guest.TestApplication;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
 import com.bernardomg.association.guest.test.configuration.data.annotation.ValidGuest;
-import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
+import com.bernardomg.association.guest.test.configuration.factory.GuestConstants;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -51,8 +51,8 @@ class ITGuestRepositoryExistsByIdentifierForAnother {
         final boolean exists;
 
         // WHEN
-        exists = repository.existsByIdentifierForAnother(ProfileConstants.ALTERNATIVE_NUMBER,
-            ProfileConstants.IDENTIFIER);
+        exists = repository.existsByIdentifierForAnother(GuestConstants.ALTERNATIVE_NUMBER,
+            GuestConstants.IDENTIFIER);
 
         // THEN
         Assertions.assertThat(exists)
@@ -67,7 +67,7 @@ class ITGuestRepositoryExistsByIdentifierForAnother {
         final boolean exists;
 
         // WHEN
-        exists = repository.existsByIdentifierForAnother(ProfileConstants.NUMBER, ProfileConstants.IDENTIFIER);
+        exists = repository.existsByIdentifierForAnother(GuestConstants.NUMBER, GuestConstants.IDENTIFIER);
 
         // THEN
         Assertions.assertThat(exists)
@@ -81,7 +81,7 @@ class ITGuestRepositoryExistsByIdentifierForAnother {
         final boolean exists;
 
         // WHEN
-        exists = repository.existsByIdentifierForAnother(ProfileConstants.NUMBER, ProfileConstants.IDENTIFIER);
+        exists = repository.existsByIdentifierForAnother(GuestConstants.NUMBER, GuestConstants.IDENTIFIER);
 
         // THEN
         Assertions.assertThat(exists)
@@ -96,7 +96,7 @@ class ITGuestRepositoryExistsByIdentifierForAnother {
         final boolean exists;
 
         // WHEN
-        exists = repository.existsByIdentifierForAnother(ProfileConstants.NUMBER, "abc");
+        exists = repository.existsByIdentifierForAnother(GuestConstants.NUMBER, "abc");
 
         // THEN
         Assertions.assertThat(exists)

@@ -33,7 +33,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.bernardomg.association.guest.TestApplication;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
 import com.bernardomg.association.guest.test.configuration.data.annotation.ValidGuest;
-import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
+import com.bernardomg.association.guest.test.configuration.factory.GuestConstants;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -51,7 +51,7 @@ class ITGuestRepositoryExistsByIdentifier {
         final boolean exists;
 
         // WHEN
-        exists = repository.existsByIdentifier(ProfileConstants.IDENTIFIER);
+        exists = repository.existsByIdentifier(GuestConstants.IDENTIFIER);
 
         // THEN
         Assertions.assertThat(exists)
@@ -65,7 +65,7 @@ class ITGuestRepositoryExistsByIdentifier {
         final boolean exists;
 
         // WHEN
-        exists = repository.existsByIdentifier(ProfileConstants.IDENTIFIER);
+        exists = repository.existsByIdentifier(GuestConstants.IDENTIFIER);
 
         // THEN
         Assertions.assertThat(exists)

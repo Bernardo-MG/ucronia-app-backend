@@ -45,9 +45,9 @@ import com.bernardomg.association.guest.adapter.inbound.jpa.model.ReadGuestEntit
 import com.bernardomg.association.guest.adapter.inbound.jpa.specification.GuestSpecifications;
 import com.bernardomg.association.guest.domain.filter.GuestFilter;
 import com.bernardomg.association.guest.domain.model.Guest;
+import com.bernardomg.association.guest.domain.model.Guest.ContactChannel;
+import com.bernardomg.association.guest.domain.model.Guest.ContactMethod;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
-import com.bernardomg.association.profile.domain.model.ContactMethod;
-import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;

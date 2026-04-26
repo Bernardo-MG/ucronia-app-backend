@@ -33,13 +33,13 @@ import org.slf4j.LoggerFactory;
 import com.bernardomg.association.guest.domain.exception.MissingGuestException;
 import com.bernardomg.association.guest.domain.filter.GuestFilter;
 import com.bernardomg.association.guest.domain.model.Guest;
+import com.bernardomg.association.guest.domain.model.Guest.ContactChannel;
+import com.bernardomg.association.guest.domain.model.Guest.ContactMethod;
+import com.bernardomg.association.guest.domain.model.Guest.Name;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
 import com.bernardomg.association.guest.usecase.validation.GuestIdentifierNotExistForAnotherRule;
 import com.bernardomg.association.guest.usecase.validation.GuestIdentifierNotExistRule;
 import com.bernardomg.association.profile.domain.exception.MissingContactMethodException;
-import com.bernardomg.association.profile.domain.model.ContactMethod;
-import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
-import com.bernardomg.association.profile.domain.model.ProfileName;
 import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -219,12 +219,12 @@ public final class DefaultGuestService implements GuestService {
     }
 
     private final Guest copy(final Guest existing, final Guest updated) {
-        final ProfileName name;
+        final Name name;
 
         if (updated.name() == null) {
             name = existing.name();
         } else {
-            name = new ProfileName(Optional.ofNullable(updated.name()
+            name = new Name(Optional.ofNullable(updated.name()
                 .firstName())
                 .orElse(existing.name()
                     .firstName()),

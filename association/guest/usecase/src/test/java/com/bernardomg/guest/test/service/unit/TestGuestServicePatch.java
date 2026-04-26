@@ -41,10 +41,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.association.guest.domain.exception.MissingGuestException;
 import com.bernardomg.association.guest.domain.model.Guest;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
+import com.bernardomg.association.guest.test.configuration.factory.GuestConstants;
 import com.bernardomg.association.guest.test.configuration.factory.Guests;
 import com.bernardomg.association.guest.usecase.service.DefaultGuestService;
 import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
-import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
@@ -74,8 +74,8 @@ class TestGuestServicePatch {
         // GIVEN
         guest = Guests.noGames();
 
-        given(guestRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(guest));
-        given(guestRepository.existsByIdentifierForAnother(ProfileConstants.NUMBER, ProfileConstants.IDENTIFIER))
+        given(guestRepository.findOne(GuestConstants.NUMBER)).willReturn(Optional.of(guest));
+        given(guestRepository.existsByIdentifierForAnother(GuestConstants.NUMBER, GuestConstants.IDENTIFIER))
             .willReturn(true);
 
         // WHEN
@@ -83,7 +83,7 @@ class TestGuestServicePatch {
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
-            new FieldFailure("existing", "identifier", ProfileConstants.IDENTIFIER));
+            new FieldFailure("existing", "identifier", GuestConstants.IDENTIFIER));
     }
 
     @Test
@@ -95,7 +95,7 @@ class TestGuestServicePatch {
         // GIVEN
         guest = Guests.firstNameChange();
 
-        given(guestRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.empty());
+        given(guestRepository.findOne(GuestConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
         execution = () -> service.patch(guest);
@@ -113,7 +113,7 @@ class TestGuestServicePatch {
         // GIVEN
         guest = Guests.nameChangePatch();
 
-        given(guestRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(Guests.noGames()));
+        given(guestRepository.findOne(GuestConstants.NUMBER)).willReturn(Optional.of(Guests.noGames()));
 
         // WHEN
         service.patch(guest);
@@ -130,7 +130,7 @@ class TestGuestServicePatch {
         // GIVEN
         guest = Guests.padded();
 
-        given(guestRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(Guests.noGames()));
+        given(guestRepository.findOne(GuestConstants.NUMBER)).willReturn(Optional.of(Guests.noGames()));
 
         // WHEN
         service.patch(guest);
@@ -147,7 +147,7 @@ class TestGuestServicePatch {
         // GIVEN
         guest = Guests.firstNameChange();
 
-        given(guestRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(Guests.noGames()));
+        given(guestRepository.findOne(GuestConstants.NUMBER)).willReturn(Optional.of(Guests.noGames()));
 
         // WHEN
         service.patch(guest);
@@ -165,7 +165,7 @@ class TestGuestServicePatch {
         // GIVEN
         guest = Guests.firstNameChange();
 
-        given(guestRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(Guests.noGames()));
+        given(guestRepository.findOne(GuestConstants.NUMBER)).willReturn(Optional.of(Guests.noGames()));
         given(guestRepository.save(Guests.firstNameChange())).willReturn(Guests.firstNameChange());
 
         // WHEN

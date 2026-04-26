@@ -38,6 +38,10 @@
          <artifactId>association-guest-domain</artifactId>
       </dependency>
       <dependency>
+         <groupId>com.bernardomg.association.profile</groupId>
+         <artifactId>association-profile-domain</artifactId>
+      </dependency>
+      <dependency>
          <groupId>jakarta.transaction</groupId>
          <artifactId>jakarta.transaction-api</artifactId>
       </dependency>
@@ -68,6 +72,14 @@
          <groupId>org.apache.poi</groupId>
          <artifactId>poi-ooxml</artifactId>
          <version>${apache.poi.version}</version>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
+      <!-- ============================================== -->
+      <dependency>
+         <groupId>com.bernardomg.association.profile</groupId>
+         <artifactId>association-profile-testing</artifactId>
+         <scope>test</scope>
       </dependency>
       <dependency>
          <groupId>com.bernardomg.association.guest</groupId>

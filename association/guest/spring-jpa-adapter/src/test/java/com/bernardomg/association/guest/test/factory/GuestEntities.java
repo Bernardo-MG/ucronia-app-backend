@@ -10,9 +10,9 @@ import com.bernardomg.association.guest.adapter.inbound.jpa.model.GuestContactMe
 import com.bernardomg.association.guest.adapter.inbound.jpa.model.GuestEntity;
 import com.bernardomg.association.guest.adapter.inbound.jpa.model.GuestEntityConstants;
 import com.bernardomg.association.guest.adapter.inbound.jpa.model.GuestInnerProfileEntity;
+import com.bernardomg.association.guest.test.configuration.factory.ContactMethodConstants;
 import com.bernardomg.association.guest.test.configuration.factory.Guests;
-import com.bernardomg.association.profile.test.configuration.factory.ContactMethodConstants;
-import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
+import com.bernardomg.association.guest.test.configuration.factory.GuestConstants;
 
 public final class GuestEntities {
 
@@ -96,14 +96,14 @@ public final class GuestEntities {
 
         entity = new GuestInnerProfileEntity();
         entity.setId(1L);
-        entity.setNumber(ProfileConstants.NUMBER);
-        entity.setFirstName(ProfileConstants.CHANGED_FIRST_NAME);
-        entity.setLastName(ProfileConstants.LAST_NAME);
-        entity.setBirthDate(ProfileConstants.BIRTH_DATE);
+        entity.setNumber(GuestConstants.NUMBER);
+        entity.setFirstName(GuestConstants.CHANGED_FIRST_NAME);
+        entity.setLastName(GuestConstants.LAST_NAME);
+        entity.setBirthDate(GuestConstants.BIRTH_DATE);
         entity.setIdentifier("6789");
         entity.setContactChannels(new ArrayList<>());
-        entity.setAddress(ProfileConstants.ADDRESS);
-        entity.setComments(ProfileConstants.COMMENTS);
+        entity.setAddress(GuestConstants.ADDRESS);
+        entity.setComments(GuestConstants.COMMENTS);
         entity.setTypes(new HashSet<>());
 
         return entity;
@@ -114,14 +114,14 @@ public final class GuestEntities {
 
         entity = new GuestInnerProfileEntity();
         entity.setId(1L);
-        entity.setNumber(ProfileConstants.NUMBER);
-        entity.setFirstName(ProfileConstants.FIRST_NAME);
-        entity.setLastName(ProfileConstants.LAST_NAME);
-        entity.setBirthDate(ProfileConstants.BIRTH_DATE);
-        entity.setIdentifier(ProfileConstants.IDENTIFIER);
+        entity.setNumber(GuestConstants.NUMBER);
+        entity.setFirstName(GuestConstants.FIRST_NAME);
+        entity.setLastName(GuestConstants.LAST_NAME);
+        entity.setBirthDate(GuestConstants.BIRTH_DATE);
+        entity.setIdentifier(GuestConstants.IDENTIFIER);
         entity.setContactChannels(new ArrayList<>(List.of()));
-        entity.setAddress(ProfileConstants.ADDRESS);
-        entity.setComments(ProfileConstants.COMMENTS);
+        entity.setAddress(GuestConstants.ADDRESS);
+        entity.setComments(GuestConstants.COMMENTS);
         entity.setTypes(new HashSet<>());
 
         return entity;
@@ -133,18 +133,18 @@ public final class GuestEntities {
 
         contactChannelEntity = new GuestContactChannelEntity();
         contactChannelEntity.setContactMethod(email());
-        contactChannelEntity.setDetail(ProfileConstants.EMAIL);
+        contactChannelEntity.setDetail(GuestConstants.EMAIL);
 
         entity = new GuestInnerProfileEntity();
         entity.setId(1L);
-        entity.setNumber(ProfileConstants.NUMBER);
-        entity.setFirstName(ProfileConstants.FIRST_NAME);
-        entity.setLastName(ProfileConstants.LAST_NAME);
-        entity.setBirthDate(ProfileConstants.BIRTH_DATE);
+        entity.setNumber(GuestConstants.NUMBER);
+        entity.setFirstName(GuestConstants.FIRST_NAME);
+        entity.setLastName(GuestConstants.LAST_NAME);
+        entity.setBirthDate(GuestConstants.BIRTH_DATE);
         entity.setIdentifier("6789");
         entity.setContactChannels(new ArrayList<>(List.of(contactChannelEntity)));
-        entity.setAddress(ProfileConstants.ADDRESS);
-        entity.setComments(ProfileConstants.COMMENTS);
+        entity.setAddress(GuestConstants.ADDRESS);
+        entity.setComments(GuestConstants.COMMENTS);
         entity.setTypes(new HashSet<>());
 
         contactChannelEntity.setProfile(entity);

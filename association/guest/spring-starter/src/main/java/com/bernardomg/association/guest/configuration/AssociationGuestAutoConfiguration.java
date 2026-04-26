@@ -51,7 +51,8 @@ public class AssociationGuestAutoConfiguration {
             final ReadGuestSpringRepository readGuestSpringRepository,
             final GuestInnerProfileSpringRepository guestInnerProfileSpringRepository,
             final GuestContactMethodSpringRepository contactMethodSpringRepository) {
-        return new JpaGuestRepository(guestSpringRepository, readGuestSpringRepository, guestInnerProfileSpringRepository, contactMethodSpringRepository);
+        return new JpaGuestRepository(guestSpringRepository, readGuestSpringRepository,
+            guestInnerProfileSpringRepository, contactMethodSpringRepository);
     }
 
     @Bean("guestService")

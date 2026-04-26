@@ -31,9 +31,9 @@ import java.util.Optional;
 import java.util.Set;
 
 import com.bernardomg.association.guest.domain.model.Guest;
-import com.bernardomg.association.profile.domain.model.ContactMethod;
-import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
-import com.bernardomg.association.profile.domain.model.ProfileName;
+import com.bernardomg.association.guest.domain.model.Guest.ContactChannel;
+import com.bernardomg.association.guest.domain.model.Guest.ContactMethod;
+import com.bernardomg.association.guest.domain.model.Guest.Name;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
 import com.bernardomg.pagination.domain.Sorting.Property;
@@ -54,9 +54,9 @@ import com.bernardomg.ucronia.openapi.model.SortingDto;
 public final class GuestDtoMapper {
 
     public static final Guest toDomain(final GuestCreationDto creation) {
-        final ProfileName name;
+        final Name name;
 
-        name = new ProfileName(creation.getName()
+        name = new Name(creation.getName()
             .getFirstName(),
             creation.getName()
                 .getLastName());
@@ -65,10 +65,10 @@ public final class GuestDtoMapper {
     }
 
     public static final Guest toDomain(final long number, final GuestPatchDto change) {
-        final ProfileName                name;
+        final Name                       name;
         final Collection<ContactChannel> contactChannels;
 
-        name = new ProfileName(change.getName()
+        name = new Name(change.getName()
             .getFirstName(),
             change.getName()
                 .getLastName());
@@ -82,10 +82,10 @@ public final class GuestDtoMapper {
     }
 
     public static final Guest toDomain(final long number, final GuestUpdateDto change) {
-        final ProfileName                name;
+        final Name                       name;
         final Collection<ContactChannel> contactChannels;
 
-        name = new ProfileName(change.getName()
+        name = new Name(change.getName()
             .getFirstName(),
             change.getName()
                 .getLastName());
@@ -149,7 +149,7 @@ public final class GuestDtoMapper {
     }
 
     private static final GuestDto toDto(final Guest guest) {
-        GuestNameDto          name;
+        GuestNameDto            name;
         List<ContactChannelDto> contactChannels;
 
         name = new GuestNameDto().firstName(guest.name()

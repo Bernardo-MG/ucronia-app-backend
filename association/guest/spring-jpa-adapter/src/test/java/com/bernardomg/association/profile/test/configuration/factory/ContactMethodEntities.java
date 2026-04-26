@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.profile.test.configuration.factory;
 
+import com.bernardomg.association.guest.test.configuration.factory.ContactMethodConstants;
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactMethodEntity;
 
 public final class ContactMethodEntities {

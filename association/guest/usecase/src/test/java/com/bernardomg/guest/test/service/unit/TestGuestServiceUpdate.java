@@ -39,10 +39,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.association.guest.domain.exception.MissingGuestException;
 import com.bernardomg.association.guest.domain.model.Guest;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
+import com.bernardomg.association.guest.test.configuration.factory.GuestConstants;
 import com.bernardomg.association.guest.test.configuration.factory.Guests;
 import com.bernardomg.association.guest.usecase.service.DefaultGuestService;
 import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
-import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
@@ -72,8 +72,8 @@ class TestGuestServiceUpdate {
         // GIVEN
         guest = Guests.firstNameChange();
 
-        given(guestRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
-        given(guestRepository.existsByIdentifierForAnother(ProfileConstants.NUMBER, ProfileConstants.IDENTIFIER))
+        given(guestRepository.exists(GuestConstants.NUMBER)).willReturn(true);
+        given(guestRepository.existsByIdentifierForAnother(GuestConstants.NUMBER, GuestConstants.IDENTIFIER))
             .willReturn(true);
 
         // WHEN
@@ -81,7 +81,7 @@ class TestGuestServiceUpdate {
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
-            new FieldFailure("existing", "identifier", ProfileConstants.IDENTIFIER));
+            new FieldFailure("existing", "identifier", GuestConstants.IDENTIFIER));
     }
 
     @Test
@@ -93,7 +93,7 @@ class TestGuestServiceUpdate {
         // GIVEN
         guest = Guests.firstNameChange();
 
-        given(guestRepository.exists(ProfileConstants.NUMBER)).willReturn(false);
+        given(guestRepository.exists(GuestConstants.NUMBER)).willReturn(false);
 
         // WHEN
         execution = () -> service.update(guest);
@@ -111,7 +111,7 @@ class TestGuestServiceUpdate {
         // GIVEN
         guest = Guests.padded();
 
-        given(guestRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
+        given(guestRepository.exists(GuestConstants.NUMBER)).willReturn(true);
 
         // WHEN
         service.update(guest);
@@ -128,7 +128,7 @@ class TestGuestServiceUpdate {
         // GIVEN
         guest = Guests.firstNameChange();
 
-        given(guestRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
+        given(guestRepository.exists(GuestConstants.NUMBER)).willReturn(true);
         given(guestRepository.save(Guests.firstNameChange())).willReturn(Guests.firstNameChange());
 
         // WHEN
@@ -147,7 +147,7 @@ class TestGuestServiceUpdate {
         // GIVEN
         guest = Guests.firstNameChange();
 
-        given(guestRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
+        given(guestRepository.exists(GuestConstants.NUMBER)).willReturn(true);
         given(guestRepository.save(Guests.firstNameChange())).willReturn(Guests.firstNameChange());
 
         // WHEN
