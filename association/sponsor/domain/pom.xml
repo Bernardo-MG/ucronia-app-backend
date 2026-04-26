@@ -30,16 +30,16 @@
 
    <dependencies>
       <dependency>
-         <groupId>com.bernardomg.association.profile</groupId>
-         <artifactId>association-profile-domain</artifactId>
-      </dependency>
-      <dependency>
          <groupId>com.bernardomg.framework</groupId>
          <artifactId>pagination</artifactId>
       </dependency>
       <dependency>
          <groupId>org.apache.commons</groupId>
          <artifactId>commons-lang3</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>com.fasterxml.jackson.core</groupId>
+         <artifactId>jackson-annotations</artifactId>
       </dependency>
    </dependencies>
 

@@ -30,10 +30,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import com.bernardomg.association.profile.domain.model.ContactMethod;
-import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
-import com.bernardomg.association.profile.domain.model.ProfileName;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
+import com.bernardomg.association.sponsor.domain.model.Sponsor.ContactChannel;
+import com.bernardomg.association.sponsor.domain.model.Sponsor.ContactMethod;
+import com.bernardomg.association.sponsor.domain.model.Sponsor.Name;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
 import com.bernardomg.pagination.domain.Sorting.Property;
@@ -54,10 +54,10 @@ import com.bernardomg.ucronia.openapi.model.SponsorUpdateDto;
 public final class SponsorDtoMapper {
 
     public static final Sponsor toDomain(final long number, final SponsorPatchDto change) {
-        final ProfileName                name;
+        final Name                       name;
         final Collection<ContactChannel> contactChannels;
 
-        name = new ProfileName(change.getName()
+        name = new Name(change.getName()
             .getFirstName(),
             change.getName()
                 .getLastName());
@@ -71,10 +71,10 @@ public final class SponsorDtoMapper {
     }
 
     public static final Sponsor toDomain(final long number, final SponsorUpdateDto change) {
-        final ProfileName                name;
+        final Name                       name;
         final Collection<ContactChannel> contactChannels;
 
-        name = new ProfileName(change.getName()
+        name = new Name(change.getName()
             .getFirstName(),
             change.getName()
                 .getLastName());
@@ -88,9 +88,9 @@ public final class SponsorDtoMapper {
     }
 
     public static final Sponsor toDomain(final SponsorCreationDto creation) {
-        final ProfileName name;
+        final Name name;
 
-        name = new ProfileName(creation.getName()
+        name = new Name(creation.getName()
             .getFirstName(),
             creation.getName()
                 .getLastName());

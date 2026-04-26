@@ -31,13 +31,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bernardomg.association.profile.domain.exception.MissingContactMethodException;
-import com.bernardomg.association.profile.domain.model.ContactMethod;
-import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
-import com.bernardomg.association.profile.domain.model.ProfileName;
 import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
 import com.bernardomg.association.sponsor.domain.exception.MissingSponsorException;
 import com.bernardomg.association.sponsor.domain.filter.SponsorFilter;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
+import com.bernardomg.association.sponsor.domain.model.Sponsor.ContactChannel;
+import com.bernardomg.association.sponsor.domain.model.Sponsor.ContactMethod;
+import com.bernardomg.association.sponsor.domain.model.Sponsor.Name;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
 import com.bernardomg.association.sponsor.usecase.validation.SponsorIdentifierNotExistForAnotherRule;
 import com.bernardomg.association.sponsor.usecase.validation.SponsorIdentifierNotExistRule;
@@ -220,12 +220,12 @@ public final class DefaultSponsorService implements SponsorService {
     }
 
     private final Sponsor copy(final Sponsor existing, final Sponsor updated) {
-        final ProfileName name;
+        final Name name;
 
         if (updated.name() == null) {
             name = existing.name();
         } else {
-            name = new ProfileName(Optional.ofNullable(updated.name()
+            name = new Name(Optional.ofNullable(updated.name()
                 .firstName())
                 .orElse(existing.name()
                     .firstName()),

@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.sponsor.usecase.service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -32,9 +33,11 @@ import org.slf4j.LoggerFactory;
 
 import com.bernardomg.association.profile.domain.exception.MissingProfileException;
 import com.bernardomg.association.profile.domain.model.Profile;
+import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
 import com.bernardomg.association.profile.domain.repository.ProfileRepository;
 import com.bernardomg.association.sponsor.domain.exception.SponsorExistsException;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
+import com.bernardomg.association.sponsor.domain.model.Sponsor.Name;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
 
 import jakarta.transaction.Transactional;
@@ -66,9 +69,11 @@ public final class DefaultProfileSponsorshipService implements ProfileSponsorshi
 
     @Override
     public final Sponsor convertToSponsor(final long number) {
-        final Profile existing;
-        final Sponsor toCreate;
-        final Sponsor created;
+        final Profile                            existing;
+        final Sponsor                            toCreate;
+        final Sponsor                            created;
+        final Collection<Sponsor.ContactChannel> contactChannels;
+        final Name                               name;
 
         log.debug("Converting profile {} to sponsor", number);
 
@@ -82,14 +87,32 @@ public final class DefaultProfileSponsorshipService implements ProfileSponsorshi
             throw new SponsorExistsException(number);
         }
 
-        toCreate = new Sponsor(existing.identifier(), existing.number(), existing.name(), existing.birthDate(),
-            existing.contactChannels(), List.of(), existing.address(), existing.comments(), existing.types());
+        contactChannels = existing.contactChannels()
+            .stream()
+            .map(this::toSponsorContactChannel)
+            .toList();
+        name = new Name(existing.name()
+            .firstName(),
+            existing.name()
+                .lastName());
+        toCreate = new Sponsor(existing.identifier(), existing.number(), name, existing.birthDate(), contactChannels,
+            List.of(), existing.address(), existing.comments(), existing.types());
 
         created = sponsorRepository.save(toCreate);
 
         log.debug("Converted profile {} to sponsor", number);
 
         return created;
+    }
+
+    private final Sponsor.ContactChannel toSponsorContactChannel(final ContactChannel contactChannel) {
+        final Sponsor.ContactMethod contactMethod;
+
+        contactMethod = new Sponsor.ContactMethod(contactChannel.contactMethod()
+            .number(),
+            contactChannel.contactMethod()
+                .name());
+        return new Sponsor.ContactChannel(contactMethod, contactChannel.detail());
     }
 
 }

@@ -36,8 +36,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.profile.domain.model.ContactMethod;
-import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.ReadSponsorEntity;
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.SponsorContactMethodEntity;
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.SponsorEntity;
@@ -47,6 +45,8 @@ import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.SponsorInner
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.specification.SponsorSpecifications;
 import com.bernardomg.association.sponsor.domain.filter.SponsorFilter;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
+import com.bernardomg.association.sponsor.domain.model.Sponsor.ContactChannel;
+import com.bernardomg.association.sponsor.domain.model.Sponsor.ContactMethod;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;

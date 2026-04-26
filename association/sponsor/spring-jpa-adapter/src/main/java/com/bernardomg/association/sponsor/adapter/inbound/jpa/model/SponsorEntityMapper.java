@@ -30,10 +30,10 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import com.bernardomg.association.profile.domain.model.ContactMethod;
-import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
-import com.bernardomg.association.profile.domain.model.ProfileName;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
+import com.bernardomg.association.sponsor.domain.model.Sponsor.ContactChannel;
+import com.bernardomg.association.sponsor.domain.model.Sponsor.ContactMethod;
+import com.bernardomg.association.sponsor.domain.model.Sponsor.Name;
 
 /**
  * Update sponsor entity mapper.
@@ -41,10 +41,10 @@ import com.bernardomg.association.sponsor.domain.model.Sponsor;
 public final class SponsorEntityMapper {
 
     public static final Sponsor toDomain(final ReadSponsorEntity entity) {
-        final ProfileName                name;
+        final Name                       name;
         final Collection<ContactChannel> contactChannels;
 
-        name = new ProfileName(entity.getFirstName(), entity.getLastName());
+        name = new Name(entity.getFirstName(), entity.getLastName());
 
         contactChannels = entity.getContactChannels()
             .stream()
@@ -56,10 +56,10 @@ public final class SponsorEntityMapper {
     }
 
     public static final Sponsor toDomain(final SponsorEntity entity) {
-        final ProfileName                name;
+        final Name                       name;
         final Collection<ContactChannel> contactChannels;
 
-        name = new ProfileName(entity.getProfile()
+        name = new Name(entity.getProfile()
             .getFirstName(),
             entity.getProfile()
                 .getLastName());

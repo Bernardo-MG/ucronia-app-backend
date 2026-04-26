@@ -31,14 +31,15 @@ import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
-import com.bernardomg.association.profile.domain.model.ProfileName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-public record Sponsor(String identifier, Long number, ProfileName name, Instant birthDate,
+public record Sponsor(String identifier, Long number, Name name, Instant birthDate,
         Collection<ContactChannel> contactChannels, Collection<Integer> years, String address, String comments,
         Set<String> types) {
 
-    public Sponsor(final String identifier, final Long number, final ProfileName name, final Instant birthDate,
+    public static final String PROFILE_TYPE = "sponsor";
+
+    public Sponsor(final String identifier, final Long number, final Name name, final Instant birthDate,
             final Collection<ContactChannel> contactChannels, final Collection<Integer> years, final String address,
             final String comments, final Set<String> types) {
         this.identifier = identifier;
@@ -50,6 +51,29 @@ public record Sponsor(String identifier, Long number, ProfileName name, Instant 
         this.address = StringUtils.trim(address);
         this.comments = StringUtils.trim(comments);
         this.types = Set.copyOf(types);
+    }
+
+    public record ContactChannel(ContactMethod contactMethod, String detail) {
+
+    }
+
+    public record ContactMethod(Long number, String name) {
+
+    }
+
+    public record Name(String firstName, String lastName) {
+
+        public Name(final String firstName, final String lastName) {
+            this.firstName = StringUtils.trim(firstName);
+            this.lastName = StringUtils.trim(lastName);
+        }
+
+        @JsonProperty("fullName")
+        public final String fullName() {
+            return String.format("%s %s", firstName, lastName)
+                .trim();
+        }
+
     }
 
 }
