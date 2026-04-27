@@ -24,13 +24,9 @@
 
 package com.bernardomg.association.security.user.adapter.outbound.rest.model;
 
-import java.util.List;
 import java.util.Optional;
 
 import com.bernardomg.association.security.account.domain.model.AccountProfile;
-import com.bernardomg.association.security.account.domain.model.AccountProfile.ContactChannel;
-import com.bernardomg.ucronia.openapi.model.ContactChannelDto;
-import com.bernardomg.ucronia.openapi.model.ContactMethodDto;
 import com.bernardomg.ucronia.openapi.model.ProfileDto;
 import com.bernardomg.ucronia.openapi.model.ProfileNameDto;
 import com.bernardomg.ucronia.openapi.model.ProfileResponseDto;
@@ -47,8 +43,7 @@ public final class UserProfileDtoMapper {
     }
 
     private static final ProfileDto toDto(final AccountProfile profile) {
-        ProfileNameDto          name;
-        List<ContactChannelDto> contactChannels;
+        ProfileNameDto name;
 
         name = new ProfileNameDto().firstName(profile.name()
             .firstName())
@@ -56,26 +51,9 @@ public final class UserProfileDtoMapper {
                 .lastName())
             .fullName(profile.name()
                 .fullName());
-        contactChannels = profile.contactChannels()
-            .stream()
-            .map(UserProfileDtoMapper::toDto)
-            .toList();
         return new ProfileDto().identifier(profile.identifier())
             .number(profile.number())
-            .name(name)
-            .birthDate(profile.birthDate())
-            .contactChannels(contactChannels);
-    }
-
-    private static final ContactChannelDto toDto(final ContactChannel profile) {
-        ContactMethodDto method;
-
-        method = new ContactMethodDto().number(profile.contactMethod()
-            .number())
-            .name(profile.contactMethod()
-                .name());
-        return new ContactChannelDto().detail(profile.detail())
-            .method(method);
+            .name(name);
     }
 
     private UserProfileDtoMapper() {

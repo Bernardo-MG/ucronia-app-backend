@@ -24,37 +24,16 @@
 
 package com.bernardomg.association.security.account.domain.model;
 
-import java.time.Instant;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
-
 import org.apache.commons.lang3.StringUtils;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public record AccountProfile(String identifier, Long number, Name name, Instant birthDate,
-        Collection<ContactChannel> contactChannels, String address, String comments, Set<String> types) {
+public record AccountProfile(String identifier, Long number, Name name) {
 
-    public AccountProfile(final String identifier, final Long number, final Name name, final Instant birthDate,
-            final Collection<ContactChannel> contactChannels, final String address, final String comments,
-            final Set<String> types) {
+    public AccountProfile(final String identifier, final Long number, final Name name) {
         this.identifier = identifier;
         this.number = number;
         this.name = name;
-        this.birthDate = birthDate;
-        this.contactChannels = List.copyOf(contactChannels);
-        this.address = StringUtils.trim(address);
-        this.comments = StringUtils.trim(comments);
-        this.types = Set.copyOf(types);
-    }
-
-    public record ContactChannel(ContactMethod contactMethod, String detail) {
-
-    }
-
-    public record ContactMethod(Long number, String name) {
-
     }
 
     public record Name(String firstName, String lastName) {
