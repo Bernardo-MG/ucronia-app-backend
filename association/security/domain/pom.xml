@@ -60,10 +60,6 @@
              </exclusion>
          </exclusions>
       </dependency>
-      <dependency>
-         <groupId>com.bernardomg.association.profile</groupId>
-         <artifactId>association-profile-domain</artifactId>
-      </dependency>
    </dependencies>
 
 </project>

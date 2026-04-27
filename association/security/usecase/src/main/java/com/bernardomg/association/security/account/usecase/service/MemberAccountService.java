@@ -30,7 +30,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bernardomg.association.profile.domain.model.Profile;
+import com.bernardomg.association.security.account.domain.model.AccountProfile;
 import com.bernardomg.association.security.account.domain.model.ProfileAccount;
 import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
 import com.bernardomg.security.account.domain.model.Account;
@@ -65,10 +65,10 @@ public final class MemberAccountService implements AccountService {
 
     @Override
     public final Optional<Account> getCurrentUser() {
-        final Optional<Account> wrappedAccount;
-        final Optional<Account> result;
-        final Account           account;
-        final Optional<Profile> profile;
+        final Optional<Account>        wrappedAccount;
+        final Optional<Account>        result;
+        final Account                  account;
+        final Optional<AccountProfile> profile;
 
         log.debug("Getting account for user in session");
 

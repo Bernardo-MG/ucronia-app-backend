@@ -33,10 +33,6 @@
          <groupId>com.bernardomg.association.security</groupId>
          <artifactId>association-security-domain</artifactId>
       </dependency>
-      <dependency>
-         <groupId>com.bernardomg.association.profile</groupId>
-         <artifactId>association-profile-testing</artifactId>
-      </dependency>
    </dependencies>
 
 </project>

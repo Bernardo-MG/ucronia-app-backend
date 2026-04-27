@@ -32,8 +32,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.bernardomg.association.profile.domain.model.Profile;
-import com.bernardomg.association.profile.test.configuration.factory.Profiles;
+import com.bernardomg.association.security.account.domain.model.AccountProfile;
+import com.bernardomg.association.security.account.test.configuration.factory.AccountProfiles;
 import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
 import com.bernardomg.association.security.user.test.TestApplication;
 import com.bernardomg.association.security.user.test.configuration.ValidUser;
@@ -53,20 +53,20 @@ class ITUserProfileRepositoryFindByUsername {
     @DisplayName("When the user exists it is returned")
     @ValidUserWithProfile
     void testFindByUsername() {
-        final Optional<Profile> profile;
+        final Optional<AccountProfile> profile;
 
         // WHEN
         profile = repository.findByUsername(UserConstants.USERNAME);
 
         // THEN
         Assertions.assertThat(profile)
-            .contains(Profiles.valid());
+            .contains(AccountProfiles.valid());
     }
 
     @Test
     @DisplayName("When no data exists nothing is returned")
     void testFindByUsername_NoData() {
-        final Optional<Profile> profile;
+        final Optional<AccountProfile> profile;
 
         // WHEN
         profile = repository.findByUsername(UserConstants.USERNAME);
@@ -80,7 +80,7 @@ class ITUserProfileRepositoryFindByUsername {
     @DisplayName("When the profile doesn't exist nothing is returned")
     @ValidUser
     void testFindByUsername_NoMember() {
-        final Optional<Profile> profile;
+        final Optional<AccountProfile> profile;
 
         // WHEN
         profile = repository.findByUsername(UserConstants.USERNAME);

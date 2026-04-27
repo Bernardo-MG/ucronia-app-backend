@@ -22,32 +22,14 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.security.account.domain.model;
+package com.bernardomg.association.security.user.domain.repository;
 
-import com.bernardomg.security.account.domain.model.Account;
+import java.util.Optional;
 
-/**
- * Representation of an account linked to a profile.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
- */
-public final record ProfileAccount(String email, String username, String name, AccountProfile profile)
-        implements Account {
+import com.bernardomg.association.security.account.domain.model.AccountProfile;
 
-    @Override
-    public String getEmail() {
-        return email;
-    }
+public interface AccountProfileRepository {
 
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public String getUsername() {
-        return username;
-    }
+    public Optional<AccountProfile> findOne(final Long number);
 
 }

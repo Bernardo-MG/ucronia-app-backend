@@ -27,8 +27,8 @@ package com.bernardomg.association.security.user.adapter.outbound.rest.model;
 import java.util.List;
 import java.util.Optional;
 
-import com.bernardomg.association.profile.domain.model.Profile;
-import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
+import com.bernardomg.association.security.account.domain.model.AccountProfile;
+import com.bernardomg.association.security.account.domain.model.AccountProfile.ContactChannel;
 import com.bernardomg.ucronia.openapi.model.ContactChannelDto;
 import com.bernardomg.ucronia.openapi.model.ContactMethodDto;
 import com.bernardomg.ucronia.openapi.model.ProfileDto;
@@ -37,27 +37,16 @@ import com.bernardomg.ucronia.openapi.model.ProfileResponseDto;
 
 public final class UserProfileDtoMapper {
 
-    public static final ProfileResponseDto toResponseDto(final Optional<Profile> profile) {
+    public static final ProfileResponseDto toResponseDto(final AccountProfile profile) {
+        return new ProfileResponseDto().content(UserProfileDtoMapper.toDto(profile));
+    }
+
+    public static final ProfileResponseDto toResponseDto(final Optional<AccountProfile> profile) {
         return new ProfileResponseDto().content(profile.map(UserProfileDtoMapper::toDto)
             .orElse(null));
     }
 
-    public static final ProfileResponseDto toResponseDto(final Profile profile) {
-        return new ProfileResponseDto().content(UserProfileDtoMapper.toDto(profile));
-    }
-
-    private static final ContactChannelDto toDto(final ContactChannel profile) {
-        ContactMethodDto method;
-
-        method = new ContactMethodDto().number(profile.contactMethod()
-            .number())
-            .name(profile.contactMethod()
-                .name());
-        return new ContactChannelDto().detail(profile.detail())
-            .method(method);
-    }
-
-    private static final ProfileDto toDto(final Profile profile) {
+    private static final ProfileDto toDto(final AccountProfile profile) {
         ProfileNameDto          name;
         List<ContactChannelDto> contactChannels;
 
@@ -76,6 +65,17 @@ public final class UserProfileDtoMapper {
             .name(name)
             .birthDate(profile.birthDate())
             .contactChannels(contactChannels);
+    }
+
+    private static final ContactChannelDto toDto(final ContactChannel profile) {
+        ContactMethodDto method;
+
+        method = new ContactMethodDto().number(profile.contactMethod()
+            .number())
+            .name(profile.contactMethod()
+                .name());
+        return new ContactChannelDto().detail(profile.detail())
+            .method(method);
     }
 
     private UserProfileDtoMapper() {

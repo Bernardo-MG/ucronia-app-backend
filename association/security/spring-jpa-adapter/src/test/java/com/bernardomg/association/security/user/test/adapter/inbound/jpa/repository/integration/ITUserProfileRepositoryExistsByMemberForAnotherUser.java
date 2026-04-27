@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
+import com.bernardomg.association.security.account.test.configuration.factory.AccountProfileConstants;
 import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
 import com.bernardomg.association.security.user.test.TestApplication;
 import com.bernardomg.association.security.user.test.configuration.AlternativeUserWithMember;
@@ -53,7 +53,7 @@ class ITUserProfileRepositoryExistsByMemberForAnotherUser {
         final boolean exists;
 
         // WHEN
-        exists = repository.existsByProfileForAnotherUser(UserConstants.USERNAME, ProfileConstants.NUMBER);
+        exists = repository.existsByProfileForAnotherUser(UserConstants.USERNAME, AccountProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(exists)
@@ -67,7 +67,7 @@ class ITUserProfileRepositoryExistsByMemberForAnotherUser {
         final boolean exists;
 
         // WHEN
-        exists = repository.existsByProfileForAnotherUser(UserConstants.USERNAME, ProfileConstants.NUMBER);
+        exists = repository.existsByProfileForAnotherUser(UserConstants.USERNAME, AccountProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(exists)
@@ -80,7 +80,7 @@ class ITUserProfileRepositoryExistsByMemberForAnotherUser {
         final boolean exists;
 
         // WHEN
-        exists = repository.existsByProfileForAnotherUser(UserConstants.USERNAME, ProfileConstants.NUMBER);
+        exists = repository.existsByProfileForAnotherUser(UserConstants.USERNAME, AccountProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(exists)

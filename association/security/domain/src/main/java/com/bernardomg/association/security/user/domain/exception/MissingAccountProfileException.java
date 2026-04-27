@@ -22,32 +22,36 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.security.account.domain.model;
-
-import com.bernardomg.security.account.domain.model.Account;
+package com.bernardomg.association.security.user.domain.exception;
 
 /**
- * Representation of an account linked to a profile.
+ * Missing account profile exception.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final record ProfileAccount(String email, String username, String name, AccountProfile profile)
-        implements Account {
+public final class MissingAccountProfileException extends RuntimeException {
 
-    @Override
-    public String getEmail() {
-        return email;
+    private static final long serialVersionUID = 2786821546505029631L;
+
+    /**
+     * Id which caused the exception.
+     */
+    private final Long        id;
+
+    public MissingAccountProfileException(final Long id) {
+        super(String.format("Missing id %s for account profile", id));
+
+        this.id = id;
     }
 
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public String getUsername() {
-        return username;
+    /**
+     * Returns the id which caused the exception.
+     *
+     * @return the id which caused the exception
+     */
+    public final Long getId() {
+        return id;
     }
 
 }

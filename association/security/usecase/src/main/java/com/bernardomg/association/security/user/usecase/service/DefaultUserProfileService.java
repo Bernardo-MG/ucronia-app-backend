@@ -30,10 +30,10 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bernardomg.association.profile.domain.exception.MissingProfileException;
-import com.bernardomg.association.profile.domain.model.Profile;
-import com.bernardomg.association.profile.domain.repository.ProfileRepository;
+import com.bernardomg.association.security.account.domain.model.AccountProfile;
+import com.bernardomg.association.security.user.domain.exception.MissingAccountProfileException;
 import com.bernardomg.association.security.user.domain.model.UserProfile;
+import com.bernardomg.association.security.user.domain.repository.AccountProfileRepository;
 import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
 import com.bernardomg.association.security.user.usecase.validation.UserProfileNameNotEmptyRule;
 import com.bernardomg.security.user.domain.exception.MissingUsernameException;
@@ -50,32 +50,32 @@ public final class DefaultUserProfileService implements UserProfileService {
     /**
      * Logger for the class.
      */
-    private static final Logger          log = LoggerFactory.getLogger(DefaultUserProfileService.class);
+    private static final Logger            log = LoggerFactory.getLogger(DefaultUserProfileService.class);
 
-    private final Validator<UserProfile> assignProfileValidator;
+    private final AccountProfileRepository accountProfileRepository;
 
-    private final ProfileRepository      profileRepository;
+    private final Validator<UserProfile>   assignProfileValidator;
 
-    private final UserProfileRepository  userProfileRepository;
+    private final UserProfileRepository    userProfileRepository;
 
-    private final UserRepository         userRepository;
+    private final UserRepository           userRepository;
 
-    public DefaultUserProfileService(final UserRepository userRepo, final ProfileRepository profileRepo,
+    public DefaultUserProfileService(final UserRepository userRepo, final AccountProfileRepository accountProfileRepo,
             final UserProfileRepository userProfileRepo) {
         super();
 
         userRepository = Objects.requireNonNull(userRepo);
-        profileRepository = Objects.requireNonNull(profileRepo);
+        accountProfileRepository = Objects.requireNonNull(accountProfileRepo);
         userProfileRepository = Objects.requireNonNull(userProfileRepo);
 
         assignProfileValidator = new FieldRuleValidator<>(new UserProfileNameNotEmptyRule(userProfileRepository));
     }
 
     @Override
-    public final Profile assignProfile(final String username, final long profile) {
-        final User        readUser;
-        final Profile     readProfile;
-        final UserProfile userProfile;
+    public final AccountProfile assignProfile(final String username, final long profile) {
+        final User           readUser;
+        final AccountProfile readProfile;
+        final UserProfile    userProfile;
 
         log.debug("Assigning profile {} to {}", profile, username);
 
@@ -85,10 +85,10 @@ public final class DefaultUserProfileService implements UserProfileService {
                 throw new MissingUsernameException(username);
             });
 
-        readProfile = profileRepository.findOne(profile)
+        readProfile = accountProfileRepository.findOne(profile)
             .orElseThrow(() -> {
-                log.error("Missing profile {}", profile);
-                throw new MissingProfileException(profile);
+                log.error("Missing account profile {}", profile);
+                throw new MissingAccountProfileException(profile);
             });
 
         userProfile = new UserProfile(profile, username);
@@ -100,8 +100,8 @@ public final class DefaultUserProfileService implements UserProfileService {
     }
 
     @Override
-    public final Optional<Profile> getProfile(final String username) {
-        final Optional<Profile> profile;
+    public final Optional<AccountProfile> getProfile(final String username) {
+        final Optional<AccountProfile> profile;
 
         log.trace("Reading profile for {}", username);
 
@@ -118,9 +118,9 @@ public final class DefaultUserProfileService implements UserProfileService {
     }
 
     @Override
-    public final Profile unassignProfile(final String username) {
-        final boolean exists;
-        final Profile profile;
+    public final AccountProfile unassignProfile(final String username) {
+        final boolean        exists;
+        final AccountProfile profile;
 
         log.trace("Unassigning profile to {}", username);
 
