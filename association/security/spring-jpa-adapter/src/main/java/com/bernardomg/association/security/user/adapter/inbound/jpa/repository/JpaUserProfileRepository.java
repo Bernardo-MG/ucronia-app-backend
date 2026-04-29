@@ -31,7 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.security.account.domain.model.AccountProfile;
+import com.bernardomg.association.security.account.domain.model.ProfileAccount.Profile;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserInnerProfileEntity;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserInnerProfileEntityMapper;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserProfileEntity;
@@ -63,11 +63,11 @@ public final class JpaUserProfileRepository implements UserProfileRepository {
     }
 
     @Override
-    public final AccountProfile assignProfile(final String username, final long number) {
+    public final Profile assignProfile(final String username, final long number) {
         final UserProfileEntity                userProfile;
         final Optional<UserEntity>             user;
         final Optional<UserInnerProfileEntity> profile;
-        final AccountProfile                   result;
+        final Profile                          result;
 
         log.trace("Assigning profile {} to username {}", number, username);
 
@@ -107,9 +107,9 @@ public final class JpaUserProfileRepository implements UserProfileRepository {
     }
 
     @Override
-    public final Optional<AccountProfile> findByUsername(final String username) {
+    public final Optional<Profile> findByUsername(final String username) {
         final Optional<UserProfileEntity> userMember;
-        final Optional<AccountProfile>    profile;
+        final Optional<Profile>           profile;
 
         log.trace("Finding profile for username {}", username);
 
@@ -127,8 +127,8 @@ public final class JpaUserProfileRepository implements UserProfileRepository {
     }
 
     @Override
-    public final AccountProfile unassignProfile(final String username) {
-        final AccountProfile profile;
+    public final Profile unassignProfile(final String username) {
+        final Profile profile;
 
         log.debug("Unassigning profile to user {}", username);
 

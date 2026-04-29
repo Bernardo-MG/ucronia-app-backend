@@ -33,7 +33,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.bernardomg.association.security.account.domain.model.AccountProfile;
+import com.bernardomg.association.security.account.domain.model.ProfileAccount.Profile;
 import com.bernardomg.association.security.account.test.configuration.factory.AccountProfileConstants;
 import com.bernardomg.association.security.account.test.configuration.factory.AccountProfiles;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserProfileEntity;
@@ -95,7 +95,7 @@ class ITUserProfileRepositorySave {
     @DisplayName("With valid data, the created relationship is returned")
     @ValidUserWithProfile
     void testSave_Existing_ReturnedData() {
-        final AccountProfile profile;
+        final Profile profile;
 
         // WHEN
         profile = repository.assignProfile(UserConstants.USERNAME, AccountProfileConstants.NUMBER);
@@ -109,7 +109,7 @@ class ITUserProfileRepositorySave {
     @DisplayName("When the profile is missing, nothing is returned")
     @ValidUser
     void testSave_MissingProfile_ReturnedData() {
-        final AccountProfile profile;
+        final Profile profile;
 
         // WHEN
         profile = repository.assignProfile(UserConstants.USERNAME, AccountProfileConstants.NUMBER);
@@ -123,7 +123,7 @@ class ITUserProfileRepositorySave {
     @DisplayName("When the user is missing, nothing is returned")
     @ValidProfile
     void testSave_MissingUser_ReturnedData() {
-        final AccountProfile profile;
+        final Profile profile;
 
         // WHEN
         profile = repository.assignProfile(UserConstants.USERNAME, AccountProfileConstants.NUMBER);
@@ -173,7 +173,7 @@ class ITUserProfileRepositorySave {
     @ValidUser
     @ValidProfile
     void testSave_ReturnedData() {
-        final AccountProfile profile;
+        final Profile profile;
 
         // WHEN
         profile = repository.assignProfile(UserConstants.USERNAME, AccountProfileConstants.NUMBER);

@@ -37,7 +37,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.security.account.domain.model.AccountProfile;
+import com.bernardomg.association.security.account.domain.model.ProfileAccount.Profile;
 import com.bernardomg.association.security.account.domain.repository.AccountProfileRepository;
 import com.bernardomg.association.security.account.test.configuration.factory.AccountProfiles;
 import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
@@ -65,7 +65,7 @@ class TestUserProfileServiceGetProfile {
     @Test
     @DisplayName("With a profile assigned to the user, it returns the user")
     void testGetProfile() {
-        final Optional<AccountProfile> profile;
+        final Optional<Profile> profile;
 
         // GIVEN
         given(userRepository.exists(UserConstants.USERNAME)).willReturn(true);

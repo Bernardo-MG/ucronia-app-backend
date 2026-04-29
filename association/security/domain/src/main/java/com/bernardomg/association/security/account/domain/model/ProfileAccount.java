@@ -24,7 +24,10 @@
 
 package com.bernardomg.association.security.account.domain.model;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.bernardomg.security.account.domain.model.Account;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Representation of an account linked to a profile.
@@ -32,8 +35,7 @@ import com.bernardomg.security.account.domain.model.Account;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final record ProfileAccount(String email, String username, String name, AccountProfile profile)
-        implements Account {
+public final record ProfileAccount(String email, String username, String name, Profile profile) implements Account {
 
     @Override
     public String getEmail() {
@@ -50,4 +52,28 @@ public final record ProfileAccount(String email, String username, String name, A
         return username;
     }
 
+    public record Profile(String identifier, Long number, Name name) {
+
+        public Profile(final String identifier, final Long number, final Name name) {
+            this.identifier = identifier;
+            this.number = number;
+            this.name = name;
+        }
+
+        public record Name(String firstName, String lastName) {
+
+            public Name(final String firstName, final String lastName) {
+                this.firstName = StringUtils.trim(firstName);
+                this.lastName = StringUtils.trim(lastName);
+            }
+
+            @JsonProperty("fullName")
+            public final String fullName() {
+                return String.format("%s %s", firstName, lastName)
+                    .trim();
+            }
+
+        }
+
+    }
 }

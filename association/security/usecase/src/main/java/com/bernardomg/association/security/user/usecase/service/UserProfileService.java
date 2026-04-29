@@ -26,14 +26,14 @@ package com.bernardomg.association.security.user.usecase.service;
 
 import java.util.Optional;
 
-import com.bernardomg.association.security.account.domain.model.AccountProfile;
+import com.bernardomg.association.security.account.domain.model.ProfileAccount.Profile;
 
 public interface UserProfileService {
 
-    public AccountProfile assignProfile(final String username, final long memberId);
+    public Profile assignProfile(final String username, final long memberId);
 
-    public Optional<AccountProfile> getProfile(final String username);
+    public Optional<Profile> getProfile(final String username);
 
-    public AccountProfile unassignProfile(final String username);
+    public Profile unassignProfile(final String username);
 
 }

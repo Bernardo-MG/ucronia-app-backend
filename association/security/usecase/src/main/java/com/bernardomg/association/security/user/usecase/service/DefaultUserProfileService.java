@@ -30,7 +30,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bernardomg.association.security.account.domain.model.AccountProfile;
+import com.bernardomg.association.security.account.domain.model.ProfileAccount.Profile;
 import com.bernardomg.association.security.account.domain.repository.AccountProfileRepository;
 import com.bernardomg.association.security.user.domain.exception.MissingAccountProfileException;
 import com.bernardomg.association.security.user.domain.model.UserProfile;
@@ -72,10 +72,10 @@ public final class DefaultUserProfileService implements UserProfileService {
     }
 
     @Override
-    public final AccountProfile assignProfile(final String username, final long profile) {
-        final User           readUser;
-        final AccountProfile readProfile;
-        final UserProfile    userProfile;
+    public final Profile assignProfile(final String username, final long profile) {
+        final User        readUser;
+        final Profile     readProfile;
+        final UserProfile userProfile;
 
         log.debug("Assigning profile {} to {}", profile, username);
 
@@ -100,8 +100,8 @@ public final class DefaultUserProfileService implements UserProfileService {
     }
 
     @Override
-    public final Optional<AccountProfile> getProfile(final String username) {
-        final Optional<AccountProfile> profile;
+    public final Optional<Profile> getProfile(final String username) {
+        final Optional<Profile> profile;
 
         log.trace("Reading profile for {}", username);
 
@@ -118,9 +118,9 @@ public final class DefaultUserProfileService implements UserProfileService {
     }
 
     @Override
-    public final AccountProfile unassignProfile(final String username) {
-        final boolean        exists;
-        final AccountProfile profile;
+    public final Profile unassignProfile(final String username) {
+        final boolean exists;
+        final Profile profile;
 
         log.trace("Unassigning profile to {}", username);
 

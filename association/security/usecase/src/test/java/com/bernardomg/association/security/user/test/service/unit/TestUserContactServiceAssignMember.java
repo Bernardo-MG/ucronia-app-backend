@@ -38,7 +38,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.security.account.domain.model.AccountProfile;
+import com.bernardomg.association.security.account.domain.model.ProfileAccount.Profile;
 import com.bernardomg.association.security.account.domain.repository.AccountProfileRepository;
 import com.bernardomg.association.security.account.test.configuration.factory.AccountProfileConstants;
 import com.bernardomg.association.security.account.test.configuration.factory.AccountProfiles;
@@ -142,7 +142,7 @@ class TestUserProfileServiceAssignProfile {
     @Test
     @DisplayName("With valid data, the created relationship is returned")
     void testAssignProfile_Returned() {
-        final AccountProfile profile;
+        final Profile profile;
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));

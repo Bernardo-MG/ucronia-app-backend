@@ -24,20 +24,20 @@
 
 package com.bernardomg.association.security.user.adapter.inbound.jpa.model;
 
-import com.bernardomg.association.security.account.domain.model.AccountProfile;
-import com.bernardomg.association.security.account.domain.model.AccountProfile.Name;
+import com.bernardomg.association.security.account.domain.model.ProfileAccount.Profile;
+import com.bernardomg.association.security.account.domain.model.ProfileAccount.Profile.Name;
 
 /**
  * Profile entity mapper.
  */
 public final class UserInnerProfileEntityMapper {
 
-    public static final AccountProfile toDomain(final UserInnerProfileEntity entity) {
+    public static final Profile toDomain(final UserInnerProfileEntity entity) {
         final Name name;
 
         name = new Name(entity.getFirstName(), entity.getLastName());
 
-        return new AccountProfile(entity.getIdentifier(), entity.getNumber(), name);
+        return new Profile(entity.getIdentifier(), entity.getNumber(), name);
     }
 
     private UserInnerProfileEntityMapper() {

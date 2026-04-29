@@ -26,23 +26,23 @@ package com.bernardomg.association.security.user.adapter.outbound.rest.model;
 
 import java.util.Optional;
 
-import com.bernardomg.association.security.account.domain.model.AccountProfile;
+import com.bernardomg.association.security.account.domain.model.ProfileAccount.Profile;
 import com.bernardomg.ucronia.openapi.model.ProfileDto;
 import com.bernardomg.ucronia.openapi.model.ProfileNameDto;
 import com.bernardomg.ucronia.openapi.model.ProfileResponseDto;
 
 public final class UserProfileDtoMapper {
 
-    public static final ProfileResponseDto toResponseDto(final AccountProfile profile) {
-        return new ProfileResponseDto().content(UserProfileDtoMapper.toDto(profile));
-    }
-
-    public static final ProfileResponseDto toResponseDto(final Optional<AccountProfile> profile) {
+    public static final ProfileResponseDto toResponseDto(final Optional<Profile> profile) {
         return new ProfileResponseDto().content(profile.map(UserProfileDtoMapper::toDto)
             .orElse(null));
     }
 
-    private static final ProfileDto toDto(final AccountProfile profile) {
+    public static final ProfileResponseDto toResponseDto(final Profile profile) {
+        return new ProfileResponseDto().content(UserProfileDtoMapper.toDto(profile));
+    }
+
+    private static final ProfileDto toDto(final Profile profile) {
         ProfileNameDto name;
 
         name = new ProfileNameDto().firstName(profile.name()
