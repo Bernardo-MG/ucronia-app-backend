@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.security.user.domain.repository;
+package com.bernardomg.association.security.account.domain.repository;
 
 import java.util.Optional;
 

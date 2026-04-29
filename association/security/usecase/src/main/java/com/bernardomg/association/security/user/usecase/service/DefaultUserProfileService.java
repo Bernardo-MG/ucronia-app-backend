@@ -31,9 +31,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bernardomg.association.security.account.domain.model.AccountProfile;
+import com.bernardomg.association.security.account.domain.repository.AccountProfileRepository;
 import com.bernardomg.association.security.user.domain.exception.MissingAccountProfileException;
 import com.bernardomg.association.security.user.domain.model.UserProfile;
-import com.bernardomg.association.security.user.domain.repository.AccountProfileRepository;
 import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
 import com.bernardomg.association.security.user.usecase.validation.UserProfileNameNotEmptyRule;
 import com.bernardomg.security.user.domain.exception.MissingUsernameException;
