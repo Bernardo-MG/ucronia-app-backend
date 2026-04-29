@@ -84,8 +84,8 @@
          <scope>test</scope>
       </dependency>
       <dependency>
-         <groupId>com.bernardomg.association.profile</groupId>
-         <artifactId>association-profile-testing</artifactId>
+         <groupId>com.bernardomg.association.security</groupId>
+         <artifactId>association-security-testing</artifactId>
          <scope>test</scope>
       </dependency>
    </dependencies>
