@@ -34,6 +34,7 @@ import com.bernardomg.association.security.account.domain.exception.MissingAccou
 import com.bernardomg.association.security.account.domain.model.ProfileAccount.Profile;
 import com.bernardomg.association.security.account.domain.repository.AccountProfileRepository;
 import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
+import com.bernardomg.association.security.user.usecase.domain.UserProfile;
 import com.bernardomg.association.security.user.usecase.validation.UserProfileNameNotEmptyRule;
 import com.bernardomg.security.user.domain.exception.MissingUsernameException;
 import com.bernardomg.security.user.domain.model.User;
