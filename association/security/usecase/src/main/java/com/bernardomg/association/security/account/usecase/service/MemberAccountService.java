@@ -86,7 +86,6 @@ public final class MemberAccountService implements AccountService {
                 profile.orElse(null));
             result = Optional.of(account);
         } else {
-            log.debug("Missing authentication object");
             result = wrappedAccount;
         }
 
