@@ -22,8 +22,36 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.security.user.domain.model;
+package com.bernardomg.association.security.account.domain.exception;
 
-public record UserProfile(Long number, String username) {
+/**
+ * Missing account profile exception.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+public final class MissingAccountProfileException extends RuntimeException {
+
+    private static final long serialVersionUID = 2786821546505029631L;
+
+    /**
+     * Id which caused the exception.
+     */
+    private final Long        id;
+
+    public MissingAccountProfileException(final Long id) {
+        super(String.format("Missing id %s for account profile", id));
+
+        this.id = id;
+    }
+
+    /**
+     * Returns the id which caused the exception.
+     *
+     * @return the id which caused the exception
+     */
+    public final Long getId() {
+        return id;
+    }
 
 }
