@@ -56,7 +56,7 @@ components:
       required: [method, detail]
       properties:
         method:
-          $ref: 'contact_methods.yml#/components/schemas/ContactMethod'
+          $ref: '#/components/schemas/ContactMethod'
         detail:
           type: string
           description: Contact channel detail.

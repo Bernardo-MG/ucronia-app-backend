@@ -47,10 +47,19 @@ components:
       required: [method, detail]
       properties:
         method:
-          $ref: 'contact_methods.yml#/components/schemas/ContactMethod'
+          $ref: '#/components/schemas/ContactMethod'
         detail:
           type: string
           description: Contact channel detail.
+    ContactMethod:
+      type: object
+      required: [number, name]
+      properties:
+        number:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        name:
+          type: string
+          description: Name of the contact method.
     EditionContactChannel:
       type: object
       required: [method, detail]
