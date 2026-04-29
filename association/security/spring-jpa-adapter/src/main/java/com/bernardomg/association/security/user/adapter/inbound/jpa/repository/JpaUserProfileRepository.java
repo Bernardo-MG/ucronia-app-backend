@@ -31,7 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.profile.domain.model.Profile;
+import com.bernardomg.association.security.account.domain.model.ProfileAccount.Profile;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserInnerProfileEntity;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserInnerProfileEntityMapper;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserProfileEntity;

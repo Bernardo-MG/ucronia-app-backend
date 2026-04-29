@@ -25,12 +25,7 @@
 package com.bernardomg.association.security.user.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
-import java.time.Instant;
 import java.util.Objects;
-import java.util.Set;
-
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -50,15 +45,6 @@ public class UserInnerProfileEntity implements Serializable {
     @Transient
     private static final long serialVersionUID = 1328776989450853491L;
 
-    @Column(name = "address")
-    private String            address;
-
-    @Column(name = "birth_date")
-    private Instant           birthDate;
-
-    @Column(name = "comments")
-    private String            comments;
-
     @Column(name = "first_name", nullable = false)
     private String            firstName;
 
@@ -76,10 +62,6 @@ public class UserInnerProfileEntity implements Serializable {
     @Column(name = "number")
     private Long              number;
 
-    @JdbcTypeCode(SqlTypes.JSON)
-    @Column(name = "types")
-    private Set<String>       types;
-
     @Override
     public boolean equals(final Object obj) {
         if (this == obj) {
@@ -89,18 +71,6 @@ public class UserInnerProfileEntity implements Serializable {
             return false;
         }
         return Objects.equals(id, other.id);
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public Instant getBirthDate() {
-        return birthDate;
-    }
-
-    public String getComments() {
-        return comments;
     }
 
     public String getFirstName() {
@@ -123,25 +93,9 @@ public class UserInnerProfileEntity implements Serializable {
         return number;
     }
 
-    public Set<String> getTypes() {
-        return types;
-    }
-
     @Override
     public int hashCode() {
         return Objects.hash(id);
-    }
-
-    public void setAddress(final String address) {
-        this.address = address;
-    }
-
-    public void setBirthDate(final Instant birthDate) {
-        this.birthDate = birthDate;
-    }
-
-    public void setComments(final String comments) {
-        this.comments = comments;
     }
 
     public void setFirstName(final String firstName) {
@@ -164,15 +118,10 @@ public class UserInnerProfileEntity implements Serializable {
         this.number = number;
     }
 
-    public void setTypes(final Set<String> types) {
-        this.types = types;
-    }
-
     @Override
     public String toString() {
         return "ProfileEntity [id=" + id + ", identifier=" + identifier + ", firstName=" + firstName + ", lastName="
-                + lastName + ", birthDate=" + birthDate + ", comments=" + comments + ", address=" + address
-                + ", number=" + number + ", types=" + types + "]";
+                + lastName + ", number=" + number + "]";
     }
 
 }

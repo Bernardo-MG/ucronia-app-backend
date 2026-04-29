@@ -33,9 +33,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.bernardomg.association.profile.domain.model.Profile;
-import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
-import com.bernardomg.association.profile.test.configuration.factory.Profiles;
+import com.bernardomg.association.security.account.domain.model.ProfileAccount.Profile;
+import com.bernardomg.association.security.account.test.configuration.factory.AccountProfileConstants;
+import com.bernardomg.association.security.account.test.configuration.factory.AccountProfiles;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserProfileEntity;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.UserProfileSpringRepository;
 import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
@@ -64,7 +64,7 @@ class ITUserProfileRepositorySave {
         final Collection<UserProfileEntity> profiles;
 
         // WHEN
-        repository.assignProfile(UserConstants.USERNAME, ProfileConstants.NUMBER);
+        repository.assignProfile(UserConstants.USERNAME, AccountProfileConstants.NUMBER);
 
         // THEN
         profiles = userProfileSpringRepository.findAll();
@@ -83,7 +83,7 @@ class ITUserProfileRepositorySave {
             softly.assertThat(profile.getProfile()
                 .getNumber())
                 .as("profile number")
-                .isEqualTo(ProfileConstants.NUMBER);
+                .isEqualTo(AccountProfileConstants.NUMBER);
             softly.assertThat(profile.getUser()
                 .getUsername())
                 .as("username")
@@ -98,11 +98,11 @@ class ITUserProfileRepositorySave {
         final Profile profile;
 
         // WHEN
-        profile = repository.assignProfile(UserConstants.USERNAME, ProfileConstants.NUMBER);
+        profile = repository.assignProfile(UserConstants.USERNAME, AccountProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(profile)
-            .isEqualTo(Profiles.valid());
+            .isEqualTo(AccountProfiles.valid());
     }
 
     @Test
@@ -112,7 +112,7 @@ class ITUserProfileRepositorySave {
         final Profile profile;
 
         // WHEN
-        profile = repository.assignProfile(UserConstants.USERNAME, ProfileConstants.NUMBER);
+        profile = repository.assignProfile(UserConstants.USERNAME, AccountProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(profile)
@@ -126,7 +126,7 @@ class ITUserProfileRepositorySave {
         final Profile profile;
 
         // WHEN
-        profile = repository.assignProfile(UserConstants.USERNAME, ProfileConstants.NUMBER);
+        profile = repository.assignProfile(UserConstants.USERNAME, AccountProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(profile)
@@ -141,7 +141,7 @@ class ITUserProfileRepositorySave {
         final Collection<UserProfileEntity> profiles;
 
         // WHEN
-        repository.assignProfile(UserConstants.USERNAME, ProfileConstants.NUMBER);
+        repository.assignProfile(UserConstants.USERNAME, AccountProfileConstants.NUMBER);
 
         // THEN
         profiles = userProfileSpringRepository.findAll();
@@ -160,7 +160,7 @@ class ITUserProfileRepositorySave {
             softly.assertThat(profile.getProfile()
                 .getNumber())
                 .as("profile number")
-                .isEqualTo(ProfileConstants.NUMBER);
+                .isEqualTo(AccountProfileConstants.NUMBER);
             softly.assertThat(profile.getUser()
                 .getUsername())
                 .as("username")
@@ -176,11 +176,11 @@ class ITUserProfileRepositorySave {
         final Profile profile;
 
         // WHEN
-        profile = repository.assignProfile(UserConstants.USERNAME, ProfileConstants.NUMBER);
+        profile = repository.assignProfile(UserConstants.USERNAME, AccountProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(profile)
-            .isEqualTo(Profiles.valid());
+            .isEqualTo(AccountProfiles.valid());
     }
 
 }

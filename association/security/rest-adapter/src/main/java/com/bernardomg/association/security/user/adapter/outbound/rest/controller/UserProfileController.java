@@ -30,7 +30,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.profile.domain.model.Profile;
+import com.bernardomg.association.security.account.domain.model.ProfileAccount.Profile;
 import com.bernardomg.association.security.user.adapter.outbound.rest.model.UserProfileDtoMapper;
 import com.bernardomg.association.security.user.usecase.service.UserProfileService;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
@@ -60,7 +60,7 @@ public class UserProfileController implements UserProfileApi {
     @Override
     @RequireResourceAuthorization(resource = "USER", action = Actions.UPDATE)
     public ProfileResponseDto assignProfileToUser(final String username, final Long memberNumber) {
-        Profile profile;
+        final Profile profile;
 
         profile = service.assignProfile(username, memberNumber);
         return UserProfileDtoMapper.toResponseDto(profile);
@@ -80,7 +80,7 @@ public class UserProfileController implements UserProfileApi {
     @Override
     @RequireResourceAuthorization(resource = "USER", action = Actions.UPDATE)
     public ProfileResponseDto unassignProfile(final String username) {
-        Profile profile;
+        final Profile profile;
 
         profile = service.unassignProfile(username);
 

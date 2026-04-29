@@ -51,7 +51,7 @@ import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.test.configuration.factory.MemberConstants;
 import com.bernardomg.association.fee.test.configuration.factory.UserConstants;
 import com.bernardomg.association.fee.usecase.service.SpringSecurityMyFeesService;
-import com.bernardomg.association.profile.test.configuration.factory.Profiles;
+import com.bernardomg.association.security.account.test.configuration.factory.AccountProfiles;
 import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -95,7 +95,7 @@ class TestSpringSecurityMyFeesServiceGetAllForUserInSession {
             .setAuthentication(authentication);
 
         given(userProfileConstantsRepository.findByUsername(UserConstants.USERNAME))
-            .willReturn(Optional.of(Profiles.valid()));
+            .willReturn(Optional.of(AccountProfiles.valid()));
 
         existing = new Page<>(List.of(Fees.paid()), 0, 0, 0, 0, 0, false, false, sorting);
         given(feeRepository.findAllForMember(MemberConstants.NUMBER, pagination, sorting)).willReturn(existing);
@@ -155,7 +155,7 @@ class TestSpringSecurityMyFeesServiceGetAllForUserInSession {
             .setAuthentication(authentication);
 
         given(userProfileConstantsRepository.findByUsername(UserConstants.USERNAME))
-            .willReturn(Optional.of(Profiles.valid()));
+            .willReturn(Optional.of(AccountProfiles.valid()));
 
         existing = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
         given(feeRepository.findAllForMember(MemberConstants.NUMBER, pagination, sorting)).willReturn(existing);

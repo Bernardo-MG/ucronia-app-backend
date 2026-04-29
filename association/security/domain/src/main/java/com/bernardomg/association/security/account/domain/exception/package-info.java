@@ -22,18 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.security.user.usecase.service;
+/**
+ * Account exceptions.
+ */
 
-import java.util.Optional;
-
-import com.bernardomg.association.security.account.domain.model.ProfileAccount.Profile;
-
-public interface UserProfileService {
-
-    public Profile assignProfile(final String username, final long memberId);
-
-    public Optional<Profile> getProfile(final String username);
-
-    public Profile unassignProfile(final String username);
-
-}
+package com.bernardomg.association.security.account.domain.exception;

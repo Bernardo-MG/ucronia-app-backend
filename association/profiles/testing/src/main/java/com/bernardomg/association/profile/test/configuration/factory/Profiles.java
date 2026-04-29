@@ -116,4 +116,8 @@ public final class Profiles {
             List.of(), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS, Set.of(type));
     }
 
+    private Profiles() {
+        super();
+    }
+
 }

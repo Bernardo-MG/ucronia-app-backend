@@ -26,7 +26,7 @@ package com.bernardomg.association.security.user.domain.repository;
 
 import java.util.Optional;
 
-import com.bernardomg.association.profile.domain.model.Profile;
+import com.bernardomg.association.security.account.domain.model.ProfileAccount.Profile;
 
 public interface UserProfileRepository {
 

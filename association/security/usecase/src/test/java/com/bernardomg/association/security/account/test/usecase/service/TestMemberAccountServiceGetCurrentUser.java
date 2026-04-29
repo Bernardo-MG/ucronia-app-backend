@@ -36,7 +36,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.profile.test.configuration.factory.Profiles;
+import com.bernardomg.association.security.account.test.configuration.factory.AccountProfiles;
 import com.bernardomg.association.security.account.test.configuration.factory.BasicAccounts;
 import com.bernardomg.association.security.account.test.configuration.factory.ProfileAccounts;
 import com.bernardomg.association.security.account.usecase.service.MemberAccountService;
@@ -65,7 +65,8 @@ class TestMemberAccountServiceGetCurrentUser {
 
         // GIVEN
         given(wrapped.getCurrentUser()).willReturn(Optional.of(BasicAccounts.valid()));
-        given(userProfileRepository.findByUsername(UserConstants.USERNAME)).willReturn(Optional.of(Profiles.valid()));
+        given(userProfileRepository.findByUsername(UserConstants.USERNAME))
+            .willReturn(Optional.of(AccountProfiles.valid()));
 
         // WHEN
         account = service.getCurrentUser();

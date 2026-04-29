@@ -30,8 +30,8 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bernardomg.association.profile.domain.model.Profile;
 import com.bernardomg.association.security.account.domain.model.ProfileAccount;
+import com.bernardomg.association.security.account.domain.model.ProfileAccount.Profile;
 import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
 import com.bernardomg.security.account.domain.model.Account;
 import com.bernardomg.security.account.usecase.service.AccountService;
@@ -86,7 +86,6 @@ public final class MemberAccountService implements AccountService {
                 profile.orElse(null));
             result = Optional.of(account);
         } else {
-            log.debug("Missing authentication object");
             result = wrappedAccount;
         }
 

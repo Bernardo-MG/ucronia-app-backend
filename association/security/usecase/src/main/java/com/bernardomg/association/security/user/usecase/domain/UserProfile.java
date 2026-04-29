@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.security.user.domain.model;
+package com.bernardomg.association.security.user.usecase.domain;
 
 public record UserProfile(Long number, String username) {
 

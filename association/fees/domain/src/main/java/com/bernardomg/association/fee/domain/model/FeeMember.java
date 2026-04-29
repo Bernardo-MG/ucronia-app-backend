@@ -14,6 +14,10 @@ public record FeeMember(Long number, MemberName name) {
             this.lastName = StringUtils.trim(lastName);
         }
 
+        /**
+         * TODO: remove annotation
+         * @return
+         */
         @JsonProperty("fullName")
         public final String fullName() {
             return String.format("%s %s", firstName, lastName)

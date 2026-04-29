@@ -37,9 +37,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.profile.domain.model.Profile;
-import com.bernardomg.association.profile.domain.repository.ProfileRepository;
-import com.bernardomg.association.profile.test.configuration.factory.Profiles;
+import com.bernardomg.association.security.account.domain.model.ProfileAccount.Profile;
+import com.bernardomg.association.security.account.domain.repository.AccountProfileRepository;
+import com.bernardomg.association.security.account.test.configuration.factory.AccountProfiles;
 import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
 import com.bernardomg.association.security.user.test.configuration.factory.UserConstants;
 import com.bernardomg.association.security.user.usecase.service.DefaultUserProfileService;
@@ -51,7 +51,7 @@ import com.bernardomg.security.user.domain.repository.UserRepository;
 class TestUserProfileServiceGetProfile {
 
     @Mock
-    private ProfileRepository         profileRepository;
+    private AccountProfileRepository  accountProfileRepository;
 
     @InjectMocks
     private DefaultUserProfileService service;
@@ -69,14 +69,15 @@ class TestUserProfileServiceGetProfile {
 
         // GIVEN
         given(userRepository.exists(UserConstants.USERNAME)).willReturn(true);
-        given(userProfileRepository.findByUsername(UserConstants.USERNAME)).willReturn(Optional.of(Profiles.valid()));
+        given(userProfileRepository.findByUsername(UserConstants.USERNAME))
+            .willReturn(Optional.of(AccountProfiles.valid()));
 
         // WHEN
         profile = service.getProfile(UserConstants.USERNAME);
 
         // THEN
         Assertions.assertThat(profile)
-            .contains(Profiles.valid());
+            .contains(AccountProfiles.valid());
     }
 
     @Test
