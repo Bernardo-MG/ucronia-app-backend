@@ -3,8 +3,6 @@ package com.bernardomg.association.fee.domain.model;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public record FeeMember(Long number, MemberName name) {
 
     public record MemberName(String firstName, String lastName) {
@@ -14,11 +12,6 @@ public record FeeMember(Long number, MemberName name) {
             this.lastName = StringUtils.trim(lastName);
         }
 
-        /**
-         * TODO: remove annotation
-         * @return
-         */
-        @JsonProperty("fullName")
         public final String fullName() {
             return String.format("%s %s", firstName, lastName)
                 .trim();

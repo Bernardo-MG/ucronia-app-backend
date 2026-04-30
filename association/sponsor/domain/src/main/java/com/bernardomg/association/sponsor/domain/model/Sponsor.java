@@ -31,8 +31,6 @@ import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public record Sponsor(String identifier, Long number, Name name, Instant birthDate,
         Collection<ContactChannel> contactChannels, Collection<Integer> years, String address, String comments,
         Set<String> types) {
@@ -68,7 +66,6 @@ public record Sponsor(String identifier, Long number, Name name, Instant birthDa
             this.lastName = StringUtils.trim(lastName);
         }
 
-        @JsonProperty("fullName")
         public final String fullName() {
             return String.format("%s %s", firstName, lastName)
                 .trim();

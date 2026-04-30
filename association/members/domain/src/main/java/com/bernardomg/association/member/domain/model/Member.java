@@ -26,8 +26,6 @@ package com.bernardomg.association.member.domain.model;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public record Member(Long number, Name name, boolean renew) {
 
     public record Name(String firstName, String lastName) {
@@ -37,7 +35,6 @@ public record Member(Long number, Name name, boolean renew) {
             this.lastName = StringUtils.trim(lastName);
         }
 
-        @JsonProperty("fullName")
         public final String fullName() {
             return String.format("%s %s", firstName, lastName)
                 .trim();

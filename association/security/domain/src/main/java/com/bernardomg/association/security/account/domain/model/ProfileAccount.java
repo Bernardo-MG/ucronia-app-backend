@@ -27,7 +27,6 @@ package com.bernardomg.association.security.account.domain.model;
 import org.apache.commons.lang3.StringUtils;
 
 import com.bernardomg.security.account.domain.model.Account;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Representation of an account linked to a profile.
@@ -67,7 +66,6 @@ public final record ProfileAccount(String email, String username, String name, P
                 this.lastName = StringUtils.trim(lastName);
             }
 
-            @JsonProperty("fullName")
             public final String fullName() {
                 return String.format("%s %s", firstName, lastName)
                     .trim();

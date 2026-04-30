@@ -26,8 +26,6 @@ package com.bernardomg.association.library.book.domain.model;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public record DonorName(String firstName, String lastName) {
 
     public DonorName(final String firstName, final String lastName) {
@@ -35,7 +33,6 @@ public record DonorName(String firstName, String lastName) {
         this.lastName = StringUtils.trim(lastName);
     }
 
-    @JsonProperty("fullName")
     public final String fullName() {
         return String.format("%s %s", firstName, lastName)
             .trim();

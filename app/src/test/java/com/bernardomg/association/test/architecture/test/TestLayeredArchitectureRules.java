@@ -3,9 +3,11 @@ package com.bernardomg.association.test.architecture.test;
 
 import static com.tngtech.archunit.library.Architectures.layeredArchitecture;
 
+import com.bernardomg.association.test.architecture.rule.DomainDependencyRules;
 import com.tngtech.archunit.core.importer.ImportOption;
 import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
+import com.tngtech.archunit.junit.ArchTests;
 import com.tngtech.archunit.lang.ArchRule;
 
 @AnalyzeClasses(
@@ -15,7 +17,10 @@ import com.tngtech.archunit.lang.ArchRule;
 public class TestLayeredArchitectureRules {
 
     @ArchTest
-    static final ArchRule layer_dependencies_are_respected = layeredArchitecture().consideringAllDependencies()
+    static final ArchTests domainDependencyRules            = ArchTests.in(DomainDependencyRules.class);
+
+    @ArchTest
+    static final ArchRule  layer_dependencies_are_respected = layeredArchitecture().consideringAllDependencies()
 
         .layer("Use case")
         .definedBy("com.bernardomg.association..usecase..")

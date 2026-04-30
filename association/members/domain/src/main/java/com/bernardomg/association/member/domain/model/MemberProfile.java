@@ -31,8 +31,6 @@ import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public record MemberProfile(String identifier, Long number, Name name, Instant birthDate,
         Collection<ContactChannel> contactChannels, String address, String comments, Boolean active, Boolean renew,
         FeeType feeType, Set<String> types) {
@@ -62,7 +60,6 @@ public record MemberProfile(String identifier, Long number, Name name, Instant b
             this.lastName = StringUtils.trim(lastName);
         }
 
-        @JsonProperty("fullName")
         public final String fullName() {
             return String.format("%s %s", firstName, lastName)
                 .trim();
