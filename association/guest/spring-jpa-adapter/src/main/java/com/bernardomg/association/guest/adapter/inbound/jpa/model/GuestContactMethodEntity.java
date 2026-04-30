@@ -35,7 +35,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
-@Entity(name = "MemberContactMethod")
+@Entity(name = "GuestContactMethod")
 @Table(schema = "directory", name = "contact_methods")
 public class GuestContactMethodEntity implements Serializable {
 
