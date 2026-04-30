@@ -29,6 +29,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+import com.bernardomg.association.security.account.adapter.inbound.jpa.repository.JpaAccountProfileRepository;
+import com.bernardomg.association.security.account.domain.repository.AccountProfileRepository;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.JpaUserProfileRepository;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.UserInnerProfileSpringRepository;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.UserProfileSpringRepository;
@@ -45,6 +47,12 @@ import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserSpringRep
         "com.bernardomg.security.permission.adapter.inbound.jpa",
         "com.bernardomg.association.profile.adapter.inbound.jpa" })
 public class TestConfiguration {
+
+    @Bean("accountProfileRepository")
+    public AccountProfileRepository
+            getAccountProfileRepository(final UserInnerProfileSpringRepository profileSpringRepository) {
+        return new JpaAccountProfileRepository(profileSpringRepository);
+    }
 
     @Bean("userProfileRepository")
     public UserProfileRepository getUserProfileRepository(final UserProfileSpringRepository userProfileSpringRepository,

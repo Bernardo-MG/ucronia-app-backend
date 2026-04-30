@@ -29,6 +29,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Primary;
 
+import com.bernardomg.association.security.account.adapter.inbound.jpa.repository.JpaAccountProfileRepository;
 import com.bernardomg.association.security.account.domain.repository.AccountProfileRepository;
 import com.bernardomg.association.security.account.usecase.service.MemberAccountService;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.JpaUserProfileRepository;
@@ -47,6 +48,12 @@ import com.bernardomg.security.user.domain.repository.UserRepository;
 @ComponentScan({ "com.bernardomg.association.security.user.adapter.outbound.rest.controller",
         "com.bernardomg.association.security.user.adapter.inbound.jpa" })
 public class AssociationSecurityAutoConfiguration {
+
+    @Bean("accountProfileRepository")
+    public AccountProfileRepository
+            getAccountProfileRepository(final UserInnerProfileSpringRepository profileSpringRepository) {
+        return new JpaAccountProfileRepository(profileSpringRepository);
+    }
 
     @Primary
     @Bean("memberAccountService")

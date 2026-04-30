@@ -22,7 +22,9 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.security.user.test.adapter.inbound.jpa.repository.integration;
+package com.bernardomg.association.security.account.test.adapter.inbound.jpa.repository.integration;
+
+import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -30,49 +32,47 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.UserProfileSpringRepository;
-import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
+import com.bernardomg.association.security.account.domain.model.ProfileAccount.Profile;
+import com.bernardomg.association.security.account.domain.repository.AccountProfileRepository;
+import com.bernardomg.association.security.account.test.configuration.factory.ProfileConstants;
+import com.bernardomg.association.security.account.test.configuration.factory.Profiles;
 import com.bernardomg.association.security.user.test.TestApplication;
-import com.bernardomg.association.security.user.test.configuration.data.annotation.ValidUserWithProfile;
-import com.bernardomg.association.security.user.test.configuration.factory.UserConstants;
+import com.bernardomg.association.security.user.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("UserProfileRepository - unassign profile")
-class ITUserProfileRepositoryUnassignProfile {
+@DisplayName("AccountProfileRepository - find one")
+class ITAccountProfileRepositoryFindOne {
 
     @Autowired
-    private UserProfileRepository       repository;
-
-    @Autowired
-    private UserProfileSpringRepository userProfileSpringRepository;
+    private AccountProfileRepository repository;
 
     @Test
-    @DisplayName("With a member assigned to the user, it removes the member")
-    @ValidUserWithProfile
-    void testUnassignProfile() {
+    @DisplayName("With a profile, it is returned")
+    @ValidProfile
+    void testFindOne() {
+        final Optional<Profile> profile;
 
         // WHEN
-        repository.unassignProfile(UserConstants.USERNAME);
+        profile = repository.findOne(ProfileConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(userProfileSpringRepository.count())
-            .as("user members")
-            .isZero();
+        Assertions.assertThat(profile)
+            .contains(Profiles.valid());
     }
 
     @Test
-    @DisplayName("With no member assigned to the user, it does nothing")
-    void testUnassignProfile_NoData() {
+    @DisplayName("With no profile, nothing is returned")
+    void testFindOne_NoData() {
+        final Optional<Profile> profile;
 
         // WHEN
-        repository.unassignProfile(UserConstants.USERNAME);
+        profile = repository.findOne(ProfileConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(userProfileSpringRepository.count())
-            .as("user members")
-            .isZero();
+        Assertions.assertThat(profile)
+            .isEmpty();
     }
 
 }

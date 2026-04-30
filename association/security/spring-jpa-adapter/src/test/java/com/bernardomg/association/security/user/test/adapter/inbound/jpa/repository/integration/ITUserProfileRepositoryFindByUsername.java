@@ -36,8 +36,8 @@ import com.bernardomg.association.security.account.domain.model.ProfileAccount.P
 import com.bernardomg.association.security.account.test.configuration.factory.AccountProfiles;
 import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
 import com.bernardomg.association.security.user.test.TestApplication;
-import com.bernardomg.association.security.user.test.configuration.ValidUser;
-import com.bernardomg.association.security.user.test.configuration.ValidUserWithProfile;
+import com.bernardomg.association.security.user.test.configuration.data.annotation.ValidUser;
+import com.bernardomg.association.security.user.test.configuration.data.annotation.ValidUserWithProfile;
 import com.bernardomg.association.security.user.test.configuration.factory.UserConstants;
 import com.bernardomg.test.annotation.IntegrationTest;
 

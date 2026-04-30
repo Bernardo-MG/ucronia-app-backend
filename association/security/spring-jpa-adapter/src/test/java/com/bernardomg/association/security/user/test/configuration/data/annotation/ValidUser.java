@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.security.user.test.configuration;
+package com.bernardomg.association.security.user.test.configuration.data.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
