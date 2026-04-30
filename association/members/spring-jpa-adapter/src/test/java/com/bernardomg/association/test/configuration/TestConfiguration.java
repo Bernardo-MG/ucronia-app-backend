@@ -29,6 +29,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberFeeTypeRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberProfileRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberSummaryRepository;
@@ -39,6 +40,7 @@ import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberPr
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MembershipEvolutionSpringRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.ReadMemberProfileSpringRepository;
+import com.bernardomg.association.member.domain.repository.MemberFeeTypeRepository;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.domain.repository.MemberSummaryRepository;
@@ -54,6 +56,12 @@ import com.bernardomg.association.member.domain.repository.MembershipEvolutionRe
         "com.bernardomg.association.transaction.adapter.inbound.jpa",
         "com.bernardomg.association.profile.adapter.inbound.jpa" })
 public class TestConfiguration {
+
+    @Bean("memberFeeTypeRepository")
+    public MemberFeeTypeRepository
+            getMemberFeeTypeRepository(final MemberFeeTypeSpringRepository memberFeeTypeSpringRepository) {
+        return new JpaMemberFeeTypeRepository(memberFeeTypeSpringRepository);
+    }
 
     @Bean("memberProfileRepository")
     public MemberProfileRepository getMemberProfileRepository(

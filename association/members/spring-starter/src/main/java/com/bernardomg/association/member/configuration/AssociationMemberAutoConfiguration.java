@@ -31,6 +31,7 @@ import org.springframework.context.annotation.Configuration;
 import com.bernardomg.association.member.adapter.inbound.event.ActivateMemberOnFeePaidEventListener;
 import com.bernardomg.association.member.adapter.inbound.event.ApplyRenewalOnMonthStartEventListener;
 import com.bernardomg.association.member.adapter.inbound.event.DeactivateMemberOnFeeDeletedEventListener;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberFeeTypeRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberProfileRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberSummaryRepository;
@@ -82,6 +83,12 @@ public class AssociationMemberAutoConfiguration {
     public DeactivateMemberOnFeeDeletedEventListener
             getDeactivateMemberOnFeeDeletedEventListener(final MemberStatusService service) {
         return new DeactivateMemberOnFeeDeletedEventListener(service);
+    }
+
+    @Bean("memberFeeTypeRepository")
+    public MemberFeeTypeRepository
+            getMemberFeeTypeRepository(final MemberFeeTypeSpringRepository memberFeeTypeSpringRepository) {
+        return new JpaMemberFeeTypeRepository(memberFeeTypeSpringRepository);
     }
 
     @Bean("memberProfileRepository")

@@ -24,16 +24,41 @@
 
 package com.bernardomg.association.member.adapter.inbound.jpa.repository;
 
-import java.util.Optional;
+import java.util.Objects;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberFeeTypeEntity;
+import com.bernardomg.association.member.domain.repository.MemberFeeTypeRepository;
 
-public interface MemberFeeTypeSpringRepository extends JpaRepository<MemberFeeTypeEntity, Long> {
+@Transactional
+public final class JpaMemberFeeTypeRepository implements MemberFeeTypeRepository {
 
-    public boolean existsByNumber(final Long number);
+    /**
+     * Logger for the class.
+     */
+    private static final Logger           log = LoggerFactory.getLogger(JpaMemberFeeTypeRepository.class);
 
-    public Optional<MemberFeeTypeEntity> findByNumber(final long index);
+    private final MemberFeeTypeSpringRepository memberFeeTypeSpringRepository;
+
+    public JpaMemberFeeTypeRepository(final MemberFeeTypeSpringRepository memberFeeTypeSpringRepo) {
+        super();
+
+        memberFeeTypeSpringRepository = Objects.requireNonNull(memberFeeTypeSpringRepo);
+    }
+
+    @Override
+    public final boolean exists(final Long number) {
+        final boolean exists;
+
+        log.debug("Checking if fee type {} exists", number);
+
+        exists = memberFeeTypeSpringRepository.existsByNumber(number);
+
+        log.debug("Fee type {} exists: {}", number, exists);
+
+        return exists;
+    }
 
 }
