@@ -37,7 +37,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
-@Entity(name = "ReadMemberContactChannel")
+@Entity(name = "ReadGuestContactChannel")
 @Table(schema = "directory", name = "contact_channels")
 public class ReadGuestContactChannelEntity implements Serializable {
 
