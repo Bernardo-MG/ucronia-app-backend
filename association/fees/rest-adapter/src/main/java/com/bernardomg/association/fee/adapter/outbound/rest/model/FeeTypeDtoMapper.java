@@ -26,18 +26,18 @@ package com.bernardomg.association.fee.adapter.outbound.rest.model;
 
 import java.util.Optional;
 
+import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeeTypeCreationDto;
+import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeeTypeDto;
+import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeeTypePageResponseDto;
+import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeeTypeResponseDto;
+import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeeTypeUpdateDto;
+import com.bernardomg.association.fee.adapter.outbound.rest.dto.PropertyDto;
+import com.bernardomg.association.fee.adapter.outbound.rest.dto.PropertyDto.DirectionEnum;
+import com.bernardomg.association.fee.adapter.outbound.rest.dto.SortingDto;
 import com.bernardomg.association.fee.domain.model.FeeType;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
 import com.bernardomg.pagination.domain.Sorting.Property;
-import com.bernardomg.ucronia.openapi.model.FeeTypeCreationDto;
-import com.bernardomg.ucronia.openapi.model.FeeTypeDto;
-import com.bernardomg.ucronia.openapi.model.FeeTypePageResponseDto;
-import com.bernardomg.ucronia.openapi.model.FeeTypeResponseDto;
-import com.bernardomg.ucronia.openapi.model.FeeTypeUpdateDto;
-import com.bernardomg.ucronia.openapi.model.PropertyDto;
-import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
-import com.bernardomg.ucronia.openapi.model.SortingDto;
 
 public final class FeeTypeDtoMapper {
 

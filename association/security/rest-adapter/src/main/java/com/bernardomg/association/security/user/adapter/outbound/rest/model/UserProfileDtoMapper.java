@@ -27,9 +27,9 @@ package com.bernardomg.association.security.user.adapter.outbound.rest.model;
 import java.util.Optional;
 
 import com.bernardomg.association.security.account.domain.model.ProfileAccount.Profile;
-import com.bernardomg.ucronia.openapi.model.ProfileDto;
-import com.bernardomg.ucronia.openapi.model.ProfileNameDto;
-import com.bernardomg.ucronia.openapi.model.ProfileResponseDto;
+import com.bernardomg.association.security.adapter.outbound.rest.dto.ProfileDto;
+import com.bernardomg.association.security.adapter.outbound.rest.dto.ProfileNameDto;
+import com.bernardomg.association.security.adapter.outbound.rest.dto.ProfileResponseDto;
 
 public final class UserProfileDtoMapper {
 

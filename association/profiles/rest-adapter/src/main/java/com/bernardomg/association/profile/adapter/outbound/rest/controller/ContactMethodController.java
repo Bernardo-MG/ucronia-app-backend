@@ -29,6 +29,11 @@ import java.util.Optional;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.association.profile.adapter.outbound.rest.api.ContactMethodApi;
+import com.bernardomg.association.profile.adapter.outbound.rest.dto.ContactMethodCreationDto;
+import com.bernardomg.association.profile.adapter.outbound.rest.dto.ContactMethodPageResponseDto;
+import com.bernardomg.association.profile.adapter.outbound.rest.dto.ContactMethodResponseDto;
+import com.bernardomg.association.profile.adapter.outbound.rest.dto.ContactMethodUpdateDto;
 import com.bernardomg.association.profile.adapter.outbound.rest.model.ContactMethodDtoMapper;
 import com.bernardomg.association.profile.domain.model.ContactMethod;
 import com.bernardomg.association.profile.usecase.service.ContactMethodService;
@@ -38,11 +43,6 @@ import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
-import com.bernardomg.ucronia.openapi.api.ContactMethodApi;
-import com.bernardomg.ucronia.openapi.model.ContactMethodCreationDto;
-import com.bernardomg.ucronia.openapi.model.ContactMethodPageResponseDto;
-import com.bernardomg.ucronia.openapi.model.ContactMethodResponseDto;
-import com.bernardomg.ucronia.openapi.model.ContactMethodUpdateDto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;

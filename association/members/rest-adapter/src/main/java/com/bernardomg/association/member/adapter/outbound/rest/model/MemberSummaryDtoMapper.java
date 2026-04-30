@@ -24,9 +24,9 @@
 
 package com.bernardomg.association.member.adapter.outbound.rest.model;
 
+import com.bernardomg.association.member.adapter.outbound.rest.dto.MemberSummaryDto;
+import com.bernardomg.association.member.adapter.outbound.rest.dto.MemberSummaryResponseDto;
 import com.bernardomg.association.member.domain.model.MemberSummary;
-import com.bernardomg.ucronia.openapi.model.MemberSummaryDto;
-import com.bernardomg.ucronia.openapi.model.MemberSummaryResponseDto;
 
 public final class MemberSummaryDtoMapper {
 

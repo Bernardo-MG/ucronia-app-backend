@@ -29,6 +29,12 @@ import java.util.Optional;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.association.guest.adapter.outbound.rest.api.GuestApi;
+import com.bernardomg.association.guest.adapter.outbound.rest.dto.GuestCreationDto;
+import com.bernardomg.association.guest.adapter.outbound.rest.dto.GuestPageResponseDto;
+import com.bernardomg.association.guest.adapter.outbound.rest.dto.GuestPatchDto;
+import com.bernardomg.association.guest.adapter.outbound.rest.dto.GuestResponseDto;
+import com.bernardomg.association.guest.adapter.outbound.rest.dto.GuestUpdateDto;
 import com.bernardomg.association.guest.adapter.outbound.rest.model.GuestDtoMapper;
 import com.bernardomg.association.guest.domain.filter.GuestFilter;
 import com.bernardomg.association.guest.domain.model.Guest;
@@ -39,12 +45,6 @@ import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
-import com.bernardomg.ucronia.openapi.api.GuestApi;
-import com.bernardomg.ucronia.openapi.model.GuestCreationDto;
-import com.bernardomg.ucronia.openapi.model.GuestPageResponseDto;
-import com.bernardomg.ucronia.openapi.model.GuestPatchDto;
-import com.bernardomg.ucronia.openapi.model.GuestResponseDto;
-import com.bernardomg.ucronia.openapi.model.GuestUpdateDto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;

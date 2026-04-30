@@ -30,6 +30,19 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import com.bernardomg.association.sponsor.adapter.outbound.rest.dto.ContactChannelDto;
+import com.bernardomg.association.sponsor.adapter.outbound.rest.dto.ContactMethodDto;
+import com.bernardomg.association.sponsor.adapter.outbound.rest.dto.EditionContactChannelDto;
+import com.bernardomg.association.sponsor.adapter.outbound.rest.dto.PropertyDto;
+import com.bernardomg.association.sponsor.adapter.outbound.rest.dto.PropertyDto.DirectionEnum;
+import com.bernardomg.association.sponsor.adapter.outbound.rest.dto.SortingDto;
+import com.bernardomg.association.sponsor.adapter.outbound.rest.dto.SponsorCreationDto;
+import com.bernardomg.association.sponsor.adapter.outbound.rest.dto.SponsorDto;
+import com.bernardomg.association.sponsor.adapter.outbound.rest.dto.SponsorNameDto;
+import com.bernardomg.association.sponsor.adapter.outbound.rest.dto.SponsorPageResponseDto;
+import com.bernardomg.association.sponsor.adapter.outbound.rest.dto.SponsorPatchDto;
+import com.bernardomg.association.sponsor.adapter.outbound.rest.dto.SponsorResponseDto;
+import com.bernardomg.association.sponsor.adapter.outbound.rest.dto.SponsorUpdateDto;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
 import com.bernardomg.association.sponsor.domain.model.Sponsor.ContactChannel;
 import com.bernardomg.association.sponsor.domain.model.Sponsor.ContactMethod;
@@ -37,19 +50,6 @@ import com.bernardomg.association.sponsor.domain.model.Sponsor.Name;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
 import com.bernardomg.pagination.domain.Sorting.Property;
-import com.bernardomg.ucronia.openapi.model.ContactChannelDto;
-import com.bernardomg.ucronia.openapi.model.ContactMethodDto;
-import com.bernardomg.ucronia.openapi.model.EditionContactChannelDto;
-import com.bernardomg.ucronia.openapi.model.PropertyDto;
-import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
-import com.bernardomg.ucronia.openapi.model.SortingDto;
-import com.bernardomg.ucronia.openapi.model.SponsorCreationDto;
-import com.bernardomg.ucronia.openapi.model.SponsorDto;
-import com.bernardomg.ucronia.openapi.model.SponsorNameDto;
-import com.bernardomg.ucronia.openapi.model.SponsorPageResponseDto;
-import com.bernardomg.ucronia.openapi.model.SponsorPatchDto;
-import com.bernardomg.ucronia.openapi.model.SponsorResponseDto;
-import com.bernardomg.ucronia.openapi.model.SponsorUpdateDto;
 
 public final class SponsorDtoMapper {
 

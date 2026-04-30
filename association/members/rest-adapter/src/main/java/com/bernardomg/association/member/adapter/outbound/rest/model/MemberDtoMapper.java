@@ -26,17 +26,17 @@ package com.bernardomg.association.member.adapter.outbound.rest.model;
 
 import java.util.Optional;
 
+import com.bernardomg.association.member.adapter.outbound.rest.dto.MemberDto;
+import com.bernardomg.association.member.adapter.outbound.rest.dto.MemberNameDto;
+import com.bernardomg.association.member.adapter.outbound.rest.dto.MemberPageResponseDto;
+import com.bernardomg.association.member.adapter.outbound.rest.dto.MemberResponseDto;
+import com.bernardomg.association.member.adapter.outbound.rest.dto.PropertyDto;
+import com.bernardomg.association.member.adapter.outbound.rest.dto.PropertyDto.DirectionEnum;
+import com.bernardomg.association.member.adapter.outbound.rest.dto.SortingDto;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
 import com.bernardomg.pagination.domain.Sorting.Property;
-import com.bernardomg.ucronia.openapi.model.MemberDto;
-import com.bernardomg.ucronia.openapi.model.MemberNameDto;
-import com.bernardomg.ucronia.openapi.model.MemberPageResponseDto;
-import com.bernardomg.ucronia.openapi.model.MemberResponseDto;
-import com.bernardomg.ucronia.openapi.model.PropertyDto;
-import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
-import com.bernardomg.ucronia.openapi.model.SortingDto;
 
 public final class MemberDtoMapper {
 

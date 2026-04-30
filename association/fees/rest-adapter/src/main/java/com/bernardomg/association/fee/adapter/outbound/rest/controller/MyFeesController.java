@@ -28,6 +28,8 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.association.fee.adapter.outbound.rest.api.MyFeesApi;
+import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeePageResponseDto;
 import com.bernardomg.association.fee.adapter.outbound.rest.model.FeeDtoMapper;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.usecase.service.MyFeesService;
@@ -37,8 +39,6 @@ import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
-import com.bernardomg.ucronia.openapi.api.MyFeesApi;
-import com.bernardomg.ucronia.openapi.model.FeePageResponseDto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;

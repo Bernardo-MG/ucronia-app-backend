@@ -26,16 +26,16 @@ package com.bernardomg.association.library.booktype.adapter.outbound.rest.model;
 
 import java.util.Optional;
 
+import com.bernardomg.association.library.adapter.outbound.rest.dto.BookTypeDto;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.BookTypePageResponseDto;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.BookTypeResponseDto;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.PropertyDto;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.PropertyDto.DirectionEnum;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.SortingDto;
 import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
 import com.bernardomg.pagination.domain.Sorting.Property;
-import com.bernardomg.ucronia.openapi.model.BookTypeDto;
-import com.bernardomg.ucronia.openapi.model.BookTypePageResponseDto;
-import com.bernardomg.ucronia.openapi.model.BookTypeResponseDto;
-import com.bernardomg.ucronia.openapi.model.PropertyDto;
-import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
-import com.bernardomg.ucronia.openapi.model.SortingDto;
 
 public final class BookTypeDtoMapper {
 

@@ -26,13 +26,13 @@ package com.bernardomg.association.fee.adapter.outbound.rest.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.association.fee.adapter.outbound.rest.api.FeeSummaryApi;
+import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeeSummaryResponseDto;
 import com.bernardomg.association.fee.adapter.outbound.rest.model.FeeSummaryDtoMapper;
 import com.bernardomg.association.fee.domain.model.FeeSummary;
 import com.bernardomg.association.fee.usecase.service.FeeSummaryService;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
-import com.bernardomg.ucronia.openapi.api.FeeSummaryApi;
-import com.bernardomg.ucronia.openapi.model.FeeSummaryResponseDto;
 
 /**
  * Fee summary REST controller.

@@ -30,6 +30,10 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.association.fee.adapter.outbound.rest.api.FeeCalendarApi;
+import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeeCalendarResponseDto;
+import com.bernardomg.association.fee.adapter.outbound.rest.dto.MemberStatusDto;
+import com.bernardomg.association.fee.adapter.outbound.rest.dto.YearsRangeResponseDto;
 import com.bernardomg.association.fee.adapter.outbound.rest.model.FeeDtoMapper;
 import com.bernardomg.association.fee.domain.model.FeeMemberStatus;
 import com.bernardomg.association.fee.domain.model.MemberFees;
@@ -39,10 +43,6 @@ import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
-import com.bernardomg.ucronia.openapi.api.FeeCalendarApi;
-import com.bernardomg.ucronia.openapi.model.FeeCalendarResponseDto;
-import com.bernardomg.ucronia.openapi.model.MemberStatusDto;
-import com.bernardomg.ucronia.openapi.model.YearsRangeResponseDto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;

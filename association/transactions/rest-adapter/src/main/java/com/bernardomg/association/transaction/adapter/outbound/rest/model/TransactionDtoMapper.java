@@ -26,24 +26,24 @@ package com.bernardomg.association.transaction.adapter.outbound.rest.model;
 
 import java.util.Optional;
 
+import com.bernardomg.association.transaction.adapter.outbound.rest.dto.PropertyDto;
+import com.bernardomg.association.transaction.adapter.outbound.rest.dto.PropertyDto.DirectionEnum;
+import com.bernardomg.association.transaction.adapter.outbound.rest.dto.SortingDto;
+import com.bernardomg.association.transaction.adapter.outbound.rest.dto.TransactionCreationDto;
+import com.bernardomg.association.transaction.adapter.outbound.rest.dto.TransactionDto;
+import com.bernardomg.association.transaction.adapter.outbound.rest.dto.TransactionMonthsRangeDto;
+import com.bernardomg.association.transaction.adapter.outbound.rest.dto.TransactionMonthsRangeResponseDto;
+import com.bernardomg.association.transaction.adapter.outbound.rest.dto.TransactionPageResponseDto;
+import com.bernardomg.association.transaction.adapter.outbound.rest.dto.TransactionResponseDto;
+import com.bernardomg.association.transaction.adapter.outbound.rest.dto.TransactionSummaryDto;
+import com.bernardomg.association.transaction.adapter.outbound.rest.dto.TransactionSummaryResponseDto;
+import com.bernardomg.association.transaction.adapter.outbound.rest.dto.TransactionUpdateDto;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.model.TransactionMonthsRange;
 import com.bernardomg.association.transaction.domain.model.TransactionSummary;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
 import com.bernardomg.pagination.domain.Sorting.Property;
-import com.bernardomg.ucronia.openapi.model.PropertyDto;
-import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
-import com.bernardomg.ucronia.openapi.model.SortingDto;
-import com.bernardomg.ucronia.openapi.model.TransactionCreationDto;
-import com.bernardomg.ucronia.openapi.model.TransactionDto;
-import com.bernardomg.ucronia.openapi.model.TransactionMonthsRangeDto;
-import com.bernardomg.ucronia.openapi.model.TransactionMonthsRangeResponseDto;
-import com.bernardomg.ucronia.openapi.model.TransactionPageResponseDto;
-import com.bernardomg.ucronia.openapi.model.TransactionResponseDto;
-import com.bernardomg.ucronia.openapi.model.TransactionSummaryDto;
-import com.bernardomg.ucronia.openapi.model.TransactionSummaryResponseDto;
-import com.bernardomg.ucronia.openapi.model.TransactionUpdateDto;
 
 public final class TransactionDtoMapper {
 

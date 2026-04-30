@@ -24,9 +24,9 @@
 
 package com.bernardomg.association.settings.adapter.outbound.rest.model;
 
+import com.bernardomg.association.settings.adapter.outbound.rest.dto.PublicSettingsDto;
+import com.bernardomg.association.settings.adapter.outbound.rest.dto.PublicSettingsResponseDto;
 import com.bernardomg.association.settings.domain.model.PublicSettings;
-import com.bernardomg.ucronia.openapi.model.PublicSettingsDto;
-import com.bernardomg.ucronia.openapi.model.PublicSettingsResponseDto;
 
 public final class PublicSettingsDtoMapper {
 

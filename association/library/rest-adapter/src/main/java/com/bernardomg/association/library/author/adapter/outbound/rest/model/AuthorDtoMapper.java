@@ -26,16 +26,16 @@ package com.bernardomg.association.library.author.adapter.outbound.rest.model;
 
 import java.util.Optional;
 
+import com.bernardomg.association.library.adapter.outbound.rest.dto.AuthorDto;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.AuthorPageResponseDto;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.AuthorResponseDto;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.PropertyDto;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.PropertyDto.DirectionEnum;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.SortingDto;
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
 import com.bernardomg.pagination.domain.Sorting.Property;
-import com.bernardomg.ucronia.openapi.model.AuthorDto;
-import com.bernardomg.ucronia.openapi.model.AuthorPageResponseDto;
-import com.bernardomg.ucronia.openapi.model.AuthorResponseDto;
-import com.bernardomg.ucronia.openapi.model.PropertyDto;
-import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
-import com.bernardomg.ucronia.openapi.model.SortingDto;
 
 public final class AuthorDtoMapper {
 

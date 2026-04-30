@@ -27,10 +27,10 @@ package com.bernardomg.settings.adapter.outbound.rest.model;
 import java.util.Collection;
 import java.util.Optional;
 
+import com.bernardomg.settings.adapter.outbound.rest.dto.SettingDto;
+import com.bernardomg.settings.adapter.outbound.rest.dto.SettingResponseDto;
+import com.bernardomg.settings.adapter.outbound.rest.dto.SettingsResponseDto;
 import com.bernardomg.settings.domain.model.Setting;
-import com.bernardomg.ucronia.openapi.model.SettingDto;
-import com.bernardomg.ucronia.openapi.model.SettingResponseDto;
-import com.bernardomg.ucronia.openapi.model.SettingsResponseDto;
 
 public final class SettingsDtoMapper {
 

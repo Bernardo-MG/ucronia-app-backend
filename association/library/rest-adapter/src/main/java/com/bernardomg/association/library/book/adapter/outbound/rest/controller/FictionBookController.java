@@ -29,6 +29,11 @@ import java.util.Optional;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.association.library.adapter.outbound.rest.api.FictionBookApi;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.BookCreationDto;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.FictionBookPageResponseDto;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.FictionBookResponseDto;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.FictionBookUpdateDto;
 import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookDtoMapper;
 import com.bernardomg.association.library.book.domain.model.FictionBook;
 import com.bernardomg.association.library.book.usecase.service.FictionBookService;
@@ -38,11 +43,6 @@ import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
-import com.bernardomg.ucronia.openapi.api.FictionBookApi;
-import com.bernardomg.ucronia.openapi.model.BookCreationDto;
-import com.bernardomg.ucronia.openapi.model.FictionBookPageResponseDto;
-import com.bernardomg.ucronia.openapi.model.FictionBookResponseDto;
-import com.bernardomg.ucronia.openapi.model.FictionBookUpdateDto;
 
 import jakarta.validation.Valid;
 

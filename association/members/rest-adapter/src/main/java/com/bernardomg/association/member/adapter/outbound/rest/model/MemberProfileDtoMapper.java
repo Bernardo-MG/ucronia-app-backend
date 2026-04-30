@@ -30,6 +30,19 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import com.bernardomg.association.member.adapter.outbound.rest.dto.ContactChannelDto;
+import com.bernardomg.association.member.adapter.outbound.rest.dto.ContactMethodDto;
+import com.bernardomg.association.member.adapter.outbound.rest.dto.EditionContactChannelDto;
+import com.bernardomg.association.member.adapter.outbound.rest.dto.MemberFeeTypeDto;
+import com.bernardomg.association.member.adapter.outbound.rest.dto.MemberNameDto;
+import com.bernardomg.association.member.adapter.outbound.rest.dto.MemberProfileCreationDto;
+import com.bernardomg.association.member.adapter.outbound.rest.dto.MemberProfileDto;
+import com.bernardomg.association.member.adapter.outbound.rest.dto.MemberProfilePageResponseDto;
+import com.bernardomg.association.member.adapter.outbound.rest.dto.MemberProfileResponseDto;
+import com.bernardomg.association.member.adapter.outbound.rest.dto.MemberProfileUpdateDto;
+import com.bernardomg.association.member.adapter.outbound.rest.dto.PropertyDto;
+import com.bernardomg.association.member.adapter.outbound.rest.dto.PropertyDto.DirectionEnum;
+import com.bernardomg.association.member.adapter.outbound.rest.dto.SortingDto;
 import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.model.MemberProfile.ContactChannel;
 import com.bernardomg.association.member.domain.model.MemberProfile.ContactMethod;
@@ -37,19 +50,6 @@ import com.bernardomg.association.member.domain.model.MemberProfile.Name;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
 import com.bernardomg.pagination.domain.Sorting.Property;
-import com.bernardomg.ucronia.openapi.model.ContactChannelDto;
-import com.bernardomg.ucronia.openapi.model.ContactMethodDto;
-import com.bernardomg.ucronia.openapi.model.EditionContactChannelDto;
-import com.bernardomg.ucronia.openapi.model.MemberFeeTypeDto;
-import com.bernardomg.ucronia.openapi.model.MemberNameDto;
-import com.bernardomg.ucronia.openapi.model.MemberProfileCreationDto;
-import com.bernardomg.ucronia.openapi.model.MemberProfileDto;
-import com.bernardomg.ucronia.openapi.model.MemberProfilePageResponseDto;
-import com.bernardomg.ucronia.openapi.model.MemberProfileResponseDto;
-import com.bernardomg.ucronia.openapi.model.MemberProfileUpdateDto;
-import com.bernardomg.ucronia.openapi.model.PropertyDto;
-import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
-import com.bernardomg.ucronia.openapi.model.SortingDto;
 
 public final class MemberProfileDtoMapper {
 

@@ -26,9 +26,9 @@ package com.bernardomg.association.transaction.adapter.outbound.rest.model;
 
 import java.util.Collection;
 
+import com.bernardomg.association.transaction.adapter.outbound.rest.dto.TransactionMonthlyBalanceDto;
+import com.bernardomg.association.transaction.adapter.outbound.rest.dto.TransactionMonthlyBalanceResponseDto;
 import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
-import com.bernardomg.ucronia.openapi.model.TransactionMonthlyBalanceDto;
-import com.bernardomg.ucronia.openapi.model.TransactionMonthlyBalanceResponseDto;
 
 public final class TransactionBalanceDtoMapper {
 

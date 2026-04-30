@@ -29,6 +29,12 @@ import java.util.Optional;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.association.sponsor.adapter.outbound.rest.api.SponsorApi;
+import com.bernardomg.association.sponsor.adapter.outbound.rest.dto.SponsorCreationDto;
+import com.bernardomg.association.sponsor.adapter.outbound.rest.dto.SponsorPageResponseDto;
+import com.bernardomg.association.sponsor.adapter.outbound.rest.dto.SponsorPatchDto;
+import com.bernardomg.association.sponsor.adapter.outbound.rest.dto.SponsorResponseDto;
+import com.bernardomg.association.sponsor.adapter.outbound.rest.dto.SponsorUpdateDto;
 import com.bernardomg.association.sponsor.adapter.outbound.rest.model.SponsorDtoMapper;
 import com.bernardomg.association.sponsor.domain.filter.SponsorFilter;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
@@ -39,12 +45,6 @@ import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
-import com.bernardomg.ucronia.openapi.api.SponsorApi;
-import com.bernardomg.ucronia.openapi.model.SponsorCreationDto;
-import com.bernardomg.ucronia.openapi.model.SponsorPageResponseDto;
-import com.bernardomg.ucronia.openapi.model.SponsorPatchDto;
-import com.bernardomg.ucronia.openapi.model.SponsorResponseDto;
-import com.bernardomg.ucronia.openapi.model.SponsorUpdateDto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;

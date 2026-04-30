@@ -29,6 +29,11 @@ import java.util.Optional;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.association.library.adapter.outbound.rest.api.AuthorApi;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.AuthorCreationDto;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.AuthorPageResponseDto;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.AuthorResponseDto;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.AuthorUpdateDto;
 import com.bernardomg.association.library.author.adapter.outbound.rest.model.AuthorDtoMapper;
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.author.usecase.service.AuthorService;
@@ -38,11 +43,6 @@ import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
-import com.bernardomg.ucronia.openapi.api.AuthorApi;
-import com.bernardomg.ucronia.openapi.model.AuthorCreationDto;
-import com.bernardomg.ucronia.openapi.model.AuthorPageResponseDto;
-import com.bernardomg.ucronia.openapi.model.AuthorResponseDto;
-import com.bernardomg.ucronia.openapi.model.AuthorUpdateDto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;

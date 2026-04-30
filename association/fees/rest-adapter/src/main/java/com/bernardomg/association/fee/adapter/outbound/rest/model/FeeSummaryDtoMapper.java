@@ -24,9 +24,9 @@
 
 package com.bernardomg.association.fee.adapter.outbound.rest.model;
 
+import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeeSummaryDto;
+import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeeSummaryResponseDto;
 import com.bernardomg.association.fee.domain.model.FeeSummary;
-import com.bernardomg.ucronia.openapi.model.FeeSummaryDto;
-import com.bernardomg.ucronia.openapi.model.FeeSummaryResponseDto;
 
 public final class FeeSummaryDtoMapper {
 

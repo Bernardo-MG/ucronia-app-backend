@@ -29,6 +29,12 @@ import java.util.Optional;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.association.profile.adapter.outbound.rest.api.ProfileApi;
+import com.bernardomg.association.profile.adapter.outbound.rest.dto.ProfileCreationDto;
+import com.bernardomg.association.profile.adapter.outbound.rest.dto.ProfilePageResponseDto;
+import com.bernardomg.association.profile.adapter.outbound.rest.dto.ProfilePatchDto;
+import com.bernardomg.association.profile.adapter.outbound.rest.dto.ProfileResponseDto;
+import com.bernardomg.association.profile.adapter.outbound.rest.dto.ProfileUpdateDto;
 import com.bernardomg.association.profile.adapter.outbound.rest.model.ProfileDtoMapper;
 import com.bernardomg.association.profile.domain.filter.ProfileQuery;
 import com.bernardomg.association.profile.domain.model.Profile;
@@ -39,12 +45,6 @@ import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
-import com.bernardomg.ucronia.openapi.api.ProfileApi;
-import com.bernardomg.ucronia.openapi.model.ProfileCreationDto;
-import com.bernardomg.ucronia.openapi.model.ProfilePageResponseDto;
-import com.bernardomg.ucronia.openapi.model.ProfilePatchDto;
-import com.bernardomg.ucronia.openapi.model.ProfileResponseDto;
-import com.bernardomg.ucronia.openapi.model.ProfileUpdateDto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;

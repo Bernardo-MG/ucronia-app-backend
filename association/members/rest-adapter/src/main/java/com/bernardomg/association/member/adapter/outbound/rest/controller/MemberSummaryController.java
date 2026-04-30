@@ -26,13 +26,13 @@ package com.bernardomg.association.member.adapter.outbound.rest.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.association.member.adapter.outbound.rest.api.MemberSummaryApi;
+import com.bernardomg.association.member.adapter.outbound.rest.dto.MemberSummaryResponseDto;
 import com.bernardomg.association.member.adapter.outbound.rest.model.MemberSummaryDtoMapper;
 import com.bernardomg.association.member.domain.model.MemberSummary;
 import com.bernardomg.association.member.usecase.service.MemberSummaryService;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
-import com.bernardomg.ucronia.openapi.api.MemberSummaryApi;
-import com.bernardomg.ucronia.openapi.model.MemberSummaryResponseDto;
 
 /**
  * Member summary REST controller.

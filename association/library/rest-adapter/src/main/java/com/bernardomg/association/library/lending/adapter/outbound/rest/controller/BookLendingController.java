@@ -28,6 +28,11 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.association.library.adapter.outbound.rest.api.BookLendingApi;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.BookLendingPageResponseDto;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.BookLendingResponseDto;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.BookLentDto;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.BookReturnedDto;
 import com.bernardomg.association.library.lending.adapter.outbound.rest.model.BookLendingDtoMapper;
 import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.lending.usecase.service.BookLendingService;
@@ -37,11 +42,6 @@ import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
-import com.bernardomg.ucronia.openapi.api.BookLendingApi;
-import com.bernardomg.ucronia.openapi.model.BookLendingPageResponseDto;
-import com.bernardomg.ucronia.openapi.model.BookLendingResponseDto;
-import com.bernardomg.ucronia.openapi.model.BookLentDto;
-import com.bernardomg.ucronia.openapi.model.BookReturnedDto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;

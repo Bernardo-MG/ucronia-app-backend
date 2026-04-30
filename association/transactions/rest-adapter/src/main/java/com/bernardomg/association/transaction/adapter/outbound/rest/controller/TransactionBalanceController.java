@@ -29,14 +29,14 @@ import java.util.Collection;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.association.transaction.adapter.outbound.rest.api.TransactionBalanceApi;
+import com.bernardomg.association.transaction.adapter.outbound.rest.dto.TransactionMonthlyBalanceResponseDto;
 import com.bernardomg.association.transaction.adapter.outbound.rest.model.TransactionBalanceDtoMapper;
 import com.bernardomg.association.transaction.domain.model.TransactionBalanceQuery;
 import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
 import com.bernardomg.association.transaction.usecase.service.TransactionBalanceService;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
-import com.bernardomg.ucronia.openapi.api.TransactionBalanceApi;
-import com.bernardomg.ucronia.openapi.model.TransactionMonthlyBalanceResponseDto;
 
 import jakarta.validation.Valid;
 

@@ -32,13 +32,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.access.annotation.Unsecured;
 import com.bernardomg.security.permission.domain.constant.Actions;
+import com.bernardomg.settings.adapter.outbound.rest.api.SettingsApi;
+import com.bernardomg.settings.adapter.outbound.rest.dto.SettingResponseDto;
+import com.bernardomg.settings.adapter.outbound.rest.dto.SettingUpdateDto;
+import com.bernardomg.settings.adapter.outbound.rest.dto.SettingsResponseDto;
 import com.bernardomg.settings.adapter.outbound.rest.model.SettingsDtoMapper;
 import com.bernardomg.settings.domain.model.Setting;
 import com.bernardomg.settings.usecase.service.SettingService;
-import com.bernardomg.ucronia.openapi.api.SettingsApi;
-import com.bernardomg.ucronia.openapi.model.SettingResponseDto;
-import com.bernardomg.ucronia.openapi.model.SettingUpdateDto;
-import com.bernardomg.ucronia.openapi.model.SettingsResponseDto;
 
 import jakarta.validation.Valid;
 

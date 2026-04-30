@@ -26,18 +26,18 @@ package com.bernardomg.association.profile.adapter.outbound.rest.model;
 
 import java.util.Optional;
 
+import com.bernardomg.association.profile.adapter.outbound.rest.dto.ContactMethodCreationDto;
+import com.bernardomg.association.profile.adapter.outbound.rest.dto.ContactMethodDto;
+import com.bernardomg.association.profile.adapter.outbound.rest.dto.ContactMethodPageResponseDto;
+import com.bernardomg.association.profile.adapter.outbound.rest.dto.ContactMethodResponseDto;
+import com.bernardomg.association.profile.adapter.outbound.rest.dto.ContactMethodUpdateDto;
+import com.bernardomg.association.profile.adapter.outbound.rest.dto.PropertyDto;
+import com.bernardomg.association.profile.adapter.outbound.rest.dto.PropertyDto.DirectionEnum;
+import com.bernardomg.association.profile.adapter.outbound.rest.dto.SortingDto;
 import com.bernardomg.association.profile.domain.model.ContactMethod;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
 import com.bernardomg.pagination.domain.Sorting.Property;
-import com.bernardomg.ucronia.openapi.model.ContactMethodCreationDto;
-import com.bernardomg.ucronia.openapi.model.ContactMethodDto;
-import com.bernardomg.ucronia.openapi.model.ContactMethodPageResponseDto;
-import com.bernardomg.ucronia.openapi.model.ContactMethodResponseDto;
-import com.bernardomg.ucronia.openapi.model.ContactMethodUpdateDto;
-import com.bernardomg.ucronia.openapi.model.PropertyDto;
-import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
-import com.bernardomg.ucronia.openapi.model.SortingDto;
 
 public final class ContactMethodDtoMapper {
 

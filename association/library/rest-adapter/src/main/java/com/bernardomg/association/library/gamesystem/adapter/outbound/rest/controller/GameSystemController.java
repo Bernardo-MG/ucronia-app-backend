@@ -29,6 +29,11 @@ import java.util.Optional;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.association.library.adapter.outbound.rest.api.GameSystemApi;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.GameSystemCreationDto;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.GameSystemPageResponseDto;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.GameSystemResponseDto;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.GameSystemUpdateDto;
 import com.bernardomg.association.library.gamesystem.adapter.outbound.rest.model.GameSystemDtoMapper;
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.gamesystem.usecase.service.GameSystemService;
@@ -38,11 +43,6 @@ import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
-import com.bernardomg.ucronia.openapi.api.GameSystemApi;
-import com.bernardomg.ucronia.openapi.model.GameSystemCreationDto;
-import com.bernardomg.ucronia.openapi.model.GameSystemPageResponseDto;
-import com.bernardomg.ucronia.openapi.model.GameSystemResponseDto;
-import com.bernardomg.ucronia.openapi.model.GameSystemUpdateDto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;

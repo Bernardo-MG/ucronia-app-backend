@@ -26,16 +26,16 @@ package com.bernardomg.association.library.gamesystem.adapter.outbound.rest.mode
 
 import java.util.Optional;
 
+import com.bernardomg.association.library.adapter.outbound.rest.dto.GameSystemDto;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.GameSystemPageResponseDto;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.GameSystemResponseDto;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.PropertyDto;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.PropertyDto.DirectionEnum;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.SortingDto;
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
 import com.bernardomg.pagination.domain.Sorting.Property;
-import com.bernardomg.ucronia.openapi.model.GameSystemDto;
-import com.bernardomg.ucronia.openapi.model.GameSystemPageResponseDto;
-import com.bernardomg.ucronia.openapi.model.GameSystemResponseDto;
-import com.bernardomg.ucronia.openapi.model.PropertyDto;
-import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
-import com.bernardomg.ucronia.openapi.model.SortingDto;
 
 public final class GameSystemDtoMapper {
 

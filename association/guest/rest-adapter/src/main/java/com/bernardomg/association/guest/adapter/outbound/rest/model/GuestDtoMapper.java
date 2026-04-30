@@ -30,6 +30,19 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import com.bernardomg.association.guest.adapter.outbound.rest.dto.ContactChannelDto;
+import com.bernardomg.association.guest.adapter.outbound.rest.dto.ContactMethodDto;
+import com.bernardomg.association.guest.adapter.outbound.rest.dto.EditionContactChannelDto;
+import com.bernardomg.association.guest.adapter.outbound.rest.dto.GuestCreationDto;
+import com.bernardomg.association.guest.adapter.outbound.rest.dto.GuestDto;
+import com.bernardomg.association.guest.adapter.outbound.rest.dto.GuestNameDto;
+import com.bernardomg.association.guest.adapter.outbound.rest.dto.GuestPageResponseDto;
+import com.bernardomg.association.guest.adapter.outbound.rest.dto.GuestPatchDto;
+import com.bernardomg.association.guest.adapter.outbound.rest.dto.GuestResponseDto;
+import com.bernardomg.association.guest.adapter.outbound.rest.dto.GuestUpdateDto;
+import com.bernardomg.association.guest.adapter.outbound.rest.dto.PropertyDto;
+import com.bernardomg.association.guest.adapter.outbound.rest.dto.PropertyDto.DirectionEnum;
+import com.bernardomg.association.guest.adapter.outbound.rest.dto.SortingDto;
 import com.bernardomg.association.guest.domain.model.Guest;
 import com.bernardomg.association.guest.domain.model.Guest.ContactChannel;
 import com.bernardomg.association.guest.domain.model.Guest.ContactMethod;
@@ -37,19 +50,6 @@ import com.bernardomg.association.guest.domain.model.Guest.Name;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
 import com.bernardomg.pagination.domain.Sorting.Property;
-import com.bernardomg.ucronia.openapi.model.ContactChannelDto;
-import com.bernardomg.ucronia.openapi.model.ContactMethodDto;
-import com.bernardomg.ucronia.openapi.model.EditionContactChannelDto;
-import com.bernardomg.ucronia.openapi.model.GuestCreationDto;
-import com.bernardomg.ucronia.openapi.model.GuestDto;
-import com.bernardomg.ucronia.openapi.model.GuestNameDto;
-import com.bernardomg.ucronia.openapi.model.GuestPageResponseDto;
-import com.bernardomg.ucronia.openapi.model.GuestPatchDto;
-import com.bernardomg.ucronia.openapi.model.GuestResponseDto;
-import com.bernardomg.ucronia.openapi.model.GuestUpdateDto;
-import com.bernardomg.ucronia.openapi.model.PropertyDto;
-import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
-import com.bernardomg.ucronia.openapi.model.SortingDto;
 
 public final class GuestDtoMapper {
 

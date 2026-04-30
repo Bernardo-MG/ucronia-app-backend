@@ -26,13 +26,13 @@ package com.bernardomg.association.sponsor.adapter.outbound.rest.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.association.sponsor.adapter.outbound.rest.api.ProfileSponsorshipApi;
+import com.bernardomg.association.sponsor.adapter.outbound.rest.dto.SponsorResponseDto;
 import com.bernardomg.association.sponsor.adapter.outbound.rest.model.SponsorDtoMapper;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
 import com.bernardomg.association.sponsor.usecase.service.ProfileSponsorshipService;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
-import com.bernardomg.ucronia.openapi.api.ProfileSponsorshipApi;
-import com.bernardomg.ucronia.openapi.model.SponsorResponseDto;
 
 /**
  * Member REST controller.

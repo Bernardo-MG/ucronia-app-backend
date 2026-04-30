@@ -31,14 +31,14 @@ import java.util.Collection;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.association.member.adapter.outbound.rest.api.MembershipEvolutionApi;
+import com.bernardomg.association.member.adapter.outbound.rest.dto.MembershipMonthlyEvolutionResponseDto;
 import com.bernardomg.association.member.adapter.outbound.rest.model.MembershipMonthlyEvolutionDtoMapper;
 import com.bernardomg.association.member.domain.filter.MembershipEvolutionQuery;
 import com.bernardomg.association.member.domain.model.MembershipEvolutionMonth;
 import com.bernardomg.association.member.usecase.service.MembershipEvolutionService;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
-import com.bernardomg.ucronia.openapi.api.MembershipEvolutionApi;
-import com.bernardomg.ucronia.openapi.model.MembershipMonthlyEvolutionResponseDto;
 
 import jakarta.validation.Valid;
 

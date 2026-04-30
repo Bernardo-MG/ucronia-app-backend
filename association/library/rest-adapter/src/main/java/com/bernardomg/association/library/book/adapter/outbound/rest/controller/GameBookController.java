@@ -29,6 +29,11 @@ import java.util.Optional;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.association.library.adapter.outbound.rest.api.GameBookApi;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.BookCreationDto;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.GameBookPageResponseDto;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.GameBookResponseDto;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.GameBookUpdateDto;
 import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookDtoMapper;
 import com.bernardomg.association.library.book.domain.model.GameBook;
 import com.bernardomg.association.library.book.usecase.service.GameBookService;
@@ -38,11 +43,6 @@ import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
-import com.bernardomg.ucronia.openapi.api.GameBookApi;
-import com.bernardomg.ucronia.openapi.model.BookCreationDto;
-import com.bernardomg.ucronia.openapi.model.GameBookPageResponseDto;
-import com.bernardomg.ucronia.openapi.model.GameBookResponseDto;
-import com.bernardomg.ucronia.openapi.model.GameBookUpdateDto;
 
 import jakarta.validation.Valid;
 

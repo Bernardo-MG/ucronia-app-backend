@@ -26,9 +26,9 @@ package com.bernardomg.association.member.adapter.outbound.rest.model;
 
 import java.util.Collection;
 
+import com.bernardomg.association.member.adapter.outbound.rest.dto.MembershipMonthlyEvolutionDto;
+import com.bernardomg.association.member.adapter.outbound.rest.dto.MembershipMonthlyEvolutionResponseDto;
 import com.bernardomg.association.member.domain.model.MembershipEvolutionMonth;
-import com.bernardomg.ucronia.openapi.model.MembershipMonthlyEvolutionDto;
-import com.bernardomg.ucronia.openapi.model.MembershipMonthlyEvolutionResponseDto;
 
 public final class MembershipMonthlyEvolutionDtoMapper {
 

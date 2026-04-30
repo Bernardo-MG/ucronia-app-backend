@@ -26,21 +26,21 @@ package com.bernardomg.association.library.lending.adapter.outbound.rest.model;
 
 import java.util.Optional;
 
+import com.bernardomg.association.library.adapter.outbound.rest.dto.BookLendingBookDto;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.BookLendingDto;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.BookLendingPageResponseDto;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.BookLendingResponseDto;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.BookTitleDto;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.BorrowerDto;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.BorrowerNameDto;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.PropertyDto;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.PropertyDto.DirectionEnum;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.SortingDto;
 import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.lending.domain.model.BookLending.LentBook;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
 import com.bernardomg.pagination.domain.Sorting.Property;
-import com.bernardomg.ucronia.openapi.model.BookLendingBookDto;
-import com.bernardomg.ucronia.openapi.model.BookLendingDto;
-import com.bernardomg.ucronia.openapi.model.BookLendingPageResponseDto;
-import com.bernardomg.ucronia.openapi.model.BookLendingResponseDto;
-import com.bernardomg.ucronia.openapi.model.BookTitleDto;
-import com.bernardomg.ucronia.openapi.model.BorrowerDto;
-import com.bernardomg.ucronia.openapi.model.BorrowerNameDto;
-import com.bernardomg.ucronia.openapi.model.PropertyDto;
-import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
-import com.bernardomg.ucronia.openapi.model.SortingDto;
 
 public final class BookLendingDtoMapper {
 

@@ -31,6 +31,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.association.library.adapter.outbound.rest.api.PublisherApi;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.PublisherCreationDto;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.PublisherPageResponseDto;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.PublisherResponseDto;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.PublisherUpdateDto;
 import com.bernardomg.association.library.publisher.adapter.outbound.rest.model.PublisherDtoMapper;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
 import com.bernardomg.association.library.publisher.usecase.service.PublisherService;
@@ -40,11 +45,6 @@ import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
-import com.bernardomg.ucronia.openapi.api.PublisherApi;
-import com.bernardomg.ucronia.openapi.model.PublisherCreationDto;
-import com.bernardomg.ucronia.openapi.model.PublisherPageResponseDto;
-import com.bernardomg.ucronia.openapi.model.PublisherResponseDto;
-import com.bernardomg.ucronia.openapi.model.PublisherUpdateDto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;

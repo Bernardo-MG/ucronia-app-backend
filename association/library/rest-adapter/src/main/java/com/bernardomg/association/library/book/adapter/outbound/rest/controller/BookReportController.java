@@ -31,11 +31,11 @@ import java.io.UncheckedIOException;
 import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.association.library.adapter.outbound.rest.api.BookReportApi;
 import com.bernardomg.association.library.book.usecase.service.BookReportService;
 import com.bernardomg.excel.web.ExcelResponses;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
-import com.bernardomg.ucronia.openapi.api.BookReportApi;
 
 /**
  * Transaction report REST controller.

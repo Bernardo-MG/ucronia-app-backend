@@ -30,6 +30,12 @@ import java.util.Optional;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.association.transaction.adapter.outbound.rest.api.TransactionApi;
+import com.bernardomg.association.transaction.adapter.outbound.rest.dto.TransactionCreationDto;
+import com.bernardomg.association.transaction.adapter.outbound.rest.dto.TransactionMonthsRangeResponseDto;
+import com.bernardomg.association.transaction.adapter.outbound.rest.dto.TransactionPageResponseDto;
+import com.bernardomg.association.transaction.adapter.outbound.rest.dto.TransactionResponseDto;
+import com.bernardomg.association.transaction.adapter.outbound.rest.dto.TransactionUpdateDto;
 import com.bernardomg.association.transaction.adapter.outbound.rest.model.TransactionDtoMapper;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.model.TransactionMonthsRange;
@@ -41,12 +47,6 @@ import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
-import com.bernardomg.ucronia.openapi.api.TransactionApi;
-import com.bernardomg.ucronia.openapi.model.TransactionCreationDto;
-import com.bernardomg.ucronia.openapi.model.TransactionMonthsRangeResponseDto;
-import com.bernardomg.ucronia.openapi.model.TransactionPageResponseDto;
-import com.bernardomg.ucronia.openapi.model.TransactionResponseDto;
-import com.bernardomg.ucronia.openapi.model.TransactionUpdateDto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;

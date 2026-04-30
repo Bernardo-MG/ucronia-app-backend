@@ -32,6 +32,13 @@ import java.util.Optional;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.association.fee.adapter.outbound.rest.api.FeeApi;
+import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeeCreationDto;
+import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeePageResponseDto;
+import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeePaymentsDto;
+import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeeResponseDto;
+import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeeUpdateDto;
+import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeesResponseDto;
 import com.bernardomg.association.fee.adapter.outbound.rest.model.FeeDtoMapper;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeePayments;
@@ -43,13 +50,6 @@ import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
-import com.bernardomg.ucronia.openapi.api.FeeApi;
-import com.bernardomg.ucronia.openapi.model.FeeCreationDto;
-import com.bernardomg.ucronia.openapi.model.FeePageResponseDto;
-import com.bernardomg.ucronia.openapi.model.FeePaymentsDto;
-import com.bernardomg.ucronia.openapi.model.FeeResponseDto;
-import com.bernardomg.ucronia.openapi.model.FeeUpdateDto;
-import com.bernardomg.ucronia.openapi.model.FeesResponseDto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;

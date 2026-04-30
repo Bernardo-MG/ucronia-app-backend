@@ -29,6 +29,11 @@ import java.util.Optional;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.association.library.adapter.outbound.rest.api.BookTypeApi;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.BookTypeCreationDto;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.BookTypePageResponseDto;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.BookTypeResponseDto;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.BookTypeUpdateDto;
 import com.bernardomg.association.library.booktype.adapter.outbound.rest.model.BookTypeDtoMapper;
 import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.booktype.usecase.service.BookTypeService;
@@ -38,11 +43,6 @@ import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
-import com.bernardomg.ucronia.openapi.api.BookTypeApi;
-import com.bernardomg.ucronia.openapi.model.BookTypeCreationDto;
-import com.bernardomg.ucronia.openapi.model.BookTypePageResponseDto;
-import com.bernardomg.ucronia.openapi.model.BookTypeResponseDto;
-import com.bernardomg.ucronia.openapi.model.BookTypeUpdateDto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
