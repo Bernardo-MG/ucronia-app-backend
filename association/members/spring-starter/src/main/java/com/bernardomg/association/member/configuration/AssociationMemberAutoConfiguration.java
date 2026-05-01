@@ -31,6 +31,7 @@ import org.springframework.context.annotation.Configuration;
 import com.bernardomg.association.member.adapter.inbound.event.ActivateMemberOnFeePaidEventListener;
 import com.bernardomg.association.member.adapter.inbound.event.ApplyRenewalOnMonthStartEventListener;
 import com.bernardomg.association.member.adapter.inbound.event.DeactivateMemberOnFeeDeletedEventListener;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberContactMethodRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberFeeTypeRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberProfileRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberRepository;
@@ -42,6 +43,7 @@ import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberPr
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MembershipEvolutionSpringRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.ReadMemberProfileSpringRepository;
+import com.bernardomg.association.member.domain.repository.MemberContactMethodRepository;
 import com.bernardomg.association.member.domain.repository.MemberFeeTypeRepository;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
@@ -59,8 +61,6 @@ import com.bernardomg.association.member.usecase.service.MemberStatusService;
 import com.bernardomg.association.member.usecase.service.MemberSummaryService;
 import com.bernardomg.association.member.usecase.service.MembershipEvolutionService;
 import com.bernardomg.association.member.usecase.service.ProfileMembershipService;
-import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
-import com.bernardomg.association.profile.domain.repository.ProfileRepository;
 
 @Configuration
 @ComponentScan({ "com.bernardomg.association.member.adapter.outbound.rest.controller",
@@ -85,6 +85,12 @@ public class AssociationMemberAutoConfiguration {
         return new DeactivateMemberOnFeeDeletedEventListener(service);
     }
 
+    @Bean("memberContactMethodRepository")
+    public MemberContactMethodRepository
+            getMemberContactMethodRepository(final MemberContactMethodSpringRepository contactMethodSpringRepository) {
+        return new JpaMemberContactMethodRepository(contactMethodSpringRepository);
+    }
+
     @Bean("memberFeeTypeRepository")
     public MemberFeeTypeRepository
             getMemberFeeTypeRepository(final MemberFeeTypeSpringRepository memberFeeTypeSpringRepository) {
@@ -103,7 +109,7 @@ public class AssociationMemberAutoConfiguration {
 
     @Bean("memberProfileService")
     public MemberProfileService getMemberProfileService(final MemberProfileRepository memberProfileRepository,
-            final ContactMethodRepository contactMethodRepository,
+            final MemberContactMethodRepository contactMethodRepository,
             final MemberFeeTypeRepository memberFeeTypeRepository) {
         return new DefaultMemberProfileService(memberProfileRepository, contactMethodRepository,
             memberFeeTypeRepository);
@@ -148,8 +154,8 @@ public class AssociationMemberAutoConfiguration {
 
     @Bean("profileMembershipService")
     public ProfileMembershipService getProfileMembershipService(final MemberProfileRepository memberProfileRepository,
-            final ProfileRepository profileRepository, final MemberFeeTypeRepository memberFeeTypeRepository) {
-        return new DefaultProfileMembershipService(memberProfileRepository, profileRepository, memberFeeTypeRepository);
+            final MemberFeeTypeRepository memberFeeTypeRepository) {
+        return new DefaultProfileMembershipService(memberProfileRepository, memberFeeTypeRepository);
     }
 
 }

@@ -30,6 +30,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.bernardomg.association.member.domain.exception.MissingMemberContactMethodException;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.exception.MissingMemberFeeTypeException;
 import com.bernardomg.association.member.domain.filter.MemberProfileFilter;
@@ -37,12 +38,11 @@ import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.model.MemberProfile.ContactChannel;
 import com.bernardomg.association.member.domain.model.MemberProfile.ContactMethod;
 import com.bernardomg.association.member.domain.model.MemberProfile.Name;
+import com.bernardomg.association.member.domain.repository.MemberContactMethodRepository;
 import com.bernardomg.association.member.domain.repository.MemberFeeTypeRepository;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.member.usecase.validation.MemberProfileIdentifierNotExistForAnotherRule;
 import com.bernardomg.association.member.usecase.validation.MemberProfileIdentifierNotExistRule;
-import com.bernardomg.association.profile.domain.exception.MissingContactMethodException;
-import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
@@ -63,22 +63,22 @@ public final class DefaultMemberProfileService implements MemberProfileService {
     /**
      * Logger for the class.
      */
-    private static final Logger            log = LoggerFactory.getLogger(DefaultMemberProfileService.class);
+    private static final Logger                 log = LoggerFactory.getLogger(DefaultMemberProfileService.class);
 
-    private final ContactMethodRepository  contactMethodRepository;
+    private final MemberContactMethodRepository contactMethodRepository;
 
-    private final Validator<MemberProfile> createValidator;
+    private final Validator<MemberProfile>      createValidator;
 
-    private final MemberFeeTypeRepository  memberFeeTypeRepository;
+    private final MemberFeeTypeRepository       memberFeeTypeRepository;
 
-    private final MemberProfileRepository  memberProfileRepository;
+    private final MemberProfileRepository       memberProfileRepository;
 
-    private final Validator<MemberProfile> patchValidator;
+    private final Validator<MemberProfile>      patchValidator;
 
-    private final Validator<MemberProfile> updateValidator;
+    private final Validator<MemberProfile>      updateValidator;
 
     public DefaultMemberProfileService(final MemberProfileRepository memberProfileRepo,
-            final ContactMethodRepository contactMethodRepo, final MemberFeeTypeRepository memberFeeTypeRepo) {
+            final MemberContactMethodRepository contactMethodRepo, final MemberFeeTypeRepository memberFeeTypeRepo) {
         super();
 
         memberProfileRepository = Objects.requireNonNull(memberProfileRepo);
@@ -247,7 +247,7 @@ public final class DefaultMemberProfileService implements MemberProfileService {
     private final void checkContactMethodExists(final ContactMethod contactMethod) {
         if (!contactMethodRepository.exists(contactMethod.number())) {
             log.error("Missing contact method {}", contactMethod.number());
-            throw new MissingContactMethodException(contactMethod.number());
+            throw new MissingMemberContactMethodException(contactMethod.number());
         }
     }
 

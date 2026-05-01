@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.function.Supplier;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -222,11 +223,11 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
     public final MemberProfile save(final MemberProfile memberProfile) {
         final MemberProfileEntity entity;
         final MemberProfile       created;
-        final Long                number;
+        final Supplier<Long>      number;
 
         log.debug("Saving member profile {}", memberProfile);
 
-        number = readMemberProfileSpringRepository.findNextNumber();
+        number = () -> readMemberProfileSpringRepository.findNextNumber();
         entity = toEntity(memberProfile, number);
 
         created = MemberProfileEntityMapper.toDomain(memberProfileSpringRepository.save(entity));
@@ -240,13 +241,15 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
     public final Collection<MemberProfile> saveAll(final Collection<MemberProfile> memberProfiles) {
         final List<MemberProfileEntity> entities;
         final List<MemberProfile>       saved;
-        final AtomicLong                number;
+        final Supplier<Long>            number;
+        final AtomicLong                sourceNumber;
 
         log.debug("Saving member profiles {}", memberProfiles);
 
-        number = new AtomicLong(readMemberProfileSpringRepository.findNextNumber());
+        sourceNumber = new AtomicLong(readMemberProfileSpringRepository.findNextNumber());
+        number = () -> sourceNumber.getAndIncrement();
         entities = memberProfiles.stream()
-            .map(m -> toEntity(m, number.getAndIncrement()))
+            .map(m -> toEntity(m, number))
             .toList();
 
         saved = memberProfileSpringRepository.saveAll(entities)
@@ -301,7 +304,7 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
         }
     }
 
-    private final MemberProfileEntity toEntity(final MemberProfile memberProfile, final Long number) {
+    private final MemberProfileEntity toEntity(final MemberProfile memberProfile, final Supplier<Long> number) {
         final Optional<MemberProfileEntity>         existing;
         final MemberProfileEntity                   entity;
         final Collection<MemberContactMethodEntity> contactMethods;
@@ -322,7 +325,7 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
                         .getNumber());
             } else {
                 entity.getProfile()
-                    .setNumber(number);
+                    .setNumber(number.get());
             }
         }
 

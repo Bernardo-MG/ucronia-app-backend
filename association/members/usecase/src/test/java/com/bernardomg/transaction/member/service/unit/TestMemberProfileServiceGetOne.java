@@ -39,28 +39,28 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.model.MemberProfile;
+import com.bernardomg.association.member.domain.repository.MemberContactMethodRepository;
 import com.bernardomg.association.member.domain.repository.MemberFeeTypeRepository;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.member.test.configuration.factory.MemberConstants;
 import com.bernardomg.association.member.test.configuration.factory.MemberProfiles;
 import com.bernardomg.association.member.usecase.service.DefaultMemberProfileService;
-import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultMemberProfileService - get one")
 class TestMemberProfileServiceGetOne {
 
     @Mock
-    private ContactMethodRepository     contactMethodRepository;
+    private MemberContactMethodRepository memberContactMethodRepository;
 
     @Mock
-    private MemberFeeTypeRepository     memberFeeTypeRepository;
+    private MemberFeeTypeRepository       memberFeeTypeRepository;
 
     @Mock
-    private MemberProfileRepository     memberProfileRepository;
+    private MemberProfileRepository       memberProfileRepository;
 
     @InjectMocks
-    private DefaultMemberProfileService service;
+    private DefaultMemberProfileService   service;
 
     public TestMemberProfileServiceGetOne() {
         super();

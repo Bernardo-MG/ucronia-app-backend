@@ -24,17 +24,40 @@
 
 package com.bernardomg.association.member.adapter.inbound.jpa.repository;
 
-import java.util.Collection;
-import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.bernardomg.association.member.domain.repository.MemberContactMethodRepository;
 
-import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberContactMethodEntity;
+@Transactional
+public final class JpaMemberContactMethodRepository implements MemberContactMethodRepository {
 
-public interface MemberContactMethodSpringRepository extends JpaRepository<MemberContactMethodEntity, Long> {
+    /**
+     * Logger for the class.
+     */
+    private static final Logger                       log = LoggerFactory
+        .getLogger(JpaMemberContactMethodRepository.class);
 
-    public boolean existsByNumber(final Long number);
+    private final MemberContactMethodSpringRepository contactMethodSpringRepository;
 
-    public List<MemberContactMethodEntity> findAllByNumberIn(final Collection<Long> numbers);
+    public JpaMemberContactMethodRepository(final MemberContactMethodSpringRepository ContactMethodSpringRepository) {
+        super();
+
+        contactMethodSpringRepository = ContactMethodSpringRepository;
+    }
+
+    @Override
+    public final boolean exists(final long number) {
+        final boolean exists;
+
+        log.debug("Checking if contact method {} exists", number);
+
+        exists = contactMethodSpringRepository.existsByNumber(number);
+
+        log.debug("Contact method {} exists: {}", number, exists);
+
+        return exists;
+    }
 
 }

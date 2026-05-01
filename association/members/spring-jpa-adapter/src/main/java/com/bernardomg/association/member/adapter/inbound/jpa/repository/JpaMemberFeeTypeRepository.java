@@ -38,7 +38,7 @@ public final class JpaMemberFeeTypeRepository implements MemberFeeTypeRepository
     /**
      * Logger for the class.
      */
-    private static final Logger           log = LoggerFactory.getLogger(JpaMemberFeeTypeRepository.class);
+    private static final Logger                 log = LoggerFactory.getLogger(JpaMemberFeeTypeRepository.class);
 
     private final MemberFeeTypeSpringRepository memberFeeTypeSpringRepository;
 

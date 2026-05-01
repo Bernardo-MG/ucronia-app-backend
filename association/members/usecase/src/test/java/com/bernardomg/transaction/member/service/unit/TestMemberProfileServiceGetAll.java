@@ -40,11 +40,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.association.member.domain.filter.MemberProfileFilter;
 import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.model.MemberStatus;
+import com.bernardomg.association.member.domain.repository.MemberContactMethodRepository;
 import com.bernardomg.association.member.domain.repository.MemberFeeTypeRepository;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.member.test.configuration.factory.MemberProfiles;
 import com.bernardomg.association.member.usecase.service.DefaultMemberProfileService;
-import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
@@ -54,16 +54,16 @@ import com.bernardomg.pagination.domain.Sorting;
 class TestMemberProfileServiceGetAll {
 
     @Mock
-    private ContactMethodRepository     contactMethodRepository;
+    private MemberContactMethodRepository memberContactMethodRepository;
 
     @Mock
-    private MemberFeeTypeRepository     memberFeeTypeRepository;
+    private MemberFeeTypeRepository       memberFeeTypeRepository;
 
     @Mock
-    private MemberProfileRepository     memberProfileRepository;
+    private MemberProfileRepository       memberProfileRepository;
 
     @InjectMocks
-    private DefaultMemberProfileService service;
+    private DefaultMemberProfileService   service;
 
     @Test
     @DisplayName("When there is no data, it returns nothing")
