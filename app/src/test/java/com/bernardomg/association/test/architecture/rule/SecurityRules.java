@@ -17,6 +17,9 @@ public class SecurityRules {
         .areDeclaredInClassesThat(new IsSpringControllerClass())
         .and()
         .arePublic()
+        .and()
+        .areDeclaredInClassesThat()
+        .areNotInterfaces()
         .should()
         .beAnnotatedWith(RequireResourceAuthorization.class)
         .orShould()
@@ -25,8 +28,6 @@ public class SecurityRules {
     @ArchTest
     static final ArchRule service_methods_should_not_be_secured = methods().that()
         .areDeclaredInClassesThat(new IsInServicePackage())
-        .and()
-        .arePublic()
         .should()
         .notBeAnnotatedWith(RequireResourceAuthorization.class);
 
