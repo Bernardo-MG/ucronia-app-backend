@@ -26,7 +26,6 @@ package com.bernardomg.association.sponsor.adapter.outbound.rest.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.sponsor.adapter.outbound.rest.api.ProfileSponsorshipApi;
 import com.bernardomg.association.sponsor.adapter.outbound.rest.dto.SponsorResponseDto;
 import com.bernardomg.association.sponsor.adapter.outbound.rest.model.SponsorDtoMapper;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;

@@ -29,7 +29,6 @@ import java.util.Optional;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.sponsor.adapter.outbound.rest.api.SponsorApi;
 import com.bernardomg.association.sponsor.adapter.outbound.rest.dto.SponsorCreationDto;
 import com.bernardomg.association.sponsor.adapter.outbound.rest.dto.SponsorPageResponseDto;
 import com.bernardomg.association.sponsor.adapter.outbound.rest.dto.SponsorPatchDto;

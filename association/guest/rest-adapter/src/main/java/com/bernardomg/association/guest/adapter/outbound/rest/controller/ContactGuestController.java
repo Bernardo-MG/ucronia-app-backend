@@ -26,7 +26,6 @@ package com.bernardomg.association.guest.adapter.outbound.rest.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.guest.adapter.outbound.rest.api.ProfileGuestApi;
 import com.bernardomg.association.guest.adapter.outbound.rest.dto.GuestResponseDto;
 import com.bernardomg.association.guest.adapter.outbound.rest.model.GuestDtoMapper;
 import com.bernardomg.association.guest.domain.model.Guest;

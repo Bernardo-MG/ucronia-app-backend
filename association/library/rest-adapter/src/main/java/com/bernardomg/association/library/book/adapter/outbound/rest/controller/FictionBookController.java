@@ -29,7 +29,7 @@ import java.util.Optional;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.library.adapter.outbound.rest.api.FictionBookApi;
+import com.bernardomg.association.library.adapter.outbound.rest.controller.FictionBookApi;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.BookCreationDto;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.FictionBookPageResponseDto;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.FictionBookResponseDto;

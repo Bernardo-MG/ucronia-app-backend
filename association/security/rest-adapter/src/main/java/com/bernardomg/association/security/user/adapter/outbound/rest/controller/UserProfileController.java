@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.security.account.domain.model.ProfileAccount.Profile;
-import com.bernardomg.association.security.adapter.outbound.rest.api.UserProfileApi;
+import com.bernardomg.association.security.adapter.outbound.rest.controller.UserProfileApi;
 import com.bernardomg.association.security.adapter.outbound.rest.dto.ProfileResponseDto;
 import com.bernardomg.association.security.user.adapter.outbound.rest.model.UserProfileDtoMapper;
 import com.bernardomg.association.security.user.usecase.service.UserProfileService;

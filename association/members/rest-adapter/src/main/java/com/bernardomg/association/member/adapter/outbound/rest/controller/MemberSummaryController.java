@@ -26,7 +26,6 @@ package com.bernardomg.association.member.adapter.outbound.rest.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.member.adapter.outbound.rest.api.MemberSummaryApi;
 import com.bernardomg.association.member.adapter.outbound.rest.dto.MemberSummaryResponseDto;
 import com.bernardomg.association.member.adapter.outbound.rest.model.MemberSummaryDtoMapper;
 import com.bernardomg.association.member.domain.model.MemberSummary;

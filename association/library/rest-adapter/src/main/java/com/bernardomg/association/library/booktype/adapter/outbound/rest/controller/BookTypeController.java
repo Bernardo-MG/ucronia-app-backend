@@ -29,7 +29,7 @@ import java.util.Optional;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.library.adapter.outbound.rest.api.BookTypeApi;
+import com.bernardomg.association.library.adapter.outbound.rest.controller.BookTypeApi;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.BookTypeCreationDto;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.BookTypePageResponseDto;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.BookTypeResponseDto;

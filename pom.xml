@@ -197,7 +197,7 @@
       <archunit.version>1.4.1</archunit.version>
       <bernardomg.framework.event.version>1.0.0</bernardomg.framework.event.version>
       <bernardomg.framework.pagination.version>1.0.2</bernardomg.framework.pagination.version>
-      <bernardomg.framework.test.architecture>1.0.7</bernardomg.framework.test.architecture>
+      <bernardomg.framework.test.architecture>1.0.8</bernardomg.framework.test.architecture>
       <bernardomg.framework.validation.version>0.2.5</bernardomg.framework.validation.version>
       <bernardomg.framework.ws.version>0.5.1</bernardomg.framework.ws.version>
       <bernardomg.framework.ws.security.version>0.4.48</bernardomg.framework.ws.security.version>

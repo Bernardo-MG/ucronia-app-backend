@@ -26,7 +26,6 @@ package com.bernardomg.association.settings.adapter.outbound.rest.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.settings.adapter.outbound.rest.api.PublicSettingsApi;
 import com.bernardomg.association.settings.adapter.outbound.rest.dto.PublicSettingsResponseDto;
 import com.bernardomg.association.settings.adapter.outbound.rest.model.PublicSettingsDtoMapper;
 import com.bernardomg.association.settings.domain.model.PublicSettings;

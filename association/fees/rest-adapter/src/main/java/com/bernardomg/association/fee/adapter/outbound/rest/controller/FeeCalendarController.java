@@ -30,7 +30,6 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.fee.adapter.outbound.rest.api.FeeCalendarApi;
 import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeeCalendarResponseDto;
 import com.bernardomg.association.fee.adapter.outbound.rest.dto.MemberStatusDto;
 import com.bernardomg.association.fee.adapter.outbound.rest.dto.YearsRangeResponseDto;

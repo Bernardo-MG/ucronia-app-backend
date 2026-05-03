@@ -28,7 +28,7 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.library.adapter.outbound.rest.api.BookLendingApi;
+import com.bernardomg.association.library.adapter.outbound.rest.controller.BookLendingApi;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.BookLendingPageResponseDto;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.BookLendingResponseDto;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.BookLentDto;
