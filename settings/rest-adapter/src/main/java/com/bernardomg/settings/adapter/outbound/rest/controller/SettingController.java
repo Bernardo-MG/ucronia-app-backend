@@ -32,7 +32,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.access.annotation.Unsecured;
 import com.bernardomg.security.permission.domain.constant.Actions;
-import com.bernardomg.settings.adapter.outbound.rest.api.SettingsApi;
 import com.bernardomg.settings.adapter.outbound.rest.dto.SettingResponseDto;
 import com.bernardomg.settings.adapter.outbound.rest.dto.SettingUpdateDto;
 import com.bernardomg.settings.adapter.outbound.rest.dto.SettingsResponseDto;

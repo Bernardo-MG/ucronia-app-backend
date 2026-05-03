@@ -29,7 +29,6 @@ import java.util.Optional;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.guest.adapter.outbound.rest.api.GuestApi;
 import com.bernardomg.association.guest.adapter.outbound.rest.dto.GuestCreationDto;
 import com.bernardomg.association.guest.adapter.outbound.rest.dto.GuestPageResponseDto;
 import com.bernardomg.association.guest.adapter.outbound.rest.dto.GuestPatchDto;

@@ -29,7 +29,6 @@ import java.util.Collection;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.transaction.adapter.outbound.rest.api.TransactionBalanceApi;
 import com.bernardomg.association.transaction.adapter.outbound.rest.dto.TransactionMonthlyBalanceResponseDto;
 import com.bernardomg.association.transaction.adapter.outbound.rest.model.TransactionBalanceDtoMapper;
 import com.bernardomg.association.transaction.domain.model.TransactionBalanceQuery;

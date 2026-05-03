@@ -29,7 +29,6 @@ import java.util.Optional;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.profile.adapter.outbound.rest.api.ContactMethodApi;
 import com.bernardomg.association.profile.adapter.outbound.rest.dto.ContactMethodCreationDto;
 import com.bernardomg.association.profile.adapter.outbound.rest.dto.ContactMethodPageResponseDto;
 import com.bernardomg.association.profile.adapter.outbound.rest.dto.ContactMethodResponseDto;

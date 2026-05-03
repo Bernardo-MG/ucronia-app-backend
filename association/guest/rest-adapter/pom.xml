@@ -30,7 +30,7 @@
 
    <properties>
      <openapi.generator.maven.plugin.inputSpec>${project.basedir}/src/main/resources/openapi/guest.yml</openapi.generator.maven.plugin.inputSpec>
-     <openapi.generator.maven.plugin.apiPackage>com.bernardomg.association.guest.adapter.outbound.rest.api</openapi.generator.maven.plugin.apiPackage>
+     <openapi.generator.maven.plugin.apiPackage>com.bernardomg.association.guest.adapter.outbound.rest.controller</openapi.generator.maven.plugin.apiPackage>
      <openapi.generator.maven.plugin.modelPackage>com.bernardomg.association.guest.adapter.outbound.rest.dto</openapi.generator.maven.plugin.modelPackage>
    </properties>
 

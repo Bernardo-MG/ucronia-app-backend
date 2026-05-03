@@ -29,7 +29,6 @@ import java.util.Optional;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.member.adapter.outbound.rest.api.MemberApi;
 import com.bernardomg.association.member.adapter.outbound.rest.dto.MemberPageResponseDto;
 import com.bernardomg.association.member.adapter.outbound.rest.dto.MemberResponseDto;
 import com.bernardomg.association.member.adapter.outbound.rest.model.MemberDtoMapper;

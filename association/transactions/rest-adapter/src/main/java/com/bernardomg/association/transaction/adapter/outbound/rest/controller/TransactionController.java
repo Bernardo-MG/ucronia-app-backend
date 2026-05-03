@@ -30,7 +30,6 @@ import java.util.Optional;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.transaction.adapter.outbound.rest.api.TransactionApi;
 import com.bernardomg.association.transaction.adapter.outbound.rest.dto.TransactionCreationDto;
 import com.bernardomg.association.transaction.adapter.outbound.rest.dto.TransactionMonthsRangeResponseDto;
 import com.bernardomg.association.transaction.adapter.outbound.rest.dto.TransactionPageResponseDto;

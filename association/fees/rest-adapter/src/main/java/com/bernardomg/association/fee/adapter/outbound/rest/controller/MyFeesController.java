@@ -28,7 +28,6 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.fee.adapter.outbound.rest.api.MyFeesApi;
 import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeePageResponseDto;
 import com.bernardomg.association.fee.adapter.outbound.rest.model.FeeDtoMapper;
 import com.bernardomg.association.fee.domain.model.Fee;

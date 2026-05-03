@@ -29,7 +29,7 @@ import java.util.Optional;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.library.adapter.outbound.rest.api.GameSystemApi;
+import com.bernardomg.association.library.adapter.outbound.rest.controller.GameSystemApi;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.GameSystemCreationDto;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.GameSystemPageResponseDto;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.GameSystemResponseDto;

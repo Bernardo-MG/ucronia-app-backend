@@ -29,7 +29,7 @@ import java.util.Optional;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.library.adapter.outbound.rest.api.AuthorApi;
+import com.bernardomg.association.library.adapter.outbound.rest.controller.AuthorApi;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.AuthorCreationDto;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.AuthorPageResponseDto;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.AuthorResponseDto;

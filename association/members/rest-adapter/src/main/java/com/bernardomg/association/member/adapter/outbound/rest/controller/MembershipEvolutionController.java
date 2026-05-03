@@ -31,7 +31,6 @@ import java.util.Collection;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.member.adapter.outbound.rest.api.MembershipEvolutionApi;
 import com.bernardomg.association.member.adapter.outbound.rest.dto.MembershipMonthlyEvolutionResponseDto;
 import com.bernardomg.association.member.adapter.outbound.rest.model.MembershipMonthlyEvolutionDtoMapper;
 import com.bernardomg.association.member.domain.filter.MembershipEvolutionQuery;

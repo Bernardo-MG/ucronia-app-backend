@@ -26,7 +26,6 @@ package com.bernardomg.association.fee.adapter.outbound.rest.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.fee.adapter.outbound.rest.api.FeeSummaryApi;
 import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeeSummaryResponseDto;
 import com.bernardomg.association.fee.adapter.outbound.rest.model.FeeSummaryDtoMapper;
 import com.bernardomg.association.fee.domain.model.FeeSummary;

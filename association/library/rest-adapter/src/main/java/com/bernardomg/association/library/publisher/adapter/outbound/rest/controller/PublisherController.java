@@ -31,7 +31,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.library.adapter.outbound.rest.api.PublisherApi;
+import com.bernardomg.association.library.adapter.outbound.rest.controller.PublisherApi;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.PublisherCreationDto;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.PublisherPageResponseDto;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.PublisherResponseDto;

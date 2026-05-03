@@ -31,7 +31,6 @@ import java.io.UncheckedIOException;
 import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.transaction.adapter.outbound.rest.api.TransactionReportApi;
 import com.bernardomg.association.transaction.usecase.service.TransactionReportService;
 import com.bernardomg.excel.web.ExcelResponses;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
