@@ -74,7 +74,7 @@ class TestProfileGuestServiceConvert {
 
         // GIVEN
         Guests.firstNameChange();
-        profile = GuestProfiles.valid();
+        profile = GuestProfiles.noType();
 
         given(profileRepository.findOne(GuestConstants.NUMBER)).willReturn(Optional.of(profile));
         given(guestRepository.exists(GuestConstants.NUMBER)).willReturn(true);
@@ -89,7 +89,7 @@ class TestProfileGuestServiceConvert {
 
     @Test
     @DisplayName("With a not existing profile, an exception is thrown")
-    void testConvertToGuest_NotExistingContact_Exception() {
+    void testConvertToGuest_NotExistingProfile_Exception() {
         final ThrowingCallable execution;
 
         // GIVEN
@@ -113,7 +113,7 @@ class TestProfileGuestServiceConvert {
 
         // GIVEN
         guest = Guests.noGames();
-        profile = GuestProfiles.withType(com.bernardomg.association.guest.domain.model.Guest.PROFILE_TYPE);
+        profile = GuestProfiles.noType();
 
         given(profileRepository.findOne(GuestConstants.NUMBER)).willReturn(Optional.of(profile));
         given(guestRepository.exists(GuestConstants.NUMBER)).willReturn(false);
@@ -134,7 +134,7 @@ class TestProfileGuestServiceConvert {
 
         // GIVEN
         guest = Guests.noGames();
-        profile = GuestProfiles.withType(com.bernardomg.association.guest.domain.model.Guest.PROFILE_TYPE);
+        profile = GuestProfiles.noType();
 
         given(profileRepository.findOne(GuestConstants.NUMBER)).willReturn(Optional.of(profile));
         given(guestRepository.exists(GuestConstants.NUMBER)).willReturn(false);

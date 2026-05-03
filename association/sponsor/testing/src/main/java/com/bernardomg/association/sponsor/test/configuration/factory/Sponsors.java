@@ -16,7 +16,7 @@ public final class Sponsors {
         name = new Name(SponsorConstants.FIRST_NAME, SponsorConstants.LAST_NAME);
         return new Sponsor(SponsorConstants.IDENTIFIER, 1L, name, SponsorConstants.BIRTH_DATE, List.of(),
             List.of(SponsorConstants.YEAR), SponsorConstants.ADDRESS, SponsorConstants.COMMENTS,
-            Set.of(com.bernardomg.association.sponsor.domain.model.Sponsor.PROFILE_TYPE));
+            Set.of(Sponsor.PROFILE_TYPE));
     }
 
     public static final Sponsor firstNameChange() {
@@ -25,7 +25,7 @@ public final class Sponsors {
         name = new Name(SponsorConstants.CHANGED_FIRST_NAME, SponsorConstants.LAST_NAME);
         return new Sponsor(SponsorConstants.IDENTIFIER, SponsorConstants.NUMBER, name, SponsorConstants.BIRTH_DATE,
             List.of(), List.of(SponsorConstants.YEAR), SponsorConstants.ADDRESS, SponsorConstants.COMMENTS,
-            Set.of(com.bernardomg.association.sponsor.domain.model.Sponsor.PROFILE_TYPE));
+            Set.of(Sponsor.PROFILE_TYPE));
     }
 
     public static final Sponsor forNumber(final long number) {
@@ -34,7 +34,7 @@ public final class Sponsors {
         name = new Name("Name " + number, "Last name " + number);
         return new Sponsor(Objects.toString(number * 10), number * 10, name, SponsorConstants.BIRTH_DATE, List.of(),
             List.of(SponsorConstants.YEAR), SponsorConstants.ADDRESS, SponsorConstants.COMMENTS,
-            Set.of(com.bernardomg.association.sponsor.domain.model.Sponsor.PROFILE_TYPE));
+            Set.of(Sponsor.PROFILE_TYPE));
     }
 
     public static final Sponsor nameChange() {
@@ -43,7 +43,7 @@ public final class Sponsors {
         name = new Name("Name 123", "Last name");
         return new Sponsor(SponsorConstants.IDENTIFIER, SponsorConstants.NUMBER, name, SponsorConstants.BIRTH_DATE,
             List.of(), List.of(SponsorConstants.YEAR), SponsorConstants.ADDRESS, SponsorConstants.COMMENTS,
-            Set.of(com.bernardomg.association.sponsor.domain.model.Sponsor.PROFILE_TYPE));
+            Set.of(Sponsor.PROFILE_TYPE));
     }
 
     public static final Sponsor nameChangePatch() {
@@ -52,7 +52,7 @@ public final class Sponsors {
         name = new Name("Name 123", "Last name");
         return new Sponsor(SponsorConstants.IDENTIFIER, SponsorConstants.NUMBER, name, SponsorConstants.BIRTH_DATE,
             List.of(), List.of(SponsorConstants.YEAR), SponsorConstants.ADDRESS, SponsorConstants.COMMENTS,
-            Set.of(com.bernardomg.association.sponsor.domain.model.Sponsor.PROFILE_TYPE));
+            Set.of(Sponsor.PROFILE_TYPE));
     }
 
     public static final Sponsor padded() {
@@ -61,7 +61,7 @@ public final class Sponsors {
         name = new Name(" " + SponsorConstants.FIRST_NAME + " ", " " + SponsorConstants.LAST_NAME + " ");
         return new Sponsor(SponsorConstants.IDENTIFIER, SponsorConstants.NUMBER, name, SponsorConstants.BIRTH_DATE,
             List.of(), List.of(SponsorConstants.YEAR), SponsorConstants.ADDRESS, SponsorConstants.COMMENTS,
-            Set.of(com.bernardomg.association.sponsor.domain.model.Sponsor.PROFILE_TYPE));
+            Set.of(Sponsor.PROFILE_TYPE));
     }
 
     public static final Sponsor toConvert() {
@@ -78,7 +78,7 @@ public final class Sponsors {
         name = new Name(SponsorConstants.FIRST_NAME, SponsorConstants.LAST_NAME);
         return new Sponsor(SponsorConstants.IDENTIFIER, SponsorConstants.NUMBER, name, SponsorConstants.BIRTH_DATE,
             List.of(), List.of(SponsorConstants.YEAR), SponsorConstants.ADDRESS, SponsorConstants.COMMENTS,
-            Set.of(com.bernardomg.association.sponsor.domain.model.Sponsor.PROFILE_TYPE));
+            Set.of(Sponsor.PROFILE_TYPE));
     }
 
     public static final Sponsor withEmail() {
@@ -91,7 +91,7 @@ public final class Sponsors {
         contactChannel = new Sponsor.ContactChannel(contactMethod, SponsorConstants.EMAIL);
         return new Sponsor(SponsorConstants.IDENTIFIER, SponsorConstants.NUMBER, name, SponsorConstants.BIRTH_DATE,
             List.of(contactChannel), List.of(SponsorConstants.YEAR), SponsorConstants.ADDRESS,
-            SponsorConstants.COMMENTS, Set.of(com.bernardomg.association.sponsor.domain.model.Sponsor.PROFILE_TYPE));
+            SponsorConstants.COMMENTS, Set.of(Sponsor.PROFILE_TYPE));
     }
 
     public static final Sponsor withoutType() {

@@ -12,6 +12,14 @@ import com.bernardomg.association.guest.domain.model.GuestProfile.Name;
 
 public final class GuestProfiles {
 
+    public static final GuestProfile noType() {
+        final Name name;
+
+        name = new Name(GuestConstants.FIRST_NAME, GuestConstants.LAST_NAME);
+        return new GuestProfile(GuestConstants.IDENTIFIER, GuestConstants.NUMBER, name, GuestConstants.BIRTH_DATE,
+            List.of(), GuestConstants.ADDRESS, GuestConstants.COMMENTS, Set.of());
+    }
+
     public static final GuestProfile valid() {
         final Name name;
 
@@ -30,14 +38,6 @@ public final class GuestProfiles {
         contactChannel = new ContactChannel(contactMethod, GuestConstants.EMAIL);
         return new GuestProfile(GuestConstants.IDENTIFIER, GuestConstants.NUMBER, name, GuestConstants.BIRTH_DATE,
             List.of(contactChannel), GuestConstants.ADDRESS, GuestConstants.COMMENTS, Set.of(Guest.PROFILE_TYPE));
-    }
-
-    public static final GuestProfile withType(final String type) {
-        final Name name;
-
-        name = new Name(GuestConstants.FIRST_NAME, GuestConstants.LAST_NAME);
-        return new GuestProfile(GuestConstants.IDENTIFIER, GuestConstants.NUMBER, name, GuestConstants.BIRTH_DATE,
-            List.of(), GuestConstants.ADDRESS, GuestConstants.COMMENTS, Set.of(type));
     }
 
     private GuestProfiles() {

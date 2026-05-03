@@ -84,7 +84,7 @@ class TestProfileMembershipServiceConvert {
 
     @Test
     @DisplayName("With a not existing profile, an exception is thrown")
-    void testConvertToMember_NotExistingContact_Exception() {
+    void testConvertToMember_NotExistingProfile_Exception() {
         final ThrowingCallable execution;
 
         // GIVEN

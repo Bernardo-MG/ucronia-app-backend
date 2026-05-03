@@ -21,6 +21,15 @@ public final class SponsorProfiles {
             Set.of(Sponsor.PROFILE_TYPE));
     }
 
+    public static final SponsorProfile noType() {
+        final Name name;
+
+        name = new Name(SponsorConstants.FIRST_NAME, SponsorConstants.LAST_NAME);
+        return new SponsorProfile(SponsorConstants.IDENTIFIER, SponsorConstants.NUMBER, name,
+            SponsorConstants.BIRTH_DATE, List.of(), SponsorConstants.ADDRESS, SponsorConstants.COMMENTS,
+            Set.of());
+    }
+
     public static final SponsorProfile withEmail() {
         final Name           name;
         final ContactChannel contactChannel;
