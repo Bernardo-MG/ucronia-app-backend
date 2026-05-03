@@ -34,7 +34,7 @@ import java.time.YearMonth;
  */
 public final class MissingFeeException extends RuntimeException {
 
-    private static final long serialVersionUID = 2786821546505029631L;
+    private static final long serialVersionUID = 775750775135137536L;
 
     private final YearMonth   date;
 

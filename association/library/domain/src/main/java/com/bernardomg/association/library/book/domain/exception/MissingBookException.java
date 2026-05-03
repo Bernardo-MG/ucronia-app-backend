@@ -32,15 +32,15 @@ package com.bernardomg.association.library.book.domain.exception;
  */
 public final class MissingBookException extends RuntimeException {
 
-    private static final long serialVersionUID = 2786821546505029631L;
+    private static final long serialVersionUID = -4533270478343608683L;
 
     /**
      * Id which caused the exception.
      */
     private final Long        number;
 
-    public MissingBookException(final Long number) {
-        super(String.format("Missing id %s for book", number));
+    public MissingBookException(final long number) {
+        super(String.format("Missing book with number %s", number));
 
         this.number = number;
     }

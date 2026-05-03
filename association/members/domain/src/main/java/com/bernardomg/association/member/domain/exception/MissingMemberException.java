@@ -32,12 +32,12 @@ package com.bernardomg.association.member.domain.exception;
  */
 public final class MissingMemberException extends RuntimeException {
 
-    private static final long serialVersionUID = 2786821546505029631L;
+    private static final long serialVersionUID = -3936478290137207367L;
 
     private final long        number;
 
     public MissingMemberException(final long number) {
-        super(String.format("Missing number %s for member", number));
+        super(String.format("Missing member with number %s", number));
 
         this.number = number;
     }

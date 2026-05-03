@@ -22,36 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.security.user.domain.exception;
-
 /**
- * Missing user member exception.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Book exceptions.
  */
-public final class MissingUserProfileException extends RuntimeException {
 
-    private static final long serialVersionUID = 2786821546505029631L;
-
-    /**
-     * Id which caused the exception.
-     */
-    private final Long        id;
-
-    public MissingUserProfileException(final Long id) {
-        super(String.format("Missing id %s for user profile", id));
-
-        this.id = id;
-    }
-
-    /**
-     * Returns the id which caused the exception.
-     *
-     * @return the id which caused the exception
-     */
-    public final Long getId() {
-        return id;
-    }
-
-}
+package com.bernardomg.association.library.book.domain.exception;

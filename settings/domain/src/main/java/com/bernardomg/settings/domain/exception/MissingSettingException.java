@@ -34,7 +34,7 @@ import java.io.Serializable;
  */
 public final class MissingSettingException extends RuntimeException {
 
-    private static final long serialVersionUID = 2786821546505029631L;
+    private static final long serialVersionUID = -6887874000645848391L;
 
     /**
      * Key which caused the exception.

@@ -32,12 +32,12 @@ package com.bernardomg.association.guest.domain.exception;
  */
 public final class GuestExistsException extends RuntimeException {
 
-    private static final long serialVersionUID = 2786821546505029631L;
+    private static final long serialVersionUID = -6662684677829118702L;
 
     private final long        number;
 
     public GuestExistsException(final long number) {
-        super();
+        super(String.format("Guest %s already exists", number));
 
         this.number = number;
     }

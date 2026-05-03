@@ -32,12 +32,12 @@ package com.bernardomg.association.member.domain.exception;
  */
 public final class MemberExistsException extends RuntimeException {
 
-    private static final long serialVersionUID = 2786821546505029631L;
+    private static final long serialVersionUID = 8691989239397119757L;
 
     private final long        number;
 
     public MemberExistsException(final long number) {
-        super();
+        super(String.format("Member %d already exists", number));
 
         this.number = number;
     }

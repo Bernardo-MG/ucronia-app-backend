@@ -35,23 +35,23 @@ public final class MissingSponsorContactMethodException extends RuntimeException
     private static final long serialVersionUID = 258859966025945231L;
 
     /**
-     * Id which caused the exception.
+     * Number which caused the exception.
      */
-    private final Long        id;
+    private final Long        number;
 
-    public MissingSponsorContactMethodException(final Long id) {
-        super(String.format("Missing id %s for contact method", id));
+    public MissingSponsorContactMethodException(final long number) {
+        super(String.format("Missing contact method with number %s", number));
 
-        this.id = id;
+        this.number = number;
     }
 
     /**
-     * Returns the id which caused the exception.
+     * Returns the number which caused the exception.
      *
-     * @return the id which caused the exception
+     * @return the number which caused the exception
      */
-    public final Long getId() {
-        return id;
+    public final Long getNumber() {
+        return number;
     }
 
 }

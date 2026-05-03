@@ -32,20 +32,25 @@ package com.bernardomg.association.fee.domain.exception;
  */
 public final class MissingFeeMemberException extends RuntimeException {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 3805120995272475781L;
 
+    /**
+     * Number which caused the exception.
+     */
     private final long        number;
 
     public MissingFeeMemberException(final long number) {
-        super(String.format("Missing number %s for member", number));
+        super(String.format("Missing member with number %s", number));
 
         this.number = number;
     }
 
-    public final long getNumber() {
+    /**
+     * Returns the number which caused the exception.
+     *
+     * @return the number which caused the exception
+     */
+    public final Long getNumber() {
         return number;
     }
 

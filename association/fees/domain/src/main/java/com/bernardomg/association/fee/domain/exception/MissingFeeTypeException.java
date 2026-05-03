@@ -32,17 +32,17 @@ package com.bernardomg.association.fee.domain.exception;
  */
 public final class MissingFeeTypeException extends RuntimeException {
 
-    private static final long serialVersionUID = 2786821546505029631L;
+    private static final long serialVersionUID = 1063937960945250432L;
 
     /**
      * Id which caused the exception.
      */
     private final Long        id;
 
-    public MissingFeeTypeException(final Long id) {
-        super(String.format("Missing id %s for feeType", id));
+    public MissingFeeTypeException(final long number) {
+        super(String.format("Missing fee type with number %s", number));
 
-        this.id = id;
+        this.id = number;
     }
 
     /**

@@ -23,7 +23,7 @@
  */
 
 /**
- * User exceptions.
+ * Game system exceptions.
  */
 
-package com.bernardomg.association.security.user.domain.exception;
+package com.bernardomg.association.library.gamesystem.domain.exception;

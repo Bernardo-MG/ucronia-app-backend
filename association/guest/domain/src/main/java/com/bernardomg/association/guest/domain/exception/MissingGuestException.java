@@ -42,8 +42,8 @@ public final class MissingGuestException extends RuntimeException {
      */
     private final Long        number;
 
-    public MissingGuestException(final Long number) {
-        super(String.format("Missing id %s for guest", number));
+    public MissingGuestException(final long number) {
+        super(String.format("Missing guest with number %s", number));
 
         this.number = number;
     }

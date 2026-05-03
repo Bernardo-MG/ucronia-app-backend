@@ -32,12 +32,12 @@ package com.bernardomg.association.sponsor.domain.exception;
  */
 public final class SponsorExistsException extends RuntimeException {
 
-    private static final long serialVersionUID = 2786821546505029631L;
+    private static final long serialVersionUID = 65221647288810459L;
 
     private final long        number;
 
     public SponsorExistsException(final long number) {
-        super();
+        super(String.format("Sponsor %d already exists", number));
 
         this.number = number;
     }

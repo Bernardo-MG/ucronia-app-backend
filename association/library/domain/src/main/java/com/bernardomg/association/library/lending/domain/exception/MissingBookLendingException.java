@@ -32,7 +32,7 @@ package com.bernardomg.association.library.lending.domain.exception;
  */
 public final class MissingBookLendingException extends RuntimeException {
 
-    private static final long serialVersionUID = 2786821546505029631L;
+    private static final long serialVersionUID = 8880489951078991743L;
 
     private final Long        bookNumber;
 

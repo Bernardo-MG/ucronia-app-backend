@@ -32,26 +32,26 @@ package com.bernardomg.association.guest.domain.exception;
  */
 public final class MissingGuestProfileException extends RuntimeException {
 
-    private static final long serialVersionUID = 2786821546505029631L;
+    private static final long serialVersionUID = -5364665196368338438L;
 
     /**
-     * Id which caused the exception.
+     * Number which caused the exception.
      */
-    private final Long        id;
+    private final Long        number;
 
-    public MissingGuestProfileException(final Long id) {
-        super(String.format("Missing id %s for profile", id));
+    public MissingGuestProfileException(final long number) {
+        super(String.format("Missing profile with number %s", number));
 
-        this.id = id;
+        this.number = number;
     }
 
     /**
-     * Returns the id which caused the exception.
+     * Returns the number which caused the exception.
      *
-     * @return the id which caused the exception
+     * @return the number which caused the exception
      */
-    public final Long getId() {
-        return id;
+    public final Long getNumber() {
+        return number;
     }
 
 }

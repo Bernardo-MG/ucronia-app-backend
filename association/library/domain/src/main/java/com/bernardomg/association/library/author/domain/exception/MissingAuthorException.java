@@ -32,15 +32,15 @@ package com.bernardomg.association.library.author.domain.exception;
  */
 public final class MissingAuthorException extends RuntimeException {
 
-    private static final long serialVersionUID = 2786821546505029631L;
+    private static final long serialVersionUID = -8703528200159609084L;
 
     /**
      * Id which caused the exception.
      */
     private final Long        number;
 
-    public MissingAuthorException(final Long number) {
-        super(String.format("Missing id %s for author", number));
+    public MissingAuthorException(final long number) {
+        super(String.format("Missing author with number %s", number));
 
         this.number = number;
     }

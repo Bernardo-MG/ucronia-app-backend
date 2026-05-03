@@ -32,15 +32,15 @@ package com.bernardomg.association.library.gamesystem.domain.exception;
  */
 public final class MissingGameSystemException extends RuntimeException {
 
-    private static final long serialVersionUID = 2786821546505029631L;
+    private static final long serialVersionUID = -94350171702559450L;
 
     /**
      * Id which caused the exception.
      */
     private final Long        number;
 
-    public MissingGameSystemException(final Long number) {
-        super(String.format("Missing id %s for game system", number));
+    public MissingGameSystemException(final long number) {
+        super(String.format("Missing game system with number %s", number));
 
         this.number = number;
     }

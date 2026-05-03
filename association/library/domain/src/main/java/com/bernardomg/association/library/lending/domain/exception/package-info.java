@@ -22,36 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.library.lending.domain.exception;
-
 /**
- * Missing borrower exception.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Lending exceptions.
  */
-public final class MissingBorrowerException extends RuntimeException {
 
-    private static final long serialVersionUID = -4709139846231166831L;
-
-    /**
-     * Number which caused the exception.
-     */
-    private final Long        number;
-
-    public MissingBorrowerException(final long number) {
-        super(String.format("Missing borrower with number %s", number));
-
-        this.number = number;
-    }
-
-    /**
-     * Returns the number which caused the exception.
-     *
-     * @return the number which caused the exception
-     */
-    public final Long getNumber() {
-        return number;
-    }
-
-}
+package com.bernardomg.association.library.lending.domain.exception;

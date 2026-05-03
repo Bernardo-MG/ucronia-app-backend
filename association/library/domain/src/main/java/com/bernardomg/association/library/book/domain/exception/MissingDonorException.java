@@ -39,8 +39,8 @@ public final class MissingDonorException extends RuntimeException {
      */
     private final Long        number;
 
-    public MissingDonorException(final Long number) {
-        super(String.format("Missing id %s for donor", number));
+    public MissingDonorException(final long number) {
+        super(String.format("Missing donor with number %s", number));
 
         this.number = number;
     }

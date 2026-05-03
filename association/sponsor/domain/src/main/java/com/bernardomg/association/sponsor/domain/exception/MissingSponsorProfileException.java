@@ -32,26 +32,26 @@ package com.bernardomg.association.sponsor.domain.exception;
  */
 public final class MissingSponsorProfileException extends RuntimeException {
 
-    private static final long serialVersionUID = 2786821546505029631L;
+    private static final long serialVersionUID = -3589802377931372286L;
 
     /**
-     * Id which caused the exception.
+     * Number which caused the exception.
      */
-    private final Long        id;
+    private final Long        number;
 
-    public MissingSponsorProfileException(final Long id) {
-        super(String.format("Missing id %s for profile", id));
+    public MissingSponsorProfileException(final long number) {
+        super(String.format("Missing profile with number %s", number));
 
-        this.id = id;
+        this.number = number;
     }
 
     /**
-     * Returns the id which caused the exception.
+     * Returns the number which caused the exception.
      *
-     * @return the id which caused the exception
+     * @return the number which caused the exception
      */
-    public final Long getId() {
-        return id;
+    public final Long getNumber() {
+        return number;
     }
 
 }
