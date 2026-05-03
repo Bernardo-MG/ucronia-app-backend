@@ -94,6 +94,14 @@ public final class Sponsors {
             List.of(), List.of(SponsorConstants.YEAR), SponsorConstants.ADDRESS, SponsorConstants.COMMENTS, Set.of());
     }
 
+    public static final Sponsor withoutYear() {
+        final Name name;
+
+        name = new Name(SponsorConstants.FIRST_NAME, SponsorConstants.LAST_NAME);
+        return new Sponsor(SponsorConstants.IDENTIFIER, SponsorConstants.NUMBER, name, SponsorConstants.BIRTH_DATE,
+            List.of(), List.of(), SponsorConstants.ADDRESS, SponsorConstants.COMMENTS, Set.of(Sponsor.PROFILE_TYPE));
+    }
+
     private static final Sponsor.ContactMethod email() {
         return new Sponsor.ContactMethod(SponsorContactMethodConstants.NUMBER, SponsorContactMethodConstants.EMAIL);
     }
