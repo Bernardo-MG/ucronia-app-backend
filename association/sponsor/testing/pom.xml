@@ -33,10 +33,6 @@
          <groupId>com.bernardomg.association.sponsor</groupId>
          <artifactId>association-sponsor-domain</artifactId>
       </dependency>
-      <dependency>
-         <groupId>com.bernardomg.association.profile</groupId>
-         <artifactId>association-profile-testing</artifactId>
-      </dependency>
    </dependencies>
 
 </project>

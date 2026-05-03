@@ -31,10 +31,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
-import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.association.sponsor.TestApplication;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
 import com.bernardomg.association.sponsor.test.configuration.data.annotation.SponsorWithEmail;
+import com.bernardomg.association.sponsor.test.configuration.factory.SponsorConstants;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -52,7 +52,7 @@ class ITSponsorRepositoryExists {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(ProfileConstants.NUMBER);
+        exists = repository.exists(SponsorConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(exists)
@@ -66,7 +66,7 @@ class ITSponsorRepositoryExists {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(ProfileConstants.NUMBER);
+        exists = repository.exists(SponsorConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(exists)
@@ -81,7 +81,7 @@ class ITSponsorRepositoryExists {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(ProfileConstants.NUMBER);
+        exists = repository.exists(SponsorConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(exists)
