@@ -7,7 +7,6 @@ import java.util.List;
 
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactChannelEntity;
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
-import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 
 public final class ProfileEntities {
 

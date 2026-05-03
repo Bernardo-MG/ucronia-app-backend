@@ -43,7 +43,7 @@ import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.profile.test.configuration.data.annotation.AlternativeProfile;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
-import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
+import com.bernardomg.association.profile.test.factory.ProfileConstants;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest

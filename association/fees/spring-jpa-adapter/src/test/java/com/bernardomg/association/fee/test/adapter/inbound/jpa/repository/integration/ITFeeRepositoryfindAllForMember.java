@@ -43,7 +43,7 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFee
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
-import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
+import com.bernardomg.association.profile.test.factory.ProfileConstants;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;

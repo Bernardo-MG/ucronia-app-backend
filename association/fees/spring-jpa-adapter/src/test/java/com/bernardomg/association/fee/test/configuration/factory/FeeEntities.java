@@ -8,7 +8,7 @@ import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeEntity;
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeMemberEntity;
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTransactionEntity;
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTypeEntity;
-import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
+import com.bernardomg.association.profile.test.factory.ProfileConstants;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionConstants;
 
 public final class FeeEntities {
