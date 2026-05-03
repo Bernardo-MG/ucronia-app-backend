@@ -22,19 +22,36 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.guest.adapter.inbound.jpa.repository;
+package com.bernardomg.association.guest.domain.exception;
 
-import java.util.Collection;
-import java.util.List;
+/**
+ * Missing profile exception.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+public final class MissingGuestProfileException extends RuntimeException {
 
-import org.springframework.data.jpa.repository.JpaRepository;
+    private static final long serialVersionUID = 2786821546505029631L;
 
-import com.bernardomg.association.guest.adapter.inbound.jpa.model.GuestContactMethodEntity;
+    /**
+     * Id which caused the exception.
+     */
+    private final Long        id;
 
-public interface GuestContactMethodSpringRepository extends JpaRepository<GuestContactMethodEntity, Long> {
+    public MissingGuestProfileException(final Long id) {
+        super(String.format("Missing id %s for profile", id));
 
-    public boolean existsByNumber(final Long number);
+        this.id = id;
+    }
 
-    public List<GuestContactMethodEntity> findAllByNumberIn(final Collection<Long> numbers);
+    /**
+     * Returns the id which caused the exception.
+     *
+     * @return the id which caused the exception
+     */
+    public final Long getId() {
+        return id;
+    }
 
 }

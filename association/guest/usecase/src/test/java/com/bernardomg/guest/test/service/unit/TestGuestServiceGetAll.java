@@ -39,10 +39,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.guest.domain.filter.GuestFilter;
 import com.bernardomg.association.guest.domain.model.Guest;
+import com.bernardomg.association.guest.domain.repository.GuestContactMethodRepository;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
 import com.bernardomg.association.guest.test.configuration.factory.Guests;
 import com.bernardomg.association.guest.usecase.service.DefaultGuestService;
-import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
@@ -52,13 +52,13 @@ import com.bernardomg.pagination.domain.Sorting;
 class TestGuestServiceGetAll {
 
     @Mock
-    private ContactMethodRepository contactMethodRepository;
+    private GuestContactMethodRepository contactMethodRepository;
 
     @Mock
-    private GuestRepository         guestRepository;
+    private GuestRepository              guestRepository;
 
     @InjectMocks
-    private DefaultGuestService     service;
+    private DefaultGuestService          service;
 
     @Test
     @DisplayName("When there is no data, it returns nothing")

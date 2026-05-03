@@ -31,27 +31,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.guest.TestApplication;
-import com.bernardomg.association.guest.domain.repository.GuestRepository;
-import com.bernardomg.association.guest.test.configuration.data.annotation.ValidGuest;
-import com.bernardomg.association.guest.test.configuration.factory.GuestConstants;
+import com.bernardomg.association.guest.domain.repository.GuestContactMethodRepository;
+import com.bernardomg.association.guest.test.configuration.factory.ContactMethodConstants;
+import com.bernardomg.association.profile.test.configuration.data.annotation.EmailContactMethod;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("GuestRepository - exists by identifier for another")
-class ITGuestRepositoryExistsByIdentifierForAnother {
+@DisplayName("GuestContactMethodRepository - exists")
+class ITGuestContactMethodRepositoryExists {
 
     @Autowired
-    private GuestRepository repository;
+    private GuestContactMethodRepository repository;
 
     @Test
-    @DisplayName("With another guest, it exists")
-    @ValidGuest
-    void testExists_AnotherUser() {
+    @DisplayName("With an existing contact method, it exists")
+    @EmailContactMethod
+    void testExists() {
         final boolean exists;
 
         // WHEN
-        exists = repository.existsByIdentifierForAnother(GuestConstants.ALTERNATIVE_NUMBER, GuestConstants.IDENTIFIER);
+        exists = repository.exists(ContactMethodConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(exists)
@@ -60,42 +60,12 @@ class ITGuestRepositoryExistsByIdentifierForAnother {
     }
 
     @Test
-    @DisplayName("With an existing identifier, it exists")
-    @ValidGuest
-    void testExists_Existing() {
-        final boolean exists;
-
-        // WHEN
-        exists = repository.existsByIdentifierForAnother(GuestConstants.NUMBER, GuestConstants.IDENTIFIER);
-
-        // THEN
-        Assertions.assertThat(exists)
-            .as("exists")
-            .isFalse();
-    }
-
-    @Test
-    @DisplayName("With no guest, nothing exists")
+    @DisplayName("With no contact method, nothing exists")
     void testExists_NoData() {
         final boolean exists;
 
         // WHEN
-        exists = repository.existsByIdentifierForAnother(GuestConstants.NUMBER, GuestConstants.IDENTIFIER);
-
-        // THEN
-        Assertions.assertThat(exists)
-            .as("exists")
-            .isFalse();
-    }
-
-    @Test
-    @DisplayName("With a not existing identifier, it doesn't exist")
-    @ValidGuest
-    void testExists_NotExisting() {
-        final boolean exists;
-
-        // WHEN
-        exists = repository.existsByIdentifierForAnother(GuestConstants.NUMBER, "abc");
+        exists = repository.exists(ContactMethodConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(exists)

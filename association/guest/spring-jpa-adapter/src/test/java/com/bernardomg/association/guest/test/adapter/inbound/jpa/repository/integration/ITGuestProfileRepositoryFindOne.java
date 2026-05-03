@@ -33,41 +33,40 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.guest.TestApplication;
-import com.bernardomg.association.guest.domain.model.Guest;
-import com.bernardomg.association.guest.domain.repository.GuestRepository;
+import com.bernardomg.association.guest.domain.model.GuestProfile;
+import com.bernardomg.association.guest.domain.repository.GuestProfileRepository;
 import com.bernardomg.association.guest.test.configuration.data.annotation.GuestWithEmail;
 import com.bernardomg.association.guest.test.configuration.data.annotation.ValidGuest;
 import com.bernardomg.association.guest.test.configuration.factory.GuestConstants;
-import com.bernardomg.association.guest.test.configuration.factory.Guests;
-import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
+import com.bernardomg.association.guest.test.configuration.factory.GuestProfiles;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("GuestRepository - find one")
-class ITGuestRepositoryFindOne {
+@DisplayName("GuestProfileRepository - find one")
+class ITGuestProfileRepositoryFindOne {
 
     @Autowired
-    private GuestRepository repository;
+    private GuestProfileRepository repository;
 
     @Test
     @DisplayName("With a guest, it is returned")
     @ValidGuest
     void testFindOne() {
-        final Optional<Guest> guest;
+        final Optional<GuestProfile> guest;
 
         // WHEN
         guest = repository.findOne(GuestConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(guest)
-            .contains(Guests.withGames());
+            .contains(GuestProfiles.valid());
     }
 
     @Test
     @DisplayName("With no guest, nothing is returned")
     void testFindOne_NoData() {
-        final Optional<Guest> guest;
+        final Optional<GuestProfile> guest;
 
         // WHEN
         guest = repository.findOne(GuestConstants.NUMBER);
@@ -78,31 +77,17 @@ class ITGuestRepositoryFindOne {
     }
 
     @Test
-    @DisplayName("With a guest with no guest role, it returns nothing")
-    @ValidProfile
-    void testFindOne_NoGuestship() {
-        final Optional<Guest> guest;
-
-        // WHEN
-        guest = repository.findOne(GuestConstants.NUMBER);
-
-        // THEN
-        Assertions.assertThat(guest)
-            .isEmpty();
-    }
-
-    @Test
-    @DisplayName("With a guest with a contact method, it is returned")
+    @DisplayName("With a guest with contact method, it is returned")
     @GuestWithEmail
     void testFindOne_WithContactMethod() {
-        final Optional<Guest> guest;
+        final Optional<GuestProfile> guest;
 
         // WHEN
         guest = repository.findOne(GuestConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(guest)
-            .contains(Guests.withEmail());
+            .contains(GuestProfiles.withEmail());
     }
 
 }

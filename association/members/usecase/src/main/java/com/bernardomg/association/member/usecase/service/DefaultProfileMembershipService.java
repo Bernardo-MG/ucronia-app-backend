@@ -83,7 +83,7 @@ public final class DefaultProfileMembershipService implements ProfileMembershipS
             });
 
         if (memberProfileRepository.exists(number)) {
-            log.error("Missing member {}", number);
+            log.error("Member {} already exists", number);
             throw new MemberExistsException(number);
         }
 

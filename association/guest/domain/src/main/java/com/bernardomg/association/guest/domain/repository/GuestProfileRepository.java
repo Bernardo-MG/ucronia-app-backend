@@ -22,19 +22,14 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.guest.adapter.inbound.jpa.repository;
+package com.bernardomg.association.guest.domain.repository;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.Optional;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.bernardomg.association.guest.domain.model.GuestProfile;
 
-import com.bernardomg.association.guest.adapter.inbound.jpa.model.GuestContactMethodEntity;
+public interface GuestProfileRepository {
 
-public interface GuestContactMethodSpringRepository extends JpaRepository<GuestContactMethodEntity, Long> {
-
-    public boolean existsByNumber(final Long number);
-
-    public List<GuestContactMethodEntity> findAllByNumberIn(final Collection<Long> numbers);
+    public Optional<GuestProfile> findOne(final Long number);
 
 }
