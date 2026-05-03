@@ -38,11 +38,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
-import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.association.sponsor.domain.exception.MissingSponsorException;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
+import com.bernardomg.association.sponsor.domain.repository.SponsorContactMethodRepository;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
+import com.bernardomg.association.sponsor.test.configuration.factory.SponsorConstants;
 import com.bernardomg.association.sponsor.test.configuration.factory.Sponsors;
 import com.bernardomg.association.sponsor.usecase.service.DefaultSponsorService;
 import com.bernardomg.validation.domain.model.FieldFailure;
@@ -53,13 +53,13 @@ import com.bernardomg.validation.test.assertion.ValidationAssertions;
 class TestSponsorServicePatch {
 
     @Mock
-    private ContactMethodRepository contactMethodRepository;
+    private SponsorContactMethodRepository contactMethodRepository;
 
     @InjectMocks
-    private DefaultSponsorService   service;
+    private DefaultSponsorService          service;
 
     @Mock
-    private SponsorRepository       sponsorRepository;
+    private SponsorRepository              sponsorRepository;
 
     public TestSponsorServicePatch() {
         super();
@@ -74,8 +74,8 @@ class TestSponsorServicePatch {
         // GIVEN
         sponsor = Sponsors.valid();
 
-        given(sponsorRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(sponsor));
-        given(sponsorRepository.existsByIdentifierForAnother(ProfileConstants.NUMBER, ProfileConstants.IDENTIFIER))
+        given(sponsorRepository.findOne(SponsorConstants.NUMBER)).willReturn(Optional.of(sponsor));
+        given(sponsorRepository.existsByIdentifierForAnother(SponsorConstants.NUMBER, SponsorConstants.IDENTIFIER))
             .willReturn(true);
 
         // WHEN
@@ -83,7 +83,7 @@ class TestSponsorServicePatch {
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
-            new FieldFailure("existing", "identifier", ProfileConstants.IDENTIFIER));
+            new FieldFailure("existing", "identifier", SponsorConstants.IDENTIFIER));
     }
 
     @Test
@@ -95,7 +95,7 @@ class TestSponsorServicePatch {
         // GIVEN
         sponsor = Sponsors.nameChange();
 
-        given(sponsorRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.empty());
+        given(sponsorRepository.findOne(SponsorConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
         execution = () -> service.patch(sponsor);
@@ -113,7 +113,7 @@ class TestSponsorServicePatch {
         // GIVEN
         sponsor = Sponsors.nameChangePatch();
 
-        given(sponsorRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(Sponsors.valid()));
+        given(sponsorRepository.findOne(SponsorConstants.NUMBER)).willReturn(Optional.of(Sponsors.valid()));
 
         // WHEN
         service.patch(sponsor);
@@ -130,7 +130,7 @@ class TestSponsorServicePatch {
         // GIVEN
         sponsor = Sponsors.padded();
 
-        given(sponsorRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(Sponsors.valid()));
+        given(sponsorRepository.findOne(SponsorConstants.NUMBER)).willReturn(Optional.of(Sponsors.valid()));
 
         // WHEN
         service.patch(sponsor);
@@ -147,7 +147,7 @@ class TestSponsorServicePatch {
         // GIVEN
         sponsor = Sponsors.nameChange();
 
-        given(sponsorRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(Sponsors.valid()));
+        given(sponsorRepository.findOne(SponsorConstants.NUMBER)).willReturn(Optional.of(Sponsors.valid()));
 
         // WHEN
         service.patch(sponsor);
@@ -165,7 +165,7 @@ class TestSponsorServicePatch {
         // GIVEN
         sponsor = Sponsors.nameChange();
 
-        given(sponsorRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(Sponsors.valid()));
+        given(sponsorRepository.findOne(SponsorConstants.NUMBER)).willReturn(Optional.of(Sponsors.valid()));
         given(sponsorRepository.save(Sponsors.nameChange())).willReturn(Sponsors.nameChange());
 
         // WHEN

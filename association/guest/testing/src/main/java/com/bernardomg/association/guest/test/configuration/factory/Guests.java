@@ -72,7 +72,7 @@ public final class Guests {
         final Guest.ContactMethod  contactMethod;
 
         name = new Guest.Name(GuestConstants.FIRST_NAME, GuestConstants.LAST_NAME);
-        contactMethod = new Guest.ContactMethod(ContactMethodConstants.NUMBER, ContactMethodConstants.EMAIL);
+        contactMethod = new Guest.ContactMethod(GuestContactMethodConstants.NUMBER, GuestContactMethodConstants.EMAIL);
         contactChannel = new Guest.ContactChannel(contactMethod, GuestConstants.EMAIL);
         return new Guest(GuestConstants.IDENTIFIER, GuestConstants.NUMBER, name, GuestConstants.BIRTH_DATE,
             List.of(contactChannel), List.of(Guests.DATE), GuestConstants.ADDRESS, GuestConstants.COMMENTS,

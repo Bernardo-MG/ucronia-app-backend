@@ -33,12 +33,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
-import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.association.sponsor.TestApplication;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
 import com.bernardomg.association.sponsor.test.configuration.data.annotation.SponsorWithEmail;
 import com.bernardomg.association.sponsor.test.configuration.data.annotation.ValidSponsor;
+import com.bernardomg.association.sponsor.test.configuration.factory.SponsorConstants;
 import com.bernardomg.association.sponsor.test.configuration.factory.Sponsors;
 import com.bernardomg.test.annotation.IntegrationTest;
 
@@ -57,7 +57,7 @@ class ITSponsorRepositoryFindOne {
         final Optional<Sponsor> sponsor;
 
         // WHEN
-        sponsor = repository.findOne(ProfileConstants.NUMBER);
+        sponsor = repository.findOne(SponsorConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(sponsor)
@@ -70,7 +70,7 @@ class ITSponsorRepositoryFindOne {
         final Optional<Sponsor> sponsor;
 
         // WHEN
-        sponsor = repository.findOne(ProfileConstants.NUMBER);
+        sponsor = repository.findOne(SponsorConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(sponsor)
@@ -84,7 +84,7 @@ class ITSponsorRepositoryFindOne {
         final Optional<Sponsor> sponsor;
 
         // WHEN
-        sponsor = repository.findOne(ProfileConstants.NUMBER);
+        sponsor = repository.findOne(SponsorConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(sponsor)
@@ -98,7 +98,7 @@ class ITSponsorRepositoryFindOne {
         final Optional<Sponsor> sponsor;
 
         // WHEN
-        sponsor = repository.findOne(ProfileConstants.NUMBER);
+        sponsor = repository.findOne(SponsorConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(sponsor)

@@ -38,11 +38,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.guest.domain.exception.MissingGuestException;
 import com.bernardomg.association.guest.domain.model.Guest;
+import com.bernardomg.association.guest.domain.repository.GuestContactMethodRepository;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
 import com.bernardomg.association.guest.test.configuration.factory.GuestConstants;
 import com.bernardomg.association.guest.test.configuration.factory.Guests;
 import com.bernardomg.association.guest.usecase.service.DefaultGuestService;
-import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
@@ -51,13 +51,13 @@ import com.bernardomg.validation.test.assertion.ValidationAssertions;
 class TestGuestServiceUpdate {
 
     @Mock
-    private ContactMethodRepository contactMethodRepository;
+    private GuestContactMethodRepository contactMethodRepository;
 
     @Mock
-    private GuestRepository         guestRepository;
+    private GuestRepository              guestRepository;
 
     @InjectMocks
-    private DefaultGuestService     service;
+    private DefaultGuestService          service;
 
     public TestGuestServiceUpdate() {
         super();

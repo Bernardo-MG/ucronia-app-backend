@@ -2,7 +2,6 @@
 package com.bernardomg.association.library.book.test.configuration.factory;
 
 import com.bernardomg.association.library.book.adapter.inbound.jpa.model.DonorEntity;
-import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 
 public final class DonorEntities {
 
@@ -11,10 +10,10 @@ public final class DonorEntities {
 
         entity = new DonorEntity();
         entity.setId(1L);
-        entity.setNumber(ProfileConstants.NUMBER);
-        entity.setFirstName(ProfileConstants.FIRST_NAME);
-        entity.setLastName(ProfileConstants.LAST_NAME);
-        entity.setIdentifier(ProfileConstants.IDENTIFIER);
+        entity.setNumber(DonorConstants.NUMBER);
+        entity.setFirstName(DonorConstants.FIRST_NAME);
+        entity.setLastName(DonorConstants.LAST_NAME);
+        entity.setIdentifier(DonorConstants.IDENTIFIER);
 
         return entity;
     }

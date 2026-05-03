@@ -33,6 +33,8 @@ import com.bernardomg.association.guest.adapter.inbound.jpa.model.GuestContactMe
 
 public interface GuestContactMethodSpringRepository extends JpaRepository<GuestContactMethodEntity, Long> {
 
+    public boolean existsByNumber(final Long number);
+
     public List<GuestContactMethodEntity> findAllByNumberIn(final Collection<Long> numbers);
 
 }

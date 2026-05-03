@@ -10,7 +10,6 @@ import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityC
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberFeeTypeEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.ReadMemberContactChannelEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.ReadMemberProfileEntity;
-import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 
 public final class ReadMemberProfileEntities {
 
@@ -27,14 +26,14 @@ public final class ReadMemberProfileEntities {
         entity = new ReadMemberProfileEntity();
         entity.setId(1L);
         entity.setId(1L);
-        entity.setNumber(ProfileConstants.NUMBER);
-        entity.setFirstName(ProfileConstants.FIRST_NAME);
-        entity.setLastName(ProfileConstants.LAST_NAME);
-        entity.setBirthDate(ProfileConstants.BIRTH_DATE);
-        entity.setIdentifier(ProfileConstants.IDENTIFIER);
+        entity.setNumber(MemberProfileConstants.NUMBER);
+        entity.setFirstName(MemberProfileConstants.FIRST_NAME);
+        entity.setLastName(MemberProfileConstants.LAST_NAME);
+        entity.setBirthDate(MemberProfileConstants.BIRTH_DATE);
+        entity.setIdentifier(MemberProfileConstants.IDENTIFIER);
         entity.setContactChannels(new ArrayList<>(List.of()));
-        entity.setAddress(ProfileConstants.ADDRESS);
-        entity.setComments(ProfileConstants.COMMENTS);
+        entity.setAddress(MemberProfileConstants.ADDRESS);
+        entity.setComments(MemberProfileConstants.COMMENTS);
         entity.setFeeType(feeType);
         entity.setActive(true);
         entity.setRenew(true);
@@ -56,14 +55,14 @@ public final class ReadMemberProfileEntities {
         entity = new ReadMemberProfileEntity();
         entity.setId(1L);
         entity.setId(2L);
-        entity.setNumber(ProfileConstants.ALTERNATIVE_NUMBER);
-        entity.setFirstName(ProfileConstants.FIRST_NAME);
-        entity.setLastName(ProfileConstants.LAST_NAME);
-        entity.setBirthDate(ProfileConstants.BIRTH_DATE);
+        entity.setNumber(MemberProfileConstants.ALTERNATIVE_NUMBER);
+        entity.setFirstName(MemberProfileConstants.FIRST_NAME);
+        entity.setLastName(MemberProfileConstants.LAST_NAME);
+        entity.setBirthDate(MemberProfileConstants.BIRTH_DATE);
         entity.setIdentifier("6789");
         entity.setContactChannels(new ArrayList<>());
-        entity.setAddress(ProfileConstants.ADDRESS);
-        entity.setComments(ProfileConstants.COMMENTS);
+        entity.setAddress(MemberProfileConstants.ADDRESS);
+        entity.setComments(MemberProfileConstants.COMMENTS);
         entity.setFeeType(feeType);
         entity.setActive(true);
         entity.setRenew(true);
@@ -85,14 +84,14 @@ public final class ReadMemberProfileEntities {
         entity = new ReadMemberProfileEntity();
         entity.setId(1L);
         entity.setId(1L);
-        entity.setNumber(ProfileConstants.NUMBER);
-        entity.setFirstName(ProfileConstants.FIRST_NAME);
-        entity.setLastName(ProfileConstants.LAST_NAME);
-        entity.setBirthDate(ProfileConstants.BIRTH_DATE);
-        entity.setIdentifier(ProfileConstants.IDENTIFIER);
+        entity.setNumber(MemberProfileConstants.NUMBER);
+        entity.setFirstName(MemberProfileConstants.FIRST_NAME);
+        entity.setLastName(MemberProfileConstants.LAST_NAME);
+        entity.setBirthDate(MemberProfileConstants.BIRTH_DATE);
+        entity.setIdentifier(MemberProfileConstants.IDENTIFIER);
         entity.setContactChannels(new ArrayList<>(List.of()));
-        entity.setAddress(ProfileConstants.ADDRESS);
-        entity.setComments(ProfileConstants.COMMENTS);
+        entity.setAddress(MemberProfileConstants.ADDRESS);
+        entity.setComments(MemberProfileConstants.COMMENTS);
         entity.setFeeType(feeType);
         entity.setActive(true);
         entity.setRenew(true);
@@ -114,14 +113,14 @@ public final class ReadMemberProfileEntities {
         entity = new ReadMemberProfileEntity();
         entity.setId(1L);
         entity.setId(1L);
-        entity.setNumber(ProfileConstants.NUMBER);
-        entity.setFirstName(ProfileConstants.CHANGED_FIRST_NAME);
-        entity.setLastName(ProfileConstants.LAST_NAME);
-        entity.setBirthDate(ProfileConstants.BIRTH_DATE);
+        entity.setNumber(MemberProfileConstants.NUMBER);
+        entity.setFirstName(MemberProfileConstants.CHANGED_FIRST_NAME);
+        entity.setLastName(MemberProfileConstants.LAST_NAME);
+        entity.setBirthDate(MemberProfileConstants.BIRTH_DATE);
         entity.setIdentifier("6789");
         entity.setContactChannels(new ArrayList<>());
-        entity.setAddress(ProfileConstants.ADDRESS);
-        entity.setComments(ProfileConstants.COMMENTS);
+        entity.setAddress(MemberProfileConstants.ADDRESS);
+        entity.setComments(MemberProfileConstants.COMMENTS);
         entity.setFeeType(feeType);
         entity.setActive(true);
         entity.setRenew(true);
@@ -137,7 +136,7 @@ public final class ReadMemberProfileEntities {
 
         contactChannelEntity = new ReadMemberContactChannelEntity();
         contactChannelEntity.setContactMethod(MemberContactMethodEntities.email());
-        contactChannelEntity.setDetail(ProfileConstants.EMAIL);
+        contactChannelEntity.setDetail(MemberProfileConstants.EMAIL);
 
         feeType = new MemberFeeTypeEntity();
         feeType.setId(1L);
@@ -147,14 +146,14 @@ public final class ReadMemberProfileEntities {
 
         entity = new ReadMemberProfileEntity();
         entity.setId(1L);
-        entity.setNumber(ProfileConstants.NUMBER);
-        entity.setFirstName(ProfileConstants.FIRST_NAME);
-        entity.setLastName(ProfileConstants.LAST_NAME);
-        entity.setBirthDate(ProfileConstants.BIRTH_DATE);
+        entity.setNumber(MemberProfileConstants.NUMBER);
+        entity.setFirstName(MemberProfileConstants.FIRST_NAME);
+        entity.setLastName(MemberProfileConstants.LAST_NAME);
+        entity.setBirthDate(MemberProfileConstants.BIRTH_DATE);
         entity.setIdentifier("6789");
         entity.setContactChannels(new ArrayList<>(List.of(contactChannelEntity)));
-        entity.setAddress(ProfileConstants.ADDRESS);
-        entity.setComments(ProfileConstants.COMMENTS);
+        entity.setAddress(MemberProfileConstants.ADDRESS);
+        entity.setComments(MemberProfileConstants.COMMENTS);
 
         contactChannelEntity.setProfile(entity);
         entity.setFeeType(feeType);

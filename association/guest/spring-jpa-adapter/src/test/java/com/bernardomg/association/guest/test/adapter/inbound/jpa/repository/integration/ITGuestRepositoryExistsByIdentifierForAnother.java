@@ -51,8 +51,7 @@ class ITGuestRepositoryExistsByIdentifierForAnother {
         final boolean exists;
 
         // WHEN
-        exists = repository.existsByIdentifierForAnother(GuestConstants.ALTERNATIVE_NUMBER,
-            GuestConstants.IDENTIFIER);
+        exists = repository.existsByIdentifierForAnother(GuestConstants.ALTERNATIVE_NUMBER, GuestConstants.IDENTIFIER);
 
         // THEN
         Assertions.assertThat(exists)

@@ -39,15 +39,15 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.guest.domain.exception.GuestExistsException;
+import com.bernardomg.association.guest.domain.exception.MissingGuestProfileException;
 import com.bernardomg.association.guest.domain.model.Guest;
+import com.bernardomg.association.guest.domain.model.GuestProfile;
+import com.bernardomg.association.guest.domain.repository.GuestProfileRepository;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
 import com.bernardomg.association.guest.test.configuration.factory.GuestConstants;
+import com.bernardomg.association.guest.test.configuration.factory.GuestProfiles;
 import com.bernardomg.association.guest.test.configuration.factory.Guests;
 import com.bernardomg.association.guest.usecase.service.DefaultProfileGuestService;
-import com.bernardomg.association.profile.domain.exception.MissingProfileException;
-import com.bernardomg.association.profile.domain.model.Profile;
-import com.bernardomg.association.profile.domain.repository.ProfileRepository;
-import com.bernardomg.association.profile.test.configuration.factory.Profiles;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultProfileGuestService - convert to guest")
@@ -57,7 +57,7 @@ class TestProfileGuestServiceConvert {
     private GuestRepository            guestRepository;
 
     @Mock
-    private ProfileRepository          profileRepository;
+    private GuestProfileRepository     profileRepository;
 
     @InjectMocks
     private DefaultProfileGuestService service;
@@ -70,11 +70,11 @@ class TestProfileGuestServiceConvert {
     @DisplayName("With an existing guest, an exception is thrown")
     void testConvertToGuest_ExistingGuest_Exception() {
         final ThrowingCallable execution;
-        final Profile          profile;
+        final GuestProfile     profile;
 
         // GIVEN
         Guests.firstNameChange();
-        profile = Profiles.valid();
+        profile = GuestProfiles.noType();
 
         given(profileRepository.findOne(GuestConstants.NUMBER)).willReturn(Optional.of(profile));
         given(guestRepository.exists(GuestConstants.NUMBER)).willReturn(true);
@@ -89,7 +89,7 @@ class TestProfileGuestServiceConvert {
 
     @Test
     @DisplayName("With a not existing profile, an exception is thrown")
-    void testConvertToGuest_NotExistingContact_Exception() {
+    void testConvertToGuest_NotExistingProfile_Exception() {
         final ThrowingCallable execution;
 
         // GIVEN
@@ -102,18 +102,18 @@ class TestProfileGuestServiceConvert {
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingProfileException.class);
+            .isInstanceOf(MissingGuestProfileException.class);
     }
 
     @Test
     @DisplayName("When converting to guest, the change is persisted")
     void testConvertToGuest_PersistedData() {
-        final Guest   guest;
-        final Profile profile;
+        final Guest        guest;
+        final GuestProfile profile;
 
         // GIVEN
         guest = Guests.noGames();
-        profile = Profiles.withType(com.bernardomg.association.guest.domain.model.Guest.PROFILE_TYPE);
+        profile = GuestProfiles.noType();
 
         given(profileRepository.findOne(GuestConstants.NUMBER)).willReturn(Optional.of(profile));
         given(guestRepository.exists(GuestConstants.NUMBER)).willReturn(false);
@@ -128,13 +128,13 @@ class TestProfileGuestServiceConvert {
     @Test
     @DisplayName("When converting to guest, the change is returned")
     void testConvertToGuest_ReturnedData() {
-        final Guest   guest;
-        final Profile profile;
-        final Guest   updated;
+        final Guest        guest;
+        final GuestProfile profile;
+        final Guest        updated;
 
         // GIVEN
         guest = Guests.noGames();
-        profile = Profiles.withType(com.bernardomg.association.guest.domain.model.Guest.PROFILE_TYPE);
+        profile = GuestProfiles.noType();
 
         given(profileRepository.findOne(GuestConstants.NUMBER)).willReturn(Optional.of(profile));
         given(guestRepository.exists(GuestConstants.NUMBER)).willReturn(false);

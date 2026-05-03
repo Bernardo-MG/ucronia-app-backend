@@ -30,17 +30,17 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.bernardomg.association.guest.domain.exception.MissingGuestContactMethodException;
 import com.bernardomg.association.guest.domain.exception.MissingGuestException;
 import com.bernardomg.association.guest.domain.filter.GuestFilter;
 import com.bernardomg.association.guest.domain.model.Guest;
 import com.bernardomg.association.guest.domain.model.Guest.ContactChannel;
 import com.bernardomg.association.guest.domain.model.Guest.ContactMethod;
 import com.bernardomg.association.guest.domain.model.Guest.Name;
+import com.bernardomg.association.guest.domain.repository.GuestContactMethodRepository;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
 import com.bernardomg.association.guest.usecase.validation.GuestIdentifierNotExistForAnotherRule;
 import com.bernardomg.association.guest.usecase.validation.GuestIdentifierNotExistRule;
-import com.bernardomg.association.profile.domain.exception.MissingContactMethodException;
-import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
@@ -61,19 +61,19 @@ public final class DefaultGuestService implements GuestService {
     /**
      * Logger for the class.
      */
-    private static final Logger           log = LoggerFactory.getLogger(DefaultGuestService.class);
+    private static final Logger                log = LoggerFactory.getLogger(DefaultGuestService.class);
 
-    private final ContactMethodRepository contactMethodRepository;
+    private final GuestContactMethodRepository contactMethodRepository;
 
-    private final Validator<Guest>        createValidator;
+    private final Validator<Guest>             createValidator;
 
-    private final GuestRepository         guestRepository;
+    private final GuestRepository              guestRepository;
 
-    private final Validator<Guest>        patchValidator;
+    private final Validator<Guest>             patchValidator;
 
-    private final Validator<Guest>        updateValidator;
+    private final Validator<Guest>             updateValidator;
 
-    public DefaultGuestService(final GuestRepository guestRepo, final ContactMethodRepository contactMethodRepo) {
+    public DefaultGuestService(final GuestRepository guestRepo, final GuestContactMethodRepository contactMethodRepo) {
         super();
 
         guestRepository = Objects.requireNonNull(guestRepo);
@@ -214,7 +214,7 @@ public final class DefaultGuestService implements GuestService {
     private final void checkContactMethodExists(final ContactMethod contactMethod) {
         if (!contactMethodRepository.exists(contactMethod.number())) {
             log.error("Missing contact method {}", contactMethod.number());
-            throw new MissingContactMethodException(contactMethod.number());
+            throw new MissingGuestContactMethodException(contactMethod.number());
         }
     }
 

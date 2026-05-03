@@ -35,9 +35,9 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.Positiv
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.ReadMemberProfileSpringRepository;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
+import com.bernardomg.association.member.test.configuration.factory.MemberProfileConstants;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
-import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -64,7 +64,7 @@ class ITMemberProfileRepositoryDelete {
     @ActiveMember
     void testDelete_Active() {
         // WHEN
-        repository.delete(ProfileConstants.NUMBER);
+        repository.delete(MemberProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(springRepository.count())
@@ -77,7 +77,7 @@ class ITMemberProfileRepositoryDelete {
     @ActiveMember
     void testDelete_Active_Profile() {
         // WHEN
-        repository.delete(ProfileConstants.NUMBER);
+        repository.delete(MemberProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(profileSpringRepository.count())
@@ -88,7 +88,7 @@ class ITMemberProfileRepositoryDelete {
     @DisplayName("When there is no data, nothing is deleted")
     void testDelete_NoData() {
         // WHEN
-        repository.delete(ProfileConstants.NUMBER);
+        repository.delete(MemberProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(springRepository.count())
@@ -100,7 +100,7 @@ class ITMemberProfileRepositoryDelete {
     @ValidProfile
     void testDelete_NoMembership() {
         // WHEN
-        repository.delete(ProfileConstants.NUMBER);
+        repository.delete(MemberProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(springRepository.count())

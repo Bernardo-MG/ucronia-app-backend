@@ -36,12 +36,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
-import com.bernardomg.association.profile.test.configuration.factory.ContactMethodConstants;
-import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.association.sponsor.domain.exception.MissingSponsorException;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
+import com.bernardomg.association.sponsor.domain.repository.SponsorContactMethodRepository;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
+import com.bernardomg.association.sponsor.test.configuration.factory.SponsorConstants;
+import com.bernardomg.association.sponsor.test.configuration.factory.SponsorContactMethodConstants;
 import com.bernardomg.association.sponsor.test.configuration.factory.Sponsors;
 import com.bernardomg.association.sponsor.usecase.service.DefaultSponsorService;
 import com.bernardomg.validation.domain.model.FieldFailure;
@@ -52,13 +52,13 @@ import com.bernardomg.validation.test.assertion.ValidationAssertions;
 class TestSponsorServiceUpdate {
 
     @Mock
-    private ContactMethodRepository contactMethodRepository;
+    private SponsorContactMethodRepository contactMethodRepository;
 
     @InjectMocks
-    private DefaultSponsorService   service;
+    private DefaultSponsorService          service;
 
     @Mock
-    private SponsorRepository       sponsorRepository;
+    private SponsorRepository              sponsorRepository;
 
     public TestSponsorServiceUpdate() {
         super();
@@ -73,8 +73,8 @@ class TestSponsorServiceUpdate {
         // GIVEN
         sponsor = Sponsors.valid();
 
-        given(sponsorRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
-        given(sponsorRepository.existsByIdentifierForAnother(ProfileConstants.NUMBER, ProfileConstants.IDENTIFIER))
+        given(sponsorRepository.exists(SponsorConstants.NUMBER)).willReturn(true);
+        given(sponsorRepository.existsByIdentifierForAnother(SponsorConstants.NUMBER, SponsorConstants.IDENTIFIER))
             .willReturn(true);
 
         // WHEN
@@ -82,7 +82,7 @@ class TestSponsorServiceUpdate {
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
-            new FieldFailure("existing", "identifier", ProfileConstants.IDENTIFIER));
+            new FieldFailure("existing", "identifier", SponsorConstants.IDENTIFIER));
     }
 
     @Test
@@ -94,7 +94,7 @@ class TestSponsorServiceUpdate {
         // GIVEN
         sponsor = Sponsors.nameChange();
 
-        given(sponsorRepository.exists(ProfileConstants.NUMBER)).willReturn(false);
+        given(sponsorRepository.exists(SponsorConstants.NUMBER)).willReturn(false);
 
         // WHEN
         execution = () -> service.update(sponsor);
@@ -112,7 +112,7 @@ class TestSponsorServiceUpdate {
         // GIVEN
         sponsor = Sponsors.padded();
 
-        given(sponsorRepository.exists(ContactMethodConstants.NUMBER)).willReturn(true);
+        given(sponsorRepository.exists(SponsorContactMethodConstants.NUMBER)).willReturn(true);
 
         // WHEN
         service.update(sponsor);
@@ -129,7 +129,7 @@ class TestSponsorServiceUpdate {
         // GIVEN
         sponsor = Sponsors.nameChange();
 
-        given(sponsorRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
+        given(sponsorRepository.exists(SponsorConstants.NUMBER)).willReturn(true);
         given(sponsorRepository.save(Sponsors.nameChange())).willReturn(Sponsors.nameChange());
 
         // WHEN
@@ -148,7 +148,7 @@ class TestSponsorServiceUpdate {
         // GIVEN
         sponsor = Sponsors.nameChange();
 
-        given(sponsorRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
+        given(sponsorRepository.exists(SponsorConstants.NUMBER)).willReturn(true);
         given(sponsorRepository.save(Sponsors.nameChange())).willReturn(Sponsors.nameChange());
 
         // WHEN

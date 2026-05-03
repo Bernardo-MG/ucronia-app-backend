@@ -33,6 +33,8 @@ import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.SponsorConta
 
 public interface SponsorContactMethodSpringRepository extends JpaRepository<SponsorContactMethodEntity, Long> {
 
+    public boolean existsByNumber(final Long number);
+
     public List<SponsorContactMethodEntity> findAllByNumberIn(final Collection<Long> numbers);
 
 }

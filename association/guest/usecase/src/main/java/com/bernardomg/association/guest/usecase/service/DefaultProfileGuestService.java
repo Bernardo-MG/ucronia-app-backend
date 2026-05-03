@@ -27,18 +27,21 @@ package com.bernardomg.association.guest.usecase.service;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bernardomg.association.guest.domain.exception.GuestExistsException;
+import com.bernardomg.association.guest.domain.exception.MissingGuestProfileException;
 import com.bernardomg.association.guest.domain.model.Guest;
 import com.bernardomg.association.guest.domain.model.Guest.Name;
+import com.bernardomg.association.guest.domain.model.GuestProfile;
+import com.bernardomg.association.guest.domain.model.GuestProfile.ContactChannel;
+import com.bernardomg.association.guest.domain.repository.GuestProfileRepository;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
-import com.bernardomg.association.profile.domain.exception.MissingProfileException;
-import com.bernardomg.association.profile.domain.model.Profile;
-import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
-import com.bernardomg.association.profile.domain.repository.ProfileRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -54,13 +57,13 @@ public final class DefaultProfileGuestService implements ProfileGuestService {
     /**
      * Logger for the class.
      */
-    private static final Logger     log = LoggerFactory.getLogger(DefaultProfileGuestService.class);
+    private static final Logger          log = LoggerFactory.getLogger(DefaultProfileGuestService.class);
 
-    private final GuestRepository   guestRepository;
+    private final GuestRepository        guestRepository;
 
-    private final ProfileRepository profileRepository;
+    private final GuestProfileRepository profileRepository;
 
-    public DefaultProfileGuestService(final GuestRepository guestRepo, final ProfileRepository profileRepo) {
+    public DefaultProfileGuestService(final GuestRepository guestRepo, final GuestProfileRepository profileRepo) {
         super();
 
         guestRepository = Objects.requireNonNull(guestRepo);
@@ -69,21 +72,23 @@ public final class DefaultProfileGuestService implements ProfileGuestService {
 
     @Override
     public final Guest convertToGuest(final long number) {
-        final Profile                          existing;
+        final GuestProfile                     existing;
         final Guest                            toCreate;
         final Guest                            created;
         final Collection<Guest.ContactChannel> contactChannels;
         final Name                             name;
+        final Set<String>                      types;
 
         log.debug("Converting profile {} to guest", number);
 
         existing = profileRepository.findOne(number)
             .orElseThrow(() -> {
                 log.error("Missing profile {}", number);
-                throw new MissingProfileException(number);
+                throw new MissingGuestProfileException(number);
             });
 
         if (guestRepository.exists(number)) {
+            log.error("Guest {} already exists", number);
             throw new GuestExistsException(number);
         }
 
@@ -95,8 +100,11 @@ public final class DefaultProfileGuestService implements ProfileGuestService {
             .firstName(),
             existing.name()
                 .lastName());
+        types = Stream.concat(existing.types()
+            .stream(), Stream.of(Guest.PROFILE_TYPE))
+            .collect(Collectors.toSet());
         toCreate = new Guest(existing.identifier(), existing.number(), name, existing.birthDate(), contactChannels,
-            List.of(), existing.address(), existing.comments(), existing.types());
+            List.of(), existing.address(), existing.comments(), types);
 
         created = guestRepository.save(toCreate);
 

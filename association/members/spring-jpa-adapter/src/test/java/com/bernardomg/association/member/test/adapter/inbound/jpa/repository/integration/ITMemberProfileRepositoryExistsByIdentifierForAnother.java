@@ -34,7 +34,7 @@ import com.bernardomg.association.TestApplication;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
-import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
+import com.bernardomg.association.member.test.configuration.factory.MemberProfileConstants;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -53,8 +53,8 @@ class ITMemberProfileRepositoryExistsByIdentifierForAnother {
         final boolean exists;
 
         // WHEN
-        exists = repository.existsByIdentifierForAnother(ProfileConstants.ALTERNATIVE_NUMBER,
-            ProfileConstants.IDENTIFIER);
+        exists = repository.existsByIdentifierForAnother(MemberProfileConstants.ALTERNATIVE_NUMBER,
+            MemberProfileConstants.IDENTIFIER);
 
         // THEN
         Assertions.assertThat(exists)
@@ -70,7 +70,8 @@ class ITMemberProfileRepositoryExistsByIdentifierForAnother {
         final boolean exists;
 
         // WHEN
-        exists = repository.existsByIdentifierForAnother(ProfileConstants.NUMBER, ProfileConstants.IDENTIFIER);
+        exists = repository.existsByIdentifierForAnother(MemberProfileConstants.NUMBER,
+            MemberProfileConstants.IDENTIFIER);
 
         // THEN
         Assertions.assertThat(exists)
@@ -84,7 +85,8 @@ class ITMemberProfileRepositoryExistsByIdentifierForAnother {
         final boolean exists;
 
         // WHEN
-        exists = repository.existsByIdentifierForAnother(ProfileConstants.NUMBER, ProfileConstants.IDENTIFIER);
+        exists = repository.existsByIdentifierForAnother(MemberProfileConstants.NUMBER,
+            MemberProfileConstants.IDENTIFIER);
 
         // THEN
         Assertions.assertThat(exists)
@@ -100,7 +102,7 @@ class ITMemberProfileRepositoryExistsByIdentifierForAnother {
         final boolean exists;
 
         // WHEN
-        exists = repository.existsByIdentifierForAnother(ProfileConstants.NUMBER, "abc");
+        exists = repository.existsByIdentifierForAnother(MemberProfileConstants.NUMBER, "abc");
 
         // THEN
         Assertions.assertThat(exists)

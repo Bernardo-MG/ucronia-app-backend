@@ -26,18 +26,19 @@ package com.bernardomg.association.member.usecase.service;
 
 import java.util.Collection;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bernardomg.association.member.domain.exception.MemberExistsException;
 import com.bernardomg.association.member.domain.exception.MissingMemberFeeTypeException;
+import com.bernardomg.association.member.domain.exception.MissingMemberProfileException;
 import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.repository.MemberFeeTypeRepository;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
-import com.bernardomg.association.profile.domain.exception.MissingProfileException;
-import com.bernardomg.association.profile.domain.model.Profile;
-import com.bernardomg.association.profile.domain.repository.ProfileRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -59,36 +60,34 @@ public final class DefaultProfileMembershipService implements ProfileMembershipS
 
     private final MemberProfileRepository memberProfileRepository;
 
-    private final ProfileRepository       profileRepository;
-
     public DefaultProfileMembershipService(final MemberProfileRepository memberProfileRepo,
-            final ProfileRepository profileRepo, final MemberFeeTypeRepository memberFeeTypeRepo) {
+            final MemberFeeTypeRepository memberFeeTypeRepo) {
         super();
 
         memberProfileRepository = Objects.requireNonNull(memberProfileRepo);
-        profileRepository = Objects.requireNonNull(profileRepo);
         memberFeeTypeRepository = Objects.requireNonNull(memberFeeTypeRepo);
     }
 
     @Override
     public final MemberProfile convertToMember(final long number, final long feeType) {
-        final Profile                                  existing;
+        final MemberProfile                            existing;
         final MemberProfile                            toCreate;
         final MemberProfile                            created;
         final MemberProfile.FeeType                    memberFeeType;
         final Collection<MemberProfile.ContactChannel> contactChannels;
         final MemberProfile.Name                       name;
+        final Set<String>                              types;
 
         log.debug("Converting profile {} to member", number);
 
-        existing = profileRepository.findOne(number)
+        existing = memberProfileRepository.findOne(number)
             .orElseThrow(() -> {
                 log.error("Missing profile {}", number);
-                throw new MissingProfileException(number);
+                throw new MissingMemberProfileException(number);
             });
 
         if (memberProfileRepository.exists(number)) {
-            log.error("Missing member {}", number);
+            log.error("Member {} already exists", number);
             throw new MemberExistsException(number);
         }
 
@@ -106,8 +105,11 @@ public final class DefaultProfileMembershipService implements ProfileMembershipS
             .firstName(),
             existing.name()
                 .lastName());
+        types = Stream.concat(existing.types()
+            .stream(), Stream.of(MemberProfile.PROFILE_TYPE))
+            .collect(Collectors.toSet());
         toCreate = new MemberProfile(existing.identifier(), existing.number(), name, existing.birthDate(),
-            contactChannels, existing.address(), existing.comments(), true, true, memberFeeType, existing.types());
+            contactChannels, existing.address(), existing.comments(), true, true, memberFeeType, types);
 
         created = memberProfileRepository.save(toCreate);
 
@@ -116,7 +118,8 @@ public final class DefaultProfileMembershipService implements ProfileMembershipS
         return created;
     }
 
-    private final MemberProfile.ContactChannel toMemberContactChannel(final Profile.ContactChannel contactChannel) {
+    private final MemberProfile.ContactChannel
+            toMemberContactChannel(final MemberProfile.ContactChannel contactChannel) {
         final MemberProfile.ContactMethod contactMethod;
 
         contactMethod = new MemberProfile.ContactMethod(contactChannel.contactMethod()
