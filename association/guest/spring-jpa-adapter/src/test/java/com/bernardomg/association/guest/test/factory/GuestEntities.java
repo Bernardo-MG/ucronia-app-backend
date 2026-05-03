@@ -10,7 +10,7 @@ import com.bernardomg.association.guest.adapter.inbound.jpa.model.GuestContactMe
 import com.bernardomg.association.guest.adapter.inbound.jpa.model.GuestEntity;
 import com.bernardomg.association.guest.adapter.inbound.jpa.model.GuestEntityConstants;
 import com.bernardomg.association.guest.adapter.inbound.jpa.model.GuestInnerProfileEntity;
-import com.bernardomg.association.guest.test.configuration.factory.ContactMethodConstants;
+import com.bernardomg.association.guest.test.configuration.factory.GuestContactMethodConstants;
 import com.bernardomg.association.guest.test.configuration.factory.GuestConstants;
 import com.bernardomg.association.guest.test.configuration.factory.Guests;
 
@@ -85,8 +85,8 @@ public final class GuestEntities {
 
         entity = new GuestContactMethodEntity();
         entity.setId(1L);
-        entity.setNumber(ContactMethodConstants.NUMBER);
-        entity.setName(ContactMethodConstants.EMAIL);
+        entity.setNumber(GuestContactMethodConstants.NUMBER);
+        entity.setName(GuestContactMethodConstants.EMAIL);
 
         return entity;
     }

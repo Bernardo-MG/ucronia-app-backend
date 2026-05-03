@@ -30,14 +30,14 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bernardomg.association.profile.domain.exception.MissingContactMethodException;
-import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
+import com.bernardomg.association.sponsor.domain.exception.MissingSponsorContactMethodException;
 import com.bernardomg.association.sponsor.domain.exception.MissingSponsorException;
 import com.bernardomg.association.sponsor.domain.filter.SponsorFilter;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
 import com.bernardomg.association.sponsor.domain.model.Sponsor.ContactChannel;
 import com.bernardomg.association.sponsor.domain.model.Sponsor.ContactMethod;
 import com.bernardomg.association.sponsor.domain.model.Sponsor.Name;
+import com.bernardomg.association.sponsor.domain.repository.SponsorContactMethodRepository;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
 import com.bernardomg.association.sponsor.usecase.validation.SponsorIdentifierNotExistForAnotherRule;
 import com.bernardomg.association.sponsor.usecase.validation.SponsorIdentifierNotExistRule;
@@ -61,19 +61,20 @@ public final class DefaultSponsorService implements SponsorService {
     /**
      * Logger for the class.
      */
-    private static final Logger           log = LoggerFactory.getLogger(DefaultSponsorService.class);
+    private static final Logger                  log = LoggerFactory.getLogger(DefaultSponsorService.class);
 
-    private final ContactMethodRepository contactMethodRepository;
+    private final SponsorContactMethodRepository contactMethodRepository;
 
-    private final Validator<Sponsor>      createValidator;
+    private final Validator<Sponsor>             createValidator;
 
-    private final Validator<Sponsor>      patchValidator;
+    private final Validator<Sponsor>             patchValidator;
 
-    private final SponsorRepository       sponsorRepository;
+    private final SponsorRepository              sponsorRepository;
 
-    private final Validator<Sponsor>      updateValidator;
+    private final Validator<Sponsor>             updateValidator;
 
-    public DefaultSponsorService(final SponsorRepository sponsorRepo, final ContactMethodRepository contactMethodRepo) {
+    public DefaultSponsorService(final SponsorRepository sponsorRepo,
+            final SponsorContactMethodRepository contactMethodRepo) {
         super();
 
         sponsorRepository = Objects.requireNonNull(sponsorRepo);
@@ -215,7 +216,7 @@ public final class DefaultSponsorService implements SponsorService {
     private final void checkContactMethodExists(final ContactMethod contactMethod) {
         if (!contactMethodRepository.exists(contactMethod.number())) {
             log.error("Missing contact method {}", contactMethod.number());
-            throw new MissingContactMethodException(contactMethod.number());
+            throw new MissingSponsorContactMethodException(contactMethod.number());
         }
     }
 

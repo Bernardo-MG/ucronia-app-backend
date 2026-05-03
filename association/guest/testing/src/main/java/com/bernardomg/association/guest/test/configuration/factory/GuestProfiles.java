@@ -20,24 +20,24 @@ public final class GuestProfiles {
             List.of(), GuestConstants.ADDRESS, GuestConstants.COMMENTS, Set.of(Guest.PROFILE_TYPE));
     }
 
-    public static final GuestProfile withType(final String type) {
-        final Name name;
-
-        name = new Name(GuestConstants.FIRST_NAME, GuestConstants.LAST_NAME);
-        return new GuestProfile(GuestConstants.IDENTIFIER, GuestConstants.NUMBER, name, GuestConstants.BIRTH_DATE,
-            List.of(), GuestConstants.ADDRESS, GuestConstants.COMMENTS, Set.of(type));
-    }
-
     public static final GuestProfile withEmail() {
         final Name           name;
         final ContactChannel contactChannel;
         final ContactMethod  contactMethod;
 
         name = new Name(GuestConstants.FIRST_NAME, GuestConstants.LAST_NAME);
-        contactMethod = new ContactMethod(ContactMethodConstants.NUMBER, ContactMethodConstants.EMAIL);
+        contactMethod = new ContactMethod(GuestContactMethodConstants.NUMBER, GuestContactMethodConstants.EMAIL);
         contactChannel = new ContactChannel(contactMethod, GuestConstants.EMAIL);
         return new GuestProfile(GuestConstants.IDENTIFIER, GuestConstants.NUMBER, name, GuestConstants.BIRTH_DATE,
             List.of(contactChannel), GuestConstants.ADDRESS, GuestConstants.COMMENTS, Set.of(Guest.PROFILE_TYPE));
+    }
+
+    public static final GuestProfile withType(final String type) {
+        final Name name;
+
+        name = new Name(GuestConstants.FIRST_NAME, GuestConstants.LAST_NAME);
+        return new GuestProfile(GuestConstants.IDENTIFIER, GuestConstants.NUMBER, name, GuestConstants.BIRTH_DATE,
+            List.of(), GuestConstants.ADDRESS, GuestConstants.COMMENTS, Set.of(type));
     }
 
     private GuestProfiles() {

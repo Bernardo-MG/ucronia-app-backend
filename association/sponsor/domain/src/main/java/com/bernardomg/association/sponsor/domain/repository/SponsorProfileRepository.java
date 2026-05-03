@@ -22,19 +22,14 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.sponsor.adapter.inbound.jpa.repository;
+package com.bernardomg.association.sponsor.domain.repository;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.Optional;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.bernardomg.association.sponsor.domain.model.SponsorProfile;
 
-import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.SponsorContactMethodEntity;
+public interface SponsorProfileRepository {
 
-public interface SponsorContactMethodSpringRepository extends JpaRepository<SponsorContactMethodEntity, Long> {
-
-    public boolean existsByNumber(final Long number);
-
-    public List<SponsorContactMethodEntity> findAllByNumberIn(final Collection<Long> numbers);
+    public Optional<SponsorProfile> findOne(final Long number);
 
 }

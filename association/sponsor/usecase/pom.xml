@@ -34,10 +34,6 @@
          <artifactId>excel</artifactId>
       </dependency>
       <dependency>
-         <groupId>com.bernardomg.association.profile</groupId>
-         <artifactId>association-profile-domain</artifactId>
-      </dependency>
-      <dependency>
          <groupId>com.bernardomg.association.sponsor</groupId>
          <artifactId>association-sponsor-domain</artifactId>
       </dependency>
@@ -75,10 +71,6 @@
          <groupId>com.bernardomg.association.sponsor</groupId>
          <artifactId>association-sponsor-testing</artifactId>
          <scope>test</scope>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.association.profile</groupId>
-         <artifactId>association-profile-testing</artifactId>
       </dependency>
    </dependencies>
 

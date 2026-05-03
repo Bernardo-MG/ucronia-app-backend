@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.guest.test.adapter.inbound.jpa.repository.integration;
+package com.bernardomg.association.sponsor.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -30,19 +30,19 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.bernardomg.association.guest.TestApplication;
-import com.bernardomg.association.guest.domain.repository.GuestContactMethodRepository;
-import com.bernardomg.association.guest.test.configuration.factory.GuestContactMethodConstants;
 import com.bernardomg.association.profile.test.configuration.data.annotation.EmailContactMethod;
+import com.bernardomg.association.sponsor.TestApplication;
+import com.bernardomg.association.sponsor.domain.repository.SponsorContactMethodRepository;
+import com.bernardomg.association.sponsor.test.configuration.factory.SponsorContactMethodConstants;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("GuestContactMethodRepository - exists")
-class ITGuestContactMethodRepositoryExists {
+@DisplayName("SponsorContactMethodRepository - exists")
+class ITSponsorContactMethodRepositoryExists {
 
     @Autowired
-    private GuestContactMethodRepository repository;
+    private SponsorContactMethodRepository repository;
 
     @Test
     @DisplayName("With an existing contact method, it exists")
@@ -51,7 +51,7 @@ class ITGuestContactMethodRepositoryExists {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(GuestContactMethodConstants.NUMBER);
+        exists = repository.exists(SponsorContactMethodConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(exists)
@@ -65,7 +65,7 @@ class ITGuestContactMethodRepositoryExists {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(GuestContactMethodConstants.NUMBER);
+        exists = repository.exists(SponsorContactMethodConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(exists)

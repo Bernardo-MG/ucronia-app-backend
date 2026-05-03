@@ -24,17 +24,40 @@
 
 package com.bernardomg.association.sponsor.adapter.inbound.jpa.repository;
 
-import java.util.Collection;
-import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.bernardomg.association.sponsor.domain.repository.SponsorContactMethodRepository;
 
-import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.SponsorContactMethodEntity;
+@Transactional
+public final class JpaSponsorContactMethodRepository implements SponsorContactMethodRepository {
 
-public interface SponsorContactMethodSpringRepository extends JpaRepository<SponsorContactMethodEntity, Long> {
+    /**
+     * Logger for the class.
+     */
+    private static final Logger                        log = LoggerFactory
+        .getLogger(JpaSponsorContactMethodRepository.class);
 
-    public boolean existsByNumber(final Long number);
+    private final SponsorContactMethodSpringRepository contactMethodSpringRepository;
 
-    public List<SponsorContactMethodEntity> findAllByNumberIn(final Collection<Long> numbers);
+    public JpaSponsorContactMethodRepository(final SponsorContactMethodSpringRepository contactMethodSpringRepo) {
+        super();
+
+        contactMethodSpringRepository = contactMethodSpringRepo;
+    }
+
+    @Override
+    public final boolean exists(final long number) {
+        final boolean exists;
+
+        log.debug("Checking if contact method {} exists", number);
+
+        exists = contactMethodSpringRepository.existsByNumber(number);
+
+        log.debug("Contact method {} exists: {}", number, exists);
+
+        return exists;
+    }
 
 }

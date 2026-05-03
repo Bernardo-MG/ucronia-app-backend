@@ -31,13 +31,13 @@ import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bernardomg.association.profile.domain.exception.MissingProfileException;
-import com.bernardomg.association.profile.domain.model.Profile;
-import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
-import com.bernardomg.association.profile.domain.repository.ProfileRepository;
+import com.bernardomg.association.sponsor.domain.exception.MissingSponsorProfileException;
 import com.bernardomg.association.sponsor.domain.exception.SponsorExistsException;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
 import com.bernardomg.association.sponsor.domain.model.Sponsor.Name;
+import com.bernardomg.association.sponsor.domain.model.SponsorProfile;
+import com.bernardomg.association.sponsor.domain.model.SponsorProfile.ContactChannel;
+import com.bernardomg.association.sponsor.domain.repository.SponsorProfileRepository;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
 
 import jakarta.transaction.Transactional;
@@ -54,13 +54,14 @@ public final class DefaultProfileSponsorshipService implements ProfileSponsorshi
     /**
      * Logger for the class.
      */
-    private static final Logger     log = LoggerFactory.getLogger(DefaultProfileSponsorshipService.class);
+    private static final Logger            log = LoggerFactory.getLogger(DefaultProfileSponsorshipService.class);
 
-    private final ProfileRepository profileRepository;
+    private final SponsorProfileRepository profileRepository;
 
-    private final SponsorRepository sponsorRepository;
+    private final SponsorRepository        sponsorRepository;
 
-    public DefaultProfileSponsorshipService(final SponsorRepository sponsorRepo, final ProfileRepository profileRepo) {
+    public DefaultProfileSponsorshipService(final SponsorRepository sponsorRepo,
+            final SponsorProfileRepository profileRepo) {
         super();
 
         sponsorRepository = Objects.requireNonNull(sponsorRepo);
@@ -69,7 +70,7 @@ public final class DefaultProfileSponsorshipService implements ProfileSponsorshi
 
     @Override
     public final Sponsor convertToSponsor(final long number) {
-        final Profile                            existing;
+        final SponsorProfile                     existing;
         final Sponsor                            toCreate;
         final Sponsor                            created;
         final Collection<Sponsor.ContactChannel> contactChannels;
@@ -80,10 +81,11 @@ public final class DefaultProfileSponsorshipService implements ProfileSponsorshi
         existing = profileRepository.findOne(number)
             .orElseThrow(() -> {
                 log.error("Missing profile {}", number);
-                throw new MissingProfileException(number);
+                throw new MissingSponsorProfileException(number);
             });
 
         if (sponsorRepository.exists(number)) {
+            log.error("Sponsor {} already exists", number);
             throw new SponsorExistsException(number);
         }
 
