@@ -64,14 +64,6 @@ public final class Sponsors {
             Set.of(Sponsor.PROFILE_TYPE));
     }
 
-    public static final Sponsor toConvert() {
-        final Name name;
-
-        name = new Name(SponsorConstants.FIRST_NAME, SponsorConstants.LAST_NAME);
-        return new Sponsor(SponsorConstants.IDENTIFIER, SponsorConstants.NUMBER, name, SponsorConstants.BIRTH_DATE,
-            List.of(), List.of(), SponsorConstants.ADDRESS, SponsorConstants.COMMENTS, Set.of());
-    }
-
     public static final Sponsor valid() {
         final Name name;
 

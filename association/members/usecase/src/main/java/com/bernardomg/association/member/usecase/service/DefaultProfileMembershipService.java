@@ -26,6 +26,9 @@ package com.bernardomg.association.member.usecase.service;
 
 import java.util.Collection;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,6 +76,7 @@ public final class DefaultProfileMembershipService implements ProfileMembershipS
         final MemberProfile.FeeType                    memberFeeType;
         final Collection<MemberProfile.ContactChannel> contactChannels;
         final MemberProfile.Name                       name;
+        final Set<String>                              types;
 
         log.debug("Converting profile {} to member", number);
 
@@ -101,8 +105,11 @@ public final class DefaultProfileMembershipService implements ProfileMembershipS
             .firstName(),
             existing.name()
                 .lastName());
+        types = Stream.concat(existing.types()
+            .stream(), Stream.of(MemberProfile.PROFILE_TYPE))
+            .collect(Collectors.toSet());
         toCreate = new MemberProfile(existing.identifier(), existing.number(), name, existing.birthDate(),
-            contactChannels, existing.address(), existing.comments(), true, true, memberFeeType, existing.types());
+            contactChannels, existing.address(), existing.comments(), true, true, memberFeeType, types);
 
         created = memberProfileRepository.save(toCreate);
 

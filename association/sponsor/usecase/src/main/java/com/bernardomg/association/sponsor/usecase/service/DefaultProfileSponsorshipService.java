@@ -27,6 +27,9 @@ package com.bernardomg.association.sponsor.usecase.service;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -75,6 +78,7 @@ public final class DefaultProfileSponsorshipService implements ProfileSponsorshi
         final Sponsor                            created;
         final Collection<Sponsor.ContactChannel> contactChannels;
         final Name                               name;
+        final Set<String>                        types;
 
         log.debug("Converting profile {} to sponsor", number);
 
@@ -97,8 +101,11 @@ public final class DefaultProfileSponsorshipService implements ProfileSponsorshi
             .firstName(),
             existing.name()
                 .lastName());
+        types = Stream.concat(existing.types()
+            .stream(), Stream.of(Sponsor.PROFILE_TYPE))
+            .collect(Collectors.toSet());
         toCreate = new Sponsor(existing.identifier(), existing.number(), name, existing.birthDate(), contactChannels,
-            List.of(), existing.address(), existing.comments(), existing.types());
+            List.of(), existing.address(), existing.comments(), types);
 
         created = sponsorRepository.save(toCreate);
 

@@ -124,7 +124,7 @@ class TestProfileMembershipServiceConvert {
         final MemberProfile profile;
 
         // GIVEN
-        profile = MemberProfiles.active();
+        profile = MemberProfiles.withoutType();
 
         given(memberProfileRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(profile));
         given(memberProfileRepository.exists(MemberConstants.NUMBER)).willReturn(false);
@@ -144,7 +144,7 @@ class TestProfileMembershipServiceConvert {
         final MemberProfile updated;
 
         // GIVEN
-        profile = MemberProfiles.active();
+        profile = MemberProfiles.withoutType();
 
         given(memberProfileRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(profile));
         given(memberProfileRepository.exists(MemberConstants.NUMBER)).willReturn(false);

@@ -112,7 +112,7 @@ class TestProfileSponsorshipServiceConvert {
         final SponsorProfile profile;
 
         // GIVEN
-        sponsor = Sponsors.toConvert();
+        sponsor = Sponsors.valid();
         profile = SponsorProfiles.noType();
 
         given(profileRepository.findOne(SponsorConstants.NUMBER)).willReturn(Optional.of(profile));
@@ -133,7 +133,7 @@ class TestProfileSponsorshipServiceConvert {
         final Sponsor        updated;
 
         // GIVEN
-        sponsor = Sponsors.toConvert();
+        sponsor = Sponsors.valid();
         profile = SponsorProfiles.noType();
 
         given(profileRepository.findOne(SponsorConstants.NUMBER)).willReturn(Optional.of(profile));

@@ -27,6 +27,9 @@ package com.bernardomg.association.guest.usecase.service;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,6 +77,7 @@ public final class DefaultProfileGuestService implements ProfileGuestService {
         final Guest                            created;
         final Collection<Guest.ContactChannel> contactChannels;
         final Name                             name;
+        final Set<String>                      types;
 
         log.debug("Converting profile {} to guest", number);
 
@@ -96,8 +100,11 @@ public final class DefaultProfileGuestService implements ProfileGuestService {
             .firstName(),
             existing.name()
                 .lastName());
+        types = Stream.concat(existing.types()
+            .stream(), Stream.of(Guest.PROFILE_TYPE))
+            .collect(Collectors.toSet());
         toCreate = new Guest(existing.identifier(), existing.number(), name, existing.birthDate(), contactChannels,
-            List.of(), existing.address(), existing.comments(), existing.types());
+            List.of(), existing.address(), existing.comments(), types);
 
         created = guestRepository.save(toCreate);
 
