@@ -63,11 +63,6 @@
          <scope>test</scope>
       </dependency>
       <dependency>
-         <groupId>com.bernardomg.association.profile</groupId>
-         <artifactId>association-profile-testing</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
          <groupId>com.bernardomg</groupId>
          <artifactId>testing</artifactId>
          <scope>test</scope>

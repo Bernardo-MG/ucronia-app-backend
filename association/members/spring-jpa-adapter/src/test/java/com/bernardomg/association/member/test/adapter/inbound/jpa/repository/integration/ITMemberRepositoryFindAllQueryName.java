@@ -37,8 +37,8 @@ import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
+import com.bernardomg.association.member.test.configuration.factory.MemberProfileConstants;
 import com.bernardomg.association.member.test.configuration.factory.Members;
-import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
@@ -65,7 +65,7 @@ class ITMemberRepositoryFindAllQueryName {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(ProfileConstants.FIRST_NAME);
+        filter = new MemberFilter(MemberProfileConstants.FIRST_NAME);
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -90,7 +90,7 @@ class ITMemberRepositoryFindAllQueryName {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(ProfileConstants.FULL_NAME);
+        filter = new MemberFilter(MemberProfileConstants.FULL_NAME);
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -115,7 +115,7 @@ class ITMemberRepositoryFindAllQueryName {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(ProfileConstants.LAST_NAME);
+        filter = new MemberFilter(MemberProfileConstants.LAST_NAME);
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -138,7 +138,7 @@ class ITMemberRepositoryFindAllQueryName {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(ProfileConstants.FIRST_NAME);
+        filter = new MemberFilter(MemberProfileConstants.FIRST_NAME);
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -163,7 +163,8 @@ class ITMemberRepositoryFindAllQueryName {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(ProfileConstants.FIRST_NAME.substring(0, ProfileConstants.FIRST_NAME.length() - 2));
+        filter = new MemberFilter(
+            MemberProfileConstants.FIRST_NAME.substring(0, MemberProfileConstants.FIRST_NAME.length() - 2));
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -188,7 +189,7 @@ class ITMemberRepositoryFindAllQueryName {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(ProfileConstants.ALTERNATIVE_FIRST_NAME);
+        filter = new MemberFilter(MemberProfileConstants.ALTERNATIVE_FIRST_NAME);
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);

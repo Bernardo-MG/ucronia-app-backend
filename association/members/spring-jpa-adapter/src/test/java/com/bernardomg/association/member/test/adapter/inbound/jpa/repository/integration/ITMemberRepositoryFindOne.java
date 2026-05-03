@@ -38,9 +38,9 @@ import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
+import com.bernardomg.association.member.test.configuration.factory.MemberProfileConstants;
 import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
-import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -59,7 +59,7 @@ class ITMemberRepositoryFindOne {
         final Optional<Member> member;
 
         // WHEN
-        member = repository.findOne(ProfileConstants.NUMBER);
+        member = repository.findOne(MemberProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(member)
@@ -74,7 +74,7 @@ class ITMemberRepositoryFindOne {
         final Optional<Member> member;
 
         // WHEN
-        member = repository.findOne(ProfileConstants.NUMBER);
+        member = repository.findOne(MemberProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(member)
@@ -87,7 +87,7 @@ class ITMemberRepositoryFindOne {
         final Optional<Member> member;
 
         // WHEN
-        member = repository.findOne(ProfileConstants.NUMBER);
+        member = repository.findOne(MemberProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(member)
@@ -101,7 +101,7 @@ class ITMemberRepositoryFindOne {
         final Optional<Member> member;
 
         // WHEN
-        member = repository.findOne(ProfileConstants.NUMBER);
+        member = repository.findOne(MemberProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(member)

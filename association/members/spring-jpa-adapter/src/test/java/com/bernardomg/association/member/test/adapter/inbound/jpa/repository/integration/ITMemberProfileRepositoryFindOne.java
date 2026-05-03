@@ -38,9 +38,9 @@ import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMemberWithEmail;
+import com.bernardomg.association.member.test.configuration.factory.MemberProfileConstants;
 import com.bernardomg.association.member.test.configuration.factory.MemberProfiles;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
-import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -59,7 +59,7 @@ class ITMemberProfileRepositoryFindOne {
         final Optional<MemberProfile> member;
 
         // WHEN
-        member = repository.findOne(ProfileConstants.NUMBER);
+        member = repository.findOne(MemberProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(member)
@@ -72,7 +72,7 @@ class ITMemberProfileRepositoryFindOne {
         final Optional<MemberProfile> member;
 
         // WHEN
-        member = repository.findOne(ProfileConstants.NUMBER);
+        member = repository.findOne(MemberProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(member)
@@ -86,7 +86,7 @@ class ITMemberProfileRepositoryFindOne {
         final Optional<MemberProfile> member;
 
         // WHEN
-        member = repository.findOne(ProfileConstants.NUMBER);
+        member = repository.findOne(MemberProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(member)
@@ -101,7 +101,7 @@ class ITMemberProfileRepositoryFindOne {
         final Optional<MemberProfile> member;
 
         // WHEN
-        member = repository.findOne(ProfileConstants.NUMBER);
+        member = repository.findOne(MemberProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(member)

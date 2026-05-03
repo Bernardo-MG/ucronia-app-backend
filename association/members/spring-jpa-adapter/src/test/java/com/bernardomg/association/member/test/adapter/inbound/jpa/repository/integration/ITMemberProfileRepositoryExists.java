@@ -34,8 +34,8 @@ import com.bernardomg.association.TestApplication;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
+import com.bernardomg.association.member.test.configuration.factory.MemberProfileConstants;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
-import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -54,7 +54,7 @@ class ITMemberProfileRepositoryExists {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(ProfileConstants.NUMBER);
+        exists = repository.exists(MemberProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(exists)
@@ -68,7 +68,7 @@ class ITMemberProfileRepositoryExists {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(ProfileConstants.NUMBER);
+        exists = repository.exists(MemberProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(exists)
@@ -83,7 +83,7 @@ class ITMemberProfileRepositoryExists {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(ProfileConstants.NUMBER);
+        exists = repository.exists(MemberProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(exists)
