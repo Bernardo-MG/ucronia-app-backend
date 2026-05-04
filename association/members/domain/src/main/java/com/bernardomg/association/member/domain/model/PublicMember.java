@@ -22,26 +22,24 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.adapter.inbound.jpa.repository;
+package com.bernardomg.association.member.domain.model;
 
-import java.util.Optional;
+import org.apache.commons.lang3.StringUtils;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+public record PublicMember(Long number, Name name, boolean renew) {
 
-import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
+    public record Name(String firstName, String lastName) {
 
-public interface MemberSpringRepository
-        extends JpaRepository<MemberEntity, Long>, JpaSpecificationExecutor<MemberEntity> {
+        public Name(final String firstName, final String lastName) {
+            this.firstName = StringUtils.trim(firstName);
+            this.lastName = StringUtils.trim(lastName);
+        }
 
-    public long countByActiveTrue();
+        public final String fullName() {
+            return String.format("%s %s", firstName, lastName)
+                .trim();
+        }
 
-    public long countByActiveTrueAndRenewTrue();
-
-    public Page<MemberEntity> findAllByActiveTrue(final Pageable pageable);
-
-    public Optional<MemberEntity> findByNumberAndActiveTrue(final Long number);
+    }
 
 }

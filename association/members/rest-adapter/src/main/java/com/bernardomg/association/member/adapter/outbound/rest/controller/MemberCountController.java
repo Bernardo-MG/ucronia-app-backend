@@ -40,7 +40,7 @@ import com.bernardomg.security.permission.domain.constant.Actions;
  *
  */
 @RestController
-public class MemberCountController implements MemberCountApi {
+public class MemberCountController implements PublicMemberCountApi {
 
     /**
      * Member count service.
@@ -55,7 +55,7 @@ public class MemberCountController implements MemberCountApi {
 
     @Override
     @RequireResourceAuthorization(resource = "MEMBER", action = Actions.READ)
-    public MemberCountResponseDto getMemberCount() {
+    public MemberCountResponseDto getPublicMemberCount() {
         final MemberCount count;
 
         count = service.getCount();

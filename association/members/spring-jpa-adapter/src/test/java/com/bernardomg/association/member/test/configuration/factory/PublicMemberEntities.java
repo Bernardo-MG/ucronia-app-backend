@@ -1,14 +1,14 @@
 
 package com.bernardomg.association.member.test.configuration.factory;
 
-import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.PublicMemberEntity;
 
-public final class MemberEntities {
+public final class PublicMemberEntities {
 
-    public static final MemberEntity alternative() {
-        final MemberEntity entity;
+    public static final PublicMemberEntity alternative() {
+        final PublicMemberEntity entity;
 
-        entity = new MemberEntity();
+        entity = new PublicMemberEntity();
         entity.setId(1L);
         entity.setNumber(MemberProfileConstants.NUMBER);
         entity.setFirstName(MemberProfileConstants.ALTERNATIVE_FIRST_NAME);
@@ -17,10 +17,10 @@ public final class MemberEntities {
         return entity;
     }
 
-    public static final MemberEntity valid() {
-        final MemberEntity entity;
+    public static final PublicMemberEntity valid() {
+        final PublicMemberEntity entity;
 
-        entity = new MemberEntity();
+        entity = new PublicMemberEntity();
         entity.setId(1L);
         entity.setNumber(MemberProfileConstants.NUMBER);
         entity.setFirstName(MemberProfileConstants.FIRST_NAME);
@@ -29,7 +29,7 @@ public final class MemberEntities {
         return entity;
     }
 
-    private MemberEntities() {
+    private PublicMemberEntities() {
         super();
     }
 

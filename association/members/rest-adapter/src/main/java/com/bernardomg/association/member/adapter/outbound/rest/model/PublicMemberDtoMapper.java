@@ -26,40 +26,40 @@ package com.bernardomg.association.member.adapter.outbound.rest.model;
 
 import java.util.Optional;
 
-import com.bernardomg.association.member.adapter.outbound.rest.dto.MemberDto;
 import com.bernardomg.association.member.adapter.outbound.rest.dto.MemberNameDto;
-import com.bernardomg.association.member.adapter.outbound.rest.dto.MemberPageResponseDto;
-import com.bernardomg.association.member.adapter.outbound.rest.dto.MemberResponseDto;
 import com.bernardomg.association.member.adapter.outbound.rest.dto.PropertyDto;
 import com.bernardomg.association.member.adapter.outbound.rest.dto.PropertyDto.DirectionEnum;
+import com.bernardomg.association.member.adapter.outbound.rest.dto.PublicMemberDto;
+import com.bernardomg.association.member.adapter.outbound.rest.dto.PublicMemberPageResponseDto;
+import com.bernardomg.association.member.adapter.outbound.rest.dto.PublicMemberResponseDto;
 import com.bernardomg.association.member.adapter.outbound.rest.dto.SortingDto;
-import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.model.PublicMember;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
 import com.bernardomg.pagination.domain.Sorting.Property;
 
-public final class MemberDtoMapper {
+public final class PublicMemberDtoMapper {
 
-    public static final MemberResponseDto toResponseDto(final Member member) {
-        return new MemberResponseDto().content(MemberDtoMapper.toDto(member));
+    public static final PublicMemberResponseDto toResponseDto(final PublicMember member) {
+        return new PublicMemberResponseDto().content(PublicMemberDtoMapper.toDto(member));
     }
 
-    public static final MemberResponseDto toResponseDto(final Optional<Member> member) {
-        return new MemberResponseDto().content(member.map(MemberDtoMapper::toDto)
+    public static final PublicMemberResponseDto toResponseDto(final Optional<PublicMember> member) {
+        return new PublicMemberResponseDto().content(member.map(PublicMemberDtoMapper::toDto)
             .orElse(null));
     }
 
-    public static final MemberPageResponseDto toResponseDto(final Page<Member> page) {
+    public static final PublicMemberPageResponseDto toResponseDto(final Page<PublicMember> page) {
         final SortingDto sortingResponse;
 
         sortingResponse = new SortingDto().properties(page.sort()
             .properties()
             .stream()
-            .map(MemberDtoMapper::toDto)
+            .map(PublicMemberDtoMapper::toDto)
             .toList());
-        return new MemberPageResponseDto().content(page.content()
+        return new PublicMemberPageResponseDto().content(page.content()
             .stream()
-            .map(MemberDtoMapper::toDto)
+            .map(PublicMemberDtoMapper::toDto)
             .toList())
             .size(page.size())
             .page(page.page())
@@ -71,7 +71,7 @@ public final class MemberDtoMapper {
             .sort(sortingResponse);
     }
 
-    private static final MemberDto toDto(final Member member) {
+    private static final PublicMemberDto toDto(final PublicMember member) {
         final MemberNameDto profileName;
 
         profileName = new MemberNameDto().firstName(member.name()
@@ -80,7 +80,7 @@ public final class MemberDtoMapper {
                 .lastName())
             .fullName(member.name()
                 .fullName());
-        return new MemberDto().number(member.number())
+        return new PublicMemberDto().number(member.number())
             .name(profileName)
             .renew(member.renew());
     }
@@ -97,7 +97,7 @@ public final class MemberDtoMapper {
             .direction(direction);
     }
 
-    private MemberDtoMapper() {
+    private PublicMemberDtoMapper() {
         super();
     }
 

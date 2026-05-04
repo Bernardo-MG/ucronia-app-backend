@@ -39,14 +39,14 @@ public final class JpaMemberCountRepository implements MemberCountRepository {
     /**
      * Logger for the class.
      */
-    private static final Logger          log = LoggerFactory.getLogger(JpaMemberCountRepository.class);
+    private static final Logger                log = LoggerFactory.getLogger(JpaMemberCountRepository.class);
 
-    private final MemberSpringRepository memberSpringRepository;
+    private final PublicMemberSpringRepository publicMemberSpringRepository;
 
-    public JpaMemberCountRepository(final MemberSpringRepository memberSpringRepo) {
+    public JpaMemberCountRepository(final PublicMemberSpringRepository publicMemberSpringRepo) {
         super();
 
-        memberSpringRepository = Objects.requireNonNull(memberSpringRepo);
+        publicMemberSpringRepository = Objects.requireNonNull(publicMemberSpringRepo);
     }
 
     @Override
@@ -57,8 +57,8 @@ public final class JpaMemberCountRepository implements MemberCountRepository {
 
         log.debug("Finding current member count");
 
-        active = memberSpringRepository.countByActiveTrue();
-        renew = memberSpringRepository.countByActiveTrueAndRenewTrue();
+        active = publicMemberSpringRepository.countByActiveTrue();
+        renew = publicMemberSpringRepository.countByActiveTrueAndRenewTrue();
 
         count = new MemberCount(active, renew);
 

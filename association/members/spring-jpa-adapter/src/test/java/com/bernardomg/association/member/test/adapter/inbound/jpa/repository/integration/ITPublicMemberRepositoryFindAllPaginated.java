@@ -34,10 +34,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.bernardomg.association.TestApplication;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.member.domain.filter.MemberFilter;
-import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.domain.model.PublicMember;
+import com.bernardomg.association.member.domain.repository.PublicMemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.MultipleActiveMember;
-import com.bernardomg.association.member.test.configuration.factory.Members;
+import com.bernardomg.association.member.test.configuration.factory.PublicMembers;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
@@ -46,30 +46,30 @@ import com.bernardomg.test.pagination.AbstractPaginationIT;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("MemberRepository - find all public - pagination")
+@DisplayName("PublicMemberRepository - find all public - pagination")
 @PositiveFeeType
 @MultipleActiveMember
-class ITMemberRepositoryFindAllPaginated extends AbstractPaginationIT<Member> {
+class ITPublicMemberRepositoryFindAllPaginated extends AbstractPaginationIT<PublicMember> {
 
     @Autowired
-    private MemberRepository repository;
+    private PublicMemberRepository repository;
 
-    public ITMemberRepositoryFindAllPaginated() {
+    public ITPublicMemberRepositoryFindAllPaginated() {
         super(5);
     }
 
     @Override
-    protected final Page<Member> read(final Pagination pagination, final Sorting sorting) {
+    protected final Page<PublicMember> read(final Pagination pagination, final Sorting sorting) {
         return repository.findAll(new MemberFilter(""), pagination, sorting);
     }
 
     @Test
     @DisplayName("With pagination for the first page, it returns the first page")
     void testFindAll_Page1() {
-        final Page<Member> members;
-        final Pagination   pagination;
-        final Sorting      sorting;
-        final MemberFilter filter;
+        final Page<PublicMember> members;
+        final Pagination         pagination;
+        final Sorting            sorting;
+        final MemberFilter       filter;
 
         // GIVEN
         pagination = new Pagination(1, 1);
@@ -83,16 +83,16 @@ class ITMemberRepositoryFindAllPaginated extends AbstractPaginationIT<Member> {
         Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Members.forNumber(1));
+            .containsExactly(PublicMembers.forNumber(1));
     }
 
     @Test
     @DisplayName("With pagination for the second page, it returns the second page")
     void testFindAll_Page2() {
-        final Page<Member> members;
-        final Pagination   pagination;
-        final Sorting      sorting;
-        final MemberFilter filter;
+        final Page<PublicMember> members;
+        final Pagination         pagination;
+        final Sorting            sorting;
+        final MemberFilter       filter;
 
         // GIVEN
         pagination = new Pagination(2, 1);
@@ -106,7 +106,7 @@ class ITMemberRepositoryFindAllPaginated extends AbstractPaginationIT<Member> {
         Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Members.forNumber(2));
+            .containsExactly(PublicMembers.forNumber(2));
     }
 
 }

@@ -38,40 +38,40 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
-import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.domain.model.PublicMember;
+import com.bernardomg.association.member.domain.repository.PublicMemberRepository;
 import com.bernardomg.association.member.test.configuration.factory.MemberConstants;
-import com.bernardomg.association.member.test.configuration.factory.Members;
-import com.bernardomg.association.member.usecase.service.DefaultMemberService;
+import com.bernardomg.association.member.test.configuration.factory.PublicMembers;
+import com.bernardomg.association.member.usecase.service.DefaultPublicMemberService;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultMemberService - get one")
-class TestMemberServiceGetOne {
+class TestPublicMemberServiceGetOne {
 
     @Mock
-    private MemberRepository     memberRepository;
+    private PublicMemberRepository     memberRepository;
 
     @InjectMocks
-    private DefaultMemberService service;
+    private DefaultPublicMemberService service;
 
-    public TestMemberServiceGetOne() {
+    public TestPublicMemberServiceGetOne() {
         super();
     }
 
     @Test
     @DisplayName("When there is data it is returned")
     void testGetOne() {
-        final Optional<Member> member;
+        final Optional<PublicMember> member;
 
         // GIVEN
-        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.valid()));
+        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(PublicMembers.valid()));
 
         // WHEN
         member = service.getOne(MemberConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(member)
-            .contains(Members.valid());
+            .contains(PublicMembers.valid());
     }
 
     @Test

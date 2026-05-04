@@ -38,32 +38,32 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.member.domain.filter.MemberFilter;
-import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.configuration.factory.Members;
-import com.bernardomg.association.member.usecase.service.DefaultMemberService;
+import com.bernardomg.association.member.domain.model.PublicMember;
+import com.bernardomg.association.member.domain.repository.PublicMemberRepository;
+import com.bernardomg.association.member.test.configuration.factory.PublicMembers;
+import com.bernardomg.association.member.usecase.service.DefaultPublicMemberService;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultMemberService - get all")
-class TestMemberServiceGetAll {
+class TestPublicMemberServiceGetAll {
 
     @Mock
-    private MemberRepository     memberRepository;
+    private PublicMemberRepository     memberRepository;
 
     @InjectMocks
-    private DefaultMemberService service;
+    private DefaultPublicMemberService service;
 
     @Test
     @DisplayName("When there is no data, it returns nothing")
     void testGetAll_NoData() {
-        final Page<Member> members;
-        final Page<Member> existing;
-        final Pagination   pagination;
-        final Sorting      sorting;
-        final MemberFilter filter;
+        final Page<PublicMember> members;
+        final Page<PublicMember> existing;
+        final Pagination         pagination;
+        final Sorting            sorting;
+        final MemberFilter       filter;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -87,18 +87,18 @@ class TestMemberServiceGetAll {
     @Test
     @DisplayName("When there is data, it returns all the members")
     void testGetAll_ReturnsData() {
-        final Page<Member> members;
-        final Page<Member> existing;
-        final Pagination   pagination;
-        final Sorting      sorting;
-        final MemberFilter filter;
+        final Page<PublicMember> members;
+        final Page<PublicMember> existing;
+        final Pagination         pagination;
+        final Sorting            sorting;
+        final MemberFilter       filter;
 
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
         filter = new MemberFilter("");
 
-        existing = new Page<>(List.of(Members.valid()), 0, 0, 0, 0, 0, false, false, sorting);
+        existing = new Page<>(List.of(PublicMembers.valid()), 0, 0, 0, 0, 0, false, false, sorting);
         given(memberRepository.findAll(filter, pagination, sorting)).willReturn(existing);
 
         // WHEN
@@ -109,7 +109,7 @@ class TestMemberServiceGetAll {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("members")
-            .containsExactly(Members.valid());
+            .containsExactly(PublicMembers.valid());
     }
 
 }

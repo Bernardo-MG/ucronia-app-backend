@@ -33,20 +33,20 @@ import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMembe
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberCountRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberFeeTypeRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberProfileRepository;
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMembershipEvolutionRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaPublicMemberRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberContactMethodSpringRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberFeeTypeSpringRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberProfileSpringRepository;
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MembershipEvolutionSpringRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.PublicMemberSpringRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.ReadMemberProfileSpringRepository;
 import com.bernardomg.association.member.domain.repository.MemberContactMethodRepository;
 import com.bernardomg.association.member.domain.repository.MemberCountRepository;
 import com.bernardomg.association.member.domain.repository.MemberFeeTypeRepository;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.domain.repository.MembershipEvolutionRepository;
+import com.bernardomg.association.member.domain.repository.PublicMemberRepository;
 
 @Configuration
 @EnableJpaRepositories(basePackages = { "com.bernardomg.association.member.adapter.inbound.jpa",
@@ -66,7 +66,7 @@ public class TestConfiguration {
     }
 
     @Bean("memberCountRepository")
-    public MemberCountRepository getMemberCountRepository(final MemberSpringRepository memberSpringRepository) {
+    public MemberCountRepository getMemberCountRepository(final PublicMemberSpringRepository memberSpringRepository) {
         return new JpaMemberCountRepository(memberSpringRepository);
     }
 
@@ -86,15 +86,15 @@ public class TestConfiguration {
             memberContactMethodSpringRepository, memberFeeTypeSpringRepository);
     }
 
-    @Bean("memberRepository")
-    public MemberRepository getMemberRepository(final MemberSpringRepository memberSpringRepository) {
-        return new JpaMemberRepository(memberSpringRepository);
-    }
-
     @Bean("membershipEvolutionRepository")
     public MembershipEvolutionRepository getMembershipEvolutionRepository(
             final MembershipEvolutionSpringRepository membershipEvolutionSpringRepository) {
         return new JpaMembershipEvolutionRepository(membershipEvolutionSpringRepository);
+    }
+
+    @Bean("publicMemberRepository")
+    public PublicMemberRepository getPublicMemberRepository(final PublicMemberSpringRepository memberSpringRepository) {
+        return new JpaPublicMemberRepository(memberSpringRepository);
     }
 
 }

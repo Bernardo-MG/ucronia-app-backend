@@ -32,8 +32,8 @@ import org.slf4j.LoggerFactory;
 
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.filter.MemberFilter;
-import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.domain.model.PublicMember;
+import com.bernardomg.association.member.domain.repository.PublicMemberRepository;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
@@ -47,24 +47,25 @@ import jakarta.transaction.Transactional;
  *
  */
 @Transactional
-public final class DefaultMemberService implements MemberService {
+public final class DefaultPublicMemberService implements PublicMemberService {
 
     /**
      * Logger for the class.
      */
-    private static final Logger    log = LoggerFactory.getLogger(DefaultMemberService.class);
+    private static final Logger          log = LoggerFactory.getLogger(DefaultPublicMemberService.class);
 
-    private final MemberRepository memberRepository;
+    private final PublicMemberRepository memberRepository;
 
-    public DefaultMemberService(final MemberRepository memberRepo) {
+    public DefaultPublicMemberService(final PublicMemberRepository memberRepo) {
         super();
 
         memberRepository = Objects.requireNonNull(memberRepo);
     }
 
     @Override
-    public final Page<Member> getAll(final MemberFilter filter, final Pagination pagination, final Sorting sorting) {
-        final Page<Member> members;
+    public final Page<PublicMember> getAll(final MemberFilter filter, final Pagination pagination,
+            final Sorting sorting) {
+        final Page<PublicMember> members;
 
         log.debug("Reading members with filter {}, pagination {} and sorting {}", filter, pagination, sorting);
 
@@ -77,8 +78,8 @@ public final class DefaultMemberService implements MemberService {
     }
 
     @Override
-    public final Optional<Member> getOne(final long number) {
-        final Optional<Member> member;
+    public final Optional<PublicMember> getOne(final long number) {
+        final Optional<PublicMember> member;
 
         log.debug("Reading member {}", number);
 

@@ -29,12 +29,12 @@ import java.util.Optional;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.member.adapter.outbound.rest.dto.MemberPageResponseDto;
-import com.bernardomg.association.member.adapter.outbound.rest.dto.MemberResponseDto;
-import com.bernardomg.association.member.adapter.outbound.rest.model.MemberDtoMapper;
+import com.bernardomg.association.member.adapter.outbound.rest.dto.PublicMemberPageResponseDto;
+import com.bernardomg.association.member.adapter.outbound.rest.dto.PublicMemberResponseDto;
+import com.bernardomg.association.member.adapter.outbound.rest.model.PublicMemberDtoMapper;
 import com.bernardomg.association.member.domain.filter.MemberFilter;
-import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.usecase.service.MemberService;
+import com.bernardomg.association.member.domain.model.PublicMember;
+import com.bernardomg.association.member.usecase.service.PublicMemberService;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
@@ -53,14 +53,14 @@ import jakarta.validation.constraints.Pattern;
  *
  */
 @RestController
-public class MemberController implements MemberApi {
+public class PublicMemberController implements PublicMemberApi {
 
     /**
      * Member service.
      */
-    private final MemberService service;
+    private final PublicMemberService service;
 
-    public MemberController(final MemberService service) {
+    public PublicMemberController(final PublicMemberService service) {
         super();
 
         this.service = service;
@@ -68,12 +68,12 @@ public class MemberController implements MemberApi {
 
     @Override
     @RequireResourceAuthorization(resource = "MEMBER", action = Actions.READ)
-    public MemberPageResponseDto getAllMembers(@Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size,
+    public PublicMemberPageResponseDto getAllPublicMembers(@Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size,
             @Valid final List<@Pattern(regexp = "^(firstName|lastName|number)\\|(asc|desc)$") String> sort,
             @Valid final String name) {
         final Pagination   pagination;
         final Sorting      sorting;
-        final Page<Member> members;
+        final Page<PublicMember> members;
         final MemberFilter filter;
 
         pagination = new Pagination(page, size);
@@ -83,17 +83,17 @@ public class MemberController implements MemberApi {
 
         members = service.getAll(filter, pagination, sorting);
 
-        return MemberDtoMapper.toResponseDto(members);
+        return PublicMemberDtoMapper.toResponseDto(members);
     }
 
     @Override
     @RequireResourceAuthorization(resource = "MEMBER", action = Actions.READ)
-    public MemberResponseDto getMemberByNumber(final Long number) {
-        Optional<Member> member;
+    public PublicMemberResponseDto getPublicMemberByNumber(final Long number) {
+        Optional<PublicMember> member;
 
         member = service.getOne(number);
 
-        return MemberDtoMapper.toResponseDto(member);
+        return PublicMemberDtoMapper.toResponseDto(member);
     }
 
 }

@@ -1,7 +1,7 @@
 get:
   summary: Returns members summary
-  operationId: getMemberCount
-  tags: [MemberCount]
+  operationId: getPublicMemberCount
+  tags: [PublicMemberCount]
   responses:
     '200':
       description: Member count

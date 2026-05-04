@@ -24,8 +24,6 @@
 
 package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.integration;
 
-import java.util.List;
-
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
@@ -34,13 +32,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.TestApplication;
-import com.bernardomg.association.fee.test.configuration.data.annotation.MultipleFees;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.member.domain.filter.MemberFilter;
-import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.configuration.data.annotation.MultipleActiveMember;
-import com.bernardomg.association.member.test.configuration.factory.Members;
+import com.bernardomg.association.member.domain.model.PublicMember;
+import com.bernardomg.association.member.domain.repository.PublicMemberRepository;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveToNotRenewMember;
+import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
+import com.bernardomg.association.member.test.configuration.factory.PublicMembers;
+import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
@@ -48,55 +48,25 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("MemberRepository - find all - sort")
-@PositiveFeeType
-@MultipleActiveMember
-@MultipleFees
-class ITMemberRepositoryFindAllSort {
+@DisplayName("PublicMemberRepository - find all")
+class ITPublicMemberRepositoryFindAll {
 
     @Autowired
-    private MemberRepository repository;
-
-    public ITMemberRepositoryFindAllSort() {
-        super();
-    }
+    private PublicMemberRepository repository;
 
     @Test
-    @DisplayName("With ascending order by first name it returns the ordered data")
-    void testFindAll_FirstName_Asc() {
-        final Page<Member> members;
-        final Pagination   pagination;
-        final Sorting      sorting;
-        final MemberFilter filter;
+    @DisplayName("With an active member, it is returned")
+    @PositiveFeeType
+    @ActiveMember
+    void testFindAll() {
+        final Page<PublicMember> members;
+        final Pagination         pagination;
+        final Sorting            sorting;
+        final MemberFilter       filter;
 
         // GIVEN
-        pagination = new Pagination(1, 10);
-        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC)));
-        filter = new MemberFilter("");
-
-        // WHEN
-        // FIXME: names should be sorted ignoring case
-        members = repository.findAll(filter, pagination, sorting);
-
-        // THEN
-        Assertions.assertThat(members)
-            .extracting(Page::content)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Members.forNumber(1), Members.forNumber(2), Members.forNumber(3), Members.forNumber(4),
-                Members.forNumber(5));
-    }
-
-    @Test
-    @DisplayName("With descending order by first name it returns the ordered data")
-    void testFindAll_FirstName_Desc() {
-        final Page<Member> members;
-        final Pagination   pagination;
-        final Sorting      sorting;
-        final MemberFilter filter;
-
-        // GIVEN
-        pagination = new Pagination(1, 10);
-        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.DESC)));
+        pagination = new Pagination(1, 100);
+        sorting = Sorting.unsorted();
         filter = new MemberFilter("");
 
         // WHEN
@@ -106,21 +76,22 @@ class ITMemberRepositoryFindAllSort {
         Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Members.forNumber(5), Members.forNumber(4), Members.forNumber(3), Members.forNumber(2),
-                Members.forNumber(1));
+            .containsExactly(PublicMembers.valid());
     }
 
     @Test
-    @DisplayName("With ascending order by last name it returns the ordered data")
-    void testFindAll_LastName_Asc() {
-        final Page<Member> members;
-        final Pagination   pagination;
-        final Sorting      sorting;
-        final MemberFilter filter;
+    @DisplayName("With an inactive member, nothing is returned")
+    @PositiveFeeType
+    @InactiveMember
+    void testFindAll_Inactive() {
+        final Page<PublicMember> members;
+        final Pagination         pagination;
+        final Sorting            sorting;
+        final MemberFilter       filter;
 
         // GIVEN
-        pagination = new Pagination(1, 10);
-        sorting = new Sorting(List.of(new Sorting.Property("lastName", Sorting.Direction.ASC)));
+        pagination = new Pagination(1, 100);
+        sorting = Sorting.unsorted();
         filter = new MemberFilter("");
 
         // WHEN
@@ -130,21 +101,20 @@ class ITMemberRepositoryFindAllSort {
         Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Members.forNumber(1), Members.forNumber(2), Members.forNumber(3), Members.forNumber(4),
-                Members.forNumber(5));
+            .isEmpty();
     }
 
     @Test
-    @DisplayName("With descending order by last name it returns the ordered data")
-    void testFindAll_LastName_Desc() {
-        final Page<Member> members;
-        final Pagination   pagination;
-        final Sorting      sorting;
-        final MemberFilter filter;
+    @DisplayName("With no member, nothing is returned")
+    void testFindAll_NoData() {
+        final Page<PublicMember> members;
+        final Pagination         pagination;
+        final Sorting            sorting;
+        final MemberFilter       filter;
 
         // GIVEN
-        pagination = new Pagination(1, 10);
-        sorting = new Sorting(List.of(new Sorting.Property("lastName", Sorting.Direction.DESC)));
+        pagination = new Pagination(1, 100);
+        sorting = Sorting.unsorted();
         filter = new MemberFilter("");
 
         // WHEN
@@ -154,8 +124,56 @@ class ITMemberRepositoryFindAllSort {
         Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Members.forNumber(5), Members.forNumber(4), Members.forNumber(3), Members.forNumber(2),
-                Members.forNumber(1));
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("With an active member with no renewal, it is returned")
+    @PositiveFeeType
+    @ActiveToNotRenewMember
+    void testFindAll_NoRenew() {
+        final Page<PublicMember> members;
+        final Pagination         pagination;
+        final Sorting            sorting;
+        final MemberFilter       filter;
+
+        // GIVEN
+        pagination = new Pagination(1, 100);
+        sorting = Sorting.unsorted();
+        filter = new MemberFilter("");
+
+        // WHEN
+        members = repository.findAll(filter, pagination, sorting);
+
+        // THEN
+        Assertions.assertThat(members)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .containsExactly(PublicMembers.noRenew());
+    }
+
+    @Test
+    @DisplayName("With a profile with no member role, nothing is returned")
+    @ValidProfile
+    void testFindAll_WithoutMembership() {
+        final Page<PublicMember> members;
+        final Pagination         pagination;
+        final Sorting            sorting;
+        final MemberFilter       filter;
+
+        // GIVEN
+        pagination = new Pagination(1, 100);
+        sorting = Sorting.unsorted();
+        filter = new MemberFilter("");
+
+        // WHEN
+        members = repository.findAll(filter, pagination, sorting);
+
+        // THEN
+        Assertions.assertThat(members)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .isEmpty();
     }
 
 }

@@ -78,7 +78,7 @@ components:
           $ref: '../common/ids.yml#/components/schemas/Id'
         name:
           $ref: '#/components/schemas/ProfileName'
-    Member:
+    PublicMember:
       type: object
       required: [number, name]
       properties:
@@ -188,7 +188,7 @@ components:
       properties:
         feeType:
           $ref: '../common/ids.yml#/components/schemas/Id'
-    MemberPageResponse:
+    PublicMemberPageResponse:
       allOf:
         - $ref: '../common/responses.yml#/components/schemas/PageResponse'
         - type: object
@@ -196,7 +196,7 @@ components:
             content:
               type: array
               items:
-                $ref: '#/components/schemas/Member'
+                $ref: '#/components/schemas/PublicMember'
     MemberProfilePageResponse:
       allOf:
         - $ref: '../common/responses.yml#/components/schemas/PageResponse'
@@ -206,11 +206,11 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/MemberProfile'
-    MemberResponse:
+    PublicMemberResponse:
       type: object
       properties:
         content:
-          $ref: '#/components/schemas/Member'
+          $ref: '#/components/schemas/PublicMember'
     MemberProfileResponse:
       type: object
       properties:

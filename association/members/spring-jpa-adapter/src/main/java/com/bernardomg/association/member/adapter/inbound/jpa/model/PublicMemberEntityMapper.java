@@ -22,20 +22,25 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.domain.repository;
+package com.bernardomg.association.member.adapter.inbound.jpa.model;
 
-import java.util.Optional;
+import com.bernardomg.association.member.domain.model.PublicMember;
+import com.bernardomg.association.member.domain.model.PublicMember.Name;
 
-import com.bernardomg.association.member.domain.filter.MemberFilter;
-import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.pagination.domain.Page;
-import com.bernardomg.pagination.domain.Pagination;
-import com.bernardomg.pagination.domain.Sorting;
+/**
+ * Query member entity mapper.
+ */
+public final class PublicMemberEntityMapper {
 
-public interface MemberRepository {
+    public static final PublicMember toDomain(final PublicMemberEntity entity) {
+        final Name name;
 
-    public Page<Member> findAll(final MemberFilter filter, final Pagination pagination, final Sorting sorting);
+        name = new Name(entity.getFirstName(), entity.getLastName());
+        return new PublicMember(entity.getNumber(), name, entity.getRenew());
+    }
 
-    public Optional<Member> findOne(final Long number);
+    private PublicMemberEntityMapper() {
+        super();
+    }
 
 }

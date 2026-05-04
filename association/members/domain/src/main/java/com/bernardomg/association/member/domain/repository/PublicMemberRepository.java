@@ -22,24 +22,20 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.domain.model;
+package com.bernardomg.association.member.domain.repository;
 
-import org.apache.commons.lang3.StringUtils;
+import java.util.Optional;
 
-public record Member(Long number, Name name, boolean renew) {
+import com.bernardomg.association.member.domain.filter.MemberFilter;
+import com.bernardomg.association.member.domain.model.PublicMember;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
 
-    public record Name(String firstName, String lastName) {
+public interface PublicMemberRepository {
 
-        public Name(final String firstName, final String lastName) {
-            this.firstName = StringUtils.trim(firstName);
-            this.lastName = StringUtils.trim(lastName);
-        }
+    public Page<PublicMember> findAll(final MemberFilter filter, final Pagination pagination, final Sorting sorting);
 
-        public final String fullName() {
-            return String.format("%s %s", firstName, lastName)
-                .trim();
-        }
-
-    }
+    public Optional<PublicMember> findOne(final Long number);
 
 }

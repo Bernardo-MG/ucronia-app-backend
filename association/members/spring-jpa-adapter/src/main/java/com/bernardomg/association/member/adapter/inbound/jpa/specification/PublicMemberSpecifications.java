@@ -30,15 +30,15 @@ import java.util.function.BinaryOperator;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.PublicMemberEntity;
 import com.bernardomg.association.member.domain.filter.MemberFilter;
 
-public final class MemberSpecifications {
+public final class PublicMemberSpecifications {
 
-    public static Optional<Specification<MemberEntity>> query(final MemberFilter filter) {
-        final Optional<Specification<MemberEntity>> nameSpec;
-        final Optional<Specification<MemberEntity>> activeSpec;
-        final Specification<MemberEntity>           spec;
+    public static Optional<Specification<PublicMemberEntity>> query(final MemberFilter filter) {
+        final Optional<Specification<PublicMemberEntity>> nameSpec;
+        final Optional<Specification<PublicMemberEntity>> activeSpec;
+        final Specification<PublicMemberEntity>           spec;
 
         if (filter.name()
             .isBlank()) {
@@ -53,12 +53,12 @@ public final class MemberSpecifications {
             .stream()
             .filter(Optional::isPresent)
             .map(Optional::get)
-            .reduce((BinaryOperator<Specification<MemberEntity>>) Specification::and)
+            .reduce((BinaryOperator<Specification<PublicMemberEntity>>) Specification::and)
             .orElse(null);
         return Optional.ofNullable(spec);
     }
 
-    private static Specification<MemberEntity> active() {
+    private static Specification<PublicMemberEntity> active() {
         return (root, query, cb) -> cb.isTrue(root.get("active"));
     }
 
@@ -69,7 +69,7 @@ public final class MemberSpecifications {
      *            pattern to match
      * @return name specification
      */
-    private static Specification<MemberEntity> name(final String pattern) {
+    private static Specification<PublicMemberEntity> name(final String pattern) {
         final String likePattern = "%" + pattern + "%";
         return (root, query, cb) -> cb.or(cb.like(cb.lower(root.get("firstName")), likePattern.toLowerCase()),
             cb.like(cb.lower(root.get("lastName")), likePattern.toLowerCase()),
@@ -77,7 +77,7 @@ public final class MemberSpecifications {
                 likePattern.toLowerCase()));
     }
 
-    private MemberSpecifications() {
+    private PublicMemberSpecifications() {
         super();
     }
 
