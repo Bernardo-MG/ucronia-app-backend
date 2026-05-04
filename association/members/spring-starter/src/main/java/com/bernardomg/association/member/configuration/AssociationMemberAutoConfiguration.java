@@ -132,11 +132,6 @@ public class AssociationMemberAutoConfiguration {
         return new DefaultMemberService(memberRepository, contactMethodRepository, memberFeeTypeRepository);
     }
 
-    @Bean("memberService")
-    public PublicMemberService getMemberService(final PublicMemberRepository memberRepository) {
-        return new DefaultPublicMemberService(memberRepository);
-    }
-
     @Bean("membershipEvolutionRepository")
     public MembershipEvolutionRepository getMembershipEvolutionRepository(
             final MembershipEvolutionSpringRepository membershipEvolutionSpringRepository) {
@@ -164,6 +159,11 @@ public class AssociationMemberAutoConfiguration {
     @Bean("publicMemberRepository")
     public PublicMemberRepository getPublicMemberRepository(final PublicMemberSpringRepository memberSpringRepository) {
         return new JpaPublicMemberRepository(memberSpringRepository);
+    }
+
+    @Bean("publicMemberService")
+    public PublicMemberService getPublicMemberService(final PublicMemberRepository memberRepository) {
+        return new DefaultPublicMemberService(memberRepository);
     }
 
 }
