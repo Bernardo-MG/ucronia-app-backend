@@ -16,8 +16,8 @@ paths:
   /member/evolution:
     $ref: paths/membership_monthly_evolution.yml
   /profile/member:
-    $ref: paths/member_profiles.yml
+    $ref: paths/members.yml
   /profile/member/{number}:
-    $ref: paths/member_profiles_by_id.yml
+    $ref: paths/members_by_id.yml
   /profile/{number}/member:
     $ref: paths/profile_membership.yml

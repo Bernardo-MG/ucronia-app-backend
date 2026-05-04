@@ -10,9 +10,9 @@ public final class PublicMemberEntities {
 
         entity = new PublicMemberEntity();
         entity.setId(1L);
-        entity.setNumber(MemberProfileConstants.NUMBER);
-        entity.setFirstName(MemberProfileConstants.ALTERNATIVE_FIRST_NAME);
-        entity.setLastName(MemberProfileConstants.ALTERNATIVE_LAST_NAME);
+        entity.setNumber(MemberConstants.NUMBER);
+        entity.setFirstName(MemberConstants.ALTERNATIVE_FIRST_NAME);
+        entity.setLastName(MemberConstants.ALTERNATIVE_LAST_NAME);
 
         return entity;
     }
@@ -22,9 +22,9 @@ public final class PublicMemberEntities {
 
         entity = new PublicMemberEntity();
         entity.setId(1L);
-        entity.setNumber(MemberProfileConstants.NUMBER);
-        entity.setFirstName(MemberProfileConstants.FIRST_NAME);
-        entity.setLastName(MemberProfileConstants.LAST_NAME);
+        entity.setNumber(MemberConstants.NUMBER);
+        entity.setFirstName(MemberConstants.FIRST_NAME);
+        entity.setLastName(MemberConstants.LAST_NAME);
 
         return entity;
     }

@@ -26,7 +26,7 @@ package com.bernardomg.association.member.domain.repository;
 
 import java.util.Optional;
 
-import com.bernardomg.association.member.domain.filter.MemberFilter;
+import com.bernardomg.association.member.domain.filter.PublicMemberFilter;
 import com.bernardomg.association.member.domain.model.PublicMember;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -34,7 +34,8 @@ import com.bernardomg.pagination.domain.Sorting;
 
 public interface PublicMemberRepository {
 
-    public Page<PublicMember> findAll(final MemberFilter filter, final Pagination pagination, final Sorting sorting);
+    public Page<PublicMember> findAll(final PublicMemberFilter filter, final Pagination pagination,
+            final Sorting sorting);
 
     public Optional<PublicMember> findOne(final Long number);
 

@@ -33,7 +33,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.TestApplication;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
-import com.bernardomg.association.member.domain.filter.MemberFilter;
+import com.bernardomg.association.member.domain.filter.PublicMemberFilter;
 import com.bernardomg.association.member.domain.model.PublicMember;
 import com.bernardomg.association.member.domain.repository.PublicMemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.MultipleActiveMember;
@@ -60,7 +60,7 @@ class ITPublicMemberRepositoryFindAllPaginated extends AbstractPaginationIT<Publ
 
     @Override
     protected final Page<PublicMember> read(final Pagination pagination, final Sorting sorting) {
-        return repository.findAll(new MemberFilter(""), pagination, sorting);
+        return repository.findAll(new PublicMemberFilter(""), pagination, sorting);
     }
 
     @Test
@@ -69,12 +69,12 @@ class ITPublicMemberRepositoryFindAllPaginated extends AbstractPaginationIT<Publ
         final Page<PublicMember> members;
         final Pagination         pagination;
         final Sorting            sorting;
-        final MemberFilter       filter;
+        final PublicMemberFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 1);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter("");
+        filter = new PublicMemberFilter("");
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -92,12 +92,12 @@ class ITPublicMemberRepositoryFindAllPaginated extends AbstractPaginationIT<Publ
         final Page<PublicMember> members;
         final Pagination         pagination;
         final Sorting            sorting;
-        final MemberFilter       filter;
+        final PublicMemberFilter filter;
 
         // GIVEN
         pagination = new Pagination(2, 1);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter("");
+        filter = new PublicMemberFilter("");
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);

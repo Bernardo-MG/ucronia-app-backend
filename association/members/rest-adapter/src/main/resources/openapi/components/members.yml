@@ -89,7 +89,7 @@ components:
         renew:
           type: boolean
           description: Whether the member is eligible for renewal.
-    MemberProfile:
+    Member:
       type: object
       required: [number, name]
       properties:
@@ -127,7 +127,7 @@ components:
           type: array
           items:
             type: string
-    MemberProfileCreation:
+    MemberCreation:
       type: object
       required: [name]
       properties:
@@ -139,7 +139,7 @@ components:
           maxLength: 15
         name:
           $ref: '#/components/schemas/EditionMemberName'
-    MemberProfileUpdate:
+    MemberUpdate:
       type: object
       required: [name]
       properties:
@@ -197,7 +197,7 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/PublicMember'
-    MemberProfilePageResponse:
+    MemberPageResponse:
       allOf:
         - $ref: '../common/responses.yml#/components/schemas/PageResponse'
         - type: object
@@ -205,14 +205,14 @@ components:
             content:
               type: array
               items:
-                $ref: '#/components/schemas/MemberProfile'
+                $ref: '#/components/schemas/Member'
     PublicMemberResponse:
       type: object
       properties:
         content:
           $ref: '#/components/schemas/PublicMember'
-    MemberProfileResponse:
+    MemberResponse:
       type: object
       properties:
         content:
-          $ref: '#/components/schemas/MemberProfile'
+          $ref: '#/components/schemas/Member'

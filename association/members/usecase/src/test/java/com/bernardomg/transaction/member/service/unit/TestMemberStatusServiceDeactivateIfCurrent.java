@@ -39,9 +39,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.factory.MemberConstants;
-import com.bernardomg.association.member.test.configuration.factory.MemberProfiles;
+import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.association.member.usecase.service.DefaultMemberStatusService;
 
 @ExtendWith(MockitoExtension.class)
@@ -49,7 +49,7 @@ import com.bernardomg.association.member.usecase.service.DefaultMemberStatusServ
 class TestMemberStatusServiceDeactivateIfCurrent {
 
     @Mock
-    private MemberProfileRepository    memberProfileRepository;
+    private MemberRepository           memberRepository;
 
     @InjectMocks
     private DefaultMemberStatusService service;
@@ -65,7 +65,7 @@ class TestMemberStatusServiceDeactivateIfCurrent {
         final Long      number;
 
         // GIVEN
-        given(memberProfileRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(MemberProfiles.active()));
+        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
         date = YearMonth.now();
         number = MemberConstants.NUMBER;
 
@@ -73,7 +73,7 @@ class TestMemberStatusServiceDeactivateIfCurrent {
         service.deactivateIfCurrent(date, number);
 
         // THEN
-        verify(memberProfileRepository).save(MemberProfiles.inactiveNoRenew());
+        verify(memberRepository).save(Members.inactiveNoRenew());
     }
 
     @Test
@@ -91,7 +91,7 @@ class TestMemberStatusServiceDeactivateIfCurrent {
         service.deactivateIfCurrent(date, number);
 
         // THEN
-        verify(memberProfileRepository, never()).save(any());
+        verify(memberRepository, never()).save(any());
     }
 
     @Test
@@ -109,7 +109,7 @@ class TestMemberStatusServiceDeactivateIfCurrent {
         service.deactivateIfCurrent(date, number);
 
         // THEN
-        verify(memberProfileRepository, never()).save(any());
+        verify(memberRepository, never()).save(any());
     }
 
 }

@@ -26,10 +26,10 @@ package com.bernardomg.association.member.adapter.outbound.rest.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.member.adapter.outbound.rest.dto.MemberProfileResponseDto;
+import com.bernardomg.association.member.adapter.outbound.rest.dto.MemberResponseDto;
 import com.bernardomg.association.member.adapter.outbound.rest.dto.ProfileMembershipConversionDto;
-import com.bernardomg.association.member.adapter.outbound.rest.model.MemberProfileDtoMapper;
-import com.bernardomg.association.member.domain.model.MemberProfile;
+import com.bernardomg.association.member.adapter.outbound.rest.model.MemberDtoMapper;
+import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.usecase.service.ProfileMembershipService;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
@@ -55,13 +55,13 @@ public class ProfileMembershipController implements ProfileMembershipApi {
 
     @Override
     @RequireResourceAuthorization(resource = "MEMBER_PROFILE", action = Actions.CREATE)
-    public MemberProfileResponseDto convertToMember(final Long number,
+    public MemberResponseDto convertToMember(final Long number,
             @Valid final ProfileMembershipConversionDto profileMembershipConversionDto) {
-        final MemberProfile created;
+        final Member created;
 
         created = service.convertToMember(number, profileMembershipConversionDto.getFeeType());
 
-        return MemberProfileDtoMapper.toResponseDto(created);
+        return MemberDtoMapper.toResponseDto(created);
     }
 
 }

@@ -31,11 +31,11 @@ import java.util.function.BinaryOperator;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.bernardomg.association.member.adapter.inbound.jpa.model.PublicMemberEntity;
-import com.bernardomg.association.member.domain.filter.MemberFilter;
+import com.bernardomg.association.member.domain.filter.PublicMemberFilter;
 
 public final class PublicMemberSpecifications {
 
-    public static Optional<Specification<PublicMemberEntity>> query(final MemberFilter filter) {
+    public static Optional<Specification<PublicMemberEntity>> query(final PublicMemberFilter filter) {
         final Optional<Specification<PublicMemberEntity>> nameSpec;
         final Optional<Specification<PublicMemberEntity>> activeSpec;
         final Specification<PublicMemberEntity>           spec;

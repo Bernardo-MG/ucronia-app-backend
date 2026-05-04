@@ -36,9 +36,9 @@ import org.slf4j.LoggerFactory;
 import com.bernardomg.association.member.domain.exception.MemberExistsException;
 import com.bernardomg.association.member.domain.exception.MissingMemberFeeTypeException;
 import com.bernardomg.association.member.domain.exception.MissingMemberProfileException;
-import com.bernardomg.association.member.domain.model.MemberProfile;
+import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberFeeTypeRepository;
-import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -58,35 +58,35 @@ public final class DefaultProfileMembershipService implements ProfileMembershipS
 
     private final MemberFeeTypeRepository memberFeeTypeRepository;
 
-    private final MemberProfileRepository memberProfileRepository;
+    private final MemberRepository        memberRepository;
 
-    public DefaultProfileMembershipService(final MemberProfileRepository memberProfileRepo,
+    public DefaultProfileMembershipService(final MemberRepository memberRepo,
             final MemberFeeTypeRepository memberFeeTypeRepo) {
         super();
 
-        memberProfileRepository = Objects.requireNonNull(memberProfileRepo);
+        memberRepository = Objects.requireNonNull(memberRepo);
         memberFeeTypeRepository = Objects.requireNonNull(memberFeeTypeRepo);
     }
 
     @Override
-    public final MemberProfile convertToMember(final long number, final long feeType) {
-        final MemberProfile                            existing;
-        final MemberProfile                            toCreate;
-        final MemberProfile                            created;
-        final MemberProfile.FeeType                    memberFeeType;
-        final Collection<MemberProfile.ContactChannel> contactChannels;
-        final MemberProfile.Name                       name;
-        final Set<String>                              types;
+    public final Member convertToMember(final long number, final long feeType) {
+        final Member                            existing;
+        final Member                            toCreate;
+        final Member                            created;
+        final Member.FeeType                    memberFeeType;
+        final Collection<Member.ContactChannel> contactChannels;
+        final Member.Name                       name;
+        final Set<String>                       types;
 
         log.debug("Converting profile {} to member", number);
 
-        existing = memberProfileRepository.findOne(number)
+        existing = memberRepository.findOne(number)
             .orElseThrow(() -> {
                 log.error("Missing profile {}", number);
                 throw new MissingMemberProfileException(number);
             });
 
-        if (memberProfileRepository.exists(number)) {
+        if (memberRepository.exists(number)) {
             log.error("Member {} already exists", number);
             throw new MemberExistsException(number);
         }
@@ -100,33 +100,32 @@ public final class DefaultProfileMembershipService implements ProfileMembershipS
             .stream()
             .map(this::toMemberContactChannel)
             .toList();
-        memberFeeType = new MemberProfile.FeeType(feeType, "", 0f);
-        name = new MemberProfile.Name(existing.name()
+        memberFeeType = new Member.FeeType(feeType, "", 0f);
+        name = new Member.Name(existing.name()
             .firstName(),
             existing.name()
                 .lastName());
         types = Stream.concat(existing.types()
-            .stream(), Stream.of(MemberProfile.PROFILE_TYPE))
+            .stream(), Stream.of(Member.PROFILE_TYPE))
             .collect(Collectors.toSet());
-        toCreate = new MemberProfile(existing.identifier(), existing.number(), name, existing.birthDate(),
-            contactChannels, existing.address(), existing.comments(), true, true, memberFeeType, types);
+        toCreate = new Member(existing.identifier(), existing.number(), name, existing.birthDate(), contactChannels,
+            existing.address(), existing.comments(), true, true, memberFeeType, types);
 
-        created = memberProfileRepository.save(toCreate);
+        created = memberRepository.save(toCreate);
 
         log.debug("Converted profile {} to member", number);
 
         return created;
     }
 
-    private final MemberProfile.ContactChannel
-            toMemberContactChannel(final MemberProfile.ContactChannel contactChannel) {
-        final MemberProfile.ContactMethod contactMethod;
+    private final Member.ContactChannel toMemberContactChannel(final Member.ContactChannel contactChannel) {
+        final Member.ContactMethod contactMethod;
 
-        contactMethod = new MemberProfile.ContactMethod(contactChannel.contactMethod()
+        contactMethod = new Member.ContactMethod(contactChannel.contactMethod()
             .number(),
             contactChannel.contactMethod()
                 .name());
-        return new MemberProfile.ContactChannel(contactMethod, contactChannel.detail());
+        return new Member.ContactChannel(contactMethod, contactChannel.detail());
     }
 
 }

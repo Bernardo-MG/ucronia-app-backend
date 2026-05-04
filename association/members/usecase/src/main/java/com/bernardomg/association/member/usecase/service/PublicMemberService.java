@@ -26,7 +26,7 @@ package com.bernardomg.association.member.usecase.service;
 
 import java.util.Optional;
 
-import com.bernardomg.association.member.domain.filter.MemberFilter;
+import com.bernardomg.association.member.domain.filter.PublicMemberFilter;
 import com.bernardomg.association.member.domain.model.PublicMember;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -51,7 +51,8 @@ public interface PublicMemberService {
      *            sorting to apply
      * @return all the members matching the sample
      */
-    public Page<PublicMember> getAll(final MemberFilter filter, final Pagination pagination, final Sorting sorting);
+    public Page<PublicMember> getAll(final PublicMemberFilter filter, final Pagination pagination,
+            final Sorting sorting);
 
     /**
      * Returns the member for the received id, if it exists. Otherwise an empty {@code Optional} is returned.

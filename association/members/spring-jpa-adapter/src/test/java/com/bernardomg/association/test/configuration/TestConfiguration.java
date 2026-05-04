@@ -32,19 +32,19 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberContactMethodRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberCountRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberFeeTypeRepository;
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberProfileRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMembershipEvolutionRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaPublicMemberRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberContactMethodSpringRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberFeeTypeSpringRepository;
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberProfileSpringRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MembershipEvolutionSpringRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.PublicMemberSpringRepository;
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.ReadMemberProfileSpringRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.ReadMemberSpringRepository;
 import com.bernardomg.association.member.domain.repository.MemberContactMethodRepository;
 import com.bernardomg.association.member.domain.repository.MemberCountRepository;
 import com.bernardomg.association.member.domain.repository.MemberFeeTypeRepository;
-import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.domain.repository.MembershipEvolutionRepository;
 import com.bernardomg.association.member.domain.repository.PublicMemberRepository;
 
@@ -76,13 +76,12 @@ public class TestConfiguration {
         return new JpaMemberFeeTypeRepository(memberFeeTypeSpringRepository);
     }
 
-    @Bean("memberProfileRepository")
-    public MemberProfileRepository getMemberProfileRepository(
-            final ReadMemberProfileSpringRepository updateMemberProfileSpringRepository,
-            final MemberProfileSpringRepository memberProfileSpringRepo,
+    @Bean("MemberRepository")
+    public MemberRepository getMemberRepository(final ReadMemberSpringRepository readMemberSpringRepository,
+            final MemberSpringRepository memberSpringRepo,
             final MemberContactMethodSpringRepository memberContactMethodSpringRepository,
             final MemberFeeTypeSpringRepository memberFeeTypeSpringRepository) {
-        return new JpaMemberProfileRepository(updateMemberProfileSpringRepository, memberProfileSpringRepo,
+        return new JpaMemberRepository(readMemberSpringRepository, memberSpringRepo,
             memberContactMethodSpringRepository, memberFeeTypeSpringRepository);
     }
 

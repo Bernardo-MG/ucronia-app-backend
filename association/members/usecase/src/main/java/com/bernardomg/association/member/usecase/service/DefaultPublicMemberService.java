@@ -31,7 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
-import com.bernardomg.association.member.domain.filter.MemberFilter;
+import com.bernardomg.association.member.domain.filter.PublicMemberFilter;
 import com.bernardomg.association.member.domain.model.PublicMember;
 import com.bernardomg.association.member.domain.repository.PublicMemberRepository;
 import com.bernardomg.pagination.domain.Page;
@@ -54,22 +54,22 @@ public final class DefaultPublicMemberService implements PublicMemberService {
      */
     private static final Logger          log = LoggerFactory.getLogger(DefaultPublicMemberService.class);
 
-    private final PublicMemberRepository memberRepository;
+    private final PublicMemberRepository publicMemberRepository;
 
-    public DefaultPublicMemberService(final PublicMemberRepository memberRepo) {
+    public DefaultPublicMemberService(final PublicMemberRepository publicMemberRepo) {
         super();
 
-        memberRepository = Objects.requireNonNull(memberRepo);
+        publicMemberRepository = Objects.requireNonNull(publicMemberRepo);
     }
 
     @Override
-    public final Page<PublicMember> getAll(final MemberFilter filter, final Pagination pagination,
+    public final Page<PublicMember> getAll(final PublicMemberFilter filter, final Pagination pagination,
             final Sorting sorting) {
         final Page<PublicMember> members;
 
         log.debug("Reading members with filter {}, pagination {} and sorting {}", filter, pagination, sorting);
 
-        members = memberRepository.findAll(filter, pagination, sorting);
+        members = publicMemberRepository.findAll(filter, pagination, sorting);
 
         log.debug("Read members with filter {}, pagination {} and sorting {}: {}", filter, pagination, sorting,
             members);
@@ -83,7 +83,7 @@ public final class DefaultPublicMemberService implements PublicMemberService {
 
         log.debug("Reading member {}", number);
 
-        member = memberRepository.findOne(number);
+        member = publicMemberRepository.findOne(number);
         if (member.isEmpty()) {
             log.error("Missing member {}", number);
             throw new MissingMemberException(number);

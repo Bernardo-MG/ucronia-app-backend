@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bernardomg.association.member.adapter.outbound.rest.dto.PublicMemberPageResponseDto;
 import com.bernardomg.association.member.adapter.outbound.rest.dto.PublicMemberResponseDto;
 import com.bernardomg.association.member.adapter.outbound.rest.model.PublicMemberDtoMapper;
-import com.bernardomg.association.member.domain.filter.MemberFilter;
+import com.bernardomg.association.member.domain.filter.PublicMemberFilter;
 import com.bernardomg.association.member.domain.model.PublicMember;
 import com.bernardomg.association.member.usecase.service.PublicMemberService;
 import com.bernardomg.pagination.domain.Page;
@@ -68,18 +68,19 @@ public class PublicMemberController implements PublicMemberApi {
 
     @Override
     @RequireResourceAuthorization(resource = "MEMBER", action = Actions.READ)
-    public PublicMemberPageResponseDto getAllPublicMembers(@Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size,
+    public PublicMemberPageResponseDto getAllPublicMembers(@Min(1) @Valid final Integer page,
+            @Min(1) @Valid final Integer size,
             @Valid final List<@Pattern(regexp = "^(firstName|lastName|number)\\|(asc|desc)$") String> sort,
             @Valid final String name) {
-        final Pagination   pagination;
-        final Sorting      sorting;
+        final Pagination         pagination;
+        final Sorting            sorting;
         final Page<PublicMember> members;
-        final MemberFilter filter;
+        final PublicMemberFilter filter;
 
         pagination = new Pagination(page, size);
         sorting = WebSorting.toSorting(sort);
 
-        filter = new MemberFilter(name);
+        filter = new PublicMemberFilter(name);
 
         members = service.getAll(filter, pagination, sorting);
 

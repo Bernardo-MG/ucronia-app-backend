@@ -37,7 +37,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.member.domain.filter.MemberFilter;
+import com.bernardomg.association.member.domain.filter.PublicMemberFilter;
 import com.bernardomg.association.member.domain.model.PublicMember;
 import com.bernardomg.association.member.domain.repository.PublicMemberRepository;
 import com.bernardomg.association.member.test.configuration.factory.PublicMembers;
@@ -63,12 +63,12 @@ class TestPublicMemberServiceGetAll {
         final Page<PublicMember> existing;
         final Pagination         pagination;
         final Sorting            sorting;
-        final MemberFilter       filter;
+        final PublicMemberFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter("");
+        filter = new PublicMemberFilter("");
 
         existing = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
         given(memberRepository.findAll(filter, pagination, sorting)).willReturn(existing);
@@ -91,12 +91,12 @@ class TestPublicMemberServiceGetAll {
         final Page<PublicMember> existing;
         final Pagination         pagination;
         final Sorting            sorting;
-        final MemberFilter       filter;
+        final PublicMemberFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter("");
+        filter = new PublicMemberFilter("");
 
         existing = new Page<>(List.of(PublicMembers.valid()), 0, 0, 0, 0, 0, false, false, sorting);
         given(memberRepository.findAll(filter, pagination, sorting)).willReturn(existing);

@@ -40,10 +40,6 @@ import com.bernardomg.pagination.domain.Sorting.Property;
 
 public final class PublicMemberDtoMapper {
 
-    public static final PublicMemberResponseDto toResponseDto(final PublicMember member) {
-        return new PublicMemberResponseDto().content(PublicMemberDtoMapper.toDto(member));
-    }
-
     public static final PublicMemberResponseDto toResponseDto(final Optional<PublicMember> member) {
         return new PublicMemberResponseDto().content(member.map(PublicMemberDtoMapper::toDto)
             .orElse(null));
@@ -71,18 +67,8 @@ public final class PublicMemberDtoMapper {
             .sort(sortingResponse);
     }
 
-    private static final PublicMemberDto toDto(final PublicMember member) {
-        final MemberNameDto profileName;
-
-        profileName = new MemberNameDto().firstName(member.name()
-            .firstName())
-            .lastName(member.name()
-                .lastName())
-            .fullName(member.name()
-                .fullName());
-        return new PublicMemberDto().number(member.number())
-            .name(profileName)
-            .renew(member.renew());
+    public static final PublicMemberResponseDto toResponseDto(final PublicMember member) {
+        return new PublicMemberResponseDto().content(PublicMemberDtoMapper.toDto(member));
     }
 
     private static final PropertyDto toDto(final Property property) {
@@ -95,6 +81,20 @@ public final class PublicMemberDtoMapper {
         }
         return new PropertyDto().name(property.name())
             .direction(direction);
+    }
+
+    private static final PublicMemberDto toDto(final PublicMember member) {
+        final MemberNameDto profileName;
+
+        profileName = new MemberNameDto().firstName(member.name()
+            .firstName())
+            .lastName(member.name()
+                .lastName())
+            .fullName(member.name()
+                .fullName());
+        return new PublicMemberDto().number(member.number())
+            .name(profileName)
+            .renew(member.renew());
     }
 
     private PublicMemberDtoMapper() {

@@ -1,12 +1,12 @@
 
 package com.bernardomg.association.member.test.configuration.factory;
 
-import com.bernardomg.association.member.domain.filter.MemberFilter;
+import com.bernardomg.association.member.domain.filter.PublicMemberFilter;
 
 public final class MemberFilters {
 
-    public static final MemberFilter empty() {
-        return new MemberFilter("");
+    public static final PublicMemberFilter empty() {
+        return new PublicMemberFilter("");
     }
 
     private MemberFilters() {

@@ -33,11 +33,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.TestApplication;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
-import com.bernardomg.association.member.domain.filter.MemberFilter;
+import com.bernardomg.association.member.domain.filter.PublicMemberFilter;
 import com.bernardomg.association.member.domain.model.PublicMember;
 import com.bernardomg.association.member.domain.repository.PublicMemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
-import com.bernardomg.association.member.test.configuration.factory.MemberProfileConstants;
+import com.bernardomg.association.member.test.configuration.factory.MemberConstants;
 import com.bernardomg.association.member.test.configuration.factory.PublicMembers;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -60,12 +60,12 @@ class ITPublicMemberRepositoryFindAllQueryName {
         final Page<PublicMember> members;
         final Pagination         pagination;
         final Sorting            sorting;
-        final MemberFilter       filter;
+        final PublicMemberFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberProfileConstants.FIRST_NAME);
+        filter = new PublicMemberFilter(MemberConstants.FIRST_NAME);
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -85,12 +85,12 @@ class ITPublicMemberRepositoryFindAllQueryName {
         final Page<PublicMember> members;
         final Pagination         pagination;
         final Sorting            sorting;
-        final MemberFilter       filter;
+        final PublicMemberFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberProfileConstants.FULL_NAME);
+        filter = new PublicMemberFilter(MemberConstants.FULL_NAME);
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -110,12 +110,12 @@ class ITPublicMemberRepositoryFindAllQueryName {
         final Page<PublicMember> members;
         final Pagination         pagination;
         final Sorting            sorting;
-        final MemberFilter       filter;
+        final PublicMemberFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberProfileConstants.LAST_NAME);
+        filter = new PublicMemberFilter(MemberConstants.LAST_NAME);
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -133,12 +133,12 @@ class ITPublicMemberRepositoryFindAllQueryName {
         final Page<PublicMember> members;
         final Pagination         pagination;
         final Sorting            sorting;
-        final MemberFilter       filter;
+        final PublicMemberFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberProfileConstants.FIRST_NAME);
+        filter = new PublicMemberFilter(MemberConstants.FIRST_NAME);
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -158,13 +158,13 @@ class ITPublicMemberRepositoryFindAllQueryName {
         final Page<PublicMember> members;
         final Pagination         pagination;
         final Sorting            sorting;
-        final MemberFilter       filter;
+        final PublicMemberFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(
-            MemberProfileConstants.FIRST_NAME.substring(0, MemberProfileConstants.FIRST_NAME.length() - 2));
+        filter = new PublicMemberFilter(
+            MemberConstants.FIRST_NAME.substring(0, MemberConstants.FIRST_NAME.length() - 2));
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -184,12 +184,12 @@ class ITPublicMemberRepositoryFindAllQueryName {
         final Page<PublicMember> members;
         final Pagination         pagination;
         final Sorting            sorting;
-        final MemberFilter       filter;
+        final PublicMemberFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberProfileConstants.ALTERNATIVE_FIRST_NAME);
+        filter = new PublicMemberFilter(MemberConstants.ALTERNATIVE_FIRST_NAME);
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);

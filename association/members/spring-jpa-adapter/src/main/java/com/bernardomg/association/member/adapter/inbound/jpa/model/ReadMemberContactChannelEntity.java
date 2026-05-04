@@ -61,7 +61,7 @@ public class ReadMemberContactChannelEntity implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "profile_id", nullable = false)
-    private ReadMemberProfileEntity   profile;
+    private ReadMemberEntity          profile;
 
     @Override
     public boolean equals(final Object obj) {
@@ -86,7 +86,7 @@ public class ReadMemberContactChannelEntity implements Serializable {
         return id;
     }
 
-    public ReadMemberProfileEntity getProfile() {
+    public ReadMemberEntity getProfile() {
         return profile;
     }
 
@@ -107,7 +107,7 @@ public class ReadMemberContactChannelEntity implements Serializable {
         this.id = id;
     }
 
-    public void setProfile(final ReadMemberProfileEntity profile) {
+    public void setProfile(final ReadMemberEntity profile) {
         this.profile = profile;
     }
 

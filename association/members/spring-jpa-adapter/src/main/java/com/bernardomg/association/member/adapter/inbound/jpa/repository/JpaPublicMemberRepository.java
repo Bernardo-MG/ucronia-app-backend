@@ -37,7 +37,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.PublicMemberEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.PublicMemberEntityMapper;
 import com.bernardomg.association.member.adapter.inbound.jpa.specification.PublicMemberSpecifications;
-import com.bernardomg.association.member.domain.filter.MemberFilter;
+import com.bernardomg.association.member.domain.filter.PublicMemberFilter;
 import com.bernardomg.association.member.domain.model.PublicMember;
 import com.bernardomg.association.member.domain.repository.PublicMemberRepository;
 import com.bernardomg.pagination.domain.Page;
@@ -63,7 +63,7 @@ public final class JpaPublicMemberRepository implements PublicMemberRepository {
     }
 
     @Override
-    public final Page<PublicMember> findAll(final MemberFilter filter, final Pagination pagination,
+    public final Page<PublicMember> findAll(final PublicMemberFilter filter, final Pagination pagination,
             final Sorting sorting) {
         final org.springframework.data.domain.Page<PublicMember> read;
         final Pageable                                           pageable;
