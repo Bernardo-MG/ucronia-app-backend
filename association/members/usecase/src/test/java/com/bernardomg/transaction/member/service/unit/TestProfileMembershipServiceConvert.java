@@ -43,9 +43,12 @@ import com.bernardomg.association.member.domain.exception.MemberExistsException;
 import com.bernardomg.association.member.domain.exception.MissingMemberFeeTypeException;
 import com.bernardomg.association.member.domain.exception.MissingMemberProfileException;
 import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.repository.MemberFeeTypeRepository;
+import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.factory.MemberConstants;
+import com.bernardomg.association.member.test.configuration.factory.MemberProfiles;
 import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.association.member.usecase.service.DefaultProfileMembershipService;
 
@@ -57,6 +60,9 @@ class TestProfileMembershipServiceConvert {
     private MemberFeeTypeRepository         memberFeeTypeRepository;
 
     @Mock
+    private MemberProfileRepository         memberProfileRepository;
+
+    @Mock
     private MemberRepository                memberRepository;
 
     @InjectMocks
@@ -66,12 +72,12 @@ class TestProfileMembershipServiceConvert {
     @DisplayName("With an existing member, an exception is thrown")
     void testConvertToMember_ExistingMember_Exception() {
         final ThrowingCallable execution;
-        final Member           profile;
+        final MemberProfile    profile;
 
         // GIVEN
-        profile = Members.active();
+        profile = MemberProfiles.valid();
 
-        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(profile));
+        given(memberProfileRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(profile));
         given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(true);
 
         // WHEN
@@ -86,12 +92,12 @@ class TestProfileMembershipServiceConvert {
     @DisplayName("With a not existing fee type, an exception is thrown")
     void testConvertToMember_NotExistingFeeType_Exception() {
         final ThrowingCallable execution;
-        final Member           profile;
+        final MemberProfile    profile;
 
         // GIVEN
-        profile = Members.active();
+        profile = MemberProfiles.valid();
 
-        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(profile));
+        given(memberProfileRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(profile));
         given(memberFeeTypeRepository.exists(MemberConstants.NUMBER)).willReturn(false);
 
         // WHEN
@@ -108,7 +114,7 @@ class TestProfileMembershipServiceConvert {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.empty());
+        given(memberProfileRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
         execution = () -> service.convertToMember(MemberConstants.NUMBER, FeeConstants.FEE_TYPE_NUMBER);
@@ -121,12 +127,12 @@ class TestProfileMembershipServiceConvert {
     @Test
     @DisplayName("When converting to member, the change is persisted")
     void testConvertToMember_PersistedData() {
-        final Member profile;
+        final MemberProfile profile;
 
         // GIVEN
-        profile = Members.withoutType();
+        profile = MemberProfiles.withoutType();
 
-        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(profile));
+        given(memberProfileRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(profile));
         given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(false);
         given(memberFeeTypeRepository.exists(MemberConstants.NUMBER)).willReturn(true);
 
@@ -140,13 +146,13 @@ class TestProfileMembershipServiceConvert {
     @Test
     @DisplayName("When converting to member, the change is returned")
     void testConvertToMember_ReturnedData() {
-        final Member profile;
-        final Member updated;
+        final MemberProfile profile;
+        final Member        updated;
 
         // GIVEN
-        profile = Members.withoutType();
+        profile = MemberProfiles.withoutType();
 
-        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(profile));
+        given(memberProfileRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(profile));
         given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(false);
         given(memberFeeTypeRepository.exists(MemberConstants.NUMBER)).willReturn(true);
         given(memberRepository.save(Members.toCreate())).willReturn(Members.withoutType());

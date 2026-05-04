@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Set;
 
 import com.bernardomg.association.guest.domain.model.Guest;
-import com.bernardomg.association.guest.domain.model.Guest.ContactMethod;
 import com.bernardomg.association.guest.domain.model.GuestProfile;
 import com.bernardomg.association.guest.domain.model.GuestProfile.ContactChannel;
+import com.bernardomg.association.guest.domain.model.GuestProfile.ContactMethod;
 import com.bernardomg.association.guest.domain.model.GuestProfile.Name;
 
 public final class GuestProfiles {

@@ -37,7 +37,9 @@ import com.bernardomg.association.member.domain.exception.MemberExistsException;
 import com.bernardomg.association.member.domain.exception.MissingMemberFeeTypeException;
 import com.bernardomg.association.member.domain.exception.MissingMemberProfileException;
 import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.model.MemberProfile;
 import com.bernardomg.association.member.domain.repository.MemberFeeTypeRepository;
+import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 
 import jakarta.transaction.Transactional;
@@ -58,19 +60,22 @@ public final class DefaultProfileMembershipService implements ProfileMembershipS
 
     private final MemberFeeTypeRepository memberFeeTypeRepository;
 
+    private final MemberProfileRepository memberProfileRepository;
+
     private final MemberRepository        memberRepository;
 
     public DefaultProfileMembershipService(final MemberRepository memberRepo,
-            final MemberFeeTypeRepository memberFeeTypeRepo) {
+            final MemberProfileRepository memberProfileRepo, final MemberFeeTypeRepository memberFeeTypeRepo) {
         super();
 
         memberRepository = Objects.requireNonNull(memberRepo);
+        memberProfileRepository = Objects.requireNonNull(memberProfileRepo);
         memberFeeTypeRepository = Objects.requireNonNull(memberFeeTypeRepo);
     }
 
     @Override
     public final Member convertToMember(final long number, final long feeType) {
-        final Member                            existing;
+        final MemberProfile                     existing;
         final Member                            toCreate;
         final Member                            created;
         final Member.FeeType                    memberFeeType;
@@ -80,7 +85,7 @@ public final class DefaultProfileMembershipService implements ProfileMembershipS
 
         log.debug("Converting profile {} to member", number);
 
-        existing = memberRepository.findOne(number)
+        existing = memberProfileRepository.findOne(number)
             .orElseThrow(() -> {
                 log.error("Missing profile {}", number);
                 throw new MissingMemberProfileException(number);
@@ -118,7 +123,7 @@ public final class DefaultProfileMembershipService implements ProfileMembershipS
         return created;
     }
 
-    private final Member.ContactChannel toMemberContactChannel(final Member.ContactChannel contactChannel) {
+    private final Member.ContactChannel toMemberContactChannel(final MemberProfile.ContactChannel contactChannel) {
         final Member.ContactMethod contactMethod;
 
         contactMethod = new Member.ContactMethod(contactChannel.contactMethod()

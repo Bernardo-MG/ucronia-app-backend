@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.guest.domain.model;
+package com.bernardomg.association.member.domain.model;
 
 import java.time.Instant;
 import java.util.Collection;
@@ -31,10 +31,10 @@ import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 
-public record GuestProfile(String identifier, Long number, Name name, Instant birthDate,
+public record MemberProfile(String identifier, Long number, Name name, Instant birthDate,
         Collection<ContactChannel> contactChannels, String address, String comments, Set<String> types) {
 
-    public GuestProfile(final String identifier, final Long number, final Name name, final Instant birthDate,
+    public MemberProfile(final String identifier, final Long number, final Name name, final Instant birthDate,
             final Collection<ContactChannel> contactChannels, final String address, final String comments,
             final Set<String> types) {
         this.identifier = identifier;

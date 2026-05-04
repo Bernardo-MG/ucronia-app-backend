@@ -34,11 +34,13 @@ import com.bernardomg.association.member.adapter.inbound.event.DeactivateMemberO
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberContactMethodRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberCountRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberFeeTypeRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberProfileRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMembershipEvolutionRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaPublicMemberRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberContactMethodSpringRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberFeeTypeSpringRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberInnerProfileSpringRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MembershipEvolutionSpringRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.PublicMemberSpringRepository;
@@ -46,6 +48,7 @@ import com.bernardomg.association.member.adapter.inbound.jpa.repository.ReadMemb
 import com.bernardomg.association.member.domain.repository.MemberContactMethodRepository;
 import com.bernardomg.association.member.domain.repository.MemberCountRepository;
 import com.bernardomg.association.member.domain.repository.MemberFeeTypeRepository;
+import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.domain.repository.MembershipEvolutionRepository;
 import com.bernardomg.association.member.domain.repository.PublicMemberRepository;
@@ -107,6 +110,12 @@ public class AssociationMemberAutoConfiguration {
         return new JpaMemberFeeTypeRepository(memberFeeTypeSpringRepository);
     }
 
+    @Bean("memberProfileRepository")
+    public MemberProfileRepository
+            getMemberProfileRepository(final MemberInnerProfileSpringRepository guestProfileSpringRepository) {
+        return new JpaMemberProfileRepository(guestProfileSpringRepository);
+    }
+
     @Bean("memberRepository")
     public MemberRepository getMemberRepository(final ReadMemberSpringRepository readMemberSpringRepository,
             final MemberSpringRepository memberSpringRepo,
@@ -147,8 +156,9 @@ public class AssociationMemberAutoConfiguration {
 
     @Bean("profileMembershipService")
     public ProfileMembershipService getProfileMembershipService(final MemberRepository memberRepository,
+            final MemberProfileRepository memberProfileRepository,
             final MemberFeeTypeRepository memberFeeTypeRepository) {
-        return new DefaultProfileMembershipService(memberRepository, memberFeeTypeRepository);
+        return new DefaultProfileMembershipService(memberRepository, memberProfileRepository, memberFeeTypeRepository);
     }
 
     @Bean("publicMemberRepository")
