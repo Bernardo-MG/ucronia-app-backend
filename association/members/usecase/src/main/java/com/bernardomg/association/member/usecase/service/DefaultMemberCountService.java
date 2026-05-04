@@ -22,44 +22,51 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.adapter.outbound.rest.controller;
+package com.bernardomg.association.member.usecase.service;
 
-import org.springframework.web.bind.annotation.RestController;
+import java.util.Objects;
 
-import com.bernardomg.association.member.adapter.outbound.rest.dto.MemberSummaryResponseDto;
-import com.bernardomg.association.member.adapter.outbound.rest.model.MemberSummaryDtoMapper;
-import com.bernardomg.association.member.domain.model.MemberSummary;
-import com.bernardomg.association.member.usecase.service.MemberSummaryService;
-import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
-import com.bernardomg.security.permission.domain.constant.Actions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.bernardomg.association.member.domain.model.MemberCount;
+import com.bernardomg.association.member.domain.repository.MemberCountRepository;
+
+import jakarta.transaction.Transactional;
 
 /**
- * Member summary REST controller.
+ * Default implementation of the member service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@RestController
-public class MemberSummaryController implements MemberSummaryApi {
+@Transactional
+public final class DefaultMemberCountService implements MemberCountService {
 
     /**
-     * Member summary service.
+     * Logger for the class.
      */
-    private final MemberSummaryService service;
+    private static final Logger         log = LoggerFactory.getLogger(DefaultMemberCountService.class);
 
-    public MemberSummaryController(final MemberSummaryService service) {
+    private final MemberCountRepository memberCountRepository;
+
+    public DefaultMemberCountService(final MemberCountRepository memberCountRepo) {
         super();
 
-        this.service = service;
+        memberCountRepository = Objects.requireNonNull(memberCountRepo);
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "MEMBER", action = Actions.READ)
-    public MemberSummaryResponseDto getMemberSummary() {
-        final MemberSummary summary;
+    public final MemberCount getCount() {
+        final MemberCount count;
 
-        summary = service.getSummary();
-        return MemberSummaryDtoMapper.toResponseDto(summary);
+        log.debug("Reading count");
+
+        count = memberCountRepository.findCurrent();
+
+        log.debug("Read count: {}", count);
+
+        return count;
     }
 
 }

@@ -1,0 +1,11 @@
+get:
+  summary: Returns members summary
+  operationId: getMemberCount
+  tags: [MemberCount]
+  responses:
+    '200':
+      description: Member count
+      content:
+        application/json:
+          schema:
+            $ref: '../components/members_count.yml#/components/schemas/MemberCountResponse'

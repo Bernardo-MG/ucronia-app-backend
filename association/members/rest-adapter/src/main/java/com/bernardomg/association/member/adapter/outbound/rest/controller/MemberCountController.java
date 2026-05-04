@@ -22,23 +22,44 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.usecase.service;
+package com.bernardomg.association.member.adapter.outbound.rest.controller;
 
-import com.bernardomg.association.member.domain.model.MemberSummary;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.bernardomg.association.member.adapter.outbound.rest.dto.MemberCountResponseDto;
+import com.bernardomg.association.member.adapter.outbound.rest.model.MemberCountDtoMapper;
+import com.bernardomg.association.member.domain.model.MemberCount;
+import com.bernardomg.association.member.usecase.service.MemberCountService;
+import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
+import com.bernardomg.security.permission.domain.constant.Actions;
 
 /**
- * Member summary service.
+ * Member count REST controller.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface MemberSummaryService {
+@RestController
+public class MemberCountController implements MemberCountApi {
 
     /**
-     * Returns the member summary.
-     *
-     * @return the member summary
+     * Member count service.
      */
-    public MemberSummary getSummary();
+    private final MemberCountService service;
+
+    public MemberCountController(final MemberCountService service) {
+        super();
+
+        this.service = service;
+    }
+
+    @Override
+    @RequireResourceAuthorization(resource = "MEMBER", action = Actions.READ)
+    public MemberCountResponseDto getMemberCount() {
+        final MemberCount count;
+
+        count = service.getCount();
+        return MemberCountDtoMapper.toResponseDto(count);
+    }
 
 }

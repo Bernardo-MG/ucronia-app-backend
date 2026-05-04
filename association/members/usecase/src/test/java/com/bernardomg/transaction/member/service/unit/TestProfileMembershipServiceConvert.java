@@ -83,22 +83,6 @@ class TestProfileMembershipServiceConvert {
     }
 
     @Test
-    @DisplayName("With a not existing profile, an exception is thrown")
-    void testConvertToMember_NotExistingProfile_Exception() {
-        final ThrowingCallable execution;
-
-        // GIVEN
-        given(memberProfileRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.empty());
-
-        // WHEN
-        execution = () -> service.convertToMember(MemberConstants.NUMBER, FeeConstants.FEE_TYPE_NUMBER);
-
-        // THEN
-        Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingMemberProfileException.class);
-    }
-
-    @Test
     @DisplayName("With a not existing fee type, an exception is thrown")
     void testConvertToMember_NotExistingFeeType_Exception() {
         final ThrowingCallable execution;
@@ -116,6 +100,22 @@ class TestProfileMembershipServiceConvert {
         // THEN
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(MissingMemberFeeTypeException.class);
+    }
+
+    @Test
+    @DisplayName("With a not existing profile, an exception is thrown")
+    void testConvertToMember_NotExistingProfile_Exception() {
+        final ThrowingCallable execution;
+
+        // GIVEN
+        given(memberProfileRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.empty());
+
+        // WHEN
+        execution = () -> service.convertToMember(MemberConstants.NUMBER, FeeConstants.FEE_TYPE_NUMBER);
+
+        // THEN
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(MissingMemberProfileException.class);
     }
 
     @Test

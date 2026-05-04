@@ -34,36 +34,36 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.member.domain.model.MemberSummary;
-import com.bernardomg.association.member.domain.repository.MemberSummaryRepository;
+import com.bernardomg.association.member.domain.model.MemberCount;
+import com.bernardomg.association.member.domain.repository.MemberCountRepository;
 import com.bernardomg.association.member.test.configuration.factory.MemberSummaries;
-import com.bernardomg.association.member.usecase.service.DefaultMemberSummaryService;
+import com.bernardomg.association.member.usecase.service.DefaultMemberCountService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("MemberSummaryService - get summary")
-class TestMemberSummaryServiceGetSummary {
+@DisplayName("MemberCountService - get count")
+class TestMemberCountServiceGetCount {
 
     @Mock
-    private MemberSummaryRepository     memberSummaryRepository;
+    private MemberCountRepository     memberCountRepository;
 
     @InjectMocks
-    private DefaultMemberSummaryService service;
+    private DefaultMemberCountService service;
 
     @Test
-    @DisplayName("It returns the summary")
-    void testGetSummary_NoData() {
-        final MemberSummary summary;
-        final MemberSummary existing;
+    @DisplayName("It returns the count")
+    void testGetCount_NoData() {
+        final MemberCount count;
+        final MemberCount existing;
 
         // GIVEN
         existing = MemberSummaries.valid();
-        given(memberSummaryRepository.findCurrent()).willReturn(existing);
+        given(memberCountRepository.findCurrent()).willReturn(existing);
 
         // WHEN
-        summary = service.getSummary();
+        count = service.getCount();
 
         // THEN
-        Assertions.assertThat(summary)
+        Assertions.assertThat(count)
             .isEqualTo(existing);
     }
 

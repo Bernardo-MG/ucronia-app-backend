@@ -22,51 +22,49 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.usecase.service;
+package com.bernardomg.association.member.adapter.inbound.jpa.repository;
 
 import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.member.domain.model.MemberSummary;
-import com.bernardomg.association.member.domain.repository.MemberSummaryRepository;
+import com.bernardomg.association.member.domain.model.MemberCount;
+import com.bernardomg.association.member.domain.repository.MemberCountRepository;
 
-import jakarta.transaction.Transactional;
-
-/**
- * Default implementation of the member service.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
- */
 @Transactional
-public final class DefaultMemberSummaryService implements MemberSummaryService {
+public final class JpaMemberCountRepository implements MemberCountRepository {
 
     /**
      * Logger for the class.
      */
-    private static final Logger           log = LoggerFactory.getLogger(DefaultMemberSummaryService.class);
+    private static final Logger          log = LoggerFactory.getLogger(JpaMemberCountRepository.class);
 
-    private final MemberSummaryRepository memberSummaryRepository;
+    private final MemberSpringRepository memberSpringRepository;
 
-    public DefaultMemberSummaryService(final MemberSummaryRepository memberSummaryRepo) {
+    public JpaMemberCountRepository(final MemberSpringRepository memberSpringRepo) {
         super();
 
-        memberSummaryRepository = Objects.requireNonNull(memberSummaryRepo);
+        memberSpringRepository = Objects.requireNonNull(memberSpringRepo);
     }
 
     @Override
-    public final MemberSummary getSummary() {
-        final MemberSummary summary;
+    public final MemberCount findCurrent() {
+        final long        active;
+        final long        renew;
+        final MemberCount count;
 
-        log.debug("Reading summary");
+        log.debug("Finding current member count");
 
-        summary = memberSummaryRepository.findCurrent();
+        active = memberSpringRepository.countByActiveTrue();
+        renew = memberSpringRepository.countByActiveTrueAndRenewTrue();
 
-        log.debug("Read summary: {}", summary);
+        count = new MemberCount(active, renew);
 
-        return summary;
+        log.debug("Found current member count: {}", count);
+
+        return count;
     }
 
 }

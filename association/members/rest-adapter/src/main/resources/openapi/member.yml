@@ -9,8 +9,8 @@ servers:
 paths:
   /member:
     $ref: paths/members.yml
-  /member/summary:
-    $ref: paths/members_summary.yml
+  /member/count:
+    $ref: paths/members_count.yml
   /member/{number}:
     $ref: paths/members_by_id.yml
   /member/evolution:

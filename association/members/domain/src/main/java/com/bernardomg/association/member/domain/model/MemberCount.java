@@ -24,6 +24,6 @@
 
 package com.bernardomg.association.member.domain.model;
 
-public record MemberSummary(Long active, Long renew) {
+public record MemberCount(Long active, Long renew) {
 
 }

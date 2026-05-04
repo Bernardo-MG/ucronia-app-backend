@@ -22,12 +22,23 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.domain.repository;
+package com.bernardomg.association.member.usecase.service;
 
-import com.bernardomg.association.member.domain.model.MemberSummary;
+import com.bernardomg.association.member.domain.model.MemberCount;
 
-public interface MemberSummaryRepository {
+/**
+ * Member count service.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+public interface MemberCountService {
 
-    public MemberSummary findCurrent();
+    /**
+     * Returns the member count.
+     *
+     * @return the member count
+     */
+    public MemberCount getCount();
 
 }

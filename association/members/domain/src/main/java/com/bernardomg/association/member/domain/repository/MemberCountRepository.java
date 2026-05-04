@@ -22,25 +22,12 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.adapter.outbound.rest.model;
+package com.bernardomg.association.member.domain.repository;
 
-import com.bernardomg.association.member.adapter.outbound.rest.dto.MemberSummaryDto;
-import com.bernardomg.association.member.adapter.outbound.rest.dto.MemberSummaryResponseDto;
-import com.bernardomg.association.member.domain.model.MemberSummary;
+import com.bernardomg.association.member.domain.model.MemberCount;
 
-public final class MemberSummaryDtoMapper {
+public interface MemberCountRepository {
 
-    public static final MemberSummaryResponseDto toResponseDto(final MemberSummary summary) {
-        return new MemberSummaryResponseDto().content(MemberSummaryDtoMapper.toDto(summary));
-    }
-
-    private static final MemberSummaryDto toDto(final MemberSummary summary) {
-        return new MemberSummaryDto().active(summary.active())
-            .renew(summary.renew());
-    }
-
-    private MemberSummaryDtoMapper() {
-        super();
-    }
+    public MemberCount findCurrent();
 
 }

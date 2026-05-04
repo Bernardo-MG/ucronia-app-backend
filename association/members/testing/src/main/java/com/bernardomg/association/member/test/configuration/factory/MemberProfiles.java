@@ -203,7 +203,8 @@ public final class MemberProfiles {
 
         name = new Name(MemberConstants.FIRST_NAME, MemberConstants.LAST_NAME);
         return new MemberProfile(MemberConstants.IDENTIFIER, MemberConstants.NUMBER, name, MemberConstants.BIRTH_DATE,
-            List.of(), MemberConstants.ADDRESS, MemberConstants.COMMENTS, true, true, feeType, new HashSet<>(List.of(MemberProfile.PROFILE_TYPE)));
+            List.of(), MemberConstants.ADDRESS, MemberConstants.COMMENTS, true, true, feeType,
+            new HashSet<>(List.of(MemberProfile.PROFILE_TYPE)));
     }
 
     public static final MemberProfile toCreateWithEmail() {

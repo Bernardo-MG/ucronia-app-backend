@@ -32,8 +32,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.TestApplication;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
-import com.bernardomg.association.member.domain.model.MemberSummary;
-import com.bernardomg.association.member.domain.repository.MemberSummaryRepository;
+import com.bernardomg.association.member.domain.model.MemberCount;
+import com.bernardomg.association.member.domain.repository.MemberCountRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveToNotRenewMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
@@ -42,27 +42,27 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("MemberRepository - find all")
-class ITMemberSummaryRepositoryFindCurrent {
+@DisplayName("MemberCountRepository - find all")
+class ITMemberCountRepositoryFindCurrent {
 
     @Autowired
-    private MemberSummaryRepository repository;
+    private MemberCountRepository repository;
 
     @Test
     @DisplayName("With an active member to renew, it is returned")
     @PositiveFeeType
     @ActiveMember
     void testFindAll() {
-        final MemberSummary summary;
+        final MemberCount count;
 
         // WHEN
-        summary = repository.findCurrent();
+        count = repository.findCurrent();
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(summary.active())
+            softly.assertThat(count.active())
                 .isEqualTo(1L);
-            softly.assertThat(summary.renew())
+            softly.assertThat(count.renew())
                 .isEqualTo(1L);
         });
     }
@@ -72,16 +72,16 @@ class ITMemberSummaryRepositoryFindCurrent {
     @PositiveFeeType
     @InactiveMember
     void testFindAll_Inactive() {
-        final MemberSummary summary;
+        final MemberCount count;
 
         // WHEN
-        summary = repository.findCurrent();
+        count = repository.findCurrent();
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(summary.active())
+            softly.assertThat(count.active())
                 .isEqualTo(0L);
-            softly.assertThat(summary.renew())
+            softly.assertThat(count.renew())
                 .isEqualTo(0L);
         });
     }
@@ -89,16 +89,16 @@ class ITMemberSummaryRepositoryFindCurrent {
     @Test
     @DisplayName("With no member, nothing is returned")
     void testFindAll_NoData() {
-        final MemberSummary summary;
+        final MemberCount count;
 
         // WHEN
-        summary = repository.findCurrent();
+        count = repository.findCurrent();
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(summary.active())
+            softly.assertThat(count.active())
                 .isEqualTo(0L);
-            softly.assertThat(summary.renew())
+            softly.assertThat(count.renew())
                 .isEqualTo(0L);
         });
     }
@@ -108,16 +108,16 @@ class ITMemberSummaryRepositoryFindCurrent {
     @PositiveFeeType
     @ActiveToNotRenewMember
     void testFindAll_NotRenews() {
-        final MemberSummary summary;
+        final MemberCount count;
 
         // WHEN
-        summary = repository.findCurrent();
+        count = repository.findCurrent();
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(summary.active())
+            softly.assertThat(count.active())
                 .isEqualTo(1L);
-            softly.assertThat(summary.renew())
+            softly.assertThat(count.renew())
                 .isEqualTo(0L);
         });
     }
@@ -126,16 +126,16 @@ class ITMemberSummaryRepositoryFindCurrent {
     @DisplayName("With a profile with no member role, nothing is returned")
     @ValidProfile
     void testFindAll_WithoutMembership() {
-        final MemberSummary summary;
+        final MemberCount count;
 
         // WHEN
-        summary = repository.findCurrent();
+        count = repository.findCurrent();
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(summary.active())
+            softly.assertThat(count.active())
                 .isEqualTo(0L);
-            softly.assertThat(summary.renew())
+            softly.assertThat(count.renew())
                 .isEqualTo(0L);
         });
     }

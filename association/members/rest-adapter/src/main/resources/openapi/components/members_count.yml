@@ -1,6 +1,6 @@
 components:
   schemas:
-    MemberSummary:
+    MemberCount:
       type: object
       required: [active, noRenew]
       properties:
@@ -14,8 +14,8 @@ components:
           format: int64
           example: 120
           description: Number of active members which renew
-    MemberSummaryResponse:
+    MemberCountResponse:
       type: object
       properties:
         content:
-          $ref: '#/components/schemas/MemberSummary'
+          $ref: '#/components/schemas/MemberCount'
