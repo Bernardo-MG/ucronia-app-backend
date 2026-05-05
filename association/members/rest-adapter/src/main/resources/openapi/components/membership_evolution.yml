@@ -5,7 +5,7 @@ components:
       required: [date, total]
       properties:
         month:
-          $ref: '../common/dates.yml#/components/schemas/Month'
+          $ref: '../common/dates.yml#/components/schemas/Date'
         total:
           type: integer
           format: int64

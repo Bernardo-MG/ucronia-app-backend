@@ -24,6 +24,10 @@
 
 package com.bernardomg.association.transaction.adapter.outbound.rest.model;
 
+import java.time.Instant;
+import java.time.YearMonth;
+import java.time.ZoneId;
+import java.util.List;
 import java.util.Optional;
 
 import com.bernardomg.association.transaction.adapter.outbound.rest.dto.PropertyDto;
@@ -88,10 +92,14 @@ public final class TransactionDtoMapper {
 
     public static final TransactionMonthsRangeResponseDto toResponseDto(final TransactionMonthsRange range) {
         final TransactionMonthsRangeDto rangeDto;
+        final List<Instant>             months;
 
-        rangeDto = new TransactionMonthsRangeDto().months(range.months()
+        months = range.months()
             .stream()
-            .toList());
+            .map(TransactionDtoMapper::toInstant)
+            .toList();
+
+        rangeDto = new TransactionMonthsRangeDto().months(months);
         return new TransactionMonthsRangeResponseDto().content(rangeDto);
     }
 
@@ -120,6 +128,12 @@ public final class TransactionDtoMapper {
             .date(transaction.date())
             .amount(transaction.amount())
             .description(transaction.description());
+    }
+
+    private static final Instant toInstant(final YearMonth month) {
+        return month.atDay(1)
+            .atStartOfDay(ZoneId.systemDefault())
+            .toInstant();
     }
 
     private TransactionDtoMapper() {

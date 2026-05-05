@@ -76,19 +76,25 @@ public class FeeController implements FeeApi {
     @Override
     @RequireResourceAuthorization(resource = "FEE", action = Actions.CREATE)
     public FeeResponseDto createFee(@Valid final FeeCreationDto feeCreationDto) {
-        final Fee fee;
+        final Fee       fee;
+        final YearMonth month;
 
-        fee = service.createFee(feeCreationDto.getMonth(), feeCreationDto.getMember());
+        month = YearMonth.from(feeCreationDto.getMonth());
+
+        fee = service.createFee(month, feeCreationDto.getMember());
 
         return FeeDtoMapper.toResponseDto(fee);
     }
 
     @Override
     @RequireResourceAuthorization(resource = "FEE", action = Actions.DELETE)
-    public FeeResponseDto deleteFee(final Long member, final YearMonth month) {
-        final Fee fee;
+    public FeeResponseDto deleteFee(final Long member, final Instant month) {
+        final Fee       fee;
+        final YearMonth yearMonth;
 
-        fee = service.delete(member, month);
+        yearMonth = YearMonth.from(month);
+
+        fee = service.delete(member, yearMonth);
 
         return FeeDtoMapper.toResponseDto(fee);
     }
@@ -113,10 +119,13 @@ public class FeeController implements FeeApi {
 
     @Override
     @RequireResourceAuthorization(resource = "FEE", action = Actions.READ)
-    public FeeResponseDto getOneFee(final Long member, final YearMonth month) {
+    public FeeResponseDto getOneFee(final Long member, final Instant month) {
         final Optional<Fee> fee;
+        final YearMonth     yearMonth;
 
-        fee = service.getOne(member, month);
+        yearMonth = YearMonth.from(month);
+
+        fee = service.getOne(member, yearMonth);
 
         return FeeDtoMapper.toResponseDto(fee);
     }
@@ -135,11 +144,14 @@ public class FeeController implements FeeApi {
 
     @Override
     @RequireResourceAuthorization(resource = "FEE", action = Actions.UPDATE)
-    public FeeResponseDto updateFee(final Long member, final YearMonth month, @Valid final FeeUpdateDto feeUpdateDto) {
-        final Fee fee;
-        final Fee updated;
+    public FeeResponseDto updateFee(final Long member, final Instant month, @Valid final FeeUpdateDto feeUpdateDto) {
+        final Fee       fee;
+        final Fee       updated;
+        final YearMonth yearMonth;
 
-        fee = FeeDtoMapper.toDomain(feeUpdateDto, month, member);
+        yearMonth = YearMonth.from(month);
+
+        fee = FeeDtoMapper.toDomain(feeUpdateDto, yearMonth, member);
         updated = service.update(fee);
         return FeeDtoMapper.toResponseDto(updated);
     }

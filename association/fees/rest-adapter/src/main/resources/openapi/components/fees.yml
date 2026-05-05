@@ -21,7 +21,7 @@ components:
         member:
           $ref: 'members.yml#/components/schemas/Member'
         month:
-          $ref: '../common/dates.yml#/components/schemas/Month'
+          $ref: '../common/dates.yml#/components/schemas/Date'
         paid:
           type: boolean
         feeType:
@@ -53,7 +53,7 @@ components:
         member:
           $ref: '../common/ids.yml#/components/schemas/Id'
         month:
-          $ref: '../common/dates.yml#/components/schemas/Month'
+          $ref: '../common/dates.yml#/components/schemas/Date'
     FeePayments:
       type: object
       required: [member, transaction, months]
@@ -65,7 +65,7 @@ components:
         months:
           type: array
           items:
-            $ref: '../common/dates.yml#/components/schemas/Month'
+            $ref: '../common/dates.yml#/components/schemas/Date'
     FeeUpdate:
       type: object
       required: [transaction]

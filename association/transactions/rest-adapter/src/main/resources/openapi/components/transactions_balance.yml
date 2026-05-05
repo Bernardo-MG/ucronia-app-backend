@@ -5,7 +5,7 @@ components:
       required: [results, total]
       properties:
         month:
-          $ref: '../common/dates.yml#/components/schemas/Month'
+          $ref: '../common/dates.yml#/components/schemas/Date'
         results:
           type: number
           format: float

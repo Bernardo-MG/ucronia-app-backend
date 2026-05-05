@@ -34,7 +34,7 @@ components:
       required: [month, paid]
       properties:
         month:
-          $ref: '../common/dates.yml#/components/schemas/Month'
+          $ref: '../common/dates.yml#/components/schemas/Date'
         paid:
           type: boolean
     YearsRangeResponse:

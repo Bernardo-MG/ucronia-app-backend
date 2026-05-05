@@ -12,7 +12,7 @@ get:
       in: path
       required: true
       schema:
-        $ref: '../common/dates.yml#/components/schemas/Month'
+        $ref: '../common/dates.yml#/components/schemas/Date'
   responses:
     '200':
       description: Fee details
@@ -34,7 +34,7 @@ delete:
       in: path
       required: true
       schema:
-        $ref: '../common/dates.yml#/components/schemas/Month'
+        $ref: '../common/dates.yml#/components/schemas/Date'
   responses:
     '200':
       description: Deleted fee
@@ -56,7 +56,7 @@ put:
       in: path
       required: true
       schema:
-        $ref: '../common/dates.yml#/components/schemas/Month'
+        $ref: '../common/dates.yml#/components/schemas/Date'
   requestBody:
     required: true
     content:

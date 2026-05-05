@@ -57,7 +57,7 @@ components:
         months:
           type: array
           items:
-            $ref: '../common/dates.yml#/components/schemas/Month'
+            $ref: '../common/dates.yml#/components/schemas/Date'
     TransactionMonthsRangeResponse:
       type: object
       properties:
