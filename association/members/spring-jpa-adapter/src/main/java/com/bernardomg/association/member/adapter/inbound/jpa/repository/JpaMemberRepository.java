@@ -43,6 +43,7 @@ import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityConstants;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityMapper;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberFeeTypeEntity;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberInnerProfileEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.ReadMemberEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.specification.ReadMemberSpecifications;
 import com.bernardomg.association.member.domain.filter.MemberFilter;
@@ -72,16 +73,20 @@ public final class JpaMemberRepository implements MemberRepository {
 
     private final ReadMemberSpringRepository          readMemberSpringRepository;
 
+    private final MemberInnerProfileSpringRepository          memberInnerProfileSpringRepository;
+
     public JpaMemberRepository(final ReadMemberSpringRepository readMemberSpringRepo,
             final MemberSpringRepository memberSpringRepo,
             final MemberContactMethodSpringRepository memberContactMethodSpringRepo,
-            final MemberFeeTypeSpringRepository memberFeeTypeSpringRepo) {
+            final MemberFeeTypeSpringRepository memberFeeTypeSpringRepo,
+            final MemberInnerProfileSpringRepository          memberInnerProfileSpringRepo) {
         super();
 
         readMemberSpringRepository = Objects.requireNonNull(readMemberSpringRepo);
         memberSpringRepository = Objects.requireNonNull(memberSpringRepo);
         memberContactMethodSpringRepository = Objects.requireNonNull(memberContactMethodSpringRepo);
         memberFeeTypeSpringRepository = Objects.requireNonNull(memberFeeTypeSpringRepo);
+        memberInnerProfileSpringRepository = Objects.requireNonNull(memberInnerProfileSpringRepo);
     }
 
     @Override
@@ -308,7 +313,7 @@ public final class JpaMemberRepository implements MemberRepository {
         final MemberEntity                          entity;
         final Collection<MemberContactMethodEntity> contactMethods;
         final Optional<MemberFeeTypeEntity>         feeType;
-        final Optional<ReadMemberEntity>            profile;
+        final Optional<MemberInnerProfileEntity>            profile;
 
         existing = memberSpringRepository.findByNumber(member.number());
         contactMethods = getContactMethods(member);
@@ -317,11 +322,9 @@ public final class JpaMemberRepository implements MemberRepository {
         } else {
             entity = MemberEntityMapper.toEntity(member, contactMethods);
 
-            profile = readMemberSpringRepository.findByNumber(member.number());
+            profile = memberInnerProfileSpringRepository.findByNumber(member.number());
             if (profile.isPresent()) {
-                entity.getProfile()
-                    .setNumber(profile.get()
-                        .getNumber());
+                entity.setProfile(profile.get());
             } else {
                 entity.getProfile()
                     .setNumber(number.get());

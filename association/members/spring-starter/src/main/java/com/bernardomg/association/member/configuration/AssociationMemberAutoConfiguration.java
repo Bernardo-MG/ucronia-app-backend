@@ -116,13 +116,14 @@ public class AssociationMemberAutoConfiguration {
         return new JpaMemberProfileRepository(guestProfileSpringRepository);
     }
 
-    @Bean("memberRepository")
+    @Bean("MemberRepository")
     public MemberRepository getMemberRepository(final ReadMemberSpringRepository readMemberSpringRepository,
             final MemberSpringRepository memberSpringRepo,
-            final MemberContactMethodSpringRepository contactMethodSpringRepository,
-            final MemberFeeTypeSpringRepository memberFeeTypeSpringRepository) {
-        return new JpaMemberRepository(readMemberSpringRepository, memberSpringRepo, contactMethodSpringRepository,
-            memberFeeTypeSpringRepository);
+            final MemberContactMethodSpringRepository memberContactMethodSpringRepository,
+            final MemberFeeTypeSpringRepository memberFeeTypeSpringRepository,
+            final MemberInnerProfileSpringRepository memberInnerProfileSpringRepository) {
+        return new JpaMemberRepository(readMemberSpringRepository, memberSpringRepo,
+            memberContactMethodSpringRepository, memberFeeTypeSpringRepository, memberInnerProfileSpringRepository);
     }
 
     @Bean("memberService")
