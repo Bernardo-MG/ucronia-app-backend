@@ -26,7 +26,7 @@ package com.bernardomg.association.transaction.adapter.outbound.rest.model;
 
 import java.time.Instant;
 import java.time.YearMonth;
-import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Optional;
 
@@ -132,7 +132,7 @@ public final class TransactionDtoMapper {
 
     private static final Instant toInstant(final YearMonth month) {
         return month.atDay(1)
-            .atStartOfDay(ZoneId.systemDefault())
+            .atStartOfDay(ZoneOffset.UTC)
             .toInstant();
     }
 
