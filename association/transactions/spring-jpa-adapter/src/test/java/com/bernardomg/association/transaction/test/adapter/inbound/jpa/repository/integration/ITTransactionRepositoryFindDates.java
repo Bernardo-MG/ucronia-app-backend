@@ -41,6 +41,7 @@ import com.bernardomg.association.transaction.test.configuration.data.annotation
 import com.bernardomg.association.transaction.test.configuration.data.annotation.FullTransactionYear;
 import com.bernardomg.association.transaction.test.configuration.data.annotation.MultipleTransactionsSameDay;
 import com.bernardomg.association.transaction.test.configuration.data.annotation.MultipleTransactionsSameMonth;
+import com.bernardomg.association.transaction.test.configuration.data.annotation.PositiveTransaction;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionCalendarMonthsRanges;
 import com.bernardomg.test.annotation.IntegrationTest;
 
@@ -54,6 +55,21 @@ class ITTransactionRepositoryFindDates {
 
     public ITTransactionRepositoryFindDates() {
         super();
+    }
+
+    @Test
+    @DisplayName("With a single transaction, a single month is returned")
+    @PositiveTransaction
+    void testFindDates() {
+        final TransactionMonthsRange range;
+
+        // WHEN
+        range = repository.findRange();
+
+        // THEN
+        Assertions.assertThat(range.months())
+            .as("months")
+            .containsExactly(YearMonth.of(2020, Month.FEBRUARY));
     }
 
     @Test
@@ -116,7 +132,6 @@ class ITTransactionRepositoryFindDates {
         // THEN
         Assertions.assertThat(range.months())
             .as("months")
-            .hasSize(1)
             .containsExactly(YearMonth.of(2020, Month.JANUARY));
     }
 
