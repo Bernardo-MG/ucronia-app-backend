@@ -24,7 +24,10 @@
 
 package com.bernardomg.association.transaction.test.adapter.inbound.jpa.repository.integration;
 
+import java.time.Instant;
 import java.time.Month;
+import java.time.YearMonth;
+import java.time.ZoneOffset;
 import java.util.Collection;
 
 import org.assertj.core.api.Assertions;
@@ -34,11 +37,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.transaction.TestApplication;
-import com.bernardomg.association.transaction.domain.model.TransactionBalanceQuery;
 import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
 import com.bernardomg.association.transaction.domain.repository.TransactionBalanceRepository;
 import com.bernardomg.association.transaction.test.configuration.data.annotation.FullTransactionYear;
-import com.bernardomg.association.transaction.test.configuration.factory.TransactionBalanceQueries;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionMonthlyBalances;
 import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.test.annotation.IntegrationTest;
@@ -56,16 +57,19 @@ class ITTransactionBalanceRepositoryFindMonthlyBalanceFilter {
     @FullTransactionYear
     void testFindMonthlyBalance_EndBeforeStart() {
         final Collection<TransactionMonthlyBalance> balances;
-        final TransactionBalanceQuery               query;
         final Sorting                               sorting;
+        final Instant                               to;
 
         // GIVEN
         sorting = Sorting.unsorted();
 
-        query = TransactionBalanceQueries.to(2019, Month.DECEMBER);
+        to = YearMonth.of(2019, Month.DECEMBER)
+            .atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
 
         // WHEN
-        balances = repository.findMonthlyBalance(query, sorting);
+        balances = repository.findMonthlyBalance(null, to, sorting);
 
         // THEN
         Assertions.assertThat(balances)
@@ -78,16 +82,19 @@ class ITTransactionBalanceRepositoryFindMonthlyBalanceFilter {
     @FullTransactionYear
     void testFindMonthlyBalance_EndDecember() {
         final Collection<TransactionMonthlyBalance> balances;
-        final TransactionBalanceQuery               query;
         final Sorting                               sorting;
+        final Instant                               to;
 
         // GIVEN
         sorting = Sorting.unsorted();
 
-        query = TransactionBalanceQueries.to(2020, Month.DECEMBER);
+        to = YearMonth.of(2020, Month.DECEMBER)
+            .atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
 
         // WHEN
-        balances = repository.findMonthlyBalance(query, sorting);
+        balances = repository.findMonthlyBalance(null, to, sorting);
 
         // THEN
         Assertions.assertThat(balances)
@@ -111,16 +118,25 @@ class ITTransactionBalanceRepositoryFindMonthlyBalanceFilter {
     @FullTransactionYear
     void testFindMonthlyBalance_FullYear() {
         final Collection<TransactionMonthlyBalance> balances;
-        final TransactionBalanceQuery               query;
         final Sorting                               sorting;
+        final Instant                               from;
+        final Instant                               to;
 
         // GIVEN
         sorting = Sorting.unsorted();
 
-        query = TransactionBalanceQueries.range(2020, Month.JANUARY, Month.DECEMBER);
+        from = YearMonth.of(2020, Month.JANUARY)
+            .atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
+
+        to = YearMonth.of(2020, Month.DECEMBER)
+            .atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
 
         // WHEN
-        balances = repository.findMonthlyBalance(query, sorting);
+        balances = repository.findMonthlyBalance(from, to, sorting);
 
         // THEN
         Assertions.assertThat(balances)
@@ -144,16 +160,25 @@ class ITTransactionBalanceRepositoryFindMonthlyBalanceFilter {
     @FullTransactionYear
     void testFindMonthlyBalance_January() {
         final Collection<TransactionMonthlyBalance> balances;
-        final TransactionBalanceQuery               query;
         final Sorting                               sorting;
+        final Instant                               from;
+        final Instant                               to;
 
         // GIVEN
         sorting = Sorting.unsorted();
 
-        query = TransactionBalanceQueries.range(2020, Month.JANUARY, Month.JANUARY);
+        from = YearMonth.of(2020, Month.JANUARY)
+            .atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
+
+        to = YearMonth.of(2020, Month.JANUARY)
+            .atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
 
         // WHEN
-        balances = repository.findMonthlyBalance(query, sorting);
+        balances = repository.findMonthlyBalance(from, to, sorting);
 
         // THEN
         Assertions.assertThat(balances)
@@ -166,16 +191,25 @@ class ITTransactionBalanceRepositoryFindMonthlyBalanceFilter {
     @FullTransactionYear
     void testFindMonthlyBalance_JanuaryToFebruary() {
         final Collection<TransactionMonthlyBalance> balances;
-        final TransactionBalanceQuery               query;
         final Sorting                               sorting;
+        final Instant                               from;
+        final Instant                               to;
 
         // GIVEN
         sorting = Sorting.unsorted();
 
-        query = TransactionBalanceQueries.range(2020, Month.JANUARY, Month.FEBRUARY);
+        from = YearMonth.of(2020, Month.JANUARY)
+            .atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
+
+        to = YearMonth.of(2020, Month.FEBRUARY)
+            .atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
 
         // WHEN
-        balances = repository.findMonthlyBalance(query, sorting);
+        balances = repository.findMonthlyBalance(from, to, sorting);
 
         // THEN
         Assertions.assertThat(balances)
@@ -189,16 +223,25 @@ class ITTransactionBalanceRepositoryFindMonthlyBalanceFilter {
     @FullTransactionYear
     void testFindMonthlyBalance_RangeEndBeforeStart() {
         final Collection<TransactionMonthlyBalance> balances;
-        final TransactionBalanceQuery               query;
         final Sorting                               sorting;
+        final Instant                               from;
+        final Instant                               to;
 
         // GIVEN
         sorting = Sorting.unsorted();
 
-        query = TransactionBalanceQueries.range(2020, Month.DECEMBER, Month.JANUARY);
+        from = YearMonth.of(2020, Month.DECEMBER)
+            .atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
+
+        to = YearMonth.of(2020, Month.JANUARY)
+            .atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
 
         // WHEN
-        balances = repository.findMonthlyBalance(query, sorting);
+        balances = repository.findMonthlyBalance(from, to, sorting);
 
         // THEN
         Assertions.assertThat(balances)
@@ -211,16 +254,19 @@ class ITTransactionBalanceRepositoryFindMonthlyBalanceFilter {
     @FullTransactionYear
     void testFindMonthlyBalance_StartAfterEnd() {
         final Collection<TransactionMonthlyBalance> balances;
-        final TransactionBalanceQuery               query;
         final Sorting                               sorting;
+        final Instant                               from;
 
         // GIVEN
         sorting = Sorting.unsorted();
 
-        query = TransactionBalanceQueries.from(2021, Month.JANUARY);
+        from = YearMonth.of(2021, Month.JANUARY)
+            .atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
 
         // WHEN
-        balances = repository.findMonthlyBalance(query, sorting);
+        balances = repository.findMonthlyBalance(from, null, sorting);
 
         // THEN
         Assertions.assertThat(balances)
@@ -233,16 +279,19 @@ class ITTransactionBalanceRepositoryFindMonthlyBalanceFilter {
     @FullTransactionYear
     void testFindMonthlyBalance_StartInJanuary() {
         final Collection<TransactionMonthlyBalance> balances;
-        final TransactionBalanceQuery               query;
         final Sorting                               sorting;
+        final Instant                               from;
 
         // GIVEN
         sorting = Sorting.unsorted();
 
-        query = TransactionBalanceQueries.from(2020, Month.JANUARY);
+        from = YearMonth.of(2020, Month.JANUARY)
+            .atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
 
         // WHEN
-        balances = repository.findMonthlyBalance(query, sorting);
+        balances = repository.findMonthlyBalance(from, null, sorting);
 
         // THEN
         Assertions.assertThat(balances)

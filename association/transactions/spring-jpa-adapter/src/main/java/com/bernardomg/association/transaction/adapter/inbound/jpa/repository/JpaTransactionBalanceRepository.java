@@ -39,7 +39,6 @@ import org.springframework.data.jpa.domain.Specification;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.MonthlyBalanceEntity;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionBalanceEntityMapper;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.specification.MonthlyBalanceSpecifications;
-import com.bernardomg.association.transaction.domain.model.TransactionBalanceQuery;
 import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
 import com.bernardomg.association.transaction.domain.repository.TransactionBalanceRepository;
 import com.bernardomg.pagination.domain.Sorting;
@@ -64,7 +63,7 @@ public final class JpaTransactionBalanceRepository implements TransactionBalance
     }
 
     @Override
-    public final Collection<TransactionMonthlyBalance> findMonthlyBalance(final TransactionBalanceQuery query,
+    public final Collection<TransactionMonthlyBalance> findMonthlyBalance(final Instant from, final Instant to,
             final Sorting sorting) {
         final Optional<Specification<MonthlyBalanceEntity>> requestSpec;
         final Specification<MonthlyBalanceEntity>           limitSpec;
@@ -77,7 +76,7 @@ public final class JpaTransactionBalanceRepository implements TransactionBalance
         log.debug("Finding monthly balance");
 
         // Specification from the request
-        requestSpec = MonthlyBalanceSpecifications.fromQuery(query);
+        requestSpec = MonthlyBalanceSpecifications.fromQuery(from, to);
         // Up to this month
         limit = YearMonth.now()
             .plusMonths(1)

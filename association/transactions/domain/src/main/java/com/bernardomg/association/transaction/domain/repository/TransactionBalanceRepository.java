@@ -24,15 +24,15 @@
 
 package com.bernardomg.association.transaction.domain.repository;
 
+import java.time.Instant;
 import java.util.Collection;
 
-import com.bernardomg.association.transaction.domain.model.TransactionBalanceQuery;
 import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
 import com.bernardomg.pagination.domain.Sorting;
 
 public interface TransactionBalanceRepository {
 
-    public Collection<TransactionMonthlyBalance> findMonthlyBalance(final TransactionBalanceQuery query,
+    public Collection<TransactionMonthlyBalance> findMonthlyBalance(final Instant from, final Instant to,
             final Sorting sorting);
 
 }

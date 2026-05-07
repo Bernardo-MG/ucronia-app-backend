@@ -31,7 +31,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.transaction.adapter.outbound.rest.dto.TransactionMonthlyBalanceResponseDto;
 import com.bernardomg.association.transaction.adapter.outbound.rest.model.TransactionBalanceDtoMapper;
-import com.bernardomg.association.transaction.domain.model.TransactionBalanceQuery;
 import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
 import com.bernardomg.association.transaction.usecase.service.TransactionBalanceService;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
@@ -63,10 +62,8 @@ public class TransactionBalanceController implements TransactionBalanceApi {
     public TransactionMonthlyBalanceResponseDto getMonthlyTransactionBalance(@Valid final Instant from,
             @Valid final Instant to) {
         final Collection<TransactionMonthlyBalance> balance;
-        final TransactionBalanceQuery               query;
 
-        query = new TransactionBalanceQuery(from, to);
-        balance = service.getMonthlyBalance(query);
+        balance = service.getMonthlyBalance(from, to);
         return TransactionBalanceDtoMapper.toResponseDto(balance);
     }
 

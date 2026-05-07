@@ -24,9 +24,9 @@
 
 package com.bernardomg.association.transaction.usecase.service;
 
+import java.time.Instant;
 import java.util.Collection;
 
-import com.bernardomg.association.transaction.domain.model.TransactionBalanceQuery;
 import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
 
 /**
@@ -39,10 +39,12 @@ public interface TransactionBalanceService {
     /**
      * Returns the monthly balances for the query.
      *
-     * @param query
-     *            query to filter balances
+     * @param from
+     *            starting date
+     * @param to
+     *            ending date
      * @return the monthly balances
      */
-    public Collection<TransactionMonthlyBalance> getMonthlyBalance(final TransactionBalanceQuery query);
+    public Collection<TransactionMonthlyBalance> getMonthlyBalance(final Instant from, final Instant to);
 
 }

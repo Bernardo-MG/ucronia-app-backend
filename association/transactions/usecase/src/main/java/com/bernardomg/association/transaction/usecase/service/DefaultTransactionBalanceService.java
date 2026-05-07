@@ -24,11 +24,11 @@
 
 package com.bernardomg.association.transaction.usecase.service;
 
+import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
-import com.bernardomg.association.transaction.domain.model.TransactionBalanceQuery;
 import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
 import com.bernardomg.association.transaction.domain.repository.TransactionBalanceRepository;
 import com.bernardomg.pagination.domain.Sorting;
@@ -52,11 +52,11 @@ public final class DefaultTransactionBalanceService implements TransactionBalanc
     }
 
     @Override
-    public final Collection<TransactionMonthlyBalance> getMonthlyBalance(final TransactionBalanceQuery query) {
+    public final Collection<TransactionMonthlyBalance> getMonthlyBalance(final Instant from, final Instant to) {
         final Sorting sorting;
 
         sorting = new Sorting(List.of(Sorting.Property.asc("month")));
-        return transactionBalanceRepository.findMonthlyBalance(query, sorting);
+        return transactionBalanceRepository.findMonthlyBalance(from, to, sorting);
     }
 
 }

@@ -39,10 +39,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.transaction.domain.model.TransactionBalanceQuery;
 import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
 import com.bernardomg.association.transaction.domain.repository.TransactionBalanceRepository;
-import com.bernardomg.association.transaction.test.configuration.factory.TransactionBalanceQueries;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionMonthlyBalances;
 import com.bernardomg.association.transaction.usecase.service.DefaultTransactionBalanceService;
 
@@ -60,16 +58,13 @@ class TestTransactionBalanceServiceGetMonthlyBalance {
     @DisplayName("When there is data it is returned")
     void testGetMonthlyBalance() {
         final Collection<TransactionMonthlyBalance> balances;
-        final TransactionBalanceQuery               query;
 
         // GIVEN
-        query = TransactionBalanceQueries.empty();
-
-        given(transactionBalanceRepository.findMonthlyBalance(eq(query), any()))
+        given(transactionBalanceRepository.findMonthlyBalance(eq(null), eq(null), any()))
             .willReturn(List.of(TransactionMonthlyBalances.currentMonth(1)));
 
         // WHEN
-        balances = service.getMonthlyBalance(query);
+        balances = service.getMonthlyBalance(null, null);
 
         // THEN
         Assertions.assertThat(balances)
@@ -80,15 +75,12 @@ class TestTransactionBalanceServiceGetMonthlyBalance {
     @DisplayName("When there is no data nothing is returned")
     void testGetMonthlyBalance_NoData() {
         final Collection<TransactionMonthlyBalance> balances;
-        final TransactionBalanceQuery               query;
 
         // GIVEN
-        query = TransactionBalanceQueries.empty();
-
-        given(transactionBalanceRepository.findMonthlyBalance(eq(query), any())).willReturn(List.of());
+        given(transactionBalanceRepository.findMonthlyBalance(eq(null), eq(null), any())).willReturn(List.of());
 
         // WHEN
-        balances = service.getMonthlyBalance(query);
+        balances = service.getMonthlyBalance(null, null);
 
         // THEN
         Assertions.assertThat(balances)

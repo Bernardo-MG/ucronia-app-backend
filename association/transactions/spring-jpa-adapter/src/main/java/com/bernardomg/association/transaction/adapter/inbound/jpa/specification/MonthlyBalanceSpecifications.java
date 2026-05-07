@@ -30,7 +30,6 @@ import java.util.Optional;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.MonthlyBalanceEntity;
-import com.bernardomg.association.transaction.domain.model.TransactionBalanceQuery;
 
 /**
  * Specifications for monthly balances.
@@ -64,21 +63,23 @@ public final class MonthlyBalanceSpecifications {
     }
 
     /**
-     * Creates an specification from the request.
+     * Creates an specification from the dates.
      *
-     * @param request
-     *            request to create a specification from
+     * @param from
+     *            starting date
+     * @param to
+     *            end date
      * @return specification for the request
      */
-    public static Optional<Specification<MonthlyBalanceEntity>> fromQuery(final TransactionBalanceQuery request) {
+    public static Optional<Specification<MonthlyBalanceEntity>> fromQuery(final Instant from, final Instant to) {
         final Optional<Specification<MonthlyBalanceEntity>> spec;
 
-        if ((request.from() != null) && (request.to() != null)) {
-            spec = Optional.of(betweenIncluding(request.from(), request.to()));
-        } else if (request.from() != null) {
-            spec = Optional.of(onOrAfter(request.from()));
-        } else if (request.to() != null) {
-            spec = Optional.of(onOrBefore(request.to()));
+        if ((from != null) && (to != null)) {
+            spec = Optional.of(betweenIncluding(from, to));
+        } else if (from != null) {
+            spec = Optional.of(onOrAfter(from));
+        } else if (to != null) {
+            spec = Optional.of(onOrBefore(to));
         } else {
             spec = Optional.empty();
         }
