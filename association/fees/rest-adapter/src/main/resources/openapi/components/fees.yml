@@ -11,8 +11,8 @@ components:
         type: array
         items:
           type: string
-          pattern: '^(firstName|lastName|month|paymentDate|paid)\|(asc|desc)$'
-          example: name|asc
+          pattern: '^(member.name.firstName|member.name.lastName|month|paid)\|(asc|desc)$'
+          example: member.name.firstName|asc
   schemas:
     Fee:
       type: object

@@ -1,4 +1,18 @@
 components:
+  parameters:
+    feeCalendarsSortParam:
+      name: sort
+      description: Sorting to apply.
+      in: query
+      style: form
+      explode: true
+      required: false
+      schema:
+        type: array
+        items:
+          type: string
+          pattern: '^(member.name.firstName|member.name.lastName)\|(asc|desc)$'
+          example: member.name.firstName|asc
   schemas:
     FeeCalendarMember:
       type: object
@@ -21,7 +35,7 @@ components:
             example: 2023
     FeeCalendar:
       type: object
-      required: [member, months]
+      required: [member, fees]
       properties:
         member:
           $ref: '#/components/schemas/FeeCalendarMember'

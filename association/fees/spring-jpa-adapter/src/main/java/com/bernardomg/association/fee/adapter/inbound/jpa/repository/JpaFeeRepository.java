@@ -29,7 +29,6 @@ import java.time.Year;
 import java.time.YearMonth;
 import java.time.ZoneOffset;
 import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -63,9 +62,7 @@ public final class JpaFeeRepository implements FeeRepository {
     /**
      * Logger for the class.
      */
-    private static final Logger                  log                = LoggerFactory.getLogger(JpaFeeRepository.class);
-
-    private static final Collection<String>      PROFILE_PROPERTIES = List.of("firstName", "lastName", "number");
+    private static final Logger                  log = LoggerFactory.getLogger(JpaFeeRepository.class);
 
     private final FeeMemberSpringRepository      feeMemberSpringRepository;
 
@@ -326,9 +323,12 @@ public final class JpaFeeRepository implements FeeRepository {
 
         properties = sorting.properties()
             .stream()
+            // Fix name
             .map(prop -> {
-                if (PROFILE_PROPERTIES.contains(prop.name())) {
-                    return new Property("member." + prop.name(), prop.direction());
+                if (prop.name()
+                    .startsWith("member.name.")) {
+                    return new Property(prop.name()
+                        .replaceFirst("member.name\\.", "member."), prop.direction());
                 }
                 return prop;
             })

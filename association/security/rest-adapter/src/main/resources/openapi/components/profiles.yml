@@ -11,8 +11,8 @@ components:
         type: array
         items:
           type: string
-          pattern: '^(firstName|lastName|number)\|(asc|desc)$'
-          example: firstName|asc
+          pattern: '^(name.firstName|name.lastName|number)\|(asc|desc)$'
+          example: name.firstName|asc
   schemas:
     ProfileName:
       type: object

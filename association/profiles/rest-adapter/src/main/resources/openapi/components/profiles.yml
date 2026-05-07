@@ -12,7 +12,7 @@ components:
         items:
           type: string
           pattern: '^(name.firstName|name.lastName|number)\|(asc|desc)$'
-          example: firstName|asc
+          example: name.firstName|asc
   schemas:
     MinimalProfile:
       type: object
