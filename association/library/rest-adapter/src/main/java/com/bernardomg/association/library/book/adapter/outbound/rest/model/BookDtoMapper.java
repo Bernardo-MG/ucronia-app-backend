@@ -56,7 +56,6 @@ import com.bernardomg.association.library.adapter.outbound.rest.dto.SortingDto;
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.book.domain.model.BookLendingInfo;
 import com.bernardomg.association.library.book.domain.model.Donation;
-import com.bernardomg.association.library.book.domain.model.Donation.DonorName;
 import com.bernardomg.association.library.book.domain.model.Donor;
 import com.bernardomg.association.library.book.domain.model.FictionBook;
 import com.bernardomg.association.library.book.domain.model.GameBook;
@@ -112,7 +111,7 @@ public final class BookDtoMapper {
                     .getDonors()
                     .stream()
                     .filter(Objects::nonNull)
-                    .map(d -> new Donor(d.getNumber(), new DonorName("", "")))
+                    .map(d -> new Donor(d.getNumber(), new Donor.Name("", "")))
                     .toList();
             }
             if (fictionBookUpdateDto.getDonation()
@@ -209,7 +208,7 @@ public final class BookDtoMapper {
                     .getDonors()
                     .stream()
                     .filter(Objects::nonNull)
-                    .map(d -> new Donor(d.getNumber(), new DonorName("", "")))
+                    .map(d -> new Donor(d.getNumber(), new Donor.Name("", "")))
                     .toList();
             }
             if (gameBookUpdateDto.getDonation()
@@ -385,7 +384,8 @@ public final class BookDtoMapper {
                 .number());
         return new BookLendingInfoDto().borrower(borrower)
             .lendingDate(lending.lendingDate())
-            .returnDate(lending.returnDate())
+            .returnDate(lending.returnDate()
+                .orElse(null))
             .days(lending.getDays());
     }
 

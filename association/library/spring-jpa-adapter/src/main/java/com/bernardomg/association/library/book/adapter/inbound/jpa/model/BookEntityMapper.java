@@ -33,7 +33,6 @@ import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.book.domain.model.Book;
 import com.bernardomg.association.library.book.domain.model.BookLendingInfo;
 import com.bernardomg.association.library.book.domain.model.Donation;
-import com.bernardomg.association.library.book.domain.model.Donation.DonorName;
 import com.bernardomg.association.library.book.domain.model.Donor;
 import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.library.booktype.adapter.inbound.jpa.model.BookTypeEntity;
@@ -42,7 +41,6 @@ import com.bernardomg.association.library.gamesystem.adapter.inbound.jpa.model.G
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.BorrowerEntity;
 import com.bernardomg.association.library.lending.domain.model.Borrower;
-import com.bernardomg.association.library.lending.domain.model.Borrower.Name;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.model.PublisherEntity;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
 
@@ -125,9 +123,9 @@ public final class BookEntityMapper {
     }
 
     public static final Borrower toDomain(final BorrowerEntity entity) {
-        final Name name;
+        final Borrower.Name name;
 
-        name = new Name(entity.getFirstName(), entity.getLastName());
+        name = new Borrower.Name(entity.getFirstName(), entity.getLastName());
         return new Borrower(entity.getNumber(), name);
     }
 
@@ -140,9 +138,9 @@ public final class BookEntityMapper {
     }
 
     public static final Donor toDonorDomain(final DonorEntity entity) {
-        final DonorName name;
+        final Donor.Name name;
 
-        name = new DonorName(entity.getFirstName(), entity.getLastName());
+        name = new Donor.Name(entity.getFirstName(), entity.getLastName());
         return new Donor(entity.getNumber(), name);
     }
 

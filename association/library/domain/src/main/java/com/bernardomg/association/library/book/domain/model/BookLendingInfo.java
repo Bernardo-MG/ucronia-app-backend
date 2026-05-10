@@ -26,19 +26,27 @@ package com.bernardomg.association.library.book.domain.model;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.Objects;
+import java.util.Optional;
 
 import com.bernardomg.association.library.lending.domain.model.Borrower;
 
-public record BookLendingInfo(Borrower borrower, Instant lendingDate, Instant returnDate) {
+public record BookLendingInfo(Borrower borrower, Instant lendingDate, Optional<Instant> returnDate) {
+
+    public BookLendingInfo(final Borrower borrower, final Instant lendingDate, final Optional<Instant> returnDate) {
+        this.borrower = Objects.requireNonNull(borrower);
+        this.lendingDate = Objects.requireNonNull(lendingDate);
+        this.returnDate = Objects.requireNonNull(returnDate);
+    }
 
     public Long getDays() {
         final Long days;
 
         // TODO: don't generate, set on creation
-        if (returnDate == null) {
+        if (returnDate.isEmpty()) {
             days = ChronoUnit.DAYS.between(lendingDate, Instant.now()) + 1;
         } else {
-            days = ChronoUnit.DAYS.between(lendingDate, returnDate) + 1;
+            days = ChronoUnit.DAYS.between(lendingDate, returnDate.get()) + 1;
         }
 
         return days;

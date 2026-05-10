@@ -290,7 +290,7 @@ public final class JpaGameBookRepository implements GameBookRepository {
             });
 
         new Title(bookEntity.getSupertitle(), bookEntity.getTitle(), bookEntity.getSubtitle());
-        return new BookLendingInfo(borrower, entity.getLendingDate(), entity.getReturnDate());
+        return new BookLendingInfo(borrower, entity.getLendingDate(), Optional.ofNullable(entity.getReturnDate()));
     }
 
     private final GameBookEntity toEntity(final GameBook domain) {

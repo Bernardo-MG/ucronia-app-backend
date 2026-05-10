@@ -43,7 +43,6 @@ import org.slf4j.LoggerFactory;
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.book.domain.model.BookLendingInfo;
 import com.bernardomg.association.library.book.domain.model.Donation;
-import com.bernardomg.association.library.book.domain.model.Donation.DonorName;
 import com.bernardomg.association.library.book.domain.model.Donor;
 import com.bernardomg.association.library.book.domain.model.FictionBook;
 import com.bernardomg.association.library.book.domain.model.GameBook;
@@ -353,7 +352,7 @@ public final class ExcelPoiBookReportService implements BookReportService {
                 cell.setCellValue(donation.donors()
                     .stream()
                     .map(Donor::name)
-                    .map(DonorName::fullName)
+                    .map(Donor.Name::fullName)
                     .collect(Collectors.joining(", ")));
                 cell.setCellStyle(style);
 
@@ -468,7 +467,7 @@ public final class ExcelPoiBookReportService implements BookReportService {
                 cell.setCellValue(donation.donors()
                     .stream()
                     .map(Donor::name)
-                    .map(DonorName::fullName)
+                    .map(Donor.Name::fullName)
                     .collect(Collectors.joining(", ")));
                 cell.setCellStyle(style);
 
