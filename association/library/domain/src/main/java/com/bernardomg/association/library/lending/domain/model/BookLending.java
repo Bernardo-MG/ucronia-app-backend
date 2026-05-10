@@ -55,7 +55,7 @@ public record BookLending(LentBook book, Borrower borrower, Instant lendingDate,
         final Long days;
 
         // TODO: don't generate, set on creation
-        if (returnDate.isPresent()) {
+        if (returnDate.isEmpty()) {
             days = ChronoUnit.DAYS.between(lendingDate, Instant.now()) + 1;
         } else {
             days = ChronoUnit.DAYS.between(lendingDate, returnDate.get()) + 1;
