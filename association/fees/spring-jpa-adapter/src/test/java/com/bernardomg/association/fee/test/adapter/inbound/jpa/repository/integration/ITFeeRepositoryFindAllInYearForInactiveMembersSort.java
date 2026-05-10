@@ -63,7 +63,7 @@ class ITFeeRepositoryFindAllInYearForInactiveMembersSort {
         final Sorting       sorting;
 
         // GIVEN
-        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC)));
+        sorting = new Sorting(List.of(new Sorting.Property("member.name.firstName", Sorting.Direction.ASC)));
 
         // WHEN
         fees = repository.findAllInYearForInactiveMembers(FeeConstants.YEAR, sorting);
@@ -88,7 +88,7 @@ class ITFeeRepositoryFindAllInYearForInactiveMembersSort {
         final Sorting       sorting;
 
         // GIVEN
-        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC)));
+        sorting = new Sorting(List.of(new Sorting.Property("member.name.firstName", Sorting.Direction.ASC)));
 
         // WHEN
         fees = repository.findAllInYearForInactiveMembers(FeeConstants.YEAR, sorting);
@@ -113,7 +113,7 @@ class ITFeeRepositoryFindAllInYearForInactiveMembersSort {
         final Sorting       sorting;
 
         // GIVEN
-        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.DESC)));
+        sorting = new Sorting(List.of(new Sorting.Property("member.name.firstName", Sorting.Direction.DESC)));
 
         // WHEN
         fees = repository.findAllInYearForInactiveMembers(FeeConstants.YEAR, sorting);

@@ -76,7 +76,7 @@ class ITFeeRepositoryFindAllSort {
 
         // GIVEN
         pagination = new Pagination(1, 10);
-        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC)));
+        sorting = new Sorting(List.of(new Sorting.Property("member.name.firstName", Sorting.Direction.ASC)));
 
         feeQuery = FeesQuery.empty();
 
@@ -171,7 +171,7 @@ class ITFeeRepositoryFindAllSort {
 
         // GIVEN
         pagination = new Pagination(1, 10);
-        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC)));
+        sorting = new Sorting(List.of(new Sorting.Property("member.name.firstName", Sorting.Direction.ASC)));
 
         feeQuery = FeesQuery.empty();
 
@@ -203,7 +203,7 @@ class ITFeeRepositoryFindAllSort {
 
         // GIVEN
         pagination = new Pagination(1, 10);
-        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.DESC)));
+        sorting = new Sorting(List.of(new Sorting.Property("member.name.firstName", Sorting.Direction.DESC)));
 
         feeQuery = FeesQuery.empty();
 
