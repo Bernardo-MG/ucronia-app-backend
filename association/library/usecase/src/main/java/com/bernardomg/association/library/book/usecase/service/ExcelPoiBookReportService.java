@@ -43,8 +43,8 @@ import org.slf4j.LoggerFactory;
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.book.domain.model.BookLendingInfo;
 import com.bernardomg.association.library.book.domain.model.Donation;
+import com.bernardomg.association.library.book.domain.model.Donation.DonorName;
 import com.bernardomg.association.library.book.domain.model.Donor;
-import com.bernardomg.association.library.book.domain.model.DonorName;
 import com.bernardomg.association.library.book.domain.model.FictionBook;
 import com.bernardomg.association.library.book.domain.model.GameBook;
 import com.bernardomg.association.library.book.domain.repository.FictionBookRepository;
@@ -358,8 +358,10 @@ public final class ExcelPoiBookReportService implements BookReportService {
                 cell.setCellStyle(style);
 
                 cell = row.createCell(8);
-                if (donation.date() != null) {
-                    cell.setCellValue(Date.from(donation.date()));
+                if (donation.date()
+                    .isPresent()) {
+                    cell.setCellValue(Date.from(donation.date()
+                        .get()));
                 }
                 cell.setCellStyle(dateStyle);
             }
@@ -471,8 +473,10 @@ public final class ExcelPoiBookReportService implements BookReportService {
                 cell.setCellStyle(style);
 
                 cell = row.createCell(10);
-                if (donation.date() != null) {
-                    cell.setCellValue(Date.from(donation.date()));
+                if (donation.date()
+                    .isPresent()) {
+                    cell.setCellValue(Date.from(donation.date()
+                        .get()));
                 }
                 cell.setCellStyle(dateStyle);
             }

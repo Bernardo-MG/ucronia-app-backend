@@ -1,8 +1,8 @@
 
 package com.bernardomg.association.library.book.test.configuration.factory;
 
+import com.bernardomg.association.library.book.domain.model.Donation.DonorName;
 import com.bernardomg.association.library.book.domain.model.Donor;
-import com.bernardomg.association.library.book.domain.model.DonorName;
 
 public final class Donors {
 

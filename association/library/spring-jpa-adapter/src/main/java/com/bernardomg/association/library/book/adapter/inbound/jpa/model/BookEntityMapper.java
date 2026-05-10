@@ -33,8 +33,8 @@ import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.book.domain.model.Book;
 import com.bernardomg.association.library.book.domain.model.BookLendingInfo;
 import com.bernardomg.association.library.book.domain.model.Donation;
+import com.bernardomg.association.library.book.domain.model.Donation.DonorName;
 import com.bernardomg.association.library.book.domain.model.Donor;
-import com.bernardomg.association.library.book.domain.model.DonorName;
 import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.library.booktype.adapter.inbound.jpa.model.BookTypeEntity;
 import com.bernardomg.association.library.booktype.domain.model.BookType;
@@ -95,11 +95,11 @@ public final class BookEntityMapper {
                 .toList();
         }
         if ((entity.getDonationDate() != null) && (!donors.isEmpty())) {
-            donation = Optional.of(new Donation(entity.getDonationDate(), donors));
+            donation = Optional.of(new Donation(Optional.ofNullable(entity.getDonationDate()), donors));
         } else if (entity.getDonationDate() != null) {
-            donation = Optional.of(new Donation(entity.getDonationDate(), List.of()));
+            donation = Optional.of(new Donation(Optional.ofNullable(entity.getDonationDate()), List.of()));
         } else if (!donors.isEmpty()) {
-            donation = Optional.of(new Donation(null, donors));
+            donation = Optional.of(new Donation(Optional.empty(), donors));
         } else {
             donation = Optional.empty();
         }

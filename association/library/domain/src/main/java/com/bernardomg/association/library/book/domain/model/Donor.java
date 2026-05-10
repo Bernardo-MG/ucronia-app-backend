@@ -24,6 +24,15 @@
 
 package com.bernardomg.association.library.book.domain.model;
 
+import java.util.Objects;
+
+import com.bernardomg.association.library.book.domain.model.Donation.DonorName;
+
 public record Donor(long number, DonorName name) {
+
+    public Donor(final long number, final DonorName name) {
+        this.number = Objects.requireNonNull(number);
+        this.name = Objects.requireNonNull(name);
+    }
 
 }

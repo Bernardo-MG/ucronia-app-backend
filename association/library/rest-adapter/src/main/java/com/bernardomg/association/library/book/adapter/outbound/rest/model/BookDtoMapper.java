@@ -56,8 +56,8 @@ import com.bernardomg.association.library.adapter.outbound.rest.dto.SortingDto;
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.book.domain.model.BookLendingInfo;
 import com.bernardomg.association.library.book.domain.model.Donation;
+import com.bernardomg.association.library.book.domain.model.Donation.DonorName;
 import com.bernardomg.association.library.book.domain.model.Donor;
-import com.bernardomg.association.library.book.domain.model.DonorName;
 import com.bernardomg.association.library.book.domain.model.FictionBook;
 import com.bernardomg.association.library.book.domain.model.GameBook;
 import com.bernardomg.association.library.book.domain.model.Title;
@@ -77,7 +77,7 @@ public final class BookDtoMapper {
         final Title                 title;
         final String                supertitle;
         final String                subtitle;
-        final Instant               donationDate;
+        final Optional<Instant>     donationDate;
         final Optional<Donation>    donation;
 
         // Authors
@@ -119,8 +119,8 @@ public final class BookDtoMapper {
                 .getDate() == null) {
                 donationDate = null;
             } else {
-                donationDate = fictionBookUpdateDto.getDonation()
-                    .getDate();
+                donationDate = Optional.of(fictionBookUpdateDto.getDonation()
+                    .getDate());
             }
             if ((donationDate == null) && (donors.isEmpty())) {
                 donation = Optional.empty();
@@ -160,7 +160,7 @@ public final class BookDtoMapper {
         final Title                 title;
         final String                supertitle;
         final String                subtitle;
-        final Instant               donationDate;
+        final Optional<Instant>     donationDate;
         final Optional<Donation>    donation;
 
         // Authors
@@ -216,8 +216,8 @@ public final class BookDtoMapper {
                 .getDate() == null) {
                 donationDate = null;
             } else {
-                donationDate = gameBookUpdateDto.getDonation()
-                    .getDate();
+                donationDate = Optional.of(gameBookUpdateDto.getDonation()
+                    .getDate());
             }
             if ((donationDate == null) && (donors.isEmpty())) {
                 donation = Optional.empty();
@@ -401,7 +401,8 @@ public final class BookDtoMapper {
             .stream()
             .map(BookDtoMapper::toDto)
             .toList();
-        return new DonationDto().date(donation.date())
+        return new DonationDto().date(donation.date()
+            .orElse(null))
             .donors(donors);
     }
 

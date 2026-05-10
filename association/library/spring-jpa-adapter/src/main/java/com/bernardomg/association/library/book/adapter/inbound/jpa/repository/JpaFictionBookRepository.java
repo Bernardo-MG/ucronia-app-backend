@@ -44,7 +44,6 @@ import com.bernardomg.association.library.book.adapter.inbound.jpa.model.Fiction
 import com.bernardomg.association.library.book.adapter.inbound.jpa.model.FictionBookEntityMapper;
 import com.bernardomg.association.library.book.domain.exception.MissingDonorException;
 import com.bernardomg.association.library.book.domain.model.BookLendingInfo;
-import com.bernardomg.association.library.book.domain.model.Donation;
 import com.bernardomg.association.library.book.domain.model.Donor;
 import com.bernardomg.association.library.book.domain.model.FictionBook;
 import com.bernardomg.association.library.book.domain.model.Title;
@@ -331,9 +330,13 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
         entity.setLanguage(domain.language());
         entity.setPublishDate(domain.publishDate()
             .orElse(null));
-        entity.setDonationDate(domain.donation()
-            .map(Donation::date)
-            .orElse(null));
+        if ((domain.donation()
+            .isPresent())) {
+            entity.setDonationDate(domain.donation()
+                .get()
+                .date()
+                .orElse(null));
+        }
         entity.setAuthors(authors);
         entity.setPublishers(publishers);
         entity.setDonors(donors);

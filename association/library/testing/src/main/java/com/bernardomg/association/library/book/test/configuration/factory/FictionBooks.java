@@ -21,7 +21,7 @@ public final class FictionBooks {
         final Donation donation;
 
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
-        donation = new Donation(null, List.of(Donors.valid()));
+        donation = new Donation(Optional.empty(), List.of(Donors.valid()));
         return new FictionBook(BookConstants.NUMBER, title, BookConstants.ISBN_10, BookConstants.LANGUAGE,
             Optional.of(BookConstants.PUBLISH_DATE), false, List.of(Authors.valid()), List.of(),
             List.of(Publishers.valid()), Optional.of(donation));
@@ -32,7 +32,7 @@ public final class FictionBooks {
         final Donation donation;
 
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
-        donation = new Donation(BookConstants.DONATION_DATE, List.of());
+        donation = new Donation(Optional.of(BookConstants.DONATION_DATE), List.of());
         return new FictionBook(BookConstants.NUMBER, title, BookConstants.ISBN_10, BookConstants.LANGUAGE,
             Optional.of(BookConstants.PUBLISH_DATE), false, List.of(Authors.valid()), List.of(),
             List.of(Publishers.valid()), Optional.of(donation));
@@ -43,7 +43,7 @@ public final class FictionBooks {
         final Donation donation;
 
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
-        donation = new Donation(BookConstants.DONATION_DATE, List.of(Donors.valid()));
+        donation = new Donation(Optional.of(BookConstants.DONATION_DATE), List.of(Donors.valid()));
         return new FictionBook(BookConstants.NUMBER, title, BookConstants.ISBN_10, BookConstants.LANGUAGE,
             Optional.of(BookConstants.PUBLISH_DATE), false, List.of(Authors.valid(), Authors.valid()), List.of(),
             List.of(Publishers.valid()), Optional.of(donation));
@@ -54,7 +54,7 @@ public final class FictionBooks {
         final Donation donation;
 
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
-        donation = new Donation(BookConstants.DONATION_DATE, List.of(Donors.valid(), Donors.valid()));
+        donation = new Donation(Optional.of(BookConstants.DONATION_DATE), List.of(Donors.valid(), Donors.valid()));
         return new FictionBook(BookConstants.NUMBER, title, BookConstants.ISBN_10, BookConstants.LANGUAGE,
             Optional.of(BookConstants.PUBLISH_DATE), false, List.of(Authors.valid()), List.of(),
             List.of(Publishers.valid()), Optional.of(donation));
@@ -65,7 +65,7 @@ public final class FictionBooks {
         final Donation donation;
 
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
-        donation = new Donation(BookConstants.DONATION_DATE, List.of(Donors.valid()));
+        donation = new Donation(Optional.of(BookConstants.DONATION_DATE), List.of(Donors.valid()));
         return new FictionBook(BookConstants.NUMBER, title, BookConstants.ISBN_10, BookConstants.LANGUAGE,
             Optional.of(BookConstants.PUBLISH_DATE), false, List.of(Authors.valid()), List.of(),
             List.of(Publishers.valid(), Publishers.valid()), Optional.of(donation));
@@ -76,7 +76,7 @@ public final class FictionBooks {
         final Donation donation;
 
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
-        donation = new Donation(BookConstants.DONATION_DATE, List.of(Donors.valid()));
+        donation = new Donation(Optional.of(BookConstants.DONATION_DATE), List.of(Donors.valid()));
         return new FictionBook(BookConstants.NUMBER, title, "", BookConstants.LANGUAGE,
             Optional.of(BookConstants.PUBLISH_DATE), false, List.of(Authors.valid()), List.of(),
             List.of(Publishers.valid()), Optional.of(donation));
@@ -95,7 +95,7 @@ public final class FictionBooks {
         final Donation donation;
 
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
-        donation = new Donation(BookConstants.DONATION_DATE, List.of(Donors.valid()));
+        donation = new Donation(Optional.of(BookConstants.DONATION_DATE), List.of(Donors.valid()));
         return new FictionBook(BookConstants.NUMBER, title, BookConstants.ISBN_10, BookConstants.LANGUAGE,
             Optional.of(BookConstants.PUBLISH_DATE), false, List.of(Authors.valid()), List.of(),
             List.of(Publishers.valid()), Optional.of(donation));
@@ -106,7 +106,7 @@ public final class FictionBooks {
         final Donation donation;
 
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
-        donation = new Donation(BookConstants.DONATION_DATE, List.of(Donors.valid()));
+        donation = new Donation(Optional.of(BookConstants.DONATION_DATE), List.of(Donors.valid()));
         return new FictionBook(BookConstants.NUMBER, title, BookConstants.INVALID_ISBN, BookConstants.LANGUAGE,
             Optional.of(BookConstants.PUBLISH_DATE), false, List.of(Authors.valid()), List.of(),
             List.of(Publishers.valid()), Optional.of(donation));
@@ -117,7 +117,7 @@ public final class FictionBooks {
         final Donation donation;
 
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
-        donation = new Donation(BookConstants.DONATION_DATE, List.of(Donors.valid()));
+        donation = new Donation(Optional.of(BookConstants.DONATION_DATE), List.of(Donors.valid()));
         return new FictionBook(BookConstants.NUMBER, title, BookConstants.ISBN_10, "abc",
             Optional.of(BookConstants.PUBLISH_DATE), false, List.of(Authors.valid()), List.of(),
             List.of(Publishers.valid()), Optional.of(donation));
@@ -128,7 +128,7 @@ public final class FictionBooks {
         final Donation donation;
 
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
-        donation = new Donation(BookConstants.DONATION_DATE, List.of(Donors.valid()));
+        donation = new Donation(Optional.of(BookConstants.DONATION_DATE), List.of(Donors.valid()));
         return new FictionBook(BookConstants.NUMBER, title, BookConstants.ISBN_13, BookConstants.LANGUAGE,
             Optional.of(BookConstants.PUBLISH_DATE), false, List.of(Authors.valid()), List.of(),
             List.of(Publishers.valid()), Optional.of(donation));
@@ -139,7 +139,7 @@ public final class FictionBooks {
         final Donation donation;
 
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
-        donation = new Donation(BookConstants.DONATION_DATE, List.of(Donors.valid()));
+        donation = new Donation(Optional.of(BookConstants.DONATION_DATE), List.of(Donors.valid()));
         return new FictionBook(BookConstants.NUMBER, title, BookConstants.ISBN_10, BookConstants.LANGUAGE,
             Optional.of(BookConstants.PUBLISH_DATE), true, List.of(Authors.valid()), List.of(BookLendingInfos.lent()),
             List.of(Publishers.valid()), Optional.of(donation));
@@ -150,7 +150,7 @@ public final class FictionBooks {
         final Donation donation;
 
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
-        donation = new Donation(BookConstants.DONATION_DATE, List.of(Donors.valid()));
+        donation = new Donation(Optional.of(BookConstants.DONATION_DATE), List.of(Donors.valid()));
         return new FictionBook(BookConstants.NUMBER, title, BookConstants.ISBN_10, BookConstants.LANGUAGE,
             Optional.of(BookConstants.PUBLISH_DATE), true, List.of(Authors.valid()),
             // TODO: user lendings factory
@@ -197,7 +197,7 @@ public final class FictionBooks {
         final Donation donation;
 
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
-        donation = new Donation(BookConstants.DONATION_DATE, List.of());
+        donation = new Donation(Optional.of(BookConstants.DONATION_DATE), List.of());
         return new FictionBook(BookConstants.NUMBER, title, BookConstants.ISBN_10, BookConstants.LANGUAGE,
             Optional.of(BookConstants.PUBLISH_DATE), false, List.of(), List.of(), List.of(), Optional.of(donation));
     }
@@ -208,7 +208,7 @@ public final class FictionBooks {
 
         title = new Title(" " + BookConstants.SUPERTITLE + " ", " " + BookConstants.TITLE + " ",
             " " + BookConstants.SUBTITLE + " ");
-        donation = new Donation(BookConstants.DONATION_DATE, List.of(Donors.valid()));
+        donation = new Donation(Optional.of(BookConstants.DONATION_DATE), List.of(Donors.valid()));
         return new FictionBook(BookConstants.NUMBER, title, BookConstants.ISBN_10, BookConstants.LANGUAGE,
             Optional.of(BookConstants.PUBLISH_DATE), false, List.of(Authors.valid()), List.of(),
             List.of(Publishers.valid()), Optional.of(donation));
@@ -219,7 +219,7 @@ public final class FictionBooks {
         final Donation donation;
 
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
-        donation = new Donation(BookConstants.DONATION_DATE, List.of(Donors.valid()));
+        donation = new Donation(Optional.of(BookConstants.DONATION_DATE), List.of(Donors.valid()));
         return new FictionBook(BookConstants.NUMBER, title, BookConstants.ISBN_10, BookConstants.LANGUAGE,
             Optional.of(BookConstants.PUBLISH_DATE), false, List.of(Authors.valid()),
             List.of(BookLendingInfos.returned()), List.of(Publishers.valid()), Optional.of(donation));
@@ -230,7 +230,7 @@ public final class FictionBooks {
         final Donation donation;
 
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
-        donation = new Donation(BookConstants.DONATION_DATE, List.of(Donors.valid()));
+        donation = new Donation(Optional.of(BookConstants.DONATION_DATE), List.of(Donors.valid()));
         return new FictionBook(BookConstants.NUMBER, title, BookConstants.ISBN_10, BookConstants.LANGUAGE,
             Optional.of(BookConstants.PUBLISH_DATE), false, List.of(Authors.valid()),
             List.of(BookLendingInfos.returned(LocalDate.of(2020, Month.JANUARY, 1)

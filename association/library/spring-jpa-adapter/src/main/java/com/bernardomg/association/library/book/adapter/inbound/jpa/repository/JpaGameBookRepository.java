@@ -45,7 +45,6 @@ import com.bernardomg.association.library.book.adapter.inbound.jpa.model.GameBoo
 import com.bernardomg.association.library.book.adapter.inbound.jpa.model.GameBookEntityMapper;
 import com.bernardomg.association.library.book.domain.exception.MissingDonorException;
 import com.bernardomg.association.library.book.domain.model.BookLendingInfo;
-import com.bernardomg.association.library.book.domain.model.Donation;
 import com.bernardomg.association.library.book.domain.model.Donor;
 import com.bernardomg.association.library.book.domain.model.GameBook;
 import com.bernardomg.association.library.book.domain.model.Title;
@@ -365,9 +364,13 @@ public final class JpaGameBookRepository implements GameBookRepository {
         entity.setLanguage(domain.language());
         entity.setPublishDate(domain.publishDate()
             .orElse(null));
-        entity.setDonationDate(domain.donation()
-            .map(Donation::date)
-            .orElse(null));
+        if ((domain.donation()
+            .isPresent())) {
+            entity.setDonationDate(domain.donation()
+                .get()
+                .date()
+                .orElse(null));
+        }
         entity.setBookType(bookType.orElse(null));
         entity.setGameSystem(gameSystem.orElse(null));
         entity.setAuthors(authors);

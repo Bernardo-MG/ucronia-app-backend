@@ -26,7 +26,30 @@ package com.bernardomg.association.library.book.domain.model;
 
 import java.time.Instant;
 import java.util.Collection;
+import java.util.Objects;
+import java.util.Optional;
 
-public record Donation(Instant date, Collection<Donor> donors) {
+import org.apache.commons.lang3.StringUtils;
+
+public record Donation(Optional<Instant> date, Collection<Donor> donors) {
+
+    public Donation(final Optional<Instant> date, final Collection<Donor> donors) {
+        this.date = Objects.requireNonNull(date);
+        this.donors = Objects.requireNonNull(donors);
+    }
+
+    public record DonorName(String firstName, String lastName) {
+
+        public DonorName(final String firstName, final String lastName) {
+            this.firstName = StringUtils.trim(firstName);
+            this.lastName = StringUtils.trim(lastName);
+        }
+
+        public final String fullName() {
+            return String.format("%s %s", firstName, lastName)
+                .trim();
+        }
+
+    }
 
 }

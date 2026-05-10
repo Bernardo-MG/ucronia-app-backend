@@ -81,11 +81,11 @@ public final class FictionBookEntityMapper {
                 .toList();
         }
         if ((entity.getDonationDate() != null) && (!donors.isEmpty())) {
-            donation = Optional.of(new Donation(entity.getDonationDate(), donors));
+            donation = Optional.of(new Donation(Optional.ofNullable(entity.getDonationDate()), donors));
         } else if (entity.getDonationDate() != null) {
-            donation = Optional.of(new Donation(entity.getDonationDate(), List.of()));
+            donation = Optional.of(new Donation(Optional.ofNullable(entity.getDonationDate()), List.of()));
         } else if (!donors.isEmpty()) {
-            donation = Optional.of(new Donation(null, donors));
+            donation = Optional.of(new Donation(Optional.empty(), donors));
         } else {
             donation = Optional.empty();
         }
