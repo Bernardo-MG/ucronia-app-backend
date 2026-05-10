@@ -26,13 +26,30 @@ package com.bernardomg.association.library.book.domain.model;
 
 import java.time.Instant;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Optional;
 
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
 
-public record Book(long number, Title title, String isbn, String language, Instant publishDate, boolean lent,
+public record Book(long number, Title title, String isbn, String language, Optional<Instant> publishDate, boolean lent,
         Collection<Author> authors, Collection<BookLendingInfo> lendings, Collection<Publisher> publishers,
         Optional<Donation> donation) {
+
+    public Book(final long number, final Title title, final String isbn, final String language,
+            final Optional<Instant> publishDate, final boolean lent, final Collection<Author> authors,
+            final Collection<BookLendingInfo> lendings, final Collection<Publisher> publishers,
+            final Optional<Donation> donation) {
+        this.number = Objects.requireNonNull(number);
+        this.title = Objects.requireNonNull(title);
+        this.isbn = Objects.requireNonNull(isbn);
+        this.language = Objects.requireNonNull(language);
+        this.publishDate = Objects.requireNonNull(publishDate);
+        this.lent = Objects.requireNonNull(lent);
+        this.authors = Objects.requireNonNull(authors);
+        this.lendings = Objects.requireNonNull(lendings);
+        this.publishers = Objects.requireNonNull(publishers);
+        this.donation = Objects.requireNonNull(donation);
+    }
 
 }

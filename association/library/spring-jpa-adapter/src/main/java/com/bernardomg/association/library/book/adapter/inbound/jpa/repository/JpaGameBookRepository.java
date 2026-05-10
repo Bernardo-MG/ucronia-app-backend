@@ -363,7 +363,8 @@ public final class JpaGameBookRepository implements GameBookRepository {
         entity.setSubtitle(domain.title()
             .subtitle());
         entity.setLanguage(domain.language());
-        entity.setPublishDate(domain.publishDate());
+        entity.setPublishDate(domain.publishDate()
+            .orElse(null));
         entity.setDonationDate(domain.donation()
             .map(Donation::date)
             .orElse(null));

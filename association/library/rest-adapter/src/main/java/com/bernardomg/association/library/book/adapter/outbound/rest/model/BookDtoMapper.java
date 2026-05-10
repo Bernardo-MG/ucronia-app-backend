@@ -147,7 +147,8 @@ public final class BookDtoMapper {
         title = new Title(supertitle, fictionBookUpdateDto.getTitle()
             .getTitle(), subtitle);
         return new FictionBook(number, title, fictionBookUpdateDto.getIsbn(), fictionBookUpdateDto.getLanguage(),
-            fictionBookUpdateDto.getPublishDate(), false, authors, List.of(), publishers, donation);
+            Optional.ofNullable(fictionBookUpdateDto.getPublishDate()), false, authors, List.of(), publishers,
+            donation);
     }
 
     public static final GameBook toDomain(final GameBookUpdateDto gameBookUpdateDto, final long number) {
@@ -243,7 +244,8 @@ public final class BookDtoMapper {
         title = new Title(supertitle, gameBookUpdateDto.getTitle()
             .getTitle(), subtitle);
         return new GameBook(number, title, gameBookUpdateDto.getIsbn(), gameBookUpdateDto.getLanguage(),
-            gameBookUpdateDto.getPublishDate(), false, authors, List.of(), publishers, donation, bookType, gameSystem);
+            Optional.ofNullable(gameBookUpdateDto.getPublishDate()), false, authors, List.of(), publishers, donation,
+            bookType, gameSystem);
     }
 
     public static final FictionBook toFictionDomain(final BookCreationDto bookCreationDto) {
@@ -454,7 +456,8 @@ public final class BookDtoMapper {
             .title(title)
             .isbn(fictionBook.isbn())
             .language(fictionBook.language())
-            .publishDate(fictionBook.publishDate())
+            .publishDate(fictionBook.publishDate()
+                .orElse(null))
             .authors(authors)
             .publishers(publishers)
             .lendings(lendings)
@@ -508,7 +511,8 @@ public final class BookDtoMapper {
             .title(title)
             .isbn(gameBook.isbn())
             .language(gameBook.language())
-            .publishDate(gameBook.publishDate())
+            .publishDate(gameBook.publishDate()
+                .orElse(null))
             .authors(authors)
             .publishers(publishers)
             .lendings(lendings)

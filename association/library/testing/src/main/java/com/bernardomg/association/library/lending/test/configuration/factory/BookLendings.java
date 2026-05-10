@@ -120,8 +120,7 @@ public final class BookLendings {
 
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
         book = new LentBook(BookConstants.NUMBER, title);
-        return new BookLending(book, Borrowers.valid(), BookConstants.LENT_DATE,
-            Optional.of(BookConstants.LENT_DATE));
+        return new BookLending(book, Borrowers.valid(), BookConstants.LENT_DATE, Optional.of(BookConstants.LENT_DATE));
     }
 
 }

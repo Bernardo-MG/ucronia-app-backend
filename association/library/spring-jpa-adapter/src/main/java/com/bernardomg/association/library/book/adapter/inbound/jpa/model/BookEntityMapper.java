@@ -116,8 +116,8 @@ public final class BookEntityMapper {
         }
         title = new Title(supertitle, entity.getTitle(), subtitle);
 
-        return new Book(entity.getNumber(), title, entity.getIsbn(), entity.getLanguage(), entity.getPublishDate(),
-            lent, authors, lendings, publishers, donation);
+        return new Book(entity.getNumber(), title, entity.getIsbn(), entity.getLanguage(),
+            Optional.ofNullable(entity.getPublishDate()), lent, authors, lendings, publishers, donation);
     }
 
     public static final BookType toDomain(final BookTypeEntity entity) {

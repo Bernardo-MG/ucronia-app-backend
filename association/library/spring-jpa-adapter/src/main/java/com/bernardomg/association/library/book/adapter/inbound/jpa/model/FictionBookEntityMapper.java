@@ -103,7 +103,7 @@ public final class FictionBookEntityMapper {
         title = new Title(supertitle, entity.getTitle(), subtitle);
 
         return new FictionBook(entity.getNumber(), title, entity.getIsbn(), entity.getLanguage(),
-            entity.getPublishDate(), lent, authors, lendings, publishers, donation);
+            Optional.ofNullable(entity.getPublishDate()), lent, authors, lendings, publishers, donation);
     }
 
     private FictionBookEntityMapper() {

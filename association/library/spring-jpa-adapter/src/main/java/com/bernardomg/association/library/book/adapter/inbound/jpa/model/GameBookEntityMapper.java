@@ -120,8 +120,9 @@ public final class GameBookEntityMapper {
         }
         title = new Title(supertitle, entity.getTitle(), subtitle);
 
-        return new GameBook(entity.getNumber(), title, entity.getIsbn(), entity.getLanguage(), entity.getPublishDate(),
-            lent, authors, lendings, publishers, donation, bookType, gameSystem);
+        return new GameBook(entity.getNumber(), title, entity.getIsbn(), entity.getLanguage(),
+            Optional.ofNullable(entity.getPublishDate()), lent, authors, lendings, publishers, donation, bookType,
+            gameSystem);
     }
 
     private GameBookEntityMapper() {
