@@ -24,12 +24,16 @@
 
 package com.bernardomg.association.library.booktype.domain.model;
 
+import java.util.Objects;
+
 import org.apache.commons.lang3.StringUtils;
 
 public record BookType(Long number, String name) {
 
     public BookType(final Long number, final String name) {
-        this.number = number;
+        Objects.requireNonNull(name);
+        
+        this.number = Objects.requireNonNull(number);
         this.name = StringUtils.trim(name);
     }
 

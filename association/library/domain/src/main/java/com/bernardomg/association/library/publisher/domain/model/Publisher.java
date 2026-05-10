@@ -24,12 +24,16 @@
 
 package com.bernardomg.association.library.publisher.domain.model;
 
+import java.util.Objects;
+
 import org.apache.commons.lang3.StringUtils;
 
 public record Publisher(Long number, String name) {
 
     public Publisher(final Long number, final String name) {
-        this.number = number;
+        Objects.requireNonNull(name);
+        
+        this.number = Objects.requireNonNull(number);
         this.name = StringUtils.trim(name);
     }
 

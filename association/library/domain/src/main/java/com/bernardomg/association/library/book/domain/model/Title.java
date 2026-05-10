@@ -24,11 +24,17 @@
 
 package com.bernardomg.association.library.book.domain.model;
 
+import java.util.Objects;
+
 import org.apache.commons.lang3.StringUtils;
 
 public record Title(String supertitle, String title, String subtitle) {
 
     public Title(final String supertitle, final String title, final String subtitle) {
+        Objects.requireNonNull(supertitle);
+        Objects.requireNonNull(title);
+        Objects.requireNonNull(subtitle);
+        
         this.supertitle = StringUtils.trim(supertitle);
         this.title = StringUtils.trim(title);
         this.subtitle = StringUtils.trim(subtitle);
