@@ -59,15 +59,21 @@ public final class BookLendingNotReturnedBeforeLastReturnRule implements FieldRu
         returned = bookLendingRepository.findReturned(lending.book()
             .number());
         if ((returned.isPresent()) && (lending.returnDate()
+            .get()
             .isBefore(returned.get()
-                .returnDate()))) {
+                .returnDate()
+                .get()))) {
             log.error("Returning book {} from {} on {}, which is before last return {}", lending.book()
                 .number(),
                 lending.borrower()
                     .number(),
-                lending.returnDate(), returned.get()
-                    .returnDate());
-            fieldFailure = new FieldFailure("invalid", "returnDate", lending.returnDate());
+                lending.returnDate()
+                    .get(),
+                returned.get()
+                    .returnDate()
+                    .get());
+            fieldFailure = new FieldFailure("invalid", "returnDate", lending.returnDate()
+                .get());
             failure = Optional.of(fieldFailure);
         } else {
             failure = Optional.empty();

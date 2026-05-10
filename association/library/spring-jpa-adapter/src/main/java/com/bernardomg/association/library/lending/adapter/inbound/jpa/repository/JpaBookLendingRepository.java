@@ -208,7 +208,8 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
                 .getSubtitle());
         lentBook = new LentBook(bookEntity.get()
             .getNumber(), title);
-        return new BookLending(lentBook, borrower.get(), entity.getLendingDate(), entity.getReturnDate());
+        return new BookLending(lentBook, borrower.get(), entity.getLendingDate(),
+            Optional.ofNullable(entity.getReturnDate()));
     }
 
 }

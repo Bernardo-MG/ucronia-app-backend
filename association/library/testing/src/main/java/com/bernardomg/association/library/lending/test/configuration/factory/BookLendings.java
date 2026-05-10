@@ -2,6 +2,7 @@
 package com.bernardomg.association.library.lending.test.configuration.factory;
 
 import java.time.Instant;
+import java.util.Optional;
 
 import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
@@ -17,7 +18,7 @@ public final class BookLendings {
 
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
         book = new LentBook(BookConstants.NUMBER, title);
-        return new BookLending(book, Borrowers.valid(), BookConstants.LENT_DATE, null);
+        return new BookLending(book, Borrowers.valid(), BookConstants.LENT_DATE, Optional.empty());
     }
 
     public static final BookLending lent(final Instant lent) {
@@ -35,7 +36,7 @@ public final class BookLendings {
 
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
         book = new LentBook(BookConstants.NUMBER, title);
-        return new BookLending(book, Borrowers.alternative(), BookConstants.LENT_DATE, null);
+        return new BookLending(book, Borrowers.alternative(), BookConstants.LENT_DATE, Optional.empty());
     }
 
     public static final BookLending lentAtReturn() {
@@ -44,7 +45,7 @@ public final class BookLendings {
 
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
         book = new LentBook(BookConstants.NUMBER, title);
-        return new BookLending(book, Borrowers.valid(), BookConstants.RETURNED_DATE, null);
+        return new BookLending(book, Borrowers.valid(), BookConstants.RETURNED_DATE, Optional.empty());
     }
 
     public static final BookLending lentLast() {
@@ -53,7 +54,7 @@ public final class BookLendings {
 
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
         book = new LentBook(BookConstants.NUMBER, title);
-        return new BookLending(book, Borrowers.valid(), BookConstants.LENT_DATE_LAST, null);
+        return new BookLending(book, Borrowers.valid(), BookConstants.LENT_DATE_LAST, Optional.empty());
     }
 
     public static final BookLending lentToday() {
@@ -62,7 +63,7 @@ public final class BookLendings {
 
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
         book = new LentBook(BookConstants.NUMBER, title);
-        return new BookLending(book, Borrowers.valid(), BookConstants.LENT_DATE_TODAY, null);
+        return new BookLending(book, Borrowers.valid(), BookConstants.LENT_DATE_TODAY, Optional.empty());
     }
 
     public static final BookLending returned() {
@@ -71,7 +72,8 @@ public final class BookLendings {
 
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
         book = new LentBook(BookConstants.NUMBER, title);
-        return new BookLending(book, Borrowers.valid(), BookConstants.LENT_DATE, BookConstants.RETURNED_DATE);
+        return new BookLending(book, Borrowers.valid(), BookConstants.LENT_DATE,
+            Optional.of(BookConstants.RETURNED_DATE));
     }
 
     public static final BookLending returned(final Instant lent, final Instant returned) {
@@ -80,7 +82,7 @@ public final class BookLendings {
 
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
         book = new LentBook(BookConstants.NUMBER, title);
-        return new BookLending(book, Borrowers.valid(), lent, returned);
+        return new BookLending(book, Borrowers.valid(), lent, Optional.of(returned));
     }
 
     public static final BookLending returnedAlternative() {
@@ -89,7 +91,8 @@ public final class BookLendings {
 
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
         book = new LentBook(BookConstants.NUMBER, title);
-        return new BookLending(book, Borrowers.alternative(), BookConstants.LENT_DATE, BookConstants.RETURNED_DATE);
+        return new BookLending(book, Borrowers.alternative(), BookConstants.LENT_DATE,
+            Optional.of(BookConstants.RETURNED_DATE));
     }
 
     public static final BookLending returnedAlternative(final Instant lent, final Instant returned) {
@@ -98,7 +101,7 @@ public final class BookLendings {
 
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
         book = new LentBook(BookConstants.NUMBER, title);
-        return new BookLending(book, Borrowers.alternative(), lent, returned);
+        return new BookLending(book, Borrowers.alternative(), lent, Optional.of(returned));
     }
 
     public static final BookLending returnedLast() {
@@ -107,7 +110,8 @@ public final class BookLendings {
 
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
         book = new LentBook(BookConstants.NUMBER, title);
-        return new BookLending(book, Borrowers.valid(), BookConstants.LENT_DATE_LAST, BookConstants.RETURNED_DATE_LAST);
+        return new BookLending(book, Borrowers.valid(), BookConstants.LENT_DATE_LAST,
+            Optional.of(BookConstants.RETURNED_DATE_LAST));
     }
 
     public static final BookLending returnedWhenLent() {
@@ -116,7 +120,8 @@ public final class BookLendings {
 
         title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
         book = new LentBook(BookConstants.NUMBER, title);
-        return new BookLending(book, Borrowers.valid(), BookConstants.LENT_DATE, BookConstants.LENT_DATE);
+        return new BookLending(book, Borrowers.valid(), BookConstants.LENT_DATE,
+            Optional.of(BookConstants.LENT_DATE));
     }
 
 }

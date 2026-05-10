@@ -68,7 +68,8 @@ public final class BookLendingNotAlreadyReturnedRule implements FieldRule<BookLe
                     .number(),
                 lending.returnDate(), returned.get()
                     .returnDate());
-            fieldFailure = new FieldFailure("existing", "returnDate", lending.returnDate());
+            fieldFailure = new FieldFailure("existing", "returnDate", lending.returnDate()
+                .get());
             failure = Optional.of(fieldFailure);
         } else {
             failure = Optional.empty();

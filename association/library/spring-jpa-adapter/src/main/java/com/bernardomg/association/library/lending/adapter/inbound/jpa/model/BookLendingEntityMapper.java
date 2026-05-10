@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.library.lending.adapter.inbound.jpa.model;
 
+import java.util.Optional;
+
 import com.bernardomg.association.library.book.adapter.inbound.jpa.model.BookEntity;
 import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.library.lending.domain.model.BookLending;
@@ -44,7 +46,8 @@ public final class BookLendingEntityMapper {
         borrower = BorrowerEntityMapper.toDomain(borrowerEntity);
         title = new Title(bookEntity.getSupertitle(), bookEntity.getTitle(), bookEntity.getSubtitle());
         lentBook = new LentBook(bookEntity.getNumber(), title);
-        return new BookLending(lentBook, borrower, entity.getLendingDate(), entity.getReturnDate());
+        return new BookLending(lentBook, borrower, entity.getLendingDate(),
+            Optional.ofNullable(entity.getReturnDate()));
     }
 
     public static final BookLendingEntity toEntity(final BookLending domain, final BookEntity bookEntity,
@@ -55,7 +58,8 @@ public final class BookLendingEntityMapper {
         entity.setBookId(bookEntity.getId());
         entity.setProfileId(borrowerEntity.getId());
         entity.setLendingDate(domain.lendingDate());
-        entity.setReturnDate(domain.returnDate());
+        entity.setReturnDate(domain.returnDate()
+            .orElse(null));
 
         return entity;
     }

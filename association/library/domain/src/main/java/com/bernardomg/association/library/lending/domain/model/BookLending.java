@@ -26,17 +26,27 @@ package com.bernardomg.association.library.lending.domain.model;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.Objects;
+import java.util.Optional;
 
 import com.bernardomg.association.library.book.domain.model.Title;
 
-public record BookLending(LentBook book, Borrower borrower, Instant lendingDate, Instant returnDate) {
+public record BookLending(LentBook book, Borrower borrower, Instant lendingDate, Optional<Instant> returnDate) {
+
+    public BookLending(final LentBook book, final Borrower borrower, final Instant lendingDate,
+            final Optional<Instant> returnDate) {
+        this.book = Objects.requireNonNull(book);
+        this.borrower = Objects.requireNonNull(borrower);
+        this.lendingDate = Objects.requireNonNull(lendingDate);
+        this.returnDate = Objects.requireNonNull(returnDate);
+    }
 
     public BookLending(final LentBook book, final Borrower borrower, final Instant lendingDate) {
-        this(book, borrower, lendingDate, null);
+        this(book, borrower, lendingDate, Optional.empty());
     }
 
     public BookLending returned(final Instant date) {
-        return new BookLending(book, borrower, lendingDate, date);
+        return new BookLending(book, borrower, lendingDate, Optional.of(date));
     }
 
     public record LentBook(long number, Title title) {}
@@ -45,10 +55,10 @@ public record BookLending(LentBook book, Borrower borrower, Instant lendingDate,
         final Long days;
 
         // TODO: don't generate, set on creation
-        if (returnDate == null) {
+        if (returnDate.isPresent()) {
             days = ChronoUnit.DAYS.between(lendingDate, Instant.now()) + 1;
         } else {
-            days = ChronoUnit.DAYS.between(lendingDate, returnDate) + 1;
+            days = ChronoUnit.DAYS.between(lendingDate, returnDate.get()) + 1;
         }
 
         return days;

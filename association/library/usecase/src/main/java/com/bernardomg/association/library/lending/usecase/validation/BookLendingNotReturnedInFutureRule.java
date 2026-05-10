@@ -52,13 +52,19 @@ public final class BookLendingNotReturnedInFutureRule implements FieldRule<BookL
         final Instant                now;
 
         now = Instant.now();
-        if (now.isBefore(lending.returnDate())) {
+        if ((lending.returnDate()
+            .isPresent())
+                && (now.isBefore(lending.returnDate()
+                    .get()))) {
             log.error("Returned book {} to {} on {}, which is after current date {}", lending.book()
                 .number(),
                 lending.borrower()
                     .number(),
-                lending.returnDate(), now);
-            fieldFailure = new FieldFailure("invalid", "returnDate", lending.returnDate());
+                lending.returnDate()
+                    .get(),
+                now);
+            fieldFailure = new FieldFailure("invalid", "returnDate", lending.returnDate()
+                .get());
             failure = Optional.of(fieldFailure);
         } else {
             failure = Optional.empty();
