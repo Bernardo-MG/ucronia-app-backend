@@ -35,23 +35,23 @@ public final class MissingFeeTypeException extends RuntimeException {
     private static final long serialVersionUID = 1063937960945250432L;
 
     /**
-     * Id which caused the exception.
+     * Number which caused the exception.
      */
-    private final Long        id;
+    private final long        number;
 
     public MissingFeeTypeException(final long number) {
         super(String.format("Missing fee type with number %s", number));
 
-        id = number;
+        this.number = number;
     }
 
     /**
-     * Returns the id which caused the exception.
+     * Returns the number which caused the exception.
      *
-     * @return the id which caused the exception
+     * @return the number which caused the exception
      */
-    public final Long getId() {
-        return id;
+    public final Long getNumber() {
+        return number;
     }
 
 }
