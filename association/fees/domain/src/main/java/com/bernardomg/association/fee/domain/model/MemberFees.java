@@ -26,6 +26,7 @@ package com.bernardomg.association.fee.domain.model;
 
 import java.time.YearMonth;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 import com.bernardomg.association.fee.domain.model.FeeMember.Name;
@@ -33,12 +34,29 @@ import com.bernardomg.association.fee.domain.model.FeeMember.Name;
 public record MemberFees(Member member, Collection<Fee> fees) {
 
     public MemberFees(final Member member, final Collection<Fee> fees) {
+        Objects.requireNonNull(fees);
+
         this.member = Objects.requireNonNull(member);
-        this.fees = Objects.requireNonNull(fees);
+        this.fees = List.copyOf(fees);
     }
 
-    public record Fee(YearMonth month, Boolean paid) {}
+    public record Fee(YearMonth month, Boolean paid) {
 
-    public static record Member(Long number, Name name, Boolean active) {}
+        public Fee(final YearMonth month, final Boolean paid) {
+            this.month = Objects.requireNonNull(month);
+            this.paid = Objects.requireNonNull(paid);
+        }
+
+    }
+
+    public static record Member(Long number, Name name, Boolean active) {
+
+        public Member(final Long number, final Name name, final Boolean active) {
+            this.number = Objects.requireNonNull(number);
+            this.name = Objects.requireNonNull(name);
+            this.active = Objects.requireNonNull(active);
+        }
+
+    }
 
 }
