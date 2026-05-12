@@ -111,7 +111,7 @@ public class FeeController implements FeeApi {
 
         pagination = new Pagination(page, size);
         sorting = WebSorting.toSorting(sort);
-        query = new FeeQuery(date, from, to);
+        query = new FeeQuery(Optional.ofNullable(date), Optional.ofNullable(from), Optional.ofNullable(to));
         fees = service.getAll(query, pagination, sorting);
 
         return FeeDtoMapper.toResponseDto(fees);

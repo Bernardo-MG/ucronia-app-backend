@@ -25,7 +25,15 @@
 package com.bernardomg.association.fee.domain.model;
 
 import java.time.Instant;
+import java.util.Objects;
+import java.util.Optional;
 
-public final record FeeQuery(Instant month, Instant from, Instant to) {
+public final record FeeQuery(Optional<Instant> month, Optional<Instant> from, Optional<Instant> to) {
+
+    public FeeQuery(final Optional<Instant> month, final Optional<Instant> from, final Optional<Instant> to) {
+        this.month = Objects.requireNonNull(month);
+        this.from = Objects.requireNonNull(from);
+        this.to = Objects.requireNonNull(to);
+    }
 
 }
