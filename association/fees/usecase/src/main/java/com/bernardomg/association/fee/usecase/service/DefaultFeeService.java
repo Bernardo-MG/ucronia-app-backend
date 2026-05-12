@@ -49,7 +49,7 @@ import com.bernardomg.association.fee.domain.exception.MissingFeeMemberException
 import com.bernardomg.association.fee.domain.exception.MissingFeeTypeException;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeMember;
-import com.bernardomg.association.fee.domain.model.FeeMember.MemberName;
+import com.bernardomg.association.fee.domain.model.FeeMember.Name;
 import com.bernardomg.association.fee.domain.model.FeeMemberStatus;
 import com.bernardomg.association.fee.domain.model.FeePayments;
 import com.bernardomg.association.fee.domain.model.FeeQuery;
@@ -128,11 +128,11 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     public final Fee createFee(final YearMonth date, final Long number) {
-        final Fee                  newFee;
-        final Fee                  created;
-        final FeeMember            member;
-        final FeeType              feeType;
-        final FeeMember.MemberName name;
+        final Fee            newFee;
+        final Fee            created;
+        final FeeMember      member;
+        final FeeType        feeType;
+        final FeeMember.Name name;
 
         log.info("Creating unpaid fee for {} for month {}", number, date);
 
@@ -148,7 +148,7 @@ public final class DefaultFeeService implements FeeService {
                 throw new MissingFeeTypeException(member.number());
             });
 
-        name = new FeeMember.MemberName(member.name()
+        name = new FeeMember.Name(member.name()
             .firstName(),
             member.name()
                 .lastName());
@@ -218,7 +218,7 @@ public final class DefaultFeeService implements FeeService {
         List<Fee>                    fees;
         MemberFees                   calendarFee;
         Collection<MemberFees.Fee>   membFees;
-        MemberName                   name;
+        Name                         name;
 
         log.info("Getting fee calendar for year {} and status {}", year, status);
 
@@ -547,7 +547,7 @@ public final class DefaultFeeService implements FeeService {
             .number()));
     }
 
-    private final MemberFees toFeeYear(final Long number, final MemberName name, final FeeMemberStatus status,
+    private final MemberFees toFeeYear(final Long number, final Name name, final FeeMemberStatus status,
             final Collection<MemberFees.Fee> fees) {
         final boolean active;
         final Member  member;
@@ -571,12 +571,12 @@ public final class DefaultFeeService implements FeeService {
             final Transaction transaction) {
         final FeeType         feeType;
         final Fee.Transaction feeTransaction;
-        final MemberName      name;
+        final Name            name;
 
         // TODO: should receive a member
         feeType = new FeeType(memberFeeType.number(), memberFeeType.name(), memberFeeType.amount());
         feeTransaction = new Fee.Transaction(transaction.index(), transaction.date());
-        name = new MemberName(member.name()
+        name = new Name(member.name()
             .firstName(),
             member.name()
                 .lastName());

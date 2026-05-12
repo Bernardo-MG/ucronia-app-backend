@@ -26,20 +26,30 @@ package com.bernardomg.association.fee.domain.model;
 
 import java.time.Instant;
 import java.time.YearMonth;
+import java.util.Objects;
 import java.util.Optional;
 
-import com.bernardomg.association.fee.domain.model.FeeMember.MemberName;
+import com.bernardomg.association.fee.domain.model.FeeMember.Name;
 
 public record Fee(YearMonth month, Boolean paid, FeeMember member, FeeType feeType, Optional<Transaction> transaction) {
 
-    public static Fee unpaid(final YearMonth month, final Long number, final MemberName name, final FeeType feeType) {
+    public Fee(final YearMonth month, final Boolean paid, final FeeMember member, final FeeType feeType,
+            final Optional<Transaction> transaction) {
+        this.month = Objects.requireNonNull(month);
+        this.paid = Objects.requireNonNull(paid);
+        this.member = Objects.requireNonNull(member);
+        this.feeType = Objects.requireNonNull(feeType);
+        this.transaction = Objects.requireNonNull(transaction);
+    }
+
+    public static Fee unpaid(final YearMonth month, final Long number, final Name name, final FeeType feeType) {
         final FeeMember member;
 
         member = new FeeMember(number, name);
         return new Fee(month, false, member, feeType, Optional.empty());
     }
 
-    public static Fee paid(final YearMonth month, final Long number, final MemberName name, final FeeType feeType,
+    public static Fee paid(final YearMonth month, final Long number, final Name name, final FeeType feeType,
             final Transaction transaction) {
         final FeeMember member;
 
@@ -47,7 +57,7 @@ public record Fee(YearMonth month, Boolean paid, FeeMember member, FeeType feeTy
         return new Fee(month, true, member, feeType, Optional.of(transaction));
     }
 
-    public static Fee paid(final YearMonth month, final Long number, final MemberName name, final FeeType feeType) {
+    public static Fee paid(final YearMonth month, final Long number, final Name name, final FeeType feeType) {
         final FeeMember member;
 
         member = new FeeMember(number, name);

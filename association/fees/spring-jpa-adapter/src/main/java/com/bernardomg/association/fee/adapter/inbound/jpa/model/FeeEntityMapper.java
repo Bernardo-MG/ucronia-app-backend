@@ -31,7 +31,7 @@ import java.util.Optional;
 
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.Fee.Transaction;
-import com.bernardomg.association.fee.domain.model.FeeMember.MemberName;
+import com.bernardomg.association.fee.domain.model.FeeMember.Name;
 import com.bernardomg.association.fee.domain.model.FeeType;
 
 /**
@@ -41,12 +41,12 @@ public final class FeeEntityMapper {
 
     public static final Fee toDomain(final FeeEntity entity) {
         final Transaction transaction;
-        final MemberName  name;
+        final Name        name;
         final YearMonth   date;
         final Fee         fee;
         final FeeType     feeType;
 
-        name = new MemberName(entity.getMember()
+        name = new Name(entity.getMember()
             .getFirstName(),
             entity.getMember()
                 .getLastName());

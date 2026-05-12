@@ -92,9 +92,9 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
     }
 
     private final Fee toFeeThisMonth(final FeeMember member) {
-        final FeeType              feeType;
-        final Fee                  fee;
-        final FeeMember.MemberName name;
+        final FeeType        feeType;
+        final Fee            fee;
+        final FeeMember.Name name;
 
         feeType = feeMemberRepository.findFeeType(member.number())
             .orElseThrow(() -> {
@@ -103,7 +103,7 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
                 throw new MissingFeeTypeException(member.number());
             });
 
-        name = new FeeMember.MemberName(member.name()
+        name = new FeeMember.Name(member.name()
             .firstName(),
             member.name()
                 .lastName());

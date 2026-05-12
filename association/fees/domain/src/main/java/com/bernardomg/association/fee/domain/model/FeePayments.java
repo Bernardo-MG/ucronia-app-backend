@@ -27,5 +27,14 @@ package com.bernardomg.association.fee.domain.model;
 import java.time.Instant;
 import java.time.YearMonth;
 import java.util.Collection;
+import java.util.Objects;
 
-public record FeePayments(Long member, Instant paymentDate, Collection<YearMonth> months) {}
+public record FeePayments(Long member, Instant paymentDate, Collection<YearMonth> months) {
+
+    public FeePayments(final Long member, final Instant paymentDate, final Collection<YearMonth> months) {
+        this.member = Objects.requireNonNull(member);
+        this.paymentDate = Objects.requireNonNull(paymentDate);
+        this.months = Objects.requireNonNull(months);
+    }
+
+}

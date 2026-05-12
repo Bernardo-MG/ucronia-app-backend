@@ -62,6 +62,7 @@ public final class FeeFeeTypeNotChangedRule implements FieldRule<Fee> {
         existing = feeRepository.findOne(fee.member()
             .number(), fee.month())
             .get();
+        // TODO: why the null check? Can't be null
         if ((fee.feeType() != null) && (wasChanged(fee, existing))) {
             log.error("Changed fee's fee type");
             fieldFailure = new FieldFailure("modified", "feeType", fee.feeType()

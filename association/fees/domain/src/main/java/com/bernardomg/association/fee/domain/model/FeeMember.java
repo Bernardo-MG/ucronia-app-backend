@@ -1,13 +1,23 @@
 
 package com.bernardomg.association.fee.domain.model;
 
+import java.util.Objects;
+
 import org.apache.commons.lang3.StringUtils;
 
-public record FeeMember(Long number, MemberName name) {
+public record FeeMember(Long number, Name name) {
 
-    public record MemberName(String firstName, String lastName) {
+    public FeeMember(final Long number, final Name name) {
+        this.number = Objects.requireNonNull(number);
+        this.name = Objects.requireNonNull(name);
+    }
 
-        public MemberName(final String firstName, final String lastName) {
+    public record Name(String firstName, String lastName) {
+
+        public Name(final String firstName, final String lastName) {
+            Objects.requireNonNull(firstName);
+            Objects.requireNonNull(lastName);
+
             this.firstName = StringUtils.trim(firstName);
             this.lastName = StringUtils.trim(lastName);
         }

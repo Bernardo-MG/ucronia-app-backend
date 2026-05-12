@@ -26,7 +26,12 @@ package com.bernardomg.association.fee.domain.model;
 
 import java.time.Year;
 import java.util.Collection;
+import java.util.Objects;
 
 public record YearsRange(Collection<Year> years) {
+
+    public YearsRange(final Collection<Year> years) {
+        this.years = Objects.requireNonNull(years);
+    }
 
 }

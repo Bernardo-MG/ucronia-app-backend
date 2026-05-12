@@ -42,7 +42,7 @@ public final class MissingFeeTypeException extends RuntimeException {
     public MissingFeeTypeException(final long number) {
         super(String.format("Missing fee type with number %s", number));
 
-        this.id = number;
+        id = number;
     }
 
     /**

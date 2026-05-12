@@ -24,14 +24,18 @@
 
 package com.bernardomg.association.fee.domain.model;
 
+import java.util.Objects;
+
 import org.apache.commons.lang3.StringUtils;
 
 public record FeeType(long number, String name, Float amount) {
 
     public FeeType(final long number, final String name, final Float amount) {
-        this.number = number;
+        Objects.requireNonNull(name);
+
+        this.number = Objects.requireNonNull(number);
         this.name = StringUtils.trim(name);
-        this.amount = amount;
+        this.amount = Objects.requireNonNull(amount);
     }
 
 }

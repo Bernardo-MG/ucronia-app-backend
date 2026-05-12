@@ -25,7 +25,7 @@
 package com.bernardomg.association.fee.adapter.inbound.jpa.model;
 
 import com.bernardomg.association.fee.domain.model.FeeMember;
-import com.bernardomg.association.fee.domain.model.FeeMember.MemberName;
+import com.bernardomg.association.fee.domain.model.FeeMember.Name;
 
 /**
  * Fee repository mapper.
@@ -33,9 +33,9 @@ import com.bernardomg.association.fee.domain.model.FeeMember.MemberName;
 public final class FeeMemberEntityMapper {
 
     public static final FeeMember toDomain(final FeeMemberEntity entity) {
-        final MemberName name;
+        final Name name;
 
-        name = new MemberName(entity.getFirstName(), entity.getLastName());
+        name = new Name(entity.getFirstName(), entity.getLastName());
 
         return new FeeMember(entity.getNumber(), name);
     }
