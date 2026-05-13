@@ -26,19 +26,20 @@ package com.bernardomg.association.guest.adapter.inbound.jpa.model;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 
-import com.bernardomg.association.guest.domain.model.GuestProfile;
-import com.bernardomg.association.guest.domain.model.GuestProfile.ContactChannel;
-import com.bernardomg.association.guest.domain.model.GuestProfile.ContactMethod;
-import com.bernardomg.association.guest.domain.model.GuestProfile.Name;
+import com.bernardomg.association.guest.domain.model.Guest;
+import com.bernardomg.association.guest.domain.model.Guest.ContactChannel;
+import com.bernardomg.association.guest.domain.model.Guest.ContactMethod;
+import com.bernardomg.association.guest.domain.model.Guest.Name;
 
 /**
  * Profile entity mapper.
  */
 public final class GuestProfileEntityMapper {
 
-    public static final GuestProfile toDomain(final GuestInnerProfileEntity entity) {
+    public static final Guest toDomain(final GuestInnerProfileEntity entity) {
         final Name                       name;
         final Collection<ContactChannel> contactChannels;
 
@@ -49,11 +50,11 @@ public final class GuestProfileEntityMapper {
             .map(GuestProfileEntityMapper::toDomain)
             .toList();
 
-        return new GuestProfile(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(),
-            contactChannels, entity.getAddress(), entity.getComments(), entity.getTypes());
+        return new Guest(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(), contactChannels,
+            List.of(), entity.getAddress(), entity.getComments(), entity.getTypes());
     }
 
-    public static final GuestInnerProfileEntity toEntity(final GuestProfile data,
+    public static final GuestInnerProfileEntity toEntity(final Guest data,
             final Collection<GuestContactMethodEntity> contactMethods) {
         final GuestInnerProfileEntity               entity;
         final Collection<GuestContactChannelEntity> contactChannels;

@@ -33,12 +33,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.guest.TestApplication;
-import com.bernardomg.association.guest.domain.model.GuestProfile;
+import com.bernardomg.association.guest.domain.model.Guest;
 import com.bernardomg.association.guest.domain.repository.GuestProfileRepository;
 import com.bernardomg.association.guest.test.configuration.data.annotation.GuestWithEmail;
 import com.bernardomg.association.guest.test.configuration.data.annotation.ValidGuest;
 import com.bernardomg.association.guest.test.configuration.factory.GuestConstants;
-import com.bernardomg.association.guest.test.configuration.factory.GuestProfiles;
+import com.bernardomg.association.guest.test.configuration.factory.Guests;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -53,20 +53,20 @@ class ITGuestProfileRepositoryFindOne {
     @DisplayName("With a guest, it is returned")
     @ValidGuest
     void testFindOne() {
-        final Optional<GuestProfile> guest;
+        final Optional<Guest> guest;
 
         // WHEN
         guest = repository.findOne(GuestConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(guest)
-            .contains(GuestProfiles.valid());
+            .contains(Guests.noGames());
     }
 
     @Test
     @DisplayName("With no guest, nothing is returned")
     void testFindOne_NoData() {
-        final Optional<GuestProfile> guest;
+        final Optional<Guest> guest;
 
         // WHEN
         guest = repository.findOne(GuestConstants.NUMBER);
@@ -80,14 +80,14 @@ class ITGuestProfileRepositoryFindOne {
     @DisplayName("With a guest with contact method, it is returned")
     @GuestWithEmail
     void testFindOne_WithContactMethod() {
-        final Optional<GuestProfile> guest;
+        final Optional<Guest> guest;
 
         // WHEN
         guest = repository.findOne(GuestConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(guest)
-            .contains(GuestProfiles.withEmail());
+            .contains(Guests.withEmailNoGames());
     }
 
 }

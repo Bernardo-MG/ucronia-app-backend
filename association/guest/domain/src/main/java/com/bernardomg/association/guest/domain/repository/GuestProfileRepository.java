@@ -26,10 +26,10 @@ package com.bernardomg.association.guest.domain.repository;
 
 import java.util.Optional;
 
-import com.bernardomg.association.guest.domain.model.GuestProfile;
+import com.bernardomg.association.guest.domain.model.Guest;
 
 public interface GuestProfileRepository {
 
-    public Optional<GuestProfile> findOne(final Long number);
+    public Optional<Guest> findOne(final Long number);
 
 }
