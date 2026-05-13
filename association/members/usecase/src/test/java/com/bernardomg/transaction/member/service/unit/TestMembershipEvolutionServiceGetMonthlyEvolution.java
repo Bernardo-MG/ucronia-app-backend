@@ -17,12 +17,12 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.member.domain.filter.MembershipEvolutionQuery;
+import com.bernardomg.association.member.domain.filter.MembershipEvolutionFilter;
 import com.bernardomg.association.member.domain.model.MembershipEvolutionMonth;
 import com.bernardomg.association.member.domain.repository.MembershipEvolutionRepository;
+import com.bernardomg.association.member.test.configuration.factory.MembershipEvolutionFilters;
 import com.bernardomg.association.member.test.configuration.factory.MembershipEvolutionMonthConstants;
 import com.bernardomg.association.member.test.configuration.factory.MembershipEvolutionMonths;
-import com.bernardomg.association.member.test.configuration.factory.MembershipEvolutionQueries;
 import com.bernardomg.association.member.usecase.service.DefaultMembershipEvolutionService;
 
 @ExtendWith(MockitoExtension.class)
@@ -38,7 +38,7 @@ class TestMembershipEvolutionServiceGetMonthlyEvolution {
     @Test
     @DisplayName("Returns the queried data when covering previous and current")
     void testGetMonthlyEvolution_CoversBoth() {
-        final MembershipEvolutionQuery           query;
+        final MembershipEvolutionFilter          query;
         final Iterable<MembershipEvolutionMonth> evolution;
 
         // GIVEN
@@ -50,7 +50,7 @@ class TestMembershipEvolutionServiceGetMonthlyEvolution {
                     .toInstant()),
             any())).willReturn(List.of(MembershipEvolutionMonths.currentMonth()));
 
-        query = MembershipEvolutionQueries.previousAndThis();
+        query = MembershipEvolutionFilters.previousAndThis();
 
         // WHEN
         evolution = service.getMonthlyEvolution(query);
@@ -64,10 +64,10 @@ class TestMembershipEvolutionServiceGetMonthlyEvolution {
     @Test
     @DisplayName("Can't read beyond the current month")
     void testGetMonthlyEvolution_LimitsAtCurrent() {
-        final MembershipEvolutionQuery query;
+        final MembershipEvolutionFilter query;
 
         // GIVEN
-        query = MembershipEvolutionQueries.aroundCurrent();
+        query = MembershipEvolutionFilters.aroundCurrent();
 
         // WHEN
         service.getMonthlyEvolution(query);
@@ -86,7 +86,7 @@ class TestMembershipEvolutionServiceGetMonthlyEvolution {
     @Test
     @DisplayName("When there is no data nothing is returned")
     void testGetMonthlyEvolution_NoData() {
-        final MembershipEvolutionQuery           query;
+        final MembershipEvolutionFilter          query;
         final Iterable<MembershipEvolutionMonth> evolution;
 
         // GIVEN
@@ -98,7 +98,7 @@ class TestMembershipEvolutionServiceGetMonthlyEvolution {
                     .toInstant()),
             any())).willReturn(List.of());
 
-        query = MembershipEvolutionQueries.previousAndThis();
+        query = MembershipEvolutionFilters.previousAndThis();
 
         // WHEN
         evolution = service.getMonthlyEvolution(query);

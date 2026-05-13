@@ -34,7 +34,7 @@ import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bernardomg.association.member.domain.filter.MembershipEvolutionQuery;
+import com.bernardomg.association.member.domain.filter.MembershipEvolutionFilter;
 import com.bernardomg.association.member.domain.model.MembershipEvolutionMonth;
 import com.bernardomg.association.member.domain.repository.MembershipEvolutionRepository;
 import com.bernardomg.pagination.domain.Sorting;
@@ -64,7 +64,7 @@ public final class DefaultMembershipEvolutionService implements MembershipEvolut
     }
 
     @Override
-    public final Collection<MembershipEvolutionMonth> getMonthlyEvolution(final MembershipEvolutionQuery query) {
+    public final Collection<MembershipEvolutionMonth> getMonthlyEvolution(final MembershipEvolutionFilter query) {
         final Instant                              now;
         final Instant                              end;
         final Sorting                              sorting;

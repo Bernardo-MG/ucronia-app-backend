@@ -26,6 +26,6 @@ package com.bernardomg.association.member.domain.filter;
 
 import java.time.Instant;
 
-public final record MembershipEvolutionQuery(Instant from, Instant to) {
+public final record MembershipEvolutionFilter(Instant from, Instant to) {
 
 }
