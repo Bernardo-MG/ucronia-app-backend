@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.member.domain.model;
 
+import java.util.Objects;
+
 import org.apache.commons.lang3.StringUtils;
 
 public record PublicMember(Long number, Name name, boolean renew) {
@@ -31,6 +33,9 @@ public record PublicMember(Long number, Name name, boolean renew) {
     public record Name(String firstName, String lastName) {
 
         public Name(final String firstName, final String lastName) {
+            Objects.requireNonNull(firstName);
+            Objects.requireNonNull(lastName);
+
             this.firstName = StringUtils.trim(firstName);
             this.lastName = StringUtils.trim(lastName);
         }

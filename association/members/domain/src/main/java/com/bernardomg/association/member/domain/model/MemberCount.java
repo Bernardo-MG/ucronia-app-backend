@@ -24,6 +24,13 @@
 
 package com.bernardomg.association.member.domain.model;
 
+import java.util.Objects;
+
 public record MemberCount(Long active, Long renew) {
+
+    public MemberCount(final Long active, final Long renew) {
+        this.active = Objects.requireNonNull(active);
+        this.renew = Objects.requireNonNull(renew);
+    }
 
 }
