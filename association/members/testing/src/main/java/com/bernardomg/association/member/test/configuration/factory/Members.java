@@ -9,16 +9,16 @@ import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.Member.ContactChannel;
 import com.bernardomg.association.member.domain.model.Member.ContactMethod;
+import com.bernardomg.association.member.domain.model.Member.FeeType;
 import com.bernardomg.association.member.domain.model.Member.Name;
 
 public final class Members {
 
     public static final Member active() {
-        final Name           name;
-        final Member.FeeType feeType;
+        final Name    name;
+        final FeeType feeType;
 
-        feeType = new Member.FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME,
-            FeeConstants.FEE_TYPE_AMOUNT);
+        feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
 
         name = new Name(MemberConstants.FIRST_NAME, MemberConstants.LAST_NAME);
         return new Member(MemberConstants.IDENTIFIER, MemberConstants.NUMBER, name, MemberConstants.BIRTH_DATE,
@@ -27,11 +27,10 @@ public final class Members {
     }
 
     public static final Member activeNoRenew() {
-        final Name           name;
-        final Member.FeeType feeType;
+        final Name    name;
+        final FeeType feeType;
 
-        feeType = new Member.FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME,
-            FeeConstants.FEE_TYPE_AMOUNT);
+        feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
 
         name = new Name(MemberConstants.FIRST_NAME, MemberConstants.LAST_NAME);
         return new Member(MemberConstants.IDENTIFIER, MemberConstants.NUMBER, name, MemberConstants.BIRTH_DATE,
@@ -40,11 +39,10 @@ public final class Members {
     }
 
     public static final Member alternativeActive() {
-        final Name           name;
-        final Member.FeeType feeType;
+        final Name    name;
+        final FeeType feeType;
 
-        feeType = new Member.FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME,
-            FeeConstants.FEE_TYPE_AMOUNT);
+        feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
 
         name = new Name(MemberConstants.ALTERNATIVE_FIRST_NAME, MemberConstants.ALTERNATIVE_LAST_NAME);
         return new Member(MemberConstants.ALTERNATIVE_IDENTIFIER, MemberConstants.ALTERNATIVE_NUMBER, name,
@@ -53,11 +51,10 @@ public final class Members {
     }
 
     public static final Member alternativeInactive() {
-        final Name           name;
-        final Member.FeeType feeType;
+        final Name    name;
+        final FeeType feeType;
 
-        feeType = new Member.FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME,
-            FeeConstants.FEE_TYPE_AMOUNT);
+        feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
 
         name = new Name(MemberConstants.ALTERNATIVE_FIRST_NAME, MemberConstants.ALTERNATIVE_LAST_NAME);
         return new Member(MemberConstants.ALTERNATIVE_IDENTIFIER, MemberConstants.ALTERNATIVE_NUMBER, name,
@@ -66,11 +63,10 @@ public final class Members {
     }
 
     public static final Member created() {
-        final Name           name;
-        final Member.FeeType feeType;
+        final Name    name;
+        final FeeType feeType;
 
-        feeType = new Member.FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME,
-            FeeConstants.FEE_TYPE_AMOUNT);
+        feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
 
         name = new Name(MemberConstants.FIRST_NAME, MemberConstants.LAST_NAME);
         return new Member(MemberConstants.IDENTIFIER, 1L, name, MemberConstants.BIRTH_DATE, List.of(),
@@ -78,12 +74,23 @@ public final class Members {
             new HashSet<>(List.of(Member.PROFILE_TYPE)));
     }
 
-    public static final Member firstNameChange() {
-        final Name           name;
-        final Member.FeeType feeType;
+    public static final Member emptyFeeType() {
+        final Name    name;
+        final FeeType feeType;
 
-        feeType = new Member.FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME,
-            FeeConstants.FEE_TYPE_AMOUNT);
+        feeType = new FeeType(0L, "", 0F);
+
+        name = new Name(MemberConstants.FIRST_NAME, MemberConstants.LAST_NAME);
+        return new Member(MemberConstants.IDENTIFIER, MemberConstants.NUMBER, name, MemberConstants.BIRTH_DATE,
+            List.of(), MemberConstants.ADDRESS, MemberConstants.COMMENTS, true, true, feeType,
+            new HashSet<>(List.of(Member.PROFILE_TYPE)));
+    }
+
+    public static final Member firstNameChange() {
+        final Name    name;
+        final FeeType feeType;
+
+        feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
 
         name = new Name(MemberConstants.CHANGED_FIRST_NAME, MemberConstants.LAST_NAME);
         return new Member(MemberConstants.IDENTIFIER, MemberConstants.NUMBER, name, MemberConstants.BIRTH_DATE,
@@ -92,11 +99,10 @@ public final class Members {
     }
 
     public static final Member forNumber(final long number) {
-        final Name           name;
-        final Member.FeeType feeType;
+        final Name    name;
+        final FeeType feeType;
 
-        feeType = new Member.FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME,
-            FeeConstants.FEE_TYPE_AMOUNT);
+        feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
 
         name = new Name("Name " + number, "Last name " + number);
         return new Member(Objects.toString(number * 10), number * 10, name, MemberConstants.BIRTH_DATE, List.of(),
@@ -105,11 +111,10 @@ public final class Members {
     }
 
     public static final Member inactive() {
-        final Name           name;
-        final Member.FeeType feeType;
+        final Name    name;
+        final FeeType feeType;
 
-        feeType = new Member.FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME,
-            FeeConstants.FEE_TYPE_AMOUNT);
+        feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
 
         name = new Name(MemberConstants.FIRST_NAME, MemberConstants.LAST_NAME);
         return new Member(MemberConstants.IDENTIFIER, MemberConstants.NUMBER, name, MemberConstants.BIRTH_DATE,
@@ -118,11 +123,10 @@ public final class Members {
     }
 
     public static final Member inactiveNoRenew() {
-        final Name           name;
-        final Member.FeeType feeType;
+        final Name    name;
+        final FeeType feeType;
 
-        feeType = new Member.FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME,
-            FeeConstants.FEE_TYPE_AMOUNT);
+        feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
 
         name = new Name(MemberConstants.FIRST_NAME, MemberConstants.LAST_NAME);
         return new Member(MemberConstants.IDENTIFIER, MemberConstants.NUMBER, name, MemberConstants.BIRTH_DATE,
@@ -131,11 +135,10 @@ public final class Members {
     }
 
     public static final Member nameChange() {
-        final Name           name;
-        final Member.FeeType feeType;
+        final Name    name;
+        final FeeType feeType;
 
-        feeType = new Member.FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME,
-            FeeConstants.FEE_TYPE_AMOUNT);
+        feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
 
         name = new Name("Name 123", "Last name");
         return new Member(MemberConstants.IDENTIFIER, MemberConstants.NUMBER, name, MemberConstants.BIRTH_DATE,
@@ -144,11 +147,10 @@ public final class Members {
     }
 
     public static final Member nameChangePatch() {
-        final Name           name;
-        final Member.FeeType feeType;
+        final Name    name;
+        final FeeType feeType;
 
-        feeType = new Member.FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME,
-            FeeConstants.FEE_TYPE_AMOUNT);
+        feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
 
         name = new Name("Name 123", "Last name");
         return new Member(MemberConstants.IDENTIFIER, MemberConstants.NUMBER, name, MemberConstants.BIRTH_DATE,
@@ -157,11 +159,10 @@ public final class Members {
     }
 
     public static final Member noContactChannel() {
-        final Name           name;
-        final Member.FeeType feeType;
+        final Name    name;
+        final FeeType feeType;
 
-        feeType = new Member.FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME,
-            FeeConstants.FEE_TYPE_AMOUNT);
+        feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
 
         name = new Name(MemberConstants.FIRST_NAME, MemberConstants.LAST_NAME);
         return new Member(MemberConstants.IDENTIFIER, MemberConstants.NUMBER, name, MemberConstants.BIRTH_DATE,
@@ -170,11 +171,10 @@ public final class Members {
     }
 
     public static final Member noGames() {
-        final Name           name;
-        final Member.FeeType feeType;
+        final Name    name;
+        final FeeType feeType;
 
-        feeType = new Member.FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME,
-            FeeConstants.FEE_TYPE_AMOUNT);
+        feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
 
         name = new Name(MemberConstants.FIRST_NAME, MemberConstants.LAST_NAME);
         return new Member(MemberConstants.IDENTIFIER, MemberConstants.NUMBER, name, MemberConstants.BIRTH_DATE,
@@ -183,11 +183,10 @@ public final class Members {
     }
 
     public static final Member padded() {
-        final Name           name;
-        final Member.FeeType feeType;
+        final Name    name;
+        final FeeType feeType;
 
-        feeType = new Member.FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME,
-            FeeConstants.FEE_TYPE_AMOUNT);
+        feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
 
         name = new Name(" " + MemberConstants.FIRST_NAME + " ", " " + MemberConstants.LAST_NAME + " ");
         return new Member(MemberConstants.IDENTIFIER, MemberConstants.NUMBER, name, MemberConstants.BIRTH_DATE,
@@ -196,10 +195,10 @@ public final class Members {
     }
 
     public static final Member toCreate() {
-        final Name           name;
-        final Member.FeeType feeType;
+        final Name    name;
+        final FeeType feeType;
 
-        feeType = new Member.FeeType(FeeConstants.FEE_TYPE_NUMBER, "", 0f);
+        feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, "", 0f);
 
         name = new Name(MemberConstants.FIRST_NAME, MemberConstants.LAST_NAME);
         return new Member(MemberConstants.IDENTIFIER, MemberConstants.NUMBER, name, MemberConstants.BIRTH_DATE,
@@ -209,11 +208,11 @@ public final class Members {
 
     public static final Member toCreateWithEmail() {
         final Name           name;
-        final Member.FeeType feeType;
+        final FeeType        feeType;
         final ContactChannel contactChannel;
         final ContactMethod  contactMethod;
 
-        feeType = new Member.FeeType(FeeConstants.FEE_TYPE_NUMBER, "", 0f);
+        feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, "", 0f);
 
         name = new Name(MemberConstants.FIRST_NAME, MemberConstants.LAST_NAME);
         contactMethod = email();
@@ -227,10 +226,25 @@ public final class Members {
         final Name           name;
         final ContactChannel contactChannel;
         final ContactMethod  contactMethod;
-        final Member.FeeType feeType;
+        final FeeType        feeType;
 
-        feeType = new Member.FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME,
-            FeeConstants.FEE_TYPE_AMOUNT);
+        feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
+
+        name = new Name(MemberConstants.FIRST_NAME, MemberConstants.LAST_NAME);
+        contactMethod = email();
+        contactChannel = new ContactChannel(contactMethod, MemberConstants.EMAIL);
+        return new Member(MemberConstants.IDENTIFIER, MemberConstants.NUMBER, name, MemberConstants.BIRTH_DATE,
+            List.of(contactChannel), MemberConstants.ADDRESS, MemberConstants.COMMENTS, true, true, feeType,
+            new HashSet<>(List.of(Member.PROFILE_TYPE)));
+    }
+
+    public static final Member withEmailAndEmptyFeeType() {
+        final Name           name;
+        final ContactChannel contactChannel;
+        final ContactMethod  contactMethod;
+        final FeeType        feeType;
+
+        feeType = new FeeType(0L, "", 0F);
 
         name = new Name(MemberConstants.FIRST_NAME, MemberConstants.LAST_NAME);
         contactMethod = email();
@@ -241,11 +255,10 @@ public final class Members {
     }
 
     public static final Member withoutType() {
-        final Name           name;
-        final Member.FeeType feeType;
+        final Name    name;
+        final FeeType feeType;
 
-        feeType = new Member.FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME,
-            FeeConstants.FEE_TYPE_AMOUNT);
+        feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
 
         name = new Name(MemberConstants.FIRST_NAME, MemberConstants.LAST_NAME);
         return new Member(MemberConstants.IDENTIFIER, MemberConstants.NUMBER, name, MemberConstants.BIRTH_DATE,

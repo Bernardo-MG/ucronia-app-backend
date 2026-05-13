@@ -34,12 +34,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.TestApplication;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
-import com.bernardomg.association.member.domain.model.MemberProfile;
+import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMemberWithEmail;
 import com.bernardomg.association.member.test.configuration.factory.MemberConstants;
-import com.bernardomg.association.member.test.configuration.factory.MemberProfiles;
+import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -51,46 +51,46 @@ class ITMemberProfileRepositoryFindOne {
     private MemberProfileRepository repository;
 
     @Test
-    @DisplayName("With a guest, it is returned")
+    @DisplayName("With a member, it is returned")
     @PositiveFeeType
     @ActiveMember
     void testFindOne() {
-        final Optional<MemberProfile> guest;
+        final Optional<Member> member;
 
         // WHEN
-        guest = repository.findOne(MemberConstants.NUMBER);
+        member = repository.findOne(MemberConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(guest)
-            .contains(MemberProfiles.valid());
+        Assertions.assertThat(member)
+            .contains(Members.emptyFeeType());
     }
 
     @Test
-    @DisplayName("With no guest, nothing is returned")
+    @DisplayName("With no member, nothing is returned")
     void testFindOne_NoData() {
-        final Optional<MemberProfile> guest;
+        final Optional<Member> member;
 
         // WHEN
-        guest = repository.findOne(MemberConstants.NUMBER);
+        member = repository.findOne(MemberConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(guest)
+        Assertions.assertThat(member)
             .isEmpty();
     }
 
     @Test
-    @DisplayName("With a guest with contact method, it is returned")
+    @DisplayName("With a member with contact method, it is returned")
     @PositiveFeeType
     @ActiveMemberWithEmail
     void testFindOne_WithContactMethod() {
-        final Optional<MemberProfile> guest;
+        final Optional<Member> member;
 
         // WHEN
-        guest = repository.findOne(MemberConstants.NUMBER);
+        member = repository.findOne(MemberConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(guest)
-            .contains(MemberProfiles.withEmail());
+        Assertions.assertThat(member)
+            .contains(Members.withEmailAndEmptyFeeType());
     }
 
 }

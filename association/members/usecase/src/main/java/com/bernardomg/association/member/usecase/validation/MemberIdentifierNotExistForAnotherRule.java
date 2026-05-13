@@ -37,7 +37,7 @@ import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRule;
 
 /**
- * Checks the guest identifier is not already registered for another guest.
+ * Checks the c identifier is not already registered for another member.
  */
 public final class MemberIdentifierNotExistForAnotherRule implements FieldRule<Member> {
 
@@ -63,7 +63,7 @@ public final class MemberIdentifierNotExistForAnotherRule implements FieldRule<M
                 || !memberRepository.existsByIdentifierForAnother(member.number(), member.identifier())) {
             failure = Optional.empty();
         } else {
-            log.error("Existing identifier {} for a guest distinct of {}", member.identifier(), member.number());
+            log.error("Existing identifier {} for a member distinct of {}", member.identifier(), member.number());
             fieldFailure = new FieldFailure("existing", "identifier", member.identifier());
             failure = Optional.of(fieldFailure);
         }

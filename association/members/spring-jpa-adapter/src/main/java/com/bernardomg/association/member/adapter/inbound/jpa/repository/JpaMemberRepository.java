@@ -69,17 +69,17 @@ public final class JpaMemberRepository implements MemberRepository {
 
     private final MemberFeeTypeSpringRepository       memberFeeTypeSpringRepository;
 
+    private final MemberInnerProfileSpringRepository  memberInnerProfileSpringRepository;
+
     private final MemberSpringRepository              memberSpringRepository;
 
     private final ReadMemberSpringRepository          readMemberSpringRepository;
-
-    private final MemberInnerProfileSpringRepository          memberInnerProfileSpringRepository;
 
     public JpaMemberRepository(final ReadMemberSpringRepository readMemberSpringRepo,
             final MemberSpringRepository memberSpringRepo,
             final MemberContactMethodSpringRepository memberContactMethodSpringRepo,
             final MemberFeeTypeSpringRepository memberFeeTypeSpringRepo,
-            final MemberInnerProfileSpringRepository          memberInnerProfileSpringRepo) {
+            final MemberInnerProfileSpringRepository memberInnerProfileSpringRepo) {
         super();
 
         readMemberSpringRepository = Objects.requireNonNull(readMemberSpringRepo);
@@ -313,7 +313,7 @@ public final class JpaMemberRepository implements MemberRepository {
         final MemberEntity                          entity;
         final Collection<MemberContactMethodEntity> contactMethods;
         final Optional<MemberFeeTypeEntity>         feeType;
-        final Optional<MemberInnerProfileEntity>            profile;
+        final Optional<MemberInnerProfileEntity>    profile;
 
         existing = memberSpringRepository.findByNumber(member.number());
         contactMethods = getContactMethods(member);

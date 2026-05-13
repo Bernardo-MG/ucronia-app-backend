@@ -81,8 +81,8 @@ public class TestConfiguration {
 
     @Bean("memberProfileRepository")
     public MemberProfileRepository
-            getMemberProfileRepository(final MemberInnerProfileSpringRepository guestProfileSpringRepository) {
-        return new JpaMemberProfileRepository(guestProfileSpringRepository);
+            getMemberProfileRepository(final MemberInnerProfileSpringRepository memberProfileSpringRepository) {
+        return new JpaMemberProfileRepository(memberProfileSpringRepository);
     }
 
     @Bean("MemberRepository")

@@ -80,7 +80,7 @@ class TestMemberServiceDelete {
     }
 
     @Test
-    @DisplayName("When the guest doesn't exist an exception is thrown")
+    @DisplayName("When the member doesn't exist an exception is thrown")
     void testDelete_NotExisting_NotRemovesEntity() {
         final ThrowingCallable execution;
 

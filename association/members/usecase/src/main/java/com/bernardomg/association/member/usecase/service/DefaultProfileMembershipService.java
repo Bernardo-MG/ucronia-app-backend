@@ -24,7 +24,6 @@
 
 package com.bernardomg.association.member.usecase.service;
 
-import java.util.Collection;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -37,7 +36,8 @@ import com.bernardomg.association.member.domain.exception.MemberExistsException;
 import com.bernardomg.association.member.domain.exception.MissingMemberFeeTypeException;
 import com.bernardomg.association.member.domain.exception.MissingMemberProfileException;
 import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.model.MemberProfile;
+import com.bernardomg.association.member.domain.model.Member.FeeType;
+import com.bernardomg.association.member.domain.model.Member.Name;
 import com.bernardomg.association.member.domain.repository.MemberFeeTypeRepository;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
@@ -75,13 +75,12 @@ public final class DefaultProfileMembershipService implements ProfileMembershipS
 
     @Override
     public final Member convertToMember(final long number, final long feeType) {
-        final MemberProfile                     existing;
-        final Member                            toCreate;
-        final Member                            created;
-        final Member.FeeType                    memberFeeType;
-        final Collection<Member.ContactChannel> contactChannels;
-        final Member.Name                       name;
-        final Set<String>                       types;
+        final Member      existing;
+        final Member      toCreate;
+        final Member      created;
+        final FeeType     memberFeeType;
+        final Name        name;
+        final Set<String> types;
 
         log.debug("Converting profile {} to member", number);
 
@@ -101,36 +100,22 @@ public final class DefaultProfileMembershipService implements ProfileMembershipS
             throw new MissingMemberFeeTypeException(feeType);
         }
 
-        contactChannels = existing.contactChannels()
-            .stream()
-            .map(this::toMemberContactChannel)
-            .toList();
-        memberFeeType = new Member.FeeType(feeType, "", 0f);
-        name = new Member.Name(existing.name()
+        memberFeeType = new FeeType(feeType, "", 0f);
+        name = new Name(existing.name()
             .firstName(),
             existing.name()
                 .lastName());
         types = Stream.concat(existing.types()
             .stream(), Stream.of(Member.PROFILE_TYPE))
             .collect(Collectors.toSet());
-        toCreate = new Member(existing.identifier(), existing.number(), name, existing.birthDate(), contactChannels,
-            existing.address(), existing.comments(), true, true, memberFeeType, types);
+        toCreate = new Member(existing.identifier(), existing.number(), name, existing.birthDate(),
+            existing.contactChannels(), existing.address(), existing.comments(), true, true, memberFeeType, types);
 
         created = memberRepository.save(toCreate);
 
         log.debug("Converted profile {} to member", number);
 
         return created;
-    }
-
-    private final Member.ContactChannel toMemberContactChannel(final MemberProfile.ContactChannel contactChannel) {
-        final Member.ContactMethod contactMethod;
-
-        contactMethod = new Member.ContactMethod(contactChannel.contactMethod()
-            .number(),
-            contactChannel.contactMethod()
-                .name());
-        return new Member.ContactChannel(contactMethod, contactChannel.detail());
     }
 
 }

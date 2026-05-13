@@ -46,6 +46,7 @@ import com.bernardomg.association.member.adapter.outbound.rest.dto.SortingDto;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.Member.ContactChannel;
 import com.bernardomg.association.member.domain.model.Member.ContactMethod;
+import com.bernardomg.association.member.domain.model.Member.FeeType;
 import com.bernardomg.association.member.domain.model.Member.Name;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
@@ -56,9 +57,9 @@ public final class MemberDtoMapper {
     public static final Member toDomain(final long number, final MemberUpdateDto change) {
         final Name                       name;
         final Collection<ContactChannel> contactChannels;
-        final Member.FeeType             feeType;
+        final FeeType                    feeType;
 
-        feeType = new Member.FeeType(change.getFeeType(), "", 0f);
+        feeType = new FeeType(change.getFeeType(), "", 0f);
 
         name = new Name(change.getName()
             .getFirstName(),
@@ -74,10 +75,10 @@ public final class MemberDtoMapper {
     }
 
     public static final Member toDomain(final MemberCreationDto creation) {
-        final Name           name;
-        final Member.FeeType feeType;
+        final Name    name;
+        final FeeType feeType;
 
-        feeType = new Member.FeeType(creation.getFeeType(), "", 0f);
+        feeType = new FeeType(creation.getFeeType(), "", 0f);
 
         name = new Name(creation.getName()
             .getFirstName(),
@@ -137,41 +138,41 @@ public final class MemberDtoMapper {
             .method(method);
     }
 
-    private static final MemberDto toDto(final Member Member) {
+    private static final MemberDto toDto(final Member member) {
         final MemberNameDto           name;
         final List<ContactChannelDto> contactChannels;
         final MemberFeeTypeDto        feeType;
 
-        name = new MemberNameDto().firstName(Member.name()
+        name = new MemberNameDto().firstName(member.name()
             .firstName())
-            .lastName(Member.name()
+            .lastName(member.name()
                 .lastName())
-            .fullName(Member.name()
+            .fullName(member.name()
                 .fullName());
-        contactChannels = Member.contactChannels()
+        contactChannels = member.contactChannels()
             .stream()
             .map(MemberDtoMapper::toDto)
             .toList();
 
         feeType = new MemberFeeTypeDto();
-        feeType.number(Member.feeType()
+        feeType.number(member.feeType()
             .number());
-        feeType.name(Member.feeType()
+        feeType.name(member.feeType()
             .name());
-        feeType.amount(Member.feeType()
+        feeType.amount(member.feeType()
             .amount());
 
-        return new MemberDto().identifier(Member.identifier())
-            .number(Member.number())
+        return new MemberDto().identifier(member.identifier())
+            .number(member.number())
             .name(name)
-            .birthDate(Member.birthDate())
+            .birthDate(member.birthDate())
             .contactChannels(contactChannels)
-            .address(Member.address())
-            .comments(Member.comments())
-            .active(Member.active())
-            .renew(Member.renew())
+            .address(member.address())
+            .comments(member.comments())
+            .active(member.active())
+            .renew(member.renew())
             .feeType(feeType)
-            .types(new ArrayList<>(Member.types()));
+            .types(new ArrayList<>(member.types()));
     }
 
     private static final PropertyDto toDto(final Property property) {

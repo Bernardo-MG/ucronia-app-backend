@@ -37,7 +37,7 @@ import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRule;
 
 /**
- * Checks the guest identifier is not already registered.
+ * Checks the member identifier is not already registered.
  */
 public final class MemberIdentifierNotExistRule implements FieldRule<Member> {
 

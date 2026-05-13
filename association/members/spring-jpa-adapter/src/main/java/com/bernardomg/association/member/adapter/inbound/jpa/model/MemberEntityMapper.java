@@ -32,19 +32,20 @@ import java.util.stream.Collectors;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.Member.ContactChannel;
 import com.bernardomg.association.member.domain.model.Member.ContactMethod;
+import com.bernardomg.association.member.domain.model.Member.FeeType;
 import com.bernardomg.association.member.domain.model.Member.Name;
 
 /**
- * Update guest entity mapper.
+ * Member entity mapper.
  */
 public final class MemberEntityMapper {
 
     public static final Member toDomain(final MemberEntity entity) {
-        final Member.FeeType             feeType;
+        final FeeType                    feeType;
         final Name                       name;
         final Collection<ContactChannel> contactChannels;
 
-        feeType = new Member.FeeType(entity.getFeeType()
+        feeType = new FeeType(entity.getFeeType()
             .getNumber(),
             entity.getFeeType()
                 .getName(),
@@ -77,11 +78,11 @@ public final class MemberEntityMapper {
     }
 
     public static final Member toDomain(final ReadMemberEntity entity) {
-        final Member.FeeType             feeType;
+        final FeeType                    feeType;
         final Name                       name;
         final Collection<ContactChannel> contactChannels;
 
-        feeType = new Member.FeeType(entity.getFeeType()
+        feeType = new FeeType(entity.getFeeType()
             .getNumber(),
             entity.getFeeType()
                 .getName(),

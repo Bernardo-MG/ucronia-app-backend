@@ -36,7 +36,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.member.domain.model.MemberCount;
 import com.bernardomg.association.member.domain.repository.MemberCountRepository;
-import com.bernardomg.association.member.test.configuration.factory.MemberSummaries;
+import com.bernardomg.association.member.test.configuration.factory.MemberCounts;
 import com.bernardomg.association.member.usecase.service.DefaultMemberCountService;
 
 @ExtendWith(MockitoExtension.class)
@@ -56,7 +56,7 @@ class TestMemberCountServiceGetCount {
         final MemberCount existing;
 
         // GIVEN
-        existing = MemberSummaries.valid();
+        existing = MemberCounts.valid();
         given(memberCountRepository.findCurrent()).willReturn(existing);
 
         // WHEN

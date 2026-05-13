@@ -28,19 +28,21 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Optional;
 
-import com.bernardomg.association.member.domain.model.MemberProfile;
-import com.bernardomg.association.member.domain.model.MemberProfile.ContactChannel;
-import com.bernardomg.association.member.domain.model.MemberProfile.ContactMethod;
-import com.bernardomg.association.member.domain.model.MemberProfile.Name;
+import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.model.Member.ContactChannel;
+import com.bernardomg.association.member.domain.model.Member.ContactMethod;
+import com.bernardomg.association.member.domain.model.Member.FeeType;
+import com.bernardomg.association.member.domain.model.Member.Name;
 
 /**
  * Profile entity mapper.
  */
 public final class MemberProfileEntityMapper {
 
-    public static final MemberProfile toDomain(final MemberInnerProfileEntity entity) {
+    public static final Member toDomain(final MemberInnerProfileEntity entity) {
         final Name                       name;
         final Collection<ContactChannel> contactChannels;
+        final FeeType                    feeType;
 
         name = new Name(entity.getFirstName(), entity.getLastName());
 
@@ -49,11 +51,12 @@ public final class MemberProfileEntityMapper {
             .map(MemberProfileEntityMapper::toDomain)
             .toList();
 
-        return new MemberProfile(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(),
-            contactChannels, entity.getAddress(), entity.getComments(), entity.getTypes());
+        feeType = new FeeType(0L, "", 0F);
+        return new Member(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(), contactChannels,
+            entity.getAddress(), entity.getComments(), true, true, feeType, entity.getTypes());
     }
 
-    public static final MemberInnerProfileEntity toEntity(final MemberProfile data,
+    public static final MemberInnerProfileEntity toEntity(final Member data,
             final Collection<MemberContactMethodEntity> contactMethods) {
         final MemberInnerProfileEntity               entity;
         final Collection<MemberContactChannelEntity> contactChannels;

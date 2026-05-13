@@ -32,7 +32,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberProfileEntityMapper;
-import com.bernardomg.association.member.domain.model.MemberProfile;
+import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 
 @Transactional
@@ -43,26 +43,26 @@ public final class JpaMemberProfileRepository implements MemberProfileRepository
      */
     private static final Logger                      log = LoggerFactory.getLogger(JpaMemberProfileRepository.class);
 
-    private final MemberInnerProfileSpringRepository guestProfileSpringRepository;
+    private final MemberInnerProfileSpringRepository memberProfileSpringRepository;
 
-    public JpaMemberProfileRepository(final MemberInnerProfileSpringRepository guestProfileSpringRepo) {
+    public JpaMemberProfileRepository(final MemberInnerProfileSpringRepository memberProfileSpringRepo) {
         super();
 
-        guestProfileSpringRepository = Objects.requireNonNull(guestProfileSpringRepo);
+        memberProfileSpringRepository = Objects.requireNonNull(memberProfileSpringRepo);
     }
 
     @Override
-    public final Optional<MemberProfile> findOne(final Long number) {
-        final Optional<MemberProfile> MemberProfile;
+    public final Optional<Member> findOne(final Long number) {
+        final Optional<Member> member;
 
         log.trace("Finding member profile with number {}", number);
 
-        MemberProfile = guestProfileSpringRepository.findByNumber(number)
+        member = memberProfileSpringRepository.findByNumber(number)
             .map(MemberProfileEntityMapper::toDomain);
 
-        log.trace("Found member profile with number {}: {}", number, MemberProfile);
+        log.trace("Found member profile with number {}: {}", number, member);
 
-        return MemberProfile;
+        return member;
     }
 
 }
