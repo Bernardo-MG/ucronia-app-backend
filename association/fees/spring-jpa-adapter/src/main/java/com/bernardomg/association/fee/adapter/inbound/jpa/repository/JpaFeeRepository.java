@@ -45,8 +45,8 @@ import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeMemberEntity;
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTransactionEntity;
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTypeEntity;
 import com.bernardomg.association.fee.adapter.inbound.jpa.specification.FeeSpecifications;
+import com.bernardomg.association.fee.domain.filter.FeeFilter;
 import com.bernardomg.association.fee.domain.model.Fee;
-import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.domain.model.YearsRange;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.pagination.domain.Page;
@@ -139,7 +139,7 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     @Override
-    public final Page<Fee> findAll(final FeeQuery query, final Pagination pagination, final Sorting sorting) {
+    public final Page<Fee> findAll(final FeeFilter query, final Pagination pagination, final Sorting sorting) {
         final Optional<Specification<FeeEntity>>        spec;
         final org.springframework.data.domain.Page<Fee> found;
         final Pageable                                  pageable;

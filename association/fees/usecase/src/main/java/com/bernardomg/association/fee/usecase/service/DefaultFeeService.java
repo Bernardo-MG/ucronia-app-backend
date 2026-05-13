@@ -47,12 +47,12 @@ import com.bernardomg.association.fee.domain.event.FeePaidEvent;
 import com.bernardomg.association.fee.domain.exception.MissingFeeException;
 import com.bernardomg.association.fee.domain.exception.MissingFeeMemberException;
 import com.bernardomg.association.fee.domain.exception.MissingFeeTypeException;
+import com.bernardomg.association.fee.domain.filter.FeeFilter;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeMember;
 import com.bernardomg.association.fee.domain.model.FeeMember.Name;
 import com.bernardomg.association.fee.domain.model.FeeMemberStatus;
 import com.bernardomg.association.fee.domain.model.FeePayments;
-import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.domain.model.FeeType;
 import com.bernardomg.association.fee.domain.model.MemberFees;
 import com.bernardomg.association.fee.domain.model.MemberFees.Member;
@@ -194,7 +194,7 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    public final Page<Fee> getAll(final FeeQuery query, final Pagination pagination, final Sorting sorting) {
+    public final Page<Fee> getAll(final FeeFilter query, final Pagination pagination, final Sorting sorting) {
         final Page<Fee> fees;
 
         log.info("Getting all fees with query {}, pagination {} and sorting {}", query, pagination, sorting);

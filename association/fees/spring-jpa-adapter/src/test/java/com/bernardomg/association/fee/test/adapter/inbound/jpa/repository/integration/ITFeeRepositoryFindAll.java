@@ -35,8 +35,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.TestApplication;
+import com.bernardomg.association.fee.domain.filter.FeeFilter;
 import com.bernardomg.association.fee.domain.model.Fee;
-import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.data.annotation.FeeFullYear;
 import com.bernardomg.association.fee.test.configuration.data.annotation.MultipleFees;
@@ -67,7 +67,7 @@ class ITFeeRepositoryFindAll {
     @FeeFullYear
     void testFindAll_FullYear() {
         final Page<Fee>  fees;
-        final FeeQuery   feeQuery;
+        final FeeFilter  feeQuery;
         final Pagination pagination;
         final Sorting    sorting;
 
@@ -100,7 +100,7 @@ class ITFeeRepositoryFindAll {
     @MultipleFees
     void testFindAll_Multiple() {
         final Page<Fee>  fees;
-        final FeeQuery   feeQuery;
+        final FeeFilter  feeQuery;
         final Pagination pagination;
         final Sorting    sorting;
 
@@ -129,7 +129,7 @@ class ITFeeRepositoryFindAll {
     @ValidProfile
     void testFindAll_NoData() {
         final Page<Fee>  fees;
-        final FeeQuery   feeQuery;
+        final FeeFilter  feeQuery;
         final Pagination pagination;
         final Sorting    sorting;
 
@@ -156,7 +156,7 @@ class ITFeeRepositoryFindAll {
     @ValidProfile
     void testFindAll_NoFee() {
         final Page<Fee>  fees;
-        final FeeQuery   feeQuery;
+        final FeeFilter  feeQuery;
         final Pagination pagination;
         final Sorting    sorting;
 
@@ -184,7 +184,7 @@ class ITFeeRepositoryFindAll {
     @NotPaidFee
     void testFindAll_NotPaid() {
         final Page<Fee>  fees;
-        final FeeQuery   feeQuery;
+        final FeeFilter  feeQuery;
         final Pagination pagination;
         final Sorting    sorting;
 
@@ -212,7 +212,7 @@ class ITFeeRepositoryFindAll {
     @PaidFee
     void testFindAll_Paid() {
         final Page<Fee>  fees;
-        final FeeQuery   feeQuery;
+        final FeeFilter  feeQuery;
         final Pagination pagination;
         final Sorting    sorting;
 

@@ -29,10 +29,10 @@ import java.time.YearMonth;
 import java.util.Collection;
 import java.util.Optional;
 
+import com.bernardomg.association.fee.domain.filter.FeeFilter;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeMemberStatus;
 import com.bernardomg.association.fee.domain.model.FeePayments;
-import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.domain.model.MemberFees;
 import com.bernardomg.association.fee.domain.model.YearsRange;
 import com.bernardomg.pagination.domain.Page;
@@ -81,7 +81,7 @@ public interface FeeService {
      *            sorting to apply
      * @return all the fees matching the sample
      */
-    public Page<Fee> getAll(final FeeQuery query, final Pagination pagination, final Sorting sorting);
+    public Page<Fee> getAll(final FeeFilter query, final Pagination pagination, final Sorting sorting);
 
     /**
      * Returns all the member fees for a year.

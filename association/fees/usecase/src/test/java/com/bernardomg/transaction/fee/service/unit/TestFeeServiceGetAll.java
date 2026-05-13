@@ -38,8 +38,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.MessageSource;
 
+import com.bernardomg.association.fee.domain.filter.FeeFilter;
 import com.bernardomg.association.fee.domain.model.Fee;
-import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.domain.repository.FeeMemberRepository;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
@@ -78,7 +78,7 @@ class TestFeeServiceGetAll {
     void testGetAll() {
         final Page<Fee>  fees;
         final Page<Fee>  existing;
-        final FeeQuery   feeQuery;
+        final FeeFilter  feeQuery;
         final Pagination pagination;
         final Sorting    sorting;
 
@@ -107,7 +107,7 @@ class TestFeeServiceGetAll {
     void testGetAll_NoData() {
         final Page<Fee>  fees;
         final Page<Fee>  existing;
-        final FeeQuery   feeQuery;
+        final FeeFilter  feeQuery;
         final Pagination pagination;
         final Sorting    sorting;
 

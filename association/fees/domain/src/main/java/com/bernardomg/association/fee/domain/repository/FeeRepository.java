@@ -29,8 +29,8 @@ import java.time.YearMonth;
 import java.util.Collection;
 import java.util.Optional;
 
+import com.bernardomg.association.fee.domain.filter.FeeFilter;
 import com.bernardomg.association.fee.domain.model.Fee;
-import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.domain.model.YearsRange;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -44,7 +44,7 @@ public interface FeeRepository {
 
     public boolean existsPaid(final Long number, final YearMonth date);
 
-    public Page<Fee> findAll(final FeeQuery query, final Pagination pagination, final Sorting sorting);
+    public Page<Fee> findAll(final FeeFilter query, final Pagination pagination, final Sorting sorting);
 
     public Page<Fee> findAllForMember(final Long number, final Pagination pagination, final Sorting sorting);
 

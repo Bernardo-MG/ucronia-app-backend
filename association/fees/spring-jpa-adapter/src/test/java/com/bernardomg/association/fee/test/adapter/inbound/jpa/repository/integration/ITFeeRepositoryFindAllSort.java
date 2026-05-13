@@ -39,8 +39,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.BadSqlGrammarException;
 
 import com.bernardomg.association.TestApplication;
+import com.bernardomg.association.fee.domain.filter.FeeFilter;
 import com.bernardomg.association.fee.domain.model.Fee;
-import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.data.annotation.MultipleFees;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
@@ -70,7 +70,7 @@ class ITFeeRepositoryFindAllSort {
     @Disabled("Database dependant")
     void testFindAll_Accents_Name_Asc() {
         final Page<Fee>  fees;
-        final FeeQuery   feeQuery;
+        final FeeFilter  feeQuery;
         final Pagination pagination;
         final Sorting    sorting;
 
@@ -102,7 +102,7 @@ class ITFeeRepositoryFindAllSort {
     @MultipleFees
     void testFindAll_Month_Asc() {
         final Page<Fee>  fees;
-        final FeeQuery   feeQuery;
+        final FeeFilter  feeQuery;
         final Pagination pagination;
         final Sorting    sorting;
 
@@ -133,7 +133,7 @@ class ITFeeRepositoryFindAllSort {
     @MultipleFees
     void testFindAll_Month_Desc() {
         final Page<Fee>  fees;
-        final FeeQuery   feeQuery;
+        final FeeFilter  feeQuery;
         final Pagination pagination;
         final Sorting    sorting;
 
@@ -165,7 +165,7 @@ class ITFeeRepositoryFindAllSort {
     @MultipleFees
     void testFindAll_Name_Asc() {
         final Page<Fee>  fees;
-        final FeeQuery   feeQuery;
+        final FeeFilter  feeQuery;
         final Pagination pagination;
         final Sorting    sorting;
 
@@ -197,7 +197,7 @@ class ITFeeRepositoryFindAllSort {
     @MultipleFees
     void testFindAll_Name_Desc() {
         final Page<Fee>  fees;
-        final FeeQuery   feeQuery;
+        final FeeFilter  feeQuery;
         final Pagination pagination;
         final Sorting    sorting;
 
@@ -229,7 +229,7 @@ class ITFeeRepositoryFindAllSort {
     @MultipleProfiles
     @MultipleFees
     void testFindAll_NotExisting() {
-        final FeeQuery         feeQuery;
+        final FeeFilter        feeQuery;
         final ThrowingCallable executable;
         final Pagination       pagination;
         final Sorting          sorting;
@@ -255,7 +255,7 @@ class ITFeeRepositoryFindAllSort {
     @MultipleFees
     void testFindAll_Paid_Asc() {
         final Page<Fee>  fees;
-        final FeeQuery   feeQuery;
+        final FeeFilter  feeQuery;
         final Pagination pagination;
         final Sorting    sorting;
 
@@ -285,7 +285,7 @@ class ITFeeRepositoryFindAllSort {
     @MultipleFees
     void testFindAll_Paid_Desc() {
         final Page<Fee>  fees;
-        final FeeQuery   feeQuery;
+        final FeeFilter  feeQuery;
         final Pagination pagination;
         final Sorting    sorting;
 

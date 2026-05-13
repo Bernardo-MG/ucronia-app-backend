@@ -22,18 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.domain.model;
+/**
+ * Fee filters.
+ */
 
-import java.time.Instant;
-import java.util.Objects;
-import java.util.Optional;
-
-public final record FeeQuery(Optional<Instant> month, Optional<Instant> from, Optional<Instant> to) {
-
-    public FeeQuery(final Optional<Instant> month, final Optional<Instant> from, final Optional<Instant> to) {
-        this.month = Objects.requireNonNull(month);
-        this.from = Objects.requireNonNull(from);
-        this.to = Objects.requireNonNull(to);
-    }
-
-}
+package com.bernardomg.association.fee.domain.filter;

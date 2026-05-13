@@ -39,9 +39,9 @@ import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeeResponseDto;
 import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeeUpdateDto;
 import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeesResponseDto;
 import com.bernardomg.association.fee.adapter.outbound.rest.model.FeeDtoMapper;
+import com.bernardomg.association.fee.domain.filter.FeeFilter;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeePayments;
-import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.usecase.service.FeeService;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -104,14 +104,14 @@ public class FeeController implements FeeApi {
     public FeePageResponseDto getAllFees(@Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size,
             @Valid final List<String> sort, @Valid final Instant date, @Valid final Instant from,
             @Valid final Instant to) {
-        final FeeQuery   query;
+        final FeeFilter   query;
         final Pagination pagination;
         final Sorting    sorting;
         final Page<Fee>  fees;
 
         pagination = new Pagination(page, size);
         sorting = WebSorting.toSorting(sort);
-        query = new FeeQuery(Optional.ofNullable(date), Optional.ofNullable(from), Optional.ofNullable(to));
+        query = new FeeFilter(Optional.ofNullable(date), Optional.ofNullable(from), Optional.ofNullable(to));
         fees = service.getAll(query, pagination, sorting);
 
         return FeeDtoMapper.toResponseDto(fees);
