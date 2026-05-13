@@ -25,6 +25,7 @@
 package com.bernardomg.association.guest.test.adapter.inbound.jpa.repository.integration;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.InstanceOfAssertFactories;
@@ -70,7 +71,7 @@ class ITGuestRepositoryFindAll {
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of());
-        filter = new GuestFilter("");
+        filter = new GuestFilter(Optional.empty());
 
         // WHEN
         guests = repository.findAll(filter, pagination, sorting);
@@ -93,7 +94,7 @@ class ITGuestRepositoryFindAll {
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of());
-        filter = new GuestFilter("");
+        filter = new GuestFilter(Optional.empty());
 
         // WHEN
         guests = repository.findAll(filter, pagination, sorting);
@@ -117,7 +118,7 @@ class ITGuestRepositoryFindAll {
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of());
-        filter = new GuestFilter("");
+        filter = new GuestFilter(Optional.empty());
 
         // WHEN
         guests = repository.findAll(filter, pagination, sorting);
@@ -141,7 +142,7 @@ class ITGuestRepositoryFindAll {
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of());
-        filter = new GuestFilter("");
+        filter = new GuestFilter(Optional.empty());
 
         // WHEN
         guests = repository.findAll(filter, pagination, sorting);

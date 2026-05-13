@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.guest.test.adapter.inbound.jpa.repository.integration;
 
+import java.util.Optional;
+
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
@@ -64,7 +66,7 @@ class ITGuestRepositoryFindAllQueryName {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new GuestFilter(GuestConstants.FIRST_NAME);
+        filter = new GuestFilter(Optional.of(GuestConstants.FIRST_NAME));
 
         // WHEN
         guests = repository.findAll(filter, pagination, sorting);
@@ -88,7 +90,7 @@ class ITGuestRepositoryFindAllQueryName {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new GuestFilter(GuestConstants.FULL_NAME);
+        filter = new GuestFilter(Optional.of(GuestConstants.FULL_NAME));
 
         // WHEN
         guests = repository.findAll(filter, pagination, sorting);
@@ -112,7 +114,7 @@ class ITGuestRepositoryFindAllQueryName {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new GuestFilter(GuestConstants.LAST_NAME);
+        filter = new GuestFilter(Optional.of(GuestConstants.LAST_NAME));
 
         // WHEN
         guests = repository.findAll(filter, pagination, sorting);
@@ -135,7 +137,7 @@ class ITGuestRepositoryFindAllQueryName {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new GuestFilter(GuestConstants.FIRST_NAME);
+        filter = new GuestFilter(Optional.of(GuestConstants.FIRST_NAME));
 
         // WHEN
         guests = repository.findAll(filter, pagination, sorting);
@@ -159,7 +161,8 @@ class ITGuestRepositoryFindAllQueryName {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new GuestFilter(GuestConstants.FIRST_NAME.substring(0, GuestConstants.FIRST_NAME.length() - 2));
+        filter = new GuestFilter(
+            Optional.of(GuestConstants.FIRST_NAME.substring(0, GuestConstants.FIRST_NAME.length() - 2)));
 
         // WHEN
         guests = repository.findAll(filter, pagination, sorting);
@@ -183,7 +186,7 @@ class ITGuestRepositoryFindAllQueryName {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new GuestFilter(GuestConstants.FIRST_NAME);
+        filter = new GuestFilter(Optional.of(GuestConstants.FIRST_NAME));
 
         // WHEN
         guests = repository.findAll(filter, pagination, sorting);
@@ -207,7 +210,7 @@ class ITGuestRepositoryFindAllQueryName {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new GuestFilter(GuestConstants.ALTERNATIVE_FIRST_NAME);
+        filter = new GuestFilter(Optional.of(GuestConstants.ALTERNATIVE_FIRST_NAME));
 
         // WHEN
         guests = repository.findAll(filter, pagination, sorting);
