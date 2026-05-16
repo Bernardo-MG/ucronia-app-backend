@@ -19,7 +19,7 @@ public final class Fees {
 
         name = new FeeMember.Name(MemberConstants.FIRST_NAME, MemberConstants.LAST_NAME);
         feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
-        transaction = new Fee.Transaction(null, FeeConstants.PAYMENT_DATE);
+        transaction = new Fee.Transaction(-1L, FeeConstants.PAYMENT_DATE);
         return Fee.paid(FeeConstants.DATE, MemberConstants.NUMBER, name, feeType, transaction);
     }
 
