@@ -24,6 +24,17 @@
 
 package com.bernardomg.association.profile.domain.model;
 
+import java.util.Objects;
+
+import org.apache.commons.lang3.StringUtils;
+
 public record ContactMethod(Long number, String name) {
+
+    public ContactMethod(final Long number, final String name) {
+        Objects.requireNonNull(name);
+
+        this.number = Objects.requireNonNull(number);
+        this.name = StringUtils.trim(name);
+    }
 
 }

@@ -36,7 +36,7 @@ import com.bernardomg.association.profile.domain.filter.ProfileQuery;
 import com.bernardomg.association.profile.domain.model.ContactMethod;
 import com.bernardomg.association.profile.domain.model.Profile;
 import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
-import com.bernardomg.association.profile.domain.model.ProfileName;
+import com.bernardomg.association.profile.domain.model.Profile.Name;
 import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
 import com.bernardomg.association.profile.domain.repository.ProfileRepository;
 import com.bernardomg.association.profile.usecase.validation.ProfileIdentifierNotExistForAnotherRule;
@@ -219,12 +219,12 @@ public final class DefaultProfileService implements ProfileService {
     }
 
     private final Profile copy(final Profile existing, final Profile updated) {
-        final ProfileName name;
+        final Name name;
 
         if (updated.name() == null) {
             name = existing.name();
         } else {
-            name = new ProfileName(Optional.ofNullable(updated.name()
+            name = new Name(Optional.ofNullable(updated.name()
                 .firstName())
                 .orElse(existing.name()
                     .firstName()),

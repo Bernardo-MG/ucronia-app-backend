@@ -30,7 +30,7 @@ import java.util.Optional;
 
 import com.bernardomg.association.profile.domain.model.Profile;
 import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
-import com.bernardomg.association.profile.domain.model.ProfileName;
+import com.bernardomg.association.profile.domain.model.Profile.Name;
 
 /**
  * Profile entity mapper.
@@ -38,10 +38,10 @@ import com.bernardomg.association.profile.domain.model.ProfileName;
 public final class ProfileEntityMapper {
 
     public static final Profile toDomain(final ProfileEntity entity) {
-        final ProfileName                name;
+        final Name                name;
         final Collection<ContactChannel> contactChannels;
 
-        name = new ProfileName(entity.getFirstName(), entity.getLastName());
+        name = new Name(entity.getFirstName(), entity.getLastName());
 
         contactChannels = entity.getContactChannels()
             .stream()

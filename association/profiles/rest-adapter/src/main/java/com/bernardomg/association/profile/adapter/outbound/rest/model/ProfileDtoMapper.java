@@ -46,7 +46,7 @@ import com.bernardomg.association.profile.adapter.outbound.rest.dto.SortingDto;
 import com.bernardomg.association.profile.domain.model.ContactMethod;
 import com.bernardomg.association.profile.domain.model.Profile;
 import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
-import com.bernardomg.association.profile.domain.model.ProfileName;
+import com.bernardomg.association.profile.domain.model.Profile.Name;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
 import com.bernardomg.pagination.domain.Sorting.Property;
@@ -54,10 +54,10 @@ import com.bernardomg.pagination.domain.Sorting.Property;
 public final class ProfileDtoMapper {
 
     public static final Profile toDomain(final long number, final ProfilePatchDto change) {
-        final ProfileName                name;
+        final Name                name;
         final Collection<ContactChannel> contactChannels;
 
-        name = new ProfileName(change.getName()
+        name = new Name(change.getName()
             .getFirstName(),
             change.getName()
                 .getLastName());
@@ -71,10 +71,10 @@ public final class ProfileDtoMapper {
     }
 
     public static final Profile toDomain(final long number, final ProfileUpdateDto change) {
-        final ProfileName                name;
+        final Name                name;
         final Collection<ContactChannel> contactChannels;
 
-        name = new ProfileName(change.getName()
+        name = new Name(change.getName()
             .getFirstName(),
             change.getName()
                 .getLastName());
@@ -88,9 +88,9 @@ public final class ProfileDtoMapper {
     }
 
     public static final Profile toDomain(final ProfileCreationDto creation) {
-        final ProfileName name;
+        final Name name;
 
-        name = new ProfileName(creation.getName()
+        name = new Name(creation.getName()
             .getFirstName(),
             creation.getName()
                 .getLastName());

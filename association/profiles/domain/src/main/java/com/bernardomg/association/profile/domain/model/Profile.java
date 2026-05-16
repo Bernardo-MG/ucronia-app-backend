@@ -27,14 +27,15 @@ package com.bernardomg.association.profile.domain.model;
 import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 
-public record Profile(String identifier, Long number, ProfileName name, Instant birthDate,
+public record Profile(String identifier, Long number, Name name, Instant birthDate,
         Collection<ContactChannel> contactChannels, String address, String comments, Set<String> types) {
 
-    public Profile(final String identifier, final Long number, final ProfileName name, final Instant birthDate,
+    public Profile(final String identifier, final Long number, final Name name, final Instant birthDate,
             final Collection<ContactChannel> contactChannels, final String address, final String comments,
             final Set<String> types) {
         this.identifier = identifier;
@@ -47,7 +48,28 @@ public record Profile(String identifier, Long number, ProfileName name, Instant 
         this.types = Set.copyOf(types);
     }
 
+    public record Name(String firstName, String lastName) {
+
+        public Name(final String firstName, final String lastName) {
+            this.firstName = StringUtils.trim(firstName);
+            this.lastName = StringUtils.trim(lastName);
+        }
+
+        public final String fullName() {
+            return String.format("%s %s", firstName, lastName)
+                .trim();
+        }
+
+    }
+
     public record ContactChannel(ContactMethod contactMethod, String detail) {
+
+        public ContactChannel(final ContactMethod contactMethod, final String detail) {
+            Objects.requireNonNull(detail);
+
+            this.contactMethod = Objects.requireNonNull(contactMethod);
+            this.detail = StringUtils.trim(detail);
+        }
 
     }
 

@@ -100,8 +100,10 @@ public record Member(String identifier, Long number, Name name, Instant birthDat
     public record ContactChannel(ContactMethod contactMethod, String detail) {
 
         public ContactChannel(final ContactMethod contactMethod, final String detail) {
+            Objects.requireNonNull(detail);
+
             this.contactMethod = Objects.requireNonNull(contactMethod);
-            this.detail = Objects.requireNonNull(detail);
+            this.detail = StringUtils.trim(detail);
         }
 
     }
