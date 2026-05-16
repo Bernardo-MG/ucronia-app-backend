@@ -38,9 +38,9 @@ import org.springframework.data.jpa.domain.Specification;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntityMapper;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.specification.TransactionSpecifications;
+import com.bernardomg.association.transaction.domain.filter.TransactionFilter;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.model.TransactionMonthsRange;
-import com.bernardomg.association.transaction.domain.model.TransactionQuery;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -116,7 +116,7 @@ public final class JpaTransactionRepository implements TransactionRepository {
     }
 
     @Override
-    public final Page<Transaction> findAll(final TransactionQuery query, final Pagination pagination,
+    public final Page<Transaction> findAll(final TransactionFilter query, final Pagination pagination,
             final Sorting sorting) {
         final org.springframework.data.domain.Page<TransactionEntity> page;
         final Optional<Specification<TransactionEntity>>              spec;

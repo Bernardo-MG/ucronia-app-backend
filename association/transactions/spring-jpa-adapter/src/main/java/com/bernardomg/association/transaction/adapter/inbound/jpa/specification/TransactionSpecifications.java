@@ -33,7 +33,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
-import com.bernardomg.association.transaction.domain.model.TransactionQuery;
+import com.bernardomg.association.transaction.domain.filter.TransactionFilter;
 
 /**
  * Specifications for transactions.
@@ -62,17 +62,29 @@ public final class TransactionSpecifications {
      *            request to create a specification from
      * @return specification for the request
      */
-    public static final Optional<Specification<TransactionEntity>> fromQuery(final TransactionQuery query) {
+    public static final Optional<Specification<TransactionEntity>> fromQuery(final TransactionFilter query) {
         final Optional<Specification<TransactionEntity>> spec;
 
-        if (query.date() != null) {
-            spec = Optional.of(on(query.date()));
-        } else if ((query.from() != null) && (query.to() != null)) {
-            spec = Optional.of(betweenIncluding(query.from(), query.to()));
-        } else if (query.from() != null) {
-            spec = Optional.of(onOrAfter(query.from()));
-        } else if (query.to() != null) {
-            spec = Optional.of(onOrBefore(query.to()));
+        if (query.date()
+            .isPresent()) {
+            spec = Optional.of(on(query.date()
+                .get()));
+        } else if ((query.from()
+            .isPresent())
+                && (query.to()
+                    .isPresent())) {
+            spec = Optional.of(betweenIncluding(query.from()
+                .get(),
+                query.to()
+                    .get()));
+        } else if (query.from()
+            .isPresent()) {
+            spec = Optional.of(onOrAfter(query.from()
+                .get()));
+        } else if (query.to()
+            .isPresent()) {
+            spec = Optional.of(onOrBefore(query.to()
+                .get()));
         } else {
             spec = Optional.empty();
         }

@@ -36,9 +36,9 @@ import com.bernardomg.association.transaction.adapter.outbound.rest.dto.Transact
 import com.bernardomg.association.transaction.adapter.outbound.rest.dto.TransactionResponseDto;
 import com.bernardomg.association.transaction.adapter.outbound.rest.dto.TransactionUpdateDto;
 import com.bernardomg.association.transaction.adapter.outbound.rest.model.TransactionDtoMapper;
+import com.bernardomg.association.transaction.domain.filter.TransactionFilter;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.model.TransactionMonthsRange;
-import com.bernardomg.association.transaction.domain.model.TransactionQuery;
 import com.bernardomg.association.transaction.usecase.service.TransactionService;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -96,14 +96,14 @@ public class TransactionController implements TransactionApi {
     public TransactionPageResponseDto getAllTransactions(@Min(1) @Valid final Integer page,
             @Min(1) @Valid final Integer size, @Valid final List<String> sort, @Valid final Instant date,
             @Valid final Instant from, @Valid final Instant to) {
-        final TransactionQuery  query;
+        final TransactionFilter query;
         final Pagination        pagination;
         final Sorting           sorting;
         final Page<Transaction> transactions;
 
         pagination = new Pagination(page, size);
         sorting = WebSorting.toSorting(sort);
-        query = new TransactionQuery(date, from, to);
+        query = new TransactionFilter(Optional.ofNullable(date), Optional.ofNullable(from), Optional.ofNullable(to));
         transactions = service.getAll(query, pagination, sorting);
 
         return TransactionDtoMapper.toResponseDto(transactions);

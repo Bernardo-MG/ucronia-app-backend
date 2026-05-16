@@ -22,34 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.domain.repository;
+/**
+ * Association transaction filters.
+ */
 
-import java.util.Collection;
-import java.util.Optional;
-
-import com.bernardomg.association.transaction.domain.filter.TransactionFilter;
-import com.bernardomg.association.transaction.domain.model.Transaction;
-import com.bernardomg.association.transaction.domain.model.TransactionMonthsRange;
-import com.bernardomg.pagination.domain.Page;
-import com.bernardomg.pagination.domain.Pagination;
-import com.bernardomg.pagination.domain.Sorting;
-
-public interface TransactionRepository {
-
-    public void delete(final long index);
-
-    public boolean exists(final long index);
-
-    public Collection<Transaction> findAll(final Sorting sorting);
-
-    public Page<Transaction> findAll(final TransactionFilter query, final Pagination pagination, final Sorting sorting);
-
-    public long findNextIndex();
-
-    public Optional<Transaction> findOne(final Long index);
-
-    public TransactionMonthsRange findRange();
-
-    public Transaction save(final Transaction transaction);
-
-}
+package com.bernardomg.association.transaction.domain.filter;
