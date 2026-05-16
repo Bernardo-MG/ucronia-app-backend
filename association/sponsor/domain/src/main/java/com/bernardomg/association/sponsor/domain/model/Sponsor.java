@@ -27,6 +27,7 @@ package com.bernardomg.association.sponsor.domain.model;
 import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
@@ -40,10 +41,16 @@ public record Sponsor(String identifier, Long number, Name name, Instant birthDa
     public Sponsor(final String identifier, final Long number, final Name name, final Instant birthDate,
             final Collection<ContactChannel> contactChannels, final Collection<Integer> years, final String address,
             final String comments, final Set<String> types) {
-        this.identifier = identifier;
-        this.number = number;
-        this.name = name;
-        this.birthDate = birthDate;
+        Objects.requireNonNull(identifier);
+        Objects.requireNonNull(address);
+        Objects.requireNonNull(comments);
+        Objects.requireNonNull(types);
+        Objects.requireNonNull(contactChannels);
+
+        this.identifier = StringUtils.trim(identifier);
+        this.number = Objects.requireNonNull(number);
+        this.name = Objects.requireNonNull(name);
+        this.birthDate = Objects.requireNonNull(birthDate);
         this.contactChannels = List.copyOf(contactChannels);
         this.years = List.copyOf(years);
         this.address = StringUtils.trim(address);
@@ -53,15 +60,32 @@ public record Sponsor(String identifier, Long number, Name name, Instant birthDa
 
     public record ContactChannel(ContactMethod contactMethod, String detail) {
 
+        public ContactChannel(final ContactMethod contactMethod, final String detail) {
+            Objects.requireNonNull(detail);
+
+            this.contactMethod = Objects.requireNonNull(contactMethod);
+            this.detail = StringUtils.trim(detail);
+        }
+
     }
 
     public record ContactMethod(Long number, String name) {
+
+        public ContactMethod(final Long number, final String name) {
+            Objects.requireNonNull(name);
+
+            this.number = Objects.requireNonNull(number);
+            this.name = StringUtils.trim(name);
+        }
 
     }
 
     public record Name(String firstName, String lastName) {
 
         public Name(final String firstName, final String lastName) {
+            Objects.requireNonNull(firstName);
+            Objects.requireNonNull(lastName);
+
             this.firstName = StringUtils.trim(firstName);
             this.lastName = StringUtils.trim(lastName);
         }

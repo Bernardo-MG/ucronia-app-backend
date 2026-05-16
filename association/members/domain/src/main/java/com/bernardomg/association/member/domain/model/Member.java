@@ -41,12 +41,13 @@ public record Member(String identifier, Long number, Name name, Instant birthDat
     public Member(final String identifier, final Long number, final Name name, final Instant birthDate,
             final Collection<ContactChannel> contactChannels, final String address, final String comments,
             final Boolean active, final Boolean renew, final FeeType feeType, final Set<String> types) {
+        Objects.requireNonNull(identifier);
         Objects.requireNonNull(address);
         Objects.requireNonNull(comments);
         Objects.requireNonNull(types);
         Objects.requireNonNull(contactChannels);
 
-        this.identifier = Objects.requireNonNull(identifier);
+        this.identifier = StringUtils.trim(identifier);
         this.number = Objects.requireNonNull(number);
         this.name = Objects.requireNonNull(name);
         this.birthDate = Objects.requireNonNull(birthDate);
