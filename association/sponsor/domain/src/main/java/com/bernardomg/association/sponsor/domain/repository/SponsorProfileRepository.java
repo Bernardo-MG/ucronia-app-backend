@@ -26,10 +26,10 @@ package com.bernardomg.association.sponsor.domain.repository;
 
 import java.util.Optional;
 
-import com.bernardomg.association.sponsor.domain.model.SponsorProfile;
+import com.bernardomg.association.sponsor.domain.model.Sponsor;
 
 public interface SponsorProfileRepository {
 
-    public Optional<SponsorProfile> findOne(final Long number);
+    public Optional<Sponsor> findOne(final Long number);
 
 }

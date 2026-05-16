@@ -26,19 +26,20 @@ package com.bernardomg.association.sponsor.adapter.inbound.jpa.model;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 
+import com.bernardomg.association.sponsor.domain.model.Sponsor;
+import com.bernardomg.association.sponsor.domain.model.Sponsor.ContactChannel;
 import com.bernardomg.association.sponsor.domain.model.Sponsor.ContactMethod;
-import com.bernardomg.association.sponsor.domain.model.SponsorProfile;
-import com.bernardomg.association.sponsor.domain.model.SponsorProfile.ContactChannel;
-import com.bernardomg.association.sponsor.domain.model.SponsorProfile.Name;
+import com.bernardomg.association.sponsor.domain.model.Sponsor.Name;
 
 /**
  * Profile entity mapper.
  */
 public final class SponsorProfileEntityMapper {
 
-    public static final SponsorProfile toDomain(final SponsorInnerProfileEntity entity) {
+    public static final Sponsor toDomain(final SponsorInnerProfileEntity entity) {
         final Name                       name;
         final Collection<ContactChannel> contactChannels;
 
@@ -49,11 +50,11 @@ public final class SponsorProfileEntityMapper {
             .map(SponsorProfileEntityMapper::toDomain)
             .toList();
 
-        return new SponsorProfile(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(),
-            contactChannels, entity.getAddress(), entity.getComments(), entity.getTypes());
+        return new Sponsor(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(), contactChannels,
+            List.of(), entity.getAddress(), entity.getComments(), entity.getTypes());
     }
 
-    public static final SponsorInnerProfileEntity toEntity(final SponsorProfile data,
+    public static final SponsorInnerProfileEntity toEntity(final Sponsor data,
             final Collection<SponsorContactMethodEntity> contactMethods) {
         final SponsorInnerProfileEntity               entity;
         final Collection<SponsorContactChannelEntity> contactChannels;

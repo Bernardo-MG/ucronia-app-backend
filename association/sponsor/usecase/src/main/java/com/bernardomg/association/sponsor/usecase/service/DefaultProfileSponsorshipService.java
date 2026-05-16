@@ -37,9 +37,8 @@ import org.slf4j.LoggerFactory;
 import com.bernardomg.association.sponsor.domain.exception.MissingSponsorProfileException;
 import com.bernardomg.association.sponsor.domain.exception.SponsorExistsException;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
+import com.bernardomg.association.sponsor.domain.model.Sponsor.ContactChannel;
 import com.bernardomg.association.sponsor.domain.model.Sponsor.Name;
-import com.bernardomg.association.sponsor.domain.model.SponsorProfile;
-import com.bernardomg.association.sponsor.domain.model.SponsorProfile.ContactChannel;
 import com.bernardomg.association.sponsor.domain.repository.SponsorProfileRepository;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
 
@@ -73,7 +72,7 @@ public final class DefaultProfileSponsorshipService implements ProfileSponsorshi
 
     @Override
     public final Sponsor convertToSponsor(final long number) {
-        final SponsorProfile                     existing;
+        final Sponsor                            existing;
         final Sponsor                            toCreate;
         final Sponsor                            created;
         final Collection<Sponsor.ContactChannel> contactChannels;
