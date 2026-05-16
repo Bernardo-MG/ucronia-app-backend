@@ -66,9 +66,9 @@ public final class ProfileDtoMapper {
             .map(ProfileDtoMapper::toDomain)
             .toList();
 
-        return new Profile(Optional.of(change.getIdentifier()), number, name,
-            Optional.ofNullable(change.getBirthDate()), contactChannels, Optional.of(change.getAddress()),
-            Optional.of(change.getComments()), Set.of());
+        return new Profile(Optional.ofNullable(change.getIdentifier()), number, name,
+            Optional.ofNullable(change.getBirthDate()), contactChannels, Optional.ofNullable(change.getAddress()),
+            Optional.ofNullable(change.getComments()), Set.of());
     }
 
     public static final Profile toDomain(final long number, final ProfileUpdateDto change) {
@@ -84,9 +84,9 @@ public final class ProfileDtoMapper {
             .map(ProfileDtoMapper::toDomain)
             .toList();
 
-        return new Profile(Optional.of(change.getIdentifier()), number, name,
-            Optional.ofNullable(change.getBirthDate()), contactChannels, Optional.of(change.getAddress()),
-            Optional.of(change.getComments()), Set.of());
+        return new Profile(Optional.ofNullable(change.getIdentifier()), number, name,
+            Optional.ofNullable(change.getBirthDate()), contactChannels, Optional.ofNullable(change.getAddress()),
+            Optional.ofNullable(change.getComments()), Set.of());
     }
 
     public static final Profile toDomain(final ProfileCreationDto creation) {
@@ -97,7 +97,7 @@ public final class ProfileDtoMapper {
             creation.getName()
                 .getLastName());
 
-        return new Profile(Optional.of(creation.getIdentifier()), -1L, name, Optional.empty(), List.of(),
+        return new Profile(Optional.ofNullable(creation.getIdentifier()), -1L, name, Optional.empty(), List.of(),
             Optional.empty(), Optional.empty(), Set.of());
     }
 
