@@ -44,6 +44,7 @@ public record Member(String identifier, Long number, Name name, Instant birthDat
         Objects.requireNonNull(address);
         Objects.requireNonNull(comments);
         Objects.requireNonNull(types);
+        Objects.requireNonNull(contactChannels);
 
         this.identifier = Objects.requireNonNull(identifier);
         this.number = Objects.requireNonNull(number);

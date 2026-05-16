@@ -38,10 +38,15 @@ public record Profile(String identifier, Long number, Name name, Instant birthDa
     public Profile(final String identifier, final Long number, final Name name, final Instant birthDate,
             final Collection<ContactChannel> contactChannels, final String address, final String comments,
             final Set<String> types) {
-        this.identifier = identifier;
-        this.number = number;
-        this.name = name;
-        this.birthDate = birthDate;
+        Objects.requireNonNull(address);
+        Objects.requireNonNull(comments);
+        Objects.requireNonNull(types);
+        Objects.requireNonNull(contactChannels);
+
+        this.identifier = Objects.requireNonNull(identifier);
+        this.number = Objects.requireNonNull(number);
+        this.name = Objects.requireNonNull(name);
+        this.birthDate = Objects.requireNonNull(birthDate);
         this.contactChannels = List.copyOf(contactChannels);
         this.address = StringUtils.trim(address);
         this.comments = StringUtils.trim(comments);
@@ -51,6 +56,9 @@ public record Profile(String identifier, Long number, Name name, Instant birthDa
     public record Name(String firstName, String lastName) {
 
         public Name(final String firstName, final String lastName) {
+            Objects.requireNonNull(firstName);
+            Objects.requireNonNull(lastName);
+
             this.firstName = StringUtils.trim(firstName);
             this.lastName = StringUtils.trim(lastName);
         }
