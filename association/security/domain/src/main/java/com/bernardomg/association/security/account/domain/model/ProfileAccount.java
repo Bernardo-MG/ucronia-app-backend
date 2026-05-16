@@ -24,6 +24,9 @@
 
 package com.bernardomg.association.security.account.domain.model;
 
+import java.util.Objects;
+import java.util.Optional;
+
 import org.apache.commons.lang3.StringUtils;
 
 import com.bernardomg.security.account.domain.model.Account;
@@ -34,7 +37,7 @@ import com.bernardomg.security.account.domain.model.Account;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final record ProfileAccount(String email, String username, String name, Profile profile) implements Account {
+public final record ProfileAccount(String email, String username, String name, Optional<Profile> profile) implements Account {
 
     @Override
     public String getEmail() {
@@ -51,17 +54,31 @@ public final record ProfileAccount(String email, String username, String name, P
         return username;
     }
 
+    public ProfileAccount(final String email, final String username, final String name, final Optional<Profile> profile) {
+        Objects.requireNonNull(email);
+        Objects.requireNonNull(username);
+        Objects.requireNonNull(name);
+
+        this.email = StringUtils.trim(email);
+        this.username = StringUtils.trim(username);
+        this.name = StringUtils.trim(name);
+        this.profile = Objects.requireNonNull(profile);
+    }
+
     public record Profile(String identifier, Long number, Name name) {
 
         public Profile(final String identifier, final Long number, final Name name) {
-            this.identifier = identifier;
-            this.number = number;
-            this.name = name;
+            this.identifier = Objects.requireNonNull(identifier);
+            this.number = Objects.requireNonNull(number);
+            this.name = Objects.requireNonNull(name);
         }
 
         public record Name(String firstName, String lastName) {
 
             public Name(final String firstName, final String lastName) {
+                Objects.requireNonNull(firstName);
+                Objects.requireNonNull(lastName);
+
                 this.firstName = StringUtils.trim(firstName);
                 this.lastName = StringUtils.trim(lastName);
             }
