@@ -22,7 +22,7 @@
    <artifactId>association-profile-rest-adapter</artifactId>
    <packaging>jar</packaging>
 
-   <name>Association Transactions REST Adapter</name>
+   <name>Association Profiles REST Adapter</name>
 
    <!-- ********************************************** -->
    <!-- **************** PROPERTIES ****************** -->

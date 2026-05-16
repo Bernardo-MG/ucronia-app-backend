@@ -22,7 +22,7 @@
    <artifactId>association-fee-domain</artifactId>
    <packaging>jar</packaging>
 
-   <name>Association Fee Domain</name>
+   <name>Association Fees Domain</name>
 
    <!-- ********************************************** -->
    <!-- *************** DEPENDENCIES ***************** -->

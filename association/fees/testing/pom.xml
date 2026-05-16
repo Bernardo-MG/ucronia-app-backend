@@ -22,7 +22,7 @@
    <artifactId>association-fee-testing</artifactId>
    <packaging>jar</packaging>
 
-   <name>Association Fee Testing</name>
+   <name>Association Fees Testing</name>
 
    <!-- ********************************************** -->
    <!-- *************** DEPENDENCIES ***************** -->

@@ -22,7 +22,7 @@
    <artifactId>association-fee-usecase</artifactId>
    <packaging>jar</packaging>
 
-   <name>Association Fee Usecase</name>
+   <name>Association Fees Usecase</name>
 
    <!-- ********************************************** -->
    <!-- *************** DEPENDENCIES ***************** -->

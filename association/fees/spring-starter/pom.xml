@@ -22,7 +22,7 @@
    <artifactId>association-fee-spring-starter</artifactId>
    <packaging>jar</packaging>
 
-   <name>Association Members Spring Starter</name>
+   <name>Association Fees Spring Starter</name>
 
    <!-- ********************************************** -->
    <!-- *************** DEPENDENCIES ***************** -->
