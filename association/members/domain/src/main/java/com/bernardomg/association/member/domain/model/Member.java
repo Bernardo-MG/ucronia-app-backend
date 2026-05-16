@@ -75,7 +75,17 @@ public record Member(String identifier, Long number, Name name, Instant birthDat
 
     }
 
-    public record FeeType(Long number, String name, Float amount) {}
+    public record FeeType(Long number, String name, Float amount) {
+
+        public FeeType(final Long number, final String name, final Float amount) {
+            Objects.requireNonNull(name);
+
+            this.number = Objects.requireNonNull(number);
+            this.name = StringUtils.trim(name);
+            this.amount = Objects.requireNonNull(amount);
+        }
+
+    }
 
     public Member deactivated() {
         return new Member(identifier, number, name, birthDate, contactChannels, address, comments, false, false,
@@ -89,9 +99,21 @@ public record Member(String identifier, Long number, Name name, Instant birthDat
 
     public record ContactChannel(ContactMethod contactMethod, String detail) {
 
+        public ContactChannel(final ContactMethod contactMethod, final String detail) {
+            this.contactMethod = Objects.requireNonNull(contactMethod);
+            this.detail = Objects.requireNonNull(detail);
+        }
+
     }
 
     public record ContactMethod(Long number, String name) {
+
+        public ContactMethod(final Long number, final String name) {
+            Objects.requireNonNull(name);
+
+            this.number = Objects.requireNonNull(number);
+            this.name = StringUtils.trim(name);
+        }
 
     }
 
