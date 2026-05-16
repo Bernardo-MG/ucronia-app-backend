@@ -24,6 +24,13 @@
 
 package com.bernardomg.association.transaction.domain.model;
 
-public record TransactionSummary(Float results, Float total) {
+import java.util.Objects;
+
+public record TransactionSummary(float results, float total) {
+
+    public TransactionSummary(final float results, final float total) {
+        this.results = Objects.requireNonNull(results);
+        this.total = Objects.requireNonNull(total);
+    }
 
 }
