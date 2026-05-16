@@ -36,7 +36,7 @@ import com.bernardomg.association.profile.domain.filter.ProfileQuery;
 import com.bernardomg.association.profile.domain.model.Profile;
 import com.bernardomg.association.profile.domain.repository.ProfileRepository;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
-import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileQueries;
 import com.bernardomg.association.profile.test.configuration.factory.Profiles;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -63,7 +63,7 @@ class ITProfileRepositoryFindAllQueryName {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new ProfileQuery(ProfileConstants.FIRST_NAME);
+        filter = ProfileQueries.firstName();
 
         // WHEN
         profiles = repository.findAll(filter, pagination, sorting);
@@ -87,7 +87,7 @@ class ITProfileRepositoryFindAllQueryName {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new ProfileQuery(ProfileConstants.FULL_NAME);
+        filter = ProfileQueries.fullName();
 
         // WHEN
         profiles = repository.findAll(filter, pagination, sorting);
@@ -111,7 +111,7 @@ class ITProfileRepositoryFindAllQueryName {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new ProfileQuery(ProfileConstants.LAST_NAME);
+        filter = ProfileQueries.lastName();
 
         // WHEN
         profiles = repository.findAll(filter, pagination, sorting);
@@ -134,7 +134,7 @@ class ITProfileRepositoryFindAllQueryName {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new ProfileQuery(ProfileConstants.FIRST_NAME);
+        filter = ProfileQueries.firstName();
 
         // WHEN
         profiles = repository.findAll(filter, pagination, sorting);
@@ -158,7 +158,7 @@ class ITProfileRepositoryFindAllQueryName {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new ProfileQuery(ProfileConstants.FIRST_NAME.substring(0, ProfileConstants.FIRST_NAME.length() - 2));
+        filter = ProfileQueries.partialName();
 
         // WHEN
         profiles = repository.findAll(filter, pagination, sorting);
@@ -182,7 +182,7 @@ class ITProfileRepositoryFindAllQueryName {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new ProfileQuery(ProfileConstants.ALTERNATIVE_FIRST_NAME);
+        filter = ProfileQueries.alternativeFirstName();
 
         // WHEN
         profiles = repository.findAll(filter, pagination, sorting);

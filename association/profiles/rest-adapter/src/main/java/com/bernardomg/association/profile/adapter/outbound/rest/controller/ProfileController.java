@@ -101,7 +101,7 @@ public class ProfileController implements ProfileApi {
 
         pagination = new Pagination(page, size);
         sorting = WebSorting.toSorting(sort);
-        filter = new ProfileQuery(name);
+        filter = new ProfileQuery(Optional.ofNullable(name));
         profiles = service.getAll(filter, pagination, sorting);
 
         return ProfileDtoMapper.toResponseDto(profiles);

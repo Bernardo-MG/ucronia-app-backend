@@ -41,11 +41,10 @@ public final class ProfileSpecifications {
     public static Optional<Specification<ProfileEntity>> query(final ProfileQuery query) {
         final Optional<Specification<ProfileEntity>> nameSpec;
 
-        if (query.name()
-            .isBlank()) {
+        if (query.name().isEmpty()) {
             nameSpec = Optional.empty();
         } else {
-            nameSpec = Optional.of(name(query.name()));
+            nameSpec = Optional.of(name(query.name().get()));
         }
 
         return nameSpec;
