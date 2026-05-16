@@ -64,6 +64,12 @@ public record Fee(YearMonth month, Boolean paid, FeeMember member, FeeType feeTy
         return new Fee(month, true, member, feeType, Optional.empty());
     }
 
-    public static record Transaction(Long index, Instant date) {}
+    public static record Transaction(Long index, Instant date) {
+
+        public Transaction(final Long index, final Instant date) {
+            this.index = Objects.requireNonNull(index);
+            this.date = Objects.requireNonNull(date);
+        }
+    }
 
 }
