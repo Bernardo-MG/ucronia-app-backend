@@ -25,59 +25,63 @@ public final class Guests {
         final Name name;
 
         name = new Name(GuestConstants.FIRST_NAME, GuestConstants.LAST_NAME);
-        return new Guest(GuestConstants.IDENTIFIER, 1L, name, Optional.of(GuestConstants.BIRTH_DATE), List.of(),
-            List.of(), GuestConstants.ADDRESS, GuestConstants.COMMENTS, Set.of(Guest.PROFILE_TYPE));
+        return new Guest(Optional.of(GuestConstants.IDENTIFIER), 1L, name, Optional.of(GuestConstants.BIRTH_DATE),
+            List.of(), List.of(), Optional.of(GuestConstants.ADDRESS), Optional.of(GuestConstants.COMMENTS),
+            Set.of(Guest.PROFILE_TYPE));
     }
 
     public static final Guest firstNameChange() {
         final Name name;
 
         name = new Name(GuestConstants.CHANGED_FIRST_NAME, GuestConstants.LAST_NAME);
-        return new Guest(GuestConstants.IDENTIFIER, GuestConstants.NUMBER, name, Optional.of(GuestConstants.BIRTH_DATE),
-            List.of(), List.of(Guests.DATE), GuestConstants.ADDRESS, GuestConstants.COMMENTS,
-            Set.of(Guest.PROFILE_TYPE));
+        return new Guest(Optional.of(GuestConstants.IDENTIFIER), GuestConstants.NUMBER, name,
+            Optional.of(GuestConstants.BIRTH_DATE), List.of(), List.of(Guests.DATE),
+            Optional.of(GuestConstants.ADDRESS), Optional.of(GuestConstants.COMMENTS), Set.of(Guest.PROFILE_TYPE));
     }
 
     public static final Guest forNumber(final long number) {
         final Name name;
 
         name = new Name("Name " + number, "Last name " + number);
-        return new Guest(Objects.toString(number * 10), number * 10, name, Optional.of(GuestConstants.BIRTH_DATE),
-            List.of(), List.of(Guests.DATE), GuestConstants.ADDRESS, GuestConstants.COMMENTS,
-            Set.of(Guest.PROFILE_TYPE));
+        return new Guest(Optional.of(Objects.toString(number * 10)), number * 10, name,
+            Optional.of(GuestConstants.BIRTH_DATE), List.of(), List.of(Guests.DATE),
+            Optional.of(GuestConstants.ADDRESS), Optional.of(GuestConstants.COMMENTS), Set.of(Guest.PROFILE_TYPE));
     }
 
     public static final Guest nameChangePatch() {
         final Name name;
 
         name = new Name(GuestConstants.CHANGED_FIRST_NAME, GuestConstants.LAST_NAME);
-        return new Guest(GuestConstants.IDENTIFIER, GuestConstants.NUMBER, name, Optional.of(GuestConstants.BIRTH_DATE),
-            List.of(), List.of(Guests.DATE), GuestConstants.ADDRESS, GuestConstants.COMMENTS,
-            Set.of(Guest.PROFILE_TYPE));
+        return new Guest(Optional.of(GuestConstants.IDENTIFIER), GuestConstants.NUMBER, name,
+            Optional.of(GuestConstants.BIRTH_DATE), List.of(), List.of(Guests.DATE),
+            Optional.of(GuestConstants.ADDRESS), Optional.of(GuestConstants.COMMENTS), Set.of(Guest.PROFILE_TYPE));
     }
 
     public static final Guest noGames() {
         final Name name;
 
         name = new Name(GuestConstants.FIRST_NAME, GuestConstants.LAST_NAME);
-        return new Guest(GuestConstants.IDENTIFIER, GuestConstants.NUMBER, name, Optional.of(GuestConstants.BIRTH_DATE),
-            List.of(), List.of(), GuestConstants.ADDRESS, GuestConstants.COMMENTS, Set.of(Guest.PROFILE_TYPE));
+        return new Guest(Optional.of(GuestConstants.IDENTIFIER), GuestConstants.NUMBER, name,
+            Optional.of(GuestConstants.BIRTH_DATE), List.of(), List.of(), Optional.of(GuestConstants.ADDRESS),
+            Optional.of(GuestConstants.COMMENTS), Set.of(Guest.PROFILE_TYPE));
     }
 
     public static final Guest noType() {
         final Name name;
 
         name = new Name(GuestConstants.FIRST_NAME, GuestConstants.LAST_NAME);
-        return new Guest(GuestConstants.IDENTIFIER, GuestConstants.NUMBER, name, Optional.of(GuestConstants.BIRTH_DATE),
-            List.of(), List.of(), GuestConstants.ADDRESS, GuestConstants.COMMENTS, Set.of());
+        return new Guest(Optional.of(GuestConstants.IDENTIFIER), GuestConstants.NUMBER, name,
+            Optional.of(GuestConstants.BIRTH_DATE), List.of(), List.of(), Optional.of(GuestConstants.ADDRESS),
+            Optional.of(GuestConstants.COMMENTS), Set.of());
     }
 
     public static final Guest padded() {
         final Name name;
 
         name = new Name(" " + GuestConstants.FIRST_NAME + " ", " " + GuestConstants.LAST_NAME + " ");
-        return new Guest(GuestConstants.IDENTIFIER, GuestConstants.NUMBER, name, Optional.of(GuestConstants.BIRTH_DATE),
-            List.of(), List.of(Guests.DATE), " " + GuestConstants.ADDRESS + " ", " " + GuestConstants.COMMENTS + " ",
+        return new Guest(Optional.of(GuestConstants.IDENTIFIER), GuestConstants.NUMBER, name,
+            Optional.of(GuestConstants.BIRTH_DATE), List.of(), List.of(Guests.DATE),
+            Optional.of(" " + GuestConstants.ADDRESS + " "), Optional.of(" " + GuestConstants.COMMENTS + " "),
             Set.of(Guest.PROFILE_TYPE));
     }
 
@@ -89,9 +93,9 @@ public final class Guests {
         name = new Name(GuestConstants.FIRST_NAME, GuestConstants.LAST_NAME);
         contactMethod = new ContactMethod(GuestContactMethodConstants.NUMBER, GuestContactMethodConstants.EMAIL);
         contactChannel = new ContactChannel(contactMethod, GuestConstants.EMAIL);
-        return new Guest(GuestConstants.IDENTIFIER, GuestConstants.NUMBER, name, Optional.of(GuestConstants.BIRTH_DATE),
-            List.of(contactChannel), List.of(Guests.DATE), GuestConstants.ADDRESS, GuestConstants.COMMENTS,
-            Set.of(Guest.PROFILE_TYPE));
+        return new Guest(Optional.of(GuestConstants.IDENTIFIER), GuestConstants.NUMBER, name,
+            Optional.of(GuestConstants.BIRTH_DATE), List.of(contactChannel), List.of(Guests.DATE),
+            Optional.of(GuestConstants.ADDRESS), Optional.of(GuestConstants.COMMENTS), Set.of(Guest.PROFILE_TYPE));
     }
 
     public static final Guest withEmailNoGames() {
@@ -102,26 +106,27 @@ public final class Guests {
         name = new Name(GuestConstants.FIRST_NAME, GuestConstants.LAST_NAME);
         contactMethod = new ContactMethod(GuestContactMethodConstants.NUMBER, GuestContactMethodConstants.EMAIL);
         contactChannel = new ContactChannel(contactMethod, GuestConstants.EMAIL);
-        return new Guest(GuestConstants.IDENTIFIER, GuestConstants.NUMBER, name, Optional.of(GuestConstants.BIRTH_DATE),
-            List.of(contactChannel), List.of(), GuestConstants.ADDRESS, GuestConstants.COMMENTS,
-            Set.of(Guest.PROFILE_TYPE));
+        return new Guest(Optional.of(GuestConstants.IDENTIFIER), GuestConstants.NUMBER, name,
+            Optional.of(GuestConstants.BIRTH_DATE), List.of(contactChannel), List.of(),
+            Optional.of(GuestConstants.ADDRESS), Optional.of(GuestConstants.COMMENTS), Set.of(Guest.PROFILE_TYPE));
     }
 
     public static final Guest withGames() {
         final Name name;
 
         name = new Name(GuestConstants.FIRST_NAME, GuestConstants.LAST_NAME);
-        return new Guest(GuestConstants.IDENTIFIER, GuestConstants.NUMBER, name, Optional.of(GuestConstants.BIRTH_DATE),
-            List.of(), List.of(Guests.DATE), GuestConstants.ADDRESS, GuestConstants.COMMENTS,
-            Set.of(Guest.PROFILE_TYPE));
+        return new Guest(Optional.of(GuestConstants.IDENTIFIER), GuestConstants.NUMBER, name,
+            Optional.of(GuestConstants.BIRTH_DATE), List.of(), List.of(Guests.DATE),
+            Optional.of(GuestConstants.ADDRESS), Optional.of(GuestConstants.COMMENTS), Set.of(Guest.PROFILE_TYPE));
     }
 
     public static final Guest withoutType() {
         final Name name;
 
         name = new Name(GuestConstants.FIRST_NAME, GuestConstants.LAST_NAME);
-        return new Guest(GuestConstants.IDENTIFIER, GuestConstants.NUMBER, name, Optional.of(GuestConstants.BIRTH_DATE),
-            List.of(), List.of(Guests.DATE), GuestConstants.ADDRESS, GuestConstants.COMMENTS, Set.of());
+        return new Guest(Optional.of(GuestConstants.IDENTIFIER), GuestConstants.NUMBER, name,
+            Optional.of(GuestConstants.BIRTH_DATE), List.of(), List.of(Guests.DATE),
+            Optional.of(GuestConstants.ADDRESS), Optional.of(GuestConstants.COMMENTS), Set.of());
     }
 
 }

@@ -51,8 +51,9 @@ public final class SponsorEntityMapper {
             .map(SponsorEntityMapper::toDomain)
             .toList();
 
-        return new Sponsor(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(), contactChannels,
-            entity.getYears(), entity.getAddress(), entity.getComments(), entity.getTypes());
+        return new Sponsor(Optional.ofNullable(entity.getIdentifier()), entity.getNumber(), name,
+            Optional.ofNullable(entity.getBirthDate()), contactChannels, entity.getYears(),
+            Optional.ofNullable(entity.getAddress()), Optional.ofNullable(entity.getComments()), entity.getTypes());
     }
 
     public static final Sponsor toDomain(final SponsorEntity entity) {
@@ -70,16 +71,15 @@ public final class SponsorEntityMapper {
             .map(SponsorEntityMapper::toDomain)
             .toList();
 
-        return new Sponsor(entity.getProfile()
-            .getIdentifier(),
-            entity.getProfile()
+        return new Sponsor(Optional.ofNullable(entity.getProfile()
+            .getIdentifier()), entity.getProfile()
                 .getNumber(),
-            name, entity.getProfile()
-                .getBirthDate(),
-            contactChannels, entity.getYears(), entity.getProfile()
-                .getAddress(),
-            entity.getProfile()
-                .getComments(),
+            name, Optional.ofNullable(entity.getProfile()
+                .getBirthDate()),
+            contactChannels, entity.getYears(), Optional.ofNullable(entity.getProfile()
+                .getAddress()),
+            Optional.ofNullable(entity.getProfile()
+                .getComments()),
             entity.getProfile()
                 .getTypes());
     }
@@ -96,10 +96,14 @@ public final class SponsorEntityMapper {
             .firstName());
         profile.setLastName(data.name()
             .lastName());
-        profile.setIdentifier(data.identifier());
-        profile.setBirthDate(data.birthDate());
-        profile.setAddress(data.address());
-        profile.setComments(data.comments());
+        profile.setIdentifier(data.identifier()
+            .orElse(null));
+        profile.setBirthDate(data.birthDate()
+            .orElse(null));
+        profile.setAddress(data.address()
+            .orElse(null));
+        profile.setComments(data.comments()
+            .orElse(null));
 
         contactChannels = data.contactChannels()
             .stream()
@@ -133,10 +137,14 @@ public final class SponsorEntityMapper {
             .firstName());
         profile.setLastName(data.name()
             .lastName());
-        profile.setIdentifier(data.identifier());
-        profile.setBirthDate(data.birthDate());
-        profile.setAddress(data.address());
-        profile.setComments(data.comments());
+        profile.setIdentifier(data.identifier()
+            .orElse(null));
+        profile.setBirthDate(data.birthDate()
+            .orElse(null));
+        profile.setAddress(data.address()
+            .orElse(null));
+        profile.setComments(data.comments()
+            .orElse(null));
 
         contactChannels = data.contactChannels()
             .stream()

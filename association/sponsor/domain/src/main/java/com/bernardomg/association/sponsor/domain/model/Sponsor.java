@@ -28,33 +28,35 @@ import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 
-public record Sponsor(String identifier, Long number, Name name, Instant birthDate,
-        Collection<ContactChannel> contactChannels, Collection<Integer> years, String address, String comments,
-        Set<String> types) {
+public record Sponsor(Optional<String> identifier, Long number, Name name, Optional<Instant> birthDate,
+        Collection<ContactChannel> contactChannels, Collection<Integer> years, Optional<String> address,
+        Optional<String> comments, Set<String> types) {
 
     public static final String PROFILE_TYPE = "sponsor";
 
-    public Sponsor(final String identifier, final Long number, final Name name, final Instant birthDate,
-            final Collection<ContactChannel> contactChannels, final Collection<Integer> years, final String address,
-            final String comments, final Set<String> types) {
+    public Sponsor(final Optional<String> identifier, final Long number, final Name name,
+            final Optional<Instant> birthDate, final Collection<ContactChannel> contactChannels,
+            final Collection<Integer> years, final Optional<String> address, final Optional<String> comments,
+            final Set<String> types) {
         Objects.requireNonNull(identifier);
         Objects.requireNonNull(address);
         Objects.requireNonNull(comments);
         Objects.requireNonNull(types);
         Objects.requireNonNull(contactChannels);
 
-        this.identifier = StringUtils.trim(identifier);
+        this.identifier = identifier.map(StringUtils::trim);
         this.number = Objects.requireNonNull(number);
         this.name = Objects.requireNonNull(name);
         this.birthDate = Objects.requireNonNull(birthDate);
         this.contactChannels = List.copyOf(contactChannels);
         this.years = List.copyOf(years);
-        this.address = StringUtils.trim(address);
-        this.comments = StringUtils.trim(comments);
+        this.address = address.map(StringUtils::trim);
+        this.comments = comments.map(StringUtils::trim);
         this.types = Set.copyOf(types);
     }
 

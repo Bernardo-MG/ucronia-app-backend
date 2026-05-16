@@ -27,7 +27,6 @@ package com.bernardomg.association.member.usecase.validation;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,12 +58,16 @@ public final class MemberIdentifierNotExistForAnotherRule implements FieldRule<M
         final Optional<FieldFailure> failure;
         final FieldFailure           fieldFailure;
 
-        if (StringUtils.isBlank(member.identifier())
-                || !memberRepository.existsByIdentifierForAnother(member.number(), member.identifier())) {
+        if (member.identifier()
+            .isEmpty()
+                || !memberRepository.existsByIdentifierForAnother(member.number(), member.identifier()
+                    .get())) {
             failure = Optional.empty();
         } else {
-            log.error("Existing identifier {} for a member distinct of {}", member.identifier(), member.number());
-            fieldFailure = new FieldFailure("existing", "identifier", member.identifier());
+            log.error("Existing identifier {} for a member distinct of {}", member.identifier()
+                .get(), member.number());
+            fieldFailure = new FieldFailure("existing", "identifier", member.identifier()
+                .get());
             failure = Optional.of(fieldFailure);
         }
 

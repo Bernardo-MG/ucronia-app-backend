@@ -33,28 +33,29 @@ import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 
-public record Member(String identifier, Long number, Name name, Optional<Instant> birthDate,
-        Collection<ContactChannel> contactChannels, String address, String comments, Boolean active, Boolean renew,
-        FeeType feeType, Set<String> types) {
+public record Member(Optional<String> identifier, Long number, Name name, Optional<Instant> birthDate,
+        Collection<ContactChannel> contactChannels, Optional<String> address, Optional<String> comments, Boolean active,
+        Boolean renew, FeeType feeType, Set<String> types) {
 
     public static final String PROFILE_TYPE = "member";
 
-    public Member(final String identifier, final Long number, final Name name, final Optional<Instant> birthDate,
-            final Collection<ContactChannel> contactChannels, final String address, final String comments,
-            final Boolean active, final Boolean renew, final FeeType feeType, final Set<String> types) {
+    public Member(final Optional<String> identifier, final Long number, final Name name,
+            final Optional<Instant> birthDate, final Collection<ContactChannel> contactChannels,
+            final Optional<String> address, final Optional<String> comments, final Boolean active, final Boolean renew,
+            final FeeType feeType, final Set<String> types) {
         Objects.requireNonNull(identifier);
         Objects.requireNonNull(address);
         Objects.requireNonNull(comments);
         Objects.requireNonNull(types);
         Objects.requireNonNull(contactChannels);
 
-        this.identifier = StringUtils.trim(identifier);
+        this.identifier = identifier.map(StringUtils::trim);
         this.number = Objects.requireNonNull(number);
         this.name = Objects.requireNonNull(name);
         this.birthDate = Objects.requireNonNull(birthDate);
         this.contactChannels = List.copyOf(contactChannels);
-        this.address = StringUtils.trim(address);
-        this.comments = StringUtils.trim(comments);
+        this.address = address.map(StringUtils::trim);
+        this.comments = comments.map(StringUtils::trim);
         this.active = Objects.requireNonNull(active);
         this.renew = Objects.requireNonNull(renew);
         this.feeType = Objects.requireNonNull(feeType);

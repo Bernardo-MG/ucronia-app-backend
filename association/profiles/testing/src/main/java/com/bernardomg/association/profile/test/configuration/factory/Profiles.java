@@ -16,8 +16,8 @@ public final class Profiles {
         final Name name;
 
         name = new Name(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        return new Profile(ProfileConstants.IDENTIFIER, 1L, name, Optional.of(ProfileConstants.BIRTH_DATE), List.of(),
-            ProfileConstants.ADDRESS, ProfileConstants.COMMENTS, Set.of());
+        return new Profile(Optional.of(ProfileConstants.IDENTIFIER), 1L, name, Optional.of(ProfileConstants.BIRTH_DATE),
+            List.of(), Optional.of(ProfileConstants.ADDRESS), Optional.of(ProfileConstants.COMMENTS), Set.of());
     }
 
     public static final Profile createdWithEmail() {
@@ -28,50 +28,53 @@ public final class Profiles {
         name = new Name(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
         contactMethod = ContactMethods.email();
         contactChannel = new ContactChannel(contactMethod, ProfileConstants.EMAIL);
-        return new Profile(ProfileConstants.IDENTIFIER, 1L, name, Optional.of(ProfileConstants.BIRTH_DATE),
-            List.of(contactChannel), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS, Set.of());
+        return new Profile(Optional.of(ProfileConstants.IDENTIFIER), 1L, name, Optional.of(ProfileConstants.BIRTH_DATE),
+            List.of(contactChannel), Optional.of(ProfileConstants.ADDRESS), Optional.of(ProfileConstants.COMMENTS),
+            Set.of());
     }
 
     public static final Profile firstNameChange() {
         final Name name;
 
         name = new Name(ProfileConstants.CHANGED_FIRST_NAME, ProfileConstants.LAST_NAME);
-        return new Profile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name,
-            Optional.of(ProfileConstants.BIRTH_DATE), List.of(), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS,
-            Set.of());
+        return new Profile(Optional.of(ProfileConstants.IDENTIFIER), ProfileConstants.NUMBER, name,
+            Optional.of(ProfileConstants.BIRTH_DATE), List.of(), Optional.of(ProfileConstants.ADDRESS),
+            Optional.of(ProfileConstants.COMMENTS), Set.of());
     }
 
     public static final Profile nameChange() {
         final Name name;
 
         name = new Name("Name 123", "Last name");
-        return new Profile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name,
-            Optional.of(ProfileConstants.BIRTH_DATE), List.of(), "", "", Set.of());
+        return new Profile(Optional.of(ProfileConstants.IDENTIFIER), ProfileConstants.NUMBER, name,
+            Optional.of(ProfileConstants.BIRTH_DATE), List.of(), Optional.empty(), Optional.empty(), Set.of());
     }
 
     public static final Profile nameChangePatch() {
         final Name name;
 
         name = new Name("Name 123", "Last name");
-        return new Profile("", ProfileConstants.NUMBER, name, Optional.empty(), List.of(), "", "", Set.of());
+        return new Profile(Optional.empty(), ProfileConstants.NUMBER, name, Optional.empty(), List.of(),
+            Optional.empty(), Optional.empty(), Set.of());
     }
 
     public static final Profile padded() {
         final Name name;
 
         name = new Name(" " + ProfileConstants.FIRST_NAME + " ", " " + ProfileConstants.LAST_NAME + " ");
-        return new Profile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name,
-            Optional.of(ProfileConstants.BIRTH_DATE), List.of(), " " + ProfileConstants.ADDRESS + " ",
-            " " + ProfileConstants.COMMENTS + " ", Set.of());
+        return new Profile(Optional.of(ProfileConstants.IDENTIFIER), ProfileConstants.NUMBER, name,
+            Optional.of(ProfileConstants.BIRTH_DATE), List.of(),
+            Optional.of(" " + Optional.of(ProfileConstants.ADDRESS) + " "),
+            Optional.of(" " + Optional.of(ProfileConstants.COMMENTS) + " "), Set.of());
     }
 
     public static final Profile valid() {
         final Name name;
 
         name = new Name(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        return new Profile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name,
-            Optional.of(ProfileConstants.BIRTH_DATE), List.of(), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS,
-            Set.of());
+        return new Profile(Optional.of(ProfileConstants.IDENTIFIER), ProfileConstants.NUMBER, name,
+            Optional.of(ProfileConstants.BIRTH_DATE), List.of(), Optional.of(ProfileConstants.ADDRESS),
+            Optional.of(ProfileConstants.COMMENTS), Set.of());
     }
 
     public static final Profile withEmail() {
@@ -82,9 +85,9 @@ public final class Profiles {
         name = new Name(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
         contactMethod = ContactMethods.email();
         contactChannel = new ContactChannel(contactMethod, ProfileConstants.EMAIL);
-        return new Profile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name,
-            Optional.of(ProfileConstants.BIRTH_DATE), List.of(contactChannel), ProfileConstants.ADDRESS,
-            ProfileConstants.COMMENTS, Set.of());
+        return new Profile(Optional.of(ProfileConstants.IDENTIFIER), ProfileConstants.NUMBER, name,
+            Optional.of(ProfileConstants.BIRTH_DATE), List.of(contactChannel), Optional.of(ProfileConstants.ADDRESS),
+            Optional.of(ProfileConstants.COMMENTS), Set.of());
     }
 
     public static final Profile withEmailAndPhone() {
@@ -95,9 +98,9 @@ public final class Profiles {
         name = new Name(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
         contactChannelA = new ContactChannel(ContactMethods.email(), ProfileConstants.EMAIL);
         contactChannelB = new ContactChannel(ContactMethods.phone(), ProfileConstants.PHONE);
-        return new Profile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name,
+        return new Profile(Optional.of(ProfileConstants.IDENTIFIER), ProfileConstants.NUMBER, name,
             Optional.of(ProfileConstants.BIRTH_DATE), List.of(contactChannelA, contactChannelB),
-            ProfileConstants.ADDRESS, ProfileConstants.COMMENTS, Set.of());
+            Optional.of(ProfileConstants.ADDRESS), Optional.of(ProfileConstants.COMMENTS), Set.of());
     }
 
     public static final Profile withTwoEmails() {
@@ -110,18 +113,18 @@ public final class Profiles {
         contactMethod = ContactMethods.email();
         contactChannelA = new ContactChannel(contactMethod, ProfileConstants.EMAIL);
         contactChannelB = new ContactChannel(contactMethod, ProfileConstants.ALTERNATIVE_EMAIL);
-        return new Profile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name,
+        return new Profile(Optional.of(ProfileConstants.IDENTIFIER), ProfileConstants.NUMBER, name,
             Optional.of(ProfileConstants.BIRTH_DATE), List.of(contactChannelA, contactChannelB),
-            ProfileConstants.ADDRESS, ProfileConstants.COMMENTS, Set.of());
+            Optional.of(ProfileConstants.ADDRESS), Optional.of(ProfileConstants.COMMENTS), Set.of());
     }
 
     public static final Profile withType(final String type) {
         final Name name;
 
         name = new Name(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        return new Profile(ProfileConstants.IDENTIFIER, ProfileConstants.NUMBER, name,
-            Optional.of(ProfileConstants.BIRTH_DATE), List.of(), ProfileConstants.ADDRESS, ProfileConstants.COMMENTS,
-            Set.of(type));
+        return new Profile(Optional.of(ProfileConstants.IDENTIFIER), ProfileConstants.NUMBER, name,
+            Optional.of(ProfileConstants.BIRTH_DATE), List.of(), Optional.of(ProfileConstants.ADDRESS),
+            Optional.of(ProfileConstants.COMMENTS), Set.of(type));
     }
 
     private Profiles() {

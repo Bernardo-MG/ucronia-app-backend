@@ -50,8 +50,9 @@ public final class GuestProfileEntityMapper {
             .map(GuestProfileEntityMapper::toDomain)
             .toList();
 
-        return new Guest(entity.getIdentifier(), entity.getNumber(), name, Optional.ofNullable(entity.getBirthDate()),
-            contactChannels, List.of(), entity.getAddress(), entity.getComments(), entity.getTypes());
+        return new Guest(Optional.ofNullable(entity.getIdentifier()), entity.getNumber(), name,
+            Optional.ofNullable(entity.getBirthDate()), contactChannels, List.of(),
+            Optional.ofNullable(entity.getAddress()), Optional.ofNullable(entity.getComments()), entity.getTypes());
     }
 
     public static final GuestInnerProfileEntity toEntity(final Guest data,
@@ -65,11 +66,14 @@ public final class GuestProfileEntityMapper {
             .firstName());
         entity.setLastName(data.name()
             .lastName());
-        entity.setIdentifier(data.identifier());
+        entity.setIdentifier(data.identifier()
+            .orElse(null));
         entity.setBirthDate(data.birthDate()
             .orElse(null));
-        entity.setAddress(data.address());
-        entity.setComments(data.comments());
+        entity.setAddress(data.address()
+            .orElse(null));
+        entity.setComments(data.comments()
+            .orElse(null));
 
         contactChannels = data.contactChannels()
             .stream()

@@ -61,7 +61,8 @@ public final class GuestDtoMapper {
             creation.getName()
                 .getLastName());
 
-        return new Guest(creation.getIdentifier(), -1L, name, null, List.of(), List.of(), "", "", Set.of());
+        return new Guest(Optional.ofNullable(creation.getIdentifier()), -1L, name, Optional.empty(), List.of(),
+            List.of(), Optional.empty(), Optional.empty(), Set.of());
     }
 
     public static final Guest toDomain(final long number, final GuestPatchDto change) {
@@ -77,8 +78,9 @@ public final class GuestDtoMapper {
             .map(GuestDtoMapper::toDomain)
             .toList();
 
-        return new Guest(change.getIdentifier(), number, name, null, contactChannels,
-            new ArrayList<>(change.getGames()), change.getAddress(), change.getComments(), Set.of());
+        return new Guest(Optional.ofNullable(change.getIdentifier()), number, name, null, contactChannels,
+            new ArrayList<>(change.getGames()), Optional.ofNullable(change.getAddress()),
+            Optional.ofNullable(change.getComments()), Set.of());
     }
 
     public static final Guest toDomain(final long number, final GuestUpdateDto change) {
@@ -94,8 +96,9 @@ public final class GuestDtoMapper {
             .map(GuestDtoMapper::toDomain)
             .toList();
 
-        return new Guest(change.getIdentifier(), number, name, null, contactChannels,
-            new ArrayList<>(change.getGames()), change.getAddress(), change.getComments(), Set.of());
+        return new Guest(Optional.ofNullable(change.getIdentifier()), number, name, null, contactChannels,
+            new ArrayList<>(change.getGames()), Optional.ofNullable(change.getAddress()),
+            Optional.ofNullable(change.getComments()), Set.of());
     }
 
     public static final GuestResponseDto toResponseDto(final Guest profile) {
@@ -163,14 +166,17 @@ public final class GuestDtoMapper {
             .map(GuestDtoMapper::toDto)
             .toList();
 
-        return new GuestDto().identifier(guest.identifier())
+        return new GuestDto().identifier(guest.identifier()
+            .orElse(null))
             .number(guest.number())
             .name(name)
             .birthDate(guest.birthDate()
                 .orElse(null))
             .contactChannels(contactChannels)
-            .address(guest.address())
-            .comments(guest.comments())
+            .address(guest.address()
+                .orElse(null))
+            .comments(guest.comments()
+                .orElse(null))
             .games(new ArrayList<>(guest.games()))
             .types(new ArrayList<>(guest.types()));
     }

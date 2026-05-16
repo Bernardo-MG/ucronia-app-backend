@@ -29,7 +29,7 @@ import java.util.Optional;
 
 public record GuestFilter(Optional<String> name) {
 
-    public GuestFilter(Optional<String> name) {
+    public GuestFilter(final Optional<String> name) {
         this.name = Objects.requireNonNull(name);
     }
 

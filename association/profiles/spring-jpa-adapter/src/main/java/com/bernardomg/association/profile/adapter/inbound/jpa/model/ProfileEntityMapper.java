@@ -38,7 +38,7 @@ import com.bernardomg.association.profile.domain.model.Profile.Name;
 public final class ProfileEntityMapper {
 
     public static final Profile toDomain(final ProfileEntity entity) {
-        final Name                name;
+        final Name                       name;
         final Collection<ContactChannel> contactChannels;
 
         name = new Name(entity.getFirstName(), entity.getLastName());
@@ -48,8 +48,9 @@ public final class ProfileEntityMapper {
             .map(ContactChannelEntityMapper::toDomain)
             .toList();
 
-        return new Profile(entity.getIdentifier(), entity.getNumber(), name, Optional.ofNullable(entity.getBirthDate()), contactChannels,
-            entity.getAddress(), entity.getComments(), entity.getTypes());
+        return new Profile(Optional.ofNullable(entity.getIdentifier()), entity.getNumber(), name,
+            Optional.ofNullable(entity.getBirthDate()), contactChannels, Optional.ofNullable(entity.getAddress()),
+            Optional.ofNullable(entity.getComments()), entity.getTypes());
     }
 
     public static final ProfileEntity toEntity(final Profile data,
@@ -63,10 +64,14 @@ public final class ProfileEntityMapper {
             .firstName());
         entity.setLastName(data.name()
             .lastName());
-        entity.setIdentifier(data.identifier());
-        entity.setBirthDate(data.birthDate().orElse(null));
-        entity.setAddress(data.address());
-        entity.setComments(data.comments());
+        entity.setIdentifier(data.identifier()
+            .orElse(null));
+        entity.setBirthDate(data.birthDate()
+            .orElse(null));
+        entity.setAddress(data.address()
+            .orElse(null));
+        entity.setComments(data.comments()
+            .orElse(null));
 
         contactChannels = data.contactChannels()
             .stream()

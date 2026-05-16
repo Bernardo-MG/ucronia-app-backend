@@ -33,25 +33,26 @@ import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 
-public record Profile(String identifier, Long number, Name name, Optional<Instant> birthDate,
-        Collection<ContactChannel> contactChannels, String address, String comments, Set<String> types) {
+public record Profile(Optional<String> identifier, Long number, Name name, Optional<Instant> birthDate,
+        Collection<ContactChannel> contactChannels, Optional<String> address, Optional<String> comments,
+        Set<String> types) {
 
-    public Profile(final String identifier, final Long number, final Name name, final Optional<Instant> birthDate,
-            final Collection<ContactChannel> contactChannels, final String address, final String comments,
-            final Set<String> types) {
+    public Profile(final Optional<String> identifier, final Long number, final Name name,
+            final Optional<Instant> birthDate, final Collection<ContactChannel> contactChannels,
+            final Optional<String> address, final Optional<String> comments, final Set<String> types) {
         Objects.requireNonNull(identifier);
         Objects.requireNonNull(address);
         Objects.requireNonNull(comments);
         Objects.requireNonNull(types);
         Objects.requireNonNull(contactChannels);
 
-        this.identifier = StringUtils.trim(identifier);
+        this.identifier = identifier.map(StringUtils::trim);
         this.number = Objects.requireNonNull(number);
         this.name = Objects.requireNonNull(name);
         this.birthDate = Objects.requireNonNull(birthDate);
         this.contactChannels = List.copyOf(contactChannels);
-        this.address = StringUtils.trim(address);
-        this.comments = StringUtils.trim(comments);
+        this.address = address.map(StringUtils::trim);
+        this.comments = comments.map(StringUtils::trim);
         this.types = Set.copyOf(types);
     }
 

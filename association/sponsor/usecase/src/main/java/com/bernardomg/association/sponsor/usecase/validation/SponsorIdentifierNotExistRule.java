@@ -27,7 +27,6 @@ package com.bernardomg.association.sponsor.usecase.validation;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,11 +58,16 @@ public final class SponsorIdentifierNotExistRule implements FieldRule<Sponsor> {
         final Optional<FieldFailure> failure;
         final FieldFailure           fieldFailure;
 
-        if (StringUtils.isBlank(sponsor.identifier()) || !sponsorRepository.existsByIdentifier(sponsor.identifier())) {
+        if (sponsor.identifier()
+            .isEmpty()
+                || !sponsorRepository.existsByIdentifier(sponsor.identifier()
+                    .get())) {
             failure = Optional.empty();
         } else {
-            log.error("Existing identifier {}", sponsor.identifier());
-            fieldFailure = new FieldFailure("existing", "identifier", sponsor.identifier());
+            log.error("Existing identifier {}", sponsor.identifier()
+                .get());
+            fieldFailure = new FieldFailure("existing", "identifier", sponsor.identifier()
+                .get());
             failure = Optional.of(fieldFailure);
         }
 

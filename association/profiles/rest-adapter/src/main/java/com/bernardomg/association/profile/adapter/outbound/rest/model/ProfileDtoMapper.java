@@ -66,8 +66,9 @@ public final class ProfileDtoMapper {
             .map(ProfileDtoMapper::toDomain)
             .toList();
 
-        return new Profile(change.getIdentifier(), number, name, Optional.ofNullable(change.getBirthDate()),
-            contactChannels, change.getAddress(), change.getComments(), Set.of());
+        return new Profile(Optional.of(change.getIdentifier()), number, name,
+            Optional.ofNullable(change.getBirthDate()), contactChannels, Optional.of(change.getAddress()),
+            Optional.of(change.getComments()), Set.of());
     }
 
     public static final Profile toDomain(final long number, final ProfileUpdateDto change) {
@@ -83,8 +84,9 @@ public final class ProfileDtoMapper {
             .map(ProfileDtoMapper::toDomain)
             .toList();
 
-        return new Profile(change.getIdentifier(), number, name, Optional.ofNullable(change.getBirthDate()),
-            contactChannels, change.getAddress(), change.getComments(), Set.of());
+        return new Profile(Optional.of(change.getIdentifier()), number, name,
+            Optional.ofNullable(change.getBirthDate()), contactChannels, Optional.of(change.getAddress()),
+            Optional.of(change.getComments()), Set.of());
     }
 
     public static final Profile toDomain(final ProfileCreationDto creation) {
@@ -95,7 +97,8 @@ public final class ProfileDtoMapper {
             creation.getName()
                 .getLastName());
 
-        return new Profile(creation.getIdentifier(), -1L, name, null, List.of(), "", "", Set.of());
+        return new Profile(Optional.of(creation.getIdentifier()), -1L, name, Optional.empty(), List.of(),
+            Optional.empty(), Optional.empty(), Set.of());
     }
 
     public static final ProfileResponseDto toResponseDto(final Optional<Profile> profile) {
@@ -163,14 +166,17 @@ public final class ProfileDtoMapper {
             .map(ProfileDtoMapper::toDto)
             .toList();
 
-        return new ProfileDto().identifier(profile.identifier())
+        return new ProfileDto().identifier(profile.identifier()
+            .orElse(null))
             .number(profile.number())
             .name(name)
             .birthDate(profile.birthDate()
                 .orElse(null))
             .contactChannels(contactChannels)
-            .address(profile.address())
-            .comments(profile.comments())
+            .address(profile.address()
+                .orElse(null))
+            .comments(profile.comments()
+                .orElse(null))
             .types(new ArrayList<>(profile.types()));
     }
 

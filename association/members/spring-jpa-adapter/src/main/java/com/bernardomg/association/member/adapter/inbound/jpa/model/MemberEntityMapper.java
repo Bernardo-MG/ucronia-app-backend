@@ -63,16 +63,15 @@ public final class MemberEntityMapper {
             .map(MemberEntityMapper::toDomain)
             .toList();
 
-        return new Member(entity.getProfile()
-            .getIdentifier(),
-            entity.getProfile()
+        return new Member(Optional.ofNullable(entity.getProfile()
+            .getIdentifier()), entity.getProfile()
                 .getNumber(),
             name, Optional.ofNullable(entity.getProfile()
                 .getBirthDate()),
-            contactChannels, entity.getProfile()
-                .getAddress(),
-            entity.getProfile()
-                .getComments(),
+            contactChannels, Optional.ofNullable(entity.getProfile()
+                .getAddress()),
+            Optional.ofNullable(entity.getProfile()
+                .getComments()),
             entity.getActive(), entity.getRenew(), feeType, entity.getProfile()
                 .getTypes());
     }
@@ -96,8 +95,9 @@ public final class MemberEntityMapper {
             .map(MemberEntityMapper::toDomain)
             .toList();
 
-        return new Member(entity.getIdentifier(), entity.getNumber(), name, Optional.ofNullable(entity.getBirthDate()),
-            contactChannels, entity.getAddress(), entity.getComments(), entity.getActive(), entity.getRenew(), feeType,
+        return new Member(Optional.ofNullable(entity.getIdentifier()), entity.getNumber(), name,
+            Optional.ofNullable(entity.getBirthDate()), contactChannels, Optional.ofNullable(entity.getAddress()),
+            Optional.ofNullable(entity.getComments()), entity.getActive(), entity.getRenew(), feeType,
             entity.getTypes());
     }
 
@@ -113,11 +113,14 @@ public final class MemberEntityMapper {
             .firstName());
         profile.setLastName(data.name()
             .lastName());
-        profile.setIdentifier(data.identifier());
+        profile.setIdentifier(data.identifier()
+            .orElse(null));
         profile.setBirthDate(data.birthDate()
             .orElse(null));
-        profile.setAddress(data.address());
-        profile.setComments(data.comments());
+        profile.setAddress(data.address()
+            .orElse(null));
+        profile.setComments(data.comments()
+            .orElse(null));
 
         contactChannels = data.contactChannels()
             .stream()
@@ -152,11 +155,14 @@ public final class MemberEntityMapper {
             .firstName());
         profile.setLastName(data.name()
             .lastName());
-        profile.setIdentifier(data.identifier());
+        profile.setIdentifier(data.identifier()
+            .orElse(null));
         profile.setBirthDate(data.birthDate()
             .orElse(null));
-        profile.setAddress(data.address());
-        profile.setComments(data.comments());
+        profile.setAddress(data.address()
+            .orElse(null));
+        profile.setComments(data.comments()
+            .orElse(null));
 
         contactChannels = data.contactChannels()
             .stream()

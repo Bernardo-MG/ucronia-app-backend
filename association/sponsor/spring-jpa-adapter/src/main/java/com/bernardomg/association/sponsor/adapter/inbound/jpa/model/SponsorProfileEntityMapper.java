@@ -50,8 +50,9 @@ public final class SponsorProfileEntityMapper {
             .map(SponsorProfileEntityMapper::toDomain)
             .toList();
 
-        return new Sponsor(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(), contactChannels,
-            List.of(), entity.getAddress(), entity.getComments(), entity.getTypes());
+        return new Sponsor(Optional.ofNullable(entity.getIdentifier()), entity.getNumber(), name,
+            Optional.ofNullable(entity.getBirthDate()), contactChannels, List.of(),
+            Optional.ofNullable(entity.getAddress()), Optional.ofNullable(entity.getComments()), entity.getTypes());
     }
 
     public static final SponsorInnerProfileEntity toEntity(final Sponsor data,
@@ -65,10 +66,14 @@ public final class SponsorProfileEntityMapper {
             .firstName());
         entity.setLastName(data.name()
             .lastName());
-        entity.setIdentifier(data.identifier());
-        entity.setBirthDate(data.birthDate());
-        entity.setAddress(data.address());
-        entity.setComments(data.comments());
+        entity.setIdentifier(data.identifier()
+            .orElse(null));
+        entity.setBirthDate(data.birthDate()
+            .orElse(null));
+        entity.setAddress(data.address()
+            .orElse(null));
+        entity.setComments(data.comments()
+            .orElse(null));
 
         contactChannels = data.contactChannels()
             .stream()
