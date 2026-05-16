@@ -5,8 +5,10 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 
+import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.List;
+import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -40,15 +42,18 @@ class TestMembershipEvolutionServiceGetMonthlyEvolution {
     void testGetMonthlyEvolution_CoversBoth() {
         final MembershipEvolutionFilter          query;
         final Iterable<MembershipEvolutionMonth> evolution;
+        final Instant                            from;
+        final Instant                            to;
 
         // GIVEN
-        given(membershipEvolutionRepository.findInRange(eq(MembershipEvolutionMonthConstants.PREVIOUS_MONTH.atDay(1)
+        from = MembershipEvolutionMonthConstants.PREVIOUS_MONTH.atDay(1)
             .atStartOfDay(ZoneOffset.UTC)
-            .toInstant()), eq(
-                MembershipEvolutionMonthConstants.CURRENT_MONTH.atDay(1)
-                    .atStartOfDay(ZoneOffset.UTC)
-                    .toInstant()),
-            any())).willReturn(List.of(MembershipEvolutionMonths.currentMonth()));
+            .toInstant();
+        to = MembershipEvolutionMonthConstants.CURRENT_MONTH.atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
+        given(membershipEvolutionRepository.findInRange(eq(Optional.of(from)), eq(Optional.of(to)), any()))
+            .willReturn(List.of(MembershipEvolutionMonths.currentMonth()));
 
         query = MembershipEvolutionFilters.previousAndThis();
 
@@ -65,6 +70,8 @@ class TestMembershipEvolutionServiceGetMonthlyEvolution {
     @DisplayName("Can't read beyond the current month")
     void testGetMonthlyEvolution_LimitsAtCurrent() {
         final MembershipEvolutionFilter query;
+        final Instant                   from;
+        final Instant                   to;
 
         // GIVEN
         query = MembershipEvolutionFilters.aroundCurrent();
@@ -73,14 +80,14 @@ class TestMembershipEvolutionServiceGetMonthlyEvolution {
         service.getMonthlyEvolution(query);
 
         // THEN
+        from = MembershipEvolutionMonthConstants.PREVIOUS_MONTH.atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
+        to = MembershipEvolutionMonthConstants.CURRENT_MONTH.atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
         Mockito.verify(membershipEvolutionRepository)
-            .findInRange(eq(MembershipEvolutionMonthConstants.PREVIOUS_MONTH.atDay(1)
-                .atStartOfDay(ZoneOffset.UTC)
-                .toInstant()), eq(
-                    MembershipEvolutionMonthConstants.CURRENT_MONTH.atDay(1)
-                        .atStartOfDay(ZoneOffset.UTC)
-                        .toInstant()),
-                any());
+            .findInRange(eq(Optional.of(from)), eq(Optional.of(to)), any());
     }
 
     @Test
@@ -88,15 +95,18 @@ class TestMembershipEvolutionServiceGetMonthlyEvolution {
     void testGetMonthlyEvolution_NoData() {
         final MembershipEvolutionFilter          query;
         final Iterable<MembershipEvolutionMonth> evolution;
+        final Instant                            from;
+        final Instant                            to;
 
         // GIVEN
-        given(membershipEvolutionRepository.findInRange(eq(MembershipEvolutionMonthConstants.PREVIOUS_MONTH.atDay(1)
+        from = MembershipEvolutionMonthConstants.PREVIOUS_MONTH.atDay(1)
             .atStartOfDay(ZoneOffset.UTC)
-            .toInstant()), eq(
-                MembershipEvolutionMonthConstants.CURRENT_MONTH.atDay(1)
-                    .atStartOfDay(ZoneOffset.UTC)
-                    .toInstant()),
-            any())).willReturn(List.of());
+            .toInstant();
+        to = MembershipEvolutionMonthConstants.CURRENT_MONTH.atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
+        given(membershipEvolutionRepository.findInRange(eq(Optional.of(from)), eq(Optional.of(to)), any()))
+            .willReturn(List.of());
 
         query = MembershipEvolutionFilters.previousAndThis();
 

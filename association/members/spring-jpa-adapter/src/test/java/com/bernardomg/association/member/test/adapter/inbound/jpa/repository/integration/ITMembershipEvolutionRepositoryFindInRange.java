@@ -1,8 +1,10 @@
 
 package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.integration;
 
+import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.Collection;
+import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -38,15 +40,17 @@ class ITMembershipEvolutionRepositoryFindInRange {
     void testFindInRange_End() {
         final Sorting                              sorting;
         final Collection<MembershipEvolutionMonth> evolution;
+        final Instant                              date;
 
         // GIVEN
         sorting = Sorting.unsorted();
-
-        // WHEN
-        evolution = repository.findInRange(null, MembershipEvolutionMonthConstants.START_MONTH.plusMonths(2)
+        date = MembershipEvolutionMonthConstants.START_MONTH.plusMonths(2)
             .atDay(1)
             .atStartOfDay(ZoneOffset.UTC)
-            .toInstant(), sorting);
+            .toInstant();
+
+        // WHEN
+        evolution = repository.findInRange(Optional.empty(), Optional.of(date), sorting);
 
         // THEN
         Assertions.assertThat(evolution)
@@ -70,7 +74,7 @@ class ITMembershipEvolutionRepositoryFindInRange {
         sorting = Sorting.unsorted();
 
         // WHEN
-        evolution = repository.findInRange(null, null, sorting);
+        evolution = repository.findInRange(Optional.empty(), Optional.empty(), sorting);
 
         // THEN
         Assertions.assertThat(evolution)
@@ -100,7 +104,7 @@ class ITMembershipEvolutionRepositoryFindInRange {
         sorting = Sorting.unsorted();
 
         // WHEN
-        evolution = repository.findInRange(null, null, sorting);
+        evolution = repository.findInRange(Optional.empty(), Optional.empty(), sorting);
 
         // THEN
         Assertions.assertThat(evolution)
@@ -119,7 +123,7 @@ class ITMembershipEvolutionRepositoryFindInRange {
         sorting = Sorting.unsorted();
 
         // WHEN
-        evolution = repository.findInRange(null, null, sorting);
+        evolution = repository.findInRange(Optional.empty(), Optional.empty(), sorting);
 
         // THEN
         Assertions.assertThat(evolution)
@@ -135,20 +139,22 @@ class ITMembershipEvolutionRepositoryFindInRange {
     void testFindInRange_Range() {
         final Sorting                              sorting;
         final Collection<MembershipEvolutionMonth> evolution;
+        final Instant                              from;
+        final Instant                              to;
 
         // GIVEN
         sorting = Sorting.unsorted();
-
-        // WHEN
-        evolution = repository.findInRange(MembershipEvolutionMonthConstants.START_MONTH.plusMonths(1)
+        from = MembershipEvolutionMonthConstants.START_MONTH.plusMonths(1)
             .atDay(1)
             .atStartOfDay(ZoneOffset.UTC)
-            .toInstant(),
-            MembershipEvolutionMonthConstants.START_MONTH.plusMonths(3)
-                .atDay(1)
-                .atStartOfDay(ZoneOffset.UTC)
-                .toInstant(),
-            sorting);
+            .toInstant();
+        to = MembershipEvolutionMonthConstants.START_MONTH.plusMonths(3)
+            .atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
+
+        // WHEN
+        evolution = repository.findInRange(Optional.of(from), Optional.of(to), sorting);
 
         // THEN
         Assertions.assertThat(evolution)
@@ -167,15 +173,17 @@ class ITMembershipEvolutionRepositoryFindInRange {
     void testFindInRange_Start() {
         final Sorting                              sorting;
         final Collection<MembershipEvolutionMonth> evolution;
+        final Instant                              date;
 
         // GIVEN
         sorting = Sorting.unsorted();
-
-        // WHEN
-        evolution = repository.findInRange(MembershipEvolutionMonthConstants.START_MONTH.plusMonths(1)
+        date = MembershipEvolutionMonthConstants.START_MONTH.plusMonths(1)
             .atDay(1)
             .atStartOfDay(ZoneOffset.UTC)
-            .toInstant(), null, sorting);
+            .toInstant();
+
+        // WHEN
+        evolution = repository.findInRange(Optional.of(date), Optional.empty(), sorting);
 
         // THEN
         Assertions.assertThat(evolution)

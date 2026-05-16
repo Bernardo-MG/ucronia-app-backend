@@ -25,7 +25,14 @@
 package com.bernardomg.association.member.domain.filter;
 
 import java.time.Instant;
+import java.util.Objects;
+import java.util.Optional;
 
-public final record MembershipEvolutionFilter(Instant from, Instant to) {
+public final record MembershipEvolutionFilter(Optional<Instant> from, Optional<Instant> to) {
+
+    public MembershipEvolutionFilter(final Optional<Instant> from, final Optional<Instant> to) {
+        this.from = Objects.requireNonNull(from);
+        this.to = Objects.requireNonNull(to);
+    }
 
 }

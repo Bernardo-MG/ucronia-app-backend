@@ -39,10 +39,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.domain.repository.MemberContactMethodRepository;
 import com.bernardomg.association.member.domain.repository.MemberFeeTypeRepository;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.test.configuration.factory.MemberFilters;
 import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.association.member.usecase.service.DefaultMemberService;
 import com.bernardomg.pagination.domain.Page;
@@ -77,7 +77,7 @@ class TestMemberServiceGetAll {
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.ALL, "");
+        filter = MemberFilters.all();
 
         existing = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
         given(memberRepository.findAll(filter, pagination, sorting)).willReturn(existing);
@@ -105,7 +105,7 @@ class TestMemberServiceGetAll {
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.ALL, "");
+        filter = MemberFilters.all();
 
         existing = new Page<>(List.of(Members.active()), 0, 0, 0, 0, 0, false, false, sorting);
         given(memberRepository.findAll(filter, pagination, sorting)).willReturn(existing);

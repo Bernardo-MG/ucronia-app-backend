@@ -41,10 +41,11 @@ public final class PublicMemberSpecifications {
         final Specification<PublicMemberEntity>           spec;
 
         if (filter.name()
-            .isBlank()) {
+            .isEmpty()) {
             nameSpec = Optional.empty();
         } else {
-            nameSpec = Optional.of(name(filter.name()));
+            nameSpec = Optional.of(name(filter.name()
+                .get()));
         }
 
         activeSpec = Optional.of(active());

@@ -37,6 +37,7 @@ import com.bernardomg.association.member.domain.filter.PublicMemberFilter;
 import com.bernardomg.association.member.domain.model.PublicMember;
 import com.bernardomg.association.member.domain.repository.PublicMemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.MultipleActiveMember;
+import com.bernardomg.association.member.test.configuration.factory.PublicMemberFilters;
 import com.bernardomg.association.member.test.configuration.factory.PublicMembers;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -60,7 +61,7 @@ class ITPublicMemberRepositoryFindAllPaginated extends AbstractPaginationIT<Publ
 
     @Override
     protected final Page<PublicMember> read(final Pagination pagination, final Sorting sorting) {
-        return repository.findAll(new PublicMemberFilter(""), pagination, sorting);
+        return repository.findAll(PublicMemberFilters.empty(), pagination, sorting);
     }
 
     @Test
@@ -74,7 +75,7 @@ class ITPublicMemberRepositoryFindAllPaginated extends AbstractPaginationIT<Publ
         // GIVEN
         pagination = new Pagination(1, 1);
         sorting = Sorting.unsorted();
-        filter = new PublicMemberFilter("");
+        filter = PublicMemberFilters.empty();
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -97,7 +98,7 @@ class ITPublicMemberRepositoryFindAllPaginated extends AbstractPaginationIT<Publ
         // GIVEN
         pagination = new Pagination(2, 1);
         sorting = Sorting.unsorted();
-        filter = new PublicMemberFilter("");
+        filter = PublicMemberFilters.empty();
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);

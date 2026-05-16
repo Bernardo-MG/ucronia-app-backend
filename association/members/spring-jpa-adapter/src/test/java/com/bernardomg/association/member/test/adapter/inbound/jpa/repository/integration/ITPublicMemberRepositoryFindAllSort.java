@@ -40,6 +40,7 @@ import com.bernardomg.association.member.domain.filter.PublicMemberFilter;
 import com.bernardomg.association.member.domain.model.PublicMember;
 import com.bernardomg.association.member.domain.repository.PublicMemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.MultipleActiveMember;
+import com.bernardomg.association.member.test.configuration.factory.PublicMemberFilters;
 import com.bernardomg.association.member.test.configuration.factory.PublicMembers;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -72,7 +73,7 @@ class ITPublicMemberRepositoryFindAllSort {
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC)));
-        filter = new PublicMemberFilter("");
+        filter = PublicMemberFilters.empty();
 
         // WHEN
         // FIXME: names should be sorted ignoring case
@@ -97,7 +98,7 @@ class ITPublicMemberRepositoryFindAllSort {
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.DESC)));
-        filter = new PublicMemberFilter("");
+        filter = PublicMemberFilters.empty();
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -121,7 +122,7 @@ class ITPublicMemberRepositoryFindAllSort {
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("lastName", Sorting.Direction.ASC)));
-        filter = new PublicMemberFilter("");
+        filter = PublicMemberFilters.empty();
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -145,7 +146,7 @@ class ITPublicMemberRepositoryFindAllSort {
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("lastName", Sorting.Direction.DESC)));
-        filter = new PublicMemberFilter("");
+        filter = PublicMemberFilters.empty();
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);

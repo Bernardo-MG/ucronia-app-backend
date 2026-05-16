@@ -40,6 +40,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.association.member.domain.filter.PublicMemberFilter;
 import com.bernardomg.association.member.domain.model.PublicMember;
 import com.bernardomg.association.member.domain.repository.PublicMemberRepository;
+import com.bernardomg.association.member.test.configuration.factory.PublicMemberFilters;
 import com.bernardomg.association.member.test.configuration.factory.PublicMembers;
 import com.bernardomg.association.member.usecase.service.DefaultPublicMemberService;
 import com.bernardomg.pagination.domain.Page;
@@ -68,7 +69,7 @@ class TestPublicMemberServiceGetAll {
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
-        filter = new PublicMemberFilter("");
+        filter = PublicMemberFilters.empty();
 
         existing = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
         given(memberRepository.findAll(filter, pagination, sorting)).willReturn(existing);
@@ -96,7 +97,7 @@ class TestPublicMemberServiceGetAll {
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
-        filter = new PublicMemberFilter("");
+        filter = PublicMemberFilters.empty();
 
         existing = new Page<>(List.of(PublicMembers.valid()), 0, 0, 0, 0, 0, false, false, sorting);
         given(memberRepository.findAll(filter, pagination, sorting)).willReturn(existing);

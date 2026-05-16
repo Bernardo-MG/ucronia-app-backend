@@ -26,6 +26,7 @@ package com.bernardomg.association.member.adapter.outbound.rest.controller;
 
 import java.time.Instant;
 import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.web.bind.annotation.RestController;
 
@@ -66,7 +67,7 @@ public class MembershipEvolutionController implements MembershipEvolutionApi {
         final Collection<MembershipEvolutionMonth> evolution;
         final MembershipEvolutionFilter            query;
 
-        query = new MembershipEvolutionFilter(from, to);
+        query = new MembershipEvolutionFilter(Optional.ofNullable(from), Optional.ofNullable(to));
         evolution = service.getMonthlyEvolution(query);
 
         return MembershipMonthlyEvolutionDtoMapper.toResponseDto(evolution);

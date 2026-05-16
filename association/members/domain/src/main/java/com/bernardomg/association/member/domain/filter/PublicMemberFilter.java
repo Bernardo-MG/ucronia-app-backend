@@ -24,12 +24,13 @@
 
 package com.bernardomg.association.member.domain.filter;
 
-public record PublicMemberFilter(String name) {
+import java.util.Objects;
+import java.util.Optional;
 
-    public PublicMemberFilter {
-        if (name == null) {
-            name = "";
-        }
+public record PublicMemberFilter(Optional<String> name) {
+
+    public PublicMemberFilter(final Optional<String> name) {
+        this.name = Objects.requireNonNull(name);
     }
 
 }

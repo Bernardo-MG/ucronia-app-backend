@@ -24,18 +24,16 @@
 
 package com.bernardomg.association.member.domain.filter;
 
+import java.util.Objects;
+import java.util.Optional;
+
 import com.bernardomg.association.member.domain.model.MemberStatus;
 
-public record MemberFilter(MemberStatus status, String name) {
+public record MemberFilter(Optional<MemberStatus> status, Optional<String> name) {
 
-    public MemberFilter {
-        // TODO: reject nulls
-        if (status == null) {
-            status = MemberStatus.ALL;
-        }
-        if (name == null) {
-            name = "";
-        }
+    public MemberFilter(final Optional<MemberStatus> status, final Optional<String> name) {
+        this.status = Objects.requireNonNull(status);
+        this.name = Objects.requireNonNull(name);
     }
 
 }
