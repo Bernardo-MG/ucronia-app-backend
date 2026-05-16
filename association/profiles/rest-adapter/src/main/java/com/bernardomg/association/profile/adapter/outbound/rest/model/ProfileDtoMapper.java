@@ -54,7 +54,7 @@ import com.bernardomg.pagination.domain.Sorting.Property;
 public final class ProfileDtoMapper {
 
     public static final Profile toDomain(final long number, final ProfilePatchDto change) {
-        final Name                name;
+        final Name                       name;
         final Collection<ContactChannel> contactChannels;
 
         name = new Name(change.getName()
@@ -66,12 +66,12 @@ public final class ProfileDtoMapper {
             .map(ProfileDtoMapper::toDomain)
             .toList();
 
-        return new Profile(change.getIdentifier(), number, name, change.getBirthDate(), contactChannels,
-            change.getAddress(), change.getComments(), Set.of());
+        return new Profile(change.getIdentifier(), number, name, Optional.ofNullable(change.getBirthDate()),
+            contactChannels, change.getAddress(), change.getComments(), Set.of());
     }
 
     public static final Profile toDomain(final long number, final ProfileUpdateDto change) {
-        final Name                name;
+        final Name                       name;
         final Collection<ContactChannel> contactChannels;
 
         name = new Name(change.getName()
@@ -83,8 +83,8 @@ public final class ProfileDtoMapper {
             .map(ProfileDtoMapper::toDomain)
             .toList();
 
-        return new Profile(change.getIdentifier(), number, name, change.getBirthDate(), contactChannels,
-            change.getAddress(), change.getComments(), Set.of());
+        return new Profile(change.getIdentifier(), number, name, Optional.ofNullable(change.getBirthDate()),
+            contactChannels, change.getAddress(), change.getComments(), Set.of());
     }
 
     public static final Profile toDomain(final ProfileCreationDto creation) {
@@ -166,7 +166,8 @@ public final class ProfileDtoMapper {
         return new ProfileDto().identifier(profile.identifier())
             .number(profile.number())
             .name(name)
-            .birthDate(profile.birthDate())
+            .birthDate(profile.birthDate()
+                .orElse(null))
             .contactChannels(contactChannels)
             .address(profile.address())
             .comments(profile.comments())

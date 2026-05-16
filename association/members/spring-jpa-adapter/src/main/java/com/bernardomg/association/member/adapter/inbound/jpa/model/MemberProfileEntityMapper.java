@@ -52,8 +52,8 @@ public final class MemberProfileEntityMapper {
             .toList();
 
         feeType = new FeeType(0L, "", 0F);
-        return new Member(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(), contactChannels,
-            entity.getAddress(), entity.getComments(), true, true, feeType, entity.getTypes());
+        return new Member(entity.getIdentifier(), entity.getNumber(), name, Optional.of(entity.getBirthDate()),
+            contactChannels, entity.getAddress(), entity.getComments(), true, true, feeType, entity.getTypes());
     }
 
     public static final MemberInnerProfileEntity toEntity(final Member data,
@@ -68,7 +68,8 @@ public final class MemberProfileEntityMapper {
         entity.setLastName(data.name()
             .lastName());
         entity.setIdentifier(data.identifier());
-        entity.setBirthDate(data.birthDate());
+        entity.setBirthDate(data.birthDate()
+            .orElse(null));
         entity.setAddress(data.address());
         entity.setComments(data.comments());
 

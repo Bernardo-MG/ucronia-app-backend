@@ -67,8 +67,8 @@ public final class MemberEntityMapper {
             .getIdentifier(),
             entity.getProfile()
                 .getNumber(),
-            name, entity.getProfile()
-                .getBirthDate(),
+            name, Optional.ofNullable(entity.getProfile()
+                .getBirthDate()),
             contactChannels, entity.getProfile()
                 .getAddress(),
             entity.getProfile()
@@ -96,8 +96,8 @@ public final class MemberEntityMapper {
             .map(MemberEntityMapper::toDomain)
             .toList();
 
-        return new Member(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(), contactChannels,
-            entity.getAddress(), entity.getComments(), entity.getActive(), entity.getRenew(), feeType,
+        return new Member(entity.getIdentifier(), entity.getNumber(), name, Optional.ofNullable(entity.getBirthDate()),
+            contactChannels, entity.getAddress(), entity.getComments(), entity.getActive(), entity.getRenew(), feeType,
             entity.getTypes());
     }
 
@@ -114,7 +114,8 @@ public final class MemberEntityMapper {
         profile.setLastName(data.name()
             .lastName());
         profile.setIdentifier(data.identifier());
-        profile.setBirthDate(data.birthDate());
+        profile.setBirthDate(data.birthDate()
+            .orElse(null));
         profile.setAddress(data.address());
         profile.setComments(data.comments());
 
@@ -152,7 +153,8 @@ public final class MemberEntityMapper {
         profile.setLastName(data.name()
             .lastName());
         profile.setIdentifier(data.identifier());
-        profile.setBirthDate(data.birthDate());
+        profile.setBirthDate(data.birthDate()
+            .orElse(null));
         profile.setAddress(data.address());
         profile.setComments(data.comments());
 

@@ -48,7 +48,7 @@ public final class ProfileEntityMapper {
             .map(ContactChannelEntityMapper::toDomain)
             .toList();
 
-        return new Profile(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(), contactChannels,
+        return new Profile(entity.getIdentifier(), entity.getNumber(), name, Optional.ofNullable(entity.getBirthDate()), contactChannels,
             entity.getAddress(), entity.getComments(), entity.getTypes());
     }
 
@@ -64,7 +64,7 @@ public final class ProfileEntityMapper {
         entity.setLastName(data.name()
             .lastName());
         entity.setIdentifier(data.identifier());
-        entity.setBirthDate(data.birthDate());
+        entity.setBirthDate(data.birthDate().orElse(null));
         entity.setAddress(data.address());
         entity.setComments(data.comments());
 

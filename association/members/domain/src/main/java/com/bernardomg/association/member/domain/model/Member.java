@@ -28,17 +28,18 @@ import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 
-public record Member(String identifier, Long number, Name name, Instant birthDate,
+public record Member(String identifier, Long number, Name name, Optional<Instant> birthDate,
         Collection<ContactChannel> contactChannels, String address, String comments, Boolean active, Boolean renew,
         FeeType feeType, Set<String> types) {
 
     public static final String PROFILE_TYPE = "member";
 
-    public Member(final String identifier, final Long number, final Name name, final Instant birthDate,
+    public Member(final String identifier, final Long number, final Name name, final Optional<Instant> birthDate,
             final Collection<ContactChannel> contactChannels, final String address, final String comments,
             final Boolean active, final Boolean renew, final FeeType feeType, final Set<String> types) {
         Objects.requireNonNull(identifier);

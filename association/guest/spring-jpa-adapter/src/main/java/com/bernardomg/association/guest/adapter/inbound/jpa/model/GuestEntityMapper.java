@@ -58,8 +58,8 @@ public final class GuestEntityMapper {
             .getIdentifier(),
             entity.getProfile()
                 .getNumber(),
-            name, entity.getProfile()
-                .getBirthDate(),
+            name, Optional.ofNullable(entity.getProfile()
+                .getBirthDate()),
             contactChannels, entity.getGames(), entity.getProfile()
                 .getAddress(),
             entity.getProfile()
@@ -79,8 +79,8 @@ public final class GuestEntityMapper {
             .map(GuestEntityMapper::toDomain)
             .toList();
 
-        return new Guest(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(), contactChannels,
-            entity.getGames(), entity.getAddress(), entity.getComments(), entity.getTypes());
+        return new Guest(entity.getIdentifier(), entity.getNumber(), name, Optional.ofNullable(entity.getBirthDate()),
+            contactChannels, entity.getGames(), entity.getAddress(), entity.getComments(), entity.getTypes());
     }
 
     public static final GuestEntity toEntity(final Guest data,
@@ -96,7 +96,8 @@ public final class GuestEntityMapper {
         profile.setLastName(data.name()
             .lastName());
         profile.setIdentifier(data.identifier());
-        profile.setBirthDate(data.birthDate());
+        profile.setBirthDate(data.birthDate()
+            .orElse(null));
         profile.setAddress(data.address());
         profile.setComments(data.comments());
 
@@ -133,7 +134,8 @@ public final class GuestEntityMapper {
         profile.setLastName(data.name()
             .lastName());
         profile.setIdentifier(data.identifier());
-        profile.setBirthDate(data.birthDate());
+        profile.setBirthDate(data.birthDate()
+            .orElse(null));
         profile.setAddress(data.address());
         profile.setComments(data.comments());
 

@@ -50,8 +50,8 @@ public final class GuestProfileEntityMapper {
             .map(GuestProfileEntityMapper::toDomain)
             .toList();
 
-        return new Guest(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(), contactChannels,
-            List.of(), entity.getAddress(), entity.getComments(), entity.getTypes());
+        return new Guest(entity.getIdentifier(), entity.getNumber(), name, Optional.ofNullable(entity.getBirthDate()),
+            contactChannels, List.of(), entity.getAddress(), entity.getComments(), entity.getTypes());
     }
 
     public static final GuestInnerProfileEntity toEntity(final Guest data,
@@ -66,7 +66,8 @@ public final class GuestProfileEntityMapper {
         entity.setLastName(data.name()
             .lastName());
         entity.setIdentifier(data.identifier());
-        entity.setBirthDate(data.birthDate());
+        entity.setBirthDate(data.birthDate()
+            .orElse(null));
         entity.setAddress(data.address());
         entity.setComments(data.comments());
 

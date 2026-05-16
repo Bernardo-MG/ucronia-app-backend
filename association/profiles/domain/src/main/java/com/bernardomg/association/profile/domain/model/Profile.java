@@ -28,14 +28,15 @@ import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 
-public record Profile(String identifier, Long number, Name name, Instant birthDate,
+public record Profile(String identifier, Long number, Name name, Optional<Instant> birthDate,
         Collection<ContactChannel> contactChannels, String address, String comments, Set<String> types) {
 
-    public Profile(final String identifier, final Long number, final Name name, final Instant birthDate,
+    public Profile(final String identifier, final Long number, final Name name, final Optional<Instant> birthDate,
             final Collection<ContactChannel> contactChannels, final String address, final String comments,
             final Set<String> types) {
         Objects.requireNonNull(identifier);

@@ -28,17 +28,18 @@ import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 
-public record Guest(String identifier, Long number, Name name, Instant birthDate,
+public record Guest(String identifier, Long number, Name name, Optional<Instant> birthDate,
         Collection<ContactChannel> contactChannels, Collection<Instant> games, String address, String comments,
         Set<String> types) {
 
     public static final String PROFILE_TYPE = "guest";
 
-    public Guest(final String identifier, final Long number, final Name name, final Instant birthDate,
+    public Guest(final String identifier, final Long number, final Name name, final Optional<Instant> birthDate,
             final Collection<ContactChannel> contactChannels, final Collection<Instant> games, final String address,
             final String comments, final Set<String> types) {
         Objects.requireNonNull(contactChannels);
