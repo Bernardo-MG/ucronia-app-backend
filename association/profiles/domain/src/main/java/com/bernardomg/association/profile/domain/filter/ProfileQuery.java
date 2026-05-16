@@ -27,10 +27,14 @@ package com.bernardomg.association.profile.domain.filter;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
+
 public record ProfileQuery(Optional<String> name) {
 
     public ProfileQuery(final Optional<String> name) {
-        this.name = Objects.requireNonNull(name);
+        Objects.requireNonNull(name);
+
+        this.name = name.map(StringUtils::trim);
     }
 
 }

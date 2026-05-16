@@ -27,10 +27,14 @@ package com.bernardomg.association.guest.domain.filter;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
+
 public record GuestFilter(Optional<String> name) {
 
     public GuestFilter(final Optional<String> name) {
-        this.name = Objects.requireNonNull(name);
+        Objects.requireNonNull(name);
+
+        this.name = name.map(StringUtils::trim);
     }
 
 }
