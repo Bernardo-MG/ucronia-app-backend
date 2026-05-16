@@ -60,7 +60,7 @@ class ITSponsorProfileRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(guest)
-            .contains(Sponsors.valid());
+            .contains(Sponsors.withoutYear());
     }
 
     @Test
@@ -87,7 +87,7 @@ class ITSponsorProfileRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(guest)
-            .contains(Sponsors.withEmail());
+            .contains(Sponsors.withEmailAndNoYear());
     }
 
 }
