@@ -63,9 +63,8 @@ public final class Profiles {
 
         name = new Name(" " + ProfileConstants.FIRST_NAME + " ", " " + ProfileConstants.LAST_NAME + " ");
         return new Profile(Optional.of(ProfileConstants.IDENTIFIER), ProfileConstants.NUMBER, name,
-            Optional.of(ProfileConstants.BIRTH_DATE), List.of(),
-            Optional.of(" " + Optional.of(ProfileConstants.ADDRESS) + " "),
-            Optional.of(" " + Optional.of(ProfileConstants.COMMENTS) + " "), Set.of());
+            Optional.of(ProfileConstants.BIRTH_DATE), List.of(), Optional.of(" " + ProfileConstants.ADDRESS + " "),
+            Optional.of(" " + ProfileConstants.COMMENTS + " "), Set.of());
     }
 
     public static final Profile valid() {
