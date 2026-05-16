@@ -139,4 +139,8 @@ public final class Sponsors {
         return new Sponsor.ContactMethod(SponsorContactMethodConstants.NUMBER, SponsorContactMethodConstants.EMAIL);
     }
 
+    private Sponsors() {
+        super();
+    }
+
 }

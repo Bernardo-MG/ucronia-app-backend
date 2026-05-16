@@ -36,6 +36,7 @@ import com.bernardomg.association.sponsor.domain.filter.SponsorFilter;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
 import com.bernardomg.association.sponsor.test.configuration.data.annotation.MultipleSponsors;
+import com.bernardomg.association.sponsor.test.configuration.factory.SponsorFilters;
 import com.bernardomg.association.sponsor.test.configuration.factory.Sponsors;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -58,7 +59,7 @@ class ITSponsorRepositoryFindAllPaginated extends AbstractPaginationIT<Sponsor> 
 
     @Override
     protected final Page<Sponsor> read(final Pagination pagination, final Sorting sorting) {
-        return repository.findAll(new SponsorFilter(""), pagination, sorting);
+        return repository.findAll(SponsorFilters.empty(), pagination, sorting);
     }
 
     @Test
@@ -72,7 +73,7 @@ class ITSponsorRepositoryFindAllPaginated extends AbstractPaginationIT<Sponsor> 
         // GIVEN
         pagination = new Pagination(1, 1);
         sorting = Sorting.unsorted();
-        filter = new SponsorFilter("");
+        filter = SponsorFilters.empty();
 
         // WHEN
         sponsors = repository.findAll(filter, pagination, sorting);
@@ -95,7 +96,7 @@ class ITSponsorRepositoryFindAllPaginated extends AbstractPaginationIT<Sponsor> 
         // GIVEN
         pagination = new Pagination(2, 1);
         sorting = Sorting.unsorted();
-        filter = new SponsorFilter("");
+        filter = SponsorFilters.empty();
 
         // WHEN
         sponsors = repository.findAll(filter, pagination, sorting);

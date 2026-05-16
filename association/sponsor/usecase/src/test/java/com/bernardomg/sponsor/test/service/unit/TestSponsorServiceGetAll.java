@@ -41,6 +41,7 @@ import com.bernardomg.association.sponsor.domain.filter.SponsorFilter;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
 import com.bernardomg.association.sponsor.domain.repository.SponsorContactMethodRepository;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
+import com.bernardomg.association.sponsor.test.configuration.factory.SponsorFilters;
 import com.bernardomg.association.sponsor.test.configuration.factory.Sponsors;
 import com.bernardomg.association.sponsor.usecase.service.DefaultSponsorService;
 import com.bernardomg.pagination.domain.Page;
@@ -72,7 +73,7 @@ class TestSponsorServiceGetAll {
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
-        filter = new SponsorFilter("");
+        filter = SponsorFilters.empty();
 
         existing = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
         given(sponsorRepository.findAll(filter, pagination, sorting)).willReturn(existing);
@@ -100,7 +101,7 @@ class TestSponsorServiceGetAll {
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
-        filter = new SponsorFilter("");
+        filter = SponsorFilters.empty();
 
         existing = new Page<>(List.of(Sponsors.valid()), 0, 0, 0, 0, 0, false, false, sorting);
         given(sponsorRepository.findAll(filter, pagination, sorting)).willReturn(existing);

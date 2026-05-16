@@ -38,6 +38,7 @@ import com.bernardomg.association.sponsor.domain.filter.SponsorFilter;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
 import com.bernardomg.association.sponsor.test.configuration.data.annotation.MultipleSponsors;
+import com.bernardomg.association.sponsor.test.configuration.factory.SponsorFilters;
 import com.bernardomg.association.sponsor.test.configuration.factory.Sponsors;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -68,7 +69,7 @@ class ITSponsorRepositoryFindAllSort {
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC)));
-        filter = new SponsorFilter("");
+        filter = SponsorFilters.empty();
 
         // WHEN
         // FIXME: names should be sorted ignoring case
@@ -93,7 +94,7 @@ class ITSponsorRepositoryFindAllSort {
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.DESC)));
-        filter = new SponsorFilter("");
+        filter = SponsorFilters.empty();
 
         // WHEN
         sponsors = repository.findAll(filter, pagination, sorting);
@@ -117,7 +118,7 @@ class ITSponsorRepositoryFindAllSort {
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("lastName", Sorting.Direction.ASC)));
-        filter = new SponsorFilter("");
+        filter = SponsorFilters.empty();
 
         // WHEN
         sponsors = repository.findAll(filter, pagination, sorting);
@@ -141,7 +142,7 @@ class ITSponsorRepositoryFindAllSort {
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("lastName", Sorting.Direction.DESC)));
-        filter = new SponsorFilter("");
+        filter = SponsorFilters.empty();
 
         // WHEN
         sponsors = repository.findAll(filter, pagination, sorting);

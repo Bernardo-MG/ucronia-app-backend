@@ -101,7 +101,7 @@ public class SponsorController implements SponsorApi {
         pagination = new Pagination(page, size);
         sorting = WebSorting.toSorting(sort);
 
-        filter = new SponsorFilter(name);
+        filter = new SponsorFilter(Optional.ofNullable(name));
 
         members = service.getAll(filter, pagination, sorting);
 

@@ -24,13 +24,17 @@
 
 package com.bernardomg.association.sponsor.domain.filter;
 
-public record SponsorFilter(String name) {
+import java.util.Objects;
+import java.util.Optional;
 
-    public SponsorFilter {
-        // TODO: reject nulls
-        if (name == null) {
-            name = "";
-        }
+import org.apache.commons.lang3.StringUtils;
+
+public record SponsorFilter(Optional<String> name) {
+
+    public SponsorFilter(final Optional<String> name) {
+        Objects.requireNonNull(name);
+
+        this.name = name.map(StringUtils::trim);
     }
 
 }
