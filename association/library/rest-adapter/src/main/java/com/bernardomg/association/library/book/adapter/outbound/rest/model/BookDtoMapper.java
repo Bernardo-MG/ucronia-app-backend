@@ -116,12 +116,12 @@ public final class BookDtoMapper {
             }
             if (fictionBookUpdateDto.getDonation()
                 .getDate() == null) {
-                donationDate = null;
+                donationDate = Optional.empty();
             } else {
                 donationDate = Optional.of(fictionBookUpdateDto.getDonation()
                     .getDate());
             }
-            if ((donationDate == null) && (donors.isEmpty())) {
+            if ((donationDate.isEmpty()) && (donors.isEmpty())) {
                 donation = Optional.empty();
             } else {
                 donation = Optional.of(new Donation(donationDate, donors));
@@ -213,12 +213,12 @@ public final class BookDtoMapper {
             }
             if (gameBookUpdateDto.getDonation()
                 .getDate() == null) {
-                donationDate = null;
+                donationDate = Optional.empty();
             } else {
                 donationDate = Optional.of(gameBookUpdateDto.getDonation()
                     .getDate());
             }
-            if ((donationDate == null) && (donors.isEmpty())) {
+            if ((donationDate.isEmpty()) && (donors.isEmpty())) {
                 donation = Optional.empty();
             } else {
                 donation = Optional.of(new Donation(donationDate, donors));
@@ -322,8 +322,8 @@ public final class BookDtoMapper {
 
         title = new Title(supertitle, bookCreationDto.getTitle()
             .getTitle(), subtitle);
-        return new GameBook(-1, title, bookCreationDto.getIsbn(), bookCreationDto.getLanguage(), null, false, List.of(),
-            List.of(), List.of(), Optional.empty(), Optional.empty(), Optional.empty());
+        return new GameBook(-1, title, bookCreationDto.getIsbn(), bookCreationDto.getLanguage(), Optional.empty(),
+            false, List.of(), List.of(), List.of(), Optional.empty(), Optional.empty(), Optional.empty());
     }
 
     public static final GameBookResponseDto toGameResponseDto(final Optional<GameBook> gameBooks) {
