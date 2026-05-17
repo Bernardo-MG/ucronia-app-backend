@@ -83,7 +83,7 @@ public final class FeeDtoMapper {
         if (change.getTransaction() == null) {
             fee = Fee.unpaid(month, number, name, feeType);
         } else {
-            transaction = new Fee.Transaction(null, change.getTransaction());
+            transaction = new Fee.Transaction(-1L, change.getTransaction());
             fee = Fee.paid(month, number, name, feeType, transaction);
         }
 
