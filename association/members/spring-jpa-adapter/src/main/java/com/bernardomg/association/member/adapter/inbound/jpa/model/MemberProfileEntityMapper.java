@@ -53,7 +53,7 @@ public final class MemberProfileEntityMapper {
 
         feeType = new FeeType(0L, "", 0F);
         return new Member(Optional.ofNullable(entity.getIdentifier()), entity.getNumber(), name,
-            Optional.of(entity.getBirthDate()), contactChannels, Optional.ofNullable(entity.getAddress()),
+            Optional.ofNullable(entity.getBirthDate()), contactChannels, Optional.ofNullable(entity.getAddress()),
             Optional.ofNullable(entity.getComments()), true, true, feeType, entity.getTypes());
     }
 
