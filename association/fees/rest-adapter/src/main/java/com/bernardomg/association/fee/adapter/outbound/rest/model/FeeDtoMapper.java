@@ -51,7 +51,9 @@ import com.bernardomg.association.fee.adapter.outbound.rest.dto.YearsRangeDto;
 import com.bernardomg.association.fee.adapter.outbound.rest.dto.YearsRangeResponseDto;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.Fee.Transaction;
+import com.bernardomg.association.fee.domain.model.FeeMember.Name;
 import com.bernardomg.association.fee.domain.model.FeePayments;
+import com.bernardomg.association.fee.domain.model.FeeType;
 import com.bernardomg.association.fee.domain.model.MemberFees;
 import com.bernardomg.association.fee.domain.model.YearsRange;
 import com.bernardomg.pagination.domain.Page;
@@ -73,12 +75,16 @@ public final class FeeDtoMapper {
     public static final Fee toDomain(final FeeUpdateDto change, final Instant month, final long number) {
         final Transaction transaction;
         final Fee         fee;
+        final Name        name;
+        final FeeType     feeType;
 
+        name = new Name("", "");
+        feeType = new FeeType(-1, "", 0F);
         if (change.getTransaction() == null) {
-            fee = Fee.unpaid(month, number, null, null);
+            fee = Fee.unpaid(month, number, name, feeType);
         } else {
             transaction = new Fee.Transaction(null, change.getTransaction());
-            fee = Fee.paid(month, number, null, null, transaction);
+            fee = Fee.paid(month, number, name, feeType, transaction);
         }
 
         return fee;
