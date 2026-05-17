@@ -59,7 +59,6 @@ import com.bernardomg.association.fee.domain.model.MemberFees.Member;
 import com.bernardomg.association.fee.domain.model.YearsRange;
 import com.bernardomg.association.fee.domain.repository.FeeMemberRepository;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
-import com.bernardomg.association.fee.usecase.validation.FeeFeeTypeNotChangedRule;
 import com.bernardomg.association.fee.usecase.validation.FeeMonthNotExistingRule;
 import com.bernardomg.association.fee.usecase.validation.FeeNotPaidInFutureRule;
 import com.bernardomg.association.fee.usecase.validation.FeePaymentsMonthsNotExistingRule;
@@ -123,7 +122,7 @@ public final class DefaultFeeService implements FeeService {
 
         validatorCreate = new FieldRuleValidator<>(new FeeMonthNotExistingRule(feeMemberRepo, feeRepository));
         validatorUpdate = new FieldRuleValidator<>(new FeeNotPaidInFutureRule(),
-            new FeeTransactionNotChangedRule(feeRepository), new FeeFeeTypeNotChangedRule(feeRepository));
+            new FeeTransactionNotChangedRule(feeRepository));
     }
 
     @Override
@@ -363,7 +362,6 @@ public final class DefaultFeeService implements FeeService {
         final FeeMember   member;
         final Fee         toSave;
         final Transaction transaction;
-        final FeeType     feeType;
 
         log.debug("Updating fee for {} in {} using data {}", fee.member()
             .number(), fee.month(), fee);
@@ -385,21 +383,15 @@ public final class DefaultFeeService implements FeeService {
                 throw new MissingFeeMemberException(fee.member()
                     .number());
             });
-        feeType = feeMemberRepository.findFeeType(member.number())
-            .orElseThrow(() -> {
-                // TODO: incorrect number
-                log.error("Missing fee type {}", member.number());
-                throw new MissingFeeTypeException(member.number());
-            });
 
         validatorUpdate.validate(fee);
 
         if (addedPayment(fee, existing)) {
             // Added payment
-            transaction = savePaymentTransaction(member, feeType, List.of(fee.month()), fee.transaction()
+            transaction = savePaymentTransaction(member, existing.feeType(), List.of(fee.month()), fee.transaction()
                 .get()
                 .date());
-            toSave = toPaidFee(feeType, member, fee.month(), transaction);
+            toSave = toPaidFee(existing.feeType(), member, fee.month(), transaction);
         } else {
             if (changedPayment(fee, existing)) {
                 // Changed payment date
