@@ -78,7 +78,7 @@ public final class GuestDtoMapper {
             .map(GuestDtoMapper::toDomain)
             .toList();
 
-        return new Guest(Optional.ofNullable(change.getIdentifier()), number, name, null, contactChannels,
+        return new Guest(Optional.ofNullable(change.getIdentifier()), number, name, Optional.empty(), contactChannels,
             new ArrayList<>(change.getGames()), Optional.ofNullable(change.getAddress()),
             Optional.ofNullable(change.getComments()), Set.of());
     }
