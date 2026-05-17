@@ -30,6 +30,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
@@ -84,8 +85,9 @@ class TestMemberStatusServiceActivateIfCurrent {
         final Long    number;
 
         // GIVEN
-        date = Instant.now()
-            .plus(1, ChronoUnit.MONTHS);
+        date = ZonedDateTime.now()
+            .plus(1, ChronoUnit.MONTHS)
+            .toInstant();
         number = MemberConstants.NUMBER;
 
         // WHEN
@@ -102,8 +104,9 @@ class TestMemberStatusServiceActivateIfCurrent {
         final Long    number;
 
         // GIVEN
-        date = Instant.now()
-            .minus(1, ChronoUnit.MONTHS);
+        date = ZonedDateTime.now()
+            .minus(1, ChronoUnit.MONTHS)
+            .toInstant();
         number = MemberConstants.NUMBER;
 
         // WHEN

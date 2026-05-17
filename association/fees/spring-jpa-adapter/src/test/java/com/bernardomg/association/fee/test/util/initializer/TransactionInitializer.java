@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.YearMonth;
 import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 
 import org.springframework.stereotype.Component;
@@ -32,13 +33,15 @@ public final class TransactionInitializer {
         .atStartOfDay(ZoneOffset.UTC)
         .toInstant();
 
-    public static final Instant                  NEXT_MONTH          = LocalDate.now()
+    public static final Instant                  NEXT_MONTH          = ZonedDateTime.now()
         .plus(1, ChronoUnit.MONTHS)
+        .toLocalDate()
         .atStartOfDay(ZoneOffset.UTC)
         .toInstant();
 
-    public static final Instant                  PREVIOUS_MONTH      = LocalDate.now()
+    public static final Instant                  PREVIOUS_MONTH      = ZonedDateTime.now()
         .minusMonths(1)
+        .toLocalDate()
         .atStartOfDay(ZoneOffset.UTC)
         .toInstant();
 
