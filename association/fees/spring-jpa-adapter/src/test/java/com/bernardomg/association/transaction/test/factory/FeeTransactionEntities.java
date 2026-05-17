@@ -6,7 +6,7 @@ import java.time.Instant;
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTransactionEntity;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionConstants;
 
-public final class TransactionEntities {
+public final class FeeTransactionEntities {
 
     public static final FeeTransactionEntity februaryFee() {
         final FeeTransactionEntity entity = new FeeTransactionEntity();
@@ -35,7 +35,7 @@ public final class TransactionEntities {
         return entity;
     }
 
-    private TransactionEntities() {
+    private FeeTransactionEntities() {
         super();
     }
 

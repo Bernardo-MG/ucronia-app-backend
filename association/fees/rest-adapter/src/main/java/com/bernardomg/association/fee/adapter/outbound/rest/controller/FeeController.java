@@ -25,8 +25,6 @@
 package com.bernardomg.association.fee.adapter.outbound.rest.controller;
 
 import java.time.Instant;
-import java.time.YearMonth;
-import java.time.ZoneOffset;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -77,12 +75,9 @@ public class FeeController implements FeeApi {
     @Override
     @RequireResourceAuthorization(resource = "FEE", action = Actions.CREATE)
     public FeeResponseDto createFee(@Valid final FeeCreationDto feeCreationDto) {
-        final Fee       fee;
-        final YearMonth month;
+        final Fee fee;
 
-        month = YearMonth.from(feeCreationDto.getMonth().atZone(ZoneOffset.UTC));
-
-        fee = service.createFee(month, feeCreationDto.getMember());
+        fee = service.createFee(feeCreationDto.getMonth(), feeCreationDto.getMember());
 
         return FeeDtoMapper.toResponseDto(fee);
     }
@@ -90,12 +85,9 @@ public class FeeController implements FeeApi {
     @Override
     @RequireResourceAuthorization(resource = "FEE", action = Actions.DELETE)
     public FeeResponseDto deleteFee(final Long member, final Instant month) {
-        final Fee       fee;
-        final YearMonth yearMonth;
+        final Fee fee;
 
-        yearMonth = YearMonth.from(month);
-
-        fee = service.delete(member, yearMonth);
+        fee = service.delete(member, month);
 
         return FeeDtoMapper.toResponseDto(fee);
     }
@@ -105,7 +97,7 @@ public class FeeController implements FeeApi {
     public FeePageResponseDto getAllFees(@Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size,
             @Valid final List<String> sort, @Valid final Instant date, @Valid final Instant from,
             @Valid final Instant to) {
-        final FeeFilter   query;
+        final FeeFilter  query;
         final Pagination pagination;
         final Sorting    sorting;
         final Page<Fee>  fees;
@@ -122,11 +114,8 @@ public class FeeController implements FeeApi {
     @RequireResourceAuthorization(resource = "FEE", action = Actions.READ)
     public FeeResponseDto getOneFee(final Long member, final Instant month) {
         final Optional<Fee> fee;
-        final YearMonth     yearMonth;
 
-        yearMonth = YearMonth.from(month);
-
-        fee = service.getOne(member, yearMonth);
+        fee = service.getOne(member, month);
 
         return FeeDtoMapper.toResponseDto(fee);
     }
@@ -146,13 +135,10 @@ public class FeeController implements FeeApi {
     @Override
     @RequireResourceAuthorization(resource = "FEE", action = Actions.UPDATE)
     public FeeResponseDto updateFee(final Long member, final Instant month, @Valid final FeeUpdateDto feeUpdateDto) {
-        final Fee       fee;
-        final Fee       updated;
-        final YearMonth yearMonth;
+        final Fee fee;
+        final Fee updated;
 
-        yearMonth = YearMonth.from(month);
-
-        fee = FeeDtoMapper.toDomain(feeUpdateDto, yearMonth, member);
+        fee = FeeDtoMapper.toDomain(feeUpdateDto, month, member);
         updated = service.update(fee);
         return FeeDtoMapper.toResponseDto(updated);
     }

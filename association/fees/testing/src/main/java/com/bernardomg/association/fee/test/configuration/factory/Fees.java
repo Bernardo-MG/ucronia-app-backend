@@ -4,6 +4,7 @@ package com.bernardomg.association.fee.test.configuration.factory;
 import java.time.Instant;
 import java.time.Month;
 import java.time.YearMonth;
+import java.time.ZoneOffset;
 
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeMember;
@@ -103,7 +104,10 @@ public final class Fees {
 
         name = new FeeMember.Name(MemberConstants.FIRST_NAME, MemberConstants.LAST_NAME);
         feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
-        return Fee.unpaid(YearMonth.of(FeeConstants.YEAR_VALUE, month), number, name, feeType);
+        return Fee.unpaid(YearMonth.of(FeeConstants.YEAR_VALUE, month)
+            .atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant(), number, name, feeType);
     }
 
     public static final Fee notPaidForMonth(final long index, final Month month) {
@@ -112,7 +116,10 @@ public final class Fees {
 
         name = new FeeMember.Name("Name " + index, "Last name " + index);
         feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
-        return Fee.unpaid(YearMonth.of(FeeConstants.YEAR_VALUE, month), index * 10, name, feeType);
+        return Fee.unpaid(YearMonth.of(FeeConstants.YEAR_VALUE, month)
+            .atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant(), index * 10, name, feeType);
     }
 
     public static final Fee notPaidNextYear() {
@@ -205,8 +212,10 @@ public final class Fees {
         name = new FeeMember.Name(MemberConstants.FIRST_NAME, MemberConstants.LAST_NAME);
         feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
         transaction = new Fee.Transaction((long) month, FeeConstants.PAYMENT_DATE);
-        return Fee.paid(YearMonth.of(FeeConstants.YEAR_VALUE, month), MemberConstants.NUMBER, name, feeType,
-            transaction);
+        return Fee.paid(YearMonth.of(FeeConstants.YEAR_VALUE, month)
+            .atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant(), MemberConstants.NUMBER, name, feeType, transaction);
     }
 
     public static final Fee paidForMonth(final int month, final long index) {
@@ -217,8 +226,10 @@ public final class Fees {
         name = new FeeMember.Name(MemberConstants.FIRST_NAME, MemberConstants.LAST_NAME);
         feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
         transaction = new Fee.Transaction(index, FeeConstants.PAYMENT_DATE);
-        return Fee.paid(YearMonth.of(FeeConstants.YEAR_VALUE, month), MemberConstants.NUMBER, name, feeType,
-            transaction);
+        return Fee.paid(YearMonth.of(FeeConstants.YEAR_VALUE, month)
+            .atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant(), MemberConstants.NUMBER, name, feeType, transaction);
     }
 
     public static final Fee paidForMonth(final long index, final Month month) {
@@ -229,7 +240,10 @@ public final class Fees {
         name = new FeeMember.Name("Name " + index, "Last name " + index);
         feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
         transaction = new Fee.Transaction(index * 10, FeeConstants.PAYMENT_DATE);
-        return Fee.paid(YearMonth.of(FeeConstants.YEAR_VALUE, month), index * 10, name, feeType, transaction);
+        return Fee.paid(YearMonth.of(FeeConstants.YEAR_VALUE, month)
+            .atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant(), index * 10, name, feeType, transaction);
     }
 
     public static final Fee paidForMonthAlternative(final int month) {
@@ -240,8 +254,10 @@ public final class Fees {
         name = new FeeMember.Name(MemberConstants.ALTERNATIVE_FIRST_NAME, MemberConstants.ALTERNATIVE_LAST_NAME);
         feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
         transaction = new Fee.Transaction((long) month + 29, FeeConstants.PAYMENT_DATE);
-        return Fee.paid(YearMonth.of(FeeConstants.YEAR_VALUE, month), MemberConstants.ALTERNATIVE_NUMBER, name, feeType,
-            transaction);
+        return Fee.paid(YearMonth.of(FeeConstants.YEAR_VALUE, month)
+            .atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant(), MemberConstants.ALTERNATIVE_NUMBER, name, feeType, transaction);
     }
 
     public static final Fee paidForMonthNoLastName(final int month) {
@@ -252,8 +268,10 @@ public final class Fees {
         name = new FeeMember.Name(MemberConstants.FIRST_NAME, "");
         feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
         transaction = new Fee.Transaction((long) month, FeeConstants.PAYMENT_DATE);
-        return Fee.paid(YearMonth.of(FeeConstants.YEAR_VALUE, month), MemberConstants.NUMBER, name, feeType,
-            transaction);
+        return Fee.paid(YearMonth.of(FeeConstants.YEAR_VALUE, month)
+            .atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant(), MemberConstants.NUMBER, name, feeType, transaction);
     }
 
     public static final Fee paidForMonthPreviousYear(final int month) {
@@ -264,8 +282,10 @@ public final class Fees {
         name = new FeeMember.Name(MemberConstants.FIRST_NAME, MemberConstants.LAST_NAME);
         feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
         transaction = new Fee.Transaction((long) month, FeeConstants.PAYMENT_DATE);
-        return Fee.paid(YearMonth.of(FeeConstants.PREVIOUS_YEAR_TO_DEFAULT.getValue(), month), MemberConstants.NUMBER,
-            name, feeType, transaction);
+        return Fee.paid(YearMonth.of(FeeConstants.PREVIOUS_YEAR_TO_DEFAULT.getValue(), month)
+            .atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant(), MemberConstants.NUMBER, name, feeType, transaction);
     }
 
     public static final Fee paidForMonthPreviousYear(final int month, final long index) {
@@ -276,8 +296,10 @@ public final class Fees {
         name = new FeeMember.Name(MemberConstants.FIRST_NAME, MemberConstants.LAST_NAME);
         feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
         transaction = new Fee.Transaction(index, FeeConstants.PAYMENT_DATE);
-        return Fee.paid(YearMonth.of(FeeConstants.PREVIOUS_YEAR_TO_DEFAULT.getValue(), month), MemberConstants.NUMBER,
-            name, feeType, transaction);
+        return Fee.paid(YearMonth.of(FeeConstants.PREVIOUS_YEAR_TO_DEFAULT.getValue(), month)
+            .atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant(), MemberConstants.NUMBER, name, feeType, transaction);
     }
 
     public static final Fee paidInFuture() {

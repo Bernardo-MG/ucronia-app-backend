@@ -25,18 +25,18 @@
 package com.bernardomg.association.fee.domain.model;
 
 import java.time.Instant;
-import java.time.YearMonth;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
-public record FeePayments(Long member, Instant paymentDate, Collection<YearMonth> months) {
+public record FeePayments(Long member, Instant paymentDate, Collection<Instant> months) {
 
-    public FeePayments(final Long member, final Instant paymentDate, final Collection<YearMonth> months) {
+    public FeePayments(final Long member, final Instant paymentDate, final Collection<Instant> months) {
         Objects.requireNonNull(months);
 
         this.member = Objects.requireNonNull(member);
         this.paymentDate = Objects.requireNonNull(paymentDate);
+        // TODO: Ensure it is at the beginning of the month
         this.months = List.copyOf(months);
     }
 

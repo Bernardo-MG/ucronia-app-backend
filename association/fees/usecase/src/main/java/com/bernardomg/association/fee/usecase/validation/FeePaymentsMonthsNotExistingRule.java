@@ -24,7 +24,7 @@
 
 package com.bernardomg.association.fee.usecase.validation;
 
-import java.time.YearMonth;
+import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -65,7 +65,7 @@ public final class FeePaymentsMonthsNotExistingRule implements FieldRule<FeePaym
     public final Optional<FieldFailure> check(final FeePayments payments) {
         final Optional<FieldFailure> failure;
         final FieldFailure           fieldFailure;
-        final List<YearMonth>        existing;
+        final List<Instant>          existing;
         final FeeMember              member;
 
         member = feeMemberRepository.findOne(payments.member())

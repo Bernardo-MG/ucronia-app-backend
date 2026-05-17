@@ -24,7 +24,7 @@
 
 package com.bernardomg.association.fee.usecase.service;
 
-import java.time.YearMonth;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -111,9 +111,11 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
         if (feeType.amount() == 0) {
             // No amount
             // Set to paid automatically
-            fee = Fee.paid(YearMonth.now(), member.number(), name, feeType);
+            // TODO: what about timezone?
+            fee = Fee.paid(Instant.now(), member.number(), name, feeType);
         } else {
-            fee = Fee.unpaid(YearMonth.now(), member.number(), name, feeType);
+            // TODO: what about timezone?
+            fee = Fee.unpaid(Instant.now(), member.number(), name, feeType);
         }
 
         return fee;

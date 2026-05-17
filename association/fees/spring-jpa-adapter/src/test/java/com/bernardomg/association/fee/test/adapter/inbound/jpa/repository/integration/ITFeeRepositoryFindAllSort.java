@@ -25,7 +25,6 @@
 package com.bernardomg.association.fee.test.adapter.inbound.jpa.repository.integration;
 
 import java.time.Month;
-import java.time.YearMonth;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
@@ -121,9 +120,8 @@ class ITFeeRepositoryFindAllSort {
             .asInstanceOf(InstanceOfAssertFactories.list(Fee.class))
             .extracting(Fee::month)
             .as("fee months")
-            .containsExactly(YearMonth.of(FeeConstants.YEAR_VALUE, Month.FEBRUARY),
-                YearMonth.of(FeeConstants.YEAR_VALUE, Month.MARCH), YearMonth.of(FeeConstants.YEAR_VALUE, Month.APRIL),
-                YearMonth.of(FeeConstants.YEAR_VALUE, Month.MAY), YearMonth.of(FeeConstants.YEAR_VALUE, Month.JUNE));
+            .containsExactly(FeeConstants.FEBRUARY_DATE, FeeConstants.MARCH_DATE, FeeConstants.APRIL_DATE,
+                FeeConstants.MAY_DATE, FeeConstants.JUNE_DATE);
     }
 
     @Test
@@ -152,10 +150,8 @@ class ITFeeRepositoryFindAllSort {
             .asInstanceOf(InstanceOfAssertFactories.list(Fee.class))
             .extracting(Fee::month)
             .as("fee months")
-            .containsExactly(YearMonth.of(FeeConstants.YEAR_VALUE, Month.JUNE),
-                YearMonth.of(FeeConstants.YEAR_VALUE, Month.MAY), YearMonth.of(FeeConstants.YEAR_VALUE, Month.APRIL),
-                YearMonth.of(FeeConstants.YEAR_VALUE, Month.MARCH),
-                YearMonth.of(FeeConstants.YEAR_VALUE, Month.FEBRUARY));
+            .containsExactly(FeeConstants.JUNE_DATE, FeeConstants.MAY_DATE, FeeConstants.APRIL_DATE,
+                FeeConstants.MARCH_DATE, FeeConstants.FEBRUARY_DATE);
     }
 
     @Test

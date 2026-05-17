@@ -24,7 +24,7 @@
 
 package com.bernardomg.association.member.usecase.service;
 
-import java.time.YearMonth;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
@@ -55,11 +55,11 @@ public final class DefaultMemberStatusService implements MemberStatusService {
     }
 
     @Override
-    public final void activateIfCurrent(final YearMonth date, final Long memberNumber) {
+    public final void activateIfCurrent(final Instant date, final Long memberNumber) {
         final Optional<Member> member;
         final Member           activated;
 
-        if (YearMonth.now()
+        if (Instant.now()
             .equals(date)) {
             log.debug("Activating member {}", memberNumber);
             member = memberRepository.findOne(memberNumber);
@@ -106,12 +106,12 @@ public final class DefaultMemberStatusService implements MemberStatusService {
     }
 
     @Override
-    public final void deactivateIfCurrent(final YearMonth date, final Long memberNumber) {
+    public final void deactivateIfCurrent(final Instant date, final Long memberNumber) {
         final Optional<Member> member;
         final Member           deactivated;
 
         // If deleting at the current month, the user is set to inactive
-        if (YearMonth.now()
+        if (Instant.now()
             .equals(date)) {
             log.debug("Deactivating member {}", memberNumber);
             member = memberRepository.findOne(memberNumber);

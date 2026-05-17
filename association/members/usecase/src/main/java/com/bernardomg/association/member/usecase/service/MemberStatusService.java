@@ -24,17 +24,17 @@
 
 package com.bernardomg.association.member.usecase.service;
 
-import java.time.YearMonth;
+import java.time.Instant;
 
 /**
  * Member status service.
  */
 public interface MemberStatusService {
 
-    public void activateIfCurrent(final YearMonth date, final Long memberNumber);
+    public void activateIfCurrent(final Instant date, final Long memberNumber);
 
     public void applyRenewal();
 
-    public void deactivateIfCurrent(final YearMonth date, final Long memberNumber);
+    public void deactivateIfCurrent(final Instant date, final Long memberNumber);
 
 }

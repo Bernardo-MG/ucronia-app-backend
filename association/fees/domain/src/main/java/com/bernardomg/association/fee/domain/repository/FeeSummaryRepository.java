@@ -24,12 +24,12 @@
 
 package com.bernardomg.association.fee.domain.repository;
 
-import java.time.YearMonth;
+import java.time.Instant;
 
 import com.bernardomg.association.fee.domain.model.FeeSummary;
 
 public interface FeeSummaryRepository {
 
-    public FeeSummary findForMonth(final YearMonth month);
+    public FeeSummary findForMonth(final Instant month);
 
 }

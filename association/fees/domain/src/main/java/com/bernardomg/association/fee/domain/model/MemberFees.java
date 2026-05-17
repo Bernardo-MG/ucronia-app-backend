@@ -24,7 +24,7 @@
 
 package com.bernardomg.association.fee.domain.model;
 
-import java.time.YearMonth;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -40,9 +40,10 @@ public record MemberFees(Member member, Collection<Fee> fees) {
         this.fees = List.copyOf(fees);
     }
 
-    public record Fee(YearMonth month, Boolean paid) {
+    public record Fee(Instant month, Boolean paid) {
 
-        public Fee(final YearMonth month, final Boolean paid) {
+        public Fee(final Instant month, final Boolean paid) {
+            // TODO: Ensure it is at the beginning of the month
             this.month = Objects.requireNonNull(month);
             this.paid = Objects.requireNonNull(paid);
         }

@@ -27,7 +27,7 @@ package com.bernardomg.association.fee.usecase.service;
 import java.text.Normalizer;
 import java.time.Instant;
 import java.time.Year;
-import java.time.YearMonth;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -127,7 +127,7 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    public final Fee createFee(final YearMonth date, final Long number) {
+    public final Fee createFee(final Instant date, final Long number) {
         final Fee            newFee;
         final Fee            created;
         final FeeMember      member;
@@ -171,7 +171,7 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    public final Fee delete(final long number, final YearMonth date) {
+    public final Fee delete(final long number, final Instant date) {
         final Fee fee;
 
         log.info("Deleting fee for {} in {}", number, date);
@@ -273,7 +273,7 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    public final Optional<Fee> getOne(final long number, final YearMonth date) {
+    public final Optional<Fee> getOne(final long number, final Instant date) {
         final Optional<Fee> fee;
 
         log.info("Getting fee for {} in {}", number, date);
@@ -304,12 +304,12 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     public final Collection<Fee> payFees(final FeePayments feesPayments) {
-        final Collection<Fee>       feesToSave;
-        final FeeMember             member;
-        final Collection<Fee>       created;
-        final Transaction           transaction;
-        final FeeType               feeType;
-        final Collection<YearMonth> feeMonths;
+        final Collection<Fee>     feesToSave;
+        final FeeMember           member;
+        final Collection<Fee>     created;
+        final Transaction         transaction;
+        final FeeType             feeType;
+        final Collection<Instant> feeMonths;
 
         log.info("Paying fees for {} for months {}, paid in {}", feesPayments.member(), feesPayments.months(),
             feesPayments.paymentDate());
@@ -510,7 +510,7 @@ public final class DefaultFeeService implements FeeService {
     }
 
     private final Transaction savePaymentTransaction(final FeeMember member, final FeeType feeType,
-            final Collection<YearMonth> feeMonths, final Instant payDate) {
+            final Collection<Instant> feeMonths, final Instant payDate) {
         final Transaction transaction;
         final Float       feeAmount;
         final String      name;
@@ -526,8 +526,9 @@ public final class DefaultFeeService implements FeeService {
             .fullName();
 
         dates = feeMonths.stream()
-            .map(f -> messageSource.getMessage("fee.payment.month." + f.getMonthValue(), null,
-                LocaleContextHolder.getLocale()) + " " + f.getYear())
+            .map(m -> m.atZone(ZoneOffset.UTC))
+            .map(m -> messageSource.getMessage("fee.payment.month." + m.getMonthValue(), null,
+                LocaleContextHolder.getLocale()) + " " + m.getYear())
             .collect(Collectors.joining(", "));
 
         messageArguments = List.of(name, dates)
@@ -567,7 +568,7 @@ public final class DefaultFeeService implements FeeService {
         return new MemberFees.Fee(fee.month(), fee.paid());
     }
 
-    private final Fee toPaidFee(final FeeType memberFeeType, final FeeMember member, final YearMonth month,
+    private final Fee toPaidFee(final FeeType memberFeeType, final FeeMember member, final Instant month,
             final Transaction transaction) {
         final FeeType         feeType;
         final Fee.Transaction feeTransaction;

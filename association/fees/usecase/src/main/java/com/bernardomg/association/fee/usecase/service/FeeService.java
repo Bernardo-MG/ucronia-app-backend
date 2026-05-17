@@ -24,8 +24,8 @@
 
 package com.bernardomg.association.fee.usecase.service;
 
+import java.time.Instant;
 import java.time.Year;
-import java.time.YearMonth;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -51,24 +51,24 @@ public interface FeeService {
      * Pays fees for a member. This creates the fees for the received months, and registers a payment on the received
      * date.
      *
-     * @param date
-     *            date of the fee
+     * @param month
+     *            fee month
      * @param number
      *            member paying the fees
      * @return the new unpaid fee
      */
-    public Fee createFee(final YearMonth date, final Long number);
+    public Fee createFee(final Instant month, final Long number);
 
     /**
      * Deletes the fee for the received member in the received date.
      *
      * @param number
      *            person number for the fee to delete
-     * @param date
-     *            date of the fee to delete
+     * @param month
+     *            month of the fee to delete
      * @return deleted fee
      */
-    public Fee delete(final long number, final YearMonth date);
+    public Fee delete(final long number, final Instant month);
 
     /**
      * Returns all the fees matching the sample. If the sample fields are empty, then all the fees are returned.
@@ -102,11 +102,11 @@ public interface FeeService {
      *
      * @param memberNumber
      *            member number for the fee to acquire
-     * @param date
-     *            date of the fee to acquire
+     * @param month
+     *            month of the fee to acquire
      * @return an {@code Optional} with the fee, if it exists, of an empty {@code Optional} otherwise
      */
-    public Optional<Fee> getOne(final long memberNumber, final YearMonth date);
+    public Optional<Fee> getOne(final long memberNumber, final Instant month);
 
     /**
      * Returns the range of available years. These are all the years which have fees assigned, except for any future

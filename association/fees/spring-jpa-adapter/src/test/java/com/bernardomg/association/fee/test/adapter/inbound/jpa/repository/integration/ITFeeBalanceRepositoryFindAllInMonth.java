@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.fee.test.adapter.inbound.jpa.repository.integration;
 
+import java.time.temporal.ChronoUnit;
+
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -100,7 +102,7 @@ class ITFeeSummaryRepositoryFindForMonth {
         final FeeSummary summary;
 
         // WHEN
-        summary = repository.findForMonth(FeeConstants.DATE.plusMonths(1));
+        summary = repository.findForMonth(FeeConstants.DATE.plus(1, ChronoUnit.MONTHS));
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
@@ -168,7 +170,7 @@ class ITFeeSummaryRepositoryFindForMonth {
         final FeeSummary summary;
 
         // WHEN
-        summary = repository.findForMonth(FeeConstants.DATE.plusMonths(1));
+        summary = repository.findForMonth(FeeConstants.DATE.plus(1, ChronoUnit.MONTHS));
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {

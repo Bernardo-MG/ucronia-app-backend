@@ -25,7 +25,6 @@
 package com.bernardomg.association.fee.test.adapter.inbound.jpa.repository.integration;
 
 import java.time.Month;
-import java.time.YearMonth;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
@@ -75,7 +74,7 @@ class ITFeeRepositoryGetAllFilter {
         pagination = new Pagination(1, 20);
         sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
 
-        feeQuery = FeesQuery.from(YearMonth.of(2020, Month.JUNE));
+        feeQuery = FeesQuery.from(FeeConstants.JUNE_DATE);
 
         // WHEN
         fees = repository.findAll(feeQuery, pagination, sorting);
@@ -103,7 +102,7 @@ class ITFeeRepositoryGetAllFilter {
         pagination = new Pagination(1, 20);
         sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
 
-        feeQuery = FeesQuery.from(YearMonth.of(2020, Month.JULY));
+        feeQuery = FeesQuery.from(FeeConstants.JULY_DATE);
 
         // WHEN
         fees = repository.findAll(feeQuery, pagination, sorting);
@@ -131,7 +130,7 @@ class ITFeeRepositoryGetAllFilter {
         pagination = new Pagination(1, 20);
         sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
 
-        feeQuery = FeesQuery.inMonth(YearMonth.of(2020, Month.MARCH));
+        feeQuery = FeesQuery.inMonth(FeeConstants.MARCH_DATE);
 
         // WHEN
         fees = repository.findAll(feeQuery, pagination, sorting);
@@ -159,7 +158,7 @@ class ITFeeRepositoryGetAllFilter {
         pagination = new Pagination(1, 20);
         sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
 
-        feeQuery = FeesQuery.to(YearMonth.of(2020, Month.JANUARY));
+        feeQuery = FeesQuery.to(FeeConstants.JANUARY_DATE);
 
         // WHEN
         fees = repository.findAll(feeQuery, pagination, sorting);
@@ -187,7 +186,7 @@ class ITFeeRepositoryGetAllFilter {
         pagination = new Pagination(1, 20);
         sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
 
-        feeQuery = FeesQuery.inMonth(YearMonth.of(2020, Month.DECEMBER));
+        feeQuery = FeesQuery.inMonth(FeeConstants.DECEMBER_DATE);
 
         // WHEN
         fees = repository.findAll(feeQuery, pagination, sorting);
@@ -215,7 +214,7 @@ class ITFeeRepositoryGetAllFilter {
         pagination = new Pagination(1, 20);
         sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
 
-        feeQuery = FeesQuery.inMonth(YearMonth.of(2020, Month.NOVEMBER));
+        feeQuery = FeesQuery.inMonth(FeeConstants.NOVEMBER_DATE);
 
         // WHEN
         fees = repository.findAll(feeQuery, pagination, sorting);
@@ -243,7 +242,7 @@ class ITFeeRepositoryGetAllFilter {
         pagination = new Pagination(1, 20);
         sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
 
-        feeQuery = FeesQuery.inRange(FeeConstants.DATE, YearMonth.of(2020, Month.MAY));
+        feeQuery = FeesQuery.inRange(FeeConstants.DATE, FeeConstants.MAY_DATE);
 
         // WHEN
         fees = repository.findAll(feeQuery, pagination, sorting);
@@ -271,7 +270,7 @@ class ITFeeRepositoryGetAllFilter {
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
 
-        feeQuery = FeesQuery.to(YearMonth.of(2020, Month.JANUARY));
+        feeQuery = FeesQuery.to(FeeConstants.JANUARY_DATE);
 
         // WHEN
         fees = repository.findAll(feeQuery, pagination, sorting);
@@ -327,7 +326,7 @@ class ITFeeRepositoryGetAllFilter {
         pagination = new Pagination(1, 20);
         sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
 
-        feeQuery = FeesQuery.to(YearMonth.of(2020, Month.JANUARY));
+        feeQuery = FeesQuery.to(FeeConstants.JANUARY_DATE);
 
         // WHEN
         fees = repository.findAll(feeQuery, pagination, sorting);

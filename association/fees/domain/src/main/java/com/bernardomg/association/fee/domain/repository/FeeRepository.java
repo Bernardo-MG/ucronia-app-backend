@@ -24,8 +24,8 @@
 
 package com.bernardomg.association.fee.domain.repository;
 
+import java.time.Instant;
 import java.time.Year;
-import java.time.YearMonth;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -38,11 +38,11 @@ import com.bernardomg.pagination.domain.Sorting;
 
 public interface FeeRepository {
 
-    public void delete(final Long number, final YearMonth month);
+    public void delete(final Long number, final Instant month);
 
-    public boolean exists(final Long number, final YearMonth month);
+    public boolean exists(final Long number, final Instant month);
 
-    public boolean existsPaid(final Long number, final YearMonth month);
+    public boolean existsPaid(final Long number, final Instant month);
 
     public Page<Fee> findAll(final FeeFilter query, final Pagination pagination, final Sorting sorting);
 
@@ -54,7 +54,7 @@ public interface FeeRepository {
 
     public Collection<Fee> findAllInYearForInactiveMembers(final Year year, final Sorting sorting);
 
-    public Optional<Fee> findOne(final Long number, final YearMonth date);
+    public Optional<Fee> findOne(final Long number, final Instant date);
 
     public YearsRange findRange();
 

@@ -24,7 +24,7 @@
 
 package com.bernardomg.association.fee.usecase.service;
 
-import java.time.YearMonth;
+import java.time.Instant;
 import java.util.Objects;
 
 import org.slf4j.Logger;
@@ -62,7 +62,7 @@ public final class DefaultFeeSummaryService implements FeeSummaryService {
 
         log.info("Getting fee summary");
 
-        summary = feeSummaryRepository.findForMonth(YearMonth.now());
+        summary = feeSummaryRepository.findForMonth(Instant.now());
 
         log.debug("Got fee summary: {}", summary);
 
