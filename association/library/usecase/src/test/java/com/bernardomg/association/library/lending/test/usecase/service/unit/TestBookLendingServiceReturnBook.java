@@ -29,7 +29,6 @@ import static org.mockito.Mockito.verify;
 
 import java.time.Instant;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.Optional;
 
@@ -148,7 +147,7 @@ class TestBookLendingServiceReturnBook {
         final Instant          date;
 
         // GIVEN
-        date = LocalDate.ofInstant(BookConstants.LENT_DATE, ZoneId.systemDefault())
+        date = LocalDate.ofInstant(BookConstants.LENT_DATE, ZoneOffset.UTC)
             .minusDays(1)
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant();
@@ -170,7 +169,7 @@ class TestBookLendingServiceReturnBook {
         final Instant          date;
 
         // GIVEN
-        date = LocalDate.ofInstant(BookConstants.RETURNED_DATE, ZoneId.systemDefault())
+        date = LocalDate.ofInstant(BookConstants.RETURNED_DATE, ZoneOffset.UTC)
             .minusDays(1)
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant();
@@ -216,7 +215,7 @@ class TestBookLendingServiceReturnBook {
         final Instant          date;
 
         // GIVEN
-        date = LocalDate.ofInstant(Instant.now(), ZoneId.systemDefault())
+        date = LocalDate.ofInstant(Instant.now(), ZoneOffset.UTC)
             .plusDays(1)
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant();

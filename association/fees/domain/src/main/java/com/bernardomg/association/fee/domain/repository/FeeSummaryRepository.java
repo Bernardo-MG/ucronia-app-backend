@@ -30,6 +30,6 @@ import com.bernardomg.association.fee.domain.model.FeeSummary;
 
 public interface FeeSummaryRepository {
 
-    public FeeSummary findForMonth(final YearMonth date);
+    public FeeSummary findForMonth(final YearMonth month);
 
 }

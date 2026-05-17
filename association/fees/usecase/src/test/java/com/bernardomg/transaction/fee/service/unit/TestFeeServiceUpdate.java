@@ -30,7 +30,6 @@ import static org.mockito.Mockito.verify;
 
 import java.time.Instant;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.Optional;
 
@@ -240,7 +239,7 @@ class TestFeeServiceUpdate {
         final Fee     toUpdate;
 
         // GIVEN
-        date = LocalDate.ofInstant(FeeConstants.PAYMENT_DATE, ZoneId.systemDefault())
+        date = LocalDate.ofInstant(FeeConstants.PAYMENT_DATE, ZoneOffset.UTC)
             .plusMonths(1)
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant();
@@ -269,7 +268,7 @@ class TestFeeServiceUpdate {
         final Fee     updated;
 
         // GIVEN
-        date = LocalDate.ofInstant(FeeConstants.PAYMENT_DATE, ZoneId.systemDefault())
+        date = LocalDate.ofInstant(FeeConstants.PAYMENT_DATE, ZoneOffset.UTC)
             .plusMonths(1)
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant();
@@ -298,7 +297,7 @@ class TestFeeServiceUpdate {
         final Instant date;
 
         // GIVEN
-        date = LocalDate.ofInstant(FeeConstants.PAYMENT_DATE, ZoneId.systemDefault())
+        date = LocalDate.ofInstant(FeeConstants.PAYMENT_DATE, ZoneOffset.UTC)
             .plusMonths(1)
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant();
@@ -325,7 +324,7 @@ class TestFeeServiceUpdate {
         final Instant date;
 
         // GIVEN
-        date = LocalDate.ofInstant(FeeConstants.PAYMENT_DATE, ZoneId.systemDefault())
+        date = LocalDate.ofInstant(FeeConstants.PAYMENT_DATE, ZoneOffset.UTC)
             .plusMonths(1)
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant();

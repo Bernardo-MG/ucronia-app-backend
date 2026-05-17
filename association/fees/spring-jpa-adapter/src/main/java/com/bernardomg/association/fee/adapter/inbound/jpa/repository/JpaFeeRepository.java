@@ -84,56 +84,56 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     @Override
-    public final void delete(final Long number, final YearMonth date) {
+    public final void delete(final Long number, final YearMonth month) {
         final Optional<FeeMemberEntity> member;
         final Instant                   dateParsed;
 
-        log.debug("Deleting fee for member {} in date {}", number, date);
+        log.debug("Deleting fee for member {} in date {}", number, month);
 
         member = feeMemberSpringRepository.findByNumber(number);
         if (member.isPresent()) {
-            dateParsed = date.atDay(1)
+            dateParsed = month.atDay(1)
                 .atStartOfDay(ZoneOffset.UTC)
                 .toInstant();
             feeSpringRepository.deleteByMemberIdAndMonth(member.get()
                 .getId(), dateParsed);
 
-            log.debug("Deleted fee for member {} in date {}", number, date);
+            log.debug("Deleted fee for member {} in date {}", number, month);
         } else {
-            log.warn("Couldn't delete fee for member {} in date {}, as the member doesn't exist", number, date);
+            log.warn("Couldn't delete fee for member {} in date {}, as the member doesn't exist", number, month);
         }
     }
 
     @Override
-    public final boolean exists(final Long number, final YearMonth date) {
+    public final boolean exists(final Long number, final YearMonth month) {
         final boolean exists;
         final Instant dateParsed;
 
-        log.debug("checking a fee exists for member {} in date {}", number, date);
+        log.debug("checking a fee exists for member {} in date {}", number, month);
 
-        dateParsed = date.atDay(1)
+        dateParsed = month.atDay(1)
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant();
         exists = feeSpringRepository.existsByMemberNumberAndMonth(number, dateParsed);
 
-        log.debug("Fee exists for member {} in date {}: {}", number, date, exists);
+        log.debug("Fee exists for member {} in date {}: {}", number, month, exists);
 
         return exists;
     }
 
     @Override
-    public final boolean existsPaid(final Long number, final YearMonth date) {
+    public final boolean existsPaid(final Long number, final YearMonth month) {
         final boolean exists;
         final Instant dateParsed;
 
-        log.debug("Checking a paid fee exists for member {} in date {}", number, date);
+        log.debug("Checking a paid fee exists for member {} in date {}", number, month);
 
-        dateParsed = date.atDay(1)
+        dateParsed = month.atDay(1)
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant();
         exists = feeSpringRepository.existsByMemberNumberAndMonthAndPaid(number, dateParsed);
 
-        log.debug("Paid fee exists for member {} in date {}: {}", number, date, exists);
+        log.debug("Paid fee exists for member {} in date {}: {}", number, month, exists);
 
         return exists;
     }

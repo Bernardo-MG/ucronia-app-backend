@@ -26,6 +26,7 @@ package com.bernardomg.association.fee.adapter.outbound.rest.controller;
 
 import java.time.Instant;
 import java.time.YearMonth;
+import java.time.ZoneOffset;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -79,7 +80,7 @@ public class FeeController implements FeeApi {
         final Fee       fee;
         final YearMonth month;
 
-        month = YearMonth.from(feeCreationDto.getMonth());
+        month = YearMonth.from(feeCreationDto.getMonth().atZone(ZoneOffset.UTC));
 
         fee = service.createFee(month, feeCreationDto.getMember());
 

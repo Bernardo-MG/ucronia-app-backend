@@ -116,6 +116,7 @@ public final class TransactionSpecifications {
         final Instant to;
 
         // Starts on the first day of the month
+        // TODO: why local date?
         from = LocalDate.of(month.getYear(), month.getMonthValue(), 1)
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant();

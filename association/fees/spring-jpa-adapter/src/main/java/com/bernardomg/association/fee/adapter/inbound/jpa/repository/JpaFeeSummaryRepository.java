@@ -53,18 +53,18 @@ public final class JpaFeeSummaryRepository implements FeeSummaryRepository {
     }
 
     @Override
-    public final FeeSummary findForMonth(final YearMonth date) {
+    public final FeeSummary findForMonth(final YearMonth month) {
         final FeeSummary summary;
         final Instant    dateParsed;
 
-        log.debug("Finding summary for month {}", date);
+        log.debug("Finding summary for month {}", month);
 
-        dateParsed = date.atDay(1)
+        dateParsed = month.atDay(1)
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant();
         summary = feeSpringRepository.findBalanceForMonth(dateParsed);
 
-        log.debug("Found summary for month {}: {}", date, summary);
+        log.debug("Found summary for month {}: {}", month, summary);
 
         return summary;
     }

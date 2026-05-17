@@ -38,11 +38,11 @@ import com.bernardomg.pagination.domain.Sorting;
 
 public interface FeeRepository {
 
-    public void delete(final Long number, final YearMonth date);
+    public void delete(final Long number, final YearMonth month);
 
-    public boolean exists(final Long number, final YearMonth date);
+    public boolean exists(final Long number, final YearMonth month);
 
-    public boolean existsPaid(final Long number, final YearMonth date);
+    public boolean existsPaid(final Long number, final YearMonth month);
 
     public Page<Fee> findAll(final FeeFilter query, final Pagination pagination, final Sorting sorting);
 
