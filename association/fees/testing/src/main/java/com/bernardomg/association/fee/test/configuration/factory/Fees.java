@@ -89,15 +89,6 @@ public final class Fees {
         return Fee.unpaid(FeeConstants.DATE, MemberConstants.NUMBER, name, feeType);
     }
 
-    public static final Fee notPaidCurrentMonth() {
-        final FeeType        feeType;
-        final FeeMember.Name name;
-
-        name = new FeeMember.Name(MemberConstants.FIRST_NAME, MemberConstants.LAST_NAME);
-        feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
-        return Fee.unpaid(FeeConstants.CURRENT_MONTH, MemberConstants.NUMBER, name, feeType);
-    }
-
     public static final Fee notPaidForMonth(final long index, final long number, final Month month) {
         final FeeType        feeType;
         final FeeMember.Name name;
@@ -365,15 +356,6 @@ public final class Fees {
         name = new FeeMember.Name(MemberConstants.FIRST_NAME, MemberConstants.LAST_NAME);
         feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
         return Fee.paid(FeeConstants.DATE, MemberConstants.NUMBER, name, feeType);
-    }
-
-    public static final Fee paidNoTransactionCurrentMonthNoAmount() {
-        final FeeType        feeType;
-        final FeeMember.Name name;
-
-        name = new FeeMember.Name(MemberConstants.FIRST_NAME, MemberConstants.LAST_NAME);
-        feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, 0F);
-        return Fee.paid(FeeConstants.CURRENT_MONTH, MemberConstants.NUMBER, name, feeType);
     }
 
     public static final Fee paidNoTransactionNoAmount() {
