@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.fee.usecase.service;
 
+import java.time.Instant;
+
 import com.bernardomg.association.fee.domain.model.FeeSummary;
 
 /**
@@ -37,8 +39,12 @@ public interface FeeSummaryService {
     /**
      * Returns the fee payments summary.
      *
+     * @param from
+     *            date to filter from
+     * @param to
+     *            date to filter to
      * @return the fee payments summary
      */
-    public FeeSummary getFeeSummary();
+    public FeeSummary getFeeSummary(final Instant from, final Instant to);
 
 }

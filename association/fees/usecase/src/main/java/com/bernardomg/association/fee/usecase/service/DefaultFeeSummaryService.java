@@ -57,14 +57,14 @@ public final class DefaultFeeSummaryService implements FeeSummaryService {
     }
 
     @Override
-    public final FeeSummary getFeeSummary() {
+    public final FeeSummary getFeeSummary(final Instant from, final Instant to) {
         final FeeSummary summary;
 
-        log.info("Getting fee summary");
+        log.info("Getting fee summary from {} to {}", from, to);
 
-        summary = feeSummaryRepository.findForMonth(Instant.now());
+        summary = feeSummaryRepository.findBetween(from, to);
 
-        log.debug("Got fee summary: {}", summary);
+        log.debug("Got fee summary from {} to {}: {}", from, to, summary);
 
         return summary;
     }

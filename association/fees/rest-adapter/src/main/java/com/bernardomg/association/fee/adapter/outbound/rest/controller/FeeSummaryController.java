@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.fee.adapter.outbound.rest.controller;
 
+import java.time.Instant;
+
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeeSummaryResponseDto;
@@ -32,6 +34,8 @@ import com.bernardomg.association.fee.domain.model.FeeSummary;
 import com.bernardomg.association.fee.usecase.service.FeeSummaryService;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
+
+import jakarta.validation.Valid;
 
 /**
  * Fee summary REST controller.
@@ -52,10 +56,10 @@ public class FeeSummaryController implements FeeSummaryApi {
 
     @Override
     @RequireResourceAuthorization(resource = "FEE", action = Actions.READ)
-    public FeeSummaryResponseDto getFeeSummary() {
+    public FeeSummaryResponseDto getFeeSummary(@Valid final Instant from, @Valid final Instant to) {
         final FeeSummary summary;
 
-        summary = service.getFeeSummary();
+        summary = service.getFeeSummary(from, to);
 
         return FeeSummaryDtoMapper.toResponseDto(summary);
     }

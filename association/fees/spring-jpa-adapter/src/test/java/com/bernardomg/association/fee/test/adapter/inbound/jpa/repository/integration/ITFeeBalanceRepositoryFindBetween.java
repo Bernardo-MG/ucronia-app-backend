@@ -44,19 +44,19 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("FeeSummaryRepository - find all in month")
-class ITFeeSummaryRepositoryFindForMonth {
+@DisplayName("FeeSummaryRepository - find between")
+class ITFeeSummaryRepositoryFindBetween {
 
     @Autowired
     private FeeSummaryRepository repository;
 
     @Test
     @DisplayName("With no data, it returns nothing")
-    void testFindForMonth_NoData() {
+    void testFindBetween_NoData() {
         final FeeSummary summary;
 
         // WHEN
-        summary = repository.findForMonth(FeeConstants.DATE);
+        summary = repository.findBetween(FeeConstants.MONTH_START, FeeConstants.MONTH_END);
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
@@ -74,11 +74,11 @@ class ITFeeSummaryRepositoryFindForMonth {
     @PositiveFeeType
     @ValidProfile
     @PaidFee
-    void testFindForMonth_Paid() {
+    void testFindBetween_Paid() {
         final FeeSummary summary;
 
         // WHEN
-        summary = repository.findForMonth(FeeConstants.DATE);
+        summary = repository.findBetween(FeeConstants.MONTH_START, FeeConstants.MONTH_END);
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
@@ -96,11 +96,11 @@ class ITFeeSummaryRepositoryFindForMonth {
     @PositiveFeeType
     @ValidProfile
     @PaidFee
-    void testFindForMonth_Paid_WrongMonth() {
+    void testFindBetween_Paid_WrongMonth() {
         final FeeSummary summary;
 
         // WHEN
-        summary = repository.findForMonth(FeeConstants.NEXT_MONTH);
+        summary = repository.findBetween(FeeConstants.NEXT_MONTH_START, FeeConstants.NEXT_MONTH_END);
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
@@ -120,11 +120,11 @@ class ITFeeSummaryRepositoryFindForMonth {
     @AlternativeProfile
     @NotPaidFee
     @AlternativePaidFee
-    void testFindForMonth_PaidAndNotPaid() {
+    void testFindBetween_PaidAndNotPaid() {
         final FeeSummary summary;
 
         // WHEN
-        summary = repository.findForMonth(FeeConstants.DATE);
+        summary = repository.findBetween(FeeConstants.MONTH_START, FeeConstants.MONTH_END);
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
@@ -142,11 +142,11 @@ class ITFeeSummaryRepositoryFindForMonth {
     @PositiveFeeType
     @ValidProfile
     @NotPaidFee
-    void testFindForMonth_Unpaid() {
+    void testFindBetween_Unpaid() {
         final FeeSummary summary;
 
         // WHEN
-        summary = repository.findForMonth(FeeConstants.DATE);
+        summary = repository.findBetween(FeeConstants.MONTH_START, FeeConstants.MONTH_END);
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
@@ -164,11 +164,11 @@ class ITFeeSummaryRepositoryFindForMonth {
     @PositiveFeeType
     @ValidProfile
     @NotPaidFee
-    void testFindForMonth_Unpaid_WrongMonth() {
+    void testFindBetween_Unpaid_WrongMonth() {
         final FeeSummary summary;
 
         // WHEN
-        summary = repository.findForMonth(FeeConstants.NEXT_DATE);
+        summary = repository.findBetween(FeeConstants.NEXT_MONTH_START, FeeConstants.NEXT_MONTH_END);
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {

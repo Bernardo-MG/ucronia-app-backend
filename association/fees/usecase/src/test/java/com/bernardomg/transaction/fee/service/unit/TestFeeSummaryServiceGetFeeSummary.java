@@ -27,10 +27,15 @@ package com.bernardomg.transaction.fee.service.unit;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.YearMonth;
+import java.time.ZoneOffset;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -42,7 +47,7 @@ import com.bernardomg.association.fee.usecase.service.DefaultFeeSummaryService;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Fee summary service - get fee summary")
-class TestFeeSummaryServiceGetPaymentReport {
+class TestFeeSummaryServiceGetFeeSummary {
 
     @Mock
     private FeeSummaryRepository     feeBalanceRepository;
@@ -50,22 +55,35 @@ class TestFeeSummaryServiceGetPaymentReport {
     @InjectMocks
     private DefaultFeeSummaryService service;
 
-    public TestFeeSummaryServiceGetPaymentReport() {
+    public TestFeeSummaryServiceGetFeeSummary() {
         super();
     }
 
     @Test
     @DisplayName("When there is data it is returned")
-    void testGetFeeBalance() {
+    void testGetFeeSummary() {
         final FeeSummary summary;
         final FeeSummary read;
+        final Instant    from;
+        final Instant    to;
 
         // GIVEN
+        from = LocalDate.of(2024, 2, 1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
+
+        to = LocalDate.of(2024, 2, 1)
+            .withDayOfMonth(YearMonth.of(2024, 2)
+                .lengthOfMonth())
+            .atTime(LocalTime.MAX)
+            .atZone(ZoneOffset.UTC)
+            .toInstant();
+
         summary = FeeSummaries.both();
-        given(feeBalanceRepository.findForMonth(ArgumentMatchers.any())).willReturn(summary);
+        given(feeBalanceRepository.findBetween(from, to)).willReturn(summary);
 
         // WHEN
-        read = service.getFeeSummary();
+        read = service.getFeeSummary(from, to);
 
         // THEN
         assertThat(read).as("summary")

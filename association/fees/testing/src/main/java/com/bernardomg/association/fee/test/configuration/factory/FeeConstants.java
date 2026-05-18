@@ -3,6 +3,7 @@ package com.bernardomg.association.fee.test.configuration.factory;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.Month;
 import java.time.Year;
 import java.time.YearMonth;
@@ -81,6 +82,21 @@ public final class FeeConstants {
         .atStartOfDay(ZoneOffset.UTC)
         .toInstant();
 
+    public static final Instant MONTH_END                   = FeeConstants.DATE.atZone(ZoneOffset.UTC)
+        .withDayOfMonth(FeeConstants.DATE.atZone(ZoneOffset.UTC)
+            .toLocalDate()
+            .lengthOfMonth())
+        .toLocalDate()
+        .atTime(LocalTime.MAX)
+        .atZone(ZoneOffset.UTC)
+        .toInstant();
+
+    public static final Instant MONTH_START                 = FeeConstants.DATE.atZone(ZoneOffset.UTC)
+        .withDayOfMonth(1)
+        .toLocalDate()
+        .atStartOfDay(ZoneOffset.UTC)
+        .toInstant();
+
     public static final Instant NEXT_DATE                   = YearMonth.of(FeeConstants.YEAR_VALUE, Month.MARCH)
         .atDay(1)
         .atStartOfDay(ZoneOffset.UTC)
@@ -89,6 +105,21 @@ public final class FeeConstants {
     public static final Instant NEXT_MONTH                  = YearMonth.now()
         .plusMonths(1)
         .atDay(1)
+        .atStartOfDay(ZoneOffset.UTC)
+        .toInstant();
+
+    public static final Instant NEXT_MONTH_END              = FeeConstants.NEXT_MONTH.atZone(ZoneOffset.UTC)
+        .withDayOfMonth(FeeConstants.DATE.atZone(ZoneOffset.UTC)
+            .toLocalDate()
+            .lengthOfMonth())
+        .toLocalDate()
+        .atTime(LocalTime.MAX)
+        .atZone(ZoneOffset.UTC)
+        .toInstant();
+
+    public static final Instant NEXT_MONTH_START            = FeeConstants.NEXT_MONTH.atZone(ZoneOffset.UTC)
+        .withDayOfMonth(1)
+        .toLocalDate()
         .atStartOfDay(ZoneOffset.UTC)
         .toInstant();
 

@@ -51,14 +51,14 @@ public final class JpaFeeSummaryRepository implements FeeSummaryRepository {
     }
 
     @Override
-    public final FeeSummary findForMonth(final Instant month) {
+    public final FeeSummary findBetween(final Instant from, final Instant to) {
         final FeeSummary summary;
 
-        log.debug("Finding summary for month {}", month);
+        log.debug("Finding summary from {} to {}", from, to);
 
-        summary = feeSpringRepository.findBalanceForMonth(month);
+        summary = feeSpringRepository.findBalanceBetween(from, to);
 
-        log.debug("Found summary for month {}: {}", month, summary);
+        log.debug("Found summary from {} to {}: {}", from, to, summary);
 
         return summary;
     }
