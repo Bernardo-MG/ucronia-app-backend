@@ -26,6 +26,8 @@ package com.bernardomg.association.member.usecase.service;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.time.YearMonth;
+import java.time.ZoneOffset;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
@@ -111,12 +113,15 @@ public final class DefaultMemberStatusService implements MemberStatusService {
         final Optional<Member> member;
         final Member           deactivated;
         final Duration         tolerance;
-        final Instant          now;
+        final Instant          monthStart;
 
         // If deleting at the current month, the user is set to inactive
         tolerance = Duration.ofDays(1);
-        now = Instant.now();
-        if (Duration.between(date, now)
+        monthStart = YearMonth.now()
+            .atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
+        if (Duration.between(date, monthStart)
             .abs()
             .compareTo(tolerance) <= 0) {
             log.debug("Deactivating member {}", memberNumber);
