@@ -61,9 +61,18 @@ public final class DefaultMemberStatusService implements MemberStatusService {
     public final void activateIfCurrent(final Instant date, final Long memberNumber) {
         final Optional<Member> member;
         final Member           activated;
+        final Duration         tolerance;
+        final Instant          monthStart;
 
-        if (Instant.now()
-            .equals(date)) {
+        // If creating at the current month, the user is set to inactive
+        tolerance = Duration.ofDays(1);
+        monthStart = YearMonth.now()
+            .atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
+        if (Duration.between(date, monthStart)
+            .abs()
+            .compareTo(tolerance) <= 0) {
             log.debug("Activating member {}", memberNumber);
             member = memberRepository.findOne(memberNumber);
 
