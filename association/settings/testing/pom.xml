@@ -11,7 +11,7 @@
    <parent>
       <groupId>com.bernardomg.association.settings</groupId>
       <artifactId>association-settings</artifactId>
-      <version>1.0.0-SNAPSHOT</version>
+      <version>0.7.0</version>
    </parent>
 
    <!-- ********************************************** -->
