@@ -528,7 +528,16 @@
             Fixed error on null date in library report.
          </action>
       </release>
-      <release version="1.0.0" date="2026-03-08" description="">
+      <release version="0.7.0" date="2026-03-08" description="Modularization">
+         <action dev="bmg" type="add">
+            Project modularization.
+         </action>
+         <action dev="bmg" type="update">
+            Cleaned up and corrected model.
+         </action>
+         <action dev="bmg" type="fix">
+            Corrected date handling.
+         </action>
       </release>
    </body>
 </document>
