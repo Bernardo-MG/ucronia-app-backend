@@ -35,9 +35,9 @@ import com.bernardomg.association.TestApplication;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.MultipleActiveMember;
+import com.bernardomg.association.member.test.configuration.factory.MemberFilters;
 import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -61,7 +61,7 @@ class ITMemberRepositoryFindAllPaginated extends AbstractPaginationIT<Member> {
 
     @Override
     protected final Page<Member> read(final Pagination pagination, final Sorting sorting) {
-        return repository.findAll(new MemberFilter(MemberStatus.ALL, ""), pagination, sorting);
+        return repository.findAll(MemberFilters.all(), pagination, sorting);
     }
 
     @Test
@@ -75,7 +75,7 @@ class ITMemberRepositoryFindAllPaginated extends AbstractPaginationIT<Member> {
         // GIVEN
         pagination = new Pagination(1, 1);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.ALL, "");
+        filter = MemberFilters.all();
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -98,7 +98,7 @@ class ITMemberRepositoryFindAllPaginated extends AbstractPaginationIT<Member> {
         // GIVEN
         pagination = new Pagination(2, 1);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.ALL, "");
+        filter = MemberFilters.all();
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);

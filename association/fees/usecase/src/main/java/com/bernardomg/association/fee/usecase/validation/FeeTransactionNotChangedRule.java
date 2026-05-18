@@ -31,6 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bernardomg.association.fee.domain.model.Fee;
+import com.bernardomg.association.fee.domain.model.Fee.Transaction;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRule;
@@ -63,7 +64,15 @@ public final class FeeTransactionNotChangedRule implements FieldRule<Fee> {
             .number(), fee.month())
             .get();
         if (hasTransaction(fee, existing) && wasChanged(fee, existing)) {
-            log.error("Changed fee transaction");
+            log.error("Changed fee transaction from {} to {}", existing.transaction()
+                .map(Transaction::index)
+                .orElse(null),
+                existing.transaction()
+                    .map(Transaction::index)
+                    .orElse(null),
+                fee.transaction()
+                    .map(Transaction::index)
+                    .orElse(null));
             fieldFailure = new FieldFailure("modified", "transaction", fee.transaction()
                 .get()
                 .index());
@@ -80,6 +89,7 @@ public final class FeeTransactionNotChangedRule implements FieldRule<Fee> {
             .isPresent())
                 && (existing.transaction()
                     .isPresent())
+                // TODO: Why the not null check? Can't be null
                 && (fee.transaction()
                     .get()
                     .index() != null);

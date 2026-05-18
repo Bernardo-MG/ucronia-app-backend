@@ -22,7 +22,7 @@
    <artifactId>association-fee-rest-adapter</artifactId>
    <packaging>jar</packaging>
 
-   <name>Association Fee REST Adapter</name>
+   <name>Association Fees REST Adapter</name>
 
    <!-- ********************************************** -->
    <!-- **************** PROPERTIES ****************** -->

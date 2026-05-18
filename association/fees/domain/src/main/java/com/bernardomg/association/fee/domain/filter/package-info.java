@@ -22,10 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.domain.model;
+/**
+ * Fee filters.
+ */
 
-import java.time.Instant;
-
-public final record TransactionQuery(Instant date, Instant from, Instant to) {
-
-}
+package com.bernardomg.association.fee.domain.filter;

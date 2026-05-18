@@ -117,6 +117,7 @@ class TestFeeServicePayFees {
         given(feeMemberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(FeeMembers.valid()));
         given(feeMemberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.of(FeeTypes.positive()));
         given(feeRepository.saveAll(List.of())).willReturn(List.of());
+        given(messageSource.getMessage(any(), any(), any())).willReturn(TransactionConstants.DESCRIPTION);
 
         // WHEN
         fees = service.payFees(FeesPayments.empty());

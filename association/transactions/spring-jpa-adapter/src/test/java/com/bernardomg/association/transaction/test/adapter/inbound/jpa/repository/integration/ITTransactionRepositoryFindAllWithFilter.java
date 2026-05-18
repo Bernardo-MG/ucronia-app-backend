@@ -37,13 +37,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.transaction.TestApplication;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
+import com.bernardomg.association.transaction.domain.filter.TransactionFilter;
 import com.bernardomg.association.transaction.domain.model.Transaction;
-import com.bernardomg.association.transaction.domain.model.TransactionQuery;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.association.transaction.test.configuration.data.annotation.FullTransactionYear;
 import com.bernardomg.association.transaction.test.configuration.data.annotation.MultipleTransactionsSameMonth;
 import com.bernardomg.association.transaction.test.configuration.factory.Transactions;
-import com.bernardomg.association.transaction.test.configuration.factory.TransactionsQueries;
+import com.bernardomg.association.transaction.test.configuration.factory.TransactionsFilters;
 import com.bernardomg.association.transaction.test.factory.TransactionEntities;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -72,7 +72,7 @@ class ITTransactionRepositoryFindAllWithFilter {
     @DisplayName("With a transaction with value around zero, it returns it")
     void testFindAll_AroundZero(final Float amount) {
         final Page<Transaction> transactions;
-        final TransactionQuery  transactionQuery;
+        final TransactionFilter transactionQuery;
         final Pagination        pagination;
         final Sorting           sorting;
 
@@ -82,7 +82,7 @@ class ITTransactionRepositoryFindAllWithFilter {
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
 
-        transactionQuery = TransactionsQueries.empty();
+        transactionQuery = TransactionsFilters.empty();
 
         // WHEN
         transactions = repository.findAll(transactionQuery, pagination, sorting);
@@ -99,7 +99,7 @@ class ITTransactionRepositoryFindAllWithFilter {
     @DisplayName("With a decimal transaction, it returns it")
     void testFindAll_Decimal(final Float amount) {
         final Page<Transaction> transactions;
-        final TransactionQuery  transactionQuery;
+        final TransactionFilter transactionQuery;
         final Pagination        pagination;
         final Sorting           sorting;
 
@@ -109,7 +109,7 @@ class ITTransactionRepositoryFindAllWithFilter {
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
 
-        transactionQuery = TransactionsQueries.empty();
+        transactionQuery = TransactionsFilters.empty();
 
         // WHEN
         transactions = repository.findAll(transactionQuery, pagination, sorting);
@@ -126,7 +126,7 @@ class ITTransactionRepositoryFindAllWithFilter {
     @FullTransactionYear
     void testFindAll_FullYear() {
         final Page<Transaction> transactions;
-        final TransactionQuery  transactionQuery;
+        final TransactionFilter transactionQuery;
         final Pagination        pagination;
         final Sorting           sorting;
 
@@ -134,7 +134,7 @@ class ITTransactionRepositoryFindAllWithFilter {
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
 
-        transactionQuery = TransactionsQueries.empty();
+        transactionQuery = TransactionsFilters.empty();
 
         // WHEN
         transactions = repository.findAll(transactionQuery, pagination, sorting);
@@ -157,7 +157,7 @@ class ITTransactionRepositoryFindAllWithFilter {
     @MultipleTransactionsSameMonth
     void testFindAll_Multiple() {
         final Page<Transaction> transactions;
-        final TransactionQuery  transactionQuery;
+        final TransactionFilter transactionQuery;
         final Pagination        pagination;
         final Sorting           sorting;
 
@@ -165,7 +165,7 @@ class ITTransactionRepositoryFindAllWithFilter {
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
 
-        transactionQuery = TransactionsQueries.empty();
+        transactionQuery = TransactionsFilters.empty();
 
         // WHEN
         transactions = repository.findAll(transactionQuery, pagination, sorting);

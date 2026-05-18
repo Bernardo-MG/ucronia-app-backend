@@ -24,7 +24,6 @@
 
 package com.bernardomg.association.guest.usecase.service;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -38,8 +37,6 @@ import com.bernardomg.association.guest.domain.exception.GuestExistsException;
 import com.bernardomg.association.guest.domain.exception.MissingGuestProfileException;
 import com.bernardomg.association.guest.domain.model.Guest;
 import com.bernardomg.association.guest.domain.model.Guest.Name;
-import com.bernardomg.association.guest.domain.model.GuestProfile;
-import com.bernardomg.association.guest.domain.model.GuestProfile.ContactChannel;
 import com.bernardomg.association.guest.domain.repository.GuestProfileRepository;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
 
@@ -72,12 +69,11 @@ public final class DefaultProfileGuestService implements ProfileGuestService {
 
     @Override
     public final Guest convertToGuest(final long number) {
-        final GuestProfile                     existing;
-        final Guest                            toCreate;
-        final Guest                            created;
-        final Collection<Guest.ContactChannel> contactChannels;
-        final Name                             name;
-        final Set<String>                      types;
+        final Guest       existing;
+        final Guest       toCreate;
+        final Guest       created;
+        final Name        name;
+        final Set<String> types;
 
         log.debug("Converting profile {} to guest", number);
 
@@ -92,10 +88,6 @@ public final class DefaultProfileGuestService implements ProfileGuestService {
             throw new GuestExistsException(number);
         }
 
-        contactChannels = existing.contactChannels()
-            .stream()
-            .map(this::toGuestContactChannel)
-            .toList();
         name = new Name(existing.name()
             .firstName(),
             existing.name()
@@ -103,24 +95,14 @@ public final class DefaultProfileGuestService implements ProfileGuestService {
         types = Stream.concat(existing.types()
             .stream(), Stream.of(Guest.PROFILE_TYPE))
             .collect(Collectors.toSet());
-        toCreate = new Guest(existing.identifier(), existing.number(), name, existing.birthDate(), contactChannels,
-            List.of(), existing.address(), existing.comments(), types);
+        toCreate = new Guest(existing.identifier(), existing.number(), name, existing.birthDate(),
+            existing.contactChannels(), List.of(), existing.address(), existing.comments(), types);
 
         created = guestRepository.save(toCreate);
 
         log.debug("Converted profile {} to guest", number);
 
         return created;
-    }
-
-    private final Guest.ContactChannel toGuestContactChannel(final ContactChannel contactChannel) {
-        final Guest.ContactMethod contactMethod;
-
-        contactMethod = new Guest.ContactMethod(contactChannel.contactMethod()
-            .number(),
-            contactChannel.contactMethod()
-                .name());
-        return new Guest.ContactChannel(contactMethod, contactChannel.detail());
     }
 
 }

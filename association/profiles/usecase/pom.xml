@@ -22,7 +22,7 @@
    <artifactId>association-profile-usecase</artifactId>
    <packaging>jar</packaging>
 
-   <name>Association profiles Usecase</name>
+   <name>Association Profiles Usecase</name>
 
    <!-- ********************************************** -->
    <!-- *************** DEPENDENCIES ***************** -->

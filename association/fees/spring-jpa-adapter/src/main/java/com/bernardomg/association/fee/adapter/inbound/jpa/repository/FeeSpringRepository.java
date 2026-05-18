@@ -152,9 +152,10 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
               COALESCE(SUM(CASE WHEN f.paid = TRUE THEN 1 ELSE 0 END), 0) AS paid,
               COALESCE(SUM(CASE WHEN f.paid = FALSE THEN 1 ELSE 0 END), 0) AS unpaid
             FROM Fee f
-            WHERE f.month = :monthStart
+            WHERE f.month >= :from
+              AND f.month <= :to
             """)
-    public FeeSummary findBalanceForMonth(@Param("monthStart") Instant monthStart);
+    public FeeSummary findBalanceBetween(@Param("from") Instant from, @Param("to") Instant to);
 
     /**
      * Finds the fee for the member in a month.

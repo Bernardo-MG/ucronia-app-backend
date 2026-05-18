@@ -46,7 +46,7 @@ import com.bernardomg.association.profile.adapter.outbound.rest.dto.SortingDto;
 import com.bernardomg.association.profile.domain.model.ContactMethod;
 import com.bernardomg.association.profile.domain.model.Profile;
 import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
-import com.bernardomg.association.profile.domain.model.ProfileName;
+import com.bernardomg.association.profile.domain.model.Profile.Name;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
 import com.bernardomg.pagination.domain.Sorting.Property;
@@ -54,10 +54,10 @@ import com.bernardomg.pagination.domain.Sorting.Property;
 public final class ProfileDtoMapper {
 
     public static final Profile toDomain(final long number, final ProfilePatchDto change) {
-        final ProfileName                name;
+        final Name                       name;
         final Collection<ContactChannel> contactChannels;
 
-        name = new ProfileName(change.getName()
+        name = new Name(change.getName()
             .getFirstName(),
             change.getName()
                 .getLastName());
@@ -66,15 +66,16 @@ public final class ProfileDtoMapper {
             .map(ProfileDtoMapper::toDomain)
             .toList();
 
-        return new Profile(change.getIdentifier(), number, name, change.getBirthDate(), contactChannels,
-            change.getAddress(), change.getComments(), Set.of());
+        return new Profile(Optional.ofNullable(change.getIdentifier()), number, name,
+            Optional.ofNullable(change.getBirthDate()), contactChannels, Optional.ofNullable(change.getAddress()),
+            Optional.ofNullable(change.getComments()), Set.of());
     }
 
     public static final Profile toDomain(final long number, final ProfileUpdateDto change) {
-        final ProfileName                name;
+        final Name                       name;
         final Collection<ContactChannel> contactChannels;
 
-        name = new ProfileName(change.getName()
+        name = new Name(change.getName()
             .getFirstName(),
             change.getName()
                 .getLastName());
@@ -83,19 +84,21 @@ public final class ProfileDtoMapper {
             .map(ProfileDtoMapper::toDomain)
             .toList();
 
-        return new Profile(change.getIdentifier(), number, name, change.getBirthDate(), contactChannels,
-            change.getAddress(), change.getComments(), Set.of());
+        return new Profile(Optional.ofNullable(change.getIdentifier()), number, name,
+            Optional.ofNullable(change.getBirthDate()), contactChannels, Optional.ofNullable(change.getAddress()),
+            Optional.ofNullable(change.getComments()), Set.of());
     }
 
     public static final Profile toDomain(final ProfileCreationDto creation) {
-        final ProfileName name;
+        final Name name;
 
-        name = new ProfileName(creation.getName()
+        name = new Name(creation.getName()
             .getFirstName(),
             creation.getName()
                 .getLastName());
 
-        return new Profile(creation.getIdentifier(), -1L, name, null, List.of(), "", "", Set.of());
+        return new Profile(Optional.ofNullable(creation.getIdentifier()), -1L, name, Optional.empty(), List.of(),
+            Optional.empty(), Optional.empty(), Set.of());
     }
 
     public static final ProfileResponseDto toResponseDto(final Optional<Profile> profile) {
@@ -163,13 +166,17 @@ public final class ProfileDtoMapper {
             .map(ProfileDtoMapper::toDto)
             .toList();
 
-        return new ProfileDto().identifier(profile.identifier())
+        return new ProfileDto().identifier(profile.identifier()
+            .orElse(null))
             .number(profile.number())
             .name(name)
-            .birthDate(profile.birthDate())
+            .birthDate(profile.birthDate()
+                .orElse(null))
             .contactChannels(contactChannels)
-            .address(profile.address())
-            .comments(profile.comments())
+            .address(profile.address()
+                .orElse(null))
+            .comments(profile.comments()
+                .orElse(null))
             .types(new ArrayList<>(profile.types()));
     }
 

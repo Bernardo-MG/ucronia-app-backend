@@ -27,35 +27,47 @@ package com.bernardomg.association.member.domain.model;
 import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 
-public record Member(String identifier, Long number, Name name, Instant birthDate,
-        Collection<ContactChannel> contactChannels, String address, String comments, Boolean active, Boolean renew,
-        FeeType feeType, Set<String> types) {
+public record Member(Optional<String> identifier, Long number, Name name, Optional<Instant> birthDate,
+        Collection<ContactChannel> contactChannels, Optional<String> address, Optional<String> comments, Boolean active,
+        Boolean renew, FeeType feeType, Set<String> types) {
 
     public static final String PROFILE_TYPE = "member";
 
-    public Member(final String identifier, final Long number, final Name name, final Instant birthDate,
-            final Collection<ContactChannel> contactChannels, final String address, final String comments,
-            final Boolean active, final Boolean renew, final FeeType feeType, final Set<String> types) {
-        this.identifier = identifier;
-        this.number = number;
-        this.name = name;
-        this.birthDate = birthDate;
+    public Member(final Optional<String> identifier, final Long number, final Name name,
+            final Optional<Instant> birthDate, final Collection<ContactChannel> contactChannels,
+            final Optional<String> address, final Optional<String> comments, final Boolean active, final Boolean renew,
+            final FeeType feeType, final Set<String> types) {
+        Objects.requireNonNull(identifier);
+        Objects.requireNonNull(address);
+        Objects.requireNonNull(comments);
+        Objects.requireNonNull(types);
+        Objects.requireNonNull(contactChannels);
+
+        this.identifier = identifier.map(StringUtils::trim);
+        this.number = Objects.requireNonNull(number);
+        this.name = Objects.requireNonNull(name);
+        this.birthDate = Objects.requireNonNull(birthDate);
         this.contactChannels = List.copyOf(contactChannels);
-        this.address = StringUtils.trim(address);
-        this.comments = StringUtils.trim(comments);
-        this.active = active;
-        this.renew = renew;
-        this.feeType = feeType;
+        this.address = address.map(StringUtils::trim);
+        this.comments = comments.map(StringUtils::trim);
+        this.active = Objects.requireNonNull(active);
+        this.renew = Objects.requireNonNull(renew);
+        this.feeType = Objects.requireNonNull(feeType);
         this.types = Set.copyOf(types);
     }
 
     public record Name(String firstName, String lastName) {
 
         public Name(final String firstName, final String lastName) {
+            Objects.requireNonNull(firstName);
+            Objects.requireNonNull(lastName);
+
             this.firstName = StringUtils.trim(firstName);
             this.lastName = StringUtils.trim(lastName);
         }
@@ -67,7 +79,17 @@ public record Member(String identifier, Long number, Name name, Instant birthDat
 
     }
 
-    public record FeeType(Long number, String name, Float amount) {}
+    public record FeeType(Long number, String name, Float amount) {
+
+        public FeeType(final Long number, final String name, final Float amount) {
+            Objects.requireNonNull(name);
+
+            this.number = Objects.requireNonNull(number);
+            this.name = StringUtils.trim(name);
+            this.amount = Objects.requireNonNull(amount);
+        }
+
+    }
 
     public Member deactivated() {
         return new Member(identifier, number, name, birthDate, contactChannels, address, comments, false, false,
@@ -81,9 +103,23 @@ public record Member(String identifier, Long number, Name name, Instant birthDat
 
     public record ContactChannel(ContactMethod contactMethod, String detail) {
 
+        public ContactChannel(final ContactMethod contactMethod, final String detail) {
+            Objects.requireNonNull(detail);
+
+            this.contactMethod = Objects.requireNonNull(contactMethod);
+            this.detail = StringUtils.trim(detail);
+        }
+
     }
 
     public record ContactMethod(Long number, String name) {
+
+        public ContactMethod(final Long number, final String name) {
+            Objects.requireNonNull(name);
+
+            this.number = Objects.requireNonNull(number);
+            this.name = StringUtils.trim(name);
+        }
 
     }
 

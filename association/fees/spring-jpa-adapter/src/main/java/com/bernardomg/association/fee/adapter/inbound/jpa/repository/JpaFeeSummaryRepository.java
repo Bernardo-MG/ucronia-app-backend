@@ -25,8 +25,6 @@
 package com.bernardomg.association.fee.adapter.inbound.jpa.repository;
 
 import java.time.Instant;
-import java.time.YearMonth;
-import java.time.ZoneOffset;
 import java.util.Objects;
 
 import org.slf4j.Logger;
@@ -53,18 +51,14 @@ public final class JpaFeeSummaryRepository implements FeeSummaryRepository {
     }
 
     @Override
-    public final FeeSummary findForMonth(final YearMonth date) {
+    public final FeeSummary findBetween(final Instant from, final Instant to) {
         final FeeSummary summary;
-        final Instant    dateParsed;
 
-        log.debug("Finding summary for month {}", date);
+        log.debug("Finding summary from {} to {}", from, to);
 
-        dateParsed = date.atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant();
-        summary = feeSpringRepository.findBalanceForMonth(dateParsed);
+        summary = feeSpringRepository.findBalanceBetween(from, to);
 
-        log.debug("Found summary for month {}: {}", date, summary);
+        log.debug("Found summary from {} to {}: {}", from, to, summary);
 
         return summary;
     }

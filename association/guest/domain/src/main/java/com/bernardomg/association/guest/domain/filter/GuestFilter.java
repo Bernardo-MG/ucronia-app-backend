@@ -24,13 +24,17 @@
 
 package com.bernardomg.association.guest.domain.filter;
 
-public record GuestFilter(String name) {
+import java.util.Objects;
+import java.util.Optional;
 
-    public GuestFilter {
-        // TODO: reject nulls
-        if (name == null) {
-            name = "";
-        }
+import org.apache.commons.lang3.StringUtils;
+
+public record GuestFilter(Optional<String> name) {
+
+    public GuestFilter(final Optional<String> name) {
+        Objects.requireNonNull(name);
+
+        this.name = name.map(StringUtils::trim);
     }
 
 }

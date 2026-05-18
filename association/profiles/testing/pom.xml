@@ -22,7 +22,7 @@
    <artifactId>association-profile-testing</artifactId>
    <packaging>jar</packaging>
 
-   <name>Association Transactions Testing</name>
+   <name>Association Profiles Testing</name>
 
    <!-- ********************************************** -->
    <!-- *************** DEPENDENCIES ***************** -->

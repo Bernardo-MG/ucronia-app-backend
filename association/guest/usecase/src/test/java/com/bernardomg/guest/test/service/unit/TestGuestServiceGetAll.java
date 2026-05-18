@@ -27,6 +27,7 @@ package com.bernardomg.guest.test.service.unit;
 import static org.mockito.BDDMockito.given;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.InstanceOfAssertFactories;
@@ -72,7 +73,7 @@ class TestGuestServiceGetAll {
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
-        filter = new GuestFilter("");
+        filter = new GuestFilter(Optional.empty());
 
         existing = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
         given(guestRepository.findAll(filter, pagination, sorting)).willReturn(existing);
@@ -100,7 +101,7 @@ class TestGuestServiceGetAll {
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
-        filter = new GuestFilter("");
+        filter = new GuestFilter(Optional.empty());
 
         existing = new Page<>(List.of(Guests.noGames()), 0, 0, 0, 0, 0, false, false, sorting);
         given(guestRepository.findAll(filter, pagination, sorting)).willReturn(existing);

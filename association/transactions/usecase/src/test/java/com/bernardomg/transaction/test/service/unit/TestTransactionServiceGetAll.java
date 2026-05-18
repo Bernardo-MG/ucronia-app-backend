@@ -37,11 +37,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.association.transaction.domain.filter.TransactionFilter;
 import com.bernardomg.association.transaction.domain.model.Transaction;
-import com.bernardomg.association.transaction.domain.model.TransactionQuery;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.association.transaction.test.configuration.factory.Transactions;
-import com.bernardomg.association.transaction.test.configuration.factory.TransactionsQueries;
+import com.bernardomg.association.transaction.test.configuration.factory.TransactionsFilters;
 import com.bernardomg.association.transaction.usecase.service.DefaultTransactionService;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -66,7 +66,7 @@ class TestTransactionServiceGetAll {
     void testGetAll() {
         final Page<Transaction> transactions;
         final Page<Transaction> existing;
-        final TransactionQuery  transactionQuery;
+        final TransactionFilter transactionQuery;
         final Pagination        pagination;
         final Sorting           sorting;
 
@@ -74,7 +74,7 @@ class TestTransactionServiceGetAll {
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
 
-        transactionQuery = TransactionsQueries.empty();
+        transactionQuery = TransactionsFilters.empty();
 
         existing = new Page<>(List.of(Transactions.positive()), 0, 0, 0, 0, 0, false, false, sorting);
         given(transactionRepository.findAll(transactionQuery, pagination, sorting)).willReturn(existing);
@@ -95,7 +95,7 @@ class TestTransactionServiceGetAll {
     void testGetAll_NoData() {
         final Page<Transaction> transactions;
         final Page<Transaction> existing;
-        final TransactionQuery  transactionQuery;
+        final TransactionFilter transactionQuery;
         final Pagination        pagination;
         final Sorting           sorting;
 
@@ -103,7 +103,7 @@ class TestTransactionServiceGetAll {
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
 
-        transactionQuery = TransactionsQueries.empty();
+        transactionQuery = TransactionsFilters.empty();
 
         existing = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
         given(transactionRepository.findAll(transactionQuery, pagination, sorting)).willReturn(existing);

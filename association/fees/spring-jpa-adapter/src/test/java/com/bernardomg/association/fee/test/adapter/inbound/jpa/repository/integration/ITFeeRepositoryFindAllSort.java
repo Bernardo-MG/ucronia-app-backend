@@ -25,7 +25,6 @@
 package com.bernardomg.association.fee.test.adapter.inbound.jpa.repository.integration;
 
 import java.time.Month;
-import java.time.YearMonth;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
@@ -39,8 +38,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.BadSqlGrammarException;
 
 import com.bernardomg.association.TestApplication;
+import com.bernardomg.association.fee.domain.filter.FeeFilter;
 import com.bernardomg.association.fee.domain.model.Fee;
-import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.data.annotation.MultipleFees;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
@@ -70,7 +69,7 @@ class ITFeeRepositoryFindAllSort {
     @Disabled("Database dependant")
     void testFindAll_Accents_Name_Asc() {
         final Page<Fee>  fees;
-        final FeeQuery   feeQuery;
+        final FeeFilter  feeQuery;
         final Pagination pagination;
         final Sorting    sorting;
 
@@ -102,7 +101,7 @@ class ITFeeRepositoryFindAllSort {
     @MultipleFees
     void testFindAll_Month_Asc() {
         final Page<Fee>  fees;
-        final FeeQuery   feeQuery;
+        final FeeFilter  feeQuery;
         final Pagination pagination;
         final Sorting    sorting;
 
@@ -121,9 +120,8 @@ class ITFeeRepositoryFindAllSort {
             .asInstanceOf(InstanceOfAssertFactories.list(Fee.class))
             .extracting(Fee::month)
             .as("fee months")
-            .containsExactly(YearMonth.of(FeeConstants.YEAR_VALUE, Month.FEBRUARY),
-                YearMonth.of(FeeConstants.YEAR_VALUE, Month.MARCH), YearMonth.of(FeeConstants.YEAR_VALUE, Month.APRIL),
-                YearMonth.of(FeeConstants.YEAR_VALUE, Month.MAY), YearMonth.of(FeeConstants.YEAR_VALUE, Month.JUNE));
+            .containsExactly(FeeConstants.FEBRUARY_DATE, FeeConstants.MARCH_DATE, FeeConstants.APRIL_DATE,
+                FeeConstants.MAY_DATE, FeeConstants.JUNE_DATE);
     }
 
     @Test
@@ -133,7 +131,7 @@ class ITFeeRepositoryFindAllSort {
     @MultipleFees
     void testFindAll_Month_Desc() {
         final Page<Fee>  fees;
-        final FeeQuery   feeQuery;
+        final FeeFilter  feeQuery;
         final Pagination pagination;
         final Sorting    sorting;
 
@@ -152,10 +150,8 @@ class ITFeeRepositoryFindAllSort {
             .asInstanceOf(InstanceOfAssertFactories.list(Fee.class))
             .extracting(Fee::month)
             .as("fee months")
-            .containsExactly(YearMonth.of(FeeConstants.YEAR_VALUE, Month.JUNE),
-                YearMonth.of(FeeConstants.YEAR_VALUE, Month.MAY), YearMonth.of(FeeConstants.YEAR_VALUE, Month.APRIL),
-                YearMonth.of(FeeConstants.YEAR_VALUE, Month.MARCH),
-                YearMonth.of(FeeConstants.YEAR_VALUE, Month.FEBRUARY));
+            .containsExactly(FeeConstants.JUNE_DATE, FeeConstants.MAY_DATE, FeeConstants.APRIL_DATE,
+                FeeConstants.MARCH_DATE, FeeConstants.FEBRUARY_DATE);
     }
 
     @Test
@@ -165,7 +161,7 @@ class ITFeeRepositoryFindAllSort {
     @MultipleFees
     void testFindAll_Name_Asc() {
         final Page<Fee>  fees;
-        final FeeQuery   feeQuery;
+        final FeeFilter  feeQuery;
         final Pagination pagination;
         final Sorting    sorting;
 
@@ -197,7 +193,7 @@ class ITFeeRepositoryFindAllSort {
     @MultipleFees
     void testFindAll_Name_Desc() {
         final Page<Fee>  fees;
-        final FeeQuery   feeQuery;
+        final FeeFilter  feeQuery;
         final Pagination pagination;
         final Sorting    sorting;
 
@@ -229,7 +225,7 @@ class ITFeeRepositoryFindAllSort {
     @MultipleProfiles
     @MultipleFees
     void testFindAll_NotExisting() {
-        final FeeQuery         feeQuery;
+        final FeeFilter        feeQuery;
         final ThrowingCallable executable;
         final Pagination       pagination;
         final Sorting          sorting;
@@ -255,7 +251,7 @@ class ITFeeRepositoryFindAllSort {
     @MultipleFees
     void testFindAll_Paid_Asc() {
         final Page<Fee>  fees;
-        final FeeQuery   feeQuery;
+        final FeeFilter  feeQuery;
         final Pagination pagination;
         final Sorting    sorting;
 
@@ -285,7 +281,7 @@ class ITFeeRepositoryFindAllSort {
     @MultipleFees
     void testFindAll_Paid_Desc() {
         final Page<Fee>  fees;
-        final FeeQuery   feeQuery;
+        final FeeFilter  feeQuery;
         final Pagination pagination;
         final Sorting    sorting;
 

@@ -22,7 +22,7 @@
    <artifactId>association-fee-event-adapter</artifactId>
    <packaging>jar</packaging>
 
-   <name>Association Fee Event Adapter</name>
+   <name>Association Fees Event Adapter</name>
 
    <!-- ********************************************** -->
    <!-- *************** DEPENDENCIES ***************** -->

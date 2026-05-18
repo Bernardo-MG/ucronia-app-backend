@@ -25,6 +25,7 @@
 package com.bernardomg.association.fee.test.adapter.inbound.jpa.repository.integration;
 
 import java.time.Year;
+import java.time.ZoneOffset;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -313,7 +314,8 @@ class ITFeeRepositoryFindRange {
         // THEN
         Assertions.assertThat(range.years())
             .as("year range")
-            .containsExactly(Year.of(FeeConstants.TWO_YEARS_BACK.getYear()), FeeConstants.CURRENT_YEAR);
+            .containsExactly(Year.of(FeeConstants.TWO_YEARS_BACK.atZone(ZoneOffset.UTC)
+                .getYear()), FeeConstants.CURRENT_YEAR);
     }
 
 }

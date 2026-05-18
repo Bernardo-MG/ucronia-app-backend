@@ -6,12 +6,14 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.YearMonth;
 import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 
 import org.springframework.stereotype.Component;
 
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTransactionEntity;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeTransactionSpringRepository;
-import com.bernardomg.association.transaction.test.factory.TransactionEntities;
+import com.bernardomg.association.transaction.test.factory.FeeTransactionEntities;
 
 @Component
 public final class TransactionInitializer {
@@ -31,13 +33,15 @@ public final class TransactionInitializer {
         .atStartOfDay(ZoneOffset.UTC)
         .toInstant();
 
-    public static final Instant                  NEXT_MONTH          = LocalDate.now()
-        .plusMonths(1)
+    public static final Instant                  NEXT_MONTH          = ZonedDateTime.now()
+        .plus(1, ChronoUnit.MONTHS)
+        .toLocalDate()
         .atStartOfDay(ZoneOffset.UTC)
         .toInstant();
 
-    public static final Instant                  PREVIOUS_MONTH      = LocalDate.now()
+    public static final Instant                  PREVIOUS_MONTH      = ZonedDateTime.now()
         .minusMonths(1)
+        .toLocalDate()
         .atStartOfDay(ZoneOffset.UTC)
         .toInstant();
 
@@ -55,7 +59,7 @@ public final class TransactionInitializer {
         date = LocalDate.of(year, month, 1)
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant();
-        transaction = TransactionEntities.forAmount(1F, date);
+        transaction = FeeTransactionEntities.forAmount(1F, date);
 
         transactionRepository.save(transaction);
         transactionRepository.flush();
@@ -64,7 +68,7 @@ public final class TransactionInitializer {
     public final void registerCurrentMonth(final float amount) {
         final FeeTransactionEntity transaction;
 
-        transaction = TransactionEntities.forAmount(amount, CURRENT_MONTH);
+        transaction = FeeTransactionEntities.forAmount(amount, CURRENT_MONTH);
 
         transactionRepository.save(transaction);
         transactionRepository.flush();
@@ -73,7 +77,7 @@ public final class TransactionInitializer {
     public final void registerCurrentMonth(final float amount, final long index) {
         final FeeTransactionEntity transaction;
 
-        transaction = TransactionEntities.forAmount(amount, CURRENT_MONTH, index);
+        transaction = FeeTransactionEntities.forAmount(amount, CURRENT_MONTH, index);
 
         transactionRepository.save(transaction);
         transactionRepository.flush();
@@ -82,7 +86,7 @@ public final class TransactionInitializer {
     public final void registerCurrentMonthEnd(final float amount) {
         final FeeTransactionEntity transaction;
 
-        transaction = TransactionEntities.forAmount(amount, CURRENT_MONTH_END);
+        transaction = FeeTransactionEntities.forAmount(amount, CURRENT_MONTH_END);
 
         transactionRepository.save(transaction);
         transactionRepository.flush();
@@ -91,7 +95,7 @@ public final class TransactionInitializer {
     public final void registerCurrentMonthStart(final float amount) {
         final FeeTransactionEntity transaction;
 
-        transaction = TransactionEntities.forAmount(amount, CURRENT_MONTH_START);
+        transaction = FeeTransactionEntities.forAmount(amount, CURRENT_MONTH_START);
 
         transactionRepository.save(transaction);
         transactionRepository.flush();
@@ -105,7 +109,7 @@ public final class TransactionInitializer {
             .minusMonths(diff)
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant();
-        transaction = TransactionEntities.forAmount(amount, month, index);
+        transaction = FeeTransactionEntities.forAmount(amount, month, index);
 
         transactionRepository.save(transaction);
         transactionRepository.flush();
@@ -114,7 +118,7 @@ public final class TransactionInitializer {
     public final void registerNextMonth(final float amount) {
         final FeeTransactionEntity transaction;
 
-        transaction = TransactionEntities.forAmount(amount, NEXT_MONTH);
+        transaction = FeeTransactionEntities.forAmount(amount, NEXT_MONTH);
 
         transactionRepository.save(transaction);
         transactionRepository.flush();
@@ -123,7 +127,7 @@ public final class TransactionInitializer {
     public final void registerPreviousMonth(final float amount) {
         final FeeTransactionEntity transaction;
 
-        transaction = TransactionEntities.forAmount(amount, PREVIOUS_MONTH);
+        transaction = FeeTransactionEntities.forAmount(amount, PREVIOUS_MONTH);
 
         transactionRepository.save(transaction);
         transactionRepository.flush();
@@ -132,7 +136,7 @@ public final class TransactionInitializer {
     public final void registerPreviousMonth(final float amount, final long index) {
         final FeeTransactionEntity transaction;
 
-        transaction = TransactionEntities.forAmount(amount, PREVIOUS_MONTH, index);
+        transaction = FeeTransactionEntities.forAmount(amount, PREVIOUS_MONTH, index);
 
         transactionRepository.save(transaction);
         transactionRepository.flush();

@@ -25,7 +25,6 @@
 package com.bernardomg.association.fee.adapter.outbound.rest.controller;
 
 import java.time.Instant;
-import java.time.YearMonth;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -39,9 +38,9 @@ import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeeResponseDto;
 import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeeUpdateDto;
 import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeesResponseDto;
 import com.bernardomg.association.fee.adapter.outbound.rest.model.FeeDtoMapper;
+import com.bernardomg.association.fee.domain.filter.FeeFilter;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeePayments;
-import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.usecase.service.FeeService;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -76,12 +75,9 @@ public class FeeController implements FeeApi {
     @Override
     @RequireResourceAuthorization(resource = "FEE", action = Actions.CREATE)
     public FeeResponseDto createFee(@Valid final FeeCreationDto feeCreationDto) {
-        final Fee       fee;
-        final YearMonth month;
+        final Fee fee;
 
-        month = YearMonth.from(feeCreationDto.getMonth());
-
-        fee = service.createFee(month, feeCreationDto.getMember());
+        fee = service.createFee(feeCreationDto.getMonth(), feeCreationDto.getMember());
 
         return FeeDtoMapper.toResponseDto(fee);
     }
@@ -89,12 +85,9 @@ public class FeeController implements FeeApi {
     @Override
     @RequireResourceAuthorization(resource = "FEE", action = Actions.DELETE)
     public FeeResponseDto deleteFee(final Long member, final Instant month) {
-        final Fee       fee;
-        final YearMonth yearMonth;
+        final Fee fee;
 
-        yearMonth = YearMonth.from(month);
-
-        fee = service.delete(member, yearMonth);
+        fee = service.delete(member, month);
 
         return FeeDtoMapper.toResponseDto(fee);
     }
@@ -104,14 +97,14 @@ public class FeeController implements FeeApi {
     public FeePageResponseDto getAllFees(@Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size,
             @Valid final List<String> sort, @Valid final Instant date, @Valid final Instant from,
             @Valid final Instant to) {
-        final FeeQuery   query;
+        final FeeFilter  query;
         final Pagination pagination;
         final Sorting    sorting;
         final Page<Fee>  fees;
 
         pagination = new Pagination(page, size);
         sorting = WebSorting.toSorting(sort);
-        query = new FeeQuery(date, from, to);
+        query = new FeeFilter(Optional.ofNullable(date), Optional.ofNullable(from), Optional.ofNullable(to));
         fees = service.getAll(query, pagination, sorting);
 
         return FeeDtoMapper.toResponseDto(fees);
@@ -121,11 +114,8 @@ public class FeeController implements FeeApi {
     @RequireResourceAuthorization(resource = "FEE", action = Actions.READ)
     public FeeResponseDto getOneFee(final Long member, final Instant month) {
         final Optional<Fee> fee;
-        final YearMonth     yearMonth;
 
-        yearMonth = YearMonth.from(month);
-
-        fee = service.getOne(member, yearMonth);
+        fee = service.getOne(member, month);
 
         return FeeDtoMapper.toResponseDto(fee);
     }
@@ -145,13 +135,10 @@ public class FeeController implements FeeApi {
     @Override
     @RequireResourceAuthorization(resource = "FEE", action = Actions.UPDATE)
     public FeeResponseDto updateFee(final Long member, final Instant month, @Valid final FeeUpdateDto feeUpdateDto) {
-        final Fee       fee;
-        final Fee       updated;
-        final YearMonth yearMonth;
+        final Fee fee;
+        final Fee updated;
 
-        yearMonth = YearMonth.from(month);
-
-        fee = FeeDtoMapper.toDomain(feeUpdateDto, yearMonth, member);
+        fee = FeeDtoMapper.toDomain(feeUpdateDto, month, member);
         updated = service.update(fee);
         return FeeDtoMapper.toResponseDto(updated);
     }

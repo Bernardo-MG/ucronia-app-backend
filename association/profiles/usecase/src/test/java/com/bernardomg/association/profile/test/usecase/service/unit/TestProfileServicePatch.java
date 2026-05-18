@@ -121,7 +121,7 @@ class TestProfileServicePatch {
         service.patch(profile);
 
         // THEN
-        verify(profileRepository).save(Profiles.nameChange());
+        verify(profileRepository).save(Profiles.nameChangePatch());
     }
 
     @Test

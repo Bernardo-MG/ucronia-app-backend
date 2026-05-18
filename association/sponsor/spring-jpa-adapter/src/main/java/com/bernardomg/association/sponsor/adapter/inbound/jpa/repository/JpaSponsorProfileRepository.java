@@ -32,7 +32,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.SponsorProfileEntityMapper;
-import com.bernardomg.association.sponsor.domain.model.SponsorProfile;
+import com.bernardomg.association.sponsor.domain.model.Sponsor;
 import com.bernardomg.association.sponsor.domain.repository.SponsorProfileRepository;
 
 @Transactional
@@ -52,17 +52,17 @@ public final class JpaSponsorProfileRepository implements SponsorProfileReposito
     }
 
     @Override
-    public final Optional<SponsorProfile> findOne(final Long number) {
-        final Optional<SponsorProfile> SponsorProfile;
+    public final Optional<Sponsor> findOne(final Long number) {
+        final Optional<Sponsor> sponsorProfile;
 
         log.trace("Finding member profile with number {}", number);
 
-        SponsorProfile = guestProfileSpringRepository.findByNumber(number)
+        sponsorProfile = guestProfileSpringRepository.findByNumber(number)
             .map(SponsorProfileEntityMapper::toDomain);
 
-        log.trace("Found member profile with number {}: {}", number, SponsorProfile);
+        log.trace("Found member profile with number {}: {}", number, sponsorProfile);
 
-        return SponsorProfile;
+        return sponsorProfile;
     }
 
 }

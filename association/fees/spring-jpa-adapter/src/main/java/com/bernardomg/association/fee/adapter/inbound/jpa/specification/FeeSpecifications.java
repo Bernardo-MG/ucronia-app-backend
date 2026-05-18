@@ -30,23 +30,35 @@ import java.util.Optional;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeEntity;
-import com.bernardomg.association.fee.domain.model.FeeQuery;
+import com.bernardomg.association.fee.domain.filter.FeeFilter;
 
 public final class FeeSpecifications {
 
     private static final String MONTH = "month";
 
-    public static Optional<Specification<FeeEntity>> fromQuery(final FeeQuery query) {
+    public static Optional<Specification<FeeEntity>> fromQuery(final FeeFilter query) {
         final Optional<Specification<FeeEntity>> spec;
 
-        if (query.month() != null) {
-            spec = Optional.of(on(query.month()));
-        } else if ((query.from() != null) && (query.to() != null)) {
-            spec = Optional.of(between(query.from(), query.to()));
-        } else if (query.from() != null) {
-            spec = Optional.of(after(query.from()));
-        } else if (query.to() != null) {
-            spec = Optional.of(before(query.to()));
+        if (query.month()
+            .isPresent()) {
+            spec = Optional.of(on(query.month()
+                .get()));
+        } else if ((query.from()
+            .isPresent())
+                && (query.to()
+                    .isPresent())) {
+            spec = Optional.of(between(query.from()
+                .get(),
+                query.to()
+                    .get()));
+        } else if (query.from()
+            .isPresent()) {
+            spec = Optional.of(after(query.from()
+                .get()));
+        } else if (query.to()
+            .isPresent()) {
+            spec = Optional.of(before(query.to()
+                .get()));
         } else {
             spec = Optional.empty();
         }

@@ -32,7 +32,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.guest.adapter.inbound.jpa.model.GuestProfileEntityMapper;
-import com.bernardomg.association.guest.domain.model.GuestProfile;
+import com.bernardomg.association.guest.domain.model.Guest;
 import com.bernardomg.association.guest.domain.repository.GuestProfileRepository;
 
 @Transactional
@@ -52,8 +52,8 @@ public final class JpaGuestProfileRepository implements GuestProfileRepository {
     }
 
     @Override
-    public final Optional<GuestProfile> findOne(final Long number) {
-        final Optional<GuestProfile> GuestProfile;
+    public final Optional<Guest> findOne(final Long number) {
+        final Optional<Guest> GuestProfile;
 
         log.trace("Finding member profile with number {}", number);
 

@@ -61,8 +61,8 @@ public final class JpaMembershipEvolutionRepository implements MembershipEvoluti
     }
 
     @Override
-    public final Collection<MembershipEvolutionMonth> findInRange(final Instant from, final Instant to,
-            final Sorting sorting) {
+    public final Collection<MembershipEvolutionMonth> findInRange(final Optional<Instant> from,
+            final Optional<Instant> to, final Sorting sorting) {
         final Optional<Specification<MembershipEvolutionMonthEntity>> spec;
         final Collection<MembershipEvolutionMonthEntity>              evolutionEntities;
         final Collection<MembershipEvolutionMonth>                    evolution;

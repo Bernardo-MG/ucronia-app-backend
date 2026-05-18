@@ -34,12 +34,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.transaction.TestApplication;
+import com.bernardomg.association.transaction.domain.filter.TransactionFilter;
 import com.bernardomg.association.transaction.domain.model.Transaction;
-import com.bernardomg.association.transaction.domain.model.TransactionQuery;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.association.transaction.test.configuration.data.annotation.MultipleTransactionsSameMonth;
 import com.bernardomg.association.transaction.test.configuration.factory.Transactions;
-import com.bernardomg.association.transaction.test.configuration.factory.TransactionsQueries;
+import com.bernardomg.association.transaction.test.configuration.factory.TransactionsFilters;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
@@ -61,14 +61,14 @@ class ITTransactionRepositoryFindAllWithFilterPagination extends AbstractPaginat
 
     @Override
     protected final Page<Transaction> read(final Pagination pagination, final Sorting sorting) {
-        return repository.findAll(TransactionsQueries.empty(), pagination, sorting);
+        return repository.findAll(TransactionsFilters.empty(), pagination, sorting);
     }
 
     @Test
     @DisplayName("With pagination for the first page, it returns the first page")
     void testFindAll_Page1() {
         final Page<Transaction> transactions;
-        final TransactionQuery  transactionQuery;
+        final TransactionFilter transactionQuery;
         final Pagination        pagination;
         final Sorting           sorting;
 
@@ -76,7 +76,7 @@ class ITTransactionRepositoryFindAllWithFilterPagination extends AbstractPaginat
         pagination = new Pagination(1, 1);
         sorting = Sorting.unsorted();
 
-        transactionQuery = TransactionsQueries.empty();
+        transactionQuery = TransactionsFilters.empty();
 
         // WHEN
         transactions = repository.findAll(transactionQuery, pagination, sorting);
@@ -92,7 +92,7 @@ class ITTransactionRepositoryFindAllWithFilterPagination extends AbstractPaginat
     @DisplayName("With pagination for the second page, it returns the second page")
     void testFindAll_Page2() {
         final Page<Transaction> transactions;
-        final TransactionQuery  transactionQuery;
+        final TransactionFilter transactionQuery;
         final Pagination        pagination;
         final Sorting           sorting;
 
@@ -100,7 +100,7 @@ class ITTransactionRepositoryFindAllWithFilterPagination extends AbstractPaginat
         pagination = new Pagination(2, 1);
         sorting = Sorting.unsorted();
 
-        transactionQuery = TransactionsQueries.empty();
+        transactionQuery = TransactionsFilters.empty();
 
         // WHEN
         transactions = repository.findAll(transactionQuery, pagination, sorting);

@@ -35,11 +35,11 @@ import com.bernardomg.association.TestApplication;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMemberWithEmail;
 import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
+import com.bernardomg.association.member.test.configuration.factory.MemberFilters;
 import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.pagination.domain.Page;
@@ -68,7 +68,7 @@ class ITMemberRepositoryFindAll {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.ACTIVE, "");
+        filter = MemberFilters.active();
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -93,7 +93,7 @@ class ITMemberRepositoryFindAll {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.ACTIVE, "");
+        filter = MemberFilters.active();
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -116,7 +116,7 @@ class ITMemberRepositoryFindAll {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.ACTIVE, "");
+        filter = MemberFilters.active();
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -141,7 +141,7 @@ class ITMemberRepositoryFindAll {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.ACTIVE, "");
+        filter = MemberFilters.active();
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -165,7 +165,7 @@ class ITMemberRepositoryFindAll {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.ACTIVE, "");
+        filter = MemberFilters.active();
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -190,7 +190,7 @@ class ITMemberRepositoryFindAll {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.ALL, "");
+        filter = MemberFilters.all();
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -215,7 +215,7 @@ class ITMemberRepositoryFindAll {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.ALL, "");
+        filter = MemberFilters.all();
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -238,7 +238,7 @@ class ITMemberRepositoryFindAll {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.ALL, "");
+        filter = MemberFilters.all();
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -262,7 +262,7 @@ class ITMemberRepositoryFindAll {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.ALL, "");
+        filter = MemberFilters.all();
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -287,7 +287,7 @@ class ITMemberRepositoryFindAll {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.INACTIVE, "");
+        filter = MemberFilters.inactive();
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -312,7 +312,7 @@ class ITMemberRepositoryFindAll {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.INACTIVE, "");
+        filter = MemberFilters.inactive();
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -335,7 +335,7 @@ class ITMemberRepositoryFindAll {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.INACTIVE, "");
+        filter = MemberFilters.inactive();
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -359,7 +359,7 @@ class ITMemberRepositoryFindAll {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new MemberFilter(MemberStatus.INACTIVE, "");
+        filter = MemberFilters.inactive();
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);

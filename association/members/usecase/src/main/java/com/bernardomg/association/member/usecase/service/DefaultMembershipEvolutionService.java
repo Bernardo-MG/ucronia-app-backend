@@ -30,11 +30,12 @@ import java.time.ZoneOffset;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bernardomg.association.member.domain.filter.MembershipEvolutionQuery;
+import com.bernardomg.association.member.domain.filter.MembershipEvolutionFilter;
 import com.bernardomg.association.member.domain.model.MembershipEvolutionMonth;
 import com.bernardomg.association.member.domain.repository.MembershipEvolutionRepository;
 import com.bernardomg.pagination.domain.Sorting;
@@ -64,9 +65,9 @@ public final class DefaultMembershipEvolutionService implements MembershipEvolut
     }
 
     @Override
-    public final Collection<MembershipEvolutionMonth> getMonthlyEvolution(final MembershipEvolutionQuery query) {
+    public final Collection<MembershipEvolutionMonth> getMonthlyEvolution(final MembershipEvolutionFilter query) {
         final Instant                              now;
-        final Instant                              end;
+        final Optional<Instant>                    end;
         final Sorting                              sorting;
         final Collection<MembershipEvolutionMonth> evolution;
 
@@ -77,10 +78,13 @@ public final class DefaultMembershipEvolutionService implements MembershipEvolut
             .atDay(1)
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant();
-        if ((query.to() == null) || (query.to()
-            .isAfter(now))) {
+        if ((query.to()
+            .isEmpty())
+                || (query.to()
+                    .get()
+                    .isAfter(now))) {
             log.debug("Replacing end date {} with current date {}", query.to(), now);
-            end = now;
+            end = Optional.of(now);
         } else {
             end = query.to();
         }

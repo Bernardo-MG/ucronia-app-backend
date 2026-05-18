@@ -3,6 +3,7 @@ package com.bernardomg.association.fee.test.adapter.inbound.jpa.repository.integ
 
 import java.time.Instant;
 import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Collection;
 import java.util.List;
 
@@ -26,7 +27,7 @@ import com.bernardomg.association.fee.test.configuration.factory.FeeEntities;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.association.transaction.test.configuration.data.annotation.FeeTransaction;
-import com.bernardomg.association.transaction.test.factory.TransactionEntities;
+import com.bernardomg.association.transaction.test.factory.FeeTransactionEntities;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -117,7 +118,7 @@ class ITFeeRepositorySaveAll {
 
         // GIVEN
         date = ZonedDateTime.now()
-            .plusMonths(1)
+            .plus(1, ChronoUnit.MONTHS)
             .toInstant();
         fee = Fees.paidAtDate(date);
 
@@ -146,7 +147,7 @@ class ITFeeRepositorySaveAll {
 
         // GIVEN
         date = ZonedDateTime.now()
-            .plusMonths(1)
+            .plus(1, ChronoUnit.MONTHS)
             .toInstant();
         fee = Fees.paidAtDate(date);
 
@@ -177,7 +178,7 @@ class ITFeeRepositorySaveAll {
 
         // GIVEN
         date = ZonedDateTime.now()
-            .plusMonths(1)
+            .plus(1, ChronoUnit.MONTHS)
             .toInstant();
         fee = Fees.paidAtDate(date);
 
@@ -269,7 +270,7 @@ class ITFeeRepositorySaveAll {
         Assertions.assertThat(transactions)
             .as("transactions")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
-            .containsExactly(TransactionEntities.februaryFee());
+            .containsExactly(FeeTransactionEntities.februaryFee());
     }
 
     @Test

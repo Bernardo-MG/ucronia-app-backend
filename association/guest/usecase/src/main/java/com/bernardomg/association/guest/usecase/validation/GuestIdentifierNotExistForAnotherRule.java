@@ -27,7 +27,6 @@ package com.bernardomg.association.guest.usecase.validation;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,12 +58,16 @@ public final class GuestIdentifierNotExistForAnotherRule implements FieldRule<Gu
         final Optional<FieldFailure> failure;
         final FieldFailure           fieldFailure;
 
-        if (StringUtils.isBlank(guest.identifier())
-                || !guestRepository.existsByIdentifierForAnother(guest.number(), guest.identifier())) {
+        if (guest.identifier()
+            .isEmpty()
+                || !guestRepository.existsByIdentifierForAnother(guest.number(), guest.identifier()
+                    .get())) {
             failure = Optional.empty();
         } else {
-            log.error("Existing identifier {} for a guest distinct of {}", guest.identifier(), guest.number());
-            fieldFailure = new FieldFailure("existing", "identifier", guest.identifier());
+            log.error("Existing identifier {} for a guest distinct of {}", guest.identifier()
+                .get(), guest.number());
+            fieldFailure = new FieldFailure("existing", "identifier", guest.identifier()
+                .get());
             failure = Optional.of(fieldFailure);
         }
 

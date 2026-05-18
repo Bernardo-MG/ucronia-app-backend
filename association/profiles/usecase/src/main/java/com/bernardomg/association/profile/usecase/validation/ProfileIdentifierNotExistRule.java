@@ -27,7 +27,6 @@ package com.bernardomg.association.profile.usecase.validation;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,11 +58,16 @@ public final class ProfileIdentifierNotExistRule implements FieldRule<Profile> {
         final Optional<FieldFailure> failure;
         final FieldFailure           fieldFailure;
 
-        if (StringUtils.isBlank(profile.identifier()) || !profileRepository.existsByIdentifier(profile.identifier())) {
+        if (profile.identifier()
+            .isEmpty()
+                || !profileRepository.existsByIdentifier(profile.identifier()
+                    .get())) {
             failure = Optional.empty();
         } else {
-            log.error("Existing identifier {}", profile.identifier());
-            fieldFailure = new FieldFailure("existing", "identifier", profile.identifier());
+            log.error("Existing identifier {}", profile.identifier()
+                .get());
+            fieldFailure = new FieldFailure("existing", "identifier", profile.identifier()
+                .get());
             failure = Optional.of(fieldFailure);
         }
 

@@ -26,7 +26,7 @@ package com.bernardomg.association.member.usecase.service;
 
 import java.util.Collection;
 
-import com.bernardomg.association.member.domain.filter.MembershipEvolutionQuery;
+import com.bernardomg.association.member.domain.filter.MembershipEvolutionFilter;
 import com.bernardomg.association.member.domain.model.MembershipEvolutionMonth;
 
 /**
@@ -44,6 +44,6 @@ public interface MembershipEvolutionService {
      *            query to filter evolution
      * @return the monthly membership evolution
      */
-    public Collection<MembershipEvolutionMonth> getMonthlyEvolution(final MembershipEvolutionQuery query);
+    public Collection<MembershipEvolutionMonth> getMonthlyEvolution(final MembershipEvolutionFilter query);
 
 }

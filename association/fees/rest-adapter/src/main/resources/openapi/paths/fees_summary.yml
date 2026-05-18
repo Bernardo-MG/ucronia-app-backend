@@ -2,6 +2,17 @@ get:
   summary: Returns fee payments summary
   operationId: getFeeSummary
   tags: [FeeSummary]
+  parameters:
+    - name: from
+      description: Starting date to query for.
+      in: query
+      schema:
+        $ref: '../common/dates.yml#/components/schemas/Date'
+    - name: to
+      description: Ending date to query for.
+      in: query
+      schema:
+        $ref: '../common/dates.yml#/components/schemas/Date'
   responses:
     '200':
       description: Fee payment summary

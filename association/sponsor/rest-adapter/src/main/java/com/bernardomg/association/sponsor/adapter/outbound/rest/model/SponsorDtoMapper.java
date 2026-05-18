@@ -66,8 +66,9 @@ public final class SponsorDtoMapper {
             .map(SponsorDtoMapper::toDomain)
             .toList();
 
-        return new Sponsor(change.getIdentifier(), number, name, null, contactChannels,
-            new ArrayList<>(change.getYears()), change.getAddress(), change.getComments(), Set.of());
+        return new Sponsor(Optional.ofNullable(change.getIdentifier()), number, name, Optional.empty(), contactChannels,
+            new ArrayList<>(change.getYears()), Optional.ofNullable(change.getAddress()),
+            Optional.ofNullable(change.getComments()), Set.of());
     }
 
     public static final Sponsor toDomain(final long number, final SponsorUpdateDto change) {
@@ -83,8 +84,9 @@ public final class SponsorDtoMapper {
             .map(SponsorDtoMapper::toDomain)
             .toList();
 
-        return new Sponsor(change.getIdentifier(), number, name, null, contactChannels,
-            new ArrayList<>(change.getYears()), change.getAddress(), change.getComments(), Set.of());
+        return new Sponsor(Optional.ofNullable(change.getIdentifier()), number, name, null, contactChannels,
+            new ArrayList<>(change.getYears()), Optional.ofNullable(change.getAddress()),
+            Optional.ofNullable(change.getComments()), Set.of());
     }
 
     public static final Sponsor toDomain(final SponsorCreationDto creation) {
@@ -95,7 +97,8 @@ public final class SponsorDtoMapper {
             creation.getName()
                 .getLastName());
 
-        return new Sponsor(creation.getIdentifier(), -1L, name, null, List.of(), List.of(), "", "", Set.of());
+        return new Sponsor(Optional.ofNullable(creation.getIdentifier()), -1L, name, Optional.empty(), List.of(),
+            List.of(), Optional.empty(), Optional.empty(), Set.of());
     }
 
     public static final SponsorResponseDto toResponseDto(final Optional<Sponsor> contact) {
@@ -176,13 +179,17 @@ public final class SponsorDtoMapper {
             .map(SponsorDtoMapper::toDto)
             .toList();
 
-        return new SponsorDto().identifier(sponsor.identifier())
+        return new SponsorDto().identifier(sponsor.identifier()
+            .orElse(null))
             .number(sponsor.number())
             .name(name)
-            .birthDate(sponsor.birthDate())
+            .birthDate(sponsor.birthDate()
+                .orElse(null))
             .contactChannels(contactChannels)
-            .address(sponsor.address())
-            .comments(sponsor.comments())
+            .address(sponsor.address()
+                .orElse(null))
+            .comments(sponsor.comments()
+                .orElse(null))
             .years(new ArrayList<>(sponsor.years()))
             .types(new ArrayList<>(sponsor.types()));
     }

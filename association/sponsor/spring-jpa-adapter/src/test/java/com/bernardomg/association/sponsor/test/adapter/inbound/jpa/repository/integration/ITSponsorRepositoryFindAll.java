@@ -40,6 +40,7 @@ import com.bernardomg.association.sponsor.domain.model.Sponsor;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
 import com.bernardomg.association.sponsor.test.configuration.data.annotation.SponsorWithEmail;
 import com.bernardomg.association.sponsor.test.configuration.data.annotation.ValidSponsor;
+import com.bernardomg.association.sponsor.test.configuration.factory.SponsorFilters;
 import com.bernardomg.association.sponsor.test.configuration.factory.Sponsors;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -70,7 +71,7 @@ class ITSponsorRepositoryFindAll {
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of());
-        filter = new SponsorFilter("");
+        filter = SponsorFilters.empty();
 
         // WHEN
         sponsors = repository.findAll(filter, pagination, sorting);
@@ -93,7 +94,7 @@ class ITSponsorRepositoryFindAll {
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of());
-        filter = new SponsorFilter("");
+        filter = SponsorFilters.empty();
 
         // WHEN
         sponsors = repository.findAll(filter, pagination, sorting);
@@ -117,7 +118,7 @@ class ITSponsorRepositoryFindAll {
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of());
-        filter = new SponsorFilter("");
+        filter = SponsorFilters.empty();
 
         // WHEN
         sponsors = repository.findAll(filter, pagination, sorting);
@@ -141,7 +142,7 @@ class ITSponsorRepositoryFindAll {
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of());
-        filter = new SponsorFilter("");
+        filter = SponsorFilters.empty();
 
         // WHEN
         sponsors = repository.findAll(filter, pagination, sorting);

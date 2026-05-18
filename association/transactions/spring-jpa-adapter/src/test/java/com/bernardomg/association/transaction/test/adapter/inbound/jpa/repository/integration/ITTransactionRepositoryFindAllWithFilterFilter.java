@@ -37,14 +37,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.transaction.TestApplication;
+import com.bernardomg.association.transaction.domain.filter.TransactionFilter;
 import com.bernardomg.association.transaction.domain.model.Transaction;
-import com.bernardomg.association.transaction.domain.model.TransactionQuery;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.association.transaction.test.configuration.data.annotation.FullTransactionYear;
 import com.bernardomg.association.transaction.test.configuration.data.annotation.MultipleTransactionsSameMonth;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionConstants;
 import com.bernardomg.association.transaction.test.configuration.factory.Transactions;
-import com.bernardomg.association.transaction.test.configuration.factory.TransactionsQueries;
+import com.bernardomg.association.transaction.test.configuration.factory.TransactionsFilters;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
@@ -67,7 +67,7 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
     @MultipleTransactionsSameMonth
     void testFindAll_AfterDate() {
         final Page<Transaction> transactions;
-        final TransactionQuery  transactionQuery;
+        final TransactionFilter transactionQuery;
         final Pagination        pagination;
         final Sorting           sorting;
 
@@ -75,7 +75,7 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
 
-        transactionQuery = TransactionsQueries.from(TransactionConstants.START_DATE.plus(1L, ChronoUnit.DAYS));
+        transactionQuery = TransactionsFilters.from(TransactionConstants.START_DATE.plus(1L, ChronoUnit.DAYS));
 
         // WHEN
         transactions = repository.findAll(transactionQuery, pagination, sorting);
@@ -94,7 +94,7 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
     @MultipleTransactionsSameMonth
     void testFindAll_BeforeDate() {
         final Page<Transaction> transactions;
-        final TransactionQuery  transactionQuery;
+        final TransactionFilter transactionQuery;
         final Pagination        pagination;
         final Sorting           sorting;
 
@@ -102,7 +102,7 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
 
-        transactionQuery = TransactionsQueries.to(TransactionConstants.START_DATE.plus(1L, ChronoUnit.DAYS));
+        transactionQuery = TransactionsFilters.to(TransactionConstants.START_DATE.plus(1L, ChronoUnit.DAYS));
 
         // WHEN
         transactions = repository.findAll(transactionQuery, pagination, sorting);
@@ -120,7 +120,7 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
     @MultipleTransactionsSameMonth
     void testFindAll_InDate() {
         final Page<Transaction> transactions;
-        final TransactionQuery  transactionQuery;
+        final TransactionFilter transactionQuery;
         final Pagination        pagination;
         final Sorting           sorting;
 
@@ -128,7 +128,7 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
 
-        transactionQuery = TransactionsQueries.date(TransactionConstants.START_DATE.plus(1L, ChronoUnit.DAYS));
+        transactionQuery = TransactionsFilters.date(TransactionConstants.START_DATE.plus(1L, ChronoUnit.DAYS));
 
         // WHEN
         transactions = repository.findAll(transactionQuery, pagination, sorting);
@@ -145,7 +145,7 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
     @FullTransactionYear
     void testFindAll_InDate_FirstDay() {
         final Page<Transaction> transactions;
-        final TransactionQuery  transactionQuery;
+        final TransactionFilter transactionQuery;
         final Pagination        pagination;
         final Sorting           sorting;
 
@@ -153,7 +153,7 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
 
-        transactionQuery = TransactionsQueries.date(LocalDate.of(2020, Month.JANUARY, 1)
+        transactionQuery = TransactionsFilters.date(LocalDate.of(2020, Month.JANUARY, 1)
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant());
 
@@ -172,7 +172,7 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
     @FullTransactionYear
     void testFindAll_InDate_LastDay() {
         final Page<Transaction> transactions;
-        final TransactionQuery  transactionQuery;
+        final TransactionFilter transactionQuery;
         final Pagination        pagination;
         final Sorting           sorting;
 
@@ -181,7 +181,7 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
         sorting = Sorting.unsorted();
 
         // TODO: This is not the last day of the year
-        transactionQuery = TransactionsQueries.date(LocalDate.of(2020, Month.DECEMBER, 1)
+        transactionQuery = TransactionsFilters.date(LocalDate.of(2020, Month.DECEMBER, 1)
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant());
 

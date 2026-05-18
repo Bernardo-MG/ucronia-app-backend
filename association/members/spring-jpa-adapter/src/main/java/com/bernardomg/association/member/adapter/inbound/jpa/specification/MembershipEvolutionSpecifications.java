@@ -35,17 +35,17 @@ public final class MembershipEvolutionSpecifications {
 
     private static final String MONTH_FIELD = "month";
 
-    public static Optional<Specification<MembershipEvolutionMonthEntity>> inRange(final Instant from,
-            final Instant to) {
+    public static Optional<Specification<MembershipEvolutionMonthEntity>> inRange(final Optional<Instant> from,
+            final Optional<Instant> to) {
         final Optional<Specification<MembershipEvolutionMonthEntity>> spec;
 
         // TODO: use optionals, not nulls
-        if ((from != null) && (to != null)) {
-            spec = Optional.of(MembershipEvolutionSpecifications.betweenIncluding(from, to));
-        } else if (from != null) {
-            spec = Optional.of(MembershipEvolutionSpecifications.onOrAfter(from));
-        } else if (to != null) {
-            spec = Optional.of(MembershipEvolutionSpecifications.onOrBefore(to));
+        if ((from.isPresent()) && (to.isPresent())) {
+            spec = Optional.of(MembershipEvolutionSpecifications.betweenIncluding(from.get(), to.get()));
+        } else if (from.isPresent()) {
+            spec = Optional.of(MembershipEvolutionSpecifications.onOrAfter(from.get()));
+        } else if (to.isPresent()) {
+            spec = Optional.of(MembershipEvolutionSpecifications.onOrBefore(to.get()));
         } else {
             spec = Optional.empty();
         }

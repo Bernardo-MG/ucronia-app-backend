@@ -29,7 +29,11 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
+import java.time.Instant;
 import java.time.YearMonth;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
 import org.junit.jupiter.api.DisplayName;
@@ -61,12 +65,15 @@ class TestMemberStatusServiceActivateIfCurrent {
     @Test
     @DisplayName("When activating for the current month, the member is activated")
     void testActivateIfCurrent_CurrentMonth() {
-        final YearMonth date;
-        final Long      number;
+        final Instant date;
+        final Long    number;
 
         // GIVEN
         given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.inactive()));
-        date = YearMonth.now();
+        date = YearMonth.now()
+            .atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
         number = MemberConstants.NUMBER;
 
         // WHEN
@@ -79,12 +86,13 @@ class TestMemberStatusServiceActivateIfCurrent {
     @Test
     @DisplayName("When activating for the next month, the member is not activated")
     void testActivateIfCurrent_NextMonth() {
-        final YearMonth date;
-        final Long      number;
+        final Instant date;
+        final Long    number;
 
         // GIVEN
-        date = YearMonth.now()
-            .plusMonths(1);
+        date = ZonedDateTime.now()
+            .plus(1, ChronoUnit.MONTHS)
+            .toInstant();
         number = MemberConstants.NUMBER;
 
         // WHEN
@@ -97,12 +105,13 @@ class TestMemberStatusServiceActivateIfCurrent {
     @Test
     @DisplayName("When activating for the previous month, the member is not activated")
     void testActivateIfCurrent_PreviousMonth() {
-        final YearMonth date;
-        final Long      number;
+        final Instant date;
+        final Long    number;
 
         // GIVEN
-        date = YearMonth.now()
-            .minusMonths(1);
+        date = ZonedDateTime.now()
+            .minus(1, ChronoUnit.MONTHS)
+            .toInstant();
         number = MemberConstants.NUMBER;
 
         // WHEN

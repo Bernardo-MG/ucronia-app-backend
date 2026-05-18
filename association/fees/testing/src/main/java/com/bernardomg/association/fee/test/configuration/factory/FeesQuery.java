@@ -1,42 +1,45 @@
 
 package com.bernardomg.association.fee.test.configuration.factory;
 
-import java.time.YearMonth;
-import java.time.ZoneOffset;
+import java.time.Instant;
+import java.util.Optional;
 
-import com.bernardomg.association.fee.domain.model.FeeQuery;
+import com.bernardomg.association.fee.domain.filter.FeeFilter;
 
 public final class FeesQuery {
 
-    public static final FeeQuery empty() {
-        return new FeeQuery(null, null, null);
+    public static final FeeFilter empty() {
+        return new FeeFilter(Optional.empty(), Optional.empty(), Optional.empty());
     }
 
-    public static final FeeQuery from(final YearMonth month) {
-        return new FeeQuery(null, month.atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant(), null);
+    public static final FeeFilter from(final Instant month) {
+        final Optional<Instant> date;
+
+        date = Optional.of(month);
+        return new FeeFilter(Optional.empty(), date, Optional.empty());
     }
 
-    public static final FeeQuery inMonth(final YearMonth month) {
-        return new FeeQuery(month.atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant(), null, null);
+    public static final FeeFilter inMonth(final Instant month) {
+        final Optional<Instant> date;
+
+        date = Optional.of(month);
+        return new FeeFilter(date, Optional.empty(), Optional.empty());
     }
 
-    public static final FeeQuery inRange(final YearMonth start, final YearMonth end) {
-        return new FeeQuery(null, start.atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant(),
-            end.atDay(1)
-                .atStartOfDay(ZoneOffset.UTC)
-                .toInstant());
+    public static final FeeFilter inRange(final Instant start, final Instant end) {
+        final Optional<Instant> startDate;
+        final Optional<Instant> endDate;
+
+        startDate = Optional.of(start);
+        endDate = Optional.of(end);
+        return new FeeFilter(Optional.empty(), startDate, endDate);
     }
 
-    public static final FeeQuery to(final YearMonth month) {
-        return new FeeQuery(null, null, month.atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant());
+    public static final FeeFilter to(final Instant month) {
+        final Optional<Instant> date;
+
+        date = Optional.of(month);
+        return new FeeFilter(Optional.empty(), Optional.empty(), date);
     }
 
 }

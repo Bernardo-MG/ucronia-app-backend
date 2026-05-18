@@ -26,12 +26,13 @@ package com.bernardomg.association.member.adapter.outbound.rest.controller;
 
 import java.time.Instant;
 import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.member.adapter.outbound.rest.dto.MembershipMonthlyEvolutionResponseDto;
 import com.bernardomg.association.member.adapter.outbound.rest.model.MembershipMonthlyEvolutionDtoMapper;
-import com.bernardomg.association.member.domain.filter.MembershipEvolutionQuery;
+import com.bernardomg.association.member.domain.filter.MembershipEvolutionFilter;
 import com.bernardomg.association.member.domain.model.MembershipEvolutionMonth;
 import com.bernardomg.association.member.usecase.service.MembershipEvolutionService;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
@@ -64,9 +65,9 @@ public class MembershipEvolutionController implements MembershipEvolutionApi {
     public MembershipMonthlyEvolutionResponseDto getMembershipMonthlyEvolution(@Valid final Instant from,
             @Valid final Instant to, @Valid final Long memberNumber) {
         final Collection<MembershipEvolutionMonth> evolution;
-        final MembershipEvolutionQuery             query;
+        final MembershipEvolutionFilter            query;
 
-        query = new MembershipEvolutionQuery(from, to);
+        query = new MembershipEvolutionFilter(Optional.ofNullable(from), Optional.ofNullable(to));
         evolution = service.getMonthlyEvolution(query);
 
         return MembershipMonthlyEvolutionDtoMapper.toResponseDto(evolution);

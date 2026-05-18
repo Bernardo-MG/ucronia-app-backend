@@ -24,6 +24,13 @@
 
 package com.bernardomg.association.fee.domain.model;
 
+import java.util.Objects;
+
 public record FeeSummary(Long paid, Long unpaid) {
+
+    public FeeSummary(final Long paid, final Long unpaid) {
+        this.paid = Objects.requireNonNull(paid);
+        this.unpaid = Objects.requireNonNull(unpaid);
+    }
 
 }

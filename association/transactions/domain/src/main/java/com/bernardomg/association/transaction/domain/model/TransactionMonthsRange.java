@@ -26,7 +26,15 @@ package com.bernardomg.association.transaction.domain.model;
 
 import java.time.YearMonth;
 import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
 
 public record TransactionMonthsRange(Collection<YearMonth> months) {
+
+    public TransactionMonthsRange(final Collection<YearMonth> months) {
+        Objects.requireNonNull(months);
+
+        this.months = List.copyOf(months);
+    }
 
 }

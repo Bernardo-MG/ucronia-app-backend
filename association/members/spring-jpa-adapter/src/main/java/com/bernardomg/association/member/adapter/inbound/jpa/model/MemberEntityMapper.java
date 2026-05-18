@@ -32,19 +32,20 @@ import java.util.stream.Collectors;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.Member.ContactChannel;
 import com.bernardomg.association.member.domain.model.Member.ContactMethod;
+import com.bernardomg.association.member.domain.model.Member.FeeType;
 import com.bernardomg.association.member.domain.model.Member.Name;
 
 /**
- * Update guest entity mapper.
+ * Member entity mapper.
  */
 public final class MemberEntityMapper {
 
     public static final Member toDomain(final MemberEntity entity) {
-        final Member.FeeType             feeType;
+        final FeeType                    feeType;
         final Name                       name;
         final Collection<ContactChannel> contactChannels;
 
-        feeType = new Member.FeeType(entity.getFeeType()
+        feeType = new FeeType(entity.getFeeType()
             .getNumber(),
             entity.getFeeType()
                 .getName(),
@@ -62,26 +63,25 @@ public final class MemberEntityMapper {
             .map(MemberEntityMapper::toDomain)
             .toList();
 
-        return new Member(entity.getProfile()
-            .getIdentifier(),
-            entity.getProfile()
+        return new Member(Optional.ofNullable(entity.getProfile()
+            .getIdentifier()), entity.getProfile()
                 .getNumber(),
-            name, entity.getProfile()
-                .getBirthDate(),
-            contactChannels, entity.getProfile()
-                .getAddress(),
-            entity.getProfile()
-                .getComments(),
+            name, Optional.ofNullable(entity.getProfile()
+                .getBirthDate()),
+            contactChannels, Optional.ofNullable(entity.getProfile()
+                .getAddress()),
+            Optional.ofNullable(entity.getProfile()
+                .getComments()),
             entity.getActive(), entity.getRenew(), feeType, entity.getProfile()
                 .getTypes());
     }
 
     public static final Member toDomain(final ReadMemberEntity entity) {
-        final Member.FeeType             feeType;
+        final FeeType                    feeType;
         final Name                       name;
         final Collection<ContactChannel> contactChannels;
 
-        feeType = new Member.FeeType(entity.getFeeType()
+        feeType = new FeeType(entity.getFeeType()
             .getNumber(),
             entity.getFeeType()
                 .getName(),
@@ -95,8 +95,9 @@ public final class MemberEntityMapper {
             .map(MemberEntityMapper::toDomain)
             .toList();
 
-        return new Member(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(), contactChannels,
-            entity.getAddress(), entity.getComments(), entity.getActive(), entity.getRenew(), feeType,
+        return new Member(Optional.ofNullable(entity.getIdentifier()), entity.getNumber(), name,
+            Optional.ofNullable(entity.getBirthDate()), contactChannels, Optional.ofNullable(entity.getAddress()),
+            Optional.ofNullable(entity.getComments()), entity.getActive(), entity.getRenew(), feeType,
             entity.getTypes());
     }
 
@@ -112,10 +113,14 @@ public final class MemberEntityMapper {
             .firstName());
         profile.setLastName(data.name()
             .lastName());
-        profile.setIdentifier(data.identifier());
-        profile.setBirthDate(data.birthDate());
-        profile.setAddress(data.address());
-        profile.setComments(data.comments());
+        profile.setIdentifier(data.identifier()
+            .orElse(null));
+        profile.setBirthDate(data.birthDate()
+            .orElse(null));
+        profile.setAddress(data.address()
+            .orElse(null));
+        profile.setComments(data.comments()
+            .orElse(null));
 
         contactChannels = data.contactChannels()
             .stream()
@@ -150,10 +155,14 @@ public final class MemberEntityMapper {
             .firstName());
         profile.setLastName(data.name()
             .lastName());
-        profile.setIdentifier(data.identifier());
-        profile.setBirthDate(data.birthDate());
-        profile.setAddress(data.address());
-        profile.setComments(data.comments());
+        profile.setIdentifier(data.identifier()
+            .orElse(null));
+        profile.setBirthDate(data.birthDate()
+            .orElse(null));
+        profile.setAddress(data.address()
+            .orElse(null));
+        profile.setComments(data.comments()
+            .orElse(null));
 
         contactChannels = data.contactChannels()
             .stream()

@@ -26,19 +26,20 @@ package com.bernardomg.association.guest.adapter.inbound.jpa.model;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 
-import com.bernardomg.association.guest.domain.model.GuestProfile;
-import com.bernardomg.association.guest.domain.model.GuestProfile.ContactChannel;
-import com.bernardomg.association.guest.domain.model.GuestProfile.ContactMethod;
-import com.bernardomg.association.guest.domain.model.GuestProfile.Name;
+import com.bernardomg.association.guest.domain.model.Guest;
+import com.bernardomg.association.guest.domain.model.Guest.ContactChannel;
+import com.bernardomg.association.guest.domain.model.Guest.ContactMethod;
+import com.bernardomg.association.guest.domain.model.Guest.Name;
 
 /**
  * Profile entity mapper.
  */
 public final class GuestProfileEntityMapper {
 
-    public static final GuestProfile toDomain(final GuestInnerProfileEntity entity) {
+    public static final Guest toDomain(final GuestInnerProfileEntity entity) {
         final Name                       name;
         final Collection<ContactChannel> contactChannels;
 
@@ -49,11 +50,12 @@ public final class GuestProfileEntityMapper {
             .map(GuestProfileEntityMapper::toDomain)
             .toList();
 
-        return new GuestProfile(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(),
-            contactChannels, entity.getAddress(), entity.getComments(), entity.getTypes());
+        return new Guest(Optional.ofNullable(entity.getIdentifier()), entity.getNumber(), name,
+            Optional.ofNullable(entity.getBirthDate()), contactChannels, List.of(),
+            Optional.ofNullable(entity.getAddress()), Optional.ofNullable(entity.getComments()), entity.getTypes());
     }
 
-    public static final GuestInnerProfileEntity toEntity(final GuestProfile data,
+    public static final GuestInnerProfileEntity toEntity(final Guest data,
             final Collection<GuestContactMethodEntity> contactMethods) {
         final GuestInnerProfileEntity               entity;
         final Collection<GuestContactChannelEntity> contactChannels;
@@ -64,10 +66,14 @@ public final class GuestProfileEntityMapper {
             .firstName());
         entity.setLastName(data.name()
             .lastName());
-        entity.setIdentifier(data.identifier());
-        entity.setBirthDate(data.birthDate());
-        entity.setAddress(data.address());
-        entity.setComments(data.comments());
+        entity.setIdentifier(data.identifier()
+            .orElse(null));
+        entity.setBirthDate(data.birthDate()
+            .orElse(null));
+        entity.setAddress(data.address()
+            .orElse(null));
+        entity.setComments(data.comments()
+            .orElse(null));
 
         contactChannels = data.contactChannels()
             .stream()

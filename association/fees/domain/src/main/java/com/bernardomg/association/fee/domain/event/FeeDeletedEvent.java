@@ -25,7 +25,7 @@
 package com.bernardomg.association.fee.domain.event;
 
 import java.io.Serializable;
-import java.time.YearMonth;
+import java.time.Instant;
 import java.util.Objects;
 
 import com.bernardomg.event.domain.AbstractEvent;
@@ -37,11 +37,11 @@ public final class FeeDeletedEvent extends AbstractEvent {
 
     private static final long serialVersionUID = 7044023838333219109L;
 
-    private final YearMonth   date;
+    private final Instant     date;
 
     private final Long        profileNumber;
 
-    public FeeDeletedEvent(final Serializable source, final YearMonth d, final Long number) {
+    public FeeDeletedEvent(final Serializable source, final Instant d, final Long number) {
         super(source);
 
         date = Objects.requireNonNull(d);
@@ -60,7 +60,7 @@ public final class FeeDeletedEvent extends AbstractEvent {
                 && Objects.equals(profileNumber, other.profileNumber);
     }
 
-    public final YearMonth getDate() {
+    public final Instant getDate() {
         return date;
     }
 

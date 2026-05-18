@@ -34,8 +34,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.TestApplication;
+import com.bernardomg.association.fee.domain.filter.FeeFilter;
 import com.bernardomg.association.fee.domain.model.Fee;
-import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.data.annotation.MultipleFees;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
@@ -71,7 +71,7 @@ class ITFeeRepositoryFindAllPagination extends AbstractPaginationIT<Fee> {
     @Test
     @DisplayName("With pagination for the first page, it returns the first page")
     void testFindAll_Page1() {
-        final FeeQuery   feeQuery;
+        final FeeFilter  feeQuery;
         final Page<Fee>  fees;
         final Pagination pagination;
         final Sorting    sorting;
@@ -96,7 +96,7 @@ class ITFeeRepositoryFindAllPagination extends AbstractPaginationIT<Fee> {
     @Test
     @DisplayName("With pagination for the second page, it returns the second page")
     void testFindAll_Page2() {
-        final FeeQuery   feeQuery;
+        final FeeFilter  feeQuery;
         final Page<Fee>  fees;
         final Pagination pagination;
         final Sorting    sorting;

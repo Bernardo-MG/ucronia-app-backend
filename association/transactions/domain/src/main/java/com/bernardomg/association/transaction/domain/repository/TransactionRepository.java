@@ -27,9 +27,9 @@ package com.bernardomg.association.transaction.domain.repository;
 import java.util.Collection;
 import java.util.Optional;
 
+import com.bernardomg.association.transaction.domain.filter.TransactionFilter;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.model.TransactionMonthsRange;
-import com.bernardomg.association.transaction.domain.model.TransactionQuery;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
@@ -42,7 +42,7 @@ public interface TransactionRepository {
 
     public Collection<Transaction> findAll(final Sorting sorting);
 
-    public Page<Transaction> findAll(final TransactionQuery query, final Pagination pagination, final Sorting sorting);
+    public Page<Transaction> findAll(final TransactionFilter query, final Pagination pagination, final Sorting sorting);
 
     public long findNextIndex();
 

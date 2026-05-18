@@ -10,8 +10,8 @@ public final class MemberContactMethodEntities {
 
         entity = new MemberContactMethodEntity();
         entity.setId(1L);
-        entity.setNumber(MemberContactMethodConstants.NUMBER);
-        entity.setName(MemberContactMethodConstants.EMAIL);
+        entity.setNumber(ContactMethodConstants.NUMBER);
+        entity.setName(ContactMethodConstants.EMAIL);
 
         return entity;
     }

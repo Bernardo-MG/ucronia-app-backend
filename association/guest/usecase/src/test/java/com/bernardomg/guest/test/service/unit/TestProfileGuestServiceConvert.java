@@ -41,11 +41,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.association.guest.domain.exception.GuestExistsException;
 import com.bernardomg.association.guest.domain.exception.MissingGuestProfileException;
 import com.bernardomg.association.guest.domain.model.Guest;
-import com.bernardomg.association.guest.domain.model.GuestProfile;
 import com.bernardomg.association.guest.domain.repository.GuestProfileRepository;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
 import com.bernardomg.association.guest.test.configuration.factory.GuestConstants;
-import com.bernardomg.association.guest.test.configuration.factory.GuestProfiles;
 import com.bernardomg.association.guest.test.configuration.factory.Guests;
 import com.bernardomg.association.guest.usecase.service.DefaultProfileGuestService;
 
@@ -70,11 +68,11 @@ class TestProfileGuestServiceConvert {
     @DisplayName("With an existing guest, an exception is thrown")
     void testConvertToGuest_ExistingGuest_Exception() {
         final ThrowingCallable execution;
-        final GuestProfile     profile;
+        final Guest            profile;
 
         // GIVEN
         Guests.firstNameChange();
-        profile = GuestProfiles.noType();
+        profile = Guests.noType();
 
         given(profileRepository.findOne(GuestConstants.NUMBER)).willReturn(Optional.of(profile));
         given(guestRepository.exists(GuestConstants.NUMBER)).willReturn(true);
@@ -108,12 +106,12 @@ class TestProfileGuestServiceConvert {
     @Test
     @DisplayName("When converting to guest, the change is persisted")
     void testConvertToGuest_PersistedData() {
-        final Guest        guest;
-        final GuestProfile profile;
+        final Guest guest;
+        final Guest profile;
 
         // GIVEN
         guest = Guests.noGames();
-        profile = GuestProfiles.noType();
+        profile = Guests.noType();
 
         given(profileRepository.findOne(GuestConstants.NUMBER)).willReturn(Optional.of(profile));
         given(guestRepository.exists(GuestConstants.NUMBER)).willReturn(false);
@@ -128,13 +126,13 @@ class TestProfileGuestServiceConvert {
     @Test
     @DisplayName("When converting to guest, the change is returned")
     void testConvertToGuest_ReturnedData() {
-        final Guest        guest;
-        final GuestProfile profile;
-        final Guest        updated;
+        final Guest guest;
+        final Guest profile;
+        final Guest updated;
 
         // GIVEN
         guest = Guests.noGames();
-        profile = GuestProfiles.noType();
+        profile = Guests.noType();
 
         given(profileRepository.findOne(GuestConstants.NUMBER)).willReturn(Optional.of(profile));
         given(guestRepository.exists(GuestConstants.NUMBER)).willReturn(false);

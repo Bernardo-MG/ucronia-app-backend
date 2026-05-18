@@ -27,27 +27,60 @@ package com.bernardomg.association.profile.domain.model;
 import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 
-public record Profile(String identifier, Long number, ProfileName name, Instant birthDate,
-        Collection<ContactChannel> contactChannels, String address, String comments, Set<String> types) {
+public record Profile(Optional<String> identifier, Long number, Name name, Optional<Instant> birthDate,
+        Collection<ContactChannel> contactChannels, Optional<String> address, Optional<String> comments,
+        Set<String> types) {
 
-    public Profile(final String identifier, final Long number, final ProfileName name, final Instant birthDate,
-            final Collection<ContactChannel> contactChannels, final String address, final String comments,
-            final Set<String> types) {
-        this.identifier = identifier;
-        this.number = number;
-        this.name = name;
-        this.birthDate = birthDate;
+    public Profile(final Optional<String> identifier, final Long number, final Name name,
+            final Optional<Instant> birthDate, final Collection<ContactChannel> contactChannels,
+            final Optional<String> address, final Optional<String> comments, final Set<String> types) {
+        Objects.requireNonNull(identifier);
+        Objects.requireNonNull(address);
+        Objects.requireNonNull(comments);
+        Objects.requireNonNull(types);
+        Objects.requireNonNull(contactChannels);
+
+        this.identifier = identifier.map(StringUtils::trim);
+        this.number = Objects.requireNonNull(number);
+        this.name = Objects.requireNonNull(name);
+        this.birthDate = Objects.requireNonNull(birthDate);
         this.contactChannels = List.copyOf(contactChannels);
-        this.address = StringUtils.trim(address);
-        this.comments = StringUtils.trim(comments);
+        this.address = address.map(StringUtils::trim);
+        this.comments = comments.map(StringUtils::trim);
         this.types = Set.copyOf(types);
     }
 
+    public record Name(String firstName, String lastName) {
+
+        public Name(final String firstName, final String lastName) {
+            Objects.requireNonNull(firstName);
+            Objects.requireNonNull(lastName);
+
+            this.firstName = StringUtils.trim(firstName);
+            this.lastName = StringUtils.trim(lastName);
+        }
+
+        public final String fullName() {
+            return String.format("%s %s", firstName, lastName)
+                .trim();
+        }
+
+    }
+
     public record ContactChannel(ContactMethod contactMethod, String detail) {
+
+        public ContactChannel(final ContactMethod contactMethod, final String detail) {
+            Objects.requireNonNull(detail);
+
+            this.contactMethod = Objects.requireNonNull(contactMethod);
+            this.detail = StringUtils.trim(detail);
+        }
 
     }
 

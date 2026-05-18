@@ -25,7 +25,13 @@
 package com.bernardomg.association.member.domain.model;
 
 import java.time.YearMonth;
+import java.util.Objects;
 
 public record MembershipEvolutionMonth(YearMonth month, Long total) {
+
+    public MembershipEvolutionMonth(final YearMonth month, final Long total) {
+        this.month = Objects.requireNonNull(month);
+        this.total = Objects.requireNonNull(total);
+    }
 
 }

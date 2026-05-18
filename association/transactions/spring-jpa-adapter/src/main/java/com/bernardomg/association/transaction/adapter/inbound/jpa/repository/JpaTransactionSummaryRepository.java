@@ -83,6 +83,7 @@ public final class JpaTransactionSummaryRepository implements TransactionSummary
                 .getMonth();
 
             // Take the results only if it's the current year and month
+            // TODO: why local date?
             balanceDateParsed = LocalDate.ofInstant(balanceDate, ZoneOffset.UTC);
             monthParsed = LocalDate.ofInstant(month, ZoneOffset.UTC);
             if ((balanceDateParsed.getYear() == monthParsed.getYear())

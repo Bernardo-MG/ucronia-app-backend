@@ -33,12 +33,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.sponsor.TestApplication;
-import com.bernardomg.association.sponsor.domain.model.SponsorProfile;
+import com.bernardomg.association.sponsor.domain.model.Sponsor;
 import com.bernardomg.association.sponsor.domain.repository.SponsorProfileRepository;
 import com.bernardomg.association.sponsor.test.configuration.data.annotation.SponsorWithEmail;
 import com.bernardomg.association.sponsor.test.configuration.data.annotation.ValidSponsor;
 import com.bernardomg.association.sponsor.test.configuration.factory.SponsorConstants;
-import com.bernardomg.association.sponsor.test.configuration.factory.SponsorProfiles;
+import com.bernardomg.association.sponsor.test.configuration.factory.Sponsors;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -53,20 +53,20 @@ class ITSponsorProfileRepositoryFindOne {
     @DisplayName("With a guest, it is returned")
     @ValidSponsor
     void testFindOne() {
-        final Optional<SponsorProfile> guest;
+        final Optional<Sponsor> guest;
 
         // WHEN
         guest = repository.findOne(SponsorConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(guest)
-            .contains(SponsorProfiles.valid());
+            .contains(Sponsors.withoutYear());
     }
 
     @Test
     @DisplayName("With no guest, nothing is returned")
     void testFindOne_NoData() {
-        final Optional<SponsorProfile> guest;
+        final Optional<Sponsor> guest;
 
         // WHEN
         guest = repository.findOne(SponsorConstants.NUMBER);
@@ -80,14 +80,14 @@ class ITSponsorProfileRepositoryFindOne {
     @DisplayName("With a guest with contact method, it is returned")
     @SponsorWithEmail
     void testFindOne_WithContactMethod() {
-        final Optional<SponsorProfile> guest;
+        final Optional<Sponsor> guest;
 
         // WHEN
         guest = repository.findOne(SponsorConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(guest)
-            .contains(SponsorProfiles.withEmail());
+            .contains(Sponsors.withEmailAndNoYear());
     }
 
 }

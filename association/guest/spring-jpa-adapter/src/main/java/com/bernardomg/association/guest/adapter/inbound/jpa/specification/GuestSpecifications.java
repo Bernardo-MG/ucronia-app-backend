@@ -40,10 +40,11 @@ public final class GuestSpecifications {
         final Specification<ReadGuestEntity>           spec;
 
         if (filter.name()
-            .isBlank()) {
+            .isEmpty()) {
             nameSpec = Optional.empty();
         } else {
-            nameSpec = Optional.of(name(filter.name()));
+            nameSpec = Optional.of(name(filter.name()
+                .get()));
         }
 
         spec = List.of(nameSpec)

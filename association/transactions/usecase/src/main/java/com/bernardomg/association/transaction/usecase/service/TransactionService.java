@@ -26,9 +26,9 @@ package com.bernardomg.association.transaction.usecase.service;
 
 import java.util.Optional;
 
+import com.bernardomg.association.transaction.domain.filter.TransactionFilter;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.model.TransactionMonthsRange;
-import com.bernardomg.association.transaction.domain.model.TransactionQuery;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
@@ -71,7 +71,7 @@ public interface TransactionService {
      *            sorting to apply
      * @return all the transactions matching the sample
      */
-    public Page<Transaction> getAll(final TransactionQuery transaction, final Pagination pagination,
+    public Page<Transaction> getAll(final TransactionFilter transaction, final Pagination pagination,
             final Sorting sorting);
 
     /**

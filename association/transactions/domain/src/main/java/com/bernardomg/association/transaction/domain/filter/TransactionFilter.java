@@ -22,10 +22,18 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.domain.filter;
+package com.bernardomg.association.transaction.domain.filter;
 
 import java.time.Instant;
+import java.util.Objects;
+import java.util.Optional;
 
-public final record MembershipEvolutionQuery(Instant from, Instant to) {
+public final record TransactionFilter(Optional<Instant> date, Optional<Instant> from, Optional<Instant> to) {
+
+    public TransactionFilter(final Optional<Instant> date, final Optional<Instant> from, final Optional<Instant> to) {
+        this.date = Objects.requireNonNull(date);
+        this.from = Objects.requireNonNull(from);
+        this.to = Objects.requireNonNull(to);
+    }
 
 }

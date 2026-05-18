@@ -18,7 +18,7 @@ public final class FeesPayments {
 
     public static final FeePayments multiple() {
         return new FeePayments(MemberConstants.NUMBER, FeeConstants.PAYMENT_DATE,
-            List.of(FeeConstants.DATE, FeeConstants.DATE.plusMonths(1)));
+            List.of(FeeConstants.DATE, FeeConstants.NEXT_DATE));
     }
 
     public static final FeePayments paidFuture() {

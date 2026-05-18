@@ -30,7 +30,7 @@ import java.util.Optional;
 
 import com.bernardomg.association.profile.domain.model.Profile;
 import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
-import com.bernardomg.association.profile.domain.model.ProfileName;
+import com.bernardomg.association.profile.domain.model.Profile.Name;
 
 /**
  * Profile entity mapper.
@@ -38,18 +38,19 @@ import com.bernardomg.association.profile.domain.model.ProfileName;
 public final class ProfileEntityMapper {
 
     public static final Profile toDomain(final ProfileEntity entity) {
-        final ProfileName                name;
+        final Name                       name;
         final Collection<ContactChannel> contactChannels;
 
-        name = new ProfileName(entity.getFirstName(), entity.getLastName());
+        name = new Name(entity.getFirstName(), entity.getLastName());
 
         contactChannels = entity.getContactChannels()
             .stream()
             .map(ContactChannelEntityMapper::toDomain)
             .toList();
 
-        return new Profile(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(), contactChannels,
-            entity.getAddress(), entity.getComments(), entity.getTypes());
+        return new Profile(Optional.ofNullable(entity.getIdentifier()), entity.getNumber(), name,
+            Optional.ofNullable(entity.getBirthDate()), contactChannels, Optional.ofNullable(entity.getAddress()),
+            Optional.ofNullable(entity.getComments()), entity.getTypes());
     }
 
     public static final ProfileEntity toEntity(final Profile data,
@@ -63,10 +64,14 @@ public final class ProfileEntityMapper {
             .firstName());
         entity.setLastName(data.name()
             .lastName());
-        entity.setIdentifier(data.identifier());
-        entity.setBirthDate(data.birthDate());
-        entity.setAddress(data.address());
-        entity.setComments(data.comments());
+        entity.setIdentifier(data.identifier()
+            .orElse(null));
+        entity.setBirthDate(data.birthDate()
+            .orElse(null));
+        entity.setAddress(data.address()
+            .orElse(null));
+        entity.setComments(data.comments()
+            .orElse(null));
 
         contactChannels = data.contactChannels()
             .stream()

@@ -43,17 +43,24 @@ public final class ReadMemberSpecifications {
         final Specification<ReadMemberEntity>           spec;
 
         if (filter.name()
-            .isBlank()) {
+            .isEmpty()) {
             nameSpec = Optional.empty();
         } else {
-            nameSpec = Optional.of(name(filter.name()));
+            nameSpec = Optional.of(name(filter.name()
+                .get()));
         }
 
-        statusSpec = switch (filter.status()) {
-            case ACTIVE -> Optional.of(active());
-            case INACTIVE -> Optional.of(inactive());
-            default -> Optional.empty();
-        };
+        if (filter.status()
+            .isEmpty()) {
+            statusSpec = Optional.empty();
+        } else {
+            statusSpec = switch (filter.status()
+                .get()) {
+                case ACTIVE -> Optional.of(active());
+                case INACTIVE -> Optional.of(inactive());
+                default -> Optional.empty();
+            };
+        }
 
         spec = List.of(nameSpec, statusSpec)
             .stream()

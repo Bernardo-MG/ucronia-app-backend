@@ -54,16 +54,15 @@ public final class GuestEntityMapper {
             .map(GuestEntityMapper::toDomain)
             .toList();
 
-        return new Guest(entity.getProfile()
-            .getIdentifier(),
-            entity.getProfile()
+        return new Guest(Optional.ofNullable(entity.getProfile()
+            .getIdentifier()), entity.getProfile()
                 .getNumber(),
-            name, entity.getProfile()
-                .getBirthDate(),
-            contactChannels, entity.getGames(), entity.getProfile()
-                .getAddress(),
-            entity.getProfile()
-                .getComments(),
+            name, Optional.ofNullable(entity.getProfile()
+                .getBirthDate()),
+            contactChannels, entity.getGames(), Optional.ofNullable(entity.getProfile()
+                .getAddress()),
+            Optional.ofNullable(entity.getProfile()
+                .getComments()),
             entity.getProfile()
                 .getTypes());
     }
@@ -79,8 +78,9 @@ public final class GuestEntityMapper {
             .map(GuestEntityMapper::toDomain)
             .toList();
 
-        return new Guest(entity.getIdentifier(), entity.getNumber(), name, entity.getBirthDate(), contactChannels,
-            entity.getGames(), entity.getAddress(), entity.getComments(), entity.getTypes());
+        return new Guest(Optional.ofNullable(entity.getIdentifier()), entity.getNumber(), name,
+            Optional.ofNullable(entity.getBirthDate()), contactChannels, entity.getGames(),
+            Optional.ofNullable(entity.getAddress()), Optional.ofNullable(entity.getComments()), entity.getTypes());
     }
 
     public static final GuestEntity toEntity(final Guest data,
@@ -95,10 +95,14 @@ public final class GuestEntityMapper {
             .firstName());
         profile.setLastName(data.name()
             .lastName());
-        profile.setIdentifier(data.identifier());
-        profile.setBirthDate(data.birthDate());
-        profile.setAddress(data.address());
-        profile.setComments(data.comments());
+        profile.setIdentifier(data.identifier()
+            .orElse(null));
+        profile.setBirthDate(data.birthDate()
+            .orElse(null));
+        profile.setAddress(data.address()
+            .orElse(null));
+        profile.setComments(data.comments()
+            .orElse(null));
 
         contactChannels = data.contactChannels()
             .stream()
@@ -132,10 +136,14 @@ public final class GuestEntityMapper {
             .firstName());
         profile.setLastName(data.name()
             .lastName());
-        profile.setIdentifier(data.identifier());
-        profile.setBirthDate(data.birthDate());
-        profile.setAddress(data.address());
-        profile.setComments(data.comments());
+        profile.setIdentifier(data.identifier()
+            .orElse(null));
+        profile.setBirthDate(data.birthDate()
+            .orElse(null));
+        profile.setAddress(data.address()
+            .orElse(null));
+        profile.setComments(data.comments()
+            .orElse(null));
 
         contactChannels = data.contactChannels()
             .stream()

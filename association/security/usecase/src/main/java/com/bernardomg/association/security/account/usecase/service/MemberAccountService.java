@@ -83,7 +83,7 @@ public final class MemberAccountService implements AccountService {
                     .getUsername(),
                 wrappedAccount.get()
                     .getName(),
-                profile.orElse(null));
+                profile);
             result = Optional.of(account);
         } else {
             result = wrappedAccount;

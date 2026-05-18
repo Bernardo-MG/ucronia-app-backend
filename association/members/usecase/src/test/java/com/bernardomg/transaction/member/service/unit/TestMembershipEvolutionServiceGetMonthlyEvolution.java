@@ -5,8 +5,10 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 
+import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.List;
+import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -17,12 +19,12 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.member.domain.filter.MembershipEvolutionQuery;
+import com.bernardomg.association.member.domain.filter.MembershipEvolutionFilter;
 import com.bernardomg.association.member.domain.model.MembershipEvolutionMonth;
 import com.bernardomg.association.member.domain.repository.MembershipEvolutionRepository;
+import com.bernardomg.association.member.test.configuration.factory.MembershipEvolutionFilters;
 import com.bernardomg.association.member.test.configuration.factory.MembershipEvolutionMonthConstants;
 import com.bernardomg.association.member.test.configuration.factory.MembershipEvolutionMonths;
-import com.bernardomg.association.member.test.configuration.factory.MembershipEvolutionQueries;
 import com.bernardomg.association.member.usecase.service.DefaultMembershipEvolutionService;
 
 @ExtendWith(MockitoExtension.class)
@@ -38,19 +40,22 @@ class TestMembershipEvolutionServiceGetMonthlyEvolution {
     @Test
     @DisplayName("Returns the queried data when covering previous and current")
     void testGetMonthlyEvolution_CoversBoth() {
-        final MembershipEvolutionQuery           query;
+        final MembershipEvolutionFilter          query;
         final Iterable<MembershipEvolutionMonth> evolution;
+        final Instant                            from;
+        final Instant                            to;
 
         // GIVEN
-        given(membershipEvolutionRepository.findInRange(eq(MembershipEvolutionMonthConstants.PREVIOUS_MONTH.atDay(1)
+        from = MembershipEvolutionMonthConstants.PREVIOUS_MONTH.atDay(1)
             .atStartOfDay(ZoneOffset.UTC)
-            .toInstant()), eq(
-                MembershipEvolutionMonthConstants.CURRENT_MONTH.atDay(1)
-                    .atStartOfDay(ZoneOffset.UTC)
-                    .toInstant()),
-            any())).willReturn(List.of(MembershipEvolutionMonths.currentMonth()));
+            .toInstant();
+        to = MembershipEvolutionMonthConstants.CURRENT_MONTH.atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
+        given(membershipEvolutionRepository.findInRange(eq(Optional.of(from)), eq(Optional.of(to)), any()))
+            .willReturn(List.of(MembershipEvolutionMonths.currentMonth()));
 
-        query = MembershipEvolutionQueries.previousAndThis();
+        query = MembershipEvolutionFilters.previousAndThis();
 
         // WHEN
         evolution = service.getMonthlyEvolution(query);
@@ -64,41 +69,46 @@ class TestMembershipEvolutionServiceGetMonthlyEvolution {
     @Test
     @DisplayName("Can't read beyond the current month")
     void testGetMonthlyEvolution_LimitsAtCurrent() {
-        final MembershipEvolutionQuery query;
+        final MembershipEvolutionFilter query;
+        final Instant                   from;
+        final Instant                   to;
 
         // GIVEN
-        query = MembershipEvolutionQueries.aroundCurrent();
+        query = MembershipEvolutionFilters.aroundCurrent();
 
         // WHEN
         service.getMonthlyEvolution(query);
 
         // THEN
+        from = MembershipEvolutionMonthConstants.PREVIOUS_MONTH.atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
+        to = MembershipEvolutionMonthConstants.CURRENT_MONTH.atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
         Mockito.verify(membershipEvolutionRepository)
-            .findInRange(eq(MembershipEvolutionMonthConstants.PREVIOUS_MONTH.atDay(1)
-                .atStartOfDay(ZoneOffset.UTC)
-                .toInstant()), eq(
-                    MembershipEvolutionMonthConstants.CURRENT_MONTH.atDay(1)
-                        .atStartOfDay(ZoneOffset.UTC)
-                        .toInstant()),
-                any());
+            .findInRange(eq(Optional.of(from)), eq(Optional.of(to)), any());
     }
 
     @Test
     @DisplayName("When there is no data nothing is returned")
     void testGetMonthlyEvolution_NoData() {
-        final MembershipEvolutionQuery           query;
+        final MembershipEvolutionFilter          query;
         final Iterable<MembershipEvolutionMonth> evolution;
+        final Instant                            from;
+        final Instant                            to;
 
         // GIVEN
-        given(membershipEvolutionRepository.findInRange(eq(MembershipEvolutionMonthConstants.PREVIOUS_MONTH.atDay(1)
+        from = MembershipEvolutionMonthConstants.PREVIOUS_MONTH.atDay(1)
             .atStartOfDay(ZoneOffset.UTC)
-            .toInstant()), eq(
-                MembershipEvolutionMonthConstants.CURRENT_MONTH.atDay(1)
-                    .atStartOfDay(ZoneOffset.UTC)
-                    .toInstant()),
-            any())).willReturn(List.of());
+            .toInstant();
+        to = MembershipEvolutionMonthConstants.CURRENT_MONTH.atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
+        given(membershipEvolutionRepository.findInRange(eq(Optional.of(from)), eq(Optional.of(to)), any()))
+            .willReturn(List.of());
 
-        query = MembershipEvolutionQueries.previousAndThis();
+        query = MembershipEvolutionFilters.previousAndThis();
 
         // WHEN
         evolution = service.getMonthlyEvolution(query);

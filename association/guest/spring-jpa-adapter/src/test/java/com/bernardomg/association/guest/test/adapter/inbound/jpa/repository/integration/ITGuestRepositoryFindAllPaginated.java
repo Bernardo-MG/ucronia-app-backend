@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.guest.test.adapter.inbound.jpa.repository.integration;
 
+import java.util.Optional;
+
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
@@ -58,7 +60,7 @@ class ITGuestRepositoryFindAllPaginated extends AbstractPaginationIT<Guest> {
 
     @Override
     protected final Page<Guest> read(final Pagination pagination, final Sorting sorting) {
-        return repository.findAll(new GuestFilter(""), pagination, sorting);
+        return repository.findAll(new GuestFilter(Optional.empty()), pagination, sorting);
     }
 
     @Test
@@ -72,7 +74,7 @@ class ITGuestRepositoryFindAllPaginated extends AbstractPaginationIT<Guest> {
         // GIVEN
         pagination = new Pagination(1, 1);
         sorting = Sorting.unsorted();
-        filter = new GuestFilter("");
+        filter = new GuestFilter(Optional.empty());
 
         // WHEN
         guests = repository.findAll(filter, pagination, sorting);
@@ -95,7 +97,7 @@ class ITGuestRepositoryFindAllPaginated extends AbstractPaginationIT<Guest> {
         // GIVEN
         pagination = new Pagination(2, 1);
         sorting = Sorting.unsorted();
-        filter = new GuestFilter("");
+        filter = new GuestFilter(Optional.empty());
 
         // WHEN
         guests = repository.findAll(filter, pagination, sorting);

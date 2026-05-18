@@ -26,8 +26,6 @@ package com.bernardomg.association.fee.adapter.outbound.rest.model;
 
 import java.time.Instant;
 import java.time.Year;
-import java.time.YearMonth;
-import java.time.ZoneId;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -53,7 +51,9 @@ import com.bernardomg.association.fee.adapter.outbound.rest.dto.YearsRangeDto;
 import com.bernardomg.association.fee.adapter.outbound.rest.dto.YearsRangeResponseDto;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.Fee.Transaction;
+import com.bernardomg.association.fee.domain.model.FeeMember.Name;
 import com.bernardomg.association.fee.domain.model.FeePayments;
+import com.bernardomg.association.fee.domain.model.FeeType;
 import com.bernardomg.association.fee.domain.model.MemberFees;
 import com.bernardomg.association.fee.domain.model.YearsRange;
 import com.bernardomg.pagination.domain.Page;
@@ -69,25 +69,22 @@ public final class FeeDtoMapper {
     }
 
     public static final FeePayments toDomain(final FeePaymentsDto dto) {
-        final List<YearMonth> months;
-
-        months = dto.getMonths()
-            .stream()
-            .map(YearMonth::from)
-            .toList();
-
-        return new FeePayments(dto.getMember(), dto.getPaymentDate(), months);
+        return new FeePayments(dto.getMember(), dto.getPaymentDate(), dto.getMonths());
     }
 
-    public static final Fee toDomain(final FeeUpdateDto change, final YearMonth month, final long number) {
+    public static final Fee toDomain(final FeeUpdateDto change, final Instant month, final long number) {
         final Transaction transaction;
         final Fee         fee;
+        final Name        name;
+        final FeeType     feeType;
 
+        name = new Name("", "");
+        feeType = new FeeType(-1, "", 0F);
         if (change.getTransaction() == null) {
-            fee = Fee.unpaid(month, number, null, null);
+            fee = Fee.unpaid(month, number, name, feeType);
         } else {
-            transaction = new Fee.Transaction(null, change.getTransaction());
-            fee = Fee.paid(month, number, null, null, transaction);
+            transaction = new Fee.Transaction(-1L, change.getTransaction());
+            fee = Fee.paid(month, number, name, feeType, transaction);
         }
 
         return fee;
@@ -180,7 +177,7 @@ public final class FeeDtoMapper {
         feeType.amount(fee.feeType()
             .amount());
 
-        return new FeeDto().month(toInstant(fee.month()))
+        return new FeeDto().month(fee.month())
             .paid(fee.paid())
             .member(member)
             .transaction(transaction)
@@ -215,7 +212,7 @@ public final class FeeDtoMapper {
     }
 
     private static final MonthFeeDto toDto(final MemberFees.Fee fee) {
-        return new MonthFeeDto().month(toInstant(fee.month()))
+        return new MonthFeeDto().month(fee.month())
             .paid(fee.paid());
     }
 
@@ -229,12 +226,6 @@ public final class FeeDtoMapper {
         }
         return new PropertyDto().name(property.name())
             .direction(direction);
-    }
-
-    private static final Instant toInstant(final YearMonth month) {
-        return month.atDay(1)
-            .atStartOfDay(ZoneId.systemDefault())
-            .toInstant();
     }
 
     private FeeDtoMapper() {

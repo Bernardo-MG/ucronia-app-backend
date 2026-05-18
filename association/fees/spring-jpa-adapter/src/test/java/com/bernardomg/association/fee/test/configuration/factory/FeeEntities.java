@@ -2,7 +2,6 @@
 package com.bernardomg.association.fee.test.configuration.factory;
 
 import java.time.Instant;
-import java.time.ZoneOffset;
 
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeEntity;
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeMemberEntity;
@@ -26,9 +25,7 @@ public final class FeeEntities {
         entity = new FeeEntity();
         entity.setFeeType(feeType);
         entity.setMember(valid());
-        entity.setMonth(FeeConstants.CURRENT_MONTH.atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant());
+        entity.setMonth(FeeConstants.CURRENT_MONTH);
         return entity;
     }
 
@@ -45,9 +42,7 @@ public final class FeeEntities {
         entity = new FeeEntity();
         entity.setFeeType(feeType);
         entity.setMember(alternative());
-        entity.setMonth(FeeConstants.CURRENT_MONTH.atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant());
+        entity.setMonth(FeeConstants.CURRENT_MONTH);
         return entity;
     }
 
@@ -91,9 +86,7 @@ public final class FeeEntities {
         entity = new FeeEntity();
         entity.setFeeType(feeType);
         entity.setMember(valid());
-        entity.setMonth(FeeConstants.NEXT_MONTH.atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant());
+        entity.setMonth(FeeConstants.NEXT_MONTH);
         return entity;
     }
 
@@ -110,9 +103,7 @@ public final class FeeEntities {
         entity = new FeeEntity();
         entity.setFeeType(feeType);
         entity.setMember(valid());
-        entity.setMonth(FeeConstants.NEXT_YEAR_MONTH.atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant());
+        entity.setMonth(FeeConstants.NEXT_YEAR_MONTH);
         return entity;
     }
 
@@ -129,9 +120,7 @@ public final class FeeEntities {
         entity = new FeeEntity();
         entity.setFeeType(feeType);
         entity.setMember(valid());
-        entity.setMonth(FeeConstants.DATE.atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant());
+        entity.setMonth(FeeConstants.DATE);
         entity.setPaid(false);
         return entity;
     }
@@ -149,9 +138,7 @@ public final class FeeEntities {
         entity = new FeeEntity();
         entity.setFeeType(feeType);
         entity.setMember(valid());
-        entity.setMonth(FeeConstants.DATE.atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant());
+        entity.setMonth(FeeConstants.DATE);
         entity.setPaid(true);
         entity.setTransaction(februaryFee());
         return entity;
@@ -174,9 +161,7 @@ public final class FeeEntities {
         entity = new FeeEntity();
         entity.setFeeType(feeType);
         entity.setMember(valid());
-        entity.setMonth(FeeConstants.DATE.atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant());
+        entity.setMonth(FeeConstants.DATE);
         entity.setPaid(true);
         entity.setTransaction(transaction);
         return entity;
@@ -195,9 +180,7 @@ public final class FeeEntities {
         entity = new FeeEntity();
         entity.setFeeType(feeType);
         entity.setMember(valid());
-        entity.setMonth(FeeConstants.DATE.atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant());
+        entity.setMonth(FeeConstants.DATE);
         entity.setPaid(true);
         entity.setTransaction(multipleFeesStartYear());
         return entity;
@@ -216,9 +199,7 @@ public final class FeeEntities {
         entity = new FeeEntity();
         entity.setFeeType(feeType);
         entity.setMember(valid());
-        entity.setMonth(FeeConstants.NEXT_DATE.atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant());
+        entity.setMonth(FeeConstants.NEXT_DATE);
         entity.setPaid(true);
         entity.setTransaction(multipleFeesStartYear());
         return entity;
@@ -237,9 +218,7 @@ public final class FeeEntities {
         entity = new FeeEntity();
         entity.setFeeType(feeType);
         entity.setMember(valid());
-        entity.setMonth(FeeConstants.FIRST_NEXT_YEAR_DATE.atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant());
+        entity.setMonth(FeeConstants.FIRST_NEXT_YEAR_DATE);
         entity.setPaid(true);
         entity.setTransaction(multipleFeesEndYear());
         return entity;
@@ -258,9 +237,7 @@ public final class FeeEntities {
         entity = new FeeEntity();
         entity.setFeeType(feeType);
         entity.setMember(valid());
-        entity.setMonth(FeeConstants.LAST_YEAR_DATE.atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant());
+        entity.setMonth(FeeConstants.LAST_YEAR_DATE);
         entity.setPaid(true);
         entity.setTransaction(multipleFeesEndYear());
         return entity;
@@ -279,9 +256,7 @@ public final class FeeEntities {
         entity = new FeeEntity();
         entity.setFeeType(feeType);
         entity.setMember(valid());
-        entity.setMonth(FeeConstants.DATE.atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant());
+        entity.setMonth(FeeConstants.DATE);
         entity.setPaid(true);
         return entity;
     }
@@ -299,9 +274,7 @@ public final class FeeEntities {
         entity = new FeeEntity();
         entity.setFeeType(feeType);
         entity.setMember(valid());
-        entity.setMonth(FeeConstants.CURRENT_MONTH.atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant());
+        entity.setMonth(FeeConstants.CURRENT_MONTH);
         entity.setPaid(true);
         entity.setTransaction(transactionWithIndex(index));
         return entity;
@@ -320,9 +293,7 @@ public final class FeeEntities {
         entity = new FeeEntity();
         entity.setFeeType(feeType);
         entity.setMember(valid());
-        entity.setMonth(FeeConstants.PREVIOUS_MONTH.atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant());
+        entity.setMonth(FeeConstants.PREVIOUS_MONTH);
         return entity;
     }
 
@@ -339,9 +310,7 @@ public final class FeeEntities {
         entity = new FeeEntity();
         entity.setFeeType(feeType);
         entity.setMember(valid());
-        entity.setMonth(FeeConstants.PREVIOUS_YEAR_MONTH.atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant());
+        entity.setMonth(FeeConstants.PREVIOUS_YEAR_MONTH);
         return entity;
     }
 
@@ -367,9 +336,7 @@ public final class FeeEntities {
         entity = new FeeEntity();
         entity.setFeeType(feeType);
         entity.setMember(valid());
-        entity.setMonth(FeeConstants.TWO_MONTHS_BACK.atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant());
+        entity.setMonth(FeeConstants.TWO_MONTHS_BACK);
         return entity;
     }
 
@@ -386,9 +353,7 @@ public final class FeeEntities {
         entity = new FeeEntity();
         entity.setFeeType(feeType);
         entity.setMember(valid());
-        entity.setMonth(FeeConstants.TWO_YEARS_BACK.atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant());
+        entity.setMonth(FeeConstants.TWO_YEARS_BACK);
         return entity;
     }
 

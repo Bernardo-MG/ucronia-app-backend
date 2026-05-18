@@ -31,9 +31,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bernardomg.association.transaction.domain.exception.MissingTransactionException;
+import com.bernardomg.association.transaction.domain.filter.TransactionFilter;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.model.TransactionMonthsRange;
-import com.bernardomg.association.transaction.domain.model.TransactionQuery;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.association.transaction.usecase.validation.TransactionNotPaidInFutureRule;
 import com.bernardomg.pagination.domain.Page;
@@ -116,7 +116,7 @@ public final class DefaultTransactionService implements TransactionService {
     }
 
     @Override
-    public final Page<Transaction> getAll(final TransactionQuery query, final Pagination pagination,
+    public final Page<Transaction> getAll(final TransactionFilter query, final Pagination pagination,
             final Sorting sorting) {
         final Page<Transaction> transactions;
 

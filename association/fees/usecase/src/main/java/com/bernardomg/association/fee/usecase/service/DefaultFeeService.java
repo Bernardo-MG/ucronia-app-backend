@@ -27,7 +27,7 @@ package com.bernardomg.association.fee.usecase.service;
 import java.text.Normalizer;
 import java.time.Instant;
 import java.time.Year;
-import java.time.YearMonth;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -47,19 +47,18 @@ import com.bernardomg.association.fee.domain.event.FeePaidEvent;
 import com.bernardomg.association.fee.domain.exception.MissingFeeException;
 import com.bernardomg.association.fee.domain.exception.MissingFeeMemberException;
 import com.bernardomg.association.fee.domain.exception.MissingFeeTypeException;
+import com.bernardomg.association.fee.domain.filter.FeeFilter;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeMember;
-import com.bernardomg.association.fee.domain.model.FeeMember.MemberName;
+import com.bernardomg.association.fee.domain.model.FeeMember.Name;
 import com.bernardomg.association.fee.domain.model.FeeMemberStatus;
 import com.bernardomg.association.fee.domain.model.FeePayments;
-import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.domain.model.FeeType;
 import com.bernardomg.association.fee.domain.model.MemberFees;
 import com.bernardomg.association.fee.domain.model.MemberFees.Member;
 import com.bernardomg.association.fee.domain.model.YearsRange;
 import com.bernardomg.association.fee.domain.repository.FeeMemberRepository;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
-import com.bernardomg.association.fee.usecase.validation.FeeFeeTypeNotChangedRule;
 import com.bernardomg.association.fee.usecase.validation.FeeMonthNotExistingRule;
 import com.bernardomg.association.fee.usecase.validation.FeeNotPaidInFutureRule;
 import com.bernardomg.association.fee.usecase.validation.FeePaymentsMonthsNotExistingRule;
@@ -123,16 +122,16 @@ public final class DefaultFeeService implements FeeService {
 
         validatorCreate = new FieldRuleValidator<>(new FeeMonthNotExistingRule(feeMemberRepo, feeRepository));
         validatorUpdate = new FieldRuleValidator<>(new FeeNotPaidInFutureRule(),
-            new FeeTransactionNotChangedRule(feeRepository), new FeeFeeTypeNotChangedRule(feeRepository));
+            new FeeTransactionNotChangedRule(feeRepository));
     }
 
     @Override
-    public final Fee createFee(final YearMonth date, final Long number) {
-        final Fee                  newFee;
-        final Fee                  created;
-        final FeeMember            member;
-        final FeeType              feeType;
-        final FeeMember.MemberName name;
+    public final Fee createFee(final Instant date, final Long number) {
+        final Fee            newFee;
+        final Fee            created;
+        final FeeMember      member;
+        final FeeType        feeType;
+        final FeeMember.Name name;
 
         log.info("Creating unpaid fee for {} for month {}", number, date);
 
@@ -148,7 +147,7 @@ public final class DefaultFeeService implements FeeService {
                 throw new MissingFeeTypeException(member.number());
             });
 
-        name = new FeeMember.MemberName(member.name()
+        name = new FeeMember.Name(member.name()
             .firstName(),
             member.name()
                 .lastName());
@@ -171,7 +170,7 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    public final Fee delete(final long number, final YearMonth date) {
+    public final Fee delete(final long number, final Instant date) {
         final Fee fee;
 
         log.info("Deleting fee for {} in {}", number, date);
@@ -194,7 +193,7 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    public final Page<Fee> getAll(final FeeQuery query, final Pagination pagination, final Sorting sorting) {
+    public final Page<Fee> getAll(final FeeFilter query, final Pagination pagination, final Sorting sorting) {
         final Page<Fee> fees;
 
         log.info("Getting all fees with query {}, pagination {} and sorting {}", query, pagination, sorting);
@@ -218,7 +217,7 @@ public final class DefaultFeeService implements FeeService {
         List<Fee>                    fees;
         MemberFees                   calendarFee;
         Collection<MemberFees.Fee>   membFees;
-        MemberName                   name;
+        Name                         name;
 
         log.info("Getting fee calendar for year {} and status {}", year, status);
 
@@ -273,7 +272,7 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    public final Optional<Fee> getOne(final long number, final YearMonth date) {
+    public final Optional<Fee> getOne(final long number, final Instant date) {
         final Optional<Fee> fee;
 
         log.info("Getting fee for {} in {}", number, date);
@@ -304,12 +303,12 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     public final Collection<Fee> payFees(final FeePayments feesPayments) {
-        final Collection<Fee>       feesToSave;
-        final FeeMember             member;
-        final Collection<Fee>       created;
-        final Transaction           transaction;
-        final FeeType               feeType;
-        final Collection<YearMonth> feeMonths;
+        final Collection<Fee>     feesToSave;
+        final FeeMember           member;
+        final Collection<Fee>     created;
+        final Transaction         transaction;
+        final FeeType             feeType;
+        final Collection<Instant> feeMonths;
 
         log.info("Paying fees for {} for months {}, paid in {}", feesPayments.member(), feesPayments.months(),
             feesPayments.paymentDate());
@@ -363,7 +362,6 @@ public final class DefaultFeeService implements FeeService {
         final FeeMember   member;
         final Fee         toSave;
         final Transaction transaction;
-        final FeeType     feeType;
 
         log.debug("Updating fee for {} in {} using data {}", fee.member()
             .number(), fee.month(), fee);
@@ -385,21 +383,15 @@ public final class DefaultFeeService implements FeeService {
                 throw new MissingFeeMemberException(fee.member()
                     .number());
             });
-        feeType = feeMemberRepository.findFeeType(member.number())
-            .orElseThrow(() -> {
-                // TODO: incorrect number
-                log.error("Missing fee type {}", member.number());
-                throw new MissingFeeTypeException(member.number());
-            });
 
         validatorUpdate.validate(fee);
 
         if (addedPayment(fee, existing)) {
             // Added payment
-            transaction = savePaymentTransaction(member, feeType, List.of(fee.month()), fee.transaction()
+            transaction = savePaymentTransaction(member, existing.feeType(), List.of(fee.month()), fee.transaction()
                 .get()
                 .date());
-            toSave = toPaidFee(feeType, member, fee.month(), transaction);
+            toSave = toPaidFee(existing.feeType(), member, fee.month(), transaction);
         } else {
             if (changedPayment(fee, existing)) {
                 // Changed payment date
@@ -510,7 +502,7 @@ public final class DefaultFeeService implements FeeService {
     }
 
     private final Transaction savePaymentTransaction(final FeeMember member, final FeeType feeType,
-            final Collection<YearMonth> feeMonths, final Instant payDate) {
+            final Collection<Instant> feeMonths, final Instant payDate) {
         final Transaction transaction;
         final Float       feeAmount;
         final String      name;
@@ -526,8 +518,9 @@ public final class DefaultFeeService implements FeeService {
             .fullName();
 
         dates = feeMonths.stream()
-            .map(f -> messageSource.getMessage("fee.payment.month." + f.getMonthValue(), null,
-                LocaleContextHolder.getLocale()) + " " + f.getYear())
+            .map(m -> m.atZone(ZoneOffset.UTC))
+            .map(m -> messageSource.getMessage("fee.payment.month." + m.getMonthValue(), null,
+                LocaleContextHolder.getLocale()) + " " + m.getYear())
             .collect(Collectors.joining(", "));
 
         messageArguments = List.of(name, dates)
@@ -547,7 +540,7 @@ public final class DefaultFeeService implements FeeService {
             .number()));
     }
 
-    private final MemberFees toFeeYear(final Long number, final MemberName name, final FeeMemberStatus status,
+    private final MemberFees toFeeYear(final Long number, final Name name, final FeeMemberStatus status,
             final Collection<MemberFees.Fee> fees) {
         final boolean active;
         final Member  member;
@@ -567,16 +560,16 @@ public final class DefaultFeeService implements FeeService {
         return new MemberFees.Fee(fee.month(), fee.paid());
     }
 
-    private final Fee toPaidFee(final FeeType memberFeeType, final FeeMember member, final YearMonth month,
+    private final Fee toPaidFee(final FeeType memberFeeType, final FeeMember member, final Instant month,
             final Transaction transaction) {
         final FeeType         feeType;
         final Fee.Transaction feeTransaction;
-        final MemberName      name;
+        final Name            name;
 
         // TODO: should receive a member
         feeType = new FeeType(memberFeeType.number(), memberFeeType.name(), memberFeeType.amount());
         feeTransaction = new Fee.Transaction(transaction.index(), transaction.date());
-        name = new MemberName(member.name()
+        name = new Name(member.name()
             .firstName(),
             member.name()
                 .lastName());

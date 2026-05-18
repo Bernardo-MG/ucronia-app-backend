@@ -26,8 +26,6 @@ package com.bernardomg.association.fee.adapter.inbound.jpa.repository;
 
 import java.time.Instant;
 import java.time.Year;
-import java.time.YearMonth;
-import java.time.ZoneOffset;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
@@ -45,8 +43,8 @@ import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeMemberEntity;
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTransactionEntity;
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTypeEntity;
 import com.bernardomg.association.fee.adapter.inbound.jpa.specification.FeeSpecifications;
+import com.bernardomg.association.fee.domain.filter.FeeFilter;
 import com.bernardomg.association.fee.domain.model.Fee;
-import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.domain.model.YearsRange;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.pagination.domain.Page;
@@ -84,62 +82,50 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     @Override
-    public final void delete(final Long number, final YearMonth date) {
+    public final void delete(final Long number, final Instant month) {
         final Optional<FeeMemberEntity> member;
-        final Instant                   dateParsed;
 
-        log.debug("Deleting fee for member {} in date {}", number, date);
+        log.debug("Deleting fee for member {} in date {}", number, month);
 
         member = feeMemberSpringRepository.findByNumber(number);
         if (member.isPresent()) {
-            dateParsed = date.atDay(1)
-                .atStartOfDay(ZoneOffset.UTC)
-                .toInstant();
             feeSpringRepository.deleteByMemberIdAndMonth(member.get()
-                .getId(), dateParsed);
+                .getId(), month);
 
-            log.debug("Deleted fee for member {} in date {}", number, date);
+            log.debug("Deleted fee for member {} in date {}", number, month);
         } else {
-            log.warn("Couldn't delete fee for member {} in date {}, as the member doesn't exist", number, date);
+            log.warn("Couldn't delete fee for member {} in date {}, as the member doesn't exist", number, month);
         }
     }
 
     @Override
-    public final boolean exists(final Long number, final YearMonth date) {
+    public final boolean exists(final Long number, final Instant month) {
         final boolean exists;
-        final Instant dateParsed;
 
-        log.debug("checking a fee exists for member {} in date {}", number, date);
+        log.debug("checking a fee exists for member {} in date {}", number, month);
 
-        dateParsed = date.atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant();
-        exists = feeSpringRepository.existsByMemberNumberAndMonth(number, dateParsed);
+        exists = feeSpringRepository.existsByMemberNumberAndMonth(number, month);
 
-        log.debug("Fee exists for member {} in date {}: {}", number, date, exists);
+        log.debug("Fee exists for member {} in date {}: {}", number, month, exists);
 
         return exists;
     }
 
     @Override
-    public final boolean existsPaid(final Long number, final YearMonth date) {
+    public final boolean existsPaid(final Long number, final Instant month) {
         final boolean exists;
-        final Instant dateParsed;
 
-        log.debug("Checking a paid fee exists for member {} in date {}", number, date);
+        log.debug("Checking a paid fee exists for member {} in date {}", number, month);
 
-        dateParsed = date.atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant();
-        exists = feeSpringRepository.existsByMemberNumberAndMonthAndPaid(number, dateParsed);
+        exists = feeSpringRepository.existsByMemberNumberAndMonthAndPaid(number, month);
 
-        log.debug("Paid fee exists for member {} in date {}: {}", number, date, exists);
+        log.debug("Paid fee exists for member {} in date {}: {}", number, month, exists);
 
         return exists;
     }
 
     @Override
-    public final Page<Fee> findAll(final FeeQuery query, final Pagination pagination, final Sorting sorting) {
+    public final Page<Fee> findAll(final FeeFilter query, final Pagination pagination, final Sorting sorting) {
         final Optional<Specification<FeeEntity>>        spec;
         final org.springframework.data.domain.Page<Fee> found;
         final Pageable                                  pageable;
@@ -247,16 +233,12 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     @Override
-    public final Optional<Fee> findOne(final Long number, final YearMonth date) {
+    public final Optional<Fee> findOne(final Long number, final Instant date) {
         final Optional<Fee> found;
-        final Instant       dateParsed;
 
         log.debug("Finding fee for member {} in date {}", number, date);
 
-        dateParsed = date.atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant();
-        found = feeSpringRepository.findByMemberNumberAndMonth(number, dateParsed)
+        found = feeSpringRepository.findByMemberNumberAndMonth(number, date)
             .map(FeeEntityMapper::toDomain);
 
         log.debug("Found fee for member {} in date {}: {}", number, date, found);
@@ -343,7 +325,6 @@ public final class JpaFeeRepository implements FeeRepository {
         final Optional<FeeTypeEntity>        feeType;
         final Optional<FeeTransactionEntity> transaction;
         final FeeEntity                      entity;
-        final Instant                        month;
 
         member = feeMemberSpringRepository.findByNumber(fee.member()
             .number());
@@ -378,12 +359,8 @@ public final class JpaFeeRepository implements FeeRepository {
             transaction = Optional.empty();
         }
 
-        month = fee.month()
-            .atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant();
         existing = feeSpringRepository.findByMemberNumberAndMonth(fee.member()
-            .number(), month);
+            .number(), fee.month());
         if (existing.isPresent()) {
             entity = FeeEntityMapper.toEntity(existing.get(), member.get(), feeType.get(), transaction);
         } else {

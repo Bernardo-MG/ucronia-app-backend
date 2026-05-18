@@ -24,13 +24,17 @@
 
 package com.bernardomg.association.profile.domain.filter;
 
-public record ProfileQuery(String name) {
+import java.util.Objects;
+import java.util.Optional;
 
-    public ProfileQuery {
-        // TODO: reject nulls
-        if (name == null) {
-            name = "";
-        }
+import org.apache.commons.lang3.StringUtils;
+
+public record ProfileQuery(Optional<String> name) {
+
+    public ProfileQuery(final Optional<String> name) {
+        Objects.requireNonNull(name);
+
+        this.name = name.map(StringUtils::trim);
     }
 
 }

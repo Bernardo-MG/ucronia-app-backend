@@ -25,7 +25,6 @@
 package com.bernardomg.association.fee.test.adapter.inbound.jpa.repository.integration;
 
 import java.time.Month;
-import java.time.YearMonth;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
@@ -36,8 +35,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.TestApplication;
+import com.bernardomg.association.fee.domain.filter.FeeFilter;
 import com.bernardomg.association.fee.domain.model.Fee;
-import com.bernardomg.association.fee.domain.model.FeeQuery;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.data.annotation.FeeFullYear;
 import com.bernardomg.association.fee.test.configuration.data.annotation.MultipleFees;
@@ -67,7 +66,7 @@ class ITFeeRepositoryGetAllFilter {
     @MultipleFees
     void testFindAll_From() {
         final Page<Fee>  fees;
-        final FeeQuery   feeQuery;
+        final FeeFilter  feeQuery;
         final Pagination pagination;
         final Sorting    sorting;
 
@@ -75,7 +74,7 @@ class ITFeeRepositoryGetAllFilter {
         pagination = new Pagination(1, 20);
         sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
 
-        feeQuery = FeesQuery.from(YearMonth.of(2020, Month.JUNE));
+        feeQuery = FeesQuery.from(FeeConstants.JUNE_DATE);
 
         // WHEN
         fees = repository.findAll(feeQuery, pagination, sorting);
@@ -95,7 +94,7 @@ class ITFeeRepositoryGetAllFilter {
     @MultipleFees
     void testFindAll_From_NotInRange() {
         final Page<Fee>  fees;
-        final FeeQuery   feeQuery;
+        final FeeFilter  feeQuery;
         final Pagination pagination;
         final Sorting    sorting;
 
@@ -103,7 +102,7 @@ class ITFeeRepositoryGetAllFilter {
         pagination = new Pagination(1, 20);
         sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
 
-        feeQuery = FeesQuery.from(YearMonth.of(2020, Month.JULY));
+        feeQuery = FeesQuery.from(FeeConstants.JULY_DATE);
 
         // WHEN
         fees = repository.findAll(feeQuery, pagination, sorting);
@@ -123,7 +122,7 @@ class ITFeeRepositoryGetAllFilter {
     @MultipleFees
     void testFindAll_InDate() {
         final Page<Fee>  fees;
-        final FeeQuery   feeQuery;
+        final FeeFilter  feeQuery;
         final Pagination pagination;
         final Sorting    sorting;
 
@@ -131,7 +130,7 @@ class ITFeeRepositoryGetAllFilter {
         pagination = new Pagination(1, 20);
         sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
 
-        feeQuery = FeesQuery.inMonth(YearMonth.of(2020, Month.MARCH));
+        feeQuery = FeesQuery.inMonth(FeeConstants.MARCH_DATE);
 
         // WHEN
         fees = repository.findAll(feeQuery, pagination, sorting);
@@ -151,7 +150,7 @@ class ITFeeRepositoryGetAllFilter {
     @FeeFullYear
     void testFindAll_InDate_FirstDay_Data() {
         final Page<Fee>  fees;
-        final FeeQuery   feeQuery;
+        final FeeFilter  feeQuery;
         final Pagination pagination;
         final Sorting    sorting;
 
@@ -159,7 +158,7 @@ class ITFeeRepositoryGetAllFilter {
         pagination = new Pagination(1, 20);
         sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
 
-        feeQuery = FeesQuery.to(YearMonth.of(2020, Month.JANUARY));
+        feeQuery = FeesQuery.to(FeeConstants.JANUARY_DATE);
 
         // WHEN
         fees = repository.findAll(feeQuery, pagination, sorting);
@@ -179,7 +178,7 @@ class ITFeeRepositoryGetAllFilter {
     @FeeFullYear
     void testFindAll_InDate_LastDay_Data() {
         final Page<Fee>  fees;
-        final FeeQuery   feeQuery;
+        final FeeFilter  feeQuery;
         final Pagination pagination;
         final Sorting    sorting;
 
@@ -187,7 +186,7 @@ class ITFeeRepositoryGetAllFilter {
         pagination = new Pagination(1, 20);
         sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
 
-        feeQuery = FeesQuery.inMonth(YearMonth.of(2020, Month.DECEMBER));
+        feeQuery = FeesQuery.inMonth(FeeConstants.DECEMBER_DATE);
 
         // WHEN
         fees = repository.findAll(feeQuery, pagination, sorting);
@@ -207,7 +206,7 @@ class ITFeeRepositoryGetAllFilter {
     @MultipleFees
     void testFindAll_InDate_NotExisting() {
         final Page<Fee>  fees;
-        final FeeQuery   feeQuery;
+        final FeeFilter  feeQuery;
         final Pagination pagination;
         final Sorting    sorting;
 
@@ -215,7 +214,7 @@ class ITFeeRepositoryGetAllFilter {
         pagination = new Pagination(1, 20);
         sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
 
-        feeQuery = FeesQuery.inMonth(YearMonth.of(2020, Month.NOVEMBER));
+        feeQuery = FeesQuery.inMonth(FeeConstants.NOVEMBER_DATE);
 
         // WHEN
         fees = repository.findAll(feeQuery, pagination, sorting);
@@ -235,7 +234,7 @@ class ITFeeRepositoryGetAllFilter {
     @MultipleFees
     void testFindAll_InRange() {
         final Page<Fee>  fees;
-        final FeeQuery   feeQuery;
+        final FeeFilter  feeQuery;
         final Pagination pagination;
         final Sorting    sorting;
 
@@ -243,7 +242,7 @@ class ITFeeRepositoryGetAllFilter {
         pagination = new Pagination(1, 20);
         sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
 
-        feeQuery = FeesQuery.inRange(FeeConstants.DATE, YearMonth.of(2020, Month.MAY));
+        feeQuery = FeesQuery.inRange(FeeConstants.DATE, FeeConstants.MAY_DATE);
 
         // WHEN
         fees = repository.findAll(feeQuery, pagination, sorting);
@@ -263,7 +262,7 @@ class ITFeeRepositoryGetAllFilter {
     @ValidProfile
     void testFindAll_NoFee() {
         final Page<Fee>  fees;
-        final FeeQuery   feeQuery;
+        final FeeFilter  feeQuery;
         final Pagination pagination;
         final Sorting    sorting;
 
@@ -271,7 +270,7 @@ class ITFeeRepositoryGetAllFilter {
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
 
-        feeQuery = FeesQuery.to(YearMonth.of(2020, Month.JANUARY));
+        feeQuery = FeesQuery.to(FeeConstants.JANUARY_DATE);
 
         // WHEN
         fees = repository.findAll(feeQuery, pagination, sorting);
@@ -291,7 +290,7 @@ class ITFeeRepositoryGetAllFilter {
     @MultipleFees
     void testFindAll_To() {
         final Page<Fee>  fees;
-        final FeeQuery   feeQuery;
+        final FeeFilter  feeQuery;
         final Pagination pagination;
         final Sorting    sorting;
 
@@ -319,7 +318,7 @@ class ITFeeRepositoryGetAllFilter {
     @MultipleFees
     void testFindAll_To_NotInRange() {
         final Page<Fee>  fees;
-        final FeeQuery   feeQuery;
+        final FeeFilter  feeQuery;
         final Pagination pagination;
         final Sorting    sorting;
 
@@ -327,7 +326,7 @@ class ITFeeRepositoryGetAllFilter {
         pagination = new Pagination(1, 20);
         sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
 
-        feeQuery = FeesQuery.to(YearMonth.of(2020, Month.JANUARY));
+        feeQuery = FeesQuery.to(FeeConstants.JANUARY_DATE);
 
         // WHEN
         fees = repository.findAll(feeQuery, pagination, sorting);

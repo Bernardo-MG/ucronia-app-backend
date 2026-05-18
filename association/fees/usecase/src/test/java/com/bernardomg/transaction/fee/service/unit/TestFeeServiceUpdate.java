@@ -30,7 +30,6 @@ import static org.mockito.Mockito.verify;
 
 import java.time.Instant;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.Optional;
 
@@ -54,7 +53,6 @@ import com.bernardomg.association.fee.domain.repository.FeeMemberRepository;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.FeeMembers;
-import com.bernardomg.association.fee.test.configuration.factory.FeeTypes;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.test.configuration.factory.MemberConstants;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
@@ -98,7 +96,6 @@ class TestFeeServiceUpdate {
         given(feeRepository.findOne(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.notPaid()));
         given(feeRepository.save(Fees.paid())).willReturn(Fees.paid());
         given(feeMemberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(FeeMembers.valid()));
-        given(feeMemberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.of(FeeTypes.positive()));
         given(transactionRepository.findNextIndex()).willReturn(TransactionConstants.INDEX);
         given(transactionRepository.save(Transactions.positive())).willReturn(Transactions.positive());
         given(messageSource.getMessage(ArgumentMatchers.anyString(), ArgumentMatchers.any(), ArgumentMatchers.any()))
@@ -122,7 +119,6 @@ class TestFeeServiceUpdate {
         given(feeRepository.findOne(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.notPaid()));
         given(feeRepository.save(Fees.paid())).willReturn(Fees.paid());
         given(feeMemberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(FeeMembers.valid()));
-        given(feeMemberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.of(FeeTypes.positive()));
         given(transactionRepository.findNextIndex()).willReturn(TransactionConstants.INDEX);
         given(transactionRepository.save(Transactions.positive())).willReturn(Transactions.positive());
         given(messageSource.getMessage(ArgumentMatchers.anyString(), ArgumentMatchers.any(), ArgumentMatchers.any()))
@@ -146,7 +142,6 @@ class TestFeeServiceUpdate {
         given(feeRepository.findOne(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.notPaid()));
         given(feeRepository.save(Fees.paid())).willReturn(Fees.paid());
         given(feeMemberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(FeeMembers.valid()));
-        given(feeMemberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.of(FeeTypes.positive()));
         given(transactionRepository.save(Transactions.toCreate())).willReturn(Transactions.positive());
         given(messageSource.getMessage(ArgumentMatchers.anyString(), ArgumentMatchers.any(), ArgumentMatchers.any()))
             .willReturn(TransactionConstants.DESCRIPTION);
@@ -157,26 +152,6 @@ class TestFeeServiceUpdate {
         // THEN
         verify(eventEmitter).emit(assertArg(e -> Assertions.assertThat(e)
             .isInstanceOf(FeePaidEvent.class)));
-    }
-
-    @Test
-    @DisplayName("With a changed fee type, it throws an exception")
-    void testUpdate_FeeTypeChanged() {
-        final ThrowingCallable execution;
-        final FieldFailure     failure;
-
-        // GIVEN
-        given(feeRepository.findOne(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
-        given(feeMemberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(FeeMembers.valid()));
-        given(feeMemberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.of(FeeTypes.positive()));
-
-        // WHEN
-        execution = () -> service.update(Fees.alternativeFeeType());
-
-        // THEN
-        failure = new FieldFailure("modified", "feeType", "feeType.modified", FeeConstants.FEE_TYPE_ALTERNATIVE_NUMBER);
-
-        ValidationAssertions.assertThatFieldFails(execution, failure);
     }
 
     @Test
@@ -221,7 +196,6 @@ class TestFeeServiceUpdate {
         // GIVEN
         given(feeRepository.findOne(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
         given(feeMemberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(FeeMembers.valid()));
-        given(feeMemberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.of(FeeTypes.positive()));
 
         // WHEN
         execution = () -> service.update(Fees.paidInFuture());
@@ -240,7 +214,7 @@ class TestFeeServiceUpdate {
         final Fee     toUpdate;
 
         // GIVEN
-        date = LocalDate.ofInstant(FeeConstants.PAYMENT_DATE, ZoneId.systemDefault())
+        date = LocalDate.ofInstant(FeeConstants.PAYMENT_DATE, ZoneOffset.UTC)
             .plusMonths(1)
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant();
@@ -249,7 +223,6 @@ class TestFeeServiceUpdate {
         given(feeRepository.findOne(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
         given(feeRepository.save(Fees.paidAtDate(date))).willReturn(toUpdate);
         given(feeMemberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(FeeMembers.valid()));
-        given(feeMemberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.of(FeeTypes.positive()));
         given(transactionRepository.findOne(TransactionConstants.INDEX))
             .willReturn(Optional.of(Transactions.positive()));
 
@@ -269,7 +242,7 @@ class TestFeeServiceUpdate {
         final Fee     updated;
 
         // GIVEN
-        date = LocalDate.ofInstant(FeeConstants.PAYMENT_DATE, ZoneId.systemDefault())
+        date = LocalDate.ofInstant(FeeConstants.PAYMENT_DATE, ZoneOffset.UTC)
             .plusMonths(1)
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant();
@@ -278,7 +251,6 @@ class TestFeeServiceUpdate {
         given(feeRepository.findOne(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
         given(feeRepository.save(Fees.paidAtDate(date))).willReturn(toUpdate);
         given(feeMemberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(FeeMembers.valid()));
-        given(feeMemberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.of(FeeTypes.positive()));
         given(transactionRepository.findOne(TransactionConstants.INDEX))
             .willReturn(Optional.of(Transactions.positive()));
 
@@ -298,7 +270,7 @@ class TestFeeServiceUpdate {
         final Instant date;
 
         // GIVEN
-        date = LocalDate.ofInstant(FeeConstants.PAYMENT_DATE, ZoneId.systemDefault())
+        date = LocalDate.ofInstant(FeeConstants.PAYMENT_DATE, ZoneOffset.UTC)
             .plusMonths(1)
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant();
@@ -307,7 +279,6 @@ class TestFeeServiceUpdate {
         given(feeRepository.findOne(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
         given(feeRepository.save(Fees.paidAtDate(date))).willReturn(toUpdate);
         given(feeMemberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(FeeMembers.valid()));
-        given(feeMemberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.of(FeeTypes.positive()));
         given(transactionRepository.findOne(TransactionConstants.INDEX))
             .willReturn(Optional.of(Transactions.positive()));
 
@@ -325,7 +296,7 @@ class TestFeeServiceUpdate {
         final Instant date;
 
         // GIVEN
-        date = LocalDate.ofInstant(FeeConstants.PAYMENT_DATE, ZoneId.systemDefault())
+        date = LocalDate.ofInstant(FeeConstants.PAYMENT_DATE, ZoneOffset.UTC)
             .plusMonths(1)
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant();
@@ -334,7 +305,6 @@ class TestFeeServiceUpdate {
         given(feeRepository.findOne(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
         given(feeRepository.save(Fees.paidAtDate(date))).willReturn(toUpdate);
         given(feeMemberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(FeeMembers.valid()));
-        given(feeMemberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.of(FeeTypes.positive()));
         given(transactionRepository.findOne(TransactionConstants.INDEX))
             .willReturn(Optional.of(Transactions.positive()));
 
@@ -356,7 +326,6 @@ class TestFeeServiceUpdate {
         given(feeRepository.findOne(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
         given(feeRepository.save(Fees.paid())).willReturn(toUpdate);
         given(feeMemberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(FeeMembers.valid()));
-        given(feeMemberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.of(FeeTypes.positive()));
 
         // WHEN
         service.update(Fees.updatePaid());
@@ -376,7 +345,6 @@ class TestFeeServiceUpdate {
         given(feeRepository.findOne(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
         given(feeRepository.save(Fees.paid())).willReturn(toUpdate);
         given(feeMemberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(FeeMembers.valid()));
-        given(feeMemberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.of(FeeTypes.positive()));
 
         // WHEN
         service.update(toUpdate);
@@ -397,7 +365,6 @@ class TestFeeServiceUpdate {
         given(feeRepository.findOne(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
         given(feeRepository.save(Fees.paid())).willReturn(toUpdate);
         given(feeMemberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(FeeMembers.valid()));
-        given(feeMemberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.of(FeeTypes.positive()));
 
         // WHEN
         service.update(toUpdate);
@@ -414,7 +381,6 @@ class TestFeeServiceUpdate {
         // GIVEN
         given(feeRepository.findOne(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
         given(feeMemberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(FeeMembers.valid()));
-        given(feeMemberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.of(FeeTypes.positive()));
         given(feeRepository.save(Fees.paid())).willReturn(Fees.updatePaid());
 
         // WHEN
@@ -435,7 +401,6 @@ class TestFeeServiceUpdate {
         // GIVEN
         given(feeRepository.findOne(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
         given(feeMemberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(FeeMembers.valid()));
-        given(feeMemberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.of(FeeTypes.positive()));
 
         // WHEN
         execution = () -> service.update(Fees.alternativeTransaction());

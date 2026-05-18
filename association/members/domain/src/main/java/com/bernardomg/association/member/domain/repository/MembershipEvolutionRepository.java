@@ -26,13 +26,14 @@ package com.bernardomg.association.member.domain.repository;
 
 import java.time.Instant;
 import java.util.Collection;
+import java.util.Optional;
 
 import com.bernardomg.association.member.domain.model.MembershipEvolutionMonth;
 import com.bernardomg.pagination.domain.Sorting;
 
 public interface MembershipEvolutionRepository {
 
-    public Collection<MembershipEvolutionMonth> findInRange(final Instant from, final Instant to,
+    public Collection<MembershipEvolutionMonth> findInRange(final Optional<Instant> from, final Optional<Instant> to,
             final Sorting sorting);
 
 }

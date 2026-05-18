@@ -38,7 +38,7 @@ import com.bernardomg.association.sponsor.domain.model.Sponsor;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
 import com.bernardomg.association.sponsor.test.configuration.data.annotation.SponsorWithEmail;
 import com.bernardomg.association.sponsor.test.configuration.data.annotation.ValidSponsor;
-import com.bernardomg.association.sponsor.test.configuration.factory.SponsorConstants;
+import com.bernardomg.association.sponsor.test.configuration.factory.SponsorFilters;
 import com.bernardomg.association.sponsor.test.configuration.factory.Sponsors;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -65,7 +65,7 @@ class ITSponsorRepositoryFindAllQueryName {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new SponsorFilter(SponsorConstants.FIRST_NAME);
+        filter = SponsorFilters.firstName();
 
         // WHEN
         sponsors = repository.findAll(filter, pagination, sorting);
@@ -89,7 +89,7 @@ class ITSponsorRepositoryFindAllQueryName {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new SponsorFilter(SponsorConstants.FULL_NAME);
+        filter = SponsorFilters.fullName();
 
         // WHEN
         sponsors = repository.findAll(filter, pagination, sorting);
@@ -113,7 +113,7 @@ class ITSponsorRepositoryFindAllQueryName {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new SponsorFilter(SponsorConstants.LAST_NAME);
+        filter = SponsorFilters.lastName();
 
         // WHEN
         sponsors = repository.findAll(filter, pagination, sorting);
@@ -136,7 +136,7 @@ class ITSponsorRepositoryFindAllQueryName {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new SponsorFilter(SponsorConstants.FIRST_NAME);
+        filter = SponsorFilters.firstName();
 
         // WHEN
         sponsors = repository.findAll(filter, pagination, sorting);
@@ -160,7 +160,7 @@ class ITSponsorRepositoryFindAllQueryName {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new SponsorFilter(SponsorConstants.FIRST_NAME.substring(0, SponsorConstants.FIRST_NAME.length() - 2));
+        filter = SponsorFilters.partialName();
 
         // WHEN
         sponsors = repository.findAll(filter, pagination, sorting);
@@ -184,7 +184,7 @@ class ITSponsorRepositoryFindAllQueryName {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new SponsorFilter(SponsorConstants.FIRST_NAME);
+        filter = SponsorFilters.firstName();
 
         // WHEN
         sponsors = repository.findAll(filter, pagination, sorting);
@@ -208,7 +208,7 @@ class ITSponsorRepositoryFindAllQueryName {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = new SponsorFilter(SponsorConstants.ALTERNATIVE_FIRST_NAME);
+        filter = SponsorFilters.alternativeFirstName();
 
         // WHEN
         sponsors = repository.findAll(filter, pagination, sorting);
