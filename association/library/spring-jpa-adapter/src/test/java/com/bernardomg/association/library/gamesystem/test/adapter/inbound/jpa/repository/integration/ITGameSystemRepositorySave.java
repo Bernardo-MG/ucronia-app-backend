@@ -1,0 +1,126 @@
+/**
+ * The MIT License (MIT)
+ * <p>
+ * Copyright (c) 2022-2025 Bernardo Martínez Garrido
+ * <p>
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * <p>
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * <p>
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+package com.bernardomg.association.library.gamesystem.test.adapter.inbound.jpa.repository.integration;
+
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import com.bernardomg.association.library.TestApplication;
+import com.bernardomg.association.library.gamesystem.adapter.inbound.jpa.repository.GameSystemSpringRepository;
+import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
+import com.bernardomg.association.library.gamesystem.domain.repository.GameSystemRepository;
+import com.bernardomg.association.library.gamesystem.test.configuration.data.annotation.ValidGameSystem;
+import com.bernardomg.association.library.gamesystem.test.configuration.factory.GameSystemEntities;
+import com.bernardomg.association.library.gamesystem.test.configuration.factory.GameSystems;
+import com.bernardomg.test.annotation.IntegrationTest;
+
+@IntegrationTest
+@SpringBootTest(classes = TestApplication.class)
+@DisplayName("GameSystemRepository - save")
+class ITGameSystemRepositorySave {
+
+    @Autowired
+    private GameSystemRepository       repository;
+
+    @Autowired
+    private GameSystemSpringRepository springRepository;
+
+    @Test
+    @DisplayName("When the game system name is changed, it is persisted")
+    void testSave_NameChange_Persisted() {
+        final GameSystem gameSystem;
+
+        // GIVEN
+        gameSystem = GameSystems.nameChange();
+
+        // WHEN
+        repository.save(gameSystem);
+
+        // THEN
+        Assertions.assertThat(springRepository.findAll())
+            .as("game systems")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .contains(GameSystemEntities.nameChange());
+    }
+
+    @Test
+    @DisplayName("When the game system name is changed, it is returned")
+    @ValidGameSystem
+    void testSave_NameChange_Returned() {
+        final GameSystem gameSystem;
+        final GameSystem created;
+
+        // GIVEN
+        gameSystem = GameSystems.nameChange();
+
+        // WHEN
+        created = repository.save(gameSystem);
+
+        // THEN
+        Assertions.assertThat(created)
+            .as("game system")
+            .isEqualTo(GameSystems.nameChange());
+    }
+
+    @Test
+    @DisplayName("When saving, a game system is persisted")
+    void testSave_Persisted() {
+        final GameSystem gameSystem;
+
+        // GIVEN
+        gameSystem = GameSystems.valid();
+
+        // WHEN
+        repository.save(gameSystem);
+
+        // THEN
+        Assertions.assertThat(springRepository.findAll())
+            .as("game systems")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .contains(GameSystemEntities.valid());
+    }
+
+    @Test
+    @DisplayName("When saving, the persisted game system is returned")
+    void testSave_Returned() {
+        final GameSystem gameSystem;
+        final GameSystem created;
+
+        // GIVEN
+        gameSystem = GameSystems.valid();
+
+        // WHEN
+        created = repository.save(gameSystem);
+
+        // THEN
+        Assertions.assertThat(created)
+            .as("game system")
+            .isEqualTo(GameSystems.valid());
+    }
+
+}

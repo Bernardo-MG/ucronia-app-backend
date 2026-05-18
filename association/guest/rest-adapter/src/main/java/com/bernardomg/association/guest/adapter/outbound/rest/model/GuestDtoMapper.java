@@ -1,0 +1,201 @@
+/**
+ * The MIT License (MIT)
+ * <p>
+ * Copyright (c) 2022-2025 Bernardo Martínez Garrido
+ * <p>
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * <p>
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * <p>
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+package com.bernardomg.association.guest.adapter.outbound.rest.model;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
+import com.bernardomg.association.guest.adapter.outbound.rest.dto.ContactChannelDto;
+import com.bernardomg.association.guest.adapter.outbound.rest.dto.ContactMethodDto;
+import com.bernardomg.association.guest.adapter.outbound.rest.dto.EditionContactChannelDto;
+import com.bernardomg.association.guest.adapter.outbound.rest.dto.GuestCreationDto;
+import com.bernardomg.association.guest.adapter.outbound.rest.dto.GuestDto;
+import com.bernardomg.association.guest.adapter.outbound.rest.dto.GuestNameDto;
+import com.bernardomg.association.guest.adapter.outbound.rest.dto.GuestPageResponseDto;
+import com.bernardomg.association.guest.adapter.outbound.rest.dto.GuestPatchDto;
+import com.bernardomg.association.guest.adapter.outbound.rest.dto.GuestResponseDto;
+import com.bernardomg.association.guest.adapter.outbound.rest.dto.GuestUpdateDto;
+import com.bernardomg.association.guest.adapter.outbound.rest.dto.PropertyDto;
+import com.bernardomg.association.guest.adapter.outbound.rest.dto.PropertyDto.DirectionEnum;
+import com.bernardomg.association.guest.adapter.outbound.rest.dto.SortingDto;
+import com.bernardomg.association.guest.domain.model.Guest;
+import com.bernardomg.association.guest.domain.model.Guest.ContactChannel;
+import com.bernardomg.association.guest.domain.model.Guest.ContactMethod;
+import com.bernardomg.association.guest.domain.model.Guest.Name;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Sorting.Direction;
+import com.bernardomg.pagination.domain.Sorting.Property;
+
+public final class GuestDtoMapper {
+
+    public static final Guest toDomain(final GuestCreationDto creation) {
+        final Name name;
+
+        name = new Name(creation.getName()
+            .getFirstName(),
+            creation.getName()
+                .getLastName());
+
+        return new Guest(Optional.ofNullable(creation.getIdentifier()), -1L, name, Optional.empty(), List.of(),
+            List.of(), Optional.empty(), Optional.empty(), Set.of());
+    }
+
+    public static final Guest toDomain(final long number, final GuestPatchDto change) {
+        final Name                       name;
+        final Collection<ContactChannel> contactChannels;
+
+        name = new Name(change.getName()
+            .getFirstName(),
+            change.getName()
+                .getLastName());
+        contactChannels = change.getContactChannels()
+            .stream()
+            .map(GuestDtoMapper::toDomain)
+            .toList();
+
+        return new Guest(Optional.ofNullable(change.getIdentifier()), number, name, Optional.empty(), contactChannels,
+            new ArrayList<>(change.getGames()), Optional.ofNullable(change.getAddress()),
+            Optional.ofNullable(change.getComments()), Set.of());
+    }
+
+    public static final Guest toDomain(final long number, final GuestUpdateDto change) {
+        final Name                       name;
+        final Collection<ContactChannel> contactChannels;
+
+        name = new Name(change.getName()
+            .getFirstName(),
+            change.getName()
+                .getLastName());
+        contactChannels = change.getContactChannels()
+            .stream()
+            .map(GuestDtoMapper::toDomain)
+            .toList();
+
+        return new Guest(Optional.ofNullable(change.getIdentifier()), number, name, null, contactChannels,
+            new ArrayList<>(change.getGames()), Optional.ofNullable(change.getAddress()),
+            Optional.ofNullable(change.getComments()), Set.of());
+    }
+
+    public static final GuestResponseDto toResponseDto(final Guest profile) {
+        return new GuestResponseDto().content(GuestDtoMapper.toDto(profile));
+    }
+
+    public static final GuestResponseDto toResponseDto(final Optional<Guest> profile) {
+        return new GuestResponseDto().content(profile.map(GuestDtoMapper::toDto)
+            .orElse(null));
+    }
+
+    public static final GuestPageResponseDto toResponseDto(final Page<Guest> page) {
+        final SortingDto sortingResponse;
+
+        sortingResponse = new SortingDto().properties(page.sort()
+            .properties()
+            .stream()
+            .map(GuestDtoMapper::toDto)
+            .toList());
+        return new GuestPageResponseDto().content(page.content()
+            .stream()
+            .map(GuestDtoMapper::toDto)
+            .toList())
+            .size(page.size())
+            .page(page.page())
+            .totalElements(page.totalElements())
+            .totalPages(page.totalPages())
+            .elementsInPage(page.elementsInPage())
+            .first(page.first())
+            .last(page.last())
+            .sort(sortingResponse);
+    }
+
+    private static final ContactChannel toDomain(final EditionContactChannelDto dto) {
+        final ContactMethod contactMethod;
+
+        contactMethod = new ContactMethod(dto.getMethod(), "");
+        return new ContactChannel(contactMethod, dto.getDetail());
+    }
+
+    private static final ContactChannelDto toDto(final ContactChannel profile) {
+        ContactMethodDto method;
+
+        method = new ContactMethodDto().number(profile.contactMethod()
+            .number())
+            .name(profile.contactMethod()
+                .name());
+
+        return new ContactChannelDto().detail(profile.detail())
+            .method(method);
+    }
+
+    private static final GuestDto toDto(final Guest guest) {
+        GuestNameDto            name;
+        List<ContactChannelDto> contactChannels;
+
+        name = new GuestNameDto().firstName(guest.name()
+            .firstName())
+            .lastName(guest.name()
+                .lastName())
+            .fullName(guest.name()
+                .fullName());
+        contactChannels = guest.contactChannels()
+            .stream()
+            .map(GuestDtoMapper::toDto)
+            .toList();
+
+        return new GuestDto().identifier(guest.identifier()
+            .orElse(null))
+            .number(guest.number())
+            .name(name)
+            .birthDate(guest.birthDate()
+                .orElse(null))
+            .contactChannels(contactChannels)
+            .address(guest.address()
+                .orElse(null))
+            .comments(guest.comments()
+                .orElse(null))
+            .games(new ArrayList<>(guest.games()))
+            .types(new ArrayList<>(guest.types()));
+    }
+
+    private static final PropertyDto toDto(final Property property) {
+        final DirectionEnum direction;
+
+        if (property.direction() == Direction.ASC) {
+            direction = DirectionEnum.ASC;
+        } else {
+            direction = DirectionEnum.DESC;
+        }
+
+        return new PropertyDto().name(property.name())
+            .direction(direction);
+    }
+
+    private GuestDtoMapper() {
+        super();
+    }
+
+}

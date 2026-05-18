@@ -1,0 +1,21 @@
+get:
+  summary: Get all public members.
+  operationId: getAllPublicMembers
+  tags: [PublicMember]
+  parameters:
+    - $ref: '../common/pagination.yml#/components/parameters/pageParam'
+    - $ref: '../common/pagination.yml#/components/parameters/sizeParam'
+    - $ref: '../components/members.yml#/components/parameters/membersSortParam'
+    - name: name
+      in: query
+      required: false
+      description: Substring to filter name by.
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Members page.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/members.yml#/components/schemas/PublicMemberPageResponse'

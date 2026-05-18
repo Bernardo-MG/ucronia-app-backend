@@ -1,0 +1,5 @@
+databaseChangeLog:
+  # General
+  - include:
+      file: structure/settings.yaml
+      relativeToChangelogFile: true

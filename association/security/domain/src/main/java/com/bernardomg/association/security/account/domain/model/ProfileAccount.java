@@ -1,0 +1,94 @@
+/**
+ * The MIT License (MIT)
+ * <p>
+ * Copyright (c) 2022-2025 Bernardo Martínez Garrido
+ * <p>
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * <p>
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * <p>
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+package com.bernardomg.association.security.account.domain.model;
+
+import java.util.Objects;
+import java.util.Optional;
+
+import org.apache.commons.lang3.StringUtils;
+
+import com.bernardomg.security.account.domain.model.Account;
+
+/**
+ * Representation of an account linked to a profile.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+public final record ProfileAccount(String email, String username, String name, Optional<Profile> profile) implements Account {
+
+    @Override
+    public String getEmail() {
+        return email;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    public ProfileAccount(final String email, final String username, final String name, final Optional<Profile> profile) {
+        Objects.requireNonNull(email);
+        Objects.requireNonNull(username);
+        Objects.requireNonNull(name);
+
+        this.email = StringUtils.trim(email);
+        this.username = StringUtils.trim(username);
+        this.name = StringUtils.trim(name);
+        this.profile = Objects.requireNonNull(profile);
+    }
+
+    public record Profile(String identifier, Long number, Name name) {
+
+        public Profile(final String identifier, final Long number, final Name name) {
+            this.identifier = Objects.requireNonNull(identifier);
+            this.number = Objects.requireNonNull(number);
+            this.name = Objects.requireNonNull(name);
+        }
+
+        public record Name(String firstName, String lastName) {
+
+            public Name(final String firstName, final String lastName) {
+                Objects.requireNonNull(firstName);
+                Objects.requireNonNull(lastName);
+
+                this.firstName = StringUtils.trim(firstName);
+                this.lastName = StringUtils.trim(lastName);
+            }
+
+            public final String fullName() {
+                return String.format("%s %s", firstName, lastName)
+                    .trim();
+            }
+
+        }
+
+    }
+}

@@ -8,9 +8,9 @@ Dockerfile
 /.git/
 
 # Compilation folders #
-/bin/
-/target/
-/build/
+*/bin/
+*/target/
+*/build/
 
 # Log files #
 /*.log

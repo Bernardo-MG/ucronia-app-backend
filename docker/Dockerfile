@@ -7,11 +7,11 @@ FROM maven:3.9.9-eclipse-temurin-22-alpine AS build
 WORKDIR /app
 
 # Resolve and cache dependencies
-COPY ./pom.xml .
-RUN mvn dependency:go-offline
+# COPY ./pom.xml .
+# RUN mvn dependency:go-offline
 
 # Copy and build
-COPY ./src ./src
+COPY . .
 RUN mvn --batch-mode clean package -DskipTests
 
 # -----------------------------------------------------------------------------
@@ -41,7 +41,7 @@ VOLUME ./logs
 USER runner
 
 # Copy from build stage
-COPY --from=build --chown=runner:runners ./app/target/*.war ./app.war
+COPY --from=build --chown=runner:runners ./app/*/target/*.war ./app.war
 
 # Run with remote debugging
 CMD ["java", "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=0.0.0.0:8000", "-jar", "app.war"]

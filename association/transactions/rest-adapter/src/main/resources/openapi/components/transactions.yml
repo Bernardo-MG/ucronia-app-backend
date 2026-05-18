@@ -1,0 +1,86 @@
+components:
+  parameters:
+    transactionsSortParam:
+      name: sort
+      description: Sorting to apply.
+      in: query
+      style: form
+      explode: true
+      required: false
+      schema:
+        type: array
+        items:
+          type: string
+          pattern: '^(description|date|index|amount)\|(asc|desc)$'
+          example: date|asc
+  schemas:
+    TransactionCreation:
+      type: object
+      required: [date, amount, description]
+      properties:
+        date:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+        amount:
+          type: number
+          format: float
+        description:
+          type: string
+          maxLength: 200
+    TransactionUpdate:
+      type: object
+      required: [date, amount, description]
+      properties:
+        date:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+        amount:
+          type: number
+          format: float
+        description:
+          type: string
+          maxLength: 200
+    Transaction:
+      type: object
+      properties:
+        index:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        date:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+        amount:
+          type: number
+          format: float
+        description:
+          type: string
+    TransactionMonthsRange:
+      type: object
+      required: [months]
+      properties:
+        months:
+          type: array
+          items:
+            $ref: '../common/dates.yml#/components/schemas/Date'
+    TransactionMonthsRangeResponse:
+      type: object
+      properties:
+        content:
+          $ref: '#/components/schemas/TransactionMonthsRange'
+    TransactionPageResponse:
+      allOf:
+        - $ref: '../common/responses.yml#/components/schemas/PageResponse'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/Transaction'
+    TransactionResponse:
+      type: object
+      properties:
+        content:
+          $ref: '#/components/schemas/Transaction'
+    TransactionsResponse:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/Transaction'

@@ -1,0 +1,30 @@
+get:
+  summary: Get the membership monthly evolution.
+  operationId: getMembershipMonthlyEvolution
+  tags: [MembershipEvolution]
+  parameters:
+    - name: from
+      in: query
+      required: false
+      description: Start year-month for filtering (inclusive).
+      schema:
+        $ref: '../common/dates.yml#/components/schemas/Date'
+    - name: to
+      in: query
+      required: false
+      description: End year-month for filtering (inclusive).
+      schema:
+        $ref: '../common/dates.yml#/components/schemas/Date'
+    - name: memberNumber
+      in: query
+      required: false
+      description: Member number to filter by.
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  responses:
+    '200':
+      description: List of monthly member balances.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/membership_evolution.yml#/components/schemas/MembershipMonthlyEvolutionResponse'

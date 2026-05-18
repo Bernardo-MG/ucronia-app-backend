@@ -1,4 +1,5 @@
 services:
+
   association-db:
     image: postgres:18.0-alpine
     environment:
@@ -20,6 +21,7 @@ services:
       - ./sql/create_schemas.sql:/docker-entrypoint-initdb.d/create_schemas.sql
     networks:
       - db
+
   association-backend:
     build:
       context: ../
@@ -56,6 +58,7 @@ services:
       - db
       - mail
       - monitoring
+
   #=========#
   # SUPPORT #
   #=========#

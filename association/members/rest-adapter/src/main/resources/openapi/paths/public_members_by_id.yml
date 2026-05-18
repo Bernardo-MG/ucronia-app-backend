@@ -1,0 +1,20 @@
+get:
+  summary: Get a specific public member by number.
+  operationId: getPublicMemberByNumber
+  tags: [PublicMember]
+  parameters:
+    - name: number
+      in: path
+      required: true
+      description: Member number.
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  responses:
+    '200':
+      description: Requested member.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/members.yml#/components/schemas/PublicMemberResponse'
+    '404':
+      description: Member not found.

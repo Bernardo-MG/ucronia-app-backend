@@ -1,0 +1,163 @@
+/**
+ * The MIT License (MIT)
+ * <p>
+ * Copyright (c) 2022-2025 Bernardo Martínez Garrido
+ * <p>
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * <p>
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * <p>
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+package com.bernardomg.association.library.publisher.usecase.service;
+
+import java.util.Objects;
+import java.util.Optional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.bernardomg.association.library.publisher.domain.exception.MissingPublisherException;
+import com.bernardomg.association.library.publisher.domain.model.Publisher;
+import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
+import com.bernardomg.association.library.publisher.usecase.validation.PublisherNameNotEmptyRule;
+import com.bernardomg.association.library.publisher.usecase.validation.PublisherNameNotExistsForAnotherRule;
+import com.bernardomg.association.library.publisher.usecase.validation.PublisherNameNotExistsRule;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
+import com.bernardomg.validation.validator.FieldRuleValidator;
+import com.bernardomg.validation.validator.Validator;
+
+import jakarta.transaction.Transactional;
+
+@Transactional
+public final class DefaultPublisherService implements PublisherService {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger        log = LoggerFactory.getLogger(DefaultPublisherService.class);
+
+    private final Validator<Publisher> createPublisherValidator;
+
+    private final PublisherRepository  publisherRepository;
+
+    private final Validator<Publisher> updatePublisherValidator;
+
+    public DefaultPublisherService(final PublisherRepository publisherRepo) {
+        super();
+
+        publisherRepository = Objects.requireNonNull(publisherRepo);
+
+        createPublisherValidator = new FieldRuleValidator<>(new PublisherNameNotEmptyRule(),
+            new PublisherNameNotExistsRule(publisherRepository));
+        updatePublisherValidator = new FieldRuleValidator<>(new PublisherNameNotEmptyRule(),
+            new PublisherNameNotExistsForAnotherRule(publisherRepository));
+    }
+
+    @Override
+    public final Publisher create(final Publisher publisher) {
+        final Publisher toCreate;
+        final Publisher created;
+        final Long      number;
+
+        log.debug("Creating publisher {}", publisher);
+
+        // Set number
+        number = publisherRepository.findNextNumber();
+
+        toCreate = new Publisher(number, publisher.name());
+
+        createPublisherValidator.validate(toCreate);
+
+        created = publisherRepository.save(toCreate);
+
+        log.debug("Created publisher {}", publisher);
+
+        return created;
+    }
+
+    @Override
+    public final Publisher delete(final long number) {
+        final Publisher deleted;
+
+        log.debug("Deleting publisher {}", number);
+
+        deleted = publisherRepository.findOne(number)
+            .orElseThrow(() -> {
+                log.error("Missing publisher {}", number);
+                throw new MissingPublisherException(number);
+            });
+
+        publisherRepository.delete(number);
+
+        log.debug("Deleted publisher {}", number);
+
+        return deleted;
+    }
+
+    @Override
+    public final Page<Publisher> getAll(final Pagination pagination, final Sorting sorting) {
+        final Page<Publisher> publishers;
+
+        log.debug("Reading publishers with pagination {} and sorting {}", pagination, sorting);
+
+        publishers = publisherRepository.findAll(pagination, sorting);
+
+        log.debug("Read publishers with pagination {} and sorting {}", pagination, sorting);
+
+        return publishers;
+    }
+
+    @Override
+    public final Optional<Publisher> getOne(final long number) {
+        final Optional<Publisher> publisher;
+
+        log.debug("Reading publisher {}", number);
+
+        publisher = publisherRepository.findOne(number);
+        if (publisher.isEmpty()) {
+            log.error("Missing publisher {}", number);
+            throw new MissingPublisherException(number);
+        }
+
+        log.debug("Read publisher {}", number);
+
+        return publisher;
+    }
+
+    @Override
+    public final Publisher update(final Publisher publisher) {
+        final Publisher created;
+
+        log.debug("Updating publisher {}", publisher);
+
+        if (!publisherRepository.exists(publisher.number())) {
+            throw new MissingPublisherException(publisher.number());
+        }
+
+        // Set number
+        updatePublisherValidator.validate(publisher);
+
+        created = publisherRepository.save(publisher);
+
+        log.debug("Updated publisher {}", publisher);
+
+        return created;
+    }
+
+}
