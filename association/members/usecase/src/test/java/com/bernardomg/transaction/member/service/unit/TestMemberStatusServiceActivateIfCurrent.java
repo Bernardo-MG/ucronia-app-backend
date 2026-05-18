@@ -30,6 +30,8 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 import java.time.Instant;
+import java.time.YearMonth;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Optional;
@@ -68,7 +70,10 @@ class TestMemberStatusServiceActivateIfCurrent {
 
         // GIVEN
         given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.inactive()));
-        date = Instant.now();
+        date = YearMonth.now()
+            .atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant();
         number = MemberConstants.NUMBER;
 
         // WHEN
