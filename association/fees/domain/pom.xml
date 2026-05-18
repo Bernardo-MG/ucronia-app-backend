@@ -11,7 +11,7 @@
    <parent>
       <groupId>com.bernardomg.association.fee</groupId>
       <artifactId>association-fee</artifactId>
-      <version>0.7.0</version>
+      <version>1.0.0-SNAPSHOT</version>
    </parent>
 
    <!-- ********************************************** -->
