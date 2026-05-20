@@ -96,15 +96,15 @@ public class TransactionController implements TransactionApi {
     public TransactionPageResponseDto getAllTransactions(@Min(1) @Valid final Integer page,
             @Min(1) @Valid final Integer size, @Valid final List<String> sort, @Valid final Instant date,
             @Valid final Instant from, @Valid final Instant to) {
-        final TransactionFilter query;
+        final TransactionFilter filter;
         final Pagination        pagination;
         final Sorting           sorting;
         final Page<Transaction> transactions;
 
         pagination = new Pagination(page, size);
         sorting = WebSorting.toSorting(sort);
-        query = new TransactionFilter(Optional.ofNullable(date), Optional.ofNullable(from), Optional.ofNullable(to));
-        transactions = service.getAll(query, pagination, sorting);
+        filter = new TransactionFilter(Optional.ofNullable(date), Optional.ofNullable(from), Optional.ofNullable(to));
+        transactions = service.getAll(filter, pagination, sorting);
 
         return TransactionDtoMapper.toResponseDto(transactions);
     }

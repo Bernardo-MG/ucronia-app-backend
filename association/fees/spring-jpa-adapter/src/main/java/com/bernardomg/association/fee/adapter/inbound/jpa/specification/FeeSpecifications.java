@@ -36,28 +36,28 @@ public final class FeeSpecifications {
 
     private static final String MONTH = "month";
 
-    public static Optional<Specification<FeeEntity>> fromQuery(final FeeFilter query) {
+    public static Optional<Specification<FeeEntity>> filter(final FeeFilter filter) {
         final Optional<Specification<FeeEntity>> spec;
 
-        if (query.month()
+        if (filter.month()
             .isPresent()) {
-            spec = Optional.of(on(query.month()
+            spec = Optional.of(on(filter.month()
                 .get()));
-        } else if ((query.from()
+        } else if ((filter.from()
             .isPresent())
-                && (query.to()
+                && (filter.to()
                     .isPresent())) {
-            spec = Optional.of(between(query.from()
+            spec = Optional.of(between(filter.from()
                 .get(),
-                query.to()
+                filter.to()
                     .get()));
-        } else if (query.from()
+        } else if (filter.from()
             .isPresent()) {
-            spec = Optional.of(after(query.from()
+            spec = Optional.of(after(filter.from()
                 .get()));
-        } else if (query.to()
+        } else if (filter.to()
             .isPresent()) {
-            spec = Optional.of(before(query.to()
+            spec = Optional.of(before(filter.to()
                 .get()));
         } else {
             spec = Optional.empty();

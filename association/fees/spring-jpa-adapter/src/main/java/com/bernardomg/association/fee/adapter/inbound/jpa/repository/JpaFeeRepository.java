@@ -125,7 +125,7 @@ public final class JpaFeeRepository implements FeeRepository {
     }
 
     @Override
-    public final Page<Fee> findAll(final FeeFilter query, final Pagination pagination, final Sorting sorting) {
+    public final Page<Fee> findAll(final FeeFilter filter, final Pagination pagination, final Sorting sorting) {
         final Optional<Specification<FeeEntity>>        spec;
         final org.springframework.data.domain.Page<Fee> found;
         final Pageable                                  pageable;
@@ -133,9 +133,9 @@ public final class JpaFeeRepository implements FeeRepository {
         // TODO: Test reading with no last name
 
         fixedSorting = fixSorting(sorting);
-        log.debug("Finding all fees with query {}, pagination {} and sorting {}", query, pagination, fixedSorting);
+        log.debug("Finding all fees with query {}, pagination {} and sorting {}", filter, pagination, fixedSorting);
 
-        spec = FeeSpecifications.fromQuery(query);
+        spec = FeeSpecifications.filter(filter);
 
         if (spec.isEmpty()) {
             pageable = SpringPagination.toPageable(pagination, fixedSorting);
@@ -147,7 +147,7 @@ public final class JpaFeeRepository implements FeeRepository {
                 .map(FeeEntityMapper::toDomain);
         }
 
-        log.debug("Found all fees with query {}, pagination {} and sorting {}: {}", query, pagination, sorting, found);
+        log.debug("Found all fees with query {}, pagination {} and sorting {}: {}", filter, pagination, sorting, found);
 
         return SpringPagination.toPage(found);
     }

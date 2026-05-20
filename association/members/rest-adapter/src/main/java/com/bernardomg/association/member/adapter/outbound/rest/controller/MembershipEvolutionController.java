@@ -65,10 +65,10 @@ public class MembershipEvolutionController implements MembershipEvolutionApi {
     public MembershipMonthlyEvolutionResponseDto getMembershipMonthlyEvolution(@Valid final Instant from,
             @Valid final Instant to, @Valid final Long memberNumber) {
         final Collection<MembershipEvolutionMonth> evolution;
-        final MembershipEvolutionFilter            query;
+        final MembershipEvolutionFilter            filter;
 
-        query = new MembershipEvolutionFilter(Optional.ofNullable(from), Optional.ofNullable(to));
-        evolution = service.getMonthlyEvolution(query);
+        filter = new MembershipEvolutionFilter(Optional.ofNullable(from), Optional.ofNullable(to));
+        evolution = service.getMonthlyEvolution(filter);
 
         return MembershipMonthlyEvolutionDtoMapper.toResponseDto(evolution);
     }

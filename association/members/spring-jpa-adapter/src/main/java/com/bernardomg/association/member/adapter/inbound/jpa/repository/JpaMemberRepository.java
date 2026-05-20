@@ -149,7 +149,7 @@ public final class JpaMemberRepository implements MemberRepository {
 
         fixedSorting = fixSorting(sorting);
         pageable = SpringPagination.toPageable(pagination, fixedSorting);
-        spec = ReadMemberSpecifications.query(filter);
+        spec = ReadMemberSpecifications.filter(filter);
         if (spec.isEmpty()) {
             read = readMemberSpringRepository.findAll(pageable)
                 .map(MemberEntityMapper::toDomain);

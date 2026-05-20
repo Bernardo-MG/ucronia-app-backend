@@ -29,9 +29,9 @@ import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 
-public record ProfileQuery(Optional<String> name) {
+public record ProfileFilter(Optional<String> name) {
 
-    public ProfileQuery(final Optional<String> name) {
+    public ProfileFilter(final Optional<String> name) {
         Objects.requireNonNull(name);
 
         this.name = name.map(StringUtils::trim);

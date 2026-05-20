@@ -30,7 +30,7 @@ import java.util.function.BiFunction;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
-import com.bernardomg.association.profile.domain.filter.ProfileQuery;
+import com.bernardomg.association.profile.domain.filter.ProfileFilter;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.Predicate;
@@ -38,14 +38,14 @@ import jakarta.persistence.criteria.Root;
 
 public final class ProfileSpecifications {
 
-    public static Optional<Specification<ProfileEntity>> query(final ProfileQuery query) {
+    public static Optional<Specification<ProfileEntity>> filter(final ProfileFilter filter) {
         final Optional<Specification<ProfileEntity>> nameSpec;
 
-        if (query.name()
+        if (filter.name()
             .isEmpty()) {
             nameSpec = Optional.empty();
         } else {
-            nameSpec = Optional.of(name(query.name()
+            nameSpec = Optional.of(name(filter.name()
                 .get()));
         }
 

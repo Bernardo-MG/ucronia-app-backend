@@ -35,7 +35,7 @@ import com.bernardomg.association.profile.adapter.outbound.rest.dto.ProfilePatch
 import com.bernardomg.association.profile.adapter.outbound.rest.dto.ProfileResponseDto;
 import com.bernardomg.association.profile.adapter.outbound.rest.dto.ProfileUpdateDto;
 import com.bernardomg.association.profile.adapter.outbound.rest.model.ProfileDtoMapper;
-import com.bernardomg.association.profile.domain.filter.ProfileQuery;
+import com.bernardomg.association.profile.domain.filter.ProfileFilter;
 import com.bernardomg.association.profile.domain.model.Profile;
 import com.bernardomg.association.profile.usecase.service.ProfileService;
 import com.bernardomg.pagination.domain.Page;
@@ -97,11 +97,11 @@ public class ProfileController implements ProfileApi {
         final Page<Profile> profiles;
         final Pagination    pagination;
         final Sorting       sorting;
-        final ProfileQuery  filter;
+        final ProfileFilter  filter;
 
         pagination = new Pagination(page, size);
         sorting = WebSorting.toSorting(sort);
-        filter = new ProfileQuery(Optional.ofNullable(name));
+        filter = new ProfileFilter(Optional.ofNullable(name));
         profiles = service.getAll(filter, pagination, sorting);
 
         return ProfileDtoMapper.toResponseDto(profiles);

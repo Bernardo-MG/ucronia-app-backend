@@ -35,7 +35,7 @@ import com.bernardomg.association.member.domain.filter.PublicMemberFilter;
 
 public final class PublicMemberSpecifications {
 
-    public static Optional<Specification<PublicMemberEntity>> query(final PublicMemberFilter filter) {
+    public static Optional<Specification<PublicMemberEntity>> filter(final PublicMemberFilter filter) {
         final Optional<Specification<PublicMemberEntity>> nameSpec;
         final Optional<Specification<PublicMemberEntity>> activeSpec;
         final Specification<PublicMemberEntity>           spec;

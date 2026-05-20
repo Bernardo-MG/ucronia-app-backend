@@ -142,7 +142,7 @@ public final class JpaGuestRepository implements GuestRepository {
             fixedSorting);
 
         pageable = SpringPagination.toPageable(pagination, fixedSorting);
-        spec = GuestSpecifications.query(filter);
+        spec = GuestSpecifications.filter(filter);
         if (spec.isEmpty()) {
             read = readGuestSpringRepository.findAll(pageable)
                 .map(GuestEntityMapper::toDomain);

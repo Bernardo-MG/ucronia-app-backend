@@ -25,17 +25,17 @@ get:
     - $ref: '../common/pagination.yml#/components/parameters/sizeParam'
     - $ref: '../components/fees.yml#/components/parameters/feesSortParam'
     - name: date
-      description: Date to query for.
+      description: Date to filter by.
       in: query
       schema:
         $ref: '../common/dates.yml#/components/schemas/Date'
     - name: from
-      description: Starting date to query for.
+      description: Starting date to filter by.
       in: query
       schema:
         $ref: '../common/dates.yml#/components/schemas/Date'
     - name: to
-      description: Ending date to query for.
+      description: Ending date to filter by.
       in: query
       schema:
         $ref: '../common/dates.yml#/components/schemas/Date'

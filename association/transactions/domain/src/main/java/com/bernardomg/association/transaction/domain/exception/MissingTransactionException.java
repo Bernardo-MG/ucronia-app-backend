@@ -35,23 +35,23 @@ public final class MissingTransactionException extends RuntimeException {
     private static final long serialVersionUID = -2547922646355830379L;
 
     /**
-     * Id which caused the exception.
+     * Index which caused the exception.
      */
-    private final Long        id;
+    private final Long        index;
 
-    public MissingTransactionException(final long id) {
-        super(String.format("Missing id %s for transaction", id));
+    public MissingTransactionException(final long index) {
+        super(String.format("Missing index %s for transaction", index));
 
-        this.id = id;
+        this.index = index;
     }
 
     /**
-     * Returns the id which caused the exception.
+     * Returns the index which caused the exception.
      *
-     * @return the id which caused the exception
+     * @return the index which caused the exception
      */
-    public final Long getId() {
-        return id;
+    public final Long getIndex() {
+        return index;
     }
 
 }

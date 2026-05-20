@@ -193,14 +193,14 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    public final Page<Fee> getAll(final FeeFilter query, final Pagination pagination, final Sorting sorting) {
+    public final Page<Fee> getAll(final FeeFilter filter, final Pagination pagination, final Sorting sorting) {
         final Page<Fee> fees;
 
-        log.info("Getting all fees with query {}, pagination {} and sorting {}", query, pagination, sorting);
+        log.info("Getting all fees with filter {}, pagination {} and sorting {}", filter, pagination, sorting);
 
-        fees = feeRepository.findAll(query, pagination, sorting);
+        fees = feeRepository.findAll(filter, pagination, sorting);
 
-        log.debug("Got all fees with query {}, pagination {} and sorting {}: {}", query, pagination, sorting, fees);
+        log.debug("Got all fees with filter {}, pagination {} and sorting {}: {}", filter, pagination, sorting, fees);
 
         return fees;
     }

@@ -65,34 +65,34 @@ public final class DefaultMembershipEvolutionService implements MembershipEvolut
     }
 
     @Override
-    public final Collection<MembershipEvolutionMonth> getMonthlyEvolution(final MembershipEvolutionFilter query) {
+    public final Collection<MembershipEvolutionMonth> getMonthlyEvolution(final MembershipEvolutionFilter filter) {
         final Instant                              now;
         final Optional<Instant>                    end;
         final Sorting                              sorting;
         final Collection<MembershipEvolutionMonth> evolution;
 
-        log.debug("Reading monthly membership evolution with query {}", query);
+        log.debug("Reading monthly membership evolution with filter {}", filter);
 
         // Up to this month
         now = YearMonth.now()
             .atDay(1)
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant();
-        if ((query.to()
+        if ((filter.to()
             .isEmpty())
-                || (query.to()
+                || (filter.to()
                     .get()
                     .isAfter(now))) {
-            log.debug("Replacing end date {} with current date {}", query.to(), now);
+            log.debug("Replacing end date {} with current date {}", filter.to(), now);
             end = Optional.of(now);
         } else {
-            end = query.to();
+            end = filter.to();
         }
 
         sorting = new Sorting(List.of(Sorting.Property.asc("month")));
-        evolution = membershipEvolutionRepository.findInRange(query.from(), end, sorting);
+        evolution = membershipEvolutionRepository.findInRange(filter.from(), end, sorting);
 
-        log.debug("Read monthly membership evolution with query {}: {}", query, evolution);
+        log.debug("Read monthly membership evolution with query {}: {}", filter, evolution);
 
         return evolution;
     }

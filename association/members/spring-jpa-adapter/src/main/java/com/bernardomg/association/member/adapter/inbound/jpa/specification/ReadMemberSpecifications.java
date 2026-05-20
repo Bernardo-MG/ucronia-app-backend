@@ -37,7 +37,7 @@ public final class ReadMemberSpecifications {
 
     private static final String ACTIVE_FIELD = "active";
 
-    public static Optional<Specification<ReadMemberEntity>> query(final MemberFilter filter) {
+    public static Optional<Specification<ReadMemberEntity>> filter(final MemberFilter filter) {
         final Optional<Specification<ReadMemberEntity>> nameSpec;
         final Optional<Specification<ReadMemberEntity>> statusSpec;
         final Specification<ReadMemberEntity>           spec;

@@ -61,12 +61,12 @@ public interface SponsorService {
      * Returns all the public sponsors.
      *
      * @param filter
-     *            query to filter by
+     *            filter to filter by
      * @param pagination
      *            pagination to apply
      * @param sorting
      *            sorting to apply
-     * @return all the sponsors matching the sample
+     * @return all the sponsors matching the filter
      */
     public Page<Sponsor> getAll(final SponsorFilter filter, final Pagination pagination, final Sorting sorting);
 

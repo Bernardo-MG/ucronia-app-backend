@@ -44,12 +44,12 @@ public interface PublicMemberService {
      * Returns all the public members.
      *
      * @param filter
-     *            query to filter by
+     *            filter to filter by
      * @param pagination
      *            pagination to apply
      * @param sorting
      *            sorting to apply
-     * @return all the members matching the sample
+     * @return all the members matching the filter
      */
     public Page<PublicMember> getAll(final PublicMemberFilter filter, final Pagination pagination,
             final Sorting sorting);

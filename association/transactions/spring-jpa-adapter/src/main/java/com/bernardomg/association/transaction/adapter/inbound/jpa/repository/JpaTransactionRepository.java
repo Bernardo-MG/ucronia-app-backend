@@ -116,16 +116,16 @@ public final class JpaTransactionRepository implements TransactionRepository {
     }
 
     @Override
-    public final Page<Transaction> findAll(final TransactionFilter query, final Pagination pagination,
+    public final Page<Transaction> findAll(final TransactionFilter filter, final Pagination pagination,
             final Sorting sorting) {
         final org.springframework.data.domain.Page<TransactionEntity> page;
         final Optional<Specification<TransactionEntity>>              spec;
         final org.springframework.data.domain.Page<Transaction>       read;
         final Pageable                                                pageable;
 
-        log.debug("Finding transactions with sample {} and pagination {} and sorting {}", query, pagination, sorting);
+        log.debug("Finding transactions with filter {} and pagination {} and sorting {}", filter, pagination, sorting);
 
-        spec = TransactionSpecifications.fromQuery(query);
+        spec = TransactionSpecifications.fromQuery(filter);
 
         pageable = SpringPagination.toPageable(pagination, sorting);
         if (spec.isEmpty()) {

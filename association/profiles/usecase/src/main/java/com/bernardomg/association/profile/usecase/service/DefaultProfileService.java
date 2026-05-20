@@ -32,7 +32,7 @@ import org.slf4j.LoggerFactory;
 
 import com.bernardomg.association.profile.domain.exception.MissingContactMethodException;
 import com.bernardomg.association.profile.domain.exception.MissingProfileException;
-import com.bernardomg.association.profile.domain.filter.ProfileQuery;
+import com.bernardomg.association.profile.domain.filter.ProfileFilter;
 import com.bernardomg.association.profile.domain.model.ContactMethod;
 import com.bernardomg.association.profile.domain.model.Profile;
 import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
@@ -125,14 +125,14 @@ public final class DefaultProfileService implements ProfileService {
     }
 
     @Override
-    public final Page<Profile> getAll(final ProfileQuery query, final Pagination pagination, final Sorting sorting) {
+    public final Page<Profile> getAll(final ProfileFilter filter, final Pagination pagination, final Sorting sorting) {
         final Page<Profile> read;
 
-        log.debug("Reading profiles with query {}, pagination {} and sorting {}", query, pagination, sorting);
+        log.debug("Reading profiles with filter {}, pagination {} and sorting {}", filter, pagination, sorting);
 
-        read = profileRepository.findAll(query, pagination, sorting);
+        read = profileRepository.findAll(filter, pagination, sorting);
 
-        log.debug("Read profiles with query {}, pagination {} and sorting {}: {}", query, pagination, sorting, read);
+        log.debug("Read profiles with filter {}, pagination {} and sorting {}: {}", filter, pagination, sorting, read);
 
         return read;
     }

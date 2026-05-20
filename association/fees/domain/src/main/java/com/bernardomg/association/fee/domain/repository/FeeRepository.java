@@ -44,7 +44,7 @@ public interface FeeRepository {
 
     public boolean existsPaid(final Long number, final Instant month);
 
-    public Page<Fee> findAll(final FeeFilter query, final Pagination pagination, final Sorting sorting);
+    public Page<Fee> findAll(final FeeFilter filter, final Pagination pagination, final Sorting sorting);
 
     public Page<Fee> findAllForMember(final Long number, final Pagination pagination, final Sorting sorting);
 

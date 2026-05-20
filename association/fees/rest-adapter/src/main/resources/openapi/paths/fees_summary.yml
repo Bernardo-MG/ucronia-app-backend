@@ -4,12 +4,12 @@ get:
   tags: [FeeSummary]
   parameters:
     - name: from
-      description: Starting date to query for.
+      description: Starting date to filter by.
       in: query
       schema:
         $ref: '../common/dates.yml#/components/schemas/Date'
     - name: to
-      description: Ending date to query for.
+      description: Ending date to filter by.
       in: query
       schema:
         $ref: '../common/dates.yml#/components/schemas/Date'

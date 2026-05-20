@@ -37,7 +37,7 @@ import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBal
 public interface TransactionBalanceService {
 
     /**
-     * Returns the monthly balances for the query.
+     * Returns the monthly balances for the filter.
      *
      * @param from
      *            starting date
