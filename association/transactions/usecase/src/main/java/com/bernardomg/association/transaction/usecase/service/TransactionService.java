@@ -63,7 +63,7 @@ public interface TransactionService {
      * Returns all the transactions matching the sample. If the sample fields are empty, then all the transactions are
      * returned.
      *
-     * @param transaction
+     * @param filter
      *            sample for filtering
      * @param pagination
      *            pagination to apply
@@ -71,17 +71,17 @@ public interface TransactionService {
      *            sorting to apply
      * @return all the transactions matching the sample
      */
-    public Page<Transaction> getAll(final TransactionFilter transaction, final Pagination pagination,
+    public Page<Transaction> getAll(final TransactionFilter filter, final Pagination pagination,
             final Sorting sorting);
 
     /**
      * Returns the transaction for the received id, if it exists. Otherwise an empty {@code Optional} is returned.
      *
-     * @param id
-     *            id of the transaction to acquire
+     * @param index
+     *            index of the transaction to acquire
      * @return an {@code Optional} with the transaction, if it exists, of an empty {@code Optional} otherwise
      */
-    public Optional<Transaction> getOne(final long id);
+    public Optional<Transaction> getOne(final long index);
 
     /**
      * Returns the range of available months.

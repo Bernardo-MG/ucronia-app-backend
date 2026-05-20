@@ -22,36 +22,39 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.domain.exception;
+package com.bernardomg.association.activity;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Import;
+
+import com.bernardomg.association.activity.test.configuration.TestConfiguration;
 
 /**
- * Missing transaction exception.
+ * Application runnable class. This allows Spring Boot to run the application.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final class MissingTransactionException extends RuntimeException {
-
-    private static final long serialVersionUID = -2547922646355830379L;
+@SpringBootApplication
+@Import({ TestConfiguration.class })
+public class TestApplication {
 
     /**
-     * Index which caused the exception.
+     * Runnable main method.
+     *
+     * @param args
+     *            execution parameters
      */
-    private final Long        index;
-
-    public MissingTransactionException(final long index) {
-        super(String.format("Missing index %s for transaction", index));
-
-        this.index = index;
+    public static void main(final String[] args) {
+        SpringApplication.run(TestApplication.class, args);
     }
 
     /**
-     * Returns the index which caused the exception.
-     *
-     * @return the index which caused the exception
+     * Default constructor.
      */
-    public final Long getIndex() {
-        return index;
+    public TestApplication() {
+        super();
     }
 
 }

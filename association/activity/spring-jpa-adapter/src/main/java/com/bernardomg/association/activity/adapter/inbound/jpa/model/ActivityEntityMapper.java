@@ -22,36 +22,33 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.domain.exception;
+package com.bernardomg.association.activity.adapter.inbound.jpa.model;
+
+import com.bernardomg.association.activity.domain.model.Activity;
 
 /**
- * Missing transaction exception.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Author repository mapper.
  */
-public final class MissingTransactionException extends RuntimeException {
+public final class ActivityEntityMapper {
 
-    private static final long serialVersionUID = -2547922646355830379L;
-
-    /**
-     * Index which caused the exception.
-     */
-    private final Long        index;
-
-    public MissingTransactionException(final long index) {
-        super(String.format("Missing index %s for transaction", index));
-
-        this.index = index;
+    public static final Activity toDomain(final ActivityEntity activity) {
+        return new Activity(activity.getNumber(), activity.getDate(), activity.getTitle(), activity.getDescription());
     }
 
-    /**
-     * Returns the index which caused the exception.
-     *
-     * @return the index which caused the exception
-     */
-    public final Long getIndex() {
-        return index;
+    public static final ActivityEntity toEntity(final Activity activity) {
+        final ActivityEntity entity;
+
+        entity = new ActivityEntity();
+        entity.setNumber(activity.number());
+        entity.setDate(activity.date());
+        entity.setTitle(activity.title());
+        entity.setDescription(activity.description());
+
+        return entity;
+    }
+
+    private ActivityEntityMapper() {
+        super();
     }
 
 }

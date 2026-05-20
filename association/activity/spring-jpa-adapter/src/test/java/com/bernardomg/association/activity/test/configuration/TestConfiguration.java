@@ -22,36 +22,25 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.domain.exception;
+package com.bernardomg.association.activity.test.configuration;
 
-/**
- * Missing transaction exception.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
- */
-public final class MissingTransactionException extends RuntimeException {
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-    private static final long serialVersionUID = -2547922646355830379L;
+import com.bernardomg.association.activity.adapter.inbound.jpa.repository.ActivitySpringRepository;
+import com.bernardomg.association.activity.adapter.inbound.jpa.repository.JpaActivityRepository;
+import com.bernardomg.association.activity.domain.repository.ActivityRepository;
 
-    /**
-     * Index which caused the exception.
-     */
-    private final Long        index;
+@Configuration
+@EnableJpaRepositories(basePackages = "com.bernardomg.association.activity.adapter.inbound.jpa")
+@EntityScan(basePackages = "com.bernardomg.association.activity.adapter.inbound.jpa")
+public class TestConfiguration {
 
-    public MissingTransactionException(final long index) {
-        super(String.format("Missing index %s for transaction", index));
-
-        this.index = index;
-    }
-
-    /**
-     * Returns the index which caused the exception.
-     *
-     * @return the index which caused the exception
-     */
-    public final Long getIndex() {
-        return index;
+    @Bean("activityRepository")
+    public ActivityRepository getActivityRepository(final ActivitySpringRepository activitySpringRepository) {
+        return new JpaActivityRepository(activitySpringRepository);
     }
 
 }

@@ -116,15 +116,15 @@ public final class DefaultTransactionService implements TransactionService {
     }
 
     @Override
-    public final Page<Transaction> getAll(final TransactionFilter query, final Pagination pagination,
+    public final Page<Transaction> getAll(final TransactionFilter filter, final Pagination pagination,
             final Sorting sorting) {
         final Page<Transaction> transactions;
 
-        log.info("Getting all transactions with query {}, pagination {} and sorting {}", query, pagination, sorting);
+        log.info("Getting all transactions with filter {}, pagination {} and sorting {}", filter, pagination, sorting);
 
-        transactions = transactionRepository.findAll(query, pagination, sorting);
+        transactions = transactionRepository.findAll(filter, pagination, sorting);
 
-        log.debug("Got all transactions with query {}, pagination {} and sorting {}: {}", query, pagination, sorting,
+        log.debug("Got all transactions with filter {}, pagination {} and sorting {}: {}", filter, pagination, sorting,
             transactions);
 
         return transactions;

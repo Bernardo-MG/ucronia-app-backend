@@ -22,36 +22,24 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.domain.exception;
+package com.bernardomg.association.activity.adapter.inbound.jpa.repository;
 
-/**
- * Missing transaction exception.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
- */
-public final class MissingTransactionException extends RuntimeException {
+import java.util.Optional;
 
-    private static final long serialVersionUID = -2547922646355830379L;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 
-    /**
-     * Index which caused the exception.
-     */
-    private final Long        index;
+import com.bernardomg.association.activity.adapter.inbound.jpa.model.ActivityEntity;
 
-    public MissingTransactionException(final long index) {
-        super(String.format("Missing index %s for transaction", index));
+public interface ActivitySpringRepository
+        extends JpaRepository<ActivityEntity, Long>, JpaSpecificationExecutor<ActivityEntity> {
 
-        this.index = index;
-    }
+    public boolean existsByNumber(final long number);
 
-    /**
-     * Returns the index which caused the exception.
-     *
-     * @return the index which caused the exception
-     */
-    public final Long getIndex() {
-        return index;
-    }
+    public Optional<ActivityEntity> findByNumber(final long number);
+
+    @Query("SELECT COALESCE(MAX(a.number), 0) + 1 FROM Activity a")
+    public Long findNextNumber();
 
 }

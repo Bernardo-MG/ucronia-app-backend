@@ -1,0 +1,48 @@
+post:
+  summary: Create a activity.
+  operationId: createActivity
+  tags: [Activity]
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/activities.yml#/components/schemas/ActivityCreation'
+  responses:
+    '201':
+      description: Activity created.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/activities.yml#/components/schemas/ActivityResponse'
+
+get:
+  summary: Get all activities.
+  operationId: getAllActivitys
+  tags: [Activity]
+  parameters:
+    - $ref: '../common/pagination.yml#/components/parameters/pageParam'
+    - $ref: '../common/pagination.yml#/components/parameters/sizeParam'
+    - $ref: '../components/activities.yml#/components/parameters/activitiesSortParam'
+    - name: date
+      description: Date to query for.
+      in: query
+      schema:
+        $ref: '../common/dates.yml#/components/schemas/Date'
+    - name: from
+      description: Starting date to query for.
+      in: query
+      schema:
+        $ref: '../common/dates.yml#/components/schemas/Date'
+    - name: to
+      description: Ending date to query for.
+      in: query
+      schema:
+        $ref: '../common/dates.yml#/components/schemas/Date'
+  responses:
+    '200':
+      description: Activitys page
+      content:
+        application/json:
+          schema:
+            $ref: '../components/activities.yml#/components/schemas/ActivityPageResponse'

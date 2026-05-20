@@ -1,0 +1,60 @@
+databaseChangeLog:
+  - changeSet:
+      id: activities_schema
+      author: Bernardo
+      changes:
+        - sqlFile:
+            encoding: UTF-8
+            path: sql/create_activities_schema.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: true
+  - changeSet:
+      id: activities
+      author: Bernardo
+      changes:
+        - createTable:
+            schemaName: calendar
+            tableName: activities
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: number
+                  type: bigint
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: date
+                  type: datetime
+                  constraints:
+                    nullable: false
+                  defaultValueComputed: CURRENT_TIMESTAMP
+              - column:
+                  name: title
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+                  defaultValue: ''
+              - column:
+                  name: description
+                  type: varchar(200)
+                  constraints:
+                    nullable: false
+                  defaultValue: ''
+        - addAutoIncrement:
+            schemaName: calendar
+            tableName: activities
+            columnName: id
+            columnDataType: bigint
+            incrementBy: 1
+            startWith: 1
+      modifySql:
+        - append:
+            dbms: mysql
+            value: ' ENGINE=InnoDB DEFAULT CHARSET=latin1'

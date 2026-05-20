@@ -22,36 +22,23 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.domain.exception;
+package com.bernardomg.association.activity.domain.model;
 
-/**
- * Missing transaction exception.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
- */
-public final class MissingTransactionException extends RuntimeException {
+import java.time.Instant;
+import java.util.Objects;
 
-    private static final long serialVersionUID = -2547922646355830379L;
+import org.apache.commons.lang3.StringUtils;
 
-    /**
-     * Index which caused the exception.
-     */
-    private final Long        index;
+public record Activity(long number, Instant date, String title, String description) {
 
-    public MissingTransactionException(final long index) {
-        super(String.format("Missing index %s for transaction", index));
+    public Activity(final long number, final Instant date, final String title, final String description) {
+        Objects.requireNonNull(title);
+        Objects.requireNonNull(description);
 
-        this.index = index;
-    }
-
-    /**
-     * Returns the index which caused the exception.
-     *
-     * @return the index which caused the exception
-     */
-    public final Long getIndex() {
-        return index;
+        this.number = Objects.requireNonNull(number);
+        this.date = Objects.requireNonNull(date);
+        this.title = StringUtils.trim(title);
+        this.description = StringUtils.trim(description);
     }
 
 }

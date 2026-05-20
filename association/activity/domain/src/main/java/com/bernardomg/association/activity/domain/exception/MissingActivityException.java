@@ -22,36 +22,36 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.domain.exception;
+package com.bernardomg.association.activity.domain.exception;
 
 /**
- * Missing transaction exception.
+ * Missing activity exception.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final class MissingTransactionException extends RuntimeException {
+public final class MissingActivityException extends RuntimeException {
 
     private static final long serialVersionUID = -2547922646355830379L;
 
     /**
-     * Index which caused the exception.
+     * Number which caused the exception.
      */
-    private final Long        index;
+    private final Long        number;
 
-    public MissingTransactionException(final long index) {
-        super(String.format("Missing index %s for transaction", index));
+    public MissingActivityException(final long number) {
+        super(String.format("Missing id %s for activity", number));
 
-        this.index = index;
+        this.number = number;
     }
 
     /**
-     * Returns the index which caused the exception.
+     * Returns the number which caused the exception.
      *
-     * @return the index which caused the exception
+     * @return the number which caused the exception
      */
-    public final Long getIndex() {
-        return index;
+    public final Long getNumber() {
+        return number;
     }
 
 }
