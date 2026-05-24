@@ -49,17 +49,32 @@ public record Member(Optional<String> identifier, Long number, Name name, Option
         Objects.requireNonNull(types);
         Objects.requireNonNull(contactChannels);
 
-        this.identifier = identifier.map(StringUtils::trim);
+        this.identifier = handleEmpty(identifier);
         this.number = Objects.requireNonNull(number);
         this.name = Objects.requireNonNull(name);
         this.birthDate = Objects.requireNonNull(birthDate);
         this.contactChannels = List.copyOf(contactChannels);
-        this.address = address.map(StringUtils::trim);
-        this.comments = comments.map(StringUtils::trim);
+        this.address = handleEmpty(address);
+        this.comments = handleEmpty(comments);
         this.active = Objects.requireNonNull(active);
         this.renew = Objects.requireNonNull(renew);
         this.feeType = Objects.requireNonNull(feeType);
         this.types = Set.copyOf(types);
+    }
+
+    private final Optional<String> handleEmpty(final Optional<String> value) {
+        final Optional<String> trimmed;
+        final Optional<String> result;
+
+        trimmed = value.map(StringUtils::trim);
+        if (trimmed.orElse("")
+            .isEmpty()) {
+            result = Optional.empty();
+        } else {
+            result = value.map(StringUtils::trim);
+        }
+
+        return result;
     }
 
     public record Name(String firstName, String lastName) {
