@@ -37,6 +37,7 @@ public final class Transactions {
     }
 
     public static final Transaction forIndexAndMonth(final long index, final Month month) {
+        // TODO: looks too similar to the previous one
         return new Transaction(index, LocalDate.of(2020, month, Long.valueOf(index)
             .intValue())
             .atStartOfDay(ZoneOffset.UTC)

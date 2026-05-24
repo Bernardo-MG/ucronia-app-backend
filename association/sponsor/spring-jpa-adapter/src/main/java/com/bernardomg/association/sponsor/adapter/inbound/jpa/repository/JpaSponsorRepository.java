@@ -143,7 +143,7 @@ public final class JpaSponsorRepository implements SponsorRepository {
             fixedSorting);
 
         pageable = SpringPagination.toPageable(pagination, fixedSorting);
-        spec = SponsorSpecifications.query(filter);
+        spec = SponsorSpecifications.filter(filter);
         if (spec.isEmpty()) {
             read = readSponsorSpringRepository.findAll(pageable)
                 .map(SponsorEntityMapper::toDomain);

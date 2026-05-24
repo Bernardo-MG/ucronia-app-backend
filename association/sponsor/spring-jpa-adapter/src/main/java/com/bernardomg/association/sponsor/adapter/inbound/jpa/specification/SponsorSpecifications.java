@@ -35,7 +35,7 @@ import com.bernardomg.association.sponsor.domain.filter.SponsorFilter;
 
 public final class SponsorSpecifications {
 
-    public static Optional<Specification<ReadSponsorEntity>> query(final SponsorFilter filter) {
+    public static Optional<Specification<ReadSponsorEntity>> filter(final SponsorFilter filter) {
         final Optional<Specification<ReadSponsorEntity>> nameSpec;
         final Specification<ReadSponsorEntity>           spec;
 

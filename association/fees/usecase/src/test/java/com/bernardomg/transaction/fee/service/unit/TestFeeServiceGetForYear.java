@@ -73,7 +73,7 @@ class TestFeeServiceGetForYear {
     private TransactionRepository transactionRepository;
 
     @Test
-    @DisplayName("When filtering by active the correct query is used")
+    @DisplayName("When filtering by active the correct filter is used")
     void testGetForYear_Active() {
         final Iterable<MemberFees> calendars;
         final Sorting              sorting;
@@ -93,7 +93,7 @@ class TestFeeServiceGetForYear {
     }
 
     @Test
-    @DisplayName("When filtering by all the correct query is used")
+    @DisplayName("When filtering by all the correct filter is used")
     void testGetForYear_All() {
         final Iterable<MemberFees> calendars;
         final Sorting              sorting;
@@ -114,7 +114,7 @@ class TestFeeServiceGetForYear {
     }
 
     @Test
-    @DisplayName("When filtering by inactive the correct query is used")
+    @DisplayName("When filtering by inactive the correct filter is used")
     void testGetForYear_Inactive() {
         final Iterable<MemberFees> calendars;
         final Sorting              sorting;

@@ -40,7 +40,7 @@ class TestMembershipEvolutionServiceGetMonthlyEvolution {
     @Test
     @DisplayName("Returns the queried data when covering previous and current")
     void testGetMonthlyEvolution_CoversBoth() {
-        final MembershipEvolutionFilter          query;
+        final MembershipEvolutionFilter          filter;
         final Iterable<MembershipEvolutionMonth> evolution;
         final Instant                            from;
         final Instant                            to;
@@ -55,10 +55,10 @@ class TestMembershipEvolutionServiceGetMonthlyEvolution {
         given(membershipEvolutionRepository.findInRange(eq(Optional.of(from)), eq(Optional.of(to)), any()))
             .willReturn(List.of(MembershipEvolutionMonths.currentMonth()));
 
-        query = MembershipEvolutionFilters.previousAndThis();
+        filter = MembershipEvolutionFilters.previousAndThis();
 
         // WHEN
-        evolution = service.getMonthlyEvolution(query);
+        evolution = service.getMonthlyEvolution(filter);
 
         // THEN
         Assertions.assertThat(evolution)
@@ -69,15 +69,15 @@ class TestMembershipEvolutionServiceGetMonthlyEvolution {
     @Test
     @DisplayName("Can't read beyond the current month")
     void testGetMonthlyEvolution_LimitsAtCurrent() {
-        final MembershipEvolutionFilter query;
+        final MembershipEvolutionFilter filter;
         final Instant                   from;
         final Instant                   to;
 
         // GIVEN
-        query = MembershipEvolutionFilters.aroundCurrent();
+        filter = MembershipEvolutionFilters.aroundCurrent();
 
         // WHEN
-        service.getMonthlyEvolution(query);
+        service.getMonthlyEvolution(filter);
 
         // THEN
         from = MembershipEvolutionMonthConstants.PREVIOUS_MONTH.atDay(1)
@@ -93,7 +93,7 @@ class TestMembershipEvolutionServiceGetMonthlyEvolution {
     @Test
     @DisplayName("When there is no data nothing is returned")
     void testGetMonthlyEvolution_NoData() {
-        final MembershipEvolutionFilter          query;
+        final MembershipEvolutionFilter          filter;
         final Iterable<MembershipEvolutionMonth> evolution;
         final Instant                            from;
         final Instant                            to;
@@ -108,10 +108,10 @@ class TestMembershipEvolutionServiceGetMonthlyEvolution {
         given(membershipEvolutionRepository.findInRange(eq(Optional.of(from)), eq(Optional.of(to)), any()))
             .willReturn(List.of());
 
-        query = MembershipEvolutionFilters.previousAndThis();
+        filter = MembershipEvolutionFilters.previousAndThis();
 
         // WHEN
-        evolution = service.getMonthlyEvolution(query);
+        evolution = service.getMonthlyEvolution(filter);
 
         // THEN
         Assertions.assertThat(evolution)

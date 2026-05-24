@@ -58,32 +58,32 @@ public final class TransactionSpecifications {
     /**
      * Creates an specification from the request.
      *
-     * @param query
+     * @param filter
      *            request to create a specification from
      * @return specification for the request
      */
-    public static final Optional<Specification<TransactionEntity>> fromQuery(final TransactionFilter query) {
+    public static final Optional<Specification<TransactionEntity>> fromQuery(final TransactionFilter filter) {
         final Optional<Specification<TransactionEntity>> spec;
 
-        if (query.date()
+        if (filter.date()
             .isPresent()) {
-            spec = Optional.of(on(query.date()
+            spec = Optional.of(on(filter.date()
                 .get()));
-        } else if ((query.from()
+        } else if ((filter.from()
             .isPresent())
-                && (query.to()
+                && (filter.to()
                     .isPresent())) {
-            spec = Optional.of(betweenIncluding(query.from()
+            spec = Optional.of(betweenIncluding(filter.from()
                 .get(),
-                query.to()
+                filter.to()
                     .get()));
-        } else if (query.from()
+        } else if (filter.from()
             .isPresent()) {
-            spec = Optional.of(onOrAfter(query.from()
+            spec = Optional.of(onOrAfter(filter.from()
                 .get()));
-        } else if (query.to()
+        } else if (filter.to()
             .isPresent()) {
-            spec = Optional.of(onOrBefore(query.to()
+            spec = Optional.of(onOrBefore(filter.to()
                 .get()));
         } else {
             spec = Optional.empty();

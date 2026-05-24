@@ -34,7 +34,22 @@ public record PublicMemberFilter(Optional<String> name) {
     public PublicMemberFilter(final Optional<String> name) {
         Objects.requireNonNull(name);
 
-        this.name = name.map(StringUtils::trim);
+        this.name = handleEmpty(name);
+    }
+
+    private final Optional<String> handleEmpty(final Optional<String> value) {
+        final Optional<String> trimmed;
+        final Optional<String> result;
+
+        trimmed = value.map(StringUtils::trim);
+        if (trimmed.orElse("")
+            .isEmpty()) {
+            result = Optional.empty();
+        } else {
+            result = value.map(StringUtils::trim);
+        }
+
+        return result;
     }
 
 }

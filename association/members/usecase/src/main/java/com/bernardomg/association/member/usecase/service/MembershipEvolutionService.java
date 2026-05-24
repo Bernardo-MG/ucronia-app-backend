@@ -40,10 +40,10 @@ public interface MembershipEvolutionService {
     /**
      * Returns the monthly membership evolution.
      *
-     * @param query
-     *            query to filter evolution
+     * @param filter
+     *            filter to filter evolution
      * @return the monthly membership evolution
      */
-    public Collection<MembershipEvolutionMonth> getMonthlyEvolution(final MembershipEvolutionFilter query);
+    public Collection<MembershipEvolutionMonth> getMonthlyEvolution(final MembershipEvolutionFilter filter);
 
 }

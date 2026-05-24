@@ -61,12 +61,12 @@ public interface GuestService {
      * Returns all the public guests.
      *
      * @param filter
-     *            query to filter by
+     *            filter to filter by
      * @param pagination
      *            pagination to apply
      * @param sorting
      *            sorting to apply
-     * @return all the guests matching the sample
+     * @return all the guests matching the filter
      */
     public Page<Guest> getAll(final GuestFilter filter, final Pagination pagination, final Sorting sorting);
 
