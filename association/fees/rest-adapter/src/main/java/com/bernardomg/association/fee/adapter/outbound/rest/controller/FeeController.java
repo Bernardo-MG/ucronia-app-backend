@@ -97,15 +97,15 @@ public class FeeController implements FeeApi {
     public FeePageResponseDto getAllFees(@Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size,
             @Valid final List<String> sort, @Valid final Instant date, @Valid final Instant from,
             @Valid final Instant to) {
-        final FeeFilter  query;
+        final FeeFilter  filter;
         final Pagination pagination;
         final Sorting    sorting;
         final Page<Fee>  fees;
 
         pagination = new Pagination(page, size);
         sorting = WebSorting.toSorting(sort);
-        query = new FeeFilter(Optional.ofNullable(date), Optional.ofNullable(from), Optional.ofNullable(to));
-        fees = service.getAll(query, pagination, sorting);
+        filter = new FeeFilter(Optional.ofNullable(date), Optional.ofNullable(from), Optional.ofNullable(to));
+        fees = service.getAll(filter, pagination, sorting);
 
         return FeeDtoMapper.toResponseDto(fees);
     }

@@ -26,7 +26,7 @@ package com.bernardomg.association.profile.usecase.service;
 
 import java.util.Optional;
 
-import com.bernardomg.association.profile.domain.filter.ProfileQuery;
+import com.bernardomg.association.profile.domain.filter.ProfileFilter;
 import com.bernardomg.association.profile.domain.model.Profile;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -60,15 +60,15 @@ public interface ProfileService {
     /**
      * Returns all the profiles matching the query. If the query fields are empty, then all the profiles are returned.
      *
-     * @param query
+     * @param filter
      *            query to search for
      * @param pagination
      *            pagination to apply
      * @param sorting
      *            sorting to apply
-     * @return all the profiles matching the sample
+     * @return all the profiles matching the filter
      */
-    public Page<Profile> getAll(final ProfileQuery query, final Pagination pagination, final Sorting sorting);
+    public Page<Profile> getAll(final ProfileFilter filter, final Pagination pagination, final Sorting sorting);
 
     /**
      * Returns the profile for the received id, if it exists. Otherwise an empty {@code Optional} is returned.

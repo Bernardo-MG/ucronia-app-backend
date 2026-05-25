@@ -50,15 +50,30 @@ public record Guest(Optional<String> identifier, Long number, Name name, Optiona
         Objects.requireNonNull(games);
         Objects.requireNonNull(types);
 
-        this.identifier = identifier.map(StringUtils::trim);
+        this.identifier = handleEmpty(identifier);
         this.number = Objects.requireNonNull(number);
         this.name = Objects.requireNonNull(name);
         this.birthDate = Objects.requireNonNull(birthDate);
         this.contactChannels = List.copyOf(contactChannels);
         this.games = List.copyOf(games);
-        this.address = address.map(StringUtils::trim);
-        this.comments = comments.map(StringUtils::trim);
+        this.address = handleEmpty(address);
+        this.comments = handleEmpty(comments);
         this.types = Set.copyOf(types);
+    }
+
+    private final static Optional<String> handleEmpty(final Optional<String> value) {
+        final Optional<String> trimmed;
+        final Optional<String> result;
+
+        trimmed = value.map(StringUtils::trim);
+        if (trimmed.orElse("")
+            .isEmpty()) {
+            result = Optional.empty();
+        } else {
+            result = value.map(StringUtils::trim);
+        }
+
+        return result;
     }
 
     public record ContactChannel(ContactMethod contactMethod, String detail) {

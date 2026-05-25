@@ -61,12 +61,12 @@ public interface MemberService {
      * Returns all the member profiles.
      *
      * @param filter
-     *            query to filter by
+     *            filter to filter by
      * @param pagination
      *            pagination to apply
      * @param sorting
      *            sorting to apply
-     * @return all the member profiles matching the sample
+     * @return all the member profiles matching the filter
      */
     public Page<Member> getAll(final MemberFilter filter, final Pagination pagination, final Sorting sorting);
 

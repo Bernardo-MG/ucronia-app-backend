@@ -71,17 +71,17 @@ public interface FeeService {
     public Fee delete(final long number, final Instant month);
 
     /**
-     * Returns all the fees matching the sample. If the sample fields are empty, then all the fees are returned.
+     * Returns all the fees matching the filter. If the filter fields are empty, then all the fees are returned.
      *
-     * @param query
-     *            sample for filtering
+     * @param filter
+     *            filter for filtering
      * @param pagination
      *            pagination to apply
      * @param sorting
      *            sorting to apply
-     * @return all the fees matching the sample
+     * @return all the fees matching the filter
      */
-    public Page<Fee> getAll(final FeeFilter query, final Pagination pagination, final Sorting sorting);
+    public Page<Fee> getAll(final FeeFilter filter, final Pagination pagination, final Sorting sorting);
 
     /**
      * Returns all the member fees for a year.

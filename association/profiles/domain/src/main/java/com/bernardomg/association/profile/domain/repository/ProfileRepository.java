@@ -26,7 +26,7 @@ package com.bernardomg.association.profile.domain.repository;
 
 import java.util.Optional;
 
-import com.bernardomg.association.profile.domain.filter.ProfileQuery;
+import com.bernardomg.association.profile.domain.filter.ProfileFilter;
 import com.bernardomg.association.profile.domain.model.Profile;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -42,7 +42,7 @@ public interface ProfileRepository {
 
     public boolean existsByIdentifierForAnother(final long number, final String identifier);
 
-    public Page<Profile> findAll(final ProfileQuery filter, final Pagination pagination, final Sorting sorting);
+    public Page<Profile> findAll(final ProfileFilter filter, final Pagination pagination, final Sorting sorting);
 
     public Optional<Profile> findOne(final Long number);
 

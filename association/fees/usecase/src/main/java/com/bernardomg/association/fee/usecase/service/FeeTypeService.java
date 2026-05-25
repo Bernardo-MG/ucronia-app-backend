@@ -64,7 +64,7 @@ public interface FeeTypeService {
      *            pagination to apply
      * @param sorting
      *            sorting to apply
-     * @return all the fees matching the sample
+     * @return all the fees
      */
     public Page<FeeType> getAll(final Pagination pagination, final Sorting sorting);
 

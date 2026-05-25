@@ -64,7 +64,7 @@ public interface ContactMethodService {
      *            pagination to apply
      * @param sorting
      *            sorting to apply
-     * @return all the contact methods matching the sample
+     * @return all the contact methods matching the filter
      */
     public Page<ContactMethod> getAll(final Pagination pagination, final Sorting sorting);
 

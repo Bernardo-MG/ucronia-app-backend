@@ -42,7 +42,7 @@ public interface TransactionRepository {
 
     public Collection<Transaction> findAll(final Sorting sorting);
 
-    public Page<Transaction> findAll(final TransactionFilter query, final Pagination pagination, final Sorting sorting);
+    public Page<Transaction> findAll(final TransactionFilter filter, final Pagination pagination, final Sorting sorting);
 
     public long findNextIndex();
 

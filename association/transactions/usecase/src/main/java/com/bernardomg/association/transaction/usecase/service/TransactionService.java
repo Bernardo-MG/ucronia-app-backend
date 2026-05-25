@@ -60,16 +60,16 @@ public interface TransactionService {
     public Transaction delete(final long id);
 
     /**
-     * Returns all the transactions matching the sample. If the sample fields are empty, then all the transactions are
+     * Returns all the transactions matching the filter. If the sample fields are empty, then all the transactions are
      * returned.
      *
      * @param filter
-     *            sample for filtering
+     *            filter for filtering
      * @param pagination
      *            pagination to apply
      * @param sorting
      *            sorting to apply
-     * @return all the transactions matching the sample
+     * @return all the transactions matching the filter
      */
     public Page<Transaction> getAll(final TransactionFilter filter, final Pagination pagination,
             final Sorting sorting);

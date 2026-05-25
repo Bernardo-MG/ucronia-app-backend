@@ -35,7 +35,7 @@ import com.bernardomg.association.guest.domain.filter.GuestFilter;
 
 public final class GuestSpecifications {
 
-    public static Optional<Specification<ReadGuestEntity>> query(final GuestFilter filter) {
+    public static Optional<Specification<ReadGuestEntity>> filter(final GuestFilter filter) {
         final Optional<Specification<ReadGuestEntity>> nameSpec;
         final Specification<ReadGuestEntity>           spec;
 
