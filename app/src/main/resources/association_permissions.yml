@@ -1,6 +1,19 @@
 actions:
   - view
 permissions:
+  - resource: activity
+    actions:
+      - create
+      - read
+      - update
+      - delete
+      - view
+  - resource: transaction
+    actions:
+      - create
+      - read
+      - update
+      - delete
   - resource: permission
     actions:
       - read
