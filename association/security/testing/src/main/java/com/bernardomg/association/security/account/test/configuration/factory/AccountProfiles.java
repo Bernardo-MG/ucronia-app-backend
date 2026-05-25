@@ -1,6 +1,8 @@
 
 package com.bernardomg.association.security.account.test.configuration.factory;
 
+import java.util.Optional;
+
 import com.bernardomg.association.security.account.domain.model.ProfileAccount.Profile;
 import com.bernardomg.association.security.account.domain.model.ProfileAccount.Profile.Name;
 
@@ -10,7 +12,7 @@ public final class AccountProfiles {
         final Name name;
 
         name = new Name(AccountProfileConstants.FIRST_NAME, AccountProfileConstants.LAST_NAME);
-        return new Profile(AccountProfileConstants.IDENTIFIER, AccountProfileConstants.NUMBER, name);
+        return new Profile(Optional.of(AccountProfileConstants.IDENTIFIER), AccountProfileConstants.NUMBER, name);
     }
 
     private AccountProfiles() {

@@ -37,7 +37,8 @@ import com.bernardomg.security.account.domain.model.Account;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final record ProfileAccount(String email, String username, String name, Optional<Profile> profile) implements Account {
+public final record ProfileAccount(String email, String username, String name, Optional<Profile> profile)
+        implements Account {
 
     @Override
     public String getEmail() {
@@ -54,7 +55,8 @@ public final record ProfileAccount(String email, String username, String name, O
         return username;
     }
 
-    public ProfileAccount(final String email, final String username, final String name, final Optional<Profile> profile) {
+    public ProfileAccount(final String email, final String username, final String name,
+            final Optional<Profile> profile) {
         Objects.requireNonNull(email);
         Objects.requireNonNull(username);
         Objects.requireNonNull(name);
@@ -65,10 +67,12 @@ public final record ProfileAccount(String email, String username, String name, O
         this.profile = Objects.requireNonNull(profile);
     }
 
-    public record Profile(String identifier, Long number, Name name) {
+    public record Profile(Optional<String> identifier, Long number, Name name) {
 
-        public Profile(final String identifier, final Long number, final Name name) {
-            this.identifier = Objects.requireNonNull(identifier);
+        public Profile(final Optional<String> identifier, final Long number, final Name name) {
+            Objects.requireNonNull(identifier);
+
+            this.identifier = handleEmpty(identifier);
             this.number = Objects.requireNonNull(number);
             this.name = Objects.requireNonNull(name);
         }
@@ -91,4 +95,20 @@ public final record ProfileAccount(String email, String username, String name, O
         }
 
     }
+
+    private static final Optional<String> handleEmpty(final Optional<String> value) {
+        final Optional<String> trimmed;
+        final Optional<String> result;
+
+        trimmed = value.map(StringUtils::trim);
+        if (trimmed.orElse("")
+            .isEmpty()) {
+            result = Optional.empty();
+        } else {
+            result = value.map(StringUtils::trim);
+        }
+
+        return result;
+    }
+
 }

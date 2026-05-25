@@ -40,7 +40,7 @@ public record MemberFilter(Optional<MemberStatus> status, Optional<String> name)
         this.name = handleEmpty(name);
     }
 
-    private final Optional<String> handleEmpty(final Optional<String> value) {
+    private final static Optional<String> handleEmpty(final Optional<String> value) {
         final Optional<String> trimmed;
         final Optional<String> result;
 

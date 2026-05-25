@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.security.user.adapter.inbound.jpa.model;
 
+import java.util.Optional;
+
 import com.bernardomg.association.security.account.domain.model.ProfileAccount.Profile;
 import com.bernardomg.association.security.account.domain.model.ProfileAccount.Profile.Name;
 
@@ -37,7 +39,7 @@ public final class UserInnerProfileEntityMapper {
 
         name = new Name(entity.getFirstName(), entity.getLastName());
 
-        return new Profile(entity.getIdentifier(), entity.getNumber(), name);
+        return new Profile(Optional.of(entity.getIdentifier()), entity.getNumber(), name);
     }
 
     private UserInnerProfileEntityMapper() {
