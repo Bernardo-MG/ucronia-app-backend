@@ -61,7 +61,7 @@ class ITTransactionRepositoryFindAllWithFilterSort {
     @DisplayName("With ascending order by date it returns the ordered data")
     void testFindAll_Date_Asc() {
         final Page<Transaction> transactions;
-        final TransactionFilter transactionQuery;
+        final TransactionFilter transactionFilter;
         final Pagination        pagination;
         final Sorting           sorting;
 
@@ -69,10 +69,10 @@ class ITTransactionRepositoryFindAllWithFilterSort {
         pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
 
-        transactionQuery = TransactionsFilters.empty();
+        transactionFilter = TransactionsFilters.empty();
 
         // WHEN
-        transactions = repository.findAll(transactionQuery, pagination, sorting);
+        transactions = repository.findAll(transactionFilter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(transactions)
@@ -87,7 +87,7 @@ class ITTransactionRepositoryFindAllWithFilterSort {
     @DisplayName("With descending order by date it returns the ordered data")
     void testFindAll_Date_Desc() {
         final Page<Transaction> transactions;
-        final TransactionFilter transactionQuery;
+        final TransactionFilter transactionFilter;
         final Pagination        pagination;
         final Sorting           sorting;
 
@@ -95,10 +95,10 @@ class ITTransactionRepositoryFindAllWithFilterSort {
         pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.DESC)));
 
-        transactionQuery = TransactionsFilters.empty();
+        transactionFilter = TransactionsFilters.empty();
 
         // WHEN
-        transactions = repository.findAll(transactionQuery, pagination, sorting);
+        transactions = repository.findAll(transactionFilter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(transactions)
@@ -113,7 +113,7 @@ class ITTransactionRepositoryFindAllWithFilterSort {
     @DisplayName("With ascending order by description it returns the ordered data")
     void testFindAll_Description_Asc() {
         final Page<Transaction> transactions;
-        final TransactionFilter transactionQuery;
+        final TransactionFilter transactionFilter;
         final Pagination        pagination;
         final Sorting           sorting;
 
@@ -121,10 +121,10 @@ class ITTransactionRepositoryFindAllWithFilterSort {
         pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("description", Sorting.Direction.ASC)));
 
-        transactionQuery = TransactionsFilters.empty();
+        transactionFilter = TransactionsFilters.empty();
 
         // WHEN
-        transactions = repository.findAll(transactionQuery, pagination, sorting);
+        transactions = repository.findAll(transactionFilter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(transactions)
@@ -139,7 +139,7 @@ class ITTransactionRepositoryFindAllWithFilterSort {
     @DisplayName("With descending order by description it returns the ordered data")
     void testFindAll_Description_Desc() {
         final Page<Transaction> transactions;
-        final TransactionFilter transactionQuery;
+        final TransactionFilter transactionFilter;
         final Pagination        pagination;
         final Sorting           sorting;
 
@@ -147,10 +147,10 @@ class ITTransactionRepositoryFindAllWithFilterSort {
         pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("description", Sorting.Direction.DESC)));
 
-        transactionQuery = TransactionsFilters.empty();
+        transactionFilter = TransactionsFilters.empty();
 
         // WHEN
-        transactions = repository.findAll(transactionQuery, pagination, sorting);
+        transactions = repository.findAll(transactionFilter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(transactions)
@@ -164,7 +164,7 @@ class ITTransactionRepositoryFindAllWithFilterSort {
     @Test
     @DisplayName("Ordering by a not existing field generates an error")
     void testGetAll_NotExisting() {
-        final TransactionFilter transactionQuery;
+        final TransactionFilter transactionFilter;
         final Pagination        pagination;
         final Sorting           sorting;
         final ThrowingCallable  executable;
@@ -173,10 +173,10 @@ class ITTransactionRepositoryFindAllWithFilterSort {
         pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("abc", Sorting.Direction.ASC)));
 
-        transactionQuery = TransactionsFilters.empty();
+        transactionFilter = TransactionsFilters.empty();
 
         // WHEN
-        executable = () -> repository.findAll(transactionQuery, pagination, sorting);
+        executable = () -> repository.findAll(transactionFilter, pagination, sorting);
 
         // THEN
         Assertions.assertThatThrownBy(executable)

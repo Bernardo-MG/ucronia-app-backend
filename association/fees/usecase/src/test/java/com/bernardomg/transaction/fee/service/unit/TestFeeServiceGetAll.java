@@ -43,7 +43,7 @@ import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeMemberRepository;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
-import com.bernardomg.association.fee.test.configuration.factory.FeesQuery;
+import com.bernardomg.association.fee.test.configuration.factory.FeeFilters;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.event.emitter.EventEmitter;
@@ -78,7 +78,7 @@ class TestFeeServiceGetAll {
     void testGetAll() {
         final Page<Fee>  fees;
         final Page<Fee>  existing;
-        final FeeFilter  feeQuery;
+        final FeeFilter  feeFilter;
         final Pagination pagination;
         final Sorting    sorting;
 
@@ -86,13 +86,13 @@ class TestFeeServiceGetAll {
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
 
-        feeQuery = FeesQuery.empty();
+        feeFilter = FeeFilters.empty();
 
         existing = new Page<>(List.of(Fees.paid()), 0, 0, 0, 0, 0, false, false, sorting);
-        given(feeRepository.findAll(feeQuery, pagination, sorting)).willReturn(existing);
+        given(feeRepository.findAll(feeFilter, pagination, sorting)).willReturn(existing);
 
         // WHEN
-        fees = service.getAll(feeQuery, pagination, sorting);
+        fees = service.getAll(feeFilter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -107,7 +107,7 @@ class TestFeeServiceGetAll {
     void testGetAll_NoData() {
         final Page<Fee>  fees;
         final Page<Fee>  existing;
-        final FeeFilter  feeQuery;
+        final FeeFilter  feeFilter;
         final Pagination pagination;
         final Sorting    sorting;
 
@@ -115,13 +115,13 @@ class TestFeeServiceGetAll {
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
 
-        feeQuery = FeesQuery.empty();
+        feeFilter = FeeFilters.empty();
 
         existing = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
-        given(feeRepository.findAll(feeQuery, pagination, sorting)).willReturn(existing);
+        given(feeRepository.findAll(feeFilter, pagination, sorting)).willReturn(existing);
 
         // WHEN
-        fees = service.getAll(feeQuery, pagination, sorting);
+        fees = service.getAll(feeFilter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(fees)

@@ -66,7 +66,7 @@ class TestTransactionServiceGetAll {
     void testGetAll() {
         final Page<Transaction> transactions;
         final Page<Transaction> existing;
-        final TransactionFilter transactionQuery;
+        final TransactionFilter transactionFilter;
         final Pagination        pagination;
         final Sorting           sorting;
 
@@ -74,13 +74,13 @@ class TestTransactionServiceGetAll {
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
 
-        transactionQuery = TransactionsFilters.empty();
+        transactionFilter = TransactionsFilters.empty();
 
         existing = new Page<>(List.of(Transactions.positive()), 0, 0, 0, 0, 0, false, false, sorting);
-        given(transactionRepository.findAll(transactionQuery, pagination, sorting)).willReturn(existing);
+        given(transactionRepository.findAll(transactionFilter, pagination, sorting)).willReturn(existing);
 
         // WHEN
-        transactions = service.getAll(transactionQuery, pagination, sorting);
+        transactions = service.getAll(transactionFilter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(transactions)
@@ -95,7 +95,7 @@ class TestTransactionServiceGetAll {
     void testGetAll_NoData() {
         final Page<Transaction> transactions;
         final Page<Transaction> existing;
-        final TransactionFilter transactionQuery;
+        final TransactionFilter transactionFilter;
         final Pagination        pagination;
         final Sorting           sorting;
 
@@ -103,13 +103,13 @@ class TestTransactionServiceGetAll {
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
 
-        transactionQuery = TransactionsFilters.empty();
+        transactionFilter = TransactionsFilters.empty();
 
         existing = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
-        given(transactionRepository.findAll(transactionQuery, pagination, sorting)).willReturn(existing);
+        given(transactionRepository.findAll(transactionFilter, pagination, sorting)).willReturn(existing);
 
         // WHEN
-        transactions = service.getAll(transactionQuery, pagination, sorting);
+        transactions = service.getAll(transactionFilter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(transactions)
