@@ -95,7 +95,7 @@ public class TransactionController implements TransactionApi {
     @RequireResourceAuthorization(resource = "TRANSACTION", action = Actions.READ)
     public TransactionPageResponseDto getAllTransactions(@Min(1) @Valid final Integer page,
             @Min(1) @Valid final Integer size, @Valid final List<String> sort, @Valid final Instant date,
-            @Valid final Instant from, @Valid final Instant to) {
+            @Valid final Instant from, @Valid final Instant to, @Valid final String description) {
         final TransactionFilter filter;
         final Pagination        pagination;
         final Sorting           sorting;
@@ -103,7 +103,8 @@ public class TransactionController implements TransactionApi {
 
         pagination = new Pagination(page, size);
         sorting = WebSorting.toSorting(sort);
-        filter = new TransactionFilter(Optional.ofNullable(date), Optional.ofNullable(from), Optional.ofNullable(to));
+        filter = new TransactionFilter(Optional.ofNullable(description), Optional.ofNullable(date),
+            Optional.ofNullable(from), Optional.ofNullable(to));
         transactions = service.getAll(filter, pagination, sorting);
 
         return TransactionDtoMapper.toResponseDto(transactions);

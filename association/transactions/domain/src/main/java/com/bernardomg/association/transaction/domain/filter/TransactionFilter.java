@@ -28,12 +28,32 @@ import java.time.Instant;
 import java.util.Objects;
 import java.util.Optional;
 
-public final record TransactionFilter(Optional<Instant> date, Optional<Instant> from, Optional<Instant> to) {
+import org.apache.commons.lang3.StringUtils;
 
-    public TransactionFilter(final Optional<Instant> date, final Optional<Instant> from, final Optional<Instant> to) {
+public final record TransactionFilter(Optional<String> description, Optional<Instant> date, Optional<Instant> from, Optional<Instant> to) {
+
+    public TransactionFilter(Optional<String> description, final Optional<Instant> date, final Optional<Instant> from, final Optional<Instant> to) {
+        Objects.requireNonNull(description);
+        
+        this.description = handleEmpty(description);
         this.date = Objects.requireNonNull(date);
         this.from = Objects.requireNonNull(from);
         this.to = Objects.requireNonNull(to);
+    }
+
+    private final static Optional<String> handleEmpty(final Optional<String> value) {
+        final Optional<String> trimmed;
+        final Optional<String> result;
+
+        trimmed = value.map(StringUtils::trim);
+        if (trimmed.orElse("")
+            .isEmpty()) {
+            result = Optional.empty();
+        } else {
+            result = value.map(StringUtils::trim);
+        }
+
+        return result;
     }
 
 }
