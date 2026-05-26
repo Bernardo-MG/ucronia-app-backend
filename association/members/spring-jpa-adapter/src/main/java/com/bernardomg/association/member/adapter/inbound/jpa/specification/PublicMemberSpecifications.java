@@ -38,7 +38,6 @@ public final class PublicMemberSpecifications {
     public static Optional<Specification<PublicMemberEntity>> filter(final PublicMemberFilter filter) {
         final Optional<Specification<PublicMemberEntity>> nameSpec;
         final Optional<Specification<PublicMemberEntity>> activeSpec;
-        final Specification<PublicMemberEntity>           spec;
 
         if (filter.name()
             .isEmpty()) {
@@ -50,13 +49,11 @@ public final class PublicMemberSpecifications {
 
         activeSpec = Optional.of(active());
 
-        spec = List.of(nameSpec, activeSpec)
+        return List.of(nameSpec, activeSpec)
             .stream()
             .filter(Optional::isPresent)
             .map(Optional::get)
-            .reduce((BinaryOperator<Specification<PublicMemberEntity>>) Specification::and)
-            .orElse(null);
-        return Optional.ofNullable(spec);
+            .reduce((BinaryOperator<Specification<PublicMemberEntity>>) Specification::and);
     }
 
     private static Specification<PublicMemberEntity> active() {

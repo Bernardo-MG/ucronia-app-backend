@@ -72,7 +72,7 @@ class ITTransactionRepositoryFindAllWithFilter {
     @DisplayName("With a transaction with value around zero, it returns it")
     void testFindAll_AroundZero(final Float amount) {
         final Page<Transaction> transactions;
-        final TransactionFilter transactionQuery;
+        final TransactionFilter transactionFilter;
         final Pagination        pagination;
         final Sorting           sorting;
 
@@ -82,10 +82,10 @@ class ITTransactionRepositoryFindAllWithFilter {
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
 
-        transactionQuery = TransactionsFilters.empty();
+        transactionFilter = TransactionsFilters.empty();
 
         // WHEN
-        transactions = repository.findAll(transactionQuery, pagination, sorting);
+        transactions = repository.findAll(transactionFilter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(transactions)
@@ -99,7 +99,7 @@ class ITTransactionRepositoryFindAllWithFilter {
     @DisplayName("With a decimal transaction, it returns it")
     void testFindAll_Decimal(final Float amount) {
         final Page<Transaction> transactions;
-        final TransactionFilter transactionQuery;
+        final TransactionFilter transactionFilter;
         final Pagination        pagination;
         final Sorting           sorting;
 
@@ -109,10 +109,10 @@ class ITTransactionRepositoryFindAllWithFilter {
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
 
-        transactionQuery = TransactionsFilters.empty();
+        transactionFilter = TransactionsFilters.empty();
 
         // WHEN
-        transactions = repository.findAll(transactionQuery, pagination, sorting);
+        transactions = repository.findAll(transactionFilter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(transactions)
@@ -126,7 +126,7 @@ class ITTransactionRepositoryFindAllWithFilter {
     @FullTransactionYear
     void testFindAll_FullYear() {
         final Page<Transaction> transactions;
-        final TransactionFilter transactionQuery;
+        final TransactionFilter transactionFilter;
         final Pagination        pagination;
         final Sorting           sorting;
 
@@ -134,10 +134,10 @@ class ITTransactionRepositoryFindAllWithFilter {
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
 
-        transactionQuery = TransactionsFilters.empty();
+        transactionFilter = TransactionsFilters.empty();
 
         // WHEN
-        transactions = repository.findAll(transactionQuery, pagination, sorting);
+        transactions = repository.findAll(transactionFilter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(transactions)
@@ -157,7 +157,7 @@ class ITTransactionRepositoryFindAllWithFilter {
     @MultipleTransactionsSameMonth
     void testFindAll_Multiple() {
         final Page<Transaction> transactions;
-        final TransactionFilter transactionQuery;
+        final TransactionFilter transactionFilter;
         final Pagination        pagination;
         final Sorting           sorting;
 
@@ -165,10 +165,10 @@ class ITTransactionRepositoryFindAllWithFilter {
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
 
-        transactionQuery = TransactionsFilters.empty();
+        transactionFilter = TransactionsFilters.empty();
 
         // WHEN
-        transactions = repository.findAll(transactionQuery, pagination, sorting);
+        transactions = repository.findAll(transactionFilter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(transactions)
