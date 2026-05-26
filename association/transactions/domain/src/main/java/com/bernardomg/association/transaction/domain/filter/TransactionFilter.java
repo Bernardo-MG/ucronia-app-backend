@@ -30,11 +30,13 @@ import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 
-public final record TransactionFilter(Optional<String> description, Optional<Instant> date, Optional<Instant> from, Optional<Instant> to) {
+public final record TransactionFilter(Optional<String> description, Optional<Instant> date, Optional<Instant> from,
+        Optional<Instant> to) {
 
-    public TransactionFilter(Optional<String> description, final Optional<Instant> date, final Optional<Instant> from, final Optional<Instant> to) {
+    public TransactionFilter(final Optional<String> description, final Optional<Instant> date,
+            final Optional<Instant> from, final Optional<Instant> to) {
         Objects.requireNonNull(description);
-        
+
         this.description = handleEmpty(description);
         this.date = Objects.requireNonNull(date);
         this.from = Objects.requireNonNull(from);
