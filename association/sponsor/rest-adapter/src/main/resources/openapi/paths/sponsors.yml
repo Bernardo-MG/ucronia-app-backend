@@ -25,7 +25,6 @@ get:
     - $ref: '../components/sponsors.yml#/components/parameters/sponsorsSortParam'
     - name: name
       in: query
-      required: false
       description: Substring to filter name by.
       schema:
         type: string
