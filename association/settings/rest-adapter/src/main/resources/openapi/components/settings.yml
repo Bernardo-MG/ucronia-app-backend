@@ -6,7 +6,6 @@ components:
       in: query
       style: form
       explode: true
-      required: false
       schema:
         type: array
         items:

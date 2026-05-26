@@ -6,13 +6,11 @@ get:
     - name: from
       description: Starting date to query for.
       in: query
-      required: false
       schema:
         $ref: '../common/dates.yml#/components/schemas/Date'
     - name: to
       description: Ending date to query for.
       in: query
-      required: false
       schema:
         $ref: '../common/dates.yml#/components/schemas/Date'
   responses:

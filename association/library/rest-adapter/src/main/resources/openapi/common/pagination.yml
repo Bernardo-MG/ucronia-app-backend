@@ -4,7 +4,6 @@ components:
       name: page
       description: Page to return.
       in: query
-      required: false
       schema:
         type: integer
         minimum: 1
@@ -14,7 +13,6 @@ components:
       name: size
       description: Page size.
       in: query
-      required: false
       schema:
         type: integer
         minimum: 1
@@ -26,7 +24,6 @@ components:
       in: query
       style: form
       explode: true
-      required: false
       schema:
         type: array
         items:

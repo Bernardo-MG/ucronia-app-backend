@@ -25,7 +25,6 @@ get:
     - $ref: '../components/guests.yml#/components/parameters/guestsSortParam'
     - name: name
       in: query
-      required: false
       description: Substring to filter name by.
       schema:
         type: string

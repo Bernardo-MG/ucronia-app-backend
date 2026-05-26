@@ -25,7 +25,6 @@ get:
     - $ref: '../components/profiles.yml#/components/parameters/profilesSortParam'
     - name: name
       in: query
-      required: false
       description: Substring to filter name by.
       schema:
         type: string
