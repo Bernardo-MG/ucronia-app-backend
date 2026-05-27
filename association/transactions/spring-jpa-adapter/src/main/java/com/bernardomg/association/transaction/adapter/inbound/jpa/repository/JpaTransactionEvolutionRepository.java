@@ -54,9 +54,9 @@ public final class JpaTransactionEvolutionRepository implements TransactionEvolu
      */
     private static final Logger                  log = LoggerFactory.getLogger(JpaTransactionEvolutionRepository.class);
 
-    private final MonthlyoEvolutionSpringRepository monthlyEvolutionRepository;
+    private final MonthlyEvolutionSpringRepository monthlyEvolutionRepository;
 
-    public JpaTransactionEvolutionRepository(final MonthlyoEvolutionSpringRepository monthlyEvolutionRepo) {
+    public JpaTransactionEvolutionRepository(final MonthlyEvolutionSpringRepository monthlyEvolutionRepo) {
         super();
 
         monthlyEvolutionRepository = Objects.requireNonNull(monthlyEvolutionRepo);

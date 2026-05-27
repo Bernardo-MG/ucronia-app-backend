@@ -32,7 +32,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.JpaTransactionEvolutionRepository;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.JpaTransactionRepository;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.JpaTransactionSummaryRepository;
-import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.MonthlyoEvolutionSpringRepository;
+import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.MonthlyEvolutionSpringRepository;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
 import com.bernardomg.association.transaction.domain.repository.TransactionEvolutionRepository;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
@@ -45,7 +45,7 @@ public class TestConfiguration {
 
     @Bean("transactionEvolutionRepository")
     public TransactionEvolutionRepository
-            getTransactionEvolutionRepository(final MonthlyoEvolutionSpringRepository monthlyEvolutionRepository) {
+            getTransactionEvolutionRepository(final MonthlyEvolutionSpringRepository monthlyEvolutionRepository) {
         return new JpaTransactionEvolutionRepository(monthlyEvolutionRepository);
     }
 
@@ -57,7 +57,7 @@ public class TestConfiguration {
 
     @Bean("transactionSummaryRepository")
     public TransactionSummaryRepository
-            getTransactionSummaryRepository(final MonthlyoEvolutionSpringRepository monthlyEvolutionRepository) {
+            getTransactionSummaryRepository(final MonthlyEvolutionSpringRepository monthlyEvolutionRepository) {
         return new JpaTransactionSummaryRepository(monthlyEvolutionRepository);
     }
 

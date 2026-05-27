@@ -37,7 +37,7 @@ import com.bernardomg.association.transaction.adapter.inbound.jpa.model.MonthlyE
 /**
  * Monthly evolution repository.
  */
-public interface MonthlyoEvolutionSpringRepository
+public interface MonthlyEvolutionSpringRepository
         extends JpaRepository<MonthlyEvolutionEntity, Instant>, JpaSpecificationExecutor<MonthlyEvolutionEntity> {
 
     /**

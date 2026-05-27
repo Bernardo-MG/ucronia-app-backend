@@ -48,9 +48,9 @@ public final class JpaTransactionSummaryRepository implements TransactionSummary
      */
     private static final Logger                  log = LoggerFactory.getLogger(JpaTransactionSummaryRepository.class);
 
-    private final MonthlyoEvolutionSpringRepository monthlyEvolutionRepository;
+    private final MonthlyEvolutionSpringRepository monthlyEvolutionRepository;
 
-    public JpaTransactionSummaryRepository(final MonthlyoEvolutionSpringRepository monthlyEvolutionRepo) {
+    public JpaTransactionSummaryRepository(final MonthlyEvolutionSpringRepository monthlyEvolutionRepo) {
         super();
 
         monthlyEvolutionRepository = Objects.requireNonNull(monthlyEvolutionRepo);
