@@ -29,42 +29,42 @@ import java.util.Collection;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.transaction.adapter.outbound.rest.dto.TransactionMonthlyBalanceResponseDto;
-import com.bernardomg.association.transaction.adapter.outbound.rest.model.TransactionBalanceDtoMapper;
-import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
-import com.bernardomg.association.transaction.usecase.service.TransactionBalanceService;
+import com.bernardomg.association.transaction.adapter.outbound.rest.dto.TransactionMonthlyEvolutionResponseDto;
+import com.bernardomg.association.transaction.adapter.outbound.rest.model.TransactionEvolutionDtoMapper;
+import com.bernardomg.association.transaction.domain.model.TransactionEvolutionMonth;
+import com.bernardomg.association.transaction.usecase.service.TransactionEvolutionService;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
 
 import jakarta.validation.Valid;
 
 /**
- * Balance REST controller.
+ * Transaction evolution REST controller.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 @RestController
-public class TransactionBalanceController implements TransactionBalanceApi {
+public class TransactionEvolutionController implements TransactionEvolutionApi {
 
     /**
-     * Balance service
+     * Transaction evolution service
      */
-    private final TransactionBalanceService service;
+    private final TransactionEvolutionService service;
 
-    public TransactionBalanceController(final TransactionBalanceService service) {
+    public TransactionEvolutionController(final TransactionEvolutionService service) {
         super();
         this.service = service;
     }
 
     @Override
     @RequireResourceAuthorization(resource = "BALANCE", action = Actions.READ)
-    public TransactionMonthlyBalanceResponseDto getMonthlyTransactionBalance(@Valid final Instant from,
+    public TransactionMonthlyEvolutionResponseDto getMonthlyTransactionEvolution(@Valid final Instant from,
             @Valid final Instant to) {
-        final Collection<TransactionMonthlyBalance> balance;
+        final Collection<TransactionEvolutionMonth> evolution;
 
-        balance = service.getMonthlyBalance(from, to);
-        return TransactionBalanceDtoMapper.toResponseDto(balance);
+        evolution = service.getEvolution(from, to);
+        return TransactionEvolutionDtoMapper.toResponseDto(evolution);
     }
 
 }

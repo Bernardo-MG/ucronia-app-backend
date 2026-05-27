@@ -3,7 +3,6 @@ package com.bernardomg.association.transaction.test.util.initializer;
 
 import java.time.Instant;
 import java.time.LocalDate;
-import java.time.Month;
 import java.time.YearMonth;
 import java.time.ZoneOffset;
 
@@ -48,13 +47,9 @@ public final class TransactionInitializer {
         this.transactionRepository = transactionRepository;
     }
 
-    public final void registerAt(final int year, final Month month) {
+    public final void registerAt(final Instant date) {
         final TransactionEntity transaction;
-        final Instant           date;
 
-        date = LocalDate.of(year, month, 1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant();
         transaction = TransactionEntities.forAmount(1F, date);
 
         transactionRepository.save(transaction);

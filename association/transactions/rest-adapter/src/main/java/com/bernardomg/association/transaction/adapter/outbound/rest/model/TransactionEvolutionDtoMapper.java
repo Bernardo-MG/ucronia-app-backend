@@ -22,17 +22,31 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.domain.model;
+package com.bernardomg.association.transaction.adapter.outbound.rest.model;
 
-import java.time.YearMonth;
-import java.util.Objects;
+import java.util.Collection;
 
-public record TransactionMonthlyBalance(YearMonth month, float results, float total) {
+import com.bernardomg.association.transaction.adapter.outbound.rest.dto.TransactionMonthlyEvolutionDto;
+import com.bernardomg.association.transaction.adapter.outbound.rest.dto.TransactionMonthlyEvolutionResponseDto;
+import com.bernardomg.association.transaction.domain.model.TransactionEvolutionMonth;
 
-    public TransactionMonthlyBalance(final YearMonth month, final float results, final float total) {
-        this.month = Objects.requireNonNull(month);
-        this.results = Objects.requireNonNull(results);
-        this.total = Objects.requireNonNull(total);
+public final class TransactionEvolutionDtoMapper {
+
+    public static final TransactionMonthlyEvolutionResponseDto
+            toResponseDto(final Collection<TransactionEvolutionMonth> balance) {
+        return new TransactionMonthlyEvolutionResponseDto().content(balance.stream()
+            .map(TransactionEvolutionDtoMapper::toDto)
+            .toList());
+    }
+
+    private static final TransactionMonthlyEvolutionDto toDto(final TransactionEvolutionMonth evolution) {
+        return new TransactionMonthlyEvolutionDto().month(evolution.month())
+            .results(evolution.results())
+            .total(evolution.total());
+    }
+
+    private TransactionEvolutionDtoMapper() {
+        super();
     }
 
 }

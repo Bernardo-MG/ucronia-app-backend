@@ -22,29 +22,17 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.usecase.service;
+package com.bernardomg.association.transaction.domain.model;
 
 import java.time.Instant;
-import java.util.Collection;
+import java.util.Objects;
 
-import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
+public record TransactionEvolutionMonth(Instant month, float results, float total) {
 
-/**
- * Transaction balance service.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- */
-public interface TransactionBalanceService {
-
-    /**
-     * Returns the monthly balances for the filter.
-     *
-     * @param from
-     *            starting date
-     * @param to
-     *            ending date
-     * @return the monthly balances
-     */
-    public Collection<TransactionMonthlyBalance> getMonthlyBalance(final Instant from, final Instant to);
+    public TransactionEvolutionMonth(final Instant month, final float results, final float total) {
+        this.month = Objects.requireNonNull(month);
+        this.results = Objects.requireNonNull(results);
+        this.total = Objects.requireNonNull(total);
+    }
 
 }

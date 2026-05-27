@@ -25,7 +25,6 @@
 package com.bernardomg.association.member.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Objects;
 

@@ -29,34 +29,34 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
-import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
-import com.bernardomg.association.transaction.domain.repository.TransactionBalanceRepository;
+import com.bernardomg.association.transaction.domain.model.TransactionEvolutionMonth;
+import com.bernardomg.association.transaction.domain.repository.TransactionEvolutionRepository;
 import com.bernardomg.pagination.domain.Sorting;
 
 import jakarta.transaction.Transactional;
 
 /**
- * Default implementation of the balance service.
+ * Default implementation of the transaction evolution service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
 @Transactional
-public final class DefaultTransactionBalanceService implements TransactionBalanceService {
+public final class DefaultTransactionEvolutionService implements TransactionEvolutionService {
 
-    private final TransactionBalanceRepository transactionBalanceRepository;
+    private final TransactionEvolutionRepository transactionEvolutionRepository;
 
-    public DefaultTransactionBalanceService(final TransactionBalanceRepository transactionBalanceRepo) {
+    public DefaultTransactionEvolutionService(final TransactionEvolutionRepository transactionEvolutionRepo) {
         super();
 
-        transactionBalanceRepository = Objects.requireNonNull(transactionBalanceRepo);
+        transactionEvolutionRepository = Objects.requireNonNull(transactionEvolutionRepo);
     }
 
     @Override
-    public final Collection<TransactionMonthlyBalance> getMonthlyBalance(final Instant from, final Instant to) {
+    public final Collection<TransactionEvolutionMonth> getEvolution(final Instant from, final Instant to) {
         final Sorting sorting;
 
         sorting = new Sorting(List.of(Sorting.Property.asc("month")));
-        return transactionBalanceRepository.findMonthlyBalance(from, to, sorting);
+        return transactionEvolutionRepository.findEvolution(from, to, sorting);
     }
 
 }
