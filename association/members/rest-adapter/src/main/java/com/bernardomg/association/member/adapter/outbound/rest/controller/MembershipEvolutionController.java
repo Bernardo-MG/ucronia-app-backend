@@ -68,7 +68,7 @@ public class MembershipEvolutionController implements MembershipEvolutionApi {
         final MembershipEvolutionFilter            filter;
 
         filter = new MembershipEvolutionFilter(Optional.ofNullable(from), Optional.ofNullable(to));
-        evolution = service.getMonthlyEvolution(filter);
+        evolution = service.getEvolution(filter);
 
         return MembershipMonthlyEvolutionDtoMapper.toResponseDto(evolution);
     }

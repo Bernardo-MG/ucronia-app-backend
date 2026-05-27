@@ -26,25 +26,37 @@ package com.bernardomg.association.transaction.usecase.service;
 
 import java.time.Instant;
 import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
 
-import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
+import com.bernardomg.association.transaction.domain.model.TransactionEvolutionMonth;
+import com.bernardomg.association.transaction.domain.repository.TransactionEvolutionRepository;
+import com.bernardomg.pagination.domain.Sorting;
+
+import jakarta.transaction.Transactional;
 
 /**
- * Transaction balance service.
+ * Default implementation of the transaction evolution service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
-public interface TransactionBalanceService {
+@Transactional
+public final class DefaultTransactionEvolutionService implements TransactionEvolutionService {
 
-    /**
-     * Returns the monthly balances for the filter.
-     *
-     * @param from
-     *            starting date
-     * @param to
-     *            ending date
-     * @return the monthly balances
-     */
-    public Collection<TransactionMonthlyBalance> getMonthlyBalance(final Instant from, final Instant to);
+    private final TransactionEvolutionRepository transactionEvolutionRepository;
+
+    public DefaultTransactionEvolutionService(final TransactionEvolutionRepository transactionEvolutionRepo) {
+        super();
+
+        transactionEvolutionRepository = Objects.requireNonNull(transactionEvolutionRepo);
+    }
+
+    @Override
+    public final Collection<TransactionEvolutionMonth> getEvolution(final Instant from, final Instant to) {
+        final Sorting sorting;
+
+        sorting = new Sorting(List.of(Sorting.Property.asc("month")));
+        return transactionEvolutionRepository.findEvolution(from, to, sorting);
+    }
 
 }

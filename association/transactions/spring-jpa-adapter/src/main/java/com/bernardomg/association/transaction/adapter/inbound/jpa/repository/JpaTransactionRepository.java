@@ -125,7 +125,7 @@ public final class JpaTransactionRepository implements TransactionRepository {
 
         log.debug("Finding transactions with filter {} and pagination {} and sorting {}", filter, pagination, sorting);
 
-        spec = TransactionSpecifications.fromQuery(filter);
+        spec = TransactionSpecifications.filter(filter);
 
         pageable = SpringPagination.toPageable(pagination, sorting);
         if (spec.isEmpty()) {

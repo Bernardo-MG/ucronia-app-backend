@@ -39,8 +39,8 @@ import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.data.annotation.MultipleFees;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
+import com.bernardomg.association.fee.test.configuration.factory.FeeFilters;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
-import com.bernardomg.association.fee.test.configuration.factory.FeesQuery;
 import com.bernardomg.association.profile.test.configuration.data.annotation.MultipleProfiles;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -65,13 +65,13 @@ class ITFeeRepositoryFindAllPagination extends AbstractPaginationIT<Fee> {
 
     @Override
     protected Page<Fee> read(final Pagination pagination, final Sorting sorting) {
-        return repository.findAll(FeesQuery.empty(), pagination, sorting);
+        return repository.findAll(FeeFilters.empty(), pagination, sorting);
     }
 
     @Test
     @DisplayName("With pagination for the first page, it returns the first page")
     void testFindAll_Page1() {
-        final FeeFilter  feeQuery;
+        final FeeFilter  feeFilter;
         final Page<Fee>  fees;
         final Pagination pagination;
         final Sorting    sorting;
@@ -80,10 +80,10 @@ class ITFeeRepositoryFindAllPagination extends AbstractPaginationIT<Fee> {
         pagination = new Pagination(1, 1);
         sorting = Sorting.unsorted();
 
-        feeQuery = FeesQuery.empty();
+        feeFilter = FeeFilters.empty();
 
         // WHEN
-        fees = repository.findAll(feeQuery, pagination, sorting);
+        fees = repository.findAll(feeFilter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -96,7 +96,7 @@ class ITFeeRepositoryFindAllPagination extends AbstractPaginationIT<Fee> {
     @Test
     @DisplayName("With pagination for the second page, it returns the second page")
     void testFindAll_Page2() {
-        final FeeFilter  feeQuery;
+        final FeeFilter  feeFilter;
         final Page<Fee>  fees;
         final Pagination pagination;
         final Sorting    sorting;
@@ -105,10 +105,10 @@ class ITFeeRepositoryFindAllPagination extends AbstractPaginationIT<Fee> {
         pagination = new Pagination(2, 1);
         sorting = Sorting.unsorted();
 
-        feeQuery = FeesQuery.empty();
+        feeFilter = FeeFilters.empty();
 
         // WHEN
-        fees = repository.findAll(feeQuery, pagination, sorting);
+        fees = repository.findAll(feeFilter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(fees)

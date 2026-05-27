@@ -37,7 +37,6 @@ public final class SponsorSpecifications {
 
     public static Optional<Specification<ReadSponsorEntity>> filter(final SponsorFilter filter) {
         final Optional<Specification<ReadSponsorEntity>> nameSpec;
-        final Specification<ReadSponsorEntity>           spec;
 
         if (filter.name()
             .isEmpty()) {
@@ -47,13 +46,11 @@ public final class SponsorSpecifications {
                 .get()));
         }
 
-        spec = List.of(nameSpec)
+        return List.of(nameSpec)
             .stream()
             .filter(Optional::isPresent)
             .map(Optional::get)
-            .reduce((BinaryOperator<Specification<ReadSponsorEntity>>) Specification::and)
-            .orElse(null);
-        return Optional.ofNullable(spec);
+            .reduce((BinaryOperator<Specification<ReadSponsorEntity>>) Specification::and);
     }
 
     /**

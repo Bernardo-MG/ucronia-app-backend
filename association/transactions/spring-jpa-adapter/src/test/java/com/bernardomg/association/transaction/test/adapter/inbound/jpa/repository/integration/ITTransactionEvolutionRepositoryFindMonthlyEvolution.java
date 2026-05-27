@@ -24,8 +24,8 @@
 
 package com.bernardomg.association.transaction.test.adapter.inbound.jpa.repository.integration;
 
+import java.time.Instant;
 import java.time.Month;
-import java.time.YearMonth;
 import java.util.Collection;
 
 import org.assertj.core.api.Assertions;
@@ -37,13 +37,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.transaction.TestApplication;
-import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
-import com.bernardomg.association.transaction.domain.repository.TransactionBalanceRepository;
+import com.bernardomg.association.transaction.domain.model.TransactionEvolutionMonth;
+import com.bernardomg.association.transaction.domain.repository.TransactionEvolutionRepository;
 import com.bernardomg.association.transaction.test.configuration.argument.CurrentAndPreviousMonthProvider;
 import com.bernardomg.association.transaction.test.configuration.data.annotation.DecimalsAddZeroTransaction;
 import com.bernardomg.association.transaction.test.configuration.data.annotation.FullTransactionYear;
 import com.bernardomg.association.transaction.test.configuration.data.annotation.MultipleTransactionsSameMonth;
-import com.bernardomg.association.transaction.test.configuration.factory.TransactionMonthlyBalances;
+import com.bernardomg.association.transaction.test.configuration.factory.TransactionEvolutionMonths;
 import com.bernardomg.association.transaction.test.util.initializer.TransactionInitializer;
 import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.test.annotation.IntegrationTest;
@@ -52,20 +52,20 @@ import com.bernardomg.test.configuration.argument.DecimalArgumentsProvider;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("TransactionBalanceRepository - find monthly balance")
-class ITTransactionBalanceRepositoryFindMonthlyBalance {
+@DisplayName("TransactionEvolutionRepository - find monthly evolution")
+class ITTransactionEvolutionRepositoryFindMonthlyEvolution {
 
     @Autowired
-    private TransactionBalanceRepository repository;
+    private TransactionEvolutionRepository repository;
 
     @Autowired
-    private TransactionInitializer       transactionInitializer;
+    private TransactionInitializer         transactionInitializer;
 
     @ParameterizedTest(name = "Amount: {0}")
     @ArgumentsSource(AroundZeroArgumentsProvider.class)
     @DisplayName("With values around zero it returns the correct amounts")
-    void testFindMonthlyBalance_AroundZero(final Float amount) {
-        final Collection<TransactionMonthlyBalance> balances;
+    void testFindEvolution_AroundZero(final Float amount) {
+        final Collection<TransactionEvolutionMonth> evolutions;
         final Sorting                               sorting;
 
         // GIVEN
@@ -74,18 +74,18 @@ class ITTransactionBalanceRepositoryFindMonthlyBalance {
         sorting = Sorting.unsorted();
 
         // WHEN
-        balances = repository.findMonthlyBalance(null, null, sorting);
+        evolutions = repository.findEvolution(null, null, sorting);
 
         // THEN
-        Assertions.assertThat(balances)
-            .as("balances")
-            .containsExactly(TransactionMonthlyBalances.currentMonth(amount));
+        Assertions.assertThat(evolutions)
+            .as("evolutions")
+            .containsExactly(TransactionEvolutionMonths.currentMonth(amount));
     }
 
     @Test
-    @DisplayName("Returns balance for the end of the current month")
-    void testFindMonthlyBalance_CurrentMonthEnd() {
-        final Collection<TransactionMonthlyBalance> balances;
+    @DisplayName("Returns evolution for the end of the current month")
+    void testFindEvolution_CurrentMonthEnd() {
+        final Collection<TransactionEvolutionMonth> evolutions;
         final Sorting                               sorting;
 
         // GIVEN
@@ -94,18 +94,18 @@ class ITTransactionBalanceRepositoryFindMonthlyBalance {
         sorting = Sorting.unsorted();
 
         // WHEN
-        balances = repository.findMonthlyBalance(null, null, sorting);
+        evolutions = repository.findEvolution(null, null, sorting);
 
         // THEN
-        Assertions.assertThat(balances)
-            .as("balances")
-            .containsExactly(TransactionMonthlyBalances.currentMonth(1));
+        Assertions.assertThat(evolutions)
+            .as("evolutions")
+            .containsExactly(TransactionEvolutionMonths.currentMonth(1));
     }
 
     @Test
-    @DisplayName("Returns balance for the start of the current month")
-    void testFindMonthlyBalance_CurrentMonthStart() {
-        final Collection<TransactionMonthlyBalance> balances;
+    @DisplayName("Returns evolution for the start of the current month")
+    void testFindEvolution_CurrentMonthStart() {
+        final Collection<TransactionEvolutionMonth> evolutions;
         final Sorting                               sorting;
 
         // GIVEN
@@ -114,40 +114,40 @@ class ITTransactionBalanceRepositoryFindMonthlyBalance {
         sorting = Sorting.unsorted();
 
         // WHEN
-        balances = repository.findMonthlyBalance(null, null, sorting);
+        evolutions = repository.findEvolution(null, null, sorting);
 
         // THEN
-        Assertions.assertThat(balances)
-            .as("balances")
-            .containsExactly(TransactionMonthlyBalances.currentMonth(1));
+        Assertions.assertThat(evolutions)
+            .as("evolutions")
+            .containsExactly(TransactionEvolutionMonths.currentMonth(1));
     }
 
     @ParameterizedTest(name = "Date: {0}")
     @ArgumentsSource(CurrentAndPreviousMonthProvider.class)
-    @DisplayName("Returns balance for the current month and adjacents")
-    void testFindMonthlyBalance_Dates(final YearMonth date) {
-        final Collection<TransactionMonthlyBalance> balances;
+    @DisplayName("Returns evolution for the current month and adjacents")
+    void testFindEvolution_Dates(final Instant date) {
+        final Collection<TransactionEvolutionMonth> evolutions;
         final Sorting                               sorting;
 
         // GIVEN
-        transactionInitializer.registerAt(date.getYear(), date.getMonth());
+        transactionInitializer.registerAt(date);
 
         sorting = Sorting.unsorted();
 
         // WHEN
-        balances = repository.findMonthlyBalance(null, null, sorting);
+        evolutions = repository.findEvolution(null, null, sorting);
 
         // THEN
-        Assertions.assertThat(balances)
-            .as("balances")
-            .containsExactly(TransactionMonthlyBalances.forAmount(date, 1F));
+        Assertions.assertThat(evolutions)
+            .as("evolutions")
+            .containsExactly(TransactionEvolutionMonths.forAmount(date, 1F));
     }
 
     @ParameterizedTest(name = "Amount: {0}")
     @ArgumentsSource(DecimalArgumentsProvider.class)
     @DisplayName("With decimal values it returns the correct amounts")
-    void testFindMonthlyBalance_Decimal(final Float amount) {
-        final Collection<TransactionMonthlyBalance> balances;
+    void testFindEvolution_Decimal(final Float amount) {
+        final Collection<TransactionEvolutionMonth> evolutions;
         final Sorting                               sorting;
 
         // GIVEN
@@ -156,67 +156,67 @@ class ITTransactionBalanceRepositoryFindMonthlyBalance {
         sorting = Sorting.unsorted();
 
         // WHEN
-        balances = repository.findMonthlyBalance(null, null, sorting);
+        evolutions = repository.findEvolution(null, null, sorting);
 
         // THEN
-        Assertions.assertThat(balances)
-            .as("balances")
-            .containsExactly(TransactionMonthlyBalances.currentMonth(amount));
+        Assertions.assertThat(evolutions)
+            .as("evolutions")
+            .containsExactly(TransactionEvolutionMonths.currentMonth(amount));
     }
 
     @Test
-    @DisplayName("With decimal values which sum zero the returned balance is zero")
+    @DisplayName("With decimal values which sum zero the returned evolution is zero")
     @DecimalsAddZeroTransaction
-    void testFindMonthlyBalance_DecimalsAddUpToZero() {
-        final Collection<TransactionMonthlyBalance> balances;
+    void testFindEvolution_DecimalsAddUpToZero() {
+        final Collection<TransactionEvolutionMonth> evolutions;
         final Sorting                               sorting;
 
         // GIVEN
         sorting = Sorting.unsorted();
 
         // WHEN
-        balances = repository.findMonthlyBalance(null, null, sorting);
+        evolutions = repository.findEvolution(null, null, sorting);
 
         // THEN
-        Assertions.assertThat(balances)
-            .as("balances")
-            .containsExactly(TransactionMonthlyBalances.forAmount(0F));
+        Assertions.assertThat(evolutions)
+            .as("evolutions")
+            .containsExactly(TransactionEvolutionMonths.forAmount(0F));
     }
 
     @Test
     @DisplayName("With a full year it returns twelve months")
     @FullTransactionYear
-    void testFindMonthlyBalance_FullYear() {
-        final Collection<TransactionMonthlyBalance> balances;
+    void testFindEvolution_FullYear() {
+        final Collection<TransactionEvolutionMonth> evolutions;
         final Sorting                               sorting;
 
         // GIVEN
         sorting = Sorting.unsorted();
 
         // WHEN
-        balances = repository.findMonthlyBalance(null, null, sorting);
+        evolutions = repository.findEvolution(null, null, sorting);
 
         // THEN
-        Assertions.assertThat(balances)
-            .as("balances")
-            .containsExactly(TransactionMonthlyBalances.forAmount(Month.JANUARY, 1, 1),
-                TransactionMonthlyBalances.forAmount(Month.FEBRUARY, 1, 2),
-                TransactionMonthlyBalances.forAmount(Month.MARCH, 1, 3),
-                TransactionMonthlyBalances.forAmount(Month.APRIL, 1, 4),
-                TransactionMonthlyBalances.forAmount(Month.MAY, 1, 5),
-                TransactionMonthlyBalances.forAmount(Month.JUNE, 1, 6),
-                TransactionMonthlyBalances.forAmount(Month.JULY, 1, 7),
-                TransactionMonthlyBalances.forAmount(Month.AUGUST, 1, 8),
-                TransactionMonthlyBalances.forAmount(Month.SEPTEMBER, 1, 9),
-                TransactionMonthlyBalances.forAmount(Month.OCTOBER, 1, 10),
-                TransactionMonthlyBalances.forAmount(Month.NOVEMBER, 1, 11),
-                TransactionMonthlyBalances.forAmount(Month.DECEMBER, 1, 12));
+        Assertions.assertThat(evolutions)
+            .as("evolutions")
+            .containsExactly(TransactionEvolutionMonths.forAmount(Month.JANUARY, 1, 1),
+                TransactionEvolutionMonths.forAmount(Month.FEBRUARY, 1, 2),
+                TransactionEvolutionMonths.forAmount(Month.MARCH, 1, 3),
+                TransactionEvolutionMonths.forAmount(Month.APRIL, 1, 4),
+                TransactionEvolutionMonths.forAmount(Month.MAY, 1, 5),
+                TransactionEvolutionMonths.forAmount(Month.JUNE, 1, 6),
+                TransactionEvolutionMonths.forAmount(Month.JULY, 1, 7),
+                TransactionEvolutionMonths.forAmount(Month.AUGUST, 1, 8),
+                TransactionEvolutionMonths.forAmount(Month.SEPTEMBER, 1, 9),
+                TransactionEvolutionMonths.forAmount(Month.OCTOBER, 1, 10),
+                TransactionEvolutionMonths.forAmount(Month.NOVEMBER, 1, 11),
+                TransactionEvolutionMonths.forAmount(Month.DECEMBER, 1, 12));
     }
 
     @Test
-    @DisplayName("Returns balance for the current month")
-    void testFindMonthlyBalance_MonthStart() {
-        final Collection<TransactionMonthlyBalance> balances;
+    @DisplayName("Returns evolution for the current month")
+    void testFindEvolution_MonthStart() {
+        final Collection<TransactionEvolutionMonth> evolutions;
         final Sorting                               sorting;
 
         // GIVEN
@@ -225,37 +225,37 @@ class ITTransactionBalanceRepositoryFindMonthlyBalance {
         sorting = Sorting.unsorted();
 
         // WHEN
-        balances = repository.findMonthlyBalance(null, null, sorting);
+        evolutions = repository.findEvolution(null, null, sorting);
 
         // THEN
-        Assertions.assertThat(balances)
-            .as("balances")
-            .containsExactly(TransactionMonthlyBalances.currentMonth(1));
+        Assertions.assertThat(evolutions)
+            .as("evolutions")
+            .containsExactly(TransactionEvolutionMonths.currentMonth(1));
     }
 
     @Test
     @DisplayName("With multiple transactions for a single month it returns a single month")
     @MultipleTransactionsSameMonth
-    void testFindMonthlyBalance_Multiple() {
-        final Collection<TransactionMonthlyBalance> balances;
+    void testFindEvolution_Multiple() {
+        final Collection<TransactionEvolutionMonth> evolutions;
         final Sorting                               sorting;
 
         // GIVEN
         sorting = Sorting.unsorted();
 
         // WHEN
-        balances = repository.findMonthlyBalance(null, null, sorting);
+        evolutions = repository.findEvolution(null, null, sorting);
 
         // THEN
-        Assertions.assertThat(balances)
-            .as("balances")
-            .containsExactly(TransactionMonthlyBalances.forAmount(5F));
+        Assertions.assertThat(evolutions)
+            .as("evolutions")
+            .containsExactly(TransactionEvolutionMonths.forAmount(5F));
     }
 
     @Test
-    @DisplayName("Returns no balance for the next month")
-    void testFindMonthlyBalance_NextMonth() {
-        final Collection<TransactionMonthlyBalance> balances;
+    @DisplayName("Returns no evolution for the next month")
+    void testFindEvolution_NextMonth() {
+        final Collection<TransactionEvolutionMonth> evolutions;
         final Sorting                               sorting;
 
         // GIVEN
@@ -264,29 +264,29 @@ class ITTransactionBalanceRepositoryFindMonthlyBalance {
         sorting = Sorting.unsorted();
 
         // WHEN
-        balances = repository.findMonthlyBalance(null, null, sorting);
+        evolutions = repository.findEvolution(null, null, sorting);
 
         // THEN
-        Assertions.assertThat(balances)
-            .as("balances")
+        Assertions.assertThat(evolutions)
+            .as("evolutions")
             .isEmpty();
     }
 
     @Test
     @DisplayName("With no data it returns nothing")
-    void testFindMonthlyBalance_NoData() {
-        final Collection<TransactionMonthlyBalance> balances;
+    void testFindEvolution_NoData() {
+        final Collection<TransactionEvolutionMonth> evolutions;
         final Sorting                               sorting;
 
         // GIVEN
         sorting = Sorting.unsorted();
 
         // WHEN
-        balances = repository.findMonthlyBalance(null, null, sorting);
+        evolutions = repository.findEvolution(null, null, sorting);
 
         // THEN
-        Assertions.assertThat(balances)
-            .as("balances")
+        Assertions.assertThat(evolutions)
+            .as("evolutions")
             .isEmpty();
     }
 

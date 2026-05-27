@@ -51,7 +51,8 @@ public final class UserProfileDtoMapper {
                 .lastName())
             .fullName(profile.name()
                 .fullName());
-        return new ProfileDto().identifier(profile.identifier())
+        return new ProfileDto().identifier(profile.identifier()
+            .orElse(null))
             .number(profile.number())
             .name(name);
     }

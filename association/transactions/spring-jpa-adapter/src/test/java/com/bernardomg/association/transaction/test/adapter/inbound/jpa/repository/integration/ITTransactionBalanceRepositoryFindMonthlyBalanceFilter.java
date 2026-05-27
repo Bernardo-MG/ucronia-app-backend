@@ -37,26 +37,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.transaction.TestApplication;
-import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
-import com.bernardomg.association.transaction.domain.repository.TransactionBalanceRepository;
+import com.bernardomg.association.transaction.domain.model.TransactionEvolutionMonth;
+import com.bernardomg.association.transaction.domain.repository.TransactionEvolutionRepository;
 import com.bernardomg.association.transaction.test.configuration.data.annotation.FullTransactionYear;
-import com.bernardomg.association.transaction.test.configuration.factory.TransactionMonthlyBalances;
+import com.bernardomg.association.transaction.test.configuration.factory.TransactionEvolutionMonths;
 import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("TransactionBalanceRepository - find monthly balance - filter")
-class ITTransactionBalanceRepositoryFindMonthlyBalanceFilter {
+@DisplayName("TransactionEvolutionRepository - find monthly evolution - filter")
+class ITTransactionEvolutionRepositoryFindMonthlyEvolutionFilter {
 
     @Autowired
-    private TransactionBalanceRepository repository;
+    private TransactionEvolutionRepository repository;
 
     @Test
     @DisplayName("Filtering ending before the year returns no month")
     @FullTransactionYear
-    void testFindMonthlyBalance_EndBeforeStart() {
-        final Collection<TransactionMonthlyBalance> balances;
+    void testFindEvolution_EndBeforeStart() {
+        final Collection<TransactionEvolutionMonth> evolutions;
         final Sorting                               sorting;
         final Instant                               to;
 
@@ -69,19 +69,19 @@ class ITTransactionBalanceRepositoryFindMonthlyBalanceFilter {
             .toInstant();
 
         // WHEN
-        balances = repository.findMonthlyBalance(null, to, sorting);
+        evolutions = repository.findEvolution(null, to, sorting);
 
         // THEN
-        Assertions.assertThat(balances)
-            .as("balances")
+        Assertions.assertThat(evolutions)
+            .as("evolutions")
             .isEmpty();
     }
 
     @Test
     @DisplayName("Filtering ending on December returns all the months")
     @FullTransactionYear
-    void testFindMonthlyBalance_EndDecember() {
-        final Collection<TransactionMonthlyBalance> balances;
+    void testFindEvolution_EndDecember() {
+        final Collection<TransactionEvolutionMonth> evolutions;
         final Sorting                               sorting;
         final Instant                               to;
 
@@ -94,30 +94,30 @@ class ITTransactionBalanceRepositoryFindMonthlyBalanceFilter {
             .toInstant();
 
         // WHEN
-        balances = repository.findMonthlyBalance(null, to, sorting);
+        evolutions = repository.findEvolution(null, to, sorting);
 
         // THEN
-        Assertions.assertThat(balances)
-            .as("balances")
-            .containsExactly(TransactionMonthlyBalances.forAmount(Month.JANUARY, 1, 1),
-                TransactionMonthlyBalances.forAmount(Month.FEBRUARY, 1, 2),
-                TransactionMonthlyBalances.forAmount(Month.MARCH, 1, 3),
-                TransactionMonthlyBalances.forAmount(Month.APRIL, 1, 4),
-                TransactionMonthlyBalances.forAmount(Month.MAY, 1, 5),
-                TransactionMonthlyBalances.forAmount(Month.JUNE, 1, 6),
-                TransactionMonthlyBalances.forAmount(Month.JULY, 1, 7),
-                TransactionMonthlyBalances.forAmount(Month.AUGUST, 1, 8),
-                TransactionMonthlyBalances.forAmount(Month.SEPTEMBER, 1, 9),
-                TransactionMonthlyBalances.forAmount(Month.OCTOBER, 1, 10),
-                TransactionMonthlyBalances.forAmount(Month.NOVEMBER, 1, 11),
-                TransactionMonthlyBalances.forAmount(Month.DECEMBER, 1, 12));
+        Assertions.assertThat(evolutions)
+            .as("evolutions")
+            .containsExactly(TransactionEvolutionMonths.forAmount(Month.JANUARY, 1, 1),
+                TransactionEvolutionMonths.forAmount(Month.FEBRUARY, 1, 2),
+                TransactionEvolutionMonths.forAmount(Month.MARCH, 1, 3),
+                TransactionEvolutionMonths.forAmount(Month.APRIL, 1, 4),
+                TransactionEvolutionMonths.forAmount(Month.MAY, 1, 5),
+                TransactionEvolutionMonths.forAmount(Month.JUNE, 1, 6),
+                TransactionEvolutionMonths.forAmount(Month.JULY, 1, 7),
+                TransactionEvolutionMonths.forAmount(Month.AUGUST, 1, 8),
+                TransactionEvolutionMonths.forAmount(Month.SEPTEMBER, 1, 9),
+                TransactionEvolutionMonths.forAmount(Month.OCTOBER, 1, 10),
+                TransactionEvolutionMonths.forAmount(Month.NOVEMBER, 1, 11),
+                TransactionEvolutionMonths.forAmount(Month.DECEMBER, 1, 12));
     }
 
     @Test
     @DisplayName("Filtering the full year returns all the months")
     @FullTransactionYear
-    void testFindMonthlyBalance_FullYear() {
-        final Collection<TransactionMonthlyBalance> balances;
+    void testFindEvolution_FullYear() {
+        final Collection<TransactionEvolutionMonth> evolutions;
         final Sorting                               sorting;
         final Instant                               from;
         final Instant                               to;
@@ -136,30 +136,30 @@ class ITTransactionBalanceRepositoryFindMonthlyBalanceFilter {
             .toInstant();
 
         // WHEN
-        balances = repository.findMonthlyBalance(from, to, sorting);
+        evolutions = repository.findEvolution(from, to, sorting);
 
         // THEN
-        Assertions.assertThat(balances)
-            .as("balances")
-            .containsExactly(TransactionMonthlyBalances.forAmount(Month.JANUARY, 1, 1),
-                TransactionMonthlyBalances.forAmount(Month.FEBRUARY, 1, 2),
-                TransactionMonthlyBalances.forAmount(Month.MARCH, 1, 3),
-                TransactionMonthlyBalances.forAmount(Month.APRIL, 1, 4),
-                TransactionMonthlyBalances.forAmount(Month.MAY, 1, 5),
-                TransactionMonthlyBalances.forAmount(Month.JUNE, 1, 6),
-                TransactionMonthlyBalances.forAmount(Month.JULY, 1, 7),
-                TransactionMonthlyBalances.forAmount(Month.AUGUST, 1, 8),
-                TransactionMonthlyBalances.forAmount(Month.SEPTEMBER, 1, 9),
-                TransactionMonthlyBalances.forAmount(Month.OCTOBER, 1, 10),
-                TransactionMonthlyBalances.forAmount(Month.NOVEMBER, 1, 11),
-                TransactionMonthlyBalances.forAmount(Month.DECEMBER, 1, 12));
+        Assertions.assertThat(evolutions)
+            .as("evolutions")
+            .containsExactly(TransactionEvolutionMonths.forAmount(Month.JANUARY, 1, 1),
+                TransactionEvolutionMonths.forAmount(Month.FEBRUARY, 1, 2),
+                TransactionEvolutionMonths.forAmount(Month.MARCH, 1, 3),
+                TransactionEvolutionMonths.forAmount(Month.APRIL, 1, 4),
+                TransactionEvolutionMonths.forAmount(Month.MAY, 1, 5),
+                TransactionEvolutionMonths.forAmount(Month.JUNE, 1, 6),
+                TransactionEvolutionMonths.forAmount(Month.JULY, 1, 7),
+                TransactionEvolutionMonths.forAmount(Month.AUGUST, 1, 8),
+                TransactionEvolutionMonths.forAmount(Month.SEPTEMBER, 1, 9),
+                TransactionEvolutionMonths.forAmount(Month.OCTOBER, 1, 10),
+                TransactionEvolutionMonths.forAmount(Month.NOVEMBER, 1, 11),
+                TransactionEvolutionMonths.forAmount(Month.DECEMBER, 1, 12));
     }
 
     @Test
     @DisplayName("Filtering by January returns only that month")
     @FullTransactionYear
-    void testFindMonthlyBalance_January() {
-        final Collection<TransactionMonthlyBalance> balances;
+    void testFindEvolution_January() {
+        final Collection<TransactionEvolutionMonth> evolutions;
         final Sorting                               sorting;
         final Instant                               from;
         final Instant                               to;
@@ -178,19 +178,19 @@ class ITTransactionBalanceRepositoryFindMonthlyBalanceFilter {
             .toInstant();
 
         // WHEN
-        balances = repository.findMonthlyBalance(from, to, sorting);
+        evolutions = repository.findEvolution(from, to, sorting);
 
         // THEN
-        Assertions.assertThat(balances)
-            .as("balances")
-            .containsExactly(TransactionMonthlyBalances.forAmount(Month.JANUARY, 1, 1));
+        Assertions.assertThat(evolutions)
+            .as("evolutions")
+            .containsExactly(TransactionEvolutionMonths.forAmount(Month.JANUARY, 1, 1));
     }
 
     @Test
     @DisplayName("Filtering by January and February returns only those months")
     @FullTransactionYear
-    void testFindMonthlyBalance_JanuaryToFebruary() {
-        final Collection<TransactionMonthlyBalance> balances;
+    void testFindEvolution_JanuaryToFebruary() {
+        final Collection<TransactionEvolutionMonth> evolutions;
         final Sorting                               sorting;
         final Instant                               from;
         final Instant                               to;
@@ -209,20 +209,20 @@ class ITTransactionBalanceRepositoryFindMonthlyBalanceFilter {
             .toInstant();
 
         // WHEN
-        balances = repository.findMonthlyBalance(from, to, sorting);
+        evolutions = repository.findEvolution(from, to, sorting);
 
         // THEN
-        Assertions.assertThat(balances)
-            .as("balances")
-            .containsExactly(TransactionMonthlyBalances.forAmount(Month.JANUARY, 1, 1),
-                TransactionMonthlyBalances.forAmount(Month.FEBRUARY, 1, 2));
+        Assertions.assertThat(evolutions)
+            .as("evolutions")
+            .containsExactly(TransactionEvolutionMonths.forAmount(Month.JANUARY, 1, 1),
+                TransactionEvolutionMonths.forAmount(Month.FEBRUARY, 1, 2));
     }
 
     @Test
     @DisplayName("Filtering with a range where the end is before the start returns nothing")
     @FullTransactionYear
-    void testFindMonthlyBalance_RangeEndBeforeStart() {
-        final Collection<TransactionMonthlyBalance> balances;
+    void testFindEvolution_RangeEndBeforeStart() {
+        final Collection<TransactionEvolutionMonth> evolutions;
         final Sorting                               sorting;
         final Instant                               from;
         final Instant                               to;
@@ -241,19 +241,19 @@ class ITTransactionBalanceRepositoryFindMonthlyBalanceFilter {
             .toInstant();
 
         // WHEN
-        balances = repository.findMonthlyBalance(from, to, sorting);
+        evolutions = repository.findEvolution(from, to, sorting);
 
         // THEN
-        Assertions.assertThat(balances)
-            .as("balances")
+        Assertions.assertThat(evolutions)
+            .as("evolutions")
             .isEmpty();
     }
 
     @Test
     @DisplayName("Filtering beginning after the year returns no month")
     @FullTransactionYear
-    void testFindMonthlyBalance_StartAfterEnd() {
-        final Collection<TransactionMonthlyBalance> balances;
+    void testFindEvolution_StartAfterEnd() {
+        final Collection<TransactionEvolutionMonth> evolutions;
         final Sorting                               sorting;
         final Instant                               from;
 
@@ -266,19 +266,19 @@ class ITTransactionBalanceRepositoryFindMonthlyBalanceFilter {
             .toInstant();
 
         // WHEN
-        balances = repository.findMonthlyBalance(from, null, sorting);
+        evolutions = repository.findEvolution(from, null, sorting);
 
         // THEN
-        Assertions.assertThat(balances)
-            .as("balances")
+        Assertions.assertThat(evolutions)
+            .as("evolutions")
             .isEmpty();
     }
 
     @Test
     @DisplayName("Filtering beginning on January returns all the months")
     @FullTransactionYear
-    void testFindMonthlyBalance_StartInJanuary() {
-        final Collection<TransactionMonthlyBalance> balances;
+    void testFindEvolution_StartInJanuary() {
+        final Collection<TransactionEvolutionMonth> evolutions;
         final Sorting                               sorting;
         final Instant                               from;
 
@@ -291,23 +291,23 @@ class ITTransactionBalanceRepositoryFindMonthlyBalanceFilter {
             .toInstant();
 
         // WHEN
-        balances = repository.findMonthlyBalance(from, null, sorting);
+        evolutions = repository.findEvolution(from, null, sorting);
 
         // THEN
-        Assertions.assertThat(balances)
-            .as("balances")
-            .containsExactly(TransactionMonthlyBalances.forAmount(Month.JANUARY, 1, 1),
-                TransactionMonthlyBalances.forAmount(Month.FEBRUARY, 1, 2),
-                TransactionMonthlyBalances.forAmount(Month.MARCH, 1, 3),
-                TransactionMonthlyBalances.forAmount(Month.APRIL, 1, 4),
-                TransactionMonthlyBalances.forAmount(Month.MAY, 1, 5),
-                TransactionMonthlyBalances.forAmount(Month.JUNE, 1, 6),
-                TransactionMonthlyBalances.forAmount(Month.JULY, 1, 7),
-                TransactionMonthlyBalances.forAmount(Month.AUGUST, 1, 8),
-                TransactionMonthlyBalances.forAmount(Month.SEPTEMBER, 1, 9),
-                TransactionMonthlyBalances.forAmount(Month.OCTOBER, 1, 10),
-                TransactionMonthlyBalances.forAmount(Month.NOVEMBER, 1, 11),
-                TransactionMonthlyBalances.forAmount(Month.DECEMBER, 1, 12));
+        Assertions.assertThat(evolutions)
+            .as("evolutions")
+            .containsExactly(TransactionEvolutionMonths.forAmount(Month.JANUARY, 1, 1),
+                TransactionEvolutionMonths.forAmount(Month.FEBRUARY, 1, 2),
+                TransactionEvolutionMonths.forAmount(Month.MARCH, 1, 3),
+                TransactionEvolutionMonths.forAmount(Month.APRIL, 1, 4),
+                TransactionEvolutionMonths.forAmount(Month.MAY, 1, 5),
+                TransactionEvolutionMonths.forAmount(Month.JUNE, 1, 6),
+                TransactionEvolutionMonths.forAmount(Month.JULY, 1, 7),
+                TransactionEvolutionMonths.forAmount(Month.AUGUST, 1, 8),
+                TransactionEvolutionMonths.forAmount(Month.SEPTEMBER, 1, 9),
+                TransactionEvolutionMonths.forAmount(Month.OCTOBER, 1, 10),
+                TransactionEvolutionMonths.forAmount(Month.NOVEMBER, 1, 11),
+                TransactionEvolutionMonths.forAmount(Month.DECEMBER, 1, 12));
     }
 
 }

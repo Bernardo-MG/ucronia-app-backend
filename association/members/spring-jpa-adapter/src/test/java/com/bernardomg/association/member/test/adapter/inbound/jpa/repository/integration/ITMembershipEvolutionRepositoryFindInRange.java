@@ -44,9 +44,8 @@ class ITMembershipEvolutionRepositoryFindInRange {
 
         // GIVEN
         sorting = Sorting.unsorted();
-        date = MembershipEvolutionMonthConstants.START_MONTH.plusMonths(2)
-            .atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
+        date = MembershipEvolutionMonthConstants.START_MONTH.atZone(ZoneOffset.UTC)
+            .plusMonths(2)
             .toInstant();
 
         // WHEN
@@ -56,9 +55,14 @@ class ITMembershipEvolutionRepositoryFindInRange {
         Assertions.assertThat(evolution)
             .as("evolution")
             .containsExactlyInAnyOrder(
-                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH),
-                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.plusMonths(1)),
-                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.plusMonths(2)));
+                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.atZone(ZoneOffset.UTC)
+                    .toInstant()),
+                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.atZone(ZoneOffset.UTC)
+                    .plusMonths(1)
+                    .toInstant()),
+                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.atZone(ZoneOffset.UTC)
+                    .plusMonths(2)
+                    .toInstant()));
     }
 
     @Test
@@ -81,17 +85,39 @@ class ITMembershipEvolutionRepositoryFindInRange {
             .as("evolution")
             .containsExactlyInAnyOrder(
                 MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH),
-                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.plusMonths(1)),
-                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.plusMonths(2)),
-                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.plusMonths(3)),
-                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.plusMonths(4)),
-                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.plusMonths(5)),
-                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.plusMonths(6)),
-                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.plusMonths(7)),
-                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.plusMonths(8)),
-                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.plusMonths(9)),
-                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.plusMonths(10)),
-                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.plusMonths(11)));
+                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.atZone(ZoneOffset.UTC)
+                    .plusMonths(1)
+                    .toInstant()),
+                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.atZone(ZoneOffset.UTC)
+                    .plusMonths(2)
+                    .toInstant()),
+                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.atZone(ZoneOffset.UTC)
+                    .plusMonths(3)
+                    .toInstant()),
+                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.atZone(ZoneOffset.UTC)
+                    .plusMonths(4)
+                    .toInstant()),
+                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.atZone(ZoneOffset.UTC)
+                    .plusMonths(5)
+                    .toInstant()),
+                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.atZone(ZoneOffset.UTC)
+                    .plusMonths(6)
+                    .toInstant()),
+                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.atZone(ZoneOffset.UTC)
+                    .plusMonths(7)
+                    .toInstant()),
+                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.atZone(ZoneOffset.UTC)
+                    .plusMonths(8)
+                    .toInstant()),
+                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.atZone(ZoneOffset.UTC)
+                    .plusMonths(9)
+                    .toInstant()),
+                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.atZone(ZoneOffset.UTC)
+                    .plusMonths(10)
+                    .toInstant()),
+                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.atZone(ZoneOffset.UTC)
+                    .plusMonths(11)
+                    .toInstant()));
     }
 
     @Test
@@ -144,13 +170,11 @@ class ITMembershipEvolutionRepositoryFindInRange {
 
         // GIVEN
         sorting = Sorting.unsorted();
-        from = MembershipEvolutionMonthConstants.START_MONTH.plusMonths(1)
-            .atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
+        from = MembershipEvolutionMonthConstants.START_MONTH.atZone(ZoneOffset.UTC)
+            .plusMonths(1)
             .toInstant();
-        to = MembershipEvolutionMonthConstants.START_MONTH.plusMonths(3)
-            .atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
+        to = MembershipEvolutionMonthConstants.START_MONTH.atZone(ZoneOffset.UTC)
+            .plusMonths(3)
             .toInstant();
 
         // WHEN
@@ -160,9 +184,15 @@ class ITMembershipEvolutionRepositoryFindInRange {
         Assertions.assertThat(evolution)
             .as("evolution")
             .containsExactlyInAnyOrder(
-                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.plusMonths(1)),
-                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.plusMonths(2)),
-                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.plusMonths(3)));
+                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.atZone(ZoneOffset.UTC)
+                    .plusMonths(1)
+                    .toInstant()),
+                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.atZone(ZoneOffset.UTC)
+                    .plusMonths(2)
+                    .toInstant()),
+                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.atZone(ZoneOffset.UTC)
+                    .plusMonths(3)
+                    .toInstant()));
     }
 
     @Test
@@ -177,9 +207,8 @@ class ITMembershipEvolutionRepositoryFindInRange {
 
         // GIVEN
         sorting = Sorting.unsorted();
-        date = MembershipEvolutionMonthConstants.START_MONTH.plusMonths(1)
-            .atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
+        date = MembershipEvolutionMonthConstants.START_MONTH.atZone(ZoneOffset.UTC)
+            .plusMonths(1)
             .toInstant();
 
         // WHEN
@@ -189,17 +218,39 @@ class ITMembershipEvolutionRepositoryFindInRange {
         Assertions.assertThat(evolution)
             .as("evolution")
             .containsExactlyInAnyOrder(
-                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.plusMonths(1)),
-                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.plusMonths(2)),
-                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.plusMonths(3)),
-                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.plusMonths(4)),
-                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.plusMonths(5)),
-                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.plusMonths(6)),
-                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.plusMonths(7)),
-                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.plusMonths(8)),
-                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.plusMonths(9)),
-                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.plusMonths(10)),
-                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.plusMonths(11)));
+                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.atZone(ZoneOffset.UTC)
+                    .plusMonths(1)
+                    .toInstant()),
+                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.atZone(ZoneOffset.UTC)
+                    .plusMonths(2)
+                    .toInstant()),
+                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.atZone(ZoneOffset.UTC)
+                    .plusMonths(3)
+                    .toInstant()),
+                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.atZone(ZoneOffset.UTC)
+                    .plusMonths(4)
+                    .toInstant()),
+                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.atZone(ZoneOffset.UTC)
+                    .plusMonths(5)
+                    .toInstant()),
+                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.atZone(ZoneOffset.UTC)
+                    .plusMonths(6)
+                    .toInstant()),
+                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.atZone(ZoneOffset.UTC)
+                    .plusMonths(7)
+                    .toInstant()),
+                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.atZone(ZoneOffset.UTC)
+                    .plusMonths(8)
+                    .toInstant()),
+                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.atZone(ZoneOffset.UTC)
+                    .plusMonths(9)
+                    .toInstant()),
+                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.atZone(ZoneOffset.UTC)
+                    .plusMonths(10)
+                    .toInstant()),
+                MembershipEvolutionMonths.forMonth(MembershipEvolutionMonthConstants.START_MONTH.atZone(ZoneOffset.UTC)
+                    .plusMonths(11)
+                    .toInstant()));
     }
 
 }

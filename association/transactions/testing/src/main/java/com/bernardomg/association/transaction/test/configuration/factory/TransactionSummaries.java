@@ -3,7 +3,7 @@ package com.bernardomg.association.transaction.test.configuration.factory;
 
 import com.bernardomg.association.transaction.domain.model.TransactionSummary;
 
-public final class TransactionCurrentBalances {
+public final class TransactionSummaries {
 
     public static final TransactionSummary amount(final float amount) {
         return new TransactionSummary(amount, amount);
@@ -13,7 +13,7 @@ public final class TransactionCurrentBalances {
         return new TransactionSummary(amount, total);
     }
 
-    private TransactionCurrentBalances() {
+    private TransactionSummaries() {
         super();
     }
 

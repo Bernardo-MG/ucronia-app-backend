@@ -56,7 +56,7 @@ public record Profile(Optional<String> identifier, Long number, Name name, Optio
         this.types = Set.copyOf(types);
     }
 
-    private final Optional<String> handleEmpty(final Optional<String> value) {
+    private final static Optional<String> handleEmpty(final Optional<String> value) {
         final Optional<String> trimmed;
         final Optional<String> result;
 

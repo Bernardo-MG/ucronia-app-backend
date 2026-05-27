@@ -6,7 +6,6 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 
 import java.time.Instant;
-import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,8 +27,8 @@ import com.bernardomg.association.member.test.configuration.factory.MembershipEv
 import com.bernardomg.association.member.usecase.service.DefaultMembershipEvolutionService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Membership evolution service - get monthly evolution")
-class TestMembershipEvolutionServiceGetMonthlyEvolution {
+@DisplayName("Membership evolution service - get evolution")
+class TestMembershipEvolutionServiceGetEvolution {
 
     @Mock
     private MembershipEvolutionRepository     membershipEvolutionRepository;
@@ -39,26 +38,22 @@ class TestMembershipEvolutionServiceGetMonthlyEvolution {
 
     @Test
     @DisplayName("Returns the queried data when covering previous and current")
-    void testGetMonthlyEvolution_CoversBoth() {
+    void testGetEvolution_CoversBoth() {
         final MembershipEvolutionFilter          filter;
         final Iterable<MembershipEvolutionMonth> evolution;
         final Instant                            from;
         final Instant                            to;
 
         // GIVEN
-        from = MembershipEvolutionMonthConstants.PREVIOUS_MONTH.atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant();
-        to = MembershipEvolutionMonthConstants.CURRENT_MONTH.atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant();
+        from = MembershipEvolutionMonthConstants.PREVIOUS_MONTH;
+        to = MembershipEvolutionMonthConstants.CURRENT_MONTH;
         given(membershipEvolutionRepository.findInRange(eq(Optional.of(from)), eq(Optional.of(to)), any()))
             .willReturn(List.of(MembershipEvolutionMonths.currentMonth()));
 
         filter = MembershipEvolutionFilters.previousAndThis();
 
         // WHEN
-        evolution = service.getMonthlyEvolution(filter);
+        evolution = service.getEvolution(filter);
 
         // THEN
         Assertions.assertThat(evolution)
@@ -68,7 +63,7 @@ class TestMembershipEvolutionServiceGetMonthlyEvolution {
 
     @Test
     @DisplayName("Can't read beyond the current month")
-    void testGetMonthlyEvolution_LimitsAtCurrent() {
+    void testGetEvolution_LimitsAtCurrent() {
         final MembershipEvolutionFilter filter;
         final Instant                   from;
         final Instant                   to;
@@ -77,41 +72,33 @@ class TestMembershipEvolutionServiceGetMonthlyEvolution {
         filter = MembershipEvolutionFilters.aroundCurrent();
 
         // WHEN
-        service.getMonthlyEvolution(filter);
+        service.getEvolution(filter);
 
         // THEN
-        from = MembershipEvolutionMonthConstants.PREVIOUS_MONTH.atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant();
-        to = MembershipEvolutionMonthConstants.CURRENT_MONTH.atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant();
+        from = MembershipEvolutionMonthConstants.PREVIOUS_MONTH;
+        to = MembershipEvolutionMonthConstants.CURRENT_MONTH;
         Mockito.verify(membershipEvolutionRepository)
             .findInRange(eq(Optional.of(from)), eq(Optional.of(to)), any());
     }
 
     @Test
     @DisplayName("When there is no data nothing is returned")
-    void testGetMonthlyEvolution_NoData() {
+    void testGetEvolution_NoData() {
         final MembershipEvolutionFilter          filter;
         final Iterable<MembershipEvolutionMonth> evolution;
         final Instant                            from;
         final Instant                            to;
 
         // GIVEN
-        from = MembershipEvolutionMonthConstants.PREVIOUS_MONTH.atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant();
-        to = MembershipEvolutionMonthConstants.CURRENT_MONTH.atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant();
+        from = MembershipEvolutionMonthConstants.PREVIOUS_MONTH;
+        to = MembershipEvolutionMonthConstants.CURRENT_MONTH;
         given(membershipEvolutionRepository.findInRange(eq(Optional.of(from)), eq(Optional.of(to)), any()))
             .willReturn(List.of());
 
         filter = MembershipEvolutionFilters.previousAndThis();
 
         // WHEN
-        evolution = service.getMonthlyEvolution(filter);
+        evolution = service.getEvolution(filter);
 
         // THEN
         Assertions.assertThat(evolution)

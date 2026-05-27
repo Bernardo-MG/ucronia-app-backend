@@ -24,12 +24,12 @@
 
 package com.bernardomg.association.transaction.domain.model;
 
-import java.time.YearMonth;
+import java.time.Instant;
 import java.util.Objects;
 
-public record TransactionMonthlyBalance(YearMonth month, float results, float total) {
+public record TransactionEvolutionMonth(Instant month, float results, float total) {
 
-    public TransactionMonthlyBalance(final YearMonth month, final float results, final float total) {
+    public TransactionEvolutionMonth(final Instant month, final float results, final float total) {
         this.month = Objects.requireNonNull(month);
         this.results = Objects.requireNonNull(results);
         this.total = Objects.requireNonNull(total);
