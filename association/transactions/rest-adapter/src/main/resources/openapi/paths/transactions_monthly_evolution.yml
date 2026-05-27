@@ -1,7 +1,7 @@
 get:
-  summary: Get monthly balance.
-  operationId: getMonthlyTransactionBalance
-  tags: [TransactionBalance]
+  summary: Get monthly evolution.
+  operationId: getMonthlyTransactionEvolution
+  tags: [TransactionEvolution]
   parameters:
     - name: from
       description: Starting date to query for.
@@ -19,4 +19,4 @@ get:
       content:
         application/json:
           schema:
-            $ref: '../components/transactions_balance.yml#/components/schemas/TransactionMonthlyBalanceResponse'
+            $ref: '../components/transactions_evolution.yml#/components/schemas/TransactionMonthlyEvolutionResponse'

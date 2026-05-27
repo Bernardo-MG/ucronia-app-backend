@@ -22,17 +22,21 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.domain.model;
+package com.bernardomg.association.transaction.adapter.inbound.jpa.model;
 
-import java.time.Instant;
-import java.util.Objects;
+import com.bernardomg.association.transaction.domain.model.TransactionEvolutionMonth;
 
-public record TransactionMonthlyBalance(Instant month, float results, float total) {
+/**
+ * Author repository mapper.
+ */
+public final class TransactionEvolutionEntityMapper {
 
-    public TransactionMonthlyBalance(final Instant month, final float results, final float total) {
-        this.month = Objects.requireNonNull(month);
-        this.results = Objects.requireNonNull(results);
-        this.total = Objects.requireNonNull(total);
+    public static final TransactionEvolutionMonth toDomain(final MonthlyEvolutionEntity entity) {
+        return new TransactionEvolutionMonth(entity.getMonth(), entity.getResults(), entity.getTotal());
+    }
+
+    private TransactionEvolutionEntityMapper() {
+        super();
     }
 
 }

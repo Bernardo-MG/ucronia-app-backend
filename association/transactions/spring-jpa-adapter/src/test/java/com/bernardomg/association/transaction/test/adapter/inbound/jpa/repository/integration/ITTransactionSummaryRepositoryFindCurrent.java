@@ -38,7 +38,7 @@ import com.bernardomg.association.transaction.TestApplication;
 import com.bernardomg.association.transaction.domain.model.TransactionSummary;
 import com.bernardomg.association.transaction.domain.repository.TransactionSummaryRepository;
 import com.bernardomg.association.transaction.test.configuration.data.annotation.FullTransactionYear;
-import com.bernardomg.association.transaction.test.configuration.factory.TransactionCurrentBalances;
+import com.bernardomg.association.transaction.test.configuration.factory.TransactionSummaries;
 import com.bernardomg.association.transaction.test.util.initializer.TransactionInitializer;
 import com.bernardomg.test.annotation.IntegrationTest;
 import com.bernardomg.test.configuration.argument.AroundZeroArgumentsProvider;
@@ -59,39 +59,39 @@ class ITTransactionSummaryRepositoryFindCurrent {
     @ArgumentsSource(AroundZeroArgumentsProvider.class)
     @DisplayName("With values around zero it returns the correct amounts")
     void testFindCurrent_AroundZero(final float amount) {
-        final Optional<TransactionSummary> balance;
+        final Optional<TransactionSummary> evolution;
 
         // GIVEN
         transactionInitializer.registerCurrentMonth(amount);
 
         // WHEN
-        balance = repository.findSummary();
+        evolution = repository.findSummary();
 
         // THEN
-        Assertions.assertThat(balance)
-            .contains(TransactionCurrentBalances.amount(amount));
+        Assertions.assertThat(evolution)
+            .contains(TransactionSummaries.amount(amount));
     }
 
     @Test
-    @DisplayName("With data for the current month it returns the balance")
+    @DisplayName("With data for the current month it returns the evolution")
     void testFindCurrent_CurrentMonth() {
-        final Optional<TransactionSummary> balance;
+        final Optional<TransactionSummary> evolution;
 
         // GIVEN
         transactionInitializer.registerCurrentMonth(1F);
 
         // WHEN
-        balance = repository.findSummary();
+        evolution = repository.findSummary();
 
         // THEN
-        Assertions.assertThat(balance)
-            .contains(TransactionCurrentBalances.amount(1));
+        Assertions.assertThat(evolution)
+            .contains(TransactionSummaries.amount(1));
     }
 
     @Test
-    @DisplayName("With data for the current month and previous months it returns the balance")
+    @DisplayName("With data for the current month and previous months it returns the evolution")
     void testFindCurrent_CurrentMonthAndPrevious() {
-        final Optional<TransactionSummary> balance;
+        final Optional<TransactionSummary> evolution;
 
         // GIVEN
         transactionInitializer.registerMonthsBack(1F, 0, 1L);
@@ -99,66 +99,66 @@ class ITTransactionSummaryRepositoryFindCurrent {
         transactionInitializer.registerMonthsBack(3F, 2, 3L);
 
         // WHEN
-        balance = repository.findSummary();
+        evolution = repository.findSummary();
 
         // THEN
-        Assertions.assertThat(balance)
-            .contains(TransactionCurrentBalances.amount(1, 6));
+        Assertions.assertThat(evolution)
+            .contains(TransactionSummaries.amount(1, 6));
     }
 
     @Test
-    @DisplayName("With data for the current month at the last day it returns the balance")
+    @DisplayName("With data for the current month at the last day it returns the evolution")
     void testFindCurrent_CurrentMonthEnd() {
-        final Optional<TransactionSummary> balance;
+        final Optional<TransactionSummary> evolution;
 
         // GIVEN
         transactionInitializer.registerCurrentMonthEnd(1F);
 
         // WHEN
-        balance = repository.findSummary();
+        evolution = repository.findSummary();
 
         // THEN
-        Assertions.assertThat(balance)
-            .contains(TransactionCurrentBalances.amount(1));
+        Assertions.assertThat(evolution)
+            .contains(TransactionSummaries.amount(1));
     }
 
     @Test
-    @DisplayName("With data for the current month at the first day it returns the balance")
+    @DisplayName("With data for the current month at the first day it returns the evolution")
     void testFindCurrent_CurrentMonthStart() {
-        final Optional<TransactionSummary> balance;
+        final Optional<TransactionSummary> evolution;
 
         // GIVEN
         transactionInitializer.registerCurrentMonthStart(1F);
 
         // WHEN
-        balance = repository.findSummary();
+        evolution = repository.findSummary();
 
         // THEN
-        Assertions.assertThat(balance)
-            .contains(TransactionCurrentBalances.amount(1));
+        Assertions.assertThat(evolution)
+            .contains(TransactionSummaries.amount(1));
     }
 
     @ParameterizedTest(name = "Amount: {0}")
     @ArgumentsSource(DecimalArgumentsProvider.class)
     @DisplayName("With decimal values it returns the correct amounts")
     void testFindCurrent_Decimal(final Float amount) {
-        final Optional<TransactionSummary> balance;
+        final Optional<TransactionSummary> evolution;
 
         // GIVEN
         transactionInitializer.registerCurrentMonth(amount);
 
         // WHEN
-        balance = repository.findSummary();
+        evolution = repository.findSummary();
 
         // THEN
-        Assertions.assertThat(balance)
-            .contains(TransactionCurrentBalances.amount(amount));
+        Assertions.assertThat(evolution)
+            .contains(TransactionSummaries.amount(amount));
     }
 
     @Test
-    @DisplayName("With decimal values which sum zero the returned balance is zero")
+    @DisplayName("With decimal values which sum zero the returned evolution is zero")
     void testFindCurrent_DecimalsAddUpToZero() {
-        final Optional<TransactionSummary> balance;
+        final Optional<TransactionSummary> evolution;
 
         // GIVEN
         transactionInitializer.registerCurrentMonth(-40.8F, 1L);
@@ -167,31 +167,31 @@ class ITTransactionSummaryRepositoryFindCurrent {
         transactionInitializer.registerCurrentMonth(13.6F, 4L);
 
         // WHEN
-        balance = repository.findSummary();
+        evolution = repository.findSummary();
 
         // THEN
-        Assertions.assertThat(balance)
-            .contains(TransactionCurrentBalances.amount(0));
+        Assertions.assertThat(evolution)
+            .contains(TransactionSummaries.amount(0));
     }
 
     @Test
     @DisplayName("With a full year it returns the correct data")
     @FullTransactionYear
     void testFindCurrent_FullYear() {
-        final Optional<TransactionSummary> balance;
+        final Optional<TransactionSummary> evolution;
 
         // WHEN
-        balance = repository.findSummary();
+        evolution = repository.findSummary();
 
         // THEN
-        Assertions.assertThat(balance)
-            .contains(TransactionCurrentBalances.amount(0, 12));
+        Assertions.assertThat(evolution)
+            .contains(TransactionSummaries.amount(0, 12));
     }
 
     @Test
     @DisplayName("With multiple transactions for a single month it returns the correct data")
     void testFindCurrent_Multiple() {
-        final Optional<TransactionSummary> balance;
+        final Optional<TransactionSummary> evolution;
 
         // GIVEN
         transactionInitializer.registerCurrentMonth(1F, 1L);
@@ -201,46 +201,46 @@ class ITTransactionSummaryRepositoryFindCurrent {
         transactionInitializer.registerCurrentMonth(1F, 5L);
 
         // WHEN
-        balance = repository.findSummary();
+        evolution = repository.findSummary();
 
         // THEN
-        Assertions.assertThat(balance)
-            .contains(TransactionCurrentBalances.amount(5));
+        Assertions.assertThat(evolution)
+            .contains(TransactionSummaries.amount(5));
     }
 
     @Test
-    @DisplayName("With data for the next month it returns no balance")
+    @DisplayName("With data for the next month it returns no evolution")
     void testFindCurrent_NextMonth() {
-        final Optional<TransactionSummary> balance;
+        final Optional<TransactionSummary> evolution;
 
         // GIVEN
         transactionInitializer.registerNextMonth(1F);
 
         // WHEN
-        balance = repository.findSummary();
+        evolution = repository.findSummary();
 
         // THEN
-        Assertions.assertThat(balance)
+        Assertions.assertThat(evolution)
             .isEmpty();
     }
 
     @Test
     @DisplayName("With no data it returns nothing")
     void testFindCurrent_NoData() {
-        final Optional<TransactionSummary> balance;
+        final Optional<TransactionSummary> evolution;
 
         // WHEN
-        balance = repository.findSummary();
+        evolution = repository.findSummary();
 
         // THEN
-        Assertions.assertThat(balance)
+        Assertions.assertThat(evolution)
             .isEmpty();
     }
 
     @Test
-    @DisplayName("With data for the previous month it returns the balance but no results")
+    @DisplayName("With data for the previous month it returns the evolution but no results")
     void testFindCurrent_PreviousMonth() {
-        final Optional<TransactionSummary> balance;
+        final Optional<TransactionSummary> evolution;
 
         // GIVEN
         transactionInitializer.registerPreviousMonth(1F, 1L);
@@ -248,17 +248,17 @@ class ITTransactionSummaryRepositoryFindCurrent {
         transactionInitializer.registerPreviousMonth(3F, 3L);
 
         // WHEN
-        balance = repository.findSummary();
+        evolution = repository.findSummary();
 
         // THEN
-        Assertions.assertThat(balance)
-            .contains(TransactionCurrentBalances.amount(0, 6));
+        Assertions.assertThat(evolution)
+            .contains(TransactionSummaries.amount(0, 6));
     }
 
     @Test
-    @DisplayName("With data for the previous months it returns the balance but no results")
+    @DisplayName("With data for the previous months it returns the evolution but no results")
     void testFindCurrent_PreviousMonths() {
-        final Optional<TransactionSummary> balance;
+        final Optional<TransactionSummary> evolution;
 
         // GIVEN
         transactionInitializer.registerMonthsBack(1F, 1, 1L);
@@ -266,17 +266,17 @@ class ITTransactionSummaryRepositoryFindCurrent {
         transactionInitializer.registerMonthsBack(3F, 3, 3L);
 
         // WHEN
-        balance = repository.findSummary();
+        evolution = repository.findSummary();
 
         // THEN
-        Assertions.assertThat(balance)
-            .contains(TransactionCurrentBalances.amount(0, 6));
+        Assertions.assertThat(evolution)
+            .contains(TransactionSummaries.amount(0, 6));
     }
 
     @Test
-    @DisplayName("With data for the previous months, including gaps, it returns the balance but no results")
+    @DisplayName("With data for the previous months, including gaps, it returns the evolution but no results")
     void testFindCurrent_PreviousMonths_Gaps() {
-        final Optional<TransactionSummary> balance;
+        final Optional<TransactionSummary> evolution;
 
         // GIVEN
         transactionInitializer.registerMonthsBack(1F, 1, 1L);
@@ -284,11 +284,11 @@ class ITTransactionSummaryRepositoryFindCurrent {
         transactionInitializer.registerMonthsBack(3F, 5, 3L);
 
         // WHEN
-        balance = repository.findSummary();
+        evolution = repository.findSummary();
 
         // THEN
-        Assertions.assertThat(balance)
-            .contains(TransactionCurrentBalances.amount(0, 6));
+        Assertions.assertThat(evolution)
+            .contains(TransactionSummaries.amount(0, 6));
     }
 
 }

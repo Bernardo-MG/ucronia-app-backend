@@ -22,29 +22,31 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.usecase.service;
+package com.bernardomg.association.transaction.adapter.outbound.rest.model;
 
-import java.time.Instant;
 import java.util.Collection;
 
-import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
+import com.bernardomg.association.transaction.adapter.outbound.rest.dto.TransactionMonthlyEvolutionDto;
+import com.bernardomg.association.transaction.adapter.outbound.rest.dto.TransactionMonthlyEvolutionResponseDto;
+import com.bernardomg.association.transaction.domain.model.TransactionEvolutionMonth;
 
-/**
- * Transaction balance service.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- */
-public interface TransactionBalanceService {
+public final class TransactionEvolutionDtoMapper {
 
-    /**
-     * Returns the monthly balances for the filter.
-     *
-     * @param from
-     *            starting date
-     * @param to
-     *            ending date
-     * @return the monthly balances
-     */
-    public Collection<TransactionMonthlyBalance> getMonthlyBalance(final Instant from, final Instant to);
+    public static final TransactionMonthlyEvolutionResponseDto
+            toResponseDto(final Collection<TransactionEvolutionMonth> balance) {
+        return new TransactionMonthlyEvolutionResponseDto().content(balance.stream()
+            .map(TransactionEvolutionDtoMapper::toDto)
+            .toList());
+    }
+
+    private static final TransactionMonthlyEvolutionDto toDto(final TransactionEvolutionMonth evolution) {
+        return new TransactionMonthlyEvolutionDto().month(evolution.month())
+            .results(evolution.results())
+            .total(evolution.total());
+    }
+
+    private TransactionEvolutionDtoMapper() {
+        super();
+    }
 
 }

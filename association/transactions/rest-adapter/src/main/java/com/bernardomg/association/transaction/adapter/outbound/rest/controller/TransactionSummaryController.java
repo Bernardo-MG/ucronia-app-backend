@@ -34,7 +34,7 @@ import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
 
 /**
- * Balance REST controller.
+ * Transaction summary REST controller.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -43,7 +43,7 @@ import com.bernardomg.security.permission.domain.constant.Actions;
 public class TransactionSummaryController implements TransactionSummaryApi {
 
     /**
-     * Balance service
+     * Transaction summary service
      */
     private final TransactionSummaryService service;
 
@@ -55,6 +55,7 @@ public class TransactionSummaryController implements TransactionSummaryApi {
     @Override
     @RequireResourceAuthorization(resource = "BALANCE", action = Actions.READ)
     public TransactionSummaryResponseDto getTransactionSummary() {
+// TODO: is this the correct permission?        
         final TransactionSummary summary;
 
         summary = service.getSummary();

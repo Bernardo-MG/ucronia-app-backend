@@ -12,7 +12,7 @@ paths:
   /transaction/summary:
     $ref: paths/transactions_summary.yml
   /transaction/balance/monthly:
-    $ref: paths/transactions_monthly_balance.yml
+    $ref: paths/transactions_monthly_evolution.yml
   /transaction/range:
     $ref: paths/transactions_range.yml
   /transaction/report:

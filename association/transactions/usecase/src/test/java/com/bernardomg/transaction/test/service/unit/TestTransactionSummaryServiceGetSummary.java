@@ -24,12 +24,9 @@
 
 package com.bernardomg.transaction.test.service.unit;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -39,52 +36,51 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
-import com.bernardomg.association.transaction.domain.repository.TransactionBalanceRepository;
-import com.bernardomg.association.transaction.test.configuration.factory.TransactionMonthlyBalances;
-import com.bernardomg.association.transaction.usecase.service.DefaultTransactionBalanceService;
+import com.bernardomg.association.transaction.domain.model.TransactionSummary;
+import com.bernardomg.association.transaction.domain.repository.TransactionSummaryRepository;
+import com.bernardomg.association.transaction.test.configuration.factory.TransactionSummaries;
+import com.bernardomg.association.transaction.usecase.service.DefaultTransactionSummaryService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Transaction balance service - get monthly balance")
-class TestTransactionBalanceServiceGetMonthlyBalance {
+@DisplayName("Transaction summary service - get summary")
+class TestTransactionSummaryServiceGetSummary {
 
     @InjectMocks
-    private DefaultTransactionBalanceService service;
+    private DefaultTransactionSummaryService service;
 
     @Mock
-    private TransactionBalanceRepository     transactionBalanceRepository;
+    private TransactionSummaryRepository     transactionSummaryRepository;
 
     @Test
     @DisplayName("When there is data it is returned")
-    void testGetMonthlyBalance() {
-        final Collection<TransactionMonthlyBalance> balances;
+    void testGetSummary() {
+        final TransactionSummary summary;
 
         // GIVEN
-        given(transactionBalanceRepository.findMonthlyBalance(eq(null), eq(null), any()))
-            .willReturn(List.of(TransactionMonthlyBalances.currentMonth(1)));
+        given(transactionSummaryRepository.findSummary()).willReturn(Optional.of(TransactionSummaries.amount(1)));
 
         // WHEN
-        balances = service.getMonthlyBalance(null, null);
+        summary = service.getSummary();
 
         // THEN
-        Assertions.assertThat(balances)
-            .containsExactly(TransactionMonthlyBalances.currentMonth(1));
+        Assertions.assertThat(summary)
+            .isEqualTo(TransactionSummaries.amount(1));
     }
 
     @Test
     @DisplayName("When there is no data nothing is returned")
-    void testGetMonthlyBalance_NoData() {
-        final Collection<TransactionMonthlyBalance> balances;
+    void testGetSummary_NoData() {
+        final TransactionSummary summary;
 
         // GIVEN
-        given(transactionBalanceRepository.findMonthlyBalance(eq(null), eq(null), any())).willReturn(List.of());
+        given(transactionSummaryRepository.findSummary()).willReturn(Optional.empty());
 
         // WHEN
-        balances = service.getMonthlyBalance(null, null);
+        summary = service.getSummary();
 
         // THEN
-        Assertions.assertThat(balances)
-            .isEmpty();
+        Assertions.assertThat(summary)
+            .isEqualTo(TransactionSummaries.amount(0));
     }
 
 }

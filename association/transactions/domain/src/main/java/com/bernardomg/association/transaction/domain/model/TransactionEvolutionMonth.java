@@ -22,32 +22,17 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.adapter.inbound.jpa.repository;
+package com.bernardomg.association.transaction.domain.model;
 
 import java.time.Instant;
-import java.util.Optional;
+import java.util.Objects;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
+public record TransactionEvolutionMonth(Instant month, float results, float total) {
 
-import com.bernardomg.association.transaction.adapter.inbound.jpa.model.MonthlyBalanceEntity;
-
-/**
- * Monthly balance repository.
- */
-public interface MonthlyBalanceSpringRepository
-        extends JpaRepository<MonthlyBalanceEntity, Instant>, JpaSpecificationExecutor<MonthlyBalanceEntity> {
-
-    /**
-     * Finds the latest balance with a month equal to or before the received one.
-     *
-     * @param month
-     *            month to mark the upper limit
-     * @return the latest balance in the month or before it
-     */
-    @Query("SELECT b FROM MonthlyBalance b WHERE month <= :month ORDER BY month DESC LIMIT 1")
-    public Optional<MonthlyBalanceEntity> findLatestInOrBefore(@Param("month") final Instant month);
+    public TransactionEvolutionMonth(final Instant month, final float results, final float total) {
+        this.month = Objects.requireNonNull(month);
+        this.results = Objects.requireNonNull(results);
+        this.total = Objects.requireNonNull(total);
+    }
 
 }

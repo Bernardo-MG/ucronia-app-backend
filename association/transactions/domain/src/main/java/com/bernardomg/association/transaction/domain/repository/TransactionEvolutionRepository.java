@@ -22,21 +22,17 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.adapter.inbound.jpa.model;
+package com.bernardomg.association.transaction.domain.repository;
 
-import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
+import java.time.Instant;
+import java.util.Collection;
 
-/**
- * Author repository mapper.
- */
-public final class TransactionBalanceEntityMapper {
+import com.bernardomg.association.transaction.domain.model.TransactionEvolutionMonth;
+import com.bernardomg.pagination.domain.Sorting;
 
-    public static final TransactionMonthlyBalance toDomain(final MonthlyBalanceEntity entity) {
-        return new TransactionMonthlyBalance(entity.getMonth(), entity.getResults(), entity.getTotal());
-    }
+public interface TransactionEvolutionRepository {
 
-    private TransactionBalanceEntityMapper() {
-        super();
-    }
+    public Collection<TransactionEvolutionMonth> findEvolution(final Instant from, final Instant to,
+            final Sorting sorting);
 
 }

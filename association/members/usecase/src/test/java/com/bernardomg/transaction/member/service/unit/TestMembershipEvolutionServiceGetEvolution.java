@@ -27,8 +27,8 @@ import com.bernardomg.association.member.test.configuration.factory.MembershipEv
 import com.bernardomg.association.member.usecase.service.DefaultMembershipEvolutionService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Membership evolution service - get monthly evolution")
-class TestMembershipEvolutionServiceGetMonthlyEvolution {
+@DisplayName("Membership evolution service - get evolution")
+class TestMembershipEvolutionServiceGetEvolution {
 
     @Mock
     private MembershipEvolutionRepository     membershipEvolutionRepository;
@@ -38,7 +38,7 @@ class TestMembershipEvolutionServiceGetMonthlyEvolution {
 
     @Test
     @DisplayName("Returns the queried data when covering previous and current")
-    void testGetMonthlyEvolution_CoversBoth() {
+    void testGetEvolution_CoversBoth() {
         final MembershipEvolutionFilter          filter;
         final Iterable<MembershipEvolutionMonth> evolution;
         final Instant                            from;
@@ -53,7 +53,7 @@ class TestMembershipEvolutionServiceGetMonthlyEvolution {
         filter = MembershipEvolutionFilters.previousAndThis();
 
         // WHEN
-        evolution = service.getMonthlyEvolution(filter);
+        evolution = service.getEvolution(filter);
 
         // THEN
         Assertions.assertThat(evolution)
@@ -63,7 +63,7 @@ class TestMembershipEvolutionServiceGetMonthlyEvolution {
 
     @Test
     @DisplayName("Can't read beyond the current month")
-    void testGetMonthlyEvolution_LimitsAtCurrent() {
+    void testGetEvolution_LimitsAtCurrent() {
         final MembershipEvolutionFilter filter;
         final Instant                   from;
         final Instant                   to;
@@ -72,7 +72,7 @@ class TestMembershipEvolutionServiceGetMonthlyEvolution {
         filter = MembershipEvolutionFilters.aroundCurrent();
 
         // WHEN
-        service.getMonthlyEvolution(filter);
+        service.getEvolution(filter);
 
         // THEN
         from = MembershipEvolutionMonthConstants.PREVIOUS_MONTH;
@@ -83,7 +83,7 @@ class TestMembershipEvolutionServiceGetMonthlyEvolution {
 
     @Test
     @DisplayName("When there is no data nothing is returned")
-    void testGetMonthlyEvolution_NoData() {
+    void testGetEvolution_NoData() {
         final MembershipEvolutionFilter          filter;
         final Iterable<MembershipEvolutionMonth> evolution;
         final Instant                            from;
@@ -98,7 +98,7 @@ class TestMembershipEvolutionServiceGetMonthlyEvolution {
         filter = MembershipEvolutionFilters.previousAndThis();
 
         // WHEN
-        evolution = service.getMonthlyEvolution(filter);
+        evolution = service.getEvolution(filter);
 
         // THEN
         Assertions.assertThat(evolution)

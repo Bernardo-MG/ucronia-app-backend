@@ -34,7 +34,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bernardomg.association.transaction.adapter.inbound.jpa.model.MonthlyBalanceEntity;
+import com.bernardomg.association.transaction.adapter.inbound.jpa.model.MonthlyEvolutionEntity;
 import com.bernardomg.association.transaction.domain.model.TransactionSummary;
 import com.bernardomg.association.transaction.domain.repository.TransactionSummaryRepository;
 
@@ -48,59 +48,59 @@ public final class JpaTransactionSummaryRepository implements TransactionSummary
      */
     private static final Logger                  log = LoggerFactory.getLogger(JpaTransactionSummaryRepository.class);
 
-    private final MonthlyBalanceSpringRepository monthlyBalanceRepository;
+    private final MonthlyoEvolutionSpringRepository monthlyEvolutionRepository;
 
-    public JpaTransactionSummaryRepository(final MonthlyBalanceSpringRepository monthlyBalanceRepo) {
+    public JpaTransactionSummaryRepository(final MonthlyoEvolutionSpringRepository monthlyEvolutionRepo) {
         super();
 
-        monthlyBalanceRepository = Objects.requireNonNull(monthlyBalanceRepo);
+        monthlyEvolutionRepository = Objects.requireNonNull(monthlyEvolutionRepo);
     }
 
     @Override
     public final Optional<TransactionSummary> findSummary() {
-        final Optional<MonthlyBalanceEntity> readBalance;
+        final Optional<MonthlyEvolutionEntity> readEvolution;
         final Instant                        month;
-        final Optional<TransactionSummary>   currentBalance;
-        final Instant                        balanceDate;
-        final LocalDate                      balanceDateParsed;
+        final Optional<TransactionSummary>   currentEvolution;
+        final Instant                        evolutionDate;
+        final LocalDate                      evolutionDateParsed;
         final LocalDate                      monthParsed;
         final float                          results;
 
-        log.debug("Finding current balance");
+        log.debug("Finding current evolution");
 
-        // Find latest monthly balance
-        // Ignore future balances
+        // Find latest monthly evolution
+        // Ignore future evolutions
         month = YearMonth.now()
             .atDay(1)
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant();
-        readBalance = monthlyBalanceRepository.findLatestInOrBefore(month);
+        readEvolution = monthlyEvolutionRepository.findLatestInOrBefore(month);
 
-        if (readBalance.isEmpty()) {
-            currentBalance = Optional.empty();
+        if (readEvolution.isEmpty()) {
+            currentEvolution = Optional.empty();
         } else {
-            balanceDate = readBalance.get()
+            evolutionDate = readEvolution.get()
                 .getMonth();
 
             // Take the results only if it's the current year and month
             // TODO: why local date?
-            balanceDateParsed = LocalDate.ofInstant(balanceDate, ZoneOffset.UTC);
+            evolutionDateParsed = LocalDate.ofInstant(evolutionDate, ZoneOffset.UTC);
             monthParsed = LocalDate.ofInstant(month, ZoneOffset.UTC);
-            if ((balanceDateParsed.getYear() == monthParsed.getYear())
-                    && (balanceDateParsed.getMonth() == monthParsed.getMonth())) {
-                results = readBalance.get()
+            if ((evolutionDateParsed.getYear() == monthParsed.getYear())
+                    && (evolutionDateParsed.getMonth() == monthParsed.getMonth())) {
+                results = readEvolution.get()
                     .getResults();
             } else {
                 results = 0;
             }
 
-            currentBalance = Optional.of(new TransactionSummary(results, readBalance.get()
+            currentEvolution = Optional.of(new TransactionSummary(results, readEvolution.get()
                 .getTotal()));
         }
 
-        log.debug("Found current balance: {}", currentBalance);
+        log.debug("Found current evolution: {}", currentEvolution);
 
-        return currentBalance;
+        return currentEvolution;
     }
 
 }

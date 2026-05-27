@@ -65,7 +65,7 @@ public final class DefaultMembershipEvolutionService implements MembershipEvolut
     }
 
     @Override
-    public final Collection<MembershipEvolutionMonth> getMonthlyEvolution(final MembershipEvolutionFilter filter) {
+    public final Collection<MembershipEvolutionMonth> getEvolution(final MembershipEvolutionFilter filter) {
         final Instant                              now;
         final Optional<Instant>                    end;
         final Sorting                              sorting;
