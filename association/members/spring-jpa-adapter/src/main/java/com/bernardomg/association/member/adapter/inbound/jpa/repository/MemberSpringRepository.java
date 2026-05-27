@@ -25,7 +25,7 @@
 package com.bernardomg.association.member.adapter.inbound.jpa.repository;
 
 import java.time.Instant;
-import java.util.List;
+import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.data.domain.Sort;
@@ -47,14 +47,14 @@ public interface MemberSpringRepository extends JpaRepository<MemberEntity, Long
     public Optional<MemberEntity> findByNumber(@Param("number") final Long number);
 
     @Query(value = """
-            SELECT DATE_TRUNC('month', f.month) AS month,
+            SELECT f.month AS month,
                    COUNT(f.month) AS total
             FROM funds.fees f
             WHERE (CAST(:from AS timestamp) IS NULL OR f.month >= CAST(:from AS timestamp))
               AND (CAST(:to   AS timestamp) IS NULL OR f.month <= CAST(:to AS timestamp))
-            GROUP BY DATE_TRUNC('month', f.month)
+            GROUP BY f.month
             """, nativeQuery = true)
-    List<MembershipEvolutionMonthEntity> getMonthlyMembershipEvolution(@Param("from") Instant from,
+    public Collection<MembershipEvolutionMonthEntity> getMonthlyMembershipEvolution(@Param("from") Instant from,
             @Param("to") Instant to, Sort sort);
 
 }
