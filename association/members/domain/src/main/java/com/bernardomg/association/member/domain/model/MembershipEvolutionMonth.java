@@ -24,12 +24,12 @@
 
 package com.bernardomg.association.member.domain.model;
 
-import java.time.YearMonth;
+import java.time.Instant;
 import java.util.Objects;
 
-public record MembershipEvolutionMonth(YearMonth month, Long total) {
+public record MembershipEvolutionMonth(Instant month, Long total) {
 
-    public MembershipEvolutionMonth(final YearMonth month, final Long total) {
+    public MembershipEvolutionMonth(final Instant month, final Long total) {
         this.month = Objects.requireNonNull(month);
         this.total = Objects.requireNonNull(total);
     }
