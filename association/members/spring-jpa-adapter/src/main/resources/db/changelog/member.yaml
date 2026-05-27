@@ -32,12 +32,3 @@ databaseChangeLog:
                   name: renew_membership
                   type: boolean
                   defaultValue: true
-  - changeSet:
-      id: member_views
-      author: Bernardo
-      changes:
-        -  createView:
-            remarks: Monthly member balance
-            selectQuery: SELECT month, total FROM (SELECT DATE_TRUNC('month', month) AS month, COUNT(month) AS total FROM funds.fees GROUP BY month) AS subquery
-            schemaName: directory
-            viewName: monthly_membership_evolution

@@ -24,10 +24,6 @@
 
 package com.bernardomg.association.member.adapter.inbound.jpa.model;
 
-import java.time.LocalDate;
-import java.time.YearMonth;
-import java.time.ZoneOffset;
-
 import com.bernardomg.association.member.domain.model.MembershipEvolutionMonth;
 
 /**
@@ -36,12 +32,7 @@ import com.bernardomg.association.member.domain.model.MembershipEvolutionMonth;
 public final class MembershipEvolutionMonthEntityMapper {
 
     public static final MembershipEvolutionMonth toDomain(final MembershipEvolutionMonthEntity entity) {
-        final YearMonth month;
-        final LocalDate monthParsed;
-
-        monthParsed = LocalDate.ofInstant(entity.getMonth(), ZoneOffset.UTC);
-        month = YearMonth.of(monthParsed.getYear(), monthParsed.getMonth());
-        return new MembershipEvolutionMonth(month, entity.getTotal());
+        return new MembershipEvolutionMonth(entity.getMonth(), entity.getTotal());
     }
 
     private MembershipEvolutionMonthEntityMapper() {

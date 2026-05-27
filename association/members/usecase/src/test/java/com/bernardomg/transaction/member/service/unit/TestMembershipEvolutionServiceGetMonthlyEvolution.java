@@ -6,7 +6,6 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 
 import java.time.Instant;
-import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,12 +45,8 @@ class TestMembershipEvolutionServiceGetMonthlyEvolution {
         final Instant                            to;
 
         // GIVEN
-        from = MembershipEvolutionMonthConstants.PREVIOUS_MONTH.atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant();
-        to = MembershipEvolutionMonthConstants.CURRENT_MONTH.atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant();
+        from = MembershipEvolutionMonthConstants.PREVIOUS_MONTH;
+        to = MembershipEvolutionMonthConstants.CURRENT_MONTH;
         given(membershipEvolutionRepository.findInRange(eq(Optional.of(from)), eq(Optional.of(to)), any()))
             .willReturn(List.of(MembershipEvolutionMonths.currentMonth()));
 
@@ -80,12 +75,8 @@ class TestMembershipEvolutionServiceGetMonthlyEvolution {
         service.getMonthlyEvolution(filter);
 
         // THEN
-        from = MembershipEvolutionMonthConstants.PREVIOUS_MONTH.atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant();
-        to = MembershipEvolutionMonthConstants.CURRENT_MONTH.atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant();
+        from = MembershipEvolutionMonthConstants.PREVIOUS_MONTH;
+        to = MembershipEvolutionMonthConstants.CURRENT_MONTH;
         Mockito.verify(membershipEvolutionRepository)
             .findInRange(eq(Optional.of(from)), eq(Optional.of(to)), any());
     }
@@ -99,12 +90,8 @@ class TestMembershipEvolutionServiceGetMonthlyEvolution {
         final Instant                            to;
 
         // GIVEN
-        from = MembershipEvolutionMonthConstants.PREVIOUS_MONTH.atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant();
-        to = MembershipEvolutionMonthConstants.CURRENT_MONTH.atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant();
+        from = MembershipEvolutionMonthConstants.PREVIOUS_MONTH;
+        to = MembershipEvolutionMonthConstants.CURRENT_MONTH;
         given(membershipEvolutionRepository.findInRange(eq(Optional.of(from)), eq(Optional.of(to)), any()))
             .willReturn(List.of());
 

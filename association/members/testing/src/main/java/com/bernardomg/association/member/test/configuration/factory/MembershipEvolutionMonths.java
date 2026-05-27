@@ -1,7 +1,7 @@
 
 package com.bernardomg.association.member.test.configuration.factory;
 
-import java.time.YearMonth;
+import java.time.Instant;
 
 import com.bernardomg.association.member.domain.model.MembershipEvolutionMonth;
 
@@ -15,11 +15,11 @@ public final class MembershipEvolutionMonths {
         return new MembershipEvolutionMonth(MembershipEvolutionMonthConstants.CURRENT_MONTH, total);
     }
 
-    public static final MembershipEvolutionMonth forMonth(final YearMonth month) {
+    public static final MembershipEvolutionMonth forMonth(final Instant month) {
         return new MembershipEvolutionMonth(month, 1L);
     }
 
-    public static final MembershipEvolutionMonth forMonthAndTotal(final YearMonth month, final Long total) {
+    public static final MembershipEvolutionMonth forMonthAndTotal(final Instant month, final Long total) {
         return new MembershipEvolutionMonth(month, total);
     }
 

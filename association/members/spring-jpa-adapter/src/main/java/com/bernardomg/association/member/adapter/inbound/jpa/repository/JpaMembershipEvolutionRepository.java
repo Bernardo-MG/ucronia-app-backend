@@ -32,12 +32,10 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MembershipEvolutionMonthEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MembershipEvolutionMonthEntityMapper;
-import com.bernardomg.association.member.adapter.inbound.jpa.specification.MembershipEvolutionSpecifications;
 import com.bernardomg.association.member.domain.model.MembershipEvolutionMonth;
 import com.bernardomg.association.member.domain.repository.MembershipEvolutionRepository;
 import com.bernardomg.pagination.domain.Sorting;
@@ -49,31 +47,28 @@ public final class JpaMembershipEvolutionRepository implements MembershipEvoluti
     /**
      * Logger for the class.
      */
-    private static final Logger                       log = LoggerFactory
-        .getLogger(JpaMembershipEvolutionRepository.class);
+    private static final Logger          log = LoggerFactory.getLogger(JpaMembershipEvolutionRepository.class);
 
-    private final MembershipEvolutionSpringRepository membershipEvolutionSpringRepository;
+    private final MemberSpringRepository memberSpringRepository;
 
-    public JpaMembershipEvolutionRepository(final MembershipEvolutionSpringRepository membershipEvolutionSpringRepo) {
+    public JpaMembershipEvolutionRepository(final MemberSpringRepository memberSpringRepo) {
         super();
 
-        membershipEvolutionSpringRepository = Objects.requireNonNull(membershipEvolutionSpringRepo);
+        memberSpringRepository = Objects.requireNonNull(memberSpringRepo);
     }
 
     @Override
     public final Collection<MembershipEvolutionMonth> findInRange(final Optional<Instant> from,
             final Optional<Instant> to, final Sorting sorting) {
-        final Optional<Specification<MembershipEvolutionMonthEntity>> spec;
-        final Collection<MembershipEvolutionMonthEntity>              evolutionEntities;
-        final Collection<MembershipEvolutionMonth>                    evolution;
-        final Sort                                                    sort;
+        final Collection<MembershipEvolutionMonthEntity> evolutionEntities;
+        final Collection<MembershipEvolutionMonth>       evolution;
+        final Sort                                       sort;
 
         log.debug("Finding membership evolution from {} to {} sorting by {}", from, to, sorting);
 
-        spec = MembershipEvolutionSpecifications.inRange(from, to);
-
         sort = SpringSorting.toSort(sorting);
-        evolutionEntities = membershipEvolutionSpringRepository.getMonthlyMembershipEvolution(from.orElse(null),to.orElse(null), sort);
+        evolutionEntities = memberSpringRepository.getMonthlyMembershipEvolution(from.orElse(null), to.orElse(null),
+            sort);
 
         evolution = evolutionEntities.stream()
             .map(MembershipEvolutionMonthEntityMapper::toDomain)

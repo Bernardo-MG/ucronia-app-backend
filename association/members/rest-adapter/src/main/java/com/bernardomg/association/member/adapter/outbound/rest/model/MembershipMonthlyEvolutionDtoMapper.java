@@ -24,9 +24,6 @@
 
 package com.bernardomg.association.member.adapter.outbound.rest.model;
 
-import java.time.Instant;
-import java.time.YearMonth;
-import java.time.ZoneOffset;
 import java.util.Collection;
 
 import com.bernardomg.association.member.adapter.outbound.rest.dto.MembershipMonthlyEvolutionDto;
@@ -43,14 +40,8 @@ public final class MembershipMonthlyEvolutionDtoMapper {
     }
 
     private static final MembershipMonthlyEvolutionDto toDto(final MembershipEvolutionMonth evolutionMonth) {
-        return new MembershipMonthlyEvolutionDto().month(toInstant(evolutionMonth.month()))
+        return new MembershipMonthlyEvolutionDto().month(evolutionMonth.month())
             .total(evolutionMonth.total());
-    }
-
-    private static final Instant toInstant(final YearMonth month) {
-        return month.atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant();
     }
 
     private MembershipMonthlyEvolutionDtoMapper() {

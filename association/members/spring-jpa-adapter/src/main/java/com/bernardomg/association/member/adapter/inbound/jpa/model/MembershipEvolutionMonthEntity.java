@@ -25,17 +25,14 @@
 package com.bernardomg.association.member.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
-@Entity(name = "MembershipEvolutionMonth")
-@Table(schema = "directory", name = "monthly_membership_evolution")
 public class MembershipEvolutionMonthEntity implements Serializable {
 
     @Transient
@@ -47,6 +44,13 @@ public class MembershipEvolutionMonthEntity implements Serializable {
 
     @Column(name = "total", nullable = false)
     private Long              total;
+
+    public MembershipEvolutionMonthEntity(final Timestamp month, final Long total) {
+        super();
+
+        this.month = month.toInstant();
+        this.total = total;
+    }
 
     @Override
     public boolean equals(final Object obj) {
