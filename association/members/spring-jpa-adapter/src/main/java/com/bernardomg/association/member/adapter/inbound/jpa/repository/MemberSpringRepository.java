@@ -46,15 +46,17 @@ public interface MemberSpringRepository extends JpaRepository<MemberEntity, Long
             """)
     public Optional<MemberEntity> findByNumber(@Param("number") final Long number);
 
-    @Query(value = """
-            SELECT f.month AS month,
-                   COUNT(f.month) AS total
-            FROM funds.fees f
-            WHERE (CAST(:from AS timestamp) IS NULL OR f.month >= CAST(:from AS timestamp))
-              AND (CAST(:to   AS timestamp) IS NULL OR f.month <= CAST(:to AS timestamp))
+    @Query("""
+            SELECT new com.bernardomg.association.member.adapter.inbound.jpa.model.MembershipEvolutionMonthEntity(
+              f.month,
+              COUNT(f)
+            )
+            FROM Fee f
+            WHERE f.month >= COALESCE(:from, f.month)
+              AND f.month <= COALESCE(:to,   f.month)
             GROUP BY f.month
-            """, nativeQuery = true)
-    public Collection<MembershipEvolutionMonthEntity> getMonthlyMembershipEvolution(@Param("from") Instant from,
-            @Param("to") Instant to, Sort sort);
+            """)
+    public Collection<MembershipEvolutionMonthEntity> getMonthlyMembershipEvolution(@Param("from") final Instant from,
+            @Param("to") final Instant to, final Sort sort);
 
 }

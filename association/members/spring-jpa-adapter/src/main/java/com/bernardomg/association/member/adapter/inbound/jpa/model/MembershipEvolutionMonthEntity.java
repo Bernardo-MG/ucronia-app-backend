@@ -45,10 +45,10 @@ public class MembershipEvolutionMonthEntity implements Serializable {
     @Column(name = "total", nullable = false)
     private Long              total;
 
-    public MembershipEvolutionMonthEntity(final Timestamp month, final Long total) {
+    public MembershipEvolutionMonthEntity(final Instant month, final Long total) {
         super();
 
-        this.month = month.toInstant();
+        this.month = month;
         this.total = total;
     }
 
