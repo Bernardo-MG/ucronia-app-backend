@@ -24,8 +24,8 @@
 
 package com.bernardomg.association.transaction.test.adapter.inbound.jpa.repository.integration;
 
+import java.time.Instant;
 import java.time.Month;
-import java.time.YearMonth;
 import java.util.Collection;
 
 import org.assertj.core.api.Assertions;
@@ -125,12 +125,12 @@ class ITTransactionBalanceRepositoryFindMonthlyBalance {
     @ParameterizedTest(name = "Date: {0}")
     @ArgumentsSource(CurrentAndPreviousMonthProvider.class)
     @DisplayName("Returns balance for the current month and adjacents")
-    void testFindMonthlyBalance_Dates(final YearMonth date) {
+    void testFindMonthlyBalance_Dates(final Instant date) {
         final Collection<TransactionMonthlyBalance> balances;
         final Sorting                               sorting;
 
         // GIVEN
-        transactionInitializer.registerAt(date.getYear(), date.getMonth());
+        transactionInitializer.registerAt(date);
 
         sorting = Sorting.unsorted();
 

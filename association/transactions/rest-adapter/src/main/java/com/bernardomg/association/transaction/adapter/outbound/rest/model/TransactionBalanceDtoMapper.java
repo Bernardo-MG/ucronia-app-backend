@@ -24,8 +24,6 @@
 
 package com.bernardomg.association.transaction.adapter.outbound.rest.model;
 
-import java.time.Instant;
-import java.time.ZoneOffset;
 import java.util.Collection;
 
 import com.bernardomg.association.transaction.adapter.outbound.rest.dto.TransactionMonthlyBalanceDto;
@@ -42,13 +40,7 @@ public final class TransactionBalanceDtoMapper {
     }
 
     private static final TransactionMonthlyBalanceDto toDto(final TransactionMonthlyBalance balance) {
-        final Instant month;
-
-        month = balance.month()
-            .atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant();
-        return new TransactionMonthlyBalanceDto().month(month)
+        return new TransactionMonthlyBalanceDto().month(balance.month())
             .results(balance.results())
             .total(balance.total());
     }

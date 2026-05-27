@@ -20,6 +20,13 @@ public final class TransactionConstants {
 
     public static final float     AMOUNT_FEES                      = 4F;
 
+    public static final Instant   CURRENT                          = YearMonth.now()
+        .atDay(1)
+        .atStartOfDay(ZoneOffset.UTC)
+        .toInstant();
+
+    public static final YearMonth CURRENT_MONTH                    = YearMonth.now();
+
     public static final Instant   DATE                             = LocalDate.of(2020, Month.FEBRUARY, 1)
         .atStartOfDay(ZoneOffset.UTC)
         .toInstant();
@@ -46,7 +53,10 @@ public final class TransactionConstants {
 
     public static final long      INDEX_SMALL                      = 1;
 
-    public static final YearMonth MONTH                            = YearMonth.now();
+    public static final Instant   MONTH                            = YearMonth.of(2020, Month.JANUARY)
+        .atDay(1)
+        .atStartOfDay(ZoneOffset.UTC)
+        .toInstant();
 
     public static final YearMonth MONTH_2020_FEBRUARY              = YearMonth.of(2020, Month.FEBRUARY);
 

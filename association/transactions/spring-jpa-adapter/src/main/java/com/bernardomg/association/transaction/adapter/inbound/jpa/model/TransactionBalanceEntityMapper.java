@@ -24,10 +24,6 @@
 
 package com.bernardomg.association.transaction.adapter.inbound.jpa.model;
 
-import java.time.LocalDate;
-import java.time.YearMonth;
-import java.time.ZoneOffset;
-
 import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
 
 /**
@@ -36,12 +32,7 @@ import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBal
 public final class TransactionBalanceEntityMapper {
 
     public static final TransactionMonthlyBalance toDomain(final MonthlyBalanceEntity entity) {
-        final YearMonth month;
-        final LocalDate monthParsed;
-
-        monthParsed = LocalDate.ofInstant(entity.getMonth(), ZoneOffset.UTC);
-        month = YearMonth.of(monthParsed.getYear(), monthParsed.getMonth());
-        return new TransactionMonthlyBalance(month, entity.getResults(), entity.getTotal());
+        return new TransactionMonthlyBalance(entity.getMonth(), entity.getResults(), entity.getTotal());
     }
 
     private TransactionBalanceEntityMapper() {
