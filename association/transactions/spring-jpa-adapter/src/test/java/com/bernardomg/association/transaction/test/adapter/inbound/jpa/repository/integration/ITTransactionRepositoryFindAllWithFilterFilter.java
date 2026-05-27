@@ -58,10 +58,6 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
     @Autowired
     private TransactionRepository repository;
 
-    public ITTransactionRepositoryFindAllWithFilterFilter() {
-        super();
-    }
-
     @Test
     @DisplayName("With a filter applied to the start date, the returned data is filtered")
     @MultipleTransactionsSameMonth
@@ -113,6 +109,31 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Transactions.forIndexAndMonth(1, Month.JANUARY),
                 Transactions.forIndexAndMonth(2, Month.JANUARY));
+    }
+
+    @Test
+    @DisplayName("With a filter applied to the description, the returned data is filtered")
+    @MultipleTransactionsSameMonth
+    void testFindAll_Description() {
+        final Page<Transaction> transactions;
+        final TransactionFilter transactionFilter;
+        final Pagination        pagination;
+        final Sorting           sorting;
+
+        // GIVEN
+        pagination = new Pagination(1, 20);
+        sorting = Sorting.unsorted();
+
+        transactionFilter = TransactionsFilters.description();
+
+        // WHEN
+        transactions = repository.findAll(transactionFilter, pagination, sorting);
+
+        // THEN
+        Assertions.assertThat(transactions)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .containsExactly(Transactions.forIndexAndMonth(1, Month.JANUARY));
     }
 
     @Test
@@ -193,6 +214,31 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Transactions.forIndex(12, Month.DECEMBER));
+    }
+
+    @Test
+    @DisplayName("With a filter applied to a partial description, the returned data is filtered")
+    @MultipleTransactionsSameMonth
+    void testFindAll_PartialDescription() {
+        final Page<Transaction> transactions;
+        final TransactionFilter transactionFilter;
+        final Pagination        pagination;
+        final Sorting           sorting;
+
+        // GIVEN
+        pagination = new Pagination(1, 20);
+        sorting = Sorting.unsorted();
+
+        transactionFilter = TransactionsFilters.description();
+
+        // WHEN
+        transactions = repository.findAll(transactionFilter, pagination, sorting);
+
+        // THEN
+        Assertions.assertThat(transactions)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .containsExactly(Transactions.forIndexAndMonth(1, Month.JANUARY));
     }
 
 }
