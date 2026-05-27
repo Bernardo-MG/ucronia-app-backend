@@ -68,18 +68,12 @@ public final class JpaMembershipEvolutionRepository implements MembershipEvoluti
         final Collection<MembershipEvolutionMonth>                    evolution;
         final Sort                                                    sort;
 
-        // TODO: the dates are optional
-
         log.debug("Finding membership evolution from {} to {} sorting by {}", from, to, sorting);
 
         spec = MembershipEvolutionSpecifications.inRange(from, to);
 
         sort = SpringSorting.toSort(sorting);
-        if (spec.isPresent()) {
-            evolutionEntities = membershipEvolutionSpringRepository.findAll(spec.get(), sort);
-        } else {
-            evolutionEntities = membershipEvolutionSpringRepository.findAll(sort);
-        }
+        evolutionEntities = membershipEvolutionSpringRepository.getMonthlyMembershipEvolution(from.orElse(null),to.orElse(null), sort);
 
         evolution = evolutionEntities.stream()
             .map(MembershipEvolutionMonthEntityMapper::toDomain)
