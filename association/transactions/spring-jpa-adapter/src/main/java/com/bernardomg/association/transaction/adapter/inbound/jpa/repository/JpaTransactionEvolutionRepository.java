@@ -52,7 +52,8 @@ public final class JpaTransactionEvolutionRepository implements TransactionEvolu
     /**
      * Logger for the class.
      */
-    private static final Logger                  log = LoggerFactory.getLogger(JpaTransactionEvolutionRepository.class);
+    private static final Logger                    log = LoggerFactory
+        .getLogger(JpaTransactionEvolutionRepository.class);
 
     private final MonthlyEvolutionSpringRepository monthlyEvolutionRepository;
 
@@ -69,9 +70,9 @@ public final class JpaTransactionEvolutionRepository implements TransactionEvolu
         final Specification<MonthlyEvolutionEntity>           limitSpec;
         final Specification<MonthlyEvolutionEntity>           spec;
         final Collection<MonthlyEvolutionEntity>              evolution;
-        final Collection<TransactionEvolutionMonth>         monthlyEvolution;
-        final Sort                                          sort;
-        final Instant                                       limit;
+        final Collection<TransactionEvolutionMonth>           monthlyEvolution;
+        final Sort                                            sort;
+        final Instant                                         limit;
 
         log.debug("Finding monthly evolution");
 

@@ -55,7 +55,7 @@ public class TransactionSummaryController implements TransactionSummaryApi {
     @Override
     @RequireResourceAuthorization(resource = "BALANCE", action = Actions.READ)
     public TransactionSummaryResponseDto getTransactionSummary() {
-// TODO: is this the correct permission?        
+        // TODO: is this the correct permission?
         final TransactionSummary summary;
 
         summary = service.getSummary();

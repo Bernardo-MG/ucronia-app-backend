@@ -46,7 +46,7 @@ public final class JpaTransactionSummaryRepository implements TransactionSummary
     /**
      * Logger for the class.
      */
-    private static final Logger                  log = LoggerFactory.getLogger(JpaTransactionSummaryRepository.class);
+    private static final Logger                    log = LoggerFactory.getLogger(JpaTransactionSummaryRepository.class);
 
     private final MonthlyEvolutionSpringRepository monthlyEvolutionRepository;
 
@@ -59,12 +59,12 @@ public final class JpaTransactionSummaryRepository implements TransactionSummary
     @Override
     public final Optional<TransactionSummary> findSummary() {
         final Optional<MonthlyEvolutionEntity> readEvolution;
-        final Instant                        month;
-        final Optional<TransactionSummary>   currentEvolution;
-        final Instant                        evolutionDate;
-        final LocalDate                      evolutionDateParsed;
-        final LocalDate                      monthParsed;
-        final float                          results;
+        final Instant                          month;
+        final Optional<TransactionSummary>     currentEvolution;
+        final Instant                          evolutionDate;
+        final LocalDate                        evolutionDateParsed;
+        final LocalDate                        monthParsed;
+        final float                            results;
 
         log.debug("Finding current evolution");
 

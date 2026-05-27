@@ -59,7 +59,7 @@ class ITTransactionEvolutionRepositoryFindMonthlyEvolution {
     private TransactionEvolutionRepository repository;
 
     @Autowired
-    private TransactionInitializer       transactionInitializer;
+    private TransactionInitializer         transactionInitializer;
 
     @ParameterizedTest(name = "Amount: {0}")
     @ArgumentsSource(AroundZeroArgumentsProvider.class)
