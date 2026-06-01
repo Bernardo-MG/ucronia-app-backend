@@ -28,7 +28,7 @@ import com.bernardomg.association.member.domain.model.PublicMember;
 import com.bernardomg.association.member.domain.model.PublicMember.Name;
 
 /**
- * Query member entity mapper.
+ * Public member entity mapper.
  */
 public final class PublicMemberEntityMapper {
 

@@ -68,7 +68,7 @@ class ITTransactionRepositoryFindAllWithFilterPagination extends AbstractPaginat
     @DisplayName("With pagination for the first page, it returns the first page")
     void testFindAll_Page1() {
         final Page<Transaction> transactions;
-        final TransactionFilter transactionQuery;
+        final TransactionFilter transactionFilter;
         final Pagination        pagination;
         final Sorting           sorting;
 
@@ -76,10 +76,10 @@ class ITTransactionRepositoryFindAllWithFilterPagination extends AbstractPaginat
         pagination = new Pagination(1, 1);
         sorting = Sorting.unsorted();
 
-        transactionQuery = TransactionsFilters.empty();
+        transactionFilter = TransactionsFilters.empty();
 
         // WHEN
-        transactions = repository.findAll(transactionQuery, pagination, sorting);
+        transactions = repository.findAll(transactionFilter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(transactions)
@@ -92,7 +92,7 @@ class ITTransactionRepositoryFindAllWithFilterPagination extends AbstractPaginat
     @DisplayName("With pagination for the second page, it returns the second page")
     void testFindAll_Page2() {
         final Page<Transaction> transactions;
-        final TransactionFilter transactionQuery;
+        final TransactionFilter transactionFilter;
         final Pagination        pagination;
         final Sorting           sorting;
 
@@ -100,10 +100,10 @@ class ITTransactionRepositoryFindAllWithFilterPagination extends AbstractPaginat
         pagination = new Pagination(2, 1);
         sorting = Sorting.unsorted();
 
-        transactionQuery = TransactionsFilters.empty();
+        transactionFilter = TransactionsFilters.empty();
 
         // WHEN
-        transactions = repository.findAll(transactionQuery, pagination, sorting);
+        transactions = repository.findAll(transactionFilter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(transactions)

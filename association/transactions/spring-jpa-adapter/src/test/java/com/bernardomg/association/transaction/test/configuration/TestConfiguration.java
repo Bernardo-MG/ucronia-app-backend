@@ -29,12 +29,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.JpaTransactionBalanceRepository;
+import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.JpaTransactionEvolutionRepository;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.JpaTransactionRepository;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.JpaTransactionSummaryRepository;
-import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.MonthlyBalanceSpringRepository;
+import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.MonthlyEvolutionSpringRepository;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
-import com.bernardomg.association.transaction.domain.repository.TransactionBalanceRepository;
+import com.bernardomg.association.transaction.domain.repository.TransactionEvolutionRepository;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.association.transaction.domain.repository.TransactionSummaryRepository;
 
@@ -43,10 +43,10 @@ import com.bernardomg.association.transaction.domain.repository.TransactionSumma
 @EntityScan(basePackages = "com.bernardomg.association.transaction.adapter.inbound.jpa")
 public class TestConfiguration {
 
-    @Bean("transactionBalanceRepository")
-    public TransactionBalanceRepository
-            getTransactionBalanceRepository(final MonthlyBalanceSpringRepository monthlyBalanceRepository) {
-        return new JpaTransactionBalanceRepository(monthlyBalanceRepository);
+    @Bean("transactionEvolutionRepository")
+    public TransactionEvolutionRepository
+            getTransactionEvolutionRepository(final MonthlyEvolutionSpringRepository monthlyEvolutionRepository) {
+        return new JpaTransactionEvolutionRepository(monthlyEvolutionRepository);
     }
 
     @Bean("transactionRepository")
@@ -57,8 +57,8 @@ public class TestConfiguration {
 
     @Bean("transactionSummaryRepository")
     public TransactionSummaryRepository
-            getTransactionSummaryRepository(final MonthlyBalanceSpringRepository monthlyBalanceRepository) {
-        return new JpaTransactionSummaryRepository(monthlyBalanceRepository);
+            getTransactionSummaryRepository(final MonthlyEvolutionSpringRepository monthlyEvolutionRepository) {
+        return new JpaTransactionSummaryRepository(monthlyEvolutionRepository);
     }
 
 }

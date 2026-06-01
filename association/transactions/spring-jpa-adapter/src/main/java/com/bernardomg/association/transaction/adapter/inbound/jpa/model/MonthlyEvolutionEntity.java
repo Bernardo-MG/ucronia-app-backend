@@ -34,13 +34,13 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
 /**
- * Monthly balance entity. The table is actually a view.
+ * Monthly evolution entity. The table is actually a view.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
-@Entity(name = "MonthlyBalance")
+@Entity(name = "MonthlyEvolution")
 @Table(schema = "funds", name = "monthly_balances")
-public class MonthlyBalanceEntity implements Serializable {
+public class MonthlyEvolutionEntity implements Serializable {
 
     @Transient
     private static final long serialVersionUID = 4603617058960663867L;
@@ -81,7 +81,7 @@ public class MonthlyBalanceEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "MonthlyBalanceEntity [month=" + month + ", results=" + results + ", total=" + total + "]";
+        return "MonthlyEvolutionEntity [month=" + month + ", results=" + results + ", total=" + total + "]";
     }
 
 }

@@ -6,7 +6,7 @@ import java.util.Optional;
 
 import com.bernardomg.association.fee.domain.filter.FeeFilter;
 
-public final class FeesQuery {
+public final class FeeFilters {
 
     public static final FeeFilter empty() {
         return new FeeFilter(Optional.empty(), Optional.empty(), Optional.empty());

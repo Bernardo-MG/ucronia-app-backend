@@ -44,8 +44,8 @@ import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.data.annotation.MultipleFees;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
+import com.bernardomg.association.fee.test.configuration.factory.FeeFilters;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
-import com.bernardomg.association.fee.test.configuration.factory.FeesQuery;
 import com.bernardomg.association.profile.test.configuration.data.annotation.MultipleProfiles;
 import com.bernardomg.association.profile.test.configuration.data.annotation.MultipleProfilesAccents;
 import com.bernardomg.pagination.domain.Page;
@@ -69,7 +69,7 @@ class ITFeeRepositoryFindAllSort {
     @Disabled("Database dependant")
     void testFindAll_Accents_Name_Asc() {
         final Page<Fee>  fees;
-        final FeeFilter  feeQuery;
+        final FeeFilter  feeFilter;
         final Pagination pagination;
         final Sorting    sorting;
 
@@ -77,10 +77,10 @@ class ITFeeRepositoryFindAllSort {
         pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("member.name.firstName", Sorting.Direction.ASC)));
 
-        feeQuery = FeesQuery.empty();
+        feeFilter = FeeFilters.empty();
 
         // WHEN
-        fees = repository.findAll(feeQuery, pagination, sorting);
+        fees = repository.findAll(feeFilter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -101,7 +101,7 @@ class ITFeeRepositoryFindAllSort {
     @MultipleFees
     void testFindAll_Month_Asc() {
         final Page<Fee>  fees;
-        final FeeFilter  feeQuery;
+        final FeeFilter  feeFilter;
         final Pagination pagination;
         final Sorting    sorting;
 
@@ -109,10 +109,10 @@ class ITFeeRepositoryFindAllSort {
         pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.ASC)));
 
-        feeQuery = FeesQuery.empty();
+        feeFilter = FeeFilters.empty();
 
         // WHEN
-        fees = repository.findAll(feeQuery, pagination, sorting);
+        fees = repository.findAll(feeFilter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -131,7 +131,7 @@ class ITFeeRepositoryFindAllSort {
     @MultipleFees
     void testFindAll_Month_Desc() {
         final Page<Fee>  fees;
-        final FeeFilter  feeQuery;
+        final FeeFilter  feeFilter;
         final Pagination pagination;
         final Sorting    sorting;
 
@@ -139,10 +139,10 @@ class ITFeeRepositoryFindAllSort {
         pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.DESC)));
 
-        feeQuery = FeesQuery.empty();
+        feeFilter = FeeFilters.empty();
 
         // WHEN
-        fees = repository.findAll(feeQuery, pagination, sorting);
+        fees = repository.findAll(feeFilter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -161,7 +161,7 @@ class ITFeeRepositoryFindAllSort {
     @MultipleFees
     void testFindAll_Name_Asc() {
         final Page<Fee>  fees;
-        final FeeFilter  feeQuery;
+        final FeeFilter  feeFilter;
         final Pagination pagination;
         final Sorting    sorting;
 
@@ -169,10 +169,10 @@ class ITFeeRepositoryFindAllSort {
         pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("member.name.firstName", Sorting.Direction.ASC)));
 
-        feeQuery = FeesQuery.empty();
+        feeFilter = FeeFilters.empty();
 
         // WHEN
-        fees = repository.findAll(feeQuery, pagination, sorting);
+        fees = repository.findAll(feeFilter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -193,7 +193,7 @@ class ITFeeRepositoryFindAllSort {
     @MultipleFees
     void testFindAll_Name_Desc() {
         final Page<Fee>  fees;
-        final FeeFilter  feeQuery;
+        final FeeFilter  feeFilter;
         final Pagination pagination;
         final Sorting    sorting;
 
@@ -201,10 +201,10 @@ class ITFeeRepositoryFindAllSort {
         pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("member.name.firstName", Sorting.Direction.DESC)));
 
-        feeQuery = FeesQuery.empty();
+        feeFilter = FeeFilters.empty();
 
         // WHEN
-        fees = repository.findAll(feeQuery, pagination, sorting);
+        fees = repository.findAll(feeFilter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -225,7 +225,7 @@ class ITFeeRepositoryFindAllSort {
     @MultipleProfiles
     @MultipleFees
     void testFindAll_NotExisting() {
-        final FeeFilter        feeQuery;
+        final FeeFilter        feeFilter;
         final ThrowingCallable executable;
         final Pagination       pagination;
         final Sorting          sorting;
@@ -234,10 +234,10 @@ class ITFeeRepositoryFindAllSort {
         pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("abc", Sorting.Direction.ASC)));
 
-        feeQuery = FeesQuery.empty();
+        feeFilter = FeeFilters.empty();
 
         // WHEN
-        executable = () -> repository.findAll(feeQuery, pagination, sorting);
+        executable = () -> repository.findAll(feeFilter, pagination, sorting);
 
         // THEN
         Assertions.assertThatThrownBy(executable)
@@ -251,7 +251,7 @@ class ITFeeRepositoryFindAllSort {
     @MultipleFees
     void testFindAll_Paid_Asc() {
         final Page<Fee>  fees;
-        final FeeFilter  feeQuery;
+        final FeeFilter  feeFilter;
         final Pagination pagination;
         final Sorting    sorting;
 
@@ -260,10 +260,10 @@ class ITFeeRepositoryFindAllSort {
         sorting = new Sorting(List.of(new Sorting.Property("paid", Sorting.Direction.ASC),
             new Sorting.Property("month", Sorting.Direction.ASC)));
 
-        feeQuery = FeesQuery.empty();
+        feeFilter = FeeFilters.empty();
 
         // WHEN
-        fees = repository.findAll(feeQuery, pagination, sorting);
+        fees = repository.findAll(feeFilter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(fees)
@@ -281,7 +281,7 @@ class ITFeeRepositoryFindAllSort {
     @MultipleFees
     void testFindAll_Paid_Desc() {
         final Page<Fee>  fees;
-        final FeeFilter  feeQuery;
+        final FeeFilter  feeFilter;
         final Pagination pagination;
         final Sorting    sorting;
 
@@ -290,10 +290,10 @@ class ITFeeRepositoryFindAllSort {
         sorting = new Sorting(List.of(new Sorting.Property("paid", Sorting.Direction.DESC),
             new Sorting.Property("month", Sorting.Direction.ASC)));
 
-        feeQuery = FeesQuery.empty();
+        feeFilter = FeeFilters.empty();
 
         // WHEN
-        fees = repository.findAll(feeQuery, pagination, sorting);
+        fees = repository.findAll(feeFilter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(fees)

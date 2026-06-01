@@ -22,39 +22,29 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.adapter.outbound.rest.model;
+package com.bernardomg.association.transaction.usecase.service;
 
 import java.time.Instant;
-import java.time.ZoneOffset;
 import java.util.Collection;
 
-import com.bernardomg.association.transaction.adapter.outbound.rest.dto.TransactionMonthlyBalanceDto;
-import com.bernardomg.association.transaction.adapter.outbound.rest.dto.TransactionMonthlyBalanceResponseDto;
-import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
+import com.bernardomg.association.transaction.domain.model.TransactionEvolutionMonth;
 
-public final class TransactionBalanceDtoMapper {
+/**
+ * Transaction evolution service.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ */
+public interface TransactionEvolutionService {
 
-    public static final TransactionMonthlyBalanceResponseDto
-            toResponseDto(final Collection<TransactionMonthlyBalance> balance) {
-        return new TransactionMonthlyBalanceResponseDto().content(balance.stream()
-            .map(TransactionBalanceDtoMapper::toDto)
-            .toList());
-    }
-
-    private static final TransactionMonthlyBalanceDto toDto(final TransactionMonthlyBalance balance) {
-        final Instant month;
-
-        month = balance.month()
-            .atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant();
-        return new TransactionMonthlyBalanceDto().month(month)
-            .results(balance.results())
-            .total(balance.total());
-    }
-
-    private TransactionBalanceDtoMapper() {
-        super();
-    }
+    /**
+     * Returns the monthly evolution for the filter.
+     *
+     * @param from
+     *            starting date
+     * @param to
+     *            ending date
+     * @return the monthly evolution
+     */
+    public Collection<TransactionEvolutionMonth> getEvolution(final Instant from, final Instant to);
 
 }

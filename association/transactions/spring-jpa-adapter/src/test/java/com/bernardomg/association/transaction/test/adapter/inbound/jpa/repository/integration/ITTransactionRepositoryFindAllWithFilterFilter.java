@@ -58,16 +58,12 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
     @Autowired
     private TransactionRepository repository;
 
-    public ITTransactionRepositoryFindAllWithFilterFilter() {
-        super();
-    }
-
     @Test
     @DisplayName("With a filter applied to the start date, the returned data is filtered")
     @MultipleTransactionsSameMonth
     void testFindAll_AfterDate() {
         final Page<Transaction> transactions;
-        final TransactionFilter transactionQuery;
+        final TransactionFilter transactionFilter;
         final Pagination        pagination;
         final Sorting           sorting;
 
@@ -75,10 +71,10 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
 
-        transactionQuery = TransactionsFilters.from(TransactionConstants.START_DATE.plus(1L, ChronoUnit.DAYS));
+        transactionFilter = TransactionsFilters.from(TransactionConstants.START_DATE.plus(1L, ChronoUnit.DAYS));
 
         // WHEN
-        transactions = repository.findAll(transactionQuery, pagination, sorting);
+        transactions = repository.findAll(transactionFilter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(transactions)
@@ -94,7 +90,7 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
     @MultipleTransactionsSameMonth
     void testFindAll_BeforeDate() {
         final Page<Transaction> transactions;
-        final TransactionFilter transactionQuery;
+        final TransactionFilter transactionFilter;
         final Pagination        pagination;
         final Sorting           sorting;
 
@@ -102,10 +98,10 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
 
-        transactionQuery = TransactionsFilters.to(TransactionConstants.START_DATE.plus(1L, ChronoUnit.DAYS));
+        transactionFilter = TransactionsFilters.to(TransactionConstants.START_DATE.plus(1L, ChronoUnit.DAYS));
 
         // WHEN
-        transactions = repository.findAll(transactionQuery, pagination, sorting);
+        transactions = repository.findAll(transactionFilter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(transactions)
@@ -116,11 +112,11 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
     }
 
     @Test
-    @DisplayName("With a filter applied to the date, the returned data is filtered")
+    @DisplayName("With a filter applied to the description, the returned data is filtered")
     @MultipleTransactionsSameMonth
-    void testFindAll_InDate() {
+    void testFindAll_Description() {
         final Page<Transaction> transactions;
-        final TransactionFilter transactionQuery;
+        final TransactionFilter transactionFilter;
         final Pagination        pagination;
         final Sorting           sorting;
 
@@ -128,10 +124,35 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
 
-        transactionQuery = TransactionsFilters.date(TransactionConstants.START_DATE.plus(1L, ChronoUnit.DAYS));
+        transactionFilter = TransactionsFilters.description();
 
         // WHEN
-        transactions = repository.findAll(transactionQuery, pagination, sorting);
+        transactions = repository.findAll(transactionFilter, pagination, sorting);
+
+        // THEN
+        Assertions.assertThat(transactions)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .containsExactly(Transactions.forIndexAndMonth(1, Month.JANUARY));
+    }
+
+    @Test
+    @DisplayName("With a filter applied to the date, the returned data is filtered")
+    @MultipleTransactionsSameMonth
+    void testFindAll_InDate() {
+        final Page<Transaction> transactions;
+        final TransactionFilter transactionFilter;
+        final Pagination        pagination;
+        final Sorting           sorting;
+
+        // GIVEN
+        pagination = new Pagination(1, 20);
+        sorting = Sorting.unsorted();
+
+        transactionFilter = TransactionsFilters.date(TransactionConstants.START_DATE.plus(1L, ChronoUnit.DAYS));
+
+        // WHEN
+        transactions = repository.findAll(transactionFilter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(transactions)
@@ -145,7 +166,7 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
     @FullTransactionYear
     void testFindAll_InDate_FirstDay() {
         final Page<Transaction> transactions;
-        final TransactionFilter transactionQuery;
+        final TransactionFilter transactionFilter;
         final Pagination        pagination;
         final Sorting           sorting;
 
@@ -153,12 +174,12 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
 
-        transactionQuery = TransactionsFilters.date(LocalDate.of(2020, Month.JANUARY, 1)
+        transactionFilter = TransactionsFilters.date(LocalDate.of(2020, Month.JANUARY, 1)
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant());
 
         // WHEN
-        transactions = repository.findAll(transactionQuery, pagination, sorting);
+        transactions = repository.findAll(transactionFilter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(transactions)
@@ -172,7 +193,7 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
     @FullTransactionYear
     void testFindAll_InDate_LastDay() {
         final Page<Transaction> transactions;
-        final TransactionFilter transactionQuery;
+        final TransactionFilter transactionFilter;
         final Pagination        pagination;
         final Sorting           sorting;
 
@@ -181,18 +202,43 @@ class ITTransactionRepositoryFindAllWithFilterFilter {
         sorting = Sorting.unsorted();
 
         // TODO: This is not the last day of the year
-        transactionQuery = TransactionsFilters.date(LocalDate.of(2020, Month.DECEMBER, 1)
+        transactionFilter = TransactionsFilters.date(LocalDate.of(2020, Month.DECEMBER, 1)
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant());
 
         // WHEN
-        transactions = repository.findAll(transactionQuery, pagination, sorting);
+        transactions = repository.findAll(transactionFilter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(transactions)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Transactions.forIndex(12, Month.DECEMBER));
+    }
+
+    @Test
+    @DisplayName("With a filter applied to a partial description, the returned data is filtered")
+    @MultipleTransactionsSameMonth
+    void testFindAll_PartialDescription() {
+        final Page<Transaction> transactions;
+        final TransactionFilter transactionFilter;
+        final Pagination        pagination;
+        final Sorting           sorting;
+
+        // GIVEN
+        pagination = new Pagination(1, 20);
+        sorting = Sorting.unsorted();
+
+        transactionFilter = TransactionsFilters.description();
+
+        // WHEN
+        transactions = repository.findAll(transactionFilter, pagination, sorting);
+
+        // THEN
+        Assertions.assertThat(transactions)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .containsExactly(Transactions.forIndexAndMonth(1, Month.JANUARY));
     }
 
 }

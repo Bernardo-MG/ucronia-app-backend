@@ -71,8 +71,7 @@ public interface TransactionService {
      *            sorting to apply
      * @return all the transactions matching the filter
      */
-    public Page<Transaction> getAll(final TransactionFilter filter, final Pagination pagination,
-            final Sorting sorting);
+    public Page<Transaction> getAll(final TransactionFilter filter, final Pagination pagination, final Sorting sorting);
 
     /**
      * Returns the transaction for the received id, if it exists. Otherwise an empty {@code Optional} is returned.

@@ -40,7 +40,6 @@ public final class ReadMemberSpecifications {
     public static Optional<Specification<ReadMemberEntity>> filter(final MemberFilter filter) {
         final Optional<Specification<ReadMemberEntity>> nameSpec;
         final Optional<Specification<ReadMemberEntity>> statusSpec;
-        final Specification<ReadMemberEntity>           spec;
 
         if (filter.name()
             .isEmpty()) {
@@ -62,13 +61,11 @@ public final class ReadMemberSpecifications {
             };
         }
 
-        spec = List.of(nameSpec, statusSpec)
+        return List.of(nameSpec, statusSpec)
             .stream()
             .filter(Optional::isPresent)
             .map(Optional::get)
-            .reduce((BinaryOperator<Specification<ReadMemberEntity>>) Specification::and)
-            .orElse(null);
-        return Optional.ofNullable(spec);
+            .reduce((BinaryOperator<Specification<ReadMemberEntity>>) Specification::and);
     }
 
     /**

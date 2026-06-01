@@ -22,17 +22,32 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.domain.repository;
+package com.bernardomg.association.transaction.adapter.inbound.jpa.repository;
 
 import java.time.Instant;
-import java.util.Collection;
+import java.util.Optional;
 
-import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
-import com.bernardomg.pagination.domain.Sorting;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-public interface TransactionBalanceRepository {
+import com.bernardomg.association.transaction.adapter.inbound.jpa.model.MonthlyEvolutionEntity;
 
-    public Collection<TransactionMonthlyBalance> findMonthlyBalance(final Instant from, final Instant to,
-            final Sorting sorting);
+/**
+ * Monthly evolution repository.
+ */
+public interface MonthlyEvolutionSpringRepository
+        extends JpaRepository<MonthlyEvolutionEntity, Instant>, JpaSpecificationExecutor<MonthlyEvolutionEntity> {
+
+    /**
+     * Finds the latest evolution with a month equal to or before the received one.
+     *
+     * @param month
+     *            month to mark the upper limit
+     * @return the latest evolution in the month or before it
+     */
+    @Query("SELECT b FROM MonthlyEvolution b WHERE month <= :month ORDER BY month DESC LIMIT 1")
+    public Optional<MonthlyEvolutionEntity> findLatestInOrBefore(@Param("month") final Instant month);
 
 }

@@ -2,6 +2,7 @@
 package com.bernardomg.association.transaction.test.configuration.argument;
 
 import java.time.YearMonth;
+import java.time.ZoneOffset;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -14,10 +15,16 @@ public final class CurrentAndPreviousMonthProvider implements ArgumentsProvider 
     public final Stream<? extends Arguments> provideArguments(final ExtensionContext context) throws Exception {
         return Stream.of(
             // This month
-            Arguments.of(YearMonth.now()),
+            Arguments.of(YearMonth.now()
+                .atDay(1)
+                .atStartOfDay(ZoneOffset.UTC)
+                .toInstant()),
             // Previous month
             Arguments.of(YearMonth.now()
-                .minusMonths(1)));
+                .minusMonths(1)
+                .atDay(1)
+                .atStartOfDay(ZoneOffset.UTC)
+                .toInstant()));
     }
 
 }

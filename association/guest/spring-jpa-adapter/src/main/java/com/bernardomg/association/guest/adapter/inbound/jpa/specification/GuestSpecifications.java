@@ -37,7 +37,6 @@ public final class GuestSpecifications {
 
     public static Optional<Specification<ReadGuestEntity>> filter(final GuestFilter filter) {
         final Optional<Specification<ReadGuestEntity>> nameSpec;
-        final Specification<ReadGuestEntity>           spec;
 
         if (filter.name()
             .isEmpty()) {
@@ -47,13 +46,11 @@ public final class GuestSpecifications {
                 .get()));
         }
 
-        spec = List.of(nameSpec)
+        return List.of(nameSpec)
             .stream()
             .filter(Optional::isPresent)
             .map(Optional::get)
-            .reduce((BinaryOperator<Specification<ReadGuestEntity>>) Specification::and)
-            .orElse(null);
-        return Optional.ofNullable(spec);
+            .reduce((BinaryOperator<Specification<ReadGuestEntity>>) Specification::and);
     }
 
     /**

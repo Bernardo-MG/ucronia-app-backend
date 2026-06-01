@@ -544,7 +544,16 @@
             Corrected date handling.
          </action>
       </release>
-      <release version="1.0.0" date="2026-05-24" description="">
+      <release version="0.7.2" date="2026-05-28" description="">
+         <action dev="bmg" type="add">
+            Filter transaction by description.
+         </action>
+         <action dev="bmg" type="fix">
+            Member evolution handles timezone.
+         </action>
+         <action dev="bmg" type="fix">
+            Fixed user model.
+         </action>
       </release>
    </body>
 </document>

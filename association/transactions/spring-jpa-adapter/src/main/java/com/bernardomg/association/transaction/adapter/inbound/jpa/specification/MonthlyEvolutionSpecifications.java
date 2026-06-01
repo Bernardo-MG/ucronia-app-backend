@@ -29,36 +29,36 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.bernardomg.association.transaction.adapter.inbound.jpa.model.MonthlyBalanceEntity;
+import com.bernardomg.association.transaction.adapter.inbound.jpa.model.MonthlyEvolutionEntity;
 
 /**
- * Specifications for monthly balances.
+ * Specifications for monthly evolutions.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
-public final class MonthlyBalanceSpecifications {
+public final class MonthlyEvolutionSpecifications {
 
     /**
-     * Monthly balances before the month.
+     * Monthly evolutions before the month.
      *
      * @param month
      *            month to mark the lower limit
-     * @return monthly balances before the month
+     * @return monthly evolutions before the month
      */
-    public static Specification<MonthlyBalanceEntity> before(final Instant month) {
+    public static Specification<MonthlyEvolutionEntity> before(final Instant month) {
         return (root, query, cb) -> cb.lessThan(root.get("month"), month);
     }
 
     /**
-     * Monthly balances between both months, including them.
+     * Monthly evolutions between both months, including them.
      *
      * @param start
      *            starting month
      * @param end
      *            final month
-     * @return monthly balances between both months
+     * @return monthly evolutions between both months
      */
-    public static Specification<MonthlyBalanceEntity> betweenIncluding(final Instant start, final Instant end) {
+    public static Specification<MonthlyEvolutionEntity> betweenIncluding(final Instant start, final Instant end) {
         return (root, query, cb) -> cb.between(root.get("month"), start, end);
     }
 
@@ -71,8 +71,8 @@ public final class MonthlyBalanceSpecifications {
      *            end date
      * @return specification for the request
      */
-    public static Optional<Specification<MonthlyBalanceEntity>> fromQuery(final Instant from, final Instant to) {
-        final Optional<Specification<MonthlyBalanceEntity>> spec;
+    public static Optional<Specification<MonthlyEvolutionEntity>> fromQuery(final Instant from, final Instant to) {
+        final Optional<Specification<MonthlyEvolutionEntity>> spec;
 
         if ((from != null) && (to != null)) {
             spec = Optional.of(betweenIncluding(from, to));
@@ -88,28 +88,28 @@ public final class MonthlyBalanceSpecifications {
     }
 
     /**
-     * Monthly balances on or after the month.
+     * Monthly evolutions on or after the month.
      *
      * @param month
      *            month to mark the lower limit
-     * @return monthly balances on or after the month
+     * @return monthly evolutions on or after the month
      */
-    public static Specification<MonthlyBalanceEntity> onOrAfter(final Instant month) {
+    public static Specification<MonthlyEvolutionEntity> onOrAfter(final Instant month) {
         return (root, query, cb) -> cb.greaterThanOrEqualTo(root.get("month"), month);
     }
 
     /**
-     * Monthly balances on or before the month.
+     * Monthly evolutions on or before the month.
      *
      * @param month
      *            month to mark the lower limit
-     * @return monthly balances on or before the month
+     * @return monthly evolutions on or before the month
      */
-    public static Specification<MonthlyBalanceEntity> onOrBefore(final Instant month) {
+    public static Specification<MonthlyEvolutionEntity> onOrBefore(final Instant month) {
         return (root, query, cb) -> cb.lessThanOrEqualTo(root.get("month"), month);
     }
 
-    private MonthlyBalanceSpecifications() {
+    private MonthlyEvolutionSpecifications() {
         super();
     }
 

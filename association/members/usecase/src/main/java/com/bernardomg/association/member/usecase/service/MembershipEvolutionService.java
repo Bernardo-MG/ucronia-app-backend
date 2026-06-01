@@ -44,6 +44,6 @@ public interface MembershipEvolutionService {
      *            filter to filter evolution
      * @return the monthly membership evolution
      */
-    public Collection<MembershipEvolutionMonth> getMonthlyEvolution(final MembershipEvolutionFilter filter);
+    public Collection<MembershipEvolutionMonth> getEvolution(final MembershipEvolutionFilter filter);
 
 }

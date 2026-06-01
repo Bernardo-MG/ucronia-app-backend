@@ -24,13 +24,17 @@
 
 package com.bernardomg.association.member.adapter.inbound.jpa.repository;
 
+import java.time.Instant;
+import java.util.Collection;
 import java.util.Optional;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.MembershipEvolutionMonthEntity;
 
 public interface MemberSpringRepository extends JpaRepository<MemberEntity, Long> {
 
@@ -41,5 +45,18 @@ public interface MemberSpringRepository extends JpaRepository<MemberEntity, Long
             WHERE p.number = :number
             """)
     public Optional<MemberEntity> findByNumber(@Param("number") final Long number);
+
+    @Query("""
+            SELECT new com.bernardomg.association.member.adapter.inbound.jpa.model.MembershipEvolutionMonthEntity(
+              f.month,
+              COUNT(f)
+            )
+            FROM Fee f
+            WHERE f.month >= COALESCE(:from, f.month)
+              AND f.month <= COALESCE(:to,   f.month)
+            GROUP BY f.month
+            """)
+    public Collection<MembershipEvolutionMonthEntity> getMonthlyMembershipEvolution(@Param("from") final Instant from,
+            @Param("to") final Instant to, final Sort sort);
 
 }

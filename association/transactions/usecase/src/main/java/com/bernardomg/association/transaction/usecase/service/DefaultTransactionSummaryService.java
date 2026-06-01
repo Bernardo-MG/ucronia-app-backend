@@ -33,7 +33,7 @@ import com.bernardomg.association.transaction.domain.repository.TransactionSumma
 import jakarta.transaction.Transactional;
 
 /**
- * Default implementation of the balance service.
+ * Default implementation of the transaction summary service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
@@ -50,19 +50,19 @@ public final class DefaultTransactionSummaryService implements TransactionSummar
 
     @Override
     public final TransactionSummary getSummary() {
-        final Optional<TransactionSummary> readBalance;
-        final TransactionSummary           currentBalance;
+        final Optional<TransactionSummary> readSummary;
+        final TransactionSummary           currentSummary;
 
-        // Find latest monthly balance
-        readBalance = transactionSummaryRepository.findSummary();
+        // Find latest monthly summary
+        readSummary = transactionSummaryRepository.findSummary();
 
-        if (readBalance.isEmpty()) {
-            currentBalance = new TransactionSummary(0F, 0F);
+        if (readSummary.isEmpty()) {
+            currentSummary = new TransactionSummary(0F, 0F);
         } else {
-            currentBalance = readBalance.get();
+            currentSummary = readSummary.get();
         }
 
-        return currentBalance;
+        return currentSummary;
     }
 
 }

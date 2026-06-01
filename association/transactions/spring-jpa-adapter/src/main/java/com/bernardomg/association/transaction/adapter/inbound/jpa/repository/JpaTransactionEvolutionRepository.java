@@ -36,54 +36,55 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
-import com.bernardomg.association.transaction.adapter.inbound.jpa.model.MonthlyBalanceEntity;
-import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionBalanceEntityMapper;
-import com.bernardomg.association.transaction.adapter.inbound.jpa.specification.MonthlyBalanceSpecifications;
-import com.bernardomg.association.transaction.domain.model.TransactionMonthlyBalance;
-import com.bernardomg.association.transaction.domain.repository.TransactionBalanceRepository;
+import com.bernardomg.association.transaction.adapter.inbound.jpa.model.MonthlyEvolutionEntity;
+import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEvolutionEntityMapper;
+import com.bernardomg.association.transaction.adapter.inbound.jpa.specification.MonthlyEvolutionSpecifications;
+import com.bernardomg.association.transaction.domain.model.TransactionEvolutionMonth;
+import com.bernardomg.association.transaction.domain.repository.TransactionEvolutionRepository;
 import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.springframework.SpringSorting;
 
 import jakarta.transaction.Transactional;
 
 @Transactional
-public final class JpaTransactionBalanceRepository implements TransactionBalanceRepository {
+public final class JpaTransactionEvolutionRepository implements TransactionEvolutionRepository {
 
     /**
      * Logger for the class.
      */
-    private static final Logger                  log = LoggerFactory.getLogger(JpaTransactionBalanceRepository.class);
+    private static final Logger                    log = LoggerFactory
+        .getLogger(JpaTransactionEvolutionRepository.class);
 
-    private final MonthlyBalanceSpringRepository monthlyBalanceRepository;
+    private final MonthlyEvolutionSpringRepository monthlyEvolutionRepository;
 
-    public JpaTransactionBalanceRepository(final MonthlyBalanceSpringRepository monthlyBalanceRepo) {
+    public JpaTransactionEvolutionRepository(final MonthlyEvolutionSpringRepository monthlyEvolutionRepo) {
         super();
 
-        monthlyBalanceRepository = Objects.requireNonNull(monthlyBalanceRepo);
+        monthlyEvolutionRepository = Objects.requireNonNull(monthlyEvolutionRepo);
     }
 
     @Override
-    public final Collection<TransactionMonthlyBalance> findMonthlyBalance(final Instant from, final Instant to,
+    public final Collection<TransactionEvolutionMonth> findEvolution(final Instant from, final Instant to,
             final Sorting sorting) {
-        final Optional<Specification<MonthlyBalanceEntity>> requestSpec;
-        final Specification<MonthlyBalanceEntity>           limitSpec;
-        final Specification<MonthlyBalanceEntity>           spec;
-        final Collection<MonthlyBalanceEntity>              balance;
-        final Collection<TransactionMonthlyBalance>         monthlyBalance;
-        final Sort                                          sort;
-        final Instant                                       limit;
+        final Optional<Specification<MonthlyEvolutionEntity>> requestSpec;
+        final Specification<MonthlyEvolutionEntity>           limitSpec;
+        final Specification<MonthlyEvolutionEntity>           spec;
+        final Collection<MonthlyEvolutionEntity>              evolution;
+        final Collection<TransactionEvolutionMonth>           monthlyEvolution;
+        final Sort                                            sort;
+        final Instant                                         limit;
 
-        log.debug("Finding monthly balance");
+        log.debug("Finding monthly evolution");
 
         // Specification from the request
-        requestSpec = MonthlyBalanceSpecifications.fromQuery(from, to);
+        requestSpec = MonthlyEvolutionSpecifications.fromQuery(from, to);
         // Up to this month
         limit = YearMonth.now()
             .plusMonths(1)
             .atDay(1)
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant();
-        limitSpec = MonthlyBalanceSpecifications.before(limit);
+        limitSpec = MonthlyEvolutionSpecifications.before(limit);
 
         // Combine specifications
         if (requestSpec.isPresent()) {
@@ -94,15 +95,15 @@ public final class JpaTransactionBalanceRepository implements TransactionBalance
         }
 
         sort = SpringSorting.toSort(sorting);
-        balance = monthlyBalanceRepository.findAll(spec, sort);
+        evolution = monthlyEvolutionRepository.findAll(spec, sort);
 
-        monthlyBalance = balance.stream()
-            .map(TransactionBalanceEntityMapper::toDomain)
+        monthlyEvolution = evolution.stream()
+            .map(TransactionEvolutionEntityMapper::toDomain)
             .toList();
 
-        log.debug("Found monthly balance {}", monthlyBalance);
+        log.debug("Found monthly evolution {}", monthlyEvolution);
 
-        return monthlyBalance;
+        return monthlyEvolution;
     }
 
 }

@@ -39,6 +39,11 @@ get:
       in: query
       schema:
         $ref: '../common/dates.yml#/components/schemas/Date'
+    - name: description
+      in: query
+      description: Substring to filter d by.
+      schema:
+        type: string
   responses:
     '200':
       description: Transactions page

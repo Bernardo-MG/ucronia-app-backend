@@ -22,16 +22,31 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.adapter.inbound.jpa.repository;
+package com.bernardomg.association.transaction.adapter.outbound.rest.model;
 
-import java.time.Instant;
+import java.util.Collection;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import com.bernardomg.association.transaction.adapter.outbound.rest.dto.TransactionMonthlyEvolutionDto;
+import com.bernardomg.association.transaction.adapter.outbound.rest.dto.TransactionMonthlyEvolutionResponseDto;
+import com.bernardomg.association.transaction.domain.model.TransactionEvolutionMonth;
 
-import com.bernardomg.association.member.adapter.inbound.jpa.model.MembershipEvolutionMonthEntity;
+public final class TransactionEvolutionDtoMapper {
 
-public interface MembershipEvolutionSpringRepository extends JpaRepository<MembershipEvolutionMonthEntity, Instant>,
-        JpaSpecificationExecutor<MembershipEvolutionMonthEntity> {
+    public static final TransactionMonthlyEvolutionResponseDto
+            toResponseDto(final Collection<TransactionEvolutionMonth> balance) {
+        return new TransactionMonthlyEvolutionResponseDto().content(balance.stream()
+            .map(TransactionEvolutionDtoMapper::toDto)
+            .toList());
+    }
+
+    private static final TransactionMonthlyEvolutionDto toDto(final TransactionEvolutionMonth evolution) {
+        return new TransactionMonthlyEvolutionDto().month(evolution.month())
+            .results(evolution.results())
+            .total(evolution.total());
+    }
+
+    private TransactionEvolutionDtoMapper() {
+        super();
+    }
 
 }
