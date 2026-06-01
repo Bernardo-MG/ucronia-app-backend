@@ -30,6 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.UserInnerProfileSpringRepository;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.UserProfileSpringRepository;
 import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
 import com.bernardomg.association.security.user.test.TestApplication;
@@ -44,13 +45,16 @@ import com.bernardomg.test.annotation.IntegrationTest;
 class ITUserProfileRepositoryUnassignProfile {
 
     @Autowired
-    private UserProfileRepository       repository;
+    private UserInnerProfileSpringRepository profileSpringRepository;
 
     @Autowired
-    private UserProfileSpringRepository userProfileSpringRepository;
+    private UserProfileRepository            repository;
 
     @Autowired
-    private UserSpringRepository        userSpringRepository;
+    private UserProfileSpringRepository      userProfileSpringRepository;
+
+    @Autowired
+    private UserSpringRepository             userSpringRepository;
 
     @Test
     @DisplayName("With a member assigned to the user, it removes the member")
@@ -80,6 +84,20 @@ class ITUserProfileRepositoryUnassignProfile {
     }
 
     @Test
+    @DisplayName("With a member assigned to the user, it doesn't remove the profile")
+    @ValidUserWithProfile
+    void testUnassignProfile_ProfileNotRemoved() {
+
+        // WHEN
+        repository.unassignProfile(UserConstants.USERNAME);
+
+        // THEN
+        Assertions.assertThat(profileSpringRepository.count())
+            .as("profiles count")
+            .isEqualTo(1);
+    }
+
+    @Test
     @DisplayName("With a member assigned to the user, it doesn't remove the user")
     @ValidUserWithProfile
     void testUnassignProfile_UserNotRemoved() {
@@ -89,7 +107,7 @@ class ITUserProfileRepositoryUnassignProfile {
 
         // THEN
         Assertions.assertThat(userSpringRepository.count())
-            .as("users")
+            .as("users count")
             .isEqualTo(1);
     }
 
