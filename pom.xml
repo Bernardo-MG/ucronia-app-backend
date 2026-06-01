@@ -261,11 +261,6 @@
          <!-- ================= PROJECT ==================== -->
          <!-- ============================================== -->
          <dependency>
-            <groupId>com.bernardomg.association</groupId>
-            <artifactId>core</artifactId>
-            <version>${project.version}</version>
-         </dependency>
-         <dependency>
             <groupId>com.bernardomg</groupId>
             <artifactId>testing</artifactId>
             <version>${project.version}</version>
