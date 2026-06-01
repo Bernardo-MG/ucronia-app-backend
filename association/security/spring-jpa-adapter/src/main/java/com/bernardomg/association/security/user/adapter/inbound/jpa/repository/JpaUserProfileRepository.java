@@ -68,17 +68,23 @@ public final class JpaUserProfileRepository implements UserProfileRepository {
         final Optional<UserEntity>             user;
         final Optional<UserInnerProfileEntity> profile;
         final Profile                          result;
+        final Optional<UserProfileEntity>      existingUserProfile;
 
         log.trace("Assigning profile {} to username {}", number, username);
 
         user = userSpringRepository.findByUsername(username);
         profile = profileSpringRepository.findByNumber(number);
         if ((user.isPresent()) && (profile.isPresent())) {
-            userProfile = new UserProfileEntity();
-            userProfile.setUserId(user.get()
-                .getId());
+            existingUserProfile = userProfileSpringRepository.findByUserUsername(username);
+
+            if (existingUserProfile.isPresent()) {
+                userProfile = existingUserProfile.get();
+            } else {
+                userProfile = new UserProfileEntity();
+                userProfile.setUser(user.get());
+            }
+
             userProfile.setProfile(profile.get());
-            userProfile.setUser(user.get());
 
             userProfileSpringRepository.save(userProfile);
             result = UserInnerProfileEntityMapper.toDomain(profile.get());

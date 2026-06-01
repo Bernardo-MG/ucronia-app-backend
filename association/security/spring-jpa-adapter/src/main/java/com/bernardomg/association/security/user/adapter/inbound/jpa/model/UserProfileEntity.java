@@ -32,6 +32,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
@@ -51,6 +52,7 @@ public class UserProfileEntity implements Serializable {
     private UserInnerProfileEntity profile;
 
     @OneToOne
+    @MapsId
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private UserEntity             user;
 
