@@ -128,17 +128,31 @@ public final class JpaUserProfileRepository implements UserProfileRepository {
 
     @Override
     public final Profile unassignProfile(final String username) {
-        final Profile profile;
+        final Optional<UserEntity>        user;
+        final Optional<UserProfileEntity> assignedUserProfile;
+        final Profile                     result;
+        final UserInnerProfileEntity      profile;
 
-        log.debug("Unassigning profile to user {}", username);
+        log.trace("Unassigning profile from username {}", username);
 
-        profile = findByUsername(username).orElse(null);
+        user = userSpringRepository.findByUsername(username);
+        assignedUserProfile = userProfileSpringRepository.findByUserUsername(username);
+        if ((user.isPresent()) && (assignedUserProfile.isPresent()) && (assignedUserProfile.get()
+            .getProfile() != null)) {
+            profile = assignedUserProfile.get()
+                .getProfile();
 
-        userProfileSpringRepository.deleteByUserUsername(username);
+            userProfileSpringRepository.delete(assignedUserProfile.get());
+            result = UserInnerProfileEntityMapper.toDomain(profile);
 
-        log.debug("Unassigned profile to user {}", username);
+            log.trace("Unassigned profile  username {}", username);
+        } else {
+            log.warn("Failed to unassign profile from username {}", username);
 
-        return profile;
+            result = null;
+        }
+
+        return result;
     }
 
 }
