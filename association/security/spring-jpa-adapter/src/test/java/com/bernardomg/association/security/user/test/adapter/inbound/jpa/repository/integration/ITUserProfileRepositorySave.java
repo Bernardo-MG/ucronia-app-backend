@@ -40,6 +40,7 @@ import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserPr
 import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.UserProfileSpringRepository;
 import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
 import com.bernardomg.association.security.user.test.TestApplication;
+import com.bernardomg.association.security.user.test.configuration.data.annotation.AlternativeProfile;
 import com.bernardomg.association.security.user.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.association.security.user.test.configuration.data.annotation.ValidUser;
 import com.bernardomg.association.security.user.test.configuration.data.annotation.ValidUserWithProfile;
@@ -60,11 +61,12 @@ class ITUserProfileRepositorySave {
     @Test
     @DisplayName("When the data already exists, the relationship is persisted")
     @ValidUserWithProfile
+    @AlternativeProfile
     void testAssignProfile_Existing_PersistedData() {
         final Collection<UserProfileEntity> profiles;
 
         // WHEN
-        repository.assignProfile(UserConstants.ALTERNATIVE_USERNAME, AccountProfileConstants.NUMBER);
+        repository.assignProfile(UserConstants.USERNAME, AccountProfileConstants.ALTERNATIVE_NUMBER);
 
         // THEN
         profiles = userProfileSpringRepository.findAll();
@@ -83,26 +85,27 @@ class ITUserProfileRepositorySave {
             softly.assertThat(profile.getProfile()
                 .getNumber())
                 .as("profile number")
-                .isEqualTo(AccountProfileConstants.NUMBER);
+                .isEqualTo(AccountProfileConstants.ALTERNATIVE_NUMBER);
             softly.assertThat(profile.getUser()
                 .getUsername())
                 .as("username")
-                .isEqualTo(UserConstants.ALTERNATIVE_USERNAME);
+                .isEqualTo(UserConstants.USERNAME);
         });
     }
 
     @Test
     @DisplayName("With valid data, the created relationship is returned")
     @ValidUserWithProfile
+    @AlternativeProfile
     void testAssignProfile_Existing_ReturnedData() {
         final Profile profile;
 
         // WHEN
-        profile = repository.assignProfile(UserConstants.ALTERNATIVE_USERNAME, AccountProfileConstants.NUMBER);
+        profile = repository.assignProfile(UserConstants.USERNAME, AccountProfileConstants.ALTERNATIVE_NUMBER);
 
         // THEN
         Assertions.assertThat(profile)
-            .isEqualTo(AccountProfiles.valid());
+            .isEqualTo(AccountProfiles.alternativeProfile());
     }
 
     @Test
