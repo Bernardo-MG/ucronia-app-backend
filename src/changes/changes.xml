@@ -544,7 +544,7 @@
             Corrected date handling.
          </action>
       </release>
-      <release version="0.7.2" date="2026-05-28" description="">
+      <release version="0.7.2" date="2026-05-28" description="Fixes">
          <action dev="bmg" type="add">
             Filter transaction by description.
          </action>
@@ -553,6 +553,11 @@
          </action>
          <action dev="bmg" type="fix">
             Fixed user model.
+         </action>
+      </release>
+      <release version="0.7.3" date="2026-06-02" description="">
+         <action dev="bmg" type="fix">
+            Corrected updating user profile.
          </action>
       </release>
    </body>

@@ -46,8 +46,6 @@ public interface UserProfileSpringRepository extends JpaRepository<UserProfileEn
     public boolean existsByNotUsernameAndMemberNumber(@Param("username") final String username,
             @Param("number") final long number);
 
-    public boolean existsByUserId(final long id);
-
     public Optional<UserProfileEntity> findByUserUsername(final String username);
 
 }

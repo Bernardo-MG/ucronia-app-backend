@@ -8,6 +8,14 @@ import com.bernardomg.association.security.account.domain.model.ProfileAccount.P
 
 public final class AccountProfiles {
 
+    public static final Profile alternativeProfile() {
+        final Name name;
+
+        name = new Name(AccountProfileConstants.ALTERNATIVE_FIRST_NAME, AccountProfileConstants.ALTERNATIVE_LAST_NAME);
+        return new Profile(Optional.of(AccountProfileConstants.ALTERNATIVE_IDENTIFIER),
+            AccountProfileConstants.ALTERNATIVE_NUMBER, name);
+    }
+
     public static final Profile valid() {
         final Name name;
 
