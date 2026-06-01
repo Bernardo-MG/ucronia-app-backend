@@ -35,6 +35,7 @@ import com.bernardomg.association.security.user.domain.repository.UserProfileRep
 import com.bernardomg.association.security.user.test.TestApplication;
 import com.bernardomg.association.security.user.test.configuration.data.annotation.ValidUserWithProfile;
 import com.bernardomg.association.security.user.test.configuration.factory.UserConstants;
+import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -47,6 +48,9 @@ class ITUserProfileRepositoryUnassignProfile {
 
     @Autowired
     private UserProfileSpringRepository userProfileSpringRepository;
+
+    @Autowired
+    private UserSpringRepository        userSpringRepository;
 
     @Test
     @DisplayName("With a member assigned to the user, it removes the member")
@@ -73,6 +77,20 @@ class ITUserProfileRepositoryUnassignProfile {
         Assertions.assertThat(userProfileSpringRepository.count())
             .as("user members")
             .isZero();
+    }
+
+    @Test
+    @DisplayName("With a member assigned to the user, it doesn't remove the user")
+    @ValidUserWithProfile
+    void testUnassignProfile_UserNotRemoved() {
+
+        // WHEN
+        repository.unassignProfile(UserConstants.USERNAME);
+
+        // THEN
+        Assertions.assertThat(userSpringRepository.count())
+            .as("users")
+            .isEqualTo(1);
     }
 
 }

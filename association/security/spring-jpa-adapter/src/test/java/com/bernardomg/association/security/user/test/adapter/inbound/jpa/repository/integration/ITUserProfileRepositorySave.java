@@ -60,11 +60,11 @@ class ITUserProfileRepositorySave {
     @Test
     @DisplayName("When the data already exists, the relationship is persisted")
     @ValidUserWithProfile
-    void testSave_Existing_PersistedData() {
+    void testAssignProfile_Existing_PersistedData() {
         final Collection<UserProfileEntity> profiles;
 
         // WHEN
-        repository.assignProfile(UserConstants.USERNAME, AccountProfileConstants.NUMBER);
+        repository.assignProfile(UserConstants.ALTERNATIVE_USERNAME, AccountProfileConstants.NUMBER);
 
         // THEN
         profiles = userProfileSpringRepository.findAll();
@@ -87,18 +87,18 @@ class ITUserProfileRepositorySave {
             softly.assertThat(profile.getUser()
                 .getUsername())
                 .as("username")
-                .isEqualTo(UserConstants.USERNAME);
+                .isEqualTo(UserConstants.ALTERNATIVE_USERNAME);
         });
     }
 
     @Test
     @DisplayName("With valid data, the created relationship is returned")
     @ValidUserWithProfile
-    void testSave_Existing_ReturnedData() {
+    void testAssignProfile_Existing_ReturnedData() {
         final Profile profile;
 
         // WHEN
-        profile = repository.assignProfile(UserConstants.USERNAME, AccountProfileConstants.NUMBER);
+        profile = repository.assignProfile(UserConstants.ALTERNATIVE_USERNAME, AccountProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(profile)
@@ -106,9 +106,24 @@ class ITUserProfileRepositorySave {
     }
 
     @Test
+    @DisplayName("When the profile is missing, nothing is persisted")
+    @ValidUser
+    void testAssignProfile_MissingProfile_PersistedData() {
+        final Collection<UserProfileEntity> profiles;
+
+        // WHEN
+        repository.assignProfile(UserConstants.USERNAME, AccountProfileConstants.NUMBER);
+
+        // THEN
+        profiles = userProfileSpringRepository.findAll();
+        Assertions.assertThat(profiles)
+            .isEmpty();
+    }
+
+    @Test
     @DisplayName("When the profile is missing, nothing is returned")
     @ValidUser
-    void testSave_MissingProfile_ReturnedData() {
+    void testAssignProfile_MissingProfile_ReturnedData() {
         final Profile profile;
 
         // WHEN
@@ -120,9 +135,24 @@ class ITUserProfileRepositorySave {
     }
 
     @Test
+    @DisplayName("When the user is missing, nothing is persisted")
+    @ValidProfile
+    void testAssignProfile_MissingUser_PersistedData() {
+        final Collection<UserProfileEntity> profiles;
+
+        // WHEN
+        repository.assignProfile(UserConstants.USERNAME, AccountProfileConstants.NUMBER);
+
+        // THEN
+        profiles = userProfileSpringRepository.findAll();
+        Assertions.assertThat(profiles)
+            .isEmpty();
+    }
+
+    @Test
     @DisplayName("When the user is missing, nothing is returned")
     @ValidProfile
-    void testSave_MissingUser_ReturnedData() {
+    void testAssignProfile_MissingUser_ReturnedData() {
         final Profile profile;
 
         // WHEN
@@ -137,7 +167,7 @@ class ITUserProfileRepositorySave {
     @DisplayName("With valid data, the relationship is persisted")
     @ValidUser
     @ValidProfile
-    void testSave_PersistedData() {
+    void testAssignProfile_PersistedData() {
         final Collection<UserProfileEntity> profiles;
 
         // WHEN
@@ -172,7 +202,7 @@ class ITUserProfileRepositorySave {
     @DisplayName("With valid data, the created relationship is returned")
     @ValidUser
     @ValidProfile
-    void testSave_ReturnedData() {
+    void testAssignProfile_ReturnedData() {
         final Profile profile;
 
         // WHEN
