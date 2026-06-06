@@ -24,11 +24,15 @@
 
 package com.bernardomg.schedule.springframework.task;
 
-import java.time.YearMonth;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 
@@ -47,6 +51,9 @@ public class MonthStartScheduleSpringTask {
 
     private final EventEmitter  eventEmitter;
 
+    @Value("${scheduler.zone}")
+    private String              zone;
+
     public MonthStartScheduleSpringTask(final EventEmitter eventEmit) {
         super();
 
@@ -56,10 +63,16 @@ public class MonthStartScheduleSpringTask {
     @Async
     @Scheduled(cron = "@monthly", zone = "${scheduler.zone}")
     public void registerMonthFees() {
-        log.info("Notifying new month");
+        final Instant date;
+
+        date = ZonedDateTime.now(ZoneId.of(zone))
+            .truncatedTo(ChronoUnit.HOURS)
+            .toInstant();
+
+        log.info("Notifying new month at {}", date);
         // TODO: set a source
-        eventEmitter.emit(new MonthStartEvent(null, YearMonth.now()));
-        log.info("Notified new month");
+        eventEmitter.emit(new MonthStartEvent(null, date));
+        log.info("Notified new month at {}", date);
     }
 
 }

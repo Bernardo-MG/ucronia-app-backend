@@ -62,7 +62,7 @@ public final class RegisterFeesOnMonthStartEventListener implements EventListene
     public final void handle(final MonthStartEvent event) {
         log.debug("Registering fees at the start of {}", event.getMonth());
         // TODO: is this executed after updating member status?
-        feeMaintenanceService.registerMonthFees();
+        feeMaintenanceService.registerMonthFees(event.getMonth());
         log.debug("Registered fees at the start of {}", event.getMonth());
     }
 

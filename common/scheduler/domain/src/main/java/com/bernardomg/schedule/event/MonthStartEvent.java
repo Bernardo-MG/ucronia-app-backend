@@ -25,7 +25,7 @@
 package com.bernardomg.schedule.event;
 
 import java.io.Serializable;
-import java.time.YearMonth;
+import java.time.Instant;
 import java.util.Objects;
 
 import com.bernardomg.event.domain.AbstractEvent;
@@ -37,12 +37,12 @@ public final class MonthStartEvent extends AbstractEvent {
 
     private static final long serialVersionUID = 7173269718677701462L;
 
-    private final YearMonth   month;
+    private final Instant     month;
 
-    public MonthStartEvent(final Serializable source, final YearMonth date) {
+    public MonthStartEvent(final Serializable source, final Instant month) {
         super(source);
 
-        month = date;
+        this.month = Objects.requireNonNull(month);
     }
 
     @Override
@@ -57,7 +57,7 @@ public final class MonthStartEvent extends AbstractEvent {
         return Objects.equals(month, other.month);
     }
 
-    public YearMonth getMonth() {
+    public Instant getMonth() {
         return month;
     }
 
