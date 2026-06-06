@@ -31,23 +31,7 @@
    <modules>
      <module>testing</module>
      <module>excel</module>
+     <module>scheduler</module>
    </modules>
-
-   <!-- ********************************************** -->
-   <!-- *************** DEPENDENCIES ***************** -->
-   <!-- ********************************************** -->
-
-   <dependencyManagement>
-      <dependencies>
-         <!-- ============================================== -->
-         <!-- ================= PROJECT ==================== -->
-         <!-- ============================================== -->
-         <dependency>
-            <groupId>com.bernardomg</groupId>
-            <artifactId>testing</artifactId>
-            <version>${project.version}</version>
-         </dependency>
-      </dependencies>
-   </dependencyManagement>
 
 </project>

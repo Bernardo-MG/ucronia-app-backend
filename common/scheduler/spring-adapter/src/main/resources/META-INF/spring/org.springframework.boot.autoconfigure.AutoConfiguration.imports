@@ -1,0 +1,2 @@
+com.bernardomg.schedule.configuration.ScheduleAutoConfiguration
+com.bernardomg.ws.configuration.WebServiceAutoConfiguration
