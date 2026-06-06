@@ -34,17 +34,16 @@
          <artifactId>event</artifactId>
       </dependency>
       <dependency>
+         <groupId>com.bernardomg.scheduler</groupId>
+         <artifactId>scheduler-domain</artifactId>
+      </dependency>
+      <dependency>
          <groupId>com.bernardomg.association.fee</groupId>
          <artifactId>association-fee-domain</artifactId>
       </dependency>
       <dependency>
          <groupId>com.bernardomg.association.fee</groupId>
          <artifactId>association-fee-usecase</artifactId>
-      </dependency>
-      <dependency>
-         <!-- Spring WS Starter -->
-         <groupId>com.bernardomg.framework.spring</groupId>
-         <artifactId>spring-ws-starter</artifactId>
       </dependency>
    </dependencies>
 
