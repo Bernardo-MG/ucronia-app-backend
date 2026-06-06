@@ -19,10 +19,10 @@
    <!-- ********************************************** -->
 
    <groupId>com.bernardomg.scheduler</groupId>
-   <artifactId>scheduler-core</artifactId>
+   <artifactId>scheduler-domain</artifactId>
    <packaging>jar</packaging>
 
-   <name>Scheduler</name>
+   <name>Scheduler domain</name>
 
    <!-- ********************************************** -->
    <!-- *************** DEPENDENCIES ***************** -->

@@ -19,10 +19,10 @@
    <!-- ********************************************** -->
 
    <groupId>com.bernardomg.scheduler</groupId>
-   <artifactId>scheduler-spring-starter</artifactId>
+   <artifactId>scheduler-spring-adapter</artifactId>
    <packaging>jar</packaging>
 
-   <name>Scheduler</name>
+   <name>Scheduler spring adapter</name>
 
    <!-- ********************************************** -->
    <!-- *************** DEPENDENCIES ***************** -->
@@ -33,12 +33,9 @@
       <!-- ================= PROJECT ==================== -->
       <!-- ============================================== -->
       <dependency>
+         <!-- Event -->
          <groupId>com.bernardomg.scheduler</groupId>
          <artifactId>scheduler-domain</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.scheduler</groupId>
-         <artifactId>scheduler-spring-adapter</artifactId>
       </dependency>
       <!-- ============================================== -->
       <!-- ================== SPRING ==================== -->

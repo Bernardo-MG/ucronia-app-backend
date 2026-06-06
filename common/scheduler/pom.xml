@@ -29,7 +29,8 @@
    <!-- ********************************************** -->
 
    <modules>
-     <module>core</module>
+     <module>domain</module>
+     <module>spring-adapter</module>
      <module>spring-starter</module>
    </modules>
 
@@ -44,7 +45,12 @@
          <!-- ============================================== -->
          <dependency>
             <groupId>com.bernardomg.scheduler</groupId>
-            <artifactId>scheduler-core</artifactId>
+            <artifactId>scheduler-domain</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.scheduler</groupId>
+            <artifactId>scheduler-spring-adapter</artifactId>
             <version>${project.version}</version>
          </dependency>
       </dependencies>
