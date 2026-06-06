@@ -54,9 +54,8 @@ public class MonthStartScheduleSpringTask {
     }
 
     @Async
-    @Scheduled(cron = "@monthly")
+    @Scheduled(cron = "@monthly", zone = "${scheduler.zone}")
     public void registerMonthFees() {
-        // TODO: What about UTC hour displacement?
         log.info("Notifying new month");
         // TODO: set a source
         eventEmitter.emit(new MonthStartEvent(null, YearMonth.now()));
