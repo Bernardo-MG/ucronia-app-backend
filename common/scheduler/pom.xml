@@ -10,7 +10,7 @@
 
    <parent>
       <groupId>com.bernardomg</groupId>
-      <artifactId>ucronia-app-backend</artifactId>
+      <artifactId>common</artifactId>
       <version>1.0.0-SNAPSHOT</version>
    </parent>
 
@@ -19,36 +19,33 @@
    <!-- ********************************************** -->
 
    <groupId>com.bernardomg</groupId>
-   <artifactId>common</artifactId>
-   <packaging>pom</packaging>
+   <artifactId>scheduler</artifactId>
+   <packaging>jar</packaging>
 
-   <name>Common</name>
-
-   <!-- ********************************************** -->
-   <!-- ******************* MODULES ****************** -->
-   <!-- ********************************************** -->
-
-   <modules>
-     <module>testing</module>
-     <module>excel</module>
-     <module>scheduler</module>
-   </modules>
+   <name>Scheduler</name>
 
    <!-- ********************************************** -->
    <!-- *************** DEPENDENCIES ***************** -->
    <!-- ********************************************** -->
 
-   <dependencyManagement>
-      <dependencies>
-         <!-- ============================================== -->
-         <!-- ================= PROJECT ==================== -->
-         <!-- ============================================== -->
-         <dependency>
-            <groupId>com.bernardomg</groupId>
-            <artifactId>testing</artifactId>
-            <version>${project.version}</version>
-         </dependency>
-      </dependencies>
-   </dependencyManagement>
+   <dependencies>
+      <!-- ============================================== -->
+      <!-- ================ FRAMEWORK =================== -->
+      <!-- ============================================== -->
+      <dependency>
+         <!-- Event -->
+         <groupId>com.bernardomg.framework</groupId>
+         <artifactId>event</artifactId>
+         <version>${bernardomg.framework.event.version}</version>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- ================== SPRING ==================== -->
+      <!-- ============================================== -->
+      <dependency>
+         <!-- Spring Boot: Autoconfigure -->
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-autoconfigure</artifactId>
+      </dependency>
+   </dependencies>
 
 </project>
