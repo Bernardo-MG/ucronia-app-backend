@@ -20,32 +20,34 @@
 
    <groupId>com.bernardomg</groupId>
    <artifactId>scheduler</artifactId>
-   <packaging>jar</packaging>
+   <packaging>pom</packaging>
 
    <name>Scheduler</name>
+
+   <!-- ********************************************** -->
+   <!-- ******************* MODULES ****************** -->
+   <!-- ********************************************** -->
+
+   <modules>
+     <module>core</module>
+     <module>spring-starter</module>
+   </modules>
 
    <!-- ********************************************** -->
    <!-- *************** DEPENDENCIES ***************** -->
    <!-- ********************************************** -->
 
-   <dependencies>
-      <!-- ============================================== -->
-      <!-- ================ FRAMEWORK =================== -->
-      <!-- ============================================== -->
-      <dependency>
-         <!-- Event -->
-         <groupId>com.bernardomg.framework</groupId>
-         <artifactId>event</artifactId>
-         <version>${bernardomg.framework.event.version}</version>
-      </dependency>
-      <!-- ============================================== -->
-      <!-- ================== SPRING ==================== -->
-      <!-- ============================================== -->
-      <dependency>
-         <!-- Spring Boot: Autoconfigure -->
-         <groupId>org.springframework.boot</groupId>
-         <artifactId>spring-boot-autoconfigure</artifactId>
-      </dependency>
-   </dependencies>
+   <dependencyManagement>
+      <dependencies>
+         <!-- ============================================== -->
+         <!-- ================= PROJECT ==================== -->
+         <!-- ============================================== -->
+         <dependency>
+            <groupId>com.bernardomg.scheduler</groupId>
+            <artifactId>scheduler-core</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+      </dependencies>
+   </dependencyManagement>
 
 </project>
