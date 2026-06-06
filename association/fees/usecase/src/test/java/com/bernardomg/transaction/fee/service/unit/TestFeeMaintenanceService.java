@@ -48,8 +48,7 @@ public class TestFeeMaintenanceService {
         // GIVEN
         given(feeMemberRepository.findAllToRenew()).willReturn(List.of(FeeMembers.valid()));
         given(feeMemberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.of(FeeTypes.positive()));
-        // TODO: use correct date
-        given(feeRepository.exists(eq(MemberConstants.NUMBER), any())).willReturn(false);
+        given(feeRepository.exists(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(false);
 
         // WHEN
         service.registerMonthFees(FeeConstants.DATE);
@@ -112,7 +111,7 @@ public class TestFeeMaintenanceService {
         // GIVEN
         given(feeMemberRepository.findAllToRenew()).willReturn(List.of(FeeMembers.valid()));
         given(feeMemberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.of(FeeTypes.zero()));
-        given(feeRepository.exists(eq(MemberConstants.NUMBER), any())).willReturn(false);
+        given(feeRepository.exists(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(false);
 
         // WHEN
         service.registerMonthFees(FeeConstants.DATE);
