@@ -62,7 +62,7 @@ public class MonthStartScheduleSpringTask {
 
     @Async
     @Scheduled(cron = "@monthly", zone = "${scheduler.zone}")
-    public void registerMonthFees() {
+    public void monthStart() {
         final Instant date;
 
         date = ZonedDateTime.now(ZoneId.of(zone))
