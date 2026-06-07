@@ -27,6 +27,7 @@ package com.bernardomg.association.fee.usecase.service;
 import java.time.Instant;
 import java.util.Collection;
 import java.util.Objects;
+import java.util.function.Function;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,18 +66,20 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
     }
 
     @Override
-    public final void registerMonthFees() {
-        final Collection<Fee>       feesToCreate;
-        final Collection<FeeMember> toRenew;
+    public final void registerMonthFees(final Instant date) {
+        final Collection<Fee>          feesToCreate;
+        final Collection<FeeMember>    toRenew;
+        final Function<FeeMember, Fee> toFeeThisMonth;
 
         log.info("Registering fees for this month");
 
         // Find fees to extend into the current month
         toRenew = feeMemberRepository.findAllToRenew();
 
+        toFeeThisMonth = m -> toFee(date, m);
         feesToCreate = toRenew.stream()
             // Prepare for the current month
-            .map(this::toFeeThisMonth)
+            .map(toFeeThisMonth)
             // Make sure it doesn't exist
             .filter(this::notExists)
             .toList();
@@ -91,7 +94,7 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
             .number(), fee.month());
     }
 
-    private final Fee toFeeThisMonth(final FeeMember member) {
+    private final Fee toFee(final Instant date, final FeeMember member) {
         final FeeType        feeType;
         final Fee            fee;
         final FeeMember.Name name;
@@ -111,11 +114,9 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
         if (feeType.amount() == 0) {
             // No amount
             // Set to paid automatically
-            // TODO: what about timezone?
-            fee = Fee.paid(Instant.now(), member.number(), name, feeType);
+            fee = Fee.paid(date, member.number(), name, feeType);
         } else {
-            // TODO: what about timezone?
-            fee = Fee.unpaid(Instant.now(), member.number(), name, feeType);
+            fee = Fee.unpaid(date, member.number(), name, feeType);
         }
 
         return fee;

@@ -21,8 +21,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.association.fee.domain.exception.MissingFeeTypeException;
 import com.bernardomg.association.fee.domain.repository.FeeMemberRepository;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
+import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.FeeMembers;
 import com.bernardomg.association.fee.test.configuration.factory.FeeTypes;
+import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.test.configuration.factory.MemberConstants;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeMaintenanceService;
 
@@ -46,15 +48,13 @@ public class TestFeeMaintenanceService {
         // GIVEN
         given(feeMemberRepository.findAllToRenew()).willReturn(List.of(FeeMembers.valid()));
         given(feeMemberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.of(FeeTypes.positive()));
-        // TODO: use correct date
-        given(feeRepository.exists(eq(MemberConstants.NUMBER), any())).willReturn(false);
+        given(feeRepository.exists(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(false);
 
         // WHEN
-        service.registerMonthFees();
+        service.registerMonthFees(FeeConstants.DATE);
 
         // THEN
-        // TODO: use correct date
-        verify(feeRepository).saveAll(any());
+        verify(feeRepository).saveAll(List.of(Fees.notPaid()));
     }
 
     @Test
@@ -67,7 +67,7 @@ public class TestFeeMaintenanceService {
         given(feeRepository.exists(eq(MemberConstants.NUMBER), any())).willReturn(true);
 
         // WHEN
-        service.registerMonthFees();
+        service.registerMonthFees(FeeConstants.DATE);
 
         // THEN
         verify(feeRepository).saveAll(List.of());
@@ -83,7 +83,7 @@ public class TestFeeMaintenanceService {
         given(feeMemberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.registerMonthFees();
+        execution = () -> service.registerMonthFees(FeeConstants.DATE);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -98,7 +98,7 @@ public class TestFeeMaintenanceService {
         given(feeMemberRepository.findAllToRenew()).willReturn(List.of());
 
         // WHEN
-        service.registerMonthFees();
+        service.registerMonthFees(FeeConstants.DATE);
 
         // THEN
         verify(feeRepository).saveAll(List.of());
@@ -111,14 +111,13 @@ public class TestFeeMaintenanceService {
         // GIVEN
         given(feeMemberRepository.findAllToRenew()).willReturn(List.of(FeeMembers.valid()));
         given(feeMemberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.of(FeeTypes.zero()));
-        given(feeRepository.exists(eq(MemberConstants.NUMBER), any())).willReturn(false);
+        given(feeRepository.exists(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(false);
 
         // WHEN
-        service.registerMonthFees();
+        service.registerMonthFees(FeeConstants.DATE);
 
         // THEN
-        // TODO: use correct date
-        verify(feeRepository).saveAll(any());
+        verify(feeRepository).saveAll(List.of(Fees.paidNoTransactionNoAmount()));
     }
 
 }

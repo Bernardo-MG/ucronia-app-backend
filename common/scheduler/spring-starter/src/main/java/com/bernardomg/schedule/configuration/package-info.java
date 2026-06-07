@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2022-2025 Bernardo Martínez Garrido
+ * Copyright (c) 2023-2025 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,23 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.usecase.service;
-
-import java.time.Instant;
-
 /**
- * Fee maintenance service.
- *
- * @author Bernardo Mart&iacute;nez Garrido
+ * Schedule configuration.
  */
-public interface FeeMaintenanceService {
 
-    /**
-     * Registers the fees for the current month.
-     *
-     * @param month
-     *            fees month
-     */
-    public void registerMonthFees(final Instant month);
-
-}
+package com.bernardomg.schedule.configuration;

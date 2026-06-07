@@ -9,8 +9,8 @@
    <!-- ********************************************** -->
 
    <parent>
-      <groupId>com.bernardomg.association.fee</groupId>
-      <artifactId>association-fee</artifactId>
+      <groupId>com.bernardomg</groupId>
+      <artifactId>scheduler</artifactId>
       <version>1.0.0-SNAPSHOT</version>
    </parent>
 
@@ -18,32 +18,33 @@
    <!-- **************** PROJECT INFO **************** -->
    <!-- ********************************************** -->
 
-   <groupId>com.bernardomg.association.fee</groupId>
-   <artifactId>association-fee-event-adapter</artifactId>
+   <groupId>com.bernardomg.scheduler</groupId>
+   <artifactId>scheduler-domain</artifactId>
    <packaging>jar</packaging>
 
-   <name>Association Fees Event Adapter</name>
+   <name>Scheduler domain</name>
 
    <!-- ********************************************** -->
    <!-- *************** DEPENDENCIES ***************** -->
    <!-- ********************************************** -->
 
    <dependencies>
+      <!-- ============================================== -->
+      <!-- ================ FRAMEWORK =================== -->
+      <!-- ============================================== -->
       <dependency>
+         <!-- Event -->
          <groupId>com.bernardomg.framework</groupId>
          <artifactId>event</artifactId>
+         <version>${bernardomg.framework.event.version}</version>
       </dependency>
+      <!-- ============================================== -->
+      <!-- ================== SPRING ==================== -->
+      <!-- ============================================== -->
       <dependency>
-         <groupId>com.bernardomg.scheduler</groupId>
-         <artifactId>scheduler-domain</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.association.fee</groupId>
-         <artifactId>association-fee-domain</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.association.fee</groupId>
-         <artifactId>association-fee-usecase</artifactId>
+         <!-- Spring Boot: Autoconfigure -->
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-autoconfigure</artifactId>
       </dependency>
    </dependencies>
 

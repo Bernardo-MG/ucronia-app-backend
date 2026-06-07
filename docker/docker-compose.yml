@@ -52,6 +52,8 @@ services:
       - email.security.from=security@somewhere.com
       - email.security.activateUser.url=http://localhost:4200/users/activate
       - email.security.passwordRecovery.url=http://localhost:4200/password/reset/
+      # Scheduler
+      - scheduler.zone=CET
     volumes:
       - association-logs:/app/logs
     networks:
