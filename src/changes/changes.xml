@@ -555,9 +555,14 @@
             Fixed user model.
          </action>
       </release>
-      <release version="0.7.3" date="2026-06-02" description="">
+      <release version="0.7.3" date="2026-06-02" description="User profile update">
          <action dev="bmg" type="fix">
             Corrected updating user profile.
+         </action>
+      </release>
+      <release version="0.7.4" date="2026-06-07" description="Scheduler module">
+         <action dev="bmg" type="fix">
+            Added scheduler module with time zone handling.
          </action>
       </release>
    </body>
