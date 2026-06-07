@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.fee.usecase.service;
 
+import java.time.Instant;
+
 /**
  * Fee maintenance service.
  *
@@ -33,7 +35,10 @@ public interface FeeMaintenanceService {
 
     /**
      * Registers the fees for the current month.
+     *
+     * @param month
+     *            fees month
      */
-    public void registerMonthFees();
+    public void registerMonthFees(final Instant month);
 
 }

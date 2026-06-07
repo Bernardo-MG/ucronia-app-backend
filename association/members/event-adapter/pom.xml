@@ -11,7 +11,7 @@
    <parent>
       <groupId>com.bernardomg.association.member</groupId>
       <artifactId>association-member</artifactId>
-      <version>0.7.3</version>
+      <version>0.7.4</version>
    </parent>
 
    <!-- ********************************************** -->
@@ -34,6 +34,10 @@
          <artifactId>event</artifactId>
       </dependency>
       <dependency>
+         <groupId>com.bernardomg.scheduler</groupId>
+         <artifactId>scheduler-domain</artifactId>
+      </dependency>
+      <dependency>
          <groupId>com.bernardomg.association.fee</groupId>
          <artifactId>association-fee-domain</artifactId>
       </dependency>
@@ -44,11 +48,6 @@
       <dependency>
          <groupId>com.bernardomg.association.member</groupId>
          <artifactId>association-member-usecase</artifactId>
-      </dependency>
-      <dependency>
-         <!-- Spring WS Starter -->
-         <groupId>com.bernardomg.framework.spring</groupId>
-         <artifactId>spring-ws-starter</artifactId>
       </dependency>
    </dependencies>
 

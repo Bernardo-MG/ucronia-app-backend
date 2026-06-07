@@ -11,7 +11,7 @@
    <parent>
       <groupId>com.bernardomg</groupId>
       <artifactId>ucronia-app-backend</artifactId>
-      <version>0.7.3</version>
+      <version>0.7.4</version>
    </parent>
 
    <!-- ********************************************** -->
@@ -29,6 +29,10 @@
    <!-- ********************************************** -->
 
    <dependencies>
+      <dependency>
+         <groupId>com.bernardomg.scheduler</groupId>
+         <artifactId>scheduler-spring-starter</artifactId>
+      </dependency>
       <dependency>
          <groupId>com.bernardomg.settings</groupId>
          <artifactId>settings-spring-starter</artifactId>
