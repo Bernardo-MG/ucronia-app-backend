@@ -565,5 +565,10 @@
             Added scheduler module with time zone handling.
          </action>
       </release>
+      <release version="0.7.5" date="2026-06-08" description="User mapping fix">
+         <action dev="bmg" type="fix">
+            Fixed user mapping error.
+         </action>
+      </release>
    </body>
 </document>
