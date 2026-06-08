@@ -120,7 +120,8 @@ public final class JpaUserProfileRepository implements UserProfileRepository {
         log.trace("Finding profile for username {}", username);
 
         userMember = userProfileSpringRepository.findByUserUsername(username);
-        if (userMember.isPresent()) {
+        if (userMember.isPresent() && (userMember.get()
+            .getProfile() != null)) {
             profile = Optional.of(UserInnerProfileEntityMapper.toDomain(userMember.get()
                 .getProfile()));
         } else {
