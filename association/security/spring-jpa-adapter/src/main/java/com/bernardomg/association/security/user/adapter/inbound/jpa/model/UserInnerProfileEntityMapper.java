@@ -39,7 +39,7 @@ public final class UserInnerProfileEntityMapper {
 
         name = new Name(entity.getFirstName(), entity.getLastName());
 
-        return new Profile(Optional.of(entity.getIdentifier()), entity.getNumber(), name);
+        return new Profile(Optional.ofNullable(entity.getIdentifier()), entity.getNumber(), name);
     }
 
     private UserInnerProfileEntityMapper() {
