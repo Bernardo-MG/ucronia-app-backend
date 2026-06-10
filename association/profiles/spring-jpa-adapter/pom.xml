@@ -11,7 +11,7 @@
    <parent>
       <groupId>com.bernardomg.association.profile</groupId>
       <artifactId>association-profile</artifactId>
-      <version>0.7.5</version>
+      <version>0.7.6</version>
    </parent>
 
    <!-- ********************************************** -->
