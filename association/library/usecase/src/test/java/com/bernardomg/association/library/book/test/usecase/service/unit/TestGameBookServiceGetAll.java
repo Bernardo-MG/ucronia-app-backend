@@ -38,9 +38,11 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.library.author.domain.repository.AuthorRepository;
+import com.bernardomg.association.library.book.domain.model.BookFilter;
 import com.bernardomg.association.library.book.domain.model.GameBook;
 import com.bernardomg.association.library.book.domain.repository.DonorRepository;
 import com.bernardomg.association.library.book.domain.repository.GameBookRepository;
+import com.bernardomg.association.library.book.test.configuration.factory.BookFilters;
 import com.bernardomg.association.library.book.test.configuration.factory.GameBooks;
 import com.bernardomg.association.library.book.usecase.service.DefaultGameBookService;
 import com.bernardomg.association.library.booktype.domain.repository.BookTypeRepository;
@@ -86,16 +88,18 @@ class TestGameBookServiceGetAll {
         final Sorting        sorting;
         final Page<GameBook> books;
         final Page<GameBook> existing;
+        final BookFilter     filter;
 
         // GIVEN
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
+        filter = BookFilters.all();
 
         existing = new Page<>(List.of(GameBooks.full()), 0, 0, 0, 0, 0, false, false, sorting);
-        given(bookRepository.findAll(pagination, sorting)).willReturn(existing);
+        given(bookRepository.findAll(filter, pagination, sorting)).willReturn(existing);
 
         // WHEN
-        books = service.getAll(pagination, sorting);
+        books = service.getAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(books)
@@ -112,16 +116,18 @@ class TestGameBookServiceGetAll {
         final Sorting        sorting;
         final Page<GameBook> books;
         final Page<GameBook> existing;
+        final BookFilter     filter;
 
         // GIVEN
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
+        filter = BookFilters.all();
 
         existing = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
-        given(bookRepository.findAll(pagination, sorting)).willReturn(existing);
+        given(bookRepository.findAll(filter, pagination, sorting)).willReturn(existing);
 
         // WHEN
-        books = service.getAll(pagination, sorting);
+        books = service.getAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(books)

@@ -37,6 +37,7 @@ import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.author.domain.repository.AuthorRepository;
 import com.bernardomg.association.library.book.domain.exception.MissingBookException;
 import com.bernardomg.association.library.book.domain.exception.MissingDonorException;
+import com.bernardomg.association.library.book.domain.model.BookFilter;
 import com.bernardomg.association.library.book.domain.model.Donation;
 import com.bernardomg.association.library.book.domain.model.Donor;
 import com.bernardomg.association.library.book.domain.model.FictionBook;
@@ -169,12 +170,12 @@ public final class DefaultFictionBookService implements FictionBookService {
     }
 
     @Override
-    public final Page<FictionBook> getAll(final Pagination pagination, final Sorting sorting) {
+    public final Page<FictionBook> getAll(final BookFilter filter, final Pagination pagination, final Sorting sorting) {
         final Page<FictionBook> books;
 
         log.debug("Reading books with pagination {} and sorting {}", pagination, sorting);
 
-        books = bookRepository.findAll(pagination, sorting);
+        books = bookRepository.findAll(filter, pagination, sorting);
 
         log.debug("Read books with pagination {} and sorting {}", pagination, sorting);
 

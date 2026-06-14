@@ -22,44 +22,31 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.adapter.inbound.jpa.specification;
+package com.bernardomg.association.library.book.adapter.inbound.jpa.specification;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.function.BinaryOperator;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.bernardomg.association.member.adapter.inbound.jpa.model.PublicMemberEntity;
-import com.bernardomg.association.member.domain.filter.PublicMemberFilter;
+import com.bernardomg.association.library.book.adapter.inbound.jpa.model.GameBookEntity;
+import com.bernardomg.association.library.book.domain.model.BookFilter;
 
 import jakarta.persistence.criteria.Expression;
 
-public final class PublicMemberSpecifications {
+public final class GameBookSpecifications {
 
-    public static Optional<Specification<PublicMemberEntity>> filter(final PublicMemberFilter filter) {
-        final Optional<Specification<PublicMemberEntity>> nameSpec;
-        final Optional<Specification<PublicMemberEntity>> activeSpec;
+    public static Optional<Specification<GameBookEntity>> filter(final BookFilter filter) {
+        final Optional<Specification<GameBookEntity>> titleSpec;
 
-        if (filter.name()
+        if (filter.title()
             .isEmpty()) {
-            nameSpec = Optional.empty();
+            titleSpec = Optional.empty();
         } else {
-            nameSpec = Optional.of(name(filter.name()
+            titleSpec = Optional.of(title(filter.title()
                 .get()));
         }
 
-        activeSpec = Optional.of(active());
-
-        return List.of(nameSpec, activeSpec)
-            .stream()
-            .filter(Optional::isPresent)
-            .map(Optional::get)
-            .reduce((BinaryOperator<Specification<PublicMemberEntity>>) Specification::and);
-    }
-
-    private static Specification<PublicMemberEntity> active() {
-        return (root, query, cb) -> cb.isTrue(root.get("active"));
+        return titleSpec;
     }
 
     /**
@@ -69,18 +56,26 @@ public final class PublicMemberSpecifications {
      *            pattern to match
      * @return name specification
      */
-    private static Specification<PublicMemberEntity> name(final String pattern) {
+    private static Specification<GameBookEntity> title(final String pattern) {
         final String likePattern = "%" + pattern.toLowerCase() + "%";
 
         return (root, query, cb) -> {
-            final Expression<String> fullName = cb.concat(cb.coalesce(root.get("firstName"), ""),
-                cb.concat(" ", cb.coalesce(root.get("lastName"), "")));
+            Expression<String> fullTitle = cb.concat(
+                cb.concat(
+                    root.get("subtitle"),
+                    cb.literal(" ")
+                ),
+                cb.concat(
+                    cb.concat(root.get("title"), cb.literal(" ")),
+                    root.get("supertitle")
+                )
+            );
 
-            return cb.like(cb.lower(fullName), likePattern);
+            return cb.like(cb.lower(fullTitle), likePattern);
         };
     }
 
-    private PublicMemberSpecifications() {
+    private GameBookSpecifications() {
         super();
     }
 

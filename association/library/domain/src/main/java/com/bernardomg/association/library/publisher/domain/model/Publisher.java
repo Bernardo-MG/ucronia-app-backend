@@ -32,7 +32,7 @@ public record Publisher(Long number, String name) {
 
     public Publisher(final Long number, final String name) {
         Objects.requireNonNull(name);
-        
+
         this.number = Objects.requireNonNull(number);
         this.name = StringUtils.trim(name);
     }

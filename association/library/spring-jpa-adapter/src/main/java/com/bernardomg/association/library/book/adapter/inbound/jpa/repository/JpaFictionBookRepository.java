@@ -33,6 +33,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.library.author.adapter.inbound.jpa.model.AuthorEntity;
@@ -42,7 +43,9 @@ import com.bernardomg.association.library.book.adapter.inbound.jpa.model.BookEnt
 import com.bernardomg.association.library.book.adapter.inbound.jpa.model.DonorEntity;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.model.FictionBookEntity;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.model.FictionBookEntityMapper;
+import com.bernardomg.association.library.book.adapter.inbound.jpa.specification.FictionBookSpecifications;
 import com.bernardomg.association.library.book.domain.exception.MissingDonorException;
+import com.bernardomg.association.library.book.domain.model.BookFilter;
 import com.bernardomg.association.library.book.domain.model.BookLendingInfo;
 import com.bernardomg.association.library.book.domain.model.Donor;
 import com.bernardomg.association.library.book.domain.model.FictionBook;
@@ -145,18 +148,26 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
     }
 
     @Override
-    public final Page<FictionBook> findAll(final Pagination pagination, final Sorting sorting) {
+    public final Page<FictionBook> findAll(final BookFilter filter, final Pagination pagination,
+            final Sorting sorting) {
         final org.springframework.data.domain.Page<FictionBook> read;
         final Pageable                                          pageable;
         final Sorting                                           fixedSorting;
+        final Optional<Specification<FictionBookEntity>>        spec;
 
         // TODO: test sorting
         log.debug("Finding books with pagination {} and sorting {}", pagination, sorting);
 
         fixedSorting = fixSorting(sorting);
         pageable = SpringPagination.toPageable(pagination, fixedSorting);
-        read = bookSpringRepository.findAll(pageable)
-            .map(this::toDomain);
+        spec = FictionBookSpecifications.filter(filter);
+        if (spec.isEmpty()) {
+            read = bookSpringRepository.findAll(pageable)
+                .map(this::toDomain);
+        } else {
+            read = bookSpringRepository.findAll(spec.get(), pageable)
+                .map(this::toDomain);
+        }
 
         log.debug("Found books {}", read);
 

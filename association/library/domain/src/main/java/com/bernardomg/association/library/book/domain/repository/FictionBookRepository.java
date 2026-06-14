@@ -27,6 +27,7 @@ package com.bernardomg.association.library.book.domain.repository;
 import java.util.Collection;
 import java.util.Optional;
 
+import com.bernardomg.association.library.book.domain.model.BookFilter;
 import com.bernardomg.association.library.book.domain.model.FictionBook;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -42,7 +43,7 @@ public interface FictionBookRepository {
 
     public boolean existsByIsbnForAnother(final long number, final String isbn);
 
-    public Page<FictionBook> findAll(final Pagination pagination, final Sorting sorting);
+    public Page<FictionBook> findAll(final BookFilter filter, final Pagination pagination, final Sorting sorting);
 
     public Collection<FictionBook> findAll(final Sorting sorting);
 
