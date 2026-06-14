@@ -27,12 +27,14 @@ package com.bernardomg.association.library.book.adapter.inbound.jpa.repository;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.association.library.book.adapter.inbound.jpa.model.GameBookEntity;
 
-public interface GameBookSpringRepository extends JpaRepository<GameBookEntity, Long> {
+public interface GameBookSpringRepository
+        extends JpaRepository<GameBookEntity, Long>, JpaSpecificationExecutor<GameBookEntity> {
 
     public void deleteByNumber(final long number);
 

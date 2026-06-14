@@ -38,9 +38,11 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.library.author.domain.repository.AuthorRepository;
+import com.bernardomg.association.library.book.domain.model.BookFilter;
 import com.bernardomg.association.library.book.domain.model.FictionBook;
 import com.bernardomg.association.library.book.domain.repository.DonorRepository;
 import com.bernardomg.association.library.book.domain.repository.FictionBookRepository;
+import com.bernardomg.association.library.book.test.configuration.factory.BookFilters;
 import com.bernardomg.association.library.book.test.configuration.factory.FictionBooks;
 import com.bernardomg.association.library.book.usecase.service.DefaultFictionBookService;
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
@@ -78,16 +80,18 @@ class TestFictionBookServiceGetAll {
         final Sorting           sorting;
         final Page<FictionBook> books;
         final Page<FictionBook> existing;
+        final BookFilter        filter;
 
         // GIVEN
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
+        filter = BookFilters.all();
 
         existing = new Page<>(List.of(FictionBooks.full()), 0, 0, 0, 0, 0, false, false, sorting);
-        given(bookRepository.findAll(pagination, sorting)).willReturn(existing);
+        given(bookRepository.findAll(filter, pagination, sorting)).willReturn(existing);
 
         // WHEN
-        books = service.getAll(pagination, sorting);
+        books = service.getAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(books)
@@ -104,16 +108,18 @@ class TestFictionBookServiceGetAll {
         final Sorting           sorting;
         final Page<FictionBook> books;
         final Page<FictionBook> existing;
+        final BookFilter        filter;
 
         // GIVEN
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
+        filter = BookFilters.all();
 
         existing = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
-        given(bookRepository.findAll(pagination, sorting)).willReturn(existing);
+        given(bookRepository.findAll(filter, pagination, sorting)).willReturn(existing);
 
         // WHEN
-        books = service.getAll(pagination, sorting);
+        books = service.getAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(books)

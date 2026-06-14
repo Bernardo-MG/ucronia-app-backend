@@ -22,35 +22,34 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.library.book.domain.repository;
+package com.bernardomg.association.library.book.domain.model;
 
-import java.util.Collection;
+import java.util.Objects;
 import java.util.Optional;
 
-import com.bernardomg.association.library.book.domain.model.BookFilter;
-import com.bernardomg.association.library.book.domain.model.GameBook;
-import com.bernardomg.pagination.domain.Page;
-import com.bernardomg.pagination.domain.Pagination;
-import com.bernardomg.pagination.domain.Sorting;
+import org.apache.commons.lang3.StringUtils;
 
-public interface GameBookRepository {
+public record BookFilter(Optional<String> title) {
 
-    public void delete(final long number);
+    public BookFilter(final Optional<String> title) {
+        Objects.requireNonNull(title);
 
-    public boolean exists(final long number);
+        this.title = handleEmpty(title);
+    }
 
-    public boolean existsByIsbn(final String isbn);
+    private final static Optional<String> handleEmpty(final Optional<String> value) {
+        final Optional<String> trimmed;
+        final Optional<String> result;
 
-    public boolean existsByIsbnForAnother(final long number, final String isbn);
+        trimmed = value.map(StringUtils::trim);
+        if (trimmed.orElse("")
+            .isEmpty()) {
+            result = Optional.empty();
+        } else {
+            result = value.map(StringUtils::trim);
+        }
 
-    public Page<GameBook> findAll(final BookFilter filter, final Pagination pagination, final Sorting sorting);
-
-    public Collection<GameBook> findAll(final Sorting sorting);
-
-    public long findNextNumber();
-
-    public Optional<GameBook> findOne(final long number);
-
-    public GameBook save(final GameBook book);
+        return result;
+    }
 
 }

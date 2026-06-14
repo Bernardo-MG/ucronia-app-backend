@@ -47,7 +47,7 @@ import com.bernardomg.test.annotation.IntegrationTest;
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
 @DisplayName("MemberRepository - find all - filter by name")
-class ITMemberRepositoryFindAllQueryName {
+class ITMemberRepositoryFindAllFilterName {
 
     @Autowired
     private MemberRepository repository;

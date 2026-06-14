@@ -35,6 +35,7 @@ import com.bernardomg.association.library.adapter.outbound.rest.dto.FictionBookP
 import com.bernardomg.association.library.adapter.outbound.rest.dto.FictionBookResponseDto;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.FictionBookUpdateDto;
 import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookDtoMapper;
+import com.bernardomg.association.library.book.domain.model.BookFilter;
 import com.bernardomg.association.library.book.domain.model.FictionBook;
 import com.bernardomg.association.library.book.usecase.service.FictionBookService;
 import com.bernardomg.pagination.domain.Page;
@@ -89,14 +90,16 @@ public class FictionBookController implements FictionBookApi {
     @Override
     @RequireResourceAuthorization(resource = "LIBRARY_BOOK", action = Actions.READ)
     public FictionBookPageResponseDto getAllFictionBooks(@Valid final Integer page, @Valid final Integer size,
-            @Valid final List<String> sort) {
+            @Valid final List<String> sort, @Valid final String title) {
         final Pagination        pagination;
         final Sorting           sorting;
         final Page<FictionBook> fictionBooks;
+        final BookFilter        filter;
 
         pagination = new Pagination(page, size);
         sorting = WebSorting.toSorting(sort);
-        fictionBooks = service.getAll(pagination, sorting);
+        filter = new BookFilter(Optional.ofNullable(title));
+        fictionBooks = service.getAll(filter, pagination, sorting);
 
         return BookDtoMapper.toFictionResponseDto(fictionBooks);
     }
