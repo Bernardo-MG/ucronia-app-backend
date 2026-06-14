@@ -34,7 +34,7 @@ public record Title(String supertitle, String title, String subtitle) {
         Objects.requireNonNull(supertitle);
         Objects.requireNonNull(title);
         Objects.requireNonNull(subtitle);
-        
+
         this.supertitle = StringUtils.trim(supertitle);
         this.title = StringUtils.trim(title);
         this.subtitle = StringUtils.trim(subtitle);

@@ -33,9 +33,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.library.TestApplication;
+import com.bernardomg.association.library.book.domain.model.BookFilter;
 import com.bernardomg.association.library.book.domain.model.GameBook;
 import com.bernardomg.association.library.book.domain.repository.GameBookRepository;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.FullGameBook;
+import com.bernardomg.association.library.book.test.configuration.factory.BookFilters;
 import com.bernardomg.association.library.book.test.configuration.factory.GameBooks;
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.LentBookLending;
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.LentBookLendingHistory;
@@ -65,13 +67,15 @@ class ITGameBookRepositoryFindAllPaginated {
         final Page<GameBook> books;
         final Pagination     pagination;
         final Sorting        sorting;
+        final BookFilter     filter;
 
         // GIVEN
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
+        filter = BookFilters.all();
 
         // WHEN
-        books = repository.findAll(pagination, sorting);
+        books = repository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(books)
@@ -91,13 +95,15 @@ class ITGameBookRepositoryFindAllPaginated {
         final Page<GameBook> books;
         final Pagination     pagination;
         final Sorting        sorting;
+        final BookFilter     filter;
 
         // GIVEN
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
+        filter = BookFilters.all();
 
         // WHEN
-        books = repository.findAll(pagination, sorting);
+        books = repository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(books)
@@ -118,13 +124,15 @@ class ITGameBookRepositoryFindAllPaginated {
         final Page<GameBook> books;
         final Pagination     pagination;
         final Sorting        sorting;
+        final BookFilter     filter;
 
         // GIVEN
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
+        filter = BookFilters.all();
 
         // WHEN
-        books = repository.findAll(pagination, sorting);
+        books = repository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(books)
@@ -140,13 +148,15 @@ class ITGameBookRepositoryFindAllPaginated {
         final Page<GameBook> books;
         final Pagination     pagination;
         final Sorting        sorting;
+        final BookFilter     filter;
 
         // GIVEN
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
+        filter = BookFilters.all();
 
         // WHEN
-        books = repository.findAll(pagination, sorting);
+        books = repository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(books)
@@ -166,13 +176,15 @@ class ITGameBookRepositoryFindAllPaginated {
         final Page<GameBook> books;
         final Pagination     pagination;
         final Sorting        sorting;
+        final BookFilter     filter;
 
         // GIVEN
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
+        filter = BookFilters.all();
 
         // WHEN
-        books = repository.findAll(pagination, sorting);
+        books = repository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(books)
@@ -193,13 +205,15 @@ class ITGameBookRepositoryFindAllPaginated {
         final Page<GameBook> books;
         final Pagination     pagination;
         final Sorting        sorting;
+        final BookFilter     filter;
 
         // GIVEN
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
+        filter = BookFilters.all();
 
         // WHEN
-        books = repository.findAll(pagination, sorting);
+        books = repository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(books)

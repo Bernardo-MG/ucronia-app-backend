@@ -26,6 +26,7 @@ package com.bernardomg.association.library.book.usecase.service;
 
 import java.util.Optional;
 
+import com.bernardomg.association.library.book.domain.model.BookFilter;
 import com.bernardomg.association.library.book.domain.model.GameBook;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -37,7 +38,7 @@ public interface GameBookService {
 
     public GameBook delete(final long number);
 
-    public Page<GameBook> getAll(final Pagination pagination, final Sorting sorting);
+    public Page<GameBook> getAll(final BookFilter filter, final Pagination pagination, final Sorting sorting);
 
     public Optional<GameBook> getOne(final long number);
 

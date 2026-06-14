@@ -42,7 +42,7 @@ import com.bernardomg.pagination.domain.Sorting.Property;
 public final class ContactMethodDtoMapper {
 
     public static final ContactMethod toDomain(final ContactMethodCreationDto creation) {
-        return new ContactMethod(null, creation.getName());
+        return new ContactMethod(-1L, creation.getName());
     }
 
     public static final ContactMethod toDomain(final Long number, final ContactMethodUpdateDto change) {
