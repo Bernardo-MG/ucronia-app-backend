@@ -269,7 +269,7 @@ public final class BookDtoMapper {
 
         title = new Title(supertitle, bookCreationDto.getTitle()
             .getTitle(), subtitle);
-        return new FictionBook(-1, title, bookCreationDto.getIsbn(), bookCreationDto.getLanguage(), null, false,
+        return new FictionBook(-1, title, bookCreationDto.getIsbn(), bookCreationDto.getLanguage(), Optional.empty(), false,
             List.of(), List.of(), List.of(), Optional.empty());
     }
 
