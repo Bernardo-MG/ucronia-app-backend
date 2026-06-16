@@ -570,5 +570,12 @@
             Fixed user mapping error.
          </action>
       </release>
+      <release version="0.7.6" date="2026-06-10" description="Login fix">
+         <action dev="bmg" type="fix">
+            Updated security dependencies.
+         </action>
+      </release>
+      <release version="1.0.0" date="2026-06-10" description="">
+      </release>
    </body>
 </document>
