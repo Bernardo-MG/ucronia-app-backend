@@ -18,6 +18,8 @@ public final class ActivityConstants {
 
     public static final String  DESCRIPTION = "Activity description";
 
+    public static final String  IMAGE       = "image";
+
     public static final long    NEXT_NUMBER = 11;
 
     public static final long    NUMBER      = 10;

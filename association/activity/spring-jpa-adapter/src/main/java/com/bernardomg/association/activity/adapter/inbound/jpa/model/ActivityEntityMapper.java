@@ -31,8 +31,9 @@ import com.bernardomg.association.activity.domain.model.Activity;
  */
 public final class ActivityEntityMapper {
 
-    public static final Activity toDomain(final ActivityEntity activity) {
-        return new Activity(activity.getNumber(), activity.getDate(), activity.getTitle(), activity.getDescription());
+    public static final Activity toDomain(final ActivityEntity entity) {
+        return new Activity(entity.getNumber(), entity.getDate(), entity.getTitle(), entity.getDescription(),
+            entity.getImage());
     }
 
     public static final ActivityEntity toEntity(final Activity activity) {

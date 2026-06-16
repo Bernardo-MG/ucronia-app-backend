@@ -53,6 +53,9 @@ public class ActivityEntity implements Serializable {
     @Column(name = "id", nullable = false, unique = true)
     private Long              id;
 
+    @Column(name = "image", length = 50)
+    private String            image;
+
     @Column(name = "number", nullable = false, unique = true)
     private Long              number;
 
@@ -69,6 +72,10 @@ public class ActivityEntity implements Serializable {
 
     public Long getId() {
         return id;
+    }
+
+    public String getImage() {
+        return image;
     }
 
     public Long getNumber() {
@@ -91,6 +98,10 @@ public class ActivityEntity implements Serializable {
         this.id = id;
     }
 
+    public void setImage(final String image) {
+        this.image = image;
+    }
+
     public void setNumber(final Long number) {
         this.number = number;
     }
@@ -101,8 +112,8 @@ public class ActivityEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "ActivityEntity [date=" + date + ", title=" + title + ", description=" + description + ", id=" + id
-                + ", number=" + number + "]";
+        return "ActivityEntity [id=" + id + ", number=" + number + ", date=" + date + ", title=" + title
+                + ", description=" + description + ", image=" + image + "]";
     }
 
 }

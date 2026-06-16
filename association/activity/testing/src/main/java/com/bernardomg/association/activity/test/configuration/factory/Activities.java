@@ -13,17 +13,18 @@ public final class Activities {
         // TODO: constant for the year
         return new Activity(number, LocalDate.of(2020, month, (int) number)
             .atStartOfDay(ZoneOffset.UTC)
-            .toInstant(), ActivityConstants.TITLE + " " + number, ActivityConstants.DESCRIPTION + " " + number);
+            .toInstant(), ActivityConstants.TITLE + " " + number, ActivityConstants.DESCRIPTION + " " + number,
+            ActivityConstants.IMAGE);
     }
 
     public static final Activity future() {
         return new Activity(ActivityConstants.NUMBER, ActivityConstants.DATE_FUTURE, ActivityConstants.TITLE,
-            ActivityConstants.DESCRIPTION);
+            ActivityConstants.DESCRIPTION, ActivityConstants.IMAGE);
     }
 
     public static final Activity valid() {
         return new Activity(ActivityConstants.NUMBER, ActivityConstants.DATE, ActivityConstants.TITLE,
-            ActivityConstants.DESCRIPTION);
+            ActivityConstants.DESCRIPTION, ActivityConstants.IMAGE);
     }
 
     private Activities() {

@@ -29,9 +29,10 @@ import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 
-public record Activity(long number, Instant date, String title, String description) {
+public record Activity(long number, Instant date, String title, String description, String image) {
 
-    public Activity(final long number, final Instant date, final String title, final String description) {
+    public Activity(final long number, final Instant date, final String title, final String description,
+            final String image) {
         Objects.requireNonNull(title);
         Objects.requireNonNull(description);
 
@@ -39,6 +40,7 @@ public record Activity(long number, Instant date, String title, String descripti
         this.date = Objects.requireNonNull(date);
         this.title = StringUtils.trim(title);
         this.description = StringUtils.trim(description);
+        this.image = StringUtils.trim(image);
     }
 
 }

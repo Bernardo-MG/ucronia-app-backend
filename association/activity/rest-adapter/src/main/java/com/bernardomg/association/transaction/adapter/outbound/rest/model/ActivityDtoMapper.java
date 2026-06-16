@@ -42,11 +42,12 @@ import com.bernardomg.pagination.domain.Sorting.Property;
 public final class ActivityDtoMapper {
 
     public static final Activity toDomain(final ActivityCreationDto creation) {
-        return new Activity(-1, creation.getDate(), creation.getTitle(), creation.getDescription());
+        return new Activity(-1, creation.getDate(), creation.getTitle(), creation.getDescription(),
+            creation.getImage());
     }
 
     public static final Activity toDomain(final Long number, final ActivityUpdateDto change) {
-        return new Activity(number, change.getDate(), change.getTitle(), change.getDescription());
+        return new Activity(number, change.getDate(), change.getTitle(), change.getDescription(), change.getImage());
     }
 
     public static final ActivityResponseDto toResponseDto(final Activity transaction) {
@@ -80,11 +81,12 @@ public final class ActivityDtoMapper {
             .sort(sortingResponse);
     }
 
-    private static final ActivityDto toDto(final Activity transaction) {
-        return new ActivityDto().number(transaction.number())
-            .date(transaction.date())
-            .title(transaction.title())
-            .description(transaction.description());
+    private static final ActivityDto toDto(final Activity activity) {
+        return new ActivityDto().number(activity.number())
+            .date(activity.date())
+            .title(activity.title())
+            .description(activity.description())
+            .image(activity.image());
     }
 
     private static final PropertyDto toDto(final Property property) {

@@ -83,7 +83,7 @@ public final class DefaultActivityService implements ActivityService {
         // TODO: set inside the repository
         number = activityRepository.findNextNumber();
 
-        toCreate = new Activity(number, activity.date(), activity.title(), activity.description());
+        toCreate = new Activity(number, activity.date(), activity.title(), activity.description(), activity.image());
 
         saved = activityRepository.save(toCreate);
 
@@ -145,7 +145,6 @@ public final class DefaultActivityService implements ActivityService {
     @Override
     public final Activity update(final Activity activity) {
         final boolean  exists;
-        final Activity toUpdate;
         final Activity updated;
 
         log.debug("Updating activity with number {} using data {}", activity.number(), activity);
@@ -156,11 +155,9 @@ public final class DefaultActivityService implements ActivityService {
             throw new MissingActivityException(activity.number());
         }
 
-        toUpdate = new Activity(activity.number(), activity.date(), activity.title(), activity.description());
+        validatorUpdate.validate(activity);
 
-        validatorUpdate.validate(toUpdate);
-
-        updated = activityRepository.save(toUpdate);
+        updated = activityRepository.save(activity);
 
         log.debug("Updated activity with number {}: {}", activity.number(), updated);
 
