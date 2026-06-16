@@ -575,7 +575,13 @@
             Updated security dependencies.
          </action>
       </release>
-      <release version="1.0.0" date="2026-06-10" description="">
+      <release version="0.7.7" date="2026-06-10" description="Filter books by title">
+         <action dev="bmg" type="add">
+            Filter books by title.
+         </action>
+         <action dev="bmg" type="fix">
+            Fixed null pointers.
+         </action>
       </release>
    </body>
 </document>
