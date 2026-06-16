@@ -22,35 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.library.book.domain.repository;
+/**
+ * Book JPA specifications.
+ */
 
-import java.util.Collection;
-import java.util.Optional;
-
-import com.bernardomg.association.library.book.domain.model.BookFilter;
-import com.bernardomg.association.library.book.domain.model.GameBook;
-import com.bernardomg.pagination.domain.Page;
-import com.bernardomg.pagination.domain.Pagination;
-import com.bernardomg.pagination.domain.Sorting;
-
-public interface GameBookRepository {
-
-    public void delete(final long number);
-
-    public boolean exists(final long number);
-
-    public boolean existsByIsbn(final String isbn);
-
-    public boolean existsByIsbnForAnother(final long number, final String isbn);
-
-    public Page<GameBook> findAll(final BookFilter filter, final Pagination pagination, final Sorting sorting);
-
-    public Collection<GameBook> findAll(final Sorting sorting);
-
-    public long findNextNumber();
-
-    public Optional<GameBook> findOne(final long number);
-
-    public GameBook save(final GameBook book);
-
-}
+package com.bernardomg.association.library.book.adapter.inbound.jpa.specification;

@@ -26,6 +26,11 @@ get:
     - $ref: '../common/pagination.yml#/components/parameters/pageParam'
     - $ref: '../common/pagination.yml#/components/parameters/sizeParam'
     - $ref: '../components/books.yml#/components/parameters/booksSortParam'
+    - name: title
+      in: query
+      description: Substring to filter name by.
+      schema:
+        type: string
   responses:
     '200':
       description: A page of fiction books

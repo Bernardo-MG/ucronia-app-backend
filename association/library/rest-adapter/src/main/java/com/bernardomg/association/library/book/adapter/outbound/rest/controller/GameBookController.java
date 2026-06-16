@@ -35,6 +35,7 @@ import com.bernardomg.association.library.adapter.outbound.rest.dto.GameBookPage
 import com.bernardomg.association.library.adapter.outbound.rest.dto.GameBookResponseDto;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.GameBookUpdateDto;
 import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookDtoMapper;
+import com.bernardomg.association.library.book.domain.model.BookFilter;
 import com.bernardomg.association.library.book.domain.model.GameBook;
 import com.bernardomg.association.library.book.usecase.service.GameBookService;
 import com.bernardomg.pagination.domain.Page;
@@ -88,14 +89,16 @@ public class GameBookController implements GameBookApi {
     @Override
     @RequireResourceAuthorization(resource = "LIBRARY_BOOK", action = Actions.READ)
     public GameBookPageResponseDto getAllGameBooks(@Valid final Integer page, @Valid final Integer size,
-            @Valid final List<String> sort) {
+            @Valid final List<String> sort, @Valid final String title) {
         final Pagination     pagination;
         final Sorting        sorting;
         final Page<GameBook> gameBooks;
+        final BookFilter     filter;
 
         pagination = new Pagination(page, size);
         sorting = WebSorting.toSorting(sort);
-        gameBooks = service.getAll(pagination, sorting);
+        filter = new BookFilter(Optional.ofNullable(title));
+        gameBooks = service.getAll(filter, pagination, sorting);
 
         return BookDtoMapper.toGameResponseDto(gameBooks);
     }

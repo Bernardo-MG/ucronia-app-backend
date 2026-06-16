@@ -31,20 +31,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.library.TestApplication;
 import com.bernardomg.association.library.book.domain.model.BookFilter;
-import com.bernardomg.association.library.book.domain.model.FictionBook;
-import com.bernardomg.association.library.book.domain.repository.FictionBookRepository;
-import com.bernardomg.association.library.book.test.configuration.data.annotation.FullFictionBook;
+import com.bernardomg.association.library.book.domain.model.GameBook;
+import com.bernardomg.association.library.book.domain.repository.GameBookRepository;
+import com.bernardomg.association.library.book.test.configuration.data.annotation.FullGameBook;
 import com.bernardomg.association.library.book.test.configuration.factory.BookFilters;
-import com.bernardomg.association.library.book.test.configuration.factory.FictionBooks;
-import com.bernardomg.association.library.lending.test.configuration.data.annotation.LentBookLending;
-import com.bernardomg.association.library.lending.test.configuration.data.annotation.LentBookLendingHistory;
-import com.bernardomg.association.library.lending.test.configuration.data.annotation.ReturnedBookLending;
-import com.bernardomg.association.library.lending.test.configuration.data.annotation.ReturnedBookLendingHistory;
-import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
-import com.bernardomg.association.member.test.configuration.data.annotation.AlternativeActiveMember;
+import com.bernardomg.association.library.book.test.configuration.factory.GameBooks;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -53,107 +46,24 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("FictionBookRepository - find all - paginated")
-class ITFictionBookRepositoryFindAllPaginated {
+@DisplayName("GameBookRepository - find all - filter")
+class ITGameBookRepositoryFindAllFilter {
 
     @Autowired
-    private FictionBookRepository repository;
-
-    @Test
-    @DisplayName("When there is a fiction book, it is returned")
-    @ValidProfile
-    @FullFictionBook
-    void testFindAll() {
-        final Page<FictionBook> books;
-        final Pagination        pagination;
-        final Sorting           sorting;
-        final BookFilter        filter;
-
-        // GIVEN
-        pagination = new Pagination(1, 20);
-        sorting = Sorting.unsorted();
-        filter = BookFilters.all();
-
-        // WHEN
-        books = repository.findAll(filter, pagination, sorting);
-
-        // THEN
-        Assertions.assertThat(books)
-            .extracting(Page::content)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .as("books")
-            .containsExactly(FictionBooks.full());
-    }
-
-    @Test
-    @DisplayName("When there is a lent fiction book, it is returned")
-    @PositiveFeeType
-    @ActiveMember
-    @FullFictionBook
-    @LentBookLending
-    void testFindAll_Lent() {
-        final Page<FictionBook> books;
-        final Pagination        pagination;
-        final Sorting           sorting;
-        final BookFilter        filter;
-
-        // GIVEN
-        pagination = new Pagination(1, 20);
-        sorting = Sorting.unsorted();
-        filter = BookFilters.all();
-
-        // WHEN
-        books = repository.findAll(filter, pagination, sorting);
-
-        // THEN
-        Assertions.assertThat(books)
-            .extracting(Page::content)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .as("books")
-            .containsExactly(FictionBooks.lent());
-    }
-
-    @Test
-    @DisplayName("When there is a lent fiction book and it has history, it is returned")
-    @PositiveFeeType
-    @ActiveMember
-    @AlternativeActiveMember
-    @FullFictionBook
-    @LentBookLendingHistory
-    void testFindAll_Lent_WithHistory() {
-        final Page<FictionBook> books;
-        final Pagination        pagination;
-        final Sorting           sorting;
-        final BookFilter        filter;
-
-        // GIVEN
-        pagination = new Pagination(1, 20);
-        sorting = Sorting.unsorted();
-        filter = BookFilters.all();
-
-        // WHEN
-        books = repository.findAll(filter, pagination, sorting);
-
-        // THEN
-        Assertions.assertThat(books)
-            .extracting(Page::content)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .as("books")
-            .containsExactly(FictionBooks.lentHistory());
-    }
+    private GameBookRepository repository;
 
     @Test
     @DisplayName("When there is no data, nothing is returned")
     void testFindAll_NoData() {
-        final Page<FictionBook> books;
-        final Pagination        pagination;
-        final Sorting           sorting;
-        final BookFilter        filter;
+        final Page<GameBook> books;
+        final Pagination     pagination;
+        final Sorting        sorting;
+        final BookFilter     filter;
 
         // GIVEN
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
-        filter = BookFilters.all();
+        filter = BookFilters.title();
 
         // WHEN
         books = repository.findAll(filter, pagination, sorting);
@@ -167,21 +77,19 @@ class ITFictionBookRepositoryFindAllPaginated {
     }
 
     @Test
-    @DisplayName("When there is a returned fiction book, it is returned")
-    @PositiveFeeType
-    @ActiveMember
-    @FullFictionBook
-    @ReturnedBookLending
-    void testFindAll_Returned() {
-        final Page<FictionBook> books;
-        final Pagination        pagination;
-        final Sorting           sorting;
-        final BookFilter        filter;
+    @DisplayName("When filtering by partial title, it is returned")
+    @ValidProfile
+    @FullGameBook
+    void testFindAll_PartialTitle() {
+        final Page<GameBook> books;
+        final Pagination     pagination;
+        final Sorting        sorting;
+        final BookFilter     filter;
 
         // GIVEN
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
-        filter = BookFilters.all();
+        filter = BookFilters.partialTitle();
 
         // WHEN
         books = repository.findAll(filter, pagination, sorting);
@@ -191,26 +99,23 @@ class ITFictionBookRepositoryFindAllPaginated {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("books")
-            .containsExactly(FictionBooks.returned());
+            .containsExactly(GameBooks.full());
     }
 
     @Test
-    @DisplayName("When there is a returned fiction book, it is returned")
-    @PositiveFeeType
-    @ActiveMember
-    @AlternativeActiveMember
-    @FullFictionBook
-    @ReturnedBookLendingHistory
-    void testFindAll_Returned_WithHistory() {
-        final Page<FictionBook> books;
-        final Pagination        pagination;
-        final Sorting           sorting;
-        final BookFilter        filter;
+    @DisplayName("When filtering by subtitle, it is returned")
+    @ValidProfile
+    @FullGameBook
+    void testFindAll_Subtitle() {
+        final Page<GameBook> books;
+        final Pagination     pagination;
+        final Sorting        sorting;
+        final BookFilter     filter;
 
         // GIVEN
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
-        filter = BookFilters.all();
+        filter = BookFilters.subtitle();
 
         // WHEN
         books = repository.findAll(filter, pagination, sorting);
@@ -220,7 +125,85 @@ class ITFictionBookRepositoryFindAllPaginated {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("books")
-            .containsExactly(FictionBooks.returnedHistory());
+            .containsExactly(GameBooks.full());
+    }
+
+    @Test
+    @DisplayName("When filtering by supertitle, it is returned")
+    @ValidProfile
+    @FullGameBook
+    void testFindAll_Supertitle() {
+        final Page<GameBook> books;
+        final Pagination     pagination;
+        final Sorting        sorting;
+        final BookFilter     filter;
+
+        // GIVEN
+        pagination = new Pagination(1, 20);
+        sorting = Sorting.unsorted();
+        filter = BookFilters.supertitle();
+
+        // WHEN
+        books = repository.findAll(filter, pagination, sorting);
+
+        // THEN
+        Assertions.assertThat(books)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .as("books")
+            .containsExactly(GameBooks.full());
+    }
+
+    @Test
+    @DisplayName("When filtering by title, it is returned")
+    @ValidProfile
+    @FullGameBook
+    void testFindAll_Title() {
+        final Page<GameBook> books;
+        final Pagination     pagination;
+        final Sorting        sorting;
+        final BookFilter     filter;
+
+        // GIVEN
+        pagination = new Pagination(1, 20);
+        sorting = Sorting.unsorted();
+        filter = BookFilters.title();
+
+        // WHEN
+        books = repository.findAll(filter, pagination, sorting);
+
+        // THEN
+        Assertions.assertThat(books)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .as("books")
+            .containsExactly(GameBooks.full());
+    }
+
+    @Test
+    @DisplayName("When filtering by a wrong title, nothing is returned")
+    @ValidProfile
+    @FullGameBook
+    void testFindAll_WrongTitle() {
+        final Page<GameBook> books;
+        final Pagination     pagination;
+        final Sorting        sorting;
+        final BookFilter     filter;
+
+        // GIVEN
+        pagination = new Pagination(1, 20);
+        sorting = Sorting.unsorted();
+        filter = BookFilters.partialTitle();
+
+        // WHEN
+        books = repository.findAll(filter, pagination, sorting);
+
+        // THEN
+        Assertions.assertThat(books)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .as("books")
+            .containsExactly(GameBooks.full());
     }
 
 }
