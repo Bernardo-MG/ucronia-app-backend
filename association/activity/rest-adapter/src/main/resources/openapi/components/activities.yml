@@ -16,7 +16,7 @@ components:
   schemas:
     ActivityCreation:
       type: object
-      required: [date, title, description]
+      required: [date, title]
       properties:
         date:
           $ref: '../common/dates.yml#/components/schemas/Date'
@@ -28,7 +28,7 @@ components:
           type: string
     ActivityUpdate:
       type: object
-      required: [date, title, description]
+      required: [date, title]
       properties:
         date:
           $ref: '../common/dates.yml#/components/schemas/Date'
