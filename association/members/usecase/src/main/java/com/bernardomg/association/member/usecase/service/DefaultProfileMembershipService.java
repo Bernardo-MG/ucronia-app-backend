@@ -32,7 +32,7 @@ import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bernardomg.association.fee.domain.exception.MissingMemberFeeTypeException;
+import com.bernardomg.association.fee.domain.exception.MissingFeeTypeException;
 import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
 import com.bernardomg.association.member.domain.exception.MemberExistsException;
 import com.bernardomg.association.member.domain.exception.MissingMemberProfileException;
@@ -85,14 +85,15 @@ public final class DefaultProfileMembershipService implements ProfileMembershipS
                 throw new MissingMemberProfileException(number);
             });
 
-        if (memberRepository.exists(number)) {
+        if (existing.types()
+            .contains(Member.PROFILE_TYPE)) {
             log.error("Member {} already exists", number);
             throw new MemberExistsException(number);
         }
 
         if (!feeTypeRepository.exists(feeType)) {
             log.error("Missing fee type {}", feeType);
-            throw new MissingMemberFeeTypeException(feeType);
+            throw new MissingFeeTypeException(feeType);
         }
 
         memberFeeType = new FeeType(feeType, "", 0f);

@@ -38,7 +38,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.fee.domain.exception.MissingMemberFeeTypeException;
+import com.bernardomg.association.fee.domain.exception.MissingFeeTypeException;
 import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.member.domain.exception.MemberExistsException;
@@ -66,13 +66,12 @@ class TestProfileMembershipServiceConvert {
     @DisplayName("With an existing member, an exception is thrown")
     void testConvertToMember_ExistingMember_Exception() {
         final ThrowingCallable execution;
-        final Member           profile;
+        final Member           member;
 
         // GIVEN
-        profile = Members.active();
+        member = Members.active();
 
-        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(profile));
-        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(true);
+        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(member));
 
         // WHEN
         execution = () -> service.convertToMember(MemberConstants.NUMBER, FeeConstants.FEE_TYPE_NUMBER);
@@ -86,12 +85,12 @@ class TestProfileMembershipServiceConvert {
     @DisplayName("With a not existing fee type, an exception is thrown")
     void testConvertToMember_NotExistingFeeType_Exception() {
         final ThrowingCallable execution;
-        final Member           profile;
+        final Member           member;
 
         // GIVEN
-        profile = Members.active();
+        member = Members.withoutType();
 
-        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(profile));
+        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(member));
         given(feeTypeRepository.exists(MemberConstants.NUMBER)).willReturn(false);
 
         // WHEN
@@ -99,11 +98,11 @@ class TestProfileMembershipServiceConvert {
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingMemberFeeTypeException.class);
+            .isInstanceOf(MissingFeeTypeException.class);
     }
 
     @Test
-    @DisplayName("With a not existing profile, an exception is thrown")
+    @DisplayName("With a not existing member, an exception is thrown")
     void testConvertToMember_NotExistingProfile_Exception() {
         final ThrowingCallable execution;
 
@@ -121,13 +120,12 @@ class TestProfileMembershipServiceConvert {
     @Test
     @DisplayName("When converting to member, the change is persisted")
     void testConvertToMember_PersistedData() {
-        final Member profile;
+        final Member member;
 
         // GIVEN
-        profile = Members.withoutType();
+        member = Members.withoutType();
 
-        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(profile));
-        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(false);
+        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(member));
         given(feeTypeRepository.exists(MemberConstants.NUMBER)).willReturn(true);
 
         // WHEN
@@ -140,14 +138,13 @@ class TestProfileMembershipServiceConvert {
     @Test
     @DisplayName("When converting to member, the change is returned")
     void testConvertToMember_ReturnedData() {
-        final Member profile;
+        final Member member;
         final Member updated;
 
         // GIVEN
-        profile = Members.withoutType();
+        member = Members.withoutType();
 
-        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(profile));
-        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(false);
+        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(member));
         given(feeTypeRepository.exists(MemberConstants.NUMBER)).willReturn(true);
         given(memberRepository.save(Members.toCreate())).willReturn(Members.withoutType());
 

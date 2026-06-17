@@ -36,7 +36,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.fee.domain.exception.MissingMemberFeeTypeException;
+import com.bernardomg.association.fee.domain.exception.MissingFeeTypeException;
 import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.FeeTypeConstants;
@@ -128,7 +128,7 @@ class TestMemberServiceUpdate {
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingMemberFeeTypeException.class);
+            .isInstanceOf(MissingFeeTypeException.class);
     }
 
     @Test

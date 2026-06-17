@@ -30,7 +30,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bernardomg.association.fee.domain.exception.MissingMemberFeeTypeException;
+import com.bernardomg.association.fee.domain.exception.MissingFeeTypeException;
 import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
 import com.bernardomg.association.member.domain.exception.MissingMemberContactMethodException;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
@@ -100,7 +100,7 @@ public final class DefaultMemberService implements MemberService {
             .number())) {
             log.error("Missing fee type {}", member.feeType()
                 .number());
-            throw new MissingMemberFeeTypeException(member.feeType()
+            throw new MissingFeeTypeException(member.feeType()
                 .number());
         }
 
@@ -187,7 +187,7 @@ public final class DefaultMemberService implements MemberService {
             .number())) {
             log.error("Missing fee type {}", member.feeType()
                 .number());
-            throw new MissingMemberFeeTypeException(member.feeType()
+            throw new MissingFeeTypeException(member.feeType()
                 .number());
         }
 
@@ -223,7 +223,7 @@ public final class DefaultMemberService implements MemberService {
             .number())) {
             log.error("Missing fee type {}", member.feeType()
                 .number());
-            throw new MissingMemberFeeTypeException(member.feeType()
+            throw new MissingFeeTypeException(member.feeType()
                 .number());
         }
 
