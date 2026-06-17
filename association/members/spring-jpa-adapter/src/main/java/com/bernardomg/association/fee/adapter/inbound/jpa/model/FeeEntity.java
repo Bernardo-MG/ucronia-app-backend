@@ -27,6 +27,8 @@ package com.bernardomg.association.fee.adapter.inbound.jpa.model;
 import java.io.Serializable;
 import java.time.Instant;
 
+import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -58,7 +60,7 @@ public class FeeEntity implements Serializable {
 
     @OneToOne(optional = false)
     @JoinColumn(name = "member_id", referencedColumnName = "id")
-    private FeeMemberEntity      member;
+    private MemberEntity         member;
 
     @Column(name = "month", nullable = false)
     private Instant              month;
@@ -78,7 +80,7 @@ public class FeeEntity implements Serializable {
         return id;
     }
 
-    public FeeMemberEntity getMember() {
+    public MemberEntity getMember() {
         return member;
     }
 
@@ -102,7 +104,7 @@ public class FeeEntity implements Serializable {
         this.id = id;
     }
 
-    public void setMember(final FeeMemberEntity member) {
+    public void setMember(final MemberEntity member) {
         this.member = member;
     }
 
@@ -120,8 +122,8 @@ public class FeeEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "FeeEntity [date=" + month + ", id=" + id + ", paid=" + paid + ", member=" + member + ", feeType="
-                + feeType + ", transaction=" + transaction + "]";
+        return "FeeEntity [id=" + id + ", member=" + member + ", month=" + month + ", feeType=" + feeType + ", paid="
+                + paid + ", transaction=" + transaction + "]";
     }
 
 }

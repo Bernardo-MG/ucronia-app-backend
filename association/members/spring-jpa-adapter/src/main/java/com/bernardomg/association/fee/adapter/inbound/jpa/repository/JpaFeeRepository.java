@@ -39,13 +39,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeEntity;
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeEntityMapper;
-import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeMemberEntity;
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTransactionEntity;
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTypeEntity;
 import com.bernardomg.association.fee.adapter.inbound.jpa.specification.FeeSpecifications;
 import com.bernardomg.association.fee.domain.filter.FeeFilter;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
 import com.bernardomg.association.member.domain.model.YearsRange;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -62,32 +63,32 @@ public final class JpaFeeRepository implements FeeRepository {
      */
     private static final Logger                  log = LoggerFactory.getLogger(JpaFeeRepository.class);
 
-    private final FeeMemberSpringRepository      feeMemberSpringRepository;
-
     private final FeeSpringRepository            feeSpringRepository;
 
     private final FeeTypeSpringRepository        feeTypeSpringRepository;
 
+    private final MemberSpringRepository         memberSpringRepository;
+
     private final FeeTransactionSpringRepository transactionSpringRepository;
 
-    public JpaFeeRepository(final FeeSpringRepository feeSpringRepo,
-            final FeeMemberSpringRepository feeMemberSpringRepo, final FeeTypeSpringRepository feeTypeSpringRepo,
+    public JpaFeeRepository(final FeeSpringRepository feeSpringRepo, final MemberSpringRepository memberSpringRepo,
+            final FeeTypeSpringRepository feeTypeSpringRepo,
             final FeeTransactionSpringRepository transactionSpringRepo) {
         super();
 
         feeSpringRepository = Objects.requireNonNull(feeSpringRepo);
-        feeMemberSpringRepository = Objects.requireNonNull(feeMemberSpringRepo);
+        memberSpringRepository = Objects.requireNonNull(memberSpringRepo);
         feeTypeSpringRepository = Objects.requireNonNull(feeTypeSpringRepo);
         transactionSpringRepository = Objects.requireNonNull(transactionSpringRepo);
     }
 
     @Override
     public final void delete(final Long number, final Instant month) {
-        final Optional<FeeMemberEntity> member;
+        final Optional<MemberEntity> member;
 
         log.debug("Deleting fee for member {} in date {}", number, month);
 
-        member = feeMemberSpringRepository.findByNumber(number);
+        member = memberSpringRepository.findByNumber(number);
         if (member.isPresent()) {
             feeSpringRepository.deleteByMemberIdAndMonth(member.get()
                 .getId(), month);
@@ -321,12 +322,12 @@ public final class JpaFeeRepository implements FeeRepository {
 
     private final FeeEntity toEntity(final Fee fee) {
         final Optional<FeeEntity>            existing;
-        final Optional<FeeMemberEntity>      member;
+        final Optional<MemberEntity>         member;
         final Optional<FeeTypeEntity>        feeType;
         final Optional<FeeTransactionEntity> transaction;
         final FeeEntity                      entity;
 
-        member = feeMemberSpringRepository.findByNumber(fee.member()
+        member = memberSpringRepository.findByNumber(fee.member()
             .number());
         if (!member.isPresent()) {
             log.error("Member with number {} not found", fee.member()

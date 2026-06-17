@@ -4,9 +4,9 @@ package com.bernardomg.association.fee.test.configuration.factory;
 import java.time.Instant;
 
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeEntity;
-import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeMemberEntity;
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTransactionEntity;
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTypeEntity;
+import com.bernardomg.association.member.test.configuration.factory.MemberEntities;
 
 public final class FeeEntities {
 
@@ -22,7 +22,7 @@ public final class FeeEntities {
 
         entity = new FeeEntity();
         entity.setFeeType(feeType);
-        entity.setMember(valid());
+        entity.setMember(MemberEntities.active());
         entity.setMonth(FeeConstants.CURRENT_MONTH);
         return entity;
     }
@@ -39,7 +39,7 @@ public final class FeeEntities {
 
         entity = new FeeEntity();
         entity.setFeeType(feeType);
-        entity.setMember(alternative());
+        entity.setMember(MemberEntities.alternative());
         entity.setMonth(FeeConstants.CURRENT_MONTH);
         return entity;
     }
@@ -83,7 +83,7 @@ public final class FeeEntities {
 
         entity = new FeeEntity();
         entity.setFeeType(feeType);
-        entity.setMember(valid());
+        entity.setMember(MemberEntities.active());
         entity.setMonth(FeeConstants.NEXT_MONTH);
         return entity;
     }
@@ -100,7 +100,7 @@ public final class FeeEntities {
 
         entity = new FeeEntity();
         entity.setFeeType(feeType);
-        entity.setMember(valid());
+        entity.setMember(MemberEntities.active());
         entity.setMonth(FeeConstants.NEXT_YEAR_MONTH);
         return entity;
     }
@@ -117,7 +117,7 @@ public final class FeeEntities {
 
         entity = new FeeEntity();
         entity.setFeeType(feeType);
-        entity.setMember(valid());
+        entity.setMember(MemberEntities.active());
         entity.setMonth(FeeConstants.DATE);
         entity.setPaid(false);
         return entity;
@@ -135,7 +135,7 @@ public final class FeeEntities {
 
         entity = new FeeEntity();
         entity.setFeeType(feeType);
-        entity.setMember(valid());
+        entity.setMember(MemberEntities.active());
         entity.setMonth(FeeConstants.DATE);
         entity.setPaid(true);
         entity.setTransaction(februaryFee());
@@ -158,7 +158,7 @@ public final class FeeEntities {
 
         entity = new FeeEntity();
         entity.setFeeType(feeType);
-        entity.setMember(valid());
+        entity.setMember(MemberEntities.active());
         entity.setMonth(FeeConstants.DATE);
         entity.setPaid(true);
         entity.setTransaction(transaction);
@@ -177,7 +177,7 @@ public final class FeeEntities {
 
         entity = new FeeEntity();
         entity.setFeeType(feeType);
-        entity.setMember(valid());
+        entity.setMember(MemberEntities.active());
         entity.setMonth(FeeConstants.DATE);
         entity.setPaid(true);
         entity.setTransaction(multipleFeesStartYear());
@@ -196,7 +196,7 @@ public final class FeeEntities {
 
         entity = new FeeEntity();
         entity.setFeeType(feeType);
-        entity.setMember(valid());
+        entity.setMember(MemberEntities.active());
         entity.setMonth(FeeConstants.NEXT_DATE);
         entity.setPaid(true);
         entity.setTransaction(multipleFeesStartYear());
@@ -215,7 +215,7 @@ public final class FeeEntities {
 
         entity = new FeeEntity();
         entity.setFeeType(feeType);
-        entity.setMember(valid());
+        entity.setMember(MemberEntities.active());
         entity.setMonth(FeeConstants.FIRST_NEXT_YEAR_DATE);
         entity.setPaid(true);
         entity.setTransaction(multipleFeesEndYear());
@@ -234,7 +234,7 @@ public final class FeeEntities {
 
         entity = new FeeEntity();
         entity.setFeeType(feeType);
-        entity.setMember(valid());
+        entity.setMember(MemberEntities.active());
         entity.setMonth(FeeConstants.LAST_YEAR_DATE);
         entity.setPaid(true);
         entity.setTransaction(multipleFeesEndYear());
@@ -253,7 +253,7 @@ public final class FeeEntities {
 
         entity = new FeeEntity();
         entity.setFeeType(feeType);
-        entity.setMember(valid());
+        entity.setMember(MemberEntities.active());
         entity.setMonth(FeeConstants.DATE);
         entity.setPaid(true);
         return entity;
@@ -271,7 +271,7 @@ public final class FeeEntities {
 
         entity = new FeeEntity();
         entity.setFeeType(feeType);
-        entity.setMember(valid());
+        entity.setMember(MemberEntities.active());
         entity.setMonth(FeeConstants.CURRENT_MONTH);
         entity.setPaid(true);
         entity.setTransaction(transactionWithIndex(index));
@@ -290,7 +290,7 @@ public final class FeeEntities {
 
         entity = new FeeEntity();
         entity.setFeeType(feeType);
-        entity.setMember(valid());
+        entity.setMember(MemberEntities.active());
         entity.setMonth(FeeConstants.PREVIOUS_MONTH);
         return entity;
     }
@@ -307,7 +307,7 @@ public final class FeeEntities {
 
         entity = new FeeEntity();
         entity.setFeeType(feeType);
-        entity.setMember(valid());
+        entity.setMember(MemberEntities.active());
         entity.setMonth(FeeConstants.PREVIOUS_YEAR_MONTH);
         return entity;
     }
@@ -333,7 +333,7 @@ public final class FeeEntities {
 
         entity = new FeeEntity();
         entity.setFeeType(feeType);
-        entity.setMember(valid());
+        entity.setMember(MemberEntities.active());
         entity.setMonth(FeeConstants.TWO_MONTHS_BACK);
         return entity;
     }
@@ -350,32 +350,8 @@ public final class FeeEntities {
 
         entity = new FeeEntity();
         entity.setFeeType(feeType);
-        entity.setMember(valid());
+        entity.setMember(MemberEntities.active());
         entity.setMonth(FeeConstants.TWO_YEARS_BACK);
-        return entity;
-    }
-
-    private static final FeeMemberEntity alternative() {
-        final FeeMemberEntity entity;
-
-        entity = new FeeMemberEntity();
-        entity.setId(2L);
-        entity.setNumber(ProfileConstants.ALTERNATIVE_NUMBER);
-        entity.setFirstName(ProfileConstants.FIRST_NAME);
-        entity.setLastName(ProfileConstants.LAST_NAME);
-
-        return entity;
-    }
-
-    private static final FeeMemberEntity valid() {
-        final FeeMemberEntity entity;
-
-        entity = new FeeMemberEntity();
-        entity.setId(1L);
-        entity.setNumber(ProfileConstants.NUMBER);
-        entity.setFirstName(ProfileConstants.FIRST_NAME);
-        entity.setLastName(ProfileConstants.LAST_NAME);
-
         return entity;
     }
 

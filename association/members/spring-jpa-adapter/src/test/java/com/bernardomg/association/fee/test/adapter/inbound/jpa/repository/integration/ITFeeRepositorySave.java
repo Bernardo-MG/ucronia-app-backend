@@ -26,6 +26,7 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.Positiv
 import com.bernardomg.association.fee.test.configuration.factory.FeeEntities;
 import com.bernardomg.association.fee.test.configuration.factory.FeeTransactionEntities;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.association.transaction.test.configuration.data.annotation.FeeTransaction;
 import com.bernardomg.test.annotation.IntegrationTest;
@@ -47,7 +48,7 @@ class ITFeeRepositorySave {
     @Test
     @DisplayName("Persists the data")
     @PositiveFeeType
-    @ValidProfile
+    @ActiveMember
     void testSave_NotPaid_PersistedData() {
         final Iterable<FeeEntity> fees;
         final Fee                 fee;
@@ -91,7 +92,7 @@ class ITFeeRepositorySave {
     @Test
     @DisplayName("When changing a fee date, it is persisted")
     @PositiveFeeType
-    @ValidProfile
+    @ActiveMember
     @PaidFee
     void testSave_Paid_ChangeDate_PersistedData() {
         final Iterable<FeeEntity> fees;
@@ -218,7 +219,7 @@ class ITFeeRepositorySave {
     @Test
     @DisplayName("When the transaction doesn't exist, the transaction is ignored")
     @PositiveFeeType
-    @ValidProfile
+    @ActiveMember
     void testSave_Paid_MissingTransaction() {
         final Iterable<FeeEntity> fees;
         final Fee                 fee;
@@ -242,7 +243,7 @@ class ITFeeRepositorySave {
     @Test
     @DisplayName("Persists the data")
     @PositiveFeeType
-    @ValidProfile
+    @ActiveMember
     @FeeTransaction
     void testSave_Paid_PersistedData() {
         final Iterable<FeeEntity> fees;
@@ -343,7 +344,7 @@ class ITFeeRepositorySave {
     @Test
     @DisplayName("When the fee is paid without a transaction, it is persisted")
     @PositiveFeeType
-    @ValidProfile
+    @ActiveMember
     @FeeTransaction
     void testSave_PaidNoTransaction_PersistedData() {
         final Iterable<FeeEntity> fees;
@@ -368,7 +369,7 @@ class ITFeeRepositorySave {
     @Test
     @DisplayName("When updating from unpaid to paid, it is persisted")
     @PositiveFeeType
-    @ValidProfile
+    @ActiveMember
     @NotPaidFee
     @FeeTransaction
     void testSave_UnpaidToPaid_ChangeDate_PersistedData() {

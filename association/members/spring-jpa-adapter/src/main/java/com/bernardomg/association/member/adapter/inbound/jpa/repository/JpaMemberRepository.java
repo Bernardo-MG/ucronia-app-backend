@@ -229,7 +229,7 @@ public final class JpaMemberRepository implements MemberRepository {
 
         log.trace("Checking if member {} is active", number);
 
-        active = readMemberSpringRepository.isActive(number);
+        active = readMemberSpringRepository.findActiveByNumber(number);
 
         log.trace("Member {} is active: {}", number, active);
 

@@ -26,6 +26,7 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.Positiv
 import com.bernardomg.association.fee.test.configuration.factory.FeeEntities;
 import com.bernardomg.association.fee.test.configuration.factory.FeeTransactionEntities;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.association.transaction.test.configuration.data.annotation.FeeTransaction;
 import com.bernardomg.test.annotation.IntegrationTest;
@@ -64,7 +65,7 @@ class ITFeeRepositorySaveAll {
     @Test
     @DisplayName("When a not paid fee, it is persisted")
     @PositiveFeeType
-    @ValidProfile
+    @ActiveMember
     void testSaveAll_NotPaid_PersistedData() {
         final Iterable<FeeEntity> fees;
         final Fee                 fee;
@@ -108,7 +109,7 @@ class ITFeeRepositorySaveAll {
     @Test
     @DisplayName("When changing a fee date, it is persisted")
     @PositiveFeeType
-    @ValidProfile
+    @ActiveMember
     @FeeTransaction
     @NotPaidFee
     void testSaveAll_Paid_ChangeDate_PersistedData() {
@@ -196,7 +197,7 @@ class ITFeeRepositorySaveAll {
     @Test
     @DisplayName("When a paid fee, it is persisted")
     @PositiveFeeType
-    @ValidProfile
+    @ActiveMember
     @FeeTransaction
     void testSaveAll_Paid_PersistedData() {
         final Iterable<FeeEntity> fees;

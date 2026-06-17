@@ -30,7 +30,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
 import com.bernardomg.association.fee.adapter.inbound.event.RegisterFeesOnMonthStartEventListener;
-import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeMemberSpringRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeSpringRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeTransactionSpringRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeTypeSpringRepository;
@@ -50,6 +49,7 @@ import com.bernardomg.association.fee.usecase.service.FeeSummaryService;
 import com.bernardomg.association.fee.usecase.service.FeeTypeService;
 import com.bernardomg.association.fee.usecase.service.MyFeesService;
 import com.bernardomg.association.fee.usecase.service.SpringSecurityMyFeesService;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
@@ -68,10 +68,9 @@ public class AssociationFeeAutoConfiguration {
 
     @Bean("feeRepository")
     public FeeRepository getFeeRepository(final FeeSpringRepository feeSpringRepository,
-            final FeeMemberSpringRepository feeMemberSpringRepository,
-            final FeeTypeSpringRepository feeTypeSpringRepository,
+            final MemberSpringRepository memberSpringRepository, final FeeTypeSpringRepository feeTypeSpringRepository,
             final FeeTransactionSpringRepository feeTransactionSpringRepository) {
-        return new JpaFeeRepository(feeSpringRepository, feeMemberSpringRepository, feeTypeSpringRepository,
+        return new JpaFeeRepository(feeSpringRepository, memberSpringRepository, feeTypeSpringRepository,
             feeTransactionSpringRepository);
     }
 

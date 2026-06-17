@@ -29,6 +29,7 @@ import java.util.Optional;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.Fee.Transaction;
 import com.bernardomg.association.fee.domain.model.FeeType;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
 import com.bernardomg.association.member.domain.model.Name;
 
 /**
@@ -73,7 +74,7 @@ public final class FeeEntityMapper {
         return fee;
     }
 
-    public static final FeeEntity toEntity(final Fee fee, final FeeMemberEntity member, final FeeTypeEntity feeType,
+    public static final FeeEntity toEntity(final Fee fee, final MemberEntity member, final FeeTypeEntity feeType,
             final Optional<FeeTransactionEntity> transaction) {
         final FeeEntity entity;
         final Boolean   paid;
@@ -94,7 +95,7 @@ public final class FeeEntityMapper {
         return entity;
     }
 
-    public static final FeeEntity toEntity(final FeeEntity entity, final FeeMemberEntity member,
+    public static final FeeEntity toEntity(final FeeEntity entity, final MemberEntity member,
             final FeeTypeEntity feeType, final Optional<FeeTransactionEntity> transaction) {
         final Boolean paid;
 
