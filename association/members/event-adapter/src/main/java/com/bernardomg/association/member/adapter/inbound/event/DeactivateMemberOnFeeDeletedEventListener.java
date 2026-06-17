@@ -29,7 +29,7 @@ import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bernardomg.association.fee.domain.event.FeeDeletedEvent;
+import com.bernardomg.association.member.domain.event.FeeDeletedEvent;
 import com.bernardomg.association.member.usecase.service.MemberStatusService;
 import com.bernardomg.event.listener.EventListener;
 
