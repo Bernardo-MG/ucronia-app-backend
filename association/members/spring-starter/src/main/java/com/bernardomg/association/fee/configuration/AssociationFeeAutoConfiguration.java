@@ -34,11 +34,9 @@ import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeMemberSp
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeSpringRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeTransactionSpringRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeTypeSpringRepository;
-import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaFeeMemberRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaFeeRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaFeeSummaryRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaFeeTypeRepository;
-import com.bernardomg.association.fee.domain.repository.FeeMemberRepository;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.domain.repository.FeeSummaryRepository;
 import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
@@ -68,11 +66,6 @@ public class AssociationFeeAutoConfiguration {
         return new DefaultFeeMaintenanceService(feeRepository, memberRepository);
     }
 
-    @Bean("feeMemberRepository")
-    public FeeMemberRepository getFeeMemberRepository(final FeeMemberSpringRepository feeMemberSpringRepository) {
-        return new JpaFeeMemberRepository(feeMemberSpringRepository);
-    }
-
     @Bean("feeRepository")
     public FeeRepository getFeeRepository(final FeeSpringRepository feeSpringRepository,
             final FeeMemberSpringRepository feeMemberSpringRepository,
@@ -84,10 +77,9 @@ public class AssociationFeeAutoConfiguration {
 
     @Bean("feeService")
     public FeeService getFeeService(final FeeRepository feeRepository, final MemberRepository memberRepository,
-            final FeeMemberRepository feeMemberRepository, final TransactionRepository transactionRepository,
-            final EventEmitter evntEmitter, final MessageSource msgSource) {
-        return new DefaultFeeService(feeRepository, memberRepository, feeMemberRepository, transactionRepository,
-            evntEmitter, msgSource);
+            final TransactionRepository transactionRepository, final EventEmitter evntEmitter,
+            final MessageSource msgSource) {
+        return new DefaultFeeService(feeRepository, memberRepository, transactionRepository, evntEmitter, msgSource);
     }
 
     @Bean("feeSummaryRepository")

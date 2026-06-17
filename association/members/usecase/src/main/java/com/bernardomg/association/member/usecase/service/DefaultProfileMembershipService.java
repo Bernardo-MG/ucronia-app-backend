@@ -39,7 +39,6 @@ import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.Member.FeeType;
 import com.bernardomg.association.member.domain.model.Name;
 import com.bernardomg.association.member.domain.repository.MemberFeeTypeRepository;
-import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 
 import jakarta.transaction.Transactional;
@@ -60,16 +59,13 @@ public final class DefaultProfileMembershipService implements ProfileMembershipS
 
     private final MemberFeeTypeRepository memberFeeTypeRepository;
 
-    private final MemberProfileRepository memberProfileRepository;
-
     private final MemberRepository        memberRepository;
 
     public DefaultProfileMembershipService(final MemberRepository memberRepo,
-            final MemberProfileRepository memberProfileRepo, final MemberFeeTypeRepository memberFeeTypeRepo) {
+            final MemberFeeTypeRepository memberFeeTypeRepo) {
         super();
 
         memberRepository = Objects.requireNonNull(memberRepo);
-        memberProfileRepository = Objects.requireNonNull(memberProfileRepo);
         memberFeeTypeRepository = Objects.requireNonNull(memberFeeTypeRepo);
     }
 
@@ -84,7 +80,7 @@ public final class DefaultProfileMembershipService implements ProfileMembershipS
 
         log.debug("Converting profile {} to member", number);
 
-        existing = memberProfileRepository.findOne(number)
+        existing = memberRepository.findOne(number)
             .orElseThrow(() -> {
                 log.error("Missing profile {}", number);
                 throw new MissingMemberProfileException(number);

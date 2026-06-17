@@ -30,6 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeTypeSpringRepository;
 import com.bernardomg.association.member.domain.repository.MemberFeeTypeRepository;
 
 @Transactional
@@ -38,14 +39,14 @@ public final class JpaMemberFeeTypeRepository implements MemberFeeTypeRepository
     /**
      * Logger for the class.
      */
-    private static final Logger                 log = LoggerFactory.getLogger(JpaMemberFeeTypeRepository.class);
+    private static final Logger           log = LoggerFactory.getLogger(JpaMemberFeeTypeRepository.class);
 
-    private final MemberFeeTypeSpringRepository memberFeeTypeSpringRepository;
+    private final FeeTypeSpringRepository feeTypeSpringRepository;
 
-    public JpaMemberFeeTypeRepository(final MemberFeeTypeSpringRepository memberFeeTypeSpringRepo) {
+    public JpaMemberFeeTypeRepository(final FeeTypeSpringRepository feeTypeSpringRepo) {
         super();
 
-        memberFeeTypeSpringRepository = Objects.requireNonNull(memberFeeTypeSpringRepo);
+        feeTypeSpringRepository = Objects.requireNonNull(feeTypeSpringRepo);
     }
 
     @Override
@@ -54,7 +55,7 @@ public final class JpaMemberFeeTypeRepository implements MemberFeeTypeRepository
 
         log.debug("Checking if fee type {} exists", number);
 
-        exists = memberFeeTypeSpringRepository.existsByNumber(number);
+        exists = feeTypeSpringRepository.existsByNumber(number);
 
         log.debug("Fee type {} exists: {}", number, exists);
 

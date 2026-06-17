@@ -149,8 +149,8 @@ public class FeeMemberEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "ProfileEntity [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", number=" + number
-                + ", renew=" + renew + "]";
+        return "FeeMemberEntity [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", number="
+                + number + ", renew=" + renew + "]";
     }
 
 }

@@ -10,6 +10,8 @@ import java.util.Set;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
+import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTypeEntity;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -53,7 +55,7 @@ public class ReadMemberEntity implements Serializable {
 
     @OneToOne
     @JoinColumn(name = "fee_type_id", referencedColumnName = "id")
-    private MemberFeeTypeEntity                        feeType;
+    private FeeTypeEntity                              feeType;
 
     @Column(name = "first_name", table = "profiles", nullable = false)
     private String                                     firstName;
@@ -110,7 +112,7 @@ public class ReadMemberEntity implements Serializable {
         return contactChannels;
     }
 
-    public MemberFeeTypeEntity getFeeType() {
+    public FeeTypeEntity getFeeType() {
         return feeType;
     }
 
@@ -167,7 +169,7 @@ public class ReadMemberEntity implements Serializable {
         this.contactChannels = contactChannels;
     }
 
-    public void setFeeType(final MemberFeeTypeEntity feeType) {
+    public void setFeeType(final FeeTypeEntity feeType) {
         this.feeType = feeType;
     }
 
