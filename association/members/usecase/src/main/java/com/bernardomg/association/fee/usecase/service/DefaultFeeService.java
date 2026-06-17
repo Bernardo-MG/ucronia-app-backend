@@ -53,17 +53,17 @@ import com.bernardomg.association.fee.domain.model.FeeMember;
 import com.bernardomg.association.fee.domain.model.FeeMemberStatus;
 import com.bernardomg.association.fee.domain.model.FeePayments;
 import com.bernardomg.association.fee.domain.model.FeeType;
-import com.bernardomg.association.fee.domain.repository.FeeMemberRepository;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
+import com.bernardomg.association.fee.usecase.validation.FeeMonthNotExistingRule;
+import com.bernardomg.association.fee.usecase.validation.FeeNotPaidInFutureRule;
+import com.bernardomg.association.fee.usecase.validation.FeePaymentsMonthsNotExistingRule;
+import com.bernardomg.association.fee.usecase.validation.FeePaymentsNotPaidInFutureRule;
+import com.bernardomg.association.fee.usecase.validation.FeeTransactionNotChangedRule;
+import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.MemberFees;
 import com.bernardomg.association.member.domain.model.Name;
 import com.bernardomg.association.member.domain.model.YearsRange;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.usecase.validation.FeeMonthNotExistingRule;
-import com.bernardomg.association.member.usecase.validation.FeeNotPaidInFutureRule;
-import com.bernardomg.association.member.usecase.validation.FeePaymentsMonthsNotExistingRule;
-import com.bernardomg.association.member.usecase.validation.FeePaymentsNotPaidInFutureRule;
-import com.bernardomg.association.member.usecase.validation.FeeTransactionNotChangedRule;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.event.emitter.EventEmitter;
@@ -90,8 +90,6 @@ public final class DefaultFeeService implements FeeService {
 
     private final EventEmitter           eventEmitter;
 
-    private final FeeMemberRepository    feeMemberRepository;
-
     private final FeeRepository          feeRepository;
 
     private final MemberRepository       memberRepository;
@@ -106,14 +104,12 @@ public final class DefaultFeeService implements FeeService {
 
     private final Validator<Fee>         validatorUpdate;
 
-    public DefaultFeeService(final FeeRepository feeRepo, final MemberRepository memberRepo,
-            final FeeMemberRepository feeMemberRepo, final TransactionRepository transactionRepo,
+    public DefaultFeeService(final FeeRepository feeRepo, final MemberRepository memberRepo,final TransactionRepository transactionRepo,
             final EventEmitter evntEmitter, final MessageSource msgSource) {
         super();
 
         feeRepository = Objects.requireNonNull(feeRepo);
         memberRepository = Objects.requireNonNull(memberRepo);
-        feeMemberRepository = Objects.requireNonNull(feeMemberRepo);
         // TODO: remove dependency to transaction domain
         transactionRepository = Objects.requireNonNull(transactionRepo);
         eventEmitter = Objects.requireNonNull(evntEmitter);
@@ -122,9 +118,9 @@ public final class DefaultFeeService implements FeeService {
         messageSource = Objects.requireNonNull(msgSource);
 
         validatorPay = new FieldRuleValidator<>(new FeePaymentsNotPaidInFutureRule(),
-            new FeePaymentsMonthsNotExistingRule(feeMemberRepo, feeRepository));
+            new FeePaymentsMonthsNotExistingRule(memberRepository, feeRepository));
 
-        validatorCreate = new FieldRuleValidator<>(new FeeMonthNotExistingRule(feeMemberRepo, feeRepository));
+        validatorCreate = new FieldRuleValidator<>(new FeeMonthNotExistingRule(memberRepository, feeRepository));
         validatorUpdate = new FieldRuleValidator<>(new FeeNotPaidInFutureRule(),
             new FeeTransactionNotChangedRule(feeRepository));
     }
@@ -133,13 +129,13 @@ public final class DefaultFeeService implements FeeService {
     public final Fee createFee(final Instant date, final Long number) {
         final Fee       newFee;
         final Fee       created;
-        final FeeMember member;
+        final Member member;
         final FeeType   feeType;
         final Name      name;
 
         log.info("Creating unpaid fee for {} for month {}", number, date);
 
-        member = feeMemberRepository.findOne(number)
+        member = memberRepository.findOne(number)
             .orElseThrow(() -> {
                 log.error("Missing member {}", number);
                 throw new MissingFeeMemberException(number);
@@ -308,7 +304,7 @@ public final class DefaultFeeService implements FeeService {
     @Override
     public final Collection<Fee> payFees(final FeePayments feesPayments) {
         final Collection<Fee>     feesToSave;
-        final FeeMember           member;
+        final Member           member;
         final Collection<Fee>     created;
         final Transaction         transaction;
         final FeeType             feeType;
@@ -317,7 +313,7 @@ public final class DefaultFeeService implements FeeService {
         log.info("Paying fees for {} for months {}, paid in {}", feesPayments.member(), feesPayments.months(),
             feesPayments.paymentDate());
 
-        member = feeMemberRepository.findOne(feesPayments.member())
+        member = memberRepository.findOne(feesPayments.member())
             .orElseThrow(() -> {
                 log.error("Missing member {}", feesPayments.member());
                 throw new MissingFeeMemberException(feesPayments.member());
@@ -363,7 +359,7 @@ public final class DefaultFeeService implements FeeService {
         final Transaction existingPayment;
         final Transaction updatedPayment;
         final Fee         updated;
-        final FeeMember   member;
+        final Member   member;
         final Fee         toSave;
         final Transaction transaction;
 
@@ -379,7 +375,7 @@ public final class DefaultFeeService implements FeeService {
                     .number(), fee.month());
             });
 
-        member = feeMemberRepository.findOne(fee.member()
+        member = memberRepository.findOne(fee.member()
             .number())
             .orElseThrow(() -> {
                 log.error("Missing member {}", fee.member()
@@ -505,7 +501,7 @@ public final class DefaultFeeService implements FeeService {
             .replaceAll("\\p{M}", "");
     }
 
-    private final Transaction savePaymentTransaction(final FeeMember member, final FeeType feeType,
+    private final Transaction savePaymentTransaction(final Member member, final FeeType feeType,
             final Collection<Instant> feeMonths, final Instant payDate) {
         final Transaction transaction;
         final Float       feeAmount;
@@ -553,7 +549,7 @@ public final class DefaultFeeService implements FeeService {
             case ACTIVE -> true;
             case INACTIVE -> false;
             // TODO: get all active in a single query
-            default -> feeMemberRepository.isActive(number);
+            default -> memberRepository.isActive(number);
         };
 
         member = new MemberFees.Member(number, name, active);
@@ -564,7 +560,7 @@ public final class DefaultFeeService implements FeeService {
         return new MemberFees.Fee(fee.month(), fee.paid());
     }
 
-    private final Fee toPaidFee(final FeeType memberFeeType, final FeeMember member, final Instant month,
+    private final Fee toPaidFee(final FeeType memberFeeType, final Member member, final Instant month,
             final Transaction transaction) {
         final FeeType         feeType;
         final Fee.Transaction feeTransaction;

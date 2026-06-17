@@ -41,15 +41,14 @@ import org.springframework.context.MessageSource;
 import com.bernardomg.association.fee.domain.exception.MissingFeeMemberException;
 import com.bernardomg.association.fee.domain.exception.MissingFeeTypeException;
 import com.bernardomg.association.fee.domain.model.Fee;
-import com.bernardomg.association.fee.domain.repository.FeeMemberRepository;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
-import com.bernardomg.association.fee.test.configuration.factory.FeeMembers;
 import com.bernardomg.association.fee.test.configuration.factory.FeeTypes;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.factory.MemberConstants;
+import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.validation.domain.model.FieldFailure;
@@ -61,9 +60,6 @@ class TestFeeServiceCreateFee {
 
     @Mock
     private EventEmitter          eventEmitter;
-
-    @Mock
-    private FeeMemberRepository   feeMemberRepository;
 
     @Mock
     private FeeRepository         feeRepository;
@@ -86,7 +82,7 @@ class TestFeeServiceCreateFee {
         final Fee fee;
 
         // GIVEN
-        given(feeMemberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(FeeMembers.valid()));
+        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
         given(memberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.of(FeeTypes.positive()));
         given(feeRepository.save(Fees.notPaid())).willReturn(Fees.notPaid());
         given(feeRepository.exists(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(false);
@@ -107,7 +103,7 @@ class TestFeeServiceCreateFee {
         final FieldFailure     failure;
 
         // GIVEN
-        given(feeMemberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(FeeMembers.valid()));
+        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
         given(memberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.of(FeeTypes.positive()));
         given(feeRepository.exists(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
 
@@ -126,7 +122,7 @@ class TestFeeServiceCreateFee {
         final Fee fee;
 
         // GIVEN
-        given(feeMemberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(FeeMembers.valid()));
+        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
         given(memberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.of(FeeTypes.zero()));
         given(feeRepository.save(Fees.paidNoTransactionNoAmount())).willReturn(Fees.paidNoTransactionNoAmount());
         given(feeRepository.exists(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(false);
@@ -146,7 +142,7 @@ class TestFeeServiceCreateFee {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(feeMemberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(FeeMembers.valid()));
+        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
         given(memberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
@@ -163,7 +159,7 @@ class TestFeeServiceCreateFee {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(feeMemberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.empty());
+        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
         execution = () -> service.createFee(FeeConstants.DATE, MemberConstants.NUMBER);

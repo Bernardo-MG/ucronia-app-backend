@@ -38,13 +38,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.MessageSource;
 
 import com.bernardomg.association.fee.domain.model.FeeMemberStatus;
-import com.bernardomg.association.fee.domain.repository.FeeMemberRepository;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.FeeCalendarConstants;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.test.configuration.factory.MembersFees;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
 import com.bernardomg.association.member.domain.model.MemberFees;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.factory.MemberConstants;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.event.emitter.EventEmitter;
@@ -58,10 +58,10 @@ class TestFeeServiceGetForYear {
     private EventEmitter          eventEmitter;
 
     @Mock
-    private FeeMemberRepository   feeMemberRepository;
+    private FeeRepository         feeRepository;
 
     @Mock
-    private FeeRepository         feeRepository;
+    private MemberRepository      memberRepository;
 
     @Mock
     private MessageSource         messageSource;
@@ -103,7 +103,7 @@ class TestFeeServiceGetForYear {
 
         given(feeRepository.findAllInYear(FeeCalendarConstants.CURRENT_YEAR, sorting))
             .willReturn(List.of(Fees.paidCurrentMonth()));
-        given(feeMemberRepository.isActive(MemberConstants.NUMBER)).willReturn(true);
+        given(memberRepository.isActive(MemberConstants.NUMBER)).willReturn(true);
 
         // WHEN
         calendars = service.getForYear(FeeCalendarConstants.CURRENT_YEAR, FeeMemberStatus.ALL, sorting);

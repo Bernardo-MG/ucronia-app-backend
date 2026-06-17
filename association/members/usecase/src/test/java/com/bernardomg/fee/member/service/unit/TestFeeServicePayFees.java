@@ -48,10 +48,8 @@ import org.springframework.context.MessageSource;
 import com.bernardomg.association.fee.domain.event.FeePaidEvent;
 import com.bernardomg.association.fee.domain.exception.MissingFeeMemberException;
 import com.bernardomg.association.fee.domain.model.Fee;
-import com.bernardomg.association.fee.domain.repository.FeeMemberRepository;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
-import com.bernardomg.association.fee.test.configuration.factory.FeeMembers;
 import com.bernardomg.association.fee.test.configuration.factory.FeeTypes;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.test.configuration.factory.FeesPayments;
@@ -60,6 +58,7 @@ import com.bernardomg.association.fee.test.configuration.factory.Transactions;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.factory.MemberConstants;
+import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.validation.domain.model.FieldFailure;
@@ -71,9 +70,6 @@ class TestFeeServicePayFees {
 
     @Mock
     private EventEmitter          eventEmitter;
-
-    @Mock
-    private FeeMemberRepository   feeMemberRepository;
 
     @Mock
     private FeeRepository         feeRepository;
@@ -96,7 +92,7 @@ class TestFeeServicePayFees {
         final Collection<Fee> fees;
 
         // GIVEN
-        given(feeMemberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(FeeMembers.valid()));
+        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
         given(memberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.of(FeeTypes.positive()));
         given(feeRepository.saveAll(ArgumentMatchers.anyCollection())).willReturn(List.of(Fees.paid()));
         given(messageSource.getMessage(any(), any(), any())).willReturn("", TransactionConstants.DESCRIPTION);
@@ -118,7 +114,7 @@ class TestFeeServicePayFees {
         final Collection<Fee> fees;
 
         // GIVEN
-        given(feeMemberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(FeeMembers.valid()));
+        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
         given(memberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.of(FeeTypes.positive()));
         given(feeRepository.saveAll(List.of())).willReturn(List.of());
         given(messageSource.getMessage(any(), any(), any())).willReturn(TransactionConstants.DESCRIPTION);
@@ -139,7 +135,7 @@ class TestFeeServicePayFees {
         final FieldFailure     failure;
 
         // GIVEN
-        given(feeMemberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(FeeMembers.valid()));
+        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
         given(memberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.of(FeeTypes.positive()));
         given(feeRepository.existsPaid(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
 
@@ -158,7 +154,7 @@ class TestFeeServicePayFees {
         final Collection<Fee> fees;
 
         // GIVEN
-        given(feeMemberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(FeeMembers.valid()));
+        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
         given(memberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.of(FeeTypes.positive()));
         given(feeRepository.saveAll(ArgumentMatchers.anyCollection()))
             .willReturn(List.of(Fees.paid(), Fees.paidForMonth(Month.MARCH.getValue())));
@@ -183,7 +179,7 @@ class TestFeeServicePayFees {
         final FieldFailure     failure;
 
         // GIVEN
-        given(feeMemberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(FeeMembers.valid()));
+        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
         given(memberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.of(FeeTypes.positive()));
         given(feeRepository.existsPaid(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
 
@@ -202,7 +198,7 @@ class TestFeeServicePayFees {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(feeMemberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.empty());
+        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
         execution = () -> service.payFees(FeesPayments.single());
@@ -219,7 +215,7 @@ class TestFeeServicePayFees {
         final FieldFailure     failure;
 
         // GIVEN
-        given(feeMemberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(FeeMembers.valid()));
+        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
         given(memberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.of(FeeTypes.positive()));
 
         // WHEN
@@ -235,7 +231,7 @@ class TestFeeServicePayFees {
     @DisplayName("When paying a fee, an event is sent")
     void testPayFees_SendEvent() {
         // GIVEN
-        given(feeMemberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(FeeMembers.valid()));
+        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
         given(memberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.of(FeeTypes.positive()));
         given(feeRepository.saveAll(List.of(Fees.paid()))).willReturn(List.of(Fees.paid()));
         given(messageSource.getMessage(any(), any(), any())).willReturn("", TransactionConstants.DESCRIPTION);
@@ -256,7 +252,7 @@ class TestFeeServicePayFees {
         final Collection<Fee> fees;
 
         // GIVEN
-        given(feeMemberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(FeeMembers.valid()));
+        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
         given(memberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.of(FeeTypes.positive()));
         given(feeRepository.saveAll(ArgumentMatchers.anyCollection())).willReturn(List.of(Fees.paid()));
         given(messageSource.getMessage(any(), any(), any())).willReturn("", TransactionConstants.DESCRIPTION);

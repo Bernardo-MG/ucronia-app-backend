@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.usecase.validation;
+package com.bernardomg.association.fee.usecase.validation;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -31,26 +31,30 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bernardomg.association.fee.domain.model.Fee;
-import com.bernardomg.association.fee.domain.model.Fee.Transaction;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
+import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRule;
 
 /**
- * Checks the fee's transaction was not changed or removed.
+ * Checks the fee's month is not registered.
  */
-public final class FeeTransactionNotChangedRule implements FieldRule<Fee> {
+public final class FeeMonthNotExistingRule implements FieldRule<Fee> {
 
     /**
      * Logger for the class.
      */
-    private static final Logger log = LoggerFactory.getLogger(FeeTransactionNotChangedRule.class);
+    private static final Logger       log = LoggerFactory.getLogger(FeeMonthNotExistingRule.class);
 
-    private final FeeRepository feeRepository;
+    private final MemberRepository memberRepository;
 
-    public FeeTransactionNotChangedRule(final FeeRepository feeRepo) {
+    private final FeeRepository       feeRepository;
+
+    public FeeMonthNotExistingRule(final MemberRepository memberRepo, final FeeRepository feeRepo) {
         super();
 
+        memberRepository = Objects.requireNonNull(memberRepo);
         feeRepository = Objects.requireNonNull(feeRepo);
     }
 
@@ -58,49 +62,22 @@ public final class FeeTransactionNotChangedRule implements FieldRule<Fee> {
     public final Optional<FieldFailure> check(final Fee fee) {
         final Optional<FieldFailure> failure;
         final FieldFailure           fieldFailure;
-        final Fee                    existing;
+        final boolean                existing;
+        final Member              member;
 
-        existing = feeRepository.findOne(fee.member()
-            .number(), fee.month())
+        member = memberRepository.findOne(fee.member()
+            .number())
             .get();
-        if (hasTransaction(fee, existing) && wasChanged(fee, existing)) {
-            log.error("Changed fee transaction from {} to {}", existing.transaction()
-                .map(Transaction::index)
-                .orElse(null),
-                existing.transaction()
-                    .map(Transaction::index)
-                    .orElse(null),
-                fee.transaction()
-                    .map(Transaction::index)
-                    .orElse(null));
-            fieldFailure = new FieldFailure("modified", "transaction", fee.transaction()
-                .get()
-                .index());
+        existing = feeRepository.exists(member.number(), fee.month());
+        if (existing) {
+            log.error("Fee for month {} already exists for by {}", fee.month(), member.number());
+            fieldFailure = new FieldFailure("existing", "month", fee.month());
             failure = Optional.of(fieldFailure);
         } else {
             failure = Optional.empty();
         }
 
         return failure;
-    }
-
-    private final boolean hasTransaction(final Fee fee, final Fee existing) {
-        return (fee.transaction()
-            .isPresent())
-                && (existing.transaction()
-                    .isPresent())
-                // TODO: Why the not null check? Can't be null
-                && (fee.transaction()
-                    .get()
-                    .index() != null);
-    }
-
-    private final boolean wasChanged(final Fee fee, final Fee existing) {
-        return fee.transaction()
-            .get()
-            .index() != existing.transaction()
-                .get()
-                .index();
     }
 
 }

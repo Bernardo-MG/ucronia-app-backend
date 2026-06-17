@@ -22,48 +22,62 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.usecase.validation;
+package com.bernardomg.association.fee.usecase.validation;
 
 import java.time.Instant;
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bernardomg.association.fee.domain.model.Fee;
-import com.bernardomg.association.fee.domain.model.Fee.Transaction;
+import com.bernardomg.association.fee.domain.model.FeePayments;
+import com.bernardomg.association.fee.domain.repository.FeeRepository;
+import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRule;
 
 /**
- * Checks the fee payment date is not in the future.
+ * Checks the fee's months are not registered. There is an special case, as dates for unpaid fees are ignored, to allow
+ * paying those dates.
  */
-public final class FeeNotPaidInFutureRule implements FieldRule<Fee> {
+public final class FeePaymentsMonthsNotExistingRule implements FieldRule<FeePayments> {
 
     /**
      * Logger for the class.
      */
-    private static final Logger log = LoggerFactory.getLogger(FeeNotPaidInFutureRule.class);
+    private static final Logger       log = LoggerFactory.getLogger(FeePaymentsMonthsNotExistingRule.class);
 
-    public FeeNotPaidInFutureRule() {
+    private final MemberRepository memberRepository;
+
+    private final FeeRepository       feeRepository;
+
+    public FeePaymentsMonthsNotExistingRule(final MemberRepository memberRepo, final FeeRepository feeRepo) {
         super();
+
+        memberRepository = Objects.requireNonNull(memberRepo);
+        feeRepository = Objects.requireNonNull(feeRepo);
     }
 
     @Override
-    public final Optional<FieldFailure> check(final Fee fee) {
+    public final Optional<FieldFailure> check(final FeePayments payments) {
         final Optional<FieldFailure> failure;
         final FieldFailure           fieldFailure;
-        final Optional<Instant>      date;
-        final Optional<Boolean>      exists;
-        final Instant                today;
+        final List<Instant>          existing;
+        final Member              member;
 
-        today = Instant.now();
-        date = fee.transaction()
-            .map(Transaction::date);
-        exists = date.map(d -> d.isAfter(today));
-        if (exists.isPresent() && exists.get()) {
-            log.error("Attempting to pay fee at future date {}", date.get());
-            fieldFailure = new FieldFailure("invalid", "transaction.date", date.get());
+        member = memberRepository.findOne(payments.member())
+            .get();
+        // TODO: use a single query
+        existing = payments.months()
+            .stream()
+            .filter(date -> feeRepository.existsPaid(member.number(), date))
+            .toList();
+        if (!existing.isEmpty()) {
+            log.error("Dates {} are already registered", existing);
+            fieldFailure = new FieldFailure("existing", "months[]", existing);
             failure = Optional.of(fieldFailure);
         } else {
             failure = Optional.empty();
