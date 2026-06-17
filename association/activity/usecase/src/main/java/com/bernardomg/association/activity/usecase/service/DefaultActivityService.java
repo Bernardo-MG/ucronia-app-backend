@@ -114,15 +114,15 @@ public final class DefaultActivityService implements ActivityService {
 
     @Override
     public final Page<Activity> getAll(final Pagination pagination, final Sorting sorting) {
-        final Page<Activity> activitys;
+        final Page<Activity> activities;
 
-        log.info("Getting all activitys with pagination {} and sorting {}", pagination, sorting);
+        log.info("Getting all activities with pagination {} and sorting {}", pagination, sorting);
 
-        activitys = activityRepository.findAll(pagination, sorting);
+        activities = activityRepository.findAll(pagination, sorting);
 
-        log.debug("Got all activitys with pagination {} and sorting {}: {}", pagination, sorting, activitys);
+        log.debug("Got all activities with pagination {} and sorting {}: {}", pagination, sorting, activities);
 
-        return activitys;
+        return activities;
     }
 
     @Override
