@@ -24,7 +24,6 @@
 
 package com.bernardomg.association.fee.adapter.inbound.jpa.repository;
 
-import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -32,11 +31,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeMemberEntity;
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeMemberEntityMapper;
-import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTypeEntityMapper;
 import com.bernardomg.association.fee.domain.model.FeeMember;
-import com.bernardomg.association.fee.domain.model.FeeType;
 import com.bernardomg.association.fee.domain.repository.FeeMemberRepository;
 
 @Transactional
@@ -53,37 +49,6 @@ public final class JpaFeeMemberRepository implements FeeMemberRepository {
         super();
 
         feeMemberSpringRepository = Objects.requireNonNull(feeMemberSpringRepo);
-    }
-
-    @Override
-    public final Collection<FeeMember> findAllToRenew() {
-        final Collection<FeeMember> members;
-
-        log.debug("Finding all the members to renew");
-
-        members = feeMemberSpringRepository.findAllByRenewTrue()
-            .stream()
-            .map(FeeMemberEntityMapper::toDomain)
-            .toList();
-
-        log.debug("Found all the members to renew: {}", members);
-
-        return members;
-    }
-
-    @Override
-    public final Optional<FeeType> findFeeType(final Long number) {
-        final Optional<FeeType> feeType;
-
-        log.trace("Finding fee type for member {}", number);
-
-        feeType = feeMemberSpringRepository.findByNumber(number)
-            .map(FeeMemberEntity::getFeeType)
-            .map(FeeTypeEntityMapper::toDomain);
-
-        log.trace("Found fee type for member {}: {}", number, feeType);
-
-        return feeType;
     }
 
     @Override

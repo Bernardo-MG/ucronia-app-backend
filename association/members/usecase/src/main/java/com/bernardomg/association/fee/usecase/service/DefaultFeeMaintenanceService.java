@@ -34,11 +34,11 @@ import org.slf4j.LoggerFactory;
 
 import com.bernardomg.association.fee.domain.exception.MissingFeeTypeException;
 import com.bernardomg.association.fee.domain.model.Fee;
-import com.bernardomg.association.fee.domain.model.FeeMember;
 import com.bernardomg.association.fee.domain.model.FeeType;
-import com.bernardomg.association.fee.domain.repository.FeeMemberRepository;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
+import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.Name;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -53,29 +53,29 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
     /**
      * Logger for the class.
      */
-    private static final Logger       log = LoggerFactory.getLogger(DefaultFeeMaintenanceService.class);
+    private static final Logger    log = LoggerFactory.getLogger(DefaultFeeMaintenanceService.class);
 
-    private final FeeMemberRepository feeMemberRepository;
+    private final FeeRepository    feeRepository;
 
-    private final FeeRepository       feeRepository;
+    private final MemberRepository memberRepository;
 
-    public DefaultFeeMaintenanceService(final FeeRepository feeRepo, final FeeMemberRepository feeMemberRepo) {
+    public DefaultFeeMaintenanceService(final FeeRepository feeRepo, final MemberRepository memberRepo) {
         super();
 
         feeRepository = Objects.requireNonNull(feeRepo);
-        feeMemberRepository = Objects.requireNonNull(feeMemberRepo);
+        memberRepository = Objects.requireNonNull(memberRepo);
     }
 
     @Override
     public final void registerMonthFees(final Instant date) {
-        final Collection<Fee>          feesToCreate;
-        final Collection<FeeMember>    toRenew;
-        final Function<FeeMember, Fee> toFeeThisMonth;
+        final Collection<Fee>       feesToCreate;
+        final Collection<Member>    toRenew;
+        final Function<Member, Fee> toFeeThisMonth;
 
         log.info("Registering fees for this month");
 
         // Find fees to extend into the current month
-        toRenew = feeMemberRepository.findAllToRenew();
+        toRenew = memberRepository.findAllToRenew();
 
         toFeeThisMonth = m -> toFee(date, m);
         feesToCreate = toRenew.stream()
@@ -95,12 +95,12 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
             .number(), fee.month());
     }
 
-    private final Fee toFee(final Instant date, final FeeMember member) {
+    private final Fee toFee(final Instant date, final Member member) {
         final FeeType feeType;
         final Fee     fee;
         final Name    name;
 
-        feeType = feeMemberRepository.findFeeType(member.number())
+        feeType = memberRepository.findFeeType(member.number())
             .orElseThrow(() -> {
                 // TODO: is not the correct number
                 log.error("Missing fee type {}", member.number());

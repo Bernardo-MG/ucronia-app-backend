@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.test.adapter.inbound.jpa.repository.integration;
+package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.integration;
 
 import java.util.Optional;
 
@@ -34,21 +34,21 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.TestApplication;
 import com.bernardomg.association.fee.domain.model.FeeType;
-import com.bernardomg.association.fee.domain.repository.FeeMemberRepository;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.fee.test.configuration.factory.FeeTypes;
 import com.bernardomg.association.fee.test.configuration.factory.ProfileConstants;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("FeeRepository - find fee type")
-class ITFeeMemberRepositoryGetFeeType {
+@DisplayName("MemberRepository - find fee type")
+class ITMemberRepositoryGetFeeType {
 
     @Autowired
-    private FeeMemberRepository repository;
+    private MemberRepository repository;
 
     @Test
     @DisplayName("With a member, the fee type is returned")

@@ -38,6 +38,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTypeEntityMapper;
+import com.bernardomg.association.fee.domain.model.FeeType;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberContactMethodEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityConstants;
@@ -194,6 +196,21 @@ public final class JpaMemberRepository implements MemberRepository {
         log.debug("Found all the members with a renewal mismatch: {}", members);
 
         return members;
+    }
+
+    @Override
+    public final Optional<FeeType> findFeeType(final Long number) {
+        final Optional<FeeType> feeType;
+
+        log.trace("Finding fee type for member {}", number);
+
+        feeType = memberSpringRepository.findByNumber(number)
+            .map(MemberEntity::getFeeType)
+            .map(FeeTypeEntityMapper::toDomain);
+
+        log.trace("Found fee type for member {}: {}", number, feeType);
+
+        return feeType;
     }
 
     @Override

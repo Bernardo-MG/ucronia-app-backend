@@ -22,11 +22,12 @@ import com.bernardomg.association.fee.domain.exception.MissingFeeTypeException;
 import com.bernardomg.association.fee.domain.repository.FeeMemberRepository;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
-import com.bernardomg.association.fee.test.configuration.factory.FeeMembers;
 import com.bernardomg.association.fee.test.configuration.factory.FeeTypes;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeMaintenanceService;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.factory.MemberConstants;
+import com.bernardomg.association.member.test.configuration.factory.Members;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultFeeMaintenanceService")
@@ -38,6 +39,9 @@ public class TestFeeMaintenanceService {
     @Mock
     private FeeRepository                feeRepository;
 
+    @Mock
+    private MemberRepository             memberRepository;
+
     @InjectMocks
     private DefaultFeeMaintenanceService service;
 
@@ -46,8 +50,8 @@ public class TestFeeMaintenanceService {
     void testRegisterMonthFees() {
 
         // GIVEN
-        given(feeMemberRepository.findAllToRenew()).willReturn(List.of(FeeMembers.valid()));
-        given(feeMemberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.of(FeeTypes.positive()));
+        given(memberRepository.findAllToRenew()).willReturn(List.of(Members.active()));
+        given(memberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.of(FeeTypes.positive()));
         given(feeRepository.exists(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(false);
 
         // WHEN
@@ -62,8 +66,8 @@ public class TestFeeMaintenanceService {
     void testRegisterMonthFees_Exists() {
 
         // GIVEN
-        given(feeMemberRepository.findAllToRenew()).willReturn(List.of(FeeMembers.valid()));
-        given(feeMemberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.of(FeeTypes.positive()));
+        given(memberRepository.findAllToRenew()).willReturn(List.of(Members.active()));
+        given(memberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.of(FeeTypes.positive()));
         given(feeRepository.exists(eq(MemberConstants.NUMBER), any())).willReturn(true);
 
         // WHEN
@@ -79,8 +83,8 @@ public class TestFeeMaintenanceService {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(feeMemberRepository.findAllToRenew()).willReturn(List.of(FeeMembers.valid()));
-        given(feeMemberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.empty());
+        given(memberRepository.findAllToRenew()).willReturn(List.of(Members.active()));
+        given(memberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
         execution = () -> service.registerMonthFees(FeeConstants.DATE);
@@ -95,7 +99,7 @@ public class TestFeeMaintenanceService {
     void testRegisterMonthFees_NotActive() {
 
         // GIVEN
-        given(feeMemberRepository.findAllToRenew()).willReturn(List.of());
+        given(memberRepository.findAllToRenew()).willReturn(List.of());
 
         // WHEN
         service.registerMonthFees(FeeConstants.DATE);
@@ -109,8 +113,8 @@ public class TestFeeMaintenanceService {
     void testRegisterMonthFees_ZeroAmount() {
 
         // GIVEN
-        given(feeMemberRepository.findAllToRenew()).willReturn(List.of(FeeMembers.valid()));
-        given(feeMemberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.of(FeeTypes.zero()));
+        given(memberRepository.findAllToRenew()).willReturn(List.of(Members.active()));
+        given(memberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.of(FeeTypes.zero()));
         given(feeRepository.exists(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(false);
 
         // WHEN

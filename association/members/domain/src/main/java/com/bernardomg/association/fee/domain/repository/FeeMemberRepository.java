@@ -24,17 +24,11 @@
 
 package com.bernardomg.association.fee.domain.repository;
 
-import java.util.Collection;
 import java.util.Optional;
 
 import com.bernardomg.association.fee.domain.model.FeeMember;
-import com.bernardomg.association.fee.domain.model.FeeType;
 
 public interface FeeMemberRepository {
-
-    public Collection<FeeMember> findAllToRenew();
-
-    public Optional<FeeType> findFeeType(final Long number);
 
     public Optional<FeeMember> findOne(final Long number);
 

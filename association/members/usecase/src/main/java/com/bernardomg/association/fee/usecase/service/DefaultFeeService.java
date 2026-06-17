@@ -58,6 +58,7 @@ import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.member.domain.model.MemberFees;
 import com.bernardomg.association.member.domain.model.Name;
 import com.bernardomg.association.member.domain.model.YearsRange;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.usecase.validation.FeeMonthNotExistingRule;
 import com.bernardomg.association.member.usecase.validation.FeeNotPaidInFutureRule;
 import com.bernardomg.association.member.usecase.validation.FeePaymentsMonthsNotExistingRule;
@@ -93,6 +94,8 @@ public final class DefaultFeeService implements FeeService {
 
     private final FeeRepository          feeRepository;
 
+    private final MemberRepository       memberRepository;
+
     private final MessageSource          messageSource;
 
     private final TransactionRepository  transactionRepository;
@@ -103,12 +106,13 @@ public final class DefaultFeeService implements FeeService {
 
     private final Validator<Fee>         validatorUpdate;
 
-    public DefaultFeeService(final FeeRepository feeRepo, final FeeMemberRepository feeMemberRepo,
-            final TransactionRepository transactionRepo, final EventEmitter evntEmitter,
-            final MessageSource msgSource) {
+    public DefaultFeeService(final FeeRepository feeRepo, final MemberRepository memberRepo,
+            final FeeMemberRepository feeMemberRepo, final TransactionRepository transactionRepo,
+            final EventEmitter evntEmitter, final MessageSource msgSource) {
         super();
 
         feeRepository = Objects.requireNonNull(feeRepo);
+        memberRepository = Objects.requireNonNull(memberRepo);
         feeMemberRepository = Objects.requireNonNull(feeMemberRepo);
         // TODO: remove dependency to transaction domain
         transactionRepository = Objects.requireNonNull(transactionRepo);
@@ -140,7 +144,7 @@ public final class DefaultFeeService implements FeeService {
                 log.error("Missing member {}", number);
                 throw new MissingFeeMemberException(number);
             });
-        feeType = feeMemberRepository.findFeeType(member.number())
+        feeType = memberRepository.findFeeType(member.number())
             .orElseThrow(() -> {
                 // TODO: the number is incorrect
                 log.error("Missing fee type {}", member.number());
@@ -318,7 +322,7 @@ public final class DefaultFeeService implements FeeService {
                 log.error("Missing member {}", feesPayments.member());
                 throw new MissingFeeMemberException(feesPayments.member());
             });
-        feeType = feeMemberRepository.findFeeType(member.number())
+        feeType = memberRepository.findFeeType(member.number())
             .orElseThrow(() -> {
                 // TODO: incorrect number
                 log.error("Missing fee type {}", member.number());

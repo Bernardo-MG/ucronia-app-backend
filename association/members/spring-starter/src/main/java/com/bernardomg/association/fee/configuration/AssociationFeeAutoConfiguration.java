@@ -52,6 +52,7 @@ import com.bernardomg.association.fee.usecase.service.FeeSummaryService;
 import com.bernardomg.association.fee.usecase.service.FeeTypeService;
 import com.bernardomg.association.fee.usecase.service.MyFeesService;
 import com.bernardomg.association.fee.usecase.service.SpringSecurityMyFeesService;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.event.emitter.EventEmitter;
@@ -63,8 +64,8 @@ public class AssociationFeeAutoConfiguration {
 
     @Bean("feeMaintenanceService")
     public FeeMaintenanceService getFeeMaintenanceService(final FeeRepository feeRepository,
-            final FeeMemberRepository feeMemberRepository) {
-        return new DefaultFeeMaintenanceService(feeRepository, feeMemberRepository);
+            final MemberRepository memberRepository) {
+        return new DefaultFeeMaintenanceService(feeRepository, memberRepository);
     }
 
     @Bean("feeMemberRepository")
@@ -82,10 +83,11 @@ public class AssociationFeeAutoConfiguration {
     }
 
     @Bean("feeService")
-    public FeeService getFeeService(final FeeRepository feeRepository, final FeeMemberRepository feeMemberRepository,
-            final TransactionRepository transactionRepository, final EventEmitter evntEmitter,
-            final MessageSource msgSource) {
-        return new DefaultFeeService(feeRepository, feeMemberRepository, transactionRepository, evntEmitter, msgSource);
+    public FeeService getFeeService(final FeeRepository feeRepository, final MemberRepository memberRepository,
+            final FeeMemberRepository feeMemberRepository, final TransactionRepository transactionRepository,
+            final EventEmitter evntEmitter, final MessageSource msgSource) {
+        return new DefaultFeeService(feeRepository, memberRepository, feeMemberRepository, transactionRepository,
+            evntEmitter, msgSource);
     }
 
     @Bean("feeSummaryRepository")

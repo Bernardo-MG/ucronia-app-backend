@@ -25,6 +25,7 @@
 package com.bernardomg.association.fee.adapter.inbound.jpa.model;
 
 import com.bernardomg.association.fee.domain.model.FeeType;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberFeeTypeEntity;
 
 /**
  * Fee type repository mapper.
@@ -32,6 +33,10 @@ import com.bernardomg.association.fee.domain.model.FeeType;
 public final class FeeTypeEntityMapper {
 
     public static final FeeType toDomain(final FeeTypeEntity entity) {
+        return new FeeType(entity.getNumber(), entity.getName(), entity.getAmount());
+    }
+
+    public static final FeeType toDomain(final MemberFeeTypeEntity entity) {
         return new FeeType(entity.getNumber(), entity.getName(), entity.getAmount());
     }
 

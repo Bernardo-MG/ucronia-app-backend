@@ -48,6 +48,7 @@ import com.bernardomg.association.fee.test.configuration.factory.FeeMembers;
 import com.bernardomg.association.fee.test.configuration.factory.FeeTypes;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
+import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.factory.MemberConstants;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.event.emitter.EventEmitter;
@@ -68,6 +69,9 @@ class TestFeeServiceCreateFee {
     private FeeRepository         feeRepository;
 
     @Mock
+    private MemberRepository      memberRepository;
+
+    @Mock
     private MessageSource         messageSource;
 
     @InjectMocks
@@ -83,7 +87,7 @@ class TestFeeServiceCreateFee {
 
         // GIVEN
         given(feeMemberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(FeeMembers.valid()));
-        given(feeMemberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.of(FeeTypes.positive()));
+        given(memberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.of(FeeTypes.positive()));
         given(feeRepository.save(Fees.notPaid())).willReturn(Fees.notPaid());
         given(feeRepository.exists(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(false);
 
@@ -104,7 +108,7 @@ class TestFeeServiceCreateFee {
 
         // GIVEN
         given(feeMemberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(FeeMembers.valid()));
-        given(feeMemberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.of(FeeTypes.positive()));
+        given(memberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.of(FeeTypes.positive()));
         given(feeRepository.exists(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
 
         // WHEN
@@ -123,7 +127,7 @@ class TestFeeServiceCreateFee {
 
         // GIVEN
         given(feeMemberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(FeeMembers.valid()));
-        given(feeMemberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.of(FeeTypes.zero()));
+        given(memberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.of(FeeTypes.zero()));
         given(feeRepository.save(Fees.paidNoTransactionNoAmount())).willReturn(Fees.paidNoTransactionNoAmount());
         given(feeRepository.exists(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(false);
 
@@ -143,7 +147,7 @@ class TestFeeServiceCreateFee {
 
         // GIVEN
         given(feeMemberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(FeeMembers.valid()));
-        given(feeMemberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.empty());
+        given(memberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
         execution = () -> service.createFee(FeeConstants.DATE, MemberConstants.NUMBER);
