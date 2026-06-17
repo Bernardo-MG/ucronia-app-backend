@@ -35,7 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTypeEntity;
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTypeEntityMapper;
 import com.bernardomg.association.fee.domain.model.FeeType;
-import com.bernardomg.association.member.domain.repository.FeeTypeRepository;
+import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;

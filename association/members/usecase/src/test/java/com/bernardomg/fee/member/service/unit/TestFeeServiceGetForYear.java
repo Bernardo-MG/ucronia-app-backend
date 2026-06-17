@@ -38,13 +38,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.MessageSource;
 
 import com.bernardomg.association.fee.domain.model.FeeMemberStatus;
+import com.bernardomg.association.fee.domain.repository.FeeMemberRepository;
+import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.FeeCalendarConstants;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.test.configuration.factory.MembersFees;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
 import com.bernardomg.association.member.domain.model.MemberFees;
-import com.bernardomg.association.member.domain.repository.FeeMemberRepository;
-import com.bernardomg.association.member.domain.repository.FeeRepository;
 import com.bernardomg.association.member.test.configuration.factory.MemberConstants;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.event.emitter.EventEmitter;

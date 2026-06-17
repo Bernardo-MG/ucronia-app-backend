@@ -34,10 +34,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.TestApplication;
 import com.bernardomg.association.fee.domain.model.FeeType;
+import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.fee.test.configuration.factory.FeeTypeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.FeeTypes;
-import com.bernardomg.association.member.domain.repository.FeeTypeRepository;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest

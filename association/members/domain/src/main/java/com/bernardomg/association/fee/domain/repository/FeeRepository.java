@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.domain.repository;
+package com.bernardomg.association.fee.domain.repository;
 
 import java.time.Instant;
 import java.time.Year;

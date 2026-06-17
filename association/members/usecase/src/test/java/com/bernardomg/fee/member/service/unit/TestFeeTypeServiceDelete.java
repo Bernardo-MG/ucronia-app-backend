@@ -39,10 +39,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.fee.domain.exception.MissingFeeTypeException;
+import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.FeeTypeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.FeeTypes;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeTypeService;
-import com.bernardomg.association.member.domain.repository.FeeTypeRepository;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Fee type service - delete")

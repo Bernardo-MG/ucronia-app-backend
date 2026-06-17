@@ -37,6 +37,10 @@ import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaFeeMembe
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaFeeRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaFeeSummaryRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaFeeTypeRepository;
+import com.bernardomg.association.fee.domain.repository.FeeMemberRepository;
+import com.bernardomg.association.fee.domain.repository.FeeRepository;
+import com.bernardomg.association.fee.domain.repository.FeeSummaryRepository;
+import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberContactMethodRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberCountRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberFeeTypeRepository;
@@ -50,10 +54,6 @@ import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberIn
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.PublicMemberSpringRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.ReadMemberSpringRepository;
-import com.bernardomg.association.member.domain.repository.FeeMemberRepository;
-import com.bernardomg.association.member.domain.repository.FeeRepository;
-import com.bernardomg.association.member.domain.repository.FeeSummaryRepository;
-import com.bernardomg.association.member.domain.repository.FeeTypeRepository;
 import com.bernardomg.association.member.domain.repository.MemberContactMethodRepository;
 import com.bernardomg.association.member.domain.repository.MemberCountRepository;
 import com.bernardomg.association.member.domain.repository.MemberFeeTypeRepository;

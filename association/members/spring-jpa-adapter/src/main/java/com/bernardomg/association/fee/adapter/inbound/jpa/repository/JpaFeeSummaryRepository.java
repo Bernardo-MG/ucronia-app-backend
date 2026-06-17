@@ -32,7 +32,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.fee.domain.model.FeeSummary;
-import com.bernardomg.association.member.domain.repository.FeeSummaryRepository;
+import com.bernardomg.association.fee.domain.repository.FeeSummaryRepository;
 
 @Transactional
 public final class JpaFeeSummaryRepository implements FeeSummaryRepository {

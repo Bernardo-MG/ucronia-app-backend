@@ -32,7 +32,7 @@ import org.slf4j.LoggerFactory;
 
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.Fee.Transaction;
-import com.bernardomg.association.member.domain.repository.FeeRepository;
+import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRule;
 

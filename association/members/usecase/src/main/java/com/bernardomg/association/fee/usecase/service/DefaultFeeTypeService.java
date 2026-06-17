@@ -32,7 +32,7 @@ import org.slf4j.LoggerFactory;
 
 import com.bernardomg.association.fee.domain.exception.MissingFeeTypeException;
 import com.bernardomg.association.fee.domain.model.FeeType;
-import com.bernardomg.association.member.domain.repository.FeeTypeRepository;
+import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;

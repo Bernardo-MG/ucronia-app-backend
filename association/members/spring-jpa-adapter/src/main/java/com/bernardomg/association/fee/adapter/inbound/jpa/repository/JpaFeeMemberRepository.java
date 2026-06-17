@@ -37,7 +37,7 @@ import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeMemberEntityM
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTypeEntityMapper;
 import com.bernardomg.association.fee.domain.model.FeeMember;
 import com.bernardomg.association.fee.domain.model.FeeType;
-import com.bernardomg.association.member.domain.repository.FeeMemberRepository;
+import com.bernardomg.association.fee.domain.repository.FeeMemberRepository;
 
 @Transactional
 public final class JpaFeeMemberRepository implements FeeMemberRepository {

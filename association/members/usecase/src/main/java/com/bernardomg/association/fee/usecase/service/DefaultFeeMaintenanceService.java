@@ -36,9 +36,9 @@ import com.bernardomg.association.fee.domain.exception.MissingFeeTypeException;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeMember;
 import com.bernardomg.association.fee.domain.model.FeeType;
+import com.bernardomg.association.fee.domain.repository.FeeMemberRepository;
+import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.member.domain.model.Name;
-import com.bernardomg.association.member.domain.repository.FeeMemberRepository;
-import com.bernardomg.association.member.domain.repository.FeeRepository;
 
 import jakarta.transaction.Transactional;
 

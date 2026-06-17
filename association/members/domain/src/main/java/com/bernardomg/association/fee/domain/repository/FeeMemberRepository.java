@@ -22,25 +22,22 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.domain.repository;
+package com.bernardomg.association.fee.domain.repository;
 
+import java.util.Collection;
 import java.util.Optional;
 
+import com.bernardomg.association.fee.domain.model.FeeMember;
 import com.bernardomg.association.fee.domain.model.FeeType;
-import com.bernardomg.pagination.domain.Page;
-import com.bernardomg.pagination.domain.Pagination;
-import com.bernardomg.pagination.domain.Sorting;
 
-public interface FeeTypeRepository {
+public interface FeeMemberRepository {
 
-    public void delete(final Long number);
+    public Collection<FeeMember> findAllToRenew();
 
-    public boolean exists(final Long number);
+    public Optional<FeeType> findFeeType(final Long number);
 
-    public Page<FeeType> findAll(final Pagination pagination, final Sorting sorting);
+    public Optional<FeeMember> findOne(final Long number);
 
-    public Optional<FeeType> findOne(final Long number);
-
-    public FeeType save(final FeeType feeType);
+    public boolean isActive(final long number);
 
 }

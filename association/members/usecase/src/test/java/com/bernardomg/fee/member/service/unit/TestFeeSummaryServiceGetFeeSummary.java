@@ -41,9 +41,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.fee.domain.model.FeeSummary;
+import com.bernardomg.association.fee.domain.repository.FeeSummaryRepository;
 import com.bernardomg.association.fee.test.configuration.factory.FeeSummaries;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeSummaryService;
-import com.bernardomg.association.member.domain.repository.FeeSummaryRepository;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Fee summary service - get fee summary")

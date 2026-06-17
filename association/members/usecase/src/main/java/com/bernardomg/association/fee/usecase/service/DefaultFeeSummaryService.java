@@ -31,7 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bernardomg.association.fee.domain.model.FeeSummary;
-import com.bernardomg.association.member.domain.repository.FeeSummaryRepository;
+import com.bernardomg.association.fee.domain.repository.FeeSummaryRepository;
 
 import jakarta.transaction.Transactional;
 

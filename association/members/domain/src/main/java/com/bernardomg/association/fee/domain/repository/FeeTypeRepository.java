@@ -22,14 +22,25 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.domain.repository;
+package com.bernardomg.association.fee.domain.repository;
 
-import java.time.Instant;
+import java.util.Optional;
 
-import com.bernardomg.association.fee.domain.model.FeeSummary;
+import com.bernardomg.association.fee.domain.model.FeeType;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
 
-public interface FeeSummaryRepository {
+public interface FeeTypeRepository {
 
-    public FeeSummary findBetween(final Instant from, final Instant to);
+    public void delete(final Long number);
+
+    public boolean exists(final Long number);
+
+    public Page<FeeType> findAll(final Pagination pagination, final Sorting sorting);
+
+    public Optional<FeeType> findOne(final Long number);
+
+    public FeeType save(final FeeType feeType);
 
 }

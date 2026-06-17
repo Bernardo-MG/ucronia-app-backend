@@ -23,7 +23,7 @@
  */
 
 /**
- * Member events.
+ * Fee events.
  */
 
 package com.bernardomg.association.fee.domain.event;
