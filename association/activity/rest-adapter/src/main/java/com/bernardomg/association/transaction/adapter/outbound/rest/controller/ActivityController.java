@@ -81,7 +81,7 @@ public class ActivityController implements ActivityApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "TRANSACTION", action = Actions.DELETE)
+    @RequireResourceAuthorization(resource = "ACTIVITY", action = Actions.DELETE)
     public ActivityResponseDto deleteActivity(final Long number) {
         final Activity transaction;
 
@@ -91,7 +91,7 @@ public class ActivityController implements ActivityApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "TRANSACTION", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "ACTIVITY", action = Actions.READ)
     public ActivityPageResponseDto getAllActivitys(@Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size,
             @Valid final List<@Pattern(regexp = "^(description|title|date)\\|(asc|desc)$") String> sort,
             @Valid final Instant date, @Valid final Instant from, @Valid final Instant to) {
@@ -107,7 +107,7 @@ public class ActivityController implements ActivityApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "TRANSACTION", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "ACTIVITY", action = Actions.READ)
     public ActivityResponseDto getOneActivity(final Long number) {
         final Optional<Activity> transaction;
 
@@ -117,7 +117,7 @@ public class ActivityController implements ActivityApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "TRANSACTION", action = Actions.UPDATE)
+    @RequireResourceAuthorization(resource = "ACTIVITY", action = Actions.UPDATE)
     public ActivityResponseDto updateActivity(final Long number, @Valid final ActivityUpdateDto activityUpdateDto) {
         final Activity transaction;
         final Activity updated;
