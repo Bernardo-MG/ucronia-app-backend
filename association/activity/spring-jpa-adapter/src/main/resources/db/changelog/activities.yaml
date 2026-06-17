@@ -47,6 +47,12 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                   defaultValue: ''
+              - column:
+                  name: image
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+                  defaultValue: ''
         - addAutoIncrement:
             schemaName: calendar
             tableName: activities

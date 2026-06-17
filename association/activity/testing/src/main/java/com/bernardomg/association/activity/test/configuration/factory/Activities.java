@@ -14,7 +14,7 @@ public final class Activities {
         return new Activity(number, LocalDate.of(2020, month, (int) number)
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant(), ActivityConstants.TITLE + " " + number, ActivityConstants.DESCRIPTION + " " + number,
-            ActivityConstants.IMAGE);
+            ActivityConstants.IMAGE + "_" + number);
     }
 
     public static final Activity future() {

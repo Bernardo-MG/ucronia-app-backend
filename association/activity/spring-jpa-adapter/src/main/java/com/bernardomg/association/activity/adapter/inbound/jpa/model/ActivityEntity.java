@@ -53,7 +53,7 @@ public class ActivityEntity implements Serializable {
     @Column(name = "id", nullable = false, unique = true)
     private Long              id;
 
-    @Column(name = "image", length = 50)
+    @Column(name = "image", length = 100)
     private String            image;
 
     @Column(name = "number", nullable = false, unique = true)
