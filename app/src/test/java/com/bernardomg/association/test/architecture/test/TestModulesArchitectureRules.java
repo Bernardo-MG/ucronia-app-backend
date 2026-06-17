@@ -79,7 +79,7 @@ public class TestModulesArchitectureRules {
 
         // Misc modules
         .whereLayer("Settings")
-        .mayNotBeAccessedByAnyLayer()
+        .mayOnlyBeAccessedByLayers("Association settings")
         .whereLayer("Association settings")
         .mayNotBeAccessedByAnyLayer()
 
