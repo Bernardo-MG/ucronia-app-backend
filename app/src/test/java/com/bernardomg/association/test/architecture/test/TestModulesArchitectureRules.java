@@ -70,8 +70,7 @@ public class TestModulesArchitectureRules {
         .whereLayer("Transactions")
         .mayOnlyBeAccessedByLayers("Fees")
         .whereLayer("Fees")
-        // TODO: circular dependency
-        .mayOnlyBeAccessedByLayers("Members")
+        .mayNotBeAccessedByAnyLayer()
 
         // Security modules
         .whereLayer("Users")

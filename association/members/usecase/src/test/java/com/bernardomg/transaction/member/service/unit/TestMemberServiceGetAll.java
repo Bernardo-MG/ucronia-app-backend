@@ -37,10 +37,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
 import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberContactMethodRepository;
-import com.bernardomg.association.member.domain.repository.MemberFeeTypeRepository;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.factory.MemberFilters;
 import com.bernardomg.association.member.test.configuration.factory.Members;
@@ -54,10 +54,10 @@ import com.bernardomg.pagination.domain.Sorting;
 class TestMemberServiceGetAll {
 
     @Mock
-    private MemberContactMethodRepository memberContactMethodRepository;
+    private FeeTypeRepository             feeTypeRepository;
 
     @Mock
-    private MemberFeeTypeRepository       memberFeeTypeRepository;
+    private MemberContactMethodRepository memberContactMethodRepository;
 
     @Mock
     private MemberRepository              memberRepository;

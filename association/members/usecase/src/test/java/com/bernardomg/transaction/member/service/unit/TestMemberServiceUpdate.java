@@ -37,12 +37,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.fee.domain.exception.MissingMemberFeeTypeException;
+import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.FeeTypeConstants;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberContactMethodRepository;
-import com.bernardomg.association.member.domain.repository.MemberFeeTypeRepository;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.factory.MemberConstants;
 import com.bernardomg.association.member.test.configuration.factory.Members;
@@ -55,10 +55,10 @@ import com.bernardomg.validation.test.assertion.ValidationAssertions;
 class TestMemberServiceUpdate {
 
     @Mock
-    private MemberContactMethodRepository memberContactMethodRepository;
+    private FeeTypeRepository             feeTypeRepository;
 
     @Mock
-    private MemberFeeTypeRepository       memberFeeTypeRepository;
+    private MemberContactMethodRepository memberContactMethodRepository;
 
     @Mock
     private MemberRepository              memberRepository;
@@ -79,7 +79,7 @@ class TestMemberServiceUpdate {
         // GIVEN
         member = Members.active();
 
-        given(memberFeeTypeRepository.exists(FeeConstants.FEE_TYPE_NUMBER)).willReturn(true);
+        given(feeTypeRepository.exists(FeeConstants.FEE_TYPE_NUMBER)).willReturn(true);
         given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(true);
         given(memberRepository.existsByIdentifierForAnother(MemberConstants.NUMBER, MemberConstants.IDENTIFIER))
             .willReturn(true);
@@ -121,7 +121,7 @@ class TestMemberServiceUpdate {
         member = Members.nameChange();
 
         given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(true);
-        given(memberFeeTypeRepository.exists(FeeTypeConstants.NUMBER)).willReturn(false);
+        given(feeTypeRepository.exists(FeeTypeConstants.NUMBER)).willReturn(false);
 
         // WHEN
         execution = () -> service.update(member);
@@ -140,7 +140,7 @@ class TestMemberServiceUpdate {
         member = Members.padded();
 
         given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(true);
-        given(memberFeeTypeRepository.exists(FeeTypeConstants.NUMBER)).willReturn(true);
+        given(feeTypeRepository.exists(FeeTypeConstants.NUMBER)).willReturn(true);
 
         // WHEN
         service.update(member);
@@ -157,7 +157,7 @@ class TestMemberServiceUpdate {
         // GIVEN
         member = Members.nameChange();
         given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(true);
-        given(memberFeeTypeRepository.exists(FeeTypeConstants.NUMBER)).willReturn(true);
+        given(feeTypeRepository.exists(FeeTypeConstants.NUMBER)).willReturn(true);
         given(memberRepository.save(Members.nameChange())).willReturn(Members.nameChange());
 
         // WHEN
@@ -177,7 +177,7 @@ class TestMemberServiceUpdate {
         member = Members.nameChange();
 
         given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(true);
-        given(memberFeeTypeRepository.exists(FeeTypeConstants.NUMBER)).willReturn(true);
+        given(feeTypeRepository.exists(FeeTypeConstants.NUMBER)).willReturn(true);
         given(memberRepository.save(Members.nameChange())).willReturn(Members.nameChange());
 
         // WHEN
