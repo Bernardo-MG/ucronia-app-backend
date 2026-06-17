@@ -30,7 +30,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bernardomg.association.security.account.domain.exception.MissingAccountProfileException;
+import com.bernardomg.association.security.user.domain.exception.MissingUserProfileException;
 import com.bernardomg.association.security.user.domain.model.UserProfile;
 import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
 import com.bernardomg.association.security.user.usecase.domain.AssignUserProfile;
@@ -82,8 +82,8 @@ public final class DefaultUserProfileService implements UserProfileService {
 
         readProfile = userProfileRepository.findOne(profile)
             .orElseThrow(() -> {
-                log.error("Missing account profile {}", profile);
-                throw new MissingAccountProfileException(profile);
+                log.error("Missing user profile {}", profile);
+                throw new MissingUserProfileException(profile);
             });
 
         userProfile = new AssignUserProfile(profile, username);

@@ -26,4 +26,4 @@
  * Account exceptions.
  */
 
-package com.bernardomg.association.security.account.domain.exception;
+package com.bernardomg.association.security.user.domain.exception;
