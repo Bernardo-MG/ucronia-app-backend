@@ -22,20 +22,34 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.adapter.inbound.jpa.repository;
+package com.bernardomg.association.fee.adapter.inbound.jpa.model;
 
-import java.util.Optional;
+import com.bernardomg.association.transaction.domain.model.FeeTransaction;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
+/**
+ * Author repository mapper.
+ */
+public final class FeeTransactionEntityMapper {
 
-import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTransactionEntity;
+    public static final FeeTransaction toDomain(final FeeTransactionEntity transaction) {
+        return new FeeTransaction(transaction.getIndex(), transaction.getDate(), transaction.getAmount(),
+            transaction.getDescription());
+    }
 
-public interface FeeTransactionSpringRepository extends JpaRepository<FeeTransactionEntity, Long> {
+    public static final FeeTransactionEntity toEntity(final FeeTransaction transaction) {
+        final FeeTransactionEntity entity;
 
-    public Optional<FeeTransactionEntity> findByIndex(final long index);
+        entity = new FeeTransactionEntity();
+        entity.setIndex(transaction.index());
+        entity.setDescription(transaction.description());
+        entity.setDate(transaction.date());
+        entity.setAmount(transaction.amount());
 
-    @Query("SELECT COALESCE(MAX(t.index), 0) + 1 FROM Transaction t")
-    public Long findNextIndex();
+        return entity;
+    }
+
+    private FeeTransactionEntityMapper() {
+        super();
+    }
 
 }

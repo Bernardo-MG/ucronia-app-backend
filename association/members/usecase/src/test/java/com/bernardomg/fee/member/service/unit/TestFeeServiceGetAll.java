@@ -45,7 +45,7 @@ import com.bernardomg.association.fee.test.configuration.factory.FeeFilters;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
+import com.bernardomg.association.transaction.domain.repository.FeeTransactionRepository;
 import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -56,22 +56,22 @@ import com.bernardomg.pagination.domain.Sorting;
 class TestFeeServiceGetAll {
 
     @Mock
-    private EventEmitter          eventEmitter;
+    private EventEmitter             eventEmitter;
 
     @Mock
-    private FeeRepository         feeRepository;
+    private FeeRepository            feeRepository;
 
     @Mock
-    private MemberRepository      memberRepository;
+    private MemberRepository         memberRepository;
 
     @Mock
-    private MessageSource         messageSource;
+    private MessageSource            messageSource;
 
     @InjectMocks
-    private DefaultFeeService     service;
+    private DefaultFeeService        service;
 
     @Mock
-    private TransactionRepository transactionRepository;
+    private FeeTransactionRepository transactionRepository;
 
     @Test
     @DisplayName("When there is data it is returned")

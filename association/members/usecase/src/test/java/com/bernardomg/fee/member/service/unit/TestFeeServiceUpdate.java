@@ -58,7 +58,7 @@ import com.bernardomg.association.member.domain.exception.MissingMemberException
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.factory.MemberConstants;
 import com.bernardomg.association.member.test.configuration.factory.Members;
-import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
+import com.bernardomg.association.transaction.domain.repository.FeeTransactionRepository;
 import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
@@ -68,22 +68,22 @@ import com.bernardomg.validation.test.assertion.ValidationAssertions;
 class TestFeeServiceUpdate {
 
     @Mock
-    private EventEmitter          eventEmitter;
+    private EventEmitter             eventEmitter;
 
     @Mock
-    private FeeRepository         feeRepository;
+    private FeeRepository            feeRepository;
 
     @Mock
-    private MemberRepository      memberRepository;
+    private MemberRepository         memberRepository;
 
     @Mock
-    private MessageSource         messageSource;
+    private MessageSource            messageSource;
 
     @InjectMocks
-    private DefaultFeeService     service;
+    private DefaultFeeService        service;
 
     @Mock
-    private TransactionRepository transactionRepository;
+    private FeeTransactionRepository transactionRepository;
 
     @Test
     @DisplayName("When a payment is added, the fee is saved")

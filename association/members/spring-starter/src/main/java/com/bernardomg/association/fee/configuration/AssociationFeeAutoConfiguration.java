@@ -52,7 +52,7 @@ import com.bernardomg.association.fee.usecase.service.SpringSecurityMyFeesServic
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
-import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
+import com.bernardomg.association.transaction.domain.repository.FeeTransactionRepository;
 import com.bernardomg.event.emitter.EventEmitter;
 
 @AutoConfiguration
@@ -76,7 +76,7 @@ public class AssociationFeeAutoConfiguration {
 
     @Bean("feeService")
     public FeeService getFeeService(final FeeRepository feeRepository, final MemberRepository memberRepository,
-            final TransactionRepository transactionRepository, final EventEmitter evntEmitter,
+            final FeeTransactionRepository transactionRepository, final EventEmitter evntEmitter,
             final MessageSource msgSource) {
         return new DefaultFeeService(feeRepository, memberRepository, transactionRepository, evntEmitter, msgSource);
     }

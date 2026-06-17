@@ -22,20 +22,22 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.adapter.inbound.jpa.repository;
+package com.bernardomg.association.transaction.domain.model;
 
-import java.util.Optional;
+import java.time.Instant;
+import java.util.Objects;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
+import org.apache.commons.lang3.StringUtils;
 
-import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTransactionEntity;
+public record FeeTransaction(long index, Instant date, float amount, String description) {
 
-public interface FeeTransactionSpringRepository extends JpaRepository<FeeTransactionEntity, Long> {
+    public FeeTransaction(final long index, final Instant date, final float amount, final String description) {
+        Objects.requireNonNull(description);
 
-    public Optional<FeeTransactionEntity> findByIndex(final long index);
-
-    @Query("SELECT COALESCE(MAX(t.index), 0) + 1 FROM Transaction t")
-    public Long findNextIndex();
+        this.amount = Objects.requireNonNull(amount);
+        this.date = Objects.requireNonNull(date);
+        this.description = StringUtils.trim(description);
+        this.index = Objects.requireNonNull(index);
+    }
 
 }
