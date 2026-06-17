@@ -44,6 +44,7 @@ public final class ActivityEntityMapper {
         entity.setDate(activity.date());
         entity.setTitle(activity.title());
         entity.setDescription(activity.description());
+        entity.setImage(activity.image());
 
         return entity;
     }

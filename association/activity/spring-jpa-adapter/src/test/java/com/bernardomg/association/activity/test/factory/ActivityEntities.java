@@ -12,6 +12,7 @@ public final class ActivityEntities {
         entity.setDate(ActivityConstants.DATE);
         entity.setTitle(ActivityConstants.TITLE);
         entity.setDescription(ActivityConstants.DESCRIPTION);
+        entity.setImage(ActivityConstants.IMAGE);
         return entity;
     }
 

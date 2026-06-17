@@ -34,24 +34,22 @@ databaseChangeLog:
                   type: datetime
                   constraints:
                     nullable: false
-                  defaultValueComputed: CURRENT_TIMESTAMP
               - column:
                   name: title
                   type: varchar(50)
                   constraints:
                     nullable: false
-                  defaultValue: ''
               - column:
                   name: description
                   type: varchar(200)
                   constraints:
-                    nullable: false
+                    nullable: true
                   defaultValue: ''
               - column:
                   name: image
                   type: varchar(100)
                   constraints:
-                    nullable: false
+                    nullable: true
                   defaultValue: ''
         - addAutoIncrement:
             schemaName: calendar
