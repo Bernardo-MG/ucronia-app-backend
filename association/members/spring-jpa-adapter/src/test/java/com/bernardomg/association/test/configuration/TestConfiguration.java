@@ -52,11 +52,11 @@ import com.bernardomg.association.member.domain.repository.PublicMemberRepositor
 
 @Configuration
 @EnableJpaRepositories(basePackages = { "com.bernardomg.association.member.adapter.inbound.jpa",
-        "com.bernardomg.association.fee.adapter.inbound.jpa",
+        "com.bernardomg.association.member.adapter.inbound.jpa",
         "com.bernardomg.association.transaction.adapter.inbound.jpa",
         "com.bernardomg.association.profile.adapter.inbound.jpa" })
 @EntityScan(basePackages = { "com.bernardomg.association.member.adapter.inbound.jpa",
-        "com.bernardomg.association.fee.adapter.inbound.jpa",
+        "com.bernardomg.association.member.adapter.inbound.jpa",
         "com.bernardomg.association.transaction.adapter.inbound.jpa",
         "com.bernardomg.association.profile.adapter.inbound.jpa" })
 public class TestConfiguration {

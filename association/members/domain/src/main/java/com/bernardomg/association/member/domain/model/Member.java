@@ -77,23 +77,6 @@ public record Member(Optional<String> identifier, Long number, Name name, Option
         return result;
     }
 
-    public record Name(String firstName, String lastName) {
-
-        public Name(final String firstName, final String lastName) {
-            Objects.requireNonNull(firstName);
-            Objects.requireNonNull(lastName);
-
-            this.firstName = StringUtils.trim(firstName);
-            this.lastName = StringUtils.trim(lastName);
-        }
-
-        public final String fullName() {
-            return String.format("%s %s", firstName, lastName)
-                .trim();
-        }
-
-    }
-
     public record FeeType(Long number, String name, Float amount) {
 
         public FeeType(final Long number, final String name, final Float amount) {

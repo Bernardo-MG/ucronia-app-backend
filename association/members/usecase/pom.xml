@@ -38,6 +38,14 @@
          <artifactId>association-member-domain</artifactId>
       </dependency>
       <dependency>
+         <groupId>com.bernardomg.association.transaction</groupId>
+         <artifactId>association-transaction-domain</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.association.security</groupId>
+         <artifactId>association-security-domain</artifactId>
+      </dependency>
+      <dependency>
          <groupId>jakarta.transaction</groupId>
          <artifactId>jakarta.transaction-api</artifactId>
       </dependency>
@@ -73,6 +81,11 @@
       <dependency>
          <groupId>com.bernardomg.association.member</groupId>
          <artifactId>association-member-testing</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.association.security</groupId>
+         <artifactId>association-security-testing</artifactId>
          <scope>test</scope>
       </dependency>
    </dependencies>

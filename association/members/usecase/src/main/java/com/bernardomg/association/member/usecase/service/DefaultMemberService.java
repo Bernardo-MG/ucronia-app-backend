@@ -37,7 +37,7 @@ import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.Member.ContactChannel;
 import com.bernardomg.association.member.domain.model.Member.ContactMethod;
-import com.bernardomg.association.member.domain.model.Member.Name;
+import com.bernardomg.association.member.domain.model.Name;
 import com.bernardomg.association.member.domain.repository.MemberContactMethodRepository;
 import com.bernardomg.association.member.domain.repository.MemberFeeTypeRepository;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
