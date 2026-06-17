@@ -31,11 +31,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.association.security.account.adapter.inbound.jpa.model.AccountProfileEntity;
+import com.bernardomg.association.security.account.adapter.inbound.jpa.model.AccountUserInnerProfileEntityMapper;
 import com.bernardomg.association.security.account.domain.model.ProfileAccount.Profile;
 import com.bernardomg.association.security.account.domain.repository.AccountProfileRepository;
-import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserInnerProfileEntityMapper;
-import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserProfileEntity;
-import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.UserProfileSpringRepository;
 
 @Transactional
 public final class JpaAccountProfileRepository implements AccountProfileRepository {
@@ -43,27 +42,27 @@ public final class JpaAccountProfileRepository implements AccountProfileReposito
     /**
      * Logger for the class.
      */
-    private static final Logger               log = LoggerFactory.getLogger(JpaAccountProfileRepository.class);
+    private static final Logger                  log = LoggerFactory.getLogger(JpaAccountProfileRepository.class);
 
-    private final UserProfileSpringRepository userProfileSpringRepository;
+    private final AccountProfileSpringRepository accountProfileSpringRepository;
 
-    public JpaAccountProfileRepository(final UserProfileSpringRepository userProfileSpringRepo) {
+    public JpaAccountProfileRepository(final AccountProfileSpringRepository accountProfileSpringRepo) {
         super();
 
-        userProfileSpringRepository = Objects.requireNonNull(userProfileSpringRepo);
+        accountProfileSpringRepository = Objects.requireNonNull(accountProfileSpringRepo);
     }
 
     @Override
     public final Optional<Profile> findByUsername(final String username) {
-        final Optional<UserProfileEntity> userMember;
-        final Optional<Profile>           profile;
+        final Optional<AccountProfileEntity> userMember;
+        final Optional<Profile>              profile;
 
         log.trace("Finding profile for username {}", username);
 
-        userMember = userProfileSpringRepository.findByUserUsername(username);
+        userMember = accountProfileSpringRepository.findByUserUsername(username);
         if (userMember.isPresent() && (userMember.get()
             .getProfile() != null)) {
-            profile = Optional.of(UserInnerProfileEntityMapper.toProfileDomain(userMember.get()
+            profile = Optional.of(AccountUserInnerProfileEntityMapper.toDomain(userMember.get()
                 .getProfile()));
         } else {
             profile = Optional.empty();

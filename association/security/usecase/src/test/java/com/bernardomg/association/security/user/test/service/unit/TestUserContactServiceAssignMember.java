@@ -38,8 +38,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.security.account.domain.exception.MissingAccountProfileException;
 import com.bernardomg.association.security.account.test.configuration.factory.AccountProfileConstants;
+import com.bernardomg.association.security.user.domain.exception.MissingUserProfileException;
 import com.bernardomg.association.security.user.domain.model.UserProfile;
 import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
 import com.bernardomg.association.security.user.test.configuration.factory.UserConstants;
@@ -100,7 +100,7 @@ class TestUserProfileServiceAssignProfile {
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingAccountProfileException.class);
+            .isInstanceOf(MissingUserProfileException.class);
     }
 
     @Test

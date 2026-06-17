@@ -22,27 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.security.user.adapter.inbound.jpa.model;
-
-import java.util.Optional;
-
-import com.bernardomg.association.security.user.domain.model.UserProfile;
-
 /**
- * Profile entity mapper.
+ * Account repositories.
  */
-public final class UserInnerProfileEntityMapper {
 
-    public static final UserProfile toDomain(final UserInnerProfileEntity entity) {
-        final UserProfile.Name name;
-
-        name = new UserProfile.Name(entity.getFirstName(), entity.getLastName());
-
-        return new UserProfile(Optional.ofNullable(entity.getIdentifier()), entity.getNumber(), name);
-    }
-
-    private UserInnerProfileEntityMapper() {
-        super();
-    }
-
-}
+package com.bernardomg.association.security.account.adapter.inbound.jpa.repository;
