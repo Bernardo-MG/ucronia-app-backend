@@ -29,8 +29,8 @@ import java.time.Year;
 import java.util.Collection;
 import java.util.Optional;
 
-import com.bernardomg.association.member.domain.filter.FeeFilter;
-import com.bernardomg.association.member.domain.model.Fee;
+import com.bernardomg.association.fee.domain.filter.FeeFilter;
+import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.member.domain.model.YearsRange;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;

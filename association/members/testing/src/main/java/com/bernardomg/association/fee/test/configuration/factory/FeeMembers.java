@@ -1,8 +1,9 @@
 
 package com.bernardomg.association.fee.test.configuration.factory;
 
-import com.bernardomg.association.member.domain.model.FeeMember;
+import com.bernardomg.association.fee.domain.model.FeeMember;
 import com.bernardomg.association.member.domain.model.Name;
+import com.bernardomg.association.member.test.configuration.factory.MemberConstants;
 
 public final class FeeMembers {
 

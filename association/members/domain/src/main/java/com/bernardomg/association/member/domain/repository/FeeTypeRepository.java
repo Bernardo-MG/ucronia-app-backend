@@ -26,7 +26,7 @@ package com.bernardomg.association.member.domain.repository;
 
 import java.util.Optional;
 
-import com.bernardomg.association.member.domain.model.FeeType;
+import com.bernardomg.association.fee.domain.model.FeeType;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;

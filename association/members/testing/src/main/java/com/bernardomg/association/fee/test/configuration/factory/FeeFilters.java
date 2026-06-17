@@ -4,7 +4,7 @@ package com.bernardomg.association.fee.test.configuration.factory;
 import java.time.Instant;
 import java.util.Optional;
 
-import com.bernardomg.association.member.domain.filter.FeeFilter;
+import com.bernardomg.association.fee.domain.filter.FeeFilter;
 
 public final class FeeFilters {
 

@@ -26,7 +26,7 @@ package com.bernardomg.association.member.domain.repository;
 
 import java.time.Instant;
 
-import com.bernardomg.association.member.domain.model.FeeSummary;
+import com.bernardomg.association.fee.domain.model.FeeSummary;
 
 public interface FeeSummaryRepository {
 

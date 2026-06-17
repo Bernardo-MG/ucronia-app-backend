@@ -45,12 +45,12 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.test.configuration.factory.UserConstants;
-import com.bernardomg.association.member.domain.model.Fee;
+import com.bernardomg.association.fee.usecase.service.SpringSecurityMyFeesService;
 import com.bernardomg.association.member.domain.repository.FeeRepository;
 import com.bernardomg.association.member.test.configuration.factory.MemberConstants;
-import com.bernardomg.association.member.usecase.service.SpringSecurityMyFeesService;
 import com.bernardomg.association.security.account.test.configuration.factory.AccountProfiles;
 import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
 import com.bernardomg.pagination.domain.Page;

@@ -3,7 +3,8 @@ package com.bernardomg.association.fee.test.configuration.factory;
 
 import java.util.List;
 
-import com.bernardomg.association.member.domain.model.FeePayments;
+import com.bernardomg.association.fee.domain.model.FeePayments;
+import com.bernardomg.association.member.test.configuration.factory.MemberConstants;
 
 public final class FeesPayments {
 

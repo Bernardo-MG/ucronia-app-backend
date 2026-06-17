@@ -27,8 +27,8 @@ package com.bernardomg.association.member.domain.repository;
 import java.util.Collection;
 import java.util.Optional;
 
-import com.bernardomg.association.member.domain.model.FeeMember;
-import com.bernardomg.association.member.domain.model.FeeType;
+import com.bernardomg.association.fee.domain.model.FeeMember;
+import com.bernardomg.association.fee.domain.model.FeeType;
 
 public interface FeeMemberRepository {
 

@@ -30,8 +30,8 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bernardomg.association.member.domain.model.Fee;
-import com.bernardomg.association.member.domain.model.FeeMember;
+import com.bernardomg.association.fee.domain.model.Fee;
+import com.bernardomg.association.fee.domain.model.FeeMember;
 import com.bernardomg.association.member.domain.repository.FeeMemberRepository;
 import com.bernardomg.association.member.domain.repository.FeeRepository;
 import com.bernardomg.validation.domain.model.FieldFailure;

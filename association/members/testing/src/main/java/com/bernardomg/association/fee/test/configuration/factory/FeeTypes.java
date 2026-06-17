@@ -1,7 +1,7 @@
 
 package com.bernardomg.association.fee.test.configuration.factory;
 
-import com.bernardomg.association.member.domain.model.FeeType;
+import com.bernardomg.association.fee.domain.model.FeeType;
 
 public final class FeeTypes {
 

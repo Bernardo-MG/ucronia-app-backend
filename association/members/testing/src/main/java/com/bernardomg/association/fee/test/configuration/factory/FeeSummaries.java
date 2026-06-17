@@ -1,7 +1,7 @@
 
 package com.bernardomg.association.fee.test.configuration.factory;
 
-import com.bernardomg.association.member.domain.model.FeeSummary;
+import com.bernardomg.association.fee.domain.model.FeeSummary;
 
 public final class FeeSummaries {
 
