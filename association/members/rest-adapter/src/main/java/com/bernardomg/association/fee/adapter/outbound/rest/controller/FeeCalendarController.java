@@ -31,13 +31,13 @@ import java.util.List;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.fee.adapter.outbound.rest.model.FeeDtoMapper;
-import com.bernardomg.association.fee.domain.model.FeeMemberStatus;
 import com.bernardomg.association.fee.usecase.service.FeeService;
 import com.bernardomg.association.member.adapter.outbound.rest.controller.FeeCalendarApi;
 import com.bernardomg.association.member.adapter.outbound.rest.dto.FeeCalendarResponseDto;
 import com.bernardomg.association.member.adapter.outbound.rest.dto.MemberStatusDto;
 import com.bernardomg.association.member.adapter.outbound.rest.dto.YearsRangeResponseDto;
 import com.bernardomg.association.member.domain.model.MemberFees;
+import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.domain.model.YearsRange;
 import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.web.WebSorting;
@@ -71,11 +71,11 @@ public class FeeCalendarController implements FeeCalendarApi {
     @RequireResourceAuthorization(resource = "FEE", action = Actions.READ)
     public FeeCalendarResponseDto getFeesCalendar(final Integer year, @NotNull @Valid final MemberStatusDto status,
             @Valid final List<String> sort) {
-        final FeeMemberStatus        memberStatus;
+        final MemberStatus           memberStatus;
         final Sorting                sorting;
         final Collection<MemberFees> fees;
 
-        memberStatus = FeeMemberStatus.valueOf(status.name());
+        memberStatus = MemberStatus.valueOf(status.name());
         sorting = WebSorting.toSorting(sort);
         fees = service.getForYear(Year.of(year), memberStatus, sorting);
 

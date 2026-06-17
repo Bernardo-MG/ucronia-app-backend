@@ -49,7 +49,6 @@ import com.bernardomg.association.fee.domain.exception.MissingFeeTypeException;
 import com.bernardomg.association.fee.domain.filter.FeeFilter;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeMember;
-import com.bernardomg.association.fee.domain.model.FeeMemberStatus;
 import com.bernardomg.association.fee.domain.model.FeePayments;
 import com.bernardomg.association.fee.domain.model.FeeType;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
@@ -61,6 +60,7 @@ import com.bernardomg.association.fee.usecase.validation.FeeTransactionNotChange
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.MemberFees;
+import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.domain.model.Name;
 import com.bernardomg.association.member.domain.model.YearsRange;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
@@ -104,8 +104,9 @@ public final class DefaultFeeService implements FeeService {
 
     private final Validator<Fee>         validatorUpdate;
 
-    public DefaultFeeService(final FeeRepository feeRepo, final MemberRepository memberRepo,final TransactionRepository transactionRepo,
-            final EventEmitter evntEmitter, final MessageSource msgSource) {
+    public DefaultFeeService(final FeeRepository feeRepo, final MemberRepository memberRepo,
+            final TransactionRepository transactionRepo, final EventEmitter evntEmitter,
+            final MessageSource msgSource) {
         super();
 
         feeRepository = Objects.requireNonNull(feeRepo);
@@ -127,11 +128,11 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     public final Fee createFee(final Instant date, final Long number) {
-        final Fee       newFee;
-        final Fee       created;
-        final Member member;
-        final FeeType   feeType;
-        final Name      name;
+        final Fee     newFee;
+        final Fee     created;
+        final Member  member;
+        final FeeType feeType;
+        final Name    name;
 
         log.info("Creating unpaid fee for {} for month {}", number, date);
 
@@ -206,8 +207,7 @@ public final class DefaultFeeService implements FeeService {
     }
 
     @Override
-    public final Collection<MemberFees> getForYear(final Year year, final FeeMemberStatus status,
-            final Sorting sorting) {
+    public final Collection<MemberFees> getForYear(final Year year, final MemberStatus status, final Sorting sorting) {
         final Collection<Fee>        readFees;
         final Map<Object, List<Fee>> memberFees;
         final Collection<MemberFees> calendarFees;
@@ -304,7 +304,7 @@ public final class DefaultFeeService implements FeeService {
     @Override
     public final Collection<Fee> payFees(final FeePayments feesPayments) {
         final Collection<Fee>     feesToSave;
-        final Member           member;
+        final Member              member;
         final Collection<Fee>     created;
         final Transaction         transaction;
         final FeeType             feeType;
@@ -359,7 +359,7 @@ public final class DefaultFeeService implements FeeService {
         final Transaction existingPayment;
         final Transaction updatedPayment;
         final Fee         updated;
-        final Member   member;
+        final Member      member;
         final Fee         toSave;
         final Transaction transaction;
 
@@ -540,7 +540,7 @@ public final class DefaultFeeService implements FeeService {
             .number()));
     }
 
-    private final MemberFees toFeeYear(final Long number, final Name name, final FeeMemberStatus status,
+    private final MemberFees toFeeYear(final Long number, final Name name, final MemberStatus status,
             final Collection<MemberFees.Fee> fees) {
         final boolean           active;
         final MemberFees.Member member;

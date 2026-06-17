@@ -48,11 +48,11 @@ public final class FeePaymentsMonthsNotExistingRule implements FieldRule<FeePaym
     /**
      * Logger for the class.
      */
-    private static final Logger       log = LoggerFactory.getLogger(FeePaymentsMonthsNotExistingRule.class);
+    private static final Logger    log = LoggerFactory.getLogger(FeePaymentsMonthsNotExistingRule.class);
+
+    private final FeeRepository    feeRepository;
 
     private final MemberRepository memberRepository;
-
-    private final FeeRepository       feeRepository;
 
     public FeePaymentsMonthsNotExistingRule(final MemberRepository memberRepo, final FeeRepository feeRepo) {
         super();
@@ -66,7 +66,7 @@ public final class FeePaymentsMonthsNotExistingRule implements FieldRule<FeePaym
         final Optional<FieldFailure> failure;
         final FieldFailure           fieldFailure;
         final List<Instant>          existing;
-        final Member              member;
+        final Member                 member;
 
         member = memberRepository.findOne(payments.member())
             .get();
