@@ -23,7 +23,7 @@
  */
 
 /**
- * Member configuration.
+ * Fee services.
  */
 
-package com.bernardomg.association.member.configuration;
+package com.bernardomg.association.fee.usecase.service;

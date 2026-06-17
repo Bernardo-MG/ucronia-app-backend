@@ -23,7 +23,7 @@
  */
 
 /**
- * Member configuration.
+ * Fee filters.
  */
 
-package com.bernardomg.association.member.configuration;
+package com.bernardomg.association.fee.domain.filter;

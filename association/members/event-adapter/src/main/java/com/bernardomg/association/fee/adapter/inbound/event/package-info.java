@@ -23,7 +23,7 @@
  */
 
 /**
- * Member configuration.
+ * Fee event adapters.
  */
 
-package com.bernardomg.association.member.configuration;
+package com.bernardomg.association.fee.adapter.inbound.event;

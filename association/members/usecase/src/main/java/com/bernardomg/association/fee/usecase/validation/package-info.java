@@ -23,7 +23,7 @@
  */
 
 /**
- * Member configuration.
+ * Fee validators.
  */
 
-package com.bernardomg.association.member.configuration;
+package com.bernardomg.association.fee.usecase.validation;

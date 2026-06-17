@@ -23,7 +23,7 @@
  */
 
 /**
- * Member configuration.
+ * Fee REST model.
  */
 
-package com.bernardomg.association.member.configuration;
+package com.bernardomg.association.fee.adapter.outbound.rest.model;

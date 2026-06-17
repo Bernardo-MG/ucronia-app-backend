@@ -23,7 +23,7 @@
  */
 
 /**
- * Member configuration.
+ * Fee JPA specifications.
  */
 
-package com.bernardomg.association.member.configuration;
+package com.bernardomg.association.fee.adapter.inbound.jpa.specification;
