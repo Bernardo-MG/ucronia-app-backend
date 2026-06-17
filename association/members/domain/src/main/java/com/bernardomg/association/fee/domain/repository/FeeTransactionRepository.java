@@ -22,11 +22,11 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.domain.repository;
+package com.bernardomg.association.fee.domain.repository;
 
 import java.util.Optional;
 
-import com.bernardomg.association.transaction.domain.model.FeeTransaction;
+import com.bernardomg.association.fee.domain.model.FeeTransaction;
 
 public interface FeeTransactionRepository {
 

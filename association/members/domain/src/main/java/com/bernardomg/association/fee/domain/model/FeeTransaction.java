@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.domain.model;
+package com.bernardomg.association.fee.domain.model;
 
 import java.time.Instant;
 import java.util.Objects;

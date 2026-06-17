@@ -32,8 +32,8 @@ import org.slf4j.LoggerFactory;
 
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTransactionEntity;
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTransactionEntityMapper;
-import com.bernardomg.association.transaction.domain.model.FeeTransaction;
-import com.bernardomg.association.transaction.domain.repository.FeeTransactionRepository;
+import com.bernardomg.association.fee.domain.model.FeeTransaction;
+import com.bernardomg.association.fee.domain.repository.FeeTransactionRepository;
 
 import jakarta.transaction.Transactional;
 

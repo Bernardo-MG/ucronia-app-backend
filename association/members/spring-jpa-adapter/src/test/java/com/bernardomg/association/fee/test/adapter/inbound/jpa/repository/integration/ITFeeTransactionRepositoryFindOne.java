@@ -36,10 +36,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.TestApplication;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeTransactionSpringRepository;
+import com.bernardomg.association.fee.domain.model.FeeTransaction;
+import com.bernardomg.association.fee.domain.repository.FeeTransactionRepository;
 import com.bernardomg.association.fee.test.configuration.factory.TransactionConstants;
 import com.bernardomg.association.fee.test.configuration.factory.Transactions;
-import com.bernardomg.association.transaction.domain.model.FeeTransaction;
-import com.bernardomg.association.transaction.domain.repository.FeeTransactionRepository;
 import com.bernardomg.association.transaction.test.configuration.data.annotation.NegativeTransaction;
 import com.bernardomg.association.transaction.test.configuration.data.annotation.PositiveTransaction;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionEntities;

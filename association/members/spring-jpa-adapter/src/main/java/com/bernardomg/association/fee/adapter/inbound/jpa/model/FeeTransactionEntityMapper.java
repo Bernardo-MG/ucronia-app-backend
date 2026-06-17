@@ -24,7 +24,7 @@
 
 package com.bernardomg.association.fee.adapter.inbound.jpa.model;
 
-import com.bernardomg.association.transaction.domain.model.FeeTransaction;
+import com.bernardomg.association.fee.domain.model.FeeTransaction;
 
 /**
  * Author repository mapper.

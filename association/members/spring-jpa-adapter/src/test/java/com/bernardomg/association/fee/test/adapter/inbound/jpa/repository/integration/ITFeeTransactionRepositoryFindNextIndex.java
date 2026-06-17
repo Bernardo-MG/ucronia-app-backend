@@ -31,8 +31,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.TestApplication;
+import com.bernardomg.association.fee.domain.repository.FeeTransactionRepository;
 import com.bernardomg.association.fee.test.configuration.factory.TransactionConstants;
-import com.bernardomg.association.transaction.domain.repository.FeeTransactionRepository;
 import com.bernardomg.association.transaction.test.configuration.data.annotation.PositiveTransaction;
 import com.bernardomg.test.annotation.IntegrationTest;
 

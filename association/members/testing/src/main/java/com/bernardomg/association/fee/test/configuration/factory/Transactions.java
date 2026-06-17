@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneOffset;
 
-import com.bernardomg.association.transaction.domain.model.FeeTransaction;
+import com.bernardomg.association.fee.domain.model.FeeTransaction;
 
 public final class Transactions {
 
