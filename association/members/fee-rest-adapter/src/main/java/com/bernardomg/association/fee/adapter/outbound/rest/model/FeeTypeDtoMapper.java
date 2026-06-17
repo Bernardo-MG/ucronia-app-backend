@@ -26,15 +26,15 @@ package com.bernardomg.association.fee.adapter.outbound.rest.model;
 
 import java.util.Optional;
 
+import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeeTypeCreationDto;
+import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeeTypeDto;
+import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeeTypePageResponseDto;
+import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeeTypeResponseDto;
+import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeeTypeUpdateDto;
+import com.bernardomg.association.fee.adapter.outbound.rest.dto.PropertyDto;
+import com.bernardomg.association.fee.adapter.outbound.rest.dto.PropertyDto.DirectionEnum;
+import com.bernardomg.association.fee.adapter.outbound.rest.dto.SortingDto;
 import com.bernardomg.association.fee.domain.model.FeeType;
-import com.bernardomg.association.member.adapter.outbound.rest.dto.FeeTypeCreationDto;
-import com.bernardomg.association.member.adapter.outbound.rest.dto.FeeTypeDto;
-import com.bernardomg.association.member.adapter.outbound.rest.dto.FeeTypePageResponseDto;
-import com.bernardomg.association.member.adapter.outbound.rest.dto.FeeTypeResponseDto;
-import com.bernardomg.association.member.adapter.outbound.rest.dto.FeeTypeUpdateDto;
-import com.bernardomg.association.member.adapter.outbound.rest.dto.PropertyDto;
-import com.bernardomg.association.member.adapter.outbound.rest.dto.PropertyDto.DirectionEnum;
-import com.bernardomg.association.member.adapter.outbound.rest.dto.SortingDto;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
 import com.bernardomg.pagination.domain.Sorting.Property;

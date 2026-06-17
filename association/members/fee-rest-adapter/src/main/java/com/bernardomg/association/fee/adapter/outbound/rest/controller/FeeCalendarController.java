@@ -24,58 +24,71 @@
 
 package com.bernardomg.association.fee.adapter.outbound.rest.controller;
 
+import java.time.Year;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeeCalendarResponseDto;
+import com.bernardomg.association.fee.adapter.outbound.rest.dto.MemberStatusDto;
+import com.bernardomg.association.fee.adapter.outbound.rest.dto.YearsRangeResponseDto;
 import com.bernardomg.association.fee.adapter.outbound.rest.model.FeeDtoMapper;
-import com.bernardomg.association.fee.domain.model.Fee;
-import com.bernardomg.association.fee.usecase.service.MyFeesService;
-import com.bernardomg.association.member.adapter.outbound.rest.controller.MyFeesApi;
-import com.bernardomg.association.member.adapter.outbound.rest.dto.FeePageResponseDto;
-import com.bernardomg.pagination.domain.Page;
-import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.association.fee.usecase.service.FeeService;
+import com.bernardomg.association.member.domain.model.MemberFees;
+import com.bernardomg.association.member.domain.model.MemberStatus;
+import com.bernardomg.association.member.domain.model.YearsRange;
 import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
 /**
- * My fees REST controller.
+ * Fee calendar REST controller.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 @RestController
-public class MyFeesController implements MyFeesApi {
+public class FeeCalendarController implements FeeCalendarApi {
 
     /**
-     * User fee service.
+     * Fee service.
      */
-    private final MyFeesService service;
+    private final FeeService service;
 
-    public MyFeesController(final MyFeesService service) {
+    public FeeCalendarController(final FeeService service) {
         super();
 
         this.service = service;
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "MY_FEES", action = Actions.READ)
-    public FeePageResponseDto getUserFees(@Min(0) @Valid final Integer page, @Min(1) @Valid final Integer size,
+    @RequireResourceAuthorization(resource = "FEE", action = Actions.READ)
+    public FeeCalendarResponseDto getFeesCalendar(final Integer year, @NotNull @Valid final MemberStatusDto status,
             @Valid final List<String> sort) {
-        final Pagination pagination;
-        final Sorting    sorting;
-        final Page<Fee>  fees;
+        final MemberStatus           memberStatus;
+        final Sorting                sorting;
+        final Collection<MemberFees> fees;
 
-        pagination = new Pagination(page, size);
+        memberStatus = MemberStatus.valueOf(status.name());
         sorting = WebSorting.toSorting(sort);
-        fees = service.getAllForUserInSession(pagination, sorting);
+        fees = service.getForYear(Year.of(year), memberStatus, sorting);
 
-        return FeeDtoMapper.toResponseDto(fees);
+        return FeeDtoMapper.toCalendarResponseDto(fees);
+    }
+
+    @Override
+    @RequireResourceAuthorization(resource = "FEE", action = Actions.READ)
+    public YearsRangeResponseDto getFeesCalendarRange() {
+        final YearsRange range;
+
+        range = service.getRange();
+
+        return FeeDtoMapper.toResponseDto(range);
     }
 
 }

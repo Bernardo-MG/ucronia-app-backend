@@ -22,24 +22,46 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.adapter.outbound.rest.model;
+package com.bernardomg.association.fee.adapter.outbound.rest.controller;
 
+import java.time.Instant;
+
+import org.springframework.web.bind.annotation.RestController;
+
+import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeeSummaryResponseDto;
+import com.bernardomg.association.fee.adapter.outbound.rest.model.FeeSummaryDtoMapper;
 import com.bernardomg.association.fee.domain.model.FeeSummary;
-import com.bernardomg.association.member.adapter.outbound.rest.dto.FeeSummaryDto;
-import com.bernardomg.association.member.adapter.outbound.rest.dto.FeeSummaryResponseDto;
+import com.bernardomg.association.fee.usecase.service.FeeSummaryService;
+import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
+import com.bernardomg.security.permission.domain.constant.Actions;
 
-public final class FeeSummaryDtoMapper {
+import jakarta.validation.Valid;
 
-    public static final FeeSummaryResponseDto toResponseDto(final FeeSummary summary) {
-        final FeeSummaryDto reportDto;
+/**
+ * Fee summary REST controller.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+@RestController
+public class FeeSummaryController implements FeeSummaryApi {
 
-        reportDto = new FeeSummaryDto().paid(summary.paid())
-            .unpaid(summary.unpaid());
-        return new FeeSummaryResponseDto().content(reportDto);
+    private final FeeSummaryService service;
+
+    public FeeSummaryController(final FeeSummaryService service) {
+        super();
+
+        this.service = service;
     }
 
-    private FeeSummaryDtoMapper() {
-        super();
+    @Override
+    @RequireResourceAuthorization(resource = "FEE", action = Actions.READ)
+    public FeeSummaryResponseDto getFeeSummary(@Valid final Instant from, @Valid final Instant to) {
+        final FeeSummary summary;
+
+        summary = service.getFeeSummary(from, to);
+
+        return FeeSummaryDtoMapper.toResponseDto(summary);
     }
 
 }

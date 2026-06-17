@@ -31,18 +31,17 @@ import java.util.Optional;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeeCreationDto;
+import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeePageResponseDto;
+import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeePaymentsDto;
+import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeeResponseDto;
+import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeeUpdateDto;
+import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeesResponseDto;
 import com.bernardomg.association.fee.adapter.outbound.rest.model.FeeDtoMapper;
 import com.bernardomg.association.fee.domain.filter.FeeFilter;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeePayments;
 import com.bernardomg.association.fee.usecase.service.FeeService;
-import com.bernardomg.association.member.adapter.outbound.rest.controller.FeeApi;
-import com.bernardomg.association.member.adapter.outbound.rest.dto.FeeCreationDto;
-import com.bernardomg.association.member.adapter.outbound.rest.dto.FeePageResponseDto;
-import com.bernardomg.association.member.adapter.outbound.rest.dto.FeePaymentsDto;
-import com.bernardomg.association.member.adapter.outbound.rest.dto.FeeResponseDto;
-import com.bernardomg.association.member.adapter.outbound.rest.dto.FeeUpdateDto;
-import com.bernardomg.association.member.adapter.outbound.rest.dto.FeesResponseDto;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;

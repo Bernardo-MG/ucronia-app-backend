@@ -19,10 +19,20 @@
    <!-- ********************************************** -->
 
    <groupId>com.bernardomg.association.member</groupId>
-   <artifactId>association-member-spring-starter</artifactId>
+   <artifactId>association-fee-rest-adapter</artifactId>
    <packaging>jar</packaging>
 
-   <name>Association Members Spring Starter</name>
+   <name>Association Fees REST Adapter</name>
+
+   <!-- ********************************************** -->
+   <!-- **************** PROPERTIES ****************** -->
+   <!-- ********************************************** -->
+
+   <properties>
+     <openapi.generator.maven.plugin.inputSpec>${project.basedir}/src/main/resources/openapi/fee.yml</openapi.generator.maven.plugin.inputSpec>
+     <openapi.generator.maven.plugin.apiPackage>com.bernardomg.association.fee.adapter.outbound.rest.controller</openapi.generator.maven.plugin.apiPackage>
+     <openapi.generator.maven.plugin.modelPackage>com.bernardomg.association.fee.adapter.outbound.rest.dto</openapi.generator.maven.plugin.modelPackage>
+   </properties>
 
    <!-- ********************************************** -->
    <!-- *************** DEPENDENCIES ***************** -->
@@ -38,38 +48,23 @@
          <artifactId>association-member-usecase</artifactId>
       </dependency>
       <dependency>
-         <groupId>com.bernardomg.association.member</groupId>
-         <artifactId>association-member-event-adapter</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.association.member</groupId>
-         <artifactId>association-member-spring-jpa-adapter</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.association.member</groupId>
-         <artifactId>association-member-rest-adapter</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.association.member</groupId>
-         <artifactId>association-fee-rest-adapter</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>org.springframework.boot</groupId>
-         <artifactId>spring-boot-autoconfigure</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.association.transaction</groupId>
-         <artifactId>association-transaction-domain</artifactId>
-      </dependency>
-      <dependency>
          <!-- Spring WS Security Starter -->
          <groupId>com.bernardomg.framework.spring</groupId>
          <artifactId>spring-ws-security-starter</artifactId>
       </dependency>
-      <dependency>
-         <groupId>org.springframework</groupId>
-         <artifactId>spring-context</artifactId>
-      </dependency>
    </dependencies>
+
+   <!-- ********************************************** -->
+   <!-- ******************* BUILD ******************** -->
+   <!-- ********************************************** -->
+
+   <build>
+      <plugins>
+          <plugin>
+             <groupId>org.openapitools</groupId>
+             <artifactId>openapi-generator-maven-plugin</artifactId>
+          </plugin>
+      </plugins>
+   </build>
 
 </project>
