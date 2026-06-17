@@ -16,6 +16,16 @@ public final class ActivityEntities {
         return entity;
     }
 
+    public static final ActivityEntity titleChange() {
+        final ActivityEntity entity = new ActivityEntity();
+        entity.setNumber(ActivityConstants.NUMBER);
+        entity.setDate(ActivityConstants.DATE);
+        entity.setTitle(ActivityConstants.ALTERNATIVE_TITLE);
+        entity.setDescription(ActivityConstants.DESCRIPTION);
+        entity.setImage(ActivityConstants.IMAGE);
+        return entity;
+    }
+
     private ActivityEntities() {
         super();
     }

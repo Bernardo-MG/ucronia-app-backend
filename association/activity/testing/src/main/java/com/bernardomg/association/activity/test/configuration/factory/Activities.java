@@ -22,6 +22,11 @@ public final class Activities {
             ActivityConstants.DESCRIPTION, ActivityConstants.IMAGE);
     }
 
+    public static final Activity titleChange() {
+        return new Activity(ActivityConstants.NUMBER, ActivityConstants.DATE, ActivityConstants.ALTERNATIVE_TITLE,
+            ActivityConstants.DESCRIPTION, ActivityConstants.IMAGE);
+    }
+
     public static final Activity valid() {
         return new Activity(ActivityConstants.NUMBER, ActivityConstants.DATE, ActivityConstants.TITLE,
             ActivityConstants.DESCRIPTION, ActivityConstants.IMAGE);
