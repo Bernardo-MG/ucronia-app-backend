@@ -38,7 +38,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.MessageSource;
 
-import com.bernardomg.association.fee.domain.exception.MissingFeeMemberException;
 import com.bernardomg.association.fee.domain.exception.MissingFeeTypeException;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
@@ -46,6 +45,7 @@ import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.FeeTypes;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
+import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.factory.MemberConstants;
 import com.bernardomg.association.member.test.configuration.factory.Members;
@@ -166,7 +166,7 @@ class TestFeeServiceCreateFee {
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingFeeMemberException.class);
+            .isInstanceOf(MissingMemberException.class);
     }
 
 }

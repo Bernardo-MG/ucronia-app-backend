@@ -45,7 +45,6 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import com.bernardomg.association.fee.domain.event.FeeDeletedEvent;
 import com.bernardomg.association.fee.domain.event.FeePaidEvent;
 import com.bernardomg.association.fee.domain.exception.MissingFeeException;
-import com.bernardomg.association.fee.domain.exception.MissingFeeMemberException;
 import com.bernardomg.association.fee.domain.exception.MissingFeeTypeException;
 import com.bernardomg.association.fee.domain.filter.FeeFilter;
 import com.bernardomg.association.fee.domain.model.Fee;
@@ -59,6 +58,7 @@ import com.bernardomg.association.fee.usecase.validation.FeeNotPaidInFutureRule;
 import com.bernardomg.association.fee.usecase.validation.FeePaymentsMonthsNotExistingRule;
 import com.bernardomg.association.fee.usecase.validation.FeePaymentsNotPaidInFutureRule;
 import com.bernardomg.association.fee.usecase.validation.FeeTransactionNotChangedRule;
+import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.MemberFees;
 import com.bernardomg.association.member.domain.model.Name;
@@ -138,7 +138,7 @@ public final class DefaultFeeService implements FeeService {
         member = memberRepository.findOne(number)
             .orElseThrow(() -> {
                 log.error("Missing member {}", number);
-                throw new MissingFeeMemberException(number);
+                throw new MissingMemberException(number);
             });
         feeType = memberRepository.findFeeType(member.number())
             .orElseThrow(() -> {
@@ -316,7 +316,7 @@ public final class DefaultFeeService implements FeeService {
         member = memberRepository.findOne(feesPayments.member())
             .orElseThrow(() -> {
                 log.error("Missing member {}", feesPayments.member());
-                throw new MissingFeeMemberException(feesPayments.member());
+                throw new MissingMemberException(feesPayments.member());
             });
         feeType = memberRepository.findFeeType(member.number())
             .orElseThrow(() -> {
@@ -380,7 +380,7 @@ public final class DefaultFeeService implements FeeService {
             .orElseThrow(() -> {
                 log.error("Missing member {}", fee.member()
                     .number());
-                throw new MissingFeeMemberException(fee.member()
+                throw new MissingMemberException(fee.member()
                     .number());
             });
 

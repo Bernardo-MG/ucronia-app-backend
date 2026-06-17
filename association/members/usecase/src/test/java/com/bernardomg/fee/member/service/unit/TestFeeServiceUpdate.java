@@ -47,7 +47,6 @@ import org.springframework.context.MessageSource;
 
 import com.bernardomg.association.fee.domain.event.FeePaidEvent;
 import com.bernardomg.association.fee.domain.exception.MissingFeeException;
-import com.bernardomg.association.fee.domain.exception.MissingFeeMemberException;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
@@ -55,6 +54,7 @@ import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.test.configuration.factory.TransactionConstants;
 import com.bernardomg.association.fee.test.configuration.factory.Transactions;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
+import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.factory.MemberConstants;
 import com.bernardomg.association.member.test.configuration.factory.Members;
@@ -184,7 +184,7 @@ class TestFeeServiceUpdate {
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingFeeMemberException.class);
+            .isInstanceOf(MissingMemberException.class);
     }
 
     @Test
