@@ -73,15 +73,15 @@ public class TestModulesArchitectureRules {
 
         // Security modules
         .whereLayer("Users")
-        .mayOnlyBeAccessedByLayers("Account", "Fees", "Security configuration")
+        .mayNotBeAccessedByAnyLayer()
         .whereLayer("Account")
-        .mayOnlyBeAccessedByLayers("Security configuration", "Fees", "Users")
+        .mayNotBeAccessedByAnyLayer()
 
         // Misc modules
         .whereLayer("Settings")
-        .mayOnlyBeAccessedByLayers("Association settings", "Fees", "Members")
+        .mayNotBeAccessedByAnyLayer()
         .whereLayer("Association settings")
-        .mayOnlyBeAccessedByLayers("Fees")
+        .mayNotBeAccessedByAnyLayer()
 
         // Library modules
         .whereLayer("Library authors")
