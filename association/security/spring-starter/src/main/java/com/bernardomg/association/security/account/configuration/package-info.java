@@ -26,4 +26,4 @@
  * Transaction configuration.
  */
 
-package com.bernardomg.association.security.configuration;
+package com.bernardomg.association.security.account.configuration;

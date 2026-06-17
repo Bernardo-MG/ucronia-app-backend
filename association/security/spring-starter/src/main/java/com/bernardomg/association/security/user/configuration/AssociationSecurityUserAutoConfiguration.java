@@ -22,48 +22,25 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.security.configuration;
+package com.bernardomg.association.security.user.configuration;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Primary;
 
-import com.bernardomg.association.security.account.adapter.inbound.jpa.repository.JpaAccountProfileRepository;
-import com.bernardomg.association.security.account.domain.repository.AccountProfileRepository;
-import com.bernardomg.association.security.account.usecase.service.MemberAccountService;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.JpaUserProfileRepository;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.UserInnerProfileSpringRepository;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.UserProfileSpringRepository;
 import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
 import com.bernardomg.association.security.user.usecase.service.DefaultUserProfileService;
 import com.bernardomg.association.security.user.usecase.service.UserProfileService;
-import com.bernardomg.security.account.domain.repository.AccountRepository;
-import com.bernardomg.security.account.usecase.service.AccountService;
-import com.bernardomg.security.account.usecase.service.SpringSecurityAccountService;
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.user.domain.repository.UserRepository;
 
 @AutoConfiguration
 @ComponentScan({ "com.bernardomg.association.security.user.adapter.outbound.rest.controller",
         "com.bernardomg.association.security.user.adapter.inbound.jpa" })
-public class AssociationSecurityAutoConfiguration {
-
-    @Bean("accountProfileRepository")
-    public AccountProfileRepository
-            getAccountProfileRepository(final UserProfileSpringRepository userProfileSpringRepository) {
-        return new JpaAccountProfileRepository(userProfileSpringRepository);
-    }
-
-    @Primary
-    @Bean("memberAccountService")
-    public MemberAccountService getMemberAccountService(final AccountRepository accountRepository,
-            final AccountProfileRepository accountProfileRepository) {
-        final AccountService wrapped;
-
-        wrapped = new SpringSecurityAccountService(accountRepository);
-        return new MemberAccountService(wrapped, accountProfileRepository);
-    }
+public class AssociationSecurityUserAutoConfiguration {
 
     @Bean("userProfileRepository")
     public UserProfileRepository getUserProfileRepository(final UserProfileSpringRepository userProfileSpringRepository,
