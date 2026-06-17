@@ -24,6 +24,6 @@
 
 package com.bernardomg.association.security.user.usecase.domain;
 
-public record UserProfile(Long number, String username) {
+public record AssignUserProfile(Long number, String username) {
 
 }

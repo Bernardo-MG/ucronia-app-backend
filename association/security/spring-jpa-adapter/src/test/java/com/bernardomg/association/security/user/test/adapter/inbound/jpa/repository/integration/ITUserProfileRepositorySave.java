@@ -33,11 +33,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.bernardomg.association.security.account.domain.model.ProfileAccount.Profile;
-import com.bernardomg.association.security.account.test.configuration.factory.AccountProfileConstants;
-import com.bernardomg.association.security.account.test.configuration.factory.AccountProfiles;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserProfileEntity;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.UserProfileSpringRepository;
+import com.bernardomg.association.security.user.domain.model.UserProfile;
 import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
 import com.bernardomg.association.security.user.test.TestApplication;
 import com.bernardomg.association.security.user.test.configuration.data.annotation.AlternativeProfile;
@@ -45,6 +43,8 @@ import com.bernardomg.association.security.user.test.configuration.data.annotati
 import com.bernardomg.association.security.user.test.configuration.data.annotation.ValidUser;
 import com.bernardomg.association.security.user.test.configuration.data.annotation.ValidUserWithProfile;
 import com.bernardomg.association.security.user.test.configuration.factory.UserConstants;
+import com.bernardomg.association.security.user.test.configuration.factory.UserProfileConstants;
+import com.bernardomg.association.security.user.test.configuration.factory.UserProfiles;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -66,7 +66,7 @@ class ITUserProfileRepositorySave {
         final Collection<UserProfileEntity> profiles;
 
         // WHEN
-        repository.assignProfile(UserConstants.USERNAME, AccountProfileConstants.ALTERNATIVE_NUMBER);
+        repository.assignProfile(UserConstants.USERNAME, UserProfileConstants.ALTERNATIVE_NUMBER);
 
         // THEN
         profiles = userProfileSpringRepository.findAll();
@@ -85,7 +85,7 @@ class ITUserProfileRepositorySave {
             softly.assertThat(profile.getProfile()
                 .getNumber())
                 .as("profile number")
-                .isEqualTo(AccountProfileConstants.ALTERNATIVE_NUMBER);
+                .isEqualTo(UserProfileConstants.ALTERNATIVE_NUMBER);
             softly.assertThat(profile.getUser()
                 .getUsername())
                 .as("username")
@@ -98,14 +98,14 @@ class ITUserProfileRepositorySave {
     @ValidUserWithProfile
     @AlternativeProfile
     void testAssignProfile_Existing_ReturnedData() {
-        final Profile profile;
+        final UserProfile profile;
 
         // WHEN
-        profile = repository.assignProfile(UserConstants.USERNAME, AccountProfileConstants.ALTERNATIVE_NUMBER);
+        profile = repository.assignProfile(UserConstants.USERNAME, UserProfileConstants.ALTERNATIVE_NUMBER);
 
         // THEN
         Assertions.assertThat(profile)
-            .isEqualTo(AccountProfiles.alternativeProfile());
+            .isEqualTo(UserProfiles.alternativeProfile());
     }
 
     @Test
@@ -115,7 +115,7 @@ class ITUserProfileRepositorySave {
         final Collection<UserProfileEntity> profiles;
 
         // WHEN
-        repository.assignProfile(UserConstants.USERNAME, AccountProfileConstants.NUMBER);
+        repository.assignProfile(UserConstants.USERNAME, UserProfileConstants.NUMBER);
 
         // THEN
         profiles = userProfileSpringRepository.findAll();
@@ -127,10 +127,10 @@ class ITUserProfileRepositorySave {
     @DisplayName("When the profile is missing, nothing is returned")
     @ValidUser
     void testAssignProfile_MissingProfile_ReturnedData() {
-        final Profile profile;
+        final UserProfile profile;
 
         // WHEN
-        profile = repository.assignProfile(UserConstants.USERNAME, AccountProfileConstants.NUMBER);
+        profile = repository.assignProfile(UserConstants.USERNAME, UserProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(profile)
@@ -144,7 +144,7 @@ class ITUserProfileRepositorySave {
         final Collection<UserProfileEntity> profiles;
 
         // WHEN
-        repository.assignProfile(UserConstants.USERNAME, AccountProfileConstants.NUMBER);
+        repository.assignProfile(UserConstants.USERNAME, UserProfileConstants.NUMBER);
 
         // THEN
         profiles = userProfileSpringRepository.findAll();
@@ -156,10 +156,10 @@ class ITUserProfileRepositorySave {
     @DisplayName("When the user is missing, nothing is returned")
     @ValidProfile
     void testAssignProfile_MissingUser_ReturnedData() {
-        final Profile profile;
+        final UserProfile profile;
 
         // WHEN
-        profile = repository.assignProfile(UserConstants.USERNAME, AccountProfileConstants.NUMBER);
+        profile = repository.assignProfile(UserConstants.USERNAME, UserProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(profile)
@@ -174,7 +174,7 @@ class ITUserProfileRepositorySave {
         final Collection<UserProfileEntity> profiles;
 
         // WHEN
-        repository.assignProfile(UserConstants.USERNAME, AccountProfileConstants.NUMBER);
+        repository.assignProfile(UserConstants.USERNAME, UserProfileConstants.NUMBER);
 
         // THEN
         profiles = userProfileSpringRepository.findAll();
@@ -193,7 +193,7 @@ class ITUserProfileRepositorySave {
             softly.assertThat(profile.getProfile()
                 .getNumber())
                 .as("profile number")
-                .isEqualTo(AccountProfileConstants.NUMBER);
+                .isEqualTo(UserProfileConstants.NUMBER);
             softly.assertThat(profile.getUser()
                 .getUsername())
                 .as("username")
@@ -206,14 +206,14 @@ class ITUserProfileRepositorySave {
     @ValidUser
     @ValidProfile
     void testAssignProfile_ReturnedData() {
-        final Profile profile;
+        final UserProfile profile;
 
         // WHEN
-        profile = repository.assignProfile(UserConstants.USERNAME, AccountProfileConstants.NUMBER);
+        profile = repository.assignProfile(UserConstants.USERNAME, UserProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(profile)
-            .isEqualTo(AccountProfiles.valid());
+            .isEqualTo(UserProfiles.valid());
     }
 
 }

@@ -34,41 +34,56 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.security.account.domain.model.ProfileAccount.Profile;
 import com.bernardomg.association.security.account.domain.repository.AccountProfileRepository;
-import com.bernardomg.association.security.account.test.configuration.factory.ProfileConstants;
-import com.bernardomg.association.security.account.test.configuration.factory.Profiles;
+import com.bernardomg.association.security.account.test.configuration.factory.AccountProfiles;
 import com.bernardomg.association.security.user.test.TestApplication;
-import com.bernardomg.association.security.user.test.configuration.data.annotation.ValidProfile;
+import com.bernardomg.association.security.user.test.configuration.data.annotation.ValidUser;
+import com.bernardomg.association.security.user.test.configuration.data.annotation.ValidUserWithProfile;
+import com.bernardomg.association.security.user.test.configuration.factory.UserConstants;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("AccountProfileRepository - find one")
-class ITAccountProfileRepositoryFindOne {
+@DisplayName("AccountProfileRepository - find by username")
+class ITAccountProfileRepositoryFindByUsername {
 
     @Autowired
     private AccountProfileRepository repository;
 
     @Test
-    @DisplayName("With a profile, it is returned")
-    @ValidProfile
-    void testFindOne() {
+    @DisplayName("When the user exists it is returned")
+    @ValidUserWithProfile
+    void testFindByUsername() {
         final Optional<Profile> profile;
 
         // WHEN
-        profile = repository.findOne(ProfileConstants.NUMBER);
+        profile = repository.findByUsername(UserConstants.USERNAME);
 
         // THEN
         Assertions.assertThat(profile)
-            .contains(Profiles.valid());
+            .contains(AccountProfiles.valid());
     }
 
     @Test
-    @DisplayName("With no profile, nothing is returned")
-    void testFindOne_NoData() {
+    @DisplayName("When no data exists nothing is returned")
+    void testFindByUsername_NoData() {
         final Optional<Profile> profile;
 
         // WHEN
-        profile = repository.findOne(ProfileConstants.NUMBER);
+        profile = repository.findByUsername(UserConstants.USERNAME);
+
+        // THEN
+        Assertions.assertThat(profile)
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("When the profile doesn't exist nothing is returned")
+    @ValidUser
+    void testFindByUsername_NoMember() {
+        final Optional<Profile> profile;
+
+        // WHEN
+        profile = repository.findByUsername(UserConstants.USERNAME);
 
         // THEN
         Assertions.assertThat(profile)

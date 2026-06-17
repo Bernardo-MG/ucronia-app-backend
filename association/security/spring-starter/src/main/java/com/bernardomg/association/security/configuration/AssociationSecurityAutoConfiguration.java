@@ -51,18 +51,18 @@ public class AssociationSecurityAutoConfiguration {
 
     @Bean("accountProfileRepository")
     public AccountProfileRepository
-            getAccountProfileRepository(final UserInnerProfileSpringRepository profileSpringRepository) {
-        return new JpaAccountProfileRepository(profileSpringRepository);
+            getAccountProfileRepository(final UserProfileSpringRepository userProfileSpringRepository) {
+        return new JpaAccountProfileRepository(userProfileSpringRepository);
     }
 
     @Primary
     @Bean("memberAccountService")
     public MemberAccountService getMemberAccountService(final AccountRepository accountRepository,
-            final UserProfileRepository userProfileRepository) {
+            final AccountProfileRepository accountProfileRepository) {
         final AccountService wrapped;
 
         wrapped = new SpringSecurityAccountService(accountRepository);
-        return new MemberAccountService(wrapped, userProfileRepository);
+        return new MemberAccountService(wrapped, accountProfileRepository);
     }
 
     @Bean("userProfileRepository")
@@ -74,9 +74,8 @@ public class AssociationSecurityAutoConfiguration {
 
     @Bean("userProfileService")
     public UserProfileService getUserProfileService(final UserRepository userRepository,
-            final AccountProfileRepository accountProfileRepository,
             final UserProfileRepository userProfileRepository) {
-        return new DefaultUserProfileService(userRepository, accountProfileRepository, userProfileRepository);
+        return new DefaultUserProfileService(userRepository, userProfileRepository);
     }
 
 }

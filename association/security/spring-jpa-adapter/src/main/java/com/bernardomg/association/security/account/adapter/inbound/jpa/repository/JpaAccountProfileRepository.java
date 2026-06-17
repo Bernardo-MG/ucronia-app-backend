@@ -34,7 +34,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.association.security.account.domain.model.ProfileAccount.Profile;
 import com.bernardomg.association.security.account.domain.repository.AccountProfileRepository;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserInnerProfileEntityMapper;
-import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.UserInnerProfileSpringRepository;
+import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserProfileEntity;
+import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.UserProfileSpringRepository;
 
 @Transactional
 public final class JpaAccountProfileRepository implements AccountProfileRepository {
@@ -42,26 +43,33 @@ public final class JpaAccountProfileRepository implements AccountProfileReposito
     /**
      * Logger for the class.
      */
-    private static final Logger                    log = LoggerFactory.getLogger(JpaAccountProfileRepository.class);
+    private static final Logger               log = LoggerFactory.getLogger(JpaAccountProfileRepository.class);
 
-    private final UserInnerProfileSpringRepository profileSpringRepository;
+    private final UserProfileSpringRepository userProfileSpringRepository;
 
-    public JpaAccountProfileRepository(final UserInnerProfileSpringRepository profileSpringRepo) {
+    public JpaAccountProfileRepository(final UserProfileSpringRepository userProfileSpringRepo) {
         super();
 
-        profileSpringRepository = Objects.requireNonNull(profileSpringRepo);
+        userProfileSpringRepository = Objects.requireNonNull(userProfileSpringRepo);
     }
 
     @Override
-    public final Optional<Profile> findOne(final Long number) {
-        final Optional<Profile> profile;
+    public final Optional<Profile> findByUsername(final String username) {
+        final Optional<UserProfileEntity> userMember;
+        final Optional<Profile>           profile;
 
-        log.debug("Finding profile with number {}", number);
+        log.trace("Finding profile for username {}", username);
 
-        profile = profileSpringRepository.findByNumber(number)
-            .map(UserInnerProfileEntityMapper::toDomain);
+        userMember = userProfileSpringRepository.findByUserUsername(username);
+        if (userMember.isPresent() && (userMember.get()
+            .getProfile() != null)) {
+            profile = Optional.of(UserInnerProfileEntityMapper.toProfileDomain(userMember.get()
+                .getProfile()));
+        } else {
+            profile = Optional.empty();
+        }
 
-        log.debug("Found profile with number {}: {}", number, profile);
+        log.trace("Found profile for username {}: {}", username, profile);
 
         return profile;
     }

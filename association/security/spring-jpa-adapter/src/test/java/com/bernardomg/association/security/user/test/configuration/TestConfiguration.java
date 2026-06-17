@@ -50,8 +50,8 @@ public class TestConfiguration {
 
     @Bean("accountProfileRepository")
     public AccountProfileRepository
-            getAccountProfileRepository(final UserInnerProfileSpringRepository profileSpringRepository) {
-        return new JpaAccountProfileRepository(profileSpringRepository);
+            getAccountProfileRepository(final UserProfileSpringRepository userProfileSpringRepository) {
+        return new JpaAccountProfileRepository(userProfileSpringRepository);
     }
 
     @Bean("userProfileRepository")

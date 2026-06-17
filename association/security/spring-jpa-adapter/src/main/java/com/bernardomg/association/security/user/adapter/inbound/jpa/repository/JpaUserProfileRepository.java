@@ -31,10 +31,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.security.account.domain.model.ProfileAccount.Profile;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserInnerProfileEntity;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserInnerProfileEntityMapper;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserProfileEntity;
+import com.bernardomg.association.security.user.domain.model.UserProfile;
 import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
 import com.bernardomg.security.user.adapter.inbound.jpa.model.UserEntity;
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserSpringRepository;
@@ -63,11 +63,11 @@ public final class JpaUserProfileRepository implements UserProfileRepository {
     }
 
     @Override
-    public final Profile assignProfile(final String username, final long number) {
+    public final UserProfile assignProfile(final String username, final long number) {
         final UserProfileEntity                userProfile;
         final Optional<UserEntity>             user;
         final Optional<UserInnerProfileEntity> profile;
-        final Profile                          result;
+        final UserProfile                      result;
         final Optional<UserProfileEntity>      existingUserProfile;
 
         log.trace("Assigning profile {} to username {}", number, username);
@@ -113,9 +113,9 @@ public final class JpaUserProfileRepository implements UserProfileRepository {
     }
 
     @Override
-    public final Optional<Profile> findByUsername(final String username) {
+    public final Optional<UserProfile> findByUsername(final String username) {
         final Optional<UserProfileEntity> userMember;
-        final Optional<Profile>           profile;
+        final Optional<UserProfile>       profile;
 
         log.trace("Finding profile for username {}", username);
 
@@ -134,10 +134,24 @@ public final class JpaUserProfileRepository implements UserProfileRepository {
     }
 
     @Override
-    public final Profile unassignProfile(final String username) {
+    public final Optional<UserProfile> findOne(final Long number) {
+        final Optional<UserProfile> profile;
+
+        log.debug("Finding profile with number {}", number);
+
+        profile = profileSpringRepository.findByNumber(number)
+            .map(UserInnerProfileEntityMapper::toDomain);
+
+        log.debug("Found profile with number {}: {}", number, profile);
+
+        return profile;
+    }
+
+    @Override
+    public final UserProfile unassignProfile(final String username) {
         final Optional<UserEntity>        user;
         final Optional<UserProfileEntity> assignedUserProfile;
-        final Profile                     result;
+        final UserProfile                 result;
         final UserInnerProfileEntity      profile;
 
         log.trace("Unassigning profile from username {}", username);

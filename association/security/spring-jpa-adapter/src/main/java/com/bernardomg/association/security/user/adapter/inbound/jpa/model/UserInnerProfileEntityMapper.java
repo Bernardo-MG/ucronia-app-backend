@@ -27,17 +27,25 @@ package com.bernardomg.association.security.user.adapter.inbound.jpa.model;
 import java.util.Optional;
 
 import com.bernardomg.association.security.account.domain.model.ProfileAccount.Profile;
-import com.bernardomg.association.security.account.domain.model.ProfileAccount.Profile.Name;
+import com.bernardomg.association.security.user.domain.model.UserProfile;
 
 /**
  * Profile entity mapper.
  */
 public final class UserInnerProfileEntityMapper {
 
-    public static final Profile toDomain(final UserInnerProfileEntity entity) {
-        final Name name;
+    public static final UserProfile toDomain(final UserInnerProfileEntity entity) {
+        final UserProfile.Name name;
 
-        name = new Name(entity.getFirstName(), entity.getLastName());
+        name = new UserProfile.Name(entity.getFirstName(), entity.getLastName());
+
+        return new UserProfile(Optional.ofNullable(entity.getIdentifier()), entity.getNumber(), name);
+    }
+
+    public static final Profile toProfileDomain(final UserInnerProfileEntity entity) {
+        final Profile.Name name;
+
+        name = new Profile.Name(entity.getFirstName(), entity.getLastName());
 
         return new Profile(Optional.ofNullable(entity.getIdentifier()), entity.getNumber(), name);
     }

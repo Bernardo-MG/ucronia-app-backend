@@ -22,54 +22,40 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.security.user.test.service.unit;
-
-import static org.mockito.BDDMockito.given;
+package com.bernardomg.association.security.user.test.adapter.inbound.jpa.repository.integration;
 
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
+import com.bernardomg.association.security.account.test.configuration.factory.ProfileConstants;
 import com.bernardomg.association.security.user.domain.model.UserProfile;
 import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
-import com.bernardomg.association.security.user.test.configuration.factory.UserConstants;
+import com.bernardomg.association.security.user.test.TestApplication;
+import com.bernardomg.association.security.user.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.association.security.user.test.configuration.factory.UserProfiles;
-import com.bernardomg.association.security.user.usecase.service.DefaultUserProfileService;
-import com.bernardomg.security.user.domain.exception.MissingUsernameException;
-import com.bernardomg.security.user.domain.repository.UserRepository;
+import com.bernardomg.test.annotation.IntegrationTest;
 
-@ExtendWith(MockitoExtension.class)
-@DisplayName("UserProfileService - get profile")
-class TestUserProfileServiceGetProfile {
+@IntegrationTest
+@SpringBootTest(classes = TestApplication.class)
+@DisplayName("UserProfileRepository - find one")
+class ITUserProfileRepositoryFindOne {
 
-    @InjectMocks
-    private DefaultUserProfileService service;
-
-    @Mock
-    private UserProfileRepository     userProfileRepository;
-
-    @Mock
-    private UserRepository            userRepository;
+    @Autowired
+    private UserProfileRepository repository;
 
     @Test
-    @DisplayName("With a profile assigned to the user, it returns the user")
-    void testGetProfile() {
+    @DisplayName("With a profile, it is returned")
+    @ValidProfile
+    void testFindOne() {
         final Optional<UserProfile> profile;
 
-        // GIVEN
-        given(userRepository.exists(UserConstants.USERNAME)).willReturn(true);
-        given(userProfileRepository.findByUsername(UserConstants.USERNAME))
-            .willReturn(Optional.of(UserProfiles.valid()));
-
         // WHEN
-        profile = service.getProfile(UserConstants.USERNAME);
+        profile = repository.findOne(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(profile)
@@ -77,19 +63,16 @@ class TestUserProfileServiceGetProfile {
     }
 
     @Test
-    @DisplayName("With no profile, it throws an exception")
-    void testGetProfile_NoProfile() {
-        final ThrowingCallable execution;
-
-        // GIVEN
-        given(userRepository.exists(UserConstants.USERNAME)).willReturn(false);
+    @DisplayName("With no profile, nothing is returned")
+    void testFindOne_NoData() {
+        final Optional<UserProfile> profile;
 
         // WHEN
-        execution = () -> service.getProfile(UserConstants.USERNAME);
+        profile = repository.findOne(ProfileConstants.NUMBER);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingUsernameException.class);
+        Assertions.assertThat(profile)
+            .isEmpty();
     }
 
 }
