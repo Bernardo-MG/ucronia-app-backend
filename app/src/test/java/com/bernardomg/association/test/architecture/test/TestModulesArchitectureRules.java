@@ -59,7 +59,7 @@ public class TestModulesArchitectureRules {
         .definedBy("com.bernardomg.association.library.configuration..")
 
         .whereLayer("Profiles")
-        .mayOnlyBeAccessedByLayers("Members", "Sponsors", "Guests", "Users", "Account", "Fees", "Library books",
+        .mayOnlyBeAccessedByLayers("Sponsors", "Guests", "Users", "Account", "Fees", "Library books",
             "Library lending", "Library configuration", "Security configuration")
         .whereLayer("Members")
         .mayOnlyBeAccessedByLayers("Fees", "Account", "Library books", "Library configuration")
@@ -70,7 +70,6 @@ public class TestModulesArchitectureRules {
         .whereLayer("Transactions")
         .mayOnlyBeAccessedByLayers("Fees")
         .whereLayer("Fees")
-        // TODO: circular dependency
         .mayOnlyBeAccessedByLayers("Members")
 
         // Security modules

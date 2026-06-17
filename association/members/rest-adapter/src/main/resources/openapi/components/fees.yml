@@ -10,15 +10,15 @@ components:
         type: array
         items:
           type: string
-          pattern: '^(name.firstName|name.lastName|month|paymentDate|paid)\|(asc|desc)$'
-          example: name.firstName|asc
+          pattern: '^(member.name.firstName|member.name.lastName|month|paid)\|(asc|desc)$'
+          example: member.name.firstName|asc
   schemas:
     Fee:
       type: object
       required: [member, month, paid]
       properties:
         member:
-          $ref: '#/components/schemas/MinimalMember'
+          $ref: 'members.yml#/components/schemas/Member'
         month:
           $ref: '../common/dates.yml#/components/schemas/Date'
         paid:

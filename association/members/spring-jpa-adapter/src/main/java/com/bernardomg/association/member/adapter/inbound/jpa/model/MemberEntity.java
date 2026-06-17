@@ -2,7 +2,15 @@
 package com.bernardomg.association.member.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
+import java.time.Instant;
+import java.util.Collection;
 import java.util.Objects;
+import java.util.Set;
+
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
+import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTypeEntity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -11,40 +19,67 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.MapsId;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrimaryKeyJoinColumn;
+import jakarta.persistence.SecondaryTable;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
 @Entity(name = "Member")
-@Table(schema = "directory", name = "members")
+@Table(schema = "directory", name = "profiles")
+@SecondaryTable(schema = "directory", name = "members",
+        pkJoinColumns = @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id"))
 public class MemberEntity implements Serializable {
 
     /**
-     *
+     * Serialization ID.
      */
     @Transient
-    private static final long        serialVersionUID = -4798244714782690891L;
+    private static final long                      serialVersionUID = 1328776989450853491L;
 
-    @Column(name = "active", nullable = false)
-    private Boolean                  active;
+    @Column(name = "active", table = "members", nullable = false)
+    private Boolean                                active;
+
+    @Column(name = "address", table = "profiles")
+    private String                                 address;
+
+    @Column(name = "birth_date", table = "profiles")
+    private Instant                                birthDate;
+
+    @Column(name = "comments", table = "profiles")
+    private String                                 comments;
+
+    @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Collection<MemberContactChannelEntity> contactChannels;
 
     @OneToOne
-    @JoinColumn(name = "fee_type_id", referencedColumnName = "id")
-    private MemberFeeTypeEntity      feeType;
+    @JoinColumn(name = "fee_type_id", table = "members", referencedColumnName = "id")
+    private FeeTypeEntity                          feeType;
+
+    @Column(name = "first_name", table = "profiles", nullable = false)
+    private String                                 firstName;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
-    private Long                     id;
+    private Long                                   id;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @MapsId
-    @JoinColumn(name = "id")
-    private MemberInnerProfileEntity profile;
+    @Column(name = "identifier", table = "profiles")
+    private String                                 identifier;
+
+    @Column(name = "last_name", table = "profiles")
+    private String                                 lastName;
+
+    @Column(name = "number", table = "profiles")
+    private Long                                   number;
 
     @Column(name = "renew_membership", table = "members", nullable = false)
-    private Boolean                  renew;
+    private Boolean                                renew;
+
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "types", table = "profiles")
+    private Set<String>                            types;
 
     @Override
     public boolean equals(final Object obj) {
@@ -61,20 +96,52 @@ public class MemberEntity implements Serializable {
         return active;
     }
 
-    public MemberFeeTypeEntity getFeeType() {
+    public String getAddress() {
+        return address;
+    }
+
+    public Instant getBirthDate() {
+        return birthDate;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+
+    public Collection<MemberContactChannelEntity> getContactChannels() {
+        return contactChannels;
+    }
+
+    public FeeTypeEntity getFeeType() {
         return feeType;
+    }
+
+    public String getFirstName() {
+        return firstName;
     }
 
     public Long getId() {
         return id;
     }
 
-    public MemberInnerProfileEntity getProfile() {
-        return profile;
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public Long getNumber() {
+        return number;
     }
 
     public Boolean getRenew() {
         return renew;
+    }
+
+    public Set<String> getTypes() {
+        return types;
     }
 
     @Override
@@ -86,26 +153,60 @@ public class MemberEntity implements Serializable {
         this.active = active;
     }
 
-    public void setFeeType(final MemberFeeTypeEntity feeType) {
+    public void setAddress(final String address) {
+        this.address = address;
+    }
+
+    public void setBirthDate(final Instant birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public void setComments(final String comments) {
+        this.comments = comments;
+    }
+
+    public void setContactChannels(final Collection<MemberContactChannelEntity> contactChannels) {
+        this.contactChannels = contactChannels;
+    }
+
+    public void setFeeType(final FeeTypeEntity feeType) {
         this.feeType = feeType;
+    }
+
+    public void setFirstName(final String firstName) {
+        this.firstName = firstName;
     }
 
     public void setId(final Long id) {
         this.id = id;
     }
 
-    public void setProfile(final MemberInnerProfileEntity profile) {
-        this.profile = profile;
+    public void setIdentifier(final String identifier) {
+        this.identifier = identifier;
+    }
+
+    public void setLastName(final String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setNumber(final Long number) {
+        this.number = number;
     }
 
     public void setRenew(final Boolean renew) {
         this.renew = renew;
     }
 
+    public void setTypes(final Set<String> types) {
+        this.types = types;
+    }
+
     @Override
     public String toString() {
-        return "MemberEntity [id=" + id + ", feeType=" + feeType + ", profile=" + profile + ", active=" + active
-                + ", renew=" + renew + "]";
+        return "MemberEntity [id=" + id + ", number=" + number + ", active=" + active + ", contactChannels="
+                + contactChannels + ", feeType=" + feeType + ", firstName=" + firstName + ", lastName=" + lastName
+                + ", identifier=" + identifier + ", birthDate=" + birthDate + ", address=" + address + ", comments="
+                + comments + ", types=" + types + ", renew=" + renew + "]";
     }
 
 }

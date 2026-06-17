@@ -32,14 +32,13 @@ import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.bernardomg.association.fee.domain.exception.MissingFeeTypeException;
+import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
 import com.bernardomg.association.member.domain.exception.MemberExistsException;
-import com.bernardomg.association.member.domain.exception.MissingMemberFeeTypeException;
 import com.bernardomg.association.member.domain.exception.MissingMemberProfileException;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.Member.FeeType;
-import com.bernardomg.association.member.domain.model.Member.Name;
-import com.bernardomg.association.member.domain.repository.MemberFeeTypeRepository;
-import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
+import com.bernardomg.association.member.domain.model.Name;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 
 import jakarta.transaction.Transactional;
@@ -56,21 +55,17 @@ public final class DefaultProfileMembershipService implements ProfileMembershipS
     /**
      * Logger for the class.
      */
-    private static final Logger           log = LoggerFactory.getLogger(DefaultProfileMembershipService.class);
+    private static final Logger     log = LoggerFactory.getLogger(DefaultProfileMembershipService.class);
 
-    private final MemberFeeTypeRepository memberFeeTypeRepository;
+    private final FeeTypeRepository feeTypeRepository;
 
-    private final MemberProfileRepository memberProfileRepository;
+    private final MemberRepository  memberRepository;
 
-    private final MemberRepository        memberRepository;
-
-    public DefaultProfileMembershipService(final MemberRepository memberRepo,
-            final MemberProfileRepository memberProfileRepo, final MemberFeeTypeRepository memberFeeTypeRepo) {
+    public DefaultProfileMembershipService(final MemberRepository memberRepo, final FeeTypeRepository feeTypeRepo) {
         super();
 
         memberRepository = Objects.requireNonNull(memberRepo);
-        memberProfileRepository = Objects.requireNonNull(memberProfileRepo);
-        memberFeeTypeRepository = Objects.requireNonNull(memberFeeTypeRepo);
+        feeTypeRepository = Objects.requireNonNull(feeTypeRepo);
     }
 
     @Override
@@ -84,20 +79,21 @@ public final class DefaultProfileMembershipService implements ProfileMembershipS
 
         log.debug("Converting profile {} to member", number);
 
-        existing = memberProfileRepository.findOne(number)
+        existing = memberRepository.findOne(number)
             .orElseThrow(() -> {
                 log.error("Missing profile {}", number);
                 throw new MissingMemberProfileException(number);
             });
 
-        if (memberRepository.exists(number)) {
+        if (existing.types()
+            .contains(Member.PROFILE_TYPE)) {
             log.error("Member {} already exists", number);
             throw new MemberExistsException(number);
         }
 
-        if (!memberFeeTypeRepository.exists(feeType)) {
+        if (!feeTypeRepository.exists(feeType)) {
             log.error("Missing fee type {}", feeType);
-            throw new MissingMemberFeeTypeException(feeType);
+            throw new MissingFeeTypeException(feeType);
         }
 
         memberFeeType = new FeeType(feeType, "", 0f);

@@ -112,11 +112,6 @@
       	 <artifactId>association-profile-spring-jpa-adapter</artifactId>
          <scope>test</scope>
       </dependency>
-      <dependency>
-         <groupId>com.bernardomg.association.fee</groupId>
-         <artifactId>association-fee-spring-jpa-adapter</artifactId>
-         <scope>test</scope>
-      </dependency>
    </dependencies>
 
 </project>

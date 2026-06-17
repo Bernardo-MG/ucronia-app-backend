@@ -336,11 +336,6 @@
             <version>${project.version}</version>
          </dependency>
          <dependency>
-            <groupId>com.bernardomg.association.fee</groupId>
-            <artifactId>association-fee-spring-starter</artifactId>
-            <version>${project.version}</version>
-         </dependency>
-         <dependency>
             <groupId>com.bernardomg.association.member</groupId>
             <artifactId>association-member-domain</artifactId>
             <version>${project.version}</version>
@@ -358,16 +353,6 @@
          <dependency>
             <groupId>com.bernardomg.association.member</groupId>
             <artifactId>association-member-spring-jpa-adapter</artifactId>
-            <version>${project.version}</version>
-         </dependency>
-         <dependency>
-            <groupId>com.bernardomg.association.fee</groupId>
-            <artifactId>association-fee-domain</artifactId>
-            <version>${project.version}</version>
-         </dependency>
-         <dependency>
-            <groupId>com.bernardomg.association.fee</groupId>
-            <artifactId>association-fee-spring-jpa-adapter</artifactId>
             <version>${project.version}</version>
          </dependency>
          <dependency>

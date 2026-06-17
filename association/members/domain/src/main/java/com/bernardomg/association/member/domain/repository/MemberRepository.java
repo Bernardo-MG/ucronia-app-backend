@@ -27,6 +27,7 @@ package com.bernardomg.association.member.domain.repository;
 import java.util.Collection;
 import java.util.Optional;
 
+import com.bernardomg.association.fee.domain.model.FeeType;
 import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.pagination.domain.Page;
@@ -48,6 +49,8 @@ public interface MemberRepository {
     public Collection<Member> findAllToRenew();
 
     public Collection<Member> findAllWithRenewalMismatch();
+
+    public Optional<FeeType> findFeeType(final Long number);
 
     public Optional<Member> findOne(final Long number);
 
