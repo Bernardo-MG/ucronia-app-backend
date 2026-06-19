@@ -29,8 +29,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
 import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.JpaUserProfileRepository;
-import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.UserProfileSpringRepository;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.UserAssignedProfileSpringRepository;
+import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.UserProfileSpringRepository;
 import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
 import com.bernardomg.association.security.user.usecase.service.DefaultUserProfileService;
 import com.bernardomg.association.security.user.usecase.service.UserProfileService;
@@ -43,7 +43,8 @@ import com.bernardomg.security.user.domain.repository.UserRepository;
 public class AssociationSecurityUserAutoConfiguration {
 
     @Bean("userProfileRepository")
-    public UserProfileRepository getUserProfileRepository(final UserAssignedProfileSpringRepository userProfileSpringRepository,
+    public UserProfileRepository getUserProfileRepository(
+            final UserAssignedProfileSpringRepository userProfileSpringRepository,
             final UserSpringRepository userSpringRepository,
             final UserProfileSpringRepository profileSpringRepository) {
         return new JpaUserProfileRepository(userProfileSpringRepository, userSpringRepository, profileSpringRepository);
