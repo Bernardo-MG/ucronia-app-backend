@@ -25,68 +25,103 @@
 package com.bernardomg.association.security.account.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
-
-import com.bernardomg.security.user.adapter.inbound.jpa.model.UserEntity;
+import java.util.Objects;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.MapsId;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
 @Entity(name = "AccountProfile")
-@Table(schema = "security", name = "user_profiles")
+@Table(schema = "directory", name = "profiles")
 public class AccountProfileEntity implements Serializable {
 
     /**
      * Serialization ID.
      */
     @Transient
-    private static final long             serialVersionUID = -3540074544521251838L;
+    private static final long serialVersionUID = 1328776989450853491L;
 
-    @OneToOne
-    @JoinColumn(name = "profile_id", referencedColumnName = "id")
-    private AccountUserInnerProfileEntity profile;
-
-    @OneToOne
-    @MapsId
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private UserEntity                    user;
+    @Column(name = "first_name", nullable = false)
+    private String            firstName;
 
     @Id
-    @Column(name = "user_id", nullable = false, unique = true)
-    private Long                          userId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false, unique = true)
+    private Long              id;
 
-    public AccountUserInnerProfileEntity getProfile() {
-        return profile;
+    @Column(name = "identifier")
+    private String            identifier;
+
+    @Column(name = "last_name")
+    private String            lastName;
+
+    @Column(name = "number")
+    private Long              number;
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof final AccountProfileEntity other)) {
+            return false;
+        }
+        return Objects.equals(id, other.id);
     }
 
-    public UserEntity getUser() {
-        return user;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public Long getUserId() {
-        return userId;
+    public Long getId() {
+        return id;
     }
 
-    public void setProfile(final AccountUserInnerProfileEntity profile) {
-        this.profile = profile;
+    public String getIdentifier() {
+        return identifier;
     }
 
-    public void setUser(final UserEntity user) {
-        this.user = user;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setUserId(final Long userId) {
-        this.userId = userId;
+    public Long getNumber() {
+        return number;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    public void setFirstName(final String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setId(final Long id) {
+        this.id = id;
+    }
+
+    public void setIdentifier(final String identifier) {
+        this.identifier = identifier;
+    }
+
+    public void setLastName(final String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setNumber(final Long number) {
+        this.number = number;
     }
 
     @Override
     public String toString() {
-        return "UserProfileEntity [profile=" + profile + ", user=" + user + ", userId=" + userId + "]";
+        return "AccountUserInnerProfileEntity [id=" + id + ", identifier=" + identifier + ", firstName=" + firstName
+                + ", lastName=" + lastName + ", number=" + number + "]";
     }
 
 }

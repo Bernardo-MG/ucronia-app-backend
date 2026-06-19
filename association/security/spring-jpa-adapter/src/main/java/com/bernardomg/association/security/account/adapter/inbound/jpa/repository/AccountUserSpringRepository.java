@@ -22,27 +22,24 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.security.account.adapter.inbound.jpa.model;
+package com.bernardomg.association.security.account.adapter.inbound.jpa.repository;
 
 import java.util.Optional;
 
-import com.bernardomg.association.security.account.domain.model.ProfileAccount.Profile;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-/**
- * Profile entity mapper.
- */
-public final class AccountUserInnerProfileEntityMapper {
+import com.bernardomg.association.security.account.adapter.inbound.jpa.model.AccountProfileEntity;
+import com.bernardomg.association.security.account.adapter.inbound.jpa.model.AccountUserEntity;
 
-    public static final Profile toDomain(final AccountUserInnerProfileEntity entity) {
-        final Profile.Name name;
+public interface AccountUserSpringRepository extends JpaRepository<AccountUserEntity, Long> {
 
-        name = new Profile.Name(entity.getFirstName(), entity.getLastName());
-
-        return new Profile(Optional.ofNullable(entity.getIdentifier()), entity.getNumber(), name);
-    }
-
-    private AccountUserInnerProfileEntityMapper() {
-        super();
-    }
+    @Query("""
+            SELECT u.profile
+            FROM AccountUser u
+            WHERE u.username = :username
+            """)
+    Optional<AccountProfileEntity> findProfileByUsername(@Param("username") final String username);
 
 }
