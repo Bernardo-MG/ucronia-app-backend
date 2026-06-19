@@ -16,9 +16,9 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
-@Entity(name = "AccountUser")
+@Entity(name = "AccountAssignedProfile")
 @Table(schema = "security", name = "users")
-public class AccountUserEntity implements Serializable {
+public class AccountAssignedProfileEntity implements Serializable {
 
     /**
      * Serialization ID.
@@ -45,7 +45,7 @@ public class AccountUserEntity implements Serializable {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof final AccountUserEntity other)) {
+        if (!(obj instanceof final AccountAssignedProfileEntity other)) {
             return false;
         }
         return Objects.equals(id, other.id);

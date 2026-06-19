@@ -30,14 +30,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.bernardomg.association.security.account.adapter.inbound.jpa.model.AccountAssignedProfileEntity;
 import com.bernardomg.association.security.account.adapter.inbound.jpa.model.AccountProfileEntity;
-import com.bernardomg.association.security.account.adapter.inbound.jpa.model.AccountUserEntity;
 
-public interface AccountUserSpringRepository extends JpaRepository<AccountUserEntity, Long> {
+public interface AccountAssignedProfileSpringRepository extends JpaRepository<AccountAssignedProfileEntity, Long> {
 
     @Query("""
             SELECT u.profile
-            FROM AccountUser u
+            FROM AccountAssignedProfile u
             WHERE u.username = :username
             """)
     Optional<AccountProfileEntity> findProfileByUsername(@Param("username") final String username);

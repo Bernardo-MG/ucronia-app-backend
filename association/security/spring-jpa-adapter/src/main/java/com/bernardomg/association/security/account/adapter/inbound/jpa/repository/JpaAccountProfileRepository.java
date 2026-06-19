@@ -42,11 +42,12 @@ public final class JpaAccountProfileRepository implements AccountProfileReposito
     /**
      * Logger for the class.
      */
-    private static final Logger               log = LoggerFactory.getLogger(JpaAccountProfileRepository.class);
+    private static final Logger                          log = LoggerFactory
+        .getLogger(JpaAccountProfileRepository.class);
 
-    private final AccountUserSpringRepository accountUserSpringRepository;
+    private final AccountAssignedProfileSpringRepository accountUserSpringRepository;
 
-    public JpaAccountProfileRepository(final AccountUserSpringRepository accountUserSpringRepo) {
+    public JpaAccountProfileRepository(final AccountAssignedProfileSpringRepository accountUserSpringRepo) {
         super();
 
         accountUserSpringRepository = Objects.requireNonNull(accountUserSpringRepo);
