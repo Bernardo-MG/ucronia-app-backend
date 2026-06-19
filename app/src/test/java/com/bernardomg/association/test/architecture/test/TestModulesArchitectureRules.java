@@ -33,8 +33,6 @@ public class TestModulesArchitectureRules {
         .definedBy("com.bernardomg.association.security.user..")
         .layer("Account")
         .definedBy("com.bernardomg.association.security.account..")
-        .layer("Security configuration")
-        .definedBy("com.bernardomg.association.security.configuration..")
 
         // Misc modules
         .layer("Settings")
@@ -73,7 +71,7 @@ public class TestModulesArchitectureRules {
 
         // Security modules
         .whereLayer("Users")
-        .mayNotBeAccessedByAnyLayer()
+        .mayOnlyBeAccessedByLayers("Fees")
         .whereLayer("Account")
         .mayNotBeAccessedByAnyLayer()
 
