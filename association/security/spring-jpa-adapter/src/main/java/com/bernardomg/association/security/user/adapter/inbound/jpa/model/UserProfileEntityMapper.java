@@ -31,9 +31,9 @@ import com.bernardomg.association.security.user.domain.model.UserProfile;
 /**
  * Profile entity mapper.
  */
-public final class UserInnerProfileEntityMapper {
+public final class UserProfileEntityMapper {
 
-    public static final UserProfile toDomain(final UserInnerProfileEntity entity) {
+    public static final UserProfile toDomain(final UserProfileEntity entity) {
         final UserProfile.Name name;
 
         name = new UserProfile.Name(entity.getFirstName(), entity.getLastName());
@@ -41,7 +41,7 @@ public final class UserInnerProfileEntityMapper {
         return new UserProfile(Optional.ofNullable(entity.getIdentifier()), entity.getNumber(), name);
     }
 
-    private UserInnerProfileEntityMapper() {
+    private UserProfileEntityMapper() {
         super();
     }
 

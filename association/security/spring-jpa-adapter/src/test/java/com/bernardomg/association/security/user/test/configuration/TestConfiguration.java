@@ -33,7 +33,7 @@ import com.bernardomg.association.security.account.adapter.inbound.jpa.repositor
 import com.bernardomg.association.security.account.adapter.inbound.jpa.repository.JpaAccountProfileRepository;
 import com.bernardomg.association.security.account.domain.repository.AccountProfileRepository;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.JpaUserProfileRepository;
-import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.UserInnerProfileSpringRepository;
+import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.UserAssignedProfileSpringRepository;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.UserProfileSpringRepository;
 import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserSpringRepository;
@@ -58,9 +58,10 @@ public class TestConfiguration {
     }
 
     @Bean("userProfileRepository")
-    public UserProfileRepository getUserProfileRepository(final UserProfileSpringRepository userProfileSpringRepository,
+    public UserProfileRepository getUserProfileRepository(
+            final UserAssignedProfileSpringRepository userProfileSpringRepository,
             final UserSpringRepository userSpringRepository,
-            final UserInnerProfileSpringRepository profileSpringRepository) {
+            final UserProfileSpringRepository profileSpringRepository) {
         return new JpaUserProfileRepository(userProfileSpringRepository, userSpringRepository, profileSpringRepository);
     }
 

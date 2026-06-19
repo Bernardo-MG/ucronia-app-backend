@@ -33,8 +33,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserProfileEntity;
-import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.UserProfileSpringRepository;
+import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserAssignedProfileEntity;
+import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.UserAssignedProfileSpringRepository;
 import com.bernardomg.association.security.user.domain.model.UserProfile;
 import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
 import com.bernardomg.association.security.user.test.TestApplication;
@@ -53,17 +53,17 @@ import com.bernardomg.test.annotation.IntegrationTest;
 class ITUserProfileRepositorySave {
 
     @Autowired
-    private UserProfileRepository       repository;
+    private UserProfileRepository               repository;
 
     @Autowired
-    private UserProfileSpringRepository userProfileSpringRepository;
+    private UserAssignedProfileSpringRepository userProfileSpringRepository;
 
     @Test
     @DisplayName("When the data already exists, the relationship is persisted")
     @ValidUserWithProfile
     @AlternativeProfile
     void testAssignProfile_Existing_PersistedData() {
-        final Collection<UserProfileEntity> profiles;
+        final Collection<UserAssignedProfileEntity> profiles;
 
         // WHEN
         repository.assignProfile(UserConstants.USERNAME, UserProfileConstants.ALTERNATIVE_NUMBER);
@@ -71,7 +71,7 @@ class ITUserProfileRepositorySave {
         // THEN
         profiles = userProfileSpringRepository.findAll();
         SoftAssertions.assertSoftly(softly -> {
-            final UserProfileEntity profile;
+            final UserAssignedProfileEntity profile;
 
             softly.assertThat(profiles)
                 .as("profiles")
@@ -112,7 +112,7 @@ class ITUserProfileRepositorySave {
     @DisplayName("When the profile is missing, nothing is persisted")
     @ValidUser
     void testAssignProfile_MissingProfile_PersistedData() {
-        final Collection<UserProfileEntity> profiles;
+        final Collection<UserAssignedProfileEntity> profiles;
 
         // WHEN
         repository.assignProfile(UserConstants.USERNAME, UserProfileConstants.NUMBER);
@@ -141,7 +141,7 @@ class ITUserProfileRepositorySave {
     @DisplayName("When the user is missing, nothing is persisted")
     @ValidProfile
     void testAssignProfile_MissingUser_PersistedData() {
-        final Collection<UserProfileEntity> profiles;
+        final Collection<UserAssignedProfileEntity> profiles;
 
         // WHEN
         repository.assignProfile(UserConstants.USERNAME, UserProfileConstants.NUMBER);
@@ -171,7 +171,7 @@ class ITUserProfileRepositorySave {
     @ValidUser
     @ValidProfile
     void testAssignProfile_PersistedData() {
-        final Collection<UserProfileEntity> profiles;
+        final Collection<UserAssignedProfileEntity> profiles;
 
         // WHEN
         repository.assignProfile(UserConstants.USERNAME, UserProfileConstants.NUMBER);
@@ -179,7 +179,7 @@ class ITUserProfileRepositorySave {
         // THEN
         profiles = userProfileSpringRepository.findAll();
         SoftAssertions.assertSoftly(softly -> {
-            final UserProfileEntity profile;
+            final UserAssignedProfileEntity profile;
 
             softly.assertThat(profiles)
                 .as("profiles")

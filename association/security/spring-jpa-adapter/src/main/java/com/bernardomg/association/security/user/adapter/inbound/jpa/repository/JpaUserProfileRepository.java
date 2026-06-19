@@ -31,9 +31,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserInnerProfileEntity;
-import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserInnerProfileEntityMapper;
+import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserAssignedProfileEntity;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserProfileEntity;
+import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserProfileEntityMapper;
 import com.bernardomg.association.security.user.domain.model.UserProfile;
 import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
 import com.bernardomg.security.user.adapter.inbound.jpa.model.UserEntity;
@@ -45,16 +45,16 @@ public final class JpaUserProfileRepository implements UserProfileRepository {
     /**
      * Logger for the class.
      */
-    private static final Logger                    log = LoggerFactory.getLogger(JpaUserProfileRepository.class);
+    private static final Logger                       log = LoggerFactory.getLogger(JpaUserProfileRepository.class);
 
-    private final UserInnerProfileSpringRepository profileSpringRepository;
+    private final UserProfileSpringRepository         profileSpringRepository;
 
-    private final UserProfileSpringRepository      userProfileSpringRepository;
+    private final UserAssignedProfileSpringRepository userProfileSpringRepository;
 
-    private final UserSpringRepository             userSpringRepository;
+    private final UserSpringRepository                userSpringRepository;
 
-    public JpaUserProfileRepository(final UserProfileSpringRepository userProfileSpringRepo,
-            final UserSpringRepository userSpringRepo, final UserInnerProfileSpringRepository profileSpringRepo) {
+    public JpaUserProfileRepository(final UserAssignedProfileSpringRepository userProfileSpringRepo,
+            final UserSpringRepository userSpringRepo, final UserProfileSpringRepository profileSpringRepo) {
         super();
 
         userProfileSpringRepository = Objects.requireNonNull(userProfileSpringRepo);
@@ -64,11 +64,11 @@ public final class JpaUserProfileRepository implements UserProfileRepository {
 
     @Override
     public final UserProfile assignProfile(final String username, final long number) {
-        final UserProfileEntity                userProfile;
-        final Optional<UserEntity>             user;
-        final Optional<UserInnerProfileEntity> profile;
-        final UserProfile                      result;
-        final Optional<UserProfileEntity>      existingUserProfile;
+        final UserAssignedProfileEntity           userProfile;
+        final Optional<UserEntity>                user;
+        final Optional<UserProfileEntity>         profile;
+        final UserProfile                         result;
+        final Optional<UserAssignedProfileEntity> existingUserProfile;
 
         log.trace("Assigning profile {} to username {}", number, username);
 
@@ -80,14 +80,14 @@ public final class JpaUserProfileRepository implements UserProfileRepository {
             if (existingUserProfile.isPresent()) {
                 userProfile = existingUserProfile.get();
             } else {
-                userProfile = new UserProfileEntity();
+                userProfile = new UserAssignedProfileEntity();
                 userProfile.setUser(user.get());
             }
 
             userProfile.setProfile(profile.get());
 
             userProfileSpringRepository.save(userProfile);
-            result = UserInnerProfileEntityMapper.toDomain(profile.get());
+            result = UserProfileEntityMapper.toDomain(profile.get());
 
             log.trace("Assigned profile {} to username {}", number, username);
         } else {
@@ -114,15 +114,15 @@ public final class JpaUserProfileRepository implements UserProfileRepository {
 
     @Override
     public final Optional<UserProfile> findByUsername(final String username) {
-        final Optional<UserProfileEntity> userMember;
-        final Optional<UserProfile>       profile;
+        final Optional<UserAssignedProfileEntity> userMember;
+        final Optional<UserProfile>               profile;
 
         log.trace("Finding profile for username {}", username);
 
         userMember = userProfileSpringRepository.findByUserUsername(username);
         if (userMember.isPresent() && (userMember.get()
             .getProfile() != null)) {
-            profile = Optional.of(UserInnerProfileEntityMapper.toDomain(userMember.get()
+            profile = Optional.of(UserProfileEntityMapper.toDomain(userMember.get()
                 .getProfile()));
         } else {
             profile = Optional.empty();
@@ -140,7 +140,7 @@ public final class JpaUserProfileRepository implements UserProfileRepository {
         log.debug("Finding profile with number {}", number);
 
         profile = profileSpringRepository.findByNumber(number)
-            .map(UserInnerProfileEntityMapper::toDomain);
+            .map(UserProfileEntityMapper::toDomain);
 
         log.debug("Found profile with number {}: {}", number, profile);
 
@@ -149,10 +149,10 @@ public final class JpaUserProfileRepository implements UserProfileRepository {
 
     @Override
     public final UserProfile unassignProfile(final String username) {
-        final Optional<UserEntity>        user;
-        final Optional<UserProfileEntity> assignedUserProfile;
-        final UserProfile                 result;
-        final UserInnerProfileEntity      profile;
+        final Optional<UserEntity>                user;
+        final Optional<UserAssignedProfileEntity> assignedUserProfile;
+        final UserProfile                         result;
+        final UserProfileEntity                   profile;
 
         log.trace("Unassigning profile from username {}", username);
 
@@ -164,7 +164,7 @@ public final class JpaUserProfileRepository implements UserProfileRepository {
                 .getProfile();
 
             userProfileSpringRepository.delete(assignedUserProfile.get());
-            result = UserInnerProfileEntityMapper.toDomain(profile);
+            result = UserProfileEntityMapper.toDomain(profile);
 
             log.trace("Unassigned profile  username {}", username);
         } else {

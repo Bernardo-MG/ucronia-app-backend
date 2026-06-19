@@ -27,11 +27,23 @@ package com.bernardomg.association.security.user.adapter.inbound.jpa.repository;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserInnerProfileEntity;
+import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserAssignedProfileEntity;
 
-public interface UserInnerProfileSpringRepository extends JpaRepository<UserInnerProfileEntity, Long> {
+public interface UserAssignedProfileSpringRepository extends JpaRepository<UserAssignedProfileEntity, Long> {
 
-    public Optional<UserInnerProfileEntity> findByNumber(final Long number);
+    @Query("""
+            SELECT CASE WHEN COUNT(up) > 0 THEN TRUE ELSE FALSE END AS exists
+            FROM UserProfile up
+              JOIN up.profile p
+              JOIN up.user u
+            WHERE p.number = :number AND u.username != :username
+            """)
+    public boolean existsByNotUsernameAndMemberNumber(@Param("username") final String username,
+            @Param("number") final long number);
+
+    public Optional<UserAssignedProfileEntity> findByUserUsername(final String username);
 
 }
