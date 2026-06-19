@@ -35,9 +35,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.association.security.account.domain.repository.AccountProfileRepository;
 import com.bernardomg.association.security.account.test.configuration.factory.BasicAccounts;
 import com.bernardomg.association.security.account.usecase.service.MemberAccountService;
-import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
 import com.bernardomg.security.account.domain.model.Account;
 import com.bernardomg.security.account.domain.model.BasicAccount;
 import com.bernardomg.security.account.usecase.service.AccountService;
@@ -46,14 +46,14 @@ import com.bernardomg.security.account.usecase.service.AccountService;
 @DisplayName("MemberAccountService - update")
 class TestMemberAccountServiceUpdate {
 
+    @Mock
+    private AccountProfileRepository accountProfileRepository;
+
     @InjectMocks
-    private MemberAccountService  service;
+    private MemberAccountService     service;
 
     @Mock
-    private UserProfileRepository userProfileRepository;
-
-    @Mock
-    private AccountService        wrapped;
+    private AccountService           wrapped;
 
     @Test
     @DisplayName("When updating an account, the updated one is returned")

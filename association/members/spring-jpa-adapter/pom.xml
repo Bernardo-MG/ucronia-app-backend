@@ -103,13 +103,13 @@
          <scope>test</scope>
       </dependency>
       <dependency>
-         <groupId>com.bernardomg.association.transaction</groupId>
-         <artifactId>association-transaction-spring-jpa-adapter</artifactId>
+      	 <groupId>com.bernardomg.association.profile</groupId>
+      	 <artifactId>association-profile-spring-jpa-adapter</artifactId>
          <scope>test</scope>
       </dependency>
       <dependency>
-      	 <groupId>com.bernardomg.association.profile</groupId>
-      	 <artifactId>association-profile-spring-jpa-adapter</artifactId>
+      	 <groupId>com.bernardomg.association.transaction</groupId>
+      	 <artifactId>association-transaction-spring-jpa-adapter</artifactId>
          <scope>test</scope>
       </dependency>
    </dependencies>

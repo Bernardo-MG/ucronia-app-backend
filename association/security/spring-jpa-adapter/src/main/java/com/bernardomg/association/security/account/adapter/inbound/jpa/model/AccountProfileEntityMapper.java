@@ -22,36 +22,27 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.security.account.domain.exception;
+package com.bernardomg.association.security.account.adapter.inbound.jpa.model;
+
+import java.util.Optional;
+
+import com.bernardomg.association.security.account.domain.model.ProfileAccount.Profile;
 
 /**
- * Missing account profile exception.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Profile entity mapper.
  */
-public final class MissingAccountProfileException extends RuntimeException {
+public final class AccountProfileEntityMapper {
 
-    private static final long serialVersionUID = 9001251395762492829L;
+    public static final Profile toDomain(final AccountProfileEntity entity) {
+        final Profile.Name name;
 
-    /**
-     * Number which caused the exception.
-     */
-    private final Long        number;
+        name = new Profile.Name(entity.getFirstName(), entity.getLastName());
 
-    public MissingAccountProfileException(final long number) {
-        super(String.format("Missing profile with number %s", number));
-
-        this.number = number;
+        return new Profile(Optional.ofNullable(entity.getIdentifier()), entity.getNumber(), name);
     }
 
-    /**
-     * Returns the number which caused the exception.
-     *
-     * @return the number which caused the exception
-     */
-    public final Long getNumber() {
-        return number;
+    private AccountProfileEntityMapper() {
+        super();
     }
 
 }

@@ -58,10 +58,6 @@
          <artifactId>spring-boot-autoconfigure</artifactId>
       </dependency>
       <dependency>
-         <groupId>com.bernardomg.association.transaction</groupId>
-         <artifactId>association-transaction-domain</artifactId>
-      </dependency>
-      <dependency>
          <!-- Spring WS Security Starter -->
          <groupId>com.bernardomg.framework.spring</groupId>
          <artifactId>spring-ws-security-starter</artifactId>

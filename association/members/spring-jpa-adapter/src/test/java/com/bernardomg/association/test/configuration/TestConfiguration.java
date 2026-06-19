@@ -34,9 +34,11 @@ import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeTransact
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeTypeSpringRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaFeeRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaFeeSummaryRepository;
+import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaFeeTransactionRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaFeeTypeRepository;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.domain.repository.FeeSummaryRepository;
+import com.bernardomg.association.fee.domain.repository.FeeTransactionRepository;
 import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberContactMethodRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberCountRepository;
@@ -75,6 +77,12 @@ public class TestConfiguration {
     @Bean("feeSummaryRepository")
     public FeeSummaryRepository getFeeSummaryRepository(final FeeSpringRepository feeSpringRepository) {
         return new JpaFeeSummaryRepository(feeSpringRepository);
+    }
+
+    @Bean("feeTransactionRepository")
+    public FeeTransactionRepository
+            getFeeTransactionRepository(final FeeTransactionSpringRepository transactionRepository) {
+        return new JpaFeeTransactionRepository(transactionRepository);
     }
 
     @Bean("feeTypeRepository")

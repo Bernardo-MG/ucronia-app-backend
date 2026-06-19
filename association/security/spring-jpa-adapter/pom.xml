@@ -22,7 +22,7 @@
    <artifactId>association-security-spring-jpa-adapter</artifactId>
    <packaging>jar</packaging>
 
-   <name>Association Security REST Adapter</name>
+   <name>Association Security Spring JPA Adapter</name>
 
    <!-- ********************************************** -->
    <!-- *************** DEPENDENCIES ***************** -->

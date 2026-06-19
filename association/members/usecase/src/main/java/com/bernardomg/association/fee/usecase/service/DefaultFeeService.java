@@ -50,8 +50,10 @@ import com.bernardomg.association.fee.domain.filter.FeeFilter;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeMember;
 import com.bernardomg.association.fee.domain.model.FeePayments;
+import com.bernardomg.association.fee.domain.model.FeeTransaction;
 import com.bernardomg.association.fee.domain.model.FeeType;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
+import com.bernardomg.association.fee.domain.repository.FeeTransactionRepository;
 import com.bernardomg.association.fee.usecase.validation.FeeMonthNotExistingRule;
 import com.bernardomg.association.fee.usecase.validation.FeeNotPaidInFutureRule;
 import com.bernardomg.association.fee.usecase.validation.FeePaymentsMonthsNotExistingRule;
@@ -64,8 +66,6 @@ import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.domain.model.Name;
 import com.bernardomg.association.member.domain.model.YearsRange;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.transaction.domain.model.Transaction;
-import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -86,26 +86,26 @@ public final class DefaultFeeService implements FeeService {
     /**
      * Logger for the class.
      */
-    private static final Logger          log = LoggerFactory.getLogger(DefaultFeeService.class);
+    private static final Logger            log = LoggerFactory.getLogger(DefaultFeeService.class);
 
-    private final EventEmitter           eventEmitter;
+    private final EventEmitter             eventEmitter;
 
-    private final FeeRepository          feeRepository;
+    private final FeeRepository            feeRepository;
 
-    private final MemberRepository       memberRepository;
+    private final MemberRepository         memberRepository;
 
-    private final MessageSource          messageSource;
+    private final MessageSource            messageSource;
 
-    private final TransactionRepository  transactionRepository;
+    private final FeeTransactionRepository transactionRepository;
 
-    private final Validator<Fee>         validatorCreate;
+    private final Validator<Fee>           validatorCreate;
 
-    private final Validator<FeePayments> validatorPay;
+    private final Validator<FeePayments>   validatorPay;
 
-    private final Validator<Fee>         validatorUpdate;
+    private final Validator<Fee>           validatorUpdate;
 
     public DefaultFeeService(final FeeRepository feeRepo, final MemberRepository memberRepo,
-            final TransactionRepository transactionRepo, final EventEmitter evntEmitter,
+            final FeeTransactionRepository transactionRepo, final EventEmitter evntEmitter,
             final MessageSource msgSource) {
         super();
 
@@ -306,7 +306,7 @@ public final class DefaultFeeService implements FeeService {
         final Collection<Fee>     feesToSave;
         final Member              member;
         final Collection<Fee>     created;
-        final Transaction         transaction;
+        final FeeTransaction      transaction;
         final FeeType             feeType;
         final Collection<Instant> feeMonths;
 
@@ -355,13 +355,13 @@ public final class DefaultFeeService implements FeeService {
 
     @Override
     public final Fee update(final Fee fee) {
-        final Fee         existing;
-        final Transaction existingPayment;
-        final Transaction updatedPayment;
-        final Fee         updated;
-        final Member      member;
-        final Fee         toSave;
-        final Transaction transaction;
+        final Fee            existing;
+        final FeeTransaction existingPayment;
+        final FeeTransaction updatedPayment;
+        final Fee            updated;
+        final Member         member;
+        final Fee            toSave;
+        final FeeTransaction transaction;
 
         log.debug("Updating fee for {} in {} using data {}", fee.member()
             .number(), fee.month(), fee);
@@ -400,7 +400,7 @@ public final class DefaultFeeService implements FeeService {
                     .get()
                     .index())
                     .get();
-                updatedPayment = new Transaction(existingPayment.index(), fee.transaction()
+                updatedPayment = new FeeTransaction(existingPayment.index(), fee.transaction()
                     .get()
                     .date(), existingPayment.amount(), existingPayment.description());
                 transactionRepository.save(updatedPayment);
@@ -501,15 +501,15 @@ public final class DefaultFeeService implements FeeService {
             .replaceAll("\\p{M}", "");
     }
 
-    private final Transaction savePaymentTransaction(final Member member, final FeeType feeType,
+    private final FeeTransaction savePaymentTransaction(final Member member, final FeeType feeType,
             final Collection<Instant> feeMonths, final Instant payDate) {
-        final Transaction transaction;
-        final Float       feeAmount;
-        final String      name;
-        final String      dates;
-        final String      message;
-        final Object[]    messageArguments;
-        final Long        index;
+        final FeeTransaction transaction;
+        final Float          feeAmount;
+        final String         name;
+        final String         dates;
+        final String         message;
+        final Object[]       messageArguments;
+        final Long           index;
 
         // Calculate amount
         feeAmount = feeType.amount() * feeMonths.size();
@@ -529,7 +529,7 @@ public final class DefaultFeeService implements FeeService {
 
         // Register payment
         index = transactionRepository.findNextIndex();
-        transaction = new Transaction(index, payDate, feeAmount, message);
+        transaction = new FeeTransaction(index, payDate, feeAmount, message);
 
         return transactionRepository.save(transaction);
     }
@@ -561,7 +561,7 @@ public final class DefaultFeeService implements FeeService {
     }
 
     private final Fee toPaidFee(final FeeType memberFeeType, final Member member, final Instant month,
-            final Transaction transaction) {
+            final FeeTransaction transaction) {
         final FeeType         feeType;
         final Fee.Transaction feeTransaction;
         final Name            name;

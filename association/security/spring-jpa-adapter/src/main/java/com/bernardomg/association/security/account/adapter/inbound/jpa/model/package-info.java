@@ -22,16 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.security.user.adapter.inbound.jpa.repository;
+/**
+ * Account persistence model.
+ */
 
-import java.util.Optional;
-
-import org.springframework.data.jpa.repository.JpaRepository;
-
-import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserInnerProfileEntity;
-
-public interface UserInnerProfileSpringRepository extends JpaRepository<UserInnerProfileEntity, Long> {
-
-    public Optional<UserInnerProfileEntity> findByNumber(final Long number);
-
-}
+package com.bernardomg.association.security.account.adapter.inbound.jpa.model;

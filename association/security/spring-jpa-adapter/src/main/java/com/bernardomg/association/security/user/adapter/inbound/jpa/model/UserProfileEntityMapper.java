@@ -22,8 +22,27 @@
  * SOFTWARE.
  */
 
-/**
- * Account exceptions.
- */
+package com.bernardomg.association.security.user.adapter.inbound.jpa.model;
 
-package com.bernardomg.association.security.account.domain.exception;
+import java.util.Optional;
+
+import com.bernardomg.association.security.user.domain.model.UserProfile;
+
+/**
+ * Profile entity mapper.
+ */
+public final class UserProfileEntityMapper {
+
+    public static final UserProfile toDomain(final UserProfileEntity entity) {
+        final UserProfile.Name name;
+
+        name = new UserProfile.Name(entity.getFirstName(), entity.getLastName());
+
+        return new UserProfile(Optional.ofNullable(entity.getIdentifier()), entity.getNumber(), name);
+    }
+
+    private UserProfileEntityMapper() {
+        super();
+    }
+
+}

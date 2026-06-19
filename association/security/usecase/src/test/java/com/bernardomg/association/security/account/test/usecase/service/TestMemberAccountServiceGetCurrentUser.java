@@ -36,11 +36,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.association.security.account.domain.repository.AccountProfileRepository;
 import com.bernardomg.association.security.account.test.configuration.factory.AccountProfiles;
 import com.bernardomg.association.security.account.test.configuration.factory.BasicAccounts;
 import com.bernardomg.association.security.account.test.configuration.factory.ProfileAccounts;
 import com.bernardomg.association.security.account.usecase.service.MemberAccountService;
-import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
 import com.bernardomg.association.security.user.test.configuration.factory.UserConstants;
 import com.bernardomg.security.account.domain.model.Account;
 import com.bernardomg.security.account.usecase.service.AccountService;
@@ -49,14 +49,14 @@ import com.bernardomg.security.account.usecase.service.AccountService;
 @DisplayName("MemberAccountService - get current user")
 class TestMemberAccountServiceGetCurrentUser {
 
+    @Mock
+    private AccountProfileRepository accountProfileRepository;
+
     @InjectMocks
-    private MemberAccountService  service;
+    private MemberAccountService     service;
 
     @Mock
-    private UserProfileRepository userProfileRepository;
-
-    @Mock
-    private AccountService        wrapped;
+    private AccountService           wrapped;
 
     @Test
     @DisplayName("When there is a current user, it is returned")
@@ -65,7 +65,7 @@ class TestMemberAccountServiceGetCurrentUser {
 
         // GIVEN
         given(wrapped.getCurrentUser()).willReturn(Optional.of(BasicAccounts.valid()));
-        given(userProfileRepository.findByUsername(UserConstants.USERNAME))
+        given(accountProfileRepository.findByUsername(UserConstants.USERNAME))
             .willReturn(Optional.of(AccountProfiles.valid()));
 
         // WHEN
@@ -84,7 +84,7 @@ class TestMemberAccountServiceGetCurrentUser {
 
         // GIVEN
         given(wrapped.getCurrentUser()).willReturn(Optional.of(BasicAccounts.valid()));
-        given(userProfileRepository.findByUsername(UserConstants.USERNAME)).willReturn(Optional.empty());
+        given(accountProfileRepository.findByUsername(UserConstants.USERNAME)).willReturn(Optional.empty());
 
         // WHEN
         account = service.getCurrentUser();

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.security.user.adapter.inbound.jpa.model;
+package com.bernardomg.association.security.account.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -35,9 +35,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
-@Entity(name = "UserInnerProfile")
+@Entity(name = "AccountProfile")
 @Table(schema = "directory", name = "profiles")
-public class UserInnerProfileEntity implements Serializable {
+public class AccountProfileEntity implements Serializable {
 
     /**
      * Serialization ID.
@@ -67,7 +67,7 @@ public class UserInnerProfileEntity implements Serializable {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof final UserInnerProfileEntity other)) {
+        if (!(obj instanceof final AccountProfileEntity other)) {
             return false;
         }
         return Objects.equals(id, other.id);
@@ -120,8 +120,8 @@ public class UserInnerProfileEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "ProfileEntity [id=" + id + ", identifier=" + identifier + ", firstName=" + firstName + ", lastName="
-                + lastName + ", number=" + number + "]";
+        return "AccountUserInnerProfileEntity [id=" + id + ", identifier=" + identifier + ", firstName=" + firstName
+                + ", lastName=" + lastName + ", number=" + number + "]";
     }
 
 }

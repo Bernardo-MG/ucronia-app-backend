@@ -35,9 +35,11 @@ import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeTransact
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeTypeSpringRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaFeeRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaFeeSummaryRepository;
+import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaFeeTransactionRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaFeeTypeRepository;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.domain.repository.FeeSummaryRepository;
+import com.bernardomg.association.fee.domain.repository.FeeTransactionRepository;
 import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeMaintenanceService;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
@@ -52,7 +54,6 @@ import com.bernardomg.association.fee.usecase.service.SpringSecurityMyFeesServic
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
-import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.event.emitter.EventEmitter;
 
 @AutoConfiguration
@@ -76,7 +77,7 @@ public class AssociationFeeAutoConfiguration {
 
     @Bean("feeService")
     public FeeService getFeeService(final FeeRepository feeRepository, final MemberRepository memberRepository,
-            final TransactionRepository transactionRepository, final EventEmitter evntEmitter,
+            final FeeTransactionRepository transactionRepository, final EventEmitter evntEmitter,
             final MessageSource msgSource) {
         return new DefaultFeeService(feeRepository, memberRepository, transactionRepository, evntEmitter, msgSource);
     }
@@ -89,6 +90,12 @@ public class AssociationFeeAutoConfiguration {
     @Bean("feeSummaryService")
     public FeeSummaryService getFeeSummaryService(final FeeSummaryRepository feeSummaryRepository) {
         return new DefaultFeeSummaryService(feeSummaryRepository);
+    }
+
+    @Bean("feeTransactionRepository")
+    public FeeTransactionRepository
+            getFeeTransactionRepository(final FeeTransactionSpringRepository transactionRepository) {
+        return new JpaFeeTransactionRepository(transactionRepository);
     }
 
     @Bean("feeTypeRepository")

@@ -38,13 +38,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.security.account.domain.exception.MissingAccountProfileException;
-import com.bernardomg.association.security.account.domain.model.ProfileAccount.Profile;
-import com.bernardomg.association.security.account.domain.repository.AccountProfileRepository;
 import com.bernardomg.association.security.account.test.configuration.factory.AccountProfileConstants;
-import com.bernardomg.association.security.account.test.configuration.factory.AccountProfiles;
+import com.bernardomg.association.security.user.domain.exception.MissingUserProfileException;
+import com.bernardomg.association.security.user.domain.model.UserProfile;
 import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
 import com.bernardomg.association.security.user.test.configuration.factory.UserConstants;
+import com.bernardomg.association.security.user.test.configuration.factory.UserProfiles;
 import com.bernardomg.association.security.user.test.configuration.factory.Users;
 import com.bernardomg.association.security.user.usecase.service.DefaultUserProfileService;
 import com.bernardomg.security.user.domain.exception.MissingUsernameException;
@@ -55,9 +54,6 @@ import com.bernardomg.validation.test.assertion.ValidationAssertions;
 @ExtendWith(MockitoExtension.class)
 @DisplayName("UserProfileService - assign profile")
 class TestUserProfileServiceAssignProfile {
-
-    @Mock
-    private AccountProfileRepository  accountProfileRepository;
 
     @InjectMocks
     private DefaultUserProfileService service;
@@ -75,8 +71,8 @@ class TestUserProfileServiceAssignProfile {
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
-        given(accountProfileRepository.findOne(AccountProfileConstants.NUMBER))
-            .willReturn(Optional.of(AccountProfiles.valid()));
+        given(userProfileRepository.findOne(AccountProfileConstants.NUMBER))
+            .willReturn(Optional.of(UserProfiles.valid()));
 
         given(
             userProfileRepository.existsByProfileForAnotherUser(UserConstants.USERNAME, AccountProfileConstants.NUMBER))
@@ -97,14 +93,14 @@ class TestUserProfileServiceAssignProfile {
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
-        given(accountProfileRepository.findOne(AccountProfileConstants.NUMBER)).willReturn(Optional.empty());
+        given(userProfileRepository.findOne(AccountProfileConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
         execution = () -> service.assignProfile(UserConstants.USERNAME, AccountProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingAccountProfileException.class);
+            .isInstanceOf(MissingUserProfileException.class);
     }
 
     @Test
@@ -129,8 +125,8 @@ class TestUserProfileServiceAssignProfile {
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
-        given(accountProfileRepository.findOne(AccountProfileConstants.NUMBER))
-            .willReturn(Optional.of(AccountProfiles.valid()));
+        given(userProfileRepository.findOne(AccountProfileConstants.NUMBER))
+            .willReturn(Optional.of(UserProfiles.valid()));
 
         // WHEN
         service.assignProfile(UserConstants.USERNAME, AccountProfileConstants.NUMBER);
@@ -142,21 +138,21 @@ class TestUserProfileServiceAssignProfile {
     @Test
     @DisplayName("With valid data, the created relationship is returned")
     void testAssignProfile_Returned() {
-        final Profile profile;
+        final UserProfile profile;
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
-        given(accountProfileRepository.findOne(AccountProfileConstants.NUMBER))
-            .willReturn(Optional.of(AccountProfiles.valid()));
+        given(userProfileRepository.findOne(AccountProfileConstants.NUMBER))
+            .willReturn(Optional.of(UserProfiles.valid()));
         given(userProfileRepository.assignProfile(UserConstants.USERNAME, AccountProfileConstants.NUMBER))
-            .willReturn(AccountProfiles.valid());
+            .willReturn(UserProfiles.valid());
 
         // WHEN
         profile = service.assignProfile(UserConstants.USERNAME, AccountProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(profile)
-            .isEqualTo(AccountProfiles.valid());
+            .isEqualTo(UserProfiles.valid());
     }
 
 }

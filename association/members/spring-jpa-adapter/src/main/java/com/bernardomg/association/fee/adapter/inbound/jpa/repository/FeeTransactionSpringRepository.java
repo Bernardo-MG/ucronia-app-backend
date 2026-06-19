@@ -27,11 +27,15 @@ package com.bernardomg.association.fee.adapter.inbound.jpa.repository;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTransactionEntity;
 
 public interface FeeTransactionSpringRepository extends JpaRepository<FeeTransactionEntity, Long> {
 
     public Optional<FeeTransactionEntity> findByIndex(final long index);
+
+    @Query("SELECT COALESCE(MAX(t.index), 0) + 1 FROM Transaction t")
+    public Long findNextIndex();
 
 }

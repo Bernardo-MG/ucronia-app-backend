@@ -1,1 +1,2 @@
-com.bernardomg.association.security.configuration.AssociationSecurityAutoConfiguration
+com.bernardomg.association.security.account.configuration.AssociationSecurityAccountAutoConfiguration
+com.bernardomg.association.security.user.configuration.AssociationSecurityUserAutoConfiguration

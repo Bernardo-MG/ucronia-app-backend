@@ -22,8 +22,18 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.security.user.usecase.domain;
+package com.bernardomg.association.fee.domain.repository;
 
-public record UserProfile(Long number, String username) {
+import java.util.Optional;
+
+import com.bernardomg.association.fee.domain.model.FeeTransaction;
+
+public interface FeeTransactionRepository {
+
+    public long findNextIndex();
+
+    public Optional<FeeTransaction> findOne(final Long index);
+
+    public FeeTransaction save(final FeeTransaction transaction);
 
 }

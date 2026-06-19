@@ -22,9 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.security.account.test.adapter.inbound.jpa.repository.integration;
-
-import java.util.Optional;
+package com.bernardomg.association.fee.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -32,47 +30,47 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.bernardomg.association.security.account.domain.model.ProfileAccount.Profile;
-import com.bernardomg.association.security.account.domain.repository.AccountProfileRepository;
-import com.bernardomg.association.security.account.test.configuration.factory.ProfileConstants;
-import com.bernardomg.association.security.account.test.configuration.factory.Profiles;
-import com.bernardomg.association.security.user.test.TestApplication;
-import com.bernardomg.association.security.user.test.configuration.data.annotation.ValidProfile;
+import com.bernardomg.association.TestApplication;
+import com.bernardomg.association.fee.domain.repository.FeeTransactionRepository;
+import com.bernardomg.association.fee.test.configuration.factory.TransactionConstants;
+import com.bernardomg.association.transaction.test.configuration.data.annotation.PositiveTransaction;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("AccountProfileRepository - find one")
-class ITAccountProfileRepositoryFindOne {
+@DisplayName("FeeTransactionRepository - find next index")
+class ITFeeTransactionRepositoryFindNextIndex {
 
     @Autowired
-    private AccountProfileRepository repository;
+    private FeeTransactionRepository repository;
 
     @Test
-    @DisplayName("With a profile, it is returned")
-    @ValidProfile
-    void testFindOne() {
-        final Optional<Profile> profile;
+    @DisplayName("When there is a transaction the next index is correct")
+    @PositiveTransaction
+    void testFindNextIndex() {
+        final long index;
 
         // WHEN
-        profile = repository.findOne(ProfileConstants.NUMBER);
+        index = repository.findNextIndex();
 
         // THEN
-        Assertions.assertThat(profile)
-            .contains(Profiles.valid());
+        Assertions.assertThat(index)
+            .as("index")
+            .isEqualTo(TransactionConstants.NEXT_INDEX);
     }
 
     @Test
-    @DisplayName("With no profile, nothing is returned")
-    void testFindOne_NoData() {
-        final Optional<Profile> profile;
+    @DisplayName("When there is no transaction the next index is correct")
+    void testFindNextIndex_NoData() {
+        final long index;
 
         // WHEN
-        profile = repository.findOne(ProfileConstants.NUMBER);
+        index = repository.findNextIndex();
 
         // THEN
-        Assertions.assertThat(profile)
-            .isEmpty();
+        Assertions.assertThat(index)
+            .as("index")
+            .isEqualTo(1);
     }
 
 }

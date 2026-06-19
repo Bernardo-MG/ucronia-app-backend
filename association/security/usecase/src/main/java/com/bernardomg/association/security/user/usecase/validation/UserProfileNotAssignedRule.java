@@ -31,30 +31,30 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
-import com.bernardomg.association.security.user.usecase.domain.UserProfile;
+import com.bernardomg.association.security.user.usecase.domain.AssignUserProfile;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRule;
 
 /**
- * Checks the user person has a name.
+ * Checks the profile has not been assigned to another user.
  */
-public final class UserProfileNameNotEmptyRule implements FieldRule<UserProfile> {
+public final class UserProfileNotAssignedRule implements FieldRule<AssignUserProfile> {
 
     /**
      * Logger for the class.
      */
-    private static final Logger         log = LoggerFactory.getLogger(UserProfileNameNotEmptyRule.class);
+    private static final Logger         log = LoggerFactory.getLogger(UserProfileNotAssignedRule.class);
 
     private final UserProfileRepository userProfileRepository;
 
-    public UserProfileNameNotEmptyRule(final UserProfileRepository userProfileRepo) {
+    public UserProfileNotAssignedRule(final UserProfileRepository userProfileRepo) {
         super();
 
         userProfileRepository = Objects.requireNonNull(userProfileRepo);
     }
 
     @Override
-    public final Optional<FieldFailure> check(final UserProfile profile) {
+    public final Optional<FieldFailure> check(final AssignUserProfile profile) {
         final Optional<FieldFailure> failure;
         final FieldFailure           fieldFailure;
 

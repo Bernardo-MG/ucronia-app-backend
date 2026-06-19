@@ -22,27 +22,33 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.security.user.adapter.inbound.jpa.model;
+package com.bernardomg.association.fee.adapter.inbound.jpa.model;
 
-import java.util.Optional;
-
-import com.bernardomg.association.security.account.domain.model.ProfileAccount.Profile;
-import com.bernardomg.association.security.account.domain.model.ProfileAccount.Profile.Name;
+import com.bernardomg.association.fee.domain.model.FeeTransaction;
 
 /**
- * Profile entity mapper.
+ * Author repository mapper.
  */
-public final class UserInnerProfileEntityMapper {
+public final class FeeTransactionEntityMapper {
 
-    public static final Profile toDomain(final UserInnerProfileEntity entity) {
-        final Name name;
-
-        name = new Name(entity.getFirstName(), entity.getLastName());
-
-        return new Profile(Optional.ofNullable(entity.getIdentifier()), entity.getNumber(), name);
+    public static final FeeTransaction toDomain(final FeeTransactionEntity transaction) {
+        return new FeeTransaction(transaction.getIndex(), transaction.getDate(), transaction.getAmount(),
+            transaction.getDescription());
     }
 
-    private UserInnerProfileEntityMapper() {
+    public static final FeeTransactionEntity toEntity(final FeeTransaction transaction) {
+        final FeeTransactionEntity entity;
+
+        entity = new FeeTransactionEntity();
+        entity.setIndex(transaction.index());
+        entity.setDescription(transaction.description());
+        entity.setDate(transaction.date());
+        entity.setAmount(transaction.amount());
+
+        return entity;
+    }
+
+    private FeeTransactionEntityMapper() {
         super();
     }
 
