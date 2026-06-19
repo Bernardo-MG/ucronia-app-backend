@@ -35,7 +35,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
-@Entity(name = "UserInnerProfile")
+@Entity(name = "UserProfile")
 @Table(schema = "directory", name = "profiles")
 public class UserProfileEntity implements Serializable {
 

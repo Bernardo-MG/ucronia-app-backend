@@ -36,7 +36,7 @@ public interface UserAssignedProfileSpringRepository extends JpaRepository<UserA
 
     @Query("""
             SELECT CASE WHEN COUNT(up) > 0 THEN TRUE ELSE FALSE END AS exists
-            FROM UserProfile up
+            FROM UserAssignedProfile up
               JOIN up.profile p
               JOIN up.user u
             WHERE p.number = :number AND u.username != :username
