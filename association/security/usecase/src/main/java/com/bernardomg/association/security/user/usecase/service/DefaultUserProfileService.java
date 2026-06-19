@@ -34,7 +34,7 @@ import com.bernardomg.association.security.user.domain.exception.MissingUserProf
 import com.bernardomg.association.security.user.domain.model.UserProfile;
 import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
 import com.bernardomg.association.security.user.usecase.domain.AssignUserProfile;
-import com.bernardomg.association.security.user.usecase.validation.UserProfileNameNotEmptyRule;
+import com.bernardomg.association.security.user.usecase.validation.UserProfileNotAssignedRule;
 import com.bernardomg.security.user.domain.exception.MissingUsernameException;
 import com.bernardomg.security.user.domain.model.User;
 import com.bernardomg.security.user.domain.repository.UserRepository;
@@ -63,7 +63,7 @@ public final class DefaultUserProfileService implements UserProfileService {
         userRepository = Objects.requireNonNull(userRepo);
         userProfileRepository = Objects.requireNonNull(userProfileRepo);
 
-        assignProfileValidator = new FieldRuleValidator<>(new UserProfileNameNotEmptyRule(userProfileRepository));
+        assignProfileValidator = new FieldRuleValidator<>(new UserProfileNotAssignedRule(userProfileRepository));
     }
 
     @Override

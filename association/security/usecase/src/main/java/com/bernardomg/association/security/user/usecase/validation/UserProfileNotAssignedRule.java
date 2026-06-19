@@ -36,18 +36,18 @@ import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRule;
 
 /**
- * Checks the user person has a name.
+ * Checks the profile has not been assigned to another user.
  */
-public final class UserProfileNameNotEmptyRule implements FieldRule<AssignUserProfile> {
+public final class UserProfileNotAssignedRule implements FieldRule<AssignUserProfile> {
 
     /**
      * Logger for the class.
      */
-    private static final Logger         log = LoggerFactory.getLogger(UserProfileNameNotEmptyRule.class);
+    private static final Logger         log = LoggerFactory.getLogger(UserProfileNotAssignedRule.class);
 
     private final UserProfileRepository userProfileRepository;
 
-    public UserProfileNameNotEmptyRule(final UserProfileRepository userProfileRepo) {
+    public UserProfileNotAssignedRule(final UserProfileRepository userProfileRepo) {
         super();
 
         userProfileRepository = Objects.requireNonNull(userProfileRepo);
