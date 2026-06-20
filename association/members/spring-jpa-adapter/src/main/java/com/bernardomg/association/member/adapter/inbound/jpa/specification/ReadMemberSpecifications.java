@@ -96,7 +96,8 @@ public final class ReadMemberSpecifications {
     private static Specification<ReadMemberEntity> name(final String pattern) {
         final String likePattern = "%" + pattern.toLowerCase() + "%";
 
-        return (root, query, cb) -> cb.like(cb.lower(cb.concat(root.get("firstName"), cb.concat(" ", root.get("lastName")))), likePattern);
+        return (root, query, cb) -> cb
+            .like(cb.lower(cb.concat(root.get("firstName"), cb.concat(" ", root.get("lastName")))), likePattern);
     }
 
     private ReadMemberSpecifications() {

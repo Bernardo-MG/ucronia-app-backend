@@ -38,12 +38,8 @@ import com.bernardomg.association.member.adapter.inbound.jpa.model.MembershipEvo
 
 public interface MemberSpringRepository extends JpaRepository<MemberEntity, Long> {
 
-    @Query("""
-            SELECT m
-            FROM Member m
-              JOIN m.profile p
-            WHERE p.number = :number
-            """)
+    public void deleteByNumber(final Long number);
+
     public Optional<MemberEntity> findByNumber(@Param("number") final Long number);
 
     @Query("""

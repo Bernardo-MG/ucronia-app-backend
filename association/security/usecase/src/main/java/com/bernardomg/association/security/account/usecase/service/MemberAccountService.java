@@ -32,7 +32,7 @@ import org.slf4j.LoggerFactory;
 
 import com.bernardomg.association.security.account.domain.model.ProfileAccount;
 import com.bernardomg.association.security.account.domain.model.ProfileAccount.Profile;
-import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
+import com.bernardomg.association.security.account.domain.repository.AccountProfileRepository;
 import com.bernardomg.security.account.domain.model.Account;
 import com.bernardomg.security.account.usecase.service.AccountService;
 
@@ -50,17 +50,17 @@ public final class MemberAccountService implements AccountService {
     /**
      * Logger for the class.
      */
-    private static final Logger         log = LoggerFactory.getLogger(MemberAccountService.class);
+    private static final Logger            log = LoggerFactory.getLogger(MemberAccountService.class);
 
-    private final UserProfileRepository userProfileRepository;
+    private final AccountProfileRepository accountProfileRepository;
 
-    private final AccountService        wrapped;
+    private final AccountService           wrapped;
 
-    public MemberAccountService(final AccountService wrppd, final UserProfileRepository userProfileRepo) {
+    public MemberAccountService(final AccountService wrppd, final AccountProfileRepository accountProfileRepo) {
         super();
 
         wrapped = Objects.requireNonNull(wrppd);
-        userProfileRepository = Objects.requireNonNull(userProfileRepo);
+        accountProfileRepository = Objects.requireNonNull(accountProfileRepo);
     }
 
     @Override
@@ -74,7 +74,7 @@ public final class MemberAccountService implements AccountService {
 
         wrappedAccount = wrapped.getCurrentUser();
         if (wrappedAccount.isPresent()) {
-            profile = userProfileRepository.findByUsername(wrappedAccount.get()
+            profile = accountProfileRepository.findByUsername(wrappedAccount.get()
                 .getUsername());
 
             account = new ProfileAccount(wrappedAccount.get()

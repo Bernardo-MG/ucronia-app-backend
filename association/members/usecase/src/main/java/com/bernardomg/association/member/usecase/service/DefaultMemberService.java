@@ -30,16 +30,16 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.bernardomg.association.fee.domain.exception.MissingFeeTypeException;
+import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
 import com.bernardomg.association.member.domain.exception.MissingMemberContactMethodException;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
-import com.bernardomg.association.member.domain.exception.MissingMemberFeeTypeException;
 import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.Member.ContactChannel;
 import com.bernardomg.association.member.domain.model.Member.ContactMethod;
-import com.bernardomg.association.member.domain.model.Member.Name;
+import com.bernardomg.association.member.domain.model.Name;
 import com.bernardomg.association.member.domain.repository.MemberContactMethodRepository;
-import com.bernardomg.association.member.domain.repository.MemberFeeTypeRepository;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.usecase.validation.MemberIdentifierNotExistForAnotherRule;
 import com.bernardomg.association.member.usecase.validation.MemberIdentifierNotExistRule;
@@ -69,7 +69,7 @@ public final class DefaultMemberService implements MemberService {
 
     private final Validator<Member>             createValidator;
 
-    private final MemberFeeTypeRepository       memberFeeTypeRepository;
+    private final FeeTypeRepository             feeTypeRepository;
 
     private final MemberRepository              memberRepository;
 
@@ -78,12 +78,12 @@ public final class DefaultMemberService implements MemberService {
     private final Validator<Member>             updateValidator;
 
     public DefaultMemberService(final MemberRepository memberRepo,
-            final MemberContactMethodRepository contactMethodRepo, final MemberFeeTypeRepository memberFeeTypeRepo) {
+            final MemberContactMethodRepository contactMethodRepo, final FeeTypeRepository feeTypeRepo) {
         super();
 
         memberRepository = Objects.requireNonNull(memberRepo);
         contactMethodRepository = Objects.requireNonNull(contactMethodRepo);
-        memberFeeTypeRepository = Objects.requireNonNull(memberFeeTypeRepo);
+        feeTypeRepository = Objects.requireNonNull(feeTypeRepo);
 
         createValidator = new FieldRuleValidator<>(new MemberIdentifierNotExistRule(memberRepo));
         updateValidator = new FieldRuleValidator<>(new MemberIdentifierNotExistForAnotherRule(memberRepo));
@@ -96,11 +96,11 @@ public final class DefaultMemberService implements MemberService {
 
         log.debug("Creating member profile {}", member);
 
-        if (!memberFeeTypeRepository.exists(member.feeType()
+        if (!feeTypeRepository.exists(member.feeType()
             .number())) {
             log.error("Missing fee type {}", member.feeType()
                 .number());
-            throw new MissingMemberFeeTypeException(member.feeType()
+            throw new MissingFeeTypeException(member.feeType()
                 .number());
         }
 
@@ -183,11 +183,11 @@ public final class DefaultMemberService implements MemberService {
                 throw new MissingMemberException(member.number());
             });
 
-        if (!memberFeeTypeRepository.exists(member.feeType()
+        if (!feeTypeRepository.exists(member.feeType()
             .number())) {
             log.error("Missing fee type {}", member.feeType()
                 .number());
-            throw new MissingMemberFeeTypeException(member.feeType()
+            throw new MissingFeeTypeException(member.feeType()
                 .number());
         }
 
@@ -219,11 +219,11 @@ public final class DefaultMemberService implements MemberService {
             throw new MissingMemberException(member.number());
         }
 
-        if (!memberFeeTypeRepository.exists(member.feeType()
+        if (!feeTypeRepository.exists(member.feeType()
             .number())) {
             log.error("Missing fee type {}", member.feeType()
                 .number());
-            throw new MissingMemberFeeTypeException(member.feeType()
+            throw new MissingFeeTypeException(member.feeType()
                 .number());
         }
 

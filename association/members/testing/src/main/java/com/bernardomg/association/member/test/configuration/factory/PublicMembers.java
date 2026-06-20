@@ -1,8 +1,8 @@
 
 package com.bernardomg.association.member.test.configuration.factory;
 
+import com.bernardomg.association.member.domain.model.Name;
 import com.bernardomg.association.member.domain.model.PublicMember;
-import com.bernardomg.association.member.domain.model.PublicMember.Name;
 
 public final class PublicMembers {
 

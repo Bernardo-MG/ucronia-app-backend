@@ -50,12 +50,16 @@
          <artifactId>association-member-rest-adapter</artifactId>
       </dependency>
       <dependency>
-         <groupId>org.springframework.boot</groupId>
-         <artifactId>spring-boot-autoconfigure</artifactId>
+         <groupId>com.bernardomg.association.member</groupId>
+         <artifactId>association-fee-rest-adapter</artifactId>
       </dependency>
       <dependency>
-         <groupId>com.bernardomg.association.transaction</groupId>
-         <artifactId>association-transaction-domain</artifactId>
+         <groupId>com.bernardomg.association.member</groupId>
+         <artifactId>association-member-spring-security-adapter</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-autoconfigure</artifactId>
       </dependency>
       <dependency>
          <!-- Spring WS Security Starter -->

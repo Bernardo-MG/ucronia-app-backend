@@ -38,13 +38,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.association.fee.domain.exception.MissingFeeTypeException;
+import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.FeeTypeConstants;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
-import com.bernardomg.association.member.domain.exception.MissingMemberFeeTypeException;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberContactMethodRepository;
-import com.bernardomg.association.member.domain.repository.MemberFeeTypeRepository;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.factory.MemberConstants;
 import com.bernardomg.association.member.test.configuration.factory.Members;
@@ -57,10 +57,10 @@ import com.bernardomg.validation.test.assertion.ValidationAssertions;
 class TestMemberServicePatch {
 
     @Mock
-    private MemberContactMethodRepository memberContactMethodRepository;
+    private FeeTypeRepository             feeTypeRepository;
 
     @Mock
-    private MemberFeeTypeRepository       memberFeeTypeRepository;
+    private MemberContactMethodRepository memberContactMethodRepository;
 
     @Mock
     private MemberRepository              memberRepository;
@@ -81,7 +81,7 @@ class TestMemberServicePatch {
         // GIVEN
         member = Members.active();
 
-        given(memberFeeTypeRepository.exists(FeeConstants.FEE_TYPE_NUMBER)).willReturn(true);
+        given(feeTypeRepository.exists(FeeConstants.FEE_TYPE_NUMBER)).willReturn(true);
         given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(member));
         given(memberRepository.existsByIdentifierForAnother(MemberConstants.NUMBER, MemberConstants.IDENTIFIER))
             .willReturn(true);
@@ -123,14 +123,14 @@ class TestMemberServicePatch {
         member = Members.nameChange();
 
         given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
-        given(memberFeeTypeRepository.exists(FeeTypeConstants.NUMBER)).willReturn(false);
+        given(feeTypeRepository.exists(FeeTypeConstants.NUMBER)).willReturn(false);
 
         // WHEN
         execution = () -> service.patch(member);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingMemberFeeTypeException.class);
+            .isInstanceOf(MissingFeeTypeException.class);
     }
 
     @Test
@@ -142,7 +142,7 @@ class TestMemberServicePatch {
         member = Members.nameChangePatch();
 
         given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
-        given(memberFeeTypeRepository.exists(FeeTypeConstants.NUMBER)).willReturn(true);
+        given(feeTypeRepository.exists(FeeTypeConstants.NUMBER)).willReturn(true);
 
         // WHEN
         service.patch(member);
@@ -160,7 +160,7 @@ class TestMemberServicePatch {
         member = Members.padded();
 
         given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
-        given(memberFeeTypeRepository.exists(FeeTypeConstants.NUMBER)).willReturn(true);
+        given(feeTypeRepository.exists(FeeTypeConstants.NUMBER)).willReturn(true);
 
         // WHEN
         service.patch(member);
@@ -178,7 +178,7 @@ class TestMemberServicePatch {
         member = Members.nameChange();
 
         given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
-        given(memberFeeTypeRepository.exists(FeeTypeConstants.NUMBER)).willReturn(true);
+        given(feeTypeRepository.exists(FeeTypeConstants.NUMBER)).willReturn(true);
 
         // WHEN
         service.patch(member);
@@ -197,7 +197,7 @@ class TestMemberServicePatch {
         member = Members.nameChange();
 
         given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
-        given(memberFeeTypeRepository.exists(FeeTypeConstants.NUMBER)).willReturn(true);
+        given(feeTypeRepository.exists(FeeTypeConstants.NUMBER)).willReturn(true);
         given(memberRepository.save(Members.nameChange())).willReturn(Members.nameChange());
 
         // WHEN

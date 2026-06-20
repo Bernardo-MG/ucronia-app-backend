@@ -33,8 +33,6 @@ public class TestModulesArchitectureRules {
         .definedBy("com.bernardomg.association.security.user..")
         .layer("Account")
         .definedBy("com.bernardomg.association.security.account..")
-        .layer("Security configuration")
-        .definedBy("com.bernardomg.association.security.configuration..")
 
         // Misc modules
         .layer("Settings")
@@ -59,31 +57,29 @@ public class TestModulesArchitectureRules {
         .definedBy("com.bernardomg.association.library.configuration..")
 
         .whereLayer("Profiles")
-        .mayOnlyBeAccessedByLayers("Members", "Sponsors", "Guests", "Users", "Account", "Fees", "Library books",
-            "Library lending", "Library configuration", "Security configuration")
+        .mayNotBeAccessedByAnyLayer()
         .whereLayer("Members")
-        .mayOnlyBeAccessedByLayers("Fees", "Account", "Library books", "Library configuration")
+        .mayOnlyBeAccessedByLayers("Fees")
         .whereLayer("Sponsors")
         .mayNotBeAccessedByAnyLayer()
         .whereLayer("Guests")
         .mayNotBeAccessedByAnyLayer()
         .whereLayer("Transactions")
-        .mayOnlyBeAccessedByLayers("Fees")
+        .mayNotBeAccessedByAnyLayer()
         .whereLayer("Fees")
-        // TODO: circular dependency
         .mayOnlyBeAccessedByLayers("Members")
 
         // Security modules
         .whereLayer("Users")
-        .mayOnlyBeAccessedByLayers("Account", "Fees", "Security configuration")
+        .mayOnlyBeAccessedByLayers("Fees")
         .whereLayer("Account")
-        .mayOnlyBeAccessedByLayers("Security configuration", "Fees", "Users")
+        .mayNotBeAccessedByAnyLayer()
 
         // Misc modules
         .whereLayer("Settings")
-        .mayOnlyBeAccessedByLayers("Association settings", "Fees", "Members")
+        .mayOnlyBeAccessedByLayers("Association settings")
         .whereLayer("Association settings")
-        .mayOnlyBeAccessedByLayers("Fees")
+        .mayNotBeAccessedByAnyLayer()
 
         // Library modules
         .whereLayer("Library authors")

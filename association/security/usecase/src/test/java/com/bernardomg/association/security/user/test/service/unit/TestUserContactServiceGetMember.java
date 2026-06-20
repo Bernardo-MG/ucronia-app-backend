@@ -37,11 +37,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.security.account.domain.model.ProfileAccount.Profile;
-import com.bernardomg.association.security.account.domain.repository.AccountProfileRepository;
-import com.bernardomg.association.security.account.test.configuration.factory.AccountProfiles;
+import com.bernardomg.association.security.user.domain.model.UserProfile;
 import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
 import com.bernardomg.association.security.user.test.configuration.factory.UserConstants;
+import com.bernardomg.association.security.user.test.configuration.factory.UserProfiles;
 import com.bernardomg.association.security.user.usecase.service.DefaultUserProfileService;
 import com.bernardomg.security.user.domain.exception.MissingUsernameException;
 import com.bernardomg.security.user.domain.repository.UserRepository;
@@ -49,9 +48,6 @@ import com.bernardomg.security.user.domain.repository.UserRepository;
 @ExtendWith(MockitoExtension.class)
 @DisplayName("UserProfileService - get profile")
 class TestUserProfileServiceGetProfile {
-
-    @Mock
-    private AccountProfileRepository  accountProfileRepository;
 
     @InjectMocks
     private DefaultUserProfileService service;
@@ -65,19 +61,19 @@ class TestUserProfileServiceGetProfile {
     @Test
     @DisplayName("With a profile assigned to the user, it returns the user")
     void testGetProfile() {
-        final Optional<Profile> profile;
+        final Optional<UserProfile> profile;
 
         // GIVEN
         given(userRepository.exists(UserConstants.USERNAME)).willReturn(true);
         given(userProfileRepository.findByUsername(UserConstants.USERNAME))
-            .willReturn(Optional.of(AccountProfiles.valid()));
+            .willReturn(Optional.of(UserProfiles.valid()));
 
         // WHEN
         profile = service.getProfile(UserConstants.USERNAME);
 
         // THEN
         Assertions.assertThat(profile)
-            .contains(AccountProfiles.valid());
+            .contains(UserProfiles.valid());
     }
 
     @Test

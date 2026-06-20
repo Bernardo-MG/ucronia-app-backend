@@ -336,11 +336,6 @@
             <version>${project.version}</version>
          </dependency>
          <dependency>
-            <groupId>com.bernardomg.association.fee</groupId>
-            <artifactId>association-fee-spring-starter</artifactId>
-            <version>${project.version}</version>
-         </dependency>
-         <dependency>
             <groupId>com.bernardomg.association.member</groupId>
             <artifactId>association-member-domain</artifactId>
             <version>${project.version}</version>
@@ -361,21 +356,6 @@
             <version>${project.version}</version>
          </dependency>
          <dependency>
-            <groupId>com.bernardomg.association.fee</groupId>
-            <artifactId>association-fee-domain</artifactId>
-            <version>${project.version}</version>
-         </dependency>
-         <dependency>
-            <groupId>com.bernardomg.association.fee</groupId>
-            <artifactId>association-fee-spring-jpa-adapter</artifactId>
-            <version>${project.version}</version>
-         </dependency>
-         <dependency>
-            <groupId>com.bernardomg.association.activity</groupId>
-            <artifactId>association-activity-spring-starter</artifactId>
-            <version>${project.version}</version>
-         </dependency>
-         <dependency>
             <groupId>com.bernardomg.association.guest</groupId>
             <artifactId>association-guest-spring-starter</artifactId>
             <version>${project.version}</version>
@@ -393,6 +373,11 @@
          <dependency>
             <groupId>com.bernardomg.association.security</groupId>
             <artifactId>association-security-domain</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.association.security</groupId>
+            <artifactId>association-security-spring-jpa-adapter</artifactId>
             <version>${project.version}</version>
          </dependency>
          <dependency>

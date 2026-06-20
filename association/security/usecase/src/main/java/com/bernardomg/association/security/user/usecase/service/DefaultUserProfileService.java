@@ -30,12 +30,11 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bernardomg.association.security.account.domain.exception.MissingAccountProfileException;
-import com.bernardomg.association.security.account.domain.model.ProfileAccount.Profile;
-import com.bernardomg.association.security.account.domain.repository.AccountProfileRepository;
+import com.bernardomg.association.security.user.domain.exception.MissingUserProfileException;
+import com.bernardomg.association.security.user.domain.model.UserProfile;
 import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
-import com.bernardomg.association.security.user.usecase.domain.UserProfile;
-import com.bernardomg.association.security.user.usecase.validation.UserProfileNameNotEmptyRule;
+import com.bernardomg.association.security.user.usecase.domain.AssignUserProfile;
+import com.bernardomg.association.security.user.usecase.validation.UserProfileNotAssignedRule;
 import com.bernardomg.security.user.domain.exception.MissingUsernameException;
 import com.bernardomg.security.user.domain.model.User;
 import com.bernardomg.security.user.domain.repository.UserRepository;
@@ -50,32 +49,28 @@ public final class DefaultUserProfileService implements UserProfileService {
     /**
      * Logger for the class.
      */
-    private static final Logger            log = LoggerFactory.getLogger(DefaultUserProfileService.class);
+    private static final Logger                log = LoggerFactory.getLogger(DefaultUserProfileService.class);
 
-    private final AccountProfileRepository accountProfileRepository;
+    private final Validator<AssignUserProfile> assignProfileValidator;
 
-    private final Validator<UserProfile>   assignProfileValidator;
+    private final UserProfileRepository        userProfileRepository;
 
-    private final UserProfileRepository    userProfileRepository;
+    private final UserRepository               userRepository;
 
-    private final UserRepository           userRepository;
-
-    public DefaultUserProfileService(final UserRepository userRepo, final AccountProfileRepository accountProfileRepo,
-            final UserProfileRepository userProfileRepo) {
+    public DefaultUserProfileService(final UserRepository userRepo, final UserProfileRepository userProfileRepo) {
         super();
 
         userRepository = Objects.requireNonNull(userRepo);
-        accountProfileRepository = Objects.requireNonNull(accountProfileRepo);
         userProfileRepository = Objects.requireNonNull(userProfileRepo);
 
-        assignProfileValidator = new FieldRuleValidator<>(new UserProfileNameNotEmptyRule(userProfileRepository));
+        assignProfileValidator = new FieldRuleValidator<>(new UserProfileNotAssignedRule(userProfileRepository));
     }
 
     @Override
-    public final Profile assignProfile(final String username, final long profile) {
-        final User        readUser;
-        final Profile     readProfile;
-        final UserProfile userProfile;
+    public final UserProfile assignProfile(final String username, final long profile) {
+        final User              readUser;
+        final UserProfile       readProfile;
+        final AssignUserProfile userProfile;
 
         log.debug("Assigning profile {} to {}", profile, username);
 
@@ -85,13 +80,13 @@ public final class DefaultUserProfileService implements UserProfileService {
                 throw new MissingUsernameException(username);
             });
 
-        readProfile = accountProfileRepository.findOne(profile)
+        readProfile = userProfileRepository.findOne(profile)
             .orElseThrow(() -> {
-                log.error("Missing account profile {}", profile);
-                throw new MissingAccountProfileException(profile);
+                log.error("Missing user profile {}", profile);
+                throw new MissingUserProfileException(profile);
             });
 
-        userProfile = new UserProfile(profile, username);
+        userProfile = new AssignUserProfile(profile, username);
         assignProfileValidator.validate(userProfile);
 
         userProfileRepository.assignProfile(readUser.username(), readProfile.number());
@@ -100,8 +95,8 @@ public final class DefaultUserProfileService implements UserProfileService {
     }
 
     @Override
-    public final Optional<Profile> getProfile(final String username) {
-        final Optional<Profile> profile;
+    public final Optional<UserProfile> getProfile(final String username) {
+        final Optional<UserProfile> profile;
 
         log.trace("Reading profile for {}", username);
 
@@ -118,9 +113,9 @@ public final class DefaultUserProfileService implements UserProfileService {
     }
 
     @Override
-    public final Profile unassignProfile(final String username) {
-        final boolean exists;
-        final Profile profile;
+    public final UserProfile unassignProfile(final String username) {
+        final boolean     exists;
+        final UserProfile profile;
 
         log.trace("Unassigning profile to {}", username);
 

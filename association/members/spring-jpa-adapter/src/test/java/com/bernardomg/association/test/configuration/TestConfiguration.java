@@ -29,23 +29,31 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeAssignedProfileSpringRepository;
+import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeSpringRepository;
+import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeTransactionSpringRepository;
+import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeTypeSpringRepository;
+import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaFeeProfileRepository;
+import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaFeeRepository;
+import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaFeeSummaryRepository;
+import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaFeeTransactionRepository;
+import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaFeeTypeRepository;
+import com.bernardomg.association.fee.domain.repository.FeeProfileRepository;
+import com.bernardomg.association.fee.domain.repository.FeeRepository;
+import com.bernardomg.association.fee.domain.repository.FeeSummaryRepository;
+import com.bernardomg.association.fee.domain.repository.FeeTransactionRepository;
+import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberContactMethodRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberCountRepository;
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberFeeTypeRepository;
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberProfileRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMembershipEvolutionRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaPublicMemberRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberContactMethodSpringRepository;
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberFeeTypeSpringRepository;
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberInnerProfileSpringRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.PublicMemberSpringRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.ReadMemberSpringRepository;
 import com.bernardomg.association.member.domain.repository.MemberContactMethodRepository;
 import com.bernardomg.association.member.domain.repository.MemberCountRepository;
-import com.bernardomg.association.member.domain.repository.MemberFeeTypeRepository;
-import com.bernardomg.association.member.domain.repository.MemberProfileRepository;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.domain.repository.MembershipEvolutionRepository;
 import com.bernardomg.association.member.domain.repository.PublicMemberRepository;
@@ -54,12 +62,46 @@ import com.bernardomg.association.member.domain.repository.PublicMemberRepositor
 @EnableJpaRepositories(basePackages = { "com.bernardomg.association.member.adapter.inbound.jpa",
         "com.bernardomg.association.fee.adapter.inbound.jpa",
         "com.bernardomg.association.transaction.adapter.inbound.jpa",
+        "com.bernardomg.association.profile.adapter.inbound.jpa", "com.bernardomg.security.user.adapter.inbound.jpa",
+        "com.bernardomg.security.role.adapter.inbound.jpa", "com.bernardomg.security.permission.adapter.inbound.jpa",
         "com.bernardomg.association.profile.adapter.inbound.jpa" })
 @EntityScan(basePackages = { "com.bernardomg.association.member.adapter.inbound.jpa",
         "com.bernardomg.association.fee.adapter.inbound.jpa",
         "com.bernardomg.association.transaction.adapter.inbound.jpa",
+        "com.bernardomg.association.profile.adapter.inbound.jpa", "com.bernardomg.security.user.adapter.inbound.jpa",
+        "com.bernardomg.security.role.adapter.inbound.jpa", "com.bernardomg.security.permission.adapter.inbound.jpa",
         "com.bernardomg.association.profile.adapter.inbound.jpa" })
 public class TestConfiguration {
+
+    @Bean("feeProfileRepository")
+    public FeeProfileRepository
+            getFeeProfileRepository(final FeeAssignedProfileSpringRepository feeProfileSpringRepository) {
+        return new JpaFeeProfileRepository(feeProfileSpringRepository);
+    }
+
+    @Bean("feeRepository")
+    public FeeRepository getFeeRepository(final FeeSpringRepository feeSpringRepository,
+            final MemberSpringRepository memberSpringRepository, final FeeTypeSpringRepository feeTypeSpringRepository,
+            final FeeTransactionSpringRepository transactionSpringRepository) {
+        return new JpaFeeRepository(feeSpringRepository, memberSpringRepository, feeTypeSpringRepository,
+            transactionSpringRepository);
+    }
+
+    @Bean("feeSummaryRepository")
+    public FeeSummaryRepository getFeeSummaryRepository(final FeeSpringRepository feeSpringRepository) {
+        return new JpaFeeSummaryRepository(feeSpringRepository);
+    }
+
+    @Bean("feeTransactionRepository")
+    public FeeTransactionRepository
+            getFeeTransactionRepository(final FeeTransactionSpringRepository transactionRepository) {
+        return new JpaFeeTransactionRepository(transactionRepository);
+    }
+
+    @Bean("feeTypeRepository")
+    public FeeTypeRepository getFeeTypeRepository(final FeeTypeSpringRepository feeTypeSpringRepository) {
+        return new JpaFeeTypeRepository(feeTypeSpringRepository);
+    }
 
     @Bean("memberContactMethodRepository")
     public MemberContactMethodRepository
@@ -72,26 +114,13 @@ public class TestConfiguration {
         return new JpaMemberCountRepository(memberSpringRepository);
     }
 
-    @Bean("memberFeeTypeRepository")
-    public MemberFeeTypeRepository
-            getMemberFeeTypeRepository(final MemberFeeTypeSpringRepository memberFeeTypeSpringRepository) {
-        return new JpaMemberFeeTypeRepository(memberFeeTypeSpringRepository);
-    }
-
-    @Bean("memberProfileRepository")
-    public MemberProfileRepository
-            getMemberProfileRepository(final MemberInnerProfileSpringRepository memberProfileSpringRepository) {
-        return new JpaMemberProfileRepository(memberProfileSpringRepository);
-    }
-
     @Bean("MemberRepository")
     public MemberRepository getMemberRepository(final ReadMemberSpringRepository readMemberSpringRepository,
-            final MemberSpringRepository memberSpringRepo,
+            final MemberSpringRepository memberSpringRepository,
             final MemberContactMethodSpringRepository memberContactMethodSpringRepository,
-            final MemberFeeTypeSpringRepository memberFeeTypeSpringRepository,
-            final MemberInnerProfileSpringRepository memberInnerProfileSpringRepository) {
-        return new JpaMemberRepository(readMemberSpringRepository, memberSpringRepo,
-            memberContactMethodSpringRepository, memberFeeTypeSpringRepository, memberInnerProfileSpringRepository);
+            final FeeTypeSpringRepository feeTypeSpringRepository) {
+        return new JpaMemberRepository(readMemberSpringRepository, memberSpringRepository,
+            memberContactMethodSpringRepository, feeTypeSpringRepository);
     }
 
     @Bean("membershipEvolutionRepository")

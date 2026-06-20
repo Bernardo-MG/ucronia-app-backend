@@ -61,7 +61,7 @@ public class MemberContactChannelEntity implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "profile_id", nullable = false)
-    private MemberInnerProfileEntity  profile;
+    private MemberEntity              profile;
 
     @Override
     public boolean equals(final Object obj) {
@@ -86,7 +86,7 @@ public class MemberContactChannelEntity implements Serializable {
         return id;
     }
 
-    public MemberInnerProfileEntity getProfile() {
+    public MemberEntity getProfile() {
         return profile;
     }
 
@@ -107,7 +107,7 @@ public class MemberContactChannelEntity implements Serializable {
         this.id = id;
     }
 
-    public void setProfile(final MemberInnerProfileEntity profile) {
+    public void setProfile(final MemberEntity profile) {
         this.profile = profile;
     }
 

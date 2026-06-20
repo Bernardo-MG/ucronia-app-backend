@@ -5,19 +5,19 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTypeEntity;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityConstants;
-import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberFeeTypeEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.ReadMemberContactChannelEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.ReadMemberEntity;
 
 public final class ReadMemberEntities {
 
     public static final ReadMemberEntity active() {
-        final ReadMemberEntity    entity;
-        final MemberFeeTypeEntity feeType;
+        final ReadMemberEntity entity;
+        final FeeTypeEntity    feeType;
 
-        feeType = new MemberFeeTypeEntity();
+        feeType = new FeeTypeEntity();
         feeType.setId(1L);
         feeType.setNumber(FeeConstants.FEE_TYPE_NUMBER);
         feeType.setName(FeeConstants.FEE_TYPE_NAME);
@@ -43,10 +43,10 @@ public final class ReadMemberEntities {
     }
 
     public static final ReadMemberEntity alternative() {
-        final ReadMemberEntity    entity;
-        final MemberFeeTypeEntity feeType;
+        final ReadMemberEntity entity;
+        final FeeTypeEntity    feeType;
 
-        feeType = new MemberFeeTypeEntity();
+        feeType = new FeeTypeEntity();
         feeType.setId(1L);
         feeType.setNumber(FeeConstants.FEE_TYPE_NUMBER);
         feeType.setName(FeeConstants.FEE_TYPE_NAME);
@@ -72,10 +72,10 @@ public final class ReadMemberEntities {
     }
 
     public static final ReadMemberEntity created() {
-        final ReadMemberEntity    entity;
-        final MemberFeeTypeEntity feeType;
+        final ReadMemberEntity entity;
+        final FeeTypeEntity    feeType;
 
-        feeType = new MemberFeeTypeEntity();
+        feeType = new FeeTypeEntity();
         feeType.setId(1L);
         feeType.setNumber(FeeConstants.FEE_TYPE_NUMBER);
         feeType.setName(FeeConstants.FEE_TYPE_NAME);
@@ -101,10 +101,10 @@ public final class ReadMemberEntities {
     }
 
     public static final ReadMemberEntity firstNameChange() {
-        final ReadMemberEntity    entity;
-        final MemberFeeTypeEntity feeType;
+        final ReadMemberEntity entity;
+        final FeeTypeEntity    feeType;
 
-        feeType = new MemberFeeTypeEntity();
+        feeType = new FeeTypeEntity();
         feeType.setId(1L);
         feeType.setNumber(FeeConstants.FEE_TYPE_NUMBER);
         feeType.setName(FeeConstants.FEE_TYPE_NAME);
@@ -131,14 +131,14 @@ public final class ReadMemberEntities {
 
     public static final ReadMemberEntity withEmail() {
         final ReadMemberEntity               entity;
-        final MemberFeeTypeEntity            feeType;
+        final FeeTypeEntity                  feeType;
         final ReadMemberContactChannelEntity contactChannelEntity;
 
         contactChannelEntity = new ReadMemberContactChannelEntity();
         contactChannelEntity.setContactMethod(MemberContactMethodEntities.email());
         contactChannelEntity.setDetail(MemberConstants.EMAIL);
 
-        feeType = new MemberFeeTypeEntity();
+        feeType = new FeeTypeEntity();
         feeType.setId(1L);
         feeType.setNumber(FeeConstants.FEE_TYPE_NUMBER);
         feeType.setName(FeeConstants.FEE_TYPE_NAME);

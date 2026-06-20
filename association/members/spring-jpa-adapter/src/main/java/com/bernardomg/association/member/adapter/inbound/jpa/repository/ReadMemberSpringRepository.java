@@ -63,6 +63,13 @@ public interface ReadMemberSpringRepository
             """)
     public boolean existsByNumber(@Param("number") final Long number);
 
+    @Query("""
+            select m.active
+            from ReadMember m
+            where m.number = :number
+            """)
+    public Boolean findActiveByNumber(@Param("number") Long number);
+
     public Collection<ReadMemberEntity> findAllByRenewTrue();
 
     @Query("""
@@ -81,12 +88,5 @@ public interface ReadMemberSpringRepository
 
     @Query("SELECT COALESCE(MAX(m.number), 0) + 1 FROM ReadMember m")
     public Long findNextNumber();
-
-    @Query("""
-            SELECT m.active
-            FROM ReadMember m
-            WHERE m.number = :number
-            """)
-    public Boolean isActive(@Param("number") final Long number);
 
 }

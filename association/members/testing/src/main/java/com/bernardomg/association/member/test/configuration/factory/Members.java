@@ -11,7 +11,7 @@ import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.Member.ContactChannel;
 import com.bernardomg.association.member.domain.model.Member.ContactMethod;
 import com.bernardomg.association.member.domain.model.Member.FeeType;
-import com.bernardomg.association.member.domain.model.Member.Name;
+import com.bernardomg.association.member.domain.model.Name;
 
 public final class Members {
 

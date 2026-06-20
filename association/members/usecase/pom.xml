@@ -55,6 +55,14 @@
          <artifactId>pagination</artifactId>
       </dependency>
       <!-- ============================================== -->
+      <!-- ================== SPRING ==================== -->
+      <!-- ============================================== -->
+      <dependency>
+         <!-- Spring context -->
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-context</artifactId>
+      </dependency>
+      <!-- ============================================== -->
       <!-- =============== APACHE POI =================== -->
       <!-- ============================================== -->
       <dependency>
