@@ -60,7 +60,7 @@ class TestSpringSecurityMyFeesServiceGetAllForUserInSession {
     private SpringUserSessionProvider userSessionProvider;
 
     @Test
-    @DisplayName("When the user is anonymous, nothing is returned")
+    @DisplayName("When the user is anonymous, an exception is thrown")
     void testGetUsername_Anonymous() {
         final ThrowingCallable execution;
 
@@ -80,28 +80,8 @@ class TestSpringSecurityMyFeesServiceGetAllForUserInSession {
     }
 
     @Test
-    @DisplayName("When there is no data nothing is returned")
-    void testGetUsername_NoData() {
-        final String username;
-
-        // GIVEN
-        given(userDetails.getUsername()).willReturn(UserConstants.USERNAME);
-        given(authentication.getPrincipal()).willReturn(userDetails);
-
-        SecurityContextHolder.getContext()
-            .setAuthentication(authentication);
-
-        // WHEN
-        username = userSessionProvider.getUsername();
-
-        // THEN
-        Assertions.assertThat(username)
-            .isEqualTo(UserConstants.USERNAME);
-    }
-
-    @Test
-    @DisplayName("When the user has no member, nothing is returned")
-    void testGetUsername_NoMember() {
+    @DisplayName("When the user is authenticated, the username is returned")
+    void testGetUsername_Authenticated() {
         final String username;
 
         // GIVEN
