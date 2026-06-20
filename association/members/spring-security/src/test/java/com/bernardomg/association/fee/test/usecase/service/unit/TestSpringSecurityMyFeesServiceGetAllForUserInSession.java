@@ -44,7 +44,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.bernardomg.association.fee.test.configuration.factory.UserConstants;
-import com.bernardomg.association.fee.usecase.service.SpringUserSessionProvider;
+import com.bernardomg.association.fee.usecase.session.SpringUserSessionProvider;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("SpringUserSessionProvider - get username")

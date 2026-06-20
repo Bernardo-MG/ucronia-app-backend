@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.fee.usecase.service;
+package com.bernardomg.association.fee.usecase.session;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

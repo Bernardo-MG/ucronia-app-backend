@@ -45,7 +45,7 @@ import com.bernardomg.association.fee.test.configuration.factory.FeeProfiles;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.test.configuration.factory.UserConstants;
 import com.bernardomg.association.fee.usecase.service.DefaultMyFeesService;
-import com.bernardomg.association.fee.usecase.service.UserSessionProvider;
+import com.bernardomg.association.fee.usecase.session.UserSessionProvider;
 import com.bernardomg.association.member.test.configuration.factory.MemberConstants;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
