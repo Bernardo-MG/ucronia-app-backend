@@ -30,16 +30,11 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import com.bernardomg.association.fee.domain.model.Fee;
+import com.bernardomg.association.fee.domain.model.FeeProfile;
+import com.bernardomg.association.fee.domain.repository.FeeProfileRepository;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
-import com.bernardomg.association.security.user.domain.model.UserProfile;
-import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
@@ -52,36 +47,40 @@ import jakarta.transaction.Transactional;
  * @author Bernardo Mart&iacute;nez Garrido
  */
 @Transactional
-public final class SpringSecurityMyFeesService implements MyFeesService {
+public final class DefaultMyFeesService implements MyFeesService {
 
     /**
      * Logger for the class.
      */
-    private static final Logger         log = LoggerFactory.getLogger(SpringSecurityMyFeesService.class);
+    private static final Logger        log = LoggerFactory.getLogger(DefaultMyFeesService.class);
 
-    private final FeeRepository         feeRepository;
+    private final FeeProfileRepository feeProfileRepository;
 
-    private final UserProfileRepository userProfileRepository;
+    private final FeeRepository        feeRepository;
 
-    public SpringSecurityMyFeesService(final FeeRepository feeRepo, final UserProfileRepository userProfileRepo) {
+    private final UserSessionProvider  userSessionProvider;
+
+    public DefaultMyFeesService(final FeeRepository feeRepo, final FeeProfileRepository feeProfileRepo,
+            final UserSessionProvider userSessionProv) {
         super();
 
         // TODO: move to a Spring module
 
         feeRepository = Objects.requireNonNull(feeRepo);
-        userProfileRepository = Objects.requireNonNull(userProfileRepo);
+        feeProfileRepository = Objects.requireNonNull(feeProfileRepo);
+        userSessionProvider = Objects.requireNonNull(userSessionProv);
     }
 
     @Override
     public final Page<Fee> getAllForUserInSession(final Pagination pagination, final Sorting sorting) {
-        final Page<Fee>             fees;
-        final Optional<UserProfile> profile;
-        final String                username;
+        final Page<Fee>            fees;
+        final Optional<FeeProfile> profile;
+        final String               username;
 
         log.info("Getting all the fees for the user in session");
 
-        username = getUsername();
-        profile = userProfileRepository.findByUsername(username);
+        username = userSessionProvider.getUsername();
+        profile = feeProfileRepository.findByUsername(username);
         if (profile.isEmpty()) {
             log.warn("User {} has no member assigned", username);
             fees = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
@@ -93,29 +92,6 @@ public final class SpringSecurityMyFeesService implements MyFeesService {
         log.debug("Got all the fees for the user in session {}: {}", username, fees);
 
         return fees;
-    }
-
-    /**
-     * Returns the username for the user in session.
-     *
-     * @return the username for the user in session
-     */
-    private final String getUsername() {
-        final Authentication authentication;
-        final UserDetails    userDetails;
-
-        log.info("Getting all the fees for the user in session");
-
-        authentication = SecurityContextHolder.getContext()
-            .getAuthentication();
-        if ((authentication instanceof AnonymousAuthenticationToken)
-                || !(authentication.getPrincipal() instanceof UserDetails)) {
-            throw new AuthenticationCredentialsNotFoundException("No authenticated user in session");
-        }
-
-        userDetails = (UserDetails) authentication.getPrincipal();
-
-        return userDetails.getUsername();
     }
 
 }

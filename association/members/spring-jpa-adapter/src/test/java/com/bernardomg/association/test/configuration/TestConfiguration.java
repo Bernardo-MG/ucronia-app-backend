@@ -29,13 +29,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeAssignedProfileSpringRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeSpringRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeTransactionSpringRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeTypeSpringRepository;
+import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaFeeProfileRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaFeeRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaFeeSummaryRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaFeeTransactionRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaFeeTypeRepository;
+import com.bernardomg.association.fee.domain.repository.FeeProfileRepository;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.domain.repository.FeeSummaryRepository;
 import com.bernardomg.association.fee.domain.repository.FeeTransactionRepository;
@@ -65,6 +68,12 @@ import com.bernardomg.association.member.domain.repository.PublicMemberRepositor
         "com.bernardomg.association.transaction.adapter.inbound.jpa",
         "com.bernardomg.association.profile.adapter.inbound.jpa" })
 public class TestConfiguration {
+
+    @Bean("feeProfileRepository")
+    public FeeProfileRepository
+            getFeeProfileRepository(final FeeAssignedProfileSpringRepository feeProfileSpringRepository) {
+        return new JpaFeeProfileRepository(feeProfileSpringRepository);
+    }
 
     @Bean("feeRepository")
     public FeeRepository getFeeRepository(final FeeSpringRepository feeSpringRepository,
