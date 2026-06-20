@@ -29,6 +29,7 @@ import static org.mockito.BDDMockito.given;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -36,6 +37,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -60,7 +62,7 @@ class TestSpringSecurityMyFeesServiceGetAllForUserInSession {
     @Test
     @DisplayName("When the user is anonymous, nothing is returned")
     void testGetUsername_Anonymous() {
-        final String username;
+        final ThrowingCallable execution;
 
         // GIVEN
         given(authentication.getPrincipal()).willReturn(
@@ -70,11 +72,11 @@ class TestSpringSecurityMyFeesServiceGetAllForUserInSession {
             .setAuthentication(authentication);
 
         // WHEN
-        username = userSessionProvider.getUsername();
+        execution = () -> userSessionProvider.getUsername();
 
         // THEN
-        Assertions.assertThat(username)
-            .isEqualTo("");
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(AuthenticationCredentialsNotFoundException.class);
     }
 
     @Test
