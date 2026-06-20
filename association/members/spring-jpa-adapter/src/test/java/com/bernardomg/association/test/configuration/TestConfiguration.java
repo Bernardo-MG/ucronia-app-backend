@@ -62,10 +62,14 @@ import com.bernardomg.association.member.domain.repository.PublicMemberRepositor
 @EnableJpaRepositories(basePackages = { "com.bernardomg.association.member.adapter.inbound.jpa",
         "com.bernardomg.association.fee.adapter.inbound.jpa",
         "com.bernardomg.association.transaction.adapter.inbound.jpa",
+        "com.bernardomg.association.profile.adapter.inbound.jpa", "com.bernardomg.security.user.adapter.inbound.jpa",
+        "com.bernardomg.security.role.adapter.inbound.jpa", "com.bernardomg.security.permission.adapter.inbound.jpa",
         "com.bernardomg.association.profile.adapter.inbound.jpa" })
 @EntityScan(basePackages = { "com.bernardomg.association.member.adapter.inbound.jpa",
         "com.bernardomg.association.fee.adapter.inbound.jpa",
         "com.bernardomg.association.transaction.adapter.inbound.jpa",
+        "com.bernardomg.association.profile.adapter.inbound.jpa", "com.bernardomg.security.user.adapter.inbound.jpa",
+        "com.bernardomg.security.role.adapter.inbound.jpa", "com.bernardomg.security.permission.adapter.inbound.jpa",
         "com.bernardomg.association.profile.adapter.inbound.jpa" })
 public class TestConfiguration {
 

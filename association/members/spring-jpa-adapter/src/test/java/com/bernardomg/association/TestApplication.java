@@ -29,6 +29,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
 
 import com.bernardomg.association.test.configuration.TestConfiguration;
+import com.bernardomg.security.initializer.configuration.PermissionLoaderAutoConfiguration;
+import com.bernardomg.security.jwt.configuration.JwtAutoConfiguration;
+import com.bernardomg.security.login.configuration.LoginAutoConfiguration;
+import com.bernardomg.security.password.configuration.PasswordAutoConfiguration;
+import com.bernardomg.security.springframework.configuration.SpringAutoConfiguration;
+import com.bernardomg.security.user.configuration.UserAutoConfiguration;
+import com.bernardomg.security.web.configuration.WebSecurityAutoConfiguration;
 
 /**
  * Application runnable class. This allows Spring Boot to run the application.
@@ -36,7 +43,9 @@ import com.bernardomg.association.test.configuration.TestConfiguration;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@SpringBootApplication
+@SpringBootApplication(exclude = { WebSecurityAutoConfiguration.class, JwtAutoConfiguration.class,
+        LoginAutoConfiguration.class, PasswordAutoConfiguration.class, UserAutoConfiguration.class,
+        PermissionLoaderAutoConfiguration.class, SpringAutoConfiguration.class })
 @Import({ TestConfiguration.class })
 public class TestApplication {
 

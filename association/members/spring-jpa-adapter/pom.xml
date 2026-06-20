@@ -112,6 +112,11 @@
       	 <artifactId>association-transaction-spring-jpa-adapter</artifactId>
          <scope>test</scope>
       </dependency>
+      <dependency>
+         <groupId>com.bernardomg.association.security</groupId>
+         <artifactId>association-security-spring-jpa-adapter</artifactId>
+         <scope>test</scope>
+      </dependency>
    </dependencies>
 
 </project>
