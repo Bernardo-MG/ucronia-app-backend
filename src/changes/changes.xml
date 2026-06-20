@@ -583,5 +583,7 @@
             Fixed null pointers.
          </action>
       </release>
+      <release version="1.0.0" date="2026-06-10" description="">
+      </release>
    </body>
 </document>
