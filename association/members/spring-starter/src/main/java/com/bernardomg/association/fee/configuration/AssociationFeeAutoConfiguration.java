@@ -30,13 +30,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
 import com.bernardomg.association.fee.adapter.inbound.event.RegisterFeesOnMonthStartEventListener;
+import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeAssignedProfileSpringRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeSpringRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeTransactionSpringRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeTypeSpringRepository;
+import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaFeeProfileRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaFeeRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaFeeSummaryRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaFeeTransactionRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaFeeTypeRepository;
+import com.bernardomg.association.fee.domain.repository.FeeProfileRepository;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.domain.repository.FeeSummaryRepository;
 import com.bernardomg.association.fee.domain.repository.FeeTransactionRepository;
@@ -45,15 +48,16 @@ import com.bernardomg.association.fee.usecase.service.DefaultFeeMaintenanceServi
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeSummaryService;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeTypeService;
+import com.bernardomg.association.fee.usecase.service.DefaultMyFeesService;
 import com.bernardomg.association.fee.usecase.service.FeeMaintenanceService;
 import com.bernardomg.association.fee.usecase.service.FeeService;
 import com.bernardomg.association.fee.usecase.service.FeeSummaryService;
 import com.bernardomg.association.fee.usecase.service.FeeTypeService;
 import com.bernardomg.association.fee.usecase.service.MyFeesService;
-import com.bernardomg.association.fee.usecase.service.SpringSecurityMyFeesService;
+import com.bernardomg.association.fee.usecase.session.SpringUserSessionProvider;
+import com.bernardomg.association.fee.usecase.session.UserSessionProvider;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
 import com.bernardomg.event.emitter.EventEmitter;
 
 @AutoConfiguration
@@ -65,6 +69,12 @@ public class AssociationFeeAutoConfiguration {
     public FeeMaintenanceService getFeeMaintenanceService(final FeeRepository feeRepository,
             final MemberRepository memberRepository) {
         return new DefaultFeeMaintenanceService(feeRepository, memberRepository);
+    }
+
+    @Bean("feeProfileRepository")
+    public FeeProfileRepository
+            getFeeProfileRepository(final FeeAssignedProfileSpringRepository feeProfileSpringRepository) {
+        return new JpaFeeProfileRepository(feeProfileSpringRepository);
     }
 
     @Bean("feeRepository")
@@ -110,14 +120,19 @@ public class AssociationFeeAutoConfiguration {
 
     @Bean("myFeesService")
     public MyFeesService getMyFeesService(final FeeRepository feeRepository,
-            final UserProfileRepository userProfileRepository) {
-        return new SpringSecurityMyFeesService(feeRepository, userProfileRepository);
+            final FeeProfileRepository feeProfileRepository, final UserSessionProvider userSessionProvider) {
+        return new DefaultMyFeesService(feeRepository, feeProfileRepository, userSessionProvider);
     }
 
     @Bean("registerFeesOnMonthStartEventListener")
     public RegisterFeesOnMonthStartEventListener
             getRegisterFeesOnMonthStartEventListener(final FeeMaintenanceService service) {
         return new RegisterFeesOnMonthStartEventListener(service);
+    }
+
+    @Bean("userSessionProvider")
+    public UserSessionProvider getUserSessionProvider() {
+        return new SpringUserSessionProvider();
     }
 
 }

@@ -38,10 +38,6 @@
          <artifactId>association-member-domain</artifactId>
       </dependency>
       <dependency>
-         <groupId>com.bernardomg.association.security</groupId>
-         <artifactId>association-security-domain</artifactId>
-      </dependency>
-      <dependency>
          <groupId>jakarta.transaction</groupId>
          <artifactId>jakarta.transaction-api</artifactId>
       </dependency>
@@ -57,6 +53,14 @@
          <!-- Pagination -->
          <groupId>com.bernardomg.framework</groupId>
          <artifactId>pagination</artifactId>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- ================== SPRING ==================== -->
+      <!-- ============================================== -->
+      <dependency>
+         <!-- Spring context -->
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-context</artifactId>
       </dependency>
       <!-- ============================================== -->
       <!-- =============== APACHE POI =================== -->
@@ -77,11 +81,6 @@
       <dependency>
          <groupId>com.bernardomg.association.member</groupId>
          <artifactId>association-member-testing</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.association.security</groupId>
-         <artifactId>association-security-testing</artifactId>
          <scope>test</scope>
       </dependency>
    </dependencies>

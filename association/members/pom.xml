@@ -36,6 +36,7 @@
      <module>spring-jpa-adapter</module>
      <module>rest-adapter</module>
      <module>fee-rest-adapter</module>
+	 <module>spring-security</module>
      <module>spring-starter</module>
    </modules>
 
@@ -76,6 +77,11 @@
          <dependency>
             <groupId>com.bernardomg.association.member</groupId>
             <artifactId>association-fee-rest-adapter</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.association.member</groupId>
+            <artifactId>association-member-spring-security-adapter</artifactId>
             <version>${project.version}</version>
          </dependency>
          <dependency>

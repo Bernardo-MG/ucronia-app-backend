@@ -31,50 +31,41 @@ import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.InstanceOfAssertFactories;
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import com.bernardomg.association.fee.domain.model.Fee;
+import com.bernardomg.association.fee.domain.repository.FeeProfileRepository;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
+import com.bernardomg.association.fee.test.configuration.factory.FeeProfiles;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.test.configuration.factory.UserConstants;
-import com.bernardomg.association.fee.usecase.service.SpringSecurityMyFeesService;
+import com.bernardomg.association.fee.usecase.service.DefaultMyFeesService;
+import com.bernardomg.association.fee.usecase.session.UserSessionProvider;
 import com.bernardomg.association.member.test.configuration.factory.MemberConstants;
-import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
-import com.bernardomg.association.security.user.test.configuration.factory.UserProfiles;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("SpringSecurityMyFeesService - get all for user in session")
-class TestSpringSecurityMyFeesServiceGetAllForUserInSession {
+class TestDefaultMyFeesServiceGetAllForUserInSession {
 
     @Mock
-    private Authentication              authentication;
+    private FeeProfileRepository feeProfileRepository;
 
     @Mock
-    private FeeRepository               feeRepository;
+    private FeeRepository        feeRepository;
 
     @InjectMocks
-    private SpringSecurityMyFeesService myFeesService;
+    private DefaultMyFeesService myFeesService;
 
     @Mock
-    private UserDetails                 userDetails;
-
-    @Mock
-    private UserProfileRepository       userProfileConstantsRepository;
+    private UserSessionProvider  userSessionProvider;
 
     @Test
     @DisplayName("When there is data it is returned")
@@ -88,14 +79,9 @@ class TestSpringSecurityMyFeesServiceGetAllForUserInSession {
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
 
-        given(userDetails.getUsername()).willReturn(UserConstants.USERNAME);
-        given(authentication.getPrincipal()).willReturn(userDetails);
+        given(userSessionProvider.getUsername()).willReturn(UserConstants.USERNAME);
 
-        SecurityContextHolder.getContext()
-            .setAuthentication(authentication);
-
-        given(userProfileConstantsRepository.findByUsername(UserConstants.USERNAME))
-            .willReturn(Optional.of(UserProfiles.valid()));
+        given(feeProfileRepository.findByUsername(UserConstants.USERNAME)).willReturn(Optional.of(FeeProfiles.valid()));
 
         existing = new Page<>(List.of(Fees.paid()), 0, 0, 0, 0, 0, false, false, sorting);
         given(feeRepository.findAllForMember(MemberConstants.NUMBER, pagination, sorting)).willReturn(existing);
@@ -112,31 +98,6 @@ class TestSpringSecurityMyFeesServiceGetAllForUserInSession {
     }
 
     @Test
-    @DisplayName("When the user is anonymous, nothing is returned")
-    void testGetAllForUserInSession_Anonymous() {
-        final Pagination       pagination;
-        final Sorting          sorting;
-        final ThrowingCallable execution;
-
-        // GIVEN
-        pagination = new Pagination(1, 10);
-        sorting = Sorting.unsorted();
-
-        given(authentication.getPrincipal()).willReturn(
-            new AnonymousAuthenticationToken("key", "principal", List.of(new SimpleGrantedAuthority("role"))));
-
-        SecurityContextHolder.getContext()
-            .setAuthentication(authentication);
-
-        // WHEN
-        execution = () -> myFeesService.getAllForUserInSession(pagination, sorting);
-
-        // THEN
-        Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(AuthenticationCredentialsNotFoundException.class);
-    }
-
-    @Test
     @DisplayName("When there is no data nothing is returned")
     void testGetAllForUserInSession_NoData() {
         final Page<Fee>  fees;
@@ -148,14 +109,9 @@ class TestSpringSecurityMyFeesServiceGetAllForUserInSession {
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
 
-        given(userDetails.getUsername()).willReturn(UserConstants.USERNAME);
-        given(authentication.getPrincipal()).willReturn(userDetails);
+        given(userSessionProvider.getUsername()).willReturn(UserConstants.USERNAME);
 
-        SecurityContextHolder.getContext()
-            .setAuthentication(authentication);
-
-        given(userProfileConstantsRepository.findByUsername(UserConstants.USERNAME))
-            .willReturn(Optional.of(UserProfiles.valid()));
+        given(feeProfileRepository.findByUsername(UserConstants.USERNAME)).willReturn(Optional.of(FeeProfiles.valid()));
 
         existing = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
         given(feeRepository.findAllForMember(MemberConstants.NUMBER, pagination, sorting)).willReturn(existing);
@@ -182,13 +138,9 @@ class TestSpringSecurityMyFeesServiceGetAllForUserInSession {
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
 
-        given(userDetails.getUsername()).willReturn(UserConstants.USERNAME);
-        given(authentication.getPrincipal()).willReturn(userDetails);
+        given(userSessionProvider.getUsername()).willReturn(UserConstants.USERNAME);
 
-        SecurityContextHolder.getContext()
-            .setAuthentication(authentication);
-
-        given(userProfileConstantsRepository.findByUsername(UserConstants.USERNAME)).willReturn(Optional.empty());
+        given(feeProfileRepository.findByUsername(UserConstants.USERNAME)).willReturn(Optional.empty());
 
         // WHEN
         fees = myFeesService.getAllForUserInSession(pagination, sorting);
