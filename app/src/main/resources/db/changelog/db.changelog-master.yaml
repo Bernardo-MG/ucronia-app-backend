@@ -21,6 +21,10 @@ databaseChangeLog:
   - include:
       file: guest.yaml
       relativeToChangelogFile: true
+  # Calendar
+  - include:
+      file: activity.yaml
+      relativeToChangelogFile: true
   # Inventory
   - include:
       file: inventory.yaml

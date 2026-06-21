@@ -1,4 +1,4 @@
 databaseChangeLog:
   - include:
-      file: activities.yaml
+      file: activity.yaml
       relativeToChangelogFile: true
