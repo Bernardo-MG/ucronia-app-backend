@@ -30,6 +30,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import com.bernardomg.association.activity.adapter.inbound.jpa.repository.ActivitySpringRepository;
+import com.bernardomg.association.activity.adapter.inbound.jpa.repository.CalendarDateSpringRepository;
 import com.bernardomg.association.activity.adapter.inbound.jpa.repository.JpaActivityRepository;
 import com.bernardomg.association.activity.domain.repository.ActivityRepository;
 
@@ -39,8 +40,9 @@ import com.bernardomg.association.activity.domain.repository.ActivityRepository;
 public class TestConfiguration {
 
     @Bean("activityRepository")
-    public ActivityRepository getActivityRepository(final ActivitySpringRepository activitySpringRepository) {
-        return new JpaActivityRepository(activitySpringRepository);
+    public ActivityRepository getActivityRepository(final ActivitySpringRepository activitySpringRepository,
+            final CalendarDateSpringRepository calendarDateSpringRepository) {
+        return new JpaActivityRepository(activitySpringRepository, calendarDateSpringRepository);
     }
 
 }

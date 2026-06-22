@@ -29,6 +29,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
 import com.bernardomg.association.activity.adapter.inbound.jpa.repository.ActivitySpringRepository;
+import com.bernardomg.association.activity.adapter.inbound.jpa.repository.CalendarDateSpringRepository;
 import com.bernardomg.association.activity.adapter.inbound.jpa.repository.JpaActivityRepository;
 import com.bernardomg.association.activity.domain.repository.ActivityRepository;
 import com.bernardomg.association.activity.usecase.service.ActivityService;
@@ -40,8 +41,9 @@ import com.bernardomg.association.activity.usecase.service.DefaultActivityServic
 public class AssociationActivityAutoConfiguration {
 
     @Bean("activityRepository")
-    public ActivityRepository getActivityRepository(final ActivitySpringRepository activitySpringRepository) {
-        return new JpaActivityRepository(activitySpringRepository);
+    public ActivityRepository getActivityRepository(final ActivitySpringRepository activitySpringRepository,
+            final CalendarDateSpringRepository calendarDateSpringRepository) {
+        return new JpaActivityRepository(activitySpringRepository, calendarDateSpringRepository);
     }
 
     @Bean("activityService")

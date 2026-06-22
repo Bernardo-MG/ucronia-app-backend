@@ -5,17 +5,17 @@ databaseChangeLog:
       changes:
         - sqlFile:
             encoding: UTF-8
-            path: sql/create_activities_schema.sql
+            path: sql/create_calendar_schema.sql
             relativeToChangelogFile: true
             splitStatements: true
             stripComments: true
   - changeSet:
-      id: activities
+      id: calendar
       author: Bernardo
       changes:
         - createTable:
             schemaName: calendar
-            tableName: activities
+            tableName: calendar_dates
             columns:
               - column:
                   name: id
@@ -23,15 +23,6 @@ databaseChangeLog:
                   constraints:
                     primaryKey: true
                     nullable: false
-              - column:
-                  name: calendar_date_id
-                  type: bigint
-                  constraints:
-                    primaryKey: true
-                    nullable: false
-                    foreignKeyName: fk_activity_calendar_date
-                    references: calendar.calendar_dates(id)
-                    deleteCascade: true
               - column:
                   name: number
                   type: bigint
@@ -44,20 +35,18 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: description
-                  type: varchar(200)
+                  name: start_date
+                  type: datetime
                   constraints:
-                    nullable: true
-                  defaultValue: ''
+                    nullable: false
               - column:
-                  name: image
-                  type: varchar(100)
+                  name: end_date
+                  type: datetime
                   constraints:
-                    nullable: true
-                  defaultValue: ''
+                    nullable: false
         - addAutoIncrement:
             schemaName: calendar
-            tableName: activities
+            tableName: calendar_dates
             columnName: id
             columnDataType: bigint
             incrementBy: 1

@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.activity.adapter.inbound.jpa.repository;
 
+import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -33,11 +34,13 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.activity.adapter.inbound.jpa.model.ActivityEntity;
 import com.bernardomg.association.activity.adapter.inbound.jpa.model.ActivityEntityMapper;
+import com.bernardomg.association.activity.adapter.inbound.jpa.model.CalendarDateEntity;
 import com.bernardomg.association.activity.domain.model.Activity;
 import com.bernardomg.association.activity.domain.repository.ActivityRepository;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
+import com.bernardomg.pagination.domain.Sorting.Property;
 import com.bernardomg.pagination.springframework.SpringPagination;
 
 import jakarta.transaction.Transactional;
@@ -51,11 +54,14 @@ public final class JpaActivityRepository implements ActivityRepository {
     private static final Logger            log = LoggerFactory.getLogger(JpaActivityRepository.class);
 
     private final ActivitySpringRepository activitySpringRepository;
+    private final CalendarDateSpringRepository calendarDateSpringRepository;
 
-    public JpaActivityRepository(final ActivitySpringRepository activityRepo) {
+    public JpaActivityRepository(final ActivitySpringRepository activityRepo,
+            final CalendarDateSpringRepository calendarDateSpringRepo) {
         super();
 
         activitySpringRepository = Objects.requireNonNull(activityRepo);
+        calendarDateSpringRepository = Objects.requireNonNull(calendarDateSpringRepo);
     }
 
     @Override
@@ -64,6 +70,7 @@ public final class JpaActivityRepository implements ActivityRepository {
 
         log.debug("Deleting activity {}", number);
 
+        // TODO: check the date is deleted
         activity = activitySpringRepository.findByNumber(number);
         if (activity.isPresent()) {
             activitySpringRepository.deleteById(activity.get()
@@ -94,10 +101,12 @@ public final class JpaActivityRepository implements ActivityRepository {
         final org.springframework.data.domain.Page<ActivityEntity> page;
         final org.springframework.data.domain.Page<Activity>       read;
         final Pageable                                             pageable;
+        final Sorting                                              fixedSorting;
 
         log.debug("Finding activities with pagination {} and sorting {}", pagination, sorting);
 
-        pageable = SpringPagination.toPageable(pagination, sorting);
+        fixedSorting = fixSorting(sorting);
+        pageable = SpringPagination.toPageable(pagination, fixedSorting);
         page = activitySpringRepository.findAll(pageable);
 
         read = page.map(ActivityEntityMapper::toDomain);
@@ -138,6 +147,7 @@ public final class JpaActivityRepository implements ActivityRepository {
     public final Activity save(final Activity activity) {
         final Optional<ActivityEntity> existing;
         final ActivityEntity           entity;
+        final CalendarDateEntity createdDate;
         final ActivityEntity           created;
         final Activity                 saved;
 
@@ -151,12 +161,32 @@ public final class JpaActivityRepository implements ActivityRepository {
                 .getId());
         }
 
+        createdDate = calendarDateSpringRepository.save(entity.getCalendarDate());
+        entity.setCalendarDate(createdDate);
         created = activitySpringRepository.save(entity);
         saved = ActivityEntityMapper.toDomain(created);
 
         log.debug("Saved activity {}", saved);
 
         return saved;
+    }
+
+    private final Sorting fixSorting(final Sorting sorting) {
+        final Collection<Property> properties;
+
+        properties = sorting.properties()
+            .stream()
+            // Fix name
+            .map(prop -> {
+                if ("date"
+                    .equals(prop.name())) {
+                    return new Property("calendarDate.start", prop.direction());
+                }
+                return prop;
+            })
+            .toList();
+
+        return new Sorting(properties);
     }
 
 }

@@ -1,7 +1,8 @@
 
 package com.bernardomg.association.activity.test.configuration.factory;
 
-import java.time.LocalDate;
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.ZoneOffset;
 
@@ -11,10 +12,12 @@ public final class Activities {
 
     public static final Activity forNumberAndMonth(final long number, final Month month) {
         // TODO: constant for the year
-        return new Activity(number, LocalDate.of(2020, month, (int) number)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant(), ActivityConstants.TITLE + " " + number, ActivityConstants.DESCRIPTION + " " + number,
-            ActivityConstants.IMAGE + "_" + number);
+        final Instant date;
+
+        date = LocalDateTime.of(2020, month, (int) number, 14, 0)
+            .toInstant(ZoneOffset.UTC);
+        return new Activity(number, date, ActivityConstants.TITLE + " " + number,
+            ActivityConstants.DESCRIPTION + " " + number, ActivityConstants.IMAGE + "_" + number);
     }
 
     public static final Activity future() {

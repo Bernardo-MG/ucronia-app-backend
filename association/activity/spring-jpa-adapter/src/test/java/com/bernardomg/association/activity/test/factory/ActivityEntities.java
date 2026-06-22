@@ -6,21 +6,21 @@ import com.bernardomg.association.activity.test.configuration.factory.ActivityCo
 
 public final class ActivityEntities {
 
-    public static final ActivityEntity valid() {
+    public static final ActivityEntity titleChange() {
         final ActivityEntity entity = new ActivityEntity();
         entity.setNumber(ActivityConstants.NUMBER);
-        entity.setDate(ActivityConstants.DATE);
-        entity.setTitle(ActivityConstants.TITLE);
+        entity.setCalendarDate(CalendarDateEntities.start());
+        entity.setTitle(ActivityConstants.ALTERNATIVE_TITLE);
         entity.setDescription(ActivityConstants.DESCRIPTION);
         entity.setImage(ActivityConstants.IMAGE);
         return entity;
     }
 
-    public static final ActivityEntity titleChange() {
+    public static final ActivityEntity valid() {
         final ActivityEntity entity = new ActivityEntity();
         entity.setNumber(ActivityConstants.NUMBER);
-        entity.setDate(ActivityConstants.DATE);
-        entity.setTitle(ActivityConstants.ALTERNATIVE_TITLE);
+        entity.setCalendarDate(CalendarDateEntities.start());
+        entity.setTitle(ActivityConstants.TITLE);
         entity.setDescription(ActivityConstants.DESCRIPTION);
         entity.setImage(ActivityConstants.IMAGE);
         return entity;

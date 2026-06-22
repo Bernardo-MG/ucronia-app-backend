@@ -25,88 +25,63 @@
 package com.bernardomg.association.activity.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
+import java.time.Instant;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
-@Entity(name = "Activity")
-@Table(schema = "calendar", name = "activities")
-public class ActivityEntity implements Serializable {
+@Entity(name = "CalendarDate")
+@Table(schema = "calendar", name = "calendar_dates")
+public class CalendarDateEntity implements Serializable {
 
     @Transient
-    private static final long  serialVersionUID = 4603617058960663867L;
+    private static final long serialVersionUID = 370515764532595412L;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "calendar_date_id", nullable = false)
-    private CalendarDateEntity calendarDate;
-
-    @Column(name = "description", length = 200)
-    private String             description;
+    @Column(name = "end_date")
+    private Instant           end;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
-    private Long               id;
+    private Long              id;
 
-    @Column(name = "image", length = 100)
-    private String             image;
-
-    @Column(name = "number", nullable = false, unique = true)
-    private Long               number;
+    @Column(name = "start_date", nullable = false)
+    private Instant           start;
 
     @Column(name = "title", length = 50)
-    private String             title;
+    private String            title;
 
-    public CalendarDateEntity getCalendarDate() {
-        return calendarDate;
-    }
-
-    public String getDescription() {
-        return description;
+    public Instant getEnd() {
+        return end;
     }
 
     public Long getId() {
         return id;
     }
 
-    public String getImage() {
-        return image;
-    }
-
-    public Long getNumber() {
-        return number;
+    public Instant getStart() {
+        return start;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setCalendarDate(final CalendarDateEntity calendarDate) {
-        this.calendarDate = calendarDate;
-    }
-
-    public void setDescription(final String description) {
-        this.description = description;
+    public void setEnd(final Instant end) {
+        this.end = end;
     }
 
     public void setId(final Long id) {
         this.id = id;
     }
 
-    public void setImage(final String image) {
-        this.image = image;
-    }
-
-    public void setNumber(final Long number) {
-        this.number = number;
+    public void setStart(final Instant start) {
+        this.start = start;
     }
 
     public void setTitle(final String title) {
@@ -115,8 +90,7 @@ public class ActivityEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "ActivityEntity [id=" + id + ", number=" + number + ", calendarDate=" + calendarDate + ", title=" + title
-                + ", description=" + description + ", image=" + image + "]";
+        return "CalendarEntity [id=" + id + ", title=" + title + ", start=" + start + ", end=" + end + "]";
     }
 
 }

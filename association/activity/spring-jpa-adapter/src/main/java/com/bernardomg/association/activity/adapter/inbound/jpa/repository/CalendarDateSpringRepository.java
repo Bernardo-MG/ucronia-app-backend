@@ -22,39 +22,14 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.activity.adapter.inbound.jpa.model;
+package com.bernardomg.association.activity.adapter.inbound.jpa.repository;
 
-import com.bernardomg.association.activity.domain.model.Activity;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-/**
- * Author repository mapper.
- */
-public final class ActivityEntityMapper {
+import com.bernardomg.association.activity.adapter.inbound.jpa.model.CalendarDateEntity;
 
-    public static final Activity toDomain(final ActivityEntity entity) {
-        return new Activity(entity.getNumber(), entity.getCalendarDate()
-            .getStart(), entity.getTitle(), entity.getDescription(), entity.getImage());
-    }
-
-    public static final ActivityEntity toEntity(final Activity activity) {
-        final ActivityEntity     entity;
-        final CalendarDateEntity date;
-
-        entity = new ActivityEntity();
-        entity.setNumber(activity.number());
-        entity.setTitle(activity.title());
-        entity.setDescription(activity.description());
-        entity.setImage(activity.image());
-
-        date = new CalendarDateEntity();
-        date.setStart(activity.date());
-        entity.setCalendarDate(date);
-
-        return entity;
-    }
-
-    private ActivityEntityMapper() {
-        super();
-    }
+public interface CalendarDateSpringRepository
+        extends JpaRepository<CalendarDateEntity, Long>, JpaSpecificationExecutor<CalendarDateEntity> {
 
 }
