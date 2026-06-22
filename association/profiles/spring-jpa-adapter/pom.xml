@@ -22,7 +22,7 @@
    <artifactId>association-profile-spring-jpa-adapter</artifactId>
    <packaging>jar</packaging>
 
-   <name>Association Profiles REST Adapter</name>
+   <name>Association Profiles Spring JPA Adapter</name>
 
    <!-- ********************************************** -->
    <!-- *************** DEPENDENCIES ***************** -->
