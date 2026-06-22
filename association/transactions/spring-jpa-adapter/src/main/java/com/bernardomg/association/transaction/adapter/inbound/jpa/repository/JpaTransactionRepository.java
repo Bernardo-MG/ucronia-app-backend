@@ -142,19 +142,6 @@ public final class JpaTransactionRepository implements TransactionRepository {
     }
 
     @Override
-    public final long findNextIndex() {
-        final long index;
-
-        log.debug("Finding next index for the transactions");
-
-        index = transactionSpringRepository.findNextIndex();
-
-        log.debug("Found index {}", index);
-
-        return index;
-    }
-
-    @Override
     public final Optional<Transaction> findOne(final Long index) {
         final Optional<Transaction> transaction;
 
@@ -193,10 +180,15 @@ public final class JpaTransactionRepository implements TransactionRepository {
         final TransactionEntity           entity;
         final TransactionEntity           created;
         final Transaction                 saved;
+        final Long                        index;
 
         log.debug("Saving transaction {}", transaction);
 
         entity = TransactionEntityMapper.toEntity(transaction);
+        if ((entity.getIndex() == null) || (entity.getIndex() <= 0)) {
+            index = transactionSpringRepository.findNextIndex();
+            entity.setIndex(index);
+        }
 
         existing = transactionSpringRepository.findByIndex(transaction.index());
         if (existing.isPresent()) {

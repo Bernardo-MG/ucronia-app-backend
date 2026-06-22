@@ -75,20 +75,13 @@ public final class DefaultTransactionService implements TransactionService {
 
     @Override
     public final Transaction create(final Transaction transaction) {
-        final Long        index;
-        final Transaction toCreate;
         final Transaction saved;
 
         log.debug("Creating transaction {}", transaction);
 
         validatorCreate.validate(transaction);
 
-        // TODO: set inside the repository
-        index = transactionRepository.findNextIndex();
-
-        toCreate = new Transaction(index, transaction.date(), transaction.amount(), transaction.description());
-
-        saved = transactionRepository.save(toCreate);
+        saved = transactionRepository.save(transaction);
 
         log.debug("Created transaction {}", saved);
 
