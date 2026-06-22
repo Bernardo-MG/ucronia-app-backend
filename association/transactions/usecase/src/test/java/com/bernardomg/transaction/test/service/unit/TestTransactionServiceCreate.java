@@ -77,8 +77,6 @@ class TestTransactionServiceCreate {
         // GIVEN
         transaction = Transactions.padded();
 
-        given(transactionRepository.findNextIndex()).willReturn(TransactionConstants.INDEX);
-
         // WHEN
         service.create(transaction);
 
@@ -93,8 +91,6 @@ class TestTransactionServiceCreate {
 
         // GIVEN
         transaction = Transactions.positive();
-
-        given(transactionRepository.findNextIndex()).willReturn(TransactionConstants.INDEX);
 
         // WHEN
         service.create(transaction);
@@ -113,7 +109,6 @@ class TestTransactionServiceCreate {
         transaction = Transactions.positive();
 
         given(transactionRepository.save(Transactions.positive())).willReturn(Transactions.positive());
-        given(transactionRepository.findNextIndex()).willReturn(TransactionConstants.INDEX);
 
         // WHEN
         created = service.create(transaction);

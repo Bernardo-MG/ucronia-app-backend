@@ -123,19 +123,6 @@ public final class JpaPublisherRepository implements PublisherRepository {
     }
 
     @Override
-    public final long findNextNumber() {
-        final long number;
-
-        log.debug("Finding next number for the publishers");
-
-        number = publisherSpringRepository.findNextNumber();
-
-        log.debug("Found next number for the publishers: {}", number);
-
-        return number;
-    }
-
-    @Override
     public final Optional<Publisher> findOne(final long number) {
         final Optional<Publisher> publisher;
 
@@ -155,6 +142,7 @@ public final class JpaPublisherRepository implements PublisherRepository {
         final PublisherEntity           entity;
         final PublisherEntity           created;
         final Publisher                 saved;
+        final Long                      number;
 
         log.debug("Saving publisher {}", publisher);
 
@@ -164,6 +152,9 @@ public final class JpaPublisherRepository implements PublisherRepository {
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
+        } else {
+            number = publisherSpringRepository.findNextNumber();
+            entity.setNumber(number);
         }
 
         created = publisherSpringRepository.save(entity);

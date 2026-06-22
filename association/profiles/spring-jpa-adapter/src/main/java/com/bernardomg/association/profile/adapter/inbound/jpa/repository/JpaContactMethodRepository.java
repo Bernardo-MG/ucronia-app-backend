@@ -121,19 +121,6 @@ public final class JpaContactMethodRepository implements ContactMethodRepository
     }
 
     @Override
-    public final long findNextNumber() {
-        final long number;
-
-        log.debug("Finding next number for the contact methods");
-
-        number = contactMethodSpringRepository.findNextNumber();
-
-        log.debug("Found next number for the contact methods: {}", number);
-
-        return number;
-    }
-
-    @Override
     public final Optional<ContactMethod> findOne(final Long number) {
         final Optional<ContactMethod> ContactMethod;
 
@@ -153,6 +140,7 @@ public final class JpaContactMethodRepository implements ContactMethodRepository
         final ContactMethodEntity           entity;
         final ContactMethodEntity           created;
         final ContactMethod                 saved;
+        final Long                          number;
 
         log.debug("Saving contact method {}", contactMethod);
 
@@ -162,6 +150,9 @@ public final class JpaContactMethodRepository implements ContactMethodRepository
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
+        } else {
+            number = contactMethodSpringRepository.findNextNumber();
+            entity.setNumber(number);
         }
 
         created = contactMethodSpringRepository.save(entity);

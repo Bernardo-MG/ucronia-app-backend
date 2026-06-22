@@ -131,7 +131,7 @@ class ITTransactionRepositorySave {
 
         Assertions.assertThat(transactions)
             .as("transactions")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "index")
             .containsExactly(TransactionEntities.valid());
     }
 
@@ -150,6 +150,8 @@ class ITTransactionRepositorySave {
         // THEN
         Assertions.assertThat(created)
             .as("created")
+            .usingRecursiveComparison()
+            .ignoringFields("index")
             .isEqualTo(Transactions.positive());
     }
 

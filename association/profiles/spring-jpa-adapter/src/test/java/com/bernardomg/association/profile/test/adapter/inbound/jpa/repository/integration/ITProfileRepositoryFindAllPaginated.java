@@ -57,7 +57,7 @@ class ITProfileRepositoryFindAllPaginated {
         final Page<Profile> profiles;
         final Pagination    pagination;
         final Sorting       sorting;
-        final ProfileFilter  filter;
+        final ProfileFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 20);
@@ -82,7 +82,7 @@ class ITProfileRepositoryFindAllPaginated {
         final Page<Profile> profiles;
         final Pagination    pagination;
         final Sorting       sorting;
-        final ProfileFilter  filter;
+        final ProfileFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 20);

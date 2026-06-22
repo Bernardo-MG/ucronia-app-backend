@@ -71,20 +71,13 @@ public final class DefaultAuthorService implements AuthorService {
 
     @Override
     public final Author create(final Author author) {
-        final Author toCreate;
         final Author created;
-        final Long   number;
 
         log.debug("Creating author {}", author);
 
-        // Set number
-        number = authorRepository.findNextNumber();
+        createAuthorValidator.validate(author);
 
-        toCreate = new Author(number, author.name());
-
-        createAuthorValidator.validate(toCreate);
-
-        created = authorRepository.save(toCreate);
+        created = authorRepository.save(author);
 
         log.debug("Created author {}", author);
 
