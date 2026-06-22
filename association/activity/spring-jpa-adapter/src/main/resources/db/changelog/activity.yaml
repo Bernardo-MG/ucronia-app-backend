@@ -27,7 +27,6 @@ databaseChangeLog:
                   name: calendar_date_id
                   type: bigint
                   constraints:
-                    primaryKey: true
                     nullable: false
                     foreignKeyName: fk_activity_calendar_date
                     references: calendar.calendar_dates(id)
@@ -37,11 +36,6 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     unique: true
-                    nullable: false
-              - column:
-                  name: title
-                  type: varchar(50)
-                  constraints:
                     nullable: false
               - column:
                   name: description

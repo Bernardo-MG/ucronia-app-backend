@@ -62,9 +62,6 @@ public class ActivityEntity implements Serializable {
     @Column(name = "number", nullable = false, unique = true)
     private Long               number;
 
-    @Column(name = "title", length = 50)
-    private String             title;
-
     public CalendarDateEntity getCalendarDate() {
         return calendarDate;
     }
@@ -83,10 +80,6 @@ public class ActivityEntity implements Serializable {
 
     public Long getNumber() {
         return number;
-    }
-
-    public String getTitle() {
-        return title;
     }
 
     public void setCalendarDate(final CalendarDateEntity calendarDate) {
@@ -109,14 +102,10 @@ public class ActivityEntity implements Serializable {
         this.number = number;
     }
 
-    public void setTitle(final String title) {
-        this.title = title;
-    }
-
     @Override
     public String toString() {
-        return "ActivityEntity [id=" + id + ", number=" + number + ", calendarDate=" + calendarDate + ", title=" + title
-                + ", description=" + description + ", image=" + image + "]";
+        return "ActivityEntity [id=" + id + ", number=" + number + ", calendarDate=" + calendarDate + ", description="
+                + description + ", image=" + image + "]";
     }
 
 }

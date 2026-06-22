@@ -32,9 +32,12 @@ import com.bernardomg.association.activity.domain.model.Activity;
 public final class ActivityEntityMapper {
 
     public static final Activity toDomain(final ActivityEntity entity) {
-        return new Activity(entity.getNumber(), entity.getTitle(), entity.getDescription(), entity.getImage(), entity.getCalendarDate()
-            .getStart(), entity.getCalendarDate()
-            .getEnd());
+        return new Activity(entity.getNumber(), entity.getCalendarDate()
+            .getTitle(), entity.getDescription(), entity.getImage(),
+            entity.getCalendarDate()
+                .getStart(),
+            entity.getCalendarDate()
+                .getEnd());
     }
 
     public static final ActivityEntity toEntity(final Activity activity) {
@@ -43,7 +46,6 @@ public final class ActivityEntityMapper {
 
         entity = new ActivityEntity();
         entity.setNumber(activity.number());
-        entity.setTitle(activity.title());
         entity.setDescription(activity.description());
         entity.setImage(activity.image());
 

@@ -45,7 +45,8 @@ class ITActivityRepositorySave {
 
         Assertions.assertThat(activities)
             .as("activities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id","number","calendarDate.id","calendarDate.number")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "calendarDate.id",
+                "calendarDate.number")
             .containsExactly(ActivityEntities.valid());
     }
 
@@ -65,7 +66,7 @@ class ITActivityRepositorySave {
         Assertions.assertThat(created)
             .as("created")
             .usingRecursiveComparison()
-            .ignoringFields( "number")
+            .ignoringFields("number")
             .isEqualTo(Activities.valid());
     }
 
@@ -87,7 +88,8 @@ class ITActivityRepositorySave {
 
         Assertions.assertThat(activities)
             .as("activities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id","number","calendarDate.id","calendarDate.number")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "calendarDate.id",
+                "calendarDate.number")
             .containsExactly(ActivityEntities.titleChange());
     }
 
@@ -107,7 +109,7 @@ class ITActivityRepositorySave {
         Assertions.assertThat(created)
             .as("created")
             .usingRecursiveComparison()
-            .ignoringFields( "number")
+            .ignoringFields("number")
             .isEqualTo(Activities.titleChange());
     }
 

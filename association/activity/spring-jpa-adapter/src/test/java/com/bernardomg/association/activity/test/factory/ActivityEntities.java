@@ -10,7 +10,8 @@ public final class ActivityEntities {
         final ActivityEntity entity = new ActivityEntity();
         entity.setNumber(ActivityConstants.NUMBER);
         entity.setCalendarDate(CalendarDateEntities.valid());
-        entity.setTitle(ActivityConstants.ALTERNATIVE_TITLE);
+        entity.getCalendarDate()
+            .setTitle(ActivityConstants.ALTERNATIVE_TITLE);
         entity.setDescription(ActivityConstants.DESCRIPTION);
         entity.setImage(ActivityConstants.IMAGE);
         return entity;
@@ -20,7 +21,6 @@ public final class ActivityEntities {
         final ActivityEntity entity = new ActivityEntity();
         entity.setNumber(ActivityConstants.NUMBER);
         entity.setCalendarDate(CalendarDateEntities.valid());
-        entity.setTitle(ActivityConstants.TITLE);
         entity.setDescription(ActivityConstants.DESCRIPTION);
         entity.setImage(ActivityConstants.IMAGE);
         return entity;
