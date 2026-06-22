@@ -196,19 +196,6 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
     }
 
     @Override
-    public final long findNextNumber() {
-        final long number;
-
-        log.debug("Finding next number for the books");
-
-        number = bookSpringRepository.findNextNumber();
-
-        log.debug("Found number {}", number);
-
-        return number;
-    }
-
-    @Override
     public final Optional<FictionBook> findOne(final long number) {
         final Optional<FictionBook> book;
 
@@ -228,10 +215,15 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
         final FictionBookEntity           entity;
         final FictionBookEntity           created;
         final FictionBook                 saved;
+        final Long                        number;
 
         log.debug("Saving book {}", book);
 
         entity = toEntity(book);
+        if (entity.getNumber() == null) {
+            number = bookSpringRepository.findNextNumber();
+            entity.setNumber(number);
+        }
 
         existing = bookSpringRepository.findByNumber(book.number());
         if (existing.isPresent()) {

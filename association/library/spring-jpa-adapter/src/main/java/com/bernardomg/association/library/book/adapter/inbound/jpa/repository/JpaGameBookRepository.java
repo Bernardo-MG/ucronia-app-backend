@@ -207,19 +207,6 @@ public final class JpaGameBookRepository implements GameBookRepository {
     }
 
     @Override
-    public final long findNextNumber() {
-        final long number;
-
-        log.debug("Finding next number for the books");
-
-        number = bookSpringRepository.findNextNumber();
-
-        log.debug("Found number {}", number);
-
-        return number;
-    }
-
-    @Override
     public final Optional<GameBook> findOne(final long number) {
         final Optional<GameBook> book;
 
@@ -239,10 +226,15 @@ public final class JpaGameBookRepository implements GameBookRepository {
         final GameBookEntity           entity;
         final GameBookEntity           created;
         final GameBook                 saved;
+        final Long                     number;
 
         log.debug("Saving book {}", book);
 
         entity = toEntity(book);
+        if (entity.getNumber() == null) {
+            number = bookSpringRepository.findNextNumber();
+            entity.setNumber(number);
+        }
 
         existing = bookSpringRepository.findByNumber(book.number());
         if (existing.isPresent()) {

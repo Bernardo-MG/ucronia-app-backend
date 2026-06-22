@@ -47,8 +47,6 @@ public interface FictionBookRepository {
 
     public Collection<FictionBook> findAll(final Sorting sorting);
 
-    public long findNextNumber();
-
     public Optional<FictionBook> findOne(final long number);
 
     public FictionBook save(final FictionBook book);

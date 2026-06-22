@@ -89,7 +89,6 @@ class TestFictionBookServiceCreate {
         given(authorRepository.exists(AuthorConstants.NUMBER)).willReturn(true);
         given(publisherRepository.exists(PublisherConstants.NUMBER)).willReturn(true);
         given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
-        given(bookRepository.findNextNumber()).willReturn(BookConstants.NUMBER);
 
         // WHEN
         service.create(book);
@@ -109,7 +108,6 @@ class TestFictionBookServiceCreate {
         given(authorRepository.exists(AuthorConstants.NUMBER)).willReturn(true);
         given(publisherRepository.exists(PublisherConstants.NUMBER)).willReturn(true);
         given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
-        given(bookRepository.findNextNumber()).willReturn(BookConstants.NUMBER);
 
         // WHEN
         service.create(book);
@@ -129,7 +127,6 @@ class TestFictionBookServiceCreate {
         given(authorRepository.exists(AuthorConstants.NUMBER)).willReturn(true);
         given(publisherRepository.exists(PublisherConstants.NUMBER)).willReturn(true);
         given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
-        given(bookRepository.findNextNumber()).willReturn(BookConstants.NUMBER);
 
         // WHEN
         service.create(book);
@@ -232,7 +229,6 @@ class TestFictionBookServiceCreate {
         given(authorRepository.exists(AuthorConstants.NUMBER)).willReturn(true);
         given(publisherRepository.exists(PublisherConstants.NUMBER)).willReturn(true);
         given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
-        given(bookRepository.findNextNumber()).willReturn(BookConstants.NUMBER);
 
         // WHEN
         service.create(book);
@@ -309,8 +305,6 @@ class TestFictionBookServiceCreate {
         // GIVEN
         book = FictionBooks.minimal();
 
-        given(bookRepository.findNextNumber()).willReturn(BookConstants.NUMBER);
-
         // WHEN
         service.create(book);
 
@@ -329,7 +323,6 @@ class TestFictionBookServiceCreate {
         given(authorRepository.exists(AuthorConstants.NUMBER)).willReturn(true);
         given(publisherRepository.exists(PublisherConstants.NUMBER)).willReturn(true);
         given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
-        given(bookRepository.findNextNumber()).willReturn(BookConstants.NUMBER);
 
         // WHEN
         service.create(book);
@@ -349,7 +342,6 @@ class TestFictionBookServiceCreate {
         given(authorRepository.exists(AuthorConstants.NUMBER)).willReturn(true);
         given(publisherRepository.exists(PublisherConstants.NUMBER)).willReturn(true);
         given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
-        given(bookRepository.findNextNumber()).willReturn(BookConstants.NUMBER);
 
         // WHEN
         service.create(book);
@@ -370,7 +362,6 @@ class TestFictionBookServiceCreate {
         given(authorRepository.exists(AuthorConstants.NUMBER)).willReturn(true);
         given(publisherRepository.exists(PublisherConstants.NUMBER)).willReturn(true);
         given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
-        given(bookRepository.findNextNumber()).willReturn(BookConstants.NUMBER);
 
         given(bookRepository.save(FictionBooks.full())).willReturn(FictionBooks.full());
 
