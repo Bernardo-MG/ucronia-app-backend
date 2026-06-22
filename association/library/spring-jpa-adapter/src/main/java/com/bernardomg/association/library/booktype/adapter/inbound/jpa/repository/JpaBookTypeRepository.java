@@ -147,7 +147,7 @@ public final class JpaBookTypeRepository implements BookTypeRepository {
         log.debug("Saving book type {}", bookType);
 
         entity = BookTypeEntityMapper.toEntity(bookType);
-        if (entity.getNumber() == null) {
+        if ((entity.getNumber() == null) || (entity.getNumber() <= 0)) {
             number = bookTypeSpringRepository.findNextNumber();
             entity.setNumber(number);
         }

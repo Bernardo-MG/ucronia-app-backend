@@ -220,7 +220,7 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
         log.debug("Saving book {}", book);
 
         entity = toEntity(book);
-        if (entity.getNumber() == null) {
+        if ((entity.getNumber() == null) || (entity.getNumber() <= 0)) {
             number = bookSpringRepository.findNextNumber();
             entity.setNumber(number);
         }

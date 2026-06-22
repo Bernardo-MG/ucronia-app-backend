@@ -147,7 +147,7 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
         log.debug("Saving game system {}", gameSystem);
 
         entity = GameSystemEntityMapper.toEntity(gameSystem);
-        if (entity.getNumber() == null) {
+        if ((entity.getNumber() == null) || (entity.getNumber() <= 0)) {
             number = gameSystemSpringRepository.findNextNumber();
             entity.setNumber(number);
         }

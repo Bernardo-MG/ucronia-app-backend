@@ -147,7 +147,7 @@ public final class JpaPublisherRepository implements PublisherRepository {
         log.debug("Saving publisher {}", publisher);
 
         entity = PublisherEntityMapper.toEntity(publisher);
-        if (entity.getNumber() == null) {
+        if ((entity.getNumber() == null) || (entity.getNumber() <= 0)) {
             number = publisherSpringRepository.findNextNumber();
             entity.setNumber(number);
         }
