@@ -105,7 +105,7 @@ class TestGameSystemServiceCreate {
         service.create(gameSystem);
 
         // THEN
-        verify(gameSystemRepository).save(GameSystems.valid());
+        verify(gameSystemRepository).save(GameSystems.toCreate());
     }
 
     @Test
@@ -120,7 +120,7 @@ class TestGameSystemServiceCreate {
         service.create(gameSystem);
 
         // THEN
-        verify(gameSystemRepository).save(GameSystems.valid());
+        verify(gameSystemRepository).save(GameSystems.toCreate());
     }
 
     @Test
@@ -132,7 +132,7 @@ class TestGameSystemServiceCreate {
         // GIVEN
         gameSystem = GameSystems.toCreate();
 
-        given(gameSystemRepository.save(GameSystems.valid())).willReturn(GameSystems.valid());
+        given(gameSystemRepository.save(GameSystems.toCreate())).willReturn(GameSystems.valid());
 
         // WHEN
         created = service.create(gameSystem);

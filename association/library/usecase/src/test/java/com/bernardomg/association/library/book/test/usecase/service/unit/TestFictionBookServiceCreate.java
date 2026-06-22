@@ -94,7 +94,7 @@ class TestFictionBookServiceCreate {
         service.create(book);
 
         // THEN
-        verify(bookRepository).save(FictionBooks.full());
+        verify(bookRepository).save(FictionBooks.toCreate());
     }
 
     @Test
@@ -113,7 +113,7 @@ class TestFictionBookServiceCreate {
         service.create(book);
 
         // THEN
-        verify(bookRepository).save(FictionBooks.full());
+        verify(bookRepository).save(FictionBooks.toCreate());
     }
 
     @Test
@@ -132,7 +132,7 @@ class TestFictionBookServiceCreate {
         service.create(book);
 
         // THEN
-        verify(bookRepository).save(FictionBooks.full());
+        verify(bookRepository).save(FictionBooks.toCreate());
     }
 
     @Test
@@ -234,7 +234,7 @@ class TestFictionBookServiceCreate {
         service.create(book);
 
         // THEN
-        verify(bookRepository).save(FictionBooks.isbn13());
+        verify(bookRepository).save(FictionBooks.toCreateIsbn13());
     }
 
     @Test
@@ -309,7 +309,7 @@ class TestFictionBookServiceCreate {
         service.create(book);
 
         // THEN
-        verify(bookRepository).save(FictionBooks.minimal());
+        verify(bookRepository).save(FictionBooks.toCreateMinimal());
     }
 
     @Test
@@ -328,7 +328,7 @@ class TestFictionBookServiceCreate {
         service.create(book);
 
         // THEN
-        verify(bookRepository).save(FictionBooks.full());
+        verify(bookRepository).save(FictionBooks.toCreate());
     }
 
     @Test
@@ -347,7 +347,7 @@ class TestFictionBookServiceCreate {
         service.create(book);
 
         // THEN
-        verify(bookRepository).save(FictionBooks.full());
+        verify(bookRepository).save(FictionBooks.toCreate());
     }
 
     @Test
@@ -363,7 +363,7 @@ class TestFictionBookServiceCreate {
         given(publisherRepository.exists(PublisherConstants.NUMBER)).willReturn(true);
         given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
 
-        given(bookRepository.save(FictionBooks.full())).willReturn(FictionBooks.full());
+        given(bookRepository.save(FictionBooks.toCreate())).willReturn(FictionBooks.full());
 
         // WHEN
         created = service.create(book);

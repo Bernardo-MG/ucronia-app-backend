@@ -105,7 +105,7 @@ class TestPublisherServiceCreate {
         service.create(publisher);
 
         // THEN
-        verify(publisherRepository).save(Publishers.valid());
+        verify(publisherRepository).save(Publishers.toCreate());
     }
 
     @Test
@@ -120,7 +120,7 @@ class TestPublisherServiceCreate {
         service.create(publisher);
 
         // THEN
-        verify(publisherRepository).save(Publishers.valid());
+        verify(publisherRepository).save(Publishers.toCreate());
     }
 
     @Test
@@ -132,7 +132,7 @@ class TestPublisherServiceCreate {
         // GIVEN
         publisher = Publishers.toCreate();
 
-        given(publisherRepository.save(Publishers.valid())).willReturn(Publishers.valid());
+        given(publisherRepository.save(Publishers.toCreate())).willReturn(Publishers.valid());
 
         // WHEN
         created = service.create(publisher);

@@ -105,7 +105,7 @@ class TestAuthorServiceCreate {
         service.create(author);
 
         // THEN
-        verify(authorRepository).save(Authors.valid());
+        verify(authorRepository).save(Authors.toCreate());
     }
 
     @Test
@@ -120,7 +120,7 @@ class TestAuthorServiceCreate {
         service.create(author);
 
         // THEN
-        verify(authorRepository).save(Authors.valid());
+        verify(authorRepository).save(Authors.toCreate());
     }
 
     @Test
@@ -132,7 +132,7 @@ class TestAuthorServiceCreate {
         // GIVEN
         author = Authors.toCreate();
 
-        given(authorRepository.save(Authors.valid())).willReturn(Authors.valid());
+        given(authorRepository.save(Authors.toCreate())).willReturn(Authors.valid());
 
         // WHEN
         created = service.create(author);

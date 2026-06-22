@@ -108,7 +108,7 @@ class TestGameBookServiceCreate {
         service.create(book);
 
         // THEN
-        verify(bookRepository).save(GameBooks.full());
+        verify(bookRepository).save(GameBooks.toCreate());
     }
 
     @Test
@@ -129,7 +129,7 @@ class TestGameBookServiceCreate {
         service.create(book);
 
         // THEN
-        verify(bookRepository).save(GameBooks.full());
+        verify(bookRepository).save(GameBooks.toCreate());
     }
 
     @Test
@@ -150,7 +150,7 @@ class TestGameBookServiceCreate {
         service.create(book);
 
         // THEN
-        verify(bookRepository).save(GameBooks.full());
+        verify(bookRepository).save(GameBooks.toCreate());
     }
 
     @Test
@@ -259,7 +259,7 @@ class TestGameBookServiceCreate {
         service.create(book);
 
         // THEN
-        verify(bookRepository).save(GameBooks.isbn13());
+        verify(bookRepository).save(GameBooks.toCreateIsbn13());
     }
 
     @Test
@@ -379,7 +379,7 @@ class TestGameBookServiceCreate {
         service.create(book);
 
         // THEN
-        verify(bookRepository).save(GameBooks.minimal());
+        verify(bookRepository).save(GameBooks.toCretaeMinimal());
     }
 
     @Test
@@ -400,7 +400,7 @@ class TestGameBookServiceCreate {
         service.create(book);
 
         // THEN
-        verify(bookRepository).save(GameBooks.full());
+        verify(bookRepository).save(GameBooks.toCreate());
     }
 
     @Test
@@ -421,7 +421,7 @@ class TestGameBookServiceCreate {
         service.create(book);
 
         // THEN
-        verify(bookRepository).save(GameBooks.full());
+        verify(bookRepository).save(GameBooks.toCreate());
     }
 
     @Test
@@ -439,7 +439,7 @@ class TestGameBookServiceCreate {
         given(bookTypeRepository.exists(BookTypeConstants.NUMBER)).willReturn(true);
         given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
 
-        given(bookRepository.save(GameBooks.full())).willReturn(GameBooks.full());
+        given(bookRepository.save(GameBooks.toCreate())).willReturn(GameBooks.full());
 
         // WHEN
         created = service.create(book);

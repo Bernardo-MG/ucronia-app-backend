@@ -105,7 +105,7 @@ class TestBookTypeServiceCreate {
         service.create(bookType);
 
         // THEN
-        verify(bookTypeRepository).save(BookTypes.valid());
+        verify(bookTypeRepository).save(BookTypes.toCreate());
     }
 
     @Test
@@ -120,7 +120,7 @@ class TestBookTypeServiceCreate {
         service.create(bookType);
 
         // THEN
-        verify(bookTypeRepository).save(BookTypes.valid());
+        verify(bookTypeRepository).save(BookTypes.toCreate());
     }
 
     @Test
@@ -132,7 +132,7 @@ class TestBookTypeServiceCreate {
         // GIVEN
         bookType = BookTypes.toCreate();
 
-        given(bookTypeRepository.save(BookTypes.valid())).willReturn(BookTypes.valid());
+        given(bookTypeRepository.save(BookTypes.toCreate())).willReturn(BookTypes.valid());
 
         // WHEN
         created = service.create(bookType);
