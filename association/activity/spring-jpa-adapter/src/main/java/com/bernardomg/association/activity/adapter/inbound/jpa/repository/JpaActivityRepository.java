@@ -51,9 +51,10 @@ public final class JpaActivityRepository implements ActivityRepository {
     /**
      * Logger for the class.
      */
-    private static final Logger            log = LoggerFactory.getLogger(JpaActivityRepository.class);
+    private static final Logger                log = LoggerFactory.getLogger(JpaActivityRepository.class);
 
-    private final ActivitySpringRepository activitySpringRepository;
+    private final ActivitySpringRepository     activitySpringRepository;
+
     private final CalendarDateSpringRepository calendarDateSpringRepository;
 
     public JpaActivityRepository(final ActivitySpringRepository activityRepo,
@@ -117,19 +118,6 @@ public final class JpaActivityRepository implements ActivityRepository {
     }
 
     @Override
-    public final long findNextNumber() {
-        final long number;
-
-        log.debug("Finding next number for the activities");
-
-        number = activitySpringRepository.findNextNumber();
-
-        log.debug("Found number {}", number);
-
-        return number;
-    }
-
-    @Override
     public final Optional<Activity> findOne(final Long number) {
         final Optional<Activity> activity;
 
@@ -147,9 +135,11 @@ public final class JpaActivityRepository implements ActivityRepository {
     public final Activity save(final Activity activity) {
         final Optional<ActivityEntity> existing;
         final ActivityEntity           entity;
-        final CalendarDateEntity createdDate;
+        final CalendarDateEntity       createdDate;
         final ActivityEntity           created;
         final Activity                 saved;
+        final Long                     number;
+        final Long                     dateNumber;
 
         log.debug("Saving activity {}", activity);
 
@@ -159,9 +149,16 @@ public final class JpaActivityRepository implements ActivityRepository {
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
+        } else {
+            number = activitySpringRepository.findNextNumber();
+            entity.setNumber(number);
         }
 
+        dateNumber = calendarDateSpringRepository.findNextNumber();
+        entity.getCalendarDate()
+            .setNumber(dateNumber);
         createdDate = calendarDateSpringRepository.save(entity.getCalendarDate());
+
         entity.setCalendarDate(createdDate);
         created = activitySpringRepository.save(entity);
         saved = ActivityEntityMapper.toDomain(created);
@@ -178,8 +175,7 @@ public final class JpaActivityRepository implements ActivityRepository {
             .stream()
             // Fix name
             .map(prop -> {
-                if ("date"
-                    .equals(prop.name())) {
+                if ("date".equals(prop.name())) {
                     return new Property("calendarDate.start", prop.direction());
                 }
                 return prop;

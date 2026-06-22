@@ -72,20 +72,13 @@ public final class DefaultActivityService implements ActivityService {
 
     @Override
     public final Activity create(final Activity activity) {
-        final Long     number;
-        final Activity toCreate;
         final Activity saved;
 
         log.debug("Creating activity {}", activity);
 
         validatorCreate.validate(activity);
 
-        // TODO: set inside the repository
-        number = activityRepository.findNextNumber();
-
-        toCreate = new Activity(number, activity.date(), activity.title(), activity.description(), activity.image());
-
-        saved = activityRepository.save(toCreate);
+        saved = activityRepository.save(activity);
 
         log.debug("Created activity {}", saved);
 

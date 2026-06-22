@@ -39,8 +39,6 @@ public interface ActivityRepository {
 
     public Page<Activity> findAll(final Pagination pagination, final Sorting sorting);
 
-    public long findNextNumber();
-
     public Optional<Activity> findOne(final Long number);
 
     public Activity save(final Activity transaction);

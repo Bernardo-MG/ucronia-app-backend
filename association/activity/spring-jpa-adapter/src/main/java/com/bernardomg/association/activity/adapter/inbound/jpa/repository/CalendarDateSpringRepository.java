@@ -26,10 +26,14 @@ package com.bernardomg.association.activity.adapter.inbound.jpa.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 
 import com.bernardomg.association.activity.adapter.inbound.jpa.model.CalendarDateEntity;
 
 public interface CalendarDateSpringRepository
         extends JpaRepository<CalendarDateEntity, Long>, JpaSpecificationExecutor<CalendarDateEntity> {
+
+    @Query("SELECT COALESCE(MAX(a.number), 0) + 1 FROM CalendarDate a")
+    public Long findNextNumber();
 
 }

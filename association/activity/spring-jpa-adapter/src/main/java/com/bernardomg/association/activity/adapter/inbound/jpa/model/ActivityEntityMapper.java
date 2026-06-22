@@ -47,7 +47,9 @@ public final class ActivityEntityMapper {
         entity.setImage(activity.image());
 
         date = new CalendarDateEntity();
+        date.setTitle(activity.title());
         date.setStart(activity.date());
+        date.setEnd(activity.date());
         entity.setCalendarDate(date);
 
         return entity;

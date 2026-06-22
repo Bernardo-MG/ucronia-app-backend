@@ -38,7 +38,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.association.activity.domain.model.Activity;
 import com.bernardomg.association.activity.domain.repository.ActivityRepository;
 import com.bernardomg.association.activity.test.configuration.factory.Activities;
-import com.bernardomg.association.activity.test.configuration.factory.ActivityConstants;
 import com.bernardomg.association.activity.usecase.service.DefaultActivityService;
 
 @ExtendWith(MockitoExtension.class)
@@ -59,8 +58,6 @@ class TestActivityServiceCreate {
         // GIVEN
         activity = Activities.future();
 
-        given(activityRepository.findNextNumber()).willReturn(ActivityConstants.NUMBER);
-
         // WHEN
         service.create(activity);
 
@@ -75,8 +72,6 @@ class TestActivityServiceCreate {
 
         // GIVEN
         activity = Activities.valid();
-
-        given(activityRepository.findNextNumber()).willReturn(ActivityConstants.NUMBER);
 
         // WHEN
         service.create(activity);
@@ -95,7 +90,6 @@ class TestActivityServiceCreate {
         activity = Activities.valid();
 
         given(activityRepository.save(activity)).willReturn(activity);
-        given(activityRepository.findNextNumber()).willReturn(ActivityConstants.NUMBER);
 
         // WHEN
         created = service.create(activity);
