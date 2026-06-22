@@ -47,8 +47,6 @@ public interface GameBookRepository {
 
     public Collection<GameBook> findAll(final Sorting sorting);
 
-    public long findNextNumber();
-
     public Optional<GameBook> findOne(final long number);
 
     public GameBook save(final GameBook book);

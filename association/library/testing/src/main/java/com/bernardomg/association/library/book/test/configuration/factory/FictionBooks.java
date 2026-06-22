@@ -274,4 +274,34 @@ public final class FictionBooks {
             Optional.empty(), false, List.of(), List.of(), List.of(), Optional.empty());
     }
 
+    public static final FictionBook toCreate() {
+        final Title    title;
+        final Donation donation;
+
+        title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
+        donation = new Donation(Optional.of(BookConstants.DONATION_DATE), List.of(Donors.valid()));
+        return new FictionBook(-1, title, BookConstants.ISBN_10, BookConstants.LANGUAGE,
+            Optional.of(BookConstants.PUBLISH_DATE), false, List.of(Authors.valid()), List.of(),
+            List.of(Publishers.valid()), Optional.of(donation));
+    }
+
+    public static final FictionBook toCreateIsbn13() {
+        final Title    title;
+        final Donation donation;
+
+        title = new Title(BookConstants.SUPERTITLE, BookConstants.TITLE, BookConstants.SUBTITLE);
+        donation = new Donation(Optional.of(BookConstants.DONATION_DATE), List.of(Donors.valid()));
+        return new FictionBook(-1, title, BookConstants.ISBN_13, BookConstants.LANGUAGE,
+            Optional.of(BookConstants.PUBLISH_DATE), false, List.of(Authors.valid()), List.of(),
+            List.of(Publishers.valid()), Optional.of(donation));
+    }
+
+    public static final FictionBook toCreateMinimal() {
+        final Title title;
+
+        title = new Title("", BookConstants.TITLE, "");
+        return new FictionBook(-1, title, BookConstants.ISBN_10, BookConstants.LANGUAGE, Optional.empty(), false,
+            List.of(), List.of(), List.of(), Optional.empty());
+    }
+
 }

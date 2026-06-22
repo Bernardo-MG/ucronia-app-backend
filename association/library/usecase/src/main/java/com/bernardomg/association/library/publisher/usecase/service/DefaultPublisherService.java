@@ -71,20 +71,13 @@ public final class DefaultPublisherService implements PublisherService {
 
     @Override
     public final Publisher create(final Publisher publisher) {
-        final Publisher toCreate;
         final Publisher created;
-        final Long      number;
 
         log.debug("Creating publisher {}", publisher);
 
-        // Set number
-        number = publisherRepository.findNextNumber();
+        createPublisherValidator.validate(publisher);
 
-        toCreate = new Publisher(number, publisher.name());
-
-        createPublisherValidator.validate(toCreate);
-
-        created = publisherRepository.save(toCreate);
+        created = publisherRepository.save(publisher);
 
         log.debug("Created publisher {}", publisher);
 

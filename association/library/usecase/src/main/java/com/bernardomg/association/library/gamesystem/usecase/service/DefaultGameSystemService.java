@@ -71,19 +71,13 @@ public final class DefaultGameSystemService implements GameSystemService {
 
     @Override
     public final GameSystem create(final GameSystem system) {
-        final GameSystem toCreate;
         final GameSystem created;
-        final Long       number;
 
         log.debug("Creating game system {}", system);
 
-        // Set number
-        number = gameSystemRepository.findNextNumber();
-        toCreate = new GameSystem(number, system.name());
+        createGameSystemValidator.validate(system);
 
-        createGameSystemValidator.validate(toCreate);
-
-        created = gameSystemRepository.save(toCreate);
+        created = gameSystemRepository.save(system);
 
         log.debug("Created game system {}", system);
 

@@ -67,8 +67,6 @@ class TestPublisherServiceCreate {
         // GIVEN
         publisher = Publishers.emptyName();
 
-        given(publisherRepository.findNextNumber()).willReturn(PublisherConstants.NUMBER);
-
         // WHEN
         execution = () -> service.create(publisher);
 
@@ -84,8 +82,6 @@ class TestPublisherServiceCreate {
 
         // GIVEN
         publisher = Publishers.toCreate();
-
-        given(publisherRepository.findNextNumber()).willReturn(PublisherConstants.NUMBER);
 
         given(publisherRepository.existsByName(PublisherConstants.NAME)).willReturn(true);
 
@@ -105,13 +101,11 @@ class TestPublisherServiceCreate {
         // GIVEN
         publisher = Publishers.padded();
 
-        given(publisherRepository.findNextNumber()).willReturn(PublisherConstants.NUMBER);
-
         // WHEN
         service.create(publisher);
 
         // THEN
-        verify(publisherRepository).save(Publishers.valid());
+        verify(publisherRepository).save(Publishers.toCreate());
     }
 
     @Test
@@ -122,13 +116,11 @@ class TestPublisherServiceCreate {
         // GIVEN
         publisher = Publishers.toCreate();
 
-        given(publisherRepository.findNextNumber()).willReturn(PublisherConstants.NUMBER);
-
         // WHEN
         service.create(publisher);
 
         // THEN
-        verify(publisherRepository).save(Publishers.valid());
+        verify(publisherRepository).save(Publishers.toCreate());
     }
 
     @Test
@@ -140,9 +132,7 @@ class TestPublisherServiceCreate {
         // GIVEN
         publisher = Publishers.toCreate();
 
-        given(publisherRepository.findNextNumber()).willReturn(PublisherConstants.NUMBER);
-
-        given(publisherRepository.save(Publishers.valid())).willReturn(Publishers.valid());
+        given(publisherRepository.save(Publishers.toCreate())).willReturn(Publishers.valid());
 
         // WHEN
         created = service.create(publisher);

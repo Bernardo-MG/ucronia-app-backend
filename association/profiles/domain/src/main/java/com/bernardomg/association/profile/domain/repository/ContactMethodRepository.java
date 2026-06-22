@@ -43,8 +43,6 @@ public interface ContactMethodRepository {
 
     public Page<ContactMethod> findAll(final Pagination pagination, final Sorting sorting);
 
-    public long findNextNumber();
-
     public Optional<ContactMethod> findOne(final Long number);
 
     public ContactMethod save(final ContactMethod contactMethod);

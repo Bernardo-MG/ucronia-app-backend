@@ -22,7 +22,7 @@
    <artifactId>association-transaction-spring-jpa-adapter</artifactId>
    <packaging>jar</packaging>
 
-   <name>Association Transactions REST Adapter</name>
+   <name>Association Transactions Spring JPA Adapter</name>
 
    <!-- ********************************************** -->
    <!-- *************** DEPENDENCIES ***************** -->

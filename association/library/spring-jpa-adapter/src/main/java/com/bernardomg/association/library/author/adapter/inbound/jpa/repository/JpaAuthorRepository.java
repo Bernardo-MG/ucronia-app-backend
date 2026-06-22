@@ -123,19 +123,6 @@ public final class JpaAuthorRepository implements AuthorRepository {
     }
 
     @Override
-    public final long findNextNumber() {
-        final long number;
-
-        log.debug("Finding next number for the authors");
-
-        number = authorSpringRepository.findNextNumber();
-
-        log.debug("Found next number for the authors: {}", number);
-
-        return number;
-    }
-
-    @Override
     public final Optional<Author> findOne(final Long number) {
         final Optional<Author> author;
 
@@ -155,6 +142,7 @@ public final class JpaAuthorRepository implements AuthorRepository {
         final AuthorEntity           entity;
         final AuthorEntity           created;
         final Author                 saved;
+        final Long                   number;
 
         log.debug("Saving author {}", author);
 
@@ -164,6 +152,9 @@ public final class JpaAuthorRepository implements AuthorRepository {
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
+        } else {
+            number = authorSpringRepository.findNextNumber();
+            entity.setNumber(number);
         }
 
         created = authorSpringRepository.save(entity);
