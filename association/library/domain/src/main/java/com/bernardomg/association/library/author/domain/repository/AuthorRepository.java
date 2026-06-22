@@ -43,8 +43,6 @@ public interface AuthorRepository {
 
     public Page<Author> findAll(final Pagination pagination, final Sorting sorting);
 
-    public long findNextNumber();
-
     public Optional<Author> findOne(final Long number);
 
     public Author save(final Author author);

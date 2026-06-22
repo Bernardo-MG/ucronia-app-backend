@@ -43,8 +43,6 @@ public interface PublisherRepository {
 
     public Page<Publisher> findAll(final Pagination pagination, final Sorting sorting);
 
-    public long findNextNumber();
-
     public Optional<Publisher> findOne(final long number);
 
     public Publisher save(final Publisher publisher);

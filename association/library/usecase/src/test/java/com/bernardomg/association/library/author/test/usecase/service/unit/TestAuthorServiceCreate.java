@@ -67,8 +67,6 @@ class TestAuthorServiceCreate {
         // GIVEN
         author = Authors.emptyName();
 
-        given(authorRepository.findNextNumber()).willReturn(AuthorConstants.NUMBER);
-
         // WHEN
         execution = () -> service.create(author);
 
@@ -84,8 +82,6 @@ class TestAuthorServiceCreate {
 
         // GIVEN
         author = Authors.toCreate();
-
-        given(authorRepository.findNextNumber()).willReturn(AuthorConstants.NUMBER);
 
         given(authorRepository.existsByName(AuthorConstants.NAME)).willReturn(true);
 
@@ -105,8 +101,6 @@ class TestAuthorServiceCreate {
         // GIVEN
         author = Authors.padded();
 
-        given(authorRepository.findNextNumber()).willReturn(AuthorConstants.NUMBER);
-
         // WHEN
         service.create(author);
 
@@ -121,8 +115,6 @@ class TestAuthorServiceCreate {
 
         // GIVEN
         author = Authors.toCreate();
-
-        given(authorRepository.findNextNumber()).willReturn(AuthorConstants.NUMBER);
 
         // WHEN
         service.create(author);
@@ -139,8 +131,6 @@ class TestAuthorServiceCreate {
 
         // GIVEN
         author = Authors.toCreate();
-
-        given(authorRepository.findNextNumber()).willReturn(AuthorConstants.NUMBER);
 
         given(authorRepository.save(Authors.valid())).willReturn(Authors.valid());
 
