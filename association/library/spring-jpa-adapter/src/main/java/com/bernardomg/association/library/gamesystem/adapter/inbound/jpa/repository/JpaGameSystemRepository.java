@@ -147,15 +147,14 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
         log.debug("Saving game system {}", gameSystem);
 
         entity = GameSystemEntityMapper.toEntity(gameSystem);
-        if ((entity.getNumber() == null) || (entity.getNumber() <= 0)) {
-            number = gameSystemSpringRepository.findNextNumber();
-            entity.setNumber(number);
-        }
 
         existing = gameSystemSpringRepository.findByNumber(gameSystem.number());
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
+        } else {
+            number = gameSystemSpringRepository.findNextNumber();
+            entity.setNumber(number);
         }
 
         created = gameSystemSpringRepository.save(entity);

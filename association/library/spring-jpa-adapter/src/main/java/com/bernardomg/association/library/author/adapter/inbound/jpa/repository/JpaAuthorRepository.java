@@ -147,15 +147,14 @@ public final class JpaAuthorRepository implements AuthorRepository {
         log.debug("Saving author {}", author);
 
         entity = AuthorEntityMapper.toEntity(author);
-        if ((entity.getNumber() == null) || (entity.getNumber() <= 0)) {
-            number = authorSpringRepository.findNextNumber();
-            entity.setNumber(number);
-        }
 
         existing = authorSpringRepository.findByNumber(author.number());
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
+        } else {
+            number = authorSpringRepository.findNextNumber();
+            entity.setNumber(number);
         }
 
         created = authorSpringRepository.save(entity);

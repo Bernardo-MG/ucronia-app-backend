@@ -185,15 +185,14 @@ public final class JpaTransactionRepository implements TransactionRepository {
         log.debug("Saving transaction {}", transaction);
 
         entity = TransactionEntityMapper.toEntity(transaction);
-        if ((entity.getIndex() == null) || (entity.getIndex() <= 0)) {
-            index = transactionSpringRepository.findNextIndex();
-            entity.setIndex(index);
-        }
 
         existing = transactionSpringRepository.findByIndex(transaction.index());
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
+        } else {
+            index = transactionSpringRepository.findNextIndex();
+            entity.setIndex(index);
         }
 
         created = transactionSpringRepository.save(entity);

@@ -231,15 +231,14 @@ public final class JpaGameBookRepository implements GameBookRepository {
         log.debug("Saving book {}", book);
 
         entity = toEntity(book);
-        if ((entity.getNumber() == null) || (entity.getNumber() <= 0)) {
-            number = bookSpringRepository.findNextNumber();
-            entity.setNumber(number);
-        }
 
         existing = bookSpringRepository.findByNumber(book.number());
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
+        } else {
+            number = bookSpringRepository.findNextNumber();
+            entity.setNumber(number);
         }
 
         created = bookSpringRepository.save(entity);
