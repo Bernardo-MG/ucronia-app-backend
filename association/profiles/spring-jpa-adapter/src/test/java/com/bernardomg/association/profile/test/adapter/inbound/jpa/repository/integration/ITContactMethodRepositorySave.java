@@ -113,6 +113,8 @@ class ITContactMethodRepositorySave {
         // THEN
         Assertions.assertThat(saved)
             .as("contact method")
+            .usingRecursiveComparison()
+            .ignoringFields("id", "number")
             .isEqualTo(ContactMethods.email());
     }
 
