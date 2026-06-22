@@ -74,20 +74,13 @@ public final class DefaultContactMethodService implements ContactMethodService {
 
     @Override
     public final ContactMethod create(final ContactMethod contactMethod) {
-        final ContactMethod toCreate;
         final ContactMethod created;
-        final Long          number;
 
         log.debug("Creating contact method {}", contactMethod);
 
-        // Set number
-        number = contactMethodRepository.findNextNumber();
+        createContactMethodValidator.validate(contactMethod);
 
-        toCreate = new ContactMethod(number, contactMethod.name());
-
-        createContactMethodValidator.validate(toCreate);
-
-        created = contactMethodRepository.save(toCreate);
+        created = contactMethodRepository.save(contactMethod);
 
         log.debug("Created contact method {}", created);
 
