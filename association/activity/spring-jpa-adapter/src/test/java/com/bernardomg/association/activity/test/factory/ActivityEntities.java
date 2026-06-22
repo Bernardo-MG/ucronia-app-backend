@@ -9,7 +9,7 @@ public final class ActivityEntities {
     public static final ActivityEntity titleChange() {
         final ActivityEntity entity = new ActivityEntity();
         entity.setNumber(ActivityConstants.NUMBER);
-        entity.setCalendarDate(CalendarDateEntities.start());
+        entity.setCalendarDate(CalendarDateEntities.valid());
         entity.setTitle(ActivityConstants.ALTERNATIVE_TITLE);
         entity.setDescription(ActivityConstants.DESCRIPTION);
         entity.setImage(ActivityConstants.IMAGE);
@@ -19,7 +19,7 @@ public final class ActivityEntities {
     public static final ActivityEntity valid() {
         final ActivityEntity entity = new ActivityEntity();
         entity.setNumber(ActivityConstants.NUMBER);
-        entity.setCalendarDate(CalendarDateEntities.start());
+        entity.setCalendarDate(CalendarDateEntities.valid());
         entity.setTitle(ActivityConstants.TITLE);
         entity.setDescription(ActivityConstants.DESCRIPTION);
         entity.setImage(ActivityConstants.IMAGE);

@@ -29,15 +29,16 @@ import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 
-public record Activity(long number, Instant date, String title, String description, String image) {
+public record Activity(long number, String title, String description, String image,  Instant start,  Instant end) {
 
-    public Activity(final long number, final Instant date, final String title, final String description,
-            final String image) {
+    public Activity(final long number, final String title, final String description,
+            final String image, final Instant start, final Instant end) {
         Objects.requireNonNull(title);
         Objects.requireNonNull(description);
 
         this.number = Objects.requireNonNull(number);
-        this.date = Objects.requireNonNull(date);
+        this.start = Objects.requireNonNull(start);
+        this.end = Objects.requireNonNull(end);
         this.title = StringUtils.trim(title);
         this.description = StringUtils.trim(description);
         this.image = StringUtils.trim(image);

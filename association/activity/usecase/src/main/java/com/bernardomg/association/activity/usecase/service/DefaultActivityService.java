@@ -66,6 +66,7 @@ public final class DefaultActivityService implements ActivityService {
 
         activityRepository = Objects.requireNonNull(activityRepo);
 
+        // TODO: start should be before or equal to end
         validatorCreate = new FieldRuleValidator<>();
         validatorUpdate = new FieldRuleValidator<>();
     }
