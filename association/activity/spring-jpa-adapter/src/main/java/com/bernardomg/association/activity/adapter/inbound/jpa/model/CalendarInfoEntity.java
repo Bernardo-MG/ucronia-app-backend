@@ -37,9 +37,9 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
-@Entity(name = "Activity")
-@Table(schema = "calendar", name = "activities")
-public class ActivityEntity implements Serializable {
+@Entity(name = "CalendarInfo")
+@Table(schema = "calendar", name = "calendar_info")
+public class CalendarInfoEntity implements Serializable {
 
     @Transient
     private static final long  serialVersionUID = 4603617058960663867L;
@@ -59,8 +59,14 @@ public class ActivityEntity implements Serializable {
     @Column(name = "image", length = 100)
     private String             image;
 
+    @Column(name = "location", length = 100)
+    private String             location;
+
     @Column(name = "number", nullable = false, unique = true)
     private Long               number;
+
+    @Column(name = "title", length = 50)
+    private String             title;
 
     public CalendarDateEntity getCalendarDate() {
         return calendarDate;
@@ -78,8 +84,16 @@ public class ActivityEntity implements Serializable {
         return image;
     }
 
+    public String getLocation() {
+        return location;
+    }
+
     public Long getNumber() {
         return number;
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     public void setCalendarDate(final CalendarDateEntity calendarDate) {
@@ -98,14 +112,22 @@ public class ActivityEntity implements Serializable {
         this.image = image;
     }
 
+    public void setLocation(final String location) {
+        this.location = location;
+    }
+
     public void setNumber(final Long number) {
         this.number = number;
+    }
+
+    public void setTitle(final String title) {
+        this.title = title;
     }
 
     @Override
     public String toString() {
         return "ActivityEntity [id=" + id + ", number=" + number + ", calendarDate=" + calendarDate + ", description="
-                + description + ", image=" + image + "]";
+                + description + ", location=" + location + ", title=" + title + ", image=" + image + "]";
     }
 
 }

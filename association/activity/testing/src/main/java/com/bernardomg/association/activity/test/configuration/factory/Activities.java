@@ -20,23 +20,26 @@ public final class Activities {
         end = LocalDateTime.of(2020, month, (int) number, 21, 0)
             .toInstant(ZoneOffset.UTC);
         return new Activity(number, ActivityConstants.TITLE + " " + number,
-            ActivityConstants.DESCRIPTION + " " + number, ActivityConstants.IMAGE + "_" + number, start, end);
+            ActivityConstants.DESCRIPTION + " " + number, ActivityConstants.LOCATION + " " + number,
+            ActivityConstants.IMAGE + "_" + number, start, end);
     }
 
     public static final Activity future() {
         return new Activity(ActivityConstants.NUMBER, ActivityConstants.TITLE, ActivityConstants.DESCRIPTION,
-            ActivityConstants.IMAGE, CalendarDateConstants.START_FUTURE, CalendarDateConstants.END_FUTURE);
+            ActivityConstants.LOCATION, ActivityConstants.IMAGE, CalendarDateConstants.START_FUTURE,
+            CalendarDateConstants.END_FUTURE);
     }
 
     public static final Activity titleChange() {
         return new Activity(ActivityConstants.NUMBER, ActivityConstants.ALTERNATIVE_TITLE,
-            ActivityConstants.DESCRIPTION, ActivityConstants.IMAGE, CalendarDateConstants.START,
-            CalendarDateConstants.END);
+            ActivityConstants.DESCRIPTION, ActivityConstants.LOCATION, ActivityConstants.IMAGE,
+            CalendarDateConstants.START, CalendarDateConstants.END);
     }
 
     public static final Activity valid() {
         return new Activity(ActivityConstants.NUMBER, ActivityConstants.TITLE, ActivityConstants.DESCRIPTION,
-            ActivityConstants.IMAGE, CalendarDateConstants.START, CalendarDateConstants.END);
+            ActivityConstants.LOCATION, ActivityConstants.IMAGE, CalendarDateConstants.START,
+            CalendarDateConstants.END);
     }
 
     private Activities() {

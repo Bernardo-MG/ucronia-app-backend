@@ -42,13 +42,13 @@ import com.bernardomg.pagination.domain.Sorting.Property;
 public final class ActivityDtoMapper {
 
     public static final Activity toDomain(final ActivityCreationDto creation) {
-        return new Activity(-1, creation.getTitle(), creation.getDescription(),
+        return new Activity(-1, creation.getTitle(), creation.getDescription(), creation.getLocation(),
             creation.getImage(), creation.getStart(), creation.getEnd());
     }
 
     public static final Activity toDomain(final Long number, final ActivityUpdateDto change) {
-        return new Activity(number, change.getTitle(), change.getDescription(), change.getImage()
-            , change.getStart(), change.getEnd());
+        return new Activity(number, change.getTitle(), change.getDescription(), change.getLocation(), change.getImage(),
+            change.getStart(), change.getEnd());
     }
 
     public static final ActivityResponseDto toResponseDto(final Activity transaction) {

@@ -30,16 +30,16 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
-import com.bernardomg.association.activity.adapter.inbound.jpa.model.ActivityEntity;
+import com.bernardomg.association.activity.adapter.inbound.jpa.model.CalendarInfoEntity;
 
-public interface ActivitySpringRepository
-        extends JpaRepository<ActivityEntity, Long>, JpaSpecificationExecutor<ActivityEntity> {
+public interface CalendarInfoSpringRepository
+        extends JpaRepository<CalendarInfoEntity, Long>, JpaSpecificationExecutor<CalendarInfoEntity> {
 
     public boolean existsByNumber(final long number);
 
-    public Optional<ActivityEntity> findByNumber(final long number);
+    public Optional<CalendarInfoEntity> findByNumber(final long number);
 
-    @Query("SELECT COALESCE(MAX(a.number), 0) + 1 FROM Activity a")
+    @Query("SELECT COALESCE(MAX(a.number), 0) + 1 FROM CalendarInfo a")
     public Long findNextNumber();
 
 }

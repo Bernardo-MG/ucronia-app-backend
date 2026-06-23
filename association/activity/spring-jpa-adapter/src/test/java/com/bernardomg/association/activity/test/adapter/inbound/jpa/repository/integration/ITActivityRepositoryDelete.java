@@ -31,7 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.activity.TestApplication;
-import com.bernardomg.association.activity.adapter.inbound.jpa.repository.ActivitySpringRepository;
+import com.bernardomg.association.activity.adapter.inbound.jpa.repository.CalendarInfoSpringRepository;
 import com.bernardomg.association.activity.domain.repository.ActivityRepository;
 import com.bernardomg.association.activity.test.configuration.data.annotation.ValidActivity;
 import com.bernardomg.association.activity.test.configuration.factory.ActivityConstants;
@@ -43,10 +43,10 @@ import com.bernardomg.test.annotation.IntegrationTest;
 class ITActivityRepositoryDelete {
 
     @Autowired
-    private ActivityRepository       repository;
+    private ActivityRepository           repository;
 
     @Autowired
-    private ActivitySpringRepository springRepository;
+    private CalendarInfoSpringRepository springRepository;
 
     public ITActivityRepositoryDelete() {
         super();

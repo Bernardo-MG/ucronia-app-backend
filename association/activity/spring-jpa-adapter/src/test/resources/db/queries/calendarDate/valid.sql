@@ -1,2 +1,2 @@
-INSERT INTO calendar.calendar_dates (id, number, title, start_date, end_date) VALUES
-   (1, 1, 'Title', '2020-02-01T14:00:00', '2020-02-01T21:00:00');
+INSERT INTO calendar.calendar_dates (id, number, start_date, end_date) VALUES
+   (1, 1, '2020-02-01T14:00:00', '2020-02-01T21:00:00');

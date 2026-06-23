@@ -22,6 +22,8 @@ components:
           type: string
         description:
           type: string
+        location:
+          type: string
         image:
           type: string
         start:
@@ -35,6 +37,8 @@ components:
         title:
           type: string
         description:
+          type: string
+        location:
           type: string
         image:
           type: string
@@ -50,6 +54,8 @@ components:
         title:
           type: string
         description:
+          type: string
+        location:
           type: string
         image:
           type: string

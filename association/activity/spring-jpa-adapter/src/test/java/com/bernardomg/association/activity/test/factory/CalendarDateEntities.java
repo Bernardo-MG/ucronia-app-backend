@@ -8,7 +8,6 @@ public final class CalendarDateEntities {
 
     public static final CalendarDateEntity valid() {
         final CalendarDateEntity entity = new CalendarDateEntity();
-        entity.setTitle(CalendarDateConstants.TITLE);
         entity.setStart(CalendarDateConstants.START);
         entity.setEnd(CalendarDateConstants.END);
         return entity;

@@ -8,13 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.activity.TestApplication;
-import com.bernardomg.association.activity.adapter.inbound.jpa.model.ActivityEntity;
-import com.bernardomg.association.activity.adapter.inbound.jpa.repository.ActivitySpringRepository;
+import com.bernardomg.association.activity.adapter.inbound.jpa.model.CalendarInfoEntity;
+import com.bernardomg.association.activity.adapter.inbound.jpa.repository.CalendarInfoSpringRepository;
 import com.bernardomg.association.activity.domain.model.Activity;
 import com.bernardomg.association.activity.domain.repository.ActivityRepository;
 import com.bernardomg.association.activity.test.configuration.data.annotation.ValidActivity;
 import com.bernardomg.association.activity.test.configuration.factory.Activities;
-import com.bernardomg.association.activity.test.factory.ActivityEntities;
+import com.bernardomg.association.activity.test.factory.CalendarInfoEntities;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -23,16 +23,16 @@ import com.bernardomg.test.annotation.IntegrationTest;
 class ITActivityRepositorySave {
 
     @Autowired
-    private ActivityRepository       repository;
+    private ActivityRepository           repository;
 
     @Autowired
-    private ActivitySpringRepository springRepository;
+    private CalendarInfoSpringRepository springRepository;
 
     @Test
     @DisplayName("Persists the data")
     void testSave_PersistedData() {
-        final Iterable<ActivityEntity> activities;
-        final Activity                 activity;
+        final Iterable<CalendarInfoEntity> activities;
+        final Activity                     activity;
 
         // GIVEN
         activity = Activities.valid();
@@ -47,7 +47,7 @@ class ITActivityRepositorySave {
             .as("activities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "calendarDate.id",
                 "calendarDate.number")
-            .containsExactly(ActivityEntities.valid());
+            .containsExactly(CalendarInfoEntities.valid());
     }
 
     @Test
@@ -74,8 +74,8 @@ class ITActivityRepositorySave {
     @DisplayName("When changing the title, the data is persisted")
     @ValidActivity
     void testSave_TitleChange_PersistedData() {
-        final Iterable<ActivityEntity> activities;
-        final Activity                 activity;
+        final Iterable<CalendarInfoEntity> activities;
+        final Activity                     activity;
 
         // GIVEN
         activity = Activities.titleChange();
@@ -90,7 +90,7 @@ class ITActivityRepositorySave {
             .as("activities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "calendarDate.id",
                 "calendarDate.number")
-            .containsExactly(ActivityEntities.titleChange());
+            .containsExactly(CalendarInfoEntities.titleChange());
     }
 
     @Test

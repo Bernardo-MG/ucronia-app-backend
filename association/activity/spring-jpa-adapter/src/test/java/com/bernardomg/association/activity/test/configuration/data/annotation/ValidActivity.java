@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 import org.springframework.test.context.jdbc.Sql;
 
 @Sql("/db/queries/calendarDate/valid.sql")
-@Sql("/db/queries/activity/valid.sql")
+@Sql("/db/queries/dateInfo/valid.sql")
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented

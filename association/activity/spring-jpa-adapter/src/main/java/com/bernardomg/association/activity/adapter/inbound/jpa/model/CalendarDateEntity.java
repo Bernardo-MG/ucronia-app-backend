@@ -56,9 +56,6 @@ public class CalendarDateEntity implements Serializable {
     @Column(name = "start_date", nullable = false)
     private Instant           start;
 
-    @Column(name = "title", length = 50)
-    private String            title;
-
     public Instant getEnd() {
         return end;
     }
@@ -73,10 +70,6 @@ public class CalendarDateEntity implements Serializable {
 
     public Instant getStart() {
         return start;
-    }
-
-    public String getTitle() {
-        return title;
     }
 
     public void setEnd(final Instant end) {
@@ -95,14 +88,9 @@ public class CalendarDateEntity implements Serializable {
         this.start = start;
     }
 
-    public void setTitle(final String title) {
-        this.title = title;
-    }
-
     @Override
     public String toString() {
-        return "CalendarEntity [id=" + id + ", title=" + title + ", number=" + number + ", start=" + start + ", end="
-                + end + "]";
+        return "CalendarEntity [id=" + id + ", number=" + number + ", start=" + start + ", end=" + end + "]";
     }
 
 }

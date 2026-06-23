@@ -2,6 +2,3 @@ databaseChangeLog:
   - include:
       file: calendar.yaml
       relativeToChangelogFile: true
-  - include:
-      file: activity.yaml
-      relativeToChangelogFile: true

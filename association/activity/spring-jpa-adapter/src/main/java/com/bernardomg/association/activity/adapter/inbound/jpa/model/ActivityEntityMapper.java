@@ -31,26 +31,26 @@ import com.bernardomg.association.activity.domain.model.Activity;
  */
 public final class ActivityEntityMapper {
 
-    public static final Activity toDomain(final ActivityEntity entity) {
-        return new Activity(entity.getNumber(), entity.getCalendarDate()
-            .getTitle(), entity.getDescription(), entity.getImage(),
-            entity.getCalendarDate()
+    public static final Activity toDomain(final CalendarInfoEntity entity) {
+        return new Activity(entity.getNumber(), entity.getTitle(), entity.getDescription(), entity.getLocation(),
+            entity.getImage(), entity.getCalendarDate()
                 .getStart(),
             entity.getCalendarDate()
                 .getEnd());
     }
 
-    public static final ActivityEntity toEntity(final Activity activity) {
-        final ActivityEntity     entity;
+    public static final CalendarInfoEntity toEntity(final Activity activity) {
+        final CalendarInfoEntity entity;
         final CalendarDateEntity date;
 
-        entity = new ActivityEntity();
+        entity = new CalendarInfoEntity();
         entity.setNumber(activity.number());
+        entity.setTitle(activity.title());
         entity.setDescription(activity.description());
+        entity.setLocation(activity.location());
         entity.setImage(activity.image());
 
         date = new CalendarDateEntity();
-        date.setTitle(activity.title());
         date.setStart(activity.start());
         date.setEnd(activity.end());
         entity.setCalendarDate(date);

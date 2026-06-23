@@ -32,9 +32,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.association.activity.adapter.inbound.jpa.model.ActivityEntity;
 import com.bernardomg.association.activity.adapter.inbound.jpa.model.ActivityEntityMapper;
 import com.bernardomg.association.activity.adapter.inbound.jpa.model.CalendarDateEntity;
+import com.bernardomg.association.activity.adapter.inbound.jpa.model.CalendarInfoEntity;
 import com.bernardomg.association.activity.domain.model.Activity;
 import com.bernardomg.association.activity.domain.repository.ActivityRepository;
 import com.bernardomg.pagination.domain.Page;
@@ -53,28 +53,28 @@ public final class JpaActivityRepository implements ActivityRepository {
      */
     private static final Logger                log = LoggerFactory.getLogger(JpaActivityRepository.class);
 
-    private final ActivitySpringRepository     activitySpringRepository;
-
     private final CalendarDateSpringRepository calendarDateSpringRepository;
 
-    public JpaActivityRepository(final ActivitySpringRepository activityRepo,
+    private final CalendarInfoSpringRepository calendarInfoSpringRepository;
+
+    public JpaActivityRepository(final CalendarInfoSpringRepository calendarInfoSpringRepo,
             final CalendarDateSpringRepository calendarDateSpringRepo) {
         super();
 
-        activitySpringRepository = Objects.requireNonNull(activityRepo);
+        calendarInfoSpringRepository = Objects.requireNonNull(calendarInfoSpringRepo);
         calendarDateSpringRepository = Objects.requireNonNull(calendarDateSpringRepo);
     }
 
     @Override
     public final void delete(final long number) {
-        final Optional<ActivityEntity> activity;
+        final Optional<CalendarInfoEntity> calendar;
 
         log.debug("Deleting activity {}", number);
 
         // TODO: check the date is deleted
-        activity = activitySpringRepository.findByNumber(number);
-        if (activity.isPresent()) {
-            activitySpringRepository.deleteById(activity.get()
+        calendar = calendarInfoSpringRepository.findByNumber(number);
+        if (calendar.isPresent()) {
+            calendarInfoSpringRepository.deleteById(calendar.get()
                 .getId());
 
             log.debug("Deleted activity {}", number);
@@ -90,7 +90,7 @@ public final class JpaActivityRepository implements ActivityRepository {
 
         log.debug("Checking if activity {} exists", number);
 
-        exists = activitySpringRepository.existsByNumber(number);
+        exists = calendarInfoSpringRepository.existsByNumber(number);
 
         log.debug("Activity {} exists: {}", number, exists);
 
@@ -99,16 +99,16 @@ public final class JpaActivityRepository implements ActivityRepository {
 
     @Override
     public final Page<Activity> findAll(final Pagination pagination, final Sorting sorting) {
-        final org.springframework.data.domain.Page<ActivityEntity> page;
-        final org.springframework.data.domain.Page<Activity>       read;
-        final Pageable                                             pageable;
-        final Sorting                                              fixedSorting;
+        final org.springframework.data.domain.Page<CalendarInfoEntity> page;
+        final org.springframework.data.domain.Page<Activity>           read;
+        final Pageable                                                 pageable;
+        final Sorting                                                  fixedSorting;
 
         log.debug("Finding activities with pagination {} and sorting {}", pagination, sorting);
 
         fixedSorting = fixSorting(sorting);
         pageable = SpringPagination.toPageable(pagination, fixedSorting);
-        page = activitySpringRepository.findAll(pageable);
+        page = calendarInfoSpringRepository.findAll(pageable);
 
         read = page.map(ActivityEntityMapper::toDomain);
 
@@ -123,7 +123,7 @@ public final class JpaActivityRepository implements ActivityRepository {
 
         log.debug("Finding activity with number {}", number);
 
-        activity = activitySpringRepository.findByNumber(number)
+        activity = calendarInfoSpringRepository.findByNumber(number)
             .map(ActivityEntityMapper::toDomain);
 
         log.debug("Found activity with number {}: {}", number, activity);
@@ -133,24 +133,24 @@ public final class JpaActivityRepository implements ActivityRepository {
 
     @Override
     public final Activity save(final Activity activity) {
-        final Optional<ActivityEntity> existing;
-        final ActivityEntity           entity;
-        final CalendarDateEntity       createdDate;
-        final ActivityEntity           created;
-        final Activity                 saved;
-        final Long                     number;
-        final Long                     dateNumber;
+        final Optional<CalendarInfoEntity> existing;
+        final CalendarInfoEntity           entity;
+        final CalendarDateEntity           createdDate;
+        final CalendarInfoEntity           created;
+        final Activity                     saved;
+        final Long                         number;
+        final Long                         dateNumber;
 
         log.debug("Saving activity {}", activity);
 
         entity = ActivityEntityMapper.toEntity(activity);
 
-        existing = activitySpringRepository.findByNumber(activity.number());
+        existing = calendarInfoSpringRepository.findByNumber(activity.number());
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
         } else {
-            number = activitySpringRepository.findNextNumber();
+            number = calendarInfoSpringRepository.findNextNumber();
             entity.setNumber(number);
         }
 
@@ -160,7 +160,7 @@ public final class JpaActivityRepository implements ActivityRepository {
         createdDate = calendarDateSpringRepository.save(entity.getCalendarDate());
 
         entity.setCalendarDate(createdDate);
-        created = activitySpringRepository.save(entity);
+        created = calendarInfoSpringRepository.save(entity);
         saved = ActivityEntityMapper.toDomain(created);
 
         log.debug("Saved activity {}", saved);

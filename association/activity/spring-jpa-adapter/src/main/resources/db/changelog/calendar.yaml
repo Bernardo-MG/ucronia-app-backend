@@ -30,11 +30,6 @@ databaseChangeLog:
                     unique: true
                     nullable: false
               - column:
-                  name: title
-                  type: varchar(50)
-                  constraints:
-                    nullable: false
-              - column:
                   name: start_date
                   type: datetime
                   constraints:
@@ -47,6 +42,60 @@ databaseChangeLog:
         - addAutoIncrement:
             schemaName: calendar
             tableName: calendar_dates
+            columnName: id
+            columnDataType: bigint
+            incrementBy: 1
+            startWith: 1
+        - createTable:
+            schemaName: calendar
+            tableName: calendar_info
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: number
+                  type: bigint
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: title
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(200)
+                  constraints:
+                    nullable: true
+                  defaultValue: ''
+              - column:
+                  name: image
+                  type: varchar(100)
+                  constraints:
+                    nullable: true
+                  defaultValue: ''
+              - column:
+                  name: location
+                  type: varchar(100)
+                  constraints:
+                    nullable: true
+                  defaultValue: ''
+              - column:
+                  name: calendar_date_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_calendar_info_calendar_date
+                    references: calendar.calendar_dates(id)
+                    deleteCascade: true
+        - addAutoIncrement:
+            schemaName: calendar
+            tableName: calendar_info
             columnName: id
             columnDataType: bigint
             incrementBy: 1
