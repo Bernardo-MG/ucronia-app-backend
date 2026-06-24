@@ -58,7 +58,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: title
-                  type: varchar(50)
+                  type: varchar(100)
                   constraints:
                     nullable: false
               - column:
@@ -69,13 +69,13 @@ databaseChangeLog:
                   defaultValue: ''
               - column:
                   name: image
-                  type: varchar(100)
+                  type: varchar(200)
                   constraints:
                     nullable: true
                   defaultValue: ''
               - column:
                   name: location
-                  type: varchar(100)
+                  type: varchar(200)
                   constraints:
                     nullable: true
                   defaultValue: ''

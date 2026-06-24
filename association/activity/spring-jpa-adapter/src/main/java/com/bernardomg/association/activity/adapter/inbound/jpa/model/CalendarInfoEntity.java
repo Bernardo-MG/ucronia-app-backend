@@ -63,16 +63,16 @@ public class CalendarInfoEntity implements Serializable {
     @Column(name = "id", nullable = false, unique = true)
     private Long                    id;
 
-    @Column(name = "image", length = 100)
+    @Column(name = "image", length = 200)
     private String                  image;
 
-    @Column(name = "location", length = 100)
+    @Column(name = "location", length = 200)
     private String                  location;
 
     @Column(name = "number", nullable = false, unique = true)
     private Long                    number;
 
-    @Column(name = "title", length = 50)
+    @Column(name = "title", length = 100)
     private String                  title;
 
     @JdbcTypeCode(SqlTypes.JSON)
