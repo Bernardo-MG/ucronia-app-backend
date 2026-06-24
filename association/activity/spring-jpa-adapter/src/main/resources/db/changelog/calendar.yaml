@@ -1,0 +1,121 @@
+databaseChangeLog:
+  - changeSet:
+      id: calendar_schema
+      author: Bernardo
+      changes:
+        - sqlFile:
+            encoding: UTF-8
+            path: sql/create_calendar_schema.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: true
+  - changeSet:
+      id: calendar
+      author: Bernardo
+      changes:
+        - createTable:
+            schemaName: calendar
+            tableName: calendar_dates
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: start_date
+                  type: datetime
+                  constraints:
+                    nullable: false
+              - column:
+                  name: end_date
+                  type: datetime
+                  constraints:
+                    nullable: false
+        - addAutoIncrement:
+            schemaName: calendar
+            tableName: calendar_dates
+            columnName: id
+            columnDataType: bigint
+            incrementBy: 1
+            startWith: 1
+        - createTable:
+            schemaName: calendar
+            tableName: calendar_info
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: number
+                  type: bigint
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: title
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(200)
+                  constraints:
+                    nullable: true
+                  defaultValue: ''
+              - column:
+                  name: image
+                  type: varchar(100)
+                  constraints:
+                    nullable: true
+                  defaultValue: ''
+              - column:
+                  name: location
+                  type: varchar(100)
+                  constraints:
+                    nullable: true
+                  defaultValue: ''
+              - column:
+                  name: types
+                  type: json
+                  defaultValue: '[]'
+        - addAutoIncrement:
+            schemaName: calendar
+            tableName: calendar_info
+            columnName: id
+            columnDataType: bigint
+            incrementBy: 1
+            startWith: 1
+        - createTable:
+            schemaName: calendar
+            tableName: calendar_info_dates
+            columns:
+              - column:
+                  name: calendar_info_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_calendar_info_dates_calendar_info
+                    references: calendar.calendar_info(id)
+                    deleteCascade: true
+              - column:
+                  name: calendar_date_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_calendar_info_dates_calendar_dates
+                    references: calendar.calendar_dates(id)
+                    deleteCascade: true
+        - addPrimaryKey:
+            schemaName: calendar
+            tableName: calendar_info_dates
+            columnNames: calendar_info_id, calendar_date_id
+            constraintName: pk_calendar_info_dates
+      modifySql:
+        - append:
+            dbms: mysql
+            value: ' ENGINE=InnoDB DEFAULT CHARSET=latin1'

@@ -66,6 +66,10 @@
          <artifactId>association-library-spring-starter</artifactId>
       </dependency>
       <dependency>
+         <groupId>com.bernardomg.association.activity</groupId>
+         <artifactId>association-activity-spring-starter</artifactId>
+      </dependency>
+      <dependency>
          <groupId>com.bernardomg.association.security</groupId>
          <artifactId>association-security-spring-starter</artifactId>
       </dependency>

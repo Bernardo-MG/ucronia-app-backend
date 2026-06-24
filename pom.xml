@@ -371,6 +371,11 @@
             <version>${project.version}</version>
          </dependency>
          <dependency>
+            <groupId>com.bernardomg.association.activity</groupId>
+            <artifactId>association-activity-spring-starter</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
             <groupId>com.bernardomg.association.security</groupId>
             <artifactId>association-security-domain</artifactId>
             <version>${project.version}</version>
