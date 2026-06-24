@@ -107,6 +107,10 @@ public class CalendarInfoEntity implements Serializable {
         return title;
     }
 
+    public Set<String> getTypes() {
+        return types;
+    }
+
     public void setCalendarDates(final Set<CalendarDateEntity> calendarDates) {
         this.calendarDates = calendarDates;
     }
@@ -133,6 +137,10 @@ public class CalendarInfoEntity implements Serializable {
 
     public void setTitle(final String title) {
         this.title = title;
+    }
+
+    public void setTypes(final Set<String> types) {
+        this.types = types;
     }
 
     @Override

@@ -46,7 +46,7 @@ class ITActivityRepositorySave {
         Assertions.assertThat(activities)
             .as("activities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "calendarDates.id")
-            .containsExactly(CalendarInfoEntities.valid());
+            .containsExactly(CalendarInfoEntities.created());
     }
 
     @Test

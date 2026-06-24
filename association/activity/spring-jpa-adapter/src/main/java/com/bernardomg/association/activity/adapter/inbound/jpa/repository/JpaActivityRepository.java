@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.activity.adapter.inbound.jpa.repository;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -33,6 +34,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
 
+import com.bernardomg.association.activity.adapter.inbound.jpa.model.ActivityEntityConstants;
 import com.bernardomg.association.activity.adapter.inbound.jpa.model.ActivityEntityMapper;
 import com.bernardomg.association.activity.adapter.inbound.jpa.model.CalendarDateEntity;
 import com.bernardomg.association.activity.adapter.inbound.jpa.model.CalendarInfoEntity;
@@ -155,12 +157,24 @@ public final class JpaActivityRepository implements ActivityRepository {
         createdDates = calendarDateSpringRepository.saveAll(entity.getCalendarDates());
 
         entity.setCalendarDates(Set.copyOf(createdDates));
+        
+        setType(entity);
+        
         created = calendarInfoSpringRepository.save(entity);
         saved = ActivityEntityMapper.toDomain(created);
 
         log.debug("Saved activity {}", saved);
 
         return saved;
+    }
+
+    private final void setType(final CalendarInfoEntity entity) {
+        if (entity.getTypes() == null) {
+            entity.setTypes(new HashSet<>(List.of(ActivityEntityConstants.PROFILE_TYPE)));
+        } else {
+            entity.getTypes()
+                .add(ActivityEntityConstants.PROFILE_TYPE);
+        }
     }
 
 }
