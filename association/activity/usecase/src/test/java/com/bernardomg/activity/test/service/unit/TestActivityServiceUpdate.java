@@ -42,6 +42,8 @@ import com.bernardomg.association.activity.domain.repository.ActivityRepository;
 import com.bernardomg.association.activity.test.configuration.factory.Activities;
 import com.bernardomg.association.activity.test.configuration.factory.ActivityConstants;
 import com.bernardomg.association.activity.usecase.service.DefaultActivityService;
+import com.bernardomg.validation.domain.model.FieldFailure;
+import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Activity service - update")
@@ -52,61 +54,6 @@ class TestActivityServiceUpdate {
 
     @InjectMocks
     private DefaultActivityService service;
-
-    @Test
-    @DisplayName("With a member with padded name, the member is persisted")
-    void testCreate_Padded_PersistedData() {
-        final Activity activity;
-
-        // GIVEN
-        activity = Activities.valid();
-
-        given(activityRepository.exists(ActivityConstants.NUMBER)).willReturn(true);
-
-        // WHEN
-        service.update(activity);
-
-        // THEN
-        verify(activityRepository).save(Activities.valid());
-    }
-
-    @Test
-    @DisplayName("With a valid activity, it is persisted")
-    void testCreate_PersistedData() {
-        final Activity activity;
-
-        // GIVEN
-        activity = Activities.valid();
-
-        given(activityRepository.exists(ActivityConstants.NUMBER)).willReturn(true);
-
-        // WHEN
-        service.update(activity);
-
-        // THEN
-        verify(activityRepository).save(Activities.valid());
-    }
-
-    @Test
-    @DisplayName("With a valid activity, it is returned")
-    void testCreate_ReturnedData() {
-        final Activity activity;
-        final Activity updated;
-
-        // GIVEN
-        activity = Activities.valid();
-
-        given(activityRepository.save(activity)).willReturn(activity);
-        given(activityRepository.exists(ActivityConstants.NUMBER)).willReturn(true);
-
-        // WHEN
-        updated = service.update(activity);
-
-        // THEN
-        Assertions.assertThat(updated)
-            .as("activity")
-            .isEqualTo(Activities.valid());
-    }
 
     @Test
     @DisplayName("With the activity with a future date, it is persisted")
@@ -142,6 +89,96 @@ class TestActivityServiceUpdate {
         // THEN
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(MissingActivityException.class);
+    }
+
+    @Test
+    @DisplayName("With a member with padded name, the member is persisted")
+    void testUpdate_Padded_PersistedData() {
+        final Activity activity;
+
+        // GIVEN
+        activity = Activities.valid();
+
+        given(activityRepository.exists(ActivityConstants.NUMBER)).willReturn(true);
+
+        // WHEN
+        service.update(activity);
+
+        // THEN
+        verify(activityRepository).save(Activities.valid());
+    }
+
+    @Test
+    @DisplayName("With a valid activity, it is persisted")
+    void testUpdate_PersistedData() {
+        final Activity activity;
+
+        // GIVEN
+        activity = Activities.valid();
+
+        given(activityRepository.exists(ActivityConstants.NUMBER)).willReturn(true);
+
+        // WHEN
+        service.update(activity);
+
+        // THEN
+        verify(activityRepository).save(Activities.valid());
+    }
+
+    @Test
+    @DisplayName("With a valid activity, it is returned")
+    void testUpdate_ReturnedData() {
+        final Activity activity;
+        final Activity updated;
+
+        // GIVEN
+        activity = Activities.valid();
+
+        given(activityRepository.save(activity)).willReturn(activity);
+        given(activityRepository.exists(ActivityConstants.NUMBER)).willReturn(true);
+
+        // WHEN
+        updated = service.update(activity);
+
+        // THEN
+        Assertions.assertThat(updated)
+            .as("activity")
+            .isEqualTo(Activities.valid());
+    }
+
+    @Test
+    @DisplayName("With an activity which starts and ends in the same date, it is persisted")
+    void testUpdate_SameDate_PersistedData() {
+        final Activity activity;
+
+        // GIVEN
+        activity = Activities.sameDate();
+
+        given(activityRepository.exists(ActivityConstants.NUMBER)).willReturn(true);
+
+        // WHEN
+        service.update(activity);
+
+        // THEN
+        verify(activityRepository).save(Activities.sameDate());
+    }
+
+    @Test
+    @DisplayName("With an activity which starts after the end, an exception is thrown")
+    void testUpdate_StartsAfterEnd() {
+        final ThrowingCallable execution;
+        final Activity         activity;
+
+        // GIVEN
+        activity = Activities.startsAfterEnd();
+
+        given(activityRepository.exists(ActivityConstants.NUMBER)).willReturn(true);
+
+        // WHEN
+        execution = () -> service.update(activity);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution, new FieldFailure("invalid", "dates", activity.dates()));
     }
 
 }

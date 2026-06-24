@@ -33,6 +33,7 @@ import org.slf4j.LoggerFactory;
 import com.bernardomg.association.activity.domain.exception.MissingActivityException;
 import com.bernardomg.association.activity.domain.model.Activity;
 import com.bernardomg.association.activity.domain.repository.ActivityRepository;
+import com.bernardomg.association.activity.usecase.usecase.ActivityEndAfterDateRule;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
@@ -66,9 +67,8 @@ public final class DefaultActivityService implements ActivityService {
 
         activityRepository = Objects.requireNonNull(activityRepo);
 
-        // TODO: start should be before or equal to end
-        validatorCreate = new FieldRuleValidator<>();
-        validatorUpdate = new FieldRuleValidator<>();
+        validatorCreate = new FieldRuleValidator<>(new ActivityEndAfterDateRule());
+        validatorUpdate = new FieldRuleValidator<>(new ActivityEndAfterDateRule());
     }
 
     @Override

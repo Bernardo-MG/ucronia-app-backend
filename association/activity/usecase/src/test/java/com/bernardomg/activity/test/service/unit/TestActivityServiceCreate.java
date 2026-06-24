@@ -28,6 +28,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -39,6 +40,8 @@ import com.bernardomg.association.activity.domain.model.Activity;
 import com.bernardomg.association.activity.domain.repository.ActivityRepository;
 import com.bernardomg.association.activity.test.configuration.factory.Activities;
 import com.bernardomg.association.activity.usecase.service.DefaultActivityService;
+import com.bernardomg.validation.domain.model.FieldFailure;
+import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Activity service - create")
@@ -98,6 +101,37 @@ class TestActivityServiceCreate {
         Assertions.assertThat(created)
             .as("activity")
             .isEqualTo(Activities.valid());
+    }
+
+    @Test
+    @DisplayName("With an activity which starts and ends in the same date, it is persisted")
+    void testCreate_SameDate_PersistedData() {
+        final Activity activity;
+
+        // GIVEN
+        activity = Activities.sameDate();
+
+        // WHEN
+        service.create(activity);
+
+        // THEN
+        verify(activityRepository).save(Activities.sameDate());
+    }
+
+    @Test
+    @DisplayName("With an activity which starts after the end, an exception is thrown")
+    void testCreate_StartsAfterEnd() {
+        final ThrowingCallable execution;
+        final Activity         activity;
+
+        // GIVEN
+        activity = Activities.startsAfterEnd();
+
+        // WHEN
+        execution = () -> service.create(activity);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution, new FieldFailure("invalid", "dates", activity.dates()));
     }
 
 }

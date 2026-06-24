@@ -47,6 +47,23 @@ public final class Activities {
             ActivityConstants.DESCRIPTION, ActivityConstants.LOCATION, ActivityConstants.IMAGE, List.of(date));
     }
 
+    public static final Activity startsAfterEnd() {
+        final ActivityDate date;
+
+        date = new ActivityDate(CalendarDateConstants.END,CalendarDateConstants.START);
+
+        return new Activity(ActivityConstants.NUMBER, ActivityConstants.TITLE, ActivityConstants.DESCRIPTION,
+            ActivityConstants.LOCATION, ActivityConstants.IMAGE, List.of(date));
+    }
+
+    public static final Activity sameDate() {
+        final ActivityDate date;
+
+        date = new ActivityDate(CalendarDateConstants.START, CalendarDateConstants.START);
+
+        return new Activity(ActivityConstants.NUMBER, ActivityConstants.TITLE, ActivityConstants.DESCRIPTION,
+            ActivityConstants.LOCATION, ActivityConstants.IMAGE, List.of(date));
+    }
     public static final Activity valid() {
         final ActivityDate date;
 
