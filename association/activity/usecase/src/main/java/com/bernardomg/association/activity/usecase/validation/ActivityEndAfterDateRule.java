@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.activity.usecase.usecase;
+package com.bernardomg.association.activity.usecase.validation;
 
 import java.util.Optional;
 

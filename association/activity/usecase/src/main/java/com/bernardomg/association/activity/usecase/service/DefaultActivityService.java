@@ -33,7 +33,7 @@ import org.slf4j.LoggerFactory;
 import com.bernardomg.association.activity.domain.exception.MissingActivityException;
 import com.bernardomg.association.activity.domain.model.Activity;
 import com.bernardomg.association.activity.domain.repository.ActivityRepository;
-import com.bernardomg.association.activity.usecase.usecase.ActivityEndAfterDateRule;
+import com.bernardomg.association.activity.usecase.validation.ActivityEndAfterDateRule;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;

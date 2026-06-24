@@ -26,4 +26,4 @@
  * Activity validators.
  */
 
-package com.bernardomg.association.activity.usecase.usecase;
+package com.bernardomg.association.activity.usecase.validation;
