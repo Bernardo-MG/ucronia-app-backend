@@ -10,8 +10,9 @@ import java.lang.annotation.Target;
 
 import org.springframework.test.context.jdbc.Sql;
 
-@Sql("/db/queries/calendarDate/multiple.sql")
 @Sql("/db/queries/dateInfo/multiple.sql")
+@Sql("/db/queries/calendarDate/multiple.sql")
+@Sql("/db/queries/dateInfo/relationship_multiple_date.sql")
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented

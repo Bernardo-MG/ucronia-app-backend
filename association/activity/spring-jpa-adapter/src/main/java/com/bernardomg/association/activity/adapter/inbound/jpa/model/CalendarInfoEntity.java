@@ -25,6 +25,7 @@
 package com.bernardomg.association.activity.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -33,7 +34,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
@@ -42,34 +44,36 @@ import jakarta.persistence.Transient;
 public class CalendarInfoEntity implements Serializable {
 
     @Transient
-    private static final long  serialVersionUID = 4603617058960663867L;
+    private static final long       serialVersionUID = 4603617058960663867L;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "calendar_date_id", nullable = false)
-    private CalendarDateEntity calendarDate;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(schema = "calendar", name = "calendar_info_dates",
+            joinColumns = @JoinColumn(name = "calendar_info_id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "calendar_date_id", nullable = false))
+    private Set<CalendarDateEntity> calendarDates;
 
     @Column(name = "description", length = 200)
-    private String             description;
+    private String                  description;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
-    private Long               id;
+    private Long                    id;
 
     @Column(name = "image", length = 100)
-    private String             image;
+    private String                  image;
 
     @Column(name = "location", length = 100)
-    private String             location;
+    private String                  location;
 
     @Column(name = "number", nullable = false, unique = true)
-    private Long               number;
+    private Long                    number;
 
     @Column(name = "title", length = 50)
-    private String             title;
+    private String                  title;
 
-    public CalendarDateEntity getCalendarDate() {
-        return calendarDate;
+    public Set<CalendarDateEntity> getCalendarDates() {
+        return calendarDates;
     }
 
     public String getDescription() {
@@ -96,8 +100,8 @@ public class CalendarInfoEntity implements Serializable {
         return title;
     }
 
-    public void setCalendarDate(final CalendarDateEntity calendarDate) {
-        this.calendarDate = calendarDate;
+    public void setCalendarDates(final Set<CalendarDateEntity> calendarDates) {
+        this.calendarDates = calendarDates;
     }
 
     public void setDescription(final String description) {
@@ -126,7 +130,7 @@ public class CalendarInfoEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "ActivityEntity [id=" + id + ", number=" + number + ", calendarDate=" + calendarDate + ", description="
+        return "ActivityEntity [id=" + id + ", number=" + number + ", calendarDates=" + calendarDates + ", description="
                 + description + ", location=" + location + ", title=" + title + ", image=" + image + "]";
     }
 

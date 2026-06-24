@@ -11,12 +11,22 @@ components:
         type: array
         items:
           type: string
-          pattern: '^(description|title|date)\|(asc|desc)$'
+          pattern: '^(description|title)\|(asc|desc)$'
           example: date|asc
+
   schemas:
+    ActivityDate:
+      type: object
+      required: [start, end]
+      properties:
+        start:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+        end:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+
     ActivityCreation:
       type: object
-      required: [date, title]
+      required: [dates, title]
       properties:
         title:
           type: string
@@ -26,13 +36,15 @@ components:
           type: string
         image:
           type: string
-        start:
-          $ref: '../common/dates.yml#/components/schemas/Date'
-        end:
-          $ref: '../common/dates.yml#/components/schemas/Date'
+        dates:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/ActivityDate'
+
     ActivityUpdate:
       type: object
-      required: [date, title]
+      required: [dates, title]
       properties:
         title:
           type: string
@@ -42,10 +54,12 @@ components:
           type: string
         image:
           type: string
-        start:
-          $ref: '../common/dates.yml#/components/schemas/Date'
-        end:
-          $ref: '../common/dates.yml#/components/schemas/Date'
+        dates:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/ActivityDate'
+
     Activity:
       type: object
       properties:
@@ -59,10 +73,11 @@ components:
           type: string
         image:
           type: string
-        start:
-          $ref: '../common/dates.yml#/components/schemas/Date'
-        end:
-          $ref: '../common/dates.yml#/components/schemas/Date'
+        dates:
+          type: array
+          items:
+            $ref: '#/components/schemas/ActivityDate'
+
     ActivityPageResponse:
       allOf:
         - $ref: '../common/responses.yml#/components/schemas/PageResponse'
@@ -72,6 +87,7 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/Activity'
+
     ActivityResponse:
       type: object
       properties:

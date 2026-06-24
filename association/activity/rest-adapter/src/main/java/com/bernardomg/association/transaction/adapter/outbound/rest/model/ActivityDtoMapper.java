@@ -24,9 +24,11 @@
 
 package com.bernardomg.association.transaction.adapter.outbound.rest.model;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.bernardomg.association.activity.adapter.outbound.rest.dto.ActivityCreationDto;
+import com.bernardomg.association.activity.adapter.outbound.rest.dto.ActivityDateDto;
 import com.bernardomg.association.activity.adapter.outbound.rest.dto.ActivityDto;
 import com.bernardomg.association.activity.adapter.outbound.rest.dto.ActivityPageResponseDto;
 import com.bernardomg.association.activity.adapter.outbound.rest.dto.ActivityResponseDto;
@@ -35,6 +37,7 @@ import com.bernardomg.association.activity.adapter.outbound.rest.dto.PropertyDto
 import com.bernardomg.association.activity.adapter.outbound.rest.dto.PropertyDto.DirectionEnum;
 import com.bernardomg.association.activity.adapter.outbound.rest.dto.SortingDto;
 import com.bernardomg.association.activity.domain.model.Activity;
+import com.bernardomg.association.activity.domain.model.Activity.ActivityDate;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
 import com.bernardomg.pagination.domain.Sorting.Property;
@@ -42,13 +45,25 @@ import com.bernardomg.pagination.domain.Sorting.Property;
 public final class ActivityDtoMapper {
 
     public static final Activity toDomain(final ActivityCreationDto creation) {
+        final List<ActivityDate> dates;
+
+        dates = creation.getDates()
+            .stream()
+            .map(ActivityDtoMapper::toDomain)
+            .toList();
         return new Activity(-1, creation.getTitle(), creation.getDescription(), creation.getLocation(),
-            creation.getImage(), creation.getStart(), creation.getEnd());
+            creation.getImage(), dates);
     }
 
     public static final Activity toDomain(final Long number, final ActivityUpdateDto change) {
+        final List<ActivityDate> dates;
+
+        dates = change.getDates()
+            .stream()
+            .map(ActivityDtoMapper::toDomain)
+            .toList();
         return new Activity(number, change.getTitle(), change.getDescription(), change.getLocation(), change.getImage(),
-            change.getStart(), change.getEnd());
+            dates);
     }
 
     public static final ActivityResponseDto toResponseDto(final Activity transaction) {
@@ -82,13 +97,27 @@ public final class ActivityDtoMapper {
             .sort(sortingResponse);
     }
 
+    private static final ActivityDate toDomain(final ActivityDateDto date) {
+        return new ActivityDate(date.getStart(), date.getEnd());
+    }
+
     private static final ActivityDto toDto(final Activity activity) {
+        final List<ActivityDateDto> dates;
+
+        dates = activity.dates()
+            .stream()
+            .map(ActivityDtoMapper::toDto)
+            .toList();
         return new ActivityDto().number(activity.number())
             .title(activity.title())
             .description(activity.description())
             .image(activity.image())
-            .start(activity.start())
-            .end(activity.end());
+            .dates(dates);
+    }
+
+    private static final ActivityDateDto toDto(final ActivityDate date) {
+        return new ActivityDateDto().start(date.start())
+            .end(date.end());
     }
 
     private static final PropertyDto toDto(final Property property) {

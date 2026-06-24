@@ -1,6 +1,8 @@
 
 package com.bernardomg.association.activity.test.factory;
 
+import java.util.Set;
+
 import com.bernardomg.association.activity.adapter.inbound.jpa.model.CalendarInfoEntity;
 import com.bernardomg.association.activity.test.configuration.factory.ActivityConstants;
 
@@ -12,7 +14,7 @@ public final class CalendarInfoEntities {
         entity.setTitle(ActivityConstants.ALTERNATIVE_TITLE);
         entity.setDescription(ActivityConstants.DESCRIPTION);
         entity.setLocation(ActivityConstants.LOCATION);
-        entity.setCalendarDate(CalendarDateEntities.valid());
+        entity.setCalendarDates(Set.of(CalendarDateEntities.valid()));
         entity.setImage(ActivityConstants.IMAGE);
         return entity;
     }
@@ -23,7 +25,7 @@ public final class CalendarInfoEntities {
         entity.setTitle(ActivityConstants.TITLE);
         entity.setDescription(ActivityConstants.DESCRIPTION);
         entity.setLocation(ActivityConstants.LOCATION);
-        entity.setCalendarDate(CalendarDateEntities.valid());
+        entity.setCalendarDates(Set.of(CalendarDateEntities.valid()));
         entity.setImage(ActivityConstants.IMAGE);
         return entity;
     }

@@ -24,7 +24,12 @@
 
 package com.bernardomg.association.activity.adapter.inbound.jpa.model;
 
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import com.bernardomg.association.activity.domain.model.Activity;
+import com.bernardomg.association.activity.domain.model.Activity.ActivityDate;
 
 /**
  * Author repository mapper.
@@ -32,16 +37,19 @@ import com.bernardomg.association.activity.domain.model.Activity;
 public final class ActivityEntityMapper {
 
     public static final Activity toDomain(final CalendarInfoEntity entity) {
+        final List<ActivityDate> dates;
+
+        dates = entity.getCalendarDates()
+            .stream()
+            .map(ActivityEntityMapper::toDomain)
+            .toList();
         return new Activity(entity.getNumber(), entity.getTitle(), entity.getDescription(), entity.getLocation(),
-            entity.getImage(), entity.getCalendarDate()
-                .getStart(),
-            entity.getCalendarDate()
-                .getEnd());
+            entity.getImage(), dates);
     }
 
     public static final CalendarInfoEntity toEntity(final Activity activity) {
-        final CalendarInfoEntity entity;
-        final CalendarDateEntity date;
+        final CalendarInfoEntity      entity;
+        final Set<CalendarDateEntity> dates;
 
         entity = new CalendarInfoEntity();
         entity.setNumber(activity.number());
@@ -50,10 +58,25 @@ public final class ActivityEntityMapper {
         entity.setLocation(activity.location());
         entity.setImage(activity.image());
 
-        date = new CalendarDateEntity();
-        date.setStart(activity.start());
-        date.setEnd(activity.end());
-        entity.setCalendarDate(date);
+        dates = activity.dates()
+            .stream()
+            .map(ActivityEntityMapper::toEntity)
+            .collect(Collectors.toSet());
+        entity.setCalendarDates(dates);
+
+        return entity;
+    }
+
+    private static final ActivityDate toDomain(final CalendarDateEntity entity) {
+        return new ActivityDate(entity.getStart(), entity.getEnd());
+    }
+
+    private static final CalendarDateEntity toEntity(final ActivityDate date) {
+        final CalendarDateEntity entity;
+
+        entity = new CalendarDateEntity();
+        entity.setStart(date.start());
+        entity.setEnd(date.end());
 
         return entity;
     }

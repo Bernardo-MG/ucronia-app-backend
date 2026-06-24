@@ -1,2 +1,2 @@
-INSERT INTO calendar.calendar_info (number, calendar_date_id, title, description, location, image) VALUES
-   (10, 1, 'Title', 'Activity description', 'Location', 'image');
+INSERT INTO calendar.calendar_info (id, number, title, description, location, image) VALUES
+   (10, 10, 'Title', 'Activity description', 'Location', 'image');

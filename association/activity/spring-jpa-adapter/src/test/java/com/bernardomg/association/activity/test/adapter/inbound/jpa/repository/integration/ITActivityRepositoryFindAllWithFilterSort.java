@@ -56,52 +56,6 @@ class ITActivityRepositoryFindAllWithFilterSort {
     private ActivityRepository repository;
 
     @Test
-    @DisplayName("With ascending order by date it returns the ordered data")
-    void testFindAll_Date_Asc() {
-        final Page<Activity> activities;
-        final Pagination     pagination;
-        final Sorting        sorting;
-
-        // GIVEN
-        pagination = new Pagination(1, 10);
-        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.ASC)));
-
-        // WHEN
-        activities = repository.findAll(pagination, sorting);
-
-        // THEN
-        Assertions.assertThat(activities)
-            .extracting(Page::content)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Activities.forNumberAndMonth(10, Month.JANUARY),
-                Activities.forNumberAndMonth(11, Month.JANUARY), Activities.forNumberAndMonth(12, Month.JANUARY),
-                Activities.forNumberAndMonth(13, Month.JANUARY), Activities.forNumberAndMonth(14, Month.JANUARY));
-    }
-
-    @Test
-    @DisplayName("With descending order by date it returns the ordered data")
-    void testFindAll_Date_Desc() {
-        final Page<Activity> activities;
-        final Pagination     pagination;
-        final Sorting        sorting;
-
-        // GIVEN
-        pagination = new Pagination(1, 10);
-        sorting = new Sorting(List.of(new Sorting.Property("date", Sorting.Direction.DESC)));
-
-        // WHEN
-        activities = repository.findAll(pagination, sorting);
-
-        // THEN
-        Assertions.assertThat(activities)
-            .extracting(Page::content)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Activities.forNumberAndMonth(14, Month.JANUARY),
-                Activities.forNumberAndMonth(13, Month.JANUARY), Activities.forNumberAndMonth(12, Month.JANUARY),
-                Activities.forNumberAndMonth(11, Month.JANUARY), Activities.forNumberAndMonth(10, Month.JANUARY));
-    }
-
-    @Test
     @DisplayName("With ascending order by description it returns the ordered data")
     void testFindAll_Description_Asc() {
         final Page<Activity> activities;
@@ -134,6 +88,52 @@ class ITActivityRepositoryFindAllWithFilterSort {
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("description", Sorting.Direction.DESC)));
+
+        // WHEN
+        activities = repository.findAll(pagination, sorting);
+
+        // THEN
+        Assertions.assertThat(activities)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .containsExactly(Activities.forNumberAndMonth(14, Month.JANUARY),
+                Activities.forNumberAndMonth(13, Month.JANUARY), Activities.forNumberAndMonth(12, Month.JANUARY),
+                Activities.forNumberAndMonth(11, Month.JANUARY), Activities.forNumberAndMonth(10, Month.JANUARY));
+    }
+
+    @Test
+    @DisplayName("With ascending order by title it returns the ordered data")
+    void testFindAll_Title_Asc() {
+        final Page<Activity> activities;
+        final Pagination     pagination;
+        final Sorting        sorting;
+
+        // GIVEN
+        pagination = new Pagination(1, 10);
+        sorting = new Sorting(List.of(new Sorting.Property("title", Sorting.Direction.ASC)));
+
+        // WHEN
+        activities = repository.findAll(pagination, sorting);
+
+        // THEN
+        Assertions.assertThat(activities)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .containsExactly(Activities.forNumberAndMonth(10, Month.JANUARY),
+                Activities.forNumberAndMonth(11, Month.JANUARY), Activities.forNumberAndMonth(12, Month.JANUARY),
+                Activities.forNumberAndMonth(13, Month.JANUARY), Activities.forNumberAndMonth(14, Month.JANUARY));
+    }
+
+    @Test
+    @DisplayName("With descending order by title it returns the ordered data")
+    void testFindAll_Title_Desc() {
+        final Page<Activity> activities;
+        final Pagination     pagination;
+        final Sorting        sorting;
+
+        // GIVEN
+        pagination = new Pagination(1, 10);
+        sorting = new Sorting(List.of(new Sorting.Property("title", Sorting.Direction.DESC)));
 
         // WHEN
         activities = repository.findAll(pagination, sorting);

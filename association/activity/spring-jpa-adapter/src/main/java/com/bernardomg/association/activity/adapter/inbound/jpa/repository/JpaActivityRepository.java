@@ -24,9 +24,10 @@
 
 package com.bernardomg.association.activity.adapter.inbound.jpa.repository;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +41,6 @@ import com.bernardomg.association.activity.domain.repository.ActivityRepository;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
-import com.bernardomg.pagination.domain.Sorting.Property;
 import com.bernardomg.pagination.springframework.SpringPagination;
 
 import jakarta.transaction.Transactional;
@@ -102,12 +102,10 @@ public final class JpaActivityRepository implements ActivityRepository {
         final org.springframework.data.domain.Page<CalendarInfoEntity> page;
         final org.springframework.data.domain.Page<Activity>           read;
         final Pageable                                                 pageable;
-        final Sorting                                                  fixedSorting;
 
         log.debug("Finding activities with pagination {} and sorting {}", pagination, sorting);
 
-        fixedSorting = fixSorting(sorting);
-        pageable = SpringPagination.toPageable(pagination, fixedSorting);
+        pageable = SpringPagination.toPageable(pagination, sorting);
         page = calendarInfoSpringRepository.findAll(pageable);
 
         read = page.map(ActivityEntityMapper::toDomain);
@@ -135,11 +133,10 @@ public final class JpaActivityRepository implements ActivityRepository {
     public final Activity save(final Activity activity) {
         final Optional<CalendarInfoEntity> existing;
         final CalendarInfoEntity           entity;
-        final CalendarDateEntity           createdDate;
+        final List<CalendarDateEntity>     createdDates;
         final CalendarInfoEntity           created;
         final Activity                     saved;
         final Long                         number;
-        final Long                         dateNumber;
 
         log.debug("Saving activity {}", activity);
 
@@ -154,35 +151,16 @@ public final class JpaActivityRepository implements ActivityRepository {
             entity.setNumber(number);
         }
 
-        dateNumber = calendarDateSpringRepository.findNextNumber();
-        entity.getCalendarDate()
-            .setNumber(dateNumber);
-        createdDate = calendarDateSpringRepository.save(entity.getCalendarDate());
+        // TODO: shouldn't be needed
+        createdDates = calendarDateSpringRepository.saveAll(entity.getCalendarDates());
 
-        entity.setCalendarDate(createdDate);
+        entity.setCalendarDates(Set.copyOf(createdDates));
         created = calendarInfoSpringRepository.save(entity);
         saved = ActivityEntityMapper.toDomain(created);
 
         log.debug("Saved activity {}", saved);
 
         return saved;
-    }
-
-    private final Sorting fixSorting(final Sorting sorting) {
-        final Collection<Property> properties;
-
-        properties = sorting.properties()
-            .stream()
-            // Fix name
-            .map(prop -> {
-                if ("date".equals(prop.name())) {
-                    return new Property("calendarDate.start", prop.direction());
-                }
-                return prop;
-            })
-            .toList();
-
-        return new Sorting(properties);
     }
 
 }

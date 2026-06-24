@@ -25,25 +25,38 @@
 package com.bernardomg.association.activity.domain.model;
 
 import java.time.Instant;
+import java.util.Collection;
 import java.util.Objects;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 
-public record Activity(long number, String title, String description, String location, String image, Instant start,
-        Instant end) {
+public record Activity(long number, String title, String description, String location, String image,
+        Collection<ActivityDate> dates) {
 
     public Activity(final long number, final String title, final String description, final String location,
-            final String image, final Instant start, final Instant end) {
+            final String image, final Collection<ActivityDate> dates) {
         Objects.requireNonNull(title);
         Objects.requireNonNull(description);
+        Objects.requireNonNull(location);
+        Objects.requireNonNull(image);
+        Objects.requireNonNull(dates);
 
         this.number = Objects.requireNonNull(number);
-        this.start = Objects.requireNonNull(start);
-        this.end = Objects.requireNonNull(end);
         this.title = StringUtils.trim(title);
         this.description = StringUtils.trim(description);
         this.location = StringUtils.trim(location);
         this.image = StringUtils.trim(image);
+        this.dates = Set.copyOf(dates);
+    }
+
+    public record ActivityDate(Instant start, Instant end) {
+
+        public ActivityDate(final Instant start, final Instant end) {
+            this.start = Objects.requireNonNull(start);
+            this.end = Objects.requireNonNull(end);
+        }
+
     }
 
 }
