@@ -23,7 +23,7 @@
  */
 
 /**
- * Association transaction model.
+ * Association activity model.
  */
 
 package com.bernardomg.association.activity.domain.model;

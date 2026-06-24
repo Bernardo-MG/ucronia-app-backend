@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.adapter.outbound.rest.model;
+package com.bernardomg.association.activity.adapter.outbound.rest.model;
 
 import java.util.List;
 import java.util.Optional;
@@ -66,12 +66,12 @@ public final class ActivityDtoMapper {
             dates);
     }
 
-    public static final ActivityResponseDto toResponseDto(final Activity transaction) {
-        return new ActivityResponseDto().content(ActivityDtoMapper.toDto(transaction));
+    public static final ActivityResponseDto toResponseDto(final Activity activity) {
+        return new ActivityResponseDto().content(ActivityDtoMapper.toDto(activity));
     }
 
-    public static final ActivityResponseDto toResponseDto(final Optional<Activity> transaction) {
-        return new ActivityResponseDto().content(transaction.map(ActivityDtoMapper::toDto)
+    public static final ActivityResponseDto toResponseDto(final Optional<Activity> activity) {
+        return new ActivityResponseDto().content(activity.map(ActivityDtoMapper::toDto)
             .orElse(null));
     }
 
