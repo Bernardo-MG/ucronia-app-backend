@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.image.adapter.outbound.rest.controller;
+package com.bernardomg.image.adapter.outbound.rest.controller;
 
 import java.net.URI;
 
@@ -30,7 +30,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.activity.usecase.service.ActivityService;
-import com.bernardomg.image.adapter.outbound.rest.controller.ImageApi;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -49,7 +48,7 @@ public class ImageController implements ImageApi {
     }
 
     @Override
-    public Resource getImage(@NotNull @Valid URI url) {
+    public Resource getImage(@NotNull @Valid final URI url) {
         // TODO Auto-generated method stub
         return null;
     }

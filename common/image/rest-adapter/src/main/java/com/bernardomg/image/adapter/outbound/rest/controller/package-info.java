@@ -23,7 +23,7 @@
  */
 
 /**
- * Image REST model.
+ * Image controllers.
  */
 
-package com.bernardomg.association.image.adapter.outbound.rest.model;
+package com.bernardomg.image.adapter.outbound.rest.controller;
