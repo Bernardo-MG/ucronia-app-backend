@@ -27,6 +27,9 @@ package com.bernardomg.association.activity.adapter.inbound.jpa.model;
 import java.io.Serializable;
 import java.util.Set;
 
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -71,6 +74,10 @@ public class CalendarInfoEntity implements Serializable {
 
     @Column(name = "title", length = 50)
     private String                  title;
+
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "types")
+    private Set<String>             types;
 
     public Set<CalendarDateEntity> getCalendarDates() {
         return calendarDates;
@@ -131,7 +138,8 @@ public class CalendarInfoEntity implements Serializable {
     @Override
     public String toString() {
         return "ActivityEntity [id=" + id + ", number=" + number + ", calendarDates=" + calendarDates + ", description="
-                + description + ", location=" + location + ", title=" + title + ", image=" + image + "]";
+                + description + ", location=" + location + ", title=" + title + ", image=" + image + ", types=" + types
+                + "]";
     }
 
 }

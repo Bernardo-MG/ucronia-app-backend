@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: activities_schema
+      id: calendar_schema
       author: Bernardo
       changes:
         - sqlFile:
@@ -79,6 +79,10 @@ databaseChangeLog:
                   constraints:
                     nullable: true
                   defaultValue: ''
+              - column:
+                  name: types
+                  type: json
+                  defaultValue: '[]'
         - addAutoIncrement:
             schemaName: calendar
             tableName: calendar_info
