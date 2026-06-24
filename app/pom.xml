@@ -73,6 +73,10 @@
          <groupId>com.bernardomg.association.security</groupId>
          <artifactId>association-security-spring-starter</artifactId>
       </dependency>
+      <dependency>
+         <groupId>com.bernardomg.image</groupId>
+         <artifactId>image-spring-starter</artifactId>
+      </dependency>
       <!-- ============================================== -->
       <!-- ================== LOGGING =================== -->
       <!-- ============================================== -->

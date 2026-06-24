@@ -1,0 +1,99 @@
+components:
+  parameters:
+    activitiesSortParam:
+      name: sort
+      description: Sorting to apply.
+      in: query
+      style: form
+      explode: true
+      required: false
+      schema:
+        type: array
+        items:
+          type: string
+          pattern: '^(description|title)\|(asc|desc)$'
+          example: date|asc
+
+  schemas:
+    ActivityDate:
+      type: object
+      required: [start, end]
+      properties:
+        start:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+        end:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+
+    ActivityCreation:
+      type: object
+      required: [dates, title]
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        location:
+          type: string
+        image:
+          type: string
+        dates:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/ActivityDate'
+
+    ActivityUpdate:
+      type: object
+      required: [dates, title]
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        location:
+          type: string
+        image:
+          type: string
+        dates:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/ActivityDate'
+
+    Activity:
+      type: object
+      properties:
+        number:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        title:
+          type: string
+          maxLength: 100
+        description:
+          type: string
+          maxLength: 200
+        location:
+          type: string
+          maxLength: 200
+        image:
+          type: string
+          maxLength: 200
+        dates:
+          type: array
+          items:
+            $ref: '#/components/schemas/ActivityDate'
+
+    ActivityPageResponse:
+      allOf:
+        - $ref: '../common/responses.yml#/components/schemas/PageResponse'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/Activity'
+
+    ActivityResponse:
+      type: object
+      properties:
+        content:
+          $ref: '#/components/schemas/Activity'
