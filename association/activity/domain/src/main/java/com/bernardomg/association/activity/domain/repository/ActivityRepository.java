@@ -41,6 +41,6 @@ public interface ActivityRepository {
 
     public Optional<Activity> findOne(final Long number);
 
-    public Activity save(final Activity transaction);
+    public Activity save(final Activity activity);
 
 }

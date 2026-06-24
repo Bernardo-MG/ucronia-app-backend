@@ -26,4 +26,4 @@
  * Association activity controllers.
  */
 
-package com.bernardomg.association.transaction.adapter.outbound.rest.controller;
+package com.bernardomg.association.activity.adapter.outbound.rest.controller;

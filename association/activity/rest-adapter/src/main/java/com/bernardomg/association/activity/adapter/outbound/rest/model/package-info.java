@@ -26,4 +26,4 @@
  * Activity REST model.
  */
 
-package com.bernardomg.association.transaction.adapter.outbound.rest.model;
+package com.bernardomg.association.activity.adapter.outbound.rest.model;

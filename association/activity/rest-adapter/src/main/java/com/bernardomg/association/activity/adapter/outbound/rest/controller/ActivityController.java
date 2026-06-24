@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.transaction.adapter.outbound.rest.controller;
+package com.bernardomg.association.activity.adapter.outbound.rest.controller;
 
 import java.time.Instant;
 import java.util.List;
@@ -30,14 +30,13 @@ import java.util.Optional;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.activity.adapter.outbound.rest.controller.ActivityApi;
 import com.bernardomg.association.activity.adapter.outbound.rest.dto.ActivityCreationDto;
 import com.bernardomg.association.activity.adapter.outbound.rest.dto.ActivityPageResponseDto;
 import com.bernardomg.association.activity.adapter.outbound.rest.dto.ActivityResponseDto;
 import com.bernardomg.association.activity.adapter.outbound.rest.dto.ActivityUpdateDto;
+import com.bernardomg.association.activity.adapter.outbound.rest.model.ActivityDtoMapper;
 import com.bernardomg.association.activity.domain.model.Activity;
 import com.bernardomg.association.activity.usecase.service.ActivityService;
-import com.bernardomg.association.transaction.adapter.outbound.rest.model.ActivityDtoMapper;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
@@ -71,23 +70,23 @@ public class ActivityController implements ActivityApi {
     @Override
     @RequireResourceAuthorization(resource = "ACTIVITY", action = Actions.CREATE)
     public ActivityResponseDto createActivity(@Valid final ActivityCreationDto activityCreationDto) {
-        final Activity transaction;
+        final Activity activity;
         final Activity toCreate;
 
         toCreate = ActivityDtoMapper.toDomain(activityCreationDto);
-        transaction = service.create(toCreate);
+        activity = service.create(toCreate);
 
-        return ActivityDtoMapper.toResponseDto(transaction);
+        return ActivityDtoMapper.toResponseDto(activity);
     }
 
     @Override
     @RequireResourceAuthorization(resource = "ACTIVITY", action = Actions.DELETE)
     public ActivityResponseDto deleteActivity(final Long number) {
-        final Activity transaction;
+        final Activity activity;
 
-        transaction = service.delete(number);
+        activity = service.delete(number);
 
-        return ActivityDtoMapper.toResponseDto(transaction);
+        return ActivityDtoMapper.toResponseDto(activity);
     }
 
     @Override
@@ -97,33 +96,33 @@ public class ActivityController implements ActivityApi {
             @Valid final Instant date, @Valid final Instant from, @Valid final Instant to) {
         final Pagination     pagination;
         final Sorting        sorting;
-        final Page<Activity> transactions;
+        final Page<Activity> activitys;
 
         pagination = new Pagination(page, size);
         sorting = WebSorting.toSorting(sort);
-        transactions = service.getAll(pagination, sorting);
+        activitys = service.getAll(pagination, sorting);
 
-        return ActivityDtoMapper.toResponseDto(transactions);
+        return ActivityDtoMapper.toResponseDto(activitys);
     }
 
     @Override
     @RequireResourceAuthorization(resource = "ACTIVITY", action = Actions.READ)
     public ActivityResponseDto getOneActivity(final Long number) {
-        final Optional<Activity> transaction;
+        final Optional<Activity> activity;
 
-        transaction = service.getOne(number);
+        activity = service.getOne(number);
 
-        return ActivityDtoMapper.toResponseDto(transaction);
+        return ActivityDtoMapper.toResponseDto(activity);
     }
 
     @Override
     @RequireResourceAuthorization(resource = "ACTIVITY", action = Actions.UPDATE)
     public ActivityResponseDto updateActivity(final Long number, @Valid final ActivityUpdateDto activityUpdateDto) {
-        final Activity transaction;
+        final Activity activity;
         final Activity updated;
 
-        transaction = ActivityDtoMapper.toDomain(number, activityUpdateDto);
-        updated = service.update(transaction);
+        activity = ActivityDtoMapper.toDomain(number, activityUpdateDto);
+        updated = service.update(activity);
         return ActivityDtoMapper.toResponseDto(updated);
     }
 
