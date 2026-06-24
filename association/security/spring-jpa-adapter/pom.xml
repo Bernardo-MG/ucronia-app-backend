@@ -45,15 +45,6 @@
          <groupId>jakarta.persistence</groupId>
          <artifactId>jakarta.persistence-api</artifactId>
       </dependency>
-      <dependency>
-         <groupId>jakarta.transaction</groupId>
-         <artifactId>jakarta.transaction-api</artifactId>
-      </dependency>
-      <dependency>
-        <groupId>org.hibernate.orm</groupId>
-        <artifactId>hibernate-core</artifactId>
-        <scope>provided</scope>
-      </dependency>
       <!-- ============================================== -->
       <!-- ================ VALIDATION ================== -->
       <!-- ============================================== -->
