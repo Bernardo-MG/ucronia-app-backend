@@ -36,7 +36,7 @@
      <module>spring-jpa-adapter</module>
      <module>rest-adapter</module>
      <module>fee-rest-adapter</module>
-	 <module>spring-security</module>
+    <module>spring-security</module>
      <module>spring-starter</module>
    </modules>
 
