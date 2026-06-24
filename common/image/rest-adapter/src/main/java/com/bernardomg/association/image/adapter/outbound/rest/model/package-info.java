@@ -23,7 +23,7 @@
  */
 
 /**
- * Activity REST model.
+ * Image REST model.
  */
 
-package com.bernardomg.association.transaction.adapter.outbound.rest.model;
+package com.bernardomg.association.image.adapter.outbound.rest.model;

@@ -23,7 +23,7 @@
  */
 
 /**
- * Association activity controllers.
+ * Image controllers.
  */
 
-package com.bernardomg.association.transaction.adapter.outbound.rest.controller;
+package com.bernardomg.association.image.adapter.outbound.rest.controller;

@@ -1,0 +1,5 @@
+components:
+  schemas:
+    Image:
+      type: string
+      format: binary
