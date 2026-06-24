@@ -48,9 +48,6 @@ import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.springframework.SpringPagination;
 import com.bernardomg.pagination.springframework.SpringSorting;
 
-import jakarta.transaction.Transactional;
-
-@Transactional
 public final class JpaTransactionRepository implements TransactionRepository {
 
     /**

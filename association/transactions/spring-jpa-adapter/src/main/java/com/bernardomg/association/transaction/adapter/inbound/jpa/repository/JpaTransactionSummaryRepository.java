@@ -38,9 +38,6 @@ import com.bernardomg.association.transaction.adapter.inbound.jpa.model.MonthlyE
 import com.bernardomg.association.transaction.domain.model.TransactionSummary;
 import com.bernardomg.association.transaction.domain.repository.TransactionSummaryRepository;
 
-import jakarta.transaction.Transactional;
-
-@Transactional
 public final class JpaTransactionSummaryRepository implements TransactionSummaryRepository {
 
     /**
