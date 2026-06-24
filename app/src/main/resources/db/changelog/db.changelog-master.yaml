@@ -23,7 +23,7 @@ databaseChangeLog:
       relativeToChangelogFile: true
   # Calendar
   - include:
-      file: activity.yaml
+      file: calendar.yaml
       relativeToChangelogFile: true
   # Inventory
   - include:
