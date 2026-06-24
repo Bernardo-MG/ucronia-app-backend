@@ -41,6 +41,8 @@ public class TestModulesArchitectureRules {
         .definedBy("com.bernardomg.settings..")
         .layer("Association settings")
         .definedBy("com.bernardomg.association.settings..")
+        .layer("Images")
+        .definedBy("com.bernardomg.image..")
 
         // Library modules
         .layer("Library authors")
@@ -83,6 +85,8 @@ public class TestModulesArchitectureRules {
         .whereLayer("Settings")
         .mayOnlyBeAccessedByLayers("Association settings")
         .whereLayer("Association settings")
+        .mayNotBeAccessedByAnyLayer()
+        .whereLayer("Images")
         .mayNotBeAccessedByAnyLayer()
 
         // Library modules
