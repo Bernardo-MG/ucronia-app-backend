@@ -67,12 +67,16 @@ components:
           $ref: '../common/ids.yml#/components/schemas/Id'
         title:
           type: string
+          maxLength: 100
         description:
           type: string
+          maxLength: 200
         location:
           type: string
+          maxLength: 200
         image:
           type: string
+          maxLength: 200
         dates:
           type: array
           items:
