@@ -22,35 +22,25 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.image.adapter.outbound.rest.controller;
+package com.bernardomg.image.domain.repository;
 
-import java.net.URI;
+import java.util.Optional;
 
-import org.springframework.core.io.Resource;
-import org.springframework.web.bind.annotation.RestController;
+import com.bernardomg.image.domain.model.Activity;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
 
-import com.bernardomg.image.usecase.service.ActivityService;
+public interface ActivityRepository {
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
+    public void delete(final long number);
 
-/**
- * Activity REST controller.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
- */
-@RestController
-public class ImageController implements ImageApi {
+    public boolean exists(final long number);
 
-    public ImageController(final ActivityService service) {
-        super();
-    }
+    public Page<Activity> findAll(final Pagination pagination, final Sorting sorting);
 
-    @Override
-    public Resource getImage(@NotNull @Valid final URI url) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public Optional<Activity> findOne(final Long number);
+
+    public Activity save(final Activity transaction);
 
 }

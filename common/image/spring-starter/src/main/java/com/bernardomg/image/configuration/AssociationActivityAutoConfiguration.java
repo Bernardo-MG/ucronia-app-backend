@@ -22,35 +22,24 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.image.adapter.outbound.rest.controller;
+package com.bernardomg.image.configuration;
 
-import java.net.URI;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 
-import org.springframework.core.io.Resource;
-import org.springframework.web.bind.annotation.RestController;
-
+import com.bernardomg.image.domain.repository.ActivityRepository;
 import com.bernardomg.image.usecase.service.ActivityService;
+import com.bernardomg.image.usecase.service.DefaultActivityService;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
+@AutoConfiguration
+@ComponentScan({ "com.bernardomg.association.activity.adapter.outbound.rest.controller",
+        "com.bernardomg.association.activity.adapter.inbound.jpa" })
+public class AssociationActivityAutoConfiguration {
 
-/**
- * Activity REST controller.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
- */
-@RestController
-public class ImageController implements ImageApi {
-
-    public ImageController(final ActivityService service) {
-        super();
-    }
-
-    @Override
-    public Resource getImage(@NotNull @Valid final URI url) {
-        // TODO Auto-generated method stub
-        return null;
+    @Bean("activityService")
+    public ActivityService getActivityService(final ActivityRepository activityRepository) {
+        return new DefaultActivityService(activityRepository);
     }
 
 }

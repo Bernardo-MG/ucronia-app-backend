@@ -22,35 +22,36 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.image.adapter.outbound.rest.controller;
-
-import java.net.URI;
-
-import org.springframework.core.io.Resource;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.bernardomg.image.usecase.service.ActivityService;
-
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
+package com.bernardomg.image.domain.exception;
 
 /**
- * Activity REST controller.
+ * Missing activity exception.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@RestController
-public class ImageController implements ImageApi {
+public final class MissingActivityException extends RuntimeException {
 
-    public ImageController(final ActivityService service) {
-        super();
+    private static final long serialVersionUID = -2547922646355830379L;
+
+    /**
+     * Number which caused the exception.
+     */
+    private final Long        number;
+
+    public MissingActivityException(final long number) {
+        super(String.format("Missing id %s for activity", number));
+
+        this.number = number;
     }
 
-    @Override
-    public Resource getImage(@NotNull @Valid final URI url) {
-        // TODO Auto-generated method stub
-        return null;
+    /**
+     * Returns the number which caused the exception.
+     *
+     * @return the number which caused the exception
+     */
+    public final Long getNumber() {
+        return number;
     }
 
 }
