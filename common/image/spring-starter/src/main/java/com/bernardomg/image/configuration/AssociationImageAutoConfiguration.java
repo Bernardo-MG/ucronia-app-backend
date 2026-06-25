@@ -27,19 +27,19 @@ package com.bernardomg.image.configuration;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.web.client.RestClient;
 
-import com.bernardomg.image.domain.repository.ActivityRepository;
-import com.bernardomg.image.usecase.service.ActivityService;
-import com.bernardomg.image.usecase.service.DefaultActivityService;
+import com.bernardomg.image.usecase.service.DefaultImageService;
+import com.bernardomg.image.usecase.service.ImageService;
 
 @AutoConfiguration
-@ComponentScan({ "com.bernardomg.association.activity.adapter.outbound.rest.controller",
-        "com.bernardomg.association.activity.adapter.inbound.jpa" })
-public class AssociationActivityAutoConfiguration {
+@ComponentScan({ "com.bernardomg.association.image.adapter.outbound.rest.controller",
+        "com.bernardomg.association.image.adapter.inbound.jpa" })
+public class AssociationImageAutoConfiguration {
 
-    @Bean("activityService")
-    public ActivityService getActivityService(final ActivityRepository activityRepository) {
-        return new DefaultActivityService(activityRepository);
+    @Bean("imageService")
+    public ImageService getImageService(final RestClient.Builder builder) {
+        return new DefaultImageService(builder);
     }
 
 }

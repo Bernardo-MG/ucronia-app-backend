@@ -22,35 +22,49 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.image.adapter.outbound.rest.controller;
+package com.bernardomg.image.usecase.service;
 
-import java.net.URI;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestClient;
+import org.springframework.web.server.ResponseStatusException;
 
-import org.springframework.core.io.Resource;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.bernardomg.image.usecase.service.ImageService;
-
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
+import jakarta.transaction.Transactional;
 
 /**
- * Activity REST controller.
+ * Default implementation of the activity service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@RestController
-public class ImageController implements ImageApi {
+@Transactional
+public final class DefaultImageService implements ImageService {
 
-    public ImageController(final ImageService service) {
-        super();
+    private final RestClient client;
+
+    public DefaultImageService(final RestClient.Builder builder) {
+        client = builder.defaultHeader(HttpHeaders.USER_AGENT, "Mozilla/5.0")
+            .build();
     }
 
     @Override
-    public Resource getImage(@NotNull @Valid final URI url) {
-        // TODO Auto-generated method stub
-        return null;
+    public byte[] getImage(final String url) {
+        final ResponseEntity<byte[]> response    = client.get()
+            .uri(url)
+            .retrieve()
+            .toEntity(byte[].class);
+
+        final MediaType              contentType = response.getHeaders()
+            .getContentType();
+
+        if ((contentType == null) || !"image"
+            .equals(contentType.getType())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "URL does not point to an image");
+        }
+
+        return response.getBody();
     }
 
 }

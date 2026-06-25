@@ -22,35 +22,16 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.image.adapter.outbound.rest.controller;
-
-import java.net.URI;
-
-import org.springframework.core.io.Resource;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.bernardomg.image.usecase.service.ImageService;
-
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
+package com.bernardomg.image.usecase.service;
 
 /**
- * Activity REST controller.
+ * Activity service. Supports all the CRUD operations.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@RestController
-public class ImageController implements ImageApi {
+public interface ImageService {
 
-    public ImageController(final ImageService service) {
-        super();
-    }
-
-    @Override
-    public Resource getImage(@NotNull @Valid final URI url) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public byte[] getImage(String url);
 
 }
