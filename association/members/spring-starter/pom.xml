@@ -66,6 +66,9 @@
          <groupId>com.bernardomg.framework.spring</groupId>
          <artifactId>spring-ws-security-starter</artifactId>
       </dependency>
+      <!-- ============================================== -->
+      <!-- ================== SPRING ==================== -->
+      <!-- ============================================== -->
       <dependency>
          <groupId>org.springframework</groupId>
          <artifactId>spring-context</artifactId>

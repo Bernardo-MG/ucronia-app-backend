@@ -61,11 +61,13 @@
       <dependency>
          <groupId>com.bernardomg.association.transaction</groupId>
          <artifactId>association-transaction-spring-jpa-adapter</artifactId>
+         <version>${project.version}</version>
          <scope>test</scope>
       </dependency>
       <dependency>
          <groupId>com.bernardomg.association.member</groupId>
          <artifactId>association-member-spring-jpa-adapter</artifactId>
+         <version>${project.version}</version>
          <scope>test</scope>
       </dependency>
       <dependency>
