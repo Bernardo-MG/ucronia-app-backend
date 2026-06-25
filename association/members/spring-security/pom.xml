@@ -37,9 +37,12 @@
          <groupId>com.bernardomg.association.member</groupId>
          <artifactId>association-member-usecase</artifactId>
       </dependency>
+      <!-- ============================================== -->
+      <!-- ================== SPRING ==================== -->
+      <!-- ============================================== -->
       <dependency>
-         <groupId>com.bernardomg.association.security</groupId>
-         <artifactId>association-security-domain</artifactId>
+         <groupId>org.springframework.security</groupId>
+         <artifactId>spring-security-core</artifactId>
       </dependency>
       <!-- ============================================== -->
       <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
