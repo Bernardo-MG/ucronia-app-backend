@@ -22,7 +22,7 @@
    <artifactId>image-usecase</artifactId>
    <packaging>jar</packaging>
 
-   <name>Association Activities Usecase</name>
+   <name>Images Usecase</name>
 
 	<!-- ********************************************** -->
 	<!-- *************** DEPENDENCIES ***************** -->

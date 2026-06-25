@@ -22,7 +22,7 @@
    <artifactId>image-testing</artifactId>
    <packaging>jar</packaging>
 
-   <name>Association Activities Testing</name>
+   <name>Images Testing</name>
 
 	<!-- ********************************************** -->
 	<!-- *************** DEPENDENCIES ***************** -->
