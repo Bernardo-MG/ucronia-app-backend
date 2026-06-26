@@ -24,6 +24,8 @@
 
 package com.bernardomg.image.usecase.service;
 
+import java.net.URI;
+
 /**
  * Activity service. Supports all the CRUD operations.
  *
@@ -32,6 +34,6 @@ package com.bernardomg.image.usecase.service;
  */
 public interface ImageService {
 
-    public byte[] getImage(String url);
+    public byte[] getImage(final URI url);
 
 }

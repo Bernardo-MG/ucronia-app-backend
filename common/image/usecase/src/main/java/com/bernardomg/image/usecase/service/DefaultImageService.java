@@ -24,6 +24,8 @@
 
 package com.bernardomg.image.usecase.service;
 
+import java.net.URI;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -50,7 +52,7 @@ public final class DefaultImageService implements ImageService {
     }
 
     @Override
-    public byte[] getImage(final String url) {
+    public byte[] getImage(final URI url) {
         final ResponseEntity<byte[]> response    = client.get()
             .uri(url)
             .retrieve()

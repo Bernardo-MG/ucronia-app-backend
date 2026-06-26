@@ -25,7 +25,9 @@
 package com.bernardomg.image.adapter.outbound.rest.controller;
 
 import java.net.URI;
+import java.util.Objects;
 
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -42,15 +44,22 @@ import jakarta.validation.constraints.NotNull;
  */
 @RestController
 public class ImageController implements ImageApi {
+    
+    private final ImageService service;
 
     public ImageController(final ImageService service) {
         super();
+
+        this.service = Objects.requireNonNull(service);
     }
 
     @Override
     public Resource getImage(@NotNull @Valid final URI url) {
-        // TODO Auto-generated method stub
-        return null;
+        final byte[] content;
+        
+        content = service.getImage(url);
+        
+        return new ByteArrayResource(content);
     }
 
 }
