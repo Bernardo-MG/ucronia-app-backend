@@ -39,6 +39,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
@@ -53,6 +54,7 @@ public class CalendarInfoEntity implements Serializable {
     @JoinTable(schema = "calendar", name = "calendar_info_dates",
             joinColumns = @JoinColumn(name = "calendar_info_id", nullable = false),
             inverseJoinColumns = @JoinColumn(name = "calendar_date_id", nullable = false))
+    @OrderBy("start, end ASC")
     private Set<CalendarDateEntity> calendarDates;
 
     @Column(name = "description", length = 200)

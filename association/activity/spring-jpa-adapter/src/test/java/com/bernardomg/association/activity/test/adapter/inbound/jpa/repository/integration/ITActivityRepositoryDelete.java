@@ -33,7 +33,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.bernardomg.association.activity.TestApplication;
 import com.bernardomg.association.activity.adapter.inbound.jpa.repository.CalendarInfoSpringRepository;
 import com.bernardomg.association.activity.domain.repository.ActivityRepository;
-import com.bernardomg.association.activity.test.configuration.data.annotation.ValidActivity;
+import com.bernardomg.association.activity.test.configuration.data.annotation.SingleDayActivity;
 import com.bernardomg.association.activity.test.configuration.factory.ActivityConstants;
 import com.bernardomg.test.annotation.IntegrationTest;
 
@@ -66,7 +66,7 @@ class ITActivityRepositoryDelete {
 
     @Test
     @DisplayName("When the activity exists, it is removed")
-    @ValidActivity
+    @SingleDayActivity
     void testDelete_RemovesEntity() {
         // WHEN
         repository.delete(ActivityConstants.NUMBER);

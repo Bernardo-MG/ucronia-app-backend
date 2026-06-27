@@ -32,7 +32,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.activity.TestApplication;
 import com.bernardomg.association.activity.domain.repository.ActivityRepository;
-import com.bernardomg.association.activity.test.configuration.data.annotation.ValidActivity;
+import com.bernardomg.association.activity.test.configuration.data.annotation.SingleDayActivity;
 import com.bernardomg.association.activity.test.configuration.factory.ActivityConstants;
 import com.bernardomg.test.annotation.IntegrationTest;
 
@@ -46,7 +46,7 @@ class ITActivityRepositoryExists {
 
     @Test
     @DisplayName("With an existing activity, it exists")
-    @ValidActivity
+    @SingleDayActivity
     void testExists() {
         final boolean exists;
 

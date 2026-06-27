@@ -157,9 +157,9 @@ public final class JpaActivityRepository implements ActivityRepository {
         createdDates = calendarDateSpringRepository.saveAll(entity.getCalendarDates());
 
         entity.setCalendarDates(Set.copyOf(createdDates));
-        
+
         setType(entity);
-        
+
         created = calendarInfoSpringRepository.save(entity);
         saved = ActivityEntityMapper.toDomain(created);
 

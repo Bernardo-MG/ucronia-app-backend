@@ -71,7 +71,7 @@ class TestActivitieserviceGetAll {
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
 
-        existing = new Page<>(List.of(Activities.valid()), 0, 0, 0, 0, 0, false, false, sorting);
+        existing = new Page<>(List.of(Activities.singleDay()), 0, 0, 0, 0, 0, false, false, sorting);
         given(ActivityRepository.findAll(pagination, sorting)).willReturn(existing);
 
         // WHEN
@@ -82,7 +82,7 @@ class TestActivitieserviceGetAll {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("Activities")
-            .containsExactly(Activities.valid());
+            .containsExactly(Activities.singleDay());
     }
 
     @Test
