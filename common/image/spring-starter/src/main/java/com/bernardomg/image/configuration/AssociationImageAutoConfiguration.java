@@ -44,8 +44,8 @@ public class AssociationImageAutoConfiguration {
         return new DefaultImageService(builder);
     }
 
-    @Bean("settingWhitelist")
-    public WhitelistRoute getSettingWhitelist() {
+    @Bean("imageWhitelist")
+    public WhitelistRoute getImageWhitelist() {
         return WhitelistRoute.of("/images/**", HttpMethod.GET);
     }
 
