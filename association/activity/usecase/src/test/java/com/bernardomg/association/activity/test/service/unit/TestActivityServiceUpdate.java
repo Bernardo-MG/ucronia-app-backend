@@ -79,7 +79,7 @@ class TestActivityServiceUpdate {
         final ThrowingCallable execution;
 
         // GIVEN
-        activity = Activities.valid();
+        activity = Activities.singleDay();
 
         given(activityRepository.exists(ActivityConstants.NUMBER)).willReturn(false);
 
@@ -97,7 +97,7 @@ class TestActivityServiceUpdate {
         final Activity activity;
 
         // GIVEN
-        activity = Activities.valid();
+        activity = Activities.singleDay();
 
         given(activityRepository.exists(ActivityConstants.NUMBER)).willReturn(true);
 
@@ -105,7 +105,7 @@ class TestActivityServiceUpdate {
         service.update(activity);
 
         // THEN
-        verify(activityRepository).save(Activities.valid());
+        verify(activityRepository).save(Activities.singleDay());
     }
 
     @Test
@@ -114,7 +114,7 @@ class TestActivityServiceUpdate {
         final Activity activity;
 
         // GIVEN
-        activity = Activities.valid();
+        activity = Activities.singleDay();
 
         given(activityRepository.exists(ActivityConstants.NUMBER)).willReturn(true);
 
@@ -122,7 +122,7 @@ class TestActivityServiceUpdate {
         service.update(activity);
 
         // THEN
-        verify(activityRepository).save(Activities.valid());
+        verify(activityRepository).save(Activities.singleDay());
     }
 
     @Test
@@ -132,7 +132,7 @@ class TestActivityServiceUpdate {
         final Activity updated;
 
         // GIVEN
-        activity = Activities.valid();
+        activity = Activities.singleDay();
 
         given(activityRepository.save(activity)).willReturn(activity);
         given(activityRepository.exists(ActivityConstants.NUMBER)).willReturn(true);
@@ -143,7 +143,7 @@ class TestActivityServiceUpdate {
         // THEN
         Assertions.assertThat(updated)
             .as("activity")
-            .isEqualTo(Activities.valid());
+            .isEqualTo(Activities.singleDay());
     }
 
     @Test

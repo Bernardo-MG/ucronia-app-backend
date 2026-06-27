@@ -64,7 +64,7 @@ class TestActivityServiceGetOne {
         final Optional<Activity> activity;
 
         // GIVEN
-        given(activityRepository.findOne(ActivityConstants.NUMBER)).willReturn(Optional.of(Activities.valid()));
+        given(activityRepository.findOne(ActivityConstants.NUMBER)).willReturn(Optional.of(Activities.singleDay()));
 
         // WHEN
         activity = service.getOne(ActivityConstants.NUMBER);
@@ -72,7 +72,7 @@ class TestActivityServiceGetOne {
         // THEN
         Assertions.assertThat(activity)
             .as("activity")
-            .contains(Activities.valid());
+            .contains(Activities.singleDay());
     }
 
     @Test

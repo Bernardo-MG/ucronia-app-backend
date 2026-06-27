@@ -26,8 +26,9 @@ package com.bernardomg.association.activity.domain.model;
 
 import java.time.Instant;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.Objects;
-import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -47,7 +48,7 @@ public record Activity(long number, String title, String description, String loc
         this.description = StringUtils.trim(description);
         this.location = StringUtils.trim(location);
         this.image = StringUtils.trim(image);
-        this.dates = Set.copyOf(dates);
+        this.dates = Collections.unmodifiableSet(new LinkedHashSet<>(dates));
     }
 
     public record ActivityDate(Instant start, Instant end) {

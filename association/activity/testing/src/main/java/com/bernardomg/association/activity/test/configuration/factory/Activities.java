@@ -5,6 +5,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import com.bernardomg.association.activity.domain.model.Activity;
@@ -38,22 +39,25 @@ public final class Activities {
             ActivityConstants.LOCATION, ActivityConstants.IMAGE, List.of(date));
     }
 
-    public static final Activity titleChange() {
-        final ActivityDate date;
+    public static final Activity multipleDay() {
+        final ActivityDate date1;
+        final ActivityDate date2;
+        final ActivityDate date3;
+        final ActivityDate date4;
+        final ActivityDate date5;
 
-        date = new ActivityDate(CalendarDateConstants.START, CalendarDateConstants.END);
-
-        return new Activity(ActivityConstants.NUMBER, ActivityConstants.ALTERNATIVE_TITLE,
-            ActivityConstants.DESCRIPTION, ActivityConstants.LOCATION, ActivityConstants.IMAGE, List.of(date));
-    }
-
-    public static final Activity startsAfterEnd() {
-        final ActivityDate date;
-
-        date = new ActivityDate(CalendarDateConstants.END,CalendarDateConstants.START);
+        date1 = new ActivityDate(CalendarDateConstants.START, CalendarDateConstants.END);
+        date2 = new ActivityDate(CalendarDateConstants.START.plus(1L, ChronoUnit.DAYS),
+            CalendarDateConstants.END.plus(1L, ChronoUnit.DAYS));
+        date3 = new ActivityDate(CalendarDateConstants.START.plus(2L, ChronoUnit.DAYS),
+            CalendarDateConstants.END.plus(2L, ChronoUnit.DAYS));
+        date4 = new ActivityDate(CalendarDateConstants.START.plus(3L, ChronoUnit.DAYS),
+            CalendarDateConstants.END.plus(3L, ChronoUnit.DAYS));
+        date5 = new ActivityDate(CalendarDateConstants.START.plus(4L, ChronoUnit.DAYS),
+            CalendarDateConstants.END.plus(4L, ChronoUnit.DAYS));
 
         return new Activity(ActivityConstants.NUMBER, ActivityConstants.TITLE, ActivityConstants.DESCRIPTION,
-            ActivityConstants.LOCATION, ActivityConstants.IMAGE, List.of(date));
+            ActivityConstants.LOCATION, ActivityConstants.IMAGE, List.of(date1, date2, date3, date4, date5));
     }
 
     public static final Activity sameDate() {
@@ -64,13 +68,32 @@ public final class Activities {
         return new Activity(ActivityConstants.NUMBER, ActivityConstants.TITLE, ActivityConstants.DESCRIPTION,
             ActivityConstants.LOCATION, ActivityConstants.IMAGE, List.of(date));
     }
-    public static final Activity valid() {
+
+    public static final Activity singleDay() {
         final ActivityDate date;
 
         date = new ActivityDate(CalendarDateConstants.START, CalendarDateConstants.END);
 
         return new Activity(ActivityConstants.NUMBER, ActivityConstants.TITLE, ActivityConstants.DESCRIPTION,
             ActivityConstants.LOCATION, ActivityConstants.IMAGE, List.of(date));
+    }
+
+    public static final Activity startsAfterEnd() {
+        final ActivityDate date;
+
+        date = new ActivityDate(CalendarDateConstants.END, CalendarDateConstants.START);
+
+        return new Activity(ActivityConstants.NUMBER, ActivityConstants.TITLE, ActivityConstants.DESCRIPTION,
+            ActivityConstants.LOCATION, ActivityConstants.IMAGE, List.of(date));
+    }
+
+    public static final Activity titleChange() {
+        final ActivityDate date;
+
+        date = new ActivityDate(CalendarDateConstants.START, CalendarDateConstants.END);
+
+        return new Activity(ActivityConstants.NUMBER, ActivityConstants.ALTERNATIVE_TITLE,
+            ActivityConstants.DESCRIPTION, ActivityConstants.LOCATION, ActivityConstants.IMAGE, List.of(date));
     }
 
     private Activities() {

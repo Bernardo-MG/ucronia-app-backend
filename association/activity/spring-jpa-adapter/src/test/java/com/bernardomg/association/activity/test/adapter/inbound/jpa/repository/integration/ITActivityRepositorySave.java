@@ -12,7 +12,7 @@ import com.bernardomg.association.activity.adapter.inbound.jpa.model.CalendarInf
 import com.bernardomg.association.activity.adapter.inbound.jpa.repository.CalendarInfoSpringRepository;
 import com.bernardomg.association.activity.domain.model.Activity;
 import com.bernardomg.association.activity.domain.repository.ActivityRepository;
-import com.bernardomg.association.activity.test.configuration.data.annotation.ValidActivity;
+import com.bernardomg.association.activity.test.configuration.data.annotation.SingleDayActivity;
 import com.bernardomg.association.activity.test.configuration.factory.Activities;
 import com.bernardomg.association.activity.test.factory.CalendarInfoEntities;
 import com.bernardomg.test.annotation.IntegrationTest;
@@ -35,7 +35,7 @@ class ITActivityRepositorySave {
         final Activity                     activity;
 
         // GIVEN
-        activity = Activities.valid();
+        activity = Activities.singleDay();
 
         // WHEN
         repository.save(activity);
@@ -56,7 +56,7 @@ class ITActivityRepositorySave {
         final Activity activity;
 
         // GIVEN
-        activity = Activities.valid();
+        activity = Activities.singleDay();
 
         // WHEN
         created = repository.save(activity);
@@ -66,12 +66,12 @@ class ITActivityRepositorySave {
             .as("created")
             .usingRecursiveComparison()
             .ignoringFields("number")
-            .isEqualTo(Activities.valid());
+            .isEqualTo(Activities.singleDay());
     }
 
     @Test
     @DisplayName("When changing the title, the data is persisted")
-    @ValidActivity
+    @SingleDayActivity
     void testSave_TitleChange_PersistedData() {
         final Iterable<CalendarInfoEntity> activities;
         final Activity                     activity;

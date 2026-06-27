@@ -74,7 +74,7 @@ class TestActivityServiceDelete {
     @DisplayName("When deleting the repository is called")
     void testDelete_RemovesEntity() {
         // GIVEN
-        given(ActivityRepository.findOne(ActivityConstants.NUMBER)).willReturn(Optional.of(Activities.valid()));
+        given(ActivityRepository.findOne(ActivityConstants.NUMBER)).willReturn(Optional.of(Activities.singleDay()));
 
         // WHEN
         service.delete(ActivityConstants.NUMBER);

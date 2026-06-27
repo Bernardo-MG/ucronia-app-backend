@@ -74,13 +74,13 @@ class TestActivityServiceCreate {
         final Activity activity;
 
         // GIVEN
-        activity = Activities.valid();
+        activity = Activities.singleDay();
 
         // WHEN
         service.create(activity);
 
         // THEN
-        verify(activityRepository).save(Activities.valid());
+        verify(activityRepository).save(Activities.singleDay());
     }
 
     @Test
@@ -90,7 +90,7 @@ class TestActivityServiceCreate {
         final Activity created;
 
         // GIVEN
-        activity = Activities.valid();
+        activity = Activities.singleDay();
 
         given(activityRepository.save(activity)).willReturn(activity);
 
@@ -100,7 +100,7 @@ class TestActivityServiceCreate {
         // THEN
         Assertions.assertThat(created)
             .as("activity")
-            .isEqualTo(Activities.valid());
+            .isEqualTo(Activities.singleDay());
     }
 
     @Test
