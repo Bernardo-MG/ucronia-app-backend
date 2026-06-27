@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.activity.test.adapter.inbound.jpa.repository.integration;
 
+import java.time.Month;
 import java.time.temporal.ChronoUnit;
 
 import org.assertj.core.api.Assertions;
@@ -38,6 +39,8 @@ import com.bernardomg.association.activity.TestApplication;
 import com.bernardomg.association.activity.domain.model.Activity;
 import com.bernardomg.association.activity.domain.model.Activity.ActivityDate;
 import com.bernardomg.association.activity.domain.repository.ActivityRepository;
+import com.bernardomg.association.activity.test.configuration.data.annotation.MultipleActivity;
+import com.bernardomg.association.activity.test.configuration.data.annotation.MultipleActivityOutOfOrder;
 import com.bernardomg.association.activity.test.configuration.data.annotation.MultipleDayActivity;
 import com.bernardomg.association.activity.test.configuration.data.annotation.MultipleDayOutOfOrderActivity;
 import com.bernardomg.association.activity.test.configuration.data.annotation.SingleDayActivity;
@@ -61,7 +64,7 @@ class ITActivityRepositoryFindAllWithFilter {
     }
 
     @Test
-    @DisplayName("With data, it returns all the activities")
+    @DisplayName("With a single activity, it returns all the activities")
     @SingleDayActivity
     void testFindAll() {
         final Page<Activity> activities;
@@ -80,6 +83,54 @@ class ITActivityRepositoryFindAllWithFilter {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Activities.singleDay());
+    }
+
+    @Test
+    @DisplayName("With multiple activites, it returns all the activities")
+    @MultipleActivity
+    void testFindAll_Multiple() {
+        final Page<Activity> activities;
+        final Pagination     pagination;
+        final Sorting        sorting;
+
+        // GIVEN
+        pagination = new Pagination(1, 20);
+        sorting = Sorting.unsorted();
+
+        // WHEN
+        activities = repository.findAll(pagination, sorting);
+
+        // THEN
+        Assertions.assertThat(activities)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .containsExactly(Activities.forNumberAndMonth(10L, Month.JANUARY),
+                Activities.forNumberAndMonth(11L, Month.JANUARY), Activities.forNumberAndMonth(12L, Month.JANUARY),
+                Activities.forNumberAndMonth(13L, Month.JANUARY), Activities.forNumberAndMonth(14L, Month.JANUARY));
+    }
+
+    @Test
+    @DisplayName("With multiple activites out of order, it returns all the activities ordered")
+    @MultipleActivityOutOfOrder
+    void testFindAll_Multiple_OutOfOrder() {
+        final Page<Activity> activities;
+        final Pagination     pagination;
+        final Sorting        sorting;
+
+        // GIVEN
+        pagination = new Pagination(1, 20);
+        sorting = Sorting.unsorted();
+
+        // WHEN
+        activities = repository.findAll(pagination, sorting);
+
+        // THEN
+        Assertions.assertThat(activities)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .containsExactly(Activities.forNumberAndMonth(10L, Month.JANUARY),
+                Activities.forNumberAndMonth(11L, Month.JANUARY), Activities.forNumberAndMonth(12L, Month.JANUARY),
+                Activities.forNumberAndMonth(13L, Month.JANUARY), Activities.forNumberAndMonth(14L, Month.JANUARY));
     }
 
     @Test

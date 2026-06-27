@@ -108,7 +108,12 @@ public final class JpaActivityRepository implements ActivityRepository {
         log.debug("Finding activities with pagination {} and sorting {}", pagination, sorting);
 
         pageable = SpringPagination.toPageable(pagination, sorting);
-        page = calendarInfoSpringRepository.findAll(pageable);
+        if (sorting.properties()
+            .isEmpty()) {
+            page = calendarInfoSpringRepository.findAllOrderByFirstDate(pageable);
+        } else {
+            page = calendarInfoSpringRepository.findAll(pageable);
+        }
 
         read = page.map(ActivityEntityMapper::toDomain);
 
