@@ -28,7 +28,7 @@ public class TestModulesArchitectureRules {
         .layer("Fees")
         .definedBy("com.bernardomg.association.fee..")
         .layer("Activity")
-        .definedBy("com.bernardomg.association.activity..")
+        .definedBy("com.bernardomg.association.calendar.activity..")
 
         // Security modules
         .layer("Users")

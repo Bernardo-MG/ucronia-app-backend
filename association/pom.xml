@@ -37,7 +37,7 @@
      <module>guest</module>
      <module>sponsor</module>
      <module>library</module>
-     <module>activity</module>
+     <module>calendar</module>
    </modules>
 
 </project>
