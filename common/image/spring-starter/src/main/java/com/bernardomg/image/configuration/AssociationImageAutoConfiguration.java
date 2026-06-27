@@ -35,8 +35,7 @@ import com.bernardomg.image.usecase.service.ImageService;
 import com.bernardomg.security.web.whitelist.WhitelistRoute;
 
 @AutoConfiguration
-@ComponentScan({ "com.bernardomg.association.image.adapter.outbound.rest.controller",
-        "com.bernardomg.association.image.adapter.inbound.jpa" })
+@ComponentScan({ "com.bernardomg.image.adapter.outbound.rest.controller" })
 public class AssociationImageAutoConfiguration {
 
     @Bean("imageService")
