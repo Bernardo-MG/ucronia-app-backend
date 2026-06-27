@@ -27,10 +27,12 @@ package com.bernardomg.image.configuration;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.http.HttpMethod;
 import org.springframework.web.client.RestClient;
 
 import com.bernardomg.image.usecase.service.DefaultImageService;
 import com.bernardomg.image.usecase.service.ImageService;
+import com.bernardomg.security.web.whitelist.WhitelistRoute;
 
 @AutoConfiguration
 @ComponentScan({ "com.bernardomg.association.image.adapter.outbound.rest.controller",
@@ -40,6 +42,11 @@ public class AssociationImageAutoConfiguration {
     @Bean("imageService")
     public ImageService getImageService(final RestClient.Builder builder) {
         return new DefaultImageService(builder);
+    }
+
+    @Bean("settingWhitelist")
+    public WhitelistRoute getSettingWhitelist() {
+        return WhitelistRoute.of("/images/**", HttpMethod.GET);
     }
 
 }
