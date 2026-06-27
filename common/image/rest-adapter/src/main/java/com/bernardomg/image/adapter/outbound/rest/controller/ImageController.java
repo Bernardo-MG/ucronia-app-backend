@@ -24,17 +24,16 @@
 
 package com.bernardomg.image.adapter.outbound.rest.controller;
 
-import java.net.URI;
 import java.util.Objects;
 
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.image.domain.model.ImageContent;
 import com.bernardomg.image.usecase.service.ImageService;
-
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
 
 /**
  * Activity REST controller.
@@ -44,7 +43,7 @@ import jakarta.validation.constraints.NotNull;
  */
 @RestController
 public class ImageController implements ImageApi {
-    
+
     private final ImageService service;
 
     public ImageController(final ImageService service) {
@@ -54,12 +53,15 @@ public class ImageController implements ImageApi {
     }
 
     @Override
-    public Resource getImage(@NotNull @Valid final URI url) {
-        final byte[] content;
-        
-        content = service.getImage(url);
-        
-        return new ByteArrayResource(content);
+    public ResponseEntity<Resource> getImage(String name) {
+        final ImageContent content;
+
+        content = service.getImage(name);
+
+        // TODO: return the image content structure
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(content.mediaType()))
+                .body(new ByteArrayResource(content.data()));
     }
 
 }

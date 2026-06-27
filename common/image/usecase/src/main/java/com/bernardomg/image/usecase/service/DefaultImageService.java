@@ -25,6 +25,7 @@
 package com.bernardomg.image.usecase.service;
 
 import java.net.URI;
+import java.util.Map;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -32,6 +33,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.server.ResponseStatusException;
+
+import com.bernardomg.image.domain.model.ImageContent;
 
 import jakarta.transaction.Transactional;
 
@@ -44,7 +47,10 @@ import jakarta.transaction.Transactional;
 @Transactional
 public final class DefaultImageService implements ImageService {
 
-    private final RestClient client;
+    private final RestClient          client;
+
+    private final Map<String, String> images = Map.of("metroludik-2026.png",
+        "https://drive.google.com/thumbnail?id=1Zv5g0i3PNEDwn30YPALy4HaqFDpZL_A3&sz=w1000");
 
     public DefaultImageService(final RestClient.Builder builder) {
         client = builder.defaultHeader(HttpHeaders.USER_AGENT, "Mozilla/5.0")
@@ -52,21 +58,26 @@ public final class DefaultImageService implements ImageService {
     }
 
     @Override
-    public byte[] getImage(final URI url) {
-        final ResponseEntity<byte[]> response    = client.get()
-            .uri(url)
+    public final ImageContent getImage(final String name) {
+        final ResponseEntity<byte[]> response;
+        final String                 url;
+        final MediaType              mediaType;
+
+        url = images.get(name);
+
+        if (url == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Image not found");
+        }
+
+        response = client.get()
+            .uri(URI.create(url))
             .retrieve()
             .toEntity(byte[].class);
 
-        final MediaType              contentType = response.getHeaders()
+        mediaType = response.getHeaders()
             .getContentType();
 
-        if ((contentType == null) || !"image"
-            .equals(contentType.getType())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "URL does not point to an image");
-        }
-
-        return response.getBody();
+        return new ImageContent(response.getBody(),
+            mediaType != null ? mediaType.toString() : MediaType.APPLICATION_OCTET_STREAM.toString());
     }
-
 }

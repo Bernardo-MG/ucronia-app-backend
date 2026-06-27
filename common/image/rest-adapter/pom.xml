@@ -63,6 +63,18 @@
           <plugin>
              <groupId>org.openapitools</groupId>
              <artifactId>openapi-generator-maven-plugin</artifactId>
+               <executions>
+                  <execution>
+                     <goals>
+                        <goal>generate</goal>
+                     </goals>
+                     <configuration>
+                        <configOptions>
+                           <useResponseEntity>true</useResponseEntity>
+                        </configOptions>
+                     </configuration>
+                  </execution>
+               </executions>
           </plugin>
       </plugins>
    </build>

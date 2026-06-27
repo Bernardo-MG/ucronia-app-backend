@@ -3,13 +3,12 @@ get:
   operationId: getImage
   tags: [Image]
   parameters:
-    - name: url
-      in: query
+    - in: path
+      name: name
       required: true
-      description: Image URL.
+      description: Image name.
       schema:
         type: string
-        format: uri
   responses:
     '200':
       description: Image content.
