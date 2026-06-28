@@ -10,6 +10,7 @@ import java.util.List;
 
 import com.bernardomg.association.calendar.activity.domain.model.Activity;
 import com.bernardomg.association.calendar.activity.domain.model.Activity.ActivityDate;
+import com.bernardomg.association.calendar.test.configuration.factory.CalendarDateConstants;
 
 public final class Activities {
 

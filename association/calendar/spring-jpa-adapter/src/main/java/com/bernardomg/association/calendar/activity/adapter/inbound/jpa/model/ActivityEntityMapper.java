@@ -30,6 +30,8 @@ import java.util.stream.Collectors;
 
 import com.bernardomg.association.calendar.activity.domain.model.Activity;
 import com.bernardomg.association.calendar.activity.domain.model.Activity.ActivityDate;
+import com.bernardomg.association.calendar.adapter.inbound.jpa.model.CalendarDateEntity;
+import com.bernardomg.association.calendar.adapter.inbound.jpa.model.CalendarInfoEntity;
 
 /**
  * Author repository mapper.

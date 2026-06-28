@@ -27,6 +27,8 @@ public class TestModulesArchitectureRules {
         .definedBy("com.bernardomg.association.transaction..")
         .layer("Fees")
         .definedBy("com.bernardomg.association.fee..")
+        .layer("Calendar")
+        .definedBy("com.bernardomg.association.calendar..")
         .layer("Activity")
         .definedBy("com.bernardomg.association.calendar.activity..")
 
@@ -70,6 +72,8 @@ public class TestModulesArchitectureRules {
         .mayNotBeAccessedByAnyLayer()
         .whereLayer("Fees")
         .mayOnlyBeAccessedByLayers("Members")
+        .whereLayer("Calendar")
+        .mayNotBeAccessedByAnyLayer()
         .whereLayer("Activity")
         .mayNotBeAccessedByAnyLayer()
 

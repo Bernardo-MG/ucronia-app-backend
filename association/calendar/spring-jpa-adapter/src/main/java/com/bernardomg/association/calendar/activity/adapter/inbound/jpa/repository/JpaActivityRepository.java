@@ -36,10 +36,12 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.association.calendar.activity.adapter.inbound.jpa.model.ActivityEntityConstants;
 import com.bernardomg.association.calendar.activity.adapter.inbound.jpa.model.ActivityEntityMapper;
-import com.bernardomg.association.calendar.activity.adapter.inbound.jpa.model.CalendarDateEntity;
-import com.bernardomg.association.calendar.activity.adapter.inbound.jpa.model.CalendarInfoEntity;
 import com.bernardomg.association.calendar.activity.domain.model.Activity;
 import com.bernardomg.association.calendar.activity.domain.repository.ActivityRepository;
+import com.bernardomg.association.calendar.adapter.inbound.jpa.model.CalendarDateEntity;
+import com.bernardomg.association.calendar.adapter.inbound.jpa.model.CalendarInfoEntity;
+import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.CalendarDateSpringRepository;
+import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.CalendarInfoSpringRepository;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
