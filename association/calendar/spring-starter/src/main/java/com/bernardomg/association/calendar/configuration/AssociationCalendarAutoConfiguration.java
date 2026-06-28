@@ -25,19 +25,10 @@
 package com.bernardomg.association.calendar.configuration;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
-import com.bernardomg.association.calendar.activity.adapter.inbound.jpa.repository.JpaActivityRepository;
-import com.bernardomg.association.calendar.activity.domain.repository.ActivityRepository;
-import com.bernardomg.association.calendar.activity.usecase.service.ActivityService;
-import com.bernardomg.association.calendar.activity.usecase.service.DefaultActivityService;
-import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.CalendarDateSpringRepository;
-import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.CalendarInfoSpringRepository;
-
 @AutoConfiguration
-@ComponentScan({
-        "com.bernardomg.association.calendar.adapter.inbound.jpa" })
+@ComponentScan({ "com.bernardomg.association.calendar.adapter.inbound.jpa" })
 public class AssociationCalendarAutoConfiguration {
 
 }
