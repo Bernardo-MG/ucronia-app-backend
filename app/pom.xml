@@ -54,10 +54,6 @@
          <artifactId>association-member-spring-starter</artifactId>
       </dependency>
       <dependency>
-         <groupId>com.bernardomg.association.sponsor</groupId>
-         <artifactId>association-sponsor-spring-starter</artifactId>
-      </dependency>
-      <dependency>
          <groupId>com.bernardomg.association.library</groupId>
          <artifactId>association-library-spring-starter</artifactId>
       </dependency>

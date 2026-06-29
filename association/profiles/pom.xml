@@ -35,6 +35,7 @@
      <module>spring-jpa-adapter</module>
      <module>rest-adapter</module>
      <module>guest-rest-adapter</module>
+     <module>sponsor-rest-adapter</module>
      <module>spring-starter</module>
    </modules>
 

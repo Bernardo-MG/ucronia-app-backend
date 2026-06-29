@@ -1,7 +1,0 @@
-databaseChangeLog:
-  - include:
-      file: profile.yaml
-      relativeToChangelogFile: true
-  - include:
-      file: sponsor.yaml
-      relativeToChangelogFile: true
