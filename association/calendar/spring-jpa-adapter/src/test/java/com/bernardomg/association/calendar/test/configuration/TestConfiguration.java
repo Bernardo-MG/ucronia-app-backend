@@ -35,7 +35,7 @@ import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.Calend
 import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.CalendarInfoSpringRepository;
 
 @Configuration
-@EnableJpaRepositories(basePackages = "com.bernardomg.associationr.calendar.adapter.inbound.jpa")
+@EnableJpaRepositories(basePackages = "com.bernardomg.association.calendar.adapter.inbound.jpa")
 @EntityScan(basePackages = "com.bernardomg.association.calendar.adapter.inbound.jpa")
 public class TestConfiguration {
 
