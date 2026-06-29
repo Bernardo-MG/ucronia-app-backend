@@ -63,15 +63,6 @@ public final class Sponsors {
             Set.of(Sponsor.PROFILE_TYPE));
     }
 
-    public static final Sponsor noType() {
-        final Name name;
-
-        name = new Name(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        return new Sponsor(Optional.of(ProfileConstants.IDENTIFIER), ProfileConstants.NUMBER, name,
-            Optional.of(ProfileConstants.BIRTH_DATE), List.of(), List.of(), Optional.of(ProfileConstants.ADDRESS),
-            Optional.of(ProfileConstants.COMMENTS), Set.of());
-    }
-
     public static final Sponsor padded() {
         final Name name;
 
@@ -100,18 +91,6 @@ public final class Sponsors {
         contactChannel = ContactChannels.withEmail();
         return new Sponsor(Optional.of(ProfileConstants.IDENTIFIER), ProfileConstants.NUMBER, name,
             Optional.of(ProfileConstants.BIRTH_DATE), List.of(contactChannel), List.of(SponsorConstants.YEAR),
-            Optional.of(ProfileConstants.ADDRESS), Optional.of(ProfileConstants.COMMENTS),
-            Set.of(Sponsor.PROFILE_TYPE));
-    }
-
-    public static final Sponsor withEmailAndNoYear() {
-        final Name           name;
-        final ContactChannel contactChannel;
-
-        name = new Name(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        contactChannel = ContactChannels.withEmail();
-        return new Sponsor(Optional.of(ProfileConstants.IDENTIFIER), ProfileConstants.NUMBER, name,
-            Optional.of(ProfileConstants.BIRTH_DATE), List.of(contactChannel), List.of(),
             Optional.of(ProfileConstants.ADDRESS), Optional.of(ProfileConstants.COMMENTS),
             Set.of(Sponsor.PROFILE_TYPE));
     }

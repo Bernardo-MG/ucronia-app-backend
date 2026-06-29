@@ -67,15 +67,6 @@ public final class Guests {
             Optional.of(ProfileConstants.COMMENTS), Set.of(Guest.PROFILE_TYPE));
     }
 
-    public static final Guest noType() {
-        final Name name;
-
-        name = new Name(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        return new Guest(Optional.of(ProfileConstants.IDENTIFIER), ProfileConstants.NUMBER, name,
-            Optional.of(ProfileConstants.BIRTH_DATE), List.of(), List.of(), Optional.of(ProfileConstants.ADDRESS),
-            Optional.of(ProfileConstants.COMMENTS), Set.of());
-    }
-
     public static final Guest padded() {
         final Name name;
 
@@ -94,17 +85,6 @@ public final class Guests {
         contactChannel = ContactChannels.withEmail();
         return new Guest(Optional.of(ProfileConstants.IDENTIFIER), ProfileConstants.NUMBER, name,
             Optional.of(ProfileConstants.BIRTH_DATE), List.of(contactChannel), List.of(Guests.DATE),
-            Optional.of(ProfileConstants.ADDRESS), Optional.of(ProfileConstants.COMMENTS), Set.of(Guest.PROFILE_TYPE));
-    }
-
-    public static final Guest withEmailNoGames() {
-        final Name           name;
-        final ContactChannel contactChannel;
-
-        name = new Name(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        contactChannel = ContactChannels.withEmail();
-        return new Guest(Optional.of(ProfileConstants.IDENTIFIER), ProfileConstants.NUMBER, name,
-            Optional.of(ProfileConstants.BIRTH_DATE), List.of(contactChannel), List.of(),
             Optional.of(ProfileConstants.ADDRESS), Optional.of(ProfileConstants.COMMENTS), Set.of(Guest.PROFILE_TYPE));
     }
 
