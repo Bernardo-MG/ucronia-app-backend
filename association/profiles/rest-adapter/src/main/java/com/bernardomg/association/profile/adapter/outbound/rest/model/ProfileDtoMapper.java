@@ -43,10 +43,10 @@ import com.bernardomg.association.profile.adapter.outbound.rest.dto.ProfileUpdat
 import com.bernardomg.association.profile.adapter.outbound.rest.dto.PropertyDto;
 import com.bernardomg.association.profile.adapter.outbound.rest.dto.PropertyDto.DirectionEnum;
 import com.bernardomg.association.profile.adapter.outbound.rest.dto.SortingDto;
+import com.bernardomg.association.profile.domain.model.ContactChannel;
 import com.bernardomg.association.profile.domain.model.ContactMethod;
+import com.bernardomg.association.profile.domain.model.Name;
 import com.bernardomg.association.profile.domain.model.Profile;
-import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
-import com.bernardomg.association.profile.domain.model.Profile.Name;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
 import com.bernardomg.pagination.domain.Sorting.Property;

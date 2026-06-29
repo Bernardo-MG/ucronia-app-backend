@@ -59,10 +59,6 @@ public class ContactChannelEntity implements Serializable {
     @Column(name = "id", nullable = false, unique = true)
     private Long                id;
 
-    @ManyToOne
-    @JoinColumn(name = "profile_id", nullable = false)
-    private ProfileEntity       profile;
-
     @Override
     public boolean equals(final Object obj) {
         if (this == obj) {
@@ -86,10 +82,6 @@ public class ContactChannelEntity implements Serializable {
         return id;
     }
 
-    public ProfileEntity getProfile() {
-        return profile;
-    }
-
     @Override
     public int hashCode() {
         return Objects.hash(id);
@@ -105,10 +97,6 @@ public class ContactChannelEntity implements Serializable {
 
     public void setId(final Long id) {
         this.id = id;
-    }
-
-    public void setProfile(final ProfileEntity profile) {
-        this.profile = profile;
     }
 
     @Override

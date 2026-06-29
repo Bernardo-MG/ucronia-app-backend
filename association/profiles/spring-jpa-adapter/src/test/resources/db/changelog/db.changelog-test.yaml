@@ -1,4 +1,10 @@
 databaseChangeLog:
   - include:
-      file: directory.yaml
+      file: profile.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: guest.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: sponsor.yaml
       relativeToChangelogFile: true

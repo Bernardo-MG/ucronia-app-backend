@@ -29,16 +29,28 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+import com.bernardomg.association.guest.adapter.inbound.jpa.repository.GuestSpringRepository;
+import com.bernardomg.association.guest.adapter.inbound.jpa.repository.JpaGuestRepository;
+import com.bernardomg.association.guest.adapter.inbound.jpa.repository.ReadGuestSpringRepository;
+import com.bernardomg.association.guest.domain.repository.GuestRepository;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ContactMethodSpringRepository;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.JpaContactMethodRepository;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.JpaProfileRepository;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
 import com.bernardomg.association.profile.domain.repository.ProfileRepository;
+import com.bernardomg.association.sponsor.adapter.inbound.jpa.repository.JpaSponsorRepository;
+import com.bernardomg.association.sponsor.adapter.inbound.jpa.repository.ReadSponsorSpringRepository;
+import com.bernardomg.association.sponsor.adapter.inbound.jpa.repository.SponsorSpringRepository;
+import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
 
 @Configuration
-@EnableJpaRepositories(basePackages = "com.bernardomg.association.profile.adapter.inbound.jpa")
-@EntityScan(basePackages = "com.bernardomg.association.profile.adapter.inbound.jpa")
+@EnableJpaRepositories(basePackages = { "com.bernardomg.association.profile.adapter.inbound.jpa",
+        "com.bernardomg.association.sponsor.adapter.inbound.jpa",
+        "com.bernardomg.association.guest.adapter.inbound.jpa" })
+@EntityScan(basePackages = { "com.bernardomg.association.profile.adapter.inbound.jpa",
+        "com.bernardomg.association.sponsor.adapter.inbound.jpa",
+        "com.bernardomg.association.guest.adapter.inbound.jpa" })
 public class TestConfiguration {
 
     @Bean("contactMethodRepository")
@@ -47,10 +59,28 @@ public class TestConfiguration {
         return new JpaContactMethodRepository(contactMethodSpringRepository);
     }
 
+    @Bean("guestRepository")
+    public GuestRepository getGuestRepository(final GuestSpringRepository guestSpringRepository,
+            final ReadGuestSpringRepository readGuestSpringRepository,
+            final ProfileSpringRepository profileSpringRepository,
+            final ContactMethodSpringRepository contactMethodSpringRepository) {
+        return new JpaGuestRepository(guestSpringRepository, readGuestSpringRepository, profileSpringRepository,
+            contactMethodSpringRepository);
+    }
+
     @Bean("profileRepository")
     public ProfileRepository getProfileRepository(final ProfileSpringRepository profileSpringRepository,
             final ContactMethodSpringRepository contactMethodSpringRepository) {
         return new JpaProfileRepository(profileSpringRepository, contactMethodSpringRepository);
+    }
+
+    @Bean("sponsorRepository")
+    public SponsorRepository getSponsorRepository(final SponsorSpringRepository sponsorSpringRepository,
+            final ReadSponsorSpringRepository readSponsorSpringRepository,
+            final ContactMethodSpringRepository contactMethodSpringRepository,
+            final ProfileSpringRepository profileSpringRepository) {
+        return new JpaSponsorRepository(sponsorSpringRepository, readSponsorSpringRepository,
+            contactMethodSpringRepository, profileSpringRepository);
     }
 
 }
