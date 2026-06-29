@@ -32,7 +32,6 @@ import com.bernardomg.association.guest.adapter.inbound.jpa.repository.GuestSpri
 import com.bernardomg.association.guest.adapter.inbound.jpa.repository.JpaGuestProfileRepository;
 import com.bernardomg.association.guest.adapter.inbound.jpa.repository.JpaGuestRepository;
 import com.bernardomg.association.guest.adapter.inbound.jpa.repository.ReadGuestSpringRepository;
-import com.bernardomg.association.guest.domain.repository.GuestContactMethodRepository;
 import com.bernardomg.association.guest.domain.repository.GuestProfileRepository;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
 import com.bernardomg.association.guest.usecase.service.DefaultGuestService;
@@ -41,6 +40,7 @@ import com.bernardomg.association.guest.usecase.service.GuestService;
 import com.bernardomg.association.guest.usecase.service.ProfileGuestService;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ContactMethodSpringRepository;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
+import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
 
 @AutoConfiguration
 @ComponentScan({ "com.bernardomg.association.guest.adapter.outbound.rest.controller",
@@ -63,7 +63,7 @@ public class AssociationGuestAutoConfiguration {
 
     @Bean("guestService")
     public GuestService getGuestService(final GuestRepository guestRepository,
-            final GuestContactMethodRepository contactMethodRepository) {
+            final ContactMethodRepository contactMethodRepository) {
         return new DefaultGuestService(guestRepository, contactMethodRepository);
     }
 

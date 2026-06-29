@@ -34,13 +34,13 @@ import com.bernardomg.association.guest.domain.exception.MissingGuestContactMeth
 import com.bernardomg.association.guest.domain.exception.MissingGuestException;
 import com.bernardomg.association.guest.domain.filter.GuestFilter;
 import com.bernardomg.association.guest.domain.model.Guest;
-import com.bernardomg.association.guest.domain.repository.GuestContactMethodRepository;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
 import com.bernardomg.association.guest.usecase.validation.GuestIdentifierNotExistForAnotherRule;
 import com.bernardomg.association.guest.usecase.validation.GuestIdentifierNotExistRule;
 import com.bernardomg.association.profile.domain.model.ContactChannel;
 import com.bernardomg.association.profile.domain.model.ContactMethod;
 import com.bernardomg.association.profile.domain.model.Name;
+import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
@@ -61,19 +61,19 @@ public final class DefaultGuestService implements GuestService {
     /**
      * Logger for the class.
      */
-    private static final Logger                log = LoggerFactory.getLogger(DefaultGuestService.class);
+    private static final Logger           log = LoggerFactory.getLogger(DefaultGuestService.class);
 
-    private final GuestContactMethodRepository contactMethodRepository;
+    private final ContactMethodRepository contactMethodRepository;
 
-    private final Validator<Guest>             createValidator;
+    private final Validator<Guest>        createValidator;
 
-    private final GuestRepository              guestRepository;
+    private final GuestRepository         guestRepository;
 
-    private final Validator<Guest>             patchValidator;
+    private final Validator<Guest>        patchValidator;
 
-    private final Validator<Guest>             updateValidator;
+    private final Validator<Guest>        updateValidator;
 
-    public DefaultGuestService(final GuestRepository guestRepo, final GuestContactMethodRepository contactMethodRepo) {
+    public DefaultGuestService(final GuestRepository guestRepo, final ContactMethodRepository contactMethodRepo) {
         super();
 
         guestRepository = Objects.requireNonNull(guestRepo);

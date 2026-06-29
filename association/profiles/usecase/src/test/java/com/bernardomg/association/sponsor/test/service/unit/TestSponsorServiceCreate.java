@@ -36,8 +36,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
-import com.bernardomg.association.sponsor.domain.repository.SponsorContactMethodRepository;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
 import com.bernardomg.association.sponsor.test.configuration.factory.SponsorConstants;
 import com.bernardomg.association.sponsor.test.configuration.factory.Sponsors;
@@ -50,13 +50,13 @@ import com.bernardomg.validation.test.assertion.ValidationAssertions;
 class TestSponsorServiceCreate {
 
     @Mock
-    private SponsorContactMethodRepository contactMethodRepository;
+    private ContactMethodRepository contactMethodRepository;
 
     @InjectMocks
-    private DefaultSponsorService          service;
+    private DefaultSponsorService   service;
 
     @Mock
-    private SponsorRepository              sponsorRepository;
+    private SponsorRepository       sponsorRepository;
 
     public TestSponsorServiceCreate() {
         super();
