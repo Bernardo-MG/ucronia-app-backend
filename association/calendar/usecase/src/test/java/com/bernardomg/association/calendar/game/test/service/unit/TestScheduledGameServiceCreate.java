@@ -22,13 +22,12 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.calendar.session.test.service.unit;
+package com.bernardomg.association.calendar.game.test.service.unit;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.Assertions;
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -36,16 +35,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.calendar.activity.test.configuration.factory.ActivityConstants;
-import com.bernardomg.association.calendar.game.domain.exception.MissingScheduledGameException;
 import com.bernardomg.association.calendar.game.domain.model.ScheduledGame;
 import com.bernardomg.association.calendar.game.domain.repository.ScheduledGameRepository;
+import com.bernardomg.association.calendar.game.test.configuration.factory.ScheduledGames;
 import com.bernardomg.association.calendar.game.usecase.service.DefaultScheduledGameService;
-import com.bernardomg.association.calendar.session.test.configuration.factory.ScheduledGames;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("DefaultScheduledGameService - update")
-class TestScheduledGameServiceUpdate {
+@DisplayName("DefaultScheduledGameService - create")
+class TestScheduledGameServiceCreate {
 
     @Mock
     private ScheduledGameRepository     scheduledGameRepository;
@@ -54,77 +51,38 @@ class TestScheduledGameServiceUpdate {
     private DefaultScheduledGameService service;
 
     @Test
-    @DisplayName("With a not existing entity, an exception is thrown")
-    void testUpdate_NotExisting_Exception() {
-        final ScheduledGame    scheduledGame;
-        final ThrowingCallable execution;
-
-        // GIVEN
-        scheduledGame = ScheduledGames.weekly();
-
-        given(scheduledGameRepository.exists(ActivityConstants.NUMBER)).willReturn(false);
-
-        // WHEN
-        execution = () -> service.update(scheduledGame);
-
-        // THEN
-        Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingScheduledGameException.class);
-    }
-
-    @Test
-    @DisplayName("With a member with padded name, the member is persisted")
-    void testUpdate_Padded_PersistedData() {
-        final ScheduledGame scheduledGame;
-
-        // GIVEN
-        scheduledGame = ScheduledGames.weekly();
-
-        given(scheduledGameRepository.exists(ActivityConstants.NUMBER)).willReturn(true);
-
-        // WHEN
-        service.update(scheduledGame);
-
-        // THEN
-        verify(scheduledGameRepository).save(ScheduledGames.weekly());
-    }
-
-    @Test
     @DisplayName("With a valid scheduled game, it is persisted")
-    void testUpdate_PersistedData() {
+    void testCreate_PersistedData() {
         final ScheduledGame scheduledGame;
 
         // GIVEN
         scheduledGame = ScheduledGames.weekly();
 
-        given(scheduledGameRepository.exists(ActivityConstants.NUMBER)).willReturn(true);
-
         // WHEN
-        service.update(scheduledGame);
+        service.create(scheduledGame);
 
         // THEN
-        verify(scheduledGameRepository).save(ScheduledGames.weekly());
+        verify(scheduledGameRepository).save(scheduledGame);
     }
 
     @Test
     @DisplayName("With a valid scheduled game, it is returned")
-    void testUpdate_ReturnedData() {
+    void testCreate_ReturnedData() {
         final ScheduledGame scheduledGame;
-        final ScheduledGame updated;
+        final ScheduledGame created;
 
         // GIVEN
         scheduledGame = ScheduledGames.weekly();
 
         given(scheduledGameRepository.save(scheduledGame)).willReturn(scheduledGame);
-        given(scheduledGameRepository.exists(ActivityConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        updated = service.update(scheduledGame);
+        created = service.create(scheduledGame);
 
         // THEN
-        Assertions.assertThat(updated)
-            .as("scheduled game")
-            .isEqualTo(ScheduledGames.weekly());
+        Assertions.assertThat(created)
+            .as("activity")
+            .isEqualTo(scheduledGame);
     }
 
 }

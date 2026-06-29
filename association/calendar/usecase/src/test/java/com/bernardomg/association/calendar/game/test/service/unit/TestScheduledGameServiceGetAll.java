@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.calendar.session.test.service.unit;
+package com.bernardomg.association.calendar.game.test.service.unit;
 
 import static org.mockito.BDDMockito.given;
 
@@ -39,8 +39,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.calendar.game.domain.model.ScheduledGame;
 import com.bernardomg.association.calendar.game.domain.repository.ScheduledGameRepository;
+import com.bernardomg.association.calendar.game.test.configuration.factory.ScheduledGames;
 import com.bernardomg.association.calendar.game.usecase.service.DefaultScheduledGameService;
-import com.bernardomg.association.calendar.session.test.configuration.factory.ScheduledGames;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;

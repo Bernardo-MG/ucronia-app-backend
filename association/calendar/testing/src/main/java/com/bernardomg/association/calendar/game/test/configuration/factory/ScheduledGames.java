@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.calendar.session.test.configuration.factory;
+package com.bernardomg.association.calendar.game.test.configuration.factory;
 
 import com.bernardomg.association.calendar.game.domain.model.Recurrence;
 import com.bernardomg.association.calendar.game.domain.model.Recurrence.RecurrenceUnit;

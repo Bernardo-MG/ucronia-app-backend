@@ -22,12 +22,10 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.calendar.session.test.service.unit;
+package com.bernardomg.association.calendar.game.test.service.unit;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
-
-import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
@@ -40,13 +38,14 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.calendar.activity.test.configuration.factory.ActivityConstants;
 import com.bernardomg.association.calendar.game.domain.exception.MissingScheduledGameException;
+import com.bernardomg.association.calendar.game.domain.model.ScheduledGame;
 import com.bernardomg.association.calendar.game.domain.repository.ScheduledGameRepository;
+import com.bernardomg.association.calendar.game.test.configuration.factory.ScheduledGames;
 import com.bernardomg.association.calendar.game.usecase.service.DefaultScheduledGameService;
-import com.bernardomg.association.calendar.session.test.configuration.factory.ScheduledGames;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("DefaultScheduledGameService - delete")
-class TestScheduledGameServiceDelete {
+@DisplayName("DefaultScheduledGameService - update")
+class TestScheduledGameServiceUpdate {
 
     @Mock
     private ScheduledGameRepository     scheduledGameRepository;
@@ -55,15 +54,18 @@ class TestScheduledGameServiceDelete {
     private DefaultScheduledGameService service;
 
     @Test
-    @DisplayName("When the scheduled game doesn't exist, an exception is thrown")
-    void testDelete_NotExisting() {
+    @DisplayName("With a not existing entity, an exception is thrown")
+    void testUpdate_NotExisting_Exception() {
+        final ScheduledGame    scheduledGame;
         final ThrowingCallable execution;
 
         // GIVEN
-        given(scheduledGameRepository.findOne(ActivityConstants.NUMBER)).willReturn(Optional.empty());
+        scheduledGame = ScheduledGames.weekly();
+
+        given(scheduledGameRepository.exists(ActivityConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        execution = () -> service.delete(ActivityConstants.NUMBER);
+        execution = () -> service.update(scheduledGame);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -71,17 +73,58 @@ class TestScheduledGameServiceDelete {
     }
 
     @Test
-    @DisplayName("When deleting the repository is called")
-    void testDelete_RemovesEntity() {
+    @DisplayName("With a member with padded name, the member is persisted")
+    void testUpdate_Padded_PersistedData() {
+        final ScheduledGame scheduledGame;
+
         // GIVEN
-        given(scheduledGameRepository.findOne(ActivityConstants.NUMBER))
-            .willReturn(Optional.of(ScheduledGames.weekly()));
+        scheduledGame = ScheduledGames.weekly();
+
+        given(scheduledGameRepository.exists(ActivityConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        service.delete(ActivityConstants.NUMBER);
+        service.update(scheduledGame);
 
         // THEN
-        verify(scheduledGameRepository).delete(ActivityConstants.NUMBER);
+        verify(scheduledGameRepository).save(ScheduledGames.weekly());
+    }
+
+    @Test
+    @DisplayName("With a valid scheduled game, it is persisted")
+    void testUpdate_PersistedData() {
+        final ScheduledGame scheduledGame;
+
+        // GIVEN
+        scheduledGame = ScheduledGames.weekly();
+
+        given(scheduledGameRepository.exists(ActivityConstants.NUMBER)).willReturn(true);
+
+        // WHEN
+        service.update(scheduledGame);
+
+        // THEN
+        verify(scheduledGameRepository).save(ScheduledGames.weekly());
+    }
+
+    @Test
+    @DisplayName("With a valid scheduled game, it is returned")
+    void testUpdate_ReturnedData() {
+        final ScheduledGame scheduledGame;
+        final ScheduledGame updated;
+
+        // GIVEN
+        scheduledGame = ScheduledGames.weekly();
+
+        given(scheduledGameRepository.save(scheduledGame)).willReturn(scheduledGame);
+        given(scheduledGameRepository.exists(ActivityConstants.NUMBER)).willReturn(true);
+
+        // WHEN
+        updated = service.update(scheduledGame);
+
+        // THEN
+        Assertions.assertThat(updated)
+            .as("scheduled game")
+            .isEqualTo(ScheduledGames.weekly());
     }
 
 }

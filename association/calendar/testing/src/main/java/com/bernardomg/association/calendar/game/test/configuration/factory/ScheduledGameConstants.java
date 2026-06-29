@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.calendar.session.test.configuration.factory;
+package com.bernardomg.association.calendar.game.test.configuration.factory;
 
 import java.time.Instant;
 import java.time.LocalDate;

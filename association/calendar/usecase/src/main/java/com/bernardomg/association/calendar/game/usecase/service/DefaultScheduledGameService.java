@@ -87,11 +87,11 @@ public final class DefaultScheduledGameService implements ScheduledGameService {
 
     @Override
     public final ScheduledGame delete(final long number) {
-        final ScheduledGame gameSession;
+        final ScheduledGame scheduledGame;
 
         log.debug("Deleting scheduled game {}", number);
 
-        gameSession = scheduledGameRepository.findOne(number)
+        scheduledGame = scheduledGameRepository.findOne(number)
             .orElseThrow(() -> {
                 log.error("Missing scheduled game {}", number);
                 throw new MissingScheduledGameException(number);
@@ -101,38 +101,37 @@ public final class DefaultScheduledGameService implements ScheduledGameService {
 
         log.debug("Deleted scheduled game {}", number);
 
-        return gameSession;
+        return scheduledGame;
     }
 
     @Override
     public final Page<ScheduledGame> getAll(final Pagination pagination, final Sorting sorting) {
-        final Page<ScheduledGame> gameSessions;
+        final Page<ScheduledGame> scheduledGames;
 
-        log.info("Getting all game sessions info with pagination {} and sorting {}", pagination, sorting);
+        log.info("Getting all scheduled games with pagination {} and sorting {}", pagination, sorting);
 
-        gameSessions = scheduledGameRepository.findAll(pagination, sorting);
+        scheduledGames = scheduledGameRepository.findAll(pagination, sorting);
 
-        log.debug("Got all game sessions info with pagination {} and sorting {}: {}", pagination, sorting,
-            gameSessions);
+        log.debug("Got all scheduled games with pagination {} and sorting {}: {}", pagination, sorting, scheduledGames);
 
-        return gameSessions;
+        return scheduledGames;
     }
 
     @Override
     public final Optional<ScheduledGame> getOne(final long number) {
-        final Optional<ScheduledGame> gameSession;
+        final Optional<ScheduledGame> scheduledGame;
 
         log.debug("Reading scheduled game with number {}", number);
 
-        gameSession = scheduledGameRepository.findOne(number);
-        if (gameSession.isEmpty()) {
+        scheduledGame = scheduledGameRepository.findOne(number);
+        if (scheduledGame.isEmpty()) {
             log.error("Missing scheduled game {}", number);
             throw new MissingScheduledGameException(number);
         }
 
-        log.debug("Read scheduled game with number {}: {}", number, gameSession);
+        log.debug("Read scheduled game with number {}: {}", number, scheduledGame);
 
-        return gameSession;
+        return scheduledGame;
     }
 
     @Override
