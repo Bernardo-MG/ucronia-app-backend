@@ -79,11 +79,9 @@ public final class Profiles {
     public static final Profile withEmail() {
         final Name           name;
         final ContactChannel contactChannel;
-        final ContactMethod  contactMethod;
 
         name = new Name(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        contactMethod = ContactMethods.email();
-        contactChannel = new ContactChannel(contactMethod, ProfileConstants.EMAIL);
+        contactChannel = ContactChannels.withEmail();
         return new Profile(Optional.of(ProfileConstants.IDENTIFIER), ProfileConstants.NUMBER, name,
             Optional.of(ProfileConstants.BIRTH_DATE), List.of(contactChannel), Optional.of(ProfileConstants.ADDRESS),
             Optional.of(ProfileConstants.COMMENTS), Set.of());
@@ -95,8 +93,8 @@ public final class Profiles {
         final ContactChannel contactChannelB;
 
         name = new Name(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
-        contactChannelA = new ContactChannel(ContactMethods.email(), ProfileConstants.EMAIL);
-        contactChannelB = new ContactChannel(ContactMethods.phone(), ProfileConstants.PHONE);
+        contactChannelA = ContactChannels.withEmail();
+        contactChannelB = ContactChannels.withPhone();
         return new Profile(Optional.of(ProfileConstants.IDENTIFIER), ProfileConstants.NUMBER, name,
             Optional.of(ProfileConstants.BIRTH_DATE), List.of(contactChannelA, contactChannelB),
             Optional.of(ProfileConstants.ADDRESS), Optional.of(ProfileConstants.COMMENTS), Set.of());

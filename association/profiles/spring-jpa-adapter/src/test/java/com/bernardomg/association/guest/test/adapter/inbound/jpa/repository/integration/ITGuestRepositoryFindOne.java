@@ -36,10 +36,10 @@ import com.bernardomg.association.guest.domain.model.Guest;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
 import com.bernardomg.association.guest.test.configuration.data.annotation.GuestWithEmail;
 import com.bernardomg.association.guest.test.configuration.data.annotation.ValidGuest;
-import com.bernardomg.association.guest.test.configuration.factory.GuestConstants;
 import com.bernardomg.association.guest.test.configuration.factory.Guests;
 import com.bernardomg.association.profile.TestApplication;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -57,7 +57,7 @@ class ITGuestRepositoryFindOne {
         final Optional<Guest> guest;
 
         // WHEN
-        guest = repository.findOne(GuestConstants.NUMBER);
+        guest = repository.findOne(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(guest)
@@ -70,7 +70,7 @@ class ITGuestRepositoryFindOne {
         final Optional<Guest> guest;
 
         // WHEN
-        guest = repository.findOne(GuestConstants.NUMBER);
+        guest = repository.findOne(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(guest)
@@ -84,7 +84,7 @@ class ITGuestRepositoryFindOne {
         final Optional<Guest> guest;
 
         // WHEN
-        guest = repository.findOne(GuestConstants.NUMBER);
+        guest = repository.findOne(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(guest)
@@ -98,7 +98,7 @@ class ITGuestRepositoryFindOne {
         final Optional<Guest> guest;
 
         // WHEN
-        guest = repository.findOne(GuestConstants.NUMBER);
+        guest = repository.findOne(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(guest)

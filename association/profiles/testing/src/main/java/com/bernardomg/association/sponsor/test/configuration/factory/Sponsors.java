@@ -7,8 +7,9 @@ import java.util.Optional;
 import java.util.Set;
 
 import com.bernardomg.association.profile.domain.model.ContactChannel;
-import com.bernardomg.association.profile.domain.model.ContactMethod;
 import com.bernardomg.association.profile.domain.model.Name;
+import com.bernardomg.association.profile.test.configuration.factory.ContactChannels;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
 
 public final class Sponsors {
@@ -16,19 +17,19 @@ public final class Sponsors {
     public static final Sponsor created() {
         final Name name;
 
-        name = new Name(SponsorConstants.FIRST_NAME, SponsorConstants.LAST_NAME);
-        return new Sponsor(Optional.of(SponsorConstants.IDENTIFIER), 1L, name, Optional.of(SponsorConstants.BIRTH_DATE),
-            List.of(), List.of(SponsorConstants.YEAR), Optional.of(SponsorConstants.ADDRESS),
-            Optional.of(SponsorConstants.COMMENTS), Set.of(Sponsor.PROFILE_TYPE));
+        name = new Name(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
+        return new Sponsor(Optional.of(ProfileConstants.IDENTIFIER), 1L, name, Optional.of(ProfileConstants.BIRTH_DATE),
+            List.of(), List.of(SponsorConstants.YEAR), Optional.of(ProfileConstants.ADDRESS),
+            Optional.of(ProfileConstants.COMMENTS), Set.of(Sponsor.PROFILE_TYPE));
     }
 
     public static final Sponsor firstNameChange() {
         final Name name;
 
-        name = new Name(SponsorConstants.CHANGED_FIRST_NAME, SponsorConstants.LAST_NAME);
-        return new Sponsor(Optional.of(SponsorConstants.IDENTIFIER), SponsorConstants.NUMBER, name,
-            Optional.of(SponsorConstants.BIRTH_DATE), List.of(), List.of(SponsorConstants.YEAR),
-            Optional.of(SponsorConstants.ADDRESS), Optional.of(SponsorConstants.COMMENTS),
+        name = new Name(ProfileConstants.CHANGED_FIRST_NAME, ProfileConstants.LAST_NAME);
+        return new Sponsor(Optional.of(ProfileConstants.IDENTIFIER), ProfileConstants.NUMBER, name,
+            Optional.of(ProfileConstants.BIRTH_DATE), List.of(), List.of(SponsorConstants.YEAR),
+            Optional.of(ProfileConstants.ADDRESS), Optional.of(ProfileConstants.COMMENTS),
             Set.of(Sponsor.PROFILE_TYPE));
     }
 
@@ -37,8 +38,8 @@ public final class Sponsors {
 
         name = new Name("Name " + number, "Last name " + number);
         return new Sponsor(Optional.ofNullable(Objects.toString(number * 10)), number * 10, name,
-            Optional.of(SponsorConstants.BIRTH_DATE), List.of(), List.of(SponsorConstants.YEAR),
-            Optional.of(SponsorConstants.ADDRESS), Optional.of(SponsorConstants.COMMENTS),
+            Optional.of(ProfileConstants.BIRTH_DATE), List.of(), List.of(SponsorConstants.YEAR),
+            Optional.of(ProfileConstants.ADDRESS), Optional.of(ProfileConstants.COMMENTS),
             Set.of(Sponsor.PROFILE_TYPE));
     }
 
@@ -46,9 +47,9 @@ public final class Sponsors {
         final Name name;
 
         name = new Name("Name 123", "Last name");
-        return new Sponsor(Optional.of(SponsorConstants.IDENTIFIER), SponsorConstants.NUMBER, name,
-            Optional.of(SponsorConstants.BIRTH_DATE), List.of(), List.of(SponsorConstants.YEAR),
-            Optional.of(SponsorConstants.ADDRESS), Optional.of(SponsorConstants.COMMENTS),
+        return new Sponsor(Optional.of(ProfileConstants.IDENTIFIER), ProfileConstants.NUMBER, name,
+            Optional.of(ProfileConstants.BIRTH_DATE), List.of(), List.of(SponsorConstants.YEAR),
+            Optional.of(ProfileConstants.ADDRESS), Optional.of(ProfileConstants.COMMENTS),
             Set.of(Sponsor.PROFILE_TYPE));
     }
 
@@ -56,89 +57,81 @@ public final class Sponsors {
         final Name name;
 
         name = new Name("Name 123", "Last name");
-        return new Sponsor(Optional.of(SponsorConstants.IDENTIFIER), SponsorConstants.NUMBER, name,
-            Optional.of(SponsorConstants.BIRTH_DATE), List.of(), List.of(SponsorConstants.YEAR),
-            Optional.of(SponsorConstants.ADDRESS), Optional.of(SponsorConstants.COMMENTS),
+        return new Sponsor(Optional.of(ProfileConstants.IDENTIFIER), ProfileConstants.NUMBER, name,
+            Optional.of(ProfileConstants.BIRTH_DATE), List.of(), List.of(SponsorConstants.YEAR),
+            Optional.of(ProfileConstants.ADDRESS), Optional.of(ProfileConstants.COMMENTS),
             Set.of(Sponsor.PROFILE_TYPE));
     }
 
     public static final Sponsor noType() {
         final Name name;
 
-        name = new Name(SponsorConstants.FIRST_NAME, SponsorConstants.LAST_NAME);
-        return new Sponsor(Optional.of(SponsorConstants.IDENTIFIER), SponsorConstants.NUMBER, name,
-            Optional.of(SponsorConstants.BIRTH_DATE), List.of(), List.of(), Optional.of(SponsorConstants.ADDRESS),
-            Optional.of(SponsorConstants.COMMENTS), Set.of());
+        name = new Name(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
+        return new Sponsor(Optional.of(ProfileConstants.IDENTIFIER), ProfileConstants.NUMBER, name,
+            Optional.of(ProfileConstants.BIRTH_DATE), List.of(), List.of(), Optional.of(ProfileConstants.ADDRESS),
+            Optional.of(ProfileConstants.COMMENTS), Set.of());
     }
 
     public static final Sponsor padded() {
         final Name name;
 
-        name = new Name(" " + SponsorConstants.FIRST_NAME + " ", " " + SponsorConstants.LAST_NAME + " ");
-        return new Sponsor(Optional.of(SponsorConstants.IDENTIFIER), SponsorConstants.NUMBER, name,
-            Optional.of(SponsorConstants.BIRTH_DATE), List.of(), List.of(SponsorConstants.YEAR),
-            Optional.of(SponsorConstants.ADDRESS), Optional.of(SponsorConstants.COMMENTS),
+        name = new Name(" " + ProfileConstants.FIRST_NAME + " ", " " + ProfileConstants.LAST_NAME + " ");
+        return new Sponsor(Optional.of(ProfileConstants.IDENTIFIER), ProfileConstants.NUMBER, name,
+            Optional.of(ProfileConstants.BIRTH_DATE), List.of(), List.of(SponsorConstants.YEAR),
+            Optional.of(ProfileConstants.ADDRESS), Optional.of(ProfileConstants.COMMENTS),
             Set.of(Sponsor.PROFILE_TYPE));
     }
 
     public static final Sponsor valid() {
         final Name name;
 
-        name = new Name(SponsorConstants.FIRST_NAME, SponsorConstants.LAST_NAME);
-        return new Sponsor(Optional.of(SponsorConstants.IDENTIFIER), SponsorConstants.NUMBER, name,
-            Optional.of(SponsorConstants.BIRTH_DATE), List.of(), List.of(SponsorConstants.YEAR),
-            Optional.of(SponsorConstants.ADDRESS), Optional.of(SponsorConstants.COMMENTS),
+        name = new Name(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
+        return new Sponsor(Optional.of(ProfileConstants.IDENTIFIER), ProfileConstants.NUMBER, name,
+            Optional.of(ProfileConstants.BIRTH_DATE), List.of(), List.of(SponsorConstants.YEAR),
+            Optional.of(ProfileConstants.ADDRESS), Optional.of(ProfileConstants.COMMENTS),
             Set.of(Sponsor.PROFILE_TYPE));
     }
 
     public static final Sponsor withEmail() {
         final Name           name;
         final ContactChannel contactChannel;
-        final ContactMethod  contactMethod;
 
-        name = new Name(SponsorConstants.FIRST_NAME, SponsorConstants.LAST_NAME);
-        contactMethod = email();
-        contactChannel = new ContactChannel(contactMethod, SponsorConstants.EMAIL);
-        return new Sponsor(Optional.of(SponsorConstants.IDENTIFIER), SponsorConstants.NUMBER, name,
-            Optional.of(SponsorConstants.BIRTH_DATE), List.of(contactChannel), List.of(SponsorConstants.YEAR),
-            Optional.of(SponsorConstants.ADDRESS), Optional.of(SponsorConstants.COMMENTS),
+        name = new Name(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
+        contactChannel = ContactChannels.withEmail();
+        return new Sponsor(Optional.of(ProfileConstants.IDENTIFIER), ProfileConstants.NUMBER, name,
+            Optional.of(ProfileConstants.BIRTH_DATE), List.of(contactChannel), List.of(SponsorConstants.YEAR),
+            Optional.of(ProfileConstants.ADDRESS), Optional.of(ProfileConstants.COMMENTS),
             Set.of(Sponsor.PROFILE_TYPE));
     }
 
     public static final Sponsor withEmailAndNoYear() {
         final Name           name;
         final ContactChannel contactChannel;
-        final ContactMethod  contactMethod;
 
-        name = new Name(SponsorConstants.FIRST_NAME, SponsorConstants.LAST_NAME);
-        contactMethod = email();
-        contactChannel = new ContactChannel(contactMethod, SponsorConstants.EMAIL);
-        return new Sponsor(Optional.of(SponsorConstants.IDENTIFIER), SponsorConstants.NUMBER, name,
-            Optional.of(SponsorConstants.BIRTH_DATE), List.of(contactChannel), List.of(),
-            Optional.of(SponsorConstants.ADDRESS), Optional.of(SponsorConstants.COMMENTS),
+        name = new Name(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
+        contactChannel = ContactChannels.withEmail();
+        return new Sponsor(Optional.of(ProfileConstants.IDENTIFIER), ProfileConstants.NUMBER, name,
+            Optional.of(ProfileConstants.BIRTH_DATE), List.of(contactChannel), List.of(),
+            Optional.of(ProfileConstants.ADDRESS), Optional.of(ProfileConstants.COMMENTS),
             Set.of(Sponsor.PROFILE_TYPE));
     }
 
     public static final Sponsor withoutType() {
         final Name name;
 
-        name = new Name(SponsorConstants.FIRST_NAME, SponsorConstants.LAST_NAME);
-        return new Sponsor(Optional.of(SponsorConstants.IDENTIFIER), SponsorConstants.NUMBER, name,
-            Optional.of(SponsorConstants.BIRTH_DATE), List.of(), List.of(SponsorConstants.YEAR),
-            Optional.of(SponsorConstants.ADDRESS), Optional.of(SponsorConstants.COMMENTS), Set.of());
+        name = new Name(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
+        return new Sponsor(Optional.of(ProfileConstants.IDENTIFIER), ProfileConstants.NUMBER, name,
+            Optional.of(ProfileConstants.BIRTH_DATE), List.of(), List.of(SponsorConstants.YEAR),
+            Optional.of(ProfileConstants.ADDRESS), Optional.of(ProfileConstants.COMMENTS), Set.of());
     }
 
     public static final Sponsor withoutYear() {
         final Name name;
 
-        name = new Name(SponsorConstants.FIRST_NAME, SponsorConstants.LAST_NAME);
-        return new Sponsor(Optional.of(SponsorConstants.IDENTIFIER), SponsorConstants.NUMBER, name,
-            Optional.of(SponsorConstants.BIRTH_DATE), List.of(), List.of(), Optional.of(SponsorConstants.ADDRESS),
-            Optional.of(SponsorConstants.COMMENTS), Set.of(Sponsor.PROFILE_TYPE));
-    }
-
-    private static final ContactMethod email() {
-        return new ContactMethod(SponsorContactMethodConstants.NUMBER, SponsorContactMethodConstants.EMAIL);
+        name = new Name(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME);
+        return new Sponsor(Optional.of(ProfileConstants.IDENTIFIER), ProfileConstants.NUMBER, name,
+            Optional.of(ProfileConstants.BIRTH_DATE), List.of(), List.of(), Optional.of(ProfileConstants.ADDRESS),
+            Optional.of(ProfileConstants.COMMENTS), Set.of(Sponsor.PROFILE_TYPE));
     }
 
     private Sponsors() {

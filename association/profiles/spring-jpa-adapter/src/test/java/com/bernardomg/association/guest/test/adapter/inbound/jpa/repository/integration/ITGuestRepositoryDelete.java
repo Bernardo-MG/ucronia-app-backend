@@ -33,10 +33,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.bernardomg.association.guest.adapter.inbound.jpa.repository.GuestSpringRepository;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
 import com.bernardomg.association.guest.test.configuration.data.annotation.ValidGuest;
-import com.bernardomg.association.guest.test.configuration.factory.GuestConstants;
 import com.bernardomg.association.profile.TestApplication;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -62,7 +62,7 @@ class ITGuestRepositoryDelete {
     @ValidGuest
     void testDelete() {
         // WHEN
-        repository.delete(GuestConstants.NUMBER);
+        repository.delete(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(springRepository.count())
@@ -73,7 +73,7 @@ class ITGuestRepositoryDelete {
     @DisplayName("When there is no data, nothing is deleted")
     void testDelete_NoData() {
         // WHEN
-        repository.delete(GuestConstants.NUMBER);
+        repository.delete(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(springRepository.count())
@@ -85,7 +85,7 @@ class ITGuestRepositoryDelete {
     @ValidProfile
     void testDelete_NoGuest() {
         // WHEN
-        repository.delete(GuestConstants.NUMBER);
+        repository.delete(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(springRepository.count())
@@ -97,7 +97,7 @@ class ITGuestRepositoryDelete {
     @ValidGuest
     void testDelete_Profile() {
         // WHEN
-        repository.delete(GuestConstants.NUMBER);
+        repository.delete(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(profileSpringRepository.count())

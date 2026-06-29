@@ -31,9 +31,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.profile.TestApplication;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
 import com.bernardomg.association.sponsor.test.configuration.data.annotation.SponsorWithEmail;
-import com.bernardomg.association.sponsor.test.configuration.factory.SponsorConstants;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -51,8 +51,8 @@ class ITSponsorRepositoryExistsByIdentifierForAnother {
         final boolean exists;
 
         // WHEN
-        exists = repository.existsByIdentifierForAnother(SponsorConstants.ALTERNATIVE_NUMBER,
-            SponsorConstants.IDENTIFIER);
+        exists = repository.existsByIdentifierForAnother(ProfileConstants.ALTERNATIVE_NUMBER,
+            ProfileConstants.IDENTIFIER);
 
         // THEN
         Assertions.assertThat(exists)
@@ -67,7 +67,7 @@ class ITSponsorRepositoryExistsByIdentifierForAnother {
         final boolean exists;
 
         // WHEN
-        exists = repository.existsByIdentifierForAnother(SponsorConstants.NUMBER, SponsorConstants.IDENTIFIER);
+        exists = repository.existsByIdentifierForAnother(ProfileConstants.NUMBER, ProfileConstants.IDENTIFIER);
 
         // THEN
         Assertions.assertThat(exists)
@@ -81,7 +81,7 @@ class ITSponsorRepositoryExistsByIdentifierForAnother {
         final boolean exists;
 
         // WHEN
-        exists = repository.existsByIdentifierForAnother(SponsorConstants.NUMBER, SponsorConstants.IDENTIFIER);
+        exists = repository.existsByIdentifierForAnother(ProfileConstants.NUMBER, ProfileConstants.IDENTIFIER);
 
         // THEN
         Assertions.assertThat(exists)
@@ -96,7 +96,7 @@ class ITSponsorRepositoryExistsByIdentifierForAnother {
         final boolean exists;
 
         // WHEN
-        exists = repository.existsByIdentifierForAnother(SponsorConstants.NUMBER, "abc");
+        exists = repository.existsByIdentifierForAnother(ProfileConstants.NUMBER, "abc");
 
         // THEN
         Assertions.assertThat(exists)

@@ -42,11 +42,11 @@ import com.bernardomg.association.guest.domain.exception.GuestExistsException;
 import com.bernardomg.association.guest.domain.exception.MissingGuestProfileException;
 import com.bernardomg.association.guest.domain.model.Guest;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
-import com.bernardomg.association.guest.test.configuration.factory.GuestConstants;
 import com.bernardomg.association.guest.test.configuration.factory.Guests;
 import com.bernardomg.association.guest.usecase.service.DefaultProfileGuestService;
 import com.bernardomg.association.profile.domain.model.Profile;
 import com.bernardomg.association.profile.domain.repository.ProfileRepository;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.association.profile.test.configuration.factory.Profiles;
 
 @ExtendWith(MockitoExtension.class)
@@ -76,11 +76,11 @@ class TestProfileGuestServiceConvert {
         Guests.firstNameChange();
         profile = Profiles.valid();
 
-        given(profileRepository.findOne(GuestConstants.NUMBER)).willReturn(Optional.of(profile));
-        given(guestRepository.exists(GuestConstants.NUMBER)).willReturn(true);
+        given(profileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(profile));
+        given(guestRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        execution = () -> service.convertToGuest(GuestConstants.NUMBER);
+        execution = () -> service.convertToGuest(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -95,10 +95,10 @@ class TestProfileGuestServiceConvert {
         // GIVEN
         Guests.firstNameChange();
 
-        given(profileRepository.findOne(GuestConstants.NUMBER)).willReturn(Optional.empty());
+        given(profileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.convertToGuest(GuestConstants.NUMBER);
+        execution = () -> service.convertToGuest(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -115,11 +115,11 @@ class TestProfileGuestServiceConvert {
         guest = Guests.noGames();
         profile = Profiles.valid();
 
-        given(profileRepository.findOne(GuestConstants.NUMBER)).willReturn(Optional.of(profile));
-        given(guestRepository.exists(GuestConstants.NUMBER)).willReturn(false);
+        given(profileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(profile));
+        given(guestRepository.exists(ProfileConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        service.convertToGuest(GuestConstants.NUMBER);
+        service.convertToGuest(ProfileConstants.NUMBER);
 
         // THEN
         verify(guestRepository).save(guest);
@@ -136,12 +136,12 @@ class TestProfileGuestServiceConvert {
         guest = Guests.noGames();
         profile = Profiles.valid();
 
-        given(profileRepository.findOne(GuestConstants.NUMBER)).willReturn(Optional.of(profile));
-        given(guestRepository.exists(GuestConstants.NUMBER)).willReturn(false);
+        given(profileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(profile));
+        given(guestRepository.exists(ProfileConstants.NUMBER)).willReturn(false);
         given(guestRepository.save(guest)).willReturn(guest);
 
         // WHEN
-        updated = service.convertToGuest(GuestConstants.NUMBER);
+        updated = service.convertToGuest(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(updated)

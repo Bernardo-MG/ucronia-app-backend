@@ -40,10 +40,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.guest.domain.exception.MissingGuestException;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
-import com.bernardomg.association.guest.test.configuration.factory.GuestConstants;
 import com.bernardomg.association.guest.test.configuration.factory.Guests;
 import com.bernardomg.association.guest.usecase.service.DefaultGuestService;
 import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultGuestService - delete")
@@ -66,13 +66,13 @@ class TestGuestServiceDelete {
     @DisplayName("When deleting the repository is called")
     void testDelete_CallsRepository() {
         // GIVEN
-        given(guestRepository.findOne(GuestConstants.NUMBER)).willReturn(Optional.of(Guests.noGames()));
+        given(guestRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(Guests.noGames()));
 
         // WHEN
-        service.delete(GuestConstants.NUMBER);
+        service.delete(ProfileConstants.NUMBER);
 
         // THEN
-        verify(guestRepository).delete(GuestConstants.NUMBER);
+        verify(guestRepository).delete(ProfileConstants.NUMBER);
     }
 
     @Test
@@ -81,10 +81,10 @@ class TestGuestServiceDelete {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(guestRepository.findOne(GuestConstants.NUMBER)).willReturn(Optional.empty());
+        given(guestRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.delete(GuestConstants.NUMBER);
+        execution = () -> service.delete(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)

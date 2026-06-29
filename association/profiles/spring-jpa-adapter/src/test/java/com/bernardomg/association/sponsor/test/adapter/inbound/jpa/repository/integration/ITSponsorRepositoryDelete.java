@@ -33,10 +33,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.bernardomg.association.profile.TestApplication;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.repository.SponsorSpringRepository;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
 import com.bernardomg.association.sponsor.test.configuration.data.annotation.SponsorWithEmail;
-import com.bernardomg.association.sponsor.test.configuration.factory.SponsorConstants;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -62,7 +62,7 @@ class ITSponsorRepositoryDelete {
     @SponsorWithEmail
     void testDelete_Active() {
         // WHEN
-        repository.delete(SponsorConstants.NUMBER);
+        repository.delete(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(springRepository.count())
@@ -74,7 +74,7 @@ class ITSponsorRepositoryDelete {
     @SponsorWithEmail
     void testDelete_Active_Profile() {
         // WHEN
-        repository.delete(SponsorConstants.NUMBER);
+        repository.delete(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(profileSpringRepository.count())
@@ -85,7 +85,7 @@ class ITSponsorRepositoryDelete {
     @DisplayName("When there is no data, nothing is deleted")
     void testDelete_NoData() {
         // WHEN
-        repository.delete(SponsorConstants.NUMBER);
+        repository.delete(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(springRepository.count())
@@ -97,7 +97,7 @@ class ITSponsorRepositoryDelete {
     @ValidProfile
     void testDelete_NoSponsor() {
         // WHEN
-        repository.delete(SponsorConstants.NUMBER);
+        repository.delete(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(springRepository.count())

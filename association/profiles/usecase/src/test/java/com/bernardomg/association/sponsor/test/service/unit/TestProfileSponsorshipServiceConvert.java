@@ -40,12 +40,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.profile.domain.model.Profile;
 import com.bernardomg.association.profile.domain.repository.ProfileRepository;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.association.profile.test.configuration.factory.Profiles;
 import com.bernardomg.association.sponsor.domain.exception.MissingSponsorProfileException;
 import com.bernardomg.association.sponsor.domain.exception.SponsorExistsException;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
-import com.bernardomg.association.sponsor.test.configuration.factory.SponsorConstants;
 import com.bernardomg.association.sponsor.test.configuration.factory.Sponsors;
 import com.bernardomg.association.sponsor.usecase.service.DefaultProfileSponsorshipService;
 
@@ -76,11 +76,11 @@ class TestProfileSponsorshipServiceConvert {
         Sponsors.nameChange();
         profile = Profiles.valid();
 
-        given(profileRepository.findOne(SponsorConstants.NUMBER)).willReturn(Optional.of(profile));
-        given(sponsorRepository.exists(SponsorConstants.NUMBER)).willReturn(true);
+        given(profileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(profile));
+        given(sponsorRepository.exists(ProfileConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        execution = () -> service.convertToSponsor(SponsorConstants.NUMBER);
+        execution = () -> service.convertToSponsor(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -95,10 +95,10 @@ class TestProfileSponsorshipServiceConvert {
         // GIVEN
         Sponsors.nameChange();
 
-        given(profileRepository.findOne(SponsorConstants.NUMBER)).willReturn(Optional.empty());
+        given(profileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.convertToSponsor(SponsorConstants.NUMBER);
+        execution = () -> service.convertToSponsor(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -115,11 +115,11 @@ class TestProfileSponsorshipServiceConvert {
         sponsor = Sponsors.withoutYear();
         profile = Profiles.valid();
 
-        given(profileRepository.findOne(SponsorConstants.NUMBER)).willReturn(Optional.of(profile));
-        given(sponsorRepository.exists(SponsorConstants.NUMBER)).willReturn(false);
+        given(profileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(profile));
+        given(sponsorRepository.exists(ProfileConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        service.convertToSponsor(SponsorConstants.NUMBER);
+        service.convertToSponsor(ProfileConstants.NUMBER);
 
         // THEN
         verify(sponsorRepository).save(sponsor);
@@ -136,12 +136,12 @@ class TestProfileSponsorshipServiceConvert {
         sponsor = Sponsors.withoutYear();
         profile = Profiles.valid();
 
-        given(profileRepository.findOne(SponsorConstants.NUMBER)).willReturn(Optional.of(profile));
-        given(sponsorRepository.exists(SponsorConstants.NUMBER)).willReturn(false);
+        given(profileRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.of(profile));
+        given(sponsorRepository.exists(ProfileConstants.NUMBER)).willReturn(false);
         given(sponsorRepository.save(sponsor)).willReturn(sponsor);
 
         // WHEN
-        updated = service.convertToSponsor(SponsorConstants.NUMBER);
+        updated = service.convertToSponsor(ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(updated)
