@@ -30,6 +30,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import com.bernardomg.association.profile.domain.model.ContactChannel;
+import com.bernardomg.association.profile.domain.model.ContactMethod;
+import com.bernardomg.association.profile.domain.model.Name;
 import com.bernardomg.association.sponsor.adapter.outbound.rest.dto.ContactChannelDto;
 import com.bernardomg.association.sponsor.adapter.outbound.rest.dto.ContactMethodDto;
 import com.bernardomg.association.sponsor.adapter.outbound.rest.dto.EditionContactChannelDto;
@@ -44,9 +47,6 @@ import com.bernardomg.association.sponsor.adapter.outbound.rest.dto.SponsorPatch
 import com.bernardomg.association.sponsor.adapter.outbound.rest.dto.SponsorResponseDto;
 import com.bernardomg.association.sponsor.adapter.outbound.rest.dto.SponsorUpdateDto;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
-import com.bernardomg.association.sponsor.domain.model.Sponsor.ContactChannel;
-import com.bernardomg.association.sponsor.domain.model.Sponsor.ContactMethod;
-import com.bernardomg.association.sponsor.domain.model.Sponsor.Name;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
 import com.bernardomg.pagination.domain.Sorting.Property;
