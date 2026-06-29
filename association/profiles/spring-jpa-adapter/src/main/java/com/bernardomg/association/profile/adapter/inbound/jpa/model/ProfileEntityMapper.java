@@ -28,9 +28,9 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Optional;
 
+import com.bernardomg.association.profile.domain.model.ContactChannel;
+import com.bernardomg.association.profile.domain.model.Name;
 import com.bernardomg.association.profile.domain.model.Profile;
-import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
-import com.bernardomg.association.profile.domain.model.Profile.Name;
 
 /**
  * Profile entity mapper.

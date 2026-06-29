@@ -34,13 +34,13 @@ import com.bernardomg.association.guest.domain.exception.MissingGuestContactMeth
 import com.bernardomg.association.guest.domain.exception.MissingGuestException;
 import com.bernardomg.association.guest.domain.filter.GuestFilter;
 import com.bernardomg.association.guest.domain.model.Guest;
-import com.bernardomg.association.guest.domain.model.Guest.ContactChannel;
-import com.bernardomg.association.guest.domain.model.Guest.ContactMethod;
-import com.bernardomg.association.guest.domain.model.Guest.Name;
 import com.bernardomg.association.guest.domain.repository.GuestContactMethodRepository;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
 import com.bernardomg.association.guest.usecase.validation.GuestIdentifierNotExistForAnotherRule;
 import com.bernardomg.association.guest.usecase.validation.GuestIdentifierNotExistRule;
+import com.bernardomg.association.profile.domain.model.ContactChannel;
+import com.bernardomg.association.profile.domain.model.ContactMethod;
+import com.bernardomg.association.profile.domain.model.Name;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;

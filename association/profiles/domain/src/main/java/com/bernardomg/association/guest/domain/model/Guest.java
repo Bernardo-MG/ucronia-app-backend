@@ -33,6 +33,9 @@ import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.bernardomg.association.profile.domain.model.ContactChannel;
+import com.bernardomg.association.profile.domain.model.Name;
+
 public record Guest(Optional<String> identifier, Long number, Name name, Optional<Instant> birthDate,
         Collection<ContactChannel> contactChannels, Collection<Instant> games, Optional<String> address,
         Optional<String> comments, Set<String> types) {
@@ -74,45 +77,6 @@ public record Guest(Optional<String> identifier, Long number, Name name, Optiona
         }
 
         return result;
-    }
-
-    public record ContactChannel(ContactMethod contactMethod, String detail) {
-
-        public ContactChannel(final ContactMethod contactMethod, final String detail) {
-            Objects.requireNonNull(detail);
-
-            this.contactMethod = Objects.requireNonNull(contactMethod);
-            this.detail = StringUtils.trim(detail);
-        }
-
-    }
-
-    public record ContactMethod(Long number, String name) {
-
-        public ContactMethod(final Long number, final String name) {
-            Objects.requireNonNull(name);
-
-            this.number = Objects.requireNonNull(number);
-            this.name = StringUtils.trim(name);
-        }
-
-    }
-
-    public record Name(String firstName, String lastName) {
-
-        public Name(final String firstName, final String lastName) {
-            Objects.requireNonNull(firstName);
-            Objects.requireNonNull(lastName);
-
-            this.firstName = StringUtils.trim(firstName);
-            this.lastName = StringUtils.trim(lastName);
-        }
-
-        public final String fullName() {
-            return String.format("%s %s", firstName, lastName)
-                .trim();
-        }
-
     }
 
 }

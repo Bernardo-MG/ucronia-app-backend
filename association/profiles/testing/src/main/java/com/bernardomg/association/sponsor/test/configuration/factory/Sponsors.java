@@ -6,8 +6,10 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
+import com.bernardomg.association.profile.domain.model.ContactChannel;
+import com.bernardomg.association.profile.domain.model.ContactMethod;
+import com.bernardomg.association.profile.domain.model.Name;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
-import com.bernardomg.association.sponsor.domain.model.Sponsor.Name;
 
 public final class Sponsors {
 
@@ -90,13 +92,13 @@ public final class Sponsors {
     }
 
     public static final Sponsor withEmail() {
-        final Name                   name;
-        final Sponsor.ContactChannel contactChannel;
-        final Sponsor.ContactMethod  contactMethod;
+        final Name           name;
+        final ContactChannel contactChannel;
+        final ContactMethod  contactMethod;
 
         name = new Name(SponsorConstants.FIRST_NAME, SponsorConstants.LAST_NAME);
         contactMethod = email();
-        contactChannel = new Sponsor.ContactChannel(contactMethod, SponsorConstants.EMAIL);
+        contactChannel = new ContactChannel(contactMethod, SponsorConstants.EMAIL);
         return new Sponsor(Optional.of(SponsorConstants.IDENTIFIER), SponsorConstants.NUMBER, name,
             Optional.of(SponsorConstants.BIRTH_DATE), List.of(contactChannel), List.of(SponsorConstants.YEAR),
             Optional.of(SponsorConstants.ADDRESS), Optional.of(SponsorConstants.COMMENTS),
@@ -104,13 +106,13 @@ public final class Sponsors {
     }
 
     public static final Sponsor withEmailAndNoYear() {
-        final Name                   name;
-        final Sponsor.ContactChannel contactChannel;
-        final Sponsor.ContactMethod  contactMethod;
+        final Name           name;
+        final ContactChannel contactChannel;
+        final ContactMethod  contactMethod;
 
         name = new Name(SponsorConstants.FIRST_NAME, SponsorConstants.LAST_NAME);
         contactMethod = email();
-        contactChannel = new Sponsor.ContactChannel(contactMethod, SponsorConstants.EMAIL);
+        contactChannel = new ContactChannel(contactMethod, SponsorConstants.EMAIL);
         return new Sponsor(Optional.of(SponsorConstants.IDENTIFIER), SponsorConstants.NUMBER, name,
             Optional.of(SponsorConstants.BIRTH_DATE), List.of(contactChannel), List.of(),
             Optional.of(SponsorConstants.ADDRESS), Optional.of(SponsorConstants.COMMENTS),
@@ -135,8 +137,8 @@ public final class Sponsors {
             Optional.of(SponsorConstants.COMMENTS), Set.of(Sponsor.PROFILE_TYPE));
     }
 
-    private static final Sponsor.ContactMethod email() {
-        return new Sponsor.ContactMethod(SponsorContactMethodConstants.NUMBER, SponsorContactMethodConstants.EMAIL);
+    private static final ContactMethod email() {
+        return new ContactMethod(SponsorContactMethodConstants.NUMBER, SponsorContactMethodConstants.EMAIL);
     }
 
     private Sponsors() {

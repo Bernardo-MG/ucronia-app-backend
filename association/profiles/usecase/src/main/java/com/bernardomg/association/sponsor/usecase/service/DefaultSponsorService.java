@@ -30,13 +30,13 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.bernardomg.association.profile.domain.model.ContactChannel;
+import com.bernardomg.association.profile.domain.model.ContactMethod;
+import com.bernardomg.association.profile.domain.model.Name;
 import com.bernardomg.association.sponsor.domain.exception.MissingSponsorContactMethodException;
 import com.bernardomg.association.sponsor.domain.exception.MissingSponsorException;
 import com.bernardomg.association.sponsor.domain.filter.SponsorFilter;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
-import com.bernardomg.association.sponsor.domain.model.Sponsor.ContactChannel;
-import com.bernardomg.association.sponsor.domain.model.Sponsor.ContactMethod;
-import com.bernardomg.association.sponsor.domain.model.Sponsor.Name;
 import com.bernardomg.association.sponsor.domain.repository.SponsorContactMethodRepository;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
 import com.bernardomg.association.sponsor.usecase.validation.SponsorIdentifierNotExistForAnotherRule;

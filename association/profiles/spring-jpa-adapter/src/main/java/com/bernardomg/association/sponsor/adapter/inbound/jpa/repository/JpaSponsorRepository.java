@@ -40,6 +40,8 @@ import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactMetho
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ContactMethodSpringRepository;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
+import com.bernardomg.association.profile.domain.model.ContactChannel;
+import com.bernardomg.association.profile.domain.model.ContactMethod;
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.ReadSponsorEntity;
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.SponsorEntity;
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.SponsorEntityConstants;
@@ -47,8 +49,6 @@ import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.SponsorEntit
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.specification.SponsorSpecifications;
 import com.bernardomg.association.sponsor.domain.filter.SponsorFilter;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
-import com.bernardomg.association.sponsor.domain.model.Sponsor.ContactChannel;
-import com.bernardomg.association.sponsor.domain.model.Sponsor.ContactMethod;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;

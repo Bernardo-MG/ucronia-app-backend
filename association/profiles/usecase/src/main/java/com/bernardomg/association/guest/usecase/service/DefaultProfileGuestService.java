@@ -36,9 +36,9 @@ import org.slf4j.LoggerFactory;
 import com.bernardomg.association.guest.domain.exception.GuestExistsException;
 import com.bernardomg.association.guest.domain.exception.MissingGuestProfileException;
 import com.bernardomg.association.guest.domain.model.Guest;
-import com.bernardomg.association.guest.domain.model.Guest.Name;
 import com.bernardomg.association.guest.domain.repository.GuestProfileRepository;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
+import com.bernardomg.association.profile.domain.model.Name;
 
 import jakarta.transaction.Transactional;
 

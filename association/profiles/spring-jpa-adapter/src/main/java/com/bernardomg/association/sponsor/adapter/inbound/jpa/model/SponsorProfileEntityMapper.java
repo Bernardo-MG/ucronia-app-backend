@@ -32,10 +32,10 @@ import java.util.Optional;
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactChannelEntity;
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactMethodEntity;
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
+import com.bernardomg.association.profile.domain.model.ContactChannel;
+import com.bernardomg.association.profile.domain.model.ContactMethod;
+import com.bernardomg.association.profile.domain.model.Name;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
-import com.bernardomg.association.sponsor.domain.model.Sponsor.ContactChannel;
-import com.bernardomg.association.sponsor.domain.model.Sponsor.ContactMethod;
-import com.bernardomg.association.sponsor.domain.model.Sponsor.Name;
 
 /**
  * Profile entity mapper.

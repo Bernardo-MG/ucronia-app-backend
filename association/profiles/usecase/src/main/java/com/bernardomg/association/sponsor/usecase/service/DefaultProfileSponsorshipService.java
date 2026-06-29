@@ -34,11 +34,12 @@ import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.bernardomg.association.profile.domain.model.ContactChannel;
+import com.bernardomg.association.profile.domain.model.ContactMethod;
+import com.bernardomg.association.profile.domain.model.Name;
 import com.bernardomg.association.sponsor.domain.exception.MissingSponsorProfileException;
 import com.bernardomg.association.sponsor.domain.exception.SponsorExistsException;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
-import com.bernardomg.association.sponsor.domain.model.Sponsor.ContactChannel;
-import com.bernardomg.association.sponsor.domain.model.Sponsor.Name;
 import com.bernardomg.association.sponsor.domain.repository.SponsorProfileRepository;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
 
@@ -72,12 +73,12 @@ public final class DefaultProfileSponsorshipService implements ProfileSponsorshi
 
     @Override
     public final Sponsor convertToSponsor(final long number) {
-        final Sponsor                            existing;
-        final Sponsor                            toCreate;
-        final Sponsor                            created;
-        final Collection<Sponsor.ContactChannel> contactChannels;
-        final Name                               name;
-        final Set<String>                        types;
+        final Sponsor                    existing;
+        final Sponsor                    toCreate;
+        final Sponsor                    created;
+        final Collection<ContactChannel> contactChannels;
+        final Name                       name;
+        final Set<String>                types;
 
         log.debug("Converting profile {} to sponsor", number);
 
@@ -113,14 +114,14 @@ public final class DefaultProfileSponsorshipService implements ProfileSponsorshi
         return created;
     }
 
-    private final Sponsor.ContactChannel toSponsorContactChannel(final ContactChannel contactChannel) {
-        final Sponsor.ContactMethod contactMethod;
+    private final ContactChannel toSponsorContactChannel(final ContactChannel contactChannel) {
+        final ContactMethod contactMethod;
 
-        contactMethod = new Sponsor.ContactMethod(contactChannel.contactMethod()
+        contactMethod = new ContactMethod(contactChannel.contactMethod()
             .number(),
             contactChannel.contactMethod()
                 .name());
-        return new Sponsor.ContactChannel(contactMethod, contactChannel.detail());
+        return new ContactChannel(contactMethod, contactChannel.detail());
     }
 
 }

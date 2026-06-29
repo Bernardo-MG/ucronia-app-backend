@@ -30,12 +30,12 @@ import java.util.HashSet;
 import java.util.Optional;
 
 import com.bernardomg.association.guest.domain.model.Guest;
-import com.bernardomg.association.guest.domain.model.Guest.ContactChannel;
-import com.bernardomg.association.guest.domain.model.Guest.ContactMethod;
-import com.bernardomg.association.guest.domain.model.Guest.Name;
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactChannelEntity;
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactMethodEntity;
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
+import com.bernardomg.association.profile.domain.model.ContactChannel;
+import com.bernardomg.association.profile.domain.model.ContactMethod;
+import com.bernardomg.association.profile.domain.model.Name;
 
 /**
  * Update guest entity mapper.

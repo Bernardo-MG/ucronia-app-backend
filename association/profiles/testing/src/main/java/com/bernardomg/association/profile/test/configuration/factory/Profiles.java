@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import com.bernardomg.association.profile.domain.model.ContactChannel;
 import com.bernardomg.association.profile.domain.model.ContactMethod;
+import com.bernardomg.association.profile.domain.model.Name;
 import com.bernardomg.association.profile.domain.model.Profile;
-import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
-import com.bernardomg.association.profile.domain.model.Profile.Name;
 
 public final class Profiles {
 

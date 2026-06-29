@@ -11,9 +11,9 @@ import java.util.Optional;
 import java.util.Set;
 
 import com.bernardomg.association.guest.domain.model.Guest;
-import com.bernardomg.association.guest.domain.model.Guest.ContactChannel;
-import com.bernardomg.association.guest.domain.model.Guest.ContactMethod;
-import com.bernardomg.association.guest.domain.model.Guest.Name;
+import com.bernardomg.association.profile.domain.model.ContactChannel;
+import com.bernardomg.association.profile.domain.model.ContactMethod;
+import com.bernardomg.association.profile.domain.model.Name;
 
 public final class Guests {
 
