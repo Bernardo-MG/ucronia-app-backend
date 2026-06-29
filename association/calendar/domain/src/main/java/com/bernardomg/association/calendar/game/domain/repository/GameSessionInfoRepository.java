@@ -22,8 +22,25 @@
  * SOFTWARE.
  */
 
-/**
- * Activity services.
- */
+package com.bernardomg.association.calendar.game.domain.repository;
 
-package com.bernardomg.association.calendar.activity.usecase.service;
+import java.util.Optional;
+
+import com.bernardomg.association.calendar.game.domain.model.GameSessionInfo;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
+
+public interface GameSessionInfoRepository {
+
+    public void delete(final long number);
+
+    public boolean exists(final long number);
+
+    public Page<GameSessionInfo> findAll(final Pagination pagination, final Sorting sorting);
+
+    public Optional<GameSessionInfo> findOne(final Long number);
+
+    public GameSessionInfo save(final GameSessionInfo activity);
+
+}

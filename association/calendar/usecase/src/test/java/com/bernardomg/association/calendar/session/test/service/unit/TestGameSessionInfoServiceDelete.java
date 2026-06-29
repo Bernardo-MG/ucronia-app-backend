@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.calendar.activity.test.service.unit;
+package com.bernardomg.association.calendar.session.test.service.unit;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -38,49 +38,50 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.calendar.activity.domain.exception.MissingActivityException;
-import com.bernardomg.association.calendar.activity.domain.repository.ActivityRepository;
-import com.bernardomg.association.calendar.activity.test.configuration.factory.Activities;
 import com.bernardomg.association.calendar.activity.test.configuration.factory.ActivityConstants;
-import com.bernardomg.association.calendar.activity.usecase.service.DefaultActivityService;
+import com.bernardomg.association.calendar.game.domain.exception.MissingGameSessionInfoException;
+import com.bernardomg.association.calendar.game.domain.repository.GameSessionInfoRepository;
+import com.bernardomg.association.calendar.game.usecase.service.DefaultGameSessionInfoService;
+import com.bernardomg.association.calendar.session.test.configuration.factory.GameSessionInfos;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Activity service - delete")
-class TestActivityServiceDelete {
+@DisplayName("DefaultGameSessionInfoService - delete")
+class TestGameSessionInfoServiceDelete {
 
     @Mock
-    private ActivityRepository     activityRepository;
+    private GameSessionInfoRepository     gameSessionInfoRepository;
 
     @InjectMocks
-    private DefaultActivityService service;
+    private DefaultGameSessionInfoService service;
 
     @Test
-    @DisplayName("When the activity doesn't exist, an exception is thrown")
+    @DisplayName("When the game session info doesn't exist, an exception is thrown")
     void testDelete_NotExisting() {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(activityRepository.findOne(ActivityConstants.NUMBER)).willReturn(Optional.empty());
+        given(gameSessionInfoRepository.findOne(ActivityConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
         execution = () -> service.delete(ActivityConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingActivityException.class);
+            .isInstanceOf(MissingGameSessionInfoException.class);
     }
 
     @Test
     @DisplayName("When deleting the repository is called")
     void testDelete_RemovesEntity() {
         // GIVEN
-        given(activityRepository.findOne(ActivityConstants.NUMBER)).willReturn(Optional.of(Activities.singleDay()));
+        given(gameSessionInfoRepository.findOne(ActivityConstants.NUMBER))
+            .willReturn(Optional.of(GameSessionInfos.weekly()));
 
         // WHEN
         service.delete(ActivityConstants.NUMBER);
 
         // THEN
-        verify(activityRepository).delete(ActivityConstants.NUMBER);
+        verify(gameSessionInfoRepository).delete(ActivityConstants.NUMBER);
     }
 
 }

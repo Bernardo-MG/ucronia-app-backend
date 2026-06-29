@@ -23,7 +23,7 @@
  */
 
 /**
- * Activity services.
+ * Game session repository.
  */
 
-package com.bernardomg.association.calendar.activity.usecase.service;
+package com.bernardomg.association.calendar.game.domain.repository;

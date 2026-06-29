@@ -42,11 +42,11 @@ public interface GameSessionInfoService {
     /**
      * Persists the received game session.
      *
-     * @param gameSession
+     * @param gameSessionInfo
      *            game session to persist
      * @return the persisted game session
      */
-    public GameSessionInfo create(final GameSessionInfo gameSession);
+    public GameSessionInfo create(final GameSessionInfo gameSessionInfo);
 
     /**
      * Deletes the game session with the received id.
@@ -81,10 +81,10 @@ public interface GameSessionInfoService {
     /**
      * Updates the received game session.
      *
-     * @param gameSession
+     * @param gameSessionInfo
      *            new data for the game session
      * @return the updated game session
      */
-    public GameSessionInfo update(final GameSessionInfo gameSession);
+    public GameSessionInfo update(final GameSessionInfo gameSessionInfo);
 
 }

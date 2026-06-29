@@ -24,15 +24,16 @@
 
 package com.bernardomg.association.calendar.game.domain.model;
 
+import java.time.Instant;
 import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 
 public record GameSessionInfo(long number, String title, String description, String location, GameSessionMember master,
-        int maxPlayers, String image, GameSessionDate start, Recurrence recurrence, boolean published) {
+        int maxPlayers, String image, Instant start, Recurrence recurrence, boolean published) {
 
     public GameSessionInfo(final long number, final String title, final String description, final String location,
-            final GameSessionMember master, final int maxPlayers, final String image, final GameSessionDate start,
+            final GameSessionMember master, final int maxPlayers, final String image, final Instant start,
             final Recurrence recurrence, final boolean published) {
         Objects.requireNonNull(title);
         Objects.requireNonNull(description);

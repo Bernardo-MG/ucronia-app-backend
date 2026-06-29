@@ -80,7 +80,7 @@ class TestActivityServiceCreate {
         service.create(activity);
 
         // THEN
-        verify(activityRepository).save(Activities.singleDay());
+        verify(activityRepository).save(activity);
     }
 
     @Test

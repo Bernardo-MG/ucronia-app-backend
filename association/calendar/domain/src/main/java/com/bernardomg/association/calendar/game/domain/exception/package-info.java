@@ -23,7 +23,7 @@
  */
 
 /**
- * Activity services.
+ * Activity exceptions.
  */
 
-package com.bernardomg.association.calendar.activity.usecase.service;
+package com.bernardomg.association.calendar.game.domain.exception;

@@ -3,7 +3,7 @@ package com.bernardomg.association.calendar.game.domain.model;
 
 import java.util.Objects;
 
-public record Recurrence(RecurrenceUnit unit, int interval) {
+public record Recurrence(int interval, RecurrenceUnit unit) {
 
     public Recurrence {
         Objects.requireNonNull(unit);
