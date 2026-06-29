@@ -30,19 +30,19 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.bernardomg.association.guest.domain.repository.GuestContactMethodRepository;
-import com.bernardomg.association.guest.test.configuration.factory.GuestContactMethodConstants;
 import com.bernardomg.association.profile.TestApplication;
+import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
 import com.bernardomg.association.profile.test.configuration.data.annotation.EmailContactMethod;
+import com.bernardomg.association.profile.test.configuration.factory.ContactMethodConstants;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("GuestContactMethodRepository - exists")
-class ITGuestContactMethodRepositoryExists {
+@DisplayName("ContactMethodRepository - exists")
+class ITContactMethodRepositoryExists {
 
     @Autowired
-    private GuestContactMethodRepository repository;
+    private ContactMethodRepository repository;
 
     @Test
     @DisplayName("With an existing contact method, it exists")
@@ -51,7 +51,7 @@ class ITGuestContactMethodRepositoryExists {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(GuestContactMethodConstants.NUMBER);
+        exists = repository.exists(ContactMethodConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(exists)
@@ -65,7 +65,7 @@ class ITGuestContactMethodRepositoryExists {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(GuestContactMethodConstants.NUMBER);
+        exists = repository.exists(ContactMethodConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(exists)

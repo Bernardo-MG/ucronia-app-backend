@@ -28,10 +28,7 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
-import com.bernardomg.association.guest.adapter.inbound.jpa.repository.GuestContactMethodSpringRepository;
-import com.bernardomg.association.guest.adapter.inbound.jpa.repository.GuestInnerProfileSpringRepository;
 import com.bernardomg.association.guest.adapter.inbound.jpa.repository.GuestSpringRepository;
-import com.bernardomg.association.guest.adapter.inbound.jpa.repository.JpaGuestContactMethodRepository;
 import com.bernardomg.association.guest.adapter.inbound.jpa.repository.JpaGuestProfileRepository;
 import com.bernardomg.association.guest.adapter.inbound.jpa.repository.JpaGuestRepository;
 import com.bernardomg.association.guest.adapter.inbound.jpa.repository.ReadGuestSpringRepository;
@@ -42,31 +39,26 @@ import com.bernardomg.association.guest.usecase.service.DefaultGuestService;
 import com.bernardomg.association.guest.usecase.service.DefaultProfileGuestService;
 import com.bernardomg.association.guest.usecase.service.GuestService;
 import com.bernardomg.association.guest.usecase.service.ProfileGuestService;
+import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ContactMethodSpringRepository;
+import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 
 @AutoConfiguration
 @ComponentScan({ "com.bernardomg.association.guest.adapter.outbound.rest.controller",
         "com.bernardomg.association.guest.adapter.inbound.jpa" })
 public class AssociationGuestAutoConfiguration {
 
-    @Bean("guestContactMethodRepository")
-    public GuestContactMethodRepository
-            getGuestContactMethodRepository(final GuestContactMethodSpringRepository contactMethodSpringRepository) {
-        return new JpaGuestContactMethodRepository(contactMethodSpringRepository);
-    }
-
     @Bean("guestProfileRepository")
-    public GuestProfileRepository
-            getGuestProfileRepository(final GuestInnerProfileSpringRepository guestProfileSpringRepository) {
-        return new JpaGuestProfileRepository(guestProfileSpringRepository);
+    public GuestProfileRepository getGuestProfileRepository(final ProfileSpringRepository profileSpringRepository) {
+        return new JpaGuestProfileRepository(profileSpringRepository);
     }
 
     @Bean("guestRepository")
     public GuestRepository getGuestRepository(final GuestSpringRepository guestSpringRepository,
             final ReadGuestSpringRepository readGuestSpringRepository,
-            final GuestInnerProfileSpringRepository guestInnerProfileSpringRepository,
-            final GuestContactMethodSpringRepository contactMethodSpringRepository) {
-        return new JpaGuestRepository(guestSpringRepository, readGuestSpringRepository,
-            guestInnerProfileSpringRepository, contactMethodSpringRepository);
+            final ProfileSpringRepository profileSpringRepository,
+            final ContactMethodSpringRepository contactMethodSpringRepository) {
+        return new JpaGuestRepository(guestSpringRepository, readGuestSpringRepository, profileSpringRepository,
+            contactMethodSpringRepository);
     }
 
     @Bean("guestService")

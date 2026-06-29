@@ -59,7 +59,7 @@ public interface ReadGuestSpringRepository
 
     public Optional<ReadGuestEntity> findByNumber(final Long number);
 
-    @Query("SELECT COALESCE(MAX(p.number), 0) + 1 FROM GuestInnerProfile p")
+    @Query("SELECT COALESCE(MAX(p.number), 0) + 1 FROM Profile p")
     public Long findNextNumber();
 
 }

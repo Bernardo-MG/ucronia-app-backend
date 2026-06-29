@@ -5,14 +5,14 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-import com.bernardomg.association.guest.adapter.inbound.jpa.model.GuestContactChannelEntity;
-import com.bernardomg.association.guest.adapter.inbound.jpa.model.GuestContactMethodEntity;
 import com.bernardomg.association.guest.adapter.inbound.jpa.model.GuestEntity;
 import com.bernardomg.association.guest.adapter.inbound.jpa.model.GuestEntityConstants;
-import com.bernardomg.association.guest.adapter.inbound.jpa.model.GuestInnerProfileEntity;
 import com.bernardomg.association.guest.test.configuration.factory.GuestConstants;
-import com.bernardomg.association.guest.test.configuration.factory.GuestContactMethodConstants;
 import com.bernardomg.association.guest.test.configuration.factory.Guests;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactChannelEntity;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactMethodEntity;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
+import com.bernardomg.association.profile.test.configuration.factory.ContactMethodConstants;
 
 public final class GuestEntities {
 
@@ -80,21 +80,21 @@ public final class GuestEntities {
         return entity;
     }
 
-    private static final GuestContactMethodEntity email() {
-        final GuestContactMethodEntity entity;
+    private static final ContactMethodEntity email() {
+        final ContactMethodEntity entity;
 
-        entity = new GuestContactMethodEntity();
+        entity = new ContactMethodEntity();
         entity.setId(1L);
-        entity.setNumber(GuestContactMethodConstants.NUMBER);
-        entity.setName(GuestContactMethodConstants.EMAIL);
+        entity.setNumber(ContactMethodConstants.NUMBER);
+        entity.setName(ContactMethodConstants.EMAIL);
 
         return entity;
     }
 
-    private static final GuestInnerProfileEntity firstNameChangeProfile() {
-        final GuestInnerProfileEntity entity;
+    private static final ProfileEntity firstNameChangeProfile() {
+        final ProfileEntity entity;
 
-        entity = new GuestInnerProfileEntity();
+        entity = new ProfileEntity();
         entity.setId(1L);
         entity.setNumber(GuestConstants.NUMBER);
         entity.setFirstName(GuestConstants.CHANGED_FIRST_NAME);
@@ -109,10 +109,10 @@ public final class GuestEntities {
         return entity;
     }
 
-    private static final GuestInnerProfileEntity valid() {
-        final GuestInnerProfileEntity entity;
+    private static final ProfileEntity valid() {
+        final ProfileEntity entity;
 
-        entity = new GuestInnerProfileEntity();
+        entity = new ProfileEntity();
         entity.setId(1L);
         entity.setNumber(GuestConstants.NUMBER);
         entity.setFirstName(GuestConstants.FIRST_NAME);
@@ -127,15 +127,15 @@ public final class GuestEntities {
         return entity;
     }
 
-    private static final GuestInnerProfileEntity withEmail() {
-        final GuestInnerProfileEntity   entity;
-        final GuestContactChannelEntity contactChannelEntity;
+    private static final ProfileEntity withEmail() {
+        final ProfileEntity   entity;
+        final ContactChannelEntity contactChannelEntity;
 
-        contactChannelEntity = new GuestContactChannelEntity();
+        contactChannelEntity = new ContactChannelEntity();
         contactChannelEntity.setContactMethod(email());
         contactChannelEntity.setDetail(GuestConstants.EMAIL);
 
-        entity = new GuestInnerProfileEntity();
+        entity = new ProfileEntity();
         entity.setId(1L);
         entity.setNumber(GuestConstants.NUMBER);
         entity.setFirstName(GuestConstants.FIRST_NAME);
@@ -146,8 +146,6 @@ public final class GuestEntities {
         entity.setAddress(GuestConstants.ADDRESS);
         entity.setComments(GuestConstants.COMMENTS);
         entity.setTypes(new HashSet<>());
-
-        contactChannelEntity.setProfile(entity);
 
         return entity;
     }

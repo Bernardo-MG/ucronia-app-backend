@@ -7,6 +7,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
 
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
@@ -44,7 +46,7 @@ public class GuestEntity implements Serializable {
     @OneToOne(cascade = CascadeType.ALL)
     @MapsId
     @JoinColumn(name = "id")
-    private GuestInnerProfileEntity profile;
+    private ProfileEntity profile;
 
     @Override
     public boolean equals(final Object obj) {
@@ -65,7 +67,7 @@ public class GuestEntity implements Serializable {
         return id;
     }
 
-    public GuestInnerProfileEntity getProfile() {
+    public ProfileEntity getProfile() {
         return profile;
     }
 
@@ -82,7 +84,7 @@ public class GuestEntity implements Serializable {
         this.id = id;
     }
 
-    public void setProfile(final GuestInnerProfileEntity profile) {
+    public void setProfile(final ProfileEntity profile) {
         this.profile = profile;
     }
 

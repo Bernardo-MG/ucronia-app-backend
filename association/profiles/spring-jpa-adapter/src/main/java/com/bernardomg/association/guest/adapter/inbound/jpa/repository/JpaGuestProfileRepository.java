@@ -34,6 +34,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.association.guest.adapter.inbound.jpa.model.GuestProfileEntityMapper;
 import com.bernardomg.association.guest.domain.model.Guest;
 import com.bernardomg.association.guest.domain.repository.GuestProfileRepository;
+import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 
 @Transactional
 public final class JpaGuestProfileRepository implements GuestProfileRepository {
@@ -43,12 +44,12 @@ public final class JpaGuestProfileRepository implements GuestProfileRepository {
      */
     private static final Logger                     log = LoggerFactory.getLogger(JpaGuestProfileRepository.class);
 
-    private final GuestInnerProfileSpringRepository guestProfileSpringRepository;
+    private final ProfileSpringRepository profileSpringRepository;
 
-    public JpaGuestProfileRepository(final GuestInnerProfileSpringRepository guestProfileSpringRepo) {
+    public JpaGuestProfileRepository(final ProfileSpringRepository profileSpringRepo) {
         super();
 
-        guestProfileSpringRepository = Objects.requireNonNull(guestProfileSpringRepo);
+        profileSpringRepository = Objects.requireNonNull(profileSpringRepo);
     }
 
     @Override
@@ -57,7 +58,7 @@ public final class JpaGuestProfileRepository implements GuestProfileRepository {
 
         log.trace("Finding member profile with number {}", number);
 
-        GuestProfile = guestProfileSpringRepository.findByNumber(number)
+        GuestProfile = profileSpringRepository.findByNumber(number)
             .map(GuestProfileEntityMapper::toDomain);
 
         log.trace("Found member profile with number {}: {}", number, GuestProfile);

@@ -75,7 +75,7 @@ public final class ProfileEntityMapper {
 
         contactChannels = data.contactChannels()
             .stream()
-            .map(c -> toEntity(entity, c, contactMethods))
+            .map(c -> toEntity(c, contactMethods))
             .toList();
         if (entity.getContactChannels() != null) {
             entity.getContactChannels()
@@ -91,7 +91,7 @@ public final class ProfileEntityMapper {
         return entity;
     }
 
-    private static final ContactChannelEntity toEntity(final ProfileEntity contact, final ContactChannel data,
+    private static final ContactChannelEntity toEntity(final ContactChannel data,
             final Collection<ContactMethodEntity> contactMethods) {
         final ContactChannelEntity          entity;
         final Optional<ContactMethodEntity> contactMethod;
@@ -103,7 +103,6 @@ public final class ProfileEntityMapper {
             .findFirst();
 
         entity = new ContactChannelEntity();
-        entity.setProfile(contact);
         entity.setContactMethod(contactMethod.get());
         entity.setDetail(data.detail());
 

@@ -36,11 +36,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.guest.adapter.inbound.jpa.model.GuestContactMethodEntity;
 import com.bernardomg.association.guest.adapter.inbound.jpa.model.GuestEntity;
 import com.bernardomg.association.guest.adapter.inbound.jpa.model.GuestEntityConstants;
 import com.bernardomg.association.guest.adapter.inbound.jpa.model.GuestEntityMapper;
-import com.bernardomg.association.guest.adapter.inbound.jpa.model.GuestInnerProfileEntity;
 import com.bernardomg.association.guest.adapter.inbound.jpa.model.ReadGuestEntity;
 import com.bernardomg.association.guest.adapter.inbound.jpa.specification.GuestSpecifications;
 import com.bernardomg.association.guest.domain.filter.GuestFilter;
@@ -48,6 +46,10 @@ import com.bernardomg.association.guest.domain.model.Guest;
 import com.bernardomg.association.guest.domain.model.Guest.ContactChannel;
 import com.bernardomg.association.guest.domain.model.Guest.ContactMethod;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactMethodEntity;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
+import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ContactMethodSpringRepository;
+import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
@@ -60,26 +62,26 @@ public final class JpaGuestRepository implements GuestRepository {
     /**
      * Logger for the class.
      */
-    private static final Logger                      log = LoggerFactory.getLogger(JpaGuestRepository.class);
+    private static final Logger                     log = LoggerFactory.getLogger(JpaGuestRepository.class);
 
-    private final GuestContactMethodSpringRepository guestContactMethodSpringRepository;
+    private final ContactMethodSpringRepository     contactMethodSpringRepository;
 
-    private final GuestInnerProfileSpringRepository  guestInnerProfileSpringRepository;
+    private final ProfileSpringRepository profileSpringRepository;
 
-    private final GuestSpringRepository              guestSpringRepository;
+    private final GuestSpringRepository             guestSpringRepository;
 
-    private final ReadGuestSpringRepository          readGuestSpringRepository;
+    private final ReadGuestSpringRepository         readGuestSpringRepository;
 
     public JpaGuestRepository(final GuestSpringRepository guestSpringRepo,
             final ReadGuestSpringRepository readGuestSpringRepo,
-            final GuestInnerProfileSpringRepository guestInnerProfileSpringRepo,
-            final GuestContactMethodSpringRepository guestContactMethodSpringRepo) {
+            final ProfileSpringRepository profileSpringRepo,
+            final ContactMethodSpringRepository contactMethodSpringRepo) {
         super();
 
         guestSpringRepository = Objects.requireNonNull(guestSpringRepo);
         readGuestSpringRepository = Objects.requireNonNull(readGuestSpringRepo);
-        guestInnerProfileSpringRepository = Objects.requireNonNull(guestInnerProfileSpringRepo);
-        guestContactMethodSpringRepository = Objects.requireNonNull(guestContactMethodSpringRepo);
+        profileSpringRepository = Objects.requireNonNull(profileSpringRepo);
+        contactMethodSpringRepository = Objects.requireNonNull(contactMethodSpringRepo);
     }
 
     @Override
@@ -173,12 +175,12 @@ public final class JpaGuestRepository implements GuestRepository {
 
     @Override
     public final Guest save(final Guest guest) {
-        final Optional<GuestEntity>                existing;
-        final GuestEntity                          entity;
-        final Guest                                created;
-        final Collection<GuestContactMethodEntity> contactMethods;
-        final Long                                 number;
-        final Optional<GuestInnerProfileEntity>    profile;
+        final Optional<GuestEntity>           existing;
+        final GuestEntity                     entity;
+        final Guest                           created;
+        final Collection<ContactMethodEntity> contactMethods;
+        final Long                            number;
+        final Optional<ProfileEntity>         profile;
 
         log.debug("Saving guest {}", guest);
 
@@ -189,7 +191,7 @@ public final class JpaGuestRepository implements GuestRepository {
         } else {
             entity = GuestEntityMapper.toEntity(guest, contactMethods);
 
-            profile = guestInnerProfileSpringRepository.findByNumber(guest.number());
+            profile = profileSpringRepository.findByNumber(guest.number());
             if (profile.isPresent()) {
                 entity.setProfile(profile.get());
             } else {
@@ -227,7 +229,7 @@ public final class JpaGuestRepository implements GuestRepository {
         return new Sorting(properties);
     }
 
-    private final Collection<GuestContactMethodEntity> getContactMethods(final Guest guest) {
+    private final Collection<ContactMethodEntity> getContactMethods(final Guest guest) {
         final Collection<Long> contactMethodNumbers;
 
         contactMethodNumbers = guest.contactChannels()
@@ -235,10 +237,10 @@ public final class JpaGuestRepository implements GuestRepository {
             .map(ContactChannel::contactMethod)
             .map(ContactMethod::number)
             .toList();
-        return guestContactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
+        return contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
     }
 
-    private final void setType(final GuestInnerProfileEntity entity) {
+    private final void setType(final ProfileEntity entity) {
         if (entity.getTypes() == null) {
             entity.setTypes(new HashSet<>(List.of(GuestEntityConstants.PROFILE_TYPE)));
         } else {
