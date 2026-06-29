@@ -23,7 +23,7 @@
  */
 
 /**
- * Association activity model.
+ * Activity model.
  */
 
 package com.bernardomg.association.calendar.activity.domain.model;

@@ -23,7 +23,7 @@
  */
 
 /**
- * Transaction exceptions.
+ * Activity exceptions.
  */
 
 package com.bernardomg.association.calendar.activity.domain.exception;
