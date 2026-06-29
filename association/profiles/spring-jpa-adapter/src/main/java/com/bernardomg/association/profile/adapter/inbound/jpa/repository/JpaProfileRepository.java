@@ -39,9 +39,9 @@ import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntit
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntityMapper;
 import com.bernardomg.association.profile.adapter.inbound.jpa.specification.ProfileSpecifications;
 import com.bernardomg.association.profile.domain.filter.ProfileFilter;
+import com.bernardomg.association.profile.domain.model.ContactChannel;
 import com.bernardomg.association.profile.domain.model.ContactMethod;
 import com.bernardomg.association.profile.domain.model.Profile;
-import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
 import com.bernardomg.association.profile.domain.repository.ProfileRepository;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;

@@ -39,6 +39,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
@@ -62,7 +63,8 @@ public class ProfileEntity implements Serializable {
     @Column(name = "comments")
     private String                           comments;
 
-    @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "profile_id", nullable = false)
     private Collection<ContactChannelEntity> contactChannels;
 
     @Column(name = "first_name", nullable = false)

@@ -71,32 +71,4 @@ public record Profile(Optional<String> identifier, Long number, Name name, Optio
         return result;
     }
 
-    public record Name(String firstName, String lastName) {
-
-        public Name(final String firstName, final String lastName) {
-            Objects.requireNonNull(firstName);
-            Objects.requireNonNull(lastName);
-
-            this.firstName = StringUtils.trim(firstName);
-            this.lastName = StringUtils.trim(lastName);
-        }
-
-        public final String fullName() {
-            return String.format("%s %s", firstName, lastName)
-                .trim();
-        }
-
-    }
-
-    public record ContactChannel(ContactMethod contactMethod, String detail) {
-
-        public ContactChannel(final ContactMethod contactMethod, final String detail) {
-            Objects.requireNonNull(detail);
-
-            this.contactMethod = Objects.requireNonNull(contactMethod);
-            this.detail = StringUtils.trim(detail);
-        }
-
-    }
-
 }

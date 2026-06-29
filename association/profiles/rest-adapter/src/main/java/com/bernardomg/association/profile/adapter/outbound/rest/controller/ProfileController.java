@@ -97,7 +97,7 @@ public class ProfileController implements ProfileApi {
         final Page<Profile> profiles;
         final Pagination    pagination;
         final Sorting       sorting;
-        final ProfileFilter  filter;
+        final ProfileFilter filter;
 
         pagination = new Pagination(page, size);
         sorting = WebSorting.toSorting(sort);
