@@ -36,9 +36,10 @@ import org.slf4j.LoggerFactory;
 import com.bernardomg.association.guest.domain.exception.GuestExistsException;
 import com.bernardomg.association.guest.domain.exception.MissingGuestProfileException;
 import com.bernardomg.association.guest.domain.model.Guest;
-import com.bernardomg.association.guest.domain.repository.GuestProfileRepository;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
 import com.bernardomg.association.profile.domain.model.Name;
+import com.bernardomg.association.profile.domain.model.Profile;
+import com.bernardomg.association.profile.domain.repository.ProfileRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -54,13 +55,13 @@ public final class DefaultProfileGuestService implements ProfileGuestService {
     /**
      * Logger for the class.
      */
-    private static final Logger          log = LoggerFactory.getLogger(DefaultProfileGuestService.class);
+    private static final Logger     log = LoggerFactory.getLogger(DefaultProfileGuestService.class);
 
-    private final GuestRepository        guestRepository;
+    private final GuestRepository   guestRepository;
 
-    private final GuestProfileRepository profileRepository;
+    private final ProfileRepository profileRepository;
 
-    public DefaultProfileGuestService(final GuestRepository guestRepo, final GuestProfileRepository profileRepo) {
+    public DefaultProfileGuestService(final GuestRepository guestRepo, final ProfileRepository profileRepo) {
         super();
 
         guestRepository = Objects.requireNonNull(guestRepo);
@@ -69,7 +70,7 @@ public final class DefaultProfileGuestService implements ProfileGuestService {
 
     @Override
     public final Guest convertToGuest(final long number) {
-        final Guest       existing;
+        final Profile     existing;
         final Guest       toCreate;
         final Guest       created;
         final Name        name;

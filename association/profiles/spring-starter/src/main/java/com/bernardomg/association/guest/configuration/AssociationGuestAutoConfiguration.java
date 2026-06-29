@@ -29,10 +29,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
 import com.bernardomg.association.guest.adapter.inbound.jpa.repository.GuestSpringRepository;
-import com.bernardomg.association.guest.adapter.inbound.jpa.repository.JpaGuestProfileRepository;
 import com.bernardomg.association.guest.adapter.inbound.jpa.repository.JpaGuestRepository;
 import com.bernardomg.association.guest.adapter.inbound.jpa.repository.ReadGuestSpringRepository;
-import com.bernardomg.association.guest.domain.repository.GuestProfileRepository;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
 import com.bernardomg.association.guest.usecase.service.DefaultGuestService;
 import com.bernardomg.association.guest.usecase.service.DefaultProfileGuestService;
@@ -41,16 +39,12 @@ import com.bernardomg.association.guest.usecase.service.ProfileGuestService;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ContactMethodSpringRepository;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
+import com.bernardomg.association.profile.domain.repository.ProfileRepository;
 
 @AutoConfiguration
 @ComponentScan({ "com.bernardomg.association.guest.adapter.outbound.rest.controller",
         "com.bernardomg.association.guest.adapter.inbound.jpa" })
 public class AssociationGuestAutoConfiguration {
-
-    @Bean("guestProfileRepository")
-    public GuestProfileRepository getGuestProfileRepository(final ProfileSpringRepository profileSpringRepository) {
-        return new JpaGuestProfileRepository(profileSpringRepository);
-    }
 
     @Bean("guestRepository")
     public GuestRepository getGuestRepository(final GuestSpringRepository guestSpringRepository,
@@ -69,7 +63,7 @@ public class AssociationGuestAutoConfiguration {
 
     @Bean("profileGuestService")
     public ProfileGuestService getProfileGuestService(final GuestRepository guestRepository,
-            final GuestProfileRepository profileRepository) {
+            final ProfileRepository profileRepository) {
         return new DefaultProfileGuestService(guestRepository, profileRepository);
     }
 
