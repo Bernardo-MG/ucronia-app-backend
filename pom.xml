@@ -331,8 +331,8 @@
             <version>${project.version}</version>
          </dependency>
          <dependency>
-            <groupId>com.bernardomg.association.activity</groupId>
-            <artifactId>association-activity-spring-starter</artifactId>
+            <groupId>com.bernardomg.association.calendar</groupId>
+            <artifactId>association-calendar-spring-starter</artifactId>
             <version>${project.version}</version>
          </dependency>
          <dependency>
