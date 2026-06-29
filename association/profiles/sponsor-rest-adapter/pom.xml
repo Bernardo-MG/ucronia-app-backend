@@ -40,12 +40,12 @@
 
    <dependencies>
       <dependency>
-         <groupId>com.bernardomg.association.sponsor</groupId>
-         <artifactId>association-sponsor-domain</artifactId>
+         <groupId>com.bernardomg.association.profile</groupId>
+         <artifactId>association-profile-domain</artifactId>
       </dependency>
       <dependency>
-         <groupId>com.bernardomg.association.sponsor</groupId>
-         <artifactId>association-sponsor-usecase</artifactId>
+         <groupId>com.bernardomg.association.profile</groupId>
+         <artifactId>association-profile-usecase</artifactId>
       </dependency>
       <dependency>
          <!-- Spring WS Security Starter -->
