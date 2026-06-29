@@ -34,7 +34,6 @@
      <module>transactions</module>
      <module>profiles</module>
      <module>members</module>
-     <module>guest</module>
      <module>sponsor</module>
      <module>library</module>
      <module>calendar</module>

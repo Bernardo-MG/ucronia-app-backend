@@ -1,4 +1,4 @@
 databaseChangeLog:
   - include:
-      file: directory.yaml
+      file: profile.yaml
       relativeToChangelogFile: true

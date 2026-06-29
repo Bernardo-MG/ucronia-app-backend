@@ -1,1 +1,2 @@
+com.bernardomg.association.guest.configuration.AssociationGuestAutoConfiguration
 com.bernardomg.association.profile.configuration.AssociationProfileAutoConfiguration
