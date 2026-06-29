@@ -31,6 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.SponsorProfileEntityMapper;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
 import com.bernardomg.association.sponsor.domain.repository.SponsorProfileRepository;
@@ -41,14 +42,14 @@ public final class JpaSponsorProfileRepository implements SponsorProfileReposito
     /**
      * Logger for the class.
      */
-    private static final Logger                       log = LoggerFactory.getLogger(JpaSponsorProfileRepository.class);
+    private static final Logger           log = LoggerFactory.getLogger(JpaSponsorProfileRepository.class);
 
-    private final SponsorInnerProfileSpringRepository guestProfileSpringRepository;
+    private final ProfileSpringRepository profileSpringRepository;
 
-    public JpaSponsorProfileRepository(final SponsorInnerProfileSpringRepository guestProfileSpringRepo) {
+    public JpaSponsorProfileRepository(final ProfileSpringRepository profileSpringRepo) {
         super();
 
-        guestProfileSpringRepository = Objects.requireNonNull(guestProfileSpringRepo);
+        profileSpringRepository = Objects.requireNonNull(profileSpringRepo);
     }
 
     @Override
@@ -57,7 +58,7 @@ public final class JpaSponsorProfileRepository implements SponsorProfileReposito
 
         log.trace("Finding member profile with number {}", number);
 
-        sponsorProfile = guestProfileSpringRepository.findByNumber(number)
+        sponsorProfile = profileSpringRepository.findByNumber(number)
             .map(SponsorProfileEntityMapper::toDomain);
 
         log.trace("Found member profile with number {}: {}", number, sponsorProfile);

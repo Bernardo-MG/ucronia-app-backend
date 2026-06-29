@@ -58,9 +58,8 @@ public final class GuestProfileEntityMapper {
             Optional.ofNullable(entity.getAddress()), Optional.ofNullable(entity.getComments()), entity.getTypes());
     }
 
-    public static final ProfileEntity toEntity(final Guest data,
-            final Collection<ContactMethodEntity> contactMethods) {
-        final ProfileEntity               entity;
+    public static final ProfileEntity toEntity(final Guest data, final Collection<ContactMethodEntity> contactMethods) {
+        final ProfileEntity                    entity;
         final Collection<ContactChannelEntity> contactChannels;
 
         entity = new ProfileEntity();
@@ -80,7 +79,7 @@ public final class GuestProfileEntityMapper {
 
         contactChannels = data.contactChannels()
             .stream()
-            .map(c -> toEntity( c, contactMethods))
+            .map(c -> toEntity(c, contactMethods))
             .toList();
         if (entity.getContactChannels() != null) {
             entity.getContactChannels()
@@ -107,8 +106,8 @@ public final class GuestProfileEntityMapper {
         return new ContactMethod(entity.getNumber(), entity.getName());
     }
 
-    private static final ContactChannelEntity toEntity(
-            final ContactChannel data, final Collection<ContactMethodEntity> contactMethods) {
+    private static final ContactChannelEntity toEntity(final ContactChannel data,
+            final Collection<ContactMethodEntity> contactMethods) {
         final ContactChannelEntity          entity;
         final Optional<ContactMethodEntity> contactMethod;
 

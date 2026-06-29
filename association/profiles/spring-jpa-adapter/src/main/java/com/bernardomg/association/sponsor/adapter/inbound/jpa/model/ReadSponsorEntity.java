@@ -11,7 +11,8 @@ import java.util.Set;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
-import jakarta.persistence.CascadeType;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactChannelEntity;
+
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -36,45 +37,46 @@ public class ReadSponsorEntity implements Serializable {
      *
      */
     @Transient
-    private static final long                           serialVersionUID = 8139806507534262996L;
+    private static final long                serialVersionUID = 8139806507534262996L;
 
     @Column(name = "address", table = "profiles")
-    private String                                      address;
+    private String                           address;
 
     @Column(name = "birth_date", table = "profiles")
-    private Instant                                     birthDate;
+    private Instant                          birthDate;
 
     @Column(name = "comments", table = "profiles")
-    private String                                      comments;
+    private String                           comments;
 
-    @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Collection<ReadSponsorContactChannelEntity> contactChannels;
+    @OneToMany
+    @JoinColumn(name = "profile_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private Collection<ContactChannelEntity> contactChannels;
 
     @Column(name = "first_name", table = "profiles", nullable = false)
-    private String                                      firstName;
+    private String                           firstName;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
-    private Long                                        id;
+    private Long                             id;
 
     @Column(name = "identifier", table = "profiles")
-    private String                                      identifier;
+    private String                           identifier;
 
     @Column(name = "last_name", table = "profiles")
-    private String                                      lastName;
+    private String                           lastName;
 
     @Column(name = "number", table = "profiles")
-    private Long                                        number;
+    private Long                             number;
 
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "types", table = "profiles")
-    private Set<String>                                 types;
+    private Set<String>                      types;
 
     @ElementCollection
     @CollectionTable(name = "sponsor_years", schema = "directory", joinColumns = @JoinColumn(name = "sponsor_id"))
     @Column(name = "year", table = "profiles")
-    private Collection<Integer>                         years            = new HashSet<>();
+    private Collection<Integer>              years            = new HashSet<>();
 
     @Override
     public boolean equals(final Object obj) {
@@ -99,7 +101,7 @@ public class ReadSponsorEntity implements Serializable {
         return comments;
     }
 
-    public Collection<ReadSponsorContactChannelEntity> getContactChannels() {
+    public Collection<ContactChannelEntity> getContactChannels() {
         return contactChannels;
     }
 
@@ -148,7 +150,7 @@ public class ReadSponsorEntity implements Serializable {
         this.comments = comments;
     }
 
-    public void setContactChannels(final Collection<ReadSponsorContactChannelEntity> contactChannels) {
+    public void setContactChannels(final Collection<ContactChannelEntity> contactChannels) {
         this.contactChannels = contactChannels;
     }
 

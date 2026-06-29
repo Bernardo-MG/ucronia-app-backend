@@ -128,7 +128,7 @@ public final class GuestEntities {
     }
 
     private static final ProfileEntity withEmail() {
-        final ProfileEntity   entity;
+        final ProfileEntity        entity;
         final ContactChannelEntity contactChannelEntity;
 
         contactChannelEntity = new ContactChannelEntity();

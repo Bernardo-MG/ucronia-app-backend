@@ -31,22 +31,22 @@ public class GuestEntity implements Serializable {
      *
      */
     @Transient
-    private static final long       serialVersionUID = 8139806507534262996L;
+    private static final long   serialVersionUID = 8139806507534262996L;
 
     @ElementCollection
     @CollectionTable(schema = "directory", name = "guest_games", joinColumns = @JoinColumn(name = "guest_id"))
     @Column(name = "date", nullable = false)
-    private Collection<Instant>     games            = new HashSet<>();
+    private Collection<Instant> games            = new HashSet<>();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
-    private Long                    id;
+    private Long                id;
 
     @OneToOne(cascade = CascadeType.ALL)
     @MapsId
     @JoinColumn(name = "id")
-    private ProfileEntity profile;
+    private ProfileEntity       profile;
 
     @Override
     public boolean equals(final Object obj) {

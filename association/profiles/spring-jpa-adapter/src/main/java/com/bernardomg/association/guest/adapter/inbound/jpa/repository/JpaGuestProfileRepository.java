@@ -42,7 +42,7 @@ public final class JpaGuestProfileRepository implements GuestProfileRepository {
     /**
      * Logger for the class.
      */
-    private static final Logger                     log = LoggerFactory.getLogger(JpaGuestProfileRepository.class);
+    private static final Logger           log = LoggerFactory.getLogger(JpaGuestProfileRepository.class);
 
     private final ProfileSpringRepository profileSpringRepository;
 

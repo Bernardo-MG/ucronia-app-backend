@@ -82,7 +82,6 @@ public class ContactChannelEntity implements Serializable {
         return id;
     }
 
-
     @Override
     public int hashCode() {
         return Objects.hash(id);

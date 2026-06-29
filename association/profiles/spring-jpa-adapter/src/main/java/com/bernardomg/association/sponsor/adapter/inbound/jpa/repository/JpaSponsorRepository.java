@@ -36,12 +36,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactMethodEntity;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
+import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ContactMethodSpringRepository;
+import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.ReadSponsorEntity;
-import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.SponsorContactMethodEntity;
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.SponsorEntity;
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.SponsorEntityConstants;
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.SponsorEntityMapper;
-import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.SponsorInnerProfileEntity;
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.specification.SponsorSpecifications;
 import com.bernardomg.association.sponsor.domain.filter.SponsorFilter;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
@@ -60,27 +62,27 @@ public final class JpaSponsorRepository implements SponsorRepository {
     /**
      * Logger for the class.
      */
-    private static final Logger                        log = LoggerFactory.getLogger(JpaSponsorRepository.class);
+    private static final Logger                 log = LoggerFactory.getLogger(JpaSponsorRepository.class);
 
-    private final SponsorContactMethodSpringRepository contactMethodSpringRepository;
+    private final ContactMethodSpringRepository contactMethodSpringRepository;
 
-    private final ReadSponsorSpringRepository          readSponsorSpringRepository;
+    private final ProfileSpringRepository       profileSpringRepository;
 
-    private final SponsorInnerProfileSpringRepository  sponsorInnerProfileSpringRepository;
+    private final ReadSponsorSpringRepository   readSponsorSpringRepository;
 
-    private final SponsorSpringRepository              sponsorSpringRepository;
+    private final SponsorSpringRepository       sponsorSpringRepository;
 
     public JpaSponsorRepository(final SponsorSpringRepository sponsorSpringRepo,
             final ReadSponsorSpringRepository readSponsorSpringRepo,
-            final SponsorContactMethodSpringRepository contactMethodSpringRepo,
-            final SponsorInnerProfileSpringRepository sponsorInnerProfileSpringRepo) {
+            final ContactMethodSpringRepository contactMethodSpringRepo,
+            final ProfileSpringRepository profileSpringRepo) {
         super();
 
         sponsorSpringRepository = Objects.requireNonNull(sponsorSpringRepo);
         readSponsorSpringRepository = Objects.requireNonNull(readSponsorSpringRepo);
         contactMethodSpringRepository = Objects.requireNonNull(contactMethodSpringRepo);
         // TODO: remove profile repository
-        sponsorInnerProfileSpringRepository = Objects.requireNonNull(sponsorInnerProfileSpringRepo);
+        profileSpringRepository = Objects.requireNonNull(profileSpringRepo);
     }
 
     @Override
@@ -174,12 +176,12 @@ public final class JpaSponsorRepository implements SponsorRepository {
 
     @Override
     public final Sponsor save(final Sponsor sponsor) {
-        final Optional<SponsorEntity>                existing;
-        final SponsorEntity                          entity;
-        final Sponsor                                created;
-        final Collection<SponsorContactMethodEntity> contactMethods;
-        final Long                                   number;
-        final Optional<SponsorInnerProfileEntity>    profile;
+        final Optional<SponsorEntity>         existing;
+        final SponsorEntity                   entity;
+        final Sponsor                         created;
+        final Collection<ContactMethodEntity> contactMethods;
+        final Long                            number;
+        final Optional<ProfileEntity>         profile;
 
         log.debug("Saving sponsor {}", sponsor);
 
@@ -190,7 +192,7 @@ public final class JpaSponsorRepository implements SponsorRepository {
         } else {
             entity = SponsorEntityMapper.toEntity(sponsor, contactMethods);
 
-            profile = sponsorInnerProfileSpringRepository.findByNumber(sponsor.number());
+            profile = profileSpringRepository.findByNumber(sponsor.number());
             if (profile.isPresent()) {
                 entity.setProfile(profile.get());
             } else {
@@ -228,7 +230,7 @@ public final class JpaSponsorRepository implements SponsorRepository {
         return new Sorting(properties);
     }
 
-    private final Collection<SponsorContactMethodEntity> getContactMethods(final Sponsor sponsor) {
+    private final Collection<ContactMethodEntity> getContactMethods(final Sponsor sponsor) {
         final Collection<Long> contactMethodNumbers;
 
         contactMethodNumbers = sponsor.contactChannels()
@@ -239,7 +241,7 @@ public final class JpaSponsorRepository implements SponsorRepository {
         return contactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
     }
 
-    private final void setType(final SponsorInnerProfileEntity entity) {
+    private final void setType(final ProfileEntity entity) {
         if (entity.getTypes() == null) {
             entity.setTypes(new HashSet<>(List.of(SponsorEntityConstants.PROFILE_TYPE)));
         } else {

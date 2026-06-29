@@ -59,7 +59,7 @@ public interface ReadSponsorSpringRepository
 
     public Optional<ReadSponsorEntity> findByNumber(final Long number);
 
-    @Query("SELECT COALESCE(MAX(p.number), 0) + 1 FROM SponsorInnerProfile p")
+    @Query("SELECT COALESCE(MAX(p.number), 0) + 1 FROM Profile p")
     public Long findNextNumber();
 
 }

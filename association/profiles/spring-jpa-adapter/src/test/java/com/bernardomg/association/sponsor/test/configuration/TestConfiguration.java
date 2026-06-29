@@ -29,12 +29,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ContactMethodSpringRepository;
+import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.repository.JpaSponsorContactMethodRepository;
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.repository.JpaSponsorProfileRepository;
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.repository.JpaSponsorRepository;
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.repository.ReadSponsorSpringRepository;
-import com.bernardomg.association.sponsor.adapter.inbound.jpa.repository.SponsorContactMethodSpringRepository;
-import com.bernardomg.association.sponsor.adapter.inbound.jpa.repository.SponsorInnerProfileSpringRepository;
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.repository.SponsorSpringRepository;
 import com.bernardomg.association.sponsor.domain.repository.SponsorContactMethodRepository;
 import com.bernardomg.association.sponsor.domain.repository.SponsorProfileRepository;
@@ -48,24 +48,23 @@ import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
 public class TestConfiguration {
 
     @Bean("sponsorContactMethodRepository")
-    public SponsorContactMethodRepository getSponsorContactMethodRepository(
-            final SponsorContactMethodSpringRepository contactMethodSpringRepository) {
+    public SponsorContactMethodRepository
+            getSponsorContactMethodRepository(final ContactMethodSpringRepository contactMethodSpringRepository) {
         return new JpaSponsorContactMethodRepository(contactMethodSpringRepository);
     }
 
     @Bean("sponsorProfileRepository")
-    public SponsorProfileRepository
-            getSponsorProfileRepository(final SponsorInnerProfileSpringRepository sponsorProfileSpringRepository) {
-        return new JpaSponsorProfileRepository(sponsorProfileSpringRepository);
+    public SponsorProfileRepository getSponsorProfileRepository(final ProfileSpringRepository profileSpringRepository) {
+        return new JpaSponsorProfileRepository(profileSpringRepository);
     }
 
     @Bean("sponsorRepository")
     public SponsorRepository getSponsorRepository(final SponsorSpringRepository sponsorSpringRepository,
             final ReadSponsorSpringRepository readSponsorSpringRepository,
-            final SponsorContactMethodSpringRepository contactMethodSpringRepository,
-            final SponsorInnerProfileSpringRepository sponsorInnerProfileSpringRepository) {
+            final ContactMethodSpringRepository contactMethodSpringRepository,
+            final ProfileSpringRepository profileSpringRepository) {
         return new JpaSponsorRepository(sponsorSpringRepository, readSponsorSpringRepository,
-            contactMethodSpringRepository, sponsorInnerProfileSpringRepository);
+            contactMethodSpringRepository, profileSpringRepository);
     }
 
 }

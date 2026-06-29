@@ -62,19 +62,18 @@ public final class JpaGuestRepository implements GuestRepository {
     /**
      * Logger for the class.
      */
-    private static final Logger                     log = LoggerFactory.getLogger(JpaGuestRepository.class);
+    private static final Logger                 log = LoggerFactory.getLogger(JpaGuestRepository.class);
 
-    private final ContactMethodSpringRepository     contactMethodSpringRepository;
+    private final ContactMethodSpringRepository contactMethodSpringRepository;
 
-    private final ProfileSpringRepository profileSpringRepository;
+    private final GuestSpringRepository         guestSpringRepository;
 
-    private final GuestSpringRepository             guestSpringRepository;
+    private final ProfileSpringRepository       profileSpringRepository;
 
-    private final ReadGuestSpringRepository         readGuestSpringRepository;
+    private final ReadGuestSpringRepository     readGuestSpringRepository;
 
     public JpaGuestRepository(final GuestSpringRepository guestSpringRepo,
-            final ReadGuestSpringRepository readGuestSpringRepo,
-            final ProfileSpringRepository profileSpringRepo,
+            final ReadGuestSpringRepository readGuestSpringRepo, final ProfileSpringRepository profileSpringRepo,
             final ContactMethodSpringRepository contactMethodSpringRepo) {
         super();
 

@@ -28,6 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ContactMethodSpringRepository;
 import com.bernardomg.association.sponsor.domain.repository.SponsorContactMethodRepository;
 
 @Transactional
@@ -36,12 +37,11 @@ public final class JpaSponsorContactMethodRepository implements SponsorContactMe
     /**
      * Logger for the class.
      */
-    private static final Logger                        log = LoggerFactory
-        .getLogger(JpaSponsorContactMethodRepository.class);
+    private static final Logger                 log = LoggerFactory.getLogger(JpaSponsorContactMethodRepository.class);
 
-    private final SponsorContactMethodSpringRepository contactMethodSpringRepository;
+    private final ContactMethodSpringRepository contactMethodSpringRepository;
 
-    public JpaSponsorContactMethodRepository(final SponsorContactMethodSpringRepository contactMethodSpringRepo) {
+    public JpaSponsorContactMethodRepository(final ContactMethodSpringRepository contactMethodSpringRepo) {
         super();
 
         contactMethodSpringRepository = contactMethodSpringRepo;

@@ -29,6 +29,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactChannelEntity;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactMethodEntity;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
 import com.bernardomg.association.sponsor.domain.model.Sponsor.ContactChannel;
 import com.bernardomg.association.sponsor.domain.model.Sponsor.ContactMethod;
@@ -39,7 +42,7 @@ import com.bernardomg.association.sponsor.domain.model.Sponsor.Name;
  */
 public final class SponsorProfileEntityMapper {
 
-    public static final Sponsor toDomain(final SponsorInnerProfileEntity entity) {
+    public static final Sponsor toDomain(final ProfileEntity entity) {
         final Name                       name;
         final Collection<ContactChannel> contactChannels;
 
@@ -55,12 +58,12 @@ public final class SponsorProfileEntityMapper {
             Optional.ofNullable(entity.getAddress()), Optional.ofNullable(entity.getComments()), entity.getTypes());
     }
 
-    public static final SponsorInnerProfileEntity toEntity(final Sponsor data,
-            final Collection<SponsorContactMethodEntity> contactMethods) {
-        final SponsorInnerProfileEntity               entity;
-        final Collection<SponsorContactChannelEntity> contactChannels;
+    public static final ProfileEntity toEntity(final Sponsor data,
+            final Collection<ContactMethodEntity> contactMethods) {
+        final ProfileEntity                    entity;
+        final Collection<ContactChannelEntity> contactChannels;
 
-        entity = new SponsorInnerProfileEntity();
+        entity = new ProfileEntity();
         entity.setNumber(data.number());
         entity.setFirstName(data.name()
             .firstName());
@@ -77,7 +80,7 @@ public final class SponsorProfileEntityMapper {
 
         contactChannels = data.contactChannels()
             .stream()
-            .map(c -> toEntity(entity, c, contactMethods))
+            .map(c -> toEntity1(c, contactMethods))
             .toList();
         if (entity.getContactChannels() != null) {
             entity.getContactChannels()
@@ -93,21 +96,21 @@ public final class SponsorProfileEntityMapper {
         return entity;
     }
 
-    private static final ContactChannel toDomain(final SponsorContactChannelEntity entity) {
+    private static final ContactChannel toDomain(final ContactChannelEntity entity) {
         final ContactMethod method;
 
         method = SponsorProfileEntityMapper.toDomain(entity.getContactMethod());
         return new ContactChannel(method, entity.getDetail());
     }
 
-    private static final ContactMethod toDomain(final SponsorContactMethodEntity entity) {
+    private static final ContactMethod toDomain(final ContactMethodEntity entity) {
         return new ContactMethod(entity.getNumber(), entity.getName());
     }
 
-    private static final SponsorContactChannelEntity toEntity(final SponsorInnerProfileEntity contact,
-            final ContactChannel data, final Collection<SponsorContactMethodEntity> contactMethods) {
-        final SponsorContactChannelEntity          entity;
-        final Optional<SponsorContactMethodEntity> contactMethod;
+    private static final ContactChannelEntity toEntity1(final ContactChannel data,
+            final Collection<ContactMethodEntity> contactMethods) {
+        final ContactChannelEntity          entity;
+        final Optional<ContactMethodEntity> contactMethod;
 
         contactMethod = contactMethods.stream()
             .filter(m -> m.getNumber()
@@ -115,8 +118,7 @@ public final class SponsorProfileEntityMapper {
                     .number()))
             .findFirst();
 
-        entity = new SponsorContactChannelEntity();
-        entity.setProfile(contact);
+        entity = new ContactChannelEntity();
         entity.setContactMethod(contactMethod.get());
         entity.setDetail(data.detail());
 

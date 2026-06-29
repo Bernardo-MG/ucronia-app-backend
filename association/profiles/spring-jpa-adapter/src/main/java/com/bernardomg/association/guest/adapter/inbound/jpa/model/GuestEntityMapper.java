@@ -86,10 +86,9 @@ public final class GuestEntityMapper {
             Optional.ofNullable(entity.getAddress()), Optional.ofNullable(entity.getComments()), entity.getTypes());
     }
 
-    public static final GuestEntity toEntity(final Guest data,
-            final Collection<ContactMethodEntity> contactMethods) {
-        final GuestEntity                           entity;
-        final ProfileEntity               profile;
+    public static final GuestEntity toEntity(final Guest data, final Collection<ContactMethodEntity> contactMethods) {
+        final GuestEntity                      entity;
+        final ProfileEntity                    profile;
         final Collection<ContactChannelEntity> contactChannels;
 
         profile = new ProfileEntity();
@@ -109,7 +108,7 @@ public final class GuestEntityMapper {
 
         contactChannels = data.contactChannels()
             .stream()
-            .map(c -> toEntity( c, contactMethods))
+            .map(c -> toEntity(c, contactMethods))
             .toList();
         if (profile.getContactChannels() != null) {
             profile.getContactChannels()
@@ -131,7 +130,7 @@ public final class GuestEntityMapper {
 
     public static final GuestEntity toEntity(final GuestEntity entity, final Guest data,
             final Collection<ContactMethodEntity> contactMethods) {
-        final ProfileEntity               profile;
+        final ProfileEntity                    profile;
         final Collection<ContactChannelEntity> contactChannels;
 
         profile = entity.getProfile();
@@ -150,7 +149,7 @@ public final class GuestEntityMapper {
 
         contactChannels = data.contactChannels()
             .stream()
-            .map(c -> toEntity( c, contactMethods))
+            .map(c -> toEntity(c, contactMethods))
             .toList();
         if (profile.getContactChannels() != null) {
             profile.getContactChannels()
@@ -179,8 +178,8 @@ public final class GuestEntityMapper {
         return new ContactMethod(entity.getNumber(), entity.getName());
     }
 
-    private static final ContactChannelEntity toEntity(
-            final ContactChannel data, final Collection<ContactMethodEntity> contactMethods) {
+    private static final ContactChannelEntity toEntity(final ContactChannel data,
+            final Collection<ContactMethodEntity> contactMethods) {
         final ContactChannelEntity          entity;
         final Optional<ContactMethodEntity> contactMethod;
 

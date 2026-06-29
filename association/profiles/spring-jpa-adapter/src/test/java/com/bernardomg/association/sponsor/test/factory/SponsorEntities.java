@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.SponsorContactChannelEntity;
-import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.SponsorContactMethodEntity;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactChannelEntity;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactMethodEntity;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.SponsorEntity;
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.SponsorEntityConstants;
-import com.bernardomg.association.sponsor.adapter.inbound.jpa.model.SponsorInnerProfileEntity;
 import com.bernardomg.association.sponsor.test.configuration.factory.SponsorConstants;
 import com.bernardomg.association.sponsor.test.configuration.factory.SponsorContactMethodConstants;
 
@@ -54,10 +54,10 @@ public final class SponsorEntities {
         return entity;
     }
 
-    public static final SponsorInnerProfileEntity firstNameChangeProfile() {
-        final SponsorInnerProfileEntity entity;
+    public static final ProfileEntity firstNameChangeProfile() {
+        final ProfileEntity entity;
 
-        entity = new SponsorInnerProfileEntity();
+        entity = new ProfileEntity();
         entity.setId(1L);
         entity.setNumber(SponsorConstants.NUMBER);
         entity.setFirstName(SponsorConstants.CHANGED_FIRST_NAME);
@@ -98,10 +98,10 @@ public final class SponsorEntities {
         return entity;
     }
 
-    private static final SponsorContactMethodEntity email() {
-        final SponsorContactMethodEntity entity;
+    private static final ContactMethodEntity email() {
+        final ContactMethodEntity entity;
 
-        entity = new SponsorContactMethodEntity();
+        entity = new ContactMethodEntity();
         entity.setId(1L);
         entity.setNumber(SponsorContactMethodConstants.NUMBER);
         entity.setName(SponsorContactMethodConstants.EMAIL);
@@ -109,10 +109,10 @@ public final class SponsorEntities {
         return entity;
     }
 
-    private static final SponsorInnerProfileEntity validSponsor() {
-        final SponsorInnerProfileEntity entity;
+    private static final ProfileEntity validSponsor() {
+        final ProfileEntity entity;
 
-        entity = new SponsorInnerProfileEntity();
+        entity = new ProfileEntity();
         entity.setId(1L);
         entity.setNumber(SponsorConstants.NUMBER);
         entity.setFirstName(SponsorConstants.FIRST_NAME);
@@ -127,15 +127,15 @@ public final class SponsorEntities {
         return entity;
     }
 
-    private static final SponsorInnerProfileEntity withEmailSponsor() {
-        final SponsorInnerProfileEntity   entity;
-        final SponsorContactChannelEntity contactChannelEntity;
+    private static final ProfileEntity withEmailSponsor() {
+        final ProfileEntity        entity;
+        final ContactChannelEntity contactChannelEntity;
 
-        contactChannelEntity = new SponsorContactChannelEntity();
+        contactChannelEntity = new ContactChannelEntity();
         contactChannelEntity.setContactMethod(email());
         contactChannelEntity.setDetail(SponsorConstants.EMAIL);
 
-        entity = new SponsorInnerProfileEntity();
+        entity = new ProfileEntity();
         entity.setId(1L);
         entity.setNumber(SponsorConstants.NUMBER);
         entity.setFirstName(SponsorConstants.FIRST_NAME);
@@ -146,8 +146,6 @@ public final class SponsorEntities {
         entity.setAddress(SponsorConstants.ADDRESS);
         entity.setComments(SponsorConstants.COMMENTS);
         entity.setTypes(new HashSet<>());
-
-        contactChannelEntity.setProfile(entity);
 
         return entity;
     }
