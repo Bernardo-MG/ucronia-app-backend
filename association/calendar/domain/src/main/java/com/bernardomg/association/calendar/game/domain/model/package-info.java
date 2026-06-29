@@ -23,7 +23,7 @@
  */
 
 /**
- * Game session model.
+ * Scheduled game model.
  */
 
 package com.bernardomg.association.calendar.game.domain.model;

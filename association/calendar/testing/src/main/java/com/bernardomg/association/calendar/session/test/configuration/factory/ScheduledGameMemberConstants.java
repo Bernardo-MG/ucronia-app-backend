@@ -1,7 +1,7 @@
 
 package com.bernardomg.association.calendar.session.test.configuration.factory;
 
-public final class GameSessionMemberConstants {
+public final class ScheduledGameMemberConstants {
 
     public static final String NAME_MASTER    = "Master";
 

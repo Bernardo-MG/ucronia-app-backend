@@ -38,43 +38,43 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.calendar.activity.test.configuration.factory.ActivityConstants;
-import com.bernardomg.association.calendar.game.domain.exception.MissingGameSessionInfoException;
-import com.bernardomg.association.calendar.game.domain.model.GameSessionInfo;
-import com.bernardomg.association.calendar.game.domain.repository.GameSessionInfoRepository;
-import com.bernardomg.association.calendar.game.usecase.service.DefaultGameSessionInfoService;
-import com.bernardomg.association.calendar.session.test.configuration.factory.GameSessionInfos;
+import com.bernardomg.association.calendar.game.domain.exception.MissingScheduledGameException;
+import com.bernardomg.association.calendar.game.domain.model.ScheduledGame;
+import com.bernardomg.association.calendar.game.domain.repository.ScheduledGameRepository;
+import com.bernardomg.association.calendar.game.usecase.service.DefaultScheduledGameService;
+import com.bernardomg.association.calendar.session.test.configuration.factory.ScheduledGames;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("DefaultGameSessionInfoService - get one")
-class TestGameSessionInfoServiceGetOne {
+@DisplayName("DefaultScheduledGameService - get one")
+class TestScheduledGameServiceGetOne {
 
     @Mock
-    private GameSessionInfoRepository     gameSessionInfoRepository;
+    private ScheduledGameRepository     scheduledGameRepository;
 
     @InjectMocks
-    private DefaultGameSessionInfoService service;
+    private DefaultScheduledGameService service;
 
-    public TestGameSessionInfoServiceGetOne() {
+    public TestScheduledGameServiceGetOne() {
         super();
     }
 
     @Test
     @DisplayName("When there is data it is returned")
     void testFindOne() {
-        final GameSessionInfo           gameSessionInfo;
-        final Optional<GameSessionInfo> read;
+        final ScheduledGame           scheduledGame;
+        final Optional<ScheduledGame> read;
 
         // GIVEN
-        gameSessionInfo = GameSessionInfos.weekly();
-        given(gameSessionInfoRepository.findOne(ActivityConstants.NUMBER)).willReturn(Optional.of(gameSessionInfo));
+        scheduledGame = ScheduledGames.weekly();
+        given(scheduledGameRepository.findOne(ActivityConstants.NUMBER)).willReturn(Optional.of(scheduledGame));
 
         // WHEN
         read = service.getOne(ActivityConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(read)
-            .as("game session info")
-            .contains(gameSessionInfo);
+            .as("scheduled game")
+            .contains(scheduledGame);
     }
 
     @Test
@@ -83,14 +83,14 @@ class TestGameSessionInfoServiceGetOne {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(gameSessionInfoRepository.findOne(ActivityConstants.NUMBER)).willReturn(Optional.empty());
+        given(scheduledGameRepository.findOne(ActivityConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
         execution = () -> service.getOne(ActivityConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingGameSessionInfoException.class);
+            .isInstanceOf(MissingScheduledGameException.class);
     }
 
 }

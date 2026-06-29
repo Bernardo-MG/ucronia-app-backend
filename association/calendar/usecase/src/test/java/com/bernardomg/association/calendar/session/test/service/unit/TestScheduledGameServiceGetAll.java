@@ -37,23 +37,23 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.calendar.game.domain.model.GameSessionInfo;
-import com.bernardomg.association.calendar.game.domain.repository.GameSessionInfoRepository;
-import com.bernardomg.association.calendar.game.usecase.service.DefaultGameSessionInfoService;
-import com.bernardomg.association.calendar.session.test.configuration.factory.GameSessionInfos;
+import com.bernardomg.association.calendar.game.domain.model.ScheduledGame;
+import com.bernardomg.association.calendar.game.domain.repository.ScheduledGameRepository;
+import com.bernardomg.association.calendar.game.usecase.service.DefaultScheduledGameService;
+import com.bernardomg.association.calendar.session.test.configuration.factory.ScheduledGames;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("DefaultGameSessionInfoService - get all")
+@DisplayName("DefaultScheduledGameService - get all")
 class TestActivitieserviceGetAll {
 
     @Mock
-    private GameSessionInfoRepository     gameSessionInfoRepository;
+    private ScheduledGameRepository     scheduledGameRepository;
 
     @InjectMocks
-    private DefaultGameSessionInfoService service;
+    private DefaultScheduledGameService service;
 
     public TestActivitieserviceGetAll() {
         super();
@@ -62,52 +62,52 @@ class TestActivitieserviceGetAll {
     @Test
     @DisplayName("When there is data it is returned")
     void testGetAll() {
-        final Page<GameSessionInfo> gameSessionInfos;
-        final Page<GameSessionInfo> existing;
-        final Pagination            pagination;
-        final Sorting               sorting;
+        final Page<ScheduledGame> scheduledGames;
+        final Page<ScheduledGame> existing;
+        final Pagination          pagination;
+        final Sorting             sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
 
-        existing = new Page<>(List.of(GameSessionInfos.weekly()), 0, 0, 0, 0, 0, false, false, sorting);
-        given(gameSessionInfoRepository.findAll(pagination, sorting)).willReturn(existing);
+        existing = new Page<>(List.of(ScheduledGames.weekly()), 0, 0, 0, 0, 0, false, false, sorting);
+        given(scheduledGameRepository.findAll(pagination, sorting)).willReturn(existing);
 
         // WHEN
-        gameSessionInfos = service.getAll(pagination, sorting);
+        scheduledGames = service.getAll(pagination, sorting);
 
         // THEN
-        Assertions.assertThat(gameSessionInfos)
+        Assertions.assertThat(scheduledGames)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("Activities")
-            .containsExactly(GameSessionInfos.weekly());
+            .containsExactly(ScheduledGames.weekly());
     }
 
     @Test
     @DisplayName("When there is no data nothing is returned")
     void testGetAll_NoData() {
-        final Page<GameSessionInfo> gameSessionInfos;
-        final Page<GameSessionInfo> existing;
-        final Pagination            pagination;
-        final Sorting               sorting;
+        final Page<ScheduledGame> scheduledGames;
+        final Page<ScheduledGame> existing;
+        final Pagination          pagination;
+        final Sorting             sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
 
         existing = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
-        given(gameSessionInfoRepository.findAll(pagination, sorting)).willReturn(existing);
+        given(scheduledGameRepository.findAll(pagination, sorting)).willReturn(existing);
 
         // WHEN
-        gameSessionInfos = service.getAll(pagination, sorting);
+        scheduledGames = service.getAll(pagination, sorting);
 
         // THEN
-        Assertions.assertThat(gameSessionInfos)
+        Assertions.assertThat(scheduledGames)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .as("game session info")
+            .as("scheduled game")
             .isEmpty();
     }
 

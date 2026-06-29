@@ -23,7 +23,7 @@
  */
 
 /**
- * Game session repository.
+ * Scheduled game repository.
  */
 
 package com.bernardomg.association.calendar.game.domain.repository;

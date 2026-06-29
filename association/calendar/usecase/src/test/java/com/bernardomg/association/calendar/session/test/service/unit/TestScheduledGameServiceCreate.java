@@ -27,10 +27,7 @@ package com.bernardomg.association.calendar.session.test.service.unit;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
-import java.util.Optional;
-
 import org.assertj.core.api.Assertions;
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -38,50 +35,54 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.calendar.activity.test.configuration.factory.ActivityConstants;
-import com.bernardomg.association.calendar.game.domain.exception.MissingGameSessionInfoException;
-import com.bernardomg.association.calendar.game.domain.repository.GameSessionInfoRepository;
-import com.bernardomg.association.calendar.game.usecase.service.DefaultGameSessionInfoService;
-import com.bernardomg.association.calendar.session.test.configuration.factory.GameSessionInfos;
+import com.bernardomg.association.calendar.game.domain.model.ScheduledGame;
+import com.bernardomg.association.calendar.game.domain.repository.ScheduledGameRepository;
+import com.bernardomg.association.calendar.game.usecase.service.DefaultScheduledGameService;
+import com.bernardomg.association.calendar.session.test.configuration.factory.ScheduledGames;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("DefaultGameSessionInfoService - delete")
-class TestGameSessionInfoServiceDelete {
+@DisplayName("DefaultScheduledGameService - create")
+class TestScheduledGameServiceCreate {
 
     @Mock
-    private GameSessionInfoRepository     gameSessionInfoRepository;
+    private ScheduledGameRepository     scheduledGameRepository;
 
     @InjectMocks
-    private DefaultGameSessionInfoService service;
+    private DefaultScheduledGameService service;
 
     @Test
-    @DisplayName("When the game session info doesn't exist, an exception is thrown")
-    void testDelete_NotExisting() {
-        final ThrowingCallable execution;
+    @DisplayName("With a valid scheduled game, it is persisted")
+    void testCreate_PersistedData() {
+        final ScheduledGame scheduledGame;
 
         // GIVEN
-        given(gameSessionInfoRepository.findOne(ActivityConstants.NUMBER)).willReturn(Optional.empty());
+        scheduledGame = ScheduledGames.weekly();
 
         // WHEN
-        execution = () -> service.delete(ActivityConstants.NUMBER);
+        service.create(scheduledGame);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingGameSessionInfoException.class);
+        verify(scheduledGameRepository).save(scheduledGame);
     }
 
     @Test
-    @DisplayName("When deleting the repository is called")
-    void testDelete_RemovesEntity() {
+    @DisplayName("With a valid scheduled game, it is returned")
+    void testCreate_ReturnedData() {
+        final ScheduledGame scheduledGame;
+        final ScheduledGame created;
+
         // GIVEN
-        given(gameSessionInfoRepository.findOne(ActivityConstants.NUMBER))
-            .willReturn(Optional.of(GameSessionInfos.weekly()));
+        scheduledGame = ScheduledGames.weekly();
+
+        given(scheduledGameRepository.save(scheduledGame)).willReturn(scheduledGame);
 
         // WHEN
-        service.delete(ActivityConstants.NUMBER);
+        created = service.create(scheduledGame);
 
         // THEN
-        verify(gameSessionInfoRepository).delete(ActivityConstants.NUMBER);
+        Assertions.assertThat(created)
+            .as("activity")
+            .isEqualTo(scheduledGame);
     }
 
 }

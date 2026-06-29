@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneOffset;
 
-public final class GameSessionInfoConstants {
+public final class ScheduledGameConstants {
 
     public static final String  DESCRIPTION = "Description";
 

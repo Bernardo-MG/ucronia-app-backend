@@ -26,65 +26,65 @@ package com.bernardomg.association.calendar.game.usecase.service;
 
 import java.util.Optional;
 
-import com.bernardomg.association.calendar.game.domain.model.GameSessionInfo;
+import com.bernardomg.association.calendar.game.domain.model.ScheduledGame;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 
 /**
- * GameSessionInfo service. Supports all the CRUD operations.
+ * ScheduledGame service. Supports all the CRUD operations.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface GameSessionInfoService {
+public interface ScheduledGameService {
 
     /**
-     * Persists the received game session.
+     * Persists the received scheduled game.
      *
-     * @param gameSessionInfo
-     *            game session to persist
-     * @return the persisted game session
+     * @param scheduledGame
+     *            scheduled game to persist
+     * @return the persisted scheduled game
      */
-    public GameSessionInfo create(final GameSessionInfo gameSessionInfo);
+    public ScheduledGame create(final ScheduledGame scheduledGame);
 
     /**
-     * Deletes the game session with the received id.
+     * Deletes the scheduled game with the received id.
      *
      * @param id
-     *            id of the game session to delete
-     * @return the deleted game session
+     *            id of the scheduled game to delete
+     * @return the deleted scheduled game
      */
-    public GameSessionInfo delete(final long id);
+    public ScheduledGame delete(final long id);
 
     /**
-     * Returns all the game sessions matching the sample. If the sample fields are empty, then all the game sessions are
-     * returned.
+     * Returns all the scheduled games matching the sample. If the sample fields are empty, then all the scheduled games
+     * are returned.
      *
      * @param pagination
      *            pagination to apply
      * @param sorting
      *            sorting to apply
-     * @return all the game sessions matching the sample
+     * @return all the scheduled games matching the sample
      */
-    public Page<GameSessionInfo> getAll(final Pagination pagination, final Sorting sorting);
+    public Page<ScheduledGame> getAll(final Pagination pagination, final Sorting sorting);
 
     /**
-     * Returns the game session for the received id, if it exists. Otherwise an empty {@code Optional} is returned.
+     * Returns the scheduled game for the received id, if it exists. Otherwise an empty {@code Optional} is returned.
      *
      * @param id
-     *            id of the game session to acquire
-     * @return an {@code Optional} with the game session, if it exists, of an empty {@code Optional} otherwise
+     *            id of the scheduled game to acquire
+     * @return an {@code Optional} with the scheduled game, if it exists, of an empty {@code Optional} otherwise
      */
-    public Optional<GameSessionInfo> getOne(final long id);
+    public Optional<ScheduledGame> getOne(final long id);
 
     /**
-     * Updates the received game session.
+     * Updates the received scheduled game.
      *
-     * @param gameSessionInfo
-     *            new data for the game session
-     * @return the updated game session
+     * @param scheduledGame
+     *            new data for the scheduled game
+     * @return the updated scheduled game
      */
-    public GameSessionInfo update(final GameSessionInfo gameSessionInfo);
+    public ScheduledGame update(final ScheduledGame scheduledGame);
 
 }

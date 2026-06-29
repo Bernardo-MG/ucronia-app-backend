@@ -5,7 +5,7 @@ import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 
-public record GameSessionMember(Long number, Name name) {
+public record ScheduledGameMember(Long number, Name name) {
 
     public record Name(String firstName, String lastName) {
 

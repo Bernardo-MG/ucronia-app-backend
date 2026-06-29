@@ -26,21 +26,21 @@ package com.bernardomg.association.calendar.game.domain.repository;
 
 import java.util.Optional;
 
-import com.bernardomg.association.calendar.game.domain.model.GameSessionInfo;
+import com.bernardomg.association.calendar.game.domain.model.ScheduledGame;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 
-public interface GameSessionInfoRepository {
+public interface ScheduledGameRepository {
 
     public void delete(final long number);
 
     public boolean exists(final long number);
 
-    public Page<GameSessionInfo> findAll(final Pagination pagination, final Sorting sorting);
+    public Page<ScheduledGame> findAll(final Pagination pagination, final Sorting sorting);
 
-    public Optional<GameSessionInfo> findOne(final Long number);
+    public Optional<ScheduledGame> findOne(final Long number);
 
-    public GameSessionInfo save(final GameSessionInfo activity);
+    public ScheduledGame save(final ScheduledGame activity);
 
 }

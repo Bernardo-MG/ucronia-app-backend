@@ -23,7 +23,7 @@
  */
 
 /**
- * Game session services.
+ * Scheduled game services.
  */
 
 package com.bernardomg.association.calendar.game.usecase.service;

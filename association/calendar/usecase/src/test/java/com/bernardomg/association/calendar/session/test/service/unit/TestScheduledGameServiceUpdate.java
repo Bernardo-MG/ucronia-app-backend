@@ -37,94 +37,94 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.calendar.activity.test.configuration.factory.ActivityConstants;
-import com.bernardomg.association.calendar.game.domain.exception.MissingGameSessionInfoException;
-import com.bernardomg.association.calendar.game.domain.model.GameSessionInfo;
-import com.bernardomg.association.calendar.game.domain.repository.GameSessionInfoRepository;
-import com.bernardomg.association.calendar.game.usecase.service.DefaultGameSessionInfoService;
-import com.bernardomg.association.calendar.session.test.configuration.factory.GameSessionInfos;
+import com.bernardomg.association.calendar.game.domain.exception.MissingScheduledGameException;
+import com.bernardomg.association.calendar.game.domain.model.ScheduledGame;
+import com.bernardomg.association.calendar.game.domain.repository.ScheduledGameRepository;
+import com.bernardomg.association.calendar.game.usecase.service.DefaultScheduledGameService;
+import com.bernardomg.association.calendar.session.test.configuration.factory.ScheduledGames;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("DefaultGameSessionInfoService - update")
-class TestGameSessionInfoServiceUpdate {
+@DisplayName("DefaultScheduledGameService - update")
+class TestScheduledGameServiceUpdate {
 
     @Mock
-    private GameSessionInfoRepository     gameSessionInfoRepository;
+    private ScheduledGameRepository     scheduledGameRepository;
 
     @InjectMocks
-    private DefaultGameSessionInfoService service;
+    private DefaultScheduledGameService service;
 
     @Test
     @DisplayName("With a not existing entity, an exception is thrown")
     void testUpdate_NotExisting_Exception() {
-        final GameSessionInfo  gameSessionInfo;
+        final ScheduledGame    scheduledGame;
         final ThrowingCallable execution;
 
         // GIVEN
-        gameSessionInfo = GameSessionInfos.weekly();
+        scheduledGame = ScheduledGames.weekly();
 
-        given(gameSessionInfoRepository.exists(ActivityConstants.NUMBER)).willReturn(false);
+        given(scheduledGameRepository.exists(ActivityConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        execution = () -> service.update(gameSessionInfo);
+        execution = () -> service.update(scheduledGame);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingGameSessionInfoException.class);
+            .isInstanceOf(MissingScheduledGameException.class);
     }
 
     @Test
     @DisplayName("With a member with padded name, the member is persisted")
     void testUpdate_Padded_PersistedData() {
-        final GameSessionInfo gameSessionInfo;
+        final ScheduledGame scheduledGame;
 
         // GIVEN
-        gameSessionInfo = GameSessionInfos.weekly();
+        scheduledGame = ScheduledGames.weekly();
 
-        given(gameSessionInfoRepository.exists(ActivityConstants.NUMBER)).willReturn(true);
+        given(scheduledGameRepository.exists(ActivityConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        service.update(gameSessionInfo);
+        service.update(scheduledGame);
 
         // THEN
-        verify(gameSessionInfoRepository).save(GameSessionInfos.weekly());
+        verify(scheduledGameRepository).save(ScheduledGames.weekly());
     }
 
     @Test
-    @DisplayName("With a valid game session info, it is persisted")
+    @DisplayName("With a valid scheduled game, it is persisted")
     void testUpdate_PersistedData() {
-        final GameSessionInfo gameSessionInfo;
+        final ScheduledGame scheduledGame;
 
         // GIVEN
-        gameSessionInfo = GameSessionInfos.weekly();
+        scheduledGame = ScheduledGames.weekly();
 
-        given(gameSessionInfoRepository.exists(ActivityConstants.NUMBER)).willReturn(true);
+        given(scheduledGameRepository.exists(ActivityConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        service.update(gameSessionInfo);
+        service.update(scheduledGame);
 
         // THEN
-        verify(gameSessionInfoRepository).save(GameSessionInfos.weekly());
+        verify(scheduledGameRepository).save(ScheduledGames.weekly());
     }
 
     @Test
-    @DisplayName("With a valid game session info, it is returned")
+    @DisplayName("With a valid scheduled game, it is returned")
     void testUpdate_ReturnedData() {
-        final GameSessionInfo gameSessionInfo;
-        final GameSessionInfo updated;
+        final ScheduledGame scheduledGame;
+        final ScheduledGame updated;
 
         // GIVEN
-        gameSessionInfo = GameSessionInfos.weekly();
+        scheduledGame = ScheduledGames.weekly();
 
-        given(gameSessionInfoRepository.save(gameSessionInfo)).willReturn(gameSessionInfo);
-        given(gameSessionInfoRepository.exists(ActivityConstants.NUMBER)).willReturn(true);
+        given(scheduledGameRepository.save(scheduledGame)).willReturn(scheduledGame);
+        given(scheduledGameRepository.exists(ActivityConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        updated = service.update(gameSessionInfo);
+        updated = service.update(scheduledGame);
 
         // THEN
         Assertions.assertThat(updated)
-            .as("game session info")
-            .isEqualTo(GameSessionInfos.weekly());
+            .as("scheduled game")
+            .isEqualTo(ScheduledGames.weekly());
     }
 
 }
