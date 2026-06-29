@@ -39,11 +39,9 @@ import com.bernardomg.association.profile.adapter.inbound.jpa.repository.JpaProf
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
 import com.bernardomg.association.profile.domain.repository.ProfileRepository;
-import com.bernardomg.association.sponsor.adapter.inbound.jpa.repository.JpaSponsorProfileRepository;
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.repository.JpaSponsorRepository;
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.repository.ReadSponsorSpringRepository;
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.repository.SponsorSpringRepository;
-import com.bernardomg.association.sponsor.domain.repository.SponsorProfileRepository;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
 
 @Configuration
@@ -74,11 +72,6 @@ public class TestConfiguration {
     public ProfileRepository getProfileRepository(final ProfileSpringRepository profileSpringRepository,
             final ContactMethodSpringRepository contactMethodSpringRepository) {
         return new JpaProfileRepository(profileSpringRepository, contactMethodSpringRepository);
-    }
-
-    @Bean("sponsorProfileRepository")
-    public SponsorProfileRepository getSponsorProfileRepository(final ProfileSpringRepository profileSpringRepository) {
-        return new JpaSponsorProfileRepository(profileSpringRepository);
     }
 
     @Bean("sponsorRepository")

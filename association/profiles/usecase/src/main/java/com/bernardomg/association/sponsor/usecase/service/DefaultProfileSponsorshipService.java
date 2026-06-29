@@ -37,10 +37,11 @@ import org.slf4j.LoggerFactory;
 import com.bernardomg.association.profile.domain.model.ContactChannel;
 import com.bernardomg.association.profile.domain.model.ContactMethod;
 import com.bernardomg.association.profile.domain.model.Name;
+import com.bernardomg.association.profile.domain.model.Profile;
+import com.bernardomg.association.profile.domain.repository.ProfileRepository;
 import com.bernardomg.association.sponsor.domain.exception.MissingSponsorProfileException;
 import com.bernardomg.association.sponsor.domain.exception.SponsorExistsException;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
-import com.bernardomg.association.sponsor.domain.repository.SponsorProfileRepository;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
 
 import jakarta.transaction.Transactional;
@@ -57,14 +58,13 @@ public final class DefaultProfileSponsorshipService implements ProfileSponsorshi
     /**
      * Logger for the class.
      */
-    private static final Logger            log = LoggerFactory.getLogger(DefaultProfileSponsorshipService.class);
+    private static final Logger     log = LoggerFactory.getLogger(DefaultProfileSponsorshipService.class);
 
-    private final SponsorProfileRepository profileRepository;
+    private final ProfileRepository profileRepository;
 
-    private final SponsorRepository        sponsorRepository;
+    private final SponsorRepository sponsorRepository;
 
-    public DefaultProfileSponsorshipService(final SponsorRepository sponsorRepo,
-            final SponsorProfileRepository profileRepo) {
+    public DefaultProfileSponsorshipService(final SponsorRepository sponsorRepo, final ProfileRepository profileRepo) {
         super();
 
         sponsorRepository = Objects.requireNonNull(sponsorRepo);
@@ -73,7 +73,7 @@ public final class DefaultProfileSponsorshipService implements ProfileSponsorshi
 
     @Override
     public final Sponsor convertToSponsor(final long number) {
-        final Sponsor                    existing;
+        final Profile                    existing;
         final Sponsor                    toCreate;
         final Sponsor                    created;
         final Collection<ContactChannel> contactChannels;

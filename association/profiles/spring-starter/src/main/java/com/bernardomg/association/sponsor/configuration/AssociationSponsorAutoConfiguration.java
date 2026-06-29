@@ -31,11 +31,10 @@ import org.springframework.context.annotation.ComponentScan;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ContactMethodSpringRepository;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 import com.bernardomg.association.profile.domain.repository.ContactMethodRepository;
-import com.bernardomg.association.sponsor.adapter.inbound.jpa.repository.JpaSponsorProfileRepository;
+import com.bernardomg.association.profile.domain.repository.ProfileRepository;
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.repository.JpaSponsorRepository;
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.repository.ReadSponsorSpringRepository;
 import com.bernardomg.association.sponsor.adapter.inbound.jpa.repository.SponsorSpringRepository;
-import com.bernardomg.association.sponsor.domain.repository.SponsorProfileRepository;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
 import com.bernardomg.association.sponsor.usecase.service.DefaultProfileSponsorshipService;
 import com.bernardomg.association.sponsor.usecase.service.DefaultSponsorService;
@@ -49,13 +48,8 @@ public class AssociationSponsorAutoConfiguration {
 
     @Bean("profileSponsorshipService")
     public ProfileSponsorshipService getProfileSponsorshipService(final SponsorRepository sponsorRepository,
-            final SponsorProfileRepository profileRepository) {
+            final ProfileRepository profileRepository) {
         return new DefaultProfileSponsorshipService(sponsorRepository, profileRepository);
-    }
-
-    @Bean("sponsorProfileRepository")
-    public SponsorProfileRepository getSponsorProfileRepository(final ProfileSpringRepository profileSpringRepository) {
-        return new JpaSponsorProfileRepository(profileSpringRepository);
     }
 
     @Bean("sponsorRepository")

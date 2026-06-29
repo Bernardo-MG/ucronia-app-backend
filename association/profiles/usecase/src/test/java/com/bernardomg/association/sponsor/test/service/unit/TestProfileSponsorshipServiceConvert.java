@@ -38,10 +38,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.association.profile.domain.model.Profile;
+import com.bernardomg.association.profile.domain.repository.ProfileRepository;
+import com.bernardomg.association.profile.test.configuration.factory.Profiles;
 import com.bernardomg.association.sponsor.domain.exception.MissingSponsorProfileException;
 import com.bernardomg.association.sponsor.domain.exception.SponsorExistsException;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
-import com.bernardomg.association.sponsor.domain.repository.SponsorProfileRepository;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
 import com.bernardomg.association.sponsor.test.configuration.factory.SponsorConstants;
 import com.bernardomg.association.sponsor.test.configuration.factory.Sponsors;
@@ -52,7 +54,7 @@ import com.bernardomg.association.sponsor.usecase.service.DefaultProfileSponsors
 class TestProfileSponsorshipServiceConvert {
 
     @Mock
-    private SponsorProfileRepository         profileRepository;
+    private ProfileRepository                profileRepository;
 
     @InjectMocks
     private DefaultProfileSponsorshipService service;
@@ -68,11 +70,11 @@ class TestProfileSponsorshipServiceConvert {
     @DisplayName("With an existing sponsor, an exception is thrown")
     void testConvertToSponsor_ExistingSponsor_Exception() {
         final ThrowingCallable execution;
-        final Sponsor          profile;
+        final Profile          profile;
 
         // GIVEN
         Sponsors.nameChange();
-        profile = Sponsors.valid();
+        profile = Profiles.valid();
 
         given(profileRepository.findOne(SponsorConstants.NUMBER)).willReturn(Optional.of(profile));
         given(sponsorRepository.exists(SponsorConstants.NUMBER)).willReturn(true);
@@ -107,11 +109,11 @@ class TestProfileSponsorshipServiceConvert {
     @DisplayName("When converting to sponsor, the change is persisted")
     void testConvertToSponsor_PersistedData() {
         final Sponsor sponsor;
-        final Sponsor profile;
+        final Profile profile;
 
         // GIVEN
         sponsor = Sponsors.withoutYear();
-        profile = Sponsors.noType();
+        profile = Profiles.valid();
 
         given(profileRepository.findOne(SponsorConstants.NUMBER)).willReturn(Optional.of(profile));
         given(sponsorRepository.exists(SponsorConstants.NUMBER)).willReturn(false);
@@ -127,12 +129,12 @@ class TestProfileSponsorshipServiceConvert {
     @DisplayName("When converting to sponsor, the change is returned")
     void testConvertToSponsor_ReturnedData() {
         final Sponsor sponsor;
-        final Sponsor profile;
+        final Profile profile;
         final Sponsor updated;
 
         // GIVEN
         sponsor = Sponsors.withoutYear();
-        profile = Sponsors.noType();
+        profile = Profiles.valid();
 
         given(profileRepository.findOne(SponsorConstants.NUMBER)).willReturn(Optional.of(profile));
         given(sponsorRepository.exists(SponsorConstants.NUMBER)).willReturn(false);
