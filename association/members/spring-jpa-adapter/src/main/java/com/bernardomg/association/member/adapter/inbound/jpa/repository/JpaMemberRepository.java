@@ -91,6 +91,7 @@ public final class JpaMemberRepository implements MemberRepository {
     public final void delete(final long number) {
         log.debug("Deleting member profile {}", number);
 
+        // TODO: Is not following the same structure as other deletes
         readMemberSpringRepository.deleteByNumber(number);
 
         log.debug("Deleted member profile {}", number);

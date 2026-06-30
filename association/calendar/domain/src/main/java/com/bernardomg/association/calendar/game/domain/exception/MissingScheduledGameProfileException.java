@@ -30,7 +30,7 @@ package com.bernardomg.association.calendar.game.domain.exception;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final class MissingScheduledGameException extends RuntimeException {
+public final class MissingScheduledGameProfileException extends RuntimeException {
 
     private static final long serialVersionUID = -2547922646355830379L;
 
@@ -39,8 +39,8 @@ public final class MissingScheduledGameException extends RuntimeException {
      */
     private final Long        number;
 
-    public MissingScheduledGameException(final long number) {
-        super(String.format("Missing id %s for scheduled game", number));
+    public MissingScheduledGameProfileException(final long number) {
+        super(String.format("Missing id %s for scheduled game profile", number));
 
         this.number = number;
     }

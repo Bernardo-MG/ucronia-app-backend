@@ -22,36 +22,24 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.calendar.game.domain.exception;
+package com.bernardomg.association.calendar.game.adapter.inbound.jpa.repository;
 
-/**
- * Missing scheduled game exception.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
- */
-public final class MissingScheduledGameException extends RuntimeException {
+import java.util.Optional;
 
-    private static final long serialVersionUID = -2547922646355830379L;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 
-    /**
-     * Number which caused the exception.
-     */
-    private final Long        number;
+import com.bernardomg.association.calendar.game.adapter.inbound.jpa.model.ScheduledGameEntity;
 
-    public MissingScheduledGameException(final long number) {
-        super(String.format("Missing id %s for scheduled game", number));
+public interface ScheduledGameSpringRepository
+        extends JpaRepository<ScheduledGameEntity, Long>, JpaSpecificationExecutor<ScheduledGameEntity> {
 
-        this.number = number;
-    }
+    public boolean existsByNumber(long number);
 
-    /**
-     * Returns the number which caused the exception.
-     *
-     * @return the number which caused the exception
-     */
-    public final Long getNumber() {
-        return number;
-    }
+    public Optional<ScheduledGameEntity> findByNumber(long number);
+
+    @Query("SELECT COALESCE(MAX(g.number), 0) + 1 FROM ScheduledGame g")
+    public Long findNextNumber();
 
 }
