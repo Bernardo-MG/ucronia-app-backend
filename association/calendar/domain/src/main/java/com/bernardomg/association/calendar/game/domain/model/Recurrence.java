@@ -14,7 +14,7 @@ public record Recurrence(int interval, RecurrenceUnit unit) {
     }
 
     public enum RecurrenceUnit {
-        DAILY, MONTHLY, WEEKLY, YEARLY
+        DAILY, WEEKLY, MONTHLY
     }
 
 }
