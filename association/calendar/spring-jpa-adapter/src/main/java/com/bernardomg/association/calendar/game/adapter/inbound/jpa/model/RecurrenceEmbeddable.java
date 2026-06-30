@@ -10,11 +10,13 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.Transient;
 
 @Embeddable
 public class RecurrenceEmbeddable implements Serializable {
 
-    private static final long         serialVersionUID = 1L;
+    @Transient
+    private static final long         serialVersionUID = 1174279038101885709L;
 
     @Column(name = "recurrence_interval", nullable = false)
     private Integer                   interval;
