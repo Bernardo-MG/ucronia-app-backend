@@ -1,4 +1,10 @@
 databaseChangeLog:
   - include:
+      file: profile.yaml
+      relativeToChangelogFile: true
+  - include:
       file: calendar.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: scheduledGame.yaml
       relativeToChangelogFile: true

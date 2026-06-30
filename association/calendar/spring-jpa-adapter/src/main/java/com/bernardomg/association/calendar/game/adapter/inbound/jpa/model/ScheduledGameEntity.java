@@ -3,6 +3,7 @@ package com.bernardomg.association.calendar.game.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.Objects;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -58,6 +59,17 @@ public class ScheduledGameEntity implements Serializable {
     @Column(name = "title", nullable = false)
     private String                     title;
 
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof final ScheduledGameEntity other)) {
+            return false;
+        }
+        return Objects.equals(id, other.id);
+    }
+
     public String getDescription() {
         return description;
     }
@@ -100,6 +112,11 @@ public class ScheduledGameEntity implements Serializable {
 
     public String getTitle() {
         return title;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     public void setDescription(final String description) {
@@ -148,8 +165,9 @@ public class ScheduledGameEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "ScheduledGameEntity [id=" + id + ", number=" + number + ", title=" + title + ", location=" + location
-                + ", start=" + start + ", recurrence=" + recurrence + ", published=" + published + "]";
+        return "ScheduledGameEntity [id=" + id + ", number=" + number + ", title=" + title + ", description="
+                + description + ", image=" + image + ", location=" + location + ", master=" + master + ", maxPlayers="
+                + maxPlayers + ", published=" + published + ", recurrence=" + recurrence + ", start=" + start + "]";
     }
 
 }

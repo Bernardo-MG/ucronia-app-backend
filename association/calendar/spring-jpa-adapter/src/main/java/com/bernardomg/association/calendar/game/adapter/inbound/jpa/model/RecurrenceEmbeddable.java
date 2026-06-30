@@ -2,6 +2,7 @@
 package com.bernardomg.association.calendar.game.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import com.bernardomg.association.calendar.game.domain.model.Recurrence;
 
@@ -22,6 +23,18 @@ public class RecurrenceEmbeddable implements Serializable {
     @Column(name = "recurrence_unit", nullable = false)
     private Recurrence.RecurrenceUnit unit;
 
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if ((obj == null) || (getClass() != obj.getClass())) {
+            return false;
+        }
+        final RecurrenceEmbeddable other = (RecurrenceEmbeddable) obj;
+        return Objects.equals(interval, other.interval) && (unit == other.unit);
+    }
+
     public Integer getInterval() {
         return interval;
     }
@@ -30,12 +43,22 @@ public class RecurrenceEmbeddable implements Serializable {
         return unit;
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(interval, unit);
+    }
+
     public void setInterval(final Integer interval) {
         this.interval = interval;
     }
 
     public void setUnit(final Recurrence.RecurrenceUnit unit) {
         this.unit = unit;
+    }
+
+    @Override
+    public String toString() {
+        return "RecurrenceEmbeddable [unit=" + unit + ", interval=" + interval + "]";
     }
 
 }

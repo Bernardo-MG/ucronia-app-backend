@@ -26,6 +26,7 @@ package com.bernardomg.association.calendar.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.Objects;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -53,6 +54,17 @@ public class CalendarDateEntity implements Serializable {
     @Column(name = "start_date", nullable = false)
     private Instant           start;
 
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof final CalendarDateEntity other)) {
+            return false;
+        }
+        return Objects.equals(id, other.id);
+    }
+
     public Instant getEnd() {
         return end;
     }
@@ -63,6 +75,11 @@ public class CalendarDateEntity implements Serializable {
 
     public Instant getStart() {
         return start;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     public void setEnd(final Instant end) {

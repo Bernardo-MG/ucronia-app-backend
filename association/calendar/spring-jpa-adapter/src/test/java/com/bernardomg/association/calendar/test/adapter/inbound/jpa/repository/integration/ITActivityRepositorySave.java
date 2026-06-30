@@ -93,6 +93,7 @@ class ITActivityRepositorySave {
 
     @Test
     @DisplayName("When changing the title, the data is returned")
+    @SingleDayActivity
     void testSave_TitleChange_ReturnedData() {
         final Activity created;
         final Activity activity;

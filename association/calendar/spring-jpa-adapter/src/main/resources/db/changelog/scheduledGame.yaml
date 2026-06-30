@@ -1,0 +1,93 @@
+databaseChangeLog:
+  - changeSet:
+      id: scheduled_game
+      author: Bernardo
+      changes:
+        - createTable:
+            schemaName: calendar
+            tableName: scheduled_games
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: master_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_scheduled_game_profile
+                    references: directory.profiles(id)
+                    deleteCascade: true
+              - column:
+                  name: number
+                  type: bigint
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: title
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(200)
+                  constraints:
+                    nullable: true
+                  defaultValue: ''
+              - column:
+                  name: image
+                  type: varchar(200)
+                  constraints:
+                    nullable: true
+                  defaultValue: ''
+              - column:
+                  name: location
+                  type: varchar(200)
+                  constraints:
+                    nullable: true
+                  defaultValue: ''
+              - column:
+                  name: max_players
+                  type: bigint
+                  constraints:
+                    nullable: true
+                  defaultValueNumeric: 0
+              - column:
+                  name: published
+                  type: boolean
+                  constraints:
+                    nullable: true
+                  defaultValue: 'false'
+              - column:
+                  name: start_date
+                  type: datetime
+                  constraints:
+                    nullable: false
+                  defaultValueComputed: CURRENT_TIMESTAMP
+              - column:
+                  name: recurrence_interval
+                  type: bigint
+                  constraints:
+                    nullable: false
+                  defaultValue: '0'
+              - column:
+                  name: recurrence_unit
+                  type: varchar(6)
+                  constraints:
+                    nullable: false
+                  defaultValue: 'DAILY'
+        - addAutoIncrement:
+            schemaName: calendar
+            tableName: scheduled_games
+            columnName: id
+            columnDataType: bigint
+            incrementBy: 1
+            startWith: 1
+      modifySql:
+        - append:
+            dbms: mysql
+            value: ' ENGINE=InnoDB DEFAULT CHARSET=latin1'
