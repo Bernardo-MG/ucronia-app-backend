@@ -11,21 +11,20 @@ import com.bernardomg.association.calendar.game.test.configuration.factory.Sched
 
 public final class ScheduledGameEntities {
 
-    public static final ScheduledGameEntity titleChange() {
+    public static final ScheduledGameEntity createdWeekly() {
         final ScheduledGameEntity        entity;
         final ScheduledGameProfileEntity profile;
         final RecurrenceEmbeddable       recurrence;
 
         entity = new ScheduledGameEntity();
         entity.setNumber(ScheduledGameConstants.NUMBER);
-        entity.setTitle(ScheduledGameConstants.ALTERNATIVE_TITLE);
+        entity.setTitle(ScheduledGameConstants.TITLE);
         entity.setDescription(ScheduledGameConstants.DESCRIPTION);
         entity.setLocation(ScheduledGameConstants.LOCATION);
         entity.setImage(ScheduledGameConstants.IMAGE);
         entity.setMaxPlayers(ScheduledGameConstants.MAX_PLAYERS);
         entity.setPublished(ScheduledGameConstants.PUBLISHED);
         entity.setStart(ScheduledGameConstants.START);
-        entity.setCalendarDates(new HashSet<>());
 
         recurrence = new RecurrenceEmbeddable();
         recurrence.setInterval(1);
@@ -38,14 +37,14 @@ public final class ScheduledGameEntities {
         return entity;
     }
 
-    public static final ScheduledGameEntity weekly() {
+    public static final ScheduledGameEntity titleChange() {
         final ScheduledGameEntity        entity;
         final ScheduledGameProfileEntity profile;
         final RecurrenceEmbeddable       recurrence;
 
         entity = new ScheduledGameEntity();
         entity.setNumber(ScheduledGameConstants.NUMBER);
-        entity.setTitle(ScheduledGameConstants.TITLE);
+        entity.setTitle(ScheduledGameConstants.ALTERNATIVE_TITLE);
         entity.setDescription(ScheduledGameConstants.DESCRIPTION);
         entity.setLocation(ScheduledGameConstants.LOCATION);
         entity.setImage(ScheduledGameConstants.IMAGE);

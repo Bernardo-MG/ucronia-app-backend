@@ -48,7 +48,7 @@ class ITScheduledGameRepositorySave {
         Assertions.assertThat(scheduledGames)
             .as("scheduled games")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "master.id", "master.number")
-            .containsExactly(ScheduledGameEntities.weekly());
+            .containsExactly(ScheduledGameEntities.createdWeekly());
     }
 
     @Test
