@@ -2,6 +2,13 @@ databaseChangeLog:
   # General
   - include:
       file: classpath:db/changelog/settings.yaml
+  # Association
+  - include:
+      file: transactions.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: fees.yaml
+      relativeToChangelogFile: true
   # Directory
   - include:
       file: profile.yaml
@@ -14,13 +21,6 @@ databaseChangeLog:
       relativeToChangelogFile: true
   - include:
       file: guest.yaml
-      relativeToChangelogFile: true
-  # Association
-  - include:
-      file: transactions.yaml
-      relativeToChangelogFile: true
-  - include:
-      file: fees.yaml
       relativeToChangelogFile: true
   # Calendar
   - include:
