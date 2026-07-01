@@ -8,6 +8,13 @@ permissions:
       - update
       - delete
       - view
+  - resource: scheduled_game
+    actions:
+      - create
+      - read
+      - update
+      - delete
+      - view
   - resource: transaction
     actions:
       - create
