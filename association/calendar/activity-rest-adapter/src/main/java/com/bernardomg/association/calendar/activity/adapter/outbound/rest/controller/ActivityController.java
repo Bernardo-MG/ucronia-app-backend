@@ -91,18 +91,18 @@ public class ActivityController implements ActivityApi {
 
     @Override
     @RequireResourceAuthorization(resource = "ACTIVITY", action = Actions.READ)
-    public ActivityPageResponseDto getAllActivitys(@Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size,
+    public ActivityPageResponseDto getAllActivities(@Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size,
             @Valid final List<@Pattern(regexp = "^(description|title|date)\\|(asc|desc)$") String> sort,
             @Valid final Instant date, @Valid final Instant from, @Valid final Instant to) {
         final Pagination     pagination;
         final Sorting        sorting;
-        final Page<Activity> activitys;
+        final Page<Activity> activities;
 
         pagination = new Pagination(page, size);
         sorting = WebSorting.toSorting(sort);
-        activitys = service.getAll(pagination, sorting);
+        activities = service.getAll(pagination, sorting);
 
-        return ActivityDtoMapper.toResponseDto(activitys);
+        return ActivityDtoMapper.toResponseDto(activities);
     }
 
     @Override

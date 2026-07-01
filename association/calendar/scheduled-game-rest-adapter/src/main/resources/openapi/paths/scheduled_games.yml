@@ -1,29 +1,29 @@
 post:
-  summary: Create a activity.
-  operationId: createActivity
-  tags: [Activity]
+  summary: Create a scheduled game.
+  operationId: createScheduledGame
+  tags: [ScheduledGame]
   requestBody:
     required: true
     content:
       application/json:
         schema:
-          $ref: '../components/activities.yml#/components/schemas/ActivityCreation'
+          $ref: '../components/scheduled_games.yml#/components/schemas/ScheduledGameCreation'
   responses:
     '201':
-      description: Activity created.
+      description: Scheduled game created.
       content:
         application/json:
           schema:
-            $ref: '../components/activities.yml#/components/schemas/ActivityResponse'
+            $ref: '../components/scheduled_games.yml#/components/schemas/ScheduledGameResponse'
 
 get:
-  summary: Get all activities.
-  operationId: getAllActivities
-  tags: [Activity]
+  summary: Get all scheduled games.
+  operationId: getAllScheduledGames
+  tags: [ScheduledGame]
   parameters:
     - $ref: '../common/pagination.yml#/components/parameters/pageParam'
     - $ref: '../common/pagination.yml#/components/parameters/sizeParam'
-    - $ref: '../components/activities.yml#/components/parameters/activitiesSortParam'
+    - $ref: '../components/scheduled_games.yml#/components/parameters/scheduledGamesSortParam'
     - name: date
       description: Date to query for.
       in: query
@@ -41,8 +41,8 @@ get:
         $ref: '../common/dates.yml#/components/schemas/Date'
   responses:
     '200':
-      description: Activities page
+      description: Scheduled games page
       content:
         application/json:
           schema:
-            $ref: '../components/activities.yml#/components/schemas/ActivityPageResponse'
+            $ref: '../components/scheduled_games.yml#/components/schemas/ScheduledGamePageResponse'
