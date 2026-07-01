@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.calendar.test.configuration.data.annotation;
+package com.bernardomg.association.calendar.activity.test.configuration.data.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -10,13 +10,13 @@ import java.lang.annotation.Target;
 
 import org.springframework.test.context.jdbc.Sql;
 
-@Sql("/db/queries/dateInfo/multiple_out_of_order.sql")
-@Sql("/db/queries/calendarDate/multiple.sql")
-@Sql("/db/queries/dateInfo/relationship_multiple.sql")
+@Sql("/db/queries/calendarInfo/activity.sql")
+@Sql("/db/queries/calendarDate/multiple_day_out_of_order.sql")
+@Sql("/db/queries/calendarInfo/relationship_multiple_date.sql")
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-public @interface MultipleActivityOutOfOrder {
+public @interface MultipleDayOutOfOrderActivity {
 
 }

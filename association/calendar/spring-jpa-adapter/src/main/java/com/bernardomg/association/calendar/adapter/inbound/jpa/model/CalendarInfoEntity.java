@@ -37,6 +37,8 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
@@ -46,6 +48,7 @@ import jakarta.persistence.Transient;
 
 @Entity(name = "CalendarInfo")
 @Table(schema = "calendar", name = "calendar_info")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class CalendarInfoEntity implements Serializable {
 
     @Transient
@@ -79,7 +82,7 @@ public class CalendarInfoEntity implements Serializable {
     private String                  title;
 
     @JdbcTypeCode(SqlTypes.JSON)
-    @Column(name = "types")
+    @Column(name = "types", columnDefinition = "jsonb")
     private Set<String>             types;
 
     @Override

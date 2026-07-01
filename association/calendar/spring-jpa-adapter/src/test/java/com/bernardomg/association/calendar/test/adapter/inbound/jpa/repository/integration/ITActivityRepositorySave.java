@@ -10,10 +10,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.bernardomg.association.calendar.TestApplication;
 import com.bernardomg.association.calendar.activity.domain.model.Activity;
 import com.bernardomg.association.calendar.activity.domain.repository.ActivityRepository;
+import com.bernardomg.association.calendar.activity.test.configuration.data.annotation.SingleDayActivity;
 import com.bernardomg.association.calendar.activity.test.configuration.factory.Activities;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.model.CalendarInfoEntity;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.CalendarInfoSpringRepository;
-import com.bernardomg.association.calendar.test.configuration.data.annotation.SingleDayActivity;
 import com.bernardomg.association.calendar.test.factory.CalendarInfoEntities;
 import com.bernardomg.test.annotation.IntegrationTest;
 

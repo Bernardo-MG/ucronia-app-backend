@@ -1,2 +1,2 @@
-INSERT INTO calendar.scheduled_games (id, number, title, description, location, image, master_id, max_players, start_date, recurrence_interval, recurrence_unit, published) VALUES
-   (10, 10, 'Title', 'Game description', 'Location', 'image.png', 1, 5, '2025-02-01T00:00:00', 1, 'WEEKLY', false);
+INSERT INTO calendar.scheduled_games (calendar_info, master_id, max_players, start_date, recurrence_interval, recurrence_unit, published) VALUES
+   (10, 1, 5, '2025-02-01T00:00:00', 1, 'WEEKLY', false);

@@ -39,11 +39,11 @@ import com.bernardomg.association.calendar.TestApplication;
 import com.bernardomg.association.calendar.activity.domain.model.Activity;
 import com.bernardomg.association.calendar.activity.domain.model.Activity.ActivityDate;
 import com.bernardomg.association.calendar.activity.domain.repository.ActivityRepository;
+import com.bernardomg.association.calendar.activity.test.configuration.data.annotation.MultipleDayActivity;
+import com.bernardomg.association.calendar.activity.test.configuration.data.annotation.MultipleDayOutOfOrderActivity;
+import com.bernardomg.association.calendar.activity.test.configuration.data.annotation.SingleDayActivity;
 import com.bernardomg.association.calendar.activity.test.configuration.factory.Activities;
 import com.bernardomg.association.calendar.activity.test.configuration.factory.ActivityConstants;
-import com.bernardomg.association.calendar.test.configuration.data.annotation.MultipleDayActivity;
-import com.bernardomg.association.calendar.test.configuration.data.annotation.MultipleDayOutOfOrderActivity;
-import com.bernardomg.association.calendar.test.configuration.data.annotation.SingleDayActivity;
 import com.bernardomg.association.calendar.test.configuration.factory.CalendarDateConstants;
 import com.bernardomg.test.annotation.IntegrationTest;
 

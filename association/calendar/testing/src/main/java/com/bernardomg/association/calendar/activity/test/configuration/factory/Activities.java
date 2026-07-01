@@ -28,7 +28,7 @@ public final class Activities {
 
         return new Activity(number, ActivityConstants.TITLE + " " + number,
             ActivityConstants.DESCRIPTION + " " + number, ActivityConstants.LOCATION + " " + number,
-            ActivityConstants.IMAGE + "_" + number, List.of(date));
+            ActivityConstants.IMAGE.replace(".png","") + "_" + number + ".png", List.of(date));
     }
 
     public static final Activity future() {

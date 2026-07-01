@@ -81,7 +81,7 @@ databaseChangeLog:
                   defaultValue: ''
               - column:
                   name: types
-                  type: json
+                  type: jsonb
                   defaultValue: '[]'
         - addAutoIncrement:
             schemaName: calendar
