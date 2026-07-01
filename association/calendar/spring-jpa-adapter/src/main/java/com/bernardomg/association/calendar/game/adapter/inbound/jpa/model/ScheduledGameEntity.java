@@ -78,11 +78,11 @@ public class ScheduledGameEntity extends CalendarInfoEntity {
         this.start = start;
     }
 
-
     @Override
     public String toString() {
-        return "ScheduledGameEntity [id=" + getId() + ", number=" + getNumber() + ", title=" + getTitle() + ", description="
-                + getDescription() + ", image=" + getImage() + ", location=" + getLocation() + ", master=" + master
+        return "ScheduledGameEntity [id=" + getId() + ", number=" + getNumber() + ", calendarDates="
+                + getCalendarDates() + ", description=" + getDescription() + ", image=" + getImage() + ", location="
+                + getLocation() + ", title=" + getTitle() + ", types=" + getTypes() + ", master=" + master
                 + ", maxPlayers=" + maxPlayers + ", published=" + published + ", recurrence=" + recurrence + ", start="
                 + start + "]";
     }

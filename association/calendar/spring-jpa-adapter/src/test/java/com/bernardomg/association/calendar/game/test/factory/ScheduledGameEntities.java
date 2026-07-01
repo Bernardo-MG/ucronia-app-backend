@@ -1,6 +1,8 @@
 
 package com.bernardomg.association.calendar.game.test.factory;
 
+import java.util.HashSet;
+
 import com.bernardomg.association.calendar.game.adapter.inbound.jpa.model.RecurrenceEmbeddable;
 import com.bernardomg.association.calendar.game.adapter.inbound.jpa.model.ScheduledGameEntity;
 import com.bernardomg.association.calendar.game.adapter.inbound.jpa.model.ScheduledGameProfileEntity;
@@ -23,6 +25,7 @@ public final class ScheduledGameEntities {
         entity.setMaxPlayers(ScheduledGameConstants.MAX_PLAYERS);
         entity.setPublished(ScheduledGameConstants.PUBLISHED);
         entity.setStart(ScheduledGameConstants.START);
+        entity.setCalendarDates(new HashSet<>());
 
         recurrence = new RecurrenceEmbeddable();
         recurrence.setInterval(1);
@@ -49,6 +52,7 @@ public final class ScheduledGameEntities {
         entity.setMaxPlayers(ScheduledGameConstants.MAX_PLAYERS);
         entity.setPublished(ScheduledGameConstants.PUBLISHED);
         entity.setStart(ScheduledGameConstants.START);
+        entity.setCalendarDates(new HashSet<>());
 
         recurrence = new RecurrenceEmbeddable();
         recurrence.setInterval(1);
