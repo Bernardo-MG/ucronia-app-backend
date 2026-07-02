@@ -72,6 +72,11 @@
             <artifactId>association-activity-rest-adapter</artifactId>
             <version>${project.version}</version>
          </dependency>
+         <dependency>
+            <groupId>com.bernardomg.association.calendar</groupId>
+            <artifactId>association-scheduled-game-rest-adapter</artifactId>
+            <version>${project.version}</version>
+         </dependency>
       </dependencies>
    </dependencyManagement>
 
