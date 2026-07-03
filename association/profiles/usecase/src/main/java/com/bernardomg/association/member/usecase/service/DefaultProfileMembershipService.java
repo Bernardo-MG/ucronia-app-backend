@@ -35,10 +35,10 @@ import org.slf4j.LoggerFactory;
 import com.bernardomg.association.fee.domain.exception.MissingFeeTypeException;
 import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
 import com.bernardomg.association.member.domain.exception.MemberExistsException;
-import com.bernardomg.association.member.domain.exception.MissingMemberProfileException;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.Member.FeeType;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.profile.domain.exception.MissingProfileException;
 import com.bernardomg.association.profile.domain.model.Name;
 import com.bernardomg.association.profile.domain.model.Profile;
 import com.bernardomg.association.profile.domain.repository.ProfileRepository;
@@ -88,7 +88,7 @@ public final class DefaultProfileMembershipService implements ProfileMembershipS
         existing = profileRepository.findOne(number)
             .orElseThrow(() -> {
                 log.error("Missing profile {}", number);
-                throw new MissingMemberProfileException(number);
+                throw new MissingProfileException(number);
             });
 
         if (existing.types()

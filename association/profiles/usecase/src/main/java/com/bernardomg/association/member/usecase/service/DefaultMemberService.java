@@ -32,7 +32,6 @@ import org.slf4j.LoggerFactory;
 
 import com.bernardomg.association.fee.domain.exception.MissingFeeTypeException;
 import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
-import com.bernardomg.association.member.domain.exception.MissingMemberContactMethodException;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.Member;
@@ -40,6 +39,7 @@ import com.bernardomg.association.member.domain.repository.MemberContactMethodRe
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.usecase.validation.MemberIdentifierNotExistForAnotherRule;
 import com.bernardomg.association.member.usecase.validation.MemberIdentifierNotExistRule;
+import com.bernardomg.association.profile.domain.exception.MissingContactMethodException;
 import com.bernardomg.association.profile.domain.model.ContactChannel;
 import com.bernardomg.association.profile.domain.model.ContactMethod;
 import com.bernardomg.association.profile.domain.model.Name;
@@ -245,7 +245,7 @@ public final class DefaultMemberService implements MemberService {
     private final void checkContactMethodExists(final ContactMethod contactMethod) {
         if (!contactMethodRepository.exists(contactMethod.number())) {
             log.error("Missing contact method {}", contactMethod.number());
-            throw new MissingMemberContactMethodException(contactMethod.number());
+            throw new MissingContactMethodException(contactMethod.number());
         }
     }
 

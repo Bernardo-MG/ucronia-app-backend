@@ -42,12 +42,12 @@ import com.bernardomg.association.fee.domain.exception.MissingFeeTypeException;
 import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.member.domain.exception.MemberExistsException;
-import com.bernardomg.association.member.domain.exception.MissingMemberProfileException;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.factory.MemberConstants;
 import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.association.member.usecase.service.DefaultProfileMembershipService;
+import com.bernardomg.association.profile.domain.exception.MissingProfileException;
 import com.bernardomg.association.profile.domain.model.Profile;
 import com.bernardomg.association.profile.domain.repository.ProfileRepository;
 import com.bernardomg.association.profile.test.configuration.factory.Profiles;
@@ -116,7 +116,7 @@ class TestProfileMembershipServiceConvert {
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingMemberProfileException.class);
+            .isInstanceOf(MissingProfileException.class);
     }
 
     @Test

@@ -34,12 +34,12 @@ import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.bernardomg.association.profile.domain.exception.MissingProfileException;
 import com.bernardomg.association.profile.domain.model.ContactChannel;
 import com.bernardomg.association.profile.domain.model.ContactMethod;
 import com.bernardomg.association.profile.domain.model.Name;
 import com.bernardomg.association.profile.domain.model.Profile;
 import com.bernardomg.association.profile.domain.repository.ProfileRepository;
-import com.bernardomg.association.sponsor.domain.exception.MissingSponsorProfileException;
 import com.bernardomg.association.sponsor.domain.exception.SponsorExistsException;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
 import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
@@ -85,7 +85,7 @@ public final class DefaultProfileSponsorshipService implements ProfileSponsorshi
         existing = profileRepository.findOne(number)
             .orElseThrow(() -> {
                 log.error("Missing profile {}", number);
-                throw new MissingSponsorProfileException(number);
+                throw new MissingProfileException(number);
             });
 
         if (sponsorRepository.exists(number)) {
