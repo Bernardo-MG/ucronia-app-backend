@@ -27,6 +27,7 @@ package com.bernardomg.association.fee.adapter.inbound.jpa.model;
 import java.util.Optional;
 
 import com.bernardomg.association.fee.domain.model.FeeProfile;
+import com.bernardomg.association.profile.domain.model.Name;
 
 /**
  * Profile entity mapper.
@@ -34,9 +35,9 @@ import com.bernardomg.association.fee.domain.model.FeeProfile;
 public final class FeeProfileEntityMapper {
 
     public static final FeeProfile toDomain(final FeeProfileEntity entity) {
-        final FeeProfile.Name name;
+        final Name name;
 
-        name = new FeeProfile.Name(entity.getFirstName(), entity.getLastName());
+        name = new Name(entity.getFirstName(), entity.getLastName());
 
         return new FeeProfile(Optional.ofNullable(entity.getIdentifier()), entity.getNumber(), name);
     }

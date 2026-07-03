@@ -37,8 +37,8 @@ import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeType;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.model.Name;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.profile.domain.model.Name;
 
 import jakarta.transaction.Transactional;
 

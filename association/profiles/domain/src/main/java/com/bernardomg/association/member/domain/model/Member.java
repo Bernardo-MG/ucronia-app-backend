@@ -33,6 +33,9 @@ import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.bernardomg.association.profile.domain.model.ContactChannel;
+import com.bernardomg.association.profile.domain.model.Name;
+
 public record Member(Optional<String> identifier, Long number, Name name, Optional<Instant> birthDate,
         Collection<ContactChannel> contactChannels, Optional<String> address, Optional<String> comments, Boolean active,
         Boolean renew, FeeType feeType, Set<String> types) {
@@ -97,28 +100,6 @@ public record Member(Optional<String> identifier, Long number, Name name, Option
     public Member activated() {
         return new Member(identifier, number, name, birthDate, contactChannels, address, comments, true, true, feeType,
             types);
-    }
-
-    public record ContactChannel(ContactMethod contactMethod, String detail) {
-
-        public ContactChannel(final ContactMethod contactMethod, final String detail) {
-            Objects.requireNonNull(detail);
-
-            this.contactMethod = Objects.requireNonNull(contactMethod);
-            this.detail = StringUtils.trim(detail);
-        }
-
-    }
-
-    public record ContactMethod(Long number, String name) {
-
-        public ContactMethod(final Long number, final String name) {
-            Objects.requireNonNull(name);
-
-            this.number = Objects.requireNonNull(number);
-            this.name = StringUtils.trim(name);
-        }
-
     }
 
 }

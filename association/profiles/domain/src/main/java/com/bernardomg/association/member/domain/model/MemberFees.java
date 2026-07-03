@@ -29,6 +29,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
+import com.bernardomg.association.profile.domain.model.Name;
+
 public record MemberFees(Member member, Collection<Fee> fees) {
 
     public MemberFees(final Member member, final Collection<Fee> fees) {

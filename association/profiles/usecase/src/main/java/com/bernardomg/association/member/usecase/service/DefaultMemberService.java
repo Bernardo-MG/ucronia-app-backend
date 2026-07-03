@@ -36,13 +36,13 @@ import com.bernardomg.association.member.domain.exception.MissingMemberContactMe
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.model.Member.ContactChannel;
-import com.bernardomg.association.member.domain.model.Member.ContactMethod;
-import com.bernardomg.association.member.domain.model.Name;
 import com.bernardomg.association.member.domain.repository.MemberContactMethodRepository;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.usecase.validation.MemberIdentifierNotExistForAnotherRule;
 import com.bernardomg.association.member.usecase.validation.MemberIdentifierNotExistRule;
+import com.bernardomg.association.profile.domain.model.ContactChannel;
+import com.bernardomg.association.profile.domain.model.ContactMethod;
+import com.bernardomg.association.profile.domain.model.Name;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;

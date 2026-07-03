@@ -63,9 +63,9 @@ import com.bernardomg.association.member.domain.exception.MissingMemberException
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.MemberFees;
 import com.bernardomg.association.member.domain.model.MemberStatus;
-import com.bernardomg.association.member.domain.model.Name;
 import com.bernardomg.association.member.domain.model.YearsRange;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.profile.domain.model.Name;
 import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;

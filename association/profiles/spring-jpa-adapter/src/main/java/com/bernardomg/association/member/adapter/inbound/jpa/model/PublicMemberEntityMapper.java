@@ -24,8 +24,8 @@
 
 package com.bernardomg.association.member.adapter.inbound.jpa.model;
 
-import com.bernardomg.association.member.domain.model.Name;
 import com.bernardomg.association.member.domain.model.PublicMember;
+import com.bernardomg.association.profile.domain.model.Name;
 
 /**
  * Public member entity mapper.

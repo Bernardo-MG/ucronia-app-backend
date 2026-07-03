@@ -59,6 +59,7 @@ import com.bernardomg.association.member.usecase.service.MemberStatusService;
 import com.bernardomg.association.member.usecase.service.MembershipEvolutionService;
 import com.bernardomg.association.member.usecase.service.ProfileMembershipService;
 import com.bernardomg.association.member.usecase.service.PublicMemberService;
+import com.bernardomg.association.profile.domain.repository.ProfileRepository;
 
 @Configuration
 @ComponentScan({ "com.bernardomg.association.member.adapter.outbound.rest.controller",
@@ -133,8 +134,9 @@ public class AssociationMemberAutoConfiguration {
 
     @Bean("profileMembershipService")
     public ProfileMembershipService getProfileMembershipService(final MemberRepository memberRepository,
-            final FeeTypeRepository feeTypeRepository) {
-        return new DefaultProfileMembershipService(memberRepository, feeTypeRepository);
+            final FeeTypeRepository feeTypeRepository,
+            final ProfileRepository profileRepository) {
+        return new DefaultProfileMembershipService(memberRepository, feeTypeRepository,profileRepository);
     }
 
     @Bean("publicMemberRepository")

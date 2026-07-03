@@ -6,8 +6,8 @@ import java.util.List;
 
 import com.bernardomg.association.member.domain.model.MemberFees;
 import com.bernardomg.association.member.domain.model.MemberFees.Fee;
-import com.bernardomg.association.member.domain.model.Name;
 import com.bernardomg.association.member.test.configuration.factory.MemberConstants;
+import com.bernardomg.association.profile.domain.model.Name;
 
 public final class MembersFees {
 

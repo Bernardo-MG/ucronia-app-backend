@@ -4,7 +4,7 @@ package com.bernardomg.association.fee.test.configuration.factory;
 import java.util.Optional;
 
 import com.bernardomg.association.fee.domain.model.FeeProfile;
-import com.bernardomg.association.fee.domain.model.FeeProfile.Name;
+import com.bernardomg.association.profile.domain.model.Name;
 
 public final class FeeProfiles {
 

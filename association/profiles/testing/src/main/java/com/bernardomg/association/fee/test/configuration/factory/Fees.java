@@ -8,8 +8,8 @@ import java.time.ZoneOffset;
 
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeType;
-import com.bernardomg.association.member.domain.model.Name;
 import com.bernardomg.association.member.test.configuration.factory.MemberConstants;
+import com.bernardomg.association.profile.domain.model.Name;
 
 public final class Fees {
 

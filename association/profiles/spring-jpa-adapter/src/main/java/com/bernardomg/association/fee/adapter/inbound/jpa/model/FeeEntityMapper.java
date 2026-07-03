@@ -30,7 +30,7 @@ import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.Fee.Transaction;
 import com.bernardomg.association.fee.domain.model.FeeType;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
-import com.bernardomg.association.member.domain.model.Name;
+import com.bernardomg.association.profile.domain.model.Name;
 
 /**
  * Fee repository mapper.

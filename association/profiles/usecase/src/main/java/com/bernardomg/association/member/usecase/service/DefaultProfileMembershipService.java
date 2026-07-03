@@ -38,8 +38,10 @@ import com.bernardomg.association.member.domain.exception.MemberExistsException;
 import com.bernardomg.association.member.domain.exception.MissingMemberProfileException;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.Member.FeeType;
-import com.bernardomg.association.member.domain.model.Name;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.profile.domain.model.Name;
+import com.bernardomg.association.profile.domain.model.Profile;
+import com.bernardomg.association.profile.domain.repository.ProfileRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -61,16 +63,20 @@ public final class DefaultProfileMembershipService implements ProfileMembershipS
 
     private final MemberRepository  memberRepository;
 
-    public DefaultProfileMembershipService(final MemberRepository memberRepo, final FeeTypeRepository feeTypeRepo) {
+    private final ProfileRepository profileRepository;
+
+    public DefaultProfileMembershipService(final MemberRepository memberRepo, final FeeTypeRepository feeTypeRepo,
+            final ProfileRepository profileRepo) {
         super();
 
         memberRepository = Objects.requireNonNull(memberRepo);
         feeTypeRepository = Objects.requireNonNull(feeTypeRepo);
+        profileRepository = Objects.requireNonNull(profileRepo);
     }
 
     @Override
     public final Member convertToMember(final long number, final long feeType) {
-        final Member      existing;
+        final Profile     existing;
         final Member      toCreate;
         final Member      created;
         final FeeType     memberFeeType;
@@ -79,7 +85,7 @@ public final class DefaultProfileMembershipService implements ProfileMembershipS
 
         log.debug("Converting profile {} to member", number);
 
-        existing = memberRepository.findOne(number)
+        existing = profileRepository.findOne(number)
             .orElseThrow(() -> {
                 log.error("Missing profile {}", number);
                 throw new MissingMemberProfileException(number);

@@ -30,10 +30,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.model.Member.ContactChannel;
-import com.bernardomg.association.member.domain.model.Member.ContactMethod;
 import com.bernardomg.association.member.domain.model.Member.FeeType;
-import com.bernardomg.association.member.domain.model.Name;
+import com.bernardomg.association.profile.domain.model.ContactChannel;
+import com.bernardomg.association.profile.domain.model.ContactMethod;
+import com.bernardomg.association.profile.domain.model.Name;
 
 /**
  * Member entity mapper.
