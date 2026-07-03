@@ -38,7 +38,7 @@ import com.bernardomg.association.guest.domain.model.Guest;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
 import com.bernardomg.association.guest.test.configuration.data.annotation.MultipleGuests;
 import com.bernardomg.association.guest.test.configuration.factory.Guests;
-import com.bernardomg.association.profile.TestApplication;
+import com.bernardomg.association.TestApplication;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;

@@ -19,10 +19,10 @@
    <!-- ********************************************** -->
 
    <groupId>com.bernardomg.association.profile</groupId>
-   <artifactId>association-profile-testing</artifactId>
+   <artifactId>association-profile-event-adapter</artifactId>
    <packaging>jar</packaging>
 
-   <name>Association Profiles Testing</name>
+   <name>Association Profiles Event Adapter</name>
 
    <!-- ********************************************** -->
    <!-- *************** DEPENDENCIES ***************** -->
@@ -30,14 +30,20 @@
 
    <dependencies>
       <dependency>
+         <groupId>com.bernardomg.framework</groupId>
+         <artifactId>event</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.scheduler</groupId>
+         <artifactId>scheduler-domain</artifactId>
+      </dependency>
+      <dependency>
          <groupId>com.bernardomg.association.profile</groupId>
          <artifactId>association-profile-domain</artifactId>
       </dependency>
       <dependency>
-         <!-- JUnit Jupiter Params -->
-         <groupId>org.junit.jupiter</groupId>
-         <artifactId>junit-jupiter-params</artifactId>
-         <scope>provided</scope>
+         <groupId>com.bernardomg.association.profile</groupId>
+         <artifactId>association-profile-usecase</artifactId>
       </dependency>
    </dependencies>
 

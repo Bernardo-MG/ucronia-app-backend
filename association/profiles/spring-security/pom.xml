@@ -19,10 +19,10 @@
    <!-- ********************************************** -->
 
    <groupId>com.bernardomg.association.profile</groupId>
-   <artifactId>association-profile-testing</artifactId>
+   <artifactId>association-profile-spring-security-adapter</artifactId>
    <packaging>jar</packaging>
 
-   <name>Association Profiles Testing</name>
+   <name>Association Profiles User Security Adapter</name>
 
    <!-- ********************************************** -->
    <!-- *************** DEPENDENCIES ***************** -->
@@ -34,10 +34,23 @@
          <artifactId>association-profile-domain</artifactId>
       </dependency>
       <dependency>
-         <!-- JUnit Jupiter Params -->
-         <groupId>org.junit.jupiter</groupId>
-         <artifactId>junit-jupiter-params</artifactId>
-         <scope>provided</scope>
+         <groupId>com.bernardomg.association.profile</groupId>
+         <artifactId>association-profile-usecase</artifactId>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- ================== SPRING ==================== -->
+      <!-- ============================================== -->
+      <dependency>
+         <groupId>org.springframework.security</groupId>
+         <artifactId>spring-security-core</artifactId>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
+      <!-- ============================================== -->
+      <dependency>
+         <groupId>com.bernardomg.association.profile</groupId>
+         <artifactId>association-profile-testing</artifactId>
+         <scope>test</scope>
       </dependency>
    </dependencies>
 
