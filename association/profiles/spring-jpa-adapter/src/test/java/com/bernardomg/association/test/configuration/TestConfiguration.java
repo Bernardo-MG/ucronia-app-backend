@@ -97,30 +97,6 @@ public class TestConfiguration {
         return new JpaContactMethodRepository(contactMethodSpringRepository);
     }
 
-    @Bean("guestRepository")
-    public GuestRepository getGuestRepository(final GuestSpringRepository guestSpringRepository,
-            final ReadGuestSpringRepository readGuestSpringRepository,
-            final ProfileSpringRepository profileSpringRepository,
-            final ContactMethodSpringRepository contactMethodSpringRepository) {
-        return new JpaGuestRepository(guestSpringRepository, readGuestSpringRepository, profileSpringRepository,
-            contactMethodSpringRepository);
-    }
-
-    @Bean("profileRepository")
-    public ProfileRepository getProfileRepository(final ProfileSpringRepository profileSpringRepository,
-            final ContactMethodSpringRepository contactMethodSpringRepository) {
-        return new JpaProfileRepository(profileSpringRepository, contactMethodSpringRepository);
-    }
-
-    @Bean("sponsorRepository")
-    public SponsorRepository getSponsorRepository(final SponsorSpringRepository sponsorSpringRepository,
-            final ReadSponsorSpringRepository readSponsorSpringRepository,
-            final ContactMethodSpringRepository contactMethodSpringRepository,
-            final ProfileSpringRepository profileSpringRepository) {
-        return new JpaSponsorRepository(sponsorSpringRepository, readSponsorSpringRepository,
-            contactMethodSpringRepository, profileSpringRepository);
-    }
-
     @Bean("feeProfileRepository")
     public FeeProfileRepository
             getFeeProfileRepository(final FeeAssignedProfileSpringRepository feeProfileSpringRepository) {
@@ -151,6 +127,15 @@ public class TestConfiguration {
         return new JpaFeeTypeRepository(feeTypeSpringRepository);
     }
 
+    @Bean("guestRepository")
+    public GuestRepository getGuestRepository(final GuestSpringRepository guestSpringRepository,
+            final ReadGuestSpringRepository readGuestSpringRepository,
+            final ProfileSpringRepository profileSpringRepository,
+            final ContactMethodSpringRepository contactMethodSpringRepository) {
+        return new JpaGuestRepository(guestSpringRepository, readGuestSpringRepository, profileSpringRepository,
+            contactMethodSpringRepository);
+    }
+
     @Bean("memberContactMethodRepository")
     public MemberContactMethodRepository
             getMemberContactMethodRepository(final MemberContactMethodSpringRepository contactMethodSpringRepository) {
@@ -177,9 +162,24 @@ public class TestConfiguration {
         return new JpaMembershipEvolutionRepository(memberSpringRepository);
     }
 
+    @Bean("profileRepository")
+    public ProfileRepository getProfileRepository(final ProfileSpringRepository profileSpringRepository,
+            final ContactMethodSpringRepository contactMethodSpringRepository) {
+        return new JpaProfileRepository(profileSpringRepository, contactMethodSpringRepository);
+    }
+
     @Bean("publicMemberRepository")
     public PublicMemberRepository getPublicMemberRepository(final PublicMemberSpringRepository memberSpringRepository) {
         return new JpaPublicMemberRepository(memberSpringRepository);
+    }
+
+    @Bean("sponsorRepository")
+    public SponsorRepository getSponsorRepository(final SponsorSpringRepository sponsorSpringRepository,
+            final ReadSponsorSpringRepository readSponsorSpringRepository,
+            final ContactMethodSpringRepository contactMethodSpringRepository,
+            final ProfileSpringRepository profileSpringRepository) {
+        return new JpaSponsorRepository(sponsorSpringRepository, readSponsorSpringRepository,
+            contactMethodSpringRepository, profileSpringRepository);
     }
 
 }

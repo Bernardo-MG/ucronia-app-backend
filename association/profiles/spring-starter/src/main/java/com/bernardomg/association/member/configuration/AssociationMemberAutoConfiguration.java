@@ -134,9 +134,8 @@ public class AssociationMemberAutoConfiguration {
 
     @Bean("profileMembershipService")
     public ProfileMembershipService getProfileMembershipService(final MemberRepository memberRepository,
-            final FeeTypeRepository feeTypeRepository,
-            final ProfileRepository profileRepository) {
-        return new DefaultProfileMembershipService(memberRepository, feeTypeRepository,profileRepository);
+            final FeeTypeRepository feeTypeRepository, final ProfileRepository profileRepository) {
+        return new DefaultProfileMembershipService(memberRepository, feeTypeRepository, profileRepository);
     }
 
     @Bean("publicMemberRepository")
