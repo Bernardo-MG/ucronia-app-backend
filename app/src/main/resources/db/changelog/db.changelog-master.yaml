@@ -2,12 +2,9 @@ databaseChangeLog:
   # General
   - include:
       file: classpath:db/changelog/settings.yaml
-  # Directory
+  # Profiles
   - include:
       file: profile.yaml
-      relativeToChangelogFile: true
-  - include:
-      file: member.yaml
       relativeToChangelogFile: true
   - include:
       file: sponsor.yaml
@@ -15,12 +12,16 @@ databaseChangeLog:
   - include:
       file: guest.yaml
       relativeToChangelogFile: true
-  # Association
+  # Funds
   - include:
       file: transactions.yaml
       relativeToChangelogFile: true
   - include:
       file: fees.yaml
+      relativeToChangelogFile: true
+  # Member
+  - include:
+      file: member.yaml
       relativeToChangelogFile: true
   # Calendar
   - include:
