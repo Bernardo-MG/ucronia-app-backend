@@ -35,7 +35,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
-
+/**
+ * TODO: creation and edition dates
+ */
 @Entity(name = "CalendarDate")
 @Table(schema = "calendar", name = "calendar_dates")
 public class CalendarDateEntity implements Serializable {

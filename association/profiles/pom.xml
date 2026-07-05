@@ -33,9 +33,13 @@
      <module>testing</module>
      <module>usecase</module>
      <module>spring-jpa-adapter</module>
+     <module>event-adapter</module>
      <module>rest-adapter</module>
      <module>guest-rest-adapter</module>
      <module>sponsor-rest-adapter</module>
+     <module>fee-rest-adapter</module>
+     <module>member-rest-adapter</module>
+     <module>spring-security</module>
      <module>spring-starter</module>
    </modules>
 
@@ -65,12 +69,42 @@
          </dependency>
          <dependency>
             <groupId>com.bernardomg.association.profile</groupId>
+            <artifactId>association-profile-event-adapter</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.association.profile</groupId>
             <artifactId>association-profile-spring-jpa-adapter</artifactId>
             <version>${project.version}</version>
          </dependency>
          <dependency>
             <groupId>com.bernardomg.association.profile</groupId>
+            <artifactId>association-profile-spring-security-adapter</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.association.profile</groupId>
             <artifactId>association-profile-rest-adapter</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.association.profile</groupId>
+            <artifactId>association-guest-rest-adapter</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.association.profile</groupId>
+            <artifactId>association-sponsor-rest-adapter</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.association.profile</groupId>
+            <artifactId>association-member-rest-adapter</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.association.profile</groupId>
+            <artifactId>association-fee-rest-adapter</artifactId>
             <version>${project.version}</version>
          </dependency>
       </dependencies>

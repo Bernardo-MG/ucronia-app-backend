@@ -30,13 +30,13 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bernardomg.association.guest.domain.exception.MissingGuestContactMethodException;
 import com.bernardomg.association.guest.domain.exception.MissingGuestException;
 import com.bernardomg.association.guest.domain.filter.GuestFilter;
 import com.bernardomg.association.guest.domain.model.Guest;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
 import com.bernardomg.association.guest.usecase.validation.GuestIdentifierNotExistForAnotherRule;
 import com.bernardomg.association.guest.usecase.validation.GuestIdentifierNotExistRule;
+import com.bernardomg.association.profile.domain.exception.MissingContactMethodException;
 import com.bernardomg.association.profile.domain.model.ContactChannel;
 import com.bernardomg.association.profile.domain.model.ContactMethod;
 import com.bernardomg.association.profile.domain.model.Name;
@@ -214,7 +214,7 @@ public final class DefaultGuestService implements GuestService {
     private final void checkContactMethodExists(final ContactMethod contactMethod) {
         if (!contactMethodRepository.exists(contactMethod.number())) {
             log.error("Missing contact method {}", contactMethod.number());
-            throw new MissingGuestContactMethodException(contactMethod.number());
+            throw new MissingContactMethodException(contactMethod.number());
         }
     }
 

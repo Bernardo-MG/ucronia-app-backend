@@ -39,11 +39,11 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.guest.domain.exception.GuestExistsException;
-import com.bernardomg.association.guest.domain.exception.MissingGuestProfileException;
 import com.bernardomg.association.guest.domain.model.Guest;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
 import com.bernardomg.association.guest.test.configuration.factory.Guests;
 import com.bernardomg.association.guest.usecase.service.DefaultProfileGuestService;
+import com.bernardomg.association.profile.domain.exception.MissingProfileException;
 import com.bernardomg.association.profile.domain.model.Profile;
 import com.bernardomg.association.profile.domain.repository.ProfileRepository;
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
@@ -102,7 +102,7 @@ class TestProfileGuestServiceConvert {
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingGuestProfileException.class);
+            .isInstanceOf(MissingProfileException.class);
     }
 
     @Test

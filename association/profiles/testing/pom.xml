@@ -33,6 +33,12 @@
          <groupId>com.bernardomg.association.profile</groupId>
          <artifactId>association-profile-domain</artifactId>
       </dependency>
+      <dependency>
+         <!-- JUnit Jupiter Params -->
+         <groupId>org.junit.jupiter</groupId>
+         <artifactId>junit-jupiter-params</artifactId>
+         <scope>provided</scope>
+      </dependency>
    </dependencies>
 
 </project>
