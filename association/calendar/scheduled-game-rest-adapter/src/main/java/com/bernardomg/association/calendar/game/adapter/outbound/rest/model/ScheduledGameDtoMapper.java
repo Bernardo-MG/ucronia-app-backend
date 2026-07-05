@@ -68,7 +68,7 @@ public final class ScheduledGameDtoMapper {
         final Recurrence          recurrence;
         final RecurrenceUnit      recurrenceUnit;
 
-        master = new ScheduledGameMember(creation.getNumber(), new Name("", ""));
+        master = new ScheduledGameMember(creation.getMaster(), new Name("", ""));
         recurrenceUnit = RecurrenceUnit.valueOf(creation.getRecurrence()
             .getUnit()
             .toString()
