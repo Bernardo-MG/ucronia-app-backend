@@ -34,9 +34,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bernardomg.association.guest.domain.exception.GuestExistsException;
-import com.bernardomg.association.guest.domain.exception.MissingGuestProfileException;
 import com.bernardomg.association.guest.domain.model.Guest;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
+import com.bernardomg.association.profile.domain.exception.MissingProfileException;
 import com.bernardomg.association.profile.domain.model.Name;
 import com.bernardomg.association.profile.domain.model.Profile;
 import com.bernardomg.association.profile.domain.repository.ProfileRepository;
@@ -81,7 +81,7 @@ public final class DefaultProfileGuestService implements ProfileGuestService {
         existing = profileRepository.findOne(number)
             .orElseThrow(() -> {
                 log.error("Missing profile {}", number);
-                throw new MissingGuestProfileException(number);
+                throw new MissingProfileException(number);
             });
 
         if (guestRepository.exists(number)) {

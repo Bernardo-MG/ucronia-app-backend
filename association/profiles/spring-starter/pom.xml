@@ -43,7 +43,31 @@
       </dependency>
       <dependency>
          <groupId>com.bernardomg.association.profile</groupId>
+         <artifactId>association-profile-event-adapter</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.association.profile</groupId>
+         <artifactId>association-profile-spring-security-adapter</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.association.profile</groupId>
          <artifactId>association-profile-rest-adapter</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.association.profile</groupId>
+         <artifactId>association-guest-rest-adapter</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.association.profile</groupId>
+         <artifactId>association-sponsor-rest-adapter</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.association.profile</groupId>
+         <artifactId>association-member-rest-adapter</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.association.profile</groupId>
+         <artifactId>association-fee-rest-adapter</artifactId>
       </dependency>
       <dependency>
          <groupId>org.springframework.boot</groupId>
