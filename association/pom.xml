@@ -33,7 +33,6 @@
      <module>settings</module>
      <module>transactions</module>
      <module>profiles</module>
-     <module>members</module>
      <module>library</module>
      <module>calendar</module>
    </modules>

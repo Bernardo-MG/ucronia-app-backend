@@ -311,11 +311,6 @@
             <version>${project.version}</version>
          </dependency>
          <dependency>
-            <groupId>com.bernardomg.association.member</groupId>
-            <artifactId>association-member-spring-starter</artifactId>
-            <version>${project.version}</version>
-         </dependency>
-         <dependency>
             <groupId>com.bernardomg.association.library</groupId>
             <artifactId>association-library-spring-starter</artifactId>
             <version>${project.version}</version>
