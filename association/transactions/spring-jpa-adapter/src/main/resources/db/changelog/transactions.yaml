@@ -54,6 +54,13 @@ databaseChangeLog:
             columnDataType: bigint
             incrementBy: 1
             startWith: 1
+        - createIndex:
+            schemaName: funds
+            tableName: transactions
+            indexName: idx_transactions_index
+            columns:
+              - column:
+                  name: index
       modifySql:
         - append:
             dbms: mysql

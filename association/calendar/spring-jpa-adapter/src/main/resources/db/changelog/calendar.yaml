@@ -90,6 +90,13 @@ databaseChangeLog:
             columnDataType: bigint
             incrementBy: 1
             startWith: 1
+        - createIndex:
+            schemaName: calendar
+            tableName: calendar_info
+            indexName: idx_calendar_info_number
+            columns:
+              - column:
+                  name: number
         - createTable:
             schemaName: calendar
             tableName: calendar_info_dates
