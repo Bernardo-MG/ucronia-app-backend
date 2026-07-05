@@ -32,6 +32,13 @@ databaseChangeLog:
             columnDataType: bigint
             incrementBy: 1
             startWith: 1
+        - createIndex:
+            schemaName: inventory
+            tableName: game_systems
+            indexName: idx_game_systems_number
+            columns:
+              - column:
+                  name: number
         - createTable:
             schemaName: inventory
             tableName: book_types
@@ -61,6 +68,13 @@ databaseChangeLog:
             columnDataType: bigint
             incrementBy: 1
             startWith: 1
+        - createIndex:
+            schemaName: inventory
+            tableName: book_types
+            indexName: idx_book_types_number
+            columns:
+              - column:
+                  name: number
         - createTable:
             schemaName: inventory
             tableName: authors
@@ -90,6 +104,13 @@ databaseChangeLog:
             columnDataType: bigint
             incrementBy: 1
             startWith: 1
+        - createIndex:
+            schemaName: inventory
+            tableName: authors
+            indexName: idx_authors_number
+            columns:
+              - column:
+                  name: number
         - createTable:
             schemaName: inventory
             tableName: publishers
@@ -119,6 +140,13 @@ databaseChangeLog:
             columnDataType: bigint
             incrementBy: 1
             startWith: 1
+        - createIndex:
+            schemaName: inventory
+            tableName: publishers
+            indexName: idx_publishers_number
+            columns:
+              - column:
+                  name: number
         - createTable:
             schemaName: inventory
             tableName: books
@@ -190,6 +218,13 @@ databaseChangeLog:
             columnDataType: bigint
             incrementBy: 1
             startWith: 1
+        - createIndex:
+            schemaName: inventory
+            tableName: books
+            indexName: idx_books_number
+            columns:
+              - column:
+                  name: number
       modifySql:
         - append:
             dbms: mysql
