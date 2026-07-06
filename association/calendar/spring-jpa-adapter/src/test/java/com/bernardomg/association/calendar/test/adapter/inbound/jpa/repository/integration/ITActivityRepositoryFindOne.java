@@ -39,11 +39,11 @@ import com.bernardomg.association.calendar.TestApplication;
 import com.bernardomg.association.calendar.activity.domain.model.Activity;
 import com.bernardomg.association.calendar.activity.domain.model.Activity.ActivityDate;
 import com.bernardomg.association.calendar.activity.domain.repository.ActivityRepository;
+import com.bernardomg.association.calendar.activity.test.configuration.data.annotation.MultipleDayActivity;
+import com.bernardomg.association.calendar.activity.test.configuration.data.annotation.MultipleDayOutOfOrderActivity;
+import com.bernardomg.association.calendar.activity.test.configuration.data.annotation.SingleDayActivity;
 import com.bernardomg.association.calendar.activity.test.configuration.factory.Activities;
 import com.bernardomg.association.calendar.activity.test.configuration.factory.ActivityConstants;
-import com.bernardomg.association.calendar.test.configuration.data.annotation.MultipleDayActivity;
-import com.bernardomg.association.calendar.test.configuration.data.annotation.MultipleDayOutOfOrderActivity;
-import com.bernardomg.association.calendar.test.configuration.data.annotation.SingleDayActivity;
 import com.bernardomg.association.calendar.test.configuration.factory.CalendarDateConstants;
 import com.bernardomg.test.annotation.IntegrationTest;
 
@@ -59,13 +59,13 @@ class ITActivityRepositoryFindOne {
     @DisplayName("With an existing activity, it is returned")
     @SingleDayActivity
     void testFindOne() {
-        final Optional<Activity> activityOptional;
+        final Optional<Activity> activity;
 
         // WHEN
-        activityOptional = repository.findOne(ActivityConstants.NUMBER);
+        activity = repository.findOne(ActivityConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(activityOptional)
+        Assertions.assertThat(activity)
             .contains(Activities.singleDay());
     }
 
@@ -73,7 +73,7 @@ class ITActivityRepositoryFindOne {
     @DisplayName("With an existing activity having multiple days, it is returned")
     @MultipleDayActivity
     void testFindOne_MultipleDays() {
-        final Optional<Activity> activityOptional;
+        final Optional<Activity> activity;
         final ActivityDate       date1;
         final ActivityDate       date2;
         final ActivityDate       date3;
@@ -92,13 +92,13 @@ class ITActivityRepositoryFindOne {
             CalendarDateConstants.END.plus(4L, ChronoUnit.DAYS));
 
         // WHEN
-        activityOptional = repository.findOne(ActivityConstants.NUMBER);
+        activity = repository.findOne(ActivityConstants.NUMBER);
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
-            Assertions.assertThat(activityOptional)
+            Assertions.assertThat(activity)
                 .contains(Activities.multipleDay());
-            Assertions.assertThat(activityOptional.get())
+            Assertions.assertThat(activity.get())
                 .extracting(Activity::dates)
                 .asInstanceOf(InstanceOfAssertFactories.SET)
                 .containsExactly(date1, date2, date3, date4, date5);
@@ -109,7 +109,7 @@ class ITActivityRepositoryFindOne {
     @DisplayName("With an existing activity having multiple days our of order, it is returned in order")
     @MultipleDayOutOfOrderActivity
     void testFindOne_MultipleDays_OutOfOrder() {
-        final Optional<Activity> activityOptional;
+        final Optional<Activity> activity;
         final ActivityDate       date1;
         final ActivityDate       date2;
         final ActivityDate       date3;
@@ -128,13 +128,13 @@ class ITActivityRepositoryFindOne {
             CalendarDateConstants.END.plus(4L, ChronoUnit.DAYS));
 
         // WHEN
-        activityOptional = repository.findOne(ActivityConstants.NUMBER);
+        activity = repository.findOne(ActivityConstants.NUMBER);
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
-            Assertions.assertThat(activityOptional)
+            Assertions.assertThat(activity)
                 .contains(Activities.multipleDay());
-            Assertions.assertThat(activityOptional.get())
+            Assertions.assertThat(activity.get())
                 .extracting(Activity::dates)
                 .asInstanceOf(InstanceOfAssertFactories.SET)
                 .containsExactly(date1, date2, date3, date4, date5);
@@ -144,13 +144,13 @@ class ITActivityRepositoryFindOne {
     @Test
     @DisplayName("With no activity, nothing is returned")
     void testFindOne_NoData() {
-        final Optional<Activity> activityOptional;
+        final Optional<Activity> activity;
 
         // WHEN
-        activityOptional = repository.findOne(ActivityConstants.NUMBER);
+        activity = repository.findOne(ActivityConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(activityOptional)
+        Assertions.assertThat(activity)
             .isEmpty();
     }
 

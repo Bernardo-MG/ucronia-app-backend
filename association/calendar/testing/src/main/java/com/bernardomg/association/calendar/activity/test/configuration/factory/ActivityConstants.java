@@ -7,7 +7,7 @@ public final class ActivityConstants {
 
     public static final String DESCRIPTION       = "Activity description";
 
-    public static final String IMAGE             = "image";
+    public static final String IMAGE             = "image.png";
 
     public static final String LOCATION          = "Location";
 

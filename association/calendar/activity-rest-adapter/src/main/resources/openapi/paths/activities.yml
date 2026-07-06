@@ -18,7 +18,7 @@ post:
 
 get:
   summary: Get all activities.
-  operationId: getAllActivitys
+  operationId: getAllActivities
   tags: [Activity]
   parameters:
     - $ref: '../common/pagination.yml#/components/parameters/pageParam'
@@ -41,7 +41,7 @@ get:
         $ref: '../common/dates.yml#/components/schemas/Date'
   responses:
     '200':
-      description: Activitys page
+      description: Activities page
       content:
         application/json:
           schema:

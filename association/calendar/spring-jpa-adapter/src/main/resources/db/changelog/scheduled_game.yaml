@@ -1,0 +1,60 @@
+databaseChangeLog:
+  - changeSet:
+      id: scheduled_game
+      author: Bernardo
+      changes:
+        - createTable:
+            schemaName: calendar
+            tableName: scheduled_games
+            columns:
+              - column:
+                  name: calendar_info
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    foreignKeyName: fk_scheduled_games_calendar_info
+                    references: calendar.calendar_info(id)
+                    deleteCascade: true
+              - column:
+                  name: master_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_scheduled_games_profile
+                    references: directory.profiles(id)
+                    deleteCascade: true
+              - column:
+                  name: max_players
+                  type: bigint
+                  defaultValueNumeric: 1
+                  constraints:
+                    nullable: false
+              - column:
+                  name: published
+                  type: boolean
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false
+              - column:
+                  name: start_date
+                  type: datetime
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: recurrence_interval
+                  type: bigint
+                  defaultValueNumeric: 0
+                  constraints:
+                    nullable: false
+              - column:
+                  name: recurrence_unit
+                  type: varchar(6)
+                  defaultValue: DAILY
+                  constraints:
+                    nullable: false
+      modifySql:
+        - append:
+            dbms: mysql
+            value: ' ENGINE=InnoDB DEFAULT CHARSET=latin1'

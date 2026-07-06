@@ -23,7 +23,7 @@
  */
 
 /**
- * Association transaction services.
+ * Activity services.
  */
 
 package com.bernardomg.association.calendar.activity.usecase.service;

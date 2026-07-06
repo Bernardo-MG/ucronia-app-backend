@@ -33,16 +33,29 @@ import com.bernardomg.association.calendar.activity.adapter.inbound.jpa.reposito
 import com.bernardomg.association.calendar.activity.domain.repository.ActivityRepository;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.CalendarDateSpringRepository;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.CalendarInfoSpringRepository;
+import com.bernardomg.association.calendar.game.adapter.inbound.jpa.repository.JpaScheduledGameRepository;
+import com.bernardomg.association.calendar.game.adapter.inbound.jpa.repository.ScheduledGameProfileSpringRepository;
+import com.bernardomg.association.calendar.game.adapter.inbound.jpa.repository.ScheduledGameSpringRepository;
+import com.bernardomg.association.calendar.game.domain.repository.ScheduledGameRepository;
 
 @Configuration
-@EnableJpaRepositories(basePackages = "com.bernardomg.association.calendar.adapter.inbound.jpa")
-@EntityScan(basePackages = "com.bernardomg.association.calendar.adapter.inbound.jpa")
+@EnableJpaRepositories(basePackages = { "com.bernardomg.association.calendar.adapter.inbound.jpa",
+        "com.bernardomg.association.calendar.game.adapter.inbound.jpa" })
+@EntityScan(basePackages = { "com.bernardomg.association.calendar.adapter.inbound.jpa",
+        "com.bernardomg.association.calendar.game.adapter.inbound.jpa" })
 public class TestConfiguration {
 
     @Bean("activityRepository")
     public ActivityRepository getActivityRepository(final CalendarInfoSpringRepository calendarInfoSpringRepository,
             final CalendarDateSpringRepository calendarDateSpringRepository) {
         return new JpaActivityRepository(calendarInfoSpringRepository, calendarDateSpringRepository);
+    }
+
+    @Bean("scheduledGameRepository")
+    public ScheduledGameRepository getScheduledGameRepository(
+            final ScheduledGameProfileSpringRepository scheduledGameProfileSpringRepository,
+            final ScheduledGameSpringRepository scheduledGameSpringRepository) {
+        return new JpaScheduledGameRepository(scheduledGameSpringRepository, scheduledGameProfileSpringRepository);
     }
 
 }

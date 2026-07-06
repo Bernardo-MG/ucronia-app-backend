@@ -49,18 +49,18 @@ import com.bernardomg.association.calendar.activity.usecase.service.DefaultActiv
 class TestActivityServiceDelete {
 
     @Mock
-    private ActivityRepository     ActivityRepository;
+    private ActivityRepository     activityRepository;
 
     @InjectMocks
     private DefaultActivityService service;
 
     @Test
-    @DisplayName("When the Activity doesn't exist, an exception is thrown")
+    @DisplayName("When the activity doesn't exist, an exception is thrown")
     void testDelete_NotExisting() {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(ActivityRepository.findOne(ActivityConstants.NUMBER)).willReturn(Optional.empty());
+        given(activityRepository.findOne(ActivityConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
         execution = () -> service.delete(ActivityConstants.NUMBER);
@@ -74,13 +74,13 @@ class TestActivityServiceDelete {
     @DisplayName("When deleting the repository is called")
     void testDelete_RemovesEntity() {
         // GIVEN
-        given(ActivityRepository.findOne(ActivityConstants.NUMBER)).willReturn(Optional.of(Activities.singleDay()));
+        given(activityRepository.findOne(ActivityConstants.NUMBER)).willReturn(Optional.of(Activities.singleDay()));
 
         // WHEN
         service.delete(ActivityConstants.NUMBER);
 
         // THEN
-        verify(ActivityRepository).delete(ActivityConstants.NUMBER);
+        verify(activityRepository).delete(ActivityConstants.NUMBER);
     }
 
 }

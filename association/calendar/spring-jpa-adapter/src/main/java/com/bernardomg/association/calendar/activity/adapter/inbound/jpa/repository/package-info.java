@@ -23,7 +23,7 @@
  */
 
 /**
- * Association activity repositories.
+ * Activity repositories.
  */
 
 package com.bernardomg.association.calendar.activity.adapter.inbound.jpa.repository;
