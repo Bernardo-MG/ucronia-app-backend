@@ -11,7 +11,7 @@ components:
         type: array
         items:
           type: string
-          pattern: '^(description|title)\|(asc|desc)$'
+          pattern: '^(description|title|location|start|maxPlayers)\|(asc|desc)$'
           example: date|asc
 
   schemas:
@@ -26,7 +26,7 @@ components:
 
     ScheduledGameCreation:
       type: object
-      required: [dates, title]
+      required: [title]
       properties:
         number:
           $ref: '../common/ids.yml#/components/schemas/Id'
@@ -54,7 +54,7 @@ components:
 
     ScheduledGameUpdate:
       type: object
-      required: [dates, title]
+      required: [title]
       properties:
         number:
           $ref: '../common/ids.yml#/components/schemas/Id'
