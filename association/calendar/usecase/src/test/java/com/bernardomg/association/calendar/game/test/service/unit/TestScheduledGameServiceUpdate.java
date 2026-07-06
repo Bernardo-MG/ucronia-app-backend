@@ -75,6 +75,26 @@ class TestScheduledGameServiceUpdate {
     }
 
     @Test
+    @DisplayName("With negative recurrence, an exception is thrown")
+    void testUpdate_NegativeRecurrence() {
+        final ThrowingCallable execution;
+        final ScheduledGame    scheduledGame;
+
+        // GIVEN
+        scheduledGame = ScheduledGames.negativeRecurrence();
+
+        given(scheduledGameRepository.exists(ActivityConstants.NUMBER)).willReturn(true);
+
+        // WHEN
+        execution = () -> service.update(scheduledGame);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution,
+            new FieldFailure("negative", "recurrence.interval", scheduledGame.recurrence()
+                .interval()));
+    }
+
+    @Test
     @DisplayName("With a not existing entity, an exception is thrown")
     void testUpdate_NotExisting_Exception() {
         final ScheduledGame    scheduledGame;
@@ -148,6 +168,23 @@ class TestScheduledGameServiceUpdate {
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
             new FieldFailure("negative", "maxPlayers", scheduledGame.maxPlayers()));
+    }
+
+    @Test
+    @DisplayName("With zero recurrence, it is persisted")
+    void testUpdate_ZeroRecurrenceData() {
+        final ScheduledGame scheduledGame;
+
+        // GIVEN
+        scheduledGame = ScheduledGames.zeroRecurrence();
+
+        given(scheduledGameRepository.exists(ActivityConstants.NUMBER)).willReturn(true);
+
+        // WHEN
+        service.update(scheduledGame);
+
+        // THEN
+        verify(scheduledGameRepository).save(ScheduledGames.zeroRecurrence());
     }
 
 }

@@ -8,13 +8,14 @@ public record Recurrence(int interval, RecurrenceUnit unit) {
     public Recurrence {
         Objects.requireNonNull(unit);
 
-        if (interval < 1) {
-            throw new IllegalArgumentException("Interval must be at least 1");
-        }
+        // TODO: model should validate like this
+        // if (interval < 0) {
+        // throw new IllegalArgumentException("Interval must be at least 0");
+        // }
     }
 
     public enum RecurrenceUnit {
-        DAILY, WEEKLY, MONTHLY
+        DAILY, MONTHLY, WEEKLY
     }
 
 }

@@ -34,6 +34,7 @@ import com.bernardomg.association.calendar.game.domain.exception.MissingSchedule
 import com.bernardomg.association.calendar.game.domain.model.ScheduledGame;
 import com.bernardomg.association.calendar.game.domain.repository.ScheduledGameRepository;
 import com.bernardomg.association.calendar.game.usecase.validation.ScheduledGamePositivePlayersRule;
+import com.bernardomg.association.calendar.game.usecase.validation.ScheduledGamePositiveRecurrenceRule;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
@@ -67,8 +68,10 @@ public final class DefaultScheduledGameService implements ScheduledGameService {
 
         scheduledGameRepository = Objects.requireNonNull(scheduledGameRepo);
 
-        validatorCreate = new FieldRuleValidator<>(new ScheduledGamePositivePlayersRule());
-        validatorUpdate = new FieldRuleValidator<>(new ScheduledGamePositivePlayersRule());
+        validatorCreate = new FieldRuleValidator<>(new ScheduledGamePositivePlayersRule(),
+            new ScheduledGamePositiveRecurrenceRule());
+        validatorUpdate = new FieldRuleValidator<>(new ScheduledGamePositivePlayersRule(),
+            new ScheduledGamePositiveRecurrenceRule());
     }
 
     @Override

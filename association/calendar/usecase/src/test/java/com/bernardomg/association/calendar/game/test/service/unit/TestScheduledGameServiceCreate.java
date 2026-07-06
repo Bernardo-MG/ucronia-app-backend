@@ -71,6 +71,24 @@ class TestScheduledGameServiceCreate {
     }
 
     @Test
+    @DisplayName("With negative recurrence, an exception is thrown")
+    void testCreate_NegativeRecurrence() {
+        final ThrowingCallable execution;
+        final ScheduledGame    scheduledGame;
+
+        // GIVEN
+        scheduledGame = ScheduledGames.negativeRecurrence();
+
+        // WHEN
+        execution = () -> service.create(scheduledGame);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution,
+            new FieldFailure("negative", "recurrence.interval", scheduledGame.recurrence()
+                .interval()));
+    }
+
+    @Test
     @DisplayName("With a valid scheduled game, it is persisted")
     void testCreate_PersistedData() {
         final ScheduledGame scheduledGame;
@@ -120,6 +138,21 @@ class TestScheduledGameServiceCreate {
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
             new FieldFailure("negative", "maxPlayers", scheduledGame.maxPlayers()));
+    }
+
+    @Test
+    @DisplayName("With zero recurrence, it is persisted")
+    void testCreate_ZeroRecurrence() {
+        final ScheduledGame scheduledGame;
+
+        // GIVEN
+        scheduledGame = ScheduledGames.zeroRecurrence();
+
+        // WHEN
+        service.create(scheduledGame);
+
+        // THEN
+        verify(scheduledGameRepository).save(scheduledGame);
     }
 
 }

@@ -34,16 +34,16 @@ import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRule;
 
 /**
- * Checks the scheduled game has a positive maximum number of players.
+ * Checks the scheduled game has a positive recurrence.
  */
-public final class ScheduledGamePositivePlayersRule implements FieldRule<ScheduledGame> {
+public final class ScheduledGamePositiveRecurrenceRule implements FieldRule<ScheduledGame> {
 
     /**
      * Logger for the class.
      */
-    private static final Logger log = LoggerFactory.getLogger(ScheduledGamePositivePlayersRule.class);
+    private static final Logger log = LoggerFactory.getLogger(ScheduledGamePositiveRecurrenceRule.class);
 
-    public ScheduledGamePositivePlayersRule() {
+    public ScheduledGamePositiveRecurrenceRule() {
         super();
     }
 
@@ -52,11 +52,14 @@ public final class ScheduledGamePositivePlayersRule implements FieldRule<Schedul
         final Optional<FieldFailure> failure;
         final FieldFailure           fieldFailure;
 
-        if (scheduledGame.maxPlayers() > 0) {
+        if (scheduledGame.recurrence()
+            .interval() >= 0) {
             failure = Optional.empty();
         } else {
-            log.error("Negative number of players: {}", scheduledGame.maxPlayers());
-            fieldFailure = new FieldFailure("negative", "maxPlayers", scheduledGame.maxPlayers());
+            log.error("Negative recurrence: {}", scheduledGame.recurrence()
+                .interval());
+            fieldFailure = new FieldFailure("negative", "recurrence.interval", scheduledGame.recurrence()
+                .interval());
             failure = Optional.of(fieldFailure);
         }
 
