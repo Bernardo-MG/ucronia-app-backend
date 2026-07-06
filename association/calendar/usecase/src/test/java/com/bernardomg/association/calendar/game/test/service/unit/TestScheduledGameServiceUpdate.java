@@ -42,6 +42,8 @@ import com.bernardomg.association.calendar.game.domain.model.ScheduledGame;
 import com.bernardomg.association.calendar.game.domain.repository.ScheduledGameRepository;
 import com.bernardomg.association.calendar.game.test.configuration.factory.ScheduledGames;
 import com.bernardomg.association.calendar.game.usecase.service.DefaultScheduledGameService;
+import com.bernardomg.validation.domain.model.FieldFailure;
+import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultScheduledGameService - update")
@@ -52,6 +54,25 @@ class TestScheduledGameServiceUpdate {
 
     @InjectMocks
     private DefaultScheduledGameService service;
+
+    @Test
+    @DisplayName("With negative max players, an exception is thrown")
+    void testUpdate_NegativeMaxPlayers() {
+        final ThrowingCallable execution;
+        final ScheduledGame    scheduledGame;
+
+        // GIVEN
+        scheduledGame = ScheduledGames.negativeMaxPlayers();
+
+        given(scheduledGameRepository.exists(ActivityConstants.NUMBER)).willReturn(true);
+
+        // WHEN
+        execution = () -> service.update(scheduledGame);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution,
+            new FieldFailure("negative", "maxPlayers", scheduledGame.maxPlayers()));
+    }
 
     @Test
     @DisplayName("With a not existing entity, an exception is thrown")
@@ -70,23 +91,6 @@ class TestScheduledGameServiceUpdate {
         // THEN
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(MissingScheduledGameException.class);
-    }
-
-    @Test
-    @DisplayName("With a member with padded name, the member is persisted")
-    void testUpdate_Padded_PersistedData() {
-        final ScheduledGame scheduledGame;
-
-        // GIVEN
-        scheduledGame = ScheduledGames.weekly();
-
-        given(scheduledGameRepository.exists(ActivityConstants.NUMBER)).willReturn(true);
-
-        // WHEN
-        service.update(scheduledGame);
-
-        // THEN
-        verify(scheduledGameRepository).save(ScheduledGames.weekly());
     }
 
     @Test
@@ -125,6 +129,25 @@ class TestScheduledGameServiceUpdate {
         Assertions.assertThat(updated)
             .as("scheduled game")
             .isEqualTo(ScheduledGames.weekly());
+    }
+
+    @Test
+    @DisplayName("With zero max players, an exception is thrown")
+    void testUpdate_ZeroMaxPlayers() {
+        final ThrowingCallable execution;
+        final ScheduledGame    scheduledGame;
+
+        // GIVEN
+        scheduledGame = ScheduledGames.zeroMaxPlayers();
+
+        given(scheduledGameRepository.exists(ActivityConstants.NUMBER)).willReturn(true);
+
+        // WHEN
+        execution = () -> service.update(scheduledGame);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution,
+            new FieldFailure("negative", "maxPlayers", scheduledGame.maxPlayers()));
     }
 
 }

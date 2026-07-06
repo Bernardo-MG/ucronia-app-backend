@@ -33,6 +33,7 @@ import org.slf4j.LoggerFactory;
 import com.bernardomg.association.calendar.game.domain.exception.MissingScheduledGameException;
 import com.bernardomg.association.calendar.game.domain.model.ScheduledGame;
 import com.bernardomg.association.calendar.game.domain.repository.ScheduledGameRepository;
+import com.bernardomg.association.calendar.game.usecase.validation.ScheduledGamePositivePlayersRule;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
@@ -66,8 +67,8 @@ public final class DefaultScheduledGameService implements ScheduledGameService {
 
         scheduledGameRepository = Objects.requireNonNull(scheduledGameRepo);
 
-        validatorCreate = new FieldRuleValidator<>();
-        validatorUpdate = new FieldRuleValidator<>();
+        validatorCreate = new FieldRuleValidator<>(new ScheduledGamePositivePlayersRule());
+        validatorUpdate = new FieldRuleValidator<>(new ScheduledGamePositivePlayersRule());
     }
 
     @Override

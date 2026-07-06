@@ -28,6 +28,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -39,6 +40,8 @@ import com.bernardomg.association.calendar.game.domain.model.ScheduledGame;
 import com.bernardomg.association.calendar.game.domain.repository.ScheduledGameRepository;
 import com.bernardomg.association.calendar.game.test.configuration.factory.ScheduledGames;
 import com.bernardomg.association.calendar.game.usecase.service.DefaultScheduledGameService;
+import com.bernardomg.validation.domain.model.FieldFailure;
+import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultScheduledGameService - create")
@@ -49,6 +52,23 @@ class TestScheduledGameServiceCreate {
 
     @InjectMocks
     private DefaultScheduledGameService service;
+
+    @Test
+    @DisplayName("With negative max players, an exception is thrown")
+    void testCreate_NegativeMaxPlayers() {
+        final ThrowingCallable execution;
+        final ScheduledGame    scheduledGame;
+
+        // GIVEN
+        scheduledGame = ScheduledGames.negativeMaxPlayers();
+
+        // WHEN
+        execution = () -> service.create(scheduledGame);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution,
+            new FieldFailure("negative", "maxPlayers", scheduledGame.maxPlayers()));
+    }
 
     @Test
     @DisplayName("With a valid scheduled game, it is persisted")
@@ -83,6 +103,23 @@ class TestScheduledGameServiceCreate {
         Assertions.assertThat(created)
             .as("activity")
             .isEqualTo(scheduledGame);
+    }
+
+    @Test
+    @DisplayName("With zero max players, an exception is thrown")
+    void testCreate_ZeroMaxPlayers() {
+        final ThrowingCallable execution;
+        final ScheduledGame    scheduledGame;
+
+        // GIVEN
+        scheduledGame = ScheduledGames.zeroMaxPlayers();
+
+        // WHEN
+        execution = () -> service.create(scheduledGame);
+
+        // THEN
+        ValidationAssertions.assertThatFieldFails(execution,
+            new FieldFailure("negative", "maxPlayers", scheduledGame.maxPlayers()));
     }
 
 }
