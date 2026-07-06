@@ -26,7 +26,7 @@ components:
 
     ScheduledGameCreation:
       type: object
-      required: [title]
+      required: [title, master, start, recurrence]
       properties:
         number:
           $ref: '../common/ids.yml#/components/schemas/Id'
@@ -54,7 +54,7 @@ components:
 
     ScheduledGameUpdate:
       type: object
-      required: [title]
+      required: [title, master, start, recurrence]
       properties:
         number:
           $ref: '../common/ids.yml#/components/schemas/Id'
@@ -82,6 +82,7 @@ components:
 
     Recurrence:
       type: object
+      required: [interval, unit]
       properties:
         interval:
           type: integer
@@ -92,6 +93,7 @@ components:
 
     ScheduledGame:
       type: object
+      required: [title, master, start, recurrence]
       properties:
         number:
           $ref: '../common/ids.yml#/components/schemas/Id'

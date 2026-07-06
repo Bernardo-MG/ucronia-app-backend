@@ -27,7 +27,7 @@ databaseChangeLog:
               - column:
                   name: max_players
                   type: bigint
-                  defaultValueNumeric: 0
+                  defaultValueNumeric: 1
                   constraints:
                     nullable: false
               - column:
