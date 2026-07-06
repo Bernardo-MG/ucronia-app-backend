@@ -19,10 +19,10 @@
    <!-- ********************************************** -->
 
    <groupId>com.bernardomg.association.library</groupId>
-   <artifactId>association-library-spring-starter</artifactId>
+   <artifactId>association-library-excel-adapter</artifactId>
    <packaging>jar</packaging>
 
-   <name>Association Library Spring Starter</name>
+   <name>Association Library Excel Adapter</name>
 
    <!-- ********************************************** -->
    <!-- *************** DEPENDENCIES ***************** -->
@@ -30,33 +30,51 @@
 
    <dependencies>
       <dependency>
+         <groupId>com.bernardomg</groupId>
+         <artifactId>excel</artifactId>
+      </dependency>
+      <dependency>
          <groupId>com.bernardomg.association.library</groupId>
          <artifactId>association-library-domain</artifactId>
       </dependency>
       <dependency>
-         <groupId>com.bernardomg.association.library</groupId>
-         <artifactId>association-library-usecase</artifactId>
+         <groupId>com.bernardomg.association.profile</groupId>
+         <artifactId>association-profile-domain</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>jakarta.transaction</groupId>
+         <artifactId>jakarta.transaction-api</artifactId>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- ================ FRAMEWORK =================== -->
+      <!-- ============================================== -->
+      <dependency>
+         <!-- Validation -->
+         <groupId>com.bernardomg.framework</groupId>
+         <artifactId>validation</artifactId>
+      </dependency>
+      <dependency>
+         <!-- Pagination -->
+         <groupId>com.bernardomg.framework</groupId>
+         <artifactId>pagination</artifactId>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- =============== APACHE POI =================== -->
+      <!-- ============================================== -->
+      <dependency>
+         <!-- Apache POI -->
+         <groupId>org.apache.poi</groupId>
+         <artifactId>poi</artifactId>
+      </dependency>
+      <dependency>
+         <!-- Apache POI OOXML -->
+         <groupId>org.apache.poi</groupId>
+         <artifactId>poi-ooxml</artifactId>
       </dependency>
       <dependency>
          <groupId>com.bernardomg.association.library</groupId>
-         <artifactId>association-library-excel-adapter</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.association.library</groupId>
-         <artifactId>association-library-spring-jpa-adapter</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.association.library</groupId>
-         <artifactId>association-library-rest-adapter</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>org.springframework.boot</groupId>
-         <artifactId>spring-boot-autoconfigure</artifactId>
-      </dependency>
-      <dependency>
-         <!-- Spring WS Security Starter -->
-         <groupId>com.bernardomg.framework.spring</groupId>
-         <artifactId>spring-ws-security-starter</artifactId>
+         <artifactId>association-library-testing</artifactId>
+         <scope>test</scope>
       </dependency>
    </dependencies>
 

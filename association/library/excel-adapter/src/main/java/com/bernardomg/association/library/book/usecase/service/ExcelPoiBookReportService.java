@@ -51,6 +51,8 @@ import com.bernardomg.association.library.book.domain.repository.GameBookReposit
 import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
+import com.bernardomg.association.profile.domain.model.Profile;
+import com.bernardomg.association.profile.domain.repository.ProfileRepository;
 import com.bernardomg.excel.ExcelParsing;
 import com.bernardomg.pagination.domain.Sorting;
 
@@ -68,12 +70,17 @@ public final class ExcelPoiBookReportService implements BookReportService {
 
     private final GameBookRepository    gameBookRepository;
 
+    private final ProfileRepository    profileRepository;
+
     public ExcelPoiBookReportService(final GameBookRepository gameBookRepo,
-            final FictionBookRepository fictionBookRepo) {
+            final FictionBookRepository fictionBookRepo,
+            final ProfileRepository    profileRepo) {
         super();
 
         gameBookRepository = Objects.requireNonNull(gameBookRepo);
         fictionBookRepository = Objects.requireNonNull(fictionBookRepo);
+        // TODO: avoid depending on profile
+        profileRepository = Objects.requireNonNull(profileRepo);
     }
 
     @Override
@@ -299,6 +306,7 @@ public final class ExcelPoiBookReportService implements BookReportService {
         Cell            cell;
         BookLendingInfo lending;
         Donation        donation;
+        Profile borrower;
 
         index = 1;
         for (final FictionBook book : books) {
@@ -376,7 +384,9 @@ public final class ExcelPoiBookReportService implements BookReportService {
                     .get();
 
                 cell = row.createCell(10);
-                cell.setCellValue(lending.borrower()
+                // TODO: handle missing data
+                borrower = profileRepository.findOne(lending.borrower()).get();
+                cell.setCellValue(borrower
                     .name()
                     .fullName());
                 cell.setCellStyle(style);
@@ -402,6 +412,7 @@ public final class ExcelPoiBookReportService implements BookReportService {
         Cell            cell;
         BookLendingInfo lending;
         Donation        donation;
+        Profile borrower;
 
         index = 1;
         for (final GameBook book : books) {
@@ -491,7 +502,9 @@ public final class ExcelPoiBookReportService implements BookReportService {
                     .get();
 
                 cell = row.createCell(12);
-                cell.setCellValue(lending.borrower()
+                // TODO: handle missing data
+                borrower = profileRepository.findOne(lending.borrower()).get();
+                cell.setCellValue(borrower
                     .name()
                     .fullName());
                 cell.setCellStyle(style);
