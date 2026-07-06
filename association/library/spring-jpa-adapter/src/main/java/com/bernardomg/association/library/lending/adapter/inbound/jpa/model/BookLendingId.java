@@ -53,8 +53,8 @@ public class BookLendingId implements Serializable {
         this.bookId = bookId;
     }
 
-    public void setBorrowerId(final Long profileId) {
-        borrowerId = profileId;
+    public void setBorrowerId(final Long borrowerId) {
+        this.borrowerId = borrowerId;
     }
 
     public void setLendingDate(final Instant lendingDate) {
