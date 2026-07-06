@@ -337,7 +337,7 @@ databaseChangeLog:
                     references: inventory.books(id)
                     deleteCascade: true
               - column:
-                  name: profile_id
+                  name: borrower_id
                   type: bigint
                   constraints:
                     nullable: false
@@ -357,4 +357,4 @@ databaseChangeLog:
             constraintName: book_lendings_key
             schemaName: inventory
             tableName: book_lendings
-            columnNames: 'book_id, profile_id, lending_date'
+            columnNames: 'book_id, borrower_id, lending_date'

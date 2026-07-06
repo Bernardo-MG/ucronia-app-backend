@@ -12,8 +12,6 @@ import org.junit.jupiter.api.Test;
 import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.lending.domain.model.BookLending.LentBook;
-import com.bernardomg.association.library.lending.domain.model.Borrower;
-import com.bernardomg.association.library.lending.domain.model.Borrower.Name;
 
 @DisplayName("BookLending")
 public class TestBookLending {
@@ -29,7 +27,6 @@ public class TestBookLending {
     @Test
     @DisplayName("When there is no return date, the days are calculated")
     void testDays_NoReturnDate() {
-        final Borrower    borrower;
         final BookLending lending;
         final LentBook    book;
         final Title       title;
@@ -37,8 +34,7 @@ public class TestBookLending {
         // GIVEN
         title = new Title(SUPERTITLE, TITLE, SUBTITLE);
         book = new LentBook(NUMBER, title);
-        borrower = new Borrower(0, new Name("", ""));
-        lending = new BookLending(book, borrower, Instant.now()
+        lending = new BookLending(book, 0, Instant.now()
             .minus(1L, ChronoUnit.DAYS));
 
         // WHEN + THEN
@@ -49,7 +45,6 @@ public class TestBookLending {
     @Test
     @DisplayName("When there is no return date and was lent today, the days are calculated")
     void testDays_NoReturnDate_SameDay() {
-        final Borrower    borrower;
         final BookLending lending;
         final LentBook    book;
         final Title       title;
@@ -57,8 +52,7 @@ public class TestBookLending {
         // GIVEN
         title = new Title(SUPERTITLE, TITLE, SUBTITLE);
         book = new LentBook(NUMBER, title);
-        borrower = new Borrower(0, new Name("", ""));
-        lending = new BookLending(book, borrower, Instant.now());
+        lending = new BookLending(book, 0, Instant.now());
 
         // WHEN + THEN
         Assertions.assertThat(lending.getDays())
@@ -68,7 +62,6 @@ public class TestBookLending {
     @Test
     @DisplayName("When the return date is the lending date, the days are calculated")
     void testDays_ReturnedSameDay() {
-        final Borrower    borrower;
         final BookLending lending;
         final LentBook    book;
         final Title       title;
@@ -76,8 +69,7 @@ public class TestBookLending {
         // GIVEN
         title = new Title(SUPERTITLE, TITLE, SUBTITLE);
         book = new LentBook(NUMBER, title);
-        borrower = new Borrower(0, new Name("", ""));
-        lending = new BookLending(book, borrower, Instant.now(), Optional.of(Instant.now()));
+        lending = new BookLending(book, 0, Instant.now(), Optional.of(Instant.now()));
 
         // WHEN + THEN
         Assertions.assertThat(lending.getDays())
@@ -87,7 +79,6 @@ public class TestBookLending {
     @Test
     @DisplayName("When there is a return date, the days are calculated")
     void testDays_WithReturn() {
-        final Borrower    borrower;
         final BookLending lending;
         final LentBook    book;
         final Title       title;
@@ -95,8 +86,7 @@ public class TestBookLending {
         // GIVEN
         title = new Title(SUPERTITLE, TITLE, SUBTITLE);
         book = new LentBook(NUMBER, title);
-        borrower = new Borrower(0, new Name("", ""));
-        lending = new BookLending(book, borrower, Instant.now()
+        lending = new BookLending(book, 0, Instant.now()
             .minus(1L, ChronoUnit.DAYS),
             Optional.of(Instant.now()
                 .plus(1L, ChronoUnit.DAYS)));

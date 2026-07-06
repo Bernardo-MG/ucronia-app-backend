@@ -60,10 +60,8 @@ public final class BookLendingNotAlreadyLentRule implements FieldRule<BookLendin
             .number());
         if (read.isPresent()) {
             log.error("Lending book {} to {} on {}, which was already lent on {}", lending.book()
-                .number(),
-                lending.borrower()
-                    .number(),
-                lending.lendingDate(), read.get()
+                .number(), lending.borrower(), lending.lendingDate(),
+                read.get()
                     .lendingDate());
             fieldFailure = new FieldFailure("existing", "lendingDate", lending.lendingDate());
             failure = Optional.of(fieldFailure);

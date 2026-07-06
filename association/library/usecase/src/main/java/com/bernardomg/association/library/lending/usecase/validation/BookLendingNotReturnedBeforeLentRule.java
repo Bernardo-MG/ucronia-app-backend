@@ -53,9 +53,7 @@ public final class BookLendingNotReturnedBeforeLentRule implements FieldRule<Boo
             .get()
             .isBefore(lending.lendingDate())) {
             log.error("Returning book {} from {} on {}, which is before the lent date {}", lending.book()
-                .number(),
-                lending.borrower()
-                    .number(),
+                .number(), lending.borrower(),
                 lending.returnDate()
                     .get(),
                 lending.lendingDate());

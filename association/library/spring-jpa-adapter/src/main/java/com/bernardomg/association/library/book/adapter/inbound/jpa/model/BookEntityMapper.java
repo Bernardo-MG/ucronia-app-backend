@@ -39,8 +39,6 @@ import com.bernardomg.association.library.booktype.adapter.inbound.jpa.model.Boo
 import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.gamesystem.adapter.inbound.jpa.model.GameSystemEntity;
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
-import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.BorrowerEntity;
-import com.bernardomg.association.library.lending.domain.model.Borrower;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.model.PublisherEntity;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
 
@@ -120,13 +118,6 @@ public final class BookEntityMapper {
 
     public static final BookType toDomain(final BookTypeEntity entity) {
         return new BookType(entity.getNumber(), entity.getName());
-    }
-
-    public static final Borrower toDomain(final BorrowerEntity entity) {
-        final Borrower.Name name;
-
-        name = new Borrower.Name(entity.getFirstName(), entity.getLastName());
-        return new Borrower(entity.getNumber(), name);
     }
 
     public static final GameSystem toDomain(final GameSystemEntity entity) {

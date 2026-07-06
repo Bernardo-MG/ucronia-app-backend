@@ -38,11 +38,8 @@ import com.bernardomg.association.library.book.adapter.inbound.jpa.repository.Bo
 import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.BookLendingEntity;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.BookLendingEntityMapper;
-import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.BorrowerEntity;
-import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.BorrowerEntityMapper;
 import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.lending.domain.model.BookLending.LentBook;
-import com.bernardomg.association.library.lending.domain.model.Borrower;
 import com.bernardomg.association.library.lending.domain.repository.BookLendingRepository;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -61,15 +58,12 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
 
     private final BookSpringRepository        bookSpringRepository;
 
-    private final BorrowerSpringRepository    borrowerSpringRepository;
-
     public JpaBookLendingRepository(final BookLendingSpringRepository bookLendingSpringRepo,
-            final BookSpringRepository bookSpringRepo, final BorrowerSpringRepository borrowerSpringRepo) {
+            final BookSpringRepository bookSpringRepo) {
         super();
 
         bookLendingSpringRepository = Objects.requireNonNull(bookLendingSpringRepo);
         bookSpringRepository = Objects.requireNonNull(bookSpringRepo);
-        borrowerSpringRepository = Objects.requireNonNull(borrowerSpringRepo);
     }
 
     @Override
@@ -167,20 +161,17 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
         final BookLendingEntity        created;
         final BookLending              saved;
         final Optional<BookEntity>     bookEntity;
-        final Optional<BorrowerEntity> borrower;
 
         log.debug("Saving book lending {}", lending);
 
         bookEntity = bookSpringRepository.findByNumber(lending.book()
             .number());
-        borrower = borrowerSpringRepository.findByNumber(lending.borrower()
-            .number());
 
-        if ((bookEntity.isPresent()) && (borrower.isPresent())) {
-            toCreate = BookLendingEntityMapper.toEntity(lending, bookEntity.get(), borrower.get());
+        if (bookEntity.isPresent()) {
+            toCreate = BookLendingEntityMapper.toEntity(lending, bookEntity.get());
 
             created = bookLendingSpringRepository.save(toCreate);
-            saved = BookLendingEntityMapper.toDomain(created, bookEntity.get(), borrower.get());
+            saved = BookLendingEntityMapper.toDomain(created, bookEntity.get());
 
             log.debug("Saved book lending {}", lending);
         } else {
@@ -192,14 +183,11 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
     }
 
     private final BookLending toDomain(final BookLendingEntity entity) {
-        final Optional<Borrower>   borrower;
         final Optional<BookEntity> bookEntity;
         final LentBook             lentBook;
         final Title                title;
 
         bookEntity = bookSpringRepository.findById(entity.getBookId());
-        borrower = borrowerSpringRepository.findById(entity.getProfileId())
-            .map(BorrowerEntityMapper::toDomain);
         title = new Title(bookEntity.get()
             .getSupertitle(),
             bookEntity.get()
@@ -208,7 +196,7 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
                 .getSubtitle());
         lentBook = new LentBook(bookEntity.get()
             .getNumber(), title);
-        return new BookLending(lentBook, borrower.get(), entity.getLendingDate(),
+        return new BookLending(lentBook, entity.getBorrowerId(), entity.getLendingDate(),
             Optional.ofNullable(entity.getReturnDate()));
     }
 

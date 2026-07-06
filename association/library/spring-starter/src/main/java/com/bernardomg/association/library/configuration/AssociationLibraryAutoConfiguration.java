@@ -62,11 +62,8 @@ import com.bernardomg.association.library.gamesystem.domain.repository.GameSyste
 import com.bernardomg.association.library.gamesystem.usecase.service.DefaultGameSystemService;
 import com.bernardomg.association.library.gamesystem.usecase.service.GameSystemService;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.repository.BookLendingSpringRepository;
-import com.bernardomg.association.library.lending.adapter.inbound.jpa.repository.BorrowerSpringRepository;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.repository.JpaBookLendingRepository;
-import com.bernardomg.association.library.lending.adapter.inbound.jpa.repository.JpaBorrowerRepository;
 import com.bernardomg.association.library.lending.domain.repository.BookLendingRepository;
-import com.bernardomg.association.library.lending.domain.repository.BorrowerRepository;
 import com.bernardomg.association.library.lending.usecase.service.BookLendingService;
 import com.bernardomg.association.library.lending.usecase.service.DefaultBookLendingService;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.repository.JpaPublisherRepository;
@@ -92,15 +89,15 @@ public class AssociationLibraryAutoConfiguration {
 
     @Bean("bookLendingRepository")
     public BookLendingRepository getBookLendingRepository(final BookLendingSpringRepository bookLendingSpringRepository,
-            final BookSpringRepository bookSpringRepository, final BorrowerSpringRepository borrowerSpringRepository) {
-        return new JpaBookLendingRepository(bookLendingSpringRepository, bookSpringRepository,
-            borrowerSpringRepository);
+            final BookSpringRepository bookSpringRepository) {
+        return new JpaBookLendingRepository(bookLendingSpringRepository, bookSpringRepository
+            );
     }
 
     @Bean("bookLendingService")
     public BookLendingService getBookLendingService(final BookLendingRepository bookLendingRepository,
-            final BookRepository bookRepository, final BorrowerRepository borrowerRepository) {
-        return new DefaultBookLendingService(bookLendingRepository, bookRepository, borrowerRepository);
+            final BookRepository bookRepository) {
+        return new DefaultBookLendingService(bookLendingRepository, bookRepository);
     }
 
     @Bean("bookReportService")
@@ -111,9 +108,8 @@ public class AssociationLibraryAutoConfiguration {
 
     @Bean("bookRepository")
     public BookRepository getBookRepository(final BookSpringRepository bookSpringRepository,
-            final BorrowerSpringRepository borrowerSpringRepository,
             final BookLendingSpringRepository bookLendingSpringRepository) {
-        return new JpaBookRepository(bookSpringRepository, borrowerSpringRepository, bookLendingSpringRepository);
+        return new JpaBookRepository(bookSpringRepository,  bookLendingSpringRepository);
     }
 
     @Bean("bookTypeRepository")
@@ -126,10 +122,6 @@ public class AssociationLibraryAutoConfiguration {
         return new DefaultBookTypeService(bookTypeRepository);
     }
 
-    @Bean("borrowerRepository")
-    public BorrowerRepository getBorrowerRepository(final BorrowerSpringRepository borrowerSpringRepository) {
-        return new JpaBorrowerRepository(borrowerSpringRepository);
-    }
 
     @Bean("donorRepository")
     public DonorRepository getDonorRepository(final DonorSpringRepository donorSpringRepository) {
@@ -139,11 +131,10 @@ public class AssociationLibraryAutoConfiguration {
     @Bean("fictionBookRepository")
     public FictionBookRepository getFictionBookRepository(final FictionBookSpringRepository bookSpringRepository,
             final AuthorSpringRepository authorSpringRepository,
-            final PublisherSpringRepository publisherSpringRepository,
-            final BorrowerSpringRepository borrowerSpringRepository, final DonorSpringRepository donorSpringRepository,
+            final PublisherSpringRepository publisherSpringRepository,final DonorSpringRepository donorSpringRepository,
             final BookLendingSpringRepository bookLendingSpringRepository) {
         return new JpaFictionBookRepository(bookSpringRepository, authorSpringRepository, publisherSpringRepository,
-            borrowerSpringRepository, donorSpringRepository, bookLendingSpringRepository);
+             donorSpringRepository, bookLendingSpringRepository);
     }
 
     @Bean("fictionBookService")
@@ -158,11 +149,10 @@ public class AssociationLibraryAutoConfiguration {
             final AuthorSpringRepository authorSpringRepository,
             final PublisherSpringRepository publisherSpringRepository,
             final BookTypeSpringRepository bookTypeSpringRepository,
-            final GameSystemSpringRepository gameSystemSpringRepository,
-            final BorrowerSpringRepository borrowerSpringRepository, final DonorSpringRepository donorSpringRepository,
+            final GameSystemSpringRepository gameSystemSpringRepository,final DonorSpringRepository donorSpringRepository,
             final BookLendingSpringRepository bookLendingSpringRepository) {
         return new JpaGameBookRepository(bookSpringRepository, authorSpringRepository, publisherSpringRepository,
-            bookTypeSpringRepository, gameSystemSpringRepository, borrowerSpringRepository, donorSpringRepository,
+            bookTypeSpringRepository, gameSystemSpringRepository,  donorSpringRepository,
             bookLendingSpringRepository);
     }
 

@@ -31,8 +31,6 @@ import com.bernardomg.association.library.adapter.outbound.rest.dto.BookLendingD
 import com.bernardomg.association.library.adapter.outbound.rest.dto.BookLendingPageResponseDto;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.BookLendingResponseDto;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.BookTitleDto;
-import com.bernardomg.association.library.adapter.outbound.rest.dto.BorrowerDto;
-import com.bernardomg.association.library.adapter.outbound.rest.dto.BorrowerNameDto;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.PropertyDto;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.PropertyDto.DirectionEnum;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.SortingDto;
@@ -76,23 +74,8 @@ public final class BookLendingDtoMapper {
     }
 
     private static final BookLendingDto toDto(final BookLending lending) {
-        final BorrowerNameDto name;
-        final BorrowerDto     borrower;
-
-        name = new BorrowerNameDto().firstName(lending.borrower()
-            .name()
-            .firstName())
-            .lastName(lending.borrower()
-                .name()
-                .lastName())
-            .fullName(lending.borrower()
-                .name()
-                .fullName());
-        borrower = new BorrowerDto().name(name)
-            .number(lending.borrower()
-                .number());
         return new BookLendingDto().book(toDto(lending.book()))
-            .borrower(borrower)
+            .borrower(lending.borrower())
             .lendingDate(lending.lendingDate())
             .returnDate(lending.returnDate()
                 .orElse(null))
