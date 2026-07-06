@@ -26,8 +26,6 @@ package com.bernardomg.association.calendar.game.adapter.inbound.jpa.model;
 
 import com.bernardomg.association.calendar.game.domain.model.Recurrence;
 import com.bernardomg.association.calendar.game.domain.model.ScheduledGame;
-import com.bernardomg.association.calendar.game.domain.model.ScheduledGameMember;
-import com.bernardomg.association.calendar.game.domain.model.ScheduledGameMember.Name;
 
 /**
  * Author repository mapper.
@@ -35,22 +33,16 @@ import com.bernardomg.association.calendar.game.domain.model.ScheduledGameMember
 public final class ScheduledGameEntityMapper {
 
     public static final ScheduledGame toDomain(final ScheduledGameEntity entity) {
-        final Recurrence          recurrence;
-        final ScheduledGameMember master;
-        final Name                name;
+        final Recurrence recurrence;
 
         recurrence = new Recurrence(entity.getRecurrence()
             .getInterval(),
             entity.getRecurrence()
                 .getUnit());
-        name = new Name(entity.getMaster()
-            .getFirstName(),
-            entity.getMaster()
-                .getLastName());
-        master = new ScheduledGameMember(entity.getMaster()
-            .getNumber(), name);
         return new ScheduledGame(entity.getNumber(), entity.getTitle(), entity.getDescription(), entity.getLocation(),
-            master, entity.getMaxPlayers(), entity.getImage(), entity.getStart(), recurrence, entity.getPublished());
+            entity.getMaster()
+                .getNumber(),
+            entity.getMaxPlayers(), entity.getImage(), entity.getStart(), recurrence, entity.getPublished());
     }
 
     public static final ScheduledGameEntity toEntity(final ScheduledGame scheduledGame) {

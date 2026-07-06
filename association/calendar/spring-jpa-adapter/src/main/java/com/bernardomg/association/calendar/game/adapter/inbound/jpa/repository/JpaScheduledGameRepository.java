@@ -152,12 +152,11 @@ public final class JpaScheduledGameRepository implements ScheduledGameRepository
             entity.setNumber(number);
         }
 
-        profile = scheduledGameProfileSpringRepository.getByNumber(scheduledGame.master()
-            .number());
+        profile = scheduledGameProfileSpringRepository.getByNumber(scheduledGame.master());
 
         if (profile.isEmpty()) {
-            throw new MissingScheduledGameProfileException(scheduledGame.master()
-                .number());
+            log.error("Missing master {}", scheduledGame.master());
+            throw new MissingScheduledGameProfileException(scheduledGame.master());
         }
         entity.setMaster(profile.get());
 

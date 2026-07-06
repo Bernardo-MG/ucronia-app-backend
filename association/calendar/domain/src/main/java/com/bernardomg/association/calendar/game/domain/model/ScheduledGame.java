@@ -29,11 +29,11 @@ import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 
-public record ScheduledGame(long number, String title, String description, String location, ScheduledGameMember master,
-        int maxPlayers, String image, Instant start, Recurrence recurrence, boolean published) {
+public record ScheduledGame(long number, String title, String description, String location, Long master, int maxPlayers,
+        String image, Instant start, Recurrence recurrence, boolean published) {
 
     public ScheduledGame(final long number, final String title, final String description, final String location,
-            final ScheduledGameMember master, final int maxPlayers, final String image, final Instant start,
+            final Long master, final int maxPlayers, final String image, final Instant start,
             final Recurrence recurrence, final boolean published) {
         Objects.requireNonNull(title);
         Objects.requireNonNull(description);

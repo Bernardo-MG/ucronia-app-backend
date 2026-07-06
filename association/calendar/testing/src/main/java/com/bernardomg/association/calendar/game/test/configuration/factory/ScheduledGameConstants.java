@@ -20,6 +20,8 @@ public final class ScheduledGameConstants {
 
     public static final long    NUMBER            = 10;
 
+    public static final long    NUMBER_MASTER     = 10;
+
     public static final boolean PUBLISHED         = false;
 
     public static final Instant START             = LocalDate.of(2025, Month.FEBRUARY, 1)

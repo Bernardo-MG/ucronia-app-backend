@@ -39,8 +39,6 @@ import com.bernardomg.association.calendar.game.adapter.outbound.rest.dto.Sortin
 import com.bernardomg.association.calendar.game.domain.model.Recurrence;
 import com.bernardomg.association.calendar.game.domain.model.Recurrence.RecurrenceUnit;
 import com.bernardomg.association.calendar.game.domain.model.ScheduledGame;
-import com.bernardomg.association.calendar.game.domain.model.ScheduledGameMember;
-import com.bernardomg.association.calendar.game.domain.model.ScheduledGameMember.Name;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
 import com.bernardomg.pagination.domain.Sorting.Property;
@@ -48,35 +46,32 @@ import com.bernardomg.pagination.domain.Sorting.Property;
 public final class ScheduledGameDtoMapper {
 
     public static final ScheduledGame toDomain(final Long number, final ScheduledGameUpdateDto change) {
-        final ScheduledGameMember master;
-        final Recurrence          recurrence;
-        final RecurrenceUnit      recurrenceUnit;
+        final Recurrence     recurrence;
+        final RecurrenceUnit recurrenceUnit;
 
-        master = new ScheduledGameMember(change.getNumber(), new Name("", ""));
         recurrenceUnit = RecurrenceUnit.valueOf(change.getRecurrence()
             .getUnit()
             .toString()
             .toUpperCase());
         recurrence = new Recurrence(change.getRecurrence()
             .getInterval(), recurrenceUnit);
-        return new ScheduledGame(-1, change.getTitle(), change.getDescription(), change.getLocation(), master,
-            change.getMaxPlayers(), change.getImage(), change.getStart(), recurrence, false);
+        return new ScheduledGame(-1, change.getTitle(), change.getDescription(), change.getLocation(),
+            change.getNumber(), change.getMaxPlayers(), change.getImage(), change.getStart(), recurrence, false);
     }
 
     public static final ScheduledGame toDomain(final ScheduledGameCreationDto creation) {
-        final ScheduledGameMember master;
-        final Recurrence          recurrence;
-        final RecurrenceUnit      recurrenceUnit;
+        final Recurrence     recurrence;
+        final RecurrenceUnit recurrenceUnit;
 
-        master = new ScheduledGameMember(creation.getMaster(), new Name("", ""));
         recurrenceUnit = RecurrenceUnit.valueOf(creation.getRecurrence()
             .getUnit()
             .toString()
             .toUpperCase());
         recurrence = new Recurrence(creation.getRecurrence()
             .getInterval(), recurrenceUnit);
-        return new ScheduledGame(-1, creation.getTitle(), creation.getDescription(), creation.getLocation(), master,
-            creation.getMaxPlayers(), creation.getImage(), creation.getStart(), recurrence, false);
+        return new ScheduledGame(-1, creation.getTitle(), creation.getDescription(), creation.getLocation(),
+            creation.getNumber(), creation.getMaxPlayers(), creation.getImage(), creation.getStart(), recurrence,
+            false);
     }
 
     public static final ScheduledGameResponseDto toResponseDto(final Optional<ScheduledGame> scheduledGame) {
@@ -135,8 +130,7 @@ public final class ScheduledGameDtoMapper {
             .title(scheduledGame.title())
             .description(scheduledGame.description())
             .location(scheduledGame.location())
-            .master(scheduledGame.master()
-                .number())
+            .master(scheduledGame.master())
             .maxPlayers(scheduledGame.maxPlayers())
             .image(scheduledGame.image())
             .start(scheduledGame.start())
