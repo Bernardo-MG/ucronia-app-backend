@@ -130,7 +130,7 @@ public final class ScheduledGameDtoMapper {
             .unit(UnitEnum.valueOf(scheduledGame.recurrence()
                 .unit()
                 .toString()
-                .toLowerCase()));
+                .toUpperCase()));
         return new ScheduledGameDto().number(scheduledGame.number())
             .title(scheduledGame.title())
             .description(scheduledGame.description())
