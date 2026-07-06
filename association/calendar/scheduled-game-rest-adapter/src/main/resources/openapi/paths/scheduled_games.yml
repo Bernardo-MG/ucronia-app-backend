@@ -24,21 +24,6 @@ get:
     - $ref: '../common/pagination.yml#/components/parameters/pageParam'
     - $ref: '../common/pagination.yml#/components/parameters/sizeParam'
     - $ref: '../components/scheduled_games.yml#/components/parameters/scheduledGamesSortParam'
-    - name: date
-      description: Date to query for.
-      in: query
-      schema:
-        $ref: '../common/dates.yml#/components/schemas/Date'
-    - name: from
-      description: Starting date to query for.
-      in: query
-      schema:
-        $ref: '../common/dates.yml#/components/schemas/Date'
-    - name: to
-      description: Ending date to query for.
-      in: query
-      schema:
-        $ref: '../common/dates.yml#/components/schemas/Date'
   responses:
     '200':
       description: Scheduled games page

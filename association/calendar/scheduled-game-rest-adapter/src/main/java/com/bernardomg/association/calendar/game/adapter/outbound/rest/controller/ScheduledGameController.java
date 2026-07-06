@@ -24,7 +24,6 @@
 
 package com.bernardomg.association.calendar.game.adapter.outbound.rest.controller;
 
-import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -95,8 +94,7 @@ public class ScheduledGameController implements ScheduledGameApi {
     @RequireResourceAuthorization(resource = "SCHEDULED_GAME", action = Actions.READ)
     public ScheduledGamePageResponseDto getAllScheduledGames(@Min(1) @Valid final Integer page,
             @Min(1) @Valid final Integer size,
-            @Valid final List<@Pattern(regexp = "^(description|title|date)\\|(asc|desc)$") String> sort,
-            @Valid final Instant date, @Valid final Instant from, @Valid final Instant to) {
+            @Valid final List<@Pattern(regexp = "^(description|title)\\|(asc|desc)$") String> sort) {
         final Pagination          pagination;
         final Sorting             sorting;
         final Page<ScheduledGame> scheduledGames;
