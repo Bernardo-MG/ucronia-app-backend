@@ -51,7 +51,7 @@ public final class BookLendingEntityMapper {
 
         entity = new BookLendingEntity();
         entity.setBookId(bookEntity.getId());
-        entity.setProfileId(entity.getBorrowerId());
+        entity.setBorrowerId(entity.getBorrowerId());
         entity.setLendingDate(domain.lendingDate());
         entity.setReturnDate(domain.returnDate()
             .orElse(null));

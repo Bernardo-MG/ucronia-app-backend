@@ -80,12 +80,12 @@ public class BookLendingEntity implements Serializable {
         this.bookId = bookId;
     }
 
-    public void setLendingDate(final Instant lendingDate) {
-        this.lendingDate = lendingDate;
+    public void setBorrowerId(final Long borrowerId) {
+        this.borrowerId = borrowerId;
     }
 
-    public void setProfileId(final Long profileId) {
-        borrowerId = profileId;
+    public void setLendingDate(final Instant lendingDate) {
+        this.lendingDate = lendingDate;
     }
 
     public void setReturnDate(final Instant returnDate) {
@@ -94,7 +94,7 @@ public class BookLendingEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "BookLendingEntity [bookId=" + bookId + ", lendingDate=" + lendingDate + ", profileId=" + borrowerId
+        return "BookLendingEntity [bookId=" + bookId + ", lendingDate=" + lendingDate + ", borrowerId=" + borrowerId
                 + ", returnDate=" + returnDate + "]";
     }
 
