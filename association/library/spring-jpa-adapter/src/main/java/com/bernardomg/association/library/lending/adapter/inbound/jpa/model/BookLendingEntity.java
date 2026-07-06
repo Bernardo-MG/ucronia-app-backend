@@ -29,8 +29,11 @@ import java.time.Instant;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
@@ -49,6 +52,10 @@ public class BookLendingEntity implements Serializable {
     @Column(name = "book_id", nullable = false)
     private Long              bookId;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "borrower_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private BorrowerEntity    borrower;
+
     @Id
     @Column(name = "borrower_id", nullable = false)
     private Long              borrowerId;
@@ -62,6 +69,10 @@ public class BookLendingEntity implements Serializable {
 
     public Long getBookId() {
         return bookId;
+    }
+
+    public BorrowerEntity getBorrower() {
+        return borrower;
     }
 
     public Long getBorrowerId() {
@@ -80,6 +91,10 @@ public class BookLendingEntity implements Serializable {
         this.bookId = bookId;
     }
 
+    public void setBorrower(final BorrowerEntity borrower) {
+        this.borrower = borrower;
+    }
+
     public void setBorrowerId(final Long borrowerId) {
         this.borrowerId = borrowerId;
     }
@@ -95,7 +110,7 @@ public class BookLendingEntity implements Serializable {
     @Override
     public String toString() {
         return "BookLendingEntity [bookId=" + bookId + ", lendingDate=" + lendingDate + ", borrowerId=" + borrowerId
-                + ", returnDate=" + returnDate + "]";
+                + ", returnDate=" + returnDate + ", borrower=" + borrower + "]";
     }
 
 }

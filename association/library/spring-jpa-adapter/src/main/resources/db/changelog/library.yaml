@@ -176,6 +176,9 @@ databaseChangeLog:
               - column:
                   name: supertitle
                   type: varchar(100)
+                  constraints:
+                    nullable: true
+                  defaultValue: ''
               - column:
                   name: title
                   type: varchar(100)
@@ -184,6 +187,9 @@ databaseChangeLog:
               - column:
                   name: subtitle
                   type: varchar(100)
+                  constraints:
+                    nullable: true
+                  defaultValue: ''
               - column:
                   name: language
                   type: varchar(15)

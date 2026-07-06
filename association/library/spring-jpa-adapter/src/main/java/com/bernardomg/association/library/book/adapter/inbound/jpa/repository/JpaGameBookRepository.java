@@ -275,8 +275,8 @@ public final class JpaGameBookRepository implements GameBookRepository {
 
     private final BookLendingInfo toDomain(final GameBookEntity bookEntity, final BookLendingEntity entity) {
         new Title(bookEntity.getSupertitle(), bookEntity.getTitle(), bookEntity.getSubtitle());
-        return new BookLendingInfo(entity.getBorrowerId(), entity.getLendingDate(),
-            Optional.ofNullable(entity.getReturnDate()));
+        return new BookLendingInfo(entity.getBorrower()
+            .getNumber(), entity.getLendingDate(), Optional.ofNullable(entity.getReturnDate()));
     }
 
     private final GameBookEntity toEntity(final GameBook domain) {

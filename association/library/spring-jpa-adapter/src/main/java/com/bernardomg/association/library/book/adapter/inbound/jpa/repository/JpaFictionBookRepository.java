@@ -264,8 +264,8 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
 
     private final BookLendingInfo toDomain(final FictionBookEntity bookEntity, final BookLendingEntity entity) {
         new Title(bookEntity.getSupertitle(), bookEntity.getTitle(), bookEntity.getSubtitle());
-        return new BookLendingInfo(entity.getBorrowerId(), entity.getLendingDate(),
-            Optional.ofNullable(entity.getReturnDate()));
+        return new BookLendingInfo(entity.getBorrower()
+            .getNumber(), entity.getLendingDate(), Optional.ofNullable(entity.getReturnDate()));
     }
 
     private final FictionBookEntity toEntity(final FictionBook domain) {

@@ -42,8 +42,8 @@ public final class BookLendingEntityMapper {
 
         title = new Title(bookEntity.getSupertitle(), bookEntity.getTitle(), bookEntity.getSubtitle());
         lentBook = new LentBook(bookEntity.getNumber(), title);
-        return new BookLending(lentBook, entity.getBorrowerId(), entity.getLendingDate(),
-            Optional.ofNullable(entity.getReturnDate()));
+        return new BookLending(lentBook, entity.getBorrower()
+            .getNumber(), entity.getLendingDate(), Optional.ofNullable(entity.getReturnDate()));
     }
 
     public static final BookLendingEntity toEntity(final BookLending domain, final BookEntity bookEntity) {
@@ -51,7 +51,6 @@ public final class BookLendingEntityMapper {
 
         entity = new BookLendingEntity();
         entity.setBookId(bookEntity.getId());
-        entity.setBorrowerId(entity.getBorrowerId());
         entity.setLendingDate(domain.lendingDate());
         entity.setReturnDate(domain.returnDate()
             .orElse(null));

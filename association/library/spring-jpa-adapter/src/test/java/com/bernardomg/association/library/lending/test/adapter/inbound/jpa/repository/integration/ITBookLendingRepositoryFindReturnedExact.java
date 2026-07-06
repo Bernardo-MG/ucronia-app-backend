@@ -38,7 +38,6 @@ import com.bernardomg.association.library.book.test.configuration.data.annotatio
 import com.bernardomg.association.library.book.test.configuration.data.annotation.MinimalFictionBook;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.MinimalGameBook;
 import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
-import com.bernardomg.association.library.book.test.configuration.factory.DonorConstants;
 import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.lending.domain.repository.BookLendingRepository;
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.LentBookLending;
@@ -66,7 +65,7 @@ class ITBookLendingRepositoryFindReturnedExact {
         final Optional<BookLending> lending;
 
         // WHEN
-        lending = repository.findReturned(BookConstants.NUMBER, DonorConstants.NUMBER, BookConstants.LENT_DATE);
+        lending = repository.findReturned(BookConstants.NUMBER, BookConstants.BORROWER, BookConstants.LENT_DATE);
 
         // THEN
         Assertions.assertThat(lending)
@@ -82,7 +81,7 @@ class ITBookLendingRepositoryFindReturnedExact {
         final Optional<BookLending> lending;
 
         // WHEN
-        lending = repository.findReturned(BookConstants.NUMBER, DonorConstants.NUMBER, BookConstants.LENT_DATE);
+        lending = repository.findReturned(BookConstants.NUMBER, BookConstants.BORROWER, BookConstants.LENT_DATE);
 
         // THEN
         Assertions.assertThat(lending)
@@ -97,7 +96,7 @@ class ITBookLendingRepositoryFindReturnedExact {
         final Optional<BookLending> lending;
 
         // WHEN
-        lending = repository.findReturned(BookConstants.NUMBER, DonorConstants.NUMBER, BookConstants.LENT_DATE);
+        lending = repository.findReturned(BookConstants.NUMBER, BookConstants.BORROWER, BookConstants.LENT_DATE);
 
         // THEN
         Assertions.assertThat(lending)
@@ -114,7 +113,7 @@ class ITBookLendingRepositoryFindReturnedExact {
         final Optional<BookLending> lending;
 
         // WHEN
-        lending = repository.findReturned(BookConstants.NUMBER, DonorConstants.NUMBER, BookConstants.LENT_DATE);
+        lending = repository.findReturned(BookConstants.NUMBER, BookConstants.BORROWER, BookConstants.LENT_DATE);
 
         // THEN
         Assertions.assertThat(lending)
@@ -132,7 +131,7 @@ class ITBookLendingRepositoryFindReturnedExact {
         final Optional<BookLending> lending;
 
         // WHEN
-        lending = repository.findReturned(BookConstants.NUMBER, DonorConstants.NUMBER, BookConstants.LENT_DATE);
+        lending = repository.findReturned(BookConstants.NUMBER, BookConstants.BORROWER, BookConstants.LENT_DATE);
 
         // THEN
         Assertions.assertThat(lending)
@@ -149,7 +148,7 @@ class ITBookLendingRepositoryFindReturnedExact {
         final Optional<BookLending> lending;
 
         // WHEN
-        lending = repository.findReturned(BookConstants.NUMBER, DonorConstants.NUMBER, BookConstants.LENT_DATE);
+        lending = repository.findReturned(BookConstants.NUMBER, BookConstants.BORROWER, BookConstants.LENT_DATE);
 
         // THEN
         Assertions.assertThat(lending)
@@ -165,7 +164,7 @@ class ITBookLendingRepositoryFindReturnedExact {
         final Optional<BookLending> lending;
 
         // WHEN
-        lending = repository.findReturned(BookConstants.NUMBER, DonorConstants.NUMBER, BookConstants.LENT_DATE);
+        lending = repository.findReturned(BookConstants.NUMBER, BookConstants.BORROWER, BookConstants.LENT_DATE);
 
         // THEN
         Assertions.assertThat(lending)
@@ -180,7 +179,7 @@ class ITBookLendingRepositoryFindReturnedExact {
         final Optional<BookLending> lending;
 
         // WHEN
-        lending = repository.findReturned(BookConstants.NUMBER, DonorConstants.NUMBER, BookConstants.LENT_DATE);
+        lending = repository.findReturned(BookConstants.NUMBER, BookConstants.BORROWER, BookConstants.LENT_DATE);
 
         // THEN
         Assertions.assertThat(lending)
@@ -197,7 +196,7 @@ class ITBookLendingRepositoryFindReturnedExact {
         final Optional<BookLending> lending;
 
         // WHEN
-        lending = repository.findReturned(BookConstants.NUMBER, DonorConstants.NUMBER, BookConstants.LENT_DATE);
+        lending = repository.findReturned(BookConstants.NUMBER, BookConstants.BORROWER, BookConstants.LENT_DATE);
 
         // THEN
         Assertions.assertThat(lending)
@@ -215,7 +214,7 @@ class ITBookLendingRepositoryFindReturnedExact {
         final Optional<BookLending> lending;
 
         // WHEN
-        lending = repository.findReturned(BookConstants.NUMBER, DonorConstants.NUMBER, BookConstants.LENT_DATE);
+        lending = repository.findReturned(BookConstants.NUMBER, BookConstants.BORROWER, BookConstants.LENT_DATE);
 
         // THEN
         Assertions.assertThat(lending)
@@ -230,7 +229,7 @@ class ITBookLendingRepositoryFindReturnedExact {
         final Optional<BookLending> lending;
 
         // WHEN
-        lending = repository.findReturned(BookConstants.NUMBER, DonorConstants.NUMBER, BookConstants.LENT_DATE);
+        lending = repository.findReturned(BookConstants.NUMBER, BookConstants.BORROWER, BookConstants.LENT_DATE);
 
         // THEN
         Assertions.assertThat(lending)
