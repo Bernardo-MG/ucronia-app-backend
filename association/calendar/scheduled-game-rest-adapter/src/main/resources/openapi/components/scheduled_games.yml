@@ -26,7 +26,7 @@ components:
 
     ScheduledGameCreation:
       type: object
-      required: [title, master, start, recurrence]
+      required: [title, master, maxPlayers, start, recurrence]
       properties:
         number:
           $ref: '../common/ids.yml#/components/schemas/Id'
@@ -44,6 +44,8 @@ components:
         maxPlayers:
           type: integer
           format: int32
+          minimum: 1
+          maximum: 100
         image:
           type: string
           maxLength: 200
@@ -54,7 +56,7 @@ components:
 
     ScheduledGameUpdate:
       type: object
-      required: [title, master, start, recurrence]
+      required: [title, master, maxPlayers, start, recurrence]
       properties:
         number:
           $ref: '../common/ids.yml#/components/schemas/Id'
@@ -72,6 +74,8 @@ components:
         maxPlayers:
           type: integer
           format: int32
+          minimum: 1
+          maximum: 100
         image:
           type: string
           maxLength: 200
@@ -87,6 +91,8 @@ components:
         interval:
           type: integer
           format: int32
+          minimum: 0
+          maximum: 365
         unit:
           type: string
           enum: [daily, weekly, monthly]
@@ -111,6 +117,8 @@ components:
         maxPlayers:
           type: integer
           format: int32
+          minimum: 1
+          maximum: 100
         image:
           type: string
           maxLength: 200
