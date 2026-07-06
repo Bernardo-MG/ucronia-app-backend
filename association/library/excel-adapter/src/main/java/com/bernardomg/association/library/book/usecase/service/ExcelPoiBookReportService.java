@@ -70,11 +70,10 @@ public final class ExcelPoiBookReportService implements BookReportService {
 
     private final GameBookRepository    gameBookRepository;
 
-    private final ProfileRepository    profileRepository;
+    private final ProfileRepository     profileRepository;
 
-    public ExcelPoiBookReportService(final GameBookRepository gameBookRepo,
-            final FictionBookRepository fictionBookRepo,
-            final ProfileRepository    profileRepo) {
+    public ExcelPoiBookReportService(final GameBookRepository gameBookRepo, final FictionBookRepository fictionBookRepo,
+            final ProfileRepository profileRepo) {
         super();
 
         gameBookRepository = Objects.requireNonNull(gameBookRepo);
@@ -306,7 +305,7 @@ public final class ExcelPoiBookReportService implements BookReportService {
         Cell            cell;
         BookLendingInfo lending;
         Donation        donation;
-        Profile borrower;
+        Profile         borrower;
 
         index = 1;
         for (final FictionBook book : books) {
@@ -385,9 +384,9 @@ public final class ExcelPoiBookReportService implements BookReportService {
 
                 cell = row.createCell(10);
                 // TODO: handle missing data
-                borrower = profileRepository.findOne(lending.borrower()).get();
-                cell.setCellValue(borrower
-                    .name()
+                borrower = profileRepository.findOne(lending.borrower())
+                    .get();
+                cell.setCellValue(borrower.name()
                     .fullName());
                 cell.setCellStyle(style);
 
@@ -412,7 +411,7 @@ public final class ExcelPoiBookReportService implements BookReportService {
         Cell            cell;
         BookLendingInfo lending;
         Donation        donation;
-        Profile borrower;
+        Profile         borrower;
 
         index = 1;
         for (final GameBook book : books) {
@@ -503,9 +502,9 @@ public final class ExcelPoiBookReportService implements BookReportService {
 
                 cell = row.createCell(12);
                 // TODO: handle missing data
-                borrower = profileRepository.findOne(lending.borrower()).get();
-                cell.setCellValue(borrower
-                    .name()
+                borrower = profileRepository.findOne(lending.borrower())
+                    .get();
+                cell.setCellValue(borrower.name()
                     .fullName());
                 cell.setCellStyle(style);
 

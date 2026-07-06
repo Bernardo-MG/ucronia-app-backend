@@ -76,21 +76,19 @@ public class TestConfiguration {
     @Bean("bookLendingRepository")
     public BookLendingRepository getBookLendingRepository(final BookLendingSpringRepository bookLendingSpringRepository,
             final BookSpringRepository bookSpringRepository) {
-        return new JpaBookLendingRepository(bookLendingSpringRepository, bookSpringRepository
-            );
+        return new JpaBookLendingRepository(bookLendingSpringRepository, bookSpringRepository);
     }
 
     @Bean("bookRepository")
     public BookRepository getBookRepository(final BookSpringRepository bookSpringRepository,
             final BookLendingSpringRepository bookLendingSpringRepository) {
-        return new JpaBookRepository(bookSpringRepository,  bookLendingSpringRepository);
+        return new JpaBookRepository(bookSpringRepository, bookLendingSpringRepository);
     }
 
     @Bean("bookTypeRepository")
     public BookTypeRepository getBookTypeRepository(final BookTypeSpringRepository bookTypeSpringRepository) {
         return new JpaBookTypeRepository(bookTypeSpringRepository);
     }
-
 
     @Bean("donorRepository")
     public DonorRepository getDonorRepository(final DonorSpringRepository donorSpringRepository) {
@@ -100,10 +98,11 @@ public class TestConfiguration {
     @Bean("fictionBookRepository")
     public FictionBookRepository getFictionBookRepository(final FictionBookSpringRepository bookSpringRepository,
             final AuthorSpringRepository authorSpringRepository,
-            final PublisherSpringRepository publisherSpringRepository, final DonorSpringRepository donorSpringRepository,
+            final PublisherSpringRepository publisherSpringRepository,
+            final DonorSpringRepository donorSpringRepository,
             final BookLendingSpringRepository bookLendingSpringRepository) {
         return new JpaFictionBookRepository(bookSpringRepository, authorSpringRepository, publisherSpringRepository,
-             donorSpringRepository, bookLendingSpringRepository);
+            donorSpringRepository, bookLendingSpringRepository);
     }
 
     @Bean("gameBookRepository")
@@ -111,11 +110,11 @@ public class TestConfiguration {
             final AuthorSpringRepository authorSpringRepository,
             final PublisherSpringRepository publisherSpringRepository,
             final BookTypeSpringRepository bookTypeSpringRepository,
-            final GameSystemSpringRepository gameSystemSpringRepository, final DonorSpringRepository donorSpringRepository,
+            final GameSystemSpringRepository gameSystemSpringRepository,
+            final DonorSpringRepository donorSpringRepository,
             final BookLendingSpringRepository bookLendingSpringRepository) {
         return new JpaGameBookRepository(bookSpringRepository, authorSpringRepository, publisherSpringRepository,
-            bookTypeSpringRepository, gameSystemSpringRepository,  donorSpringRepository,
-            bookLendingSpringRepository);
+            bookTypeSpringRepository, gameSystemSpringRepository, donorSpringRepository, bookLendingSpringRepository);
     }
 
     @Bean("gameSystemRepository")

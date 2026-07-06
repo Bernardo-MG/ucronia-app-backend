@@ -91,7 +91,8 @@ public final class JpaBookRepository implements BookRepository {
 
     private final BookLendingInfo toDomain(final BookEntity bookEntity, final BookLendingEntity entity) {
         new Title(bookEntity.getSupertitle(), bookEntity.getTitle(), bookEntity.getSubtitle());
-        return new BookLendingInfo(entity.getBorrowerId(), entity.getLendingDate(), Optional.ofNullable(entity.getReturnDate()));
+        return new BookLendingInfo(entity.getBorrowerId(), entity.getLendingDate(),
+            Optional.ofNullable(entity.getReturnDate()));
     }
 
 }

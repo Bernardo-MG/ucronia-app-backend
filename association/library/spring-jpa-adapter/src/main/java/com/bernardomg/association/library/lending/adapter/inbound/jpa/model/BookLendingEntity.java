@@ -50,12 +50,12 @@ public class BookLendingEntity implements Serializable {
     private Long              bookId;
 
     @Id
-    @Column(name = "lending_date", nullable = false)
-    private Instant           lendingDate;
-
-    @Id
     @Column(name = "borrower_id", nullable = false)
     private Long              borrowerId;
+
+    @Id
+    @Column(name = "lending_date", nullable = false)
+    private Instant           lendingDate;
 
     @Column(name = "return_date")
     private Instant           returnDate;
@@ -64,12 +64,12 @@ public class BookLendingEntity implements Serializable {
         return bookId;
     }
 
-    public Instant getLendingDate() {
-        return lendingDate;
-    }
-
     public Long getBorrowerId() {
         return borrowerId;
+    }
+
+    public Instant getLendingDate() {
+        return lendingDate;
     }
 
     public Instant getReturnDate() {
@@ -85,7 +85,7 @@ public class BookLendingEntity implements Serializable {
     }
 
     public void setProfileId(final Long profileId) {
-        this.borrowerId = profileId;
+        borrowerId = profileId;
     }
 
     public void setReturnDate(final Instant returnDate) {

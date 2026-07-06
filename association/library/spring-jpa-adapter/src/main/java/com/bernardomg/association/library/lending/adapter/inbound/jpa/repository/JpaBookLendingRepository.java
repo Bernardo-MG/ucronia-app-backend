@@ -157,10 +157,10 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
 
     @Override
     public final BookLending save(final BookLending lending) {
-        final BookLendingEntity        toCreate;
-        final BookLendingEntity        created;
-        final BookLending              saved;
-        final Optional<BookEntity>     bookEntity;
+        final BookLendingEntity    toCreate;
+        final BookLendingEntity    created;
+        final BookLending          saved;
+        final Optional<BookEntity> bookEntity;
 
         log.debug("Saving book lending {}", lending);
 

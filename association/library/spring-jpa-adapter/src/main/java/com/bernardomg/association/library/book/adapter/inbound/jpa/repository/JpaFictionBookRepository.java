@@ -81,8 +81,7 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
 
     public JpaFictionBookRepository(final FictionBookSpringRepository bookSpringRepo,
             final AuthorSpringRepository authorSpringRepo, final PublisherSpringRepository publisherSpringRepo,
-            final DonorSpringRepository donorSpringRepo,
-            final BookLendingSpringRepository bookLendingSpringRepo) {
+            final DonorSpringRepository donorSpringRepo, final BookLendingSpringRepository bookLendingSpringRepo) {
         super();
 
         bookSpringRepository = Objects.requireNonNull(bookSpringRepo);
@@ -265,7 +264,8 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
 
     private final BookLendingInfo toDomain(final FictionBookEntity bookEntity, final BookLendingEntity entity) {
         new Title(bookEntity.getSupertitle(), bookEntity.getTitle(), bookEntity.getSubtitle());
-        return new BookLendingInfo(entity.getBorrowerId(), entity.getLendingDate(), Optional.ofNullable(entity.getReturnDate()));
+        return new BookLendingInfo(entity.getBorrowerId(), entity.getLendingDate(),
+            Optional.ofNullable(entity.getReturnDate()));
     }
 
     private final FictionBookEntity toEntity(final FictionBook domain) {

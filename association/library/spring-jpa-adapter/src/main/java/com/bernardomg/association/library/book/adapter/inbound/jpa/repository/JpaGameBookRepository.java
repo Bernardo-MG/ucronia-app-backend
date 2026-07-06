@@ -91,8 +91,7 @@ public final class JpaGameBookRepository implements GameBookRepository {
     public JpaGameBookRepository(final GameBookSpringRepository bookSpringRepo,
             final AuthorSpringRepository authorSpringRepo, final PublisherSpringRepository publisherSpringRepo,
             final BookTypeSpringRepository bookTypeSpringRepo, final GameSystemSpringRepository gameSystemSpringRepo,
-            final DonorSpringRepository donorSpringRepo,
-            final BookLendingSpringRepository bookLendingSpringRepo) {
+            final DonorSpringRepository donorSpringRepo, final BookLendingSpringRepository bookLendingSpringRepo) {
         super();
 
         bookSpringRepository = Objects.requireNonNull(bookSpringRepo);
@@ -276,7 +275,8 @@ public final class JpaGameBookRepository implements GameBookRepository {
 
     private final BookLendingInfo toDomain(final GameBookEntity bookEntity, final BookLendingEntity entity) {
         new Title(bookEntity.getSupertitle(), bookEntity.getTitle(), bookEntity.getSubtitle());
-        return new BookLendingInfo(entity.getBorrowerId(), entity.getLendingDate(), Optional.ofNullable(entity.getReturnDate()));
+        return new BookLendingInfo(entity.getBorrowerId(), entity.getLendingDate(),
+            Optional.ofNullable(entity.getReturnDate()));
     }
 
     private final GameBookEntity toEntity(final GameBook domain) {
