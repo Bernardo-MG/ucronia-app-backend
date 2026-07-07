@@ -30,33 +30,27 @@ import com.bernardomg.association.library.book.adapter.inbound.jpa.model.BookEnt
 import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.lending.domain.model.BookLending.LentBook;
-import com.bernardomg.association.library.lending.domain.model.Borrower;
 
 /**
  * Author repository mapper.
  */
 public final class BookLendingEntityMapper {
 
-    public static final BookLending toDomain(final BookLendingEntity entity, final BookEntity bookEntity,
-            final BorrowerEntity borrowerEntity) {
-        final Borrower borrower;
+    public static final BookLending toDomain(final BookLendingEntity entity, final BookEntity bookEntity) {
         final LentBook lentBook;
         final Title    title;
 
-        borrower = BorrowerEntityMapper.toDomain(borrowerEntity);
         title = new Title(bookEntity.getSupertitle(), bookEntity.getTitle(), bookEntity.getSubtitle());
         lentBook = new LentBook(bookEntity.getNumber(), title);
-        return new BookLending(lentBook, borrower, entity.getLendingDate(),
-            Optional.ofNullable(entity.getReturnDate()));
+        return new BookLending(lentBook, entity.getBorrower()
+            .getNumber(), entity.getLendingDate(), Optional.ofNullable(entity.getReturnDate()));
     }
 
-    public static final BookLendingEntity toEntity(final BookLending domain, final BookEntity bookEntity,
-            final BorrowerEntity borrowerEntity) {
+    public static final BookLendingEntity toEntity(final BookLending domain, final BookEntity bookEntity) {
         final BookLendingEntity entity;
 
         entity = new BookLendingEntity();
         entity.setBookId(bookEntity.getId());
-        entity.setProfileId(borrowerEntity.getId());
         entity.setLendingDate(domain.lendingDate());
         entity.setReturnDate(domain.returnDate()
             .orElse(null));

@@ -53,9 +53,7 @@ import com.bernardomg.association.library.gamesystem.domain.repository.GameSyste
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.repository.BookLendingSpringRepository;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.repository.BorrowerSpringRepository;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.repository.JpaBookLendingRepository;
-import com.bernardomg.association.library.lending.adapter.inbound.jpa.repository.JpaBorrowerRepository;
 import com.bernardomg.association.library.lending.domain.repository.BookLendingRepository;
-import com.bernardomg.association.library.lending.domain.repository.BorrowerRepository;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.repository.JpaPublisherRepository;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.repository.PublisherSpringRepository;
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
@@ -85,19 +83,13 @@ public class TestConfiguration {
 
     @Bean("bookRepository")
     public BookRepository getBookRepository(final BookSpringRepository bookSpringRepository,
-            final BorrowerSpringRepository borrowerSpringRepository,
             final BookLendingSpringRepository bookLendingSpringRepository) {
-        return new JpaBookRepository(bookSpringRepository, borrowerSpringRepository, bookLendingSpringRepository);
+        return new JpaBookRepository(bookSpringRepository, bookLendingSpringRepository);
     }
 
     @Bean("bookTypeRepository")
     public BookTypeRepository getBookTypeRepository(final BookTypeSpringRepository bookTypeSpringRepository) {
         return new JpaBookTypeRepository(bookTypeSpringRepository);
-    }
-
-    @Bean("borrowerRepository")
-    public BorrowerRepository getBorrowerRepository(final BorrowerSpringRepository borrowerSpringRepository) {
-        return new JpaBorrowerRepository(borrowerSpringRepository);
     }
 
     @Bean("donorRepository")
@@ -109,10 +101,10 @@ public class TestConfiguration {
     public FictionBookRepository getFictionBookRepository(final FictionBookSpringRepository bookSpringRepository,
             final AuthorSpringRepository authorSpringRepository,
             final PublisherSpringRepository publisherSpringRepository,
-            final BorrowerSpringRepository borrowerSpringRepository, final DonorSpringRepository donorSpringRepository,
+            final DonorSpringRepository donorSpringRepository,
             final BookLendingSpringRepository bookLendingSpringRepository) {
         return new JpaFictionBookRepository(bookSpringRepository, authorSpringRepository, publisherSpringRepository,
-            borrowerSpringRepository, donorSpringRepository, bookLendingSpringRepository);
+            donorSpringRepository, bookLendingSpringRepository);
     }
 
     @Bean("gameBookRepository")
@@ -121,11 +113,10 @@ public class TestConfiguration {
             final PublisherSpringRepository publisherSpringRepository,
             final BookTypeSpringRepository bookTypeSpringRepository,
             final GameSystemSpringRepository gameSystemSpringRepository,
-            final BorrowerSpringRepository borrowerSpringRepository, final DonorSpringRepository donorSpringRepository,
+            final DonorSpringRepository donorSpringRepository,
             final BookLendingSpringRepository bookLendingSpringRepository) {
         return new JpaGameBookRepository(bookSpringRepository, authorSpringRepository, publisherSpringRepository,
-            bookTypeSpringRepository, gameSystemSpringRepository, borrowerSpringRepository, donorSpringRepository,
-            bookLendingSpringRepository);
+            bookTypeSpringRepository, gameSystemSpringRepository, donorSpringRepository, bookLendingSpringRepository);
     }
 
     @Bean("gameSystemRepository")

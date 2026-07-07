@@ -1,3 +1,26 @@
+/**
+ * The MIT License (MIT)
+ * <p>
+ * Copyright (c) 2022-2025 Bernardo Martínez Garrido
+ * <p>
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * <p>
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * <p>
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
 package com.bernardomg.association.library.lending.adapter.inbound.jpa.model;
 
@@ -17,10 +40,10 @@ import jakarta.persistence.Transient;
 public class BorrowerEntity implements Serializable {
 
     /**
-     *
+     * Serialization ID.
      */
     @Transient
-    private static final long serialVersionUID = 8139806507534262996L;
+    private static final long serialVersionUID = 1328776989450853491L;
 
     @Column(name = "first_name", nullable = false)
     private String            firstName;
@@ -97,8 +120,8 @@ public class BorrowerEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "MemberProfileEntity [id=" + id + ", number=" + number + ", firstName=" + firstName + ", lastName="
-                + lastName + ", identifier=" + identifier + "]";
+        return "ProfileEntity [id=" + id + ", identifier=" + identifier + ", firstName=" + firstName + ", lastName="
+                + lastName + ", number=" + number + "]";
     }
 
 }

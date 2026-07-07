@@ -8,9 +8,3 @@ spring:
   liquibase:
     enabled: true
     change-log: classpath:/db/changelog/db.changelog-test.yaml
-
-  jpa:
-    show-sql: true               # Shows SQL statements
-    properties:
-      hibernate.format_sql: true # Formats SQL for readability
-      hibernate.use_sql_comments: true

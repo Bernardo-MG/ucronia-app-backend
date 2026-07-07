@@ -63,10 +63,8 @@ public final class BookLendingNotLentBeforeLastReturnRule implements FieldRule<B
                 .returnDate()
                 .get()))) {
             log.error("Lending book {} to {} on {}, which is before last return {}", lending.book()
-                .number(),
-                lending.borrower()
-                    .number(),
-                lending.lendingDate(), returned.get()
+                .number(), lending.borrower(), lending.lendingDate(),
+                returned.get()
                     .returnDate()
                     .get());
             fieldFailure = new FieldFailure("invalid", "lendingDate", lending.lendingDate());

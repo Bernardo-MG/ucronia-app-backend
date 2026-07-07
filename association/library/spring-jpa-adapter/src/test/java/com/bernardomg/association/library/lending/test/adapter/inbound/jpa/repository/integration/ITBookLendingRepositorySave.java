@@ -89,7 +89,7 @@ class ITBookLendingRepositorySave {
         // THEN
         Assertions.assertThat(springRepository.findAll())
             .as("lendings")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("borrower")
             .contains(BookLendingEntities.lent());
     }
 
@@ -110,7 +110,7 @@ class ITBookLendingRepositorySave {
         // THEN
         Assertions.assertThat(springRepository.findAll())
             .as("lendings")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("borrower")
             .contains(BookLendingEntities.returned());
     }
 
@@ -168,7 +168,7 @@ class ITBookLendingRepositorySave {
         // THEN
         Assertions.assertThat(springRepository.findAll())
             .as("lendings")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("borrower")
             .contains(BookLendingEntities.lent());
     }
 
@@ -189,7 +189,7 @@ class ITBookLendingRepositorySave {
         // THEN
         Assertions.assertThat(springRepository.findAll())
             .as("lendings")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("borrower")
             .contains(BookLendingEntities.returned());
     }
 

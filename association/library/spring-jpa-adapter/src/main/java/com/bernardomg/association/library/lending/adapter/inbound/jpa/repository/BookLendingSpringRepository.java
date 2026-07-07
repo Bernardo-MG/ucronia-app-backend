@@ -43,7 +43,7 @@ public interface BookLendingSpringRepository extends JpaRepository<BookLendingEn
                SELECT l
                FROM BookLending l
                  INNER JOIN Book b ON b.id = l.bookId
-                 INNER JOIN Profile p ON p.id = l.profileId
+                 INNER JOIN Profile p ON p.id = l.borrowerId
                WHERE b.number = :bookNumber
                  AND p.number = :profileNumber
                ORDER BY l.returnDate DESC
@@ -79,7 +79,7 @@ public interface BookLendingSpringRepository extends JpaRepository<BookLendingEn
                SELECT l
                FROM BookLending l
                  INNER JOIN Book b ON b.id = l.bookId
-                 INNER JOIN Profile p ON p.id = l.profileId
+                 INNER JOIN Profile p ON p.id = l.borrowerId
                WHERE b.number = :bookNumber
                  AND p.number = :profileNumber
                  AND l.lendingDate = :lendingDate
