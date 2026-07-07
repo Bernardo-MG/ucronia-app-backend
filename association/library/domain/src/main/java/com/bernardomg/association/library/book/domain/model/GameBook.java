@@ -26,7 +26,7 @@ package com.bernardomg.association.library.book.domain.model;
 
 import java.time.Instant;
 import java.util.Collection;
-import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -66,9 +66,9 @@ public record GameBook(long number, Title title, String isbn, String language, O
         this.language = StringUtils.trim(language);
         this.publishDate = publishDate;
         this.lent = lent;
-        this.authors = Collections.unmodifiableCollection(authors);
-        this.lendings = Collections.unmodifiableCollection(lendings);
-        this.publishers = Collections.unmodifiableCollection(publishers);
+        this.authors = List.copyOf(authors);
+        this.lendings = List.copyOf(lendings);
+        this.publishers = List.copyOf(publishers);
         this.donation = donation;
         this.bookType = bookType;
         this.gameSystem = gameSystem;

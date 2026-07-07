@@ -26,7 +26,7 @@ package com.bernardomg.association.library.book.domain.model;
 
 import java.time.Instant;
 import java.util.Collection;
-import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -37,7 +37,7 @@ public record Donation(Optional<Instant> date, Collection<Donor> donors) {
         Objects.requireNonNull(donors, "Donors can't be null");
 
         this.date = date;
-        this.donors = Collections.unmodifiableCollection(donors);
+        this.donors = List.copyOf(donors);
     }
 
 }
