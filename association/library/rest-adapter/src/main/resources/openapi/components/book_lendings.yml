@@ -28,6 +28,7 @@ components:
         days:
           type: integer
           format: int64
+          minimum: 0
     BookLendingInfo:
       type: object
       properties:
@@ -41,6 +42,7 @@ components:
         days:
           type: integer
           format: int64
+          minimum: 0
     BookLendingBook:
       type: object
       required: [number, title]

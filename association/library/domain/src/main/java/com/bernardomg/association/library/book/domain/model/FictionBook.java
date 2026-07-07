@@ -26,8 +26,11 @@ package com.bernardomg.association.library.book.domain.model;
 
 import java.time.Instant;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Objects;
 import java.util.Optional;
+
+import org.apache.commons.lang3.StringUtils;
 
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
@@ -40,16 +43,27 @@ public record FictionBook(long number, Title title, String isbn, String language
             final Optional<Instant> publishDate, final boolean lent, final Collection<Author> authors,
             final Collection<BookLendingInfo> lendings, final Collection<Publisher> publishers,
             final Optional<Donation> donation) {
-        this.number = Objects.requireNonNull(number);
-        this.title = Objects.requireNonNull(title);
-        this.isbn = Objects.requireNonNull(isbn);
-        this.language = Objects.requireNonNull(language);
-        this.publishDate = Objects.requireNonNull(publishDate);
-        this.lent = Objects.requireNonNull(lent);
-        this.authors = Objects.requireNonNull(authors);
-        this.lendings = Objects.requireNonNull(lendings);
-        this.publishers = Objects.requireNonNull(publishers);
-        this.donation = Objects.requireNonNull(donation);
+        Objects.requireNonNull(number, "Number can't be null");
+        Objects.requireNonNull(title, "Title can't be null");
+        Objects.requireNonNull(isbn, "ISBN can't be null");
+        Objects.requireNonNull(language, "Language can't be null");
+        Objects.requireNonNull(publishDate, "Publish date can't be null");
+        Objects.requireNonNull(lent, "Lent flag can't be null");
+        Objects.requireNonNull(authors, "Authors can't be null");
+        Objects.requireNonNull(lendings, "Lendings can't be null");
+        Objects.requireNonNull(publishers, "Publishers can't be null");
+        Objects.requireNonNull(donation, "Donation can't be null");
+
+        this.number = number;
+        this.title = title;
+        this.isbn = StringUtils.trim(isbn);
+        this.language = StringUtils.trim(language);
+        this.publishDate = publishDate;
+        this.lent = lent;
+        this.authors = Collections.unmodifiableCollection(authors);
+        this.lendings = Collections.unmodifiableCollection(lendings);
+        this.publishers = Collections.unmodifiableCollection(publishers);
+        this.donation = donation;
     }
 
 }

@@ -32,7 +32,7 @@ import org.apache.commons.lang3.StringUtils;
 public record BookFilter(Optional<String> title) {
 
     public BookFilter(final Optional<String> title) {
-        Objects.requireNonNull(title);
+        Objects.requireNonNull(title, "Title can't be null");
 
         this.title = handleEmpty(title);
     }

@@ -32,9 +32,13 @@ import java.util.Optional;
 public record BookLendingInfo(long borrower, Instant lendingDate, Optional<Instant> returnDate) {
 
     public BookLendingInfo(final long borrower, final Instant lendingDate, final Optional<Instant> returnDate) {
-        this.borrower = Objects.requireNonNull(borrower);
-        this.lendingDate = Objects.requireNonNull(lendingDate);
-        this.returnDate = Objects.requireNonNull(returnDate);
+        Objects.requireNonNull(borrower, "Borrower can't be null");
+        Objects.requireNonNull(lendingDate, "Lending date can't be null");
+        Objects.requireNonNull(returnDate, "Return date can't be null");
+
+        this.borrower = borrower;
+        this.lendingDate = lendingDate;
+        this.returnDate = returnDate;
     }
 
     public Long getDays() {

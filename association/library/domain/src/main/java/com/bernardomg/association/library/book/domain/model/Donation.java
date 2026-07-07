@@ -26,14 +26,18 @@ package com.bernardomg.association.library.book.domain.model;
 
 import java.time.Instant;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Objects;
 import java.util.Optional;
 
 public record Donation(Optional<Instant> date, Collection<Donor> donors) {
 
     public Donation(final Optional<Instant> date, final Collection<Donor> donors) {
-        this.date = Objects.requireNonNull(date);
-        this.donors = Objects.requireNonNull(donors);
+        Objects.requireNonNull(date, "Date can't be null");
+        Objects.requireNonNull(donors, "Donors can't be null");
+
+        this.date = date;
+        this.donors = Collections.unmodifiableCollection(donors);
     }
 
 }
