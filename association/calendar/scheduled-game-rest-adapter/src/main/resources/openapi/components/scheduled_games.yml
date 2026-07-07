@@ -99,7 +99,7 @@ components:
 
     ScheduledGame:
       type: object
-      required: [title, master, start, recurrence]
+      required: [title, master, start, recurrence, published]
       properties:
         number:
           $ref: '../common/ids.yml#/components/schemas/Id'
