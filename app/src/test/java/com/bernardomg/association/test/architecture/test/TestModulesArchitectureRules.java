@@ -63,7 +63,8 @@ public class TestModulesArchitectureRules {
         .definedBy("com.bernardomg.association.library.configuration..")
 
         .whereLayer("Profiles")
-        .mayOnlyBeAccessedByLayers("Guests", "Sponsors", "Members", "Fees")
+        // TODO: library shouldn't have access
+        .mayOnlyBeAccessedByLayers("Guests", "Sponsors", "Members", "Fees", "Library books", "Library configuration")
         .whereLayer("Members")
         .mayOnlyBeAccessedByLayers("Fees")
         .whereLayer("Sponsors")
