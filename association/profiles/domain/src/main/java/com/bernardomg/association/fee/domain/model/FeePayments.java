@@ -32,10 +32,12 @@ import java.util.Objects;
 public record FeePayments(Long member, Instant paymentDate, Collection<Instant> months) {
 
     public FeePayments(final Long member, final Instant paymentDate, final Collection<Instant> months) {
-        Objects.requireNonNull(months);
+        Objects.requireNonNull(member, "Member can't be null");
+        Objects.requireNonNull(paymentDate, "Payment date can't be null");
+        Objects.requireNonNull(months, "Months can't be null");
 
-        this.member = Objects.requireNonNull(member);
-        this.paymentDate = Objects.requireNonNull(paymentDate);
+        this.member = member;
+        this.paymentDate = paymentDate;
         // TODO: Ensure it is at the beginning of the month
         this.months = List.copyOf(months);
     }

@@ -29,8 +29,11 @@ import java.util.Objects;
 public record FeeSummary(Long paid, Long unpaid) {
 
     public FeeSummary(final Long paid, final Long unpaid) {
-        this.paid = Objects.requireNonNull(paid);
-        this.unpaid = Objects.requireNonNull(unpaid);
+        Objects.requireNonNull(paid, "Paid can't be null");
+        Objects.requireNonNull(unpaid, "Unpaid can't be null");
+
+        this.paid = paid;
+        this.unpaid = unpaid;
     }
 
 }
