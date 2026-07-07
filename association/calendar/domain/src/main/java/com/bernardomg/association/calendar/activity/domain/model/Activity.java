@@ -37,13 +37,14 @@ public record Activity(long number, String title, String description, String loc
 
     public Activity(final long number, final String title, final String description, final String location,
             final String image, final Collection<ActivityDate> dates) {
-        Objects.requireNonNull(title);
-        Objects.requireNonNull(description);
-        Objects.requireNonNull(location);
-        Objects.requireNonNull(image);
-        Objects.requireNonNull(dates);
+        Objects.requireNonNull(number, "Number can't be null");
+        Objects.requireNonNull(title, "Title can't be null");
+        Objects.requireNonNull(description, "Description can't be null");
+        Objects.requireNonNull(location, "Location can't be null");
+        Objects.requireNonNull(image, "Image can't be null");
+        Objects.requireNonNull(dates, "Dates can't be null");
 
-        this.number = Objects.requireNonNull(number);
+        this.number = number;
         this.title = StringUtils.trim(title);
         this.description = StringUtils.trim(description);
         this.location = StringUtils.trim(location);
@@ -54,8 +55,11 @@ public record Activity(long number, String title, String description, String loc
     public record ActivityDate(Instant start, Instant end) {
 
         public ActivityDate(final Instant start, final Instant end) {
-            this.start = Objects.requireNonNull(start);
-            this.end = Objects.requireNonNull(end);
+            Objects.requireNonNull(start, "Start date can't be null");
+            Objects.requireNonNull(end, "End date can't be null");
+
+            this.start = start;
+            this.end = end;
         }
 
     }
