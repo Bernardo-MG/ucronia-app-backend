@@ -35,13 +35,13 @@ import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeeCalendarMembe
 import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeeCalendarResponseDto;
 import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeeDto;
 import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeeFeeTypeDto;
+import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeeMemberDto;
 import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeePageResponseDto;
 import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeePaymentsDto;
 import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeeResponseDto;
 import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeeTransactionDto;
 import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeeUpdateDto;
 import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeesResponseDto;
-import com.bernardomg.association.fee.adapter.outbound.rest.dto.MemberDto;
 import com.bernardomg.association.fee.adapter.outbound.rest.dto.MemberNameDto;
 import com.bernardomg.association.fee.adapter.outbound.rest.dto.MonthFeeDto;
 import com.bernardomg.association.fee.adapter.outbound.rest.dto.PropertyDto;
@@ -139,7 +139,7 @@ public final class FeeDtoMapper {
 
     private static final FeeDto toDto(final Fee fee) {
         final MemberNameDto     name;
-        final MemberDto         member;
+        final FeeMemberDto      member;
         final FeeTransactionDto transaction;
         final FeeFeeTypeDto     feeType;
 
@@ -153,7 +153,7 @@ public final class FeeDtoMapper {
                 .name()
                 .fullName());
 
-        member = new MemberDto().name(name)
+        member = new FeeMemberDto().name(name)
             .number(fee.member()
                 .number());
 
