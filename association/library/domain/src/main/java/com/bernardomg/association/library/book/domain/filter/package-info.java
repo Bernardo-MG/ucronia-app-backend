@@ -22,34 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.library.book.domain.model;
+/**
+ * Book filters.
+ */
 
-import java.util.Objects;
-import java.util.Optional;
-
-import org.apache.commons.lang3.StringUtils;
-
-public record BookFilter(Optional<String> title) {
-
-    public BookFilter(final Optional<String> title) {
-        Objects.requireNonNull(title, "Title can't be null");
-
-        this.title = handleEmpty(title);
-    }
-
-    private final static Optional<String> handleEmpty(final Optional<String> value) {
-        final Optional<String> trimmed;
-        final Optional<String> result;
-
-        trimmed = value.map(StringUtils::trim);
-        if (trimmed.orElse("")
-            .isEmpty()) {
-            result = Optional.empty();
-        } else {
-            result = value.map(StringUtils::trim);
-        }
-
-        return result;
-    }
-
-}
+package com.bernardomg.association.library.book.domain.filter;

@@ -27,7 +27,7 @@ package com.bernardomg.association.library.book.domain.repository;
 import java.util.Collection;
 import java.util.Optional;
 
-import com.bernardomg.association.library.book.domain.model.BookFilter;
+import com.bernardomg.association.library.book.domain.filter.BookFilter;
 import com.bernardomg.association.library.book.domain.model.GameBook;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;

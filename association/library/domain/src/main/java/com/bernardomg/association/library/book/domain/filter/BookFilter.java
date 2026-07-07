@@ -22,26 +22,34 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.library.book.usecase.service;
+package com.bernardomg.association.library.book.domain.filter;
 
+import java.util.Objects;
 import java.util.Optional;
 
-import com.bernardomg.association.library.book.domain.filter.BookFilter;
-import com.bernardomg.association.library.book.domain.model.GameBook;
-import com.bernardomg.pagination.domain.Page;
-import com.bernardomg.pagination.domain.Pagination;
-import com.bernardomg.pagination.domain.Sorting;
+import org.apache.commons.lang3.StringUtils;
 
-public interface GameBookService {
+public record BookFilter(Optional<String> title) {
 
-    public GameBook create(final GameBook book);
+    public BookFilter(final Optional<String> title) {
+        Objects.requireNonNull(title, "Title can't be null");
 
-    public GameBook delete(final long number);
+        this.title = handleEmpty(title);
+    }
 
-    public Page<GameBook> getAll(final BookFilter filter, final Pagination pagination, final Sorting sorting);
+    private final static Optional<String> handleEmpty(final Optional<String> value) {
+        final Optional<String> trimmed;
+        final Optional<String> result;
 
-    public Optional<GameBook> getOne(final long number);
+        trimmed = value.map(StringUtils::trim);
+        if (trimmed.orElse("")
+            .isEmpty()) {
+            result = Optional.empty();
+        } else {
+            result = value.map(StringUtils::trim);
+        }
 
-    public GameBook update(final GameBook book);
+        return result;
+    }
 
 }

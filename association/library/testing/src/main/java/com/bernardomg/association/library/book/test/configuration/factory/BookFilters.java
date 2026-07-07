@@ -3,7 +3,7 @@ package com.bernardomg.association.library.book.test.configuration.factory;
 
 import java.util.Optional;
 
-import com.bernardomg.association.library.book.domain.model.BookFilter;
+import com.bernardomg.association.library.book.domain.filter.BookFilter;
 
 public final class BookFilters {
 

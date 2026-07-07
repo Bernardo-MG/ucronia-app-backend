@@ -33,7 +33,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.library.TestApplication;
-import com.bernardomg.association.library.book.domain.model.BookFilter;
+import com.bernardomg.association.library.book.domain.filter.BookFilter;
 import com.bernardomg.association.library.book.domain.model.GameBook;
 import com.bernardomg.association.library.book.domain.repository.GameBookRepository;
 import com.bernardomg.association.library.book.test.configuration.data.annotation.FullGameBook;
