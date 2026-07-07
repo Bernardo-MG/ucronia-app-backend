@@ -32,8 +32,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.calendar.TestApplication;
 import com.bernardomg.association.calendar.activity.domain.repository.ActivityRepository;
+import com.bernardomg.association.calendar.activity.test.configuration.data.annotation.SingleDayActivity;
 import com.bernardomg.association.calendar.activity.test.configuration.factory.ActivityConstants;
-import com.bernardomg.association.calendar.test.configuration.data.annotation.SingleDayActivity;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest

@@ -35,8 +35,6 @@ import com.bernardomg.association.library.adapter.outbound.rest.dto.BookCreation
 import com.bernardomg.association.library.adapter.outbound.rest.dto.BookLendingInfoDto;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.BookTitleDto;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.BookTypeDto;
-import com.bernardomg.association.library.adapter.outbound.rest.dto.BorrowerDto;
-import com.bernardomg.association.library.adapter.outbound.rest.dto.BorrowerNameDto;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.DonationDto;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.DonorDto;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.DonorNameDto;
@@ -269,8 +267,8 @@ public final class BookDtoMapper {
 
         title = new Title(supertitle, bookCreationDto.getTitle()
             .getTitle(), subtitle);
-        return new FictionBook(-1, title, bookCreationDto.getIsbn(), bookCreationDto.getLanguage(), Optional.empty(), false,
-            List.of(), List.of(), List.of(), Optional.empty());
+        return new FictionBook(-1, title, bookCreationDto.getIsbn(), bookCreationDto.getLanguage(), Optional.empty(),
+            false, List.of(), List.of(), List.of(), Optional.empty());
     }
 
     public static final FictionBookResponseDto toFictionResponseDto(final Optional<FictionBook> fictionBooks) {
@@ -367,22 +365,7 @@ public final class BookDtoMapper {
     }
 
     private static final BookLendingInfoDto toDto(final BookLendingInfo lending) {
-        final BorrowerNameDto name;
-        final BorrowerDto     borrower;
-
-        name = new BorrowerNameDto().firstName(lending.borrower()
-            .name()
-            .firstName())
-            .lastName(lending.borrower()
-                .name()
-                .lastName())
-            .fullName(lending.borrower()
-                .name()
-                .fullName());
-        borrower = new BorrowerDto().name(name)
-            .number(lending.borrower()
-                .number());
-        return new BookLendingInfoDto().borrower(borrower)
+        return new BookLendingInfoDto().borrower(lending.borrower())
             .lendingDate(lending.lendingDate())
             .returnDate(lending.returnDate()
                 .orElse(null))

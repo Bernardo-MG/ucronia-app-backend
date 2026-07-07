@@ -50,7 +50,7 @@ import com.bernardomg.pagination.domain.Sorting;
 class TestActivitieserviceGetAll {
 
     @Mock
-    private ActivityRepository     ActivityRepository;
+    private ActivityRepository     activityRepository;
 
     @InjectMocks
     private DefaultActivityService service;
@@ -72,7 +72,7 @@ class TestActivitieserviceGetAll {
         sorting = Sorting.unsorted();
 
         existing = new Page<>(List.of(Activities.singleDay()), 0, 0, 0, 0, 0, false, false, sorting);
-        given(ActivityRepository.findAll(pagination, sorting)).willReturn(existing);
+        given(activityRepository.findAll(pagination, sorting)).willReturn(existing);
 
         // WHEN
         activities = service.getAll(pagination, sorting);
@@ -88,7 +88,7 @@ class TestActivitieserviceGetAll {
     @Test
     @DisplayName("When there is no data nothing is returned")
     void testGetAll_NoData() {
-        final Page<Activity> Activities;
+        final Page<Activity> activities;
         final Page<Activity> existing;
         final Pagination     pagination;
         final Sorting        sorting;
@@ -98,13 +98,13 @@ class TestActivitieserviceGetAll {
         sorting = Sorting.unsorted();
 
         existing = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
-        given(ActivityRepository.findAll(pagination, sorting)).willReturn(existing);
+        given(activityRepository.findAll(pagination, sorting)).willReturn(existing);
 
         // WHEN
-        Activities = service.getAll(pagination, sorting);
+        activities = service.getAll(pagination, sorting);
 
         // THEN
-        Assertions.assertThat(Activities)
+        Assertions.assertThat(activities)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("Activities")

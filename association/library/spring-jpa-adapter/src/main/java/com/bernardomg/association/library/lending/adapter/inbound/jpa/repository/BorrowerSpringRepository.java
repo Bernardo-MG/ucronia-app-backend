@@ -27,20 +27,11 @@ package com.bernardomg.association.library.lending.adapter.inbound.jpa.repositor
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.BorrowerEntity;
 
 public interface BorrowerSpringRepository extends JpaRepository<BorrowerEntity, Long> {
 
-    public Optional<BorrowerEntity> findByNumber(final long number);
-
-    @Query("""
-            SELECT m
-            FROM Borrower m
-            WHERE m.id = :id
-            """)
-    public Optional<BorrowerEntity> findByProfileId(@Param("id") final Long id);
+    public Optional<BorrowerEntity> getByNumber(long borrower);
 
 }

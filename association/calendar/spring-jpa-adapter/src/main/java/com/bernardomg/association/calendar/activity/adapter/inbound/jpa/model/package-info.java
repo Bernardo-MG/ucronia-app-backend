@@ -23,7 +23,7 @@
  */
 
 /**
- * Association activity persistence model.
+ * Activity persistence model.
  */
 
 package com.bernardomg.association.calendar.activity.adapter.inbound.jpa.model;

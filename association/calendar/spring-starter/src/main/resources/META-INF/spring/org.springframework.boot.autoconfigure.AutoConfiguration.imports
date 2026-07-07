@@ -1,2 +1,2 @@
-com.bernardomg.association.calendar.activity.configuration.AssociationCalendarAutoConfiguration
-com.bernardomg.association.calendar.configuration.AssociationCalendarAutoConfiguration
+com.bernardomg.association.calendar.activity.configuration.AssociationActivityAutoConfiguration
+com.bernardomg.association.calendar.game.configuration.AssociationGameSessionAutoConfiguration

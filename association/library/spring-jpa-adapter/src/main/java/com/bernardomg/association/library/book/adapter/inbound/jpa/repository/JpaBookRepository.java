@@ -40,9 +40,6 @@ import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.library.book.domain.repository.BookRepository;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.BookLendingEntity;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.repository.BookLendingSpringRepository;
-import com.bernardomg.association.library.lending.adapter.inbound.jpa.repository.BorrowerSpringRepository;
-import com.bernardomg.association.library.lending.domain.exception.MissingBorrowerException;
-import com.bernardomg.association.library.lending.domain.model.Borrower;
 
 @Transactional
 public final class JpaBookRepository implements BookRepository {
@@ -56,15 +53,11 @@ public final class JpaBookRepository implements BookRepository {
 
     private final BookSpringRepository        bookSpringRepository;
 
-    private final BorrowerSpringRepository    borrowerSpringRepository;
-
     public JpaBookRepository(final BookSpringRepository bookSpringRepo,
-            final BorrowerSpringRepository borrowerSpringRepo,
             final BookLendingSpringRepository bookLendingSpringRepo) {
         super();
 
         bookSpringRepository = Objects.requireNonNull(bookSpringRepo);
-        borrowerSpringRepository = Objects.requireNonNull(borrowerSpringRepo);
         bookLendingSpringRepository = Objects.requireNonNull(bookLendingSpringRepo);
     }
 
@@ -97,15 +90,9 @@ public final class JpaBookRepository implements BookRepository {
     }
 
     private final BookLendingInfo toDomain(final BookEntity bookEntity, final BookLendingEntity entity) {
-        final Borrower borrower;
-        borrower = borrowerSpringRepository.findByProfileId(entity.getProfileId())
-            .map(BookEntityMapper::toDomain)
-            .orElseThrow(() -> {
-                log.error("Missing profile {}", entity.getProfileId());
-                throw new MissingBorrowerException(entity.getProfileId());
-            });
         new Title(bookEntity.getSupertitle(), bookEntity.getTitle(), bookEntity.getSubtitle());
-        return new BookLendingInfo(borrower, entity.getLendingDate(), Optional.ofNullable(entity.getReturnDate()));
+        return new BookLendingInfo(entity.getBorrower()
+            .getNumber(), entity.getLendingDate(), Optional.ofNullable(entity.getReturnDate()));
     }
 
 }

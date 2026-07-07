@@ -176,6 +176,9 @@ databaseChangeLog:
               - column:
                   name: supertitle
                   type: varchar(100)
+                  constraints:
+                    nullable: true
+                  defaultValue: ''
               - column:
                   name: title
                   type: varchar(100)
@@ -184,6 +187,9 @@ databaseChangeLog:
               - column:
                   name: subtitle
                   type: varchar(100)
+                  constraints:
+                    nullable: true
+                  defaultValue: ''
               - column:
                   name: language
                   type: varchar(15)
@@ -337,7 +343,7 @@ databaseChangeLog:
                     references: inventory.books(id)
                     deleteCascade: true
               - column:
-                  name: profile_id
+                  name: borrower_id
                   type: bigint
                   constraints:
                     nullable: false
@@ -357,4 +363,4 @@ databaseChangeLog:
             constraintName: book_lendings_key
             schemaName: inventory
             tableName: book_lendings
-            columnNames: 'book_id, profile_id, lending_date'
+            columnNames: 'book_id, borrower_id, lending_date'

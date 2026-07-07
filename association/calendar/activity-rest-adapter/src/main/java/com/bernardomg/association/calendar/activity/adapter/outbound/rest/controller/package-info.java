@@ -23,7 +23,7 @@
  */
 
 /**
- * Association activity controllers.
+ * Activity controllers.
  */
 
 package com.bernardomg.association.calendar.activity.adapter.outbound.rest.controller;

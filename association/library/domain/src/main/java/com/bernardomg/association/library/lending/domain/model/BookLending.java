@@ -31,9 +31,9 @@ import java.util.Optional;
 
 import com.bernardomg.association.library.book.domain.model.Title;
 
-public record BookLending(LentBook book, Borrower borrower, Instant lendingDate, Optional<Instant> returnDate) {
+public record BookLending(LentBook book, long borrower, Instant lendingDate, Optional<Instant> returnDate) {
 
-    public BookLending(final LentBook book, final Borrower borrower, final Instant lendingDate,
+    public BookLending(final LentBook book, final long borrower, final Instant lendingDate,
             final Optional<Instant> returnDate) {
         this.book = Objects.requireNonNull(book);
         this.borrower = Objects.requireNonNull(borrower);
@@ -41,7 +41,7 @@ public record BookLending(LentBook book, Borrower borrower, Instant lendingDate,
         this.returnDate = Objects.requireNonNull(returnDate);
     }
 
-    public BookLending(final LentBook book, final Borrower borrower, final Instant lendingDate) {
+    public BookLending(final LentBook book, final long borrower, final Instant lendingDate) {
         this(book, borrower, lendingDate, Optional.empty());
     }
 
