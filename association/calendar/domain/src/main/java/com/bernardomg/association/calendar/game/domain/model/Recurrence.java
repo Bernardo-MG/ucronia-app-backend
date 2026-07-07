@@ -9,9 +9,10 @@ public record Recurrence(int interval, RecurrenceUnit unit) {
         Objects.requireNonNull(interval, "Interval can't be null");
         Objects.requireNonNull(unit, "Unit can't be null");
 
-        if (interval < 0) {
-            throw new IllegalArgumentException("Interval must be at least 0");
-        }
+        // Apply validations like this
+        // if (interval < 0) {
+        // throw new IllegalArgumentException("Interval must be at least 0");
+        // }
     }
 
     public enum RecurrenceUnit {
