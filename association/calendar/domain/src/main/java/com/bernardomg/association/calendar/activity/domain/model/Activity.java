@@ -58,6 +58,7 @@ public record Activity(long number, String title, String description, String loc
             Objects.requireNonNull(start, "Start date can't be null");
             Objects.requireNonNull(end, "End date can't be null");
 
+            // TODO: check date order
             this.start = start;
             this.end = end;
         }

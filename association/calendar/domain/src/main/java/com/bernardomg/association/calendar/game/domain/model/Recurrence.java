@@ -6,12 +6,12 @@ import java.util.Objects;
 public record Recurrence(int interval, RecurrenceUnit unit) {
 
     public Recurrence {
-        Objects.requireNonNull(unit);
+        Objects.requireNonNull(interval, "Interval can't be null");
+        Objects.requireNonNull(unit, "Unit can't be null");
 
-        // TODO: model should validate like this
-        // if (interval < 0) {
-        // throw new IllegalArgumentException("Interval must be at least 0");
-        // }
+        if (interval < 0) {
+            throw new IllegalArgumentException("Interval must be at least 0");
+        }
     }
 
     public enum RecurrenceUnit {
