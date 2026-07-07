@@ -6,6 +6,7 @@ import static org.mockito.BDDMockito.given;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -23,9 +24,12 @@ import com.bernardomg.association.library.book.domain.model.FictionBook;
 import com.bernardomg.association.library.book.domain.model.GameBook;
 import com.bernardomg.association.library.book.domain.repository.FictionBookRepository;
 import com.bernardomg.association.library.book.domain.repository.GameBookRepository;
+import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
 import com.bernardomg.association.library.book.test.configuration.factory.FictionBooks;
 import com.bernardomg.association.library.book.test.configuration.factory.GameBooks;
 import com.bernardomg.association.library.book.usecase.service.ExcelPoiBookReportService;
+import com.bernardomg.association.profile.domain.repository.ProfileRepository;
+import com.bernardomg.association.profile.test.configuration.factory.Profiles;
 import com.bernardomg.pagination.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
@@ -37,6 +41,9 @@ class TestExcelPoiBookReportServiceGetReport {
 
     @Mock
     private GameBookRepository        gameBookRepository;
+
+    @Mock
+    private  ProfileRepository     profileRepository;
 
     @InjectMocks
     private ExcelPoiBookReportService service;
@@ -171,6 +178,8 @@ class TestExcelPoiBookReportServiceGetReport {
         given(gameBookRepository.findAll(Sorting.asc("title", "language", "isbn"))).willReturn(List.of(gameBook));
 
         given(fictionBookRepository.findAll(Sorting.asc("title", "language", "isbn"))).willReturn(List.of(fictionBook));
+
+        given(profileRepository.findOne(BookConstants.BORROWER)).willReturn(Optional.of(Profiles.valid()));
 
         // WHEN
         report = service.getReport();
