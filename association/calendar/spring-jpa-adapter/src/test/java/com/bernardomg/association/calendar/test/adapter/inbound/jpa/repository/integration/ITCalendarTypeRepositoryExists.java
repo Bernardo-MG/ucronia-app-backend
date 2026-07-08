@@ -33,7 +33,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.bernardomg.association.calendar.TestApplication;
 import com.bernardomg.association.calendar.activity.test.configuration.factory.ActivityConstants;
 import com.bernardomg.association.calendar.domain.repository.CalendarTypeRepository;
-import com.bernardomg.association.calendar.test.configuration.data.annotation.ActivityCalendarType;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -45,13 +44,12 @@ class ITCalendarTypeRepositoryExists {
     private CalendarTypeRepository repository;
 
     @Test
-    @DisplayName("With an existing activity, it exists")
-    @ActivityCalendarType
+    @DisplayName("With an existing calendar type, it exists")
     void testExists() {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(ActivityConstants.NUMBER);
+        exists = repository.exists(ActivityConstants.PROFILE_TYPE_NUMBER);
 
         // THEN
         Assertions.assertThat(exists)
@@ -60,12 +58,12 @@ class ITCalendarTypeRepositoryExists {
     }
 
     @Test
-    @DisplayName("With no activity, nothing exists")
+    @DisplayName("With a not existing calendar type, nothing exists")
     void testExists_NoData() {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(ActivityConstants.NUMBER);
+        exists = repository.exists(-1);
 
         // THEN
         Assertions.assertThat(exists)

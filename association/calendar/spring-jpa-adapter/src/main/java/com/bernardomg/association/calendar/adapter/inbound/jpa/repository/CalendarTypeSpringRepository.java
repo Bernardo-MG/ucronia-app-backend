@@ -10,11 +10,11 @@ import com.bernardomg.association.calendar.adapter.inbound.jpa.model.CalendarTyp
 
 public interface CalendarTypeSpringRepository extends JpaRepository<CalendarTypeEntity, Long> {
 
+    public boolean existsByNumber(final long number);
+
     public Optional<CalendarTypeEntity> findByNumber(Long number);
 
     @Query("SELECT COALESCE(MAX(t.number), 0) + 1 FROM CalendarType t")
     public Long findNextNumber();
-
-    public boolean existsByNumber(final long number);
 
 }
