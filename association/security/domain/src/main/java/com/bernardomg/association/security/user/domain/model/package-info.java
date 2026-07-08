@@ -22,19 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.domain.model;
+/**
+ * User model.
+ */
 
-import java.time.Instant;
-import java.util.Objects;
-
-public record MembershipEvolutionMonth(Instant month, Long total) {
-
-    public MembershipEvolutionMonth(final Instant month, final Long total) {
-        Objects.requireNonNull(month, "Month can't be null");
-        Objects.requireNonNull(total, "Total can't be null");
-
-        this.month = month;
-        this.total = total;
-    }
-
-}
+package com.bernardomg.association.security.user.domain.model;

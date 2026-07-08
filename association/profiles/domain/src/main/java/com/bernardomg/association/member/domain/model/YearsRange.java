@@ -32,7 +32,7 @@ import java.util.Objects;
 public record YearsRange(Collection<Year> years) {
 
     public YearsRange(final Collection<Year> years) {
-        Objects.requireNonNull(years);
+        Objects.requireNonNull(years, "Years can't be null");
 
         this.years = List.copyOf(years);
     }

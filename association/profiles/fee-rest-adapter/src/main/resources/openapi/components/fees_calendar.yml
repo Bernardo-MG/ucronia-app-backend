@@ -31,6 +31,8 @@ components:
           type: array
           items:
             type: integer
+            minimum: 1990
+            maximum: 3000
             example: 2023
     FeeCalendar:
       type: object

@@ -23,6 +23,7 @@ components:
         amount:
           type: number
           format: float
+          minimum: 0
     FeeTypeUpdate:
       type: object
       required: [name, amount]
@@ -33,6 +34,7 @@ components:
         amount:
           type: number
           format: float
+          minimum: 0
     FeeType:
       type: object
       properties:
@@ -40,9 +42,11 @@ components:
           $ref: '../common/ids.yml#/components/schemas/Id'
         name:
           type: string
+          maxLength: 50
         amount:
           type: number
           format: float
+          minimum: 0
     FeeTypePageResponse:
       allOf:
         - $ref: '../common/responses.yml#/components/schemas/PageResponse'

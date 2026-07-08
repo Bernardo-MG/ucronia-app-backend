@@ -34,12 +34,18 @@ public record Fee(Instant month, Boolean paid, FeeMember member, FeeType feeType
 
     public Fee(final Instant month, final Boolean paid, final FeeMember member, final FeeType feeType,
             final Optional<Transaction> transaction) {
+        Objects.requireNonNull(month, "Month can't be null");
+        Objects.requireNonNull(paid, "Paid flag can't be null");
+        Objects.requireNonNull(member, "Member can't be null");
+        Objects.requireNonNull(feeType, "Fee type can't be null");
+        Objects.requireNonNull(transaction, "Transaction can't be null");
+
         // TODO: Ensure it is at the beginning of the month
-        this.month = Objects.requireNonNull(month);
-        this.paid = Objects.requireNonNull(paid);
-        this.member = Objects.requireNonNull(member);
-        this.feeType = Objects.requireNonNull(feeType);
-        this.transaction = Objects.requireNonNull(transaction);
+        this.month = month;
+        this.paid = paid;
+        this.member = member;
+        this.feeType = feeType;
+        this.transaction = transaction;
     }
 
     public static Fee unpaid(final Instant month, final Long number, final Name name, final FeeType feeType) {
@@ -67,8 +73,11 @@ public record Fee(Instant month, Boolean paid, FeeMember member, FeeType feeType
     public static record Transaction(Long index, Instant date) {
 
         public Transaction(final Long index, final Instant date) {
-            this.index = Objects.requireNonNull(index);
-            this.date = Objects.requireNonNull(date);
+            Objects.requireNonNull(index, "Index can't be null");
+            Objects.requireNonNull(date, "Date can't be null");
+
+            this.index = index;
+            this.date = date;
         }
     }
 

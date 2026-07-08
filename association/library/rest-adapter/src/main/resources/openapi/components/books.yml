@@ -109,12 +109,16 @@ components:
       properties:
         supertitle:
           type: string
+          maxLength: 100
         title:
           type: string
+          maxLength: 100
         subtitle:
           type: string
+          maxLength: 100
         fullTitle:
           type: string
+          maxLength: 302
     Donation:
       type: object
       properties:
@@ -134,8 +138,10 @@ components:
           $ref: '#/components/schemas/BookTitle'
         isbn:
           type: string
+          maxLength: 17
         language:
           type: string
+          maxLength: 15
         publishDate:
           $ref: '../common/dates.yml#/components/schemas/Date'
           nullable: true
@@ -165,8 +171,10 @@ components:
           $ref: '#/components/schemas/BookTitle'
         isbn:
           type: string
+          maxLength: 17
         language:
           type: string
+          maxLength: 15
         publishDate:
           $ref: '../common/dates.yml#/components/schemas/Date'
           nullable: true

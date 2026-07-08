@@ -18,12 +18,16 @@ components:
       properties:
         map:
           type: string
+          maxLength: 300
         calendar:
           type: string
+          maxLength: 300
         email:
           type: string
+          maxLength: 300
         instagram:
           type: string
+          maxLength: 300
     PublicSettingsResponse:
       type: object
       properties:

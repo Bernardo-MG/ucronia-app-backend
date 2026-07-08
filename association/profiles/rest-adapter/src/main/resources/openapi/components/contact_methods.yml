@@ -21,6 +21,7 @@ components:
           $ref: '../common/ids.yml#/components/schemas/Id'
         name:
           type: string
+          maxLength: 50
           description: Name of the contact method.
     ContactMethodCreation:
       type: object
@@ -28,16 +29,16 @@ components:
       properties:
         name:
           type: string
-          description: Name of the new contact method.
           maxLength: 50
+          description: Name of the new contact method.
     ContactMethodUpdate:
       type: object
       required: [name]
       properties:
         name:
           type: string
-          description: Updated name of the contact method.
           maxLength: 50
+          description: Updated name of the contact method.
     ContactMethodPageResponse:
       allOf:
         - $ref: '../common/responses.yml#/components/schemas/PageResponse'

@@ -40,16 +40,19 @@ public record Profile(Optional<String> identifier, Long number, Name name, Optio
     public Profile(final Optional<String> identifier, final Long number, final Name name,
             final Optional<Instant> birthDate, final Collection<ContactChannel> contactChannels,
             final Optional<String> address, final Optional<String> comments, final Set<String> types) {
-        Objects.requireNonNull(identifier);
-        Objects.requireNonNull(address);
-        Objects.requireNonNull(comments);
-        Objects.requireNonNull(types);
-        Objects.requireNonNull(contactChannels);
+        Objects.requireNonNull(identifier, "Identifier can't be null");
+        Objects.requireNonNull(number, "Number can't be null");
+        Objects.requireNonNull(name, "Name can't be null");
+        Objects.requireNonNull(birthDate, "Birth date can't be null");
+        Objects.requireNonNull(address, "Address can't be null");
+        Objects.requireNonNull(comments, "Comments can't be null");
+        Objects.requireNonNull(types, "Types can't be null");
+        Objects.requireNonNull(contactChannels, "Contact channels can't be null");
 
         this.identifier = handleEmpty(identifier);
-        this.number = Objects.requireNonNull(number);
-        this.name = Objects.requireNonNull(name);
-        this.birthDate = Objects.requireNonNull(birthDate);
+        this.number = number;
+        this.name = name;
+        this.birthDate = birthDate;
         this.contactChannels = List.copyOf(contactChannels);
         this.address = handleEmpty(address);
         this.comments = handleEmpty(comments);

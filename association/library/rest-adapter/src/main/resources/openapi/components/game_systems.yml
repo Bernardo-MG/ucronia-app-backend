@@ -20,6 +20,7 @@ components:
           $ref: '../common/ids.yml#/components/schemas/Id'
         name:
           type: string
+          maxLength: 100
           example: 'd20'
     GameSystemCreation:
       type: object
@@ -27,16 +28,16 @@ components:
       properties:
         name:
           type: string
-          example: 'd20'
           maxLength: 100
+          example: 'd20'
     GameSystemUpdate:
       type: object
       required: [name]
       properties:
         name:
           type: string
-          example: 'd20'
           maxLength: 100
+          example: 'd20'
     GameSystemPageResponse:
       allOf:
         - $ref: '../common/responses.yml#/components/schemas/PageResponse'

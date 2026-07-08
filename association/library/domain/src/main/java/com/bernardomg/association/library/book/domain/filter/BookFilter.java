@@ -22,19 +22,34 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.domain.model;
+package com.bernardomg.association.library.book.domain.filter;
 
-import java.time.Instant;
 import java.util.Objects;
+import java.util.Optional;
 
-public record MembershipEvolutionMonth(Instant month, Long total) {
+import org.apache.commons.lang3.StringUtils;
 
-    public MembershipEvolutionMonth(final Instant month, final Long total) {
-        Objects.requireNonNull(month, "Month can't be null");
-        Objects.requireNonNull(total, "Total can't be null");
+public record BookFilter(Optional<String> title) {
 
-        this.month = month;
-        this.total = total;
+    public BookFilter(final Optional<String> title) {
+        Objects.requireNonNull(title, "Title can't be null");
+
+        this.title = handleEmpty(title);
+    }
+
+    private final static Optional<String> handleEmpty(final Optional<String> value) {
+        final Optional<String> trimmed;
+        final Optional<String> result;
+
+        trimmed = value.map(StringUtils::trim);
+        if (trimmed.orElse("")
+            .isEmpty()) {
+            result = Optional.empty();
+        } else {
+            result = value.map(StringUtils::trim);
+        }
+
+        return result;
     }
 
 }

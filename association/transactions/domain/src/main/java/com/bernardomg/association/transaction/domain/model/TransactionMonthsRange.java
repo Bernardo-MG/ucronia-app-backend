@@ -32,7 +32,7 @@ import java.util.Objects;
 public record TransactionMonthsRange(Collection<YearMonth> months) {
 
     public TransactionMonthsRange(final Collection<YearMonth> months) {
-        Objects.requireNonNull(months);
+        Objects.requireNonNull(months, "Months can't be null");
 
         this.months = List.copyOf(months);
     }

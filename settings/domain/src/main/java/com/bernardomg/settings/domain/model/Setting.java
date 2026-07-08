@@ -31,9 +31,9 @@ import org.apache.commons.lang3.StringUtils;
 public record Setting(String type, String code, String value) {
 
     public Setting(final String type, final String code, final String value) {
-        Objects.requireNonNull(type);
-        Objects.requireNonNull(code);
-        Objects.requireNonNull(value);
+        Objects.requireNonNull(type, "Type can't be null");
+        Objects.requireNonNull(code, "Code can't be null");
+        Objects.requireNonNull(value, "Value can't be null");
 
         this.type = StringUtils.trim(type);
         this.code = StringUtils.trim(code);

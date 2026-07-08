@@ -35,21 +35,27 @@ public record ScheduledGame(long number, String title, String description, Strin
     public ScheduledGame(final long number, final String title, final String description, final String location,
             final Long master, final int maxPlayers, final String image, final Instant start,
             final Recurrence recurrence, final boolean published) {
-        Objects.requireNonNull(title);
-        Objects.requireNonNull(description);
-        Objects.requireNonNull(location);
-        Objects.requireNonNull(image);
+        Objects.requireNonNull(number, "Number can't be null");
+        Objects.requireNonNull(title, "Title can't be null");
+        Objects.requireNonNull(description, "Description can't be null");
+        Objects.requireNonNull(location, "Location can't be null");
+        Objects.requireNonNull(image, "Image can't be null");
+        Objects.requireNonNull(master, "Master can't be null");
+        Objects.requireNonNull(maxPlayers, "Max players can't be null");
+        Objects.requireNonNull(start, "Start can't be null");
+        Objects.requireNonNull(recurrence, "Recurrence can't be null");
+        Objects.requireNonNull(published, "Published flag can't be null");
 
-        this.number = Objects.requireNonNull(number);
+        this.number = number;
         this.title = StringUtils.trim(title);
         this.description = StringUtils.trim(description);
         this.location = StringUtils.trim(location);
-        this.master = Objects.requireNonNull(master);
-        this.maxPlayers = Objects.requireNonNull(maxPlayers);
+        this.master = master;
+        this.maxPlayers = maxPlayers;
         this.image = StringUtils.trim(image);
-        this.start = Objects.requireNonNull(start);
-        this.recurrence = Objects.requireNonNull(recurrence);
-        this.published = Objects.requireNonNull(published);
+        this.start = start;
+        this.recurrence = recurrence;
+        this.published = published;
     }
 
 }

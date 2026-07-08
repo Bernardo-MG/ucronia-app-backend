@@ -11,11 +11,13 @@ import com.bernardomg.association.profile.domain.model.Name;
 public record FeeProfile(Optional<String> identifier, Long number, Name name) {
 
     public FeeProfile(final Optional<String> identifier, final Long number, final Name name) {
-        Objects.requireNonNull(identifier);
+        Objects.requireNonNull(identifier, "Identifier can't be null");
+        Objects.requireNonNull(number, "Number can't be null");
+        Objects.requireNonNull(name, "Name can't be null");
 
         this.identifier = handleEmpty(identifier);
-        this.number = Objects.requireNonNull(number);
-        this.name = Objects.requireNonNull(name);
+        this.number = number;
+        this.name = name;
     }
 
     private static final Optional<String> handleEmpty(final Optional<String> value) {

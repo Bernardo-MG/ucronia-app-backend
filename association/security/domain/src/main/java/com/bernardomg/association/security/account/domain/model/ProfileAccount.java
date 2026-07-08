@@ -57,31 +57,34 @@ public final record ProfileAccount(String email, String username, String name, O
 
     public ProfileAccount(final String email, final String username, final String name,
             final Optional<Profile> profile) {
-        Objects.requireNonNull(email);
-        Objects.requireNonNull(username);
-        Objects.requireNonNull(name);
+        Objects.requireNonNull(email, "Email can't be null");
+        Objects.requireNonNull(username, "Username can't be null");
+        Objects.requireNonNull(name, "Name can't be null");
+        Objects.requireNonNull(profile, "Profile can't be null");
 
         this.email = StringUtils.trim(email);
         this.username = StringUtils.trim(username);
         this.name = StringUtils.trim(name);
-        this.profile = Objects.requireNonNull(profile);
+        this.profile = profile;
     }
 
     public record Profile(Optional<String> identifier, Long number, Name name) {
 
         public Profile(final Optional<String> identifier, final Long number, final Name name) {
-            Objects.requireNonNull(identifier);
+            Objects.requireNonNull(identifier, "Identifier can't be null");
+            Objects.requireNonNull(number, "Number can't be null");
+            Objects.requireNonNull(name, "Name can't be null");
 
             this.identifier = handleEmpty(identifier);
-            this.number = Objects.requireNonNull(number);
-            this.name = Objects.requireNonNull(name);
+            this.number = number;
+            this.name = name;
         }
 
         public record Name(String firstName, String lastName) {
 
             public Name(final String firstName, final String lastName) {
-                Objects.requireNonNull(firstName);
-                Objects.requireNonNull(lastName);
+                Objects.requireNonNull(firstName, "First name can't be null");
+                Objects.requireNonNull(lastName, "Last anme can't be null");
 
                 this.firstName = StringUtils.trim(firstName);
                 this.lastName = StringUtils.trim(lastName);

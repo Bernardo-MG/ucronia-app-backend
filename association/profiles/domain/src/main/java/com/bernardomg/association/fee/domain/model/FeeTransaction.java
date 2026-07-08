@@ -32,12 +32,15 @@ import org.apache.commons.lang3.StringUtils;
 public record FeeTransaction(long index, Instant date, float amount, String description) {
 
     public FeeTransaction(final long index, final Instant date, final float amount, final String description) {
-        Objects.requireNonNull(description);
+        Objects.requireNonNull(description, "Description can't be null");
+        Objects.requireNonNull(amount, "Amount can't be null");
+        Objects.requireNonNull(date, "Date can't be null");
+        Objects.requireNonNull(index, "Index can't be null");
 
-        this.amount = Objects.requireNonNull(amount);
-        this.date = Objects.requireNonNull(date);
+        this.amount = amount;
+        this.date = date;
         this.description = StringUtils.trim(description);
-        this.index = Objects.requireNonNull(index);
+        this.index = index;
     }
 
 }

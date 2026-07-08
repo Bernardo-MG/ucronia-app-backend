@@ -29,8 +29,11 @@ import java.util.Objects;
 public record MemberCount(Long active, Long renew) {
 
     public MemberCount(final Long active, final Long renew) {
-        this.active = Objects.requireNonNull(active);
-        this.renew = Objects.requireNonNull(renew);
+        Objects.requireNonNull(active, "Active count can't be null");
+        Objects.requireNonNull(renew, "Renew count can't be null");
+
+        this.active = active;
+        this.renew = renew;
     }
 
 }

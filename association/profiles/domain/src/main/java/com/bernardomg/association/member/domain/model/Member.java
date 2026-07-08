@@ -46,22 +46,28 @@ public record Member(Optional<String> identifier, Long number, Name name, Option
             final Optional<Instant> birthDate, final Collection<ContactChannel> contactChannels,
             final Optional<String> address, final Optional<String> comments, final Boolean active, final Boolean renew,
             final FeeType feeType, final Set<String> types) {
-        Objects.requireNonNull(identifier);
-        Objects.requireNonNull(address);
-        Objects.requireNonNull(comments);
-        Objects.requireNonNull(types);
-        Objects.requireNonNull(contactChannels);
+        Objects.requireNonNull(identifier, "Identifier can't be null");
+        Objects.requireNonNull(number, "Number can't be null");
+        Objects.requireNonNull(name, "Name can't be null");
+        Objects.requireNonNull(birthDate, "Birthdate can't be null");
+        Objects.requireNonNull(address, "Address can't be null");
+        Objects.requireNonNull(comments, "Comments can't be null");
+        Objects.requireNonNull(active, "Active flag can't be null");
+        Objects.requireNonNull(renew, "Renew flag can't be null");
+        Objects.requireNonNull(feeType, "Fee type can't be null");
+        Objects.requireNonNull(types, "Types can't be null");
+        Objects.requireNonNull(contactChannels, "Contact channels can't be null");
 
         this.identifier = handleEmpty(identifier);
-        this.number = Objects.requireNonNull(number);
-        this.name = Objects.requireNonNull(name);
-        this.birthDate = Objects.requireNonNull(birthDate);
+        this.number = number;
+        this.name = name;
+        this.birthDate = birthDate;
         this.contactChannels = List.copyOf(contactChannels);
         this.address = handleEmpty(address);
         this.comments = handleEmpty(comments);
-        this.active = Objects.requireNonNull(active);
-        this.renew = Objects.requireNonNull(renew);
-        this.feeType = Objects.requireNonNull(feeType);
+        this.active = active;
+        this.renew = renew;
+        this.feeType = feeType;
         this.types = Set.copyOf(types);
     }
 
