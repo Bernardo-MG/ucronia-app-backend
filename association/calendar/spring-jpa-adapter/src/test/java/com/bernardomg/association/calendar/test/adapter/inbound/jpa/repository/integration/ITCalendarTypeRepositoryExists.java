@@ -49,7 +49,7 @@ class ITCalendarTypeRepositoryExists {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(ActivityConstants.PROFILE_TYPE_NUMBER);
+        exists = repository.exists(ActivityConstants.CALENDAR_TYPE_NUMBER);
 
         // THEN
         Assertions.assertThat(exists)

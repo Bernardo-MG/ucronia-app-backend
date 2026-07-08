@@ -22,11 +22,11 @@ public final class ScheduledGameConstants {
 
     public static final long    NUMBER_MASTER       = 10;
 
-    public static final String  PROFILE_TYPE_COLOR  = "#0000FF";
+    public static final String  CALENDAR_TYPE_ONESHOT_COLOR  = "#008000";
 
-    public static final String  PROFILE_TYPE_NAME   = "Partida";
+    public static final String  CALENDAR_TYPE_ONESHOT_NAME   = "Oneshot";
 
-    public static final long    PROFILE_TYPE_NUMBER = 2;
+    public static final long    CALENDAR_TYPE_ONESHOT_NUMBER = 2;
 
     public static final boolean PUBLISHED           = false;
 

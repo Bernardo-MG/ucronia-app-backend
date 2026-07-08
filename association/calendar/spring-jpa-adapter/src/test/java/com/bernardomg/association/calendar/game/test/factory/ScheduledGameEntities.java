@@ -36,7 +36,7 @@ public final class ScheduledGameEntities {
         profile = ScheduledGameProfileEntities.master();
         entity.setMaster(profile);
 
-        entity.setTypes(new HashSet<>(List.of(CalendarTypeEntities.game())));
+        entity.setTypes(new HashSet<>(List.of(CalendarTypeEntities.oneshot())));
 
         return entity;
     }
@@ -65,7 +65,7 @@ public final class ScheduledGameEntities {
         profile = ScheduledGameProfileEntities.master();
         entity.setMaster(profile);
 
-        entity.setTypes(new HashSet<>(List.of(CalendarTypeEntities.game())));
+        entity.setTypes(new HashSet<>(List.of(CalendarTypeEntities.oneshot())));
 
         return entity;
     }

@@ -15,11 +15,11 @@ public final class ActivityConstants {
 
     public static final long   NUMBER              = 10;
 
-    public static final String PROFILE_TYPE_COLOR  = "#FFA500";
+    public static final String CALENDAR_TYPE_COLOR  = "#FFA500";
 
-    public static final String PROFILE_TYPE_NAME   = "Evento";
+    public static final String CALENDAR_TYPE_NAME   = "Evento";
 
-    public static final long   PROFILE_TYPE_NUMBER = 1;
+    public static final long   CALENDAR_TYPE_NUMBER = 1;
 
     public static final String TITLE               = "Title";
 

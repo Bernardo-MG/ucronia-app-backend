@@ -183,9 +183,9 @@ public final class JpaActivityRepository implements ActivityRepository {
     private void setType(final CalendarInfoEntity entity) {
         final CalendarTypeEntity profileType;
 
-        profileType = calendarTypeSpringRepository.findByNumber(ActivityEntityConstants.PROFILE_TYPE)
+        profileType = calendarTypeSpringRepository.findByNumber(ActivityEntityConstants.TYPE)
             .orElseThrow(() -> new IllegalStateException(
-                "Missing default calendar type with number " + ActivityEntityConstants.PROFILE_TYPE));
+                "Missing default calendar type with number " + ActivityEntityConstants.TYPE));
 
         if (entity.getTypes() == null) {
             entity.setTypes(new HashSet<>());
