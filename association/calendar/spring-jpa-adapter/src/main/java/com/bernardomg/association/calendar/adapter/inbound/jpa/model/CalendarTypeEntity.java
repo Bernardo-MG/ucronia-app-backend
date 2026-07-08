@@ -27,7 +27,7 @@ public class CalendarTypeEntity implements Serializable {
     @Column(name = "id", nullable = false, unique = true)
     private Long              id;
 
-    @Column(name = "name", nullable = false, length = 100)
+    @Column(name = "name", nullable = false, length = 50)
     private String            name;
 
     @Column(name = "number", nullable = false, unique = true)
