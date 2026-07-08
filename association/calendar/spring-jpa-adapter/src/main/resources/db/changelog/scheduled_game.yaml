@@ -67,7 +67,20 @@ databaseChangeLog:
                   valueNumeric: 2
               - column:
                   name: name
-                  value: Partida
+                  value: Oneshot
+              - column:
+                  name: color
+                  value: '#008000'
+        - insert:
+            schemaName: calendar
+            tableName: calendar_type
+            columns:
+              - column:
+                  name: number
+                  valueNumeric: 3
+              - column:
+                  name: name
+                  value: Campaña
               - column:
                   name: color
                   value: '#0000FF'
