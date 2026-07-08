@@ -89,7 +89,6 @@ public final class JpaActivityRepository implements ActivityRepository {
 
             log.debug("Deleted activity {}", number);
         } else {
-            // TODO: shouldn't throw an exception?
             log.debug("Couldn't delete activity {} as it doesn't exist", number);
         }
     }
