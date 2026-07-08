@@ -141,7 +141,6 @@ components:
         comments:
           type: string
           maxLength: 250
-          maxLength: 
     SponsorPatch:
       type: object
       properties:
