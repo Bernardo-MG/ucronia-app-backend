@@ -34,6 +34,8 @@ import com.bernardomg.association.calendar.activity.domain.repository.ActivityRe
 import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.CalendarDateSpringRepository;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.CalendarInfoSpringRepository;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.CalendarTypeSpringRepository;
+import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.JpaCalendarTypeRepository;
+import com.bernardomg.association.calendar.domain.repository.CalendarTypeRepository;
 import com.bernardomg.association.calendar.game.adapter.inbound.jpa.repository.JpaScheduledGameRepository;
 import com.bernardomg.association.calendar.game.adapter.inbound.jpa.repository.ScheduledGameProfileSpringRepository;
 import com.bernardomg.association.calendar.game.adapter.inbound.jpa.repository.ScheduledGameSpringRepository;
@@ -52,6 +54,12 @@ public class TestConfiguration {
             final CalendarTypeSpringRepository calendarTypeSpringRepository) {
         return new JpaActivityRepository(calendarInfoSpringRepository, calendarDateSpringRepository,
             calendarTypeSpringRepository);
+    }
+
+    @Bean("calendarTypeRepository")
+    public CalendarTypeRepository
+            getCalendarTypeRepository(final CalendarTypeSpringRepository calendarTypeSpringRepository) {
+        return new JpaCalendarTypeRepository(calendarTypeSpringRepository);
     }
 
     @Bean("scheduledGameRepository")
