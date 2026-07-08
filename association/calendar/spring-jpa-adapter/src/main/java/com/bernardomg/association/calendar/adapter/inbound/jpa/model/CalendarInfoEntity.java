@@ -28,9 +28,6 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.util.Set;
 
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -81,9 +78,11 @@ public class CalendarInfoEntity implements Serializable {
     @Column(name = "title", length = 100)
     private String                  title;
 
-    @JdbcTypeCode(SqlTypes.JSON)
-    @Column(name = "types", columnDefinition = "jsonb")
-    private Set<String>             types;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(schema = "calendar", name = "calendar_info_types",
+            joinColumns = @JoinColumn(name = "calendar_info_id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "calendar_type_id", nullable = false))
+    private Set<CalendarTypeEntity> types;
 
     @Override
     public boolean equals(final Object obj) {
@@ -124,7 +123,7 @@ public class CalendarInfoEntity implements Serializable {
         return title;
     }
 
-    public Set<String> getTypes() {
+    public Set<CalendarTypeEntity> getTypes() {
         return types;
     }
 
@@ -161,7 +160,7 @@ public class CalendarInfoEntity implements Serializable {
         this.title = title;
     }
 
-    public void setTypes(final Set<String> types) {
+    public void setTypes(final Set<CalendarTypeEntity> types) {
         this.types = types;
     }
 

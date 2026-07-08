@@ -2,12 +2,14 @@
 package com.bernardomg.association.calendar.game.test.factory;
 
 import java.util.HashSet;
+import java.util.List;
 
 import com.bernardomg.association.calendar.game.adapter.inbound.jpa.model.RecurrenceEmbeddable;
 import com.bernardomg.association.calendar.game.adapter.inbound.jpa.model.ScheduledGameEntity;
 import com.bernardomg.association.calendar.game.adapter.inbound.jpa.model.ScheduledGameProfileEntity;
 import com.bernardomg.association.calendar.game.domain.model.Recurrence.RecurrenceUnit;
 import com.bernardomg.association.calendar.game.test.configuration.factory.ScheduledGameConstants;
+import com.bernardomg.association.calendar.test.factory.CalendarTypeEntities;
 
 public final class ScheduledGameEntities {
 
@@ -33,6 +35,8 @@ public final class ScheduledGameEntities {
 
         profile = ScheduledGameProfileEntities.master();
         entity.setMaster(profile);
+
+        entity.setTypes(new HashSet<>(List.of(CalendarTypeEntities.game())));
 
         return entity;
     }
@@ -60,6 +64,8 @@ public final class ScheduledGameEntities {
 
         profile = ScheduledGameProfileEntities.master();
         entity.setMaster(profile);
+
+        entity.setTypes(new HashSet<>(List.of(CalendarTypeEntities.game())));
 
         return entity;
     }

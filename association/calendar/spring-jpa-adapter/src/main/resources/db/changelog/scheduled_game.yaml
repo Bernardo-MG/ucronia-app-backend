@@ -54,6 +54,23 @@ databaseChangeLog:
                   defaultValue: DAILY
                   constraints:
                     nullable: false
+  - changeSet:
+      id: scheduled_game_initial_data
+      author: Bernardo
+      changes:
+        - insert:
+            schemaName: calendar
+            tableName: calendar_type
+            columns:
+              - column:
+                  name: number
+                  valueNumeric: 2
+              - column:
+                  name: name
+                  value: Partida
+              - column:
+                  name: color
+                  value: '#0000FF'
       modifySql:
         - append:
             dbms: mysql

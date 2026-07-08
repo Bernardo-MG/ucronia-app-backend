@@ -40,8 +40,10 @@ import com.bernardomg.association.calendar.activity.domain.model.Activity;
 import com.bernardomg.association.calendar.activity.domain.repository.ActivityRepository;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.model.CalendarDateEntity;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.model.CalendarInfoEntity;
+import com.bernardomg.association.calendar.adapter.inbound.jpa.model.CalendarTypeEntity;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.CalendarDateSpringRepository;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.CalendarInfoSpringRepository;
+import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.CalendarTypeSpringRepository;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
@@ -61,12 +63,16 @@ public final class JpaActivityRepository implements ActivityRepository {
 
     private final CalendarInfoSpringRepository calendarInfoSpringRepository;
 
+    private final CalendarTypeSpringRepository calendarTypeSpringRepository;
+
     public JpaActivityRepository(final CalendarInfoSpringRepository calendarInfoSpringRepo,
-            final CalendarDateSpringRepository calendarDateSpringRepo) {
+            final CalendarDateSpringRepository calendarDateSpringRepo,
+            final CalendarTypeSpringRepository calendarTypeSpringRepo) {
         super();
 
         calendarInfoSpringRepository = Objects.requireNonNull(calendarInfoSpringRepo);
         calendarDateSpringRepository = Objects.requireNonNull(calendarDateSpringRepo);
+        calendarTypeSpringRepository = Objects.requireNonNull(calendarTypeSpringRepo);
     }
 
     @Override
@@ -175,13 +181,19 @@ public final class JpaActivityRepository implements ActivityRepository {
         return saved;
     }
 
-    private final void setType(final CalendarInfoEntity entity) {
+    private void setType(final CalendarInfoEntity entity) {
+        final CalendarTypeEntity profileType;
+
+        profileType = calendarTypeSpringRepository.findByNumber(ActivityEntityConstants.PROFILE_TYPE)
+            .orElseThrow(() -> new IllegalStateException(
+                "Missing default calendar type with number " + ActivityEntityConstants.PROFILE_TYPE));
+
         if (entity.getTypes() == null) {
-            entity.setTypes(new HashSet<>(List.of(ActivityEntityConstants.PROFILE_TYPE)));
-        } else {
-            entity.getTypes()
-                .add(ActivityEntityConstants.PROFILE_TYPE);
+            entity.setTypes(new HashSet<>());
         }
+
+        entity.getTypes()
+            .add(profileType);
     }
 
 }
