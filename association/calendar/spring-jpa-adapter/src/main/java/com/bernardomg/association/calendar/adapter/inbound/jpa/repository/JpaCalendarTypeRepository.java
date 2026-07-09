@@ -53,11 +53,11 @@ public final class JpaCalendarTypeRepository implements CalendarTypeRepository {
     public final boolean exists(final long number) {
         final boolean exists;
 
-        log.debug("Checking if activity {} exists", number);
+        log.debug("Checking if calendar type {} exists", number);
 
         exists = calendarTypeSpringRepository.existsByNumber(number);
 
-        log.debug("Activity {} exists: {}", number, exists);
+        log.debug("Calendar type {} exists: {}", number, exists);
 
         return exists;
     }
@@ -68,14 +68,14 @@ public final class JpaCalendarTypeRepository implements CalendarTypeRepository {
         final org.springframework.data.domain.Page<CalendarType>       read;
         final Pageable                                                 pageable;
 
-        log.debug("Finding activities with pagination {} and sorting {}", pagination, sorting);
+        log.debug("Finding calendar types with pagination {} and sorting {}", pagination, sorting);
 
         pageable = SpringPagination.toPageable(pagination, sorting);
         page = calendarTypeSpringRepository.findAll(pageable);
 
         read = page.map(CalendarTypeEntityMapper::toDomain);
 
-        log.debug("Found activities {}", read);
+        log.debug("Found calendar types {}", read);
 
         return SpringPagination.toPage(read);
     }
@@ -84,12 +84,12 @@ public final class JpaCalendarTypeRepository implements CalendarTypeRepository {
     public final Optional<CalendarType> findOne(final Long number) {
         final Optional<CalendarType> activity;
 
-        log.debug("Finding activity with number {}", number);
+        log.debug("Finding calendar type with number {}", number);
 
         activity = calendarTypeSpringRepository.findByNumber(number)
             .map(CalendarTypeEntityMapper::toDomain);
 
-        log.debug("Found activity with number {}: {}", number, activity);
+        log.debug("Found calendar type with number {}: {}", number, activity);
 
         return activity;
     }
@@ -102,7 +102,7 @@ public final class JpaCalendarTypeRepository implements CalendarTypeRepository {
         final CalendarType                 saved;
         final Long                         number;
 
-        log.debug("Saving activity {}", calendarType);
+        log.debug("Saving calendar type {}", calendarType);
 
         entity = CalendarTypeEntityMapper.toEntity(calendarType);
 
@@ -118,7 +118,7 @@ public final class JpaCalendarTypeRepository implements CalendarTypeRepository {
         created = calendarTypeSpringRepository.save(entity);
         saved = CalendarTypeEntityMapper.toDomain(created);
 
-        log.debug("Saved activity {}", saved);
+        log.debug("Saved calendar type {}", saved);
 
         return saved;
     }

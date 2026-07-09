@@ -19,10 +19,20 @@
 	<!-- ********************************************** -->
 
    <groupId>com.bernardomg.association.calendar</groupId>
-   <artifactId>association-calendar-spring-starter</artifactId>
+   <artifactId>association-calendar-type-rest-adapter</artifactId>
    <packaging>jar</packaging>
 
-   <name>Association Calendar Spring Starter</name>
+   <name>Association Calendar Type REST Adapter</name>
+
+	<!-- ********************************************** -->
+	<!-- **************** PROPERTIES ****************** -->
+	<!-- ********************************************** -->
+
+   <properties>
+     <openapi.generator.maven.plugin.inputSpec>${project.basedir}/src/main/resources/openapi/calendar_type.yml</openapi.generator.maven.plugin.inputSpec>
+     <openapi.generator.maven.plugin.apiPackage>com.bernardomg.association.calendar.adapter.outbound.rest.controller</openapi.generator.maven.plugin.apiPackage>
+     <openapi.generator.maven.plugin.modelPackage>com.bernardomg.association.calendar.adapter.outbound.rest.dto</openapi.generator.maven.plugin.modelPackage>
+   </properties>
 
 	<!-- ********************************************** -->
 	<!-- *************** DEPENDENCIES ***************** -->
@@ -38,30 +48,23 @@
          <artifactId>association-calendar-usecase</artifactId>
       </dependency>
       <dependency>
-         <groupId>com.bernardomg.association.calendar</groupId>
-         <artifactId>association-calendar-spring-jpa-adapter</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.association.calendar</groupId>
-         <artifactId>association-activity-rest-adapter</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.association.calendar</groupId>
-         <artifactId>association-scheduled-game-rest-adapter</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.association.calendar</groupId>
-         <artifactId>association-calendar-type-rest-adapter</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>org.springframework.boot</groupId>
-         <artifactId>spring-boot-autoconfigure</artifactId>
-      </dependency>
-      <dependency>
 			<!-- Spring WS Security Starter -->
          <groupId>com.bernardomg.framework.spring</groupId>
          <artifactId>spring-ws-security-starter</artifactId>
       </dependency>
    </dependencies>
+
+	<!-- ********************************************** -->
+	<!-- ******************* BUILD ******************** -->
+	<!-- ********************************************** -->
+
+   <build>
+      <plugins>
+          <plugin>
+             <groupId>org.openapitools</groupId>
+             <artifactId>openapi-generator-maven-plugin</artifactId>
+          </plugin>
+      </plugins>
+   </build>
 
 </project>
