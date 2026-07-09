@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.calendar.game.adapter.inbound.jpa.repository;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -31,7 +32,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
 
+import com.bernardomg.association.calendar.adapter.inbound.jpa.model.CalendarInfoEntity;
+import com.bernardomg.association.calendar.adapter.inbound.jpa.model.CalendarTypeEntity;
+import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.CalendarTypeSpringRepository;
 import com.bernardomg.association.calendar.game.adapter.inbound.jpa.model.ScheduledGameEntity;
+import com.bernardomg.association.calendar.game.adapter.inbound.jpa.model.ScheduledGameEntityConstants;
 import com.bernardomg.association.calendar.game.adapter.inbound.jpa.model.ScheduledGameEntityMapper;
 import com.bernardomg.association.calendar.game.adapter.inbound.jpa.model.ScheduledGameProfileEntity;
 import com.bernardomg.association.calendar.game.domain.exception.MissingScheduledGameProfileException;
@@ -52,23 +57,27 @@ public final class JpaScheduledGameRepository implements ScheduledGameRepository
      */
     private static final Logger                        log = LoggerFactory.getLogger(JpaScheduledGameRepository.class);
 
+    private final CalendarTypeSpringRepository         calendarTypeSpringRepository;
+
     private final ScheduledGameProfileSpringRepository scheduledGameProfileSpringRepository;
 
     private final ScheduledGameSpringRepository        scheduledGameSpringRepository;
 
     public JpaScheduledGameRepository(final ScheduledGameSpringRepository scheduledGameSpringRepo,
-            final ScheduledGameProfileSpringRepository scheduledGameProfileSpringRepo) {
+            final ScheduledGameProfileSpringRepository scheduledGameProfileSpringRepo,
+            final CalendarTypeSpringRepository calendarTypeSpringRepo) {
         super();
 
         scheduledGameSpringRepository = Objects.requireNonNull(scheduledGameSpringRepo);
         scheduledGameProfileSpringRepository = Objects.requireNonNull(scheduledGameProfileSpringRepo);
+        calendarTypeSpringRepository = Objects.requireNonNull(calendarTypeSpringRepo);
     }
 
     @Override
     public final void delete(final long number) {
         final Optional<ScheduledGameEntity> scheduledGame;
 
-        log.debug("Deleting activity {}", number);
+        log.debug("Deleting scheduled game {}", number);
 
         // TODO: check the date is deleted
         scheduledGame = scheduledGameSpringRepository.findByNumber(number);
@@ -79,7 +88,7 @@ public final class JpaScheduledGameRepository implements ScheduledGameRepository
             log.debug("Deleted activity {}", number);
         } else {
             // TODO: shouldn't throw an exception?
-            log.debug("Couldn't delete activity {} as it doesn't exist", number);
+            log.debug("Couldn't delete scheduled game {} as it doesn't exist", number);
         }
     }
 
@@ -87,11 +96,11 @@ public final class JpaScheduledGameRepository implements ScheduledGameRepository
     public final boolean exists(final long number) {
         final boolean exists;
 
-        log.debug("Checking if activity {} exists", number);
+        log.debug("Checking if scheduled game {} exists", number);
 
         exists = scheduledGameSpringRepository.existsByNumber(number);
 
-        log.debug("Activity {} exists: {}", number, exists);
+        log.debug("Scheduled game {} exists: {}", number, exists);
 
         return exists;
     }
@@ -102,14 +111,14 @@ public final class JpaScheduledGameRepository implements ScheduledGameRepository
         final org.springframework.data.domain.Page<ScheduledGame>       read;
         final Pageable                                                  pageable;
 
-        log.debug("Finding activities with pagination {} and sorting {}", pagination, sorting);
+        log.debug("Finding scheduled games with pagination {} and sorting {}", pagination, sorting);
 
         pageable = SpringPagination.toPageable(pagination, sorting);
         page = scheduledGameSpringRepository.findAll(pageable);
 
         read = page.map(ScheduledGameEntityMapper::toDomain);
 
-        log.debug("Found activities {}", read);
+        log.debug("Found scheduled games {}", read);
 
         return SpringPagination.toPage(read);
     }
@@ -118,14 +127,14 @@ public final class JpaScheduledGameRepository implements ScheduledGameRepository
     public final Optional<ScheduledGame> findOne(final Long number) {
         final Optional<ScheduledGame> activity;
 
-        log.debug("Finding activity with number {}", number);
+        log.debug("Finding scheduled game with number {}", number);
 
         activity = scheduledGameSpringRepository.findByNumber(number)
             .map(ScheduledGameEntityMapper::toDomain);
 
         // TODO: shouldn't throw an exception if there is no data?
 
-        log.debug("Found activity with number {}: {}", number, activity);
+        log.debug("Found scheduled game with number {}: {}", number, activity);
 
         return activity;
     }
@@ -139,7 +148,7 @@ public final class JpaScheduledGameRepository implements ScheduledGameRepository
         final Long                                 number;
         final Optional<ScheduledGameProfileEntity> profile;
 
-        log.debug("Saving activity {}", scheduledGame);
+        log.debug("Saving scheduled game {}", scheduledGame);
 
         entity = ScheduledGameEntityMapper.toEntity(scheduledGame);
 
@@ -160,12 +169,29 @@ public final class JpaScheduledGameRepository implements ScheduledGameRepository
         }
         entity.setMaster(profile.get());
 
+        setType(entity);
+
         created = scheduledGameSpringRepository.save(entity);
         saved = ScheduledGameEntityMapper.toDomain(created);
 
-        log.debug("Saved activity {}", saved);
+        log.debug("Saved scheduled game {}", saved);
 
         return saved;
+    }
+
+    private void setType(final CalendarInfoEntity entity) {
+        final CalendarTypeEntity profileType;
+
+        profileType = calendarTypeSpringRepository.findByNumber(ScheduledGameEntityConstants.PROFILE_TYPE)
+            .orElseThrow(() -> new IllegalStateException(
+                "Missing default calendar type with number " + ScheduledGameEntityConstants.PROFILE_TYPE));
+
+        if (entity.getTypes() == null) {
+            entity.setTypes(new HashSet<>());
+        }
+
+        entity.getTypes()
+            .add(profileType);
     }
 
 }

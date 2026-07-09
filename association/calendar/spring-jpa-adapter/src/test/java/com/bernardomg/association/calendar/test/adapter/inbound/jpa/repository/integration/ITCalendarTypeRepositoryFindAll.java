@@ -24,8 +24,6 @@
 
 package com.bernardomg.association.calendar.test.adapter.inbound.jpa.repository.integration;
 
-import java.time.Month;
-
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
@@ -34,74 +32,68 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.calendar.TestApplication;
-import com.bernardomg.association.calendar.activity.domain.model.Activity;
-import com.bernardomg.association.calendar.activity.domain.repository.ActivityRepository;
-import com.bernardomg.association.calendar.activity.test.configuration.data.annotation.MultipleActivity;
-import com.bernardomg.association.calendar.activity.test.configuration.factory.Activities;
+import com.bernardomg.association.calendar.domain.model.CalendarType;
+import com.bernardomg.association.calendar.domain.repository.CalendarTypeRepository;
+import com.bernardomg.association.calendar.test.configuration.factory.CalendarTypes;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.test.annotation.IntegrationTest;
-import com.bernardomg.test.pagination.AbstractPaginationIT;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("ActivityRepository - find all with filter - pagination")
-@MultipleActivity
-class ITActivityRepositoryFindAllWithFilterPagination extends AbstractPaginationIT<Activity> {
+@DisplayName("CalendarTypeRepository - find all")
+class ITCalendarTypeRepositoryFindAll {
 
     @Autowired
-    private ActivityRepository repository;
+    private CalendarTypeRepository repository;
 
-    public ITActivityRepositoryFindAllWithFilterPagination() {
-        super(5);
-    }
-
-    @Override
-    protected final Page<Activity> read(final Pagination pagination, final Sorting sorting) {
-        return repository.findAll(pagination, sorting);
+    public ITCalendarTypeRepositoryFindAll() {
+        super();
     }
 
     @Test
-    @DisplayName("With pagination for the first page, it returns the first page")
-    void testFindAll_Page1() {
-        final Page<Activity> activities;
-        final Pagination     pagination;
-        final Sorting        sorting;
+    @DisplayName("With the default calendar types, all are returned")
+    void testFindAll() {
+        final Page<CalendarType> calendarTypes;
+        final Pagination         pagination;
+        final Sorting            sorting;
 
         // GIVEN
-        pagination = new Pagination(1, 1);
+        pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
 
         // WHEN
-        activities = repository.findAll(pagination, sorting);
+        calendarTypes = repository.findAll(pagination, sorting);
 
         // THEN
-        Assertions.assertThat(activities)
+        Assertions.assertThat(calendarTypes)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Activities.forNumberAndMonth(10L, Month.JANUARY));
+            .as("calendar types")
+            .contains(CalendarTypes.activity());
     }
 
     @Test
-    @DisplayName("With pagination for the second page, it returns the second page")
-    void testFindAll_Page2() {
-        final Page<Activity> activities;
-        final Pagination     pagination;
-        final Sorting        sorting;
+    @DisplayName("The default calendar types have the expected count")
+    void testFindAll_DefaultCount() {
+        final Page<CalendarType> calendarTypes;
+        final Pagination         pagination;
+        final Sorting            sorting;
 
         // GIVEN
-        pagination = new Pagination(2, 1);
+        pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
 
         // WHEN
-        activities = repository.findAll(pagination, sorting);
+        calendarTypes = repository.findAll(pagination, sorting);
 
         // THEN
-        Assertions.assertThat(activities)
+        Assertions.assertThat(calendarTypes)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Activities.forNumberAndMonth(11L, Month.JANUARY));
+            .as("calendar types count")
+            .hasSize(3);
     }
 
 }

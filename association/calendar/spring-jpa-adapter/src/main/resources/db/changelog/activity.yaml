@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: calendar_schema
+      author: Bernardo
+      changes:
+        - sqlFile:
+            encoding: UTF-8
+            path: sql/create_calendar_schema.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: true
+  - changeSet:
+      id: activity_initial_data
+      author: Bernardo
+      changes:
+        - insert:
+            schemaName: calendar
+            tableName: calendar_type
+            columns:
+              - column:
+                  name: number
+                  valueNumeric: 1
+              - column:
+                  name: name
+                  value: Evento
+              - column:
+                  name: color
+                  value: '#FFA500'
+      modifySql:
+        - append:
+            dbms: mysql
+            value: ' ENGINE=InnoDB DEFAULT CHARSET=latin1'

@@ -50,6 +50,10 @@
          <artifactId>association-scheduled-game-rest-adapter</artifactId>
       </dependency>
       <dependency>
+         <groupId>com.bernardomg.association.calendar</groupId>
+         <artifactId>association-calendar-type-rest-adapter</artifactId>
+      </dependency>
+      <dependency>
          <groupId>org.springframework.boot</groupId>
          <artifactId>spring-boot-autoconfigure</artifactId>
       </dependency>

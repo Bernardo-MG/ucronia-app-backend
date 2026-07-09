@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.calendar.test.adapter.inbound.jpa.repository.integration;
+package com.bernardomg.association.calendar.activity.test.adapter.inbound.jpa.repository.integration;
 
 import java.time.Month;
 import java.util.List;

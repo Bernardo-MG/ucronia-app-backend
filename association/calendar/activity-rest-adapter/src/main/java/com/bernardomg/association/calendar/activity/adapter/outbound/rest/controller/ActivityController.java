@@ -91,7 +91,8 @@ public class ActivityController implements ActivityApi {
 
     @Override
     @RequireResourceAuthorization(resource = "ACTIVITY", action = Actions.READ)
-    public ActivityPageResponseDto getAllActivities(@Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size,
+    public ActivityPageResponseDto getAllActivities(@Min(1) @Valid final Integer page,
+            @Min(1) @Valid final Integer size,
             @Valid final List<@Pattern(regexp = "^(description|title|date)\\|(asc|desc)$") String> sort,
             @Valid final Instant date, @Valid final Instant from, @Valid final Instant to) {
         final Pagination     pagination;

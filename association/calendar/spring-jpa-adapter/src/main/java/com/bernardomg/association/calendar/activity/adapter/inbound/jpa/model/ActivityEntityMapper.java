@@ -34,7 +34,7 @@ import com.bernardomg.association.calendar.adapter.inbound.jpa.model.CalendarDat
 import com.bernardomg.association.calendar.adapter.inbound.jpa.model.CalendarInfoEntity;
 
 /**
- * Author repository mapper.
+ * Activity repository mapper.
  */
 public final class ActivityEntityMapper {
 

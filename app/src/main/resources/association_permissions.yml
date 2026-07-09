@@ -15,6 +15,13 @@ permissions:
       - update
       - delete
       - view
+  - resource: calendar_type
+    actions:
+      - create
+      - read
+      - update
+      - delete
+      - view
   - resource: transaction
     actions:
       - create

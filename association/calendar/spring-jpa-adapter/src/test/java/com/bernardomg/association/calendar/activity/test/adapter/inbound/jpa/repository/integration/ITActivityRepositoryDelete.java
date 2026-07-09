@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.calendar.test.adapter.inbound.jpa.repository.integration;
+package com.bernardomg.association.calendar.activity.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -34,43 +34,47 @@ import com.bernardomg.association.calendar.TestApplication;
 import com.bernardomg.association.calendar.activity.domain.repository.ActivityRepository;
 import com.bernardomg.association.calendar.activity.test.configuration.data.annotation.SingleDayActivity;
 import com.bernardomg.association.calendar.activity.test.configuration.factory.ActivityConstants;
+import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.CalendarInfoSpringRepository;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("ActivityRepository - exists")
-class ITActivityRepositoryExists {
+@DisplayName("ActivityRepository - delete")
+class ITActivityRepositoryDelete {
 
     @Autowired
-    private ActivityRepository repository;
+    private ActivityRepository           repository;
 
-    @Test
-    @DisplayName("With an existing activity, it exists")
-    @SingleDayActivity
-    void testExists() {
-        final boolean exists;
+    @Autowired
+    private CalendarInfoSpringRepository springRepository;
 
-        // WHEN
-        exists = repository.exists(ActivityConstants.NUMBER);
-
-        // THEN
-        Assertions.assertThat(exists)
-            .as("exists")
-            .isTrue();
+    public ITActivityRepositoryDelete() {
+        super();
     }
 
     @Test
-    @DisplayName("With no activity, nothing exists")
-    void testExists_NoData() {
-        final boolean exists;
-
+    @DisplayName("When there is no data nothing is deleted")
+    void testDelete_NoData() {
         // WHEN
-        exists = repository.exists(ActivityConstants.NUMBER);
+        repository.delete(ActivityConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(exists)
-            .as("exists")
-            .isFalse();
+        Assertions.assertThat(springRepository.count())
+            .as("activities")
+            .isZero();
+    }
+
+    @Test
+    @DisplayName("When the activity exists, it is removed")
+    @SingleDayActivity
+    void testDelete_RemovesEntity() {
+        // WHEN
+        repository.delete(ActivityConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(springRepository.count())
+            .as("activities")
+            .isZero();
     }
 
 }

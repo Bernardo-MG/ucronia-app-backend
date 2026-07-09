@@ -15,7 +15,7 @@ databaseChangeLog:
       changes:
         - createTable:
             schemaName: calendar
-            tableName: calendar_dates
+            tableName: calendar_type
             columns:
               - column:
                   name: id
@@ -24,22 +24,36 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: start_date
-                  type: datetime
+                  name: number
+                  type: bigint
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(50)
                   constraints:
                     nullable: false
               - column:
-                  name: end_date
-                  type: datetime
+                  name: color
+                  type: varchar(20)
                   constraints:
                     nullable: false
         - addAutoIncrement:
             schemaName: calendar
-            tableName: calendar_dates
+            tableName: calendar_type
             columnName: id
             columnDataType: bigint
             incrementBy: 1
             startWith: 1
+        - createIndex:
+            schemaName: calendar
+            tableName: calendar_type
+            indexName: idx_calendar_type_number
+            columns:
+              - column:
+                  name: number
+
         - createTable:
             schemaName: calendar
             tableName: calendar_info
@@ -79,10 +93,6 @@ databaseChangeLog:
                   constraints:
                     nullable: true
                   defaultValue: ''
-              - column:
-                  name: types
-                  type: jsonb
-                  defaultValue: '[]'
         - addAutoIncrement:
             schemaName: calendar
             tableName: calendar_info
@@ -97,6 +107,61 @@ databaseChangeLog:
             columns:
               - column:
                   name: number
+
+        - createTable:
+            schemaName: calendar
+            tableName: calendar_info_types
+            columns:
+              - column:
+                  name: calendar_info_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_calendar_info_types_calendar_info
+                    references: calendar.calendar_info(id)
+                    deleteCascade: true
+              - column:
+                  name: calendar_type_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_calendar_info_types_calendar_type
+                    references: calendar.calendar_type(id)
+                    deleteCascade: true
+        - addPrimaryKey:
+            schemaName: calendar
+            tableName: calendar_info_types
+            columnNames: calendar_info_id, calendar_type_id
+            constraintName: pk_calendar_info_types
+
+        - createTable:
+            schemaName: calendar
+            tableName: calendar_dates
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: start_date
+                  type: datetime
+                  constraints:
+                    nullable: false
+              - column:
+                  name: end_date
+                  type: datetime
+                  constraints:
+                    nullable: false
+        - addAutoIncrement:
+            schemaName: calendar
+            tableName: calendar_dates
+            columnName: id
+            columnDataType: bigint
+            incrementBy: 1
+            startWith: 1
+
         - createTable:
             schemaName: calendar
             tableName: calendar_info_dates
