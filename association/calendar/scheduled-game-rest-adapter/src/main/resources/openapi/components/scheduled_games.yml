@@ -28,8 +28,6 @@ components:
       type: object
       required: [title, master, maxPlayers, start, recurrence, gameType]
       properties:
-        number:
-          $ref: '../common/ids.yml#/components/schemas/Id'
         title:
           type: string
           maxLength: 100
@@ -60,8 +58,6 @@ components:
       type: object
       required: [title, master, maxPlayers, start, recurrence, gameType]
       properties:
-        number:
-          $ref: '../common/ids.yml#/components/schemas/Id'
         title:
           type: string
           maxLength: 100
@@ -107,7 +103,7 @@ components:
 
     ScheduledGame:
       type: object
-      required: [title, master, start, recurrence, published, gameType]
+      required: [number, title, master, start, recurrence, published, gameType]
       properties:
         number:
           $ref: '../common/ids.yml#/components/schemas/Id'

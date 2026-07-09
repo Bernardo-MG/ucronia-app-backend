@@ -60,7 +60,7 @@ public final class ScheduledGameDtoMapper {
             .getInterval(), recurrenceUnit);
         gameSessionType = toGameSessionType(change.getGameType());
         return new ScheduledGame(-1, change.getTitle(), change.getDescription(), change.getLocation(),
-            change.getNumber(), change.getMaxPlayers(), change.getImage(), change.getStart(), recurrence, false,
+            change.getMaster(), change.getMaxPlayers(), change.getImage(), change.getStart(), recurrence, false,
             gameSessionType);
     }
 
@@ -77,7 +77,7 @@ public final class ScheduledGameDtoMapper {
             .getInterval(), recurrenceUnit);
         gameSessionType = toGameSessionType(creation.getGameType());
         return new ScheduledGame(-1, creation.getTitle(), creation.getDescription(), creation.getLocation(),
-            creation.getNumber(), creation.getMaxPlayers(), creation.getImage(), creation.getStart(), recurrence, false,
+            creation.getMaster(), creation.getMaxPlayers(), creation.getImage(), creation.getStart(), recurrence, false,
             gameSessionType);
     }
 
