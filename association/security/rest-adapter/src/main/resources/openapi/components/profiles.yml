@@ -37,6 +37,7 @@ components:
           $ref: '../common/ids.yml#/components/schemas/Id'
         identifier:
           type: string
+          maxLength: 15
           description: Unique identifier of the profile.
         name:
           $ref: 'profiles.yml#/components/schemas/ProfileName'

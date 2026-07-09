@@ -28,7 +28,7 @@ components:
         fullName:
           type: string
           example: 'John Smith'
-          maxLength: 100
+          maxLength: 101
     EditionProfileName:
       type: object
       required: [firstName, lastName]
@@ -49,6 +49,7 @@ components:
           $ref: 'contact_methods.yml#/components/schemas/ContactMethod'
         detail:
           type: string
+          maxLength: 50
           description: Contact channel detail.
     EditionContactChannel:
       type: object
@@ -58,8 +59,8 @@ components:
           $ref: '../common/ids.yml#/components/schemas/Id'
         detail:
           type: string
-          description: Contact detail.
           maxLength: 50
+          description: Contact detail.
     Profile:
       type: object
       required: [number, name]
@@ -68,6 +69,7 @@ components:
           $ref: '../common/ids.yml#/components/schemas/Id'
         identifier:
           type: string
+          maxLength: 15
           description: Unique identifier of the profile.
         name:
           $ref: 'profiles.yml#/components/schemas/ProfileName'
@@ -79,9 +81,11 @@ components:
             $ref: '#/components/schemas/ContactChannel'
         address:
           type: string
+          maxLength: 250
           description: Profile address.
         comments:
           type: string
+          maxLength: 250
           description: Comments about the profile.
         types:
           type: array
@@ -93,8 +97,8 @@ components:
       properties:
         identifier:
           type: string
-          description: Unique identifier of the contact.
           maxLength: 15
+          description: Unique identifier of the contact.
         name:
           $ref: 'profiles.yml#/components/schemas/EditionProfileName'
     ProfileUpdate:
@@ -114,8 +118,8 @@ components:
             $ref: '#/components/schemas/EditionContactChannel'
         address:
           type: string
-          description: Profile address.
           maxLength: 250
+          description: Profile address.
         comments:
           type: string
           maxLength: 250
@@ -135,8 +139,8 @@ components:
             $ref: '#/components/schemas/EditionContactChannel'
         address:
           type: string
-          description: Profile address.
           maxLength: 250
+          description: Profile address.
         comments:
           type: string
           maxLength: 250

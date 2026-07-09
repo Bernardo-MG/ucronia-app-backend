@@ -28,7 +28,7 @@ import com.bernardomg.association.calendar.game.domain.model.Recurrence;
 import com.bernardomg.association.calendar.game.domain.model.ScheduledGame;
 
 /**
- * Author repository mapper.
+ * Scheduled game repository mapper.
  */
 public final class ScheduledGameEntityMapper {
 

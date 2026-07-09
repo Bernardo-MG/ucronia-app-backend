@@ -35,7 +35,7 @@ import com.bernardomg.association.library.adapter.outbound.rest.dto.GameBookPage
 import com.bernardomg.association.library.adapter.outbound.rest.dto.GameBookResponseDto;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.GameBookUpdateDto;
 import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookDtoMapper;
-import com.bernardomg.association.library.book.domain.model.BookFilter;
+import com.bernardomg.association.library.book.domain.filter.BookFilter;
 import com.bernardomg.association.library.book.domain.model.GameBook;
 import com.bernardomg.association.library.book.usecase.service.GameBookService;
 import com.bernardomg.pagination.domain.Page;

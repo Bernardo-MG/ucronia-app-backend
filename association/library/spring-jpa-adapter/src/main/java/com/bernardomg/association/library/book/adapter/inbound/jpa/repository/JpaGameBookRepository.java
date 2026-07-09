@@ -44,7 +44,7 @@ import com.bernardomg.association.library.book.adapter.inbound.jpa.model.DonorEn
 import com.bernardomg.association.library.book.adapter.inbound.jpa.model.GameBookEntity;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.model.GameBookEntityMapper;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.specification.GameBookSpecifications;
-import com.bernardomg.association.library.book.domain.model.BookFilter;
+import com.bernardomg.association.library.book.domain.filter.BookFilter;
 import com.bernardomg.association.library.book.domain.model.BookLendingInfo;
 import com.bernardomg.association.library.book.domain.model.Donor;
 import com.bernardomg.association.library.book.domain.model.GameBook;

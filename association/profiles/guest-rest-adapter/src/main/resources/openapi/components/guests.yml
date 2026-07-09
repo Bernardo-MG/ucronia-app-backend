@@ -28,7 +28,7 @@ components:
         fullName:
           type: string
           example: 'John Smith'
-          maxLength: 100
+          maxLength: 101
     EditionGuestName:
       type: object
       required: [firstName, lastName]
@@ -49,6 +49,7 @@ components:
           $ref: '#/components/schemas/ContactMethod'
         detail:
           type: string
+          maxLength: 50
           description: Contact channel detail.
     ContactMethod:
       type: object
@@ -58,6 +59,7 @@ components:
           $ref: '../common/ids.yml#/components/schemas/Id'
         name:
           type: string
+          maxLength: 50
           description: Name of the contact method.
     EditionContactChannel:
       type: object
@@ -67,8 +69,8 @@ components:
           $ref: '../common/ids.yml#/components/schemas/Id'
         detail:
           type: string
-          description: Contact detail.
           maxLength: 50
+          description: Contact detail.
     Guest:
       type: object
       required: [number, name]
@@ -112,7 +114,6 @@ components:
           description: Unique identifier of the contact.
         name:
           $ref: '#/components/schemas/EditionGuestName'
-          maxLength: 250
     GuestUpdate:
       type: object
       required: [name]

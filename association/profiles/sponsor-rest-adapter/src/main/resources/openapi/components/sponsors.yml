@@ -28,7 +28,7 @@ components:
         fullName:
           type: string
           example: 'John Smith'
-          maxLength: 100
+          maxLength: 101
     EditionSponsorName:
       type: object
       required: [firstName, lastName]
@@ -49,6 +49,7 @@ components:
           $ref: '../common/ids.yml#/components/schemas/Id'
         name:
           type: string
+          maxLength: 50
           description: Name of the contact method.
     ContactChannel:
       type: object
@@ -58,6 +59,7 @@ components:
           $ref: '#/components/schemas/ContactMethod'
         detail:
           type: string
+          maxLength: 50
           description: Contact channel detail.
     EditionContactChannel:
       type: object
@@ -67,8 +69,8 @@ components:
           $ref: '../common/ids.yml#/components/schemas/Id'
         detail:
           type: string
-          description: Contact detail.
           maxLength: 50
+          description: Contact detail.
     Sponsor:
       type: object
       required: [number, name]
@@ -77,6 +79,7 @@ components:
           $ref: '../common/ids.yml#/components/schemas/Id'
         identifier:
           type: string
+          maxLength: 15
           description: Unique identifier of the sponsor.
         name:
           $ref: '#/components/schemas/SponsorName'
@@ -92,9 +95,11 @@ components:
             type: integer
         address:
           type: string
+          maxLength: 250
           description: Sponsor address.
         comments:
           type: string
+          maxLength: 250
           description: Comments about the sponsor.
         types:
           type: array
@@ -106,8 +111,8 @@ components:
       properties:
         identifier:
           type: string
-          description: Unique identifier of the sponsor.
           maxLength: 15
+          description: Unique identifier of the sponsor.
         name:
           $ref: '#/components/schemas/EditionSponsorName'
     SponsorUpdate:
@@ -131,11 +136,11 @@ components:
             type: integer
         address:
           type: string
-          description: Sponsor address.
           maxLength: 250
+          description: Sponsor address.
         comments:
           type: string
-          maxLength: 
+          maxLength: 250
     SponsorPatch:
       type: object
       properties:
@@ -156,8 +161,8 @@ components:
             type: integer
         address:
           type: string
-          description: Sponsor address.
           maxLength: 250
+          description: Sponsor address.
         comments:
           type: string
           maxLength: 250

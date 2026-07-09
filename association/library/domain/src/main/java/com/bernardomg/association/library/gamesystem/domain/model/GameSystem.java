@@ -31,9 +31,10 @@ import org.apache.commons.lang3.StringUtils;
 public record GameSystem(Long number, String name) {
 
     public GameSystem(final Long number, final String name) {
-        Objects.requireNonNull(name);
+        Objects.requireNonNull(number, "Number can't be null");
+        Objects.requireNonNull(name, "Name can't be null");
 
-        this.number = Objects.requireNonNull(number);
+        this.number = number;
         this.name = StringUtils.trim(name);
     }
 

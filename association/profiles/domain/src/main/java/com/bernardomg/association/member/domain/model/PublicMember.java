@@ -24,8 +24,20 @@
 
 package com.bernardomg.association.member.domain.model;
 
+import java.util.Objects;
+
 import com.bernardomg.association.profile.domain.model.Name;
 
 public record PublicMember(Long number, Name name, boolean renew) {
+
+    public PublicMember(final Long number, final Name name, final boolean renew) {
+        Objects.requireNonNull(number, "Number can't be null");
+        Objects.requireNonNull(name, "Name can't be null");
+        Objects.requireNonNull(renew, "Renew flag can't be null");
+
+        this.number = number;
+        this.name = name;
+        this.renew = renew;
+    }
 
 }

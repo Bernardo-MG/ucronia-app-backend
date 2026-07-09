@@ -34,9 +34,10 @@ import com.bernardomg.association.profile.domain.model.Name;
 public record MemberFees(Member member, Collection<Fee> fees) {
 
     public MemberFees(final Member member, final Collection<Fee> fees) {
-        Objects.requireNonNull(fees);
+        Objects.requireNonNull(member, "Member count can't be null");
+        Objects.requireNonNull(fees, "Fees count can't be null");
 
-        this.member = Objects.requireNonNull(member);
+        this.member = member;
         this.fees = List.copyOf(fees);
     }
 

@@ -15,10 +15,10 @@ components:
   schemas:
     Fee:
       type: object
-      required: [member, month, paid]
+      required: [member, month, paid, feeType]
       properties:
         member:
-          $ref: 'members.yml#/components/schemas/Member'
+          $ref: 'members.yml#/components/schemas/FeeMember'
         month:
           $ref: '../common/dates.yml#/components/schemas/Date'
         paid:
@@ -27,6 +27,7 @@ components:
           $ref: '#/components/schemas/FeeFeeType'
         transaction:
           $ref: '#/components/schemas/FeeTransaction'
+          nullable: true
     FeeTransaction:
       type: object
       required: [index, date]
@@ -37,6 +38,7 @@ components:
           $ref: '../common/dates.yml#/components/schemas/Date'
     FeeFeeType:
       type: object
+      required: [number, name, amount]
       properties:
         number:
           $ref: '../common/ids.yml#/components/schemas/Id'
@@ -45,6 +47,7 @@ components:
         amount:
           type: number
           format: float
+          minimum: 0
     FeeCreation:
       type: object
       required: [member, month]

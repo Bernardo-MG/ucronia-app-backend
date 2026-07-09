@@ -9,7 +9,9 @@ import org.apache.commons.lang3.StringUtils;
 public record UserProfile(Optional<String> identifier, Long number, Name name) {
 
     public UserProfile(final Optional<String> identifier, final Long number, final Name name) {
-        Objects.requireNonNull(identifier);
+        Objects.requireNonNull(identifier, "Identifier can't be null");
+        Objects.requireNonNull(number, "Number can't be null");
+        Objects.requireNonNull(name, "Name can't be null");
 
         this.identifier = handleEmpty(identifier);
         this.number = Objects.requireNonNull(number);
@@ -19,8 +21,8 @@ public record UserProfile(Optional<String> identifier, Long number, Name name) {
     public record Name(String firstName, String lastName) {
 
         public Name(final String firstName, final String lastName) {
-            Objects.requireNonNull(firstName);
-            Objects.requireNonNull(lastName);
+            Objects.requireNonNull(firstName, "First name can't be null");
+            Objects.requireNonNull(lastName, "Last name can't be null");
 
             this.firstName = StringUtils.trim(firstName);
             this.lastName = StringUtils.trim(lastName);

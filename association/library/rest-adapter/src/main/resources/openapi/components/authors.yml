@@ -20,6 +20,7 @@ components:
           $ref: '../common/ids.yml#/components/schemas/Id'
         name:
           type: string
+          maxLength: 100
           example: 'Gary Gigax'
     AuthorCreation:
       type: object
@@ -27,16 +28,16 @@ components:
       properties:
         name:
           type: string
-          example: 'Gary Gigax'
           maxLength: 100
+          example: 'Gary Gigax'
     AuthorUpdate:
       type: object
       required: [name]
       properties:
         name:
           type: string
-          example: 'Gary Gigax'
           maxLength: 100
+          example: 'Gary Gigax'
     AuthorPageResponse:
       allOf:
         - $ref: '../common/responses.yml#/components/schemas/PageResponse'

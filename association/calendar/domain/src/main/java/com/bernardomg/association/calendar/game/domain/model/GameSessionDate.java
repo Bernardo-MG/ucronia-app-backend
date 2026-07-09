@@ -7,8 +7,12 @@ import java.util.Objects;
 public record GameSessionDate(Instant start, Instant end) {
 
     public GameSessionDate(final Instant start, final Instant end) {
-        this.start = Objects.requireNonNull(start);
-        this.end = Objects.requireNonNull(end);
+        Objects.requireNonNull(start, "Start date can't be null");
+        Objects.requireNonNull(end, "End date can't be null");
+
+        // TODO: check date order
+        this.start = start;
+        this.end = end;
     }
 
 }

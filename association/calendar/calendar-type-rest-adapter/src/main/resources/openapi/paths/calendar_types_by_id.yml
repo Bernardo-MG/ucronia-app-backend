@@ -1,0 +1,57 @@
+get:
+  summary: Get a specific calendar type
+  operationId: getOneCalendarType
+  tags: [CalendarType]
+  parameters:
+    - in: path
+      name: number
+      required: true
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  responses:
+    '200':
+      description: Calendar type details
+      content:
+        application/json:
+          schema:
+            $ref: '../components/calendar_types.yml#/components/schemas/CalendarTypeResponse'
+delete:
+  summary: Delete a calendar type
+  operationId: deleteCalendarType
+  tags: [CalendarType]
+  parameters:
+    - in: path
+      name: number
+      required: true
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  responses:
+    '200':
+      description: Deleted calendar type
+      content:
+        application/json:
+          schema:
+            $ref: '../components/calendar_types.yml#/components/schemas/CalendarTypeResponse'
+put:
+  summary: Update a calendar type
+  operationId: updateCalendarType
+  tags: [CalendarType]
+  parameters:
+    - in: path
+      name: number
+      required: true
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/calendar_types.yml#/components/schemas/CalendarTypeUpdate'
+  responses:
+    '200':
+      description: Calendar type updated
+      content:
+        application/json:
+          schema:
+            $ref: '../components/calendar_types.yml#/components/schemas/CalendarTypeResponse'

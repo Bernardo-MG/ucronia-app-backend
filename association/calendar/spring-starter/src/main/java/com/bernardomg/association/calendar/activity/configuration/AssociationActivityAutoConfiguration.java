@@ -34,6 +34,7 @@ import com.bernardomg.association.calendar.activity.usecase.service.ActivityServ
 import com.bernardomg.association.calendar.activity.usecase.service.DefaultActivityService;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.CalendarDateSpringRepository;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.CalendarInfoSpringRepository;
+import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.CalendarTypeSpringRepository;
 
 @AutoConfiguration
 @ComponentScan({ "com.bernardomg.association.calendar.activity.adapter.outbound.rest.controller" })
@@ -41,8 +42,10 @@ public class AssociationActivityAutoConfiguration {
 
     @Bean("activityRepository")
     public ActivityRepository getActivityRepository(final CalendarInfoSpringRepository calendarInfoSpringRepository,
-            final CalendarDateSpringRepository calendarDateSpringRepository) {
-        return new JpaActivityRepository(calendarInfoSpringRepository, calendarDateSpringRepository);
+            final CalendarDateSpringRepository calendarDateSpringRepository,
+            final CalendarTypeSpringRepository calendarTypeSpringRepository) {
+        return new JpaActivityRepository(calendarInfoSpringRepository, calendarDateSpringRepository,
+            calendarTypeSpringRepository);
     }
 
     @Bean("activityService")

@@ -6,5 +6,8 @@ databaseChangeLog:
       file: calendar.yaml
       relativeToChangelogFile: true
   - include:
+      file: activity.yaml
+      relativeToChangelogFile: true
+  - include:
       file: scheduled_game.yaml
       relativeToChangelogFile: true

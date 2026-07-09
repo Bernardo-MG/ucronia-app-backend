@@ -9,6 +9,7 @@ components:
         total:
           type: integer
           format: int64
+          minimum: 0
           description: Total members in the month.
     MembershipMonthlyEvolutionResponse:
       type: object

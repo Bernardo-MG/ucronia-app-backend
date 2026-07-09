@@ -35,7 +35,7 @@ import com.bernardomg.association.library.adapter.outbound.rest.dto.FictionBookP
 import com.bernardomg.association.library.adapter.outbound.rest.dto.FictionBookResponseDto;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.FictionBookUpdateDto;
 import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookDtoMapper;
-import com.bernardomg.association.library.book.domain.model.BookFilter;
+import com.bernardomg.association.library.book.domain.filter.BookFilter;
 import com.bernardomg.association.library.book.domain.model.FictionBook;
 import com.bernardomg.association.library.book.usecase.service.FictionBookService;
 import com.bernardomg.pagination.domain.Page;

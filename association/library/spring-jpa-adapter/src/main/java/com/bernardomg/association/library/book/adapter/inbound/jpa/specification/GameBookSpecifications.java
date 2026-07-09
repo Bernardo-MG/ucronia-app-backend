@@ -29,7 +29,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.bernardomg.association.library.book.adapter.inbound.jpa.model.GameBookEntity;
-import com.bernardomg.association.library.book.domain.model.BookFilter;
+import com.bernardomg.association.library.book.domain.filter.BookFilter;
 
 import jakarta.persistence.criteria.Expression;
 

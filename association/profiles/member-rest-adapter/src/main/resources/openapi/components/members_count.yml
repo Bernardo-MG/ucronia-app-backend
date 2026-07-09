@@ -7,11 +7,13 @@ components:
         active:
           type: integer
           format: int64
+          minimum: 0
           example: 120
           description: Number of active member
         renew:
           type: integer
           format: int64
+          minimum: 0
           example: 120
           description: Number of active members which renew
     MemberCountResponse:

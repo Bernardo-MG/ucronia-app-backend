@@ -1,0 +1,105 @@
+/**
+ * The MIT License (MIT)
+ * <p>
+ * Copyright (c) 2022-2025 Bernardo Martínez Garrido
+ * <p>
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * <p>
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * <p>
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+package com.bernardomg.association.calendar.adapter.outbound.rest.model;
+
+import java.util.Optional;
+
+import com.bernardomg.association.calendar.adapter.outbound.rest.dto.CalendarTypeCreationDto;
+import com.bernardomg.association.calendar.adapter.outbound.rest.dto.CalendarTypeDto;
+import com.bernardomg.association.calendar.adapter.outbound.rest.dto.CalendarTypePageResponseDto;
+import com.bernardomg.association.calendar.adapter.outbound.rest.dto.CalendarTypeResponseDto;
+import com.bernardomg.association.calendar.adapter.outbound.rest.dto.CalendarTypeUpdateDto;
+import com.bernardomg.association.calendar.adapter.outbound.rest.dto.PropertyDto;
+import com.bernardomg.association.calendar.adapter.outbound.rest.dto.PropertyDto.DirectionEnum;
+import com.bernardomg.association.calendar.adapter.outbound.rest.dto.SortingDto;
+import com.bernardomg.association.calendar.domain.model.CalendarType;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Sorting.Direction;
+import com.bernardomg.pagination.domain.Sorting.Property;
+
+public final class CalendarTypeDtoMapper {
+
+    public static final CalendarType toDomain(final CalendarTypeCreationDto creation) {
+        return new CalendarType(0, creation.getName(), creation.getColor());
+    }
+
+    public static final CalendarType toDomain(final Long number, final CalendarTypeUpdateDto change) {
+        return new CalendarType(number, change.getName(), change.getColor());
+    }
+
+    public static final CalendarTypeResponseDto toResponseDto(final CalendarType calendarType) {
+        return new CalendarTypeResponseDto().content(CalendarTypeDtoMapper.toDto(calendarType));
+    }
+
+    public static final CalendarTypeResponseDto toResponseDto(final Optional<CalendarType> calendarType) {
+        return new CalendarTypeResponseDto().content(calendarType.map(CalendarTypeDtoMapper::toDto)
+            .orElse(null));
+    }
+
+    public static final CalendarTypePageResponseDto toResponseDto(final Page<CalendarType> page) {
+        final SortingDto sortingResponse;
+
+        sortingResponse = new SortingDto().properties(page.sort()
+            .properties()
+            .stream()
+            .map(CalendarTypeDtoMapper::toDto)
+            .toList());
+        return new CalendarTypePageResponseDto().content(page.content()
+            .stream()
+            .map(CalendarTypeDtoMapper::toDto)
+            .toList())
+            .size(page.size())
+            .page(page.page())
+            .totalElements(page.totalElements())
+            .totalPages(page.totalPages())
+            .elementsInPage(page.elementsInPage())
+            .first(page.first())
+            .last(page.last())
+            .sort(sortingResponse);
+    }
+
+    private static final CalendarTypeDto toDto(final CalendarType calendarType) {
+        return new CalendarTypeDto().number(calendarType.number())
+            .name(calendarType.name())
+            .color(calendarType.color());
+    }
+
+    private static final PropertyDto toDto(final Property property) {
+        final DirectionEnum direction;
+
+        if (property.direction() == Direction.ASC) {
+            direction = DirectionEnum.ASC;
+        } else {
+            direction = DirectionEnum.DESC;
+        }
+        return new PropertyDto().name(property.name())
+            .direction(direction);
+    }
+
+    private CalendarTypeDtoMapper() {
+        super();
+    }
+
+}

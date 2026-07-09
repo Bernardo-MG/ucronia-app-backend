@@ -19,12 +19,15 @@ components:
       properties:
         type:
           type: string
+          maxLength: 60
           description: Type of the setting.
         code:
           type: string
+          maxLength: 60
           description: Unique code identifying the setting.
         value:
           type: string
+          maxLength: 300
           description: Value of the setting.
     SettingUpdate:
       type: object
@@ -32,8 +35,8 @@ components:
       properties:
         value:
           type: string
-          description: Updated value for the setting.
           maxLength: 300
+          description: Updated value for the setting.
     SettingsResponse:
       type: object
       properties:

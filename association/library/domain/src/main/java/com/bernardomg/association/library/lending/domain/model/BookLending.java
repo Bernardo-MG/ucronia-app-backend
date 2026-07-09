@@ -35,10 +35,15 @@ public record BookLending(LentBook book, long borrower, Instant lendingDate, Opt
 
     public BookLending(final LentBook book, final long borrower, final Instant lendingDate,
             final Optional<Instant> returnDate) {
-        this.book = Objects.requireNonNull(book);
-        this.borrower = Objects.requireNonNull(borrower);
-        this.lendingDate = Objects.requireNonNull(lendingDate);
-        this.returnDate = Objects.requireNonNull(returnDate);
+        Objects.requireNonNull(book, "Book can't be null");
+        Objects.requireNonNull(borrower, "Borrower can't be null");
+        Objects.requireNonNull(lendingDate, "Lending date can't be null");
+        Objects.requireNonNull(returnDate, "Return date can't be null");
+
+        this.book = book;
+        this.borrower = borrower;
+        this.lendingDate = lendingDate;
+        this.returnDate = returnDate;
     }
 
     public BookLending(final LentBook book, final long borrower, final Instant lendingDate) {
