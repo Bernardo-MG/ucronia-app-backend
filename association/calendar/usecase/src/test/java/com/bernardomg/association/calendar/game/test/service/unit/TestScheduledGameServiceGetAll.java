@@ -71,7 +71,7 @@ class TestActivitieserviceGetAll {
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
 
-        existing = new Page<>(List.of(ScheduledGames.weekly()), 0, 0, 0, 0, 0, false, false, sorting);
+        existing = new Page<>(List.of(ScheduledGames.weeklyOneshot()), 0, 0, 0, 0, 0, false, false, sorting);
         given(scheduledGameRepository.findAll(pagination, sorting)).willReturn(existing);
 
         // WHEN
@@ -82,7 +82,7 @@ class TestActivitieserviceGetAll {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("Activities")
-            .containsExactly(ScheduledGames.weekly());
+            .containsExactly(ScheduledGames.weeklyOneshot());
     }
 
     @Test

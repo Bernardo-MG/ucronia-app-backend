@@ -13,7 +13,36 @@ import com.bernardomg.association.calendar.test.factory.CalendarTypeEntities;
 
 public final class ScheduledGameEntities {
 
-    public static final ScheduledGameEntity createdWeekly() {
+    public static final ScheduledGameEntity titleChange() {
+        final ScheduledGameEntity        entity;
+        final ScheduledGameProfileEntity profile;
+        final RecurrenceEmbeddable       recurrence;
+
+        entity = new ScheduledGameEntity();
+        entity.setNumber(ScheduledGameConstants.NUMBER);
+        entity.setTitle(ScheduledGameConstants.ALTERNATIVE_TITLE);
+        entity.setDescription(ScheduledGameConstants.DESCRIPTION);
+        entity.setLocation(ScheduledGameConstants.LOCATION);
+        entity.setImage(ScheduledGameConstants.IMAGE);
+        entity.setMaxPlayers(ScheduledGameConstants.MAX_PLAYERS);
+        entity.setPublished(ScheduledGameConstants.PUBLISHED);
+        entity.setStart(ScheduledGameConstants.START);
+        entity.setCalendarDates(new HashSet<>());
+
+        recurrence = new RecurrenceEmbeddable();
+        recurrence.setInterval(1);
+        recurrence.setUnit(RecurrenceUnit.WEEKLY);
+        entity.setRecurrence(recurrence);
+
+        profile = ScheduledGameProfileEntities.master();
+        entity.setMaster(profile);
+
+        entity.setTypes(new HashSet<>(List.of(CalendarTypeEntities.oneshot())));
+
+        return entity;
+    }
+
+    public static final ScheduledGameEntity weeklyCampaign() {
         final ScheduledGameEntity        entity;
         final ScheduledGameProfileEntity profile;
         final RecurrenceEmbeddable       recurrence;
@@ -36,26 +65,25 @@ public final class ScheduledGameEntities {
         profile = ScheduledGameProfileEntities.master();
         entity.setMaster(profile);
 
-        entity.setTypes(new HashSet<>(List.of(CalendarTypeEntities.oneshot())));
+        entity.setTypes(new HashSet<>(List.of(CalendarTypeEntities.campaign())));
 
         return entity;
     }
 
-    public static final ScheduledGameEntity titleChange() {
+    public static final ScheduledGameEntity weeklyOneshot() {
         final ScheduledGameEntity        entity;
         final ScheduledGameProfileEntity profile;
         final RecurrenceEmbeddable       recurrence;
 
         entity = new ScheduledGameEntity();
         entity.setNumber(ScheduledGameConstants.NUMBER);
-        entity.setTitle(ScheduledGameConstants.ALTERNATIVE_TITLE);
+        entity.setTitle(ScheduledGameConstants.TITLE);
         entity.setDescription(ScheduledGameConstants.DESCRIPTION);
         entity.setLocation(ScheduledGameConstants.LOCATION);
         entity.setImage(ScheduledGameConstants.IMAGE);
         entity.setMaxPlayers(ScheduledGameConstants.MAX_PLAYERS);
         entity.setPublished(ScheduledGameConstants.PUBLISHED);
         entity.setStart(ScheduledGameConstants.START);
-        entity.setCalendarDates(new HashSet<>());
 
         recurrence = new RecurrenceEmbeddable();
         recurrence.setInterval(1);

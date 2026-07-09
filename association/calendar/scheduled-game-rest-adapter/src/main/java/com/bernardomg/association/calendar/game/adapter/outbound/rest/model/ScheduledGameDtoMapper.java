@@ -26,6 +26,7 @@ package com.bernardomg.association.calendar.game.adapter.outbound.rest.model;
 
 import java.util.Optional;
 
+import com.bernardomg.association.calendar.game.adapter.outbound.rest.dto.GameSessionTypeDto;
 import com.bernardomg.association.calendar.game.adapter.outbound.rest.dto.PropertyDto;
 import com.bernardomg.association.calendar.game.adapter.outbound.rest.dto.PropertyDto.DirectionEnum;
 import com.bernardomg.association.calendar.game.adapter.outbound.rest.dto.RecurrenceDto;
@@ -36,6 +37,7 @@ import com.bernardomg.association.calendar.game.adapter.outbound.rest.dto.Schedu
 import com.bernardomg.association.calendar.game.adapter.outbound.rest.dto.ScheduledGameResponseDto;
 import com.bernardomg.association.calendar.game.adapter.outbound.rest.dto.ScheduledGameUpdateDto;
 import com.bernardomg.association.calendar.game.adapter.outbound.rest.dto.SortingDto;
+import com.bernardomg.association.calendar.game.domain.model.GameSessionType;
 import com.bernardomg.association.calendar.game.domain.model.Recurrence;
 import com.bernardomg.association.calendar.game.domain.model.Recurrence.RecurrenceUnit;
 import com.bernardomg.association.calendar.game.domain.model.ScheduledGame;
@@ -46,8 +48,9 @@ import com.bernardomg.pagination.domain.Sorting.Property;
 public final class ScheduledGameDtoMapper {
 
     public static final ScheduledGame toDomain(final Long number, final ScheduledGameUpdateDto change) {
-        final Recurrence     recurrence;
-        final RecurrenceUnit recurrenceUnit;
+        final Recurrence      recurrence;
+        final RecurrenceUnit  recurrenceUnit;
+        final GameSessionType gameSessionType;
 
         recurrenceUnit = RecurrenceUnit.valueOf(change.getRecurrence()
             .getUnit()
@@ -55,13 +58,16 @@ public final class ScheduledGameDtoMapper {
             .toUpperCase());
         recurrence = new Recurrence(change.getRecurrence()
             .getInterval(), recurrenceUnit);
+        gameSessionType = toGameSessionType(change.getGameType());
         return new ScheduledGame(-1, change.getTitle(), change.getDescription(), change.getLocation(),
-            change.getNumber(), change.getMaxPlayers(), change.getImage(), change.getStart(), recurrence, false);
+            change.getNumber(), change.getMaxPlayers(), change.getImage(), change.getStart(), recurrence, false,
+            gameSessionType);
     }
 
     public static final ScheduledGame toDomain(final ScheduledGameCreationDto creation) {
-        final Recurrence     recurrence;
-        final RecurrenceUnit recurrenceUnit;
+        final Recurrence      recurrence;
+        final RecurrenceUnit  recurrenceUnit;
+        final GameSessionType gameSessionType;
 
         recurrenceUnit = RecurrenceUnit.valueOf(creation.getRecurrence()
             .getUnit()
@@ -69,9 +75,10 @@ public final class ScheduledGameDtoMapper {
             .toUpperCase());
         recurrence = new Recurrence(creation.getRecurrence()
             .getInterval(), recurrenceUnit);
+        gameSessionType = toGameSessionType(creation.getGameType());
         return new ScheduledGame(-1, creation.getTitle(), creation.getDescription(), creation.getLocation(),
-            creation.getNumber(), creation.getMaxPlayers(), creation.getImage(), creation.getStart(), recurrence,
-            false);
+            creation.getNumber(), creation.getMaxPlayers(), creation.getImage(), creation.getStart(), recurrence, false,
+            gameSessionType);
     }
 
     public static final ScheduledGameResponseDto toResponseDto(final Optional<ScheduledGame> scheduledGame) {
@@ -118,7 +125,8 @@ public final class ScheduledGameDtoMapper {
     }
 
     private static final ScheduledGameDto toDto(final ScheduledGame scheduledGame) {
-        final RecurrenceDto recurrence;
+        final RecurrenceDto      recurrence;
+        final GameSessionTypeDto gameTypeDto;
 
         recurrence = new RecurrenceDto().interval(scheduledGame.recurrence()
             .interval())
@@ -126,6 +134,7 @@ public final class ScheduledGameDtoMapper {
                 .unit()
                 .toString()
                 .toUpperCase()));
+        gameTypeDto = toGameSessionTypeDto(scheduledGame.gameSessionType());
         return new ScheduledGameDto().number(scheduledGame.number())
             .title(scheduledGame.title())
             .description(scheduledGame.description())
@@ -135,7 +144,22 @@ public final class ScheduledGameDtoMapper {
             .image(scheduledGame.image())
             .start(scheduledGame.start())
             .recurrence(recurrence)
-            .published(scheduledGame.published());
+            .published(scheduledGame.published())
+            .gameType(gameTypeDto);
+    }
+
+    private static final GameSessionType toGameSessionType(final GameSessionTypeDto dto) {
+        return switch (dto) {
+            case ONESHOT -> GameSessionType.ONESHOT;
+            case CAMPAIGN -> GameSessionType.CAMPAIGN;
+        };
+    }
+
+    private static final GameSessionTypeDto toGameSessionTypeDto(final GameSessionType gameSessionType) {
+        return switch (gameSessionType) {
+            case ONESHOT -> GameSessionTypeDto.ONESHOT;
+            case CAMPAIGN -> GameSessionTypeDto.CAMPAIGN;
+        };
     }
 
     private ScheduledGameDtoMapper() {

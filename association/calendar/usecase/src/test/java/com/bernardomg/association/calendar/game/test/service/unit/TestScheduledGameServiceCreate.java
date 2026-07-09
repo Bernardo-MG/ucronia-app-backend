@@ -94,7 +94,7 @@ class TestScheduledGameServiceCreate {
         final ScheduledGame scheduledGame;
 
         // GIVEN
-        scheduledGame = ScheduledGames.weekly();
+        scheduledGame = ScheduledGames.weeklyOneshot();
 
         // WHEN
         service.create(scheduledGame);
@@ -110,7 +110,7 @@ class TestScheduledGameServiceCreate {
         final ScheduledGame created;
 
         // GIVEN
-        scheduledGame = ScheduledGames.weekly();
+        scheduledGame = ScheduledGames.weeklyOneshot();
 
         given(scheduledGameRepository.save(scheduledGame)).willReturn(scheduledGame);
 

@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.calendar.game.adapter.inbound.jpa.model;
 
+import com.bernardomg.association.calendar.game.domain.model.GameSessionType;
 import com.bernardomg.association.calendar.game.domain.model.Recurrence;
 import com.bernardomg.association.calendar.game.domain.model.ScheduledGame;
 
@@ -33,16 +34,24 @@ import com.bernardomg.association.calendar.game.domain.model.ScheduledGame;
 public final class ScheduledGameEntityMapper {
 
     public static final ScheduledGame toDomain(final ScheduledGameEntity entity) {
-        final Recurrence recurrence;
+        final Recurrence      recurrence;
+        final GameSessionType gameSessionType;
 
         recurrence = new Recurrence(entity.getRecurrence()
             .getInterval(),
             entity.getRecurrence()
                 .getUnit());
+
+        gameSessionType = (entity.getTypes() != null) && entity.getTypes()
+            .stream()
+            .anyMatch(t -> t.getNumber() == ScheduledGameEntityConstants.CAMPAIGN_TYPE) ? GameSessionType.CAMPAIGN
+                    : GameSessionType.ONESHOT;
+
         return new ScheduledGame(entity.getNumber(), entity.getTitle(), entity.getDescription(), entity.getLocation(),
             entity.getMaster()
                 .getNumber(),
-            entity.getMaxPlayers(), entity.getImage(), entity.getStart(), recurrence, entity.getPublished());
+            entity.getMaxPlayers(), entity.getImage(), entity.getStart(), recurrence, entity.getPublished(),
+            gameSessionType);
     }
 
     public static final ScheduledGameEntity toEntity(final ScheduledGame scheduledGame) {

@@ -26,7 +26,7 @@ components:
 
     ScheduledGameCreation:
       type: object
-      required: [title, master, maxPlayers, start, recurrence]
+      required: [title, master, maxPlayers, start, recurrence, gameType]
       properties:
         number:
           $ref: '../common/ids.yml#/components/schemas/Id'
@@ -53,10 +53,12 @@ components:
           $ref: '../common/dates.yml#/components/schemas/Date'
         recurrence:
           $ref: '#/components/schemas/Recurrence'
+        gameType:
+          $ref: '#/components/schemas/GameSessionType'
 
     ScheduledGameUpdate:
       type: object
-      required: [title, master, maxPlayers, start, recurrence]
+      required: [title, master, maxPlayers, start, recurrence, gameType]
       properties:
         number:
           $ref: '../common/ids.yml#/components/schemas/Id'
@@ -83,6 +85,12 @@ components:
           $ref: '../common/dates.yml#/components/schemas/Date'
         recurrence:
           $ref: '#/components/schemas/Recurrence'
+        gameType:
+          $ref: '#/components/schemas/GameSessionType'
+
+    GameSessionType:
+      type: string
+      enum: [oneshot, campaign]
 
     Recurrence:
       type: object
@@ -99,7 +107,7 @@ components:
 
     ScheduledGame:
       type: object
-      required: [title, master, start, recurrence, published]
+      required: [title, master, start, recurrence, published, gameType]
       properties:
         number:
           $ref: '../common/ids.yml#/components/schemas/Id'
@@ -128,6 +136,8 @@ components:
           $ref: '#/components/schemas/Recurrence'
         published:
           type: boolean
+        gameType:
+          $ref: '#/components/schemas/GameSessionType'
 
     ScheduledGamePageResponse:
       allOf:

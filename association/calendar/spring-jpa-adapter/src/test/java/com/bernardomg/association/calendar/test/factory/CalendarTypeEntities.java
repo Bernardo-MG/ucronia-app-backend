@@ -17,6 +17,15 @@ public class CalendarTypeEntities {
         return entity;
     }
 
+    public static CalendarTypeEntity campaign() {
+        final CalendarTypeEntity entity = new CalendarTypeEntity();
+        entity.setId(ActivityEntityConstants.TYPE);
+        entity.setNumber(ScheduledGameConstants.CALENDAR_TYPE_CAMPAIGN_NUMBER);
+        entity.setName(ScheduledGameConstants.CALENDAR_TYPE_CAMPAIGN_NAME);
+        entity.setColor(ScheduledGameConstants.CALENDAR_TYPE_CAMPAIGN_COLOR);
+        return entity;
+    }
+
     public static CalendarTypeEntity oneshot() {
         final CalendarTypeEntity entity = new CalendarTypeEntity();
         entity.setId(ActivityEntityConstants.TYPE);
