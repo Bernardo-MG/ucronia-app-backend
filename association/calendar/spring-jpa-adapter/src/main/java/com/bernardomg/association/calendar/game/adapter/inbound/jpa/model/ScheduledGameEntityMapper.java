@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.calendar.game.adapter.inbound.jpa.model;
 
+import com.bernardomg.association.calendar.adapter.inbound.jpa.model.CalendarInfoRecurrence;
 import com.bernardomg.association.calendar.game.domain.model.GameSessionType;
 import com.bernardomg.association.calendar.game.domain.model.Recurrence;
 import com.bernardomg.association.calendar.game.domain.model.ScheduledGame;
@@ -54,8 +55,8 @@ public final class ScheduledGameEntityMapper {
     }
 
     public static final ScheduledGameEntity toEntity(final ScheduledGame scheduledGame) {
-        final ScheduledGameEntity  entity;
-        final RecurrenceEmbeddable recurrence;
+        final ScheduledGameEntity    entity;
+        final CalendarInfoRecurrence recurrence;
 
         entity = new ScheduledGameEntity();
         entity.setNumber(scheduledGame.number());
@@ -66,7 +67,7 @@ public final class ScheduledGameEntityMapper {
         entity.setImage(scheduledGame.image());
         entity.setStart(scheduledGame.start());
 
-        recurrence = new RecurrenceEmbeddable();
+        recurrence = new CalendarInfoRecurrence();
         recurrence.setInterval(scheduledGame.recurrence()
             .interval());
         recurrence.setUnit(scheduledGame.recurrence()

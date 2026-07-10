@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.calendar.game.adapter.inbound.jpa.model;
+package com.bernardomg.association.calendar.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -13,7 +13,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.Transient;
 
 @Embeddable
-public class RecurrenceEmbeddable implements Serializable {
+public class CalendarInfoRecurrence implements Serializable {
 
     @Transient
     private static final long         serialVersionUID = 1174279038101885709L;
@@ -33,7 +33,7 @@ public class RecurrenceEmbeddable implements Serializable {
         if ((obj == null) || (getClass() != obj.getClass())) {
             return false;
         }
-        final RecurrenceEmbeddable other = (RecurrenceEmbeddable) obj;
+        final CalendarInfoRecurrence other = (CalendarInfoRecurrence) obj;
         return Objects.equals(interval, other.interval) && (unit == other.unit);
     }
 

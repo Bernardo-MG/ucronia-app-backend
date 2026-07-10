@@ -28,8 +28,6 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.util.Set;
 
-import com.bernardomg.association.calendar.game.adapter.inbound.jpa.model.RecurrenceEmbeddable;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -81,7 +79,7 @@ public class CalendarInfoEntity implements Serializable {
     private Long                    number;
 
     @Embedded
-    private RecurrenceEmbeddable    recurrence;
+    private CalendarInfoRecurrence  recurrence;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "calendar_status_id", nullable = false,
@@ -132,7 +130,7 @@ public class CalendarInfoEntity implements Serializable {
         return number;
     }
 
-    public RecurrenceEmbeddable getRecurrence() {
+    public CalendarInfoRecurrence getRecurrence() {
         return recurrence;
     }
 
@@ -177,7 +175,7 @@ public class CalendarInfoEntity implements Serializable {
         this.number = number;
     }
 
-    public void setRecurrence(final RecurrenceEmbeddable recurrence) {
+    public void setRecurrence(final CalendarInfoRecurrence recurrence) {
         this.recurrence = recurrence;
     }
 
