@@ -19,10 +19,13 @@ public final class ScheduledGames {
     }
 
     public static final ScheduledGame negativeRecurrence() {
+        final Recurrence recurrence;
+
+        recurrence = new Recurrence(-1, RecurrenceUnit.WEEKLY, RecurrenceStatus.ACTIVE);
         return new ScheduledGame(ScheduledGameConstants.NUMBER, ScheduledGameConstants.TITLE,
             ScheduledGameConstants.DESCRIPTION, ScheduledGameConstants.LOCATION, ScheduledGameConstants.NUMBER_MASTER,
             ScheduledGameConstants.MAX_PLAYERS, ScheduledGameConstants.IMAGE, ScheduledGameConstants.START,
-            Optional.empty(), false, GameSessionType.ONESHOT);
+            Optional.of(recurrence), false, GameSessionType.CAMPAIGN);
     }
 
     public static final ScheduledGame titleChange() {
@@ -70,10 +73,13 @@ public final class ScheduledGames {
     }
 
     public static final ScheduledGame zeroRecurrence() {
+        final Recurrence recurrence;
+
+        recurrence = new Recurrence(0, RecurrenceUnit.WEEKLY, RecurrenceStatus.ACTIVE);
         return new ScheduledGame(ScheduledGameConstants.NUMBER, ScheduledGameConstants.TITLE,
             ScheduledGameConstants.DESCRIPTION, ScheduledGameConstants.LOCATION, ScheduledGameConstants.NUMBER_MASTER,
             ScheduledGameConstants.MAX_PLAYERS, ScheduledGameConstants.IMAGE, ScheduledGameConstants.START,
-            Optional.empty(), false, GameSessionType.ONESHOT);
+            Optional.of(recurrence), false, GameSessionType.CAMPAIGN);
     }
 
     private ScheduledGames() {
