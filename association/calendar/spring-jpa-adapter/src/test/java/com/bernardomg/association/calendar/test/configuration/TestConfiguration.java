@@ -33,6 +33,7 @@ import com.bernardomg.association.calendar.activity.adapter.inbound.jpa.reposito
 import com.bernardomg.association.calendar.activity.domain.repository.ActivityRepository;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.CalendarDateSpringRepository;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.CalendarInfoSpringRepository;
+import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.CalendarStatusSpringRepository;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.CalendarTypeSpringRepository;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.JpaCalendarTypeRepository;
 import com.bernardomg.association.calendar.domain.repository.CalendarTypeRepository;
@@ -51,9 +52,10 @@ public class TestConfiguration {
     @Bean("activityRepository")
     public ActivityRepository getActivityRepository(final CalendarInfoSpringRepository calendarInfoSpringRepository,
             final CalendarDateSpringRepository calendarDateSpringRepository,
-            final CalendarTypeSpringRepository calendarTypeSpringRepository) {
+            final CalendarTypeSpringRepository calendarTypeSpringRepository,
+            final CalendarStatusSpringRepository calendarStatusSpringRepository) {
         return new JpaActivityRepository(calendarInfoSpringRepository, calendarDateSpringRepository,
-            calendarTypeSpringRepository);
+            calendarTypeSpringRepository, calendarStatusSpringRepository);
     }
 
     @Bean("calendarTypeRepository")
@@ -66,9 +68,10 @@ public class TestConfiguration {
     public ScheduledGameRepository getScheduledGameRepository(
             final ScheduledGameProfileSpringRepository scheduledGameProfileSpringRepository,
             final ScheduledGameSpringRepository scheduledGameSpringRepository,
-            final CalendarTypeSpringRepository calendarTypeSpringRepository) {
+            final CalendarTypeSpringRepository calendarTypeSpringRepository,
+            final CalendarStatusSpringRepository calendarStatusSpringRepository) {
         return new JpaScheduledGameRepository(scheduledGameSpringRepository, scheduledGameProfileSpringRepository,
-            calendarTypeSpringRepository);
+            calendarTypeSpringRepository, calendarStatusSpringRepository);
     }
 
 }

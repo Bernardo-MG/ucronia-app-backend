@@ -47,8 +47,7 @@ class ITScheduledGameRepositorySave {
 
         Assertions.assertThat(scheduledGames)
             .as("scheduled games")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "master.id", "master.number",
-                "types.id")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "master.id", "master.number")
             .containsExactly(ScheduledGameEntities.weeklyCampaign());
     }
 
@@ -91,8 +90,7 @@ class ITScheduledGameRepositorySave {
 
         Assertions.assertThat(scheduledGames)
             .as("scheduled games")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "master.id", "master.number",
-                "types.id")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "master.id", "master.number")
             .containsExactly(ScheduledGameEntities.weeklyOneshot());
     }
 
@@ -135,8 +133,7 @@ class ITScheduledGameRepositorySave {
 
         Assertions.assertThat(scheduledGames)
             .as("scheduled games")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "master.id", "master.number",
-                "types.id")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "master.id", "master.number")
             .containsExactly(ScheduledGameEntities.titleChange());
     }
 

@@ -7,7 +7,9 @@ import com.bernardomg.association.calendar.test.configuration.factory.CalendarDa
 public final class CalendarDateEntities {
 
     public static final CalendarDateEntity valid() {
-        final CalendarDateEntity entity = new CalendarDateEntity();
+        final CalendarDateEntity entity;
+
+        entity = new CalendarDateEntity();
         entity.setStart(CalendarDateConstants.START);
         entity.setEnd(CalendarDateConstants.END);
         return entity;

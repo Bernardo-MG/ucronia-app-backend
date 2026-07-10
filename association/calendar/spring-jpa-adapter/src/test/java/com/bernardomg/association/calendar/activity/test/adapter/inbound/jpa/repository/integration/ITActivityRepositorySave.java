@@ -46,7 +46,7 @@ class ITActivityRepositorySave {
         Assertions.assertThat(activities)
             .as("activities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "calendarDates.id", "types.id")
-            .containsExactly(CalendarInfoEntities.created());
+            .containsExactly(CalendarInfoEntities.published());
     }
 
     @Test
@@ -88,7 +88,7 @@ class ITActivityRepositorySave {
         Assertions.assertThat(activities)
             .as("activities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "calendarDates.id", "types.id")
-            .containsExactly(CalendarInfoEntities.titleChange());
+            .containsExactly(CalendarInfoEntities.titleChangePublished());
     }
 
     @Test

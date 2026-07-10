@@ -9,6 +9,7 @@ import com.bernardomg.association.calendar.game.adapter.inbound.jpa.model.Schedu
 import com.bernardomg.association.calendar.game.adapter.inbound.jpa.model.ScheduledGameProfileEntity;
 import com.bernardomg.association.calendar.game.domain.model.Recurrence.RecurrenceUnit;
 import com.bernardomg.association.calendar.game.test.configuration.factory.ScheduledGameConstants;
+import com.bernardomg.association.calendar.test.factory.CalendarStatusEntities;
 import com.bernardomg.association.calendar.test.factory.CalendarTypeEntities;
 
 public final class ScheduledGameEntities {
@@ -20,6 +21,7 @@ public final class ScheduledGameEntities {
 
         entity = new ScheduledGameEntity();
         entity.setNumber(ScheduledGameConstants.NUMBER);
+        entity.setStatus(CalendarStatusEntities.published());
         entity.setTitle(ScheduledGameConstants.ALTERNATIVE_TITLE);
         entity.setDescription(ScheduledGameConstants.DESCRIPTION);
         entity.setLocation(ScheduledGameConstants.LOCATION);
@@ -49,6 +51,7 @@ public final class ScheduledGameEntities {
 
         entity = new ScheduledGameEntity();
         entity.setNumber(ScheduledGameConstants.NUMBER);
+        entity.setStatus(CalendarStatusEntities.published());
         entity.setTitle(ScheduledGameConstants.TITLE);
         entity.setDescription(ScheduledGameConstants.DESCRIPTION);
         entity.setLocation(ScheduledGameConstants.LOCATION);
@@ -77,6 +80,7 @@ public final class ScheduledGameEntities {
 
         entity = new ScheduledGameEntity();
         entity.setNumber(ScheduledGameConstants.NUMBER);
+        entity.setStatus(CalendarStatusEntities.published());
         entity.setTitle(ScheduledGameConstants.TITLE);
         entity.setDescription(ScheduledGameConstants.DESCRIPTION);
         entity.setLocation(ScheduledGameConstants.LOCATION);

@@ -31,6 +31,7 @@ import java.util.Set;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -39,6 +40,7 @@ import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
@@ -74,6 +76,11 @@ public class CalendarInfoEntity implements Serializable {
 
     @Column(name = "number", nullable = false, unique = true)
     private Long                    number;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "calendar_status_id", nullable = false,
+            foreignKey = @ForeignKey(name = "fk_calendar_info_calendar_status"))
+    private CalendarStatusEntity    status;
 
     @Column(name = "title", length = 100)
     private String                  title;
@@ -119,6 +126,10 @@ public class CalendarInfoEntity implements Serializable {
         return number;
     }
 
+    public CalendarStatusEntity getStatus() {
+        return status;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -156,6 +167,10 @@ public class CalendarInfoEntity implements Serializable {
         this.number = number;
     }
 
+    public void setStatus(final CalendarStatusEntity status) {
+        this.status = status;
+    }
+
     public void setTitle(final String title) {
         this.title = title;
     }
@@ -166,9 +181,9 @@ public class CalendarInfoEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "ActivityEntity [id=" + id + ", number=" + number + ", calendarDates=" + calendarDates + ", description="
-                + description + ", location=" + location + ", title=" + title + ", image=" + image + ", types=" + types
-                + "]";
+        return "ActivityEntity [id=" + id + ", number=" + number + ", status=" + status + ", calendarDates="
+                + calendarDates + ", description=" + description + ", location=" + location + ", title=" + title
+                + ", image=" + image + ", types=" + types + "]";
     }
 
 }
