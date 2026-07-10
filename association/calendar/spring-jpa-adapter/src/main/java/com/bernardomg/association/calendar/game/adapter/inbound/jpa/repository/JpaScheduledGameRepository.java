@@ -32,9 +32,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
 
+import com.bernardomg.association.calendar.activity.adapter.inbound.jpa.model.ActivityEntityConstants;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.model.CalendarInfoEntity;
+import com.bernardomg.association.calendar.adapter.inbound.jpa.model.CalendarStatusEntity;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.model.CalendarTypeEntity;
+import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.CalendarStatusSpringRepository;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.CalendarTypeSpringRepository;
+import com.bernardomg.association.calendar.domain.model.CalendarStatus;
 import com.bernardomg.association.calendar.game.adapter.inbound.jpa.model.ScheduledGameEntity;
 import com.bernardomg.association.calendar.game.adapter.inbound.jpa.model.ScheduledGameEntityConstants;
 import com.bernardomg.association.calendar.game.adapter.inbound.jpa.model.ScheduledGameEntityMapper;
@@ -58,6 +62,8 @@ public final class JpaScheduledGameRepository implements ScheduledGameRepository
      */
     private static final Logger                        log = LoggerFactory.getLogger(JpaScheduledGameRepository.class);
 
+    private final CalendarStatusSpringRepository       calendarStatusSpringRepository;
+
     private final CalendarTypeSpringRepository         calendarTypeSpringRepository;
 
     private final ScheduledGameProfileSpringRepository scheduledGameProfileSpringRepository;
@@ -66,12 +72,14 @@ public final class JpaScheduledGameRepository implements ScheduledGameRepository
 
     public JpaScheduledGameRepository(final ScheduledGameSpringRepository scheduledGameSpringRepo,
             final ScheduledGameProfileSpringRepository scheduledGameProfileSpringRepo,
-            final CalendarTypeSpringRepository calendarTypeSpringRepo) {
+            final CalendarTypeSpringRepository calendarTypeSpringRepo,
+            final CalendarStatusSpringRepository calendarStatusSpringRepo) {
         super();
 
         scheduledGameSpringRepository = Objects.requireNonNull(scheduledGameSpringRepo);
         scheduledGameProfileSpringRepository = Objects.requireNonNull(scheduledGameProfileSpringRepo);
         calendarTypeSpringRepository = Objects.requireNonNull(calendarTypeSpringRepo);
+        calendarStatusSpringRepository = Objects.requireNonNull(calendarStatusSpringRepo);
     }
 
     @Override
@@ -171,6 +179,7 @@ public final class JpaScheduledGameRepository implements ScheduledGameRepository
         entity.setMaster(profile.get());
 
         setType(entity, scheduledGame.gameSessionType());
+        setStatus(entity, CalendarStatus.PUBLISHED);
 
         created = scheduledGameSpringRepository.save(entity);
         saved = ScheduledGameEntityMapper.toDomain(created);
@@ -180,7 +189,17 @@ public final class JpaScheduledGameRepository implements ScheduledGameRepository
         return saved;
     }
 
-    private void setType(final CalendarInfoEntity entity, final GameSessionType gameSessionType) {
+    private final void setStatus(final CalendarInfoEntity entity, final CalendarStatus status) {
+        final CalendarStatusEntity statusEntity;
+
+        statusEntity = calendarStatusSpringRepository.findByName(status)
+            .orElseThrow(() -> new IllegalStateException(
+                "Missing default calendar type with number " + ActivityEntityConstants.TYPE));
+
+        entity.setStatus(statusEntity);
+    }
+
+    private final void setType(final CalendarInfoEntity entity, final GameSessionType gameSessionType) {
         final long               typeNumber;
         final CalendarTypeEntity profileType;
 

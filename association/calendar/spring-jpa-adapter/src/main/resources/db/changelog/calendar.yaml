@@ -234,9 +234,6 @@ databaseChangeLog:
             tableName: calendar_status
             columns:
               - column:
-                  name: number
-                  valueNumeric: 1
-              - column:
                   name: name
                   value: DRAFT
         - insert:
@@ -244,8 +241,12 @@ databaseChangeLog:
             tableName: calendar_status
             columns:
               - column:
-                  name: number
-                  valueNumeric: 2
+                  name: name
+                  value: PENDING_REVIEW
+        - insert:
+            schemaName: calendar
+            tableName: calendar_status
+            columns:
               - column:
                   name: name
                   value: PUBLISHED
@@ -254,18 +255,12 @@ databaseChangeLog:
             tableName: calendar_status
             columns:
               - column:
-                  name: number
-                  valueNumeric: 3
-              - column:
                   name: name
                   value: CANCELLED
         - insert:
             schemaName: calendar
             tableName: calendar_status
             columns:
-              - column:
-                  name: number
-                  valueNumeric: 4
               - column:
                   name: name
                   value: REJECTED

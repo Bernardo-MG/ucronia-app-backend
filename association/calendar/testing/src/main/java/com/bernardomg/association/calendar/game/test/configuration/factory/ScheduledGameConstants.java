@@ -12,11 +12,15 @@ public final class ScheduledGameConstants {
 
     public static final String  CALENDAR_TYPE_CAMPAIGN_COLOR  = "#0000FF";
 
+    public static final long    CALENDAR_TYPE_CAMPAIGN_ID     = 3L;
+
     public static final String  CALENDAR_TYPE_CAMPAIGN_NAME   = "Campaña";
 
     public static final long    CALENDAR_TYPE_CAMPAIGN_NUMBER = 3L;
 
     public static final String  CALENDAR_TYPE_ONESHOT_COLOR   = "#008000";
+
+    public static final long    CALENDAR_TYPE_ONESHOT_ID      = 2L;
 
     public static final String  CALENDAR_TYPE_ONESHOT_NAME    = "Oneshot";
 
