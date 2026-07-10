@@ -17,8 +17,6 @@ public final class ScheduledGameEntities {
     public static final ScheduledGameEntity titleChange() {
         final ScheduledGameEntity        entity;
         final ScheduledGameProfileEntity profile;
-        final CalendarInfoRecurrence     recurrence;
-
         entity = new ScheduledGameEntity();
         entity.setNumber(ScheduledGameConstants.NUMBER);
         entity.setStatus(CalendarStatusEntities.published());
@@ -29,11 +27,6 @@ public final class ScheduledGameEntities {
         entity.setMaxPlayers(ScheduledGameConstants.MAX_PLAYERS);
         entity.setStart(ScheduledGameConstants.START);
         entity.setCalendarDates(new HashSet<>());
-
-        recurrence = new CalendarInfoRecurrence();
-        recurrence.setInterval(1);
-        recurrence.setUnit(RecurrenceUnit.WEEKLY);
-        entity.setRecurrence(recurrence);
 
         profile = ScheduledGameProfileEntities.master();
         entity.setMaster(profile);

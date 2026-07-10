@@ -26,7 +26,7 @@ components:
 
     ScheduledGameCreation:
       type: object
-      required: [title, master, maxPlayers, start, recurrence, gameType]
+      required: [title, master, maxPlayers, start, gameType]
       properties:
         title:
           type: string
@@ -56,7 +56,7 @@ components:
 
     ScheduledGameUpdate:
       type: object
-      required: [title, master, maxPlayers, start, recurrence, gameType]
+      required: [title, master, maxPlayers, start, gameType]
       properties:
         title:
           type: string
@@ -100,10 +100,13 @@ components:
         unit:
           type: string
           enum: [daily, weekly, monthly]
+        status:
+          type: string
+          enum: [active, cancelled, completed]
 
     ScheduledGame:
       type: object
-      required: [number, title, master, start, recurrence, published, gameType]
+      required: [number, title, master, start, published, gameType]
       properties:
         number:
           $ref: '../common/ids.yml#/components/schemas/Id'

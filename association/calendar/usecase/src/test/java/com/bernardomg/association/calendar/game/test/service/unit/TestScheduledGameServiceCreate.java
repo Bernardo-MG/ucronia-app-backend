@@ -85,6 +85,7 @@ class TestScheduledGameServiceCreate {
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
             new FieldFailure("negative", "recurrence.interval", scheduledGame.recurrence()
+                .get()
                 .interval()));
     }
 

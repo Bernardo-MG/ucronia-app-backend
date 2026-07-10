@@ -18,11 +18,11 @@ public class CalendarInfoRecurrence implements Serializable {
     @Transient
     private static final long         serialVersionUID = 1174279038101885709L;
 
-    @Column(name = "recurrence_interval", nullable = false)
+    @Column(name = "recurrence_interval")
     private Integer                   interval;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "recurrence_unit", nullable = false)
+    @Column(name = "recurrence_unit")
     private Recurrence.RecurrenceUnit unit;
 
     @Override
