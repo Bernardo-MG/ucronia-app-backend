@@ -1,8 +1,6 @@
 
 package com.bernardomg.association.calendar.game.adapter.inbound.jpa.model;
 
-import java.time.Instant;
-
 import com.bernardomg.association.calendar.adapter.inbound.jpa.model.CalendarInfoEntity;
 
 import jakarta.persistence.Column;
@@ -28,19 +26,12 @@ public class ScheduledGameEntity extends CalendarInfoEntity {
     @Column(name = "max_players", nullable = false)
     private Integer                    maxPlayers;
 
-    @Column(name = "start_date", nullable = false)
-    private Instant                    start;
-
     public ScheduledGameProfileEntity getMaster() {
         return master;
     }
 
     public Integer getMaxPlayers() {
         return maxPlayers;
-    }
-
-    public Instant getStart() {
-        return start;
     }
 
     public void setMaster(final ScheduledGameProfileEntity master) {
@@ -51,17 +42,13 @@ public class ScheduledGameEntity extends CalendarInfoEntity {
         this.maxPlayers = maxPlayers;
     }
 
-    public void setStart(final Instant start) {
-        this.start = start;
-    }
-
     @Override
     public String toString() {
         return "ScheduledGameEntity [id=" + getId() + ", number=" + getNumber() + ", status=" + getStatus()
                 + ", calendarDates=" + getCalendarDates() + ", description=" + getDescription() + ", image="
                 + getImage() + ", location=" + getLocation() + ", title=" + getTitle() + ", types=" + getTypes()
                 + ", master=" + master + ", maxPlayers=" + maxPlayers + ", recurrence=" + getRecurrence() + ", start="
-                + start + "]";
+                + getStart() + "]";
     }
 
 }

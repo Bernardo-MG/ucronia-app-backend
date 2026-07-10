@@ -30,12 +30,6 @@ databaseChangeLog:
                   defaultValueNumeric: 1
                   constraints:
                     nullable: false
-              - column:
-                  name: start_date
-                  type: datetime
-                  defaultValueComputed: CURRENT_TIMESTAMP
-                  constraints:
-                    nullable: false
   - changeSet:
       id: scheduled_game_initial_data
       author: Bernardo

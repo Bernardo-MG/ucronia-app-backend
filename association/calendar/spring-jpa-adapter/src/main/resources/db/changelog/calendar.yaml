@@ -126,6 +126,11 @@ databaseChangeLog:
                     nullable: true
                   defaultValue: ''
               - column:
+                  name: start_date
+                  type: datetime
+                  constraints:
+                    nullable: true
+              - column:
                   name: recurrence_interval
                   type: bigint
                   constraints:

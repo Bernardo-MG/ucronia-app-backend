@@ -25,6 +25,7 @@
 package com.bernardomg.association.calendar.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Objects;
 import java.util.Set;
 
@@ -81,6 +82,9 @@ public class CalendarInfoEntity implements Serializable {
     @Embedded
     private CalendarInfoRecurrence  recurrence;
 
+    @Column(name = "start_date")
+    private Instant                 start;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "calendar_status_id", nullable = false,
             foreignKey = @ForeignKey(name = "fk_calendar_info_calendar_status"))
@@ -134,6 +138,10 @@ public class CalendarInfoEntity implements Serializable {
         return recurrence;
     }
 
+    public Instant getStart() {
+        return start;
+    }
+
     public CalendarStatusEntity getStatus() {
         return status;
     }
@@ -179,6 +187,10 @@ public class CalendarInfoEntity implements Serializable {
         this.recurrence = recurrence;
     }
 
+    public void setStart(final Instant start) {
+        this.start = start;
+    }
+
     public void setStatus(final CalendarStatusEntity status) {
         this.status = status;
     }
@@ -195,7 +207,7 @@ public class CalendarInfoEntity implements Serializable {
     public String toString() {
         return "ActivityEntity [id=" + id + ", number=" + number + ", status=" + status + ", calendarDates="
                 + calendarDates + ", description=" + description + ", location=" + location + ", title=" + title
-                + ", image=" + image + ", recurrence=" + recurrence + ", types=" + types + "]";
+                + ", image=" + image + ", recurrence=" + recurrence + ", types=" + types + ", start=" + start + "]";
     }
 
 }

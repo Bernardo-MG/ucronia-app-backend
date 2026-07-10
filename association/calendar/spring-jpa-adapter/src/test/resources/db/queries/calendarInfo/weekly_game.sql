@@ -1,2 +1,2 @@
-INSERT INTO calendar.calendar_info (id, number, calendar_status_id, title, description, location, image, recurrence_interval, recurrence_unit) VALUES
-   (10, 10, 1, 'Title', 'Game description', 'Location', 'image.png', 1, 'WEEKLY');
+INSERT INTO calendar.calendar_info (id, number, calendar_status_id, title, description, location, image, recurrence_interval, recurrence_unit, start_date) VALUES
+   (10, 10, 1, 'Title', 'Game description', 'Location', 'image.png', 1, 'WEEKLY', '2025-02-01T00:00:00');
