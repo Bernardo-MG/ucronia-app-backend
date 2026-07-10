@@ -40,6 +40,7 @@ import com.bernardomg.association.calendar.activity.domain.model.Activity;
 import com.bernardomg.association.calendar.activity.domain.repository.ActivityRepository;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.model.CalendarDateEntity;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.model.CalendarInfoEntity;
+import com.bernardomg.association.calendar.adapter.inbound.jpa.model.CalendarInfoRecurrence;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.model.CalendarStatusEntity;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.model.CalendarTypeEntity;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.CalendarDateSpringRepository;
@@ -47,6 +48,7 @@ import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.Calend
 import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.CalendarStatusSpringRepository;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.CalendarTypeSpringRepository;
 import com.bernardomg.association.calendar.domain.model.CalendarStatus;
+import com.bernardomg.association.calendar.domain.model.Recurrence;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
@@ -179,6 +181,7 @@ public final class JpaActivityRepository implements ActivityRepository {
 
         setType(entity);
         setStatus(entity, CalendarStatus.PUBLISHED);
+        setRecurrence(entity);
 
         created = calendarInfoSpringRepository.save(entity);
         saved = ActivityEntityMapper.toDomain(created);
@@ -186,6 +189,15 @@ public final class JpaActivityRepository implements ActivityRepository {
         log.debug("Saved activity {}", saved);
 
         return saved;
+    }
+
+    private final void setRecurrence(final CalendarInfoEntity entity) {
+        final CalendarInfoRecurrence recurrence;
+
+        recurrence = new CalendarInfoRecurrence();
+        recurrence.setInterval(0);
+        recurrence.setUnit(Recurrence.RecurrenceUnit.DAILY);
+        entity.setRecurrence(recurrence);
     }
 
     private final void setStatus(final CalendarInfoEntity entity, final CalendarStatus status) {

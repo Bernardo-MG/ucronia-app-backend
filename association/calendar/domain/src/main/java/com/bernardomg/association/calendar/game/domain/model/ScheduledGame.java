@@ -26,15 +26,19 @@ package com.bernardomg.association.calendar.game.domain.model;
 
 import java.time.Instant;
 import java.util.Objects;
+import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.bernardomg.association.calendar.domain.model.Recurrence;
+
 public record ScheduledGame(long number, String title, String description, String location, Long master, int maxPlayers,
-        String image, Instant start, Recurrence recurrence, boolean published, GameSessionType gameSessionType) {
+        String image, Instant start, Optional<Recurrence> recurrence, boolean published,
+        GameSessionType gameSessionType) {
 
     public ScheduledGame(final long number, final String title, final String description, final String location,
             final Long master, final int maxPlayers, final String image, final Instant start,
-            final Recurrence recurrence, final boolean published, final GameSessionType gameSessionType) {
+            final Optional<Recurrence> recurrence, final boolean published, final GameSessionType gameSessionType) {
         Objects.requireNonNull(number, "Number can't be null");
         Objects.requireNonNull(title, "Title can't be null");
         Objects.requireNonNull(description, "Description can't be null");

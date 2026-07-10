@@ -125,6 +125,16 @@ databaseChangeLog:
                   constraints:
                     nullable: true
                   defaultValue: ''
+              - column:
+                  name: recurrence_interval
+                  type: bigint
+                  constraints:
+                    nullable: true
+              - column:
+                  name: recurrence_unit
+                  type: varchar(6)
+                  constraints:
+                    nullable: true
         - addAutoIncrement:
             schemaName: calendar
             tableName: calendar_info

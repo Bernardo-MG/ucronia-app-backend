@@ -7,11 +7,14 @@ import java.util.Set;
 
 import com.bernardomg.association.calendar.activity.test.configuration.factory.ActivityConstants;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.model.CalendarInfoEntity;
+import com.bernardomg.association.calendar.adapter.inbound.jpa.model.CalendarInfoRecurrence;
+import com.bernardomg.association.calendar.domain.model.Recurrence;
 
 public final class CalendarInfoEntities {
 
     public static final CalendarInfoEntity draft() {
-        final CalendarInfoEntity entity;
+        final CalendarInfoEntity     entity;
+        final CalendarInfoRecurrence recurrence;
 
         entity = new CalendarInfoEntity();
         entity.setNumber(ActivityConstants.NUMBER);
@@ -22,11 +25,19 @@ public final class CalendarInfoEntities {
         entity.setCalendarDates(Set.of(CalendarDateEntities.valid()));
         entity.setImage(ActivityConstants.IMAGE);
         entity.setTypes(new HashSet<>(List.of(CalendarTypeEntities.activity())));
+
+        recurrence = new CalendarInfoRecurrence();
+        recurrence.setInterval(0);
+        recurrence.setUnit(Recurrence.RecurrenceUnit.DAILY);
+
+        entity.setRecurrence(recurrence);
+
         return entity;
     }
 
     public static final CalendarInfoEntity published() {
-        final CalendarInfoEntity entity;
+        final CalendarInfoEntity     entity;
+        final CalendarInfoRecurrence recurrence;
 
         entity = new CalendarInfoEntity();
         entity.setNumber(ActivityConstants.NUMBER);
@@ -37,11 +48,19 @@ public final class CalendarInfoEntities {
         entity.setCalendarDates(Set.of(CalendarDateEntities.valid()));
         entity.setImage(ActivityConstants.IMAGE);
         entity.setTypes(new HashSet<>(List.of(CalendarTypeEntities.activity())));
+
+        recurrence = new CalendarInfoRecurrence();
+        recurrence.setInterval(0);
+        recurrence.setUnit(Recurrence.RecurrenceUnit.DAILY);
+
+        entity.setRecurrence(recurrence);
+
         return entity;
     }
 
     public static final CalendarInfoEntity titleChangePublished() {
-        final CalendarInfoEntity entity;
+        final CalendarInfoEntity     entity;
+        final CalendarInfoRecurrence recurrence;
 
         entity = new CalendarInfoEntity();
         entity.setNumber(ActivityConstants.NUMBER);
@@ -52,6 +71,13 @@ public final class CalendarInfoEntities {
         entity.setCalendarDates(Set.of(CalendarDateEntities.valid()));
         entity.setImage(ActivityConstants.IMAGE);
         entity.setTypes(new HashSet<>(List.of(CalendarTypeEntities.activity())));
+
+        recurrence = new CalendarInfoRecurrence();
+        recurrence.setInterval(0);
+        recurrence.setUnit(Recurrence.RecurrenceUnit.DAILY);
+
+        entity.setRecurrence(recurrence);
+
         return entity;
     }
 
