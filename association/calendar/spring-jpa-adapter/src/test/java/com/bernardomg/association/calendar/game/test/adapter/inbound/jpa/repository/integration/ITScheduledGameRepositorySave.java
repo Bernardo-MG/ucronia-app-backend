@@ -30,14 +30,14 @@ class ITScheduledGameRepositorySave {
     private ScheduledGameSpringRepository springRepository;
 
     @Test
-    @DisplayName("Persists the data")
+    @DisplayName("Persists a campaign")
     @ValidProfile
-    void testSave_PersistedData() {
+    void testSave_Campaign_PersistedData() {
         final Iterable<ScheduledGameEntity> scheduledGames;
         final ScheduledGame                 scheduledGame;
 
         // GIVEN
-        scheduledGame = ScheduledGames.weekly();
+        scheduledGame = ScheduledGames.weeklyCampaign();
 
         // WHEN
         repository.save(scheduledGame);
@@ -49,18 +49,18 @@ class ITScheduledGameRepositorySave {
             .as("scheduled games")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "master.id", "master.number",
                 "types.id")
-            .containsExactly(ScheduledGameEntities.createdWeekly());
+            .containsExactly(ScheduledGameEntities.weeklyCampaign());
     }
 
     @Test
-    @DisplayName("Returns the created data")
+    @DisplayName("When creating a campaign, it is returned")
     @ValidProfile
-    void testSave_ReturnedData() {
+    void testSave_Campaign_ReturnedData() {
         final ScheduledGame created;
         final ScheduledGame scheduledGame;
 
         // GIVEN
-        scheduledGame = ScheduledGames.weekly();
+        scheduledGame = ScheduledGames.weeklyOneshot();
 
         // WHEN
         created = repository.save(scheduledGame);
@@ -70,7 +70,51 @@ class ITScheduledGameRepositorySave {
             .as("created")
             .usingRecursiveComparison()
             .ignoringFields("number")
-            .isEqualTo(ScheduledGames.weekly());
+            .isEqualTo(ScheduledGames.weeklyOneshot());
+    }
+
+    @Test
+    @DisplayName("Persists a oneshot")
+    @ValidProfile
+    void testSave_Oneshot_PersistedData() {
+        final Iterable<ScheduledGameEntity> scheduledGames;
+        final ScheduledGame                 scheduledGame;
+
+        // GIVEN
+        scheduledGame = ScheduledGames.weeklyOneshot();
+
+        // WHEN
+        repository.save(scheduledGame);
+
+        // THEN
+        scheduledGames = springRepository.findAll();
+
+        Assertions.assertThat(scheduledGames)
+            .as("scheduled games")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "master.id", "master.number",
+                "types.id")
+            .containsExactly(ScheduledGameEntities.weeklyOneshot());
+    }
+
+    @Test
+    @DisplayName("When creating a oneshot, it is returned")
+    @ValidProfile
+    void testSave_Oneshot_ReturnedData() {
+        final ScheduledGame created;
+        final ScheduledGame scheduledGame;
+
+        // GIVEN
+        scheduledGame = ScheduledGames.weeklyOneshot();
+
+        // WHEN
+        created = repository.save(scheduledGame);
+
+        // THEN
+        Assertions.assertThat(created)
+            .as("created")
+            .usingRecursiveComparison()
+            .ignoringFields("number")
+            .isEqualTo(ScheduledGames.weeklyOneshot());
     }
 
     @Test

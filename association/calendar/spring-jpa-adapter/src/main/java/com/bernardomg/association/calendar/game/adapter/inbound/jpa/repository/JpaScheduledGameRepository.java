@@ -40,6 +40,7 @@ import com.bernardomg.association.calendar.game.adapter.inbound.jpa.model.Schedu
 import com.bernardomg.association.calendar.game.adapter.inbound.jpa.model.ScheduledGameEntityMapper;
 import com.bernardomg.association.calendar.game.adapter.inbound.jpa.model.ScheduledGameProfileEntity;
 import com.bernardomg.association.calendar.game.domain.exception.MissingScheduledGameProfileException;
+import com.bernardomg.association.calendar.game.domain.model.GameSessionType;
 import com.bernardomg.association.calendar.game.domain.model.ScheduledGame;
 import com.bernardomg.association.calendar.game.domain.repository.ScheduledGameRepository;
 import com.bernardomg.pagination.domain.Page;
@@ -169,7 +170,7 @@ public final class JpaScheduledGameRepository implements ScheduledGameRepository
         }
         entity.setMaster(profile.get());
 
-        setType(entity);
+        setType(entity, scheduledGame.gameSessionType());
 
         created = scheduledGameSpringRepository.save(entity);
         saved = ScheduledGameEntityMapper.toDomain(created);
@@ -179,12 +180,17 @@ public final class JpaScheduledGameRepository implements ScheduledGameRepository
         return saved;
     }
 
-    private void setType(final CalendarInfoEntity entity) {
+    private void setType(final CalendarInfoEntity entity, final GameSessionType gameSessionType) {
+        final long               typeNumber;
         final CalendarTypeEntity profileType;
 
-        profileType = calendarTypeSpringRepository.findByNumber(ScheduledGameEntityConstants.PROFILE_TYPE)
-            .orElseThrow(() -> new IllegalStateException(
-                "Missing default calendar type with number " + ScheduledGameEntityConstants.PROFILE_TYPE));
+        typeNumber = switch (gameSessionType) {
+            case ONESHOT -> ScheduledGameEntityConstants.ONESHOT_TYPE;
+            case CAMPAIGN -> ScheduledGameEntityConstants.CAMPAIGN_TYPE;
+        };
+
+        profileType = calendarTypeSpringRepository.findByNumber(typeNumber)
+            .orElseThrow(() -> new IllegalStateException("Missing default calendar type with number " + typeNumber));
 
         if (entity.getTypes() == null) {
             entity.setTypes(new HashSet<>());

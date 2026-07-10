@@ -101,7 +101,7 @@ class TestScheduledGameServiceUpdate {
         final ThrowingCallable execution;
 
         // GIVEN
-        scheduledGame = ScheduledGames.weekly();
+        scheduledGame = ScheduledGames.weeklyOneshot();
 
         given(scheduledGameRepository.exists(ActivityConstants.NUMBER)).willReturn(false);
 
@@ -119,7 +119,7 @@ class TestScheduledGameServiceUpdate {
         final ScheduledGame scheduledGame;
 
         // GIVEN
-        scheduledGame = ScheduledGames.weekly();
+        scheduledGame = ScheduledGames.weeklyOneshot();
 
         given(scheduledGameRepository.exists(ActivityConstants.NUMBER)).willReturn(true);
 
@@ -127,7 +127,7 @@ class TestScheduledGameServiceUpdate {
         service.update(scheduledGame);
 
         // THEN
-        verify(scheduledGameRepository).save(ScheduledGames.weekly());
+        verify(scheduledGameRepository).save(ScheduledGames.weeklyOneshot());
     }
 
     @Test
@@ -137,7 +137,7 @@ class TestScheduledGameServiceUpdate {
         final ScheduledGame updated;
 
         // GIVEN
-        scheduledGame = ScheduledGames.weekly();
+        scheduledGame = ScheduledGames.weeklyOneshot();
 
         given(scheduledGameRepository.save(scheduledGame)).willReturn(scheduledGame);
         given(scheduledGameRepository.exists(ActivityConstants.NUMBER)).willReturn(true);
@@ -148,7 +148,7 @@ class TestScheduledGameServiceUpdate {
         // THEN
         Assertions.assertThat(updated)
             .as("scheduled game")
-            .isEqualTo(ScheduledGames.weekly());
+            .isEqualTo(ScheduledGames.weeklyOneshot());
     }
 
     @Test

@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.calendar.game.test.configuration.factory;
 
+import com.bernardomg.association.calendar.game.domain.model.GameSessionType;
 import com.bernardomg.association.calendar.game.domain.model.Recurrence;
 import com.bernardomg.association.calendar.game.domain.model.Recurrence.RecurrenceUnit;
 import com.bernardomg.association.calendar.game.domain.model.ScheduledGame;
@@ -13,7 +14,7 @@ public final class ScheduledGames {
         recurrence = new Recurrence(1, RecurrenceUnit.WEEKLY);
         return new ScheduledGame(ScheduledGameConstants.NUMBER, ScheduledGameConstants.TITLE,
             ScheduledGameConstants.DESCRIPTION, ScheduledGameConstants.LOCATION, ScheduledGameConstants.NUMBER_MASTER,
-            -1, ScheduledGameConstants.IMAGE, ScheduledGameConstants.START, recurrence, false);
+            -1, ScheduledGameConstants.IMAGE, ScheduledGameConstants.START, recurrence, false, GameSessionType.ONESHOT);
     }
 
     public static final ScheduledGame negativeRecurrence() {
@@ -23,7 +24,7 @@ public final class ScheduledGames {
         return new ScheduledGame(ScheduledGameConstants.NUMBER, ScheduledGameConstants.TITLE,
             ScheduledGameConstants.DESCRIPTION, ScheduledGameConstants.LOCATION, ScheduledGameConstants.NUMBER_MASTER,
             ScheduledGameConstants.MAX_PLAYERS, ScheduledGameConstants.IMAGE, ScheduledGameConstants.START, recurrence,
-            false);
+            false, GameSessionType.ONESHOT);
     }
 
     public static final ScheduledGame titleChange() {
@@ -33,17 +34,27 @@ public final class ScheduledGames {
         return new ScheduledGame(ScheduledGameConstants.NUMBER, ScheduledGameConstants.ALTERNATIVE_TITLE,
             ScheduledGameConstants.DESCRIPTION, ScheduledGameConstants.LOCATION, ScheduledGameConstants.NUMBER_MASTER,
             ScheduledGameConstants.MAX_PLAYERS, ScheduledGameConstants.IMAGE, ScheduledGameConstants.START, recurrence,
-            false);
+            false, GameSessionType.ONESHOT);
     }
 
-    public static final ScheduledGame weekly() {
+    public static final ScheduledGame weeklyCampaign() {
         final Recurrence recurrence;
 
         recurrence = new Recurrence(1, RecurrenceUnit.WEEKLY);
         return new ScheduledGame(ScheduledGameConstants.NUMBER, ScheduledGameConstants.TITLE,
             ScheduledGameConstants.DESCRIPTION, ScheduledGameConstants.LOCATION, ScheduledGameConstants.NUMBER_MASTER,
             ScheduledGameConstants.MAX_PLAYERS, ScheduledGameConstants.IMAGE, ScheduledGameConstants.START, recurrence,
-            false);
+            false, GameSessionType.CAMPAIGN);
+    }
+
+    public static final ScheduledGame weeklyOneshot() {
+        final Recurrence recurrence;
+
+        recurrence = new Recurrence(1, RecurrenceUnit.WEEKLY);
+        return new ScheduledGame(ScheduledGameConstants.NUMBER, ScheduledGameConstants.TITLE,
+            ScheduledGameConstants.DESCRIPTION, ScheduledGameConstants.LOCATION, ScheduledGameConstants.NUMBER_MASTER,
+            ScheduledGameConstants.MAX_PLAYERS, ScheduledGameConstants.IMAGE, ScheduledGameConstants.START, recurrence,
+            false, GameSessionType.ONESHOT);
     }
 
     public static final ScheduledGame zeroMaxPlayers() {
@@ -52,7 +63,7 @@ public final class ScheduledGames {
         recurrence = new Recurrence(1, RecurrenceUnit.WEEKLY);
         return new ScheduledGame(ScheduledGameConstants.NUMBER, ScheduledGameConstants.TITLE,
             ScheduledGameConstants.DESCRIPTION, ScheduledGameConstants.LOCATION, ScheduledGameConstants.NUMBER_MASTER,
-            0, ScheduledGameConstants.IMAGE, ScheduledGameConstants.START, recurrence, false);
+            0, ScheduledGameConstants.IMAGE, ScheduledGameConstants.START, recurrence, false, GameSessionType.ONESHOT);
     }
 
     public static final ScheduledGame zeroRecurrence() {
@@ -62,7 +73,7 @@ public final class ScheduledGames {
         return new ScheduledGame(ScheduledGameConstants.NUMBER, ScheduledGameConstants.TITLE,
             ScheduledGameConstants.DESCRIPTION, ScheduledGameConstants.LOCATION, ScheduledGameConstants.NUMBER_MASTER,
             ScheduledGameConstants.MAX_PLAYERS, ScheduledGameConstants.IMAGE, ScheduledGameConstants.START, recurrence,
-            false);
+            false, GameSessionType.ONESHOT);
     }
 
     private ScheduledGames() {

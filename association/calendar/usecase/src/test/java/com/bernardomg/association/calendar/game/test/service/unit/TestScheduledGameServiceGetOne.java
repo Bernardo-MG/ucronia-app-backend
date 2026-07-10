@@ -65,7 +65,7 @@ class TestScheduledGameServiceGetOne {
         final Optional<ScheduledGame> read;
 
         // GIVEN
-        scheduledGame = ScheduledGames.weekly();
+        scheduledGame = ScheduledGames.weeklyOneshot();
         given(scheduledGameRepository.findOne(ActivityConstants.NUMBER)).willReturn(Optional.of(scheduledGame));
 
         // WHEN

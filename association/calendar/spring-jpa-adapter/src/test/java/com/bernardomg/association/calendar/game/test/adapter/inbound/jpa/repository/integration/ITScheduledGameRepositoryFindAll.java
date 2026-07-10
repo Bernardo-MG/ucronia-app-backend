@@ -72,7 +72,7 @@ class ITActivityRepositoryFindAllWithFilter {
         Assertions.assertThat(scheduledGames)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(ScheduledGames.weekly());
+            .containsExactly(ScheduledGames.weeklyOneshot());
     }
 
     @Test

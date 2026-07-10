@@ -75,7 +75,7 @@ class TestScheduledGameServiceDelete {
     void testDelete_RemovesEntity() {
         // GIVEN
         given(scheduledGameRepository.findOne(ActivityConstants.NUMBER))
-            .willReturn(Optional.of(ScheduledGames.weekly()));
+            .willReturn(Optional.of(ScheduledGames.weeklyOneshot()));
 
         // WHEN
         service.delete(ActivityConstants.NUMBER);
