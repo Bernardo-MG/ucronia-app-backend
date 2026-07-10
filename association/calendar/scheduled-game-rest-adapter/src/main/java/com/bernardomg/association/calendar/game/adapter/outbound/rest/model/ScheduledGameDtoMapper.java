@@ -26,6 +26,8 @@ package com.bernardomg.association.calendar.game.adapter.outbound.rest.model;
 
 import java.util.Optional;
 
+import com.bernardomg.association.calendar.domain.model.Recurrence;
+import com.bernardomg.association.calendar.domain.model.Recurrence.RecurrenceUnit;
 import com.bernardomg.association.calendar.game.adapter.outbound.rest.dto.GameSessionTypeDto;
 import com.bernardomg.association.calendar.game.adapter.outbound.rest.dto.PropertyDto;
 import com.bernardomg.association.calendar.game.adapter.outbound.rest.dto.PropertyDto.DirectionEnum;
@@ -38,8 +40,6 @@ import com.bernardomg.association.calendar.game.adapter.outbound.rest.dto.Schedu
 import com.bernardomg.association.calendar.game.adapter.outbound.rest.dto.ScheduledGameUpdateDto;
 import com.bernardomg.association.calendar.game.adapter.outbound.rest.dto.SortingDto;
 import com.bernardomg.association.calendar.game.domain.model.GameSessionType;
-import com.bernardomg.association.calendar.game.domain.model.Recurrence;
-import com.bernardomg.association.calendar.game.domain.model.Recurrence.RecurrenceUnit;
 import com.bernardomg.association.calendar.game.domain.model.ScheduledGame;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;

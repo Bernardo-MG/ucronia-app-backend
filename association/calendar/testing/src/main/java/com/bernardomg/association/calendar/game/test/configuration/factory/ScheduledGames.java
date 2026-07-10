@@ -1,9 +1,9 @@
 
 package com.bernardomg.association.calendar.game.test.configuration.factory;
 
+import com.bernardomg.association.calendar.domain.model.Recurrence;
+import com.bernardomg.association.calendar.domain.model.Recurrence.RecurrenceUnit;
 import com.bernardomg.association.calendar.game.domain.model.GameSessionType;
-import com.bernardomg.association.calendar.game.domain.model.Recurrence;
-import com.bernardomg.association.calendar.game.domain.model.Recurrence.RecurrenceUnit;
 import com.bernardomg.association.calendar.game.domain.model.ScheduledGame;
 
 public final class ScheduledGames {

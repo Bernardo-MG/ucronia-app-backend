@@ -25,8 +25,8 @@
 package com.bernardomg.association.calendar.game.adapter.inbound.jpa.model;
 
 import com.bernardomg.association.calendar.adapter.inbound.jpa.model.CalendarInfoRecurrence;
+import com.bernardomg.association.calendar.domain.model.Recurrence;
 import com.bernardomg.association.calendar.game.domain.model.GameSessionType;
-import com.bernardomg.association.calendar.game.domain.model.Recurrence;
 import com.bernardomg.association.calendar.game.domain.model.ScheduledGame;
 
 /**

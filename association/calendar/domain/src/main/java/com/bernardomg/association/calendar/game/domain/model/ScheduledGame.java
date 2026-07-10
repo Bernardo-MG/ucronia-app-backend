@@ -29,6 +29,8 @@ import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.bernardomg.association.calendar.domain.model.Recurrence;
+
 public record ScheduledGame(long number, String title, String description, String location, Long master, int maxPlayers,
         String image, Instant start, Recurrence recurrence, boolean published, GameSessionType gameSessionType) {
 

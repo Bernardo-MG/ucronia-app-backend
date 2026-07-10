@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.calendar.game.domain.model;
+package com.bernardomg.association.calendar.domain.model;
 
 import java.util.Objects;
 

@@ -4,7 +4,7 @@ package com.bernardomg.association.calendar.adapter.inbound.jpa.model;
 import java.io.Serializable;
 import java.util.Objects;
 
-import com.bernardomg.association.calendar.game.domain.model.Recurrence;
+import com.bernardomg.association.calendar.domain.model.Recurrence;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;

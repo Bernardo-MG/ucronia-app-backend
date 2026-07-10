@@ -8,7 +8,7 @@ import java.util.Set;
 import com.bernardomg.association.calendar.activity.test.configuration.factory.ActivityConstants;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.model.CalendarInfoEntity;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.model.CalendarInfoRecurrence;
-import com.bernardomg.association.calendar.game.domain.model.Recurrence;
+import com.bernardomg.association.calendar.domain.model.Recurrence;
 
 public final class CalendarInfoEntities {
 

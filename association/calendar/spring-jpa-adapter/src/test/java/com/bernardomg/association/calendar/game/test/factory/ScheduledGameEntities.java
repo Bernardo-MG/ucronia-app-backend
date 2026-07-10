@@ -5,9 +5,9 @@ import java.util.HashSet;
 import java.util.List;
 
 import com.bernardomg.association.calendar.adapter.inbound.jpa.model.CalendarInfoRecurrence;
+import com.bernardomg.association.calendar.domain.model.Recurrence.RecurrenceUnit;
 import com.bernardomg.association.calendar.game.adapter.inbound.jpa.model.ScheduledGameEntity;
 import com.bernardomg.association.calendar.game.adapter.inbound.jpa.model.ScheduledGameProfileEntity;
-import com.bernardomg.association.calendar.game.domain.model.Recurrence.RecurrenceUnit;
 import com.bernardomg.association.calendar.game.test.configuration.factory.ScheduledGameConstants;
 import com.bernardomg.association.calendar.test.factory.CalendarStatusEntities;
 import com.bernardomg.association.calendar.test.factory.CalendarTypeEntities;
