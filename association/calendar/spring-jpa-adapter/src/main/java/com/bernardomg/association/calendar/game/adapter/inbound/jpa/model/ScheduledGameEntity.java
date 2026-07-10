@@ -6,7 +6,6 @@ import java.time.Instant;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.model.CalendarInfoEntity;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -29,9 +28,6 @@ public class ScheduledGameEntity extends CalendarInfoEntity {
     @Column(name = "max_players", nullable = false)
     private Integer                    maxPlayers;
 
-    @Embedded
-    private RecurrenceEmbeddable       recurrence;
-
     @Column(name = "start_date", nullable = false)
     private Instant                    start;
 
@@ -41,10 +37,6 @@ public class ScheduledGameEntity extends CalendarInfoEntity {
 
     public Integer getMaxPlayers() {
         return maxPlayers;
-    }
-
-    public RecurrenceEmbeddable getRecurrence() {
-        return recurrence;
     }
 
     public Instant getStart() {
@@ -59,10 +51,6 @@ public class ScheduledGameEntity extends CalendarInfoEntity {
         this.maxPlayers = maxPlayers;
     }
 
-    public void setRecurrence(final RecurrenceEmbeddable recurrence) {
-        this.recurrence = recurrence;
-    }
-
     public void setStart(final Instant start) {
         this.start = start;
     }
@@ -72,7 +60,7 @@ public class ScheduledGameEntity extends CalendarInfoEntity {
         return "ScheduledGameEntity [id=" + getId() + ", number=" + getNumber() + ", status=" + getStatus()
                 + ", calendarDates=" + getCalendarDates() + ", description=" + getDescription() + ", image="
                 + getImage() + ", location=" + getLocation() + ", title=" + getTitle() + ", types=" + getTypes()
-                + ", master=" + master + ", maxPlayers=" + maxPlayers + ", recurrence=" + recurrence + ", start="
+                + ", master=" + master + ", maxPlayers=" + maxPlayers + ", recurrence=" + getRecurrence() + ", start="
                 + start + "]";
     }
 

@@ -47,6 +47,8 @@ import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.Calend
 import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.CalendarStatusSpringRepository;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.CalendarTypeSpringRepository;
 import com.bernardomg.association.calendar.domain.model.CalendarStatus;
+import com.bernardomg.association.calendar.game.adapter.inbound.jpa.model.RecurrenceEmbeddable;
+import com.bernardomg.association.calendar.game.domain.model.Recurrence;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
@@ -179,6 +181,7 @@ public final class JpaActivityRepository implements ActivityRepository {
 
         setType(entity);
         setStatus(entity, CalendarStatus.PUBLISHED);
+        setRecurrence(entity);
 
         created = calendarInfoSpringRepository.save(entity);
         saved = ActivityEntityMapper.toDomain(created);
@@ -186,6 +189,15 @@ public final class JpaActivityRepository implements ActivityRepository {
         log.debug("Saved activity {}", saved);
 
         return saved;
+    }
+
+    private final void setRecurrence(final CalendarInfoEntity entity) {
+        final RecurrenceEmbeddable recurrence;
+
+        recurrence = new RecurrenceEmbeddable();
+        recurrence.setInterval(0);
+        recurrence.setUnit(Recurrence.RecurrenceUnit.DAILY);
+        entity.setRecurrence(recurrence);
     }
 
     private final void setStatus(final CalendarInfoEntity entity, final CalendarStatus status) {
