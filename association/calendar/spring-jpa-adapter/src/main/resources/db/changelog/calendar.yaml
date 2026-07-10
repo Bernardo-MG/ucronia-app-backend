@@ -13,6 +13,7 @@ databaseChangeLog:
       id: calendar
       author: Bernardo
       changes:
+
         - createTable:
             schemaName: calendar
             tableName: calendar_type
@@ -56,6 +57,30 @@ databaseChangeLog:
 
         - createTable:
             schemaName: calendar
+            tableName: calendar_status
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(50)
+                  constraints:
+                    unique: true
+                    nullable: false
+        - addAutoIncrement:
+            schemaName: calendar
+            tableName: calendar_status
+            columnName: id
+            columnDataType: bigint
+            incrementBy: 1
+            startWith: 1
+
+        - createTable:
+            schemaName: calendar
             tableName: calendar_info
             columns:
               - column:
@@ -70,6 +95,13 @@ databaseChangeLog:
                   constraints:
                     unique: true
                     nullable: false
+              - column:
+                  name: calendar_status_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_calendar_info_calendar_status
+                    references: calendar.calendar_status(id)
               - column:
                   name: title
                   type: varchar(100)
@@ -110,32 +142,6 @@ databaseChangeLog:
 
         - createTable:
             schemaName: calendar
-            tableName: calendar_info_types
-            columns:
-              - column:
-                  name: calendar_info_id
-                  type: bigint
-                  constraints:
-                    nullable: false
-                    foreignKeyName: fk_calendar_info_types_calendar_info
-                    references: calendar.calendar_info(id)
-                    deleteCascade: true
-              - column:
-                  name: calendar_type_id
-                  type: bigint
-                  constraints:
-                    nullable: false
-                    foreignKeyName: fk_calendar_info_types_calendar_type
-                    references: calendar.calendar_type(id)
-                    deleteCascade: true
-        - addPrimaryKey:
-            schemaName: calendar
-            tableName: calendar_info_types
-            columnNames: calendar_info_id, calendar_type_id
-            constraintName: pk_calendar_info_types
-
-        - createTable:
-            schemaName: calendar
             tableName: calendar_dates
             columns:
               - column:
@@ -162,6 +168,37 @@ databaseChangeLog:
             incrementBy: 1
             startWith: 1
 
+  - changeSet:
+      id: calendar_relationships
+      author: Bernardo
+      changes:
+
+        - createTable:
+            schemaName: calendar
+            tableName: calendar_info_types
+            columns:
+              - column:
+                  name: calendar_info_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_calendar_info_types_calendar_info
+                    references: calendar.calendar_info(id)
+                    deleteCascade: true
+              - column:
+                  name: calendar_type_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_calendar_info_types_calendar_type
+                    references: calendar.calendar_type(id)
+                    deleteCascade: true
+        - addPrimaryKey:
+            schemaName: calendar
+            tableName: calendar_info_types
+            columnNames: calendar_info_id, calendar_type_id
+            constraintName: pk_calendar_info_types
+
         - createTable:
             schemaName: calendar
             tableName: calendar_info_dates
@@ -187,6 +224,52 @@ databaseChangeLog:
             tableName: calendar_info_dates
             columnNames: calendar_info_id, calendar_date_id
             constraintName: pk_calendar_info_dates
+
+  - changeSet:
+      id: calendar_status_initial_data
+      author: Bernardo
+      changes:
+        - insert:
+            schemaName: calendar
+            tableName: calendar_status
+            columns:
+              - column:
+                  name: number
+                  valueNumeric: 1
+              - column:
+                  name: name
+                  value: DRAFT
+        - insert:
+            schemaName: calendar
+            tableName: calendar_status
+            columns:
+              - column:
+                  name: number
+                  valueNumeric: 2
+              - column:
+                  name: name
+                  value: PUBLISHED
+        - insert:
+            schemaName: calendar
+            tableName: calendar_status
+            columns:
+              - column:
+                  name: number
+                  valueNumeric: 3
+              - column:
+                  name: name
+                  value: CANCELLED
+        - insert:
+            schemaName: calendar
+            tableName: calendar_status
+            columns:
+              - column:
+                  name: number
+                  valueNumeric: 4
+              - column:
+                  name: name
+                  value: REJECTED
+
       modifySql:
         - append:
             dbms: mysql
