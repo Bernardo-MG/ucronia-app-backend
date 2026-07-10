@@ -27,7 +27,6 @@ public final class ScheduledGameEntities {
         entity.setLocation(ScheduledGameConstants.LOCATION);
         entity.setImage(ScheduledGameConstants.IMAGE);
         entity.setMaxPlayers(ScheduledGameConstants.MAX_PLAYERS);
-        entity.setPublished(ScheduledGameConstants.PUBLISHED);
         entity.setStart(ScheduledGameConstants.START);
         entity.setCalendarDates(new HashSet<>());
 
@@ -57,7 +56,6 @@ public final class ScheduledGameEntities {
         entity.setLocation(ScheduledGameConstants.LOCATION);
         entity.setImage(ScheduledGameConstants.IMAGE);
         entity.setMaxPlayers(ScheduledGameConstants.MAX_PLAYERS);
-        entity.setPublished(ScheduledGameConstants.PUBLISHED);
         entity.setStart(ScheduledGameConstants.START);
 
         recurrence = new RecurrenceEmbeddable();
@@ -86,7 +84,6 @@ public final class ScheduledGameEntities {
         entity.setLocation(ScheduledGameConstants.LOCATION);
         entity.setImage(ScheduledGameConstants.IMAGE);
         entity.setMaxPlayers(ScheduledGameConstants.MAX_PLAYERS);
-        entity.setPublished(ScheduledGameConstants.PUBLISHED);
         entity.setStart(ScheduledGameConstants.START);
 
         recurrence = new RecurrenceEmbeddable();

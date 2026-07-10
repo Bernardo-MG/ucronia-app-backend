@@ -69,7 +69,7 @@ class ITScheduledGameRepositorySave {
             .as("created")
             .usingRecursiveComparison()
             .ignoringFields("number")
-            .isEqualTo(ScheduledGames.weeklyOneshot());
+            .isEqualTo(ScheduledGames.weeklyOneshotPublished());
     }
 
     @Test
@@ -112,7 +112,7 @@ class ITScheduledGameRepositorySave {
             .as("created")
             .usingRecursiveComparison()
             .ignoringFields("number")
-            .isEqualTo(ScheduledGames.weeklyOneshot());
+            .isEqualTo(ScheduledGames.weeklyOneshotPublished());
     }
 
     @Test

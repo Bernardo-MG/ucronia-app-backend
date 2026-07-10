@@ -29,9 +29,6 @@ public class ScheduledGameEntity extends CalendarInfoEntity {
     @Column(name = "max_players", nullable = false)
     private Integer                    maxPlayers;
 
-    @Column(name = "published", nullable = false)
-    private Boolean                    published;
-
     @Embedded
     private RecurrenceEmbeddable       recurrence;
 
@@ -44,10 +41,6 @@ public class ScheduledGameEntity extends CalendarInfoEntity {
 
     public Integer getMaxPlayers() {
         return maxPlayers;
-    }
-
-    public Boolean getPublished() {
-        return published;
     }
 
     public RecurrenceEmbeddable getRecurrence() {
@@ -66,10 +59,6 @@ public class ScheduledGameEntity extends CalendarInfoEntity {
         this.maxPlayers = maxPlayers;
     }
 
-    public void setPublished(final Boolean published) {
-        this.published = published;
-    }
-
     public void setRecurrence(final RecurrenceEmbeddable recurrence) {
         this.recurrence = recurrence;
     }
@@ -83,8 +72,8 @@ public class ScheduledGameEntity extends CalendarInfoEntity {
         return "ScheduledGameEntity [id=" + getId() + ", number=" + getNumber() + ", status=" + getStatus()
                 + ", calendarDates=" + getCalendarDates() + ", description=" + getDescription() + ", image="
                 + getImage() + ", location=" + getLocation() + ", title=" + getTitle() + ", types=" + getTypes()
-                + ", master=" + master + ", maxPlayers=" + maxPlayers + ", published=" + published + ", recurrence="
-                + recurrence + ", start=" + start + "]";
+                + ", master=" + master + ", maxPlayers=" + maxPlayers + ", recurrence=" + recurrence + ", start="
+                + start + "]";
     }
 
 }

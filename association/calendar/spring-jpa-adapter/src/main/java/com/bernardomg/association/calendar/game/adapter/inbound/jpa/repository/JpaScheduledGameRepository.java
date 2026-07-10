@@ -125,7 +125,7 @@ public final class JpaScheduledGameRepository implements ScheduledGameRepository
         pageable = SpringPagination.toPageable(pagination, sorting);
         page = scheduledGameSpringRepository.findAll(pageable);
 
-        read = page.map(ScheduledGameEntityMapper::toDomain);
+        read = page.map(this::toDomain);
 
         log.debug("Found scheduled games {}", read);
 
@@ -139,7 +139,7 @@ public final class JpaScheduledGameRepository implements ScheduledGameRepository
         log.debug("Finding scheduled game with number {}", number);
 
         activity = scheduledGameSpringRepository.findByNumber(number)
-            .map(ScheduledGameEntityMapper::toDomain);
+            .map(this::toDomain);
 
         // TODO: shouldn't throw an exception if there is no data?
 
@@ -182,11 +182,30 @@ public final class JpaScheduledGameRepository implements ScheduledGameRepository
         setStatus(entity, CalendarStatus.PUBLISHED);
 
         created = scheduledGameSpringRepository.save(entity);
-        saved = ScheduledGameEntityMapper.toDomain(created);
+
+        if (CalendarStatus.PUBLISHED.equals(created.getStatus()
+            .getName())) {
+            saved = ScheduledGameEntityMapper.toDomain(created, true);
+        } else {
+            saved = ScheduledGameEntityMapper.toDomain(created, false);
+        }
 
         log.debug("Saved scheduled game {}", saved);
 
         return saved;
+    }
+
+    public final ScheduledGame toDomain(final ScheduledGameEntity entity) {
+        final ScheduledGame mapped;
+
+        if (CalendarStatus.PUBLISHED.equals(entity.getStatus()
+            .getName())) {
+            mapped = ScheduledGameEntityMapper.toDomain(entity, true);
+        } else {
+            mapped = ScheduledGameEntityMapper.toDomain(entity, false);
+        }
+
+        return mapped;
     }
 
     private final void setStatus(final CalendarInfoEntity entity, final CalendarStatus status) {

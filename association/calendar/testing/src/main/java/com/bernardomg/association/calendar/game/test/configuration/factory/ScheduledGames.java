@@ -34,7 +34,7 @@ public final class ScheduledGames {
         return new ScheduledGame(ScheduledGameConstants.NUMBER, ScheduledGameConstants.ALTERNATIVE_TITLE,
             ScheduledGameConstants.DESCRIPTION, ScheduledGameConstants.LOCATION, ScheduledGameConstants.NUMBER_MASTER,
             ScheduledGameConstants.MAX_PLAYERS, ScheduledGameConstants.IMAGE, ScheduledGameConstants.START, recurrence,
-            false, GameSessionType.ONESHOT);
+            true, GameSessionType.ONESHOT);
     }
 
     public static final ScheduledGame weeklyCampaign() {
@@ -55,6 +55,16 @@ public final class ScheduledGames {
             ScheduledGameConstants.DESCRIPTION, ScheduledGameConstants.LOCATION, ScheduledGameConstants.NUMBER_MASTER,
             ScheduledGameConstants.MAX_PLAYERS, ScheduledGameConstants.IMAGE, ScheduledGameConstants.START, recurrence,
             false, GameSessionType.ONESHOT);
+    }
+
+    public static final ScheduledGame weeklyOneshotPublished() {
+        final Recurrence recurrence;
+
+        recurrence = new Recurrence(1, RecurrenceUnit.WEEKLY);
+        return new ScheduledGame(ScheduledGameConstants.NUMBER, ScheduledGameConstants.TITLE,
+            ScheduledGameConstants.DESCRIPTION, ScheduledGameConstants.LOCATION, ScheduledGameConstants.NUMBER_MASTER,
+            ScheduledGameConstants.MAX_PLAYERS, ScheduledGameConstants.IMAGE, ScheduledGameConstants.START, recurrence,
+            true, GameSessionType.ONESHOT);
     }
 
     public static final ScheduledGame zeroMaxPlayers() {

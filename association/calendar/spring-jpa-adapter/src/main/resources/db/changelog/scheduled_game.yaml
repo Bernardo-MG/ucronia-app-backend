@@ -31,12 +31,6 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: published
-                  type: boolean
-                  defaultValueBoolean: false
-                  constraints:
-                    nullable: false
-              - column:
                   name: start_date
                   type: datetime
                   defaultValueComputed: CURRENT_TIMESTAMP
