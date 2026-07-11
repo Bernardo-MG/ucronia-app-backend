@@ -40,6 +40,7 @@ import com.bernardomg.association.calendar.activity.domain.model.Activity;
 import com.bernardomg.association.calendar.activity.domain.repository.ActivityRepository;
 import com.bernardomg.association.calendar.activity.test.configuration.factory.Activities;
 import com.bernardomg.association.calendar.activity.usecase.service.DefaultActivityService;
+import com.bernardomg.association.calendar.domain.event.CalendarInfoPublishedEvent;
 import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
@@ -56,6 +57,23 @@ class TestActivityServiceCreate {
 
     @InjectMocks
     private DefaultActivityService service;
+
+    @Test
+    @DisplayName("With a valid activity, an event is emitted")
+    void testCreate_EmitsEvent() {
+        final Activity                   activity;
+        final CalendarInfoPublishedEvent event;
+
+        // GIVEN
+        activity = Activities.singleDay();
+        event = new CalendarInfoPublishedEvent(null, activity.number());
+
+        // WHEN
+        service.create(activity);
+
+        // THEN
+        verify(eventEmitter).emit(event);
+    }
 
     @Test
     @DisplayName("With a future activity, it is persisted")
