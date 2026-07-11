@@ -30,6 +30,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.CalendarStatusSpringRepository;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.CalendarTypeSpringRepository;
+import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.RecurrenceStatusSpringRepository;
 import com.bernardomg.association.calendar.game.adapter.inbound.jpa.repository.JpaScheduledGameRepository;
 import com.bernardomg.association.calendar.game.adapter.inbound.jpa.repository.ScheduledGameProfileSpringRepository;
 import com.bernardomg.association.calendar.game.adapter.inbound.jpa.repository.ScheduledGameSpringRepository;
@@ -46,9 +47,10 @@ public class AssociationGameSessionAutoConfiguration {
             final ScheduledGameProfileSpringRepository scheduledGameProfileSpringRepository,
             final ScheduledGameSpringRepository scheduledGameSpringRepository,
             final CalendarTypeSpringRepository calendarTypeSpringRepository,
-            final CalendarStatusSpringRepository calendarStatusSpringRepository) {
+            final CalendarStatusSpringRepository calendarStatusSpringRepository,
+            final RecurrenceStatusSpringRepository recurrenceStatusSpringRepository) {
         return new JpaScheduledGameRepository(scheduledGameSpringRepository, scheduledGameProfileSpringRepository,
-            calendarTypeSpringRepository, calendarStatusSpringRepository);
+            calendarTypeSpringRepository, calendarStatusSpringRepository, recurrenceStatusSpringRepository);
     }
 
     @Bean("scheduledGameService")

@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 
 import com.bernardomg.association.calendar.adapter.inbound.jpa.model.CalendarInfoRecurrence;
+import com.bernardomg.association.calendar.adapter.inbound.jpa.model.RecurrenceStatusEntity;
+import com.bernardomg.association.calendar.domain.model.Recurrence.RecurrenceStatus;
 import com.bernardomg.association.calendar.domain.model.Recurrence.RecurrenceUnit;
 import com.bernardomg.association.calendar.game.adapter.inbound.jpa.model.ScheduledGameEntity;
 import com.bernardomg.association.calendar.game.adapter.inbound.jpa.model.ScheduledGameProfileEntity;
@@ -40,6 +42,7 @@ public final class ScheduledGameEntities {
         final ScheduledGameEntity        entity;
         final ScheduledGameProfileEntity profile;
         final CalendarInfoRecurrence     recurrence;
+        final RecurrenceStatusEntity     recurrenceStatus;
 
         entity = new ScheduledGameEntity();
         entity.setNumber(ScheduledGameConstants.NUMBER);
@@ -54,6 +57,12 @@ public final class ScheduledGameEntities {
         recurrence = new CalendarInfoRecurrence();
         recurrence.setInterval(1);
         recurrence.setUnit(RecurrenceUnit.WEEKLY);
+
+        recurrenceStatus = new RecurrenceStatusEntity();
+        recurrenceStatus.setId(1L);
+        recurrenceStatus.setName(RecurrenceStatus.ACTIVE);
+        recurrence.setStatus(recurrenceStatus);
+
         entity.setRecurrence(recurrence);
 
         profile = ScheduledGameProfileEntities.master();
@@ -68,6 +77,7 @@ public final class ScheduledGameEntities {
         final ScheduledGameEntity        entity;
         final ScheduledGameProfileEntity profile;
         final CalendarInfoRecurrence     recurrence;
+        final RecurrenceStatusEntity     recurrenceStatus;
 
         entity = new ScheduledGameEntity();
         entity.setNumber(ScheduledGameConstants.NUMBER);
@@ -82,6 +92,12 @@ public final class ScheduledGameEntities {
         recurrence = new CalendarInfoRecurrence();
         recurrence.setInterval(1);
         recurrence.setUnit(RecurrenceUnit.WEEKLY);
+
+        recurrenceStatus = new RecurrenceStatusEntity();
+        recurrenceStatus.setId(1L);
+        recurrenceStatus.setName(RecurrenceStatus.ACTIVE);
+        recurrence.setStatus(recurrenceStatus);
+
         entity.setRecurrence(recurrence);
 
         profile = ScheduledGameProfileEntities.master();

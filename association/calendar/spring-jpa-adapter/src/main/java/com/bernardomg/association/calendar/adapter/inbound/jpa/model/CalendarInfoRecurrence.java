@@ -2,6 +2,7 @@
 package com.bernardomg.association.calendar.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Objects;
 
 import com.bernardomg.association.calendar.domain.model.Recurrence;
@@ -10,6 +11,10 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.ForeignKey;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Transient;
 
 @Embeddable
@@ -20,6 +25,13 @@ public class CalendarInfoRecurrence implements Serializable {
 
     @Column(name = "recurrence_interval")
     private Integer                   interval;
+
+    @Column(name = "recurrence_last_evaluated_at")
+    private Instant                   lastEvaluatedAt;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "recurrence_status_id", foreignKey = @ForeignKey(name = "fk_calendar_info_recurrence_status"))
+    private RecurrenceStatusEntity    status;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "recurrence_unit")
@@ -41,6 +53,14 @@ public class CalendarInfoRecurrence implements Serializable {
         return interval;
     }
 
+    public Instant getLastEvaluatedAt() {
+        return lastEvaluatedAt;
+    }
+
+    public RecurrenceStatusEntity getStatus() {
+        return status;
+    }
+
     public Recurrence.RecurrenceUnit getUnit() {
         return unit;
     }
@@ -54,13 +74,22 @@ public class CalendarInfoRecurrence implements Serializable {
         this.interval = interval;
     }
 
+    public void setLastEvaluatedAt(final Instant lastEvaluatedAt) {
+        this.lastEvaluatedAt = lastEvaluatedAt;
+    }
+
+    public void setStatus(final RecurrenceStatusEntity status) {
+        this.status = status;
+    }
+
     public void setUnit(final Recurrence.RecurrenceUnit unit) {
         this.unit = unit;
     }
 
     @Override
     public String toString() {
-        return "RecurrenceEmbeddable [unit=" + unit + ", interval=" + interval + "]";
+        return "RecurrenceEmbeddable [unit=" + unit + ", interval=" + interval + ", lastEvaluatedAt=" + lastEvaluatedAt
+                + ", status=" + status + "]";
     }
 
 }
