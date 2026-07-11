@@ -41,6 +41,7 @@ import com.bernardomg.association.calendar.activity.domain.model.Activity;
 import com.bernardomg.association.calendar.activity.domain.repository.ActivityRepository;
 import com.bernardomg.association.calendar.activity.test.configuration.factory.Activities;
 import com.bernardomg.association.calendar.activity.usecase.service.DefaultActivityService;
+import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
@@ -51,6 +52,9 @@ class TestActivitieserviceGetAll {
 
     @Mock
     private ActivityRepository     activityRepository;
+
+    @Mock
+    private EventEmitter           eventEmitter;
 
     @InjectMocks
     private DefaultActivityService service;

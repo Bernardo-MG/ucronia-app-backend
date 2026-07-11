@@ -36,6 +36,7 @@ import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.Calend
 import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.CalendarInfoSpringRepository;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.CalendarStatusSpringRepository;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.CalendarTypeSpringRepository;
+import com.bernardomg.event.emitter.EventEmitter;
 
 @AutoConfiguration
 @ComponentScan({ "com.bernardomg.association.calendar.activity.adapter.outbound.rest.controller" })
@@ -51,8 +52,9 @@ public class AssociationActivityAutoConfiguration {
     }
 
     @Bean("activityService")
-    public ActivityService getActivityService(final ActivityRepository activityRepository) {
-        return new DefaultActivityService(activityRepository);
+    public ActivityService getActivityService(final ActivityRepository activityRepository,
+            final EventEmitter eventEmitter) {
+        return new DefaultActivityService(activityRepository, eventEmitter);
     }
 
 }
