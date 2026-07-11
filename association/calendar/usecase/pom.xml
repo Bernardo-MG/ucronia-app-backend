@@ -29,9 +29,9 @@
 	<!-- ********************************************** -->
 
    <dependencies>
-		<!-- ============================================== -->
-		<!-- ================ FRAMEWORK =================== -->
-		<!-- ============================================== -->
+	  <!-- ============================================== -->
+	  <!-- ================ FRAMEWORK =================== -->
+	  <!-- ============================================== -->
       <dependency>
 			<!-- Validation -->
          <groupId>com.bernardomg.framework</groupId>
@@ -54,23 +54,16 @@
          <groupId>com.bernardomg.association.calendar</groupId>
          <artifactId>association-calendar-domain</artifactId>
       </dependency>
+	  <!-- ============================================== -->
+	  <!-- ================= JAKARTA ==================== -->
+	  <!-- ============================================== -->
       <dependency>
          <groupId>jakarta.transaction</groupId>
          <artifactId>jakarta.transaction-api</artifactId>
       </dependency>
-		<!-- ============================================== -->
-		<!-- =============== APACHE POI =================== -->
-		<!-- ============================================== -->
-      <dependency>
-			<!-- Apache POI -->
-         <groupId>org.apache.poi</groupId>
-         <artifactId>poi</artifactId>
-      </dependency>
-      <dependency>
-			<!-- Apache POI OOXML -->
-         <groupId>org.apache.poi</groupId>
-         <artifactId>poi-ooxml</artifactId>
-      </dependency>
+      <!-- ============================================== -->
+      <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
+      <!-- ============================================== -->
       <dependency>
          <groupId>com.bernardomg.association.calendar</groupId>
          <artifactId>association-calendar-testing</artifactId>

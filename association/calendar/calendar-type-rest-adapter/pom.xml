@@ -39,6 +39,9 @@
 	<!-- ********************************************** -->
 
    <dependencies>
+	  <!-- ============================================== -->
+	  <!-- ================ FRAMEWORK =================== -->
+	  <!-- ============================================== -->
       <dependency>
          <groupId>com.bernardomg.association.calendar</groupId>
          <artifactId>association-calendar-domain</artifactId>

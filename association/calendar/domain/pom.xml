@@ -29,6 +29,9 @@
 	<!-- ********************************************** -->
 
    <dependencies>
+	  <!-- ============================================== -->
+	  <!-- ================ FRAMEWORK =================== -->
+	  <!-- ============================================== -->
       <dependency>
          <groupId>com.bernardomg.framework</groupId>
          <artifactId>pagination</artifactId>
@@ -37,6 +40,9 @@
          <groupId>com.bernardomg.framework</groupId>
          <artifactId>event</artifactId>
       </dependency>
+	  <!-- ============================================== -->
+	  <!-- ============= APACHE COMMONS ================= -->
+	  <!-- ============================================== -->
       <dependency>
          <groupId>org.apache.commons</groupId>
          <artifactId>commons-lang3</artifactId>

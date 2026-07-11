@@ -55,19 +55,6 @@
          <artifactId>pagination</artifactId>
       </dependency>
       <!-- ============================================== -->
-      <!-- =============== APACHE POI =================== -->
-      <!-- ============================================== -->
-      <dependency>
-         <!-- Apache POI -->
-         <groupId>org.apache.poi</groupId>
-         <artifactId>poi</artifactId>
-      </dependency>
-      <dependency>
-         <!-- Apache POI OOXML -->
-         <groupId>org.apache.poi</groupId>
-         <artifactId>poi-ooxml</artifactId>
-      </dependency>
-      <!-- ============================================== -->
       <!-- ================== SPRING ==================== -->
       <!-- ============================================== -->
       <dependency>
