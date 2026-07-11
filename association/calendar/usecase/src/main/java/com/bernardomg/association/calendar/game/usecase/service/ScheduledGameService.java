@@ -51,11 +51,11 @@ public interface ScheduledGameService {
     /**
      * Deletes the scheduled game with the received id.
      *
-     * @param id
-     *            id of the scheduled game to delete
+     * @param number
+     *            number of the scheduled game to delete
      * @return the deleted scheduled game
      */
-    public ScheduledGame delete(final long id);
+    public ScheduledGame delete(final long number);
 
     /**
      * Returns all the scheduled games matching the sample. If the sample fields are empty, then all the scheduled games
@@ -77,6 +77,15 @@ public interface ScheduledGameService {
      * @return an {@code Optional} with the scheduled game, if it exists, of an empty {@code Optional} otherwise
      */
     public Optional<ScheduledGame> getOne(final long id);
+
+    /**
+     * Publishes the scheduled game with the received id.
+     *
+     * @param number
+     *            number of the scheduled game to publish
+     * @return the published scheduled game
+     */
+    public ScheduledGame publish(final long number);
 
     /**
      * Updates the received scheduled game.

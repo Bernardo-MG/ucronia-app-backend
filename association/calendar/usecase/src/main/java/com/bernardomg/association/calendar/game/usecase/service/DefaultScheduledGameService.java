@@ -30,11 +30,13 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.bernardomg.association.calendar.domain.event.CalendarInfoPublishedEvent;
 import com.bernardomg.association.calendar.game.domain.exception.MissingScheduledGameException;
 import com.bernardomg.association.calendar.game.domain.model.ScheduledGame;
 import com.bernardomg.association.calendar.game.domain.repository.ScheduledGameRepository;
 import com.bernardomg.association.calendar.game.usecase.validation.ScheduledGamePositivePlayersRule;
 import com.bernardomg.association.calendar.game.usecase.validation.ScheduledGamePositiveRecurrenceRule;
+import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
@@ -57,16 +59,20 @@ public final class DefaultScheduledGameService implements ScheduledGameService {
      */
     private static final Logger            log = LoggerFactory.getLogger(DefaultScheduledGameService.class);
 
+    private final EventEmitter             eventEmitter;
+
     private final ScheduledGameRepository  scheduledGameRepository;
 
     private final Validator<ScheduledGame> validatorCreate;
 
     private final Validator<ScheduledGame> validatorUpdate;
 
-    public DefaultScheduledGameService(final ScheduledGameRepository scheduledGameRepo) {
+    public DefaultScheduledGameService(final ScheduledGameRepository scheduledGameRepo,
+            final EventEmitter evntEmitter) {
         super();
 
         scheduledGameRepository = Objects.requireNonNull(scheduledGameRepo);
+        eventEmitter = Objects.requireNonNull(evntEmitter);
 
         validatorCreate = new FieldRuleValidator<>(new ScheduledGamePositivePlayersRule(),
             new ScheduledGamePositiveRecurrenceRule());
@@ -136,6 +142,30 @@ public final class DefaultScheduledGameService implements ScheduledGameService {
         log.debug("Read scheduled game with number {}: {}", number, scheduledGame);
 
         return scheduledGame;
+    }
+
+    @Override
+    public final ScheduledGame publish(final long number) {
+        final Optional<ScheduledGame> scheduledGame;
+        final ScheduledGame           toPublish;
+        final ScheduledGame           published;
+
+        log.debug("Publishing scheduled game with number {}", number);
+
+        scheduledGame = scheduledGameRepository.findOne(number);
+        if (scheduledGame.isEmpty()) {
+            log.error("Missing scheduled game {}", number);
+            throw new MissingScheduledGameException(number);
+        }
+
+        toPublish = scheduledGame.map(ScheduledGame::publish)
+            .get();
+        published = scheduledGameRepository.save(toPublish);
+
+        // TODO: send a source
+        eventEmitter.emit(new CalendarInfoPublishedEvent(null, published.number()));
+
+        return published;
     }
 
     @Override
