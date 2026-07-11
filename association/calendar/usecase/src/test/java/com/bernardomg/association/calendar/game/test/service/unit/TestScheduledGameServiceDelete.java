@@ -43,10 +43,14 @@ import com.bernardomg.association.calendar.game.domain.exception.MissingSchedule
 import com.bernardomg.association.calendar.game.domain.repository.ScheduledGameRepository;
 import com.bernardomg.association.calendar.game.test.configuration.factory.ScheduledGames;
 import com.bernardomg.association.calendar.game.usecase.service.DefaultScheduledGameService;
+import com.bernardomg.event.emitter.EventEmitter;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultScheduledGameService - delete")
 class TestScheduledGameServiceDelete {
+
+    @Mock
+    private EventEmitter                eventEmitter;
 
     @Mock
     private ScheduledGameRepository     scheduledGameRepository;

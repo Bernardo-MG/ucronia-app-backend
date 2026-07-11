@@ -38,14 +38,19 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.calendar.activity.test.configuration.factory.ActivityConstants;
+import com.bernardomg.association.calendar.domain.event.CalendarInfoPublishedEvent;
 import com.bernardomg.association.calendar.game.domain.model.ScheduledGame;
 import com.bernardomg.association.calendar.game.domain.repository.ScheduledGameRepository;
 import com.bernardomg.association.calendar.game.test.configuration.factory.ScheduledGames;
 import com.bernardomg.association.calendar.game.usecase.service.DefaultScheduledGameService;
+import com.bernardomg.event.emitter.EventEmitter;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultScheduledGameService - create")
 class TestScheduledGameServicePublish {
+
+    @Mock
+    private EventEmitter                eventEmitter;
 
     @Mock
     private ScheduledGameRepository     scheduledGameRepository;
@@ -54,13 +59,40 @@ class TestScheduledGameServicePublish {
     private DefaultScheduledGameService service;
 
     @Test
-    @DisplayName("When publishing a scheduled game, it is persisted")
-    void testPublish_PersistedData() {
-        final ScheduledGame scheduledGame;
+    @DisplayName("When publishing a scheduled game, an event is emitted")
+    void testPublish_EmitsEvent() {
+        final ScheduledGame              scheduledGame;
+        final ScheduledGame              scheduledGamePublished;
+        final CalendarInfoPublishedEvent event;
 
         // GIVEN
         scheduledGame = ScheduledGames.weeklyOneshot();
+        scheduledGamePublished = ScheduledGames.weeklyOneshotPublished();
+
         given(scheduledGameRepository.findOne(ActivityConstants.NUMBER)).willReturn(Optional.of(scheduledGame));
+        given(scheduledGameRepository.save(scheduledGamePublished)).willReturn(scheduledGamePublished);
+
+        event = new CalendarInfoPublishedEvent(null, scheduledGame.number());
+
+        // WHEN
+        service.publish(ActivityConstants.NUMBER);
+
+        // THEN
+        verify(eventEmitter).emit(event);
+    }
+
+    @Test
+    @DisplayName("When publishing a scheduled game, it is persisted")
+    void testPublish_PersistedData() {
+        final ScheduledGame scheduledGame;
+        final ScheduledGame scheduledGamePublished;
+
+        // GIVEN
+        scheduledGame = ScheduledGames.weeklyOneshot();
+        scheduledGamePublished = ScheduledGames.weeklyOneshotPublished();
+
+        given(scheduledGameRepository.findOne(ActivityConstants.NUMBER)).willReturn(Optional.of(scheduledGame));
+        given(scheduledGameRepository.save(scheduledGamePublished)).willReturn(scheduledGamePublished);
 
         // WHEN
         service.publish(ActivityConstants.NUMBER);
@@ -73,13 +105,15 @@ class TestScheduledGameServicePublish {
     @DisplayName("When publishing a scheduled game, it is returned")
     void testPublish_ReturnedData() {
         final ScheduledGame scheduledGame;
+        final ScheduledGame scheduledGamePublished;
         final ScheduledGame created;
 
         // GIVEN
         scheduledGame = ScheduledGames.weeklyOneshot();
-        given(scheduledGameRepository.findOne(ActivityConstants.NUMBER)).willReturn(Optional.of(scheduledGame));
+        scheduledGamePublished = ScheduledGames.weeklyOneshotPublished();
 
-        given(scheduledGameRepository.save(scheduledGame)).willReturn(scheduledGame);
+        given(scheduledGameRepository.findOne(ActivityConstants.NUMBER)).willReturn(Optional.of(scheduledGame));
+        given(scheduledGameRepository.save(scheduledGamePublished)).willReturn(scheduledGamePublished);
 
         // WHEN
         created = service.publish(ActivityConstants.NUMBER);
