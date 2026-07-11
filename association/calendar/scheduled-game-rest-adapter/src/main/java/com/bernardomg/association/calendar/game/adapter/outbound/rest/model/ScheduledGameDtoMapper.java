@@ -26,15 +26,17 @@ package com.bernardomg.association.calendar.game.adapter.outbound.rest.model;
 
 import java.util.Optional;
 
+import com.bernardomg.association.calendar.domain.model.CalendarStatus;
 import com.bernardomg.association.calendar.domain.model.Recurrence;
 import com.bernardomg.association.calendar.domain.model.Recurrence.RecurrenceStatus;
 import com.bernardomg.association.calendar.domain.model.Recurrence.RecurrenceUnit;
+import com.bernardomg.association.calendar.game.adapter.outbound.rest.dto.CalendarStatusDto;
 import com.bernardomg.association.calendar.game.adapter.outbound.rest.dto.GameSessionTypeDto;
 import com.bernardomg.association.calendar.game.adapter.outbound.rest.dto.PropertyDto;
 import com.bernardomg.association.calendar.game.adapter.outbound.rest.dto.PropertyDto.DirectionEnum;
 import com.bernardomg.association.calendar.game.adapter.outbound.rest.dto.RecurrenceDto;
-import com.bernardomg.association.calendar.game.adapter.outbound.rest.dto.RecurrenceDto.StatusEnum;
-import com.bernardomg.association.calendar.game.adapter.outbound.rest.dto.RecurrenceDto.UnitEnum;
+import com.bernardomg.association.calendar.game.adapter.outbound.rest.dto.RecurrenceStatusDto;
+import com.bernardomg.association.calendar.game.adapter.outbound.rest.dto.RecurrenceUnitDto;
 import com.bernardomg.association.calendar.game.adapter.outbound.rest.dto.ScheduledGameCreationDto;
 import com.bernardomg.association.calendar.game.adapter.outbound.rest.dto.ScheduledGameDto;
 import com.bernardomg.association.calendar.game.adapter.outbound.rest.dto.ScheduledGamePageResponseDto;
@@ -66,8 +68,8 @@ public final class ScheduledGameDtoMapper {
         }
         gameSessionType = toGameSessionType(change.getGameType());
         return new ScheduledGame(-1, change.getTitle(), change.getDescription(), change.getLocation(),
-            change.getMaster(), change.getMaxPlayers(), change.getImage(), change.getStart(), recurrence, false,
-            gameSessionType);
+            change.getMaster(), change.getMaxPlayers(), change.getImage(), change.getStart(), recurrence,
+            CalendarStatus.DRAFT, gameSessionType);
     }
 
     public static final ScheduledGame toDomain(final ScheduledGameCreationDto creation) {
@@ -87,8 +89,8 @@ public final class ScheduledGameDtoMapper {
         }
         gameSessionType = toGameSessionType(creation.getGameType());
         return new ScheduledGame(-1, creation.getTitle(), creation.getDescription(), creation.getLocation(),
-            creation.getMaster(), creation.getMaxPlayers(), creation.getImage(), creation.getStart(), recurrence, false,
-            gameSessionType);
+            creation.getMaster(), creation.getMaxPlayers(), creation.getImage(), creation.getStart(), recurrence,
+            CalendarStatus.DRAFT, gameSessionType);
     }
 
     public static final ScheduledGameResponseDto toResponseDto(final Optional<ScheduledGame> scheduledGame) {
@@ -137,22 +139,28 @@ public final class ScheduledGameDtoMapper {
     private static final ScheduledGameDto toDto(final ScheduledGame scheduledGame) {
         final RecurrenceDto      recurrence;
         final GameSessionTypeDto gameTypeDto;
+        final RecurrenceUnitDto           unit;
+        final CalendarStatusDto  status;
 
         if (scheduledGame.recurrence()
             .isEmpty()) {
             recurrence = null;
         } else {
+            unit = RecurrenceUnitDto.valueOf(scheduledGame.recurrence()
+                .get()
+                .unit()
+                .toString()
+                .toUpperCase());
             recurrence = new RecurrenceDto().interval(scheduledGame.recurrence()
                 .get()
                 .interval())
-                .unit(UnitEnum.valueOf(scheduledGame.recurrence()
-                    .get()
-                    .unit()
-                    .toString()
-                    .toUpperCase()))
-                .status(StatusEnum.ACTIVE);
+                .unit(unit)
+                .status(RecurrenceStatusDto.ACTIVE);
         }
         gameTypeDto = toGameSessionTypeDto(scheduledGame.gameSessionType());
+        status = CalendarStatusDto.valueOf(scheduledGame.status()
+            .toString()
+            .toUpperCase());
         return new ScheduledGameDto().number(scheduledGame.number())
             .title(scheduledGame.title())
             .description(scheduledGame.description())
@@ -162,7 +170,7 @@ public final class ScheduledGameDtoMapper {
             .image(scheduledGame.image())
             .start(scheduledGame.start())
             .recurrence(recurrence)
-            .published(scheduledGame.published())
+            .status(status)
             .gameType(gameTypeDto);
     }
 

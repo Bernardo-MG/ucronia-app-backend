@@ -136,7 +136,7 @@ public final class JpaScheduledGameRepository implements ScheduledGameRepository
         pageable = SpringPagination.toPageable(pagination, sorting);
         page = scheduledGameSpringRepository.findAll(pageable);
 
-        read = page.map(this::toDomain);
+        read = page.map(ScheduledGameEntityMapper::toDomain);
 
         log.debug("Found scheduled games {}", read);
 
@@ -150,7 +150,7 @@ public final class JpaScheduledGameRepository implements ScheduledGameRepository
         log.debug("Finding scheduled game with number {}", number);
 
         activity = scheduledGameSpringRepository.findByNumber(number)
-            .map(this::toDomain);
+            .map(ScheduledGameEntityMapper::toDomain);
 
         // TODO: shouldn't throw an exception if there is no data?
 
@@ -197,29 +197,11 @@ public final class JpaScheduledGameRepository implements ScheduledGameRepository
 
         created = scheduledGameSpringRepository.save(entity);
 
-        if (CalendarStatus.PUBLISHED.equals(created.getStatus()
-            .getName())) {
-            saved = ScheduledGameEntityMapper.toDomain(created, true);
-        } else {
-            saved = ScheduledGameEntityMapper.toDomain(created, false);
-        }
+        saved = ScheduledGameEntityMapper.toDomain(created);
 
         log.debug("Saved scheduled game {}", saved);
 
         return saved;
-    }
-
-    public final ScheduledGame toDomain(final ScheduledGameEntity entity) {
-        final ScheduledGame mapped;
-
-        if (CalendarStatus.PUBLISHED.equals(entity.getStatus()
-            .getName())) {
-            mapped = ScheduledGameEntityMapper.toDomain(entity, true);
-        } else {
-            mapped = ScheduledGameEntityMapper.toDomain(entity, false);
-        }
-
-        return mapped;
     }
 
     private final void setRecurrenceStatus(final CalendarInfoRecurrence entity, final RecurrenceStatus status) {

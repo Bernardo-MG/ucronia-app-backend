@@ -37,7 +37,7 @@ import com.bernardomg.association.calendar.game.domain.model.ScheduledGame;
  */
 public final class ScheduledGameEntityMapper {
 
-    public static final ScheduledGame toDomain(final ScheduledGameEntity entity, final Boolean status) {
+    public static final ScheduledGame toDomain(final ScheduledGameEntity entity) {
         final Optional<Recurrence> recurrence;
         final GameSessionType      gameSessionType;
 
@@ -59,7 +59,7 @@ public final class ScheduledGameEntityMapper {
         return new ScheduledGame(entity.getNumber(), entity.getTitle(), entity.getDescription(), entity.getLocation(),
             entity.getMaster()
                 .getNumber(),
-            entity.getMaxPlayers(), entity.getImage(), entity.getStart(), recurrence, status, gameSessionType);
+            entity.getMaxPlayers(), entity.getImage(), entity.getStart(), recurrence, entity.getStatus().getName(), gameSessionType);
     }
 
     public static final ScheduledGameEntity toEntity(final ScheduledGame scheduledGame) {

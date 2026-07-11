@@ -88,6 +88,18 @@ components:
       type: string
       enum: [oneshot, campaign]
 
+    CalendarStatus:
+      type: string
+      enum: [draft, pendring_review, published, rejected, cancelled]
+
+    RecurrenceUnit:
+      type: string
+      enum: [daily, weekly, monthly]
+
+    RecurrenceStatus:
+      type: string
+      enum: [active, cancelled, completed]
+
     Recurrence:
       type: object
       required: [interval, unit]
@@ -98,11 +110,9 @@ components:
           minimum: 0
           maximum: 365
         unit:
-          type: string
-          enum: [daily, weekly, monthly]
+          $ref: '#/components/schemas/RecurrenceUnit'
         status:
-          type: string
-          enum: [active, cancelled, completed]
+          $ref: '#/components/schemas/RecurrenceStatus'
 
     ScheduledGame:
       type: object
@@ -133,8 +143,8 @@ components:
           $ref: '../common/dates.yml#/components/schemas/Date'
         recurrence:
           $ref: '#/components/schemas/Recurrence'
-        published:
-          type: boolean
+        status:
+          $ref: '#/components/schemas/CalendarStatus'
         gameType:
           $ref: '#/components/schemas/GameSessionType'
 
