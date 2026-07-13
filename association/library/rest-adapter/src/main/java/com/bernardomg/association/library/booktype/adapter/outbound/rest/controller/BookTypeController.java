@@ -45,7 +45,6 @@ import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
 
 /**
  * Book type REST controller.
@@ -88,8 +87,7 @@ public class BookTypeController implements BookTypeApi {
 
     @Override
     @RequireResourceAuthorization(resource = "LIBRARY_BOOK_TYPE", action = Actions.READ)
-    public BookTypePageResponseDto getAllBookTypes(@Min(0) @Valid final Integer page, @Min(1) @Valid final Integer size,
-            @Valid final List<String> sort) {
+    public BookTypePageResponseDto getAllBookTypes(final Integer page, final Integer size, final List<String> sort) {
         final Pagination     pagination;
         final Sorting        sorting;
         final Page<BookType> bookTypes;
@@ -113,7 +111,7 @@ public class BookTypeController implements BookTypeApi {
 
     @Override
     @RequireResourceAuthorization(resource = "LIBRARY_AUTHOR", action = Actions.UPDATE)
-    public BookTypeResponseDto updateBookType(final Long number, @Valid final BookTypeUpdateDto bookTypeUpdateDto) {
+    public BookTypeResponseDto updateBookType(final Long number, final BookTypeUpdateDto bookTypeUpdateDto) {
         final BookType updated;
         final BookType bookType;
 

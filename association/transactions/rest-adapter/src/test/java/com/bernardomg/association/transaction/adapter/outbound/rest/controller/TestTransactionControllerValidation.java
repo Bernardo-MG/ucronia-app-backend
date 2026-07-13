@@ -17,7 +17,7 @@ import com.bernardomg.test.annotation.MvcIntegrationTest;
 
 @MvcIntegrationTest
 @DisplayName("TransactionController Validation Integration Tests")
-class ITTransactionControllerValidation {
+class TestTransactionControllerValidation {
 
     @Autowired
     private MockMvc mockMvc;

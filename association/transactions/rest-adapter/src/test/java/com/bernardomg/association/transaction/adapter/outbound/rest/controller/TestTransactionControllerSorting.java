@@ -1,4 +1,4 @@
-package com.bernardomg.association.library.author.adapter.outbound.rest.controller;
+package com.bernardomg.association.transaction.adapter.outbound.rest.controller;
 
 import static org.hamcrest.Matchers.isA;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -15,35 +15,23 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.bernardomg.test.annotation.MvcIntegrationTest;
 
 @MvcIntegrationTest
-@DisplayName("AuthorController Sorting Integration Tests")
-class ITAuthorControllerSorting {
+@DisplayName("TransactionController Sorting Integration Tests")
+class TestTransactionControllerSorting {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Test
-    @DisplayName("List authors with sorting - validates sort parameter handling")
-    void testGetAllAuthorsWithSorting() throws Exception {
-        mockMvc.perform(get("/authors")
-            .param("page", "0")
+    @DisplayName("List transactions with sorting - validates sort parameter handling")
+    void testGetAllTransactionsWithSorting() throws Exception {
+        mockMvc.perform(get("/transactions")
+            .param("page", "1")
             .param("size", "10")
-            .param("sort", "name:asc")
+            .param("sort", "date:desc,amount:asc")
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content", isA(java.util.ArrayList.class)));
-    }
-
-    @Test
-    @DisplayName("List authors with multiple sort fields - validates complex sorting")
-    void testGetAllAuthorsWithMultipleSortFields() throws Exception {
-        mockMvc.perform(get("/authors")
-            .param("page", "0")
-            .param("size", "10")
-            .param("sort", "name:asc,number:desc")
-            .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
 
 }

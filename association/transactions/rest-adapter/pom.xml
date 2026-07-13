@@ -52,6 +52,14 @@
          <groupId>com.bernardomg.framework.spring</groupId>
          <artifactId>spring-ws-security-starter</artifactId>
       </dependency>
+      <!-- ============================================== -->
+      <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
+      <!-- ============================================== -->
+      <dependency>
+         <groupId>com.bernardomg</groupId>
+         <artifactId>testing</artifactId>
+         <scope>test</scope>
+      </dependency>
    </dependencies>
 
    <!-- ********************************************** -->

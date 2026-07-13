@@ -17,7 +17,7 @@ import com.bernardomg.test.annotation.MvcIntegrationTest;
 
 @MvcIntegrationTest
 @DisplayName("MemberController Validation Integration Tests")
-class ITMemberControllerValidation {
+class TestMemberControllerValidation {
 
     @Autowired
     private MockMvc mockMvc;

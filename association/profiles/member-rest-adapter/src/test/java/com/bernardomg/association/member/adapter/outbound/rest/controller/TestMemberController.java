@@ -20,7 +20,7 @@ import com.bernardomg.test.annotation.MvcIntegrationTest;
 
 @MvcIntegrationTest
 @DisplayName("MemberController Integration Tests")
-class ITMemberController {
+class TestMemberController {
 
     @Autowired
     private MockMvc mockMvc;

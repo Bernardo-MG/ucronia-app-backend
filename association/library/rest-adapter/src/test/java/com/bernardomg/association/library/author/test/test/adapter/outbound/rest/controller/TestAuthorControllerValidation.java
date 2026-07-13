@@ -1,4 +1,5 @@
-package com.bernardomg.association.library.author.adapter.outbound.rest.controller;
+
+package com.bernardomg.association.library.author.test.test.adapter.outbound.rest.controller;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasItem;
@@ -18,27 +19,10 @@ import com.bernardomg.test.annotation.MvcIntegrationTest;
 
 @MvcIntegrationTest
 @DisplayName("AuthorController Validation Integration Tests")
-class ITAuthorControllerValidation {
+class TestAuthorControllerValidation {
 
     @Autowired
     private MockMvc mockMvc;
-
-    @Test
-    @DisplayName("Create author without name - validates @NotNull constraint")
-    void testCreateAuthorWithoutName() throws Exception {
-        final String requestBody;
-
-        requestBody = """
-                {
-                }
-                """;
-
-        mockMvc.perform(post("/authors").contentType(MediaType.APPLICATION_JSON)
-            .content(requestBody))
-            .andExpect(status().isBadRequest())
-            .andExpect(jsonPath("$.errors", hasItem(
-                containsString("name"))));
-    }
 
     @Test
     @DisplayName("Create author with null name - validates @NotNull constraint")
@@ -54,8 +38,23 @@ class ITAuthorControllerValidation {
         mockMvc.perform(post("/authors").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
             .andExpect(status().isBadRequest())
-            .andExpect(jsonPath("$.errors", hasItem(
-                containsString("name"))));
+            .andExpect(jsonPath("$.errors", hasItem(containsString("name"))));
+    }
+
+    @Test
+    @DisplayName("Create author without name - validates @NotNull constraint")
+    void testCreateAuthorWithoutName() throws Exception {
+        final String requestBody;
+
+        requestBody = """
+                {
+                }
+                """;
+
+        mockMvc.perform(post("/authors").contentType(MediaType.APPLICATION_JSON)
+            .content(requestBody))
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.errors", hasItem(containsString("name"))));
     }
 
     @Test
@@ -74,15 +73,13 @@ class ITAuthorControllerValidation {
         mockMvc.perform(post("/authors").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
             .andExpect(status().isBadRequest())
-            .andExpect(jsonPath("$.errors", hasItem(
-                containsString("name"))));
+            .andExpect(jsonPath("$.errors", hasItem(containsString("name"))));
     }
 
     @Test
     @DisplayName("List authors with invalid size=0 - validates @Min(1) constraint")
     void testGetAllAuthorsWithInvalidSizeZero() throws Exception {
-        mockMvc.perform(get("/authors")
-            .param("page", "0")
+        mockMvc.perform(get("/authors").param("page", "0")
             .param("size", "0")
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isBadRequest());
@@ -91,8 +88,7 @@ class ITAuthorControllerValidation {
     @Test
     @DisplayName("List authors with negative page - validates @Min(0) constraint")
     void testGetAllAuthorsWithNegativePage() throws Exception {
-        mockMvc.perform(get("/authors")
-            .param("page", "-1")
+        mockMvc.perform(get("/authors").param("page", "-1")
             .param("size", "10")
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isBadRequest());
@@ -108,12 +104,10 @@ class ITAuthorControllerValidation {
                 }
                 """;
 
-        mockMvc.perform(put("/authors/1")
-            .contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(put("/authors/1").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
             .andExpect(status().isBadRequest())
-            .andExpect(jsonPath("$.errors", hasItem(
-                containsString("name"))));
+            .andExpect(jsonPath("$.errors", hasItem(containsString("name"))));
     }
 
     @Test
@@ -129,12 +123,10 @@ class ITAuthorControllerValidation {
                 }
                 """, longName);
 
-        mockMvc.perform(put("/authors/1")
-            .contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(put("/authors/1").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
             .andExpect(status().isBadRequest())
-            .andExpect(jsonPath("$.errors", hasItem(
-                containsString("name"))));
+            .andExpect(jsonPath("$.errors", hasItem(containsString("name"))));
     }
 
 }
