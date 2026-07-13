@@ -68,6 +68,8 @@ class TestActivityServiceCreate {
         activity = Activities.singleDay();
         event = new CalendarInfoPublishedEvent(null, activity.number());
 
+        given(activityRepository.save(activity)).willReturn(activity);
+
         // WHEN
         service.create(activity);
 
@@ -83,11 +85,13 @@ class TestActivityServiceCreate {
         // GIVEN
         activity = Activities.future();
 
+        given(activityRepository.save(activity)).willReturn(activity);
+
         // WHEN
         service.create(activity);
 
         // THEN
-        verify(activityRepository).save(Activities.future());
+        verify(activityRepository).save(activity);
     }
 
     @Test
@@ -97,6 +101,8 @@ class TestActivityServiceCreate {
 
         // GIVEN
         activity = Activities.singleDay();
+
+        given(activityRepository.save(activity)).willReturn(activity);
 
         // WHEN
         service.create(activity);
@@ -133,11 +139,13 @@ class TestActivityServiceCreate {
         // GIVEN
         activity = Activities.sameDate();
 
+        given(activityRepository.save(activity)).willReturn(activity);
+
         // WHEN
         service.create(activity);
 
         // THEN
-        verify(activityRepository).save(Activities.sameDate());
+        verify(activityRepository).save(activity);
     }
 
     @Test
