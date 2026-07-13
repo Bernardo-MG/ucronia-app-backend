@@ -30,6 +30,7 @@ import static org.mockito.Mockito.verify;
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -39,6 +40,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.calendar.activity.test.configuration.factory.ActivityConstants;
 import com.bernardomg.association.calendar.domain.event.CalendarInfoPublishedEvent;
+import com.bernardomg.association.calendar.game.domain.exception.ScheduledGameAlreadyPublishedException;
+import com.bernardomg.association.calendar.game.domain.exception.ScheduledGameNotPublishableException;
 import com.bernardomg.association.calendar.game.domain.model.ScheduledGame;
 import com.bernardomg.association.calendar.game.domain.repository.ScheduledGameRepository;
 import com.bernardomg.association.calendar.game.test.configuration.factory.ScheduledGames;
@@ -57,6 +60,25 @@ class TestScheduledGameServicePublish {
 
     @InjectMocks
     private DefaultScheduledGameService service;
+
+    @Test
+    @DisplayName("When the scheduled game is cancelled, an exception is thrown")
+    void testPublish_Cancelled() {
+        final ThrowingCallable execution;
+        final ScheduledGame    scheduledGame;
+
+        // GIVEN
+        scheduledGame = ScheduledGames.cancelled();
+
+        given(scheduledGameRepository.findOne(ActivityConstants.NUMBER)).willReturn(Optional.of(scheduledGame));
+
+        // WHEN
+        execution = () -> service.publish(ActivityConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(ScheduledGameNotPublishableException.class);
+    }
 
     @Test
     @DisplayName("When publishing a scheduled game, an event is emitted")
@@ -102,11 +124,49 @@ class TestScheduledGameServicePublish {
     }
 
     @Test
+    @DisplayName("When the scheduled game is already published, an exception is thrown")
+    void testPublish_Published() {
+        final ThrowingCallable execution;
+        final ScheduledGame    scheduledGame;
+
+        // GIVEN
+        scheduledGame = ScheduledGames.published();
+
+        given(scheduledGameRepository.findOne(ActivityConstants.NUMBER)).willReturn(Optional.of(scheduledGame));
+
+        // WHEN
+        execution = () -> service.publish(ActivityConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(ScheduledGameAlreadyPublishedException.class);
+    }
+
+    @Test
+    @DisplayName("When the scheduled game is rejected, an exception is thrown")
+    void testPublish_Rejected() {
+        final ThrowingCallable execution;
+        final ScheduledGame    scheduledGame;
+
+        // GIVEN
+        scheduledGame = ScheduledGames.rejected();
+
+        given(scheduledGameRepository.findOne(ActivityConstants.NUMBER)).willReturn(Optional.of(scheduledGame));
+
+        // WHEN
+        execution = () -> service.publish(ActivityConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(ScheduledGameNotPublishableException.class);
+    }
+
+    @Test
     @DisplayName("When publishing a scheduled game, it is returned")
     void testPublish_ReturnedData() {
         final ScheduledGame scheduledGame;
         final ScheduledGame scheduledGamePublished;
-        final ScheduledGame created;
+        final ScheduledGame published;
 
         // GIVEN
         scheduledGame = ScheduledGames.weeklyOneshot();
@@ -116,10 +176,10 @@ class TestScheduledGameServicePublish {
         given(scheduledGameRepository.save(scheduledGamePublished)).willReturn(scheduledGamePublished);
 
         // WHEN
-        created = service.publish(ActivityConstants.NUMBER);
+        published = service.publish(ActivityConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(created)
+        Assertions.assertThat(published)
             .as("activity")
             .isEqualTo(ScheduledGames.weeklyOneshotPublished());
     }

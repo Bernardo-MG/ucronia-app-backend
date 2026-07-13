@@ -31,7 +31,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bernardomg.association.calendar.domain.event.CalendarInfoPublishedEvent;
+import com.bernardomg.association.calendar.domain.model.CalendarStatus;
 import com.bernardomg.association.calendar.game.domain.exception.MissingScheduledGameException;
+import com.bernardomg.association.calendar.game.domain.exception.ScheduledGameAlreadyPublishedException;
+import com.bernardomg.association.calendar.game.domain.exception.ScheduledGameNotPublishableException;
 import com.bernardomg.association.calendar.game.domain.model.ScheduledGame;
 import com.bernardomg.association.calendar.game.domain.repository.ScheduledGameRepository;
 import com.bernardomg.association.calendar.game.usecase.validation.ScheduledGamePositivePlayersRule;
@@ -149,6 +152,7 @@ public final class DefaultScheduledGameService implements ScheduledGameService {
         final Optional<ScheduledGame> scheduledGame;
         final ScheduledGame           toPublish;
         final ScheduledGame           published;
+        final CalendarStatus          status;
 
         log.debug("Publishing scheduled game with number {}", number);
 
@@ -156,6 +160,18 @@ public final class DefaultScheduledGameService implements ScheduledGameService {
         if (scheduledGame.isEmpty()) {
             log.error("Missing scheduled game {}", number);
             throw new MissingScheduledGameException(number);
+        }
+
+        status = scheduledGame.get()
+            .status();
+        if (CalendarStatus.PUBLISHED.equals(status)) {
+            log.error("Scheduled game {} is already published", number);
+            throw new ScheduledGameAlreadyPublishedException(number);
+        }
+
+        if ((!CalendarStatus.DRAFT.equals(status)) && (!CalendarStatus.PENDING_REVIEW.equals(status))) {
+            log.error("Scheduled game {} is in state {}, which is not publishable", number, status);
+            throw new ScheduledGameNotPublishableException(number, status);
         }
 
         toPublish = scheduledGame.map(ScheduledGame::publish)
