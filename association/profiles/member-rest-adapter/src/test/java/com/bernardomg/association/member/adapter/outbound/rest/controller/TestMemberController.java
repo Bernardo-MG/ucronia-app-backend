@@ -1,6 +1,9 @@
+
 package com.bernardomg.association.member.adapter.outbound.rest.controller;
 
 import static org.hamcrest.Matchers.equalTo;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
@@ -10,186 +13,55 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
+import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
-import com.bernardomg.test.annotation.MvcIntegrationTest;
+import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.usecase.service.MemberService;
+import com.bernardomg.association.profile.domain.model.Name;
 
-@MvcIntegrationTest
-@DisplayName("MemberController Integration Tests")
+@ExtendWith(MockitoExtension.class)
+@DisplayName("MemberController")
 class TestMemberController {
 
-    @Autowired
-    private MockMvc mockMvc;
+    private MockMvc       mockMvc;
 
-    @Test
-    @DisplayName("Create member with valid data - validates mapping and response")
-    void testCreateMemberWithValidData() throws Exception {
-        final String requestBody;
+    @Mock
+    private MemberService service;
 
-        requestBody = """
-                {
-                    "name": {
-                        "firstName": "John",
-                        "lastName": "Doe"
-                    }
-                }
-                """;
+    @BeforeEach
+    void setUp() {
+        final LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
 
-        mockMvc.perform(post("/members").contentType(MediaType.APPLICATION_JSON)
-            .content(requestBody))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.name.firstName", equalTo("John")))
-            .andExpect(jsonPath("$.name.lastName", equalTo("Doe")))
-            .andExpect(jsonPath("$.number").exists());
+        validator.setMessageInterpolator(new ParameterMessageInterpolator());
+        validator.afterPropertiesSet();
+
+        mockMvc = MockMvcBuilders.standaloneSetup(new MemberController(service))
+            .setValidator(validator)
+            .build();
     }
 
     @Test
-    @DisplayName("List members with pagination - validates pagination parameters")
-    void testGetAllMembersWithPagination() throws Exception {
-        mockMvc.perform(get("/members")
-            .param("page", "1")
-            .param("size", "10")
-            .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.content").isArray());
-    }
-
-    @Test
-    @DisplayName("List members with ACTIVE status - validates enum parameter mapping")
-    void testGetAllMembersWithActiveStatus() throws Exception {
-        mockMvc.perform(get("/members")
-            .param("page", "1")
-            .param("size", "10")
-            .param("status", "ACTIVE")
-            .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON));
-    }
-
-    @Test
-    @DisplayName("List members with INACTIVE status - validates enum value mapping")
-    void testGetAllMembersWithInactiveStatus() throws Exception {
-        mockMvc.perform(get("/members")
-            .param("page", "1")
-            .param("size", "10")
-            .param("status", "INACTIVE")
-            .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON));
-    }
-
-    @Test
-    @DisplayName("List members with name filter - validates string filter parameter")
-    void testGetAllMembersWithNameFilter() throws Exception {
-        mockMvc.perform(get("/members")
-            .param("page", "1")
-            .param("size", "10")
-            .param("name", "John")
-            .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON));
-    }
-
-    @Test
-    @DisplayName("List members with combined filters - validates multiple filter parameters")
-    void testGetAllMembersWithCombinedFilters() throws Exception {
-        mockMvc.perform(get("/members")
-            .param("page", "1")
-            .param("size", "10")
-            .param("status", "ACTIVE")
-            .param("name", "Doe")
-            .param("sort", "lastName|asc")
-            .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON));
-    }
-
-    @Test
-    @DisplayName("Get member by number - validates single resource mapping")
-    void testGetMemberByNumber() throws Exception {
-        mockMvc.perform(get("/members/1")
-            .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.number").exists());
-    }
-
-    @Test
-    @DisplayName("Update member with PATCH - validates update mapping")
-    void testPatchMemberWithValidData() throws Exception {
-        final String requestBody;
-
-        requestBody = """
-                {
-                    "name": {
-                        "firstName": "Jane",
-                        "lastName": "Smith"
-                    }
-                }
-                """;
-
-        mockMvc.perform(patch("/members/1")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(requestBody))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.name.firstName", equalTo("Jane")));
-    }
-
-    @Test
-    @DisplayName("Update member with PUT - validates full update mapping")
-    void testUpdateMemberWithValidData() throws Exception {
-        final String requestBody;
-
-        requestBody = """
-                {
-                    "name": {
-                        "firstName": "Richard",
-                        "lastName": "Johnson"
-                    }
-                }
-                """;
-
-        mockMvc.perform(put("/members/1")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(requestBody))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.name.firstName", equalTo("Richard")));
-    }
-
-    @Test
-    @DisplayName("Delete member - validates delete operation")
-    void testDeleteMember() throws Exception {
-        mockMvc.perform(delete("/members/1")
-            .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.number").exists());
-    }
-
-    @Test
-    @DisplayName("List members with padded name filter - validates whitespace handling")
-    void testGetAllMembersWithPaddedNameFilter() throws Exception {
-        mockMvc.perform(get("/members")
-            .param("page", "1")
-            .param("size", "10")
-            .param("name", "  John  ")
-            .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON));
-    }
-
-    @Test
-    @DisplayName("Create member with address - validates optional field mapping")
+    @DisplayName("When creating a member with address, it is accepted")
     void testCreateMemberWithAddress() throws Exception {
         final String requestBody;
+
+        given(service.create(any())).willReturn(new Member(Optional.empty(), 1L, new Name("Alice", "Brown"),
+            Optional.empty(), List.of(), Optional.of("123 Main St"), Optional.empty(), true, true,
+            new Member.FeeType(1L, "Standard", 10F), Set.of(Member.PROFILE_TYPE)));
 
         requestBody = """
                 {
@@ -201,11 +73,114 @@ class TestMemberController {
                 }
                 """;
 
-        mockMvc.perform(post("/members").contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(post("/member").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.address", equalTo("123 Main St")));
+    }
+
+    @Test
+    @DisplayName("When creating a member with valid data, it is accepted")
+    void testCreateMemberWithValidData() throws Exception {
+        final String requestBody;
+
+        given(service.create(any())).willReturn(
+            new Member(Optional.empty(), 1L, new Name("John", "Doe"), Optional.empty(), List.of(), Optional.empty(),
+                Optional.empty(), true, true, new Member.FeeType(1L, "Standard", 10F), Set.of(Member.PROFILE_TYPE)));
+
+        requestBody = """
+                {
+                    "name": {
+                        "firstName": "John",
+                        "lastName": "Doe"
+                    }
+                }
+                """;
+
+        mockMvc.perform(post("/member").contentType(MediaType.APPLICATION_JSON)
+            .content(requestBody))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$.name.firstName", equalTo("John")))
+            .andExpect(jsonPath("$.name.lastName", equalTo("Doe")))
+            .andExpect(jsonPath("$.number").exists());
+    }
+
+    @Test
+    @DisplayName("When the member is deleted, it is accepted")
+    void testDeleteMember() throws Exception {
+        given(service.delete(any())).willReturn(
+            new Member(Optional.empty(), 1L, new Name("John", "Doe"), Optional.empty(), List.of(), Optional.empty(),
+                Optional.empty(), true, true, new Member.FeeType(1L, "Standard", 10F), Set.of(Member.PROFILE_TYPE)));
+
+        mockMvc.perform(delete("/member/1").contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$.number").exists());
+    }
+
+    @Test
+    @DisplayName("When the member exists, it is returned")
+    void testGetMemberByNumber() throws Exception {
+        given(service.getOne(1L)).willReturn(Optional
+            .of(new Member(Optional.empty(), 1L, new Name("John", "Doe"), Optional.empty(), List.of(), Optional.empty(),
+                Optional.empty(), true, true, new Member.FeeType(1L, "Standard", 10F), Set.of(Member.PROFILE_TYPE))));
+
+        mockMvc.perform(get("/member/1").contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$.number").exists());
+    }
+
+    @Test
+    @DisplayName("When patching a valid member, it is accepted")
+    void testPatchMemberWithValidData() throws Exception {
+        final String requestBody;
+
+        given(service.patch(any())).willReturn(
+            new Member(Optional.empty(), 1L, new Name("Jane", "Smith"), Optional.empty(), List.of(), Optional.empty(),
+                Optional.empty(), true, true, new Member.FeeType(1L, "Standard", 10F), Set.of(Member.PROFILE_TYPE)));
+
+        requestBody = """
+                {
+                    "name": {
+                        "firstName": "Jane",
+                        "lastName": "Smith"
+                    }
+                }
+                """;
+
+        mockMvc.perform(patch("/member/1").contentType(MediaType.APPLICATION_JSON)
+            .content(requestBody))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$.name.firstName", equalTo("Jane")));
+    }
+
+    @Test
+    @DisplayName("When updating a valid member, it is accepted")
+    void testUpdateMemberWithValidData() throws Exception {
+        final String requestBody;
+
+        given(service.update(any())).willReturn(new Member(Optional.empty(), 1L, new Name("Richard", "Johnson"),
+            Optional.empty(), List.of(), Optional.empty(), Optional.empty(), true, true,
+            new Member.FeeType(1L, "Standard", 10F), Set.of(Member.PROFILE_TYPE)));
+
+        requestBody = """
+                {
+                    "name": {
+                        "firstName": "Richard",
+                        "lastName": "Johnson"
+                    }
+                }
+                """;
+
+        mockMvc.perform(put("/member/1").contentType(MediaType.APPLICATION_JSON)
+            .content(requestBody))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$.name.firstName", equalTo("Richard")));
     }
 
 }

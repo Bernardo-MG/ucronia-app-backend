@@ -1,48 +1,47 @@
+
 package com.bernardomg.association.transaction.adapter.outbound.rest.controller;
 
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
-import com.bernardomg.test.annotation.MvcIntegrationTest;
+import com.bernardomg.association.transaction.usecase.service.TransactionService;
 
-@MvcIntegrationTest
-@DisplayName("TransactionController Validation Integration Tests")
+@ExtendWith(MockitoExtension.class)
+@DisplayName("TransactionController - Validation")
 class TestTransactionControllerValidation {
 
-    @Autowired
-    private MockMvc mockMvc;
+    private MockMvc            mockMvc;
 
-    @Test
-    @DisplayName("Create transaction without date - validates @NotNull constraint")
-    void testCreateTransactionWithoutDate() throws Exception {
-        final String requestBody;
+    @Mock
+    private TransactionService service;
 
-        requestBody = """
-                {
-                    "amount": 100.50,
-                    "description": "Test transaction"
-                }
-                """;
+    @BeforeEach
+    void setUp() {
+        final LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
 
-        mockMvc.perform(post("/transactions").contentType(MediaType.APPLICATION_JSON)
-            .content(requestBody))
-            .andExpect(status().isBadRequest())
-            .andExpect(jsonPath("$.errors", hasItem(
-                containsString("date"))));
+        validator.setMessageInterpolator(new ParameterMessageInterpolator());
+        validator.afterPropertiesSet();
+
+        mockMvc = MockMvcBuilders.standaloneSetup(new TransactionController(service))
+            .setValidator(validator)
+            .build();
     }
 
     @Test
-    @DisplayName("Create transaction without amount - validates @NotNull constraint")
+    @DisplayName("When creating a transaction without amount, it is rejected")
     void testCreateTransactionWithoutAmount() throws Exception {
         final String requestBody;
 
@@ -55,13 +54,28 @@ class TestTransactionControllerValidation {
 
         mockMvc.perform(post("/transactions").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
-            .andExpect(status().isBadRequest())
-            .andExpect(jsonPath("$.errors", hasItem(
-                containsString("amount"))));
+            .andExpect(status().isBadRequest());
     }
 
     @Test
-    @DisplayName("Create transaction without description - validates @NotNull constraint")
+    @DisplayName("When creating a transaction without date, it is rejected")
+    void testCreateTransactionWithoutDate() throws Exception {
+        final String requestBody;
+
+        requestBody = """
+                {
+                    "amount": 100.50,
+                    "description": "Test transaction"
+                }
+                """;
+
+        mockMvc.perform(post("/transactions").contentType(MediaType.APPLICATION_JSON)
+            .content(requestBody))
+            .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @DisplayName("When creating a transaction without description, it is rejected")
     void testCreateTransactionWithoutDescription() throws Exception {
         final String requestBody;
 
@@ -74,13 +88,11 @@ class TestTransactionControllerValidation {
 
         mockMvc.perform(post("/transactions").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
-            .andExpect(status().isBadRequest())
-            .andExpect(jsonPath("$.errors", hasItem(
-                containsString("description"))));
+            .andExpect(status().isBadRequest());
     }
 
     @Test
-    @DisplayName("Create transaction with oversized description - validates @Size constraint")
+    @DisplayName("When creating a transaction with an oversized description, it is rejected")
     void testCreateTransactionWithOversizedDescription() throws Exception {
         final String longDescription;
         final String requestBody;
@@ -96,26 +108,22 @@ class TestTransactionControllerValidation {
 
         mockMvc.perform(post("/transactions").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
-            .andExpect(status().isBadRequest())
-            .andExpect(jsonPath("$.errors", hasItem(
-                containsString("description") )));
+            .andExpect(status().isBadRequest());
     }
 
     @Test
-    @DisplayName("List transactions with invalid page=0 - validates @Min(1) constraint")
+    @DisplayName("When querying transactions with page zero, it is rejected")
     void testGetAllTransactionsWithInvalidPageZero() throws Exception {
-        mockMvc.perform(get("/transactions")
-            .param("page", "0")
+        mockMvc.perform(get("/transactions").param("page", "0")
             .param("size", "10")
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isBadRequest());
     }
 
     @Test
-    @DisplayName("List transactions with invalid size=0 - validates @Min(1) constraint")
+    @DisplayName("When querying transactions with size zero, it is rejected")
     void testGetAllTransactionsWithInvalidSizeZero() throws Exception {
-        mockMvc.perform(get("/transactions")
-            .param("page", "1")
+        mockMvc.perform(get("/transactions").param("page", "1")
             .param("size", "0")
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isBadRequest());

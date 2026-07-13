@@ -2,30 +2,60 @@
 package com.bernardomg.association.library.author.test.test.adapter.outbound.rest.controller;
 
 import static org.hamcrest.Matchers.isA;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.List;
+
+import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
-import com.bernardomg.test.annotation.MvcIntegrationTest;
+import com.bernardomg.association.library.author.adapter.outbound.rest.controller.AuthorController;
+import com.bernardomg.association.library.author.usecase.service.AuthorService;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Sorting;
 
-@MvcIntegrationTest
-@DisplayName("AuthorController Sorting Integration Tests")
+@ExtendWith(MockitoExtension.class)
+@DisplayName("AuthorController - Sorting")
 class TestAuthorControllerSorting {
 
-    @Autowired
-    private MockMvc mockMvc;
+    private MockMvc       mockMvc;
+
+    @Mock
+    private AuthorService service;
+
+    @BeforeEach
+    void setUp() {
+        final LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
+
+        validator.setMessageInterpolator(new ParameterMessageInterpolator());
+        validator.afterPropertiesSet();
+
+        mockMvc = MockMvcBuilders.standaloneSetup(new AuthorController(service))
+            .setValidator(validator)
+            .build();
+    }
 
     @Test
-    @DisplayName("List authors with multiple sort fields - validates complex sorting")
+    @DisplayName("When sorting by multiple fields, it is accepted")
     void testGetAllAuthorsWithMultipleSortFields() throws Exception {
-        mockMvc.perform(get("/authors").param("page", "0")
+        given(service.getAll(any(), any()))
+            .willReturn(new Page<>(List.of(), 10, 0, 0, 0, 0, true, true, Sorting.unsorted()));
+
+        mockMvc.perform(get("/library/author").param("page", "0")
             .param("size", "10")
             .param("sort", "name:asc,number:desc")
             .contentType(MediaType.APPLICATION_JSON))
@@ -34,9 +64,12 @@ class TestAuthorControllerSorting {
     }
 
     @Test
-    @DisplayName("List authors with sorting - validates sort parameter handling")
+    @DisplayName("When sorting by name, it is accepted")
     void testGetAllAuthorsWithSorting() throws Exception {
-        mockMvc.perform(get("/authors").param("page", "0")
+        given(service.getAll(any(), any()))
+            .willReturn(new Page<>(List.of(), 10, 0, 0, 0, 0, true, true, Sorting.unsorted()));
+
+        mockMvc.perform(get("/library/author").param("page", "0")
             .param("size", "10")
             .param("sort", "name:asc")
             .contentType(MediaType.APPLICATION_JSON))

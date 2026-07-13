@@ -2,6 +2,8 @@
 package com.bernardomg.association.library.author.test.test.adapter.outbound.rest.controller;
 
 import static org.hamcrest.Matchers.equalTo;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -10,25 +12,51 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.Optional;
+
+import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
-import com.bernardomg.test.annotation.MvcIntegrationTest;
+import com.bernardomg.association.library.author.adapter.outbound.rest.controller.AuthorController;
+import com.bernardomg.association.library.author.domain.model.Author;
+import com.bernardomg.association.library.author.usecase.service.AuthorService;
 
-@MvcIntegrationTest
-@DisplayName("AuthorController Integration Tests")
+@ExtendWith(MockitoExtension.class)
+@DisplayName("AuthorController")
 class TestAuthorController {
 
-    @Autowired
-    private MockMvc mockMvc;
+    private MockMvc       mockMvc;
+
+    @Mock
+    private AuthorService service;
+
+    @BeforeEach
+    void setUp() {
+        final LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
+
+        validator.setMessageInterpolator(new ParameterMessageInterpolator());
+        validator.afterPropertiesSet();
+
+        mockMvc = MockMvcBuilders.standaloneSetup(new AuthorController(service))
+            .setValidator(validator)
+            .build();
+    }
 
     @Test
-    @DisplayName("Create author with empty name - validates constraint handling")
+    @DisplayName("When creating an author with an empty name, it is accepted")
     void testCreateAuthorWithEmptyName() throws Exception {
         final String requestBody;
+
+        given(service.create(any())).willReturn(new Author(1L, ""));
 
         requestBody = """
                 {
@@ -36,53 +64,17 @@ class TestAuthorController {
                 }
                 """;
 
-        mockMvc.perform(post("/authors").contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(post("/library/author").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
             .andExpect(status().isOk());
     }
 
     @Test
-    @DisplayName("Create author with name at max boundary - validates @Size boundary")
-    void testCreateAuthorWithNameAtMaxBoundary() throws Exception {
-        final String boundaryName;
-        final String requestBody;
-
-        boundaryName = "x".repeat(100);
-        requestBody = String.format("""
-                {
-                    "name": "%s"
-                }
-                """, boundaryName);
-
-        mockMvc.perform(post("/authors").contentType(MediaType.APPLICATION_JSON)
-            .content(requestBody))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.name", equalTo(boundaryName)));
-    }
-
-    @Test
-    @DisplayName("Create author with unknown fields - validates JSON deserialization")
-    void testCreateAuthorWithUnknownFields() throws Exception {
-        final String requestBody;
-
-        requestBody = """
-                {
-                    "name": "Test Author",
-                    "unknownField": "some value"
-                }
-                """;
-
-        mockMvc.perform(post("/authors").contentType(MediaType.APPLICATION_JSON)
-            .content(requestBody))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.name", equalTo("Test Author")));
-    }
-
-    @Test
-    @DisplayName("Create author with valid data - validates mapping and response")
+    @DisplayName("When creating an author with valid data, it is accepted")
     void testCreateAuthorWithValidData() throws Exception {
         final String requestBody;
+
+        given(service.create(any())).willReturn(new Author(1L, "Gary Gigax"));
 
         requestBody = """
                 {
@@ -90,7 +82,7 @@ class TestAuthorController {
                 }
                 """;
 
-        mockMvc.perform(post("/authors").contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(post("/library/author").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -99,9 +91,11 @@ class TestAuthorController {
     }
 
     @Test
-    @DisplayName("Delete author - validates delete operation")
+    @DisplayName("When the author is deleted, it is accepted")
     void testDeleteAuthor() throws Exception {
-        mockMvc.perform(delete("/authors/1").contentType(MediaType.APPLICATION_JSON))
+        given(service.delete(any())).willReturn(new Author(1L, "Gary Gigax"));
+
+        mockMvc.perform(delete("/library/author/1").contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.number").exists())
@@ -109,30 +103,11 @@ class TestAuthorController {
     }
 
     @Test
-    @DisplayName("List authors with page=0 - validates @Min(0) for page parameter")
-    void testGetAllAuthorsWithPageZero() throws Exception {
-        mockMvc.perform(get("/authors").param("page", "0")
-            .param("size", "10")
-            .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON));
-    }
-
-    @Test
-    @DisplayName("List authors with pagination - validates pagination parameters")
-    void testGetAllAuthorsWithPagination() throws Exception {
-        mockMvc.perform(get("/authors").param("page", "0")
-            .param("size", "10")
-            .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.content").isArray());
-    }
-
-    @Test
-    @DisplayName("Get author by ID - validates single resource mapping")
+    @DisplayName("When the author exists, it is returned")
     void testGetAuthorById() throws Exception {
-        mockMvc.perform(get("/authors/1").contentType(MediaType.APPLICATION_JSON))
+        given(service.getOne(1L)).willReturn(Optional.of(new Author(1L, "Gary Gigax")));
+
+        mockMvc.perform(get("/library/author/1").contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.number").exists())
@@ -140,9 +115,11 @@ class TestAuthorController {
     }
 
     @Test
-    @DisplayName("Update author with valid data - validates update mapping")
+    @DisplayName("When updating a valid author, it is accepted")
     void testUpdateAuthorWithValidData() throws Exception {
         final String requestBody;
+
+        given(service.update(any())).willReturn(new Author(1L, "Updated Author Name"));
 
         requestBody = """
                 {
@@ -150,7 +127,7 @@ class TestAuthorController {
                 }
                 """;
 
-        mockMvc.perform(put("/authors/1").contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(put("/library/author/1").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))

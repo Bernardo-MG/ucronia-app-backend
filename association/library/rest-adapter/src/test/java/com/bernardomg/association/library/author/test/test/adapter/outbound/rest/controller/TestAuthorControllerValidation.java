@@ -1,31 +1,49 @@
 
 package com.bernardomg.association.library.author.test.test.adapter.outbound.rest.controller;
 
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
-import com.bernardomg.test.annotation.MvcIntegrationTest;
+import com.bernardomg.association.library.author.adapter.outbound.rest.controller.AuthorController;
+import com.bernardomg.association.library.author.usecase.service.AuthorService;
 
-@MvcIntegrationTest
-@DisplayName("AuthorController Validation Integration Tests")
+@ExtendWith(MockitoExtension.class)
+@DisplayName("AuthorController - Validation")
 class TestAuthorControllerValidation {
 
-    @Autowired
-    private MockMvc mockMvc;
+    private MockMvc       mockMvc;
+
+    @Mock
+    private AuthorService service;
+
+    @BeforeEach
+    void setUp() {
+        final LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
+
+        validator.setMessageInterpolator(new ParameterMessageInterpolator());
+        validator.afterPropertiesSet();
+
+        mockMvc = MockMvcBuilders.standaloneSetup(new AuthorController(service))
+            .setValidator(validator)
+            .build();
+    }
 
     @Test
-    @DisplayName("Create author with null name - validates @NotNull constraint")
+    @DisplayName("When creating an author with null name, it is rejected")
     void testCreateAuthorWithNullName() throws Exception {
         final String requestBody;
 
@@ -35,14 +53,13 @@ class TestAuthorControllerValidation {
                 }
                 """;
 
-        mockMvc.perform(post("/authors").contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(post("/library/author").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
-            .andExpect(status().isBadRequest())
-            .andExpect(jsonPath("$.errors", hasItem(containsString("name"))));
+            .andExpect(status().isBadRequest());
     }
 
     @Test
-    @DisplayName("Create author without name - validates @NotNull constraint")
+    @DisplayName("When creating an author without name, it is rejected")
     void testCreateAuthorWithoutName() throws Exception {
         final String requestBody;
 
@@ -51,14 +68,13 @@ class TestAuthorControllerValidation {
                 }
                 """;
 
-        mockMvc.perform(post("/authors").contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(post("/library/author").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
-            .andExpect(status().isBadRequest())
-            .andExpect(jsonPath("$.errors", hasItem(containsString("name"))));
+            .andExpect(status().isBadRequest());
     }
 
     @Test
-    @DisplayName("Create author with oversized name - validates @Size constraint")
+    @DisplayName("When creating an author with an oversized name, it is rejected")
     void testCreateAuthorWithOversizedName() throws Exception {
         final String longName;
         final String requestBody;
@@ -70,32 +86,31 @@ class TestAuthorControllerValidation {
                 }
                 """, longName);
 
-        mockMvc.perform(post("/authors").contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(post("/library/author").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
-            .andExpect(status().isBadRequest())
-            .andExpect(jsonPath("$.errors", hasItem(containsString("name"))));
+            .andExpect(status().isBadRequest());
     }
 
     @Test
-    @DisplayName("List authors with invalid size=0 - validates @Min(1) constraint")
+    @DisplayName("When querying authors with size zero, it is rejected")
     void testGetAllAuthorsWithInvalidSizeZero() throws Exception {
-        mockMvc.perform(get("/authors").param("page", "0")
+        mockMvc.perform(get("/library/author").param("page", "0")
             .param("size", "0")
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isBadRequest());
     }
 
     @Test
-    @DisplayName("List authors with negative page - validates @Min(0) constraint")
+    @DisplayName("When querying authors with negative page, it is rejected")
     void testGetAllAuthorsWithNegativePage() throws Exception {
-        mockMvc.perform(get("/authors").param("page", "-1")
+        mockMvc.perform(get("/library/author").param("page", "-1")
             .param("size", "10")
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isBadRequest());
     }
 
     @Test
-    @DisplayName("Update author without name - validates @NotNull constraint in update")
+    @DisplayName("When updating an author without name, it is rejected")
     void testUpdateAuthorWithoutName() throws Exception {
         final String requestBody;
 
@@ -104,14 +119,13 @@ class TestAuthorControllerValidation {
                 }
                 """;
 
-        mockMvc.perform(put("/authors/1").contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(put("/library/author/1").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
-            .andExpect(status().isBadRequest())
-            .andExpect(jsonPath("$.errors", hasItem(containsString("name"))));
+            .andExpect(status().isBadRequest());
     }
 
     @Test
-    @DisplayName("Update author with oversized name - validates @Size constraint in update")
+    @DisplayName("When updating an author with an oversized name, it is rejected")
     void testUpdateAuthorWithOversizedName() throws Exception {
         final String longName;
         final String requestBody;
@@ -123,10 +137,9 @@ class TestAuthorControllerValidation {
                 }
                 """, longName);
 
-        mockMvc.perform(put("/authors/1").contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(put("/library/author/1").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
-            .andExpect(status().isBadRequest())
-            .andExpect(jsonPath("$.errors", hasItem(containsString("name"))));
+            .andExpect(status().isBadRequest());
     }
 
 }

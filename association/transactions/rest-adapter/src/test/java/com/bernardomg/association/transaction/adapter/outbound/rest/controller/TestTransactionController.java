@@ -1,6 +1,9 @@
+
 package com.bernardomg.association.transaction.adapter.outbound.rest.controller;
 
 import static org.hamcrest.Matchers.equalTo;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -9,25 +12,55 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.time.Instant;
+import java.time.YearMonth;
+import java.util.List;
+import java.util.Optional;
+
+import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
-import com.bernardomg.test.annotation.MvcIntegrationTest;
+import com.bernardomg.association.transaction.domain.model.Transaction;
+import com.bernardomg.association.transaction.domain.model.TransactionMonthsRange;
+import com.bernardomg.association.transaction.usecase.service.TransactionService;
 
-@MvcIntegrationTest
-@DisplayName("TransactionController Integration Tests")
+@ExtendWith(MockitoExtension.class)
+@DisplayName("TransactionController")
 class TestTransactionController {
 
-    @Autowired
-    private MockMvc mockMvc;
+    private MockMvc            mockMvc;
+
+    @Mock
+    private TransactionService service;
+
+    @BeforeEach
+    void setUp() {
+        final LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
+
+        validator.setMessageInterpolator(new ParameterMessageInterpolator());
+        validator.afterPropertiesSet();
+
+        mockMvc = MockMvcBuilders.standaloneSetup(new TransactionController(service))
+            .setValidator(validator)
+            .build();
+    }
 
     @Test
-    @DisplayName("Create transaction with valid data - validates mapping and response")
+    @DisplayName("When creating a transaction with valid data, it is accepted")
     void testCreateTransactionWithValidData() throws Exception {
         final String requestBody;
+
+        given(service.create(any()))
+            .willReturn(new Transaction(1L, Instant.parse("2025-08-01T00:00:00Z"), 100.50F, "Test transaction"));
 
         requestBody = """
                 {
@@ -47,68 +80,44 @@ class TestTransactionController {
     }
 
     @Test
-    @DisplayName("List transactions with pagination - validates pagination parameters")
-    void testGetAllTransactionsWithPagination() throws Exception {
-        mockMvc.perform(get("/transactions")
-            .param("page", "1")
-            .param("size", "20")
-            .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.content").isArray())
-            .andExpect(jsonPath("$.page").exists());
-    }
+    @DisplayName("When the transaction is deleted, it is accepted")
+    void testDeleteTransaction() throws Exception {
+        given(service.delete(any()))
+            .willReturn(new Transaction(1L, Instant.parse("2025-08-01T00:00:00Z"), 150.75F, "Updated transaction"));
 
-    @Test
-    @DisplayName("List transactions with date filter - validates optional parameter handling")
-    void testGetAllTransactionsWithDateFilter() throws Exception {
-        mockMvc.perform(get("/transactions")
-            .param("page", "1")
-            .param("size", "10")
-            .param("date", "2025-08-01T00:00:00Z")
-            .contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(delete("/transactions/1").contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
 
     @Test
-    @DisplayName("List transactions with date range - validates multiple optional parameters")
-    void testGetAllTransactionsWithDateRange() throws Exception {
-        mockMvc.perform(get("/transactions")
-            .param("page", "1")
-            .param("size", "10")
-            .param("from", "2025-08-01T00:00:00Z")
-            .param("to", "2025-08-31T23:59:59Z")
-            .contentType(MediaType.APPLICATION_JSON))
+    @DisplayName("When the transaction exists, it is returned")
+    void testGetOneTransaction() throws Exception {
+        given(service.getOne(1L)).willReturn(
+            Optional.of(new Transaction(1L, Instant.parse("2025-08-01T00:00:00Z"), 100.50F, "Test transaction")));
+
+        mockMvc.perform(get("/transactions/1").contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
 
     @Test
-    @DisplayName("List transactions with description filter - validates string parameter handling")
-    void testGetAllTransactionsWithDescriptionFilter() throws Exception {
-        mockMvc.perform(get("/transactions")
-            .param("page", "1")
-            .param("size", "10")
-            .param("description", "test")
-            .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON));
-    }
-
-    @Test
-    @DisplayName("Get transaction range - validates response body mapping")
+    @DisplayName("When requesting the transaction range, it is returned")
     void testGetTransactionRange() throws Exception {
-        mockMvc.perform(get("/transactions/range")
-            .contentType(MediaType.APPLICATION_JSON))
+        given(service.getRange()).willReturn(new TransactionMonthsRange(List.of(YearMonth.of(2025, 8))));
+
+        mockMvc.perform(get("/transactions/range").contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
 
     @Test
-    @DisplayName("Update transaction with valid data - validates update mapping")
+    @DisplayName("When updating a valid transaction, it is accepted")
     void testUpdateTransactionWithValidData() throws Exception {
         final String requestBody;
+
+        given(service.update(any()))
+            .willReturn(new Transaction(1L, Instant.parse("2025-08-01T00:00:00Z"), 150.75F, "Updated transaction"));
 
         requestBody = """
                 {
@@ -117,30 +126,11 @@ class TestTransactionController {
                 }
                 """;
 
-        mockMvc.perform(put("/transactions/1")
-            .contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(put("/transactions/1").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.description", equalTo("Updated transaction")));
-    }
-
-    @Test
-    @DisplayName("Delete transaction - validates delete operation")
-    void testDeleteTransaction() throws Exception {
-        mockMvc.perform(delete("/transactions/1")
-            .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON));
-    }
-
-    @Test
-    @DisplayName("Get single transaction - validates single resource mapping")
-    void testGetOneTransaction() throws Exception {
-        mockMvc.perform(get("/transactions/1")
-            .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
 
 }

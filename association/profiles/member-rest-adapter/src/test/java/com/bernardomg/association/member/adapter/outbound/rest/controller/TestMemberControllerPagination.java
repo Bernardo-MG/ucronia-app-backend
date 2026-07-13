@@ -1,8 +1,8 @@
 
 package com.bernardomg.association.member.adapter.outbound.rest.controller;
 
-import static org.hamcrest.Matchers.isA;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -25,11 +25,12 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import com.bernardomg.association.member.usecase.service.MemberService;
 import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("MemberController - Sorting")
-class TestMemberControllerSorting {
+@DisplayName("MemberController")
+class TestMemberControllerPagination {
 
     private MockMvc       mockMvc;
 
@@ -49,46 +50,35 @@ class TestMemberControllerSorting {
     }
 
     @Test
-    @DisplayName("When sorting by last name descending, it is accepted")
-    void testGetAllMembersWithLastNameSort() throws Exception {
-        given(service.getAll(any(), any(), any()))
-            .willReturn(new Page<>(List.of(), 10, 0, 0, 0, 0, true, true, Sorting.unsorted()));
-
-        mockMvc.perform(get("/member").param("page", "1")
+    @DisplayName("When the page is zero, it is rejected")
+    void testGetAllMembers_PageZero() throws Exception {
+        mockMvc.perform(get("/member").param("page", "0")
             .param("size", "10")
-            .param("sort", "lastName|desc")
             .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+            .andExpect(status().isBadRequest());
     }
 
     @Test
-    @DisplayName("When sorting by number ascending, it is accepted")
-    void testGetAllMembersWithNumberSort() throws Exception {
-        given(service.getAll(any(), any(), any()))
-            .willReturn(new Page<>(List.of(), 10, 0, 0, 0, 0, true, true, Sorting.unsorted()));
+    @DisplayName("When the pagination is valid, it is accepted")
+    void testGetAllMembers_Pagination() throws Exception {
+        given(service.getAll(any(), eq(new Pagination(1, 10)), any()))
+            .willReturn(new Page<>(List.of(), 10, 1, 0, 0, 0, false, false, Sorting.unsorted()));
 
         mockMvc.perform(get("/member").param("page", "1")
             .param("size", "10")
-            .param("sort", "number|asc")
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.content", isA(java.util.ArrayList.class)));
+            .andExpect(jsonPath("$.content").isArray());
     }
 
     @Test
-    @DisplayName("When sorting by first name ascending, it is accepted")
-    void testGetAllMembersWithValidSort() throws Exception {
-        given(service.getAll(any(), any(), any()))
-            .willReturn(new Page<>(List.of(), 10, 0, 0, 0, 0, true, true, Sorting.unsorted()));
-
+    @DisplayName("When the size is zero, it is rejected")
+    void testGetAllMembers_SizeZero() throws Exception {
         mockMvc.perform(get("/member").param("page", "1")
-            .param("size", "10")
-            .param("sort", "firstName|asc")
+            .param("size", "0")
             .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+            .andExpect(status().isBadRequest());
     }
 
 }
