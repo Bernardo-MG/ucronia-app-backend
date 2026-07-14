@@ -52,7 +52,8 @@ class TestMemberControllerPagination {
     @Test
     @DisplayName("When the page is zero, it is rejected")
     void testGetAllMembers_PageZero() throws Exception {
-        mockMvc.perform(get("/member").param("page", "0")
+        // WHEN + THEN
+        mockMvc.perform(get("/profile/member").param("page", "0")
             .param("size", "10")
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isBadRequest());
@@ -61,10 +62,12 @@ class TestMemberControllerPagination {
     @Test
     @DisplayName("When the pagination is valid, it is accepted")
     void testGetAllMembers_Pagination() throws Exception {
+        // GIVEN
         given(service.getAll(any(), eq(new Pagination(1, 10)), any()))
             .willReturn(new Page<>(List.of(), 10, 1, 0, 0, 0, false, false, Sorting.unsorted()));
 
-        mockMvc.perform(get("/member").param("page", "1")
+        // WHEN + THEN
+        mockMvc.perform(get("/profile/member").param("page", "1")
             .param("size", "10")
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
@@ -75,7 +78,8 @@ class TestMemberControllerPagination {
     @Test
     @DisplayName("When the size is zero, it is rejected")
     void testGetAllMembers_SizeZero() throws Exception {
-        mockMvc.perform(get("/member").param("page", "1")
+        // WHEN + THEN
+        mockMvc.perform(get("/profile/member").param("page", "1")
             .param("size", "0")
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isBadRequest());

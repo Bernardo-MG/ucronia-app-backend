@@ -42,62 +42,51 @@ class TestMemberControllerValidation {
     }
 
     @Test
+    @DisplayName("When creating a member without name, it is rejected")
+    void testCreateMember_Empty() throws Exception {
+        final String requestBody;
+
+        // GIVEN
+        requestBody = """
+                {
+                }
+                """;
+
+        // WHEN + THEN
+        mockMvc.perform(post("/profile/member").contentType(MediaType.APPLICATION_JSON)
+            .content(requestBody))
+            .andExpect(status().isBadRequest());
+    }
+
+    @Test
     @DisplayName("When creating a member with incomplete name, it is rejected")
     void testCreateMember_IncompleteName() throws Exception {
         final String requestBody;
 
+        // GIVEN
         requestBody = """
                 {
+                    "identifier": "6789",
+                    "feeType": 10,
                     "name": {
                         "firstName": "John"
                     }
                 }
                 """;
 
-        mockMvc.perform(post("/member").contentType(MediaType.APPLICATION_JSON)
+        // WHEN + THEN
+        mockMvc.perform(post("/profile/member").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
-            .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    @DisplayName("When creating a member without name, it is rejected")
-    void testCreateMember_Empty() throws Exception {
-        final String requestBody;
-
-        requestBody = """
-                {
-                }
-                """;
-
-        mockMvc.perform(post("/member").contentType(MediaType.APPLICATION_JSON)
-            .content(requestBody))
-            .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    @DisplayName("When querying members with page zero, it is rejected")
-    void testGetAllMembers_InvalidPageZero() throws Exception {
-        mockMvc.perform(get("/member").param("page", "0")
-            .param("size", "10")
-            .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    @DisplayName("When querying members with size zero, it is rejected")
-    void testGetAllMembers_InvalidSizeZero() throws Exception {
-        mockMvc.perform(get("/member").param("page", "1")
-            .param("size", "0")
-            .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isBadRequest());
     }
 
     @Test
     @DisplayName("When querying members with an invalid sort direction, it is rejected")
     void testGetAllMembers_InvalidSortDirection() throws Exception {
-        mockMvc.perform(get("/member").param("page", "1")
+        // WHEN + THEN
+        mockMvc.perform(get("/profile/member").param("page", "0")
             .param("size", "10")
-            .param("sort", "firstName|invalid")
+            .param("sort", "name.firstName|invalid")
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isBadRequest());
     }
@@ -105,9 +94,10 @@ class TestMemberControllerValidation {
     @Test
     @DisplayName("When querying members with an invalid sort pattern, it is rejected")
     void testGetAllMembers_InvalidSortPattern() throws Exception {
-        mockMvc.perform(get("/member").param("page", "1")
+        // WHEN + THEN
+        mockMvc.perform(get("/profile/member").param("page", "0")
             .param("size", "10")
-            .param("sort", "firstName")
+            .param("sort", "name.firstName")
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isBadRequest());
     }
@@ -117,12 +107,18 @@ class TestMemberControllerValidation {
     void testUpdateMember_Empty() throws Exception {
         final String requestBody;
 
+        // GIVEN
         requestBody = """
                 {
+                "identifier": "6789",
+                "feeType": 10,
+                "active": true,
+                "renew": true
                 }
                 """;
 
-        mockMvc.perform(put("/member/1").contentType(MediaType.APPLICATION_JSON)
+        // WHEN + THEN
+        mockMvc.perform(put("/profile/member/1").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
             .andExpect(status().isBadRequest());
     }

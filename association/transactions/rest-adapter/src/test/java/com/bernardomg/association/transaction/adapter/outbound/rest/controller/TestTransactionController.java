@@ -3,6 +3,7 @@ package com.bernardomg.association.transaction.adapter.outbound.rest.controller;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -12,9 +13,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.time.Instant;
-import java.time.YearMonth;
-import java.util.List;
 import java.util.Optional;
 
 import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator;
@@ -25,13 +23,19 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
-import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.model.TransactionMonthsRange;
+import com.bernardomg.association.transaction.test.configuration.factory.TransactionCalendarMonthsRanges;
+import com.bernardomg.association.transaction.test.configuration.factory.TransactionConstants;
+import com.bernardomg.association.transaction.test.configuration.factory.Transactions;
 import com.bernardomg.association.transaction.usecase.service.TransactionService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("TransactionController")
@@ -44,93 +48,112 @@ class TestTransactionController {
 
     @BeforeEach
     void setUp() {
-        final LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
+        final LocalValidatorFactoryBean           validator    = new LocalValidatorFactoryBean();
+        final ObjectMapper                        objectMapper = new ObjectMapper();
+        final MappingJackson2HttpMessageConverter converter;
 
         validator.setMessageInterpolator(new ParameterMessageInterpolator());
         validator.afterPropertiesSet();
 
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        converter = new MappingJackson2HttpMessageConverter(objectMapper);
+
         mockMvc = MockMvcBuilders.standaloneSetup(new TransactionController(service))
+            .setMessageConverters(converter)
             .setValidator(validator)
             .build();
     }
 
     @Test
     @DisplayName("When creating a transaction with valid data, it is accepted")
-    void testCreateTransactionWithValidData() throws Exception {
+    void testCreateTransaction_ValidData() throws Exception {
         final String requestBody;
 
-        given(service.create(any()))
-            .willReturn(new Transaction(1L, Instant.parse("2025-08-01T00:00:00Z"), 100.50F, "Test transaction"));
+        // GIVEN
+        given(service.create(any())).willReturn(Transactions.positive());
 
-        requestBody = """
+        requestBody = String.format("""
                 {
-                    "date": "2025-08-01T00:00:00Z",
-                    "amount": 100.50,
-                    "description": "Test transaction"
+                    "date": "%s",
+                    "amount": %s,
+                    "description": "%s"
                 }
-                """;
+                """, TransactionConstants.DATE, TransactionConstants.AMOUNT, TransactionConstants.DESCRIPTION);
 
-        mockMvc.perform(post("/transactions").contentType(MediaType.APPLICATION_JSON)
+        // WHEN + THEN
+        mockMvc.perform(post("/transaction").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
-            .andExpect(status().isOk())
+            .andExpect(status().isCreated())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.date").exists())
-            .andExpect(jsonPath("$.amount").exists())
-            .andExpect(jsonPath("$.description", equalTo("Test transaction")));
+            .andExpect(jsonPath("$.content.date").exists())
+            .andExpect(jsonPath("$.content.amount").exists())
+            .andExpect(jsonPath("$.content.description", equalTo(TransactionConstants.DESCRIPTION)));
     }
 
     @Test
     @DisplayName("When the transaction is deleted, it is accepted")
     void testDeleteTransaction() throws Exception {
-        given(service.delete(any()))
-            .willReturn(new Transaction(1L, Instant.parse("2025-08-01T00:00:00Z"), 150.75F, "Updated transaction"));
+        // GIVEN
+        given(service.delete(anyLong())).willReturn(Transactions.positive());
 
-        mockMvc.perform(delete("/transactions/1").contentType(MediaType.APPLICATION_JSON))
+        // WHEN + THEN
+        mockMvc
+            .perform(delete("/transaction/{index}", TransactionConstants.INDEX).contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$.content.index").exists());
     }
 
     @Test
     @DisplayName("When the transaction exists, it is returned")
     void testGetOneTransaction() throws Exception {
-        given(service.getOne(1L)).willReturn(
-            Optional.of(new Transaction(1L, Instant.parse("2025-08-01T00:00:00Z"), 100.50F, "Test transaction")));
+        // GIVEN
+        given(service.getOne(TransactionConstants.INDEX)).willReturn(Optional.of(Transactions.positive()));
 
-        mockMvc.perform(get("/transactions/1").contentType(MediaType.APPLICATION_JSON))
+        // WHEN + THEN
+        mockMvc.perform(get("/transaction/{index}", TransactionConstants.INDEX).contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$.content.index").exists());
     }
 
     @Test
     @DisplayName("When requesting the transaction range, it is returned")
     void testGetTransactionRange() throws Exception {
-        given(service.getRange()).willReturn(new TransactionMonthsRange(List.of(YearMonth.of(2025, 8))));
+        // GIVEN
+        given(service.getRange())
+            .willReturn(new TransactionMonthsRange(TransactionCalendarMonthsRanges.FULL_YEAR_MONTHS));
 
-        mockMvc.perform(get("/transactions/range").contentType(MediaType.APPLICATION_JSON))
+        // WHEN + THEN
+        mockMvc.perform(get("/transaction/range").contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$.content.months").isArray());
     }
 
     @Test
     @DisplayName("When updating a valid transaction, it is accepted")
-    void testUpdateTransactionWithValidData() throws Exception {
+    void testUpdateTransaction_ValidData() throws Exception {
         final String requestBody;
 
-        given(service.update(any()))
-            .willReturn(new Transaction(1L, Instant.parse("2025-08-01T00:00:00Z"), 150.75F, "Updated transaction"));
+        // GIVEN
+        given(service.update(any())).willReturn(Transactions.forAmount(TransactionConstants.AMOUNT_BIGGER));
 
-        requestBody = """
+        requestBody = String.format("""
                 {
-                    "amount": 150.75,
-                    "description": "Updated transaction"
+                    "date": "%s",
+                    "amount": %s,
+                    "description": "%s"
                 }
-                """;
+                """, TransactionConstants.DATE, TransactionConstants.AMOUNT_BIGGER, TransactionConstants.DESCRIPTION);
 
-        mockMvc.perform(put("/transactions/1").contentType(MediaType.APPLICATION_JSON)
+        // WHEN + THEN
+        mockMvc.perform(put("/transaction/{index}", TransactionConstants.INDEX).contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.description", equalTo("Updated transaction")));
+            .andExpect(jsonPath("$.content.amount", equalTo((double) TransactionConstants.AMOUNT_BIGGER)));
     }
 
 }

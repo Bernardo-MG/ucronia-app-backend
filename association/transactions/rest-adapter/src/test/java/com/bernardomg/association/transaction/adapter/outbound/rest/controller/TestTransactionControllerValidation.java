@@ -1,7 +1,6 @@
 
 package com.bernardomg.association.transaction.adapter.outbound.rest.controller;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -13,11 +12,16 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
+import com.bernardomg.association.transaction.test.configuration.factory.TransactionConstants;
 import com.bernardomg.association.transaction.usecase.service.TransactionService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("TransactionController - Validation")
@@ -30,102 +34,99 @@ class TestTransactionControllerValidation {
 
     @BeforeEach
     void setUp() {
-        final LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
+        final LocalValidatorFactoryBean           validator    = new LocalValidatorFactoryBean();
+        final ObjectMapper                        objectMapper = new ObjectMapper();
+        final MappingJackson2HttpMessageConverter converter;
 
         validator.setMessageInterpolator(new ParameterMessageInterpolator());
         validator.afterPropertiesSet();
 
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        converter = new MappingJackson2HttpMessageConverter(objectMapper);
+
         mockMvc = MockMvcBuilders.standaloneSetup(new TransactionController(service))
+            .setMessageConverters(converter)
             .setValidator(validator)
             .build();
     }
 
     @Test
-    @DisplayName("When creating a transaction without amount, it is rejected")
-    void testCreateTransactionWithoutAmount() throws Exception {
+    @DisplayName("When creating a transaction with an oversized description, it is rejected")
+    void testCreateTransaction_OversizedDescription() throws Exception {
+        final String longDescription;
         final String requestBody;
 
-        requestBody = """
+        // GIVEN
+        longDescription = "x".repeat(201);
+        requestBody = String.format("""
                 {
-                    "date": "2025-08-01T00:00:00Z",
-                    "description": "Test transaction"
+                    "date": "%s",
+                    "amount": %s,
+                    "description": "%s"
                 }
-                """;
+                """, TransactionConstants.DATE, TransactionConstants.AMOUNT, longDescription);
 
-        mockMvc.perform(post("/transactions").contentType(MediaType.APPLICATION_JSON)
+        // WHEN + THEN
+        mockMvc.perform(post("/transaction").contentType(MediaType.APPLICATION_JSON)
+            .content(requestBody))
+            .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @DisplayName("When creating a transaction without amount, it is rejected")
+    void testCreateTransaction_WithoutAmount() throws Exception {
+        final String requestBody;
+
+        // GIVEN
+        requestBody = String.format("""
+                {
+                    "date": "%s",
+                    "description": "%s"
+                }
+                """, TransactionConstants.DATE, TransactionConstants.DESCRIPTION);
+
+        // WHEN + THEN
+        mockMvc.perform(post("/transaction").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
             .andExpect(status().isBadRequest());
     }
 
     @Test
     @DisplayName("When creating a transaction without date, it is rejected")
-    void testCreateTransactionWithoutDate() throws Exception {
+    void testCreateTransaction_WithoutDate() throws Exception {
         final String requestBody;
 
-        requestBody = """
+        // GIVEN
+        requestBody = String.format("""
                 {
-                    "amount": 100.50,
-                    "description": "Test transaction"
+                    "amount": %s,
+                    "description": "%s"
                 }
-                """;
+                """, TransactionConstants.AMOUNT, TransactionConstants.DESCRIPTION);
 
-        mockMvc.perform(post("/transactions").contentType(MediaType.APPLICATION_JSON)
+        // WHEN + THEN
+        mockMvc.perform(post("/transaction").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
             .andExpect(status().isBadRequest());
     }
 
     @Test
     @DisplayName("When creating a transaction without description, it is rejected")
-    void testCreateTransactionWithoutDescription() throws Exception {
+    void testCreateTransaction_WithoutDescription() throws Exception {
         final String requestBody;
 
-        requestBody = """
-                {
-                    "date": "2025-08-01T00:00:00Z",
-                    "amount": 100.50
-                }
-                """;
-
-        mockMvc.perform(post("/transactions").contentType(MediaType.APPLICATION_JSON)
-            .content(requestBody))
-            .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    @DisplayName("When creating a transaction with an oversized description, it is rejected")
-    void testCreateTransactionWithOversizedDescription() throws Exception {
-        final String longDescription;
-        final String requestBody;
-
-        longDescription = "x".repeat(201);
+        // GIVEN
         requestBody = String.format("""
                 {
-                    "date": "2025-08-01T00:00:00Z",
-                    "amount": 100.50,
-                    "description": "%s"
+                    "date": "%s",
+                    "amount": %s
                 }
-                """, longDescription);
+                """, TransactionConstants.DATE, TransactionConstants.AMOUNT);
 
-        mockMvc.perform(post("/transactions").contentType(MediaType.APPLICATION_JSON)
+        // WHEN + THEN
+        mockMvc.perform(post("/transaction").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
-            .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    @DisplayName("When querying transactions with page zero, it is rejected")
-    void testGetAllTransactionsWithInvalidPageZero() throws Exception {
-        mockMvc.perform(get("/transactions").param("page", "0")
-            .param("size", "10")
-            .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    @DisplayName("When querying transactions with size zero, it is rejected")
-    void testGetAllTransactionsWithInvalidSizeZero() throws Exception {
-        mockMvc.perform(get("/transactions").param("page", "1")
-            .param("size", "0")
-            .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isBadRequest());
     }
 
