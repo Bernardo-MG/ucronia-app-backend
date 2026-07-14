@@ -1,8 +1,6 @@
 
 package com.bernardomg.association.library.booktype.test.adapter.outbound.rest.controller;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -20,7 +18,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import com.bernardomg.association.library.booktype.adapter.outbound.rest.controller.BookTypeController;
-import com.bernardomg.association.library.booktype.test.configuration.factory.BookTypes;
 import com.bernardomg.association.library.booktype.usecase.service.BookTypeService;
 
 @ExtendWith(MockitoExtension.class)
@@ -67,8 +64,6 @@ class TestBookTypeControllerValidation {
         final String requestBody;
 
         // GIVEN
-        given(service.update(any())).willReturn(BookTypes.valid());
-
         requestBody = """
                 {
                     "name": ""
@@ -124,8 +119,6 @@ class TestBookTypeControllerValidation {
         final String requestBody;
 
         // GIVEN
-        given(service.update(any())).willReturn(BookTypes.valid());
-
         requestBody = """
                 {
                     "name": ""

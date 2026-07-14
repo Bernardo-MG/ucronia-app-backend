@@ -1,8 +1,6 @@
 
 package com.bernardomg.association.library.author.test.test.adapter.outbound.rest.controller;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -20,7 +18,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import com.bernardomg.association.library.author.adapter.outbound.rest.controller.AuthorController;
-import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.author.usecase.service.AuthorService;
 
 @ExtendWith(MockitoExtension.class)
@@ -67,8 +64,6 @@ class TestAuthorControllerValidation {
         final String requestBody;
 
         // GIVEN
-        given(service.create(any())).willReturn(new Author(1L, ""));
-
         requestBody = """
                 {
                     "name": ""
@@ -124,8 +119,6 @@ class TestAuthorControllerValidation {
         final String requestBody;
 
         // GIVEN
-        given(service.create(any())).willReturn(new Author(1L, ""));
-
         requestBody = """
                 {
                     "name": ""
@@ -133,7 +126,7 @@ class TestAuthorControllerValidation {
                 """;
 
         // WHEN + THEN
-        mockMvc.perform(put("/library/author").contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(put("/library/author/1").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
             .andExpect(status().isBadRequest());
     }

@@ -59,26 +59,6 @@ class TestBookTypeController {
     }
 
     @Test
-    @DisplayName("When creating a book with an empty name, it is accepted")
-    void testCreateBookType_EmptyName() throws Exception {
-        final String requestBody;
-
-        // GIVEN
-        given(service.create(any())).willReturn(BookTypes.valid());
-
-        requestBody = """
-                {
-                    "name": ""
-                }
-                """;
-
-        // WHEN + THEN
-        mockMvc.perform(post("/library/bookType").contentType(MediaType.APPLICATION_JSON)
-            .content(requestBody))
-            .andExpect(status().isCreated());
-    }
-
-    @Test
     @DisplayName("When creating a book with an padded name, it is accepted")
     void testCreateBookType_PaddedName() throws Exception {
         final String requestBody;
