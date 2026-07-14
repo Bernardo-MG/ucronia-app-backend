@@ -50,7 +50,7 @@ class TestMemberControllerSorting {
 
     @Test
     @DisplayName("When sorting by last name descending, it is accepted")
-    void testGetAllMembersWithLastNameSort() throws Exception {
+    void testGetAllMembers_LastNameSort() throws Exception {
         given(service.getAll(any(), any(), any()))
             .willReturn(new Page<>(List.of(), 10, 0, 0, 0, 0, true, true, Sorting.unsorted()));
 
@@ -64,7 +64,7 @@ class TestMemberControllerSorting {
 
     @Test
     @DisplayName("When sorting by number ascending, it is accepted")
-    void testGetAllMembersWithNumberSort() throws Exception {
+    void testGetAllMembers_NumberSort() throws Exception {
         given(service.getAll(any(), any(), any()))
             .willReturn(new Page<>(List.of(), 10, 0, 0, 0, 0, true, true, Sorting.unsorted()));
 
@@ -79,7 +79,7 @@ class TestMemberControllerSorting {
 
     @Test
     @DisplayName("When sorting by first name ascending, it is accepted")
-    void testGetAllMembersWithValidSort() throws Exception {
+    void testGetAllMembers_ValidSort() throws Exception {
         given(service.getAll(any(), any(), any()))
             .willReturn(new Page<>(List.of(), 10, 0, 0, 0, 0, true, true, Sorting.unsorted()));
 

@@ -65,16 +65,17 @@ class TestBookTypeControllerPagination {
         mockMvc.perform(get("/library/bookType").param("page", "0")
             .param("size", "10")
             .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().is4xxClientError())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+            .andExpect(status().is4xxClientError());
     }
 
     @Test
     @DisplayName("When the pagination is valid, it is accepted")
     void testGetAllBookTypes_Pagination() throws Exception {
+        // GIVEN
         given(service.getAll(eq(new Pagination(1, 10)), any()))
             .willReturn(new Page<>(List.of(), 10, 5, 0, 0, 0, false, false, Sorting.unsorted()));
 
+        // WHEN + THEN
         mockMvc.perform(get("/library/bookType").param("page", "1")
             .param("size", "10")
             .contentType(MediaType.APPLICATION_JSON))

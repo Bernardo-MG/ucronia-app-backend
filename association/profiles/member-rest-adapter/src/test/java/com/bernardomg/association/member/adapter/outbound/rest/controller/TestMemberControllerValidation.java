@@ -43,7 +43,7 @@ class TestMemberControllerValidation {
 
     @Test
     @DisplayName("When creating a member with incomplete name, it is rejected")
-    void testCreateMemberWithIncompleteName() throws Exception {
+    void testCreateMember_IncompleteName() throws Exception {
         final String requestBody;
 
         requestBody = """
@@ -61,7 +61,7 @@ class TestMemberControllerValidation {
 
     @Test
     @DisplayName("When creating a member without name, it is rejected")
-    void testCreateMemberWithoutName() throws Exception {
+    void testCreateMember_Empty() throws Exception {
         final String requestBody;
 
         requestBody = """
@@ -76,7 +76,7 @@ class TestMemberControllerValidation {
 
     @Test
     @DisplayName("When querying members with page zero, it is rejected")
-    void testGetAllMembersWithInvalidPageZero() throws Exception {
+    void testGetAllMembers_InvalidPageZero() throws Exception {
         mockMvc.perform(get("/member").param("page", "0")
             .param("size", "10")
             .contentType(MediaType.APPLICATION_JSON))
@@ -85,7 +85,7 @@ class TestMemberControllerValidation {
 
     @Test
     @DisplayName("When querying members with size zero, it is rejected")
-    void testGetAllMembersWithInvalidSizeZero() throws Exception {
+    void testGetAllMembers_InvalidSizeZero() throws Exception {
         mockMvc.perform(get("/member").param("page", "1")
             .param("size", "0")
             .contentType(MediaType.APPLICATION_JSON))
@@ -94,7 +94,7 @@ class TestMemberControllerValidation {
 
     @Test
     @DisplayName("When querying members with an invalid sort direction, it is rejected")
-    void testGetAllMembersWithInvalidSortDirection() throws Exception {
+    void testGetAllMembers_InvalidSortDirection() throws Exception {
         mockMvc.perform(get("/member").param("page", "1")
             .param("size", "10")
             .param("sort", "firstName|invalid")
@@ -104,7 +104,7 @@ class TestMemberControllerValidation {
 
     @Test
     @DisplayName("When querying members with an invalid sort pattern, it is rejected")
-    void testGetAllMembersWithInvalidSortPattern() throws Exception {
+    void testGetAllMembers_InvalidSortPattern() throws Exception {
         mockMvc.perform(get("/member").param("page", "1")
             .param("size", "10")
             .param("sort", "firstName")
@@ -114,7 +114,7 @@ class TestMemberControllerValidation {
 
     @Test
     @DisplayName("When updating a member without name, it is rejected")
-    void testUpdateMemberWithoutName() throws Exception {
+    void testUpdateMember_Empty() throws Exception {
         final String requestBody;
 
         requestBody = """

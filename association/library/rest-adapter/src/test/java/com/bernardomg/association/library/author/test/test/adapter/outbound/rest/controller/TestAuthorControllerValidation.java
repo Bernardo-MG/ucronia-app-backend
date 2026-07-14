@@ -1,7 +1,8 @@
 
 package com.bernardomg.association.library.author.test.test.adapter.outbound.rest.controller;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -19,6 +20,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import com.bernardomg.association.library.author.adapter.outbound.rest.controller.AuthorController;
+import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.author.usecase.service.AuthorService;
 
 @ExtendWith(MockitoExtension.class)
@@ -43,31 +45,37 @@ class TestAuthorControllerValidation {
     }
 
     @Test
-    @DisplayName("When creating an author with null name, it is rejected")
-    void testCreateAuthorWithNullName() throws Exception {
+    @DisplayName("When creating an empty author, it is rejected")
+    void testCreateAuthor_Empty() throws Exception {
         final String requestBody;
 
+        // GIVEN
         requestBody = """
                 {
-                    "name": null
                 }
                 """;
 
+        // WHEN + THEN
         mockMvc.perform(post("/library/author").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
             .andExpect(status().isBadRequest());
     }
 
     @Test
-    @DisplayName("When creating an author without name, it is rejected")
-    void testCreateAuthorWithoutName() throws Exception {
+    @DisplayName("When creating an author with an empty name, it is rejected")
+    void testCreateAuthor_EmptyName() throws Exception {
         final String requestBody;
+
+        // GIVEN
+        given(service.create(any())).willReturn(new Author(1L, ""));
 
         requestBody = """
                 {
+                    "name": ""
                 }
                 """;
 
+        // WHEN + THEN
         mockMvc.perform(post("/library/author").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
             .andExpect(status().isBadRequest());
@@ -75,10 +83,11 @@ class TestAuthorControllerValidation {
 
     @Test
     @DisplayName("When creating an author with an oversized name, it is rejected")
-    void testCreateAuthorWithOversizedName() throws Exception {
+    void testCreateAuthor_OversizedName() throws Exception {
         final String longName;
         final String requestBody;
 
+        // GIVEN
         longName = "x".repeat(101);
         requestBody = String.format("""
                 {
@@ -86,50 +95,56 @@ class TestAuthorControllerValidation {
                 }
                 """, longName);
 
+        // WHEN + THEN
         mockMvc.perform(post("/library/author").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
             .andExpect(status().isBadRequest());
     }
 
     @Test
-    @DisplayName("When querying authors with size zero, it is rejected")
-    void testGetAllAuthorsWithInvalidSizeZero() throws Exception {
-        mockMvc.perform(get("/library/author").param("page", "0")
-            .param("size", "0")
-            .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    @DisplayName("When querying authors with negative page, it is rejected")
-    void testGetAllAuthorsWithNegativePage() throws Exception {
-        mockMvc.perform(get("/library/author").param("page", "-1")
-            .param("size", "10")
-            .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    @DisplayName("When updating an author without name, it is rejected")
-    void testUpdateAuthorWithoutName() throws Exception {
+    @DisplayName("When updating an empty author, it is rejected")
+    void testUpdateAuthor_Empty() throws Exception {
         final String requestBody;
 
+        // GIVEN
         requestBody = """
                 {
                 }
                 """;
 
+        // WHEN + THEN
         mockMvc.perform(put("/library/author/1").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
             .andExpect(status().isBadRequest());
     }
 
     @Test
+    @DisplayName("When updating an author with an empty name, it is rejected")
+    void testUpdateAuthor_EmptyName() throws Exception {
+        final String requestBody;
+
+        // GIVEN
+        given(service.create(any())).willReturn(new Author(1L, ""));
+
+        requestBody = """
+                {
+                    "name": ""
+                }
+                """;
+
+        // WHEN + THEN
+        mockMvc.perform(put("/library/author").contentType(MediaType.APPLICATION_JSON)
+            .content(requestBody))
+            .andExpect(status().isBadRequest());
+    }
+
+    @Test
     @DisplayName("When updating an author with an oversized name, it is rejected")
-    void testUpdateAuthorWithOversizedName() throws Exception {
+    void testUpdateAuthor_OversizedName() throws Exception {
         final String longName;
         final String requestBody;
 
+        // GIVEN
         longName = "x".repeat(101);
         requestBody = String.format("""
                 {
@@ -137,6 +152,7 @@ class TestAuthorControllerValidation {
                 }
                 """, longName);
 
+        // WHEN + THEN
         mockMvc.perform(put("/library/author/1").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
             .andExpect(status().isBadRequest());

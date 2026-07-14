@@ -1,6 +1,8 @@
 
 package com.bernardomg.association.library.booktype.test.adapter.outbound.rest.controller;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -18,6 +20,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import com.bernardomg.association.library.booktype.adapter.outbound.rest.controller.BookTypeController;
+import com.bernardomg.association.library.booktype.test.configuration.factory.BookTypes;
 import com.bernardomg.association.library.booktype.usecase.service.BookTypeService;
 
 @ExtendWith(MockitoExtension.class)
@@ -46,11 +49,33 @@ class TestBookTypeControllerValidation {
     void testCreateBookType_Empty() throws Exception {
         final String requestBody;
 
+        // GIVEN
         requestBody = """
                 {
                 }
                 """;
 
+        // WHEN + THEN
+        mockMvc.perform(post("/library/bookType").contentType(MediaType.APPLICATION_JSON)
+            .content(requestBody))
+            .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @DisplayName("When creating a book with an empty name, it is rejected")
+    void testCreateBookType_EmptyName() throws Exception {
+        final String requestBody;
+
+        // GIVEN
+        given(service.update(any())).willReturn(BookTypes.valid());
+
+        requestBody = """
+                {
+                    "name": ""
+                }
+                """;
+
+        // WHEN + THEN
         mockMvc.perform(post("/library/bookType").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
             .andExpect(status().isBadRequest());
@@ -62,6 +87,7 @@ class TestBookTypeControllerValidation {
         final String longName;
         final String requestBody;
 
+        // GIVEN
         longName = "x".repeat(101);
         requestBody = String.format("""
                 {
@@ -69,6 +95,7 @@ class TestBookTypeControllerValidation {
                 }
                 """, longName);
 
+        // WHEN + THEN
         mockMvc.perform(post("/library/bookType").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
             .andExpect(status().isBadRequest());
@@ -79,11 +106,33 @@ class TestBookTypeControllerValidation {
     void testUpdateBookType_Empty() throws Exception {
         final String requestBody;
 
+        // GIVEN
         requestBody = """
                 {
                 }
                 """;
 
+        // WHEN + THEN
+        mockMvc.perform(put("/library/bookType/1").contentType(MediaType.APPLICATION_JSON)
+            .content(requestBody))
+            .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @DisplayName("When updating a book with an empty name, it is rejected")
+    void testUpdateBookType_EmptyName() throws Exception {
+        final String requestBody;
+
+        // GIVEN
+        given(service.update(any())).willReturn(BookTypes.valid());
+
+        requestBody = """
+                {
+                    "name": ""
+                }
+                """;
+
+        // WHEN + THEN
         mockMvc.perform(put("/library/bookType/1").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
             .andExpect(status().isBadRequest());

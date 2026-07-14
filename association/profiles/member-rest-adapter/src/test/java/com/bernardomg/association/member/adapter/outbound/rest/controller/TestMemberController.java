@@ -3,6 +3,7 @@ package com.bernardomg.association.member.adapter.outbound.rest.controller;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -32,6 +33,9 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.usecase.service.MemberService;
 import com.bernardomg.association.profile.domain.model.Name;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("MemberController")
@@ -56,7 +60,7 @@ class TestMemberController {
 
     @Test
     @DisplayName("When creating a member with address, it is accepted")
-    void testCreateMemberWithAddress() throws Exception {
+    void testCreateMember_WithAddress() throws Exception {
         final String requestBody;
 
         given(service.create(any())).willReturn(new Member(Optional.empty(), 1L, new Name("Alice", "Brown"),
@@ -82,7 +86,7 @@ class TestMemberController {
 
     @Test
     @DisplayName("When creating a member with valid data, it is accepted")
-    void testCreateMemberWithValidData() throws Exception {
+    void testCreateMember() throws Exception {
         final String requestBody;
 
         given(service.create(any())).willReturn(
@@ -124,8 +128,7 @@ class TestMemberController {
     @DisplayName("When the member exists, it is returned")
     void testGetMemberByNumber() throws Exception {
         given(service.getOne(1L)).willReturn(Optional
-            .of(new Member(Optional.empty(), 1L, new Name("John", "Doe"), Optional.empty(), List.of(), Optional.empty(),
-                Optional.empty(), true, true, new Member.FeeType(1L, "Standard", 10F), Set.of(Member.PROFILE_TYPE))));
+            .of(s));
 
         mockMvc.perform(get("/member/1").contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
@@ -134,8 +137,22 @@ class TestMemberController {
     }
 
     @Test
+    @DisplayName("When the members exists, they are returned")
+    void testGetAllMembers() throws Exception {
+        given(service.getAll(any(), eq(new Pagination(1, 10)), any()))
+            .willReturn(new Page<>(List.of(), 10, 1, 0, 0, 0, false, false, Sorting.unsorted()));
+
+        mockMvc.perform(get("/member").param("page", "1")
+            .param("size", "10")
+            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$.content").isArray());
+    }
+
+    @Test
     @DisplayName("When patching a valid member, it is accepted")
-    void testPatchMemberWithValidData() throws Exception {
+    void testPatchMember() throws Exception {
         final String requestBody;
 
         given(service.patch(any())).willReturn(
@@ -160,7 +177,7 @@ class TestMemberController {
 
     @Test
     @DisplayName("When updating a valid member, it is accepted")
-    void testUpdateMemberWithValidData() throws Exception {
+    void testUpdateMember() throws Exception {
         final String requestBody;
 
         given(service.update(any())).willReturn(new Member(Optional.empty(), 1L, new Name("Richard", "Johnson"),

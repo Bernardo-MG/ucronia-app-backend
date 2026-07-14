@@ -3,6 +3,7 @@ package com.bernardomg.association.library.booktype.test.adapter.outbound.rest.c
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -12,6 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator;
@@ -28,7 +30,12 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import com.bernardomg.association.library.booktype.adapter.outbound.rest.controller.BookTypeController;
 import com.bernardomg.association.library.booktype.domain.model.BookType;
+import com.bernardomg.association.library.booktype.test.configuration.factory.BookTypeConstants;
+import com.bernardomg.association.library.booktype.test.configuration.factory.BookTypes;
 import com.bernardomg.association.library.booktype.usecase.service.BookTypeService;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("BookTypeController")
@@ -56,7 +63,8 @@ class TestBookTypeController {
     void testCreateBookType_EmptyName() throws Exception {
         final String requestBody;
 
-        given(service.create(any())).willReturn(new BookType(1L, ""));
+        // GIVEN
+        given(service.create(any())).willReturn(BookTypes.valid());
 
         requestBody = """
                 {
@@ -64,9 +72,10 @@ class TestBookTypeController {
                 }
                 """;
 
+        // WHEN + THEN
         mockMvc.perform(post("/library/bookType").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
-            .andExpect(status().isOk());
+            .andExpect(status().isCreated());
     }
 
     @Test
@@ -74,17 +83,19 @@ class TestBookTypeController {
     void testCreateBookType_PaddedName() throws Exception {
         final String requestBody;
 
-        given(service.create(any())).willReturn(new BookType(1L, ""));
+        // GIVEN
+        given(service.create(any())).willReturn(BookTypes.valid());
 
         requestBody = """
                 {
-                    "name": "  Adventure  "
+                    "name": "  Core book  "
                 }
                 """;
 
+        // WHEN + THEN
         mockMvc.perform(post("/library/bookType").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
-            .andExpect(status().isOk())
+            .andExpect(status().isCreated())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content.name").exists());
     }
@@ -94,7 +105,8 @@ class TestBookTypeController {
     void testCreateBookType_SpecialCharacters() throws Exception {
         final String requestBody;
 
-        given(service.create(any())).willReturn(new BookType(1L, ""));
+        // GIVEN
+        given(service.create(any())).willReturn(new BookType(1L, "Type 1 & type 2 (Extended)"));
 
         requestBody = """
                 {
@@ -102,11 +114,12 @@ class TestBookTypeController {
                 }
                 """;
 
+        // WHEN + THEN
         mockMvc.perform(post("/library/bookType").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
-            .andExpect(status().isOk())
+            .andExpect(status().isCreated())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.content.name", equalTo("Fantasy & Sci-Fi (Extended)")));
+            .andExpect(jsonPath("$.content.name", equalTo("Type 1 & type 2 (Extended)")));
     }
 
     @Test
@@ -114,7 +127,8 @@ class TestBookTypeController {
     void testCreateBookType_ValidData() throws Exception {
         final String requestBody;
 
-        given(service.create(any())).willReturn(new BookType(1L, ""));
+        // GIVEN
+        given(service.create(any())).willReturn(new BookType(1L, "Core book"));
 
         requestBody = """
                 {
@@ -122,19 +136,22 @@ class TestBookTypeController {
                 }
                 """;
 
+        // WHEN + THEN
         mockMvc.perform(post("/library/bookType").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
-            .andExpect(status().isOk())
+            .andExpect(status().isCreated())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.content.name", equalTo("Science Fiction")))
+            .andExpect(jsonPath("$.content.name", equalTo("Core book")))
             .andExpect(jsonPath("$.content.number").exists());
     }
 
     @Test
     @DisplayName("When the book is deleted, it is accepted")
     void testDeleteBookType() throws Exception {
-        given(service.delete(any())).willReturn(new BookType(1L, ""));
+        // GIVEN
+        given(service.delete(any())).willReturn(BookTypes.valid());
 
+        // WHEN + THEN
         mockMvc.perform(delete("/library/bookType/1").contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -142,10 +159,28 @@ class TestBookTypeController {
     }
 
     @Test
+    @DisplayName("When there are authors, they are returned")
+    void testGetAllBookTypes() throws Exception {
+        // GIVEN
+        given(service.getAll(eq(new Pagination(1, 10)), any()))
+            .willReturn(new Page<>(List.of(BookTypes.valid()), 1, 1, 0, 0, 0, false, false, Sorting.unsorted()));
+
+        // WHEN + THEN
+        mockMvc.perform(get("/library/bookType").param("page", "1")
+            .param("size", "10")
+            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$.content").isArray());
+    }
+
+    @Test
     @DisplayName("When the book exists, it is returned")
     void testGetBookTypeById() throws Exception {
-        given(service.getOne(1L)).willReturn(Optional.of(new BookType(1L, "")));
+        // GIVEN
+        given(service.getOne(1L)).willReturn(Optional.of(BookTypes.valid()));
 
+        // WHEN + THEN
         mockMvc.perform(get("/library/bookType/1").contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -158,19 +193,21 @@ class TestBookTypeController {
     void testUpdateBookType() throws Exception {
         final String requestBody;
 
-        given(service.update(any())).willReturn(new BookType(1L, ""));
+        // GIVEN
+        given(service.update(any())).willReturn(BookTypes.valid());
 
         requestBody = """
                 {
-                    "name": "Corebook"
+                    "name": "Book type"
                 }
                 """;
 
+        // WHEN + THEN
         mockMvc.perform(put("/library/bookType/1").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.content.name", equalTo("Corebook")));
+            .andExpect(jsonPath("$.content.name", equalTo(BookTypeConstants.NAME)));
     }
 
 }

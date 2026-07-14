@@ -60,24 +60,31 @@ class TestAuthorControllerPagination {
     }
 
     @Test
-    @DisplayName("When the page is zero, it is accepted")
-    void testGetAllAuthors_PageZero() throws Exception {
-        given(service.getAll(eq(new Pagination(0, 10)), any()))
-            .willReturn(new Page<>(List.of(), 10, 0, 0, 0, 0, true, true, Sorting.unsorted()));
+    @DisplayName("When querying authors with negative page, it is rejected")
+    void testGetAllAuthors_NegativePage() throws Exception {
+        mockMvc.perform(get("/library/author").param("page", "-1")
+            .param("size", "10")
+            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isBadRequest());
+    }
 
+    @Test
+    @DisplayName("When the page is zero, it is rejected")
+    void testGetAllAuthors_PageZero() throws Exception {
         mockMvc.perform(get("/library/author").param("page", "0")
             .param("size", "10")
             .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+            .andExpect(status().is4xxClientError());
     }
 
     @Test
     @DisplayName("When the pagination is valid, it is accepted")
     void testGetAllAuthors_Pagination() throws Exception {
+        // GIVEN
         given(service.getAll(eq(new Pagination(1, 10)), any()))
             .willReturn(new Page<>(List.of(), 10, 1, 0, 0, 0, false, false, Sorting.unsorted()));
 
+        // WHEN + THEN
         mockMvc.perform(get("/library/author").param("page", "1")
             .param("size", "10")
             .contentType(MediaType.APPLICATION_JSON))
