@@ -23,7 +23,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
@@ -33,9 +32,6 @@ import com.bernardomg.association.transaction.test.configuration.factory.Transac
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionConstants;
 import com.bernardomg.association.transaction.test.configuration.factory.Transactions;
 import com.bernardomg.association.transaction.usecase.service.TransactionService;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("TransactionController")
@@ -48,19 +44,12 @@ class TestTransactionController {
 
     @BeforeEach
     void setUp() {
-        final LocalValidatorFactoryBean           validator    = new LocalValidatorFactoryBean();
-        final ObjectMapper                        objectMapper = new ObjectMapper();
-        final MappingJackson2HttpMessageConverter converter;
+        final LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
 
         validator.setMessageInterpolator(new ParameterMessageInterpolator());
         validator.afterPropertiesSet();
 
-        objectMapper.registerModule(new JavaTimeModule());
-        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-        converter = new MappingJackson2HttpMessageConverter(objectMapper);
-
         mockMvc = MockMvcBuilders.standaloneSetup(new TransactionController(service))
-            .setMessageConverters(converter)
             .setValidator(validator)
             .build();
     }
