@@ -1,0 +1,57 @@
+get:
+  summary: Get a specific activity
+  operationId: getOneActivity
+  tags: [Activity]
+  parameters:
+    - in: path
+      name: number
+      required: true
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  responses:
+    '200':
+      description: Activity details
+      content:
+        application/json:
+          schema:
+            $ref: '../components/activities.yml#/components/schemas/ActivityResponse'
+delete:
+  summary: Delete a activity
+  operationId: deleteActivity
+  tags: [Activity]
+  parameters:
+    - in: path
+      name: number
+      required: true
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  responses:
+    '200':
+      description: Deleted activity
+      content:
+        application/json:
+          schema:
+            $ref: '../components/activities.yml#/components/schemas/ActivityResponse'
+put:
+  summary: Update a activity
+  operationId: updateActivity
+  tags: [Activity]
+  parameters:
+    - in: path
+      name: number
+      required: true
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/activities.yml#/components/schemas/ActivityUpdate'
+  responses:
+    '200':
+      description: Activity updated
+      content:
+        application/json:
+          schema:
+            $ref: '../components/activities.yml#/components/schemas/ActivityResponse'

@@ -57,6 +57,10 @@
          <artifactId>association-calendar-type-rest-adapter</artifactId>
       </dependency>
       <dependency>
+         <groupId>com.bernardomg.association.calendar</groupId>
+         <artifactId>association-calendar-rest-adapter</artifactId>
+      </dependency>
+      <dependency>
 			<!-- Spring WS Security Starter -->
          <groupId>com.bernardomg.framework.spring</groupId>
          <artifactId>spring-ws-security-starter</artifactId>
