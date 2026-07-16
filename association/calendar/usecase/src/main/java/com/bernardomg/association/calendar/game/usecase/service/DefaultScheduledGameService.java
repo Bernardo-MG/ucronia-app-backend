@@ -85,13 +85,15 @@ public final class DefaultScheduledGameService implements ScheduledGameService {
 
     @Override
     public final ScheduledGame create(final ScheduledGame scheduledGame) {
+        final ScheduledGame toSave;
         final ScheduledGame saved;
 
         log.debug("Creating scheduled game {}", scheduledGame);
 
         validatorCreate.validate(scheduledGame);
 
-        saved = scheduledGameRepository.save(scheduledGame);
+        toSave = scheduledGame.draft();
+        saved = scheduledGameRepository.save(toSave);
 
         log.debug("Created scheduled game {}", saved);
 

@@ -70,4 +70,9 @@ public record ScheduledGame(long number, String title, String description, Strin
             CalendarStatus.PUBLISHED, gameSessionType);
     }
 
+    public ScheduledGame draft() {
+        return new ScheduledGame(number, title, description, location, master, maxPlayers, image, start, recurrence,
+            CalendarStatus.DRAFT, gameSessionType);
+    }
+
 }

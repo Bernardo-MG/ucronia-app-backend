@@ -109,6 +109,21 @@ class TestScheduledGameServiceCreate {
     }
 
     @Test
+    @DisplayName("With a published scheduled game, it is persisted as draft")
+    void testCreate_Published() {
+        final ScheduledGame scheduledGame;
+
+        // GIVEN
+        scheduledGame = ScheduledGames.published();
+
+        // WHEN
+        service.create(scheduledGame);
+
+        // THEN
+        verify(scheduledGameRepository).save(ScheduledGames.draft());
+    }
+
+    @Test
     @DisplayName("With a valid scheduled game, it is returned")
     void testCreate_ReturnedData() {
         final ScheduledGame scheduledGame;

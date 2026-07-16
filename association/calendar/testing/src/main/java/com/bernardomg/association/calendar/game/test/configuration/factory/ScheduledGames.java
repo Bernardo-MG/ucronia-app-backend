@@ -19,6 +19,13 @@ public final class ScheduledGames {
             Optional.empty(), CalendarStatus.CANCELLED, GameSessionType.ONESHOT);
     }
 
+    public static final ScheduledGame draft() {
+        return new ScheduledGame(ScheduledGameConstants.NUMBER, ScheduledGameConstants.TITLE,
+            ScheduledGameConstants.DESCRIPTION, ScheduledGameConstants.LOCATION, ScheduledGameConstants.NUMBER_MASTER,
+            ScheduledGameConstants.MAX_PLAYERS, ScheduledGameConstants.IMAGE, ScheduledGameConstants.START,
+            Optional.empty(), CalendarStatus.DRAFT, GameSessionType.ONESHOT);
+    }
+
     public static final ScheduledGame negativeMaxPlayers() {
         return new ScheduledGame(ScheduledGameConstants.NUMBER, ScheduledGameConstants.TITLE,
             ScheduledGameConstants.DESCRIPTION, ScheduledGameConstants.LOCATION, ScheduledGameConstants.NUMBER_MASTER,
