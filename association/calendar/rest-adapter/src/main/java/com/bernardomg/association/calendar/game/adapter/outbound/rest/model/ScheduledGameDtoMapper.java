@@ -71,21 +71,9 @@ public final class ScheduledGameDtoMapper {
             }
         }
         gameSessionType = toGameSessionType(change.getGameType());
-        return new ScheduledGame(number, change.getTitle(), getNullable(change.getDescription()), getNullable(change.getLocation()),
-            change.getMaster(), change.getMaxPlayers(), getNullable(change.getImage()), change.getStart(), recurrence,
-            CalendarStatus.DRAFT, gameSessionType);
-    }
-
-    private static final String getNullable(final String value) {
-        final String text;
-
-        if (value == null) {
-            text = "";
-        } else {
-            text = value;
-        }
-
-        return text;
+        return new ScheduledGame(number, change.getTitle(), getNullable(change.getDescription()),
+            getNullable(change.getLocation()), change.getMaster(), change.getMaxPlayers(),
+            getNullable(change.getImage()), change.getStart(), recurrence, CalendarStatus.DRAFT, gameSessionType);
     }
 
     public static final ScheduledGame toDomain(final ScheduledGameCreationDto creation) {
@@ -108,9 +96,9 @@ public final class ScheduledGameDtoMapper {
             }
         }
         gameSessionType = toGameSessionType(creation.getGameType());
-        return new ScheduledGame(-1, creation.getTitle(),getNullable( creation.getDescription()), getNullable(creation.getLocation()),
-            creation.getMaster(), creation.getMaxPlayers(), getNullable(creation.getImage()), creation.getStart(), recurrence,
-            CalendarStatus.DRAFT, gameSessionType);
+        return new ScheduledGame(-1, creation.getTitle(), getNullable(creation.getDescription()),
+            getNullable(creation.getLocation()), creation.getMaster(), creation.getMaxPlayers(),
+            getNullable(creation.getImage()), creation.getStart(), recurrence, CalendarStatus.DRAFT, gameSessionType);
     }
 
     public static final ScheduledGameResponseDto toResponseDto(final Optional<ScheduledGame> scheduledGame) {
@@ -142,6 +130,18 @@ public final class ScheduledGameDtoMapper {
 
     public static final ScheduledGameResponseDto toResponseDto(final ScheduledGame scheduledGame) {
         return new ScheduledGameResponseDto().content(ScheduledGameDtoMapper.toDto(scheduledGame));
+    }
+
+    private static final String getNullable(final String value) {
+        final String text;
+
+        if (value == null) {
+            text = "";
+        } else {
+            text = value;
+        }
+
+        return text;
     }
 
     private static final PropertyDto toDto(final Property property) {

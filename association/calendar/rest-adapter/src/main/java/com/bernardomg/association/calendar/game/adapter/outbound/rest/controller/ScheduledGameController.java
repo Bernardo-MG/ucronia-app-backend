@@ -48,7 +48,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Pattern;
 
 /**
- * Activity REST controller.
+ * Scheduled game REST controller.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
