@@ -33,9 +33,7 @@
      <module>testing</module>
      <module>usecase</module>
      <module>spring-jpa-adapter</module>
-     <module>activity-rest-adapter</module>
-     <module>calendar-type-rest-adapter</module>
-	 <module>scheduled-game-rest-adapter</module>
+	 <module>rest-adapter</module>
      <module>spring-starter</module>
    </modules>
 
@@ -70,17 +68,7 @@
          </dependency>
          <dependency>
             <groupId>com.bernardomg.association.calendar</groupId>
-            <artifactId>association-activity-rest-adapter</artifactId>
-            <version>${project.version}</version>
-         </dependency>
-         <dependency>
-            <groupId>com.bernardomg.association.calendar</groupId>
-            <artifactId>association-scheduled-game-rest-adapter</artifactId>
-            <version>${project.version}</version>
-         </dependency>
-         <dependency>
-            <groupId>com.bernardomg.association.calendar</groupId>
-            <artifactId>association-calendar-type-rest-adapter</artifactId>
+            <artifactId>association-calendar-rest-adapter</artifactId>
             <version>${project.version}</version>
          </dependency>
       </dependencies>

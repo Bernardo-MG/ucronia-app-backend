@@ -646,13 +646,6 @@
                      <useResponseEntity>false</useResponseEntity>
                   </configOptions>
                </configuration>
-               <executions>
-                  <execution>
-                     <goals>
-                        <goal>generate</goal>
-                     </goals>
-                  </execution>
-               </executions>
             </plugin>
          </plugins>
       </pluginManagement>
