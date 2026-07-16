@@ -20,6 +20,7 @@ components:
           $ref: '../common/ids.yml#/components/schemas/Id'
         name:
           type: string
+          minLength: 1
           maxLength: 100
           example: 'd20'
     GameSystemCreation:
@@ -28,6 +29,7 @@ components:
       properties:
         name:
           type: string
+          minLength: 1
           maxLength: 100
           example: 'd20'
     GameSystemUpdate:
@@ -36,6 +38,7 @@ components:
       properties:
         name:
           type: string
+          minLength: 1
           maxLength: 100
           example: 'd20'
     GameSystemPageResponse:
