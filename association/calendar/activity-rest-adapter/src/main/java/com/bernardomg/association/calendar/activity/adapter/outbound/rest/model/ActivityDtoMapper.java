@@ -51,8 +51,8 @@ public final class ActivityDtoMapper {
             .stream()
             .map(ActivityDtoMapper::toDomain)
             .toList();
-        return new Activity(-1, creation.getTitle(), creation.getDescription(), creation.getLocation(),
-            creation.getImage(), dates);
+        return new Activity(-1, creation.getTitle(), getNullable(creation.getDescription()),
+            getNullable(creation.getLocation()), getNullable(creation.getImage()), dates);
     }
 
     public static final Activity toDomain(final Long number, final ActivityUpdateDto change) {
@@ -62,8 +62,8 @@ public final class ActivityDtoMapper {
             .stream()
             .map(ActivityDtoMapper::toDomain)
             .toList();
-        return new Activity(number, change.getTitle(), change.getDescription(), change.getLocation(), change.getImage(),
-            dates);
+        return new Activity(number, change.getTitle(), getNullable(change.getDescription()),
+            getNullable(change.getLocation()), getNullable(change.getImage()), dates);
     }
 
     public static final ActivityResponseDto toResponseDto(final Activity activity) {
@@ -95,6 +95,18 @@ public final class ActivityDtoMapper {
             .first(page.first())
             .last(page.last())
             .sort(sortingResponse);
+    }
+
+    private static final String getNullable(final String value) {
+        final String text;
+
+        if (value == null) {
+            text = "";
+        } else {
+            text = value;
+        }
+
+        return text;
     }
 
     private static final ActivityDate toDomain(final ActivityDateDto date) {

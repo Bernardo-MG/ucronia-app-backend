@@ -56,20 +56,36 @@ public final class ScheduledGameDtoMapper {
         final RecurrenceUnit       recurrenceUnit;
         final GameSessionType      gameSessionType;
 
-        recurrenceUnit = RecurrenceUnit.valueOf(change.getRecurrence()
-            .getUnit()
-            .toString()
-            .toUpperCase());
         if (change.getRecurrence() == null) {
             recurrence = Optional.empty();
         } else {
-            recurrence = Optional.of(new Recurrence(change.getRecurrence()
-                .getInterval(), recurrenceUnit, RecurrenceStatus.ACTIVE));
+            recurrenceUnit = RecurrenceUnit.valueOf(change.getRecurrence()
+                .getUnit()
+                .toString()
+                .toUpperCase());
+            if (change.getRecurrence() == null) {
+                recurrence = Optional.empty();
+            } else {
+                recurrence = Optional.of(new Recurrence(change.getRecurrence()
+                    .getInterval(), recurrenceUnit, RecurrenceStatus.ACTIVE));
+            }
         }
         gameSessionType = toGameSessionType(change.getGameType());
-        return new ScheduledGame(-1, change.getTitle(), change.getDescription(), change.getLocation(),
-            change.getMaster(), change.getMaxPlayers(), change.getImage(), change.getStart(), recurrence,
+        return new ScheduledGame(number, change.getTitle(), getNullable(change.getDescription()), getNullable(change.getLocation()),
+            change.getMaster(), change.getMaxPlayers(), getNullable(change.getImage()), change.getStart(), recurrence,
             CalendarStatus.DRAFT, gameSessionType);
+    }
+
+    private static final String getNullable(final String value) {
+        final String text;
+
+        if (value == null) {
+            text = "";
+        } else {
+            text = value;
+        }
+
+        return text;
     }
 
     public static final ScheduledGame toDomain(final ScheduledGameCreationDto creation) {
@@ -77,19 +93,23 @@ public final class ScheduledGameDtoMapper {
         final RecurrenceUnit       recurrenceUnit;
         final GameSessionType      gameSessionType;
 
-        recurrenceUnit = RecurrenceUnit.valueOf(creation.getRecurrence()
-            .getUnit()
-            .toString()
-            .toUpperCase());
         if (creation.getRecurrence() == null) {
             recurrence = Optional.empty();
         } else {
-            recurrence = Optional.of(new Recurrence(creation.getRecurrence()
-                .getInterval(), recurrenceUnit, RecurrenceStatus.ACTIVE));
+            recurrenceUnit = RecurrenceUnit.valueOf(creation.getRecurrence()
+                .getUnit()
+                .toString()
+                .toUpperCase());
+            if (creation.getRecurrence() == null) {
+                recurrence = Optional.empty();
+            } else {
+                recurrence = Optional.of(new Recurrence(creation.getRecurrence()
+                    .getInterval(), recurrenceUnit, RecurrenceStatus.ACTIVE));
+            }
         }
         gameSessionType = toGameSessionType(creation.getGameType());
-        return new ScheduledGame(-1, creation.getTitle(), creation.getDescription(), creation.getLocation(),
-            creation.getMaster(), creation.getMaxPlayers(), creation.getImage(), creation.getStart(), recurrence,
+        return new ScheduledGame(-1, creation.getTitle(),getNullable( creation.getDescription()), getNullable(creation.getLocation()),
+            creation.getMaster(), creation.getMaxPlayers(), getNullable(creation.getImage()), creation.getStart(), recurrence,
             CalendarStatus.DRAFT, gameSessionType);
     }
 
@@ -139,7 +159,7 @@ public final class ScheduledGameDtoMapper {
     private static final ScheduledGameDto toDto(final ScheduledGame scheduledGame) {
         final RecurrenceDto      recurrence;
         final GameSessionTypeDto gameTypeDto;
-        final RecurrenceUnitDto           unit;
+        final RecurrenceUnitDto  unit;
         final CalendarStatusDto  status;
 
         if (scheduledGame.recurrence()

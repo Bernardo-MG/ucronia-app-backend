@@ -46,10 +46,6 @@ import com.bernardomg.pagination.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
-
 /**
  * Member REST controller.
  *
@@ -69,12 +65,12 @@ public class MemberController implements MemberApi {
 
     @Override
     @RequireResourceAuthorization(resource = "MEMBER_PROFILE", action = Actions.CREATE)
-    public MemberResponseDto createMember(@Valid final MemberCreationDto MemberCreationDto) {
-        final Member Member;
+    public MemberResponseDto createMember(final MemberCreationDto MemberCreationDto) {
+        final Member member;
         final Member created;
 
-        Member = MemberDtoMapper.toDomain(MemberCreationDto);
-        created = service.create(Member);
+        member = MemberDtoMapper.toDomain(MemberCreationDto);
+        created = service.create(member);
 
         return MemberDtoMapper.toResponseDto(created);
     }
@@ -82,18 +78,17 @@ public class MemberController implements MemberApi {
     @Override
     @RequireResourceAuthorization(resource = "MEMBER_PROFILE", action = Actions.DELETE)
     public MemberResponseDto deleteMember(final Long number) {
-        final Member Member;
+        final Member member;
 
-        Member = service.delete(number);
+        member = service.delete(number);
 
-        return MemberDtoMapper.toResponseDto(Member);
+        return MemberDtoMapper.toResponseDto(member);
     }
 
     @Override
     @RequireResourceAuthorization(resource = "MEMBER_PROFILE", action = Actions.READ)
-    public MemberPageResponseDto getAllMembers(@Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size,
-            @Valid final List<@Pattern(regexp = "^(firstName|lastName|number)\\|(asc|desc)$") String> sort,
-            @Valid final MemberStatusDto status, @Valid final String name) {
+    public MemberPageResponseDto getAllMembers(final Integer page, final Integer size, final List<String> sort,
+            final MemberStatusDto status, final String name) {
         final Pagination   pagination;
         final Sorting      sorting;
         final Page<Member> members;
@@ -127,7 +122,7 @@ public class MemberController implements MemberApi {
 
     @Override
     @RequireResourceAuthorization(resource = "MEMBER_PROFILE", action = Actions.UPDATE)
-    public MemberResponseDto patchMember(final Long number, @Valid final MemberUpdateDto MemberUpdateDto) {
+    public MemberResponseDto patchMember(final Long number, final MemberUpdateDto MemberUpdateDto) {
         final Member member;
         final Member updated;
 
@@ -139,7 +134,7 @@ public class MemberController implements MemberApi {
 
     @Override
     @RequireResourceAuthorization(resource = "MEMBER_PROFILE", action = Actions.UPDATE)
-    public MemberResponseDto updateMember(final Long number, @Valid final MemberUpdateDto MemberUpdateDto) {
+    public MemberResponseDto updateMember(final Long number, final MemberUpdateDto MemberUpdateDto) {
         final Member member;
         final Member updated;
 
