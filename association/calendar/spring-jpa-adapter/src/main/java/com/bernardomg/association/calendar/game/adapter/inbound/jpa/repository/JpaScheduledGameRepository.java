@@ -190,7 +190,7 @@ public final class JpaScheduledGameRepository implements ScheduledGameRepository
         entity.setMaster(profile.get());
 
         setType(entity, scheduledGame.gameSessionType());
-        setStatus(entity, CalendarStatus.PUBLISHED);
+        setStatus(entity, scheduledGame.status());
         if (entity.getRecurrence() != null) {
             setRecurrenceStatus(entity.getRecurrence(), RecurrenceStatus.ACTIVE);
         }

@@ -59,7 +59,9 @@ public final class ScheduledGameEntityMapper {
         return new ScheduledGame(entity.getNumber(), entity.getTitle(), entity.getDescription(), entity.getLocation(),
             entity.getMaster()
                 .getNumber(),
-            entity.getMaxPlayers(), entity.getImage(), entity.getStart(), recurrence, entity.getStatus().getName(), gameSessionType);
+            entity.getMaxPlayers(), entity.getImage(), entity.getStart(), recurrence, entity.getStatus()
+                .getName(),
+            gameSessionType);
     }
 
     public static final ScheduledGameEntity toEntity(final ScheduledGame scheduledGame) {

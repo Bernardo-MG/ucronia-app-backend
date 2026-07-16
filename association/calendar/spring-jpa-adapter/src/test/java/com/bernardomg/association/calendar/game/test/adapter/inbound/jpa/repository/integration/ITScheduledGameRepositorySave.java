@@ -69,7 +69,50 @@ class ITScheduledGameRepositorySave {
             .as("created")
             .usingRecursiveComparison()
             .ignoringFields("number")
-            .isEqualTo(ScheduledGames.weeklyOneshotPublished());
+            .isEqualTo(ScheduledGames.weeklyOneshot());
+    }
+
+    @Test
+    @DisplayName("Persists a draft scheduled game")
+    @ValidProfile
+    void testSave_Draft_PersistedData() {
+        final Iterable<ScheduledGameEntity> scheduledGames;
+        final ScheduledGame                 scheduledGame;
+
+        // GIVEN
+        scheduledGame = ScheduledGames.draft();
+
+        // WHEN
+        repository.save(scheduledGame);
+
+        // THEN
+        scheduledGames = springRepository.findAll();
+
+        Assertions.assertThat(scheduledGames)
+            .as("scheduled games")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "master.id", "master.number")
+            .containsExactly(ScheduledGameEntities.draft());
+    }
+
+    @Test
+    @DisplayName("When creating a draft scheduled game, it is returned")
+    @ValidProfile
+    void testSave_Draft_ReturnedData() {
+        final ScheduledGame created;
+        final ScheduledGame scheduledGame;
+
+        // GIVEN
+        scheduledGame = ScheduledGames.draft();
+
+        // WHEN
+        created = repository.save(scheduledGame);
+
+        // THEN
+        Assertions.assertThat(created)
+            .as("created")
+            .usingRecursiveComparison()
+            .ignoringFields("number")
+            .isEqualTo(ScheduledGames.draft());
     }
 
     @Test
@@ -112,7 +155,50 @@ class ITScheduledGameRepositorySave {
             .as("created")
             .usingRecursiveComparison()
             .ignoringFields("number")
-            .isEqualTo(ScheduledGames.weeklyOneshotPublished());
+            .isEqualTo(ScheduledGames.weeklyOneshot());
+    }
+
+    @Test
+    @DisplayName("Persists a published scheduled game")
+    @ValidProfile
+    void testSave_Published_PersistedData() {
+        final Iterable<ScheduledGameEntity> scheduledGames;
+        final ScheduledGame                 scheduledGame;
+
+        // GIVEN
+        scheduledGame = ScheduledGames.published();
+
+        // WHEN
+        repository.save(scheduledGame);
+
+        // THEN
+        scheduledGames = springRepository.findAll();
+
+        Assertions.assertThat(scheduledGames)
+            .as("scheduled games")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "master.id", "master.number")
+            .containsExactly(ScheduledGameEntities.published());
+    }
+
+    @Test
+    @DisplayName("When creating a published scheduled game, it is returned")
+    @ValidProfile
+    void testSave_Published_ReturnedData() {
+        final ScheduledGame created;
+        final ScheduledGame scheduledGame;
+
+        // GIVEN
+        scheduledGame = ScheduledGames.published();
+
+        // WHEN
+        created = repository.save(scheduledGame);
+
+        // THEN
+        Assertions.assertThat(created)
+            .as("created")
+            .usingRecursiveComparison()
+            .ignoringFields("number")
+            .isEqualTo(ScheduledGames.published());
     }
 
     @Test
