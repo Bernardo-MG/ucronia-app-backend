@@ -11,7 +11,7 @@ components:
         type: array
         items:
           type: string
-          pattern: '^(description|title|location|start|maxPlayers)\|(asc|desc)$'
+          pattern: '^(description|title|location|start|maxPlayers|status)\|(asc|desc)$'
           example: date|asc
 
   schemas:

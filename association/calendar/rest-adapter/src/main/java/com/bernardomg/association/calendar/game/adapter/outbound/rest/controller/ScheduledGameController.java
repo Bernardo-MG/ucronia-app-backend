@@ -43,10 +43,6 @@ import com.bernardomg.pagination.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
-
 /**
  * Scheduled game REST controller.
  *
@@ -69,8 +65,7 @@ public class ScheduledGameController implements ScheduledGameApi {
 
     @Override
     @RequireResourceAuthorization(resource = "SCHEDULED_GAME", action = Actions.CREATE)
-    public ScheduledGameResponseDto
-            createScheduledGame(@Valid final ScheduledGameCreationDto scheduledGameCreationDto) {
+    public ScheduledGameResponseDto createScheduledGame(final ScheduledGameCreationDto scheduledGameCreationDto) {
         final ScheduledGame scheduledGame;
         final ScheduledGame toCreate;
 
@@ -92,9 +87,8 @@ public class ScheduledGameController implements ScheduledGameApi {
 
     @Override
     @RequireResourceAuthorization(resource = "SCHEDULED_GAME", action = Actions.READ)
-    public ScheduledGamePageResponseDto getAllScheduledGames(@Min(1) @Valid final Integer page,
-            @Min(1) @Valid final Integer size,
-            @Valid final List<@Pattern(regexp = "^(description|title)\\|(asc|desc)$") String> sort) {
+    public ScheduledGamePageResponseDto getAllScheduledGames(final Integer page, final Integer size,
+            final List<String> sort) {
         final Pagination          pagination;
         final Sorting             sorting;
         final Page<ScheduledGame> scheduledGames;
@@ -119,7 +113,7 @@ public class ScheduledGameController implements ScheduledGameApi {
     @Override
     @RequireResourceAuthorization(resource = "SCHEDULED_GAME", action = Actions.UPDATE)
     public ScheduledGameResponseDto updateScheduledGame(final Long number,
-            @Valid final ScheduledGameUpdateDto scheduledGameUpdateDto) {
+            final ScheduledGameUpdateDto scheduledGameUpdateDto) {
         final ScheduledGame scheduledGame;
         final ScheduledGame updated;
 
