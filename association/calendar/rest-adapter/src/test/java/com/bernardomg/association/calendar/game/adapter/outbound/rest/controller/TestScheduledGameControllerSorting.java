@@ -54,6 +54,8 @@ class TestScheduledGameControllerSorting {
     @CsvSource({ "description,asc", "description,desc", "title,asc", "title,desc", "location,asc", "location,desc",
             "start,asc", "start,desc", "maxPlayers,asc", "maxPlayers,desc", "status,asc", "status,desc" })
     void testGetAllScheduledGames_SortingIsAccepted(final String field, final String direction) throws Exception {
+        final Sorting sorting;
+
         // GIVEN
         given(service.getAll(eq(new Pagination(1, 10)), any()))
             .willReturn(new Page<>(List.of(), 1, 1, 0, 0, 0, false, false, Sorting.unsorted()));
@@ -66,8 +68,13 @@ class TestScheduledGameControllerSorting {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
+        if ("asc".equals(direction)) {
+            sorting = Sorting.asc(field);
+        } else {
+            sorting = Sorting.desc(field);
+        }
         then(service).should()
-            .getAll(eq(new Pagination(1, 10)), any());
+            .getAll(new Pagination(1, 10), sorting);
     }
 
 }
