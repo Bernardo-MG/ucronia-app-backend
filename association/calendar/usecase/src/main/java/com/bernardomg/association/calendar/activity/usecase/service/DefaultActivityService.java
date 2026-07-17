@@ -34,6 +34,8 @@ import com.bernardomg.association.calendar.activity.domain.exception.MissingActi
 import com.bernardomg.association.calendar.activity.domain.model.Activity;
 import com.bernardomg.association.calendar.activity.domain.repository.ActivityRepository;
 import com.bernardomg.association.calendar.activity.usecase.validation.ActivityEndAfterDateRule;
+import com.bernardomg.association.calendar.domain.event.CalendarInfoPublishedEvent;
+import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
@@ -58,14 +60,17 @@ public final class DefaultActivityService implements ActivityService {
 
     private final ActivityRepository  activityRepository;
 
+    private final EventEmitter        eventEmitter;
+
     private final Validator<Activity> validatorCreate;
 
     private final Validator<Activity> validatorUpdate;
 
-    public DefaultActivityService(final ActivityRepository activityRepo) {
+    public DefaultActivityService(final ActivityRepository activityRepo, final EventEmitter evntEmitter) {
         super();
 
         activityRepository = Objects.requireNonNull(activityRepo);
+        eventEmitter = Objects.requireNonNull(evntEmitter);
 
         validatorCreate = new FieldRuleValidator<>(new ActivityEndAfterDateRule());
         validatorUpdate = new FieldRuleValidator<>(new ActivityEndAfterDateRule());
@@ -80,6 +85,9 @@ public final class DefaultActivityService implements ActivityService {
         validatorCreate.validate(activity);
 
         saved = activityRepository.save(activity);
+
+        // TODO: send a source
+        eventEmitter.emit(new CalendarInfoPublishedEvent(null, saved.number()));
 
         log.debug("Created activity {}", saved);
 

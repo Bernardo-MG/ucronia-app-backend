@@ -24,7 +24,12 @@
 
 package com.bernardomg.association.calendar.game.adapter.inbound.jpa.model;
 
-import com.bernardomg.association.calendar.game.domain.model.Recurrence;
+import java.util.Optional;
+
+import com.bernardomg.association.calendar.adapter.inbound.jpa.model.CalendarInfoRecurrence;
+import com.bernardomg.association.calendar.domain.model.Recurrence;
+import com.bernardomg.association.calendar.domain.model.Recurrence.RecurrenceStatus;
+import com.bernardomg.association.calendar.game.domain.model.GameSessionType;
 import com.bernardomg.association.calendar.game.domain.model.ScheduledGame;
 
 /**
@@ -33,21 +38,35 @@ import com.bernardomg.association.calendar.game.domain.model.ScheduledGame;
 public final class ScheduledGameEntityMapper {
 
     public static final ScheduledGame toDomain(final ScheduledGameEntity entity) {
-        final Recurrence recurrence;
+        final Optional<Recurrence> recurrence;
+        final GameSessionType      gameSessionType;
 
-        recurrence = new Recurrence(entity.getRecurrence()
-            .getInterval(),
-            entity.getRecurrence()
-                .getUnit());
+        if (entity.getRecurrence() == null) {
+            recurrence = Optional.empty();
+        } else {
+            recurrence = Optional.of(new Recurrence(entity.getRecurrence()
+                .getInterval(),
+                entity.getRecurrence()
+                    .getUnit(),
+                RecurrenceStatus.ACTIVE));
+        }
+
+        gameSessionType = (entity.getTypes() != null) && entity.getTypes()
+            .stream()
+            .anyMatch(t -> t.getNumber() == ScheduledGameEntityConstants.CAMPAIGN_TYPE) ? GameSessionType.CAMPAIGN
+                    : GameSessionType.ONESHOT;
+
         return new ScheduledGame(entity.getNumber(), entity.getTitle(), entity.getDescription(), entity.getLocation(),
             entity.getMaster()
                 .getNumber(),
-            entity.getMaxPlayers(), entity.getImage(), entity.getStart(), recurrence, entity.getPublished());
+            entity.getMaxPlayers(), entity.getImage(), entity.getStart(), recurrence, entity.getStatus()
+                .getName(),
+            gameSessionType);
     }
 
     public static final ScheduledGameEntity toEntity(final ScheduledGame scheduledGame) {
-        final ScheduledGameEntity  entity;
-        final RecurrenceEmbeddable recurrence;
+        final ScheduledGameEntity    entity;
+        final CalendarInfoRecurrence recurrence;
 
         entity = new ScheduledGameEntity();
         entity.setNumber(scheduledGame.number());
@@ -57,14 +76,18 @@ public final class ScheduledGameEntityMapper {
         entity.setMaxPlayers(scheduledGame.maxPlayers());
         entity.setImage(scheduledGame.image());
         entity.setStart(scheduledGame.start());
-        entity.setPublished(scheduledGame.published());
 
-        recurrence = new RecurrenceEmbeddable();
-        recurrence.setInterval(scheduledGame.recurrence()
-            .interval());
-        recurrence.setUnit(scheduledGame.recurrence()
-            .unit());
-        entity.setRecurrence(recurrence);
+        if (scheduledGame.recurrence()
+            .isPresent()) {
+            recurrence = new CalendarInfoRecurrence();
+            recurrence.setInterval(scheduledGame.recurrence()
+                .get()
+                .interval());
+            recurrence.setUnit(scheduledGame.recurrence()
+                .get()
+                .unit());
+            entity.setRecurrence(recurrence);
+        }
 
         return entity;
     }

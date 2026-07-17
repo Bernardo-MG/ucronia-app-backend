@@ -29,10 +29,16 @@
    <!-- ********************************************** -->
 
    <dependencies>
+	  <!-- ============================================== -->
+	  <!-- ================ FRAMEWORK =================== -->
+	  <!-- ============================================== -->
       <dependency>
          <groupId>com.bernardomg.association.calendar</groupId>
          <artifactId>association-calendar-domain</artifactId>
       </dependency>
+	  <!-- ============================================== -->
+	  <!-- ================== SPRING ==================== -->
+	  <!-- ============================================== -->
       <dependency>
          <groupId>org.springframework.data</groupId>
          <artifactId>spring-data-jpa</artifactId>

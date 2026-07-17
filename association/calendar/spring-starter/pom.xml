@@ -29,6 +29,9 @@
 	<!-- ********************************************** -->
 
    <dependencies>
+	  <!-- ============================================== -->
+	  <!-- ================ FRAMEWORK =================== -->
+	  <!-- ============================================== -->
       <dependency>
          <groupId>com.bernardomg.association.calendar</groupId>
          <artifactId>association-calendar-domain</artifactId>
@@ -43,24 +46,19 @@
       </dependency>
       <dependency>
          <groupId>com.bernardomg.association.calendar</groupId>
-         <artifactId>association-activity-rest-adapter</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.association.calendar</groupId>
-         <artifactId>association-scheduled-game-rest-adapter</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.association.calendar</groupId>
-         <artifactId>association-calendar-type-rest-adapter</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>org.springframework.boot</groupId>
-         <artifactId>spring-boot-autoconfigure</artifactId>
+         <artifactId>association-calendar-rest-adapter</artifactId>
       </dependency>
       <dependency>
 			<!-- Spring WS Security Starter -->
          <groupId>com.bernardomg.framework.spring</groupId>
          <artifactId>spring-ws-security-starter</artifactId>
+      </dependency>
+	  <!-- ============================================== -->
+	  <!-- ================== SPRING ==================== -->
+	  <!-- ============================================== -->
+      <dependency>
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-autoconfigure</artifactId>
       </dependency>
    </dependencies>
 

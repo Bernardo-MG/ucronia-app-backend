@@ -59,7 +59,7 @@ class ITScheduledGameRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(scheduledGame)
-            .contains(ScheduledGames.weekly());
+            .contains(ScheduledGames.weeklyOneshot());
     }
 
     @Test

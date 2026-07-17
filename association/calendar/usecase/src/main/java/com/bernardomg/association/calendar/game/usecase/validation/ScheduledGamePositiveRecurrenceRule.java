@@ -52,13 +52,20 @@ public final class ScheduledGamePositiveRecurrenceRule implements FieldRule<Sche
         final Optional<FieldFailure> failure;
         final FieldFailure           fieldFailure;
 
-        if (scheduledGame.recurrence()
-            .interval() >= 0) {
+        if ((scheduledGame.recurrence()
+            .isEmpty())
+                || ((scheduledGame.recurrence()
+                    .isPresent())
+                        && ((scheduledGame.recurrence()
+                            .get()
+                            .interval() >= 0)))) {
             failure = Optional.empty();
         } else {
             log.error("Negative recurrence: {}", scheduledGame.recurrence()
+                .get()
                 .interval());
             fieldFailure = new FieldFailure("negative", "recurrence.interval", scheduledGame.recurrence()
+                .get()
                 .interval());
             failure = Optional.of(fieldFailure);
         }

@@ -26,15 +26,20 @@ package com.bernardomg.association.calendar.game.domain.model;
 
 import java.time.Instant;
 import java.util.Objects;
+import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.bernardomg.association.calendar.domain.model.CalendarStatus;
+import com.bernardomg.association.calendar.domain.model.Recurrence;
+
 public record ScheduledGame(long number, String title, String description, String location, Long master, int maxPlayers,
-        String image, Instant start, Recurrence recurrence, boolean published) {
+        String image, Instant start, Optional<Recurrence> recurrence, CalendarStatus status,
+        GameSessionType gameSessionType) {
 
     public ScheduledGame(final long number, final String title, final String description, final String location,
             final Long master, final int maxPlayers, final String image, final Instant start,
-            final Recurrence recurrence, final boolean published) {
+            final Optional<Recurrence> recurrence, final CalendarStatus status, final GameSessionType gameSessionType) {
         Objects.requireNonNull(number, "Number can't be null");
         Objects.requireNonNull(title, "Title can't be null");
         Objects.requireNonNull(description, "Description can't be null");
@@ -44,7 +49,8 @@ public record ScheduledGame(long number, String title, String description, Strin
         Objects.requireNonNull(maxPlayers, "Max players can't be null");
         Objects.requireNonNull(start, "Start can't be null");
         Objects.requireNonNull(recurrence, "Recurrence can't be null");
-        Objects.requireNonNull(published, "Published flag can't be null");
+        Objects.requireNonNull(status, "Status can't be null");
+        Objects.requireNonNull(gameSessionType, "Game session type can't be null");
 
         this.number = number;
         this.title = StringUtils.trim(title);
@@ -55,7 +61,18 @@ public record ScheduledGame(long number, String title, String description, Strin
         this.image = StringUtils.trim(image);
         this.start = start;
         this.recurrence = recurrence;
-        this.published = published;
+        this.status = status;
+        this.gameSessionType = gameSessionType;
+    }
+
+    public ScheduledGame publish() {
+        return new ScheduledGame(number, title, description, location, master, maxPlayers, image, start, recurrence,
+            CalendarStatus.PUBLISHED, gameSessionType);
+    }
+
+    public ScheduledGame draft() {
+        return new ScheduledGame(number, title, description, location, master, maxPlayers, image, start, recurrence,
+            CalendarStatus.DRAFT, gameSessionType);
     }
 
 }

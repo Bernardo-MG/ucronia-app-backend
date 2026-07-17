@@ -41,6 +41,7 @@ import com.bernardomg.association.calendar.game.domain.model.ScheduledGame;
 import com.bernardomg.association.calendar.game.domain.repository.ScheduledGameRepository;
 import com.bernardomg.association.calendar.game.test.configuration.factory.ScheduledGames;
 import com.bernardomg.association.calendar.game.usecase.service.DefaultScheduledGameService;
+import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
@@ -48,6 +49,9 @@ import com.bernardomg.pagination.domain.Sorting;
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultScheduledGameService - get all")
 class TestActivitieserviceGetAll {
+
+    @Mock
+    private EventEmitter                eventEmitter;
 
     @Mock
     private ScheduledGameRepository     scheduledGameRepository;
@@ -71,7 +75,7 @@ class TestActivitieserviceGetAll {
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
 
-        existing = new Page<>(List.of(ScheduledGames.weekly()), 0, 0, 0, 0, 0, false, false, sorting);
+        existing = new Page<>(List.of(ScheduledGames.weeklyOneshot()), 0, 0, 0, 0, 0, false, false, sorting);
         given(scheduledGameRepository.findAll(pagination, sorting)).willReturn(existing);
 
         // WHEN
@@ -82,7 +86,7 @@ class TestActivitieserviceGetAll {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("Activities")
-            .containsExactly(ScheduledGames.weekly());
+            .containsExactly(ScheduledGames.weeklyOneshot());
     }
 
     @Test

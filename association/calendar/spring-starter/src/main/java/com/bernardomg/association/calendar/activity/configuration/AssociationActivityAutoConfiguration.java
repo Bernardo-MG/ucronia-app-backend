@@ -34,7 +34,9 @@ import com.bernardomg.association.calendar.activity.usecase.service.ActivityServ
 import com.bernardomg.association.calendar.activity.usecase.service.DefaultActivityService;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.CalendarDateSpringRepository;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.CalendarInfoSpringRepository;
+import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.CalendarStatusSpringRepository;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.CalendarTypeSpringRepository;
+import com.bernardomg.event.emitter.EventEmitter;
 
 @AutoConfiguration
 @ComponentScan({ "com.bernardomg.association.calendar.activity.adapter.outbound.rest.controller" })
@@ -43,14 +45,16 @@ public class AssociationActivityAutoConfiguration {
     @Bean("activityRepository")
     public ActivityRepository getActivityRepository(final CalendarInfoSpringRepository calendarInfoSpringRepository,
             final CalendarDateSpringRepository calendarDateSpringRepository,
-            final CalendarTypeSpringRepository calendarTypeSpringRepository) {
+            final CalendarTypeSpringRepository calendarTypeSpringRepository,
+            final CalendarStatusSpringRepository calendarStatusSpringRepository) {
         return new JpaActivityRepository(calendarInfoSpringRepository, calendarDateSpringRepository,
-            calendarTypeSpringRepository);
+            calendarTypeSpringRepository, calendarStatusSpringRepository);
     }
 
     @Bean("activityService")
-    public ActivityService getActivityService(final ActivityRepository activityRepository) {
-        return new DefaultActivityService(activityRepository);
+    public ActivityService getActivityService(final ActivityRepository activityRepository,
+            final EventEmitter eventEmitter) {
+        return new DefaultActivityService(activityRepository, eventEmitter);
     }
 
 }

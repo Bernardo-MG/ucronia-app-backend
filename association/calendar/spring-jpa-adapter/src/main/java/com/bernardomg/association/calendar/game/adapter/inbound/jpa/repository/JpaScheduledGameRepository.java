@@ -32,14 +32,26 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
 
+import com.bernardomg.association.calendar.activity.adapter.inbound.jpa.model.ActivityEntityConstants;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.model.CalendarInfoEntity;
+import com.bernardomg.association.calendar.adapter.inbound.jpa.model.CalendarInfoRecurrence;
+import com.bernardomg.association.calendar.adapter.inbound.jpa.model.CalendarStatusEntity;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.model.CalendarTypeEntity;
+import com.bernardomg.association.calendar.adapter.inbound.jpa.model.RecurrenceStatusEntity;
+import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.CalendarStatusSpringRepository;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.CalendarTypeSpringRepository;
+import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.RecurrenceStatusSpringRepository;
+import com.bernardomg.association.calendar.domain.exception.MissingCalendarRecurrenceStatusException;
+import com.bernardomg.association.calendar.domain.exception.MissingCalendarStatusException;
+import com.bernardomg.association.calendar.domain.model.CalendarStatus;
+import com.bernardomg.association.calendar.domain.model.Recurrence.RecurrenceStatus;
 import com.bernardomg.association.calendar.game.adapter.inbound.jpa.model.ScheduledGameEntity;
 import com.bernardomg.association.calendar.game.adapter.inbound.jpa.model.ScheduledGameEntityConstants;
 import com.bernardomg.association.calendar.game.adapter.inbound.jpa.model.ScheduledGameEntityMapper;
 import com.bernardomg.association.calendar.game.adapter.inbound.jpa.model.ScheduledGameProfileEntity;
 import com.bernardomg.association.calendar.game.domain.exception.MissingScheduledGameProfileException;
+import com.bernardomg.association.calendar.game.domain.exception.MissingScheduledGameSessionTypeException;
+import com.bernardomg.association.calendar.game.domain.model.GameSessionType;
 import com.bernardomg.association.calendar.game.domain.model.ScheduledGame;
 import com.bernardomg.association.calendar.game.domain.repository.ScheduledGameRepository;
 import com.bernardomg.pagination.domain.Page;
@@ -57,7 +69,11 @@ public final class JpaScheduledGameRepository implements ScheduledGameRepository
      */
     private static final Logger                        log = LoggerFactory.getLogger(JpaScheduledGameRepository.class);
 
+    private final CalendarStatusSpringRepository       calendarStatusSpringRepository;
+
     private final CalendarTypeSpringRepository         calendarTypeSpringRepository;
+
+    private final RecurrenceStatusSpringRepository     recurrenceStatusSpringRepository;
 
     private final ScheduledGameProfileSpringRepository scheduledGameProfileSpringRepository;
 
@@ -65,12 +81,16 @@ public final class JpaScheduledGameRepository implements ScheduledGameRepository
 
     public JpaScheduledGameRepository(final ScheduledGameSpringRepository scheduledGameSpringRepo,
             final ScheduledGameProfileSpringRepository scheduledGameProfileSpringRepo,
-            final CalendarTypeSpringRepository calendarTypeSpringRepo) {
+            final CalendarTypeSpringRepository calendarTypeSpringRepo,
+            final CalendarStatusSpringRepository calendarStatusSpringRepo,
+            final RecurrenceStatusSpringRepository recurrenceStatusSpringRepo) {
         super();
 
         scheduledGameSpringRepository = Objects.requireNonNull(scheduledGameSpringRepo);
         scheduledGameProfileSpringRepository = Objects.requireNonNull(scheduledGameProfileSpringRepo);
         calendarTypeSpringRepository = Objects.requireNonNull(calendarTypeSpringRepo);
+        calendarStatusSpringRepository = Objects.requireNonNull(calendarStatusSpringRepo);
+        recurrenceStatusSpringRepository = Objects.requireNonNull(recurrenceStatusSpringRepo);
     }
 
     @Override
@@ -169,9 +189,14 @@ public final class JpaScheduledGameRepository implements ScheduledGameRepository
         }
         entity.setMaster(profile.get());
 
-        setType(entity);
+        setType(entity, scheduledGame.gameSessionType());
+        setStatus(entity, scheduledGame.status());
+        if (entity.getRecurrence() != null) {
+            setRecurrenceStatus(entity.getRecurrence(), RecurrenceStatus.ACTIVE);
+        }
 
         created = scheduledGameSpringRepository.save(entity);
+
         saved = ScheduledGameEntityMapper.toDomain(created);
 
         log.debug("Saved scheduled game {}", saved);
@@ -179,12 +204,46 @@ public final class JpaScheduledGameRepository implements ScheduledGameRepository
         return saved;
     }
 
-    private void setType(final CalendarInfoEntity entity) {
+    private final void setRecurrenceStatus(final CalendarInfoRecurrence entity, final RecurrenceStatus status) {
+        final RecurrenceStatusEntity statusEntity;
+
+        statusEntity = recurrenceStatusSpringRepository.findByName(status)
+            // TODO: use correct id
+            .orElseThrow(() -> {
+                log.error("Missing calendar recurrence status {}", status);
+                return new MissingCalendarRecurrenceStatusException(ActivityEntityConstants.TYPE);
+            });
+
+        entity.setStatus(statusEntity);
+    }
+
+    private final void setStatus(final CalendarInfoEntity entity, final CalendarStatus status) {
+        final CalendarStatusEntity statusEntity;
+
+        statusEntity = calendarStatusSpringRepository.findByName(status)
+            // TODO: use correct id
+            .orElseThrow(() -> {
+                log.error("Missing calendar status {}", status);
+                return new MissingCalendarStatusException(ActivityEntityConstants.TYPE);
+            });
+
+        entity.setStatus(statusEntity);
+    }
+
+    private final void setType(final CalendarInfoEntity entity, final GameSessionType gameSessionType) {
+        final long               typeNumber;
         final CalendarTypeEntity profileType;
 
-        profileType = calendarTypeSpringRepository.findByNumber(ScheduledGameEntityConstants.PROFILE_TYPE)
-            .orElseThrow(() -> new IllegalStateException(
-                "Missing default calendar type with number " + ScheduledGameEntityConstants.PROFILE_TYPE));
+        typeNumber = switch (gameSessionType) {
+            case ONESHOT -> ScheduledGameEntityConstants.ONESHOT_TYPE;
+            case CAMPAIGN -> ScheduledGameEntityConstants.CAMPAIGN_TYPE;
+        };
+
+        profileType = calendarTypeSpringRepository.findByNumber(typeNumber)
+            .orElseThrow(() -> {
+                log.error("Missing scheduled game session type {}", typeNumber);
+                return new MissingScheduledGameSessionTypeException(typeNumber);
+            });
 
         if (entity.getTypes() == null) {
             entity.setTypes(new HashSet<>());

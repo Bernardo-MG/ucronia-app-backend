@@ -28,13 +28,16 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
+import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.CalendarStatusSpringRepository;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.CalendarTypeSpringRepository;
+import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.RecurrenceStatusSpringRepository;
 import com.bernardomg.association.calendar.game.adapter.inbound.jpa.repository.JpaScheduledGameRepository;
 import com.bernardomg.association.calendar.game.adapter.inbound.jpa.repository.ScheduledGameProfileSpringRepository;
 import com.bernardomg.association.calendar.game.adapter.inbound.jpa.repository.ScheduledGameSpringRepository;
 import com.bernardomg.association.calendar.game.domain.repository.ScheduledGameRepository;
 import com.bernardomg.association.calendar.game.usecase.service.DefaultScheduledGameService;
 import com.bernardomg.association.calendar.game.usecase.service.ScheduledGameService;
+import com.bernardomg.event.emitter.EventEmitter;
 
 @AutoConfiguration
 @ComponentScan({ "com.bernardomg.association.calendar.game.adapter.outbound.rest.controller" })
@@ -44,14 +47,17 @@ public class AssociationGameSessionAutoConfiguration {
     public ScheduledGameRepository getScheduledGameRepository(
             final ScheduledGameProfileSpringRepository scheduledGameProfileSpringRepository,
             final ScheduledGameSpringRepository scheduledGameSpringRepository,
-            final CalendarTypeSpringRepository calendarTypeSpringRepository) {
+            final CalendarTypeSpringRepository calendarTypeSpringRepository,
+            final CalendarStatusSpringRepository calendarStatusSpringRepository,
+            final RecurrenceStatusSpringRepository recurrenceStatusSpringRepository) {
         return new JpaScheduledGameRepository(scheduledGameSpringRepository, scheduledGameProfileSpringRepository,
-            calendarTypeSpringRepository);
+            calendarTypeSpringRepository, calendarStatusSpringRepository, recurrenceStatusSpringRepository);
     }
 
     @Bean("scheduledGameService")
-    public ScheduledGameService getScheduledGameService(final ScheduledGameRepository scheduledGameRepository) {
-        return new DefaultScheduledGameService(scheduledGameRepository);
+    public ScheduledGameService getScheduledGameService(final ScheduledGameRepository scheduledGameRepository,
+            final EventEmitter eventEmitter) {
+        return new DefaultScheduledGameService(scheduledGameRepository, eventEmitter);
     }
 
 }

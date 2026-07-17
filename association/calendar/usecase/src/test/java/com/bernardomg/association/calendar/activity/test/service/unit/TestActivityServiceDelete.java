@@ -43,6 +43,7 @@ import com.bernardomg.association.calendar.activity.domain.repository.ActivityRe
 import com.bernardomg.association.calendar.activity.test.configuration.factory.Activities;
 import com.bernardomg.association.calendar.activity.test.configuration.factory.ActivityConstants;
 import com.bernardomg.association.calendar.activity.usecase.service.DefaultActivityService;
+import com.bernardomg.event.emitter.EventEmitter;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Activity service - delete")
@@ -50,6 +51,9 @@ class TestActivityServiceDelete {
 
     @Mock
     private ActivityRepository     activityRepository;
+
+    @Mock
+    private EventEmitter           eventEmitter;
 
     @InjectMocks
     private DefaultActivityService service;

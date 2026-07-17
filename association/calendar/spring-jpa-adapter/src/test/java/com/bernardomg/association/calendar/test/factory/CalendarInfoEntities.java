@@ -10,39 +10,51 @@ import com.bernardomg.association.calendar.adapter.inbound.jpa.model.CalendarInf
 
 public final class CalendarInfoEntities {
 
-    public static final CalendarInfoEntity created() {
-        final CalendarInfoEntity entity = new CalendarInfoEntity();
+    public static final CalendarInfoEntity draft() {
+        final CalendarInfoEntity entity;
+
+        entity = new CalendarInfoEntity();
         entity.setNumber(ActivityConstants.NUMBER);
+        entity.setStatus(CalendarStatusEntities.draft());
         entity.setTitle(ActivityConstants.TITLE);
         entity.setDescription(ActivityConstants.DESCRIPTION);
         entity.setLocation(ActivityConstants.LOCATION);
         entity.setCalendarDates(Set.of(CalendarDateEntities.valid()));
         entity.setImage(ActivityConstants.IMAGE);
         entity.setTypes(new HashSet<>(List.of(CalendarTypeEntities.activity())));
+
         return entity;
     }
 
-    public static final CalendarInfoEntity titleChange() {
-        final CalendarInfoEntity entity = new CalendarInfoEntity();
+    public static final CalendarInfoEntity published() {
+        final CalendarInfoEntity entity;
+
+        entity = new CalendarInfoEntity();
         entity.setNumber(ActivityConstants.NUMBER);
+        entity.setStatus(CalendarStatusEntities.published());
+        entity.setTitle(ActivityConstants.TITLE);
+        entity.setDescription(ActivityConstants.DESCRIPTION);
+        entity.setLocation(ActivityConstants.LOCATION);
+        entity.setCalendarDates(Set.of(CalendarDateEntities.valid()));
+        entity.setImage(ActivityConstants.IMAGE);
+        entity.setTypes(new HashSet<>(List.of(CalendarTypeEntities.activity())));
+
+        return entity;
+    }
+
+    public static final CalendarInfoEntity titleChangePublished() {
+        final CalendarInfoEntity entity;
+
+        entity = new CalendarInfoEntity();
+        entity.setNumber(ActivityConstants.NUMBER);
+        entity.setStatus(CalendarStatusEntities.published());
         entity.setTitle(ActivityConstants.ALTERNATIVE_TITLE);
         entity.setDescription(ActivityConstants.DESCRIPTION);
         entity.setLocation(ActivityConstants.LOCATION);
         entity.setCalendarDates(Set.of(CalendarDateEntities.valid()));
         entity.setImage(ActivityConstants.IMAGE);
         entity.setTypes(new HashSet<>(List.of(CalendarTypeEntities.activity())));
-        return entity;
-    }
 
-    public static final CalendarInfoEntity valid() {
-        final CalendarInfoEntity entity = new CalendarInfoEntity();
-        entity.setNumber(ActivityConstants.NUMBER);
-        entity.setTitle(ActivityConstants.TITLE);
-        entity.setDescription(ActivityConstants.DESCRIPTION);
-        entity.setLocation(ActivityConstants.LOCATION);
-        entity.setCalendarDates(Set.of(CalendarDateEntities.valid()));
-        entity.setImage(ActivityConstants.IMAGE);
-        entity.setTypes(new HashSet<>(List.of(CalendarTypeEntities.activity())));
         return entity;
     }
 

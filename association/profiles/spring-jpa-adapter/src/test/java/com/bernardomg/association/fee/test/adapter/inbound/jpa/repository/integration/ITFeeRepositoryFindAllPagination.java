@@ -78,7 +78,7 @@ class ITFeeRepositoryFindAllPagination extends AbstractPaginationIT<Fee> {
 
         // GIVEN
         pagination = new Pagination(1, 1);
-        sorting = Sorting.unsorted();
+        sorting = Sorting.asc("month");
 
         feeFilter = FeeFilters.empty();
 
@@ -103,7 +103,7 @@ class ITFeeRepositoryFindAllPagination extends AbstractPaginationIT<Fee> {
 
         // GIVEN
         pagination = new Pagination(2, 1);
-        sorting = Sorting.unsorted();
+        sorting = Sorting.asc("month");
 
         feeFilter = FeeFilters.empty();
 

@@ -9,7 +9,9 @@ import com.bernardomg.association.calendar.game.test.configuration.factory.Sched
 public class CalendarTypeEntities {
 
     public static CalendarTypeEntity activity() {
-        final CalendarTypeEntity entity = new CalendarTypeEntity();
+        final CalendarTypeEntity entity;
+
+        entity = new CalendarTypeEntity();
         entity.setId(ActivityEntityConstants.TYPE);
         entity.setNumber(ActivityConstants.CALENDAR_TYPE_NUMBER);
         entity.setName(ActivityConstants.CALENDAR_TYPE_NAME);
@@ -17,9 +19,22 @@ public class CalendarTypeEntities {
         return entity;
     }
 
+    public static CalendarTypeEntity campaign() {
+        final CalendarTypeEntity entity;
+
+        entity = new CalendarTypeEntity();
+        entity.setId(ScheduledGameConstants.CALENDAR_TYPE_CAMPAIGN_ID);
+        entity.setNumber(ScheduledGameConstants.CALENDAR_TYPE_CAMPAIGN_NUMBER);
+        entity.setName(ScheduledGameConstants.CALENDAR_TYPE_CAMPAIGN_NAME);
+        entity.setColor(ScheduledGameConstants.CALENDAR_TYPE_CAMPAIGN_COLOR);
+        return entity;
+    }
+
     public static CalendarTypeEntity oneshot() {
-        final CalendarTypeEntity entity = new CalendarTypeEntity();
-        entity.setId(ActivityEntityConstants.TYPE);
+        final CalendarTypeEntity entity;
+
+        entity = new CalendarTypeEntity();
+        entity.setId(ScheduledGameConstants.CALENDAR_TYPE_ONESHOT_ID);
         entity.setNumber(ScheduledGameConstants.CALENDAR_TYPE_ONESHOT_NUMBER);
         entity.setName(ScheduledGameConstants.CALENDAR_TYPE_ONESHOT_NAME);
         entity.setColor(ScheduledGameConstants.CALENDAR_TYPE_ONESHOT_COLOR);

@@ -54,19 +54,6 @@
          <groupId>com.bernardomg.framework</groupId>
          <artifactId>pagination</artifactId>
       </dependency>
-      <!-- ============================================== -->
-      <!-- =============== APACHE POI =================== -->
-      <!-- ============================================== -->
-      <dependency>
-         <!-- Apache POI -->
-         <groupId>org.apache.poi</groupId>
-         <artifactId>poi</artifactId>
-      </dependency>
-      <dependency>
-         <!-- Apache POI OOXML -->
-         <groupId>org.apache.poi</groupId>
-         <artifactId>poi-ooxml</artifactId>
-      </dependency>
       <dependency>
          <groupId>com.bernardomg.association.security</groupId>
          <artifactId>association-security-testing</artifactId>

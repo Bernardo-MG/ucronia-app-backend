@@ -1,0 +1,15 @@
+openapi: 3.0.3
+info:
+  title: Ucronia API
+  version: 1.0.0
+  description: API for managing the Ucronia association.
+servers:
+  - url: https://localhost
+    description: Local development
+paths:
+  /game:
+    $ref: paths/scheduled_games.yml
+  /game/{number}:
+    $ref: paths/scheduled_games_by_id.yml
+  /game/{number}/publish:
+    $ref: paths/scheduled_games_publish.yml

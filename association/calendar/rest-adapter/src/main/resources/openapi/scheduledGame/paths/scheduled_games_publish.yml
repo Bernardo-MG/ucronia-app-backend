@@ -1,0 +1,17 @@
+put:
+  summary: Publish a scheduled game
+  operationId: publishScheduledGame
+  tags: [ScheduledGamePublish]
+  parameters:
+    - in: path
+      name: number
+      required: true
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  responses:
+    '200':
+      description: Published scheduled game
+      content:
+        application/json:
+          schema:
+            $ref: '../components/scheduled_games.yml#/components/schemas/ScheduledGameResponse'

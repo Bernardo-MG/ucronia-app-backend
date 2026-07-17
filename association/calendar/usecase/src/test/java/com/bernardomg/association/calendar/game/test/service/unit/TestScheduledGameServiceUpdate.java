@@ -42,12 +42,16 @@ import com.bernardomg.association.calendar.game.domain.model.ScheduledGame;
 import com.bernardomg.association.calendar.game.domain.repository.ScheduledGameRepository;
 import com.bernardomg.association.calendar.game.test.configuration.factory.ScheduledGames;
 import com.bernardomg.association.calendar.game.usecase.service.DefaultScheduledGameService;
+import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultScheduledGameService - update")
 class TestScheduledGameServiceUpdate {
+
+    @Mock
+    private EventEmitter                eventEmitter;
 
     @Mock
     private ScheduledGameRepository     scheduledGameRepository;
@@ -91,6 +95,7 @@ class TestScheduledGameServiceUpdate {
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
             new FieldFailure("negative", "recurrence.interval", scheduledGame.recurrence()
+                .get()
                 .interval()));
     }
 
@@ -101,7 +106,7 @@ class TestScheduledGameServiceUpdate {
         final ThrowingCallable execution;
 
         // GIVEN
-        scheduledGame = ScheduledGames.weekly();
+        scheduledGame = ScheduledGames.weeklyOneshot();
 
         given(scheduledGameRepository.exists(ActivityConstants.NUMBER)).willReturn(false);
 
@@ -119,7 +124,7 @@ class TestScheduledGameServiceUpdate {
         final ScheduledGame scheduledGame;
 
         // GIVEN
-        scheduledGame = ScheduledGames.weekly();
+        scheduledGame = ScheduledGames.weeklyOneshot();
 
         given(scheduledGameRepository.exists(ActivityConstants.NUMBER)).willReturn(true);
 
@@ -127,7 +132,7 @@ class TestScheduledGameServiceUpdate {
         service.update(scheduledGame);
 
         // THEN
-        verify(scheduledGameRepository).save(ScheduledGames.weekly());
+        verify(scheduledGameRepository).save(ScheduledGames.weeklyOneshot());
     }
 
     @Test
@@ -137,7 +142,7 @@ class TestScheduledGameServiceUpdate {
         final ScheduledGame updated;
 
         // GIVEN
-        scheduledGame = ScheduledGames.weekly();
+        scheduledGame = ScheduledGames.weeklyOneshot();
 
         given(scheduledGameRepository.save(scheduledGame)).willReturn(scheduledGame);
         given(scheduledGameRepository.exists(ActivityConstants.NUMBER)).willReturn(true);
@@ -148,7 +153,7 @@ class TestScheduledGameServiceUpdate {
         // THEN
         Assertions.assertThat(updated)
             .as("scheduled game")
-            .isEqualTo(ScheduledGames.weekly());
+            .isEqualTo(ScheduledGames.weeklyOneshot());
     }
 
     @Test
