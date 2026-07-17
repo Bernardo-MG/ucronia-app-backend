@@ -37,6 +37,7 @@ import com.bernardomg.association.calendar.game.adapter.inbound.jpa.repository.S
 import com.bernardomg.association.calendar.game.domain.repository.ScheduledGameRepository;
 import com.bernardomg.association.calendar.game.usecase.service.DefaultScheduledGameService;
 import com.bernardomg.association.calendar.game.usecase.service.ScheduledGameService;
+import com.bernardomg.event.emitter.EventEmitter;
 
 @AutoConfiguration
 @ComponentScan({ "com.bernardomg.association.calendar.game.adapter.outbound.rest.controller" })
@@ -54,8 +55,9 @@ public class AssociationGameSessionAutoConfiguration {
     }
 
     @Bean("scheduledGameService")
-    public ScheduledGameService getScheduledGameService(final ScheduledGameRepository scheduledGameRepository) {
-        return new DefaultScheduledGameService(scheduledGameRepository);
+    public ScheduledGameService getScheduledGameService(final ScheduledGameRepository scheduledGameRepository,
+            final EventEmitter eventEmitter) {
+        return new DefaultScheduledGameService(scheduledGameRepository, eventEmitter);
     }
 
 }

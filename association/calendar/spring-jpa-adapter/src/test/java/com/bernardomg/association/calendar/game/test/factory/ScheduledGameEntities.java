@@ -16,6 +16,50 @@ import com.bernardomg.association.calendar.test.factory.CalendarTypeEntities;
 
 public final class ScheduledGameEntities {
 
+    public static final ScheduledGameEntity draft() {
+        final ScheduledGameEntity        entity;
+        final ScheduledGameProfileEntity profile;
+
+        entity = new ScheduledGameEntity();
+        entity.setNumber(ScheduledGameConstants.NUMBER);
+        entity.setStatus(CalendarStatusEntities.draft());
+        entity.setTitle(ScheduledGameConstants.TITLE);
+        entity.setDescription(ScheduledGameConstants.DESCRIPTION);
+        entity.setLocation(ScheduledGameConstants.LOCATION);
+        entity.setImage(ScheduledGameConstants.IMAGE);
+        entity.setMaxPlayers(ScheduledGameConstants.MAX_PLAYERS);
+        entity.setStart(ScheduledGameConstants.START);
+
+        profile = ScheduledGameProfileEntities.master();
+        entity.setMaster(profile);
+
+        entity.setTypes(new HashSet<>(List.of(CalendarTypeEntities.oneshot())));
+
+        return entity;
+    }
+
+    public static final ScheduledGameEntity published() {
+        final ScheduledGameEntity        entity;
+        final ScheduledGameProfileEntity profile;
+
+        entity = new ScheduledGameEntity();
+        entity.setNumber(ScheduledGameConstants.NUMBER);
+        entity.setStatus(CalendarStatusEntities.published());
+        entity.setTitle(ScheduledGameConstants.TITLE);
+        entity.setDescription(ScheduledGameConstants.DESCRIPTION);
+        entity.setLocation(ScheduledGameConstants.LOCATION);
+        entity.setImage(ScheduledGameConstants.IMAGE);
+        entity.setMaxPlayers(ScheduledGameConstants.MAX_PLAYERS);
+        entity.setStart(ScheduledGameConstants.START);
+
+        profile = ScheduledGameProfileEntities.master();
+        entity.setMaster(profile);
+
+        entity.setTypes(new HashSet<>(List.of(CalendarTypeEntities.oneshot())));
+
+        return entity;
+    }
+
     public static final ScheduledGameEntity titleChange() {
         final ScheduledGameEntity        entity;
         final ScheduledGameProfileEntity profile;
@@ -46,7 +90,7 @@ public final class ScheduledGameEntities {
 
         entity = new ScheduledGameEntity();
         entity.setNumber(ScheduledGameConstants.NUMBER);
-        entity.setStatus(CalendarStatusEntities.published());
+        entity.setStatus(CalendarStatusEntities.draft());
         entity.setTitle(ScheduledGameConstants.TITLE);
         entity.setDescription(ScheduledGameConstants.DESCRIPTION);
         entity.setLocation(ScheduledGameConstants.LOCATION);
@@ -81,7 +125,7 @@ public final class ScheduledGameEntities {
 
         entity = new ScheduledGameEntity();
         entity.setNumber(ScheduledGameConstants.NUMBER);
-        entity.setStatus(CalendarStatusEntities.published());
+        entity.setStatus(CalendarStatusEntities.draft());
         entity.setTitle(ScheduledGameConstants.TITLE);
         entity.setDescription(ScheduledGameConstants.DESCRIPTION);
         entity.setLocation(ScheduledGameConstants.LOCATION);
