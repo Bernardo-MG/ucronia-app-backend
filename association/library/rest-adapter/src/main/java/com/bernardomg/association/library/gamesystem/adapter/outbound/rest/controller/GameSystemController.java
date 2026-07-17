@@ -44,9 +44,6 @@ import com.bernardomg.pagination.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
-
 /**
  * Author REST controller.
  *
@@ -68,7 +65,7 @@ public class GameSystemController implements GameSystemApi {
 
     @Override
     @RequireResourceAuthorization(resource = "LIBRARY_GAME_SYSTEM", action = Actions.CREATE)
-    public GameSystemResponseDto createGameSystem(@Valid final GameSystemCreationDto gameSystemCreationDto) {
+    public GameSystemResponseDto createGameSystem(final GameSystemCreationDto gameSystemCreationDto) {
         final GameSystem gameSystem;
 
         gameSystem = service.create(new GameSystem(-1L, gameSystemCreationDto.getName()));
@@ -88,8 +85,8 @@ public class GameSystemController implements GameSystemApi {
 
     @Override
     @RequireResourceAuthorization(resource = "LIBRARY_GAME_SYSTEM", action = Actions.READ)
-    public GameSystemPageResponseDto getAllGameSystems(@Min(0) @Valid final Integer page,
-            @Min(1) @Valid final Integer size, @Valid final List<String> sort) {
+    public GameSystemPageResponseDto getAllGameSystems(final Integer page, final Integer size,
+            final List<String> sort) {
         final Pagination       pagination;
         final Sorting          sorting;
         final Page<GameSystem> gameSystems;
@@ -113,8 +110,7 @@ public class GameSystemController implements GameSystemApi {
 
     @Override
     @RequireResourceAuthorization(resource = "LIBRARY_AUTHOR", action = Actions.UPDATE)
-    public GameSystemResponseDto updateGameSystem(final Long number,
-            @Valid final GameSystemUpdateDto gameSystemUpdateDto) {
+    public GameSystemResponseDto updateGameSystem(final Long number, final GameSystemUpdateDto gameSystemUpdateDto) {
         final GameSystem updated;
         final GameSystem gameSystem;
 

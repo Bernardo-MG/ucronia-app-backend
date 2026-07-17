@@ -45,10 +45,6 @@ import com.bernardomg.pagination.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
-
 /**
  * Guest REST controller.
  *
@@ -68,7 +64,7 @@ public class GuestController implements GuestApi {
 
     @Override
     @RequireResourceAuthorization(resource = "GUEST", action = Actions.CREATE)
-    public GuestResponseDto createGuest(@Valid final GuestCreationDto guestCreationDto) {
+    public GuestResponseDto createGuest(final GuestCreationDto guestCreationDto) {
         final Guest guest;
         final Guest created;
 
@@ -90,9 +86,8 @@ public class GuestController implements GuestApi {
 
     @Override
     @RequireResourceAuthorization(resource = "GUEST", action = Actions.READ)
-    public GuestPageResponseDto getAllGuests(@Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size,
-            @Valid final List<@Pattern(regexp = "^(firstName|lastName|number)\\|(asc|desc)$") String> sort,
-            @Valid final String name) {
+    public GuestPageResponseDto getAllGuests(final Integer page, final Integer size, final List<String> sort,
+            final String name) {
         final Pagination  pagination;
         final Sorting     sorting;
         final Page<Guest> members;
@@ -120,7 +115,7 @@ public class GuestController implements GuestApi {
 
     @Override
     @RequireResourceAuthorization(resource = "GUEST", action = Actions.UPDATE)
-    public GuestResponseDto patchGuest(final Long number, @Valid final GuestPatchDto guestUpdateDto) {
+    public GuestResponseDto patchGuest(final Long number, final GuestPatchDto guestUpdateDto) {
         final Guest member;
         final Guest updated;
 
@@ -132,7 +127,7 @@ public class GuestController implements GuestApi {
 
     @Override
     @RequireResourceAuthorization(resource = "GUEST", action = Actions.UPDATE)
-    public GuestResponseDto updateGuest(final Long number, @Valid final GuestUpdateDto guestUpdateDto) {
+    public GuestResponseDto updateGuest(final Long number, final GuestUpdateDto guestUpdateDto) {
         final Guest member;
         final Guest updated;
 

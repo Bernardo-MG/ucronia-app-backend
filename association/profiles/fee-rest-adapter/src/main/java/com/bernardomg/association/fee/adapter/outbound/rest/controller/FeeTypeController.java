@@ -43,10 +43,6 @@ import com.bernardomg.pagination.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
-
 /**
  * Fee type REST controller.
  *
@@ -69,7 +65,7 @@ public class FeeTypeController implements FeeTypeApi {
 
     @Override
     @RequireResourceAuthorization(resource = "FEE_TYPE", action = Actions.CREATE)
-    public FeeTypeResponseDto createFeeType(@Valid final FeeTypeCreationDto feeTypeCreationDto) {
+    public FeeTypeResponseDto createFeeType(final FeeTypeCreationDto feeTypeCreationDto) {
         final FeeType transaction;
         final FeeType toCreate;
 
@@ -91,8 +87,7 @@ public class FeeTypeController implements FeeTypeApi {
 
     @Override
     @RequireResourceAuthorization(resource = "FEE_TYPE", action = Actions.READ)
-    public FeeTypePageResponseDto getAllFeeTypes(@Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size,
-            @Valid final List<@Pattern(regexp = "^(number|name|amount)\\|(asc|desc)$") String> sort) {
+    public FeeTypePageResponseDto getAllFeeTypes(final Integer page, final Integer size, final List<String> sort) {
         final Pagination    pagination;
         final Sorting       sorting;
         final Page<FeeType> transactions;
@@ -116,7 +111,7 @@ public class FeeTypeController implements FeeTypeApi {
 
     @Override
     @RequireResourceAuthorization(resource = "FEE_TYPE", action = Actions.UPDATE)
-    public FeeTypeResponseDto updateFeeType(final Long index, @Valid final FeeTypeUpdateDto feeTypeUpdateDto) {
+    public FeeTypeResponseDto updateFeeType(final Long index, final FeeTypeUpdateDto feeTypeUpdateDto) {
         final FeeType transaction;
         final FeeType updated;
 

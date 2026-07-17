@@ -44,8 +44,6 @@ import com.bernardomg.pagination.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
 
-import jakarta.validation.Valid;
-
 /**
  * Book type REST controller.
  *
@@ -67,7 +65,7 @@ public class BookTypeController implements BookTypeApi {
 
     @Override
     @RequireResourceAuthorization(resource = "LIBRARY_BOOK_TYPE", action = Actions.CREATE)
-    public BookTypeResponseDto createBookType(@Valid final BookTypeCreationDto bookTypeCreationDto) {
+    public BookTypeResponseDto createBookType(final BookTypeCreationDto bookTypeCreationDto) {
         final BookType bookType;
 
         bookType = service.create(new BookType(-1L, bookTypeCreationDto.getName()));

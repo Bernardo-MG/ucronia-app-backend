@@ -36,8 +36,6 @@ import com.bernardomg.association.transaction.usecase.service.TransactionEvoluti
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
 
-import jakarta.validation.Valid;
-
 /**
  * Transaction evolution REST controller.
  *
@@ -59,8 +57,7 @@ public class TransactionEvolutionController implements TransactionEvolutionApi {
 
     @Override
     @RequireResourceAuthorization(resource = "BALANCE", action = Actions.READ)
-    public TransactionMonthlyEvolutionResponseDto getMonthlyTransactionEvolution(@Valid final Instant from,
-            @Valid final Instant to) {
+    public TransactionMonthlyEvolutionResponseDto getMonthlyTransactionEvolution(final Instant from, final Instant to) {
         final Collection<TransactionEvolutionMonth> evolution;
 
         evolution = service.getEvolution(from, to);

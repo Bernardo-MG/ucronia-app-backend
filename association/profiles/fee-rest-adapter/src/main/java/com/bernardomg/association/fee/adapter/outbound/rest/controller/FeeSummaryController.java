@@ -35,8 +35,6 @@ import com.bernardomg.association.fee.usecase.service.FeeSummaryService;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
 
-import jakarta.validation.Valid;
-
 /**
  * Fee summary REST controller.
  *
@@ -56,7 +54,7 @@ public class FeeSummaryController implements FeeSummaryApi {
 
     @Override
     @RequireResourceAuthorization(resource = "FEE", action = Actions.READ)
-    public FeeSummaryResponseDto getFeeSummary(@Valid final Instant from, @Valid final Instant to) {
+    public FeeSummaryResponseDto getFeeSummary(final Instant from, final Instant to) {
         final FeeSummary summary;
 
         summary = service.getFeeSummary(from, to);

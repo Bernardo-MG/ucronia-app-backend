@@ -45,10 +45,6 @@ import com.bernardomg.pagination.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
-
 /**
  * Sponsor REST controller.
  *
@@ -68,7 +64,7 @@ public class SponsorController implements SponsorApi {
 
     @Override
     @RequireResourceAuthorization(resource = "SPONSOR", action = Actions.CREATE)
-    public SponsorResponseDto createSponsor(@Valid final SponsorCreationDto sponsorCreationDto) {
+    public SponsorResponseDto createSponsor(final SponsorCreationDto sponsorCreationDto) {
         final Sponsor sponsor;
         final Sponsor created;
 
@@ -90,9 +86,8 @@ public class SponsorController implements SponsorApi {
 
     @Override
     @RequireResourceAuthorization(resource = "SPONSOR", action = Actions.READ)
-    public SponsorPageResponseDto getAllSponsors(@Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size,
-            @Valid final List<@Pattern(regexp = "^(firstName|lastName|number)\\|(asc|desc)$") String> sort,
-            @Valid final String name) {
+    public SponsorPageResponseDto getAllSponsors(final Integer page, final Integer size, final List<String> sort,
+            final String name) {
         final Pagination    pagination;
         final Sorting       sorting;
         final Page<Sponsor> members;
@@ -120,7 +115,7 @@ public class SponsorController implements SponsorApi {
 
     @Override
     @RequireResourceAuthorization(resource = "SPONSOR", action = Actions.UPDATE)
-    public SponsorResponseDto patchSponsor(final Long number, @Valid final SponsorPatchDto sponsorPatchDto) {
+    public SponsorResponseDto patchSponsor(final Long number, final SponsorPatchDto sponsorPatchDto) {
         final Sponsor member;
         final Sponsor updated;
 
@@ -132,7 +127,7 @@ public class SponsorController implements SponsorApi {
 
     @Override
     @RequireResourceAuthorization(resource = "SPONSOR", action = Actions.UPDATE)
-    public SponsorResponseDto updateSponsor(final Long number, @Valid final SponsorUpdateDto sponsorUpdateDto) {
+    public SponsorResponseDto updateSponsor(final Long number, final SponsorUpdateDto sponsorUpdateDto) {
         final Sponsor member;
         final Sponsor updated;
 

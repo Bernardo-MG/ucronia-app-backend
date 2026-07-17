@@ -34,8 +34,6 @@ import com.bernardomg.association.member.usecase.service.ProfileMembershipServic
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
 
-import jakarta.validation.Valid;
-
 /**
  * Member REST controller.
  *
@@ -56,7 +54,7 @@ public class ProfileMembershipController implements ProfileMembershipApi {
     @Override
     @RequireResourceAuthorization(resource = "MEMBER_PROFILE", action = Actions.CREATE)
     public MemberResponseDto convertToMember(final Long number,
-            @Valid final ProfileMembershipConversionDto profileMembershipConversionDto) {
+            final ProfileMembershipConversionDto profileMembershipConversionDto) {
         final Member created;
 
         created = service.convertToMember(number, profileMembershipConversionDto.getFeeType());

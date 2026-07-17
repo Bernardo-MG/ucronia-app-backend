@@ -43,9 +43,6 @@ import com.bernardomg.pagination.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
-
 /**
  * Book lending REST controller.
  *
@@ -67,8 +64,8 @@ public class BookLendingController implements BookLendingApi {
 
     @Override
     @RequireResourceAuthorization(resource = "LIBRARY_LENDING", action = Actions.READ)
-    public BookLendingPageResponseDto getAllBookLendings(@Min(0) @Valid final Integer page,
-            @Min(1) @Valid final Integer size, @Valid final List<String> sort) {
+    public BookLendingPageResponseDto getAllBookLendings(final Integer page, final Integer size,
+            final List<String> sort) {
         final Page<BookLending> lendings;
         final Pagination        pagination;
         final Sorting           sorting;
@@ -82,7 +79,7 @@ public class BookLendingController implements BookLendingApi {
 
     @Override
     @RequireResourceAuthorization(resource = "LIBRARY_LENDING", action = Actions.CREATE)
-    public BookLendingResponseDto lendBook(@Valid final BookLentDto bookLentDto) {
+    public BookLendingResponseDto lendBook(final BookLentDto bookLentDto) {
         final BookLending lending;
 
         lending = service.lendBook(bookLentDto.getBook(), bookLentDto.getBorrower(), bookLentDto.getLendingDate());
@@ -92,7 +89,7 @@ public class BookLendingController implements BookLendingApi {
 
     @Override
     @RequireResourceAuthorization(resource = "LIBRARY_LENDING", action = Actions.UPDATE)
-    public BookLendingResponseDto returnBook(@Valid final BookReturnedDto bookReturnedDto) {
+    public BookLendingResponseDto returnBook(final BookReturnedDto bookReturnedDto) {
         final BookLending lending;
 
         lending = service.returnBook(bookReturnedDto.getBook(), bookReturnedDto.getBorrower(),

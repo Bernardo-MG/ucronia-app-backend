@@ -47,9 +47,6 @@ import com.bernardomg.pagination.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
-
 /**
  * Transaction REST controller.
  *
@@ -71,7 +68,7 @@ public class TransactionController implements TransactionApi {
 
     @Override
     @RequireResourceAuthorization(resource = "TRANSACTION", action = Actions.CREATE)
-    public TransactionResponseDto createTransaction(@Valid final TransactionCreationDto transactionCreationDto) {
+    public TransactionResponseDto createTransaction(final TransactionCreationDto transactionCreationDto) {
         final Transaction transaction;
         final Transaction toCreate;
 
@@ -93,9 +90,9 @@ public class TransactionController implements TransactionApi {
 
     @Override
     @RequireResourceAuthorization(resource = "TRANSACTION", action = Actions.READ)
-    public TransactionPageResponseDto getAllTransactions(@Min(1) @Valid final Integer page,
-            @Min(1) @Valid final Integer size, @Valid final List<String> sort, @Valid final Instant date,
-            @Valid final Instant from, @Valid final Instant to, @Valid final String description) {
+    public TransactionPageResponseDto getAllTransactions(final Integer page, final Integer size,
+            final List<String> sort, final Instant date, final Instant from, final Instant to,
+            final String description) {
         final TransactionFilter filter;
         final Pagination        pagination;
         final Sorting           sorting;
@@ -132,8 +129,7 @@ public class TransactionController implements TransactionApi {
 
     @Override
     @RequireResourceAuthorization(resource = "TRANSACTION", action = Actions.UPDATE)
-    public TransactionResponseDto updateTransaction(final Long index,
-            @Valid final TransactionUpdateDto transactionUpdateDto) {
+    public TransactionResponseDto updateTransaction(final Long index, final TransactionUpdateDto transactionUpdateDto) {
         final Transaction transaction;
         final Transaction updated;
 

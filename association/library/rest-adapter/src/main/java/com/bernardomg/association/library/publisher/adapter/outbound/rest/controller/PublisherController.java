@@ -46,9 +46,6 @@ import com.bernardomg.pagination.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.permission.domain.constant.Actions;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
-
 /**
  * Publisher REST controller.
  *
@@ -71,7 +68,7 @@ public class PublisherController implements PublisherApi {
     @Override
     @ResponseStatus(HttpStatus.CREATED)
     @RequireResourceAuthorization(resource = "LIBRARY_PUBLISHER", action = Actions.CREATE)
-    public PublisherResponseDto createPublisher(@Valid final PublisherCreationDto publisherCreationDto) {
+    public PublisherResponseDto createPublisher(final PublisherCreationDto publisherCreationDto) {
         final Publisher publisher;
 
         publisher = service.create(new Publisher(-1L, publisherCreationDto.getName()));
@@ -91,8 +88,7 @@ public class PublisherController implements PublisherApi {
 
     @Override
     @RequireResourceAuthorization(resource = "LIBRARY_PUBLISHER", action = Actions.READ)
-    public PublisherPageResponseDto getAllPublishers(@Min(0) @Valid final Integer page,
-            @Min(1) @Valid final Integer size, @Valid final List<String> sort) {
+    public PublisherPageResponseDto getAllPublishers(final Integer page, final Integer size, final List<String> sort) {
         final Pagination      pagination;
         final Sorting         sorting;
         final Page<Publisher> publishers;
@@ -116,7 +112,7 @@ public class PublisherController implements PublisherApi {
 
     @Override
     @RequireResourceAuthorization(resource = "LIBRARY_AUTHOR", action = Actions.UPDATE)
-    public PublisherResponseDto updatePublisher(final Long number, @Valid final PublisherUpdateDto publisherUpdateDto) {
+    public PublisherResponseDto updatePublisher(final Long number, final PublisherUpdateDto publisherUpdateDto) {
         final Publisher updated;
         final Publisher publisher;
 

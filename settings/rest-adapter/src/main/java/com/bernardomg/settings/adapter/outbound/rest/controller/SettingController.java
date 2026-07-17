@@ -39,8 +39,6 @@ import com.bernardomg.settings.adapter.outbound.rest.model.SettingsDtoMapper;
 import com.bernardomg.settings.domain.model.Setting;
 import com.bernardomg.settings.usecase.service.SettingService;
 
-import jakarta.validation.Valid;
-
 /**
  * Settings REST controller.
  *
@@ -78,7 +76,7 @@ public class SettingController implements SettingsApi {
 
     @Override
     @RequireResourceAuthorization(resource = "ASSOCIATION_SETTINGS", action = Actions.UPDATE)
-    public SettingResponseDto updateSetting(final String code, @Valid final SettingUpdateDto settingUpdateDto) {
+    public SettingResponseDto updateSetting(final String code, final SettingUpdateDto settingUpdateDto) {
         final Setting setting;
 
         setting = service.update(code, settingUpdateDto.getValue());
