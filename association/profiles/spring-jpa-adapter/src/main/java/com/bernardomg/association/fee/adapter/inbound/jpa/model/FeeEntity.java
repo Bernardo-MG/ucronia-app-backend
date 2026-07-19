@@ -27,6 +27,11 @@ package com.bernardomg.association.fee.adapter.inbound.jpa.model;
 import java.io.Serializable;
 import java.time.Instant;
 
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
 
 import jakarta.persistence.Column;
@@ -35,6 +40,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
@@ -48,6 +54,15 @@ public class FeeEntity implements Serializable {
      */
     @Transient
     private static final long    serialVersionUID = 1328776989450853491L;
+
+    @CreatedDate
+    @Column(name = "created_at", updatable = false)
+    private Instant              createdAt;
+
+    @CreatedBy
+    @ManyToOne
+    @JoinColumn(name = "created_by", updatable = false)
+    private MemberEntity         createdBy;
 
     @OneToOne
     @JoinColumn(name = "fee_type_id", referencedColumnName = "id")
@@ -72,6 +87,23 @@ public class FeeEntity implements Serializable {
     @JoinColumn(name = "transaction_id", referencedColumnName = "id")
     private FeeTransactionEntity transaction;
 
+    @LastModifiedDate
+    @Column(name = "updated_at")
+    private Instant              updatedAt;
+
+    @LastModifiedBy
+    @ManyToOne
+    @JoinColumn(name = "updated_by")
+    private MemberEntity         updatedBy;
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public MemberEntity getCreatedBy() {
+        return createdBy;
+    }
+
     public FeeTypeEntity getFeeType() {
         return feeType;
     }
@@ -94,6 +126,22 @@ public class FeeEntity implements Serializable {
 
     public FeeTransactionEntity getTransaction() {
         return transaction;
+    }
+
+    public Instant getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public MemberEntity getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setCreatedAt(final Instant createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public void setCreatedBy(final MemberEntity createdBy) {
+        this.createdBy = createdBy;
     }
 
     public void setFeeType(final FeeTypeEntity feeType) {
@@ -120,10 +168,19 @@ public class FeeEntity implements Serializable {
         this.transaction = transaction;
     }
 
+    public void setUpdatedAt(final Instant updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public void setUpdatedBy(final MemberEntity updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
     @Override
     public String toString() {
         return "FeeEntity [id=" + id + ", member=" + member + ", month=" + month + ", feeType=" + feeType + ", paid="
-                + paid + ", transaction=" + transaction + "]";
+                + paid + ", transaction=" + transaction + ", createdAt=" + createdAt + ", createdBy=" + createdBy
+                + ", updatedAt=" + updatedAt + ", updatedBy=" + updatedBy + "]";
     }
 
 }
