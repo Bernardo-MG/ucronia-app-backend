@@ -33,9 +33,9 @@ import com.bernardomg.association.security.account.adapter.inbound.jpa.repositor
 import com.bernardomg.association.security.account.adapter.inbound.jpa.repository.JpaAccountProfileRepository;
 import com.bernardomg.association.security.account.domain.repository.AccountProfileRepository;
 import com.bernardomg.association.security.account.usecase.service.MemberAccountService;
-import com.bernardomg.security.account.domain.repository.AccountRepository;
-import com.bernardomg.security.account.usecase.service.AccountService;
-import com.bernardomg.security.account.usecase.service.SpringSecurityAccountService;
+import com.bernardomg.security.domain.account.repository.AccountRepository;
+import com.bernardomg.security.springframework.account.usecase.service.SpringSecurityAccountService;
+import com.bernardomg.security.usecase.account.service.AccountService;
 
 @AutoConfiguration
 @ComponentScan({ "com.bernardomg.association.security.account.adapter.outbound.rest.controller",

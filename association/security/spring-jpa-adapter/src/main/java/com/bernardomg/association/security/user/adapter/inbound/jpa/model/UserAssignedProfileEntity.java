@@ -26,7 +26,7 @@ package com.bernardomg.association.security.user.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
 
-import com.bernardomg.security.user.adapter.inbound.jpa.model.UserEntity;
+import com.bernardomg.security.adapter.inbound.jpa.model.user.UserEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

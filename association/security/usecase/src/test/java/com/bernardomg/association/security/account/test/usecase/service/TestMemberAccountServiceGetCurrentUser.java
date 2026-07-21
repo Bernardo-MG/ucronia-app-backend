@@ -42,8 +42,8 @@ import com.bernardomg.association.security.account.test.configuration.factory.Ba
 import com.bernardomg.association.security.account.test.configuration.factory.ProfileAccounts;
 import com.bernardomg.association.security.account.usecase.service.MemberAccountService;
 import com.bernardomg.association.security.user.test.configuration.factory.UserConstants;
-import com.bernardomg.security.account.domain.model.Account;
-import com.bernardomg.security.account.usecase.service.AccountService;
+import com.bernardomg.security.domain.account.model.Account;
+import com.bernardomg.security.usecase.account.service.AccountService;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("MemberAccountService - get current user")

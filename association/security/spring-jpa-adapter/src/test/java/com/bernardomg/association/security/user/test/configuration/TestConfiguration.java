@@ -32,11 +32,11 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import com.bernardomg.association.security.account.adapter.inbound.jpa.repository.AccountAssignedProfileSpringRepository;
 import com.bernardomg.association.security.account.adapter.inbound.jpa.repository.JpaAccountProfileRepository;
 import com.bernardomg.association.security.account.domain.repository.AccountProfileRepository;
+import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.AssociationUserSpringRepository;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.JpaUserProfileRepository;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.UserAssignedProfileSpringRepository;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.UserProfileSpringRepository;
 import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
-import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserSpringRepository;
 
 @Configuration
 @EnableJpaRepositories(basePackages = { "com.bernardomg.association.security.user.adapter.inbound.jpa",
@@ -60,7 +60,7 @@ public class TestConfiguration {
     @Bean("userProfileRepository")
     public UserProfileRepository getUserProfileRepository(
             final UserAssignedProfileSpringRepository userProfileSpringRepository,
-            final UserSpringRepository userSpringRepository,
+            final AssociationUserSpringRepository userSpringRepository,
             final UserProfileSpringRepository profileSpringRepository) {
         return new JpaUserProfileRepository(userProfileSpringRepository, userSpringRepository, profileSpringRepository);
     }

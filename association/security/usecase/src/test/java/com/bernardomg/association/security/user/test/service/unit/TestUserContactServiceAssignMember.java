@@ -46,8 +46,8 @@ import com.bernardomg.association.security.user.test.configuration.factory.UserC
 import com.bernardomg.association.security.user.test.configuration.factory.UserProfiles;
 import com.bernardomg.association.security.user.test.configuration.factory.Users;
 import com.bernardomg.association.security.user.usecase.service.DefaultUserProfileService;
-import com.bernardomg.security.user.domain.exception.MissingUsernameException;
-import com.bernardomg.security.user.domain.repository.UserRepository;
+import com.bernardomg.security.domain.user.exception.MissingUsernameException;
+import com.bernardomg.security.domain.user.repository.UserRepository;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
 

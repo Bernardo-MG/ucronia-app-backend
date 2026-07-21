@@ -31,8 +31,8 @@ import com.bernardomg.association.member.adapter.outbound.rest.dto.ProfileMember
 import com.bernardomg.association.member.adapter.outbound.rest.model.MemberDtoMapper;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.usecase.service.ProfileMembershipService;
-import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
-import com.bernardomg.security.permission.domain.constant.Actions;
+import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
+import com.bernardomg.security.domain.permission.constant.Actions;
 
 /**
  * Member REST controller.
