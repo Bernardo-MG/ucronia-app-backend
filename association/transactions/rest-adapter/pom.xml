@@ -126,6 +126,12 @@
 	     <artifactId>hibernate-validator</artifactId>
 	     <scope>test</scope>
 	  </dependency>
+      <dependency>
+         <!-- Spring Web MVC -->
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-webmvc</artifactId>
+         <scope>test</scope>
+      </dependency>
    </dependencies>
 
    <!-- ********************************************** -->
