@@ -37,10 +37,27 @@
          <groupId>com.bernardomg.association.profile</groupId>
          <artifactId>association-profile-usecase</artifactId>
       </dependency>
+	  <!-- ============================================== -->
+	  <!-- ================ FRAMEWORK =================== -->
+	  <!-- ============================================== -->
       <dependency>
-         <!-- Spring WS Security Starter -->
-         <groupId>com.bernardomg.framework.spring</groupId>
-         <artifactId>spring-ws-security-starter</artifactId>
+         <groupId>com.bernardomg.framework.security</groupId>
+         <artifactId>access-decorator</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.framework.security</groupId>
+         <artifactId>security-model</artifactId>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- ================== OPENAPI =================== -->
+      <!-- ============================================== -->
+      <dependency>
+        <groupId>org.openapitools</groupId>
+        <artifactId>jackson-databind-nullable</artifactId>
+      </dependency>
+      <dependency>
+        <groupId>io.swagger.core.v3</groupId>
+        <artifactId>swagger-annotations</artifactId>
       </dependency>
       <!-- ============================================== -->
       <!-- ================= JAKARTA ==================== -->
@@ -56,6 +73,20 @@
          <groupId>jakarta.validation</groupId>
          <artifactId>jakarta.validation-api</artifactId>
          <scope>provided</scope>
+      </dependency>
+      <dependency>
+         <!-- Jakarta annotation API -->
+         <groupId>jakarta.annotation</groupId>
+         <artifactId>jakarta.annotation-api</artifactId>
+         <scope>provided</scope>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- ================== SPRING ==================== -->
+      <!-- ============================================== -->
+      <dependency>
+         <!-- Spring Web MVC -->
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-web</artifactId>
       </dependency>
       <!-- ============================================== -->
       <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
@@ -78,6 +109,12 @@
       <dependency>
          <groupId>com.fasterxml.jackson.datatype</groupId>
          <artifactId>jackson-datatype-jsr310</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <!-- Spring Web MVC -->
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-webmvc</artifactId>
          <scope>test</scope>
       </dependency>
    </dependencies>

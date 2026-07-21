@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2022-2025 Bernardo Martínez Garrido
+ * Copyright (c) 2023-2025 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,39 +22,29 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.security.user.test;
+package com.bernardomg.association.security.user.adapter.inbound.jpa.repository;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Import;
+import java.util.Optional;
 
-import com.bernardomg.association.security.user.test.configuration.TestConfiguration;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.bernardomg.security.adapter.inbound.jpa.model.user.UserEntity;
 
 /**
- * Application runnable class. This allows Spring Boot to run the application.
+ * User repository.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@SpringBootApplication
-@Import({ TestConfiguration.class })
-public class TestApplication {
+public interface AssociationUserSpringRepository extends JpaRepository<UserEntity, Long> {
 
     /**
-     * Runnable main method.
+     * Returns the user for the received username.
      *
-     * @param args
-     *            execution parameters
+     * @param username
+     *            username to search for
+     * @return the user for the received username
      */
-    public static void main(final String[] args) {
-        SpringApplication.run(TestApplication.class, args);
-    }
-
-    /**
-     * Default constructor.
-     */
-    public TestApplication() {
-        super();
-    }
+    public Optional<UserEntity> findByUsername(final String username);
 
 }

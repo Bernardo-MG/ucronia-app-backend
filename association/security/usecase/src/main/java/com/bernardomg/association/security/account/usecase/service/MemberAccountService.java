@@ -33,8 +33,8 @@ import org.slf4j.LoggerFactory;
 import com.bernardomg.association.security.account.domain.model.ProfileAccount;
 import com.bernardomg.association.security.account.domain.model.ProfileAccount.Profile;
 import com.bernardomg.association.security.account.domain.repository.AccountProfileRepository;
-import com.bernardomg.security.account.domain.model.Account;
-import com.bernardomg.security.account.usecase.service.AccountService;
+import com.bernardomg.security.domain.account.model.Account;
+import com.bernardomg.security.usecase.account.service.AccountService;
 
 import jakarta.transaction.Transactional;
 

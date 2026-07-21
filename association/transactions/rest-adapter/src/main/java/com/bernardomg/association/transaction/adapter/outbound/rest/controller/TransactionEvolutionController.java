@@ -33,8 +33,8 @@ import com.bernardomg.association.transaction.adapter.outbound.rest.dto.Transact
 import com.bernardomg.association.transaction.adapter.outbound.rest.model.TransactionEvolutionDtoMapper;
 import com.bernardomg.association.transaction.domain.model.TransactionEvolutionMonth;
 import com.bernardomg.association.transaction.usecase.service.TransactionEvolutionService;
-import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
-import com.bernardomg.security.permission.domain.constant.Actions;
+import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
+import com.bernardomg.security.domain.permission.constant.Actions;
 
 /**
  * Transaction evolution REST controller.

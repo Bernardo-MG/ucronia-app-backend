@@ -30,8 +30,8 @@ import com.bernardomg.association.calendar.game.adapter.outbound.rest.dto.Schedu
 import com.bernardomg.association.calendar.game.adapter.outbound.rest.model.ScheduledGameDtoMapper;
 import com.bernardomg.association.calendar.game.domain.model.ScheduledGame;
 import com.bernardomg.association.calendar.game.usecase.service.ScheduledGameService;
-import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
-import com.bernardomg.security.permission.domain.constant.Actions;
+import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
+import com.bernardomg.security.domain.permission.constant.Actions;
 
 /**
  * Scheduled game publishing REST controller.

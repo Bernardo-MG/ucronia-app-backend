@@ -33,8 +33,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.transaction.usecase.service.TransactionReportService;
 import com.bernardomg.excel.web.ExcelResponses;
-import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
-import com.bernardomg.security.permission.domain.constant.Actions;
+import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
+import com.bernardomg.security.domain.permission.constant.Actions;
 
 /**
  * Transaction report REST controller.

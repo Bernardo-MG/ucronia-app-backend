@@ -30,8 +30,8 @@ import com.bernardomg.association.transaction.adapter.outbound.rest.dto.Transact
 import com.bernardomg.association.transaction.adapter.outbound.rest.model.TransactionDtoMapper;
 import com.bernardomg.association.transaction.domain.model.TransactionSummary;
 import com.bernardomg.association.transaction.usecase.service.TransactionSummaryService;
-import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
-import com.bernardomg.security.permission.domain.constant.Actions;
+import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
+import com.bernardomg.security.domain.permission.constant.Actions;
 
 /**
  * Transaction summary REST controller.

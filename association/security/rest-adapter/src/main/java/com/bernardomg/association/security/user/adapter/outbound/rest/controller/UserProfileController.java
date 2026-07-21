@@ -35,8 +35,8 @@ import com.bernardomg.association.security.adapter.outbound.rest.dto.ProfileResp
 import com.bernardomg.association.security.user.adapter.outbound.rest.model.UserProfileDtoMapper;
 import com.bernardomg.association.security.user.domain.model.UserProfile;
 import com.bernardomg.association.security.user.usecase.service.UserProfileService;
-import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
-import com.bernardomg.security.permission.domain.constant.Actions;
+import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
+import com.bernardomg.security.domain.permission.constant.Actions;
 
 /**
  * User member REST controller.

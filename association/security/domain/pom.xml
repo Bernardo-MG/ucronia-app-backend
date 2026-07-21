@@ -37,24 +37,12 @@
          <groupId>org.apache.commons</groupId>
          <artifactId>commons-lang3</artifactId>
       </dependency>
+	  <!-- ============================================== -->
+	  <!-- ================ FRAMEWORK =================== -->
+	  <!-- ============================================== -->
       <dependency>
-         <!-- Spring WS Security Starter -->
-         <groupId>com.bernardomg.framework.spring</groupId>
-         <artifactId>spring-ws-security-starter</artifactId>
-         <exclusions>
-             <exclusion>
-                 <groupId>com.bernardomg.framework.spring</groupId>
-                 <artifactId>spring-ws-starter</artifactId>
-             </exclusion>
-             <exclusion>
-                 <groupId>org.springframework.boot</groupId>
-                 <artifactId>spring-boot-autoconfigure</artifactId>
-             </exclusion>
-             <exclusion>
-                 <groupId>org.springframework</groupId>
-                 <artifactId>spring-tx</artifactId>
-             </exclusion>
-         </exclusions>
+         <groupId>com.bernardomg.framework.security</groupId>
+         <artifactId>security-model</artifactId>
       </dependency>
    </dependencies>
 
