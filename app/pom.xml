@@ -34,6 +34,11 @@
          <artifactId>scheduler-spring-starter</artifactId>
       </dependency>
       <dependency>
+         <!-- Spring WS Starter -->
+         <groupId>com.bernardomg.framework.spring</groupId>
+         <artifactId>spring-ws-starter</artifactId>
+      </dependency>
+      <dependency>
          <groupId>com.bernardomg.settings</groupId>
          <artifactId>settings-spring-starter</artifactId>
       </dependency>
