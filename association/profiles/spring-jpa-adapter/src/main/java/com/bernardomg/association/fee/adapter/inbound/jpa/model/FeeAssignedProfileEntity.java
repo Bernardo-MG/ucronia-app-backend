@@ -82,7 +82,7 @@ public class FeeAssignedProfileEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "AccountUserEntity [id=" + id + ", username=" + username + ", profile=" + profile + "]";
+        return "FeeAssignedProfileEntity [id=" + id + ", username=" + username + ", profile=" + profile + "]";
     }
 
 }
