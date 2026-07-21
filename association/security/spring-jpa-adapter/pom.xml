@@ -123,6 +123,11 @@
          <artifactId>hibernate-validator</artifactId>
          <scope>test</scope>
       </dependency>
+      <dependency>
+         <groupId>com.bernardomg.framework.security</groupId>
+         <artifactId>security-adapter</artifactId>
+         <scope>test</scope>
+      </dependency>
    </dependencies>
 
 </project>

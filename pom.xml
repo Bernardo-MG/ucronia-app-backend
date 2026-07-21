@@ -367,6 +367,12 @@
             <version>${bernardomg.framework.ws.security.version}</version>
          </dependency>
          <dependency>
+            <!-- Security Adapter -->
+            <groupId>com.bernardomg.framework.security</groupId>
+            <artifactId>security-adapter</artifactId>
+            <version>${bernardomg.framework.ws.security.version}</version>
+         </dependency>
+         <dependency>
             <!-- Spring WS Starter -->
             <groupId>com.bernardomg.framework.spring</groupId>
             <artifactId>spring-ws-starter</artifactId>
