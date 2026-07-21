@@ -1,5 +1,5 @@
 
-package com.bernardomg.auditing;
+package com.bernardomg.audit;
 
 import java.util.Optional;
 
@@ -7,6 +7,7 @@ import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
 public class SecurityAuditorAware implements AuditorAware<Long> {
 
@@ -23,8 +24,8 @@ public class SecurityAuditorAware implements AuditorAware<Long> {
             return Optional.empty();
         }
 
-        AppUserPrincipal principal =
-                (AppUserPrincipal) authentication.getPrincipal();
+        UserDetails principal =
+                (UserDetails) authentication.getPrincipal();
 
         return Optional.of(principal.getUserId());
     }
