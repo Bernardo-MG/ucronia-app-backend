@@ -29,7 +29,7 @@ import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.bernardomg.security.account.domain.model.Account;
+import com.bernardomg.security.domain.account.model.Account;
 
 /**
  * Representation of an account linked to a profile.

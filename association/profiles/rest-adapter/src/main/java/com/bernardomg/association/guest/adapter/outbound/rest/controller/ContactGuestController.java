@@ -30,8 +30,8 @@ import com.bernardomg.association.guest.adapter.outbound.rest.dto.GuestResponseD
 import com.bernardomg.association.guest.adapter.outbound.rest.model.GuestDtoMapper;
 import com.bernardomg.association.guest.domain.model.Guest;
 import com.bernardomg.association.guest.usecase.service.ProfileGuestService;
-import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
-import com.bernardomg.security.permission.domain.constant.Actions;
+import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
+import com.bernardomg.security.domain.permission.constant.Actions;
 
 /**
  * Member REST controller.

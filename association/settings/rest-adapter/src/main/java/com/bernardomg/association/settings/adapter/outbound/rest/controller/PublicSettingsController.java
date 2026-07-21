@@ -30,7 +30,7 @@ import com.bernardomg.association.settings.adapter.outbound.rest.dto.PublicSetti
 import com.bernardomg.association.settings.adapter.outbound.rest.model.PublicSettingsDtoMapper;
 import com.bernardomg.association.settings.domain.model.PublicSettings;
 import com.bernardomg.association.settings.usecase.service.PublicSettingsService;
-import com.bernardomg.security.access.annotation.Unsecured;
+import com.bernardomg.framework.security.access.annotation.Unsecured;
 
 /**
  * Settings REST controller.
