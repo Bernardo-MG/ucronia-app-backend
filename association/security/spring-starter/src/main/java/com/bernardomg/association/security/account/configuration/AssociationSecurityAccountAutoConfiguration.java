@@ -34,8 +34,10 @@ import com.bernardomg.association.security.account.adapter.inbound.jpa.repositor
 import com.bernardomg.association.security.account.domain.repository.AccountProfileRepository;
 import com.bernardomg.association.security.account.usecase.service.MemberAccountService;
 import com.bernardomg.security.domain.account.repository.AccountRepository;
-import com.bernardomg.security.springframework.account.usecase.service.SpringSecurityAccountService;
+import com.bernardomg.security.springframework.session.SpringSecurityAccountInSessionProvider;
 import com.bernardomg.security.usecase.account.service.AccountService;
+import com.bernardomg.security.usecase.account.service.DefaultAccountService;
+import com.bernardomg.security.usecase.session.AccountInSessionProvider;
 
 @AutoConfiguration
 @ComponentScan({ "com.bernardomg.association.security.account.adapter.outbound.rest.controller",
@@ -52,9 +54,11 @@ public class AssociationSecurityAccountAutoConfiguration {
     @Bean("memberAccountService")
     public MemberAccountService getMemberAccountService(final AccountRepository accountRepository,
             final AccountProfileRepository accountProfileRepository) {
-        final AccountService wrapped;
+        final AccountService           wrapped;
+        final AccountInSessionProvider provider;
 
-        wrapped = new SpringSecurityAccountService(accountRepository);
+        provider = new SpringSecurityAccountInSessionProvider(accountRepository);
+        wrapped = new DefaultAccountService(accountRepository, provider);
         return new MemberAccountService(wrapped, accountProfileRepository);
     }
 

@@ -9,7 +9,7 @@ public final class Users {
 
     public static final User enabled() {
         return new User(UserConstants.EMAIL, UserConstants.USERNAME, UserConstants.NAME, true, true, true, true,
-            List.of());
+            List.of(), List.of());
     }
 
     private Users() {
