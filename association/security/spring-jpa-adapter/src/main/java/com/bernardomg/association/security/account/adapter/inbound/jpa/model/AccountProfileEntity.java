@@ -27,11 +27,14 @@ package com.bernardomg.association.security.account.adapter.inbound.jpa.model;
 import java.io.Serializable;
 import java.util.Objects;
 
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import com.bernardomg.audit.jpa.AuditMetadata;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -40,6 +43,7 @@ import jakarta.persistence.Transient;
 
 @Entity(name = "AccountProfile")
 @Table(schema = "directory", name = "profiles")
+@EntityListeners(AuditingEntityListener.class)
 public class AccountProfileEntity implements Serializable {
 
     /**
@@ -131,7 +135,7 @@ public class AccountProfileEntity implements Serializable {
     @Override
     public String toString() {
         return "AccountUserInnerProfileEntity [id=" + id + ", identifier=" + identifier + ", firstName=" + firstName
-                + ", lastName=" + lastName + ", number=" + number + "]";
+                + ", lastName=" + lastName + ", number=" + number + ", audit=" + audit + "]";
     }
 
 }

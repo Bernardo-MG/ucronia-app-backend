@@ -32,6 +32,7 @@ import java.util.Set;
 
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.bernardomg.audit.jpa.AuditMetadata;
 
@@ -39,6 +40,7 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -49,6 +51,7 @@ import jakarta.persistence.Transient;
 
 @Entity(name = "Profile")
 @Table(schema = "directory", name = "profiles")
+@EntityListeners(AuditingEntityListener.class)
 public class ProfileEntity implements Serializable {
 
     /**
@@ -198,7 +201,8 @@ public class ProfileEntity implements Serializable {
     public String toString() {
         return "ProfileEntity [id=" + id + ", identifier=" + identifier + ", firstName=" + firstName + ", lastName="
                 + lastName + ", birthDate=" + birthDate + ", comments=" + comments + ", address=" + address
-                + ", contactChannels=" + contactChannels + ", number=" + number + ", types=" + types + "]";
+                + ", contactChannels=" + contactChannels + ", number=" + number + ", types=" + types + ", audit="
+                + audit + "]";
     }
 
 }

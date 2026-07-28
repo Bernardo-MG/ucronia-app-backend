@@ -27,11 +27,14 @@ package com.bernardomg.association.transaction.adapter.inbound.jpa.model;
 import java.io.Serializable;
 import java.time.Instant;
 
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import com.bernardomg.audit.jpa.AuditMetadata;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -40,6 +43,7 @@ import jakarta.persistence.Transient;
 
 @Entity(name = "Transaction")
 @Table(schema = "funds", name = "transactions")
+@EntityListeners(AuditingEntityListener.class)
 public class TransactionEntity implements Serializable {
 
     @Transient
@@ -112,7 +116,7 @@ public class TransactionEntity implements Serializable {
     @Override
     public String toString() {
         return "TransactionEntity [amount=" + amount + ", date=" + date + ", description=" + description + ", id=" + id
-                + ", index=" + index + "]";
+                + ", index=" + index + ", audit=" + audit + "]";
     }
 
 }

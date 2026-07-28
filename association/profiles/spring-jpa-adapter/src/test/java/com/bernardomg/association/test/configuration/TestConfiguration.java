@@ -28,6 +28,8 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.security.authentication.AuthenticationTrustResolver;
+import org.springframework.security.authentication.AuthenticationTrustResolverImpl;
 
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeAssignedProfileSpringRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeSpringRepository;
@@ -76,20 +78,23 @@ import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
 @EnableJpaRepositories(basePackages = { "com.bernardomg.association.member.adapter.inbound.jpa",
         "com.bernardomg.association.fee.adapter.inbound.jpa",
         "com.bernardomg.association.transaction.adapter.inbound.jpa",
-        "com.bernardomg.association.profile.adapter.inbound.jpa", "com.bernardomg.security.user.adapter.inbound.jpa",
-        "com.bernardomg.security.role.adapter.inbound.jpa", "com.bernardomg.security.permission.adapter.inbound.jpa",
         "com.bernardomg.association.profile.adapter.inbound.jpa",
         "com.bernardomg.association.sponsor.adapter.inbound.jpa",
-        "com.bernardomg.association.guest.adapter.inbound.jpa" })
+        "com.bernardomg.association.guest.adapter.inbound.jpa", "com.bernardomg.security.adapter.inbound.jpa",
+        "com.bernardomg.audit.springframework.jpa" })
 @EntityScan(basePackages = { "com.bernardomg.association.member.adapter.inbound.jpa",
         "com.bernardomg.association.fee.adapter.inbound.jpa",
         "com.bernardomg.association.transaction.adapter.inbound.jpa",
-        "com.bernardomg.association.profile.adapter.inbound.jpa", "com.bernardomg.security.user.adapter.inbound.jpa",
-        "com.bernardomg.security.role.adapter.inbound.jpa", "com.bernardomg.security.permission.adapter.inbound.jpa",
         "com.bernardomg.association.profile.adapter.inbound.jpa",
         "com.bernardomg.association.sponsor.adapter.inbound.jpa",
-        "com.bernardomg.association.guest.adapter.inbound.jpa" })
+        "com.bernardomg.association.guest.adapter.inbound.jpa", "com.bernardomg.security.adapter.inbound.jpa",
+        "com.bernardomg.audit.springframework.jpa" })
 public class TestConfiguration {
+
+    @Bean("authenticationTrustResolver")
+    public AuthenticationTrustResolver getAuthenticationTrustResolver() {
+        return new AuthenticationTrustResolverImpl();
+    }
 
     @Bean("contactMethodRepository")
     public ContactMethodRepository

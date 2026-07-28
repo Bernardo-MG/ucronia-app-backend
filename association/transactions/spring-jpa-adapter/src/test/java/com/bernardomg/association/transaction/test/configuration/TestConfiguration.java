@@ -28,6 +28,8 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.security.authentication.AuthenticationTrustResolver;
+import org.springframework.security.authentication.AuthenticationTrustResolverImpl;
 
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.JpaTransactionEvolutionRepository;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.JpaTransactionRepository;
@@ -39,9 +41,16 @@ import com.bernardomg.association.transaction.domain.repository.TransactionRepos
 import com.bernardomg.association.transaction.domain.repository.TransactionSummaryRepository;
 
 @Configuration
-@EnableJpaRepositories(basePackages = "com.bernardomg.association.transaction.adapter.inbound.jpa")
-@EntityScan(basePackages = "com.bernardomg.association.transaction.adapter.inbound.jpa")
+@EnableJpaRepositories(basePackages = { "com.bernardomg.association.transaction.adapter.inbound.jpa",
+        "com.bernardomg.security.adapter.inbound.jpa", "com.bernardomg.audit.springframework.jpa" })
+@EntityScan(basePackages = { "com.bernardomg.association.transaction.adapter.inbound.jpa",
+        "com.bernardomg.security.adapter.inbound.jpa", "com.bernardomg.audit.springframework.jpa" })
 public class TestConfiguration {
+
+    @Bean("authenticationTrustResolver")
+    public AuthenticationTrustResolver getAuthenticationTrustResolver() {
+        return new AuthenticationTrustResolverImpl();
+    }
 
     @Bean("transactionEvolutionRepository")
     public TransactionEvolutionRepository

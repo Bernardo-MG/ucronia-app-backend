@@ -136,7 +136,7 @@ public class FeeEntity implements Serializable {
     @Override
     public String toString() {
         return "FeeEntity [id=" + id + ", member=" + member + ", month=" + month + ", feeType=" + feeType + ", paid="
-                + paid + ", transaction=" + transaction + "]";
+                + paid + ", transaction=" + transaction + ", audit=" + audit + "]";
     }
 
 }

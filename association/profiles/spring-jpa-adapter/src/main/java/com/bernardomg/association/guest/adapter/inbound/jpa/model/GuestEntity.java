@@ -7,15 +7,16 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
 
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
-import com.bernardomg.audit.jpa.AuditMetadata;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -27,6 +28,7 @@ import jakarta.persistence.Transient;
 
 @Entity(name = "Guest")
 @Table(schema = "directory", name = "guests")
+@EntityListeners(AuditingEntityListener.class)
 public class GuestEntity implements Serializable {
 
     /**
@@ -34,9 +36,6 @@ public class GuestEntity implements Serializable {
      */
     @Transient
     private static final long   serialVersionUID = 8139806507534262996L;
-
-    @Embedded
-    private final AuditMetadata audit            = new AuditMetadata();
 
     @ElementCollection
     @CollectionTable(schema = "directory", name = "guest_games", joinColumns = @JoinColumn(name = "guest_id"))
@@ -62,10 +61,6 @@ public class GuestEntity implements Serializable {
             return false;
         }
         return Objects.equals(id, other.id);
-    }
-
-    public AuditMetadata getAudit() {
-        return audit;
     }
 
     public Collection<Instant> getGames() {
