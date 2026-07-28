@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2022-2025 Bernardo Martínez Garrido
+ * Copyright (c) 2023-2025 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,29 +22,29 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.configuration;
+package com.bernardomg.audit.springframework.jpa;
 
-import org.springframework.boot.actuate.audit.AuditEventRepository;
-import org.springframework.boot.actuate.audit.InMemoryAuditEventRepository;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.bernardomg.security.adapter.inbound.jpa.model.user.UserEntity;
 
 /**
- * Audit configuration.
+ * User repository.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Configuration
-public class AuditConfiguration {
+public interface AuditUserSpringRepository extends JpaRepository<UserEntity, Long> {
 
-    public AuditConfiguration() {
-        super();
-    }
-
-    @Bean("auditEventRepository")
-    public AuditEventRepository getAuditEventRepository() {
-        return new InMemoryAuditEventRepository();
-    }
+    /**
+     * Returns the user for the received username.
+     *
+     * @param username
+     *            username to search for
+     * @return the user for the received username
+     */
+    public Optional<UserEntity> findByUsername(final String username);
 
 }

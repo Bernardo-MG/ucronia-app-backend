@@ -22,12 +22,17 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.configuration;
+package com.bernardomg.audit.configuration;
 
-import org.springframework.boot.actuate.audit.AuditEventRepository;
-import org.springframework.boot.actuate.audit.InMemoryAuditEventRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.AuditorAware;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.security.authentication.AuthenticationTrustResolver;
+
+import com.bernardomg.audit.springframework.jpa.AuditUserSpringRepository;
+import com.bernardomg.audit.springframework.jpa.UserAuditorAware;
+import com.bernardomg.security.adapter.inbound.jpa.model.user.UserEntity;
 
 /**
  * Audit configuration.
@@ -36,15 +41,17 @@ import org.springframework.context.annotation.Configuration;
  *
  */
 @Configuration
-public class AuditConfiguration {
+@EnableJpaAuditing(auditorAwareRef = "auditorAware")
+public class AuditAutoConfiguration {
 
-    public AuditConfiguration() {
+    public AuditAutoConfiguration() {
         super();
     }
 
-    @Bean("auditEventRepository")
-    public AuditEventRepository getAuditEventRepository() {
-        return new InMemoryAuditEventRepository();
+    @Bean("auditorAware")
+    public AuditorAware<UserEntity> getAuditorAware(final AuditUserSpringRepository repository,
+            final AuthenticationTrustResolver trustResolver) {
+        return new UserAuditorAware(repository, trustResolver);
     }
 
 }

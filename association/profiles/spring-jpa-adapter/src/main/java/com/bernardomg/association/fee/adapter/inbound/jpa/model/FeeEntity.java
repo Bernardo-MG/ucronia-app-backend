@@ -55,7 +55,7 @@ public class FeeEntity implements Serializable {
     private static final long    serialVersionUID = 1328776989450853491L;
 
     @Embedded
-    private final AuditMetadata        audit            = new AuditMetadata();
+    private final AuditMetadata  audit            = new AuditMetadata();
 
     @OneToOne
     @JoinColumn(name = "fee_type_id", referencedColumnName = "id")

@@ -1,5 +1,5 @@
 
-package com.bernardomg.audit;
+package com.bernardomg.audit.springframework.jpa;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -11,15 +11,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.bernardomg.security.adapter.inbound.jpa.model.user.UserEntity;
-import com.bernardomg.security.adapter.inbound.jpa.repository.user.UserSpringRepository;
 
 public class UserAuditorAware implements AuditorAware<UserEntity> {
 
-    private final UserSpringRepository        repository;
+    private final AuditUserSpringRepository   repository;
 
     private final AuthenticationTrustResolver trustResolver;
 
-    public UserAuditorAware(final UserSpringRepository repo, final AuthenticationTrustResolver trustResolv) {
+    public UserAuditorAware(final AuditUserSpringRepository repo, final AuthenticationTrustResolver trustResolv) {
         super();
 
         repository = Objects.requireNonNull(repo);
