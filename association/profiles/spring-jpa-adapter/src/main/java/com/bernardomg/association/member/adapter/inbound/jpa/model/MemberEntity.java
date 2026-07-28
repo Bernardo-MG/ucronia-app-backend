@@ -11,9 +11,11 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTypeEntity;
+import com.bernardomg.audit.jpa.AuditMetadata;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -43,6 +45,9 @@ public class MemberEntity implements Serializable {
 
     @Column(name = "address", table = "profiles")
     private String                                 address;
+
+    @Embedded
+    private final AuditMetadata                    audit            = new AuditMetadata();
 
     @Column(name = "birth_date", table = "profiles")
     private Instant                                birthDate;

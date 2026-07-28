@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.fee.adapter.inbound.jpa.model;
+package com.bernardomg.audit.jpa;
 
 import java.time.Instant;
 

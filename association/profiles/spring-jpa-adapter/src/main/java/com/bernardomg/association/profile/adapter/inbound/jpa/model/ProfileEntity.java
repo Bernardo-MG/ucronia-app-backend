@@ -33,8 +33,11 @@ import java.util.Set;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
+import com.bernardomg.audit.jpa.AuditMetadata;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -56,6 +59,9 @@ public class ProfileEntity implements Serializable {
 
     @Column(name = "address")
     private String                           address;
+
+    @Embedded
+    private final AuditMetadata              audit            = new AuditMetadata();
 
     @Column(name = "birth_date")
     private Instant                          birthDate;

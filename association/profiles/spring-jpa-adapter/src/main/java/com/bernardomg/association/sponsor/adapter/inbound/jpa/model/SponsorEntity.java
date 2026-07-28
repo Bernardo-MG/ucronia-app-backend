@@ -7,11 +7,13 @@ import java.util.HashSet;
 import java.util.Objects;
 
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
+import com.bernardomg.audit.jpa.AuditMetadata;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -31,6 +33,9 @@ public class SponsorEntity implements Serializable {
      */
     @Transient
     private static final long   serialVersionUID = 8139806507534262996L;
+
+    @Embedded
+    private final AuditMetadata audit            = new AuditMetadata();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

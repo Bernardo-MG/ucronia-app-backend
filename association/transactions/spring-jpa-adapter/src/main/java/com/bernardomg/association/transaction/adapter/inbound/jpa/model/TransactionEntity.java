@@ -27,7 +27,10 @@ package com.bernardomg.association.transaction.adapter.inbound.jpa.model;
 import java.io.Serializable;
 import java.time.Instant;
 
+import com.bernardomg.audit.jpa.AuditMetadata;
+
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -40,24 +43,27 @@ import jakarta.persistence.Transient;
 public class TransactionEntity implements Serializable {
 
     @Transient
-    private static final long serialVersionUID = 4603617058960663867L;
+    private static final long   serialVersionUID = 4603617058960663867L;
 
     @Column(name = "amount", nullable = false)
-    private Float             amount;
+    private Float               amount;
+
+    @Embedded
+    private final AuditMetadata audit            = new AuditMetadata();
 
     @Column(name = "date", nullable = false)
-    private Instant           date;
+    private Instant             date;
 
     @Column(name = "description", length = 200)
-    private String            description;
+    private String              description;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
-    private Long              id;
+    private Long                id;
 
     @Column(name = "index", nullable = false, unique = true)
-    private Long              index;
+    private Long                index;
 
     public Float getAmount() {
         return amount;

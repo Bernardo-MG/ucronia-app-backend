@@ -30,6 +30,7 @@ import java.time.Instant;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
+import com.bernardomg.audit.jpa.AuditMetadata;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
