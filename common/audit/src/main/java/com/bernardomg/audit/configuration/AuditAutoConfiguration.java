@@ -25,6 +25,7 @@
 package com.bernardomg.audit.configuration;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
@@ -42,6 +43,7 @@ import com.bernardomg.security.adapter.inbound.jpa.model.user.UserEntity;
  */
 @Configuration
 @EnableJpaAuditing(auditorAwareRef = "auditorAware")
+@ComponentScan({ "com.bernardomg.audit.springframework.jpa" })
 public class AuditAutoConfiguration {
 
     public AuditAutoConfiguration() {
