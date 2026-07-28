@@ -109,6 +109,10 @@ public class ProfileEntity implements Serializable {
         return address;
     }
 
+    public AuditMetadata getAudit() {
+        return audit;
+    }
+
     public Instant getBirthDate() {
         return birthDate;
     }

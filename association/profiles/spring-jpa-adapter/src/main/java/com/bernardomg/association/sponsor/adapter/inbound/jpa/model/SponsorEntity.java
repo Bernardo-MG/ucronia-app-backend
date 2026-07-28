@@ -63,6 +63,10 @@ public class SponsorEntity implements Serializable {
         return Objects.equals(id, other.id);
     }
 
+    public AuditMetadata getAudit() {
+        return audit;
+    }
+
     public Long getId() {
         return id;
     }

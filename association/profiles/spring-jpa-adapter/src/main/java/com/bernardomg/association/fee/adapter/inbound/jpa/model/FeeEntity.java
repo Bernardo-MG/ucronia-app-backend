@@ -81,6 +81,10 @@ public class FeeEntity implements Serializable {
     @JoinColumn(name = "transaction_id", referencedColumnName = "id")
     private FeeTransactionEntity transaction;
 
+    public AuditMetadata getAudit() {
+        return audit;
+    }
+
     public FeeTypeEntity getFeeType() {
         return feeType;
     }

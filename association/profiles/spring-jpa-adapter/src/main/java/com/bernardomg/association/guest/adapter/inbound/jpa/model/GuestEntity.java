@@ -64,6 +64,10 @@ public class GuestEntity implements Serializable {
         return Objects.equals(id, other.id);
     }
 
+    public AuditMetadata getAudit() {
+        return audit;
+    }
+
     public Collection<Instant> getGames() {
         return games;
     }

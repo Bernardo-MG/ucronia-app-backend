@@ -69,6 +69,10 @@ public class TransactionEntity implements Serializable {
         return amount;
     }
 
+    public AuditMetadata getAudit() {
+        return audit;
+    }
+
     public Instant getDate() {
         return date;
     }
