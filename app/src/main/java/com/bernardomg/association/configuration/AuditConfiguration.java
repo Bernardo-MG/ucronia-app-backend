@@ -29,9 +29,11 @@ import org.springframework.boot.actuate.audit.InMemoryAuditEventRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.security.authentication.AuthenticationTrustResolver;
 
 import com.bernardomg.audit.UserAuditorAware;
+import com.bernardomg.security.adapter.inbound.jpa.model.user.UserEntity;
 import com.bernardomg.security.adapter.inbound.jpa.repository.user.UserSpringRepository;
 
 /**
@@ -41,6 +43,7 @@ import com.bernardomg.security.adapter.inbound.jpa.repository.user.UserSpringRep
  *
  */
 @Configuration
+@EnableJpaAuditing(auditorAwareRef = "auditorAware")
 public class AuditConfiguration {
 
     public AuditConfiguration() {
@@ -53,7 +56,7 @@ public class AuditConfiguration {
     }
 
     @Bean("auditorAware")
-    public AuditorAware<Long> getAuditorAware(final UserSpringRepository repository,
+    public AuditorAware<UserEntity> getAuditorAware(final UserSpringRepository repository,
             final AuthenticationTrustResolver trustResolver) {
         return new UserAuditorAware(repository, trustResolver);
     }

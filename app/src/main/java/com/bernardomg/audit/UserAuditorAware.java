@@ -13,7 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.bernardomg.security.adapter.inbound.jpa.model.user.UserEntity;
 import com.bernardomg.security.adapter.inbound.jpa.repository.user.UserSpringRepository;
 
-public class UserAuditorAware implements AuditorAware<Long> {
+public class UserAuditorAware implements AuditorAware<UserEntity> {
 
     private final UserSpringRepository        repository;
 
@@ -27,10 +27,9 @@ public class UserAuditorAware implements AuditorAware<Long> {
     }
 
     @Override
-    public Optional<Long> getCurrentAuditor() {
+    public Optional<UserEntity> getCurrentAuditor() {
         final Optional<UserEntity> user;
-        final Optional<Long>       id;
-        Authentication             authentication;
+        final Authentication       authentication;
         UserDetails                principal;
 
         authentication = SecurityContextHolder.getContext()
@@ -39,13 +38,11 @@ public class UserAuditorAware implements AuditorAware<Long> {
         if ((trustResolver.isAuthenticated(authentication)) && (authentication.getPrincipal() instanceof UserDetails)) {
             principal = (UserDetails) authentication.getPrincipal();
             user = repository.findByUsername(principal.getUsername());
-            id = Optional.of(user.map(UserEntity::getId)
-                .orElse(null));
         } else {
-            id = Optional.empty();
+            user = Optional.empty();
         }
 
-        return id;
+        return user;
     }
 
 }

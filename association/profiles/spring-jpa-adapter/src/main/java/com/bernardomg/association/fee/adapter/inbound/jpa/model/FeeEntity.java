@@ -31,11 +31,14 @@ import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
+import com.bernardomg.security.adapter.inbound.jpa.model.user.UserEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -47,6 +50,7 @@ import jakarta.persistence.Transient;
 
 @Entity(name = "Fee")
 @Table(schema = "funds", name = "fees")
+@EntityListeners(AuditingEntityListener.class)
 public class FeeEntity implements Serializable {
 
     /**
@@ -62,7 +66,7 @@ public class FeeEntity implements Serializable {
     @CreatedBy
     @ManyToOne
     @JoinColumn(name = "created_by", updatable = false)
-    private MemberEntity         createdBy;
+    private UserEntity           createdBy;
 
     @OneToOne
     @JoinColumn(name = "fee_type_id", referencedColumnName = "id")
@@ -94,13 +98,13 @@ public class FeeEntity implements Serializable {
     @LastModifiedBy
     @ManyToOne
     @JoinColumn(name = "updated_by")
-    private MemberEntity         updatedBy;
+    private UserEntity           updatedBy;
 
     public Instant getCreatedAt() {
         return createdAt;
     }
 
-    public MemberEntity getCreatedBy() {
+    public UserEntity getCreatedBy() {
         return createdBy;
     }
 
@@ -132,7 +136,7 @@ public class FeeEntity implements Serializable {
         return updatedAt;
     }
 
-    public MemberEntity getUpdatedBy() {
+    public UserEntity getUpdatedBy() {
         return updatedBy;
     }
 
@@ -140,7 +144,7 @@ public class FeeEntity implements Serializable {
         this.createdAt = createdAt;
     }
 
-    public void setCreatedBy(final MemberEntity createdBy) {
+    public void setCreatedBy(final UserEntity createdBy) {
         this.createdBy = createdBy;
     }
 
@@ -172,7 +176,7 @@ public class FeeEntity implements Serializable {
         this.updatedAt = updatedAt;
     }
 
-    public void setUpdatedBy(final MemberEntity updatedBy) {
+    public void setUpdatedBy(final UserEntity updatedBy) {
         this.updatedBy = updatedBy;
     }
 
