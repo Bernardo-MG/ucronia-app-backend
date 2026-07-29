@@ -47,27 +47,27 @@ import jakarta.persistence.Transient;
 public class TransactionEntity implements Serializable {
 
     @Transient
-    private static final long   serialVersionUID = 4603617058960663867L;
+    private static final long serialVersionUID = 4603617058960663867L;
 
     @Column(name = "amount", nullable = false)
-    private Float               amount;
+    private Float             amount;
 
     @Embedded
-    private final AuditMetadata audit            = new AuditMetadata();
+    private AuditMetadata     audit            = new AuditMetadata();
 
     @Column(name = "date", nullable = false)
-    private Instant             date;
+    private Instant           date;
 
     @Column(name = "description", length = 200)
-    private String              description;
+    private String            description;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
-    private Long                id;
+    private Long              id;
 
     @Column(name = "index", nullable = false, unique = true)
-    private Long                index;
+    private Long              index;
 
     public Float getAmount() {
         return amount;
@@ -95,6 +95,10 @@ public class TransactionEntity implements Serializable {
 
     public void setAmount(final Float amount) {
         this.amount = amount;
+    }
+
+    public void setAudit(final AuditMetadata audit) {
+        this.audit = audit;
     }
 
     public void setDate(final Instant date) {

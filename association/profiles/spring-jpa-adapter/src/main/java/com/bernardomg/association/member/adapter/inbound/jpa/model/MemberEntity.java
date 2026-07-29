@@ -50,7 +50,7 @@ public class MemberEntity implements Serializable {
     private String                                 address;
 
     @Embedded
-    private final AuditMetadata                    audit            = new AuditMetadata();
+    private AuditMetadata                          audit            = new AuditMetadata();
 
     @Column(name = "birth_date", table = "profiles")
     private Instant                                birthDate;
@@ -167,6 +167,10 @@ public class MemberEntity implements Serializable {
 
     public void setAddress(final String address) {
         this.address = address;
+    }
+
+    public void setAudit(final AuditMetadata audit) {
+        this.audit = audit;
     }
 
     public void setBirthDate(final Instant birthDate) {
