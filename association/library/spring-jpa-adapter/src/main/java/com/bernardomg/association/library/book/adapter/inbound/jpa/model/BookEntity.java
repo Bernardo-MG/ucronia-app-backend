@@ -30,7 +30,7 @@ import java.util.Collection;
 
 import com.bernardomg.association.library.author.adapter.inbound.jpa.model.AuthorEntity;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.model.PublisherEntity;
-import com.bernardomg.audit.jpa.AuditMetadata;
+import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditMetadata;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;

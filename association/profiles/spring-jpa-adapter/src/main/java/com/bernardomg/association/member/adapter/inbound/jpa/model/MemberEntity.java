@@ -12,7 +12,7 @@ import org.hibernate.type.SqlTypes;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTypeEntity;
-import com.bernardomg.audit.jpa.AuditMetadata;
+import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditMetadata;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

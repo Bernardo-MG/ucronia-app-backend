@@ -40,10 +40,6 @@
          <groupId>com.bernardomg.framework.security</groupId>
          <artifactId>security-usecase</artifactId>
       </dependency>
-      <dependency>
-         <groupId>com.bernardomg.framework</groupId>
-         <artifactId>audit</artifactId>
-      </dependency>
       <!-- ============================================== -->
       <!-- ================= PROJECT ==================== -->
       <!-- ============================================== -->
