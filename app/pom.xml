@@ -153,6 +153,11 @@
          <groupId>org.springframework</groupId>
          <artifactId>spring-orm</artifactId>
       </dependency>
+      <dependency>
+         <!-- Spring Aspects -->
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-aspects</artifactId>
+      </dependency>
       <!-- ============================================== -->
       <!-- =============== SPRING BOOT ================== -->
       <!-- ============================================== -->
