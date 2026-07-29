@@ -205,7 +205,7 @@ public class BookEntity implements Serializable {
         return "BookEntity [authors=" + authors + ", donationDate=" + donationDate + ", donors=" + donors + ", id=" + id
                 + ", isbn=" + isbn + ", language=" + language + ", number=" + number + ", publishDate=" + publishDate
                 + ", publishers=" + publishers + ", subtitle=" + subtitle + ", supertitle=" + supertitle + ", title="
-                + title + "]";
+                + title + ", audit=" + audit + "]";
     }
 
 }
