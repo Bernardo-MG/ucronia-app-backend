@@ -28,6 +28,8 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Collection;
 
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import com.bernardomg.association.library.author.adapter.inbound.jpa.model.AuthorEntity;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.model.PublisherEntity;
 import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditMetadata;
@@ -35,6 +37,7 @@ import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditMetadata;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -46,6 +49,7 @@ import jakarta.persistence.Transient;
 
 @Entity(name = "Book")
 @Table(schema = "inventory", name = "books")
+@EntityListeners(AuditingEntityListener.class)
 public class BookEntity implements Serializable {
 
     /**
