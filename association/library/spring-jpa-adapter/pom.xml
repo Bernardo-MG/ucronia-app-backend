@@ -34,6 +34,10 @@
          <artifactId>association-library-domain</artifactId>
       </dependency>
       <dependency>
+         <groupId>com.bernardomg.framework</groupId>
+         <artifactId>audit</artifactId>
+      </dependency>
+      <dependency>
          <groupId>org.springframework.data</groupId>
          <artifactId>spring-data-jpa</artifactId>
       </dependency>
@@ -102,6 +106,11 @@
          <!-- Jackson databinding -->
          <groupId>com.fasterxml.jackson.core</groupId>
          <artifactId>jackson-databind</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.framework.security</groupId>
+         <artifactId>security-adapter</artifactId>
          <scope>test</scope>
       </dependency>
    </dependencies>

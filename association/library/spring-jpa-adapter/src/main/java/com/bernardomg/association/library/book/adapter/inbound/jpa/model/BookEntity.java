@@ -30,8 +30,10 @@ import java.util.Collection;
 
 import com.bernardomg.association.library.author.adapter.inbound.jpa.model.AuthorEntity;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.model.PublisherEntity;
+import com.bernardomg.audit.jpa.AuditMetadata;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -51,6 +53,9 @@ public class BookEntity implements Serializable {
      */
     @Transient
     private static final long           serialVersionUID = 5800151370938640858L;
+
+    @Embedded
+    private final AuditMetadata         audit            = new AuditMetadata();
 
     @OneToMany
     @JoinTable(schema = "inventory", name = "book_authors",
