@@ -28,6 +28,7 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Primary;
+import org.springframework.security.authentication.AuthenticationTrustResolver;
 
 import com.bernardomg.association.security.account.adapter.inbound.jpa.repository.AccountAssignedProfileSpringRepository;
 import com.bernardomg.association.security.account.adapter.inbound.jpa.repository.JpaAccountProfileRepository;
@@ -53,11 +54,11 @@ public class AssociationSecurityAccountAutoConfiguration {
     @Primary
     @Bean("memberAccountService")
     public MemberAccountService getMemberAccountService(final AccountRepository accountRepository,
-            final AccountProfileRepository accountProfileRepository) {
+            final AccountProfileRepository accountProfileRepository, final AuthenticationTrustResolver trustResolver) {
         final AccountService           wrapped;
         final AccountInSessionProvider provider;
 
-        provider = new SpringSecurityAccountInSessionProvider(accountRepository);
+        provider = new SpringSecurityAccountInSessionProvider(trustResolver, accountRepository);
         wrapped = new DefaultAccountService(accountRepository, provider);
         return new MemberAccountService(wrapped, accountProfileRepository);
     }
