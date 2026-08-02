@@ -45,9 +45,9 @@ import com.bernardomg.association.calendar.game.domain.repository.ScheduledGameR
 
 @Configuration
 @EnableJpaRepositories(basePackages = { "com.bernardomg.association.calendar.adapter.inbound.jpa",
-        "com.bernardomg.association.calendar.game.adapter.inbound.jpa" })
+        "com.bernardomg.association.calendar.game.adapter.inbound.jpa", "com.bernardomg.security.adapter.inbound.jpa" })
 @EntityScan(basePackages = { "com.bernardomg.association.calendar.adapter.inbound.jpa",
-        "com.bernardomg.association.calendar.game.adapter.inbound.jpa" })
+        "com.bernardomg.association.calendar.game.adapter.inbound.jpa", "com.bernardomg.security.adapter.inbound.jpa" })
 public class TestConfiguration {
 
     @Bean("activityRepository")

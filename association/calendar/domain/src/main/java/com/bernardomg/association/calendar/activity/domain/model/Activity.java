@@ -32,11 +32,13 @@ import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.bernardomg.security.domain.audit.model.AuditDetails;
+
 public record Activity(long number, String title, String description, String location, String image,
-        Collection<ActivityDate> dates) {
+        Collection<ActivityDate> dates, AuditDetails audit) {
 
     public Activity(final long number, final String title, final String description, final String location,
-            final String image, final Collection<ActivityDate> dates) {
+            final String image, final Collection<ActivityDate> dates, final AuditDetails audit) {
         Objects.requireNonNull(number, "Number can't be null");
         Objects.requireNonNull(title, "Title can't be null");
         Objects.requireNonNull(description, "Description can't be null");
@@ -50,6 +52,12 @@ public record Activity(long number, String title, String description, String loc
         this.location = StringUtils.trim(location);
         this.image = StringUtils.trim(image);
         this.dates = Collections.unmodifiableSet(new LinkedHashSet<>(dates));
+        this.audit = audit;
+    }
+
+    public Activity(final long number, final String title, final String description, final String location,
+            final String image, final Collection<ActivityDate> dates) {
+        this(number, title, description, location, image, dates, new AuditDetails());
     }
 
     public record ActivityDate(Instant start, Instant end) {
