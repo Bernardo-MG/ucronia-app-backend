@@ -43,10 +43,10 @@ import com.bernardomg.association.security.user.domain.repository.UserProfileRep
 @Configuration
 @EnableJpaRepositories(basePackages = { "com.bernardomg.association.security.user.adapter.inbound.jpa",
         "com.bernardomg.association.security.account.adapter.inbound.jpa",
-        "com.bernardomg.security.adapter.inbound.jpa", "com.bernardomg.audit.springframework.jpa" })
+        "com.bernardomg.security.adapter.inbound.jpa" })
 @EntityScan(basePackages = { "com.bernardomg.association.security.user.adapter.inbound.jpa",
         "com.bernardomg.association.security.account.adapter.inbound.jpa",
-        "com.bernardomg.security.adapter.inbound.jpa", "com.bernardomg.audit.springframework.jpa" })
+        "com.bernardomg.security.adapter.inbound.jpa" })
 public class TestConfiguration {
 
     @Bean("accountProfileRepository")

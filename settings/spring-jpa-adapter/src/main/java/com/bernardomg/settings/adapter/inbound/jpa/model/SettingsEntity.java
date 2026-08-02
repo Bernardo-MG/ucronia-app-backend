@@ -107,7 +107,8 @@ public class SettingsEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "SettingsEntity [code=" + code + ", id=" + id + ", type=" + type + ", value=" + value + "]";
+        return "SettingsEntity [code=" + code + ", id=" + id + ", type=" + type + ", value=" + value + ", audit="
+                + audit + "]";
     }
 
 }

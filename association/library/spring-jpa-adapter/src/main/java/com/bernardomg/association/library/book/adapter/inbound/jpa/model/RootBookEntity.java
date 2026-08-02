@@ -57,7 +57,7 @@ import jakarta.persistence.Table;
 public abstract class RootBookEntity {
 
     @Embedded
-    private final AuditMetadata         audit = new AuditMetadata();
+    private AuditMetadata               audit = new AuditMetadata();
 
     @OneToMany
     @JoinTable(schema = "inventory", name = "book_authors",
@@ -158,6 +158,10 @@ public abstract class RootBookEntity {
         return title;
     }
 
+    public void setAudit(final AuditMetadata audit) {
+        this.audit = audit;
+    }
+
     public void setAuthors(final Collection<AuthorEntity> authors) {
         this.authors = authors;
     }
@@ -211,7 +215,7 @@ public abstract class RootBookEntity {
         return "RootBookEntity [authors=" + authors + ", donationDate=" + donationDate + ", donors=" + donors + ", id="
                 + id + ", isbn=" + isbn + ", language=" + language + ", number=" + number + ", publishDate="
                 + publishDate + ", publishers=" + publishers + ", subtitle=" + subtitle + ", supertitle=" + supertitle
-                + ", title=" + title + "]";
+                + ", title=" + title+ ", audit=" + audit + "]";
     }
 
 }

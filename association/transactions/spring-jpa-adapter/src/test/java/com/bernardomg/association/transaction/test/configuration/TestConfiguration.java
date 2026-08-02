@@ -42,9 +42,9 @@ import com.bernardomg.association.transaction.domain.repository.TransactionSumma
 
 @Configuration
 @EnableJpaRepositories(basePackages = { "com.bernardomg.association.transaction.adapter.inbound.jpa",
-        "com.bernardomg.security.adapter.inbound.jpa", "com.bernardomg.audit.springframework.jpa" })
+        "com.bernardomg.security.adapter.inbound.jpa" })
 @EntityScan(basePackages = { "com.bernardomg.association.transaction.adapter.inbound.jpa",
-        "com.bernardomg.security.adapter.inbound.jpa", "com.bernardomg.audit.springframework.jpa" })
+        "com.bernardomg.security.adapter.inbound.jpa" })
 public class TestConfiguration {
 
     @Bean("authenticationTrustResolver")
