@@ -36,11 +36,11 @@ import com.bernardomg.association.calendar.adapter.outbound.rest.dto.CalendarTyp
 import com.bernardomg.association.calendar.adapter.outbound.rest.model.CalendarTypeDtoMapper;
 import com.bernardomg.association.calendar.domain.model.CalendarType;
 import com.bernardomg.association.calendar.usecase.service.CalendarTypeService;
+import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.web.WebSorting;
-import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.domain.permission.constant.Actions;
 
 /**

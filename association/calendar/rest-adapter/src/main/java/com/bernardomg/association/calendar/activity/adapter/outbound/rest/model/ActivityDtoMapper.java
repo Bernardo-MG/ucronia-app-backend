@@ -33,6 +33,8 @@ import com.bernardomg.association.calendar.activity.adapter.outbound.rest.dto.Ac
 import com.bernardomg.association.calendar.activity.adapter.outbound.rest.dto.ActivityPageResponseDto;
 import com.bernardomg.association.calendar.activity.adapter.outbound.rest.dto.ActivityResponseDto;
 import com.bernardomg.association.calendar.activity.adapter.outbound.rest.dto.ActivityUpdateDto;
+import com.bernardomg.association.calendar.activity.adapter.outbound.rest.dto.AuditDetailsDto;
+import com.bernardomg.association.calendar.activity.adapter.outbound.rest.dto.AuditUserDto;
 import com.bernardomg.association.calendar.activity.adapter.outbound.rest.dto.PropertyDto;
 import com.bernardomg.association.calendar.activity.adapter.outbound.rest.dto.PropertyDto.DirectionEnum;
 import com.bernardomg.association.calendar.activity.adapter.outbound.rest.dto.SortingDto;
@@ -41,6 +43,8 @@ import com.bernardomg.association.calendar.activity.domain.model.Activity.Activi
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
 import com.bernardomg.pagination.domain.Sorting.Property;
+import com.bernardomg.security.domain.audit.model.AuditDetails;
+import com.bernardomg.security.domain.audit.model.AuditDetails.AuditUser;
 
 public final class ActivityDtoMapper {
 
@@ -124,12 +128,41 @@ public final class ActivityDtoMapper {
             .title(activity.title())
             .description(activity.description())
             .image(activity.image())
-            .dates(dates);
+            .dates(dates)
+            .audit(toDto(activity.audit()));
     }
 
     private static final ActivityDateDto toDto(final ActivityDate date) {
         return new ActivityDateDto().start(date.start())
             .end(date.end());
+    }
+
+    private static final AuditDetailsDto toDto(final AuditDetails audit) {
+        final AuditDetailsDto dto;
+
+        if (audit == null) {
+            dto = null;
+        } else {
+            dto = new AuditDetailsDto().createdAt(audit.createdAt())
+                .createdBy(toDto(audit.createdBy()))
+                .updatedAt(audit.updatedAt())
+                .updatedBy(toDto(audit.updatedBy()));
+        }
+
+        return dto;
+    }
+
+    private static final AuditUserDto toDto(final AuditUser user) {
+        final AuditUserDto dto;
+
+        if (user == null) {
+            dto = null;
+        } else {
+            dto = new AuditUserDto().email(user.email())
+                .username(user.username())
+                .name(user.name());
+        }
+        return dto;
     }
 
     private static final PropertyDto toDto(final Property property) {

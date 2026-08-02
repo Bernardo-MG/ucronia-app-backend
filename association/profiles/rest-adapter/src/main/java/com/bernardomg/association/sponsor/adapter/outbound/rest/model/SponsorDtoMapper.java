@@ -33,6 +33,8 @@ import java.util.Set;
 import com.bernardomg.association.profile.domain.model.ContactChannel;
 import com.bernardomg.association.profile.domain.model.ContactMethod;
 import com.bernardomg.association.profile.domain.model.Name;
+import com.bernardomg.association.sponsor.adapter.outbound.rest.dto.AuditDetailsDto;
+import com.bernardomg.association.sponsor.adapter.outbound.rest.dto.AuditUserDto;
 import com.bernardomg.association.sponsor.adapter.outbound.rest.dto.ContactChannelDto;
 import com.bernardomg.association.sponsor.adapter.outbound.rest.dto.ContactMethodDto;
 import com.bernardomg.association.sponsor.adapter.outbound.rest.dto.EditionContactChannelDto;
@@ -50,6 +52,8 @@ import com.bernardomg.association.sponsor.domain.model.Sponsor;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
 import com.bernardomg.pagination.domain.Sorting.Property;
+import com.bernardomg.security.domain.audit.model.AuditDetails;
+import com.bernardomg.security.domain.audit.model.AuditDetails.AuditUser;
 
 public final class SponsorDtoMapper {
 
@@ -139,6 +143,34 @@ public final class SponsorDtoMapper {
         return new ContactChannel(contactMethod, dto.getDetail());
     }
 
+    private static final AuditDetailsDto toDto(final AuditDetails audit) {
+        final AuditDetailsDto dto;
+
+        if (audit == null) {
+            dto = null;
+        } else {
+            dto = new AuditDetailsDto().createdAt(audit.createdAt())
+                .createdBy(toDto(audit.createdBy()))
+                .updatedAt(audit.updatedAt())
+                .updatedBy(toDto(audit.updatedBy()));
+        }
+
+        return dto;
+    }
+
+    private static final AuditUserDto toDto(final AuditUser user) {
+        final AuditUserDto dto;
+
+        if (user == null) {
+            dto = null;
+        } else {
+            dto = new AuditUserDto().email(user.email())
+                .username(user.username())
+                .name(user.name());
+        }
+        return dto;
+    }
+
     private static final ContactChannelDto toDto(final ContactChannel contact) {
         ContactMethodDto method;
 
@@ -191,7 +223,8 @@ public final class SponsorDtoMapper {
             .comments(sponsor.comments()
                 .orElse(null))
             .years(new ArrayList<>(sponsor.years()))
-            .types(new ArrayList<>(sponsor.types()));
+            .types(new ArrayList<>(sponsor.types()))
+            .audit(toDto(sponsor.audit()));
     }
 
     private SponsorDtoMapper() {

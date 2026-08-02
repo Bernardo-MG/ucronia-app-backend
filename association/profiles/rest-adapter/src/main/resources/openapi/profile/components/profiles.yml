@@ -91,6 +91,8 @@ components:
           type: array
           items:
             type: string
+        audit:
+          $ref: 'audit.yml#/components/schemas/AuditDetails'
     ProfileCreation:
       type: object
       required: [name]

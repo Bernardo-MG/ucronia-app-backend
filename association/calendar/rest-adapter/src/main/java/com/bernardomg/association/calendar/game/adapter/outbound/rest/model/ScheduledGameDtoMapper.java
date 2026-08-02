@@ -30,6 +30,8 @@ import com.bernardomg.association.calendar.domain.model.CalendarStatus;
 import com.bernardomg.association.calendar.domain.model.Recurrence;
 import com.bernardomg.association.calendar.domain.model.Recurrence.RecurrenceStatus;
 import com.bernardomg.association.calendar.domain.model.Recurrence.RecurrenceUnit;
+import com.bernardomg.association.calendar.game.adapter.outbound.rest.dto.AuditDetailsDto;
+import com.bernardomg.association.calendar.game.adapter.outbound.rest.dto.AuditUserDto;
 import com.bernardomg.association.calendar.game.adapter.outbound.rest.dto.CalendarStatusDto;
 import com.bernardomg.association.calendar.game.adapter.outbound.rest.dto.GameSessionTypeDto;
 import com.bernardomg.association.calendar.game.adapter.outbound.rest.dto.PropertyDto;
@@ -48,6 +50,8 @@ import com.bernardomg.association.calendar.game.domain.model.ScheduledGame;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
 import com.bernardomg.pagination.domain.Sorting.Property;
+import com.bernardomg.security.domain.audit.model.AuditDetails;
+import com.bernardomg.security.domain.audit.model.AuditDetails.AuditUser;
 
 public final class ScheduledGameDtoMapper {
 
@@ -144,6 +148,34 @@ public final class ScheduledGameDtoMapper {
         return text;
     }
 
+    private static final AuditDetailsDto toDto(final AuditDetails audit) {
+        final AuditDetailsDto dto;
+
+        if (audit == null) {
+            dto = null;
+        } else {
+            dto = new AuditDetailsDto().createdAt(audit.createdAt())
+                .createdBy(toDto(audit.createdBy()))
+                .updatedAt(audit.updatedAt())
+                .updatedBy(toDto(audit.updatedBy()));
+        }
+
+        return dto;
+    }
+
+    private static final AuditUserDto toDto(final AuditUser user) {
+        final AuditUserDto dto;
+
+        if (user == null) {
+            dto = null;
+        } else {
+            dto = new AuditUserDto().email(user.email())
+                .username(user.username())
+                .name(user.name());
+        }
+        return dto;
+    }
+
     private static final PropertyDto toDto(final Property property) {
         final DirectionEnum direction;
 
@@ -191,7 +223,8 @@ public final class ScheduledGameDtoMapper {
             .start(scheduledGame.start())
             .recurrence(recurrence)
             .status(status)
-            .gameType(gameTypeDto);
+            .gameType(gameTypeDto)
+            .audit(toDto(scheduledGame.audit()));
     }
 
     private static final GameSessionType toGameSessionType(final GameSessionTypeDto dto) {

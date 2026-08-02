@@ -120,6 +120,8 @@ components:
           type: array
           items:
             type: string
+        audit:
+          $ref: 'audit.yml#/components/schemas/AuditDetails'
     MemberCreation:
       type: object
       required: [feeType, identifier, name]
