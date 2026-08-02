@@ -29,18 +29,27 @@ import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 
-public record Transaction(long index, Instant date, float amount, String description) {
+import com.bernardomg.security.domain.audit.model.AuditDetails;
 
-    public Transaction(final long index, final Instant date, final float amount, final String description) {
+public record Transaction(long index, Instant date, float amount, String description, AuditDetails audit) {
+
+    public Transaction(final long index, final Instant date, final float amount, final String description,
+            final AuditDetails audit) {
         Objects.requireNonNull(index, "Index can't be null");
         Objects.requireNonNull(amount, "Amount can't be null");
         Objects.requireNonNull(date, "Date can't be null");
         Objects.requireNonNull(description, "Description can't be null");
+        Objects.requireNonNull(audit, "Audit can't be null");
 
         this.index = index;
         this.amount = amount;
         this.date = date;
         this.description = StringUtils.trim(description);
+        this.audit = audit;
+    }
+
+    public Transaction(final long index, final Instant date, final float amount, final String description) {
+        this(index, date, amount, description, new AuditDetails());
     }
 
 }

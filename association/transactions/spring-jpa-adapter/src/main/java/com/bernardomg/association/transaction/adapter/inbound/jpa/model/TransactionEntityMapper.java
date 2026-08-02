@@ -25,6 +25,10 @@
 package com.bernardomg.association.transaction.adapter.inbound.jpa.model;
 
 import com.bernardomg.association.transaction.domain.model.Transaction;
+import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditMetadata;
+import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditUserEntity;
+import com.bernardomg.security.domain.audit.model.AuditDetails;
+import com.bernardomg.security.domain.audit.model.AuditDetails.AuditUser;
 
 /**
  * Author repository mapper.
@@ -32,8 +36,11 @@ import com.bernardomg.association.transaction.domain.model.Transaction;
 public final class TransactionEntityMapper {
 
     public static final Transaction toDomain(final TransactionEntity transaction) {
+        final AuditDetails audit;
+
+        audit = toDomain(transaction.getAudit());
         return new Transaction(transaction.getIndex(), transaction.getDate(), transaction.getAmount(),
-            transaction.getDescription());
+            transaction.getDescription(), audit);
     }
 
     public static final TransactionEntity toEntity(final Transaction transaction) {
@@ -46,6 +53,31 @@ public final class TransactionEntityMapper {
         entity.setAmount(transaction.amount());
 
         return entity;
+    }
+
+    private static final AuditUser toAuditDomain(final AuditUserEntity user) {
+        final AuditUser auditUser;
+
+        if (user == null) {
+            auditUser = null;
+        } else {
+            auditUser = new AuditUser(user.getEmail(), user.getUsername(), user.getName());
+        }
+
+        return auditUser;
+    }
+
+    private static final AuditDetails toDomain(final AuditMetadata audit) {
+        final AuditDetails auditDetails;
+
+        if (audit == null) {
+            auditDetails = new AuditDetails();
+        } else {
+            auditDetails = new AuditDetails(audit.getCreatedAt(), toAuditDomain(audit.getCreatedBy()),
+                audit.getUpdatedAt(), toAuditDomain(audit.getUpdatedBy()));
+        }
+
+        return auditDetails;
     }
 
     private TransactionEntityMapper() {

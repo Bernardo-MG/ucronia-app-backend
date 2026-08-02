@@ -59,7 +59,7 @@ public class BookEntity implements Serializable {
     private static final long           serialVersionUID = 5800151370938640858L;
 
     @Embedded
-    private final AuditMetadata               audit            = new AuditMetadata();
+    private final AuditMetadata         audit            = new AuditMetadata();
 
     @OneToMany
     @JoinTable(schema = "inventory", name = "book_authors",
@@ -107,6 +107,10 @@ public class BookEntity implements Serializable {
 
     @Column(name = "title", nullable = false)
     private String                      title;
+
+    public AuditMetadata getAudit() {
+        return audit;
+    }
 
     public Collection<AuthorEntity> getAuthors() {
         return authors;

@@ -36,17 +36,27 @@ import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
+import com.bernardomg.security.domain.audit.model.AuditDetails;
 
 public record GameBook(long number, Title title, String isbn, String language, Optional<Instant> publishDate,
         boolean lent, Collection<Author> authors, Collection<BookLendingInfo> lendings,
         Collection<Publisher> publishers, Optional<Donation> donation, Optional<BookType> bookType,
-        Optional<GameSystem> gameSystem) {
+        Optional<GameSystem> gameSystem, AuditDetails audit) {
 
     public GameBook(final long number, final Title title, final String isbn, final String language,
             final Optional<Instant> publishDate, final boolean lent, final Collection<Author> authors,
             final Collection<BookLendingInfo> lendings, final Collection<Publisher> publishers,
             final Optional<Donation> donation, final Optional<BookType> bookType,
             final Optional<GameSystem> gameSystem) {
+        this(number, title, isbn, language, publishDate, lent, authors, lendings, publishers, donation, bookType,
+            gameSystem, new AuditDetails());
+    }
+
+    public GameBook(final long number, final Title title, final String isbn, final String language,
+            final Optional<Instant> publishDate, final boolean lent, final Collection<Author> authors,
+            final Collection<BookLendingInfo> lendings, final Collection<Publisher> publishers,
+            final Optional<Donation> donation, final Optional<BookType> bookType, final Optional<GameSystem> gameSystem,
+            final AuditDetails audit) {
         Objects.requireNonNull(number, "Number can't be null");
         Objects.requireNonNull(title, "Title can't be null");
         Objects.requireNonNull(isbn, "ISBN can't be null");
@@ -59,6 +69,7 @@ public record GameBook(long number, Title title, String isbn, String language, O
         Objects.requireNonNull(donation, "Donation can't be null");
         Objects.requireNonNull(bookType, "Book type can't be null");
         Objects.requireNonNull(gameSystem, "Game system can't be null");
+        Objects.requireNonNull(audit, "Audit can't be null");
 
         this.number = number;
         this.title = title;
@@ -72,6 +83,7 @@ public record GameBook(long number, Title title, String isbn, String language, O
         this.donation = donation;
         this.bookType = bookType;
         this.gameSystem = gameSystem;
+        this.audit = audit;
     }
 
 }
