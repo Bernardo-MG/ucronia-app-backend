@@ -30,6 +30,10 @@
 
    <dependencies>
       <dependency>
+         <groupId>com.bernardomg.framework.security</groupId>
+         <artifactId>security-model</artifactId>
+      </dependency>
+      <dependency>
          <groupId>org.apache.commons</groupId>
          <artifactId>commons-lang3</artifactId>
       </dependency>

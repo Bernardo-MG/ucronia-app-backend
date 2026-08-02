@@ -22,30 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.settings.domain.model;
+/**
+ * Setting JPA model.
+ */
 
-import java.util.Objects;
-
-import org.apache.commons.lang3.StringUtils;
-
-import com.bernardomg.security.domain.audit.model.AuditDetails;
-
-public record Setting(String type, String code, String value, AuditDetails audit) {
-
-    public Setting(final String type, final String code, final String value, final AuditDetails audit) {
-        Objects.requireNonNull(type, "Type can't be null");
-        Objects.requireNonNull(code, "Code can't be null");
-        Objects.requireNonNull(value, "Value can't be null");
-        Objects.requireNonNull(audit, "Audit can't be null");
-
-        this.type = StringUtils.trim(type);
-        this.code = StringUtils.trim(code);
-        this.value = StringUtils.trim(value);
-        this.audit = audit;
-    }
-
-    public Setting(final String type, final String code, final String value) {
-        this(type, code, value, new AuditDetails());
-    }
-
-}
+package com.bernardomg.settings.adapter.inbound.jpa.model;

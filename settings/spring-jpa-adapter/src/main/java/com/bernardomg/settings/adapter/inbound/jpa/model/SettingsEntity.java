@@ -26,8 +26,14 @@ package com.bernardomg.settings.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
 
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditMetadata;
+
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -36,10 +42,14 @@ import jakarta.persistence.Transient;
 
 @Entity(name = "Setting")
 @Table(schema = "configuration", name = "settings")
+@EntityListeners(AuditingEntityListener.class)
 public class SettingsEntity implements Serializable {
 
     @Transient
     private static final long serialVersionUID = -8109295491346275297L;
+
+    @Embedded
+    private AuditMetadata     audit            = new AuditMetadata();
 
     @Column(name = "code", nullable = false)
     private String            code;
@@ -55,6 +65,10 @@ public class SettingsEntity implements Serializable {
     @Column(name = "config_value", nullable = false)
     private String            value;
 
+    public AuditMetadata getAudit() {
+        return audit;
+    }
+
     public String getCode() {
         return code;
     }
@@ -69,6 +83,10 @@ public class SettingsEntity implements Serializable {
 
     public String getValue() {
         return value;
+    }
+
+    public void setAudit(final AuditMetadata audit) {
+        this.audit = audit;
     }
 
     public void setCode(final String code) {
