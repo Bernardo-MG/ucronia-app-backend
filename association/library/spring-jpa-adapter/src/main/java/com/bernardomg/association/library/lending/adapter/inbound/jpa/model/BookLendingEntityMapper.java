@@ -30,6 +30,10 @@ import com.bernardomg.association.library.book.adapter.inbound.jpa.model.BookEnt
 import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.lending.domain.model.BookLending.LentBook;
+import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditMetadata;
+import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditUserEntity;
+import com.bernardomg.security.domain.audit.model.AuditDetails;
+import com.bernardomg.security.domain.audit.model.AuditDetails.AuditUser;
 
 /**
  * Author repository mapper.
@@ -37,13 +41,17 @@ import com.bernardomg.association.library.lending.domain.model.BookLending.LentB
 public final class BookLendingEntityMapper {
 
     public static final BookLending toDomain(final BookLendingEntity entity, final BookEntity bookEntity) {
-        final LentBook lentBook;
-        final Title    title;
+        final LentBook     lentBook;
+        final Title        title;
+        final AuditDetails audit;
 
         title = new Title(bookEntity.getSupertitle(), bookEntity.getTitle(), bookEntity.getSubtitle());
         lentBook = new LentBook(bookEntity.getNumber(), title);
+
+        audit = toDomain(entity.getAudit());
+
         return new BookLending(lentBook, entity.getBorrower()
-            .getNumber(), entity.getLendingDate(), Optional.ofNullable(entity.getReturnDate()));
+            .getNumber(), entity.getLendingDate(), Optional.ofNullable(entity.getReturnDate()), audit);
     }
 
     public static final BookLendingEntity toEntity(final BookLending domain, final BookEntity bookEntity) {
@@ -56,6 +64,31 @@ public final class BookLendingEntityMapper {
             .orElse(null));
 
         return entity;
+    }
+
+    private static final AuditUser toAuditDomain(final AuditUserEntity user) {
+        final AuditUser auditUser;
+
+        if (user == null) {
+            auditUser = null;
+        } else {
+            auditUser = new AuditUser(user.getEmail(), user.getUsername(), user.getName());
+        }
+
+        return auditUser;
+    }
+
+    private static final AuditDetails toDomain(final AuditMetadata audit) {
+        final AuditDetails auditDetails;
+
+        if (audit == null) {
+            auditDetails = new AuditDetails();
+        } else {
+            auditDetails = new AuditDetails(audit.getCreatedAt(), toAuditDomain(audit.getCreatedBy()),
+                audit.getUpdatedAt(), toAuditDomain(audit.getUpdatedBy()));
+        }
+
+        return auditDetails;
     }
 
     private BookLendingEntityMapper() {

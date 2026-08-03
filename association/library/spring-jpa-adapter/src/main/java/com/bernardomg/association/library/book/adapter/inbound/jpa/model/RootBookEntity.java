@@ -215,7 +215,7 @@ public abstract class RootBookEntity {
         return "RootBookEntity [authors=" + authors + ", donationDate=" + donationDate + ", donors=" + donors + ", id="
                 + id + ", isbn=" + isbn + ", language=" + language + ", number=" + number + ", publishDate="
                 + publishDate + ", publishers=" + publishers + ", subtitle=" + subtitle + ", supertitle=" + supertitle
-                + ", title=" + title+ ", audit=" + audit + "]";
+                + ", title=" + title + ", audit=" + audit + "]";
     }
 
 }
