@@ -37,11 +37,11 @@ import com.bernardomg.association.library.adapter.outbound.rest.dto.BookTypeUpda
 import com.bernardomg.association.library.booktype.adapter.outbound.rest.model.BookTypeDtoMapper;
 import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.booktype.usecase.service.BookTypeService;
+import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.web.WebSorting;
-import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.domain.permission.constant.Actions;
 
 /**

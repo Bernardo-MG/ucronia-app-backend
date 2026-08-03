@@ -85,7 +85,7 @@ class ITSponsorRepositorySave {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.contactChannels.id",
-                "profile.contactChannels.profileId", "profile.contactChannels.profile")
+                "profile.contactChannels.profileId", "profile.contactChannels.profile", "profile.audit")
             .containsExactly(SponsorEntities.withEmail());
     }
 
@@ -108,7 +108,7 @@ class ITSponsorRepositorySave {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.contactChannels.id",
-                "profile.contactChannels.profileId", "profile.contactChannels.profile")
+                "profile.contactChannels.profileId", "profile.contactChannels.profile", "profile.audit")
             .containsExactly(SponsorEntities.firstNameChange());
     }
 
@@ -150,7 +150,7 @@ class ITSponsorRepositorySave {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.contactChannels.id",
-                "profile.contactChannels.profileId", "profile.contactChannels.profile")
+                "profile.contactChannels.profileId", "profile.contactChannels.profile", "profile.audit")
             .containsExactly(SponsorEntities.valid());
     }
 
@@ -173,7 +173,7 @@ class ITSponsorRepositorySave {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.contactChannels.id",
-                "profile.contactChannels.profileId", "profile.contactChannels.profile")
+                "profile.contactChannels.profileId", "profile.contactChannels.profile", "profile.audit")
             .containsExactly(SponsorEntities.valid());
     }
 
@@ -195,7 +195,8 @@ class ITSponsorRepositorySave {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.id", "profile.number",
-                "profile.contactChannels.id", "profile.contactChannels.profileId", "profile.contactChannels.profile")
+                "profile.contactChannels.id", "profile.contactChannels.profileId", "profile.contactChannels.profile",
+                "profile.audit")
             .containsExactly(SponsorEntities.created());
     }
 
@@ -217,7 +218,8 @@ class ITSponsorRepositorySave {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.id", "profile.number",
-                "profile.contactChannels.id", "profile.contactChannels.profileId", "profile.contactChannels.profile")
+                "profile.contactChannels.id", "profile.contactChannels.profileId", "profile.contactChannels.profile",
+                "profile.audit")
             .containsExactly(SponsorEntities.created());
     }
 
@@ -281,7 +283,8 @@ class ITSponsorRepositorySave {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.id", "profile.number",
-                "profile.contactChannels.id", "profile.contactChannels.profileId", "profile.contactChannels.profile")
+                "profile.contactChannels.id", "profile.contactChannels.profileId", "profile.contactChannels.profile",
+                "profile.audit")
             .containsExactly(SponsorEntities.createdWithEmail());
     }
 

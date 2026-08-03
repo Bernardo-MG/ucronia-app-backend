@@ -35,6 +35,10 @@ import com.bernardomg.association.library.book.domain.model.Donor;
 import com.bernardomg.association.library.book.domain.model.FictionBook;
 import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
+import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditMetadata;
+import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditUserEntity;
+import com.bernardomg.security.domain.audit.model.AuditDetails;
+import com.bernardomg.security.domain.audit.model.AuditDetails.AuditUser;
 
 /**
  * Author repository mapper.
@@ -50,6 +54,7 @@ public final class FictionBookEntityMapper {
         final String                supertitle;
         final String                subtitle;
         final Optional<Donation>    donation;
+        final AuditDetails          audit;
 
         // Publishers
         if (entity.getPublishers() == null) {
@@ -102,8 +107,35 @@ public final class FictionBookEntityMapper {
         }
         title = new Title(supertitle, entity.getTitle(), subtitle);
 
+        audit = toDomain(entity.getAudit());
+
         return new FictionBook(entity.getNumber(), title, entity.getIsbn(), entity.getLanguage(),
-            Optional.ofNullable(entity.getPublishDate()), lent, authors, lendings, publishers, donation);
+            Optional.ofNullable(entity.getPublishDate()), lent, authors, lendings, publishers, donation, audit);
+    }
+
+    private static final AuditUser toAuditDomain(final AuditUserEntity user) {
+        final AuditUser auditUser;
+
+        if (user == null) {
+            auditUser = null;
+        } else {
+            auditUser = new AuditUser(user.getEmail(), user.getUsername(), user.getName());
+        }
+
+        return auditUser;
+    }
+
+    private static final AuditDetails toDomain(final AuditMetadata audit) {
+        final AuditDetails auditDetails;
+
+        if (audit == null) {
+            auditDetails = new AuditDetails();
+        } else {
+            auditDetails = new AuditDetails(audit.getCreatedAt(), toAuditDomain(audit.getCreatedBy()),
+                audit.getUpdatedAt(), toAuditDomain(audit.getUpdatedBy()));
+        }
+
+        return auditDetails;
     }
 
     private FictionBookEntityMapper() {

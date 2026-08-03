@@ -31,6 +31,10 @@ import com.bernardomg.association.calendar.domain.model.Recurrence;
 import com.bernardomg.association.calendar.domain.model.Recurrence.RecurrenceStatus;
 import com.bernardomg.association.calendar.game.domain.model.GameSessionType;
 import com.bernardomg.association.calendar.game.domain.model.ScheduledGame;
+import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditMetadata;
+import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditUserEntity;
+import com.bernardomg.security.domain.audit.model.AuditDetails;
+import com.bernardomg.security.domain.audit.model.AuditDetails.AuditUser;
 
 /**
  * Scheduled game repository mapper.
@@ -40,6 +44,7 @@ public final class ScheduledGameEntityMapper {
     public static final ScheduledGame toDomain(final ScheduledGameEntity entity) {
         final Optional<Recurrence> recurrence;
         final GameSessionType      gameSessionType;
+        final AuditDetails         audit;
 
         if (entity.getRecurrence() == null) {
             recurrence = Optional.empty();
@@ -56,12 +61,14 @@ public final class ScheduledGameEntityMapper {
             .anyMatch(t -> t.getNumber() == ScheduledGameEntityConstants.CAMPAIGN_TYPE) ? GameSessionType.CAMPAIGN
                     : GameSessionType.ONESHOT;
 
+        audit = toDomain(entity.getAudit());
+
         return new ScheduledGame(entity.getNumber(), entity.getTitle(), entity.getDescription(), entity.getLocation(),
             entity.getMaster()
                 .getNumber(),
             entity.getMaxPlayers(), entity.getImage(), entity.getStart(), recurrence, entity.getStatus()
                 .getName(),
-            gameSessionType);
+            gameSessionType, audit);
     }
 
     public static final ScheduledGameEntity toEntity(final ScheduledGame scheduledGame) {
@@ -90,6 +97,31 @@ public final class ScheduledGameEntityMapper {
         }
 
         return entity;
+    }
+
+    private static final AuditUser toAuditDomain(final AuditUserEntity user) {
+        final AuditUser auditUser;
+
+        if (user == null) {
+            auditUser = null;
+        } else {
+            auditUser = new AuditUser(user.getEmail(), user.getUsername(), user.getName());
+        }
+
+        return auditUser;
+    }
+
+    private static final AuditDetails toDomain(final AuditMetadata audit) {
+        final AuditDetails auditDetails;
+
+        if (audit == null) {
+            auditDetails = new AuditDetails();
+        } else {
+            auditDetails = new AuditDetails(audit.getCreatedAt(), toAuditDomain(audit.getCreatedBy()),
+                audit.getUpdatedAt(), toAuditDomain(audit.getUpdatedBy()));
+        }
+
+        return auditDetails;
     }
 
     private ScheduledGameEntityMapper() {

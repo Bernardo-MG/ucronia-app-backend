@@ -147,6 +147,8 @@ components:
           $ref: '#/components/schemas/CalendarStatus'
         gameType:
           $ref: '#/components/schemas/GameSessionType'
+        audit:
+          $ref: 'audit.yml#/components/schemas/AuditDetails'
 
     ScheduledGamePageResponse:
       allOf:

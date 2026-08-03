@@ -37,6 +37,10 @@ import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
+import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditMetadata;
+import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditUserEntity;
+import com.bernardomg.security.domain.audit.model.AuditDetails;
+import com.bernardomg.security.domain.audit.model.AuditDetails.AuditUser;
 
 /**
  * Author repository mapper.
@@ -54,6 +58,7 @@ public final class GameBookEntityMapper {
         final String                supertitle;
         final String                subtitle;
         final Optional<Donation>    donation;
+        final AuditDetails          audit;
 
         // Game system
         if (entity.getGameSystem() == null) {
@@ -120,9 +125,36 @@ public final class GameBookEntityMapper {
         }
         title = new Title(supertitle, entity.getTitle(), subtitle);
 
+        audit = toDomain(entity.getAudit());
+
         return new GameBook(entity.getNumber(), title, entity.getIsbn(), entity.getLanguage(),
             Optional.ofNullable(entity.getPublishDate()), lent, authors, lendings, publishers, donation, bookType,
-            gameSystem);
+            gameSystem, audit);
+    }
+
+    private static final AuditUser toAuditDomain(final AuditUserEntity user) {
+        final AuditUser auditUser;
+
+        if (user == null) {
+            auditUser = null;
+        } else {
+            auditUser = new AuditUser(user.getEmail(), user.getUsername(), user.getName());
+        }
+
+        return auditUser;
+    }
+
+    private static final AuditDetails toDomain(final AuditMetadata audit) {
+        final AuditDetails auditDetails;
+
+        if (audit == null) {
+            auditDetails = new AuditDetails();
+        } else {
+            auditDetails = new AuditDetails(audit.getCreatedAt(), toAuditDomain(audit.getCreatedBy()),
+                audit.getUpdatedAt(), toAuditDomain(audit.getUpdatedBy()));
+        }
+
+        return auditDetails;
     }
 
     private GameBookEntityMapper() {

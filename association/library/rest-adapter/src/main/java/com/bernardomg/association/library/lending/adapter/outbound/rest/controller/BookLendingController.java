@@ -36,11 +36,11 @@ import com.bernardomg.association.library.adapter.outbound.rest.dto.BookReturned
 import com.bernardomg.association.library.lending.adapter.outbound.rest.model.BookLendingDtoMapper;
 import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.lending.usecase.service.BookLendingService;
+import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.web.WebSorting;
-import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.domain.permission.constant.Actions;
 
 /**

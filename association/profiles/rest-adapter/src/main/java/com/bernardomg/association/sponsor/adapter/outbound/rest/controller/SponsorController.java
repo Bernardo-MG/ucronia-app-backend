@@ -38,11 +38,11 @@ import com.bernardomg.association.sponsor.adapter.outbound.rest.model.SponsorDto
 import com.bernardomg.association.sponsor.domain.filter.SponsorFilter;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
 import com.bernardomg.association.sponsor.usecase.service.SponsorService;
+import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.web.WebSorting;
-import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.domain.permission.constant.Actions;
 
 /**

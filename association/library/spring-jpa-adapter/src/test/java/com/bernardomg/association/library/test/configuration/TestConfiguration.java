@@ -28,6 +28,8 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.security.authentication.AuthenticationTrustResolver;
+import org.springframework.security.authentication.AuthenticationTrustResolverImpl;
 
 import com.bernardomg.association.library.author.adapter.inbound.jpa.repository.AuthorSpringRepository;
 import com.bernardomg.association.library.author.adapter.inbound.jpa.repository.JpaAuthorRepository;
@@ -62,12 +64,17 @@ import com.bernardomg.association.library.publisher.domain.repository.PublisherR
 @EnableJpaRepositories(basePackages = { "com.bernardomg.association.library.**.adapter.inbound.jpa",
         "com.bernardomg.association.member.adapter.inbound.jpa", "com.bernardomg.association.fee.adapter.inbound.jpa",
         "com.bernardomg.association.transaction.adapter.inbound.jpa",
-        "com.bernardomg.association.profile.adapter.inbound.jpa" })
+        "com.bernardomg.association.profile.adapter.inbound.jpa", "com.bernardomg.security.adapter.inbound.jpa" })
 @EntityScan(basePackages = { "com.bernardomg.association.library.**.adapter.inbound.jpa",
         "com.bernardomg.association.member.adapter.inbound.jpa", "com.bernardomg.association.fee.adapter.inbound.jpa",
         "com.bernardomg.association.transaction.adapter.inbound.jpa",
-        "com.bernardomg.association.profile.adapter.inbound.jpa" })
+        "com.bernardomg.association.profile.adapter.inbound.jpa", "com.bernardomg.security.adapter.inbound.jpa" })
 public class TestConfiguration {
+
+    @Bean("authenticationTrustResolver")
+    public AuthenticationTrustResolver getAuthenticationTrustResolver() {
+        return new AuthenticationTrustResolverImpl();
+    }
 
     @Bean("authorRepository")
     public AuthorRepository getAuthorRepository(final AuthorSpringRepository authorSpringRepository) {

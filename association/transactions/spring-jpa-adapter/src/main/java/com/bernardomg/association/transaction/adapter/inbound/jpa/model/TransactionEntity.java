@@ -27,8 +27,14 @@ package com.bernardomg.association.transaction.adapter.inbound.jpa.model;
 import java.io.Serializable;
 import java.time.Instant;
 
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditMetadata;
+
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -37,6 +43,7 @@ import jakarta.persistence.Transient;
 
 @Entity(name = "Transaction")
 @Table(schema = "funds", name = "transactions")
+@EntityListeners(AuditingEntityListener.class)
 public class TransactionEntity implements Serializable {
 
     @Transient
@@ -44,6 +51,9 @@ public class TransactionEntity implements Serializable {
 
     @Column(name = "amount", nullable = false)
     private Float             amount;
+
+    @Embedded
+    private AuditMetadata     audit            = new AuditMetadata();
 
     @Column(name = "date", nullable = false)
     private Instant           date;
@@ -61,6 +71,10 @@ public class TransactionEntity implements Serializable {
 
     public Float getAmount() {
         return amount;
+    }
+
+    public AuditMetadata getAudit() {
+        return audit;
     }
 
     public Instant getDate() {
@@ -83,6 +97,10 @@ public class TransactionEntity implements Serializable {
         this.amount = amount;
     }
 
+    public void setAudit(final AuditMetadata audit) {
+        this.audit = audit;
+    }
+
     public void setDate(final Instant date) {
         this.date = date;
     }
@@ -102,7 +120,7 @@ public class TransactionEntity implements Serializable {
     @Override
     public String toString() {
         return "TransactionEntity [amount=" + amount + ", date=" + date + ", description=" + description + ", id=" + id
-                + ", index=" + index + "]";
+                + ", index=" + index + ", audit=" + audit + "]";
     }
 
 }

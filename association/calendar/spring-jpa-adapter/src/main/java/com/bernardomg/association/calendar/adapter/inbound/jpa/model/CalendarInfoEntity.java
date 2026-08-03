@@ -29,9 +29,14 @@ import java.time.Instant;
 import java.util.Objects;
 import java.util.Set;
 
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditMetadata;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
@@ -50,10 +55,14 @@ import jakarta.persistence.Transient;
 @Entity(name = "CalendarInfo")
 @Table(schema = "calendar", name = "calendar_info")
 @Inheritance(strategy = InheritanceType.JOINED)
+@EntityListeners(AuditingEntityListener.class)
 public class CalendarInfoEntity implements Serializable {
 
     @Transient
     private static final long       serialVersionUID = 4603617058960663867L;
+
+    @Embedded
+    private AuditMetadata           audit            = new AuditMetadata();
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(schema = "calendar", name = "calendar_info_dates",
@@ -110,6 +119,10 @@ public class CalendarInfoEntity implements Serializable {
         return Objects.equals(id, other.id);
     }
 
+    public AuditMetadata getAudit() {
+        return audit;
+    }
+
     public Set<CalendarDateEntity> getCalendarDates() {
         return calendarDates;
     }
@@ -157,6 +170,10 @@ public class CalendarInfoEntity implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    public void setAudit(final AuditMetadata audit) {
+        this.audit = audit;
     }
 
     public void setCalendarDates(final Set<CalendarDateEntity> calendarDates) {

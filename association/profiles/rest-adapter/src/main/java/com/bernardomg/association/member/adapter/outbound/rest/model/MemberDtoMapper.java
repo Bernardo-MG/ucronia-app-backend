@@ -30,6 +30,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import com.bernardomg.association.member.adapter.outbound.rest.dto.AuditDetailsDto;
+import com.bernardomg.association.member.adapter.outbound.rest.dto.AuditUserDto;
 import com.bernardomg.association.member.adapter.outbound.rest.dto.ContactChannelDto;
 import com.bernardomg.association.member.adapter.outbound.rest.dto.ContactMethodDto;
 import com.bernardomg.association.member.adapter.outbound.rest.dto.EditionContactChannelDto;
@@ -51,6 +53,8 @@ import com.bernardomg.association.profile.domain.model.Name;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
 import com.bernardomg.pagination.domain.Sorting.Property;
+import com.bernardomg.security.domain.audit.model.AuditDetails;
+import com.bernardomg.security.domain.audit.model.AuditDetails.AuditUser;
 
 public final class MemberDtoMapper {
 
@@ -128,6 +132,34 @@ public final class MemberDtoMapper {
         return new ContactChannel(contactMethod, dto.getDetail());
     }
 
+    private static final AuditDetailsDto toDto(final AuditDetails audit) {
+        final AuditDetailsDto dto;
+
+        if (audit == null) {
+            dto = null;
+        } else {
+            dto = new AuditDetailsDto().createdAt(audit.createdAt())
+                .createdBy(toDto(audit.createdBy()))
+                .updatedAt(audit.updatedAt())
+                .updatedBy(toDto(audit.updatedBy()));
+        }
+
+        return dto;
+    }
+
+    private static final AuditUserDto toDto(final AuditUser user) {
+        final AuditUserDto dto;
+
+        if (user == null) {
+            dto = null;
+        } else {
+            dto = new AuditUserDto().email(user.email())
+                .username(user.username())
+                .name(user.name());
+        }
+        return dto;
+    }
+
     private static final ContactChannelDto toDto(final ContactChannel contact) {
         final ContactMethodDto method;
 
@@ -178,7 +210,8 @@ public final class MemberDtoMapper {
             .active(member.active())
             .renew(member.renew())
             .feeType(feeType)
-            .types(new ArrayList<>(member.types()));
+            .types(new ArrayList<>(member.types()))
+            .audit(toDto(member.audit()));
     }
 
     private static final PropertyDto toDto(final Property property) {

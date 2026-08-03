@@ -1,0 +1,27 @@
+databaseChangeLog:
+  - changeSet:
+      id: profile_auth
+      author: Bernardo
+      changes:
+        - createTable:
+            schemaName: security
+            tableName: user_profiles
+            columns:
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    foreignKeyName: fk_user_profiles_user
+                    references: security.users(id)
+                    deleteCascade: true
+              - column:
+                  name: profile_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    unique: true
+                    foreignKeyName: fk_user_profiles_profile
+                    references: directory.profiles(id)
+                    deleteCascade: true

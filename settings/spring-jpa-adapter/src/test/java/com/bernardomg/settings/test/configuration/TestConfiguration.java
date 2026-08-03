@@ -34,8 +34,10 @@ import com.bernardomg.settings.adapter.inbound.jpa.repository.SettingsSpringRepo
 import com.bernardomg.settings.domain.repository.SettingRepository;
 
 @Configuration
-@EnableJpaRepositories(basePackages = "com.bernardomg.settings.adapter.inbound.jpa")
-@EntityScan(basePackages = "com.bernardomg.settings.adapter.inbound.jpa")
+@EnableJpaRepositories(
+        basePackages = { "com.bernardomg.settings.adapter.inbound.jpa", "com.bernardomg.security.adapter.inbound.jpa" })
+@EntityScan(
+        basePackages = { "com.bernardomg.settings.adapter.inbound.jpa", "com.bernardomg.security.adapter.inbound.jpa" })
 public class TestConfiguration {
 
     @Bean("settingRepository")

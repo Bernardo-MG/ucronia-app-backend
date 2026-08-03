@@ -37,6 +37,10 @@ import com.bernardomg.association.profile.domain.model.ContactChannel;
 import com.bernardomg.association.profile.domain.model.ContactMethod;
 import com.bernardomg.association.profile.domain.model.Name;
 import com.bernardomg.association.sponsor.domain.model.Sponsor;
+import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditMetadata;
+import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditUserEntity;
+import com.bernardomg.security.domain.audit.model.AuditDetails;
+import com.bernardomg.security.domain.audit.model.AuditDetails.AuditUser;
 
 /**
  * Update sponsor entity mapper.
@@ -46,6 +50,7 @@ public final class SponsorEntityMapper {
     public static final Sponsor toDomain(final ReadSponsorEntity entity) {
         final Name                       name;
         final Collection<ContactChannel> contactChannels;
+        final AuditDetails               audit;
 
         name = new Name(entity.getFirstName(), entity.getLastName());
 
@@ -54,14 +59,17 @@ public final class SponsorEntityMapper {
             .map(SponsorEntityMapper::toDomain)
             .toList();
 
+        audit = new AuditDetails();
         return new Sponsor(Optional.ofNullable(entity.getIdentifier()), entity.getNumber(), name,
             Optional.ofNullable(entity.getBirthDate()), contactChannels, entity.getYears(),
-            Optional.ofNullable(entity.getAddress()), Optional.ofNullable(entity.getComments()), entity.getTypes());
+            Optional.ofNullable(entity.getAddress()), Optional.ofNullable(entity.getComments()), entity.getTypes(),
+            audit);
     }
 
     public static final Sponsor toDomain(final SponsorEntity entity) {
         final Name                       name;
         final Collection<ContactChannel> contactChannels;
+        final AuditDetails               audit;
 
         name = new Name(entity.getProfile()
             .getFirstName(),
@@ -74,6 +82,8 @@ public final class SponsorEntityMapper {
             .map(SponsorEntityMapper::toDomain)
             .toList();
 
+        audit = toDomain(entity.getProfile()
+            .getAudit());
         return new Sponsor(Optional.ofNullable(entity.getProfile()
             .getIdentifier()), entity.getProfile()
                 .getNumber(),
@@ -84,7 +94,8 @@ public final class SponsorEntityMapper {
             Optional.ofNullable(entity.getProfile()
                 .getComments()),
             entity.getProfile()
-                .getTypes());
+                .getTypes(),
+            audit);
     }
 
     public static final SponsorEntity toEntity(final Sponsor data,
@@ -167,6 +178,31 @@ public final class SponsorEntityMapper {
         entity.setYears(new ArrayList<>(data.years()));
 
         return entity;
+    }
+
+    private static final AuditUser toAuditDomain(final AuditUserEntity user) {
+        final AuditUser auditUser;
+
+        if (user == null) {
+            auditUser = null;
+        } else {
+            auditUser = new AuditUser(user.getEmail(), user.getUsername(), user.getName());
+        }
+
+        return auditUser;
+    }
+
+    private static final AuditDetails toDomain(final AuditMetadata audit) {
+        final AuditDetails auditDetails;
+
+        if (audit == null) {
+            auditDetails = new AuditDetails();
+        } else {
+            auditDetails = new AuditDetails(audit.getCreatedAt(), toAuditDomain(audit.getCreatedBy()),
+                audit.getUpdatedAt(), toAuditDomain(audit.getUpdatedBy()));
+        }
+
+        return auditDetails;
     }
 
     private static final ContactChannel toDomain(final ContactChannelEntity entity) {

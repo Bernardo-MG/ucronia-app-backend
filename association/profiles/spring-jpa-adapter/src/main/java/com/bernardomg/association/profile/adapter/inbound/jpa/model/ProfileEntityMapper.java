@@ -31,6 +31,10 @@ import java.util.Optional;
 import com.bernardomg.association.profile.domain.model.ContactChannel;
 import com.bernardomg.association.profile.domain.model.Name;
 import com.bernardomg.association.profile.domain.model.Profile;
+import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditMetadata;
+import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditUserEntity;
+import com.bernardomg.security.domain.audit.model.AuditDetails;
+import com.bernardomg.security.domain.audit.model.AuditDetails.AuditUser;
 
 /**
  * Profile entity mapper.
@@ -40,6 +44,7 @@ public final class ProfileEntityMapper {
     public static final Profile toDomain(final ProfileEntity entity) {
         final Name                       name;
         final Collection<ContactChannel> contactChannels;
+        final AuditDetails               audit;
 
         name = new Name(entity.getFirstName(), entity.getLastName());
 
@@ -48,9 +53,10 @@ public final class ProfileEntityMapper {
             .map(ContactChannelEntityMapper::toDomain)
             .toList();
 
+        audit = toDomain(entity.getAudit());
         return new Profile(Optional.ofNullable(entity.getIdentifier()), entity.getNumber(), name,
             Optional.ofNullable(entity.getBirthDate()), contactChannels, Optional.ofNullable(entity.getAddress()),
-            Optional.ofNullable(entity.getComments()), entity.getTypes());
+            Optional.ofNullable(entity.getComments()), entity.getTypes(), audit);
     }
 
     public static final ProfileEntity toEntity(final Profile data,
@@ -89,6 +95,31 @@ public final class ProfileEntityMapper {
         entity.setTypes(new HashSet<>(data.types()));
 
         return entity;
+    }
+
+    private static final AuditUser toAuditDomain(final AuditUserEntity user) {
+        final AuditUser auditUser;
+
+        if (user == null) {
+            auditUser = null;
+        } else {
+            auditUser = new AuditUser(user.getEmail(), user.getUsername(), user.getName());
+        }
+
+        return auditUser;
+    }
+
+    private static final AuditDetails toDomain(final AuditMetadata audit) {
+        final AuditDetails auditDetails;
+
+        if (audit == null) {
+            auditDetails = new AuditDetails();
+        } else {
+            auditDetails = new AuditDetails(audit.getCreatedAt(), toAuditDomain(audit.getCreatedBy()),
+                audit.getUpdatedAt(), toAuditDomain(audit.getUpdatedBy()));
+        }
+
+        return auditDetails;
     }
 
     private static final ContactChannelEntity toEntity(final ContactChannel data,

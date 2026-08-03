@@ -32,10 +32,15 @@ import java.util.Set;
 
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditMetadata;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -46,6 +51,7 @@ import jakarta.persistence.Transient;
 
 @Entity(name = "Profile")
 @Table(schema = "directory", name = "profiles")
+@EntityListeners(AuditingEntityListener.class)
 public class ProfileEntity implements Serializable {
 
     /**
@@ -56,6 +62,9 @@ public class ProfileEntity implements Serializable {
 
     @Column(name = "address")
     private String                           address;
+
+    @Embedded
+    private AuditMetadata                    audit            = new AuditMetadata();
 
     @Column(name = "birth_date")
     private Instant                          birthDate;
@@ -103,6 +112,10 @@ public class ProfileEntity implements Serializable {
         return address;
     }
 
+    public AuditMetadata getAudit() {
+        return audit;
+    }
+
     public Instant getBirthDate() {
         return birthDate;
     }
@@ -148,6 +161,10 @@ public class ProfileEntity implements Serializable {
         this.address = address;
     }
 
+    public void setAudit(final AuditMetadata audit) {
+        this.audit = audit;
+    }
+
     public void setBirthDate(final Instant birthDate) {
         this.birthDate = birthDate;
     }
@@ -188,7 +205,8 @@ public class ProfileEntity implements Serializable {
     public String toString() {
         return "ProfileEntity [id=" + id + ", identifier=" + identifier + ", firstName=" + firstName + ", lastName="
                 + lastName + ", birthDate=" + birthDate + ", comments=" + comments + ", address=" + address
-                + ", contactChannels=" + contactChannels + ", number=" + number + ", types=" + types + "]";
+                + ", contactChannels=" + contactChannels + ", number=" + number + ", types=" + types + ", audit="
+                + audit + "]";
     }
 
 }

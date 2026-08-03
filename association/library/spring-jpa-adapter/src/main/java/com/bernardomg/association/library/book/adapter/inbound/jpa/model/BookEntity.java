@@ -28,11 +28,16 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Collection;
 
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import com.bernardomg.association.library.author.adapter.inbound.jpa.model.AuthorEntity;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.model.PublisherEntity;
+import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditMetadata;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -44,6 +49,7 @@ import jakarta.persistence.Transient;
 
 @Entity(name = "Book")
 @Table(schema = "inventory", name = "books")
+@EntityListeners(AuditingEntityListener.class)
 public class BookEntity implements Serializable {
 
     /**
@@ -51,6 +57,9 @@ public class BookEntity implements Serializable {
      */
     @Transient
     private static final long           serialVersionUID = 5800151370938640858L;
+
+    @Embedded
+    private AuditMetadata               audit            = new AuditMetadata();
 
     @OneToMany
     @JoinTable(schema = "inventory", name = "book_authors",
@@ -99,6 +108,10 @@ public class BookEntity implements Serializable {
     @Column(name = "title", nullable = false)
     private String                      title;
 
+    public AuditMetadata getAudit() {
+        return audit;
+    }
+
     public Collection<AuthorEntity> getAuthors() {
         return authors;
     }
@@ -145,6 +158,10 @@ public class BookEntity implements Serializable {
 
     public String getTitle() {
         return title;
+    }
+
+    public void setAudit(final AuditMetadata audit) {
+        this.audit = audit;
     }
 
     public void setAuthors(final Collection<AuthorEntity> authors) {
@@ -200,7 +217,7 @@ public class BookEntity implements Serializable {
         return "BookEntity [authors=" + authors + ", donationDate=" + donationDate + ", donors=" + donors + ", id=" + id
                 + ", isbn=" + isbn + ", language=" + language + ", number=" + number + ", publishDate=" + publishDate
                 + ", publishers=" + publishers + ", subtitle=" + subtitle + ", supertitle=" + supertitle + ", title="
-                + title + "]";
+                + title + ", audit=" + audit + "]";
     }
 
 }

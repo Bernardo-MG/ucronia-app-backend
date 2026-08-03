@@ -32,6 +32,10 @@ import com.bernardomg.association.calendar.activity.domain.model.Activity;
 import com.bernardomg.association.calendar.activity.domain.model.Activity.ActivityDate;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.model.CalendarDateEntity;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.model.CalendarInfoEntity;
+import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditMetadata;
+import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditUserEntity;
+import com.bernardomg.security.domain.audit.model.AuditDetails;
+import com.bernardomg.security.domain.audit.model.AuditDetails.AuditUser;
 
 /**
  * Activity repository mapper.
@@ -40,13 +44,17 @@ public final class ActivityEntityMapper {
 
     public static final Activity toDomain(final CalendarInfoEntity entity) {
         final List<ActivityDate> dates;
+        final AuditDetails       audit;
 
         dates = entity.getCalendarDates()
             .stream()
             .map(ActivityEntityMapper::toDomain)
             .toList();
+
+        audit = toDomain(entity.getAudit());
+
         return new Activity(entity.getNumber(), entity.getTitle(), entity.getDescription(), entity.getLocation(),
-            entity.getImage(), dates);
+            entity.getImage(), dates, audit);
     }
 
     public static final CalendarInfoEntity toEntity(final Activity activity) {
@@ -67,6 +75,31 @@ public final class ActivityEntityMapper {
         entity.setCalendarDates(dates);
 
         return entity;
+    }
+
+    private static final AuditUser toAuditDomain(final AuditUserEntity user) {
+        final AuditUser auditUser;
+
+        if (user == null) {
+            auditUser = null;
+        } else {
+            auditUser = new AuditUser(user.getEmail(), user.getUsername(), user.getName());
+        }
+
+        return auditUser;
+    }
+
+    private static final AuditDetails toDomain(final AuditMetadata audit) {
+        final AuditDetails auditDetails;
+
+        if (audit == null) {
+            auditDetails = new AuditDetails();
+        } else {
+            auditDetails = new AuditDetails(audit.getCreatedAt(), toAuditDomain(audit.getCreatedBy()),
+                audit.getUpdatedAt(), toAuditDomain(audit.getUpdatedBy()));
+        }
+
+        return auditDetails;
     }
 
     private static final ActivityDate toDomain(final CalendarDateEntity entity) {

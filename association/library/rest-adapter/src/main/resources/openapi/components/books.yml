@@ -162,6 +162,8 @@ components:
         donation:
           $ref: '#/components/schemas/Donation'
           nullable: true
+        audit:
+          $ref: 'audit.yml#/components/schemas/AuditDetails'
     GameBook:
       type: object
       properties:
@@ -199,6 +201,8 @@ components:
         donation:
           $ref: '#/components/schemas/Donation'
           nullable: true
+        audit:
+          $ref: 'audit.yml#/components/schemas/AuditDetails'
     FictionBookPageResponse:
       allOf:
         - $ref: '../common/responses.yml#/components/schemas/PageResponse'

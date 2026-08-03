@@ -201,7 +201,7 @@
       <bernardomg.framework.test.architecture>1.0.8</bernardomg.framework.test.architecture>
       <bernardomg.framework.validation.version>0.2.5</bernardomg.framework.validation.version>
       <bernardomg.framework.version>0.7.0</bernardomg.framework.version>
-      <bernardomg.framework.security.version>0.5.7</bernardomg.framework.security.version>
+      <bernardomg.framework.security.version>0.5.12</bernardomg.framework.security.version>
       <bernardomg.framework.ws.starter.starter>0.7.0</bernardomg.framework.ws.starter.starter>
       <commons.lang3.version>3.20.0</commons.lang3.version>
       <jackson.annotations.version>2.20</jackson.annotations.version>

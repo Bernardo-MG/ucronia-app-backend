@@ -29,6 +29,9 @@
    <!-- ********************************************** -->
 
    <dependencies>
+      <!-- ============================================== -->
+      <!-- ================= PROJECT ==================== -->
+      <!-- ============================================== -->
       <dependency>
          <groupId>com.bernardomg.association.profile</groupId>
          <artifactId>association-profile-domain</artifactId>
@@ -37,9 +40,9 @@
          <groupId>com.bernardomg.association.profile</groupId>
          <artifactId>association-profile-usecase</artifactId>
       </dependency>
-	  <!-- ============================================== -->
-	  <!-- ================ FRAMEWORK =================== -->
-	  <!-- ============================================== -->
+      <!-- ============================================== -->
+      <!-- ================ FRAMEWORK =================== -->
+      <!-- ============================================== -->
       <dependency>
          <groupId>com.bernardomg.framework.security</groupId>
          <artifactId>access-decorator</artifactId>

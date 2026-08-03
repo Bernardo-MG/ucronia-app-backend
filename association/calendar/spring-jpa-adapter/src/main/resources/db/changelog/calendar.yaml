@@ -176,6 +176,31 @@ databaseChangeLog:
                     nullable: true
                     foreignKeyName: fk_calendar_info_recurrence_status
                     references: calendar.recurrence_status(id)
+              # Audit columns
+              - column:
+                  name: created_at
+                  type: datetime
+                  constraints:
+                    nullable: true
+              - column:
+                  name: created_by
+                  type: bigint
+                  constraints:
+                    nullable: true
+                    foreignKeyName: fk_fees_created_by_user
+                    references: security.users(id)
+              - column:
+                  name: updated_at
+                  type: datetime
+                  constraints:
+                    nullable: true
+              - column:
+                  name: updated_by
+                  type: bigint
+                  constraints:
+                    nullable: true
+                    foreignKeyName: fk_fees_updated_by_user
+                    references: security.users(id)
         - addAutoIncrement:
             schemaName: calendar
             tableName: calendar_info
@@ -211,6 +236,31 @@ databaseChangeLog:
                   type: datetime
                   constraints:
                     nullable: false
+              # Audit columns
+              - column:
+                  name: created_at
+                  type: datetime
+                  constraints:
+                    nullable: true
+              - column:
+                  name: created_by
+                  type: bigint
+                  constraints:
+                    nullable: true
+                    foreignKeyName: fk_fees_created_by_user
+                    references: security.users(id)
+              - column:
+                  name: updated_at
+                  type: datetime
+                  constraints:
+                    nullable: true
+              - column:
+                  name: updated_by
+                  type: bigint
+                  constraints:
+                    nullable: true
+                    foreignKeyName: fk_fees_updated_by_user
+                    references: security.users(id)
         - addAutoIncrement:
             schemaName: calendar
             tableName: calendar_dates

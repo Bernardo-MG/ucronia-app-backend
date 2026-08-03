@@ -105,6 +105,8 @@ components:
           type: array
           items:
             type: string
+        audit:
+          $ref: 'audit.yml#/components/schemas/AuditDetails'
     SponsorCreation:
       type: object
       required: [name]

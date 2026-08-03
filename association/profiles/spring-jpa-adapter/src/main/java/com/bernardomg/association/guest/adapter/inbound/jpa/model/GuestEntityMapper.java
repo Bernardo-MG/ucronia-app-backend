@@ -36,6 +36,10 @@ import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntit
 import com.bernardomg.association.profile.domain.model.ContactChannel;
 import com.bernardomg.association.profile.domain.model.ContactMethod;
 import com.bernardomg.association.profile.domain.model.Name;
+import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditMetadata;
+import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditUserEntity;
+import com.bernardomg.security.domain.audit.model.AuditDetails;
+import com.bernardomg.security.domain.audit.model.AuditDetails.AuditUser;
 
 /**
  * Update guest entity mapper.
@@ -45,6 +49,7 @@ public final class GuestEntityMapper {
     public static final Guest toDomain(final GuestEntity entity) {
         final Name                       name;
         final Collection<ContactChannel> contactChannels;
+        final AuditDetails               audit;
 
         name = new Name(entity.getProfile()
             .getFirstName(),
@@ -57,6 +62,8 @@ public final class GuestEntityMapper {
             .map(GuestEntityMapper::toDomain)
             .toList();
 
+        audit = toDomain(entity.getProfile()
+            .getAudit());
         return new Guest(Optional.ofNullable(entity.getProfile()
             .getIdentifier()), entity.getProfile()
                 .getNumber(),
@@ -67,12 +74,14 @@ public final class GuestEntityMapper {
             Optional.ofNullable(entity.getProfile()
                 .getComments()),
             entity.getProfile()
-                .getTypes());
+                .getTypes(),
+            audit);
     }
 
     public static final Guest toDomain(final ReadGuestEntity entity) {
         final Name                       name;
         final Collection<ContactChannel> contactChannels;
+        final AuditDetails               audit;
 
         name = new Name(entity.getFirstName(), entity.getLastName());
 
@@ -81,9 +90,11 @@ public final class GuestEntityMapper {
             .map(GuestEntityMapper::toDomain)
             .toList();
 
+        audit = new AuditDetails();
         return new Guest(Optional.ofNullable(entity.getIdentifier()), entity.getNumber(), name,
             Optional.ofNullable(entity.getBirthDate()), contactChannels, entity.getGames(),
-            Optional.ofNullable(entity.getAddress()), Optional.ofNullable(entity.getComments()), entity.getTypes());
+            Optional.ofNullable(entity.getAddress()), Optional.ofNullable(entity.getComments()), entity.getTypes(),
+            audit);
     }
 
     public static final GuestEntity toEntity(final Guest data, final Collection<ContactMethodEntity> contactMethods) {
@@ -165,6 +176,31 @@ public final class GuestEntityMapper {
         entity.setGames(new ArrayList<>(data.games()));
 
         return entity;
+    }
+
+    private static final AuditUser toAuditDomain(final AuditUserEntity user) {
+        final AuditUser auditUser;
+
+        if (user == null) {
+            auditUser = null;
+        } else {
+            auditUser = new AuditUser(user.getEmail(), user.getUsername(), user.getName());
+        }
+
+        return auditUser;
+    }
+
+    private static final AuditDetails toDomain(final AuditMetadata audit) {
+        final AuditDetails auditDetails;
+
+        if (audit == null) {
+            auditDetails = new AuditDetails();
+        } else {
+            auditDetails = new AuditDetails(audit.getCreatedAt(), toAuditDomain(audit.getCreatedBy()),
+                audit.getUpdatedAt(), toAuditDomain(audit.getUpdatedBy()));
+        }
+
+        return auditDetails;
     }
 
     private static final ContactChannel toDomain(final ContactChannelEntity entity) {

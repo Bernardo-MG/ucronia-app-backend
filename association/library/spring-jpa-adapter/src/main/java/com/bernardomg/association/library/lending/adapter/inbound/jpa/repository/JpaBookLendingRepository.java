@@ -35,12 +35,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.library.book.adapter.inbound.jpa.model.BookEntity;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.repository.BookSpringRepository;
-import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.BookLendingEntity;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.BookLendingEntityMapper;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.BorrowerEntity;
 import com.bernardomg.association.library.lending.domain.model.BookLending;
-import com.bernardomg.association.library.lending.domain.model.BookLending.LentBook;
 import com.bernardomg.association.library.lending.domain.repository.BookLendingRepository;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -195,20 +193,9 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
 
     private final BookLending toDomain(final BookLendingEntity entity) {
         final Optional<BookEntity> bookEntity;
-        final LentBook             lentBook;
-        final Title                title;
 
         bookEntity = bookSpringRepository.findById(entity.getBookId());
-        title = new Title(bookEntity.get()
-            .getSupertitle(),
-            bookEntity.get()
-                .getTitle(),
-            bookEntity.get()
-                .getSubtitle());
-        lentBook = new LentBook(bookEntity.get()
-            .getNumber(), title);
-        return new BookLending(lentBook, entity.getBorrower()
-            .getNumber(), entity.getLendingDate(), Optional.ofNullable(entity.getReturnDate()));
+        return BookLendingEntityMapper.toDomain(entity, bookEntity.get());
     }
 
 }

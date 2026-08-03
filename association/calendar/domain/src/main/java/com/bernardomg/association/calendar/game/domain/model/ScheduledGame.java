@@ -32,14 +32,16 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.bernardomg.association.calendar.domain.model.CalendarStatus;
 import com.bernardomg.association.calendar.domain.model.Recurrence;
+import com.bernardomg.security.domain.audit.model.AuditDetails;
 
 public record ScheduledGame(long number, String title, String description, String location, Long master, int maxPlayers,
         String image, Instant start, Optional<Recurrence> recurrence, CalendarStatus status,
-        GameSessionType gameSessionType) {
+        GameSessionType gameSessionType, AuditDetails audit) {
 
     public ScheduledGame(final long number, final String title, final String description, final String location,
             final Long master, final int maxPlayers, final String image, final Instant start,
-            final Optional<Recurrence> recurrence, final CalendarStatus status, final GameSessionType gameSessionType) {
+            final Optional<Recurrence> recurrence, final CalendarStatus status, final GameSessionType gameSessionType,
+            final AuditDetails audit) {
         Objects.requireNonNull(number, "Number can't be null");
         Objects.requireNonNull(title, "Title can't be null");
         Objects.requireNonNull(description, "Description can't be null");
@@ -51,6 +53,7 @@ public record ScheduledGame(long number, String title, String description, Strin
         Objects.requireNonNull(recurrence, "Recurrence can't be null");
         Objects.requireNonNull(status, "Status can't be null");
         Objects.requireNonNull(gameSessionType, "Game session type can't be null");
+        Objects.requireNonNull(audit, "Audit can't be null");
 
         this.number = number;
         this.title = StringUtils.trim(title);
@@ -63,16 +66,24 @@ public record ScheduledGame(long number, String title, String description, Strin
         this.recurrence = recurrence;
         this.status = status;
         this.gameSessionType = gameSessionType;
+        this.audit = audit;
+    }
+
+    public ScheduledGame(final long number, final String title, final String description, final String location,
+            final Long master, final int maxPlayers, final String image, final Instant start,
+            final Optional<Recurrence> recurrence, final CalendarStatus status, final GameSessionType gameSessionType) {
+        this(number, title, description, location, master, maxPlayers, image, start, recurrence, status,
+            gameSessionType, new AuditDetails());
     }
 
     public ScheduledGame publish() {
         return new ScheduledGame(number, title, description, location, master, maxPlayers, image, start, recurrence,
-            CalendarStatus.PUBLISHED, gameSessionType);
+            CalendarStatus.PUBLISHED, gameSessionType, new AuditDetails());
     }
 
     public ScheduledGame draft() {
         return new ScheduledGame(number, title, description, location, master, maxPlayers, image, start, recurrence,
-            CalendarStatus.DRAFT, gameSessionType);
+            CalendarStatus.DRAFT, gameSessionType, new AuditDetails());
     }
 
 }

@@ -26,6 +26,8 @@ package com.bernardomg.association.library.lending.adapter.outbound.rest.model;
 
 import java.util.Optional;
 
+import com.bernardomg.association.library.adapter.outbound.rest.dto.AuditDetailsDto;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.AuditUserDto;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.BookLendingBookDto;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.BookLendingDto;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.BookLendingPageResponseDto;
@@ -39,6 +41,8 @@ import com.bernardomg.association.library.lending.domain.model.BookLending.LentB
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
 import com.bernardomg.pagination.domain.Sorting.Property;
+import com.bernardomg.security.domain.audit.model.AuditDetails;
+import com.bernardomg.security.domain.audit.model.AuditDetails.AuditUser;
 
 public final class BookLendingDtoMapper {
 
@@ -73,13 +77,42 @@ public final class BookLendingDtoMapper {
             .sort(sortingResponse);
     }
 
+    private static final AuditDetailsDto toDto(final AuditDetails audit) {
+        final AuditDetailsDto dto;
+
+        if (audit == null) {
+            dto = null;
+        } else {
+            dto = new AuditDetailsDto().createdAt(audit.createdAt())
+                .createdBy(toDto(audit.createdBy()))
+                .updatedAt(audit.updatedAt())
+                .updatedBy(toDto(audit.updatedBy()));
+        }
+
+        return dto;
+    }
+
+    private static final AuditUserDto toDto(final AuditUser user) {
+        final AuditUserDto dto;
+
+        if (user == null) {
+            dto = null;
+        } else {
+            dto = new AuditUserDto().email(user.email())
+                .username(user.username())
+                .name(user.name());
+        }
+        return dto;
+    }
+
     private static final BookLendingDto toDto(final BookLending lending) {
         return new BookLendingDto().book(toDto(lending.book()))
             .borrower(lending.borrower())
             .lendingDate(lending.lendingDate())
             .returnDate(lending.returnDate()
                 .orElse(null))
-            .days(lending.getDays());
+            .days(lending.getDays())
+            .audit(toDto(lending.audit()));
     }
 
     private static final BookLendingBookDto toDto(final LentBook book) {
