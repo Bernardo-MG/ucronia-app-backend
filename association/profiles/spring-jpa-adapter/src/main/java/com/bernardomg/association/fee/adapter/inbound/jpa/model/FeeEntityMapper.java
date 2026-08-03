@@ -31,6 +31,10 @@ import com.bernardomg.association.fee.domain.model.Fee.Transaction;
 import com.bernardomg.association.fee.domain.model.FeeType;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
 import com.bernardomg.association.profile.domain.model.Name;
+import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditMetadata;
+import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditUserEntity;
+import com.bernardomg.security.domain.audit.model.AuditDetails;
+import com.bernardomg.security.domain.audit.model.AuditDetails.AuditUser;
 
 /**
  * Fee repository mapper.
@@ -38,10 +42,11 @@ import com.bernardomg.association.profile.domain.model.Name;
 public final class FeeEntityMapper {
 
     public static final Fee toDomain(final FeeEntity entity) {
-        final Transaction transaction;
-        final Name        name;
-        final Fee         fee;
-        final FeeType     feeType;
+        final Transaction  transaction;
+        final Name         name;
+        final Fee          fee;
+        final FeeType      feeType;
+        final AuditDetails audit;
 
         name = new Name(entity.getMember()
             .getFirstName(),
@@ -55,16 +60,17 @@ public final class FeeEntityMapper {
             entity.getFeeType()
                 .getAmount());
         if (entity.getPaid()) {
+            audit = toDomain(entity.getAudit());
             if (entity.getTransaction() == null) {
                 fee = Fee.paid(entity.getMonth(), entity.getMember()
-                    .getNumber(), name, feeType);
+                    .getNumber(), name, feeType, audit);
             } else {
                 transaction = new Fee.Transaction(entity.getTransaction()
                     .getIndex(),
                     entity.getTransaction()
                         .getDate());
                 fee = Fee.paid(entity.getMonth(), entity.getMember()
-                    .getNumber(), name, feeType, transaction);
+                    .getNumber(), name, feeType, transaction, audit);
             }
         } else {
             fee = Fee.unpaid(entity.getMonth(), entity.getMember()
@@ -111,6 +117,31 @@ public final class FeeEntityMapper {
         entity.setTransaction(transaction.orElse(null));
 
         return entity;
+    }
+
+    private static final AuditUser toAuditDomain(final AuditUserEntity user) {
+        final AuditUser auditUser;
+
+        if (user == null) {
+            auditUser = null;
+        } else {
+            auditUser = new AuditUser(user.getEmail(), user.getUsername(), user.getName());
+        }
+
+        return auditUser;
+    }
+
+    private static final AuditDetails toDomain(final AuditMetadata audit) {
+        final AuditDetails auditDetails;
+
+        if (audit == null) {
+            auditDetails = new AuditDetails();
+        } else {
+            auditDetails = new AuditDetails(audit.getCreatedAt(), toAuditDomain(audit.getCreatedBy()),
+                audit.getUpdatedAt(), toAuditDomain(audit.getUpdatedBy()));
+        }
+
+        return auditDetails;
     }
 
     private FeeEntityMapper() {

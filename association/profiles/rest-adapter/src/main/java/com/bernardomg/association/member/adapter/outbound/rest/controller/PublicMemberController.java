@@ -35,16 +35,12 @@ import com.bernardomg.association.member.adapter.outbound.rest.model.PublicMembe
 import com.bernardomg.association.member.domain.filter.PublicMemberFilter;
 import com.bernardomg.association.member.domain.model.PublicMember;
 import com.bernardomg.association.member.usecase.service.PublicMemberService;
+import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.web.WebSorting;
-import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
-import com.bernardomg.security.permission.domain.constant.Actions;
-
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
+import com.bernardomg.security.domain.permission.constant.Actions;
 
 /**
  * Member REST controller.
@@ -68,10 +64,8 @@ public class PublicMemberController implements PublicMemberApi {
 
     @Override
     @RequireResourceAuthorization(resource = "MEMBER", action = Actions.READ)
-    public PublicMemberPageResponseDto getAllPublicMembers(@Min(1) @Valid final Integer page,
-            @Min(1) @Valid final Integer size,
-            @Valid final List<@Pattern(regexp = "^(firstName|lastName|number)\\|(asc|desc)$") String> sort,
-            @Valid final String name) {
+    public PublicMemberPageResponseDto getAllPublicMembers(final Integer page, final Integer size,
+            final List<String> sort, final String name) {
         final Pagination         pagination;
         final Sorting            sorting;
         final Page<PublicMember> members;

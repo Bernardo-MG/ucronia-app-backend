@@ -36,11 +36,8 @@ import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.web.WebSorting;
-import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
-import com.bernardomg.security.permission.domain.constant.Actions;
-
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
+import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
+import com.bernardomg.security.domain.permission.constant.Actions;
 
 /**
  * My fees REST controller.
@@ -64,8 +61,7 @@ public class MyFeesController implements MyFeesApi {
 
     @Override
     @RequireResourceAuthorization(resource = "MY_FEES", action = Actions.READ)
-    public FeePageResponseDto getUserFees(@Min(0) @Valid final Integer page, @Min(1) @Valid final Integer size,
-            @Valid final List<String> sort) {
+    public FeePageResponseDto getUserFees(final Integer page, final Integer size, final List<String> sort) {
         final Pagination pagination;
         final Sorting    sorting;
         final Page<Fee>  fees;

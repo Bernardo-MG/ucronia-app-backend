@@ -29,9 +29,16 @@
    <!-- ********************************************** -->
 
    <dependencies>
-	  <!-- ============================================== -->
-	  <!-- ================ FRAMEWORK =================== -->
-	  <!-- ============================================== -->
+      <!-- ============================================== -->
+      <!-- ================ FRAMEWORK =================== -->
+      <!-- ============================================== -->
+      <dependency>
+         <groupId>com.bernardomg.framework.security</groupId>
+         <artifactId>security-jpa-model</artifactId>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- ================= PROJECT ==================== -->
+      <!-- ============================================== -->
       <dependency>
          <groupId>com.bernardomg.association.calendar</groupId>
          <artifactId>association-calendar-domain</artifactId>
@@ -107,6 +114,11 @@
          <!-- Jackson databinding -->
          <groupId>com.fasterxml.jackson.core</groupId>
          <artifactId>jackson-databind</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.framework.security</groupId>
+         <artifactId>security-adapter</artifactId>
          <scope>test</scope>
       </dependency>
    </dependencies>

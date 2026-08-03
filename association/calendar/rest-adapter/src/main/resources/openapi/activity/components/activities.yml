@@ -93,6 +93,8 @@ components:
           maxItems: 50
           items:
             $ref: '#/components/schemas/ActivityDate'
+        audit:
+          $ref: 'audit.yml#/components/schemas/AuditDetails'
 
     ActivityPageResponse:
       allOf:

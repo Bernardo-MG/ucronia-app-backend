@@ -36,8 +36,7 @@ import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserPr
 import com.bernardomg.association.security.user.adapter.inbound.jpa.model.UserProfileEntityMapper;
 import com.bernardomg.association.security.user.domain.model.UserProfile;
 import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
-import com.bernardomg.security.user.adapter.inbound.jpa.model.UserEntity;
-import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserSpringRepository;
+import com.bernardomg.security.adapter.inbound.jpa.model.user.UserEntity;
 
 @Transactional
 public final class JpaUserProfileRepository implements UserProfileRepository {
@@ -51,10 +50,10 @@ public final class JpaUserProfileRepository implements UserProfileRepository {
 
     private final UserAssignedProfileSpringRepository userProfileSpringRepository;
 
-    private final UserSpringRepository                userSpringRepository;
+    private final AssociationUserSpringRepository     userSpringRepository;
 
     public JpaUserProfileRepository(final UserAssignedProfileSpringRepository userProfileSpringRepo,
-            final UserSpringRepository userSpringRepo, final UserProfileSpringRepository profileSpringRepo) {
+            final AssociationUserSpringRepository userSpringRepo, final UserProfileSpringRepository profileSpringRepo) {
         super();
 
         userProfileSpringRepository = Objects.requireNonNull(userProfileSpringRepo);

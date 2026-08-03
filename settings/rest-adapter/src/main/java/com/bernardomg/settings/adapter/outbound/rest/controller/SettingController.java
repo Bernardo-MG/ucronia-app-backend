@@ -29,17 +29,15 @@ import java.util.Optional;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
-import com.bernardomg.security.access.annotation.Unsecured;
-import com.bernardomg.security.permission.domain.constant.Actions;
+import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
+import com.bernardomg.framework.security.access.annotation.Unsecured;
+import com.bernardomg.security.domain.permission.constant.Actions;
 import com.bernardomg.settings.adapter.outbound.rest.dto.SettingResponseDto;
 import com.bernardomg.settings.adapter.outbound.rest.dto.SettingUpdateDto;
 import com.bernardomg.settings.adapter.outbound.rest.dto.SettingsResponseDto;
 import com.bernardomg.settings.adapter.outbound.rest.model.SettingsDtoMapper;
 import com.bernardomg.settings.domain.model.Setting;
 import com.bernardomg.settings.usecase.service.SettingService;
-
-import jakarta.validation.Valid;
 
 /**
  * Settings REST controller.
@@ -78,7 +76,7 @@ public class SettingController implements SettingsApi {
 
     @Override
     @RequireResourceAuthorization(resource = "ASSOCIATION_SETTINGS", action = Actions.UPDATE)
-    public SettingResponseDto updateSetting(final String code, @Valid final SettingUpdateDto settingUpdateDto) {
+    public SettingResponseDto updateSetting(final String code, final SettingUpdateDto settingUpdateDto) {
         final Setting setting;
 
         setting = service.update(code, settingUpdateDto.getValue());

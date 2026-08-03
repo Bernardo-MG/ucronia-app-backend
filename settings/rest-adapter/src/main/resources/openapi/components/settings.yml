@@ -29,6 +29,8 @@ components:
           type: string
           maxLength: 300
           description: Value of the setting.
+        audit:
+          $ref: 'audit.yml#/components/schemas/AuditDetails'
     SettingUpdate:
       type: object
       required: [value]

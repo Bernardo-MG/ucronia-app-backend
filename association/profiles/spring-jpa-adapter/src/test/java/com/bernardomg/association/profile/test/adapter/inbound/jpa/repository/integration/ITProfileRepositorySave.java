@@ -79,7 +79,7 @@ class ITProfileRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "contactChannels.id")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "contactChannels.id", "audit")
             .containsExactly(ProfileEntities.withEmail());
     }
 
@@ -101,7 +101,7 @@ class ITProfileRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "audit")
             .containsExactly(ProfileEntities.firstNameChange());
     }
 
@@ -143,7 +143,7 @@ class ITProfileRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "audit")
             .containsExactly(ProfileEntities.valid());
     }
 
@@ -165,7 +165,7 @@ class ITProfileRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "audit")
             .containsExactly(ProfileEntities.withType(ProfileConstants.TYPE_MEMBER));
     }
 
@@ -186,7 +186,7 @@ class ITProfileRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "audit")
             .containsExactly(ProfileEntities.valid());
     }
 
@@ -227,7 +227,7 @@ class ITProfileRepositorySave {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "contactChannels.id",
-                "contactChannels.profile", "contactChannels.contactMethod")
+                "contactChannels.profile", "contactChannels.contactMethod", "audit")
             .containsExactly(ProfileEntities.withEmail());
     }
 
@@ -270,7 +270,7 @@ class ITProfileRepositorySave {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "contactChannels.id",
-                "contactChannels.profile", "contactChannels.contactMethod")
+                "contactChannels.profile", "contactChannels.contactMethod", "audit")
             .containsExactly(ProfileEntities.withEmailAndPhone());
     }
 
@@ -293,7 +293,7 @@ class ITProfileRepositorySave {
         Assertions.assertThat(entities)
             .as("entities")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "contactChannels.id",
-                "contactChannels.profile", "contactChannels.contactMethod")
+                "contactChannels.profile", "contactChannels.contactMethod", "audit")
             .containsExactly(ProfileEntities.withTwoEmails());
     }
 

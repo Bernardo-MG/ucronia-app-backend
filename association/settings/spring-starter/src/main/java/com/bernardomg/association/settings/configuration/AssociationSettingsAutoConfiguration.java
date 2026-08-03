@@ -32,7 +32,7 @@ import org.springframework.http.HttpMethod;
 import com.bernardomg.association.settings.usecase.loader.SettingsLoader;
 import com.bernardomg.association.settings.usecase.service.DefaultPublicSettingsService;
 import com.bernardomg.association.settings.usecase.service.PublicSettingsService;
-import com.bernardomg.security.web.whitelist.WhitelistRoute;
+import com.bernardomg.security.springframework.web.whitelist.WhitelistRoute;
 import com.bernardomg.settings.domain.repository.SettingRepository;
 
 @AutoConfiguration

@@ -11,7 +11,7 @@ components:
         type: array
         items:
           type: string
-          pattern: '^(description|title|location|start|maxPlayers)\|(asc|desc)$'
+          pattern: '^(description|title|location|start|maxPlayers|status)\|(asc|desc)$'
           example: date|asc
 
   schemas:
@@ -147,6 +147,8 @@ components:
           $ref: '#/components/schemas/CalendarStatus'
         gameType:
           $ref: '#/components/schemas/GameSessionType'
+        audit:
+          $ref: 'audit.yml#/components/schemas/AuditDetails'
 
     ScheduledGamePageResponse:
       allOf:

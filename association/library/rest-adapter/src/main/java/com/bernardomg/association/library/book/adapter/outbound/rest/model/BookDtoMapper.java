@@ -30,6 +30,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import com.bernardomg.association.library.adapter.outbound.rest.dto.AuditDetailsDto;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.AuditUserDto;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.AuthorDto;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.BookCreationDto;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.BookLendingInfoDto;
@@ -64,6 +66,8 @@ import com.bernardomg.association.library.publisher.domain.model.Publisher;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
 import com.bernardomg.pagination.domain.Sorting.Property;
+import com.bernardomg.security.domain.audit.model.AuditDetails;
+import com.bernardomg.security.domain.audit.model.AuditDetails.AuditUser;
 
 public final class BookDtoMapper {
 
@@ -359,6 +363,34 @@ public final class BookDtoMapper {
         return new GameBookResponseDto().content(toDto(gameBook));
     }
 
+    private static final AuditDetailsDto toDto(final AuditDetails audit) {
+        final AuditDetailsDto dto;
+
+        if (audit == null) {
+            dto = null;
+        } else {
+            dto = new AuditDetailsDto().createdAt(audit.createdAt())
+                .createdBy(toDto(audit.createdBy()))
+                .updatedAt(audit.updatedAt())
+                .updatedBy(toDto(audit.updatedBy()));
+        }
+
+        return dto;
+    }
+
+    private static final AuditUserDto toDto(final AuditUser user) {
+        final AuditUserDto dto;
+
+        if (user == null) {
+            dto = null;
+        } else {
+            dto = new AuditUserDto().email(user.email())
+                .username(user.username())
+                .name(user.name());
+        }
+        return dto;
+    }
+
     private static final AuthorDto toDto(final Author author) {
         return new AuthorDto().number(author.number())
             .name(author.name());
@@ -446,7 +478,8 @@ public final class BookDtoMapper {
             .publishers(publishers)
             .lendings(lendings)
             .lent(fictionBook.lent())
-            .donation(donation);
+            .donation(donation)
+            .audit(toDto(fictionBook.audit()));
     }
 
     private static final GameBookDto toDto(final GameBook gameBook) {
@@ -503,7 +536,8 @@ public final class BookDtoMapper {
             .lent(gameBook.lent())
             .donation(donation)
             .gameSystem(gameSystem)
-            .bookType(bookType);
+            .bookType(bookType)
+            .audit(toDto(gameBook.audit()));
     }
 
     private static final GameSystemDto toDto(final GameSystem gameSystem) {

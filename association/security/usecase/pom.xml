@@ -55,6 +55,14 @@
          <artifactId>pagination</artifactId>
       </dependency>
       <dependency>
+         <!-- Security model -->
+         <groupId>com.bernardomg.framework.security</groupId>
+         <artifactId>security-usecase</artifactId>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
+      <!-- ============================================== -->
+      <dependency>
          <groupId>com.bernardomg.association.security</groupId>
          <artifactId>association-security-testing</artifactId>
          <scope>test</scope>

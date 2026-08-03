@@ -9,12 +9,16 @@ import java.util.Set;
 
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTypeEntity;
+import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditMetadata;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -30,6 +34,7 @@ import jakarta.persistence.Transient;
 @Table(schema = "directory", name = "profiles")
 @SecondaryTable(schema = "directory", name = "members",
         pkJoinColumns = @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id"))
+@EntityListeners(AuditingEntityListener.class)
 public class MemberEntity implements Serializable {
 
     /**
@@ -43,6 +48,9 @@ public class MemberEntity implements Serializable {
 
     @Column(name = "address", table = "profiles")
     private String                                 address;
+
+    @Embedded
+    private AuditMetadata                          audit            = new AuditMetadata();
 
     @Column(name = "birth_date", table = "profiles")
     private Instant                                birthDate;
@@ -98,6 +106,10 @@ public class MemberEntity implements Serializable {
 
     public String getAddress() {
         return address;
+    }
+
+    public AuditMetadata getAudit() {
+        return audit;
     }
 
     public Instant getBirthDate() {
@@ -157,6 +169,10 @@ public class MemberEntity implements Serializable {
         this.address = address;
     }
 
+    public void setAudit(final AuditMetadata audit) {
+        this.audit = audit;
+    }
+
     public void setBirthDate(final Instant birthDate) {
         this.birthDate = birthDate;
     }
@@ -206,7 +222,7 @@ public class MemberEntity implements Serializable {
         return "MemberEntity [id=" + id + ", number=" + number + ", active=" + active + ", contactChannels="
                 + contactChannels + ", feeType=" + feeType + ", firstName=" + firstName + ", lastName=" + lastName
                 + ", identifier=" + identifier + ", birthDate=" + birthDate + ", address=" + address + ", comments="
-                + comments + ", types=" + types + ", renew=" + renew + "]";
+                + comments + ", types=" + types + ", renew=" + renew + ", audit=" + audit + "]";
     }
 
 }

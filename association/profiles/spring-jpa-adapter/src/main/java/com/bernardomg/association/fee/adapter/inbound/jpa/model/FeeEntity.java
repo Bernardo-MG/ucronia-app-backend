@@ -27,10 +27,15 @@ package com.bernardomg.association.fee.adapter.inbound.jpa.model;
 import java.io.Serializable;
 import java.time.Instant;
 
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
+import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditMetadata;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -41,6 +46,7 @@ import jakarta.persistence.Transient;
 
 @Entity(name = "Fee")
 @Table(schema = "funds", name = "fees")
+@EntityListeners(AuditingEntityListener.class)
 public class FeeEntity implements Serializable {
 
     /**
@@ -48,6 +54,9 @@ public class FeeEntity implements Serializable {
      */
     @Transient
     private static final long    serialVersionUID = 1328776989450853491L;
+
+    @Embedded
+    private AuditMetadata        audit            = new AuditMetadata();
 
     @OneToOne
     @JoinColumn(name = "fee_type_id", referencedColumnName = "id")
@@ -72,6 +81,10 @@ public class FeeEntity implements Serializable {
     @JoinColumn(name = "transaction_id", referencedColumnName = "id")
     private FeeTransactionEntity transaction;
 
+    public AuditMetadata getAudit() {
+        return audit;
+    }
+
     public FeeTypeEntity getFeeType() {
         return feeType;
     }
@@ -94,6 +107,10 @@ public class FeeEntity implements Serializable {
 
     public FeeTransactionEntity getTransaction() {
         return transaction;
+    }
+
+    public void setAudit(final AuditMetadata audit) {
+        this.audit = audit;
     }
 
     public void setFeeType(final FeeTypeEntity feeType) {
@@ -123,7 +140,7 @@ public class FeeEntity implements Serializable {
     @Override
     public String toString() {
         return "FeeEntity [id=" + id + ", member=" + member + ", month=" + month + ", feeType=" + feeType + ", paid="
-                + paid + ", transaction=" + transaction + "]";
+                + paid + ", transaction=" + transaction + ", audit=" + audit + "]";
     }
 
 }

@@ -46,11 +46,8 @@ import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.web.WebSorting;
-import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
-import com.bernardomg.security.permission.domain.constant.Actions;
-
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
+import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
+import com.bernardomg.security.domain.permission.constant.Actions;
 
 /**
  * Fee REST controller.
@@ -74,7 +71,7 @@ public class FeeController implements FeeApi {
 
     @Override
     @RequireResourceAuthorization(resource = "FEE", action = Actions.CREATE)
-    public FeeResponseDto createFee(@Valid final FeeCreationDto feeCreationDto) {
+    public FeeResponseDto createFee(final FeeCreationDto feeCreationDto) {
         final Fee fee;
 
         fee = service.createFee(feeCreationDto.getMonth(), feeCreationDto.getMember());
@@ -94,9 +91,8 @@ public class FeeController implements FeeApi {
 
     @Override
     @RequireResourceAuthorization(resource = "FEE", action = Actions.READ)
-    public FeePageResponseDto getAllFees(@Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size,
-            @Valid final List<String> sort, @Valid final Instant date, @Valid final Instant from,
-            @Valid final Instant to) {
+    public FeePageResponseDto getAllFees(final Integer page, final Integer size, final List<String> sort,
+            final Instant date, final Instant from, final Instant to) {
         final FeeFilter  filter;
         final Pagination pagination;
         final Sorting    sorting;
@@ -122,7 +118,7 @@ public class FeeController implements FeeApi {
 
     @Override
     @RequireResourceAuthorization(resource = "FEE", action = Actions.CREATE)
-    public FeesResponseDto payFee(@Valid final FeePaymentsDto feePaymentsDto) {
+    public FeesResponseDto payFee(final FeePaymentsDto feePaymentsDto) {
         final Collection<Fee> fees;
         final FeePayments     payments;
 
@@ -134,7 +130,7 @@ public class FeeController implements FeeApi {
 
     @Override
     @RequireResourceAuthorization(resource = "FEE", action = Actions.UPDATE)
-    public FeeResponseDto updateFee(final Long member, final Instant month, @Valid final FeeUpdateDto feeUpdateDto) {
+    public FeeResponseDto updateFee(final Long member, final Instant month, final FeeUpdateDto feeUpdateDto) {
         final Fee fee;
         final Fee updated;
 

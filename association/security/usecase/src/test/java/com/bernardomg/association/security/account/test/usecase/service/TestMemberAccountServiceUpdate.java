@@ -38,9 +38,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.association.security.account.domain.repository.AccountProfileRepository;
 import com.bernardomg.association.security.account.test.configuration.factory.BasicAccounts;
 import com.bernardomg.association.security.account.usecase.service.MemberAccountService;
-import com.bernardomg.security.account.domain.model.Account;
-import com.bernardomg.security.account.domain.model.BasicAccount;
-import com.bernardomg.security.account.usecase.service.AccountService;
+import com.bernardomg.security.domain.account.model.Account;
+import com.bernardomg.security.domain.account.model.BasicAccount;
+import com.bernardomg.security.usecase.account.service.AccountService;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("MemberAccountService - update")

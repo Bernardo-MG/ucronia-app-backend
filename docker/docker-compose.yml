@@ -17,8 +17,8 @@ services:
     volumes:
       # DB content
       - association-data:/var/lib/postgresql/data
-      # Initial schemas
-      - ./sql/create_schemas.sql:/docker-entrypoint-initdb.d/create_schemas.sql
+      # Initial data
+      - ./sql/01_create_schemas.sql:/docker-entrypoint-initdb.d/01_create_schemas.sql
     networks:
       - db
 
@@ -60,6 +60,29 @@ services:
       - db
       - mail
       - monitoring
+
+  load-sample-data:
+    image: postgres:18.0-alpine
+    depends_on:
+      association-db:
+        condition: service_healthy
+      association-backend:
+        condition: service_healthy
+    environment:
+      PGHOST: association-db
+      PGPORT: 5432
+      PGDATABASE: postgres
+      PGUSER: postgres
+      PGPASSWORD: password
+    volumes:
+      - ./sql/02_create_users.sql:/sql/02_create_users.sql:ro
+    command:
+      - sh
+      - -c
+      - psql --set ON_ERROR_STOP=1 --file=/sql/02_create_users.sql
+    restart: "no"
+    networks:
+      - db
 
   #=========#
   # SUPPORT #

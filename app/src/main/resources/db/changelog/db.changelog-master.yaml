@@ -1,4 +1,7 @@
 databaseChangeLog:
+  # Security
+  - include:
+      file: classpath:db/changelog/auth/initialize.yaml
   # General
   - include:
       file: classpath:db/changelog/settings.yaml
@@ -40,9 +43,7 @@ databaseChangeLog:
   - include:
       file: library.yaml
       relativeToChangelogFile: true
-  # Security
-  - include:
-      file: classpath:db/changelog/auth/initialize.yaml
+  # Authentication
   - include:
       file: auth.yaml
       relativeToChangelogFile: true

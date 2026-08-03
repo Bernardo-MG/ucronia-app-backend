@@ -29,10 +29,23 @@
    <!-- ********************************************** -->
 
    <dependencies>
+      <!-- ============================================== -->
+      <!-- ================ FRAMEWORK =================== -->
+      <!-- ============================================== -->
+      <dependency>
+         <groupId>com.bernardomg.framework.security</groupId>
+         <artifactId>security-jpa-model</artifactId>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- ================= PROJECT ==================== -->
+      <!-- ============================================== -->
       <dependency>
          <groupId>com.bernardomg.settings</groupId>
          <artifactId>settings-domain</artifactId>
       </dependency>
+      <!-- ============================================== -->
+      <!-- ================== SPRING ==================== -->
+      <!-- ============================================== -->
       <dependency>
          <groupId>org.springframework</groupId>
          <artifactId>spring-tx</artifactId>
@@ -83,6 +96,11 @@
                <artifactId>logback-classic</artifactId>
             </exclusion>
          </exclusions>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.framework.security</groupId>
+         <artifactId>security-adapter</artifactId>
          <scope>test</scope>
       </dependency>
    </dependencies>

@@ -29,6 +29,8 @@ components:
           type: integer
           format: int64
           minimum: 0
+        audit:
+          $ref: 'audit.yml#/components/schemas/AuditDetails'
     BookLendingInfo:
       type: object
       properties:

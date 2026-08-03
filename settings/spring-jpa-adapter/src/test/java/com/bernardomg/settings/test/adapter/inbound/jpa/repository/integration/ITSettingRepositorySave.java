@@ -50,7 +50,7 @@ public class ITSettingRepositorySave {
 
         Assertions.assertThat(settings)
             .as("settings")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "audit")
             .containsExactly(SettingEntities.intValue());
     }
 

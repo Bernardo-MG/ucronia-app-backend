@@ -29,16 +29,24 @@ import java.util.Objects;
 import java.util.Optional;
 
 import com.bernardomg.association.profile.domain.model.Name;
+import com.bernardomg.security.domain.audit.model.AuditDetails;
 
-public record Fee(Instant month, Boolean paid, FeeMember member, FeeType feeType, Optional<Transaction> transaction) {
+public record Fee(Instant month, Boolean paid, FeeMember member, FeeType feeType, Optional<Transaction> transaction,
+        AuditDetails audit) {
 
     public Fee(final Instant month, final Boolean paid, final FeeMember member, final FeeType feeType,
             final Optional<Transaction> transaction) {
+        this(month, paid, member, feeType, transaction, new AuditDetails());
+    }
+
+    public Fee(final Instant month, final Boolean paid, final FeeMember member, final FeeType feeType,
+            final Optional<Transaction> transaction, final AuditDetails audit) {
         Objects.requireNonNull(month, "Month can't be null");
         Objects.requireNonNull(paid, "Paid flag can't be null");
         Objects.requireNonNull(member, "Member can't be null");
         Objects.requireNonNull(feeType, "Fee type can't be null");
         Objects.requireNonNull(transaction, "Transaction can't be null");
+        Objects.requireNonNull(audit, "Audit can't be null");
 
         // TODO: Ensure it is at the beginning of the month
         this.month = month;
@@ -46,13 +54,14 @@ public record Fee(Instant month, Boolean paid, FeeMember member, FeeType feeType
         this.member = member;
         this.feeType = feeType;
         this.transaction = transaction;
+        this.audit = audit;
     }
 
     public static Fee unpaid(final Instant month, final Long number, final Name name, final FeeType feeType) {
         final FeeMember member;
 
         member = new FeeMember(number, name);
-        return new Fee(month, false, member, feeType, Optional.empty());
+        return new Fee(month, false, member, feeType, Optional.empty(), new AuditDetails());
     }
 
     public static Fee paid(final Instant month, final Long number, final Name name, final FeeType feeType,
@@ -60,14 +69,30 @@ public record Fee(Instant month, Boolean paid, FeeMember member, FeeType feeType
         final FeeMember member;
 
         member = new FeeMember(number, name);
-        return new Fee(month, true, member, feeType, Optional.of(transaction));
+        return new Fee(month, true, member, feeType, Optional.of(transaction), new AuditDetails());
+    }
+
+    public static Fee paid(final Instant month, final Long number, final Name name, final FeeType feeType,
+            final Transaction transaction, final AuditDetails audit) {
+        final FeeMember member;
+
+        member = new FeeMember(number, name);
+        return new Fee(month, true, member, feeType, Optional.of(transaction), audit);
     }
 
     public static Fee paid(final Instant month, final Long number, final Name name, final FeeType feeType) {
         final FeeMember member;
 
         member = new FeeMember(number, name);
-        return new Fee(month, true, member, feeType, Optional.empty());
+        return new Fee(month, true, member, feeType, Optional.empty(), new AuditDetails());
+    }
+
+    public static Fee paid(final Instant month, final Long number, final Name name, final FeeType feeType,
+            final AuditDetails audit) {
+        final FeeMember member;
+
+        member = new FeeMember(number, name);
+        return new Fee(month, true, member, feeType, Optional.empty(), audit);
     }
 
     public static record Transaction(Long index, Instant date) {

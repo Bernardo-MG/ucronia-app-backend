@@ -35,9 +35,9 @@ import com.bernardomg.association.security.user.domain.model.UserProfile;
 import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
 import com.bernardomg.association.security.user.usecase.domain.AssignUserProfile;
 import com.bernardomg.association.security.user.usecase.validation.UserProfileNotAssignedRule;
-import com.bernardomg.security.user.domain.exception.MissingUsernameException;
-import com.bernardomg.security.user.domain.model.User;
-import com.bernardomg.security.user.domain.repository.UserRepository;
+import com.bernardomg.security.domain.user.exception.MissingUsernameException;
+import com.bernardomg.security.domain.user.model.User;
+import com.bernardomg.security.domain.user.repository.UserRepository;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
 

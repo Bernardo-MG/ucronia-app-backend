@@ -40,11 +40,10 @@ import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.domain.model.YearsRange;
 import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.web.WebSorting;
-import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
-import com.bernardomg.security.permission.domain.constant.Actions;
+import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
+import com.bernardomg.security.domain.permission.constant.Actions;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
 
 /**
  * Fee calendar REST controller.
@@ -68,7 +67,7 @@ public class FeeCalendarController implements FeeCalendarApi {
 
     @Override
     @RequireResourceAuthorization(resource = "FEE", action = Actions.READ)
-    public FeeCalendarResponseDto getFeesCalendar(final Integer year, @NotNull @Valid final MemberStatusDto status,
+    public FeeCalendarResponseDto getFeesCalendar(final Integer year, final MemberStatusDto status,
             @Valid final List<String> sort) {
         final MemberStatus           memberStatus;
         final Sorting                sorting;

@@ -33,13 +33,16 @@ import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.bernardomg.security.domain.audit.model.AuditDetails;
+
 public record Profile(Optional<String> identifier, Long number, Name name, Optional<Instant> birthDate,
         Collection<ContactChannel> contactChannels, Optional<String> address, Optional<String> comments,
-        Set<String> types) {
+        Set<String> types, AuditDetails audit) {
 
     public Profile(final Optional<String> identifier, final Long number, final Name name,
             final Optional<Instant> birthDate, final Collection<ContactChannel> contactChannels,
-            final Optional<String> address, final Optional<String> comments, final Set<String> types) {
+            final Optional<String> address, final Optional<String> comments, final Set<String> types,
+            final AuditDetails audit) {
         Objects.requireNonNull(identifier, "Identifier can't be null");
         Objects.requireNonNull(number, "Number can't be null");
         Objects.requireNonNull(name, "Name can't be null");
@@ -48,6 +51,7 @@ public record Profile(Optional<String> identifier, Long number, Name name, Optio
         Objects.requireNonNull(comments, "Comments can't be null");
         Objects.requireNonNull(types, "Types can't be null");
         Objects.requireNonNull(contactChannels, "Contact channels can't be null");
+        Objects.requireNonNull(audit, "Audit can't be null");
 
         this.identifier = handleEmpty(identifier);
         this.number = number;
@@ -57,6 +61,13 @@ public record Profile(Optional<String> identifier, Long number, Name name, Optio
         this.address = handleEmpty(address);
         this.comments = handleEmpty(comments);
         this.types = Set.copyOf(types);
+        this.audit = audit;
+    }
+
+    public Profile(final Optional<String> identifier, final Long number, final Name name,
+            final Optional<Instant> birthDate, final Collection<ContactChannel> contactChannels,
+            final Optional<String> address, final Optional<String> comments, final Set<String> types) {
+        this(identifier, number, name, birthDate, contactChannels, address, comments, types, new AuditDetails());
     }
 
     private final static Optional<String> handleEmpty(final Optional<String> value) {

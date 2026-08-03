@@ -34,15 +34,24 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
+import com.bernardomg.security.domain.audit.model.AuditDetails;
 
 public record Book(long number, Title title, String isbn, String language, Optional<Instant> publishDate, boolean lent,
         Collection<Author> authors, Collection<BookLendingInfo> lendings, Collection<Publisher> publishers,
-        Optional<Donation> donation) {
+        Optional<Donation> donation, AuditDetails audit) {
 
     public Book(final long number, final Title title, final String isbn, final String language,
             final Optional<Instant> publishDate, final boolean lent, final Collection<Author> authors,
             final Collection<BookLendingInfo> lendings, final Collection<Publisher> publishers,
             final Optional<Donation> donation) {
+        this(number, title, isbn, language, publishDate, lent, authors, lendings, publishers, donation,
+            new AuditDetails());
+    }
+
+    public Book(final long number, final Title title, final String isbn, final String language,
+            final Optional<Instant> publishDate, final boolean lent, final Collection<Author> authors,
+            final Collection<BookLendingInfo> lendings, final Collection<Publisher> publishers,
+            final Optional<Donation> donation, final AuditDetails audit) {
         Objects.requireNonNull(number, "Number can't be null");
         Objects.requireNonNull(title, "Title can't be null");
         Objects.requireNonNull(isbn, "ISBN can't be null");
@@ -53,6 +62,7 @@ public record Book(long number, Title title, String isbn, String language, Optio
         Objects.requireNonNull(lendings, "Lendings can't be null");
         Objects.requireNonNull(publishers, "Publishers can't be null");
         Objects.requireNonNull(donation, "Donation can't be null");
+        Objects.requireNonNull(audit, "Audit can't be null");
 
         this.number = number;
         this.title = title;
@@ -64,6 +74,7 @@ public record Book(long number, Title title, String isbn, String language, Optio
         this.lendings = List.copyOf(lendings);
         this.publishers = List.copyOf(publishers);
         this.donation = donation;
+        this.audit = audit;
     }
 
 }

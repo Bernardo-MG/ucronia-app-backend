@@ -27,7 +27,10 @@ package com.bernardomg.association.library.lending.adapter.inbound.jpa.model;
 import java.io.Serializable;
 import java.time.Instant;
 
+import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditMetadata;
+
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
@@ -48,6 +51,9 @@ public class BookLendingEntity implements Serializable {
     @Transient
     private static final long serialVersionUID = 1328776989450853491L;
 
+    @Embedded
+    private AuditMetadata     audit            = new AuditMetadata();
+
     @Id
     @Column(name = "book_id", nullable = false)
     private Long              bookId;
@@ -67,6 +73,10 @@ public class BookLendingEntity implements Serializable {
     @Column(name = "return_date")
     private Instant           returnDate;
 
+    public AuditMetadata getAudit() {
+        return audit;
+    }
+
     public Long getBookId() {
         return bookId;
     }
@@ -85,6 +95,10 @@ public class BookLendingEntity implements Serializable {
 
     public Instant getReturnDate() {
         return returnDate;
+    }
+
+    public void setAudit(final AuditMetadata audit) {
+        this.audit = audit;
     }
 
     public void setBookId(final Long bookId) {

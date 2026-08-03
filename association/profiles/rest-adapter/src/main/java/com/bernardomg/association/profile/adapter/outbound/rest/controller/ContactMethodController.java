@@ -36,15 +36,12 @@ import com.bernardomg.association.profile.adapter.outbound.rest.dto.ContactMetho
 import com.bernardomg.association.profile.adapter.outbound.rest.model.ContactMethodDtoMapper;
 import com.bernardomg.association.profile.domain.model.ContactMethod;
 import com.bernardomg.association.profile.usecase.service.ContactMethodService;
+import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.web.WebSorting;
-import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
-import com.bernardomg.security.permission.domain.constant.Actions;
-
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
+import com.bernardomg.security.domain.permission.constant.Actions;
 
 /**
  * Contact method REST controller.
@@ -68,8 +65,7 @@ public class ContactMethodController implements ContactMethodApi {
 
     @Override
     @RequireResourceAuthorization(resource = "CONTACT_METHOD", action = Actions.CREATE)
-    public ContactMethodResponseDto
-            createContactMethod(@Valid final ContactMethodCreationDto contactMethodCreationDto) {
+    public ContactMethodResponseDto createContactMethod(final ContactMethodCreationDto contactMethodCreationDto) {
         final ContactMethod member;
         final ContactMethod contactMethod;
 
@@ -91,8 +87,8 @@ public class ContactMethodController implements ContactMethodApi {
 
     @Override
     @RequireResourceAuthorization(resource = "CONTACT_METHOD", action = Actions.READ)
-    public ContactMethodPageResponseDto getAllContactMethods(@Min(1) @Valid final Integer page,
-            @Min(1) @Valid final Integer size, @Valid final List<String> sort) {
+    public ContactMethodPageResponseDto getAllContactMethods(final Integer page, final Integer size,
+            final List<String> sort) {
         final Page<ContactMethod> contactMethods;
         final Pagination          pagination;
         final Sorting             sorting;
@@ -117,7 +113,7 @@ public class ContactMethodController implements ContactMethodApi {
     @Override
     @RequireResourceAuthorization(resource = "CONTACT_METHOD", action = Actions.UPDATE)
     public ContactMethodResponseDto updateContactMethod(final Long number,
-            @Valid final ContactMethodUpdateDto contactMethodUpdateDto) {
+            final ContactMethodUpdateDto contactMethodUpdateDto) {
         final ContactMethod contactMethod;
         final ContactMethod updated;
 

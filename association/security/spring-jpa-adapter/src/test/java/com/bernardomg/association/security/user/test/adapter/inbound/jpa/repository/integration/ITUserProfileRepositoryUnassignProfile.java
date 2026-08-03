@@ -30,13 +30,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.AssociationUserSpringRepository;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.UserAssignedProfileSpringRepository;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.UserProfileSpringRepository;
 import com.bernardomg.association.security.user.domain.repository.UserProfileRepository;
 import com.bernardomg.association.security.user.test.TestApplication;
 import com.bernardomg.association.security.user.test.configuration.data.annotation.ValidUserWithProfile;
 import com.bernardomg.association.security.user.test.configuration.factory.UserConstants;
-import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -54,7 +54,7 @@ class ITUserProfileRepositoryUnassignProfile {
     private UserAssignedProfileSpringRepository userProfileSpringRepository;
 
     @Autowired
-    private UserSpringRepository                userSpringRepository;
+    private AssociationUserSpringRepository                userSpringRepository;
 
     @Test
     @DisplayName("With a member assigned to the user, it removes the member")

@@ -30,8 +30,8 @@ import com.bernardomg.association.member.adapter.outbound.rest.dto.MemberCountRe
 import com.bernardomg.association.member.adapter.outbound.rest.model.MemberCountDtoMapper;
 import com.bernardomg.association.member.domain.model.MemberCount;
 import com.bernardomg.association.member.usecase.service.MemberCountService;
-import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
-import com.bernardomg.security.permission.domain.constant.Actions;
+import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
+import com.bernardomg.security.domain.permission.constant.Actions;
 
 /**
  * Member count REST controller.

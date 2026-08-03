@@ -39,12 +39,12 @@ import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.usecase.service.MemberService;
+import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.web.WebSorting;
-import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
-import com.bernardomg.security.permission.domain.constant.Actions;
+import com.bernardomg.security.domain.permission.constant.Actions;
 
 /**
  * Member REST controller.

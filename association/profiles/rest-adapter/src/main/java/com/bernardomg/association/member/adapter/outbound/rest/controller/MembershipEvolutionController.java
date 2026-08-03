@@ -35,10 +35,8 @@ import com.bernardomg.association.member.adapter.outbound.rest.model.MembershipM
 import com.bernardomg.association.member.domain.filter.MembershipEvolutionFilter;
 import com.bernardomg.association.member.domain.model.MembershipEvolutionMonth;
 import com.bernardomg.association.member.usecase.service.MembershipEvolutionService;
-import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
-import com.bernardomg.security.permission.domain.constant.Actions;
-
-import jakarta.validation.Valid;
+import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
+import com.bernardomg.security.domain.permission.constant.Actions;
 
 /**
  * Membership evolution REST controller.
@@ -62,8 +60,8 @@ public class MembershipEvolutionController implements MembershipEvolutionApi {
 
     @Override
     @RequireResourceAuthorization(resource = "MEMBER", action = Actions.READ)
-    public MembershipMonthlyEvolutionResponseDto getMembershipMonthlyEvolution(@Valid final Instant from,
-            @Valid final Instant to, @Valid final Long memberNumber) {
+    public MembershipMonthlyEvolutionResponseDto getMembershipMonthlyEvolution(final Instant from, final Instant to,
+            final Long memberNumber) {
         final Collection<MembershipEvolutionMonth> evolution;
         final MembershipEvolutionFilter            filter;
 

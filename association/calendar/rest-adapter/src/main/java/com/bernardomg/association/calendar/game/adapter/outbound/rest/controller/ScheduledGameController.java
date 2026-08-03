@@ -36,16 +36,12 @@ import com.bernardomg.association.calendar.game.adapter.outbound.rest.dto.Schedu
 import com.bernardomg.association.calendar.game.adapter.outbound.rest.model.ScheduledGameDtoMapper;
 import com.bernardomg.association.calendar.game.domain.model.ScheduledGame;
 import com.bernardomg.association.calendar.game.usecase.service.ScheduledGameService;
+import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.web.WebSorting;
-import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
-import com.bernardomg.security.permission.domain.constant.Actions;
-
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
+import com.bernardomg.security.domain.permission.constant.Actions;
 
 /**
  * Scheduled game REST controller.
@@ -69,8 +65,7 @@ public class ScheduledGameController implements ScheduledGameApi {
 
     @Override
     @RequireResourceAuthorization(resource = "SCHEDULED_GAME", action = Actions.CREATE)
-    public ScheduledGameResponseDto
-            createScheduledGame(@Valid final ScheduledGameCreationDto scheduledGameCreationDto) {
+    public ScheduledGameResponseDto createScheduledGame(final ScheduledGameCreationDto scheduledGameCreationDto) {
         final ScheduledGame scheduledGame;
         final ScheduledGame toCreate;
 
@@ -92,9 +87,8 @@ public class ScheduledGameController implements ScheduledGameApi {
 
     @Override
     @RequireResourceAuthorization(resource = "SCHEDULED_GAME", action = Actions.READ)
-    public ScheduledGamePageResponseDto getAllScheduledGames(@Min(1) @Valid final Integer page,
-            @Min(1) @Valid final Integer size,
-            @Valid final List<@Pattern(regexp = "^(description|title)\\|(asc|desc)$") String> sort) {
+    public ScheduledGamePageResponseDto getAllScheduledGames(final Integer page, final Integer size,
+            final List<String> sort) {
         final Pagination          pagination;
         final Sorting             sorting;
         final Page<ScheduledGame> scheduledGames;
@@ -119,7 +113,7 @@ public class ScheduledGameController implements ScheduledGameApi {
     @Override
     @RequireResourceAuthorization(resource = "SCHEDULED_GAME", action = Actions.UPDATE)
     public ScheduledGameResponseDto updateScheduledGame(final Long number,
-            @Valid final ScheduledGameUpdateDto scheduledGameUpdateDto) {
+            final ScheduledGameUpdateDto scheduledGameUpdateDto) {
         final ScheduledGame scheduledGame;
         final ScheduledGame updated;
 

@@ -37,16 +37,12 @@ import com.bernardomg.association.calendar.activity.adapter.outbound.rest.dto.Ac
 import com.bernardomg.association.calendar.activity.adapter.outbound.rest.model.ActivityDtoMapper;
 import com.bernardomg.association.calendar.activity.domain.model.Activity;
 import com.bernardomg.association.calendar.activity.usecase.service.ActivityService;
+import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.web.WebSorting;
-import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
-import com.bernardomg.security.permission.domain.constant.Actions;
-
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
+import com.bernardomg.security.domain.permission.constant.Actions;
 
 /**
  * Activity REST controller.
@@ -69,7 +65,7 @@ public class ActivityController implements ActivityApi {
 
     @Override
     @RequireResourceAuthorization(resource = "ACTIVITY", action = Actions.CREATE)
-    public ActivityResponseDto createActivity(@Valid final ActivityCreationDto activityCreationDto) {
+    public ActivityResponseDto createActivity(final ActivityCreationDto activityCreationDto) {
         final Activity activity;
         final Activity toCreate;
 
@@ -91,10 +87,8 @@ public class ActivityController implements ActivityApi {
 
     @Override
     @RequireResourceAuthorization(resource = "ACTIVITY", action = Actions.READ)
-    public ActivityPageResponseDto getAllActivities(@Min(1) @Valid final Integer page,
-            @Min(1) @Valid final Integer size,
-            @Valid final List<@Pattern(regexp = "^(description|title|date)\\|(asc|desc)$") String> sort,
-            @Valid final Instant date, @Valid final Instant from, @Valid final Instant to) {
+    public ActivityPageResponseDto getAllActivities(final Integer page, final Integer size, final List<String> sort,
+            final Instant date, final Instant from, final Instant to) {
         final Pagination     pagination;
         final Sorting        sorting;
         final Page<Activity> activities;
@@ -118,7 +112,7 @@ public class ActivityController implements ActivityApi {
 
     @Override
     @RequireResourceAuthorization(resource = "ACTIVITY", action = Actions.UPDATE)
-    public ActivityResponseDto updateActivity(final Long number, @Valid final ActivityUpdateDto activityUpdateDto) {
+    public ActivityResponseDto updateActivity(final Long number, final ActivityUpdateDto activityUpdateDto) {
         final Activity activity;
         final Activity updated;
 

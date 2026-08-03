@@ -28,14 +28,17 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Primary;
+import org.springframework.security.authentication.AuthenticationTrustResolver;
 
 import com.bernardomg.association.security.account.adapter.inbound.jpa.repository.AccountAssignedProfileSpringRepository;
 import com.bernardomg.association.security.account.adapter.inbound.jpa.repository.JpaAccountProfileRepository;
 import com.bernardomg.association.security.account.domain.repository.AccountProfileRepository;
 import com.bernardomg.association.security.account.usecase.service.MemberAccountService;
-import com.bernardomg.security.account.domain.repository.AccountRepository;
-import com.bernardomg.security.account.usecase.service.AccountService;
-import com.bernardomg.security.account.usecase.service.SpringSecurityAccountService;
+import com.bernardomg.security.domain.account.repository.AccountRepository;
+import com.bernardomg.security.springframework.session.SpringSecurityAccountInSessionProvider;
+import com.bernardomg.security.usecase.account.service.AccountService;
+import com.bernardomg.security.usecase.account.service.DefaultAccountService;
+import com.bernardomg.security.usecase.session.AccountInSessionProvider;
 
 @AutoConfiguration
 @ComponentScan({ "com.bernardomg.association.security.account.adapter.outbound.rest.controller",
@@ -51,10 +54,12 @@ public class AssociationSecurityAccountAutoConfiguration {
     @Primary
     @Bean("memberAccountService")
     public MemberAccountService getMemberAccountService(final AccountRepository accountRepository,
-            final AccountProfileRepository accountProfileRepository) {
-        final AccountService wrapped;
+            final AccountProfileRepository accountProfileRepository, final AuthenticationTrustResolver trustResolver) {
+        final AccountService           wrapped;
+        final AccountInSessionProvider provider;
 
-        wrapped = new SpringSecurityAccountService(accountRepository);
+        provider = new SpringSecurityAccountInSessionProvider(trustResolver, accountRepository);
+        wrapped = new DefaultAccountService(accountRepository, provider);
         return new MemberAccountService(wrapped, accountProfileRepository);
     }
 

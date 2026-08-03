@@ -43,7 +43,7 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("AccountProfileRepository - find by username")
+@DisplayName("FeeProfileRepository - find by username")
 class ITFeeProfileRepositoryFindByUsername {
 
     @Autowired

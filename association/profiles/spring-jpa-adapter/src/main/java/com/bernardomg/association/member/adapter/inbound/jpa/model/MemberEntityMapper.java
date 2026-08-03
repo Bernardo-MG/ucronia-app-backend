@@ -34,6 +34,10 @@ import com.bernardomg.association.member.domain.model.Member.FeeType;
 import com.bernardomg.association.profile.domain.model.ContactChannel;
 import com.bernardomg.association.profile.domain.model.ContactMethod;
 import com.bernardomg.association.profile.domain.model.Name;
+import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditMetadata;
+import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditUserEntity;
+import com.bernardomg.security.domain.audit.model.AuditDetails;
+import com.bernardomg.security.domain.audit.model.AuditDetails.AuditUser;
 
 /**
  * Member entity mapper.
@@ -44,6 +48,7 @@ public final class MemberEntityMapper {
         final FeeType                    feeType;
         final Name                       name;
         final Collection<ContactChannel> contactChannels;
+        final AuditDetails               audit;
 
         feeType = new FeeType(entity.getFeeType()
             .getNumber(),
@@ -59,16 +64,18 @@ public final class MemberEntityMapper {
             .map(MemberEntityMapper::toDomain)
             .toList();
 
+        audit = toDomain(entity.getAudit());
         return new Member(Optional.ofNullable(entity.getIdentifier()), entity.getNumber(), name,
             Optional.ofNullable(entity.getBirthDate()), contactChannels, Optional.ofNullable(entity.getAddress()),
             Optional.ofNullable(entity.getComments()), entity.getActive(), entity.getRenew(), feeType,
-            entity.getTypes());
+            entity.getTypes(), audit);
     }
 
     public static final Member toDomain(final ReadMemberEntity entity) {
         final FeeType                    feeType;
         final Name                       name;
         final Collection<ContactChannel> contactChannels;
+        final AuditDetails               audit;
 
         feeType = new FeeType(entity.getFeeType()
             .getNumber(),
@@ -84,10 +91,11 @@ public final class MemberEntityMapper {
             .map(MemberEntityMapper::toDomain)
             .toList();
 
+        audit = new AuditDetails();
         return new Member(Optional.ofNullable(entity.getIdentifier()), entity.getNumber(), name,
             Optional.ofNullable(entity.getBirthDate()), contactChannels, Optional.ofNullable(entity.getAddress()),
             Optional.ofNullable(entity.getComments()), entity.getActive(), entity.getRenew(), feeType,
-            entity.getTypes());
+            entity.getTypes(), audit);
     }
 
     public static final MemberEntity toEntity(final Member data,
@@ -163,6 +171,31 @@ public final class MemberEntityMapper {
         entity.setRenew(data.renew());
 
         return entity;
+    }
+
+    private static final AuditUser toAuditDomain(final AuditUserEntity user) {
+        final AuditUser auditUser;
+
+        if (user == null) {
+            auditUser = null;
+        } else {
+            auditUser = new AuditUser(user.getEmail(), user.getUsername(), user.getName());
+        }
+
+        return auditUser;
+    }
+
+    private static final AuditDetails toDomain(final AuditMetadata audit) {
+        final AuditDetails auditDetails;
+
+        if (audit == null) {
+            auditDetails = new AuditDetails();
+        } else {
+            auditDetails = new AuditDetails(audit.getCreatedAt(), toAuditDomain(audit.getCreatedBy()),
+                audit.getUpdatedAt(), toAuditDomain(audit.getUpdatedBy()));
+        }
+
+        return auditDetails;
     }
 
     private static final ContactChannel toDomain(final MemberContactChannelEntity entity) {

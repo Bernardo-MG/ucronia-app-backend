@@ -36,16 +36,12 @@ import com.bernardomg.association.calendar.adapter.outbound.rest.dto.CalendarTyp
 import com.bernardomg.association.calendar.adapter.outbound.rest.model.CalendarTypeDtoMapper;
 import com.bernardomg.association.calendar.domain.model.CalendarType;
 import com.bernardomg.association.calendar.usecase.service.CalendarTypeService;
+import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.web.WebSorting;
-import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
-import com.bernardomg.security.permission.domain.constant.Actions;
-
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
+import com.bernardomg.security.domain.permission.constant.Actions;
 
 /**
  * Calendar type REST controller.
@@ -69,7 +65,7 @@ public class CalendarTypeController implements CalendarTypeApi {
 
     @Override
     @RequireResourceAuthorization(resource = "CALENDAR_TYPE", action = Actions.CREATE)
-    public CalendarTypeResponseDto createCalendarType(@Valid final CalendarTypeCreationDto calendarTypeCreationDto) {
+    public CalendarTypeResponseDto createCalendarType(final CalendarTypeCreationDto calendarTypeCreationDto) {
         final CalendarType calendarType;
         final CalendarType toCreate;
 
@@ -91,9 +87,8 @@ public class CalendarTypeController implements CalendarTypeApi {
 
     @Override
     @RequireResourceAuthorization(resource = "CALENDAR_TYPE", action = Actions.READ)
-    public CalendarTypePageResponseDto getAllCalendarTypes(@Min(1) @Valid final Integer page,
-            @Min(1) @Valid final Integer size,
-            @Valid final List<@Pattern(regexp = "^(name|color)\\|(asc|desc)$") String> sort) {
+    public CalendarTypePageResponseDto getAllCalendarTypes(final Integer page, final Integer size,
+            final List<String> sort) {
         final Pagination         pagination;
         final Sorting            sorting;
         final Page<CalendarType> calendarTypes;
@@ -118,7 +113,7 @@ public class CalendarTypeController implements CalendarTypeApi {
     @Override
     @RequireResourceAuthorization(resource = "CALENDAR_TYPE", action = Actions.UPDATE)
     public CalendarTypeResponseDto updateCalendarType(final Long number,
-            @Valid final CalendarTypeUpdateDto calendarTypeUpdateDto) {
+            final CalendarTypeUpdateDto calendarTypeUpdateDto) {
         final CalendarType calendarType;
         final CalendarType updated;
 

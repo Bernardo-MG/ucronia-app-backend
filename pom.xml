@@ -197,10 +197,12 @@
       <archunit.version>1.4.1</archunit.version>
       <bernardomg.framework.event.version>1.0.0</bernardomg.framework.event.version>
       <bernardomg.framework.pagination.version>1.0.2</bernardomg.framework.pagination.version>
+      <bernardomg.framework.security.access.version>1.0.0</bernardomg.framework.security.access.version>
       <bernardomg.framework.test.architecture>1.0.8</bernardomg.framework.test.architecture>
       <bernardomg.framework.validation.version>0.2.5</bernardomg.framework.validation.version>
-      <bernardomg.framework.ws.version>0.6.1</bernardomg.framework.ws.version>
-      <bernardomg.framework.ws.security.version>0.4.49</bernardomg.framework.ws.security.version>
+      <bernardomg.framework.version>0.7.0</bernardomg.framework.version>
+      <bernardomg.framework.security.version>0.5.12</bernardomg.framework.security.version>
+      <bernardomg.framework.ws.starter.starter>0.7.0</bernardomg.framework.ws.starter.starter>
       <commons.lang3.version>3.20.0</commons.lang3.version>
       <jackson.annotations.version>2.20</jackson.annotations.version>
       <jakarta.validation.version>3.1.1</jakarta.validation.version>
@@ -355,13 +357,43 @@
             <!-- Spring WS Starter -->
             <groupId>com.bernardomg.framework.spring</groupId>
             <artifactId>spring-ws-starter</artifactId>
-            <version>${bernardomg.framework.ws.version}</version>
+            <version>${bernardomg.framework.ws.starter.starter}</version>
+         </dependency>
+         <dependency>
+            <!-- Security Access -->
+            <groupId>com.bernardomg.framework.security</groupId>
+            <artifactId>access-decorator</artifactId>
+            <version>${bernardomg.framework.security.access.version}</version>
+         </dependency>
+         <dependency>
+            <!-- Security Model -->
+            <groupId>com.bernardomg.framework.security</groupId>
+            <artifactId>security-model</artifactId>
+            <version>${bernardomg.framework.security.version}</version>
+         </dependency>
+         <dependency>
+            <!-- Security JPA Model -->
+            <groupId>com.bernardomg.framework.security</groupId>
+            <artifactId>security-jpa-model</artifactId>
+            <version>${bernardomg.framework.security.version}</version>
+         </dependency>
+         <dependency>
+            <!-- Security Usecase -->
+            <groupId>com.bernardomg.framework.security</groupId>
+            <artifactId>security-usecase</artifactId>
+            <version>${bernardomg.framework.security.version}</version>
+         </dependency>
+         <dependency>
+            <!-- Security Adapter -->
+            <groupId>com.bernardomg.framework.security</groupId>
+            <artifactId>security-adapter</artifactId>
+            <version>${bernardomg.framework.security.version}</version>
          </dependency>
          <dependency>
             <!-- Spring WS Security Starter -->
             <groupId>com.bernardomg.framework.spring</groupId>
             <artifactId>spring-ws-security-starter</artifactId>
-            <version>${bernardomg.framework.ws.security.version}</version>
+            <version>${bernardomg.framework.security.version}</version>
          </dependency>
          <dependency>
             <!-- Architecture Tests -->
