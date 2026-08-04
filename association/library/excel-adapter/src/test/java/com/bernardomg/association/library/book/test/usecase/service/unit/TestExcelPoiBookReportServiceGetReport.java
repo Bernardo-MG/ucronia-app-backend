@@ -1,18 +1,16 @@
 
 package com.bernardomg.association.library.book.test.usecase.service.unit;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.List;
-import java.util.Optional;
 
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,17 +22,18 @@ import com.bernardomg.association.library.book.domain.model.FictionBook;
 import com.bernardomg.association.library.book.domain.model.GameBook;
 import com.bernardomg.association.library.book.domain.repository.FictionBookRepository;
 import com.bernardomg.association.library.book.domain.repository.GameBookRepository;
-import com.bernardomg.association.library.book.test.configuration.factory.BookConstants;
 import com.bernardomg.association.library.book.test.configuration.factory.FictionBooks;
 import com.bernardomg.association.library.book.test.configuration.factory.GameBooks;
 import com.bernardomg.association.library.book.usecase.service.ExcelPoiBookReportService;
-import com.bernardomg.association.profile.domain.repository.ProfileRepository;
-import com.bernardomg.association.profile.test.configuration.factory.Profiles;
-import com.bernardomg.pagination.domain.Sorting;
+import com.bernardomg.association.library.book.usecase.service.ExcelWorkbookGenerator;
+import com.bernardomg.association.library.book.usecase.service.ExcelWorkbookLoader;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("ExcelPoiBookReportService - get report")
+@DisplayName("ExcelPoiBookReportService")
 class TestExcelPoiBookReportServiceGetReport {
+
+    @Mock
+    private ExcelWorkbookGenerator    excelGenerator;
 
     @Mock
     private FictionBookRepository     fictionBookRepository;
@@ -42,230 +41,72 @@ class TestExcelPoiBookReportServiceGetReport {
     @Mock
     private GameBookRepository        gameBookRepository;
 
-    @Mock
-    private  ProfileRepository     profileRepository;
-
     @InjectMocks
     private ExcelPoiBookReportService service;
 
+    @Mock
+    private ExcelWorkbookLoader       workbookLoader;
+
     @Test
-    @DisplayName("When there are books, an Excel file is generated")
-    @SuppressWarnings("resource")
-    void testGetReport() throws Exception {
+    @DisplayName("The generated workbook is loaded with the books")
+    void testGetReport() {
         final GameBook              gameBook;
         final FictionBook           fictionBook;
-        final ByteArrayOutputStream report;
+        final List<GameBook>        gameBooks;
+        final List<FictionBook>     fictionBooks;
         final Workbook              workbook;
-        final Sheet                 gamesSheet;
-        final Sheet                 fictionSheet;
+        final ByteArrayOutputStream report;
 
         // GIVEN
         gameBook = GameBooks.full();
         fictionBook = FictionBooks.full();
+        gameBooks = List.of(gameBook);
+        fictionBooks = List.of(fictionBook);
+        workbook = new XSSFWorkbook();
 
-        given(gameBookRepository.findAll(Sorting.asc("title", "language", "isbn"))).willReturn(List.of(gameBook));
-
-        given(fictionBookRepository.findAll(Sorting.asc("title", "language", "isbn"))).willReturn(List.of(fictionBook));
+        given(excelGenerator.generateWorkbook()).willReturn(workbook);
+        given(gameBookRepository.findAll(any())).willReturn(gameBooks);
+        given(fictionBookRepository.findAll(any())).willReturn(fictionBooks);
 
         // WHEN
         report = service.getReport();
 
-        workbook = new XSSFWorkbook(new ByteArrayInputStream(report.toByteArray()));
-
-        gamesSheet = workbook.getSheetAt(0);
-        fictionSheet = workbook.getSheetAt(1);
-
         // THEN
-        Assertions.assertThat(gamesSheet.getPhysicalNumberOfRows())
-            .as("game rows")
-            .isEqualTo(2);
+        assertThat(report).isNotNull()
+            .extracting(ByteArrayOutputStream::size)
+            .isNotEqualTo(0);
 
-        Assertions.assertThat(fictionSheet.getPhysicalNumberOfRows())
-            .as("fiction rows")
-            .isEqualTo(2);
+        then(workbookLoader).should()
+            .loadWorkbook(workbook, gameBooks, fictionBooks);
     }
 
     @Test
-    @DisplayName("When there are books with donation without date, an Excel file is generated")
-    @SuppressWarnings("resource")
-    void testGetReport_DonationNoDate() throws Exception {
-        final GameBook              gameBook;
-        final FictionBook           fictionBook;
-        final ByteArrayOutputStream report;
+    @DisplayName("An empty workbook is generated when there are no books")
+    void testGetReport_NoData() {
+        final List<GameBook>        gameBooks;
+        final List<FictionBook>     fictionBooks;
         final Workbook              workbook;
-        final Sheet                 gamesSheet;
-        final Sheet                 fictionSheet;
+        final ByteArrayOutputStream report;
 
         // GIVEN
-        gameBook = GameBooks.donationNoDate();
-        fictionBook = FictionBooks.donationNoDate();
+        gameBooks = List.of();
+        fictionBooks = List.of();
+        workbook = new XSSFWorkbook();
 
-        given(gameBookRepository.findAll(Sorting.asc("title", "language", "isbn"))).willReturn(List.of(gameBook));
-
-        given(fictionBookRepository.findAll(Sorting.asc("title", "language", "isbn"))).willReturn(List.of(fictionBook));
+        given(excelGenerator.generateWorkbook()).willReturn(workbook);
+        given(gameBookRepository.findAll(any())).willReturn(gameBooks);
+        given(fictionBookRepository.findAll(any())).willReturn(fictionBooks);
 
         // WHEN
         report = service.getReport();
 
-        workbook = new XSSFWorkbook(new ByteArrayInputStream(report.toByteArray()));
-
-        gamesSheet = workbook.getSheetAt(0);
-        fictionSheet = workbook.getSheetAt(1);
-
         // THEN
-        Assertions.assertThat(gamesSheet.getPhysicalNumberOfRows())
-            .as("game rows")
-            .isEqualTo(2);
+        assertThat(report).isNotNull()
+            .extracting(ByteArrayOutputStream::size)
+            .isNotEqualTo(0);
 
-        Assertions.assertThat(fictionSheet.getPhysicalNumberOfRows())
-            .as("fiction rows")
-            .isEqualTo(2);
-    }
-
-    @Test
-    @DisplayName("Generated Excel contains correct headers")
-    @SuppressWarnings("resource")
-    void testGetReport_Headers() throws Exception {
-        final ByteArrayOutputStream report;
-        final Workbook              workbook;
-        final Sheet                 gamesSheet;
-        final Row                   header;
-
-        // GIVEN
-        given(gameBookRepository.findAll(Sorting.asc("title", "language", "isbn"))).willReturn(List.of());
-
-        given(fictionBookRepository.findAll(Sorting.asc("title", "language", "isbn"))).willReturn(List.of());
-
-        // WHEN
-        report = service.getReport();
-
-        workbook = new XSSFWorkbook(new ByteArrayInputStream(report.toByteArray()));
-        gamesSheet = workbook.getSheetAt(0);
-        header = gamesSheet.getRow(0);
-
-        // THEN
-        Assertions.assertThat(header.getCell(0)
-            .getStringCellValue())
-            .as("header number")
-            .isEqualTo("Número");
-
-        Assertions.assertThat(header.getCell(1)
-            .getStringCellValue())
-            .as("header title")
-            .isEqualTo("Título completo");
-
-        Assertions.assertThat(header.getCell(2)
-            .getStringCellValue())
-            .as("header language")
-            .isEqualTo("Idioma");
-    }
-
-    @Test
-    @DisplayName("When there are lent books, an Excel file is generated")
-    @SuppressWarnings("resource")
-    void testGetReport_Lent() throws Exception {
-        final GameBook              gameBook;
-        final FictionBook           fictionBook;
-        final ByteArrayOutputStream report;
-        final Workbook              workbook;
-        final Sheet                 gamesSheet;
-        final Sheet                 fictionSheet;
-
-        // GIVEN
-        gameBook = GameBooks.lent();
-        fictionBook = FictionBooks.lent();
-
-        given(gameBookRepository.findAll(Sorting.asc("title", "language", "isbn"))).willReturn(List.of(gameBook));
-
-        given(fictionBookRepository.findAll(Sorting.asc("title", "language", "isbn"))).willReturn(List.of(fictionBook));
-
-        given(profileRepository.findOne(BookConstants.BORROWER)).willReturn(Optional.of(Profiles.valid()));
-
-        // WHEN
-        report = service.getReport();
-
-        workbook = new XSSFWorkbook(new ByteArrayInputStream(report.toByteArray()));
-
-        gamesSheet = workbook.getSheetAt(0);
-        fictionSheet = workbook.getSheetAt(1);
-
-        // THEN
-        Assertions.assertThat(gamesSheet.getPhysicalNumberOfRows())
-            .as("game rows")
-            .isEqualTo(2);
-
-        Assertions.assertThat(fictionSheet.getPhysicalNumberOfRows())
-            .as("fiction rows")
-            .isEqualTo(2);
-    }
-
-    @Test
-    @DisplayName("When there are books with minimal data, an Excel file is generated")
-    @SuppressWarnings("resource")
-    void testGetReport_Minimal() throws Exception {
-        final GameBook              gameBook;
-        final FictionBook           fictionBook;
-        final ByteArrayOutputStream report;
-        final Workbook              workbook;
-        final Sheet                 gamesSheet;
-        final Sheet                 fictionSheet;
-
-        // GIVEN
-        gameBook = GameBooks.minimal();
-        fictionBook = FictionBooks.minimal();
-
-        given(gameBookRepository.findAll(Sorting.asc("title", "language", "isbn"))).willReturn(List.of(gameBook));
-
-        given(fictionBookRepository.findAll(Sorting.asc("title", "language", "isbn"))).willReturn(List.of(fictionBook));
-
-        // WHEN
-        report = service.getReport();
-
-        workbook = new XSSFWorkbook(new ByteArrayInputStream(report.toByteArray()));
-
-        gamesSheet = workbook.getSheetAt(0);
-        fictionSheet = workbook.getSheetAt(1);
-
-        // THEN
-        Assertions.assertThat(gamesSheet.getPhysicalNumberOfRows())
-            .as("game rows")
-            .isEqualTo(2);
-
-        Assertions.assertThat(fictionSheet.getPhysicalNumberOfRows())
-            .as("fiction rows")
-            .isEqualTo(2);
-    }
-
-    @Test
-    @DisplayName("When there are no books, only the headers are generated")
-    @SuppressWarnings("resource")
-    void testGetReport_NoData() throws Exception {
-        final ByteArrayOutputStream report;
-        final Workbook              workbook;
-        final Sheet                 gamesSheet;
-        final Sheet                 fictionSheet;
-
-        // GIVEN
-        given(gameBookRepository.findAll(Sorting.asc("title", "language", "isbn"))).willReturn(List.of());
-
-        given(fictionBookRepository.findAll(Sorting.asc("title", "language", "isbn"))).willReturn(List.of());
-
-        // WHEN
-        report = service.getReport();
-
-        workbook = new XSSFWorkbook(new ByteArrayInputStream(report.toByteArray()));
-
-        gamesSheet = workbook.getSheetAt(0);
-        fictionSheet = workbook.getSheetAt(1);
-
-        // THEN
-        Assertions.assertThat(gamesSheet.getPhysicalNumberOfRows())
-            .as("games rows")
-            .isEqualTo(1);
-
-        Assertions.assertThat(fictionSheet.getPhysicalNumberOfRows())
-            .as("fiction rows")
-            .isEqualTo(1);
+        then(workbookLoader).should()
+            .loadWorkbook(workbook, gameBooks, fictionBooks);
     }
 
 }
