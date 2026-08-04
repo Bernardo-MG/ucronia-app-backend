@@ -83,7 +83,7 @@ public final class DefaultExcelWorkbookLoader implements ExcelWorkbookLoader {
             cell.setCellStyle(style);
 
             cell = row.createCell(2);
-            cell.setCellValue(book.language());
+            cell.setCellValue(translateLanguage(book.language()));
             cell.setCellStyle(style);
 
             cell = row.createCell(3);
@@ -189,7 +189,7 @@ public final class DefaultExcelWorkbookLoader implements ExcelWorkbookLoader {
             cell.setCellStyle(style);
 
             cell = row.createCell(2);
-            cell.setCellValue(book.language());
+            cell.setCellValue(translateLanguage(book.language()));
             cell.setCellStyle(style);
 
             cell = row.createCell(3);
@@ -282,6 +282,20 @@ public final class DefaultExcelWorkbookLoader implements ExcelWorkbookLoader {
             index++;
         }
 
+    }
+
+    private final String translateLanguage(final String code) {
+        final String language;
+
+        if ("es".equalsIgnoreCase(code)) {
+            language = "Español";
+        } else if ("en".equalsIgnoreCase(code)) {
+            language = "Inglés";
+        } else {
+            language = code;
+        }
+
+        return language;
     }
 
 }
