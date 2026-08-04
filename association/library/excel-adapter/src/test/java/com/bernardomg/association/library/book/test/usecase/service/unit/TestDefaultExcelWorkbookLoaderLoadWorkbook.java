@@ -3,9 +3,16 @@ package com.bernardomg.association.library.book.test.usecase.service.unit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
+import static org.mockito.Mockito.mock;
 
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.apache.poi.ss.usermodel.Cell;
@@ -20,6 +27,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.library.author.domain.model.Author;
+import com.bernardomg.association.library.book.domain.model.BookLendingInfo;
 import com.bernardomg.association.library.book.domain.model.Donation;
 import com.bernardomg.association.library.book.domain.model.Donor;
 import com.bernardomg.association.library.book.domain.model.FictionBook;
@@ -31,13 +39,17 @@ import com.bernardomg.association.library.book.usecase.service.DefaultExcelWorkb
 import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
+import com.bernardomg.association.profile.domain.model.Profile;
 import com.bernardomg.association.profile.domain.repository.ProfileRepository;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultExcelWorkbookLoader")
 class TestDefaultExcelWorkbookLoaderLoadWorkbook {
 
-    private static final String DATE_FORMAT = "dd/MM/yyyy";
+    private static final String            DATE_FORMAT         = "dd/MM/yyyy";
+
+    private static final DateTimeFormatter LENDING_DATE_FORMAT = DateTimeFormatter.ofPattern(DATE_FORMAT)
+        .withZone(ZoneId.systemDefault());
 
     private static void assertAllCellsWrapText(final Row row, final int cellCount) {
         for (int column = 0; column < cellCount; column++) {
@@ -56,7 +68,7 @@ class TestDefaultExcelWorkbookLoaderLoadWorkbook {
             .getWrapText()).isTrue();
     }
 
-    private static void assertFictionRow(final Row row, final FictionBook book) {
+    private static void assertFictionRow(final Row row, final FictionBook book, final String expectedLendingStatus) {
         final Donation donation;
 
         donation = book.donation()
@@ -82,14 +94,13 @@ class TestDefaultExcelWorkbookLoaderLoadWorkbook {
         assertDateCell(row.getCell(8), Date.from(donation.date()
             .orElseThrow()));
         assertThat(row.getCell(9)
-            .getBooleanCellValue()).isEqualTo(book.lent());
-        assertThat(row.getCell(10)).isNull();
-        assertThat(row.getCell(11)).isNull();
-        assertThat(row.getCell(12)).isNull();
+            .getStringCellValue()).isEqualTo(expectedLendingStatus);
+
+        assertThat(row.getPhysicalNumberOfCells()).isEqualTo(10);
         assertAllCellsWrapText(row, 10);
     }
 
-    private static void assertGameRow(final Row row, final GameBook book) {
+    private static void assertGameRow(final Row row, final GameBook book, final String expectedLendingStatus) {
         final Donation donation;
 
         donation = book.donation()
@@ -123,10 +134,9 @@ class TestDefaultExcelWorkbookLoaderLoadWorkbook {
         assertDateCell(row.getCell(10), Date.from(donation.date()
             .orElseThrow()));
         assertThat(row.getCell(11)
-            .getBooleanCellValue()).isEqualTo(book.lent());
-        assertThat(row.getCell(12)).isNull();
-        assertThat(row.getCell(13)).isNull();
-        assertThat(row.getCell(14)).isNull();
+            .getStringCellValue()).isEqualTo(expectedLendingStatus);
+
+        assertThat(row.getPhysicalNumberOfCells()).isEqualTo(12);
         assertAllCellsWrapText(row, 12);
     }
 
@@ -189,7 +199,7 @@ class TestDefaultExcelWorkbookLoaderLoadWorkbook {
     }
 
     @Test
-    @DisplayName("Empty collections leave both sheets without data rows")
+    @DisplayName("Empty collections leave all sheets without data rows")
     @SuppressWarnings("resource")
     void testLoadWorkbookWithNoBooks() {
         final Workbook workbook;
@@ -205,6 +215,61 @@ class TestDefaultExcelWorkbookLoaderLoadWorkbook {
             .getRow(1)).isNull();
         assertThat(workbook.getSheetAt(1)
             .getRow(1)).isNull();
+        assertThat(workbook.getSheetAt(2)
+            .getRow(1)).isNull();
+    }
+
+    @Test
+    @DisplayName("Lent books show the borrower, lending date and number of days")
+    @SuppressWarnings("resource")
+    void testLoadWorkbookWritesActiveLendingStatus() {
+        final FictionBook     availableFiction;
+        final GameBook        availableGame;
+        final FictionBook     lentFiction;
+        final GameBook        lentGame;
+        final BookLendingInfo lending;
+        final Profile         borrower;
+        final Workbook        workbook;
+        final String          expectedStatus;
+
+        // GIVEN
+        availableFiction = FictionBooks.full();
+        availableGame = GameBooks.full();
+
+        lending = new BookLendingInfo(42L, Instant.parse("2026-08-01T10:00:00Z"), Optional.empty());
+
+        lentFiction = new FictionBook(availableFiction.number(), availableFiction.title(), availableFiction.isbn(),
+            availableFiction.language(), availableFiction.publishDate(), true, availableFiction.authors(),
+            List.of(lending), availableFiction.publishers(), availableFiction.donation(), availableFiction.audit());
+
+        lentGame = new GameBook(availableGame.number(), availableGame.title(), availableGame.isbn(),
+            availableGame.language(), availableGame.publishDate(), true, availableGame.authors(), List.of(lending),
+            availableGame.publishers(), availableGame.donation(), availableGame.bookType(), availableGame.gameSystem(),
+            availableGame.audit());
+
+        borrower = mock(Profile.class, RETURNS_DEEP_STUBS);
+        given(borrower.name()
+            .fullName()).willReturn("Ana García");
+        given(profileRepository.findOne(42L)).willReturn(Optional.of(borrower));
+
+        expectedStatus = String.format("Ana García (%s) %d días", LENDING_DATE_FORMAT.format(lending.lendingDate()),
+            lending.getDays());
+
+        workbook = new DefaultExcelWorkbookGenerator().generateWorkbook();
+
+        // WHEN
+        loader.loadWorkbook(workbook, List.of(lentGame), List.of(lentFiction));
+
+        // THEN
+        assertThat(workbook.getSheet("Juegos")
+            .getRow(1)
+            .getCell(11)
+            .getStringCellValue()).isEqualTo(expectedStatus);
+
+        assertThat(workbook.getSheet("Ficción")
+            .getRow(1)
+            .getCell(9)
+            .getStringCellValue()).isEqualTo(expectedStatus);
     }
 
     @Test
@@ -225,9 +290,9 @@ class TestDefaultExcelWorkbookLoaderLoadWorkbook {
 
         // THEN
         assertGameRow(workbook.getSheetAt(0)
-            .getRow(1), gameBook);
+            .getRow(1), gameBook, "Disponible");
         assertFictionRow(workbook.getSheetAt(1)
-            .getRow(1), fictionBook);
+            .getRow(1), fictionBook, "Disponible");
     }
 
 }

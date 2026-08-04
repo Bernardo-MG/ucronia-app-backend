@@ -22,17 +22,16 @@ import com.bernardomg.association.library.book.usecase.service.DefaultExcelWorkb
 class TestDefaultExcelWorkbookGenerator {
 
     private static final List<Integer> FICTION_COLUMN_WIDTHS = List.of(3000, 17000, 3000, 5000, 5000, 5000, 5000, 15000,
-        5000, 5000, 5000, 5000, 3000);
+        5000, 15000);
 
     private static final List<String>  FICTION_HEADERS       = List.of("Número", "Título completo", "Idioma", "ISBN",
-        "Publicación", "Autores", "Editores", "Donantes", "Donado en", "Prestado", "Socio", "Prestado en", "Días");
+        "Publicación", "Autores", "Editores", "Donantes", "Donado en", "Préstamo");
 
     private static final List<Integer> GAME_COLUMN_WIDTHS    = List.of(3000, 17000, 3000, 5000, 5000, 5000, 5000, 5000,
-        5000, 15000, 5000, 5000, 5000, 5000, 3000);
+        5000, 15000, 5000, 15000);
 
     private static final List<String>  GAME_HEADERS          = List.of("Número", "Título completo", "Idioma", "ISBN",
-        "Publicación", "Sistema", "Tipo", "Autores", "Editores", "Donantes", "Donado en", "Prestado", "Socio",
-        "Prestado en", "Días");
+        "Publicación", "Sistema", "Tipo", "Autores", "Editores", "Donantes", "Donado en", "Préstamo");
 
     private static final List<Integer> LENDING_COLUMN_WIDTHS = List.of(4000, 3000, 17000, 9000, 5000, 5000);
 

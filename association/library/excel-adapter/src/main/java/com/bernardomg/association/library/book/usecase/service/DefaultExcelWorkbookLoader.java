@@ -1,6 +1,9 @@
 
 package com.bernardomg.association.library.book.usecase.service;
 
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -26,7 +29,10 @@ import com.bernardomg.association.profile.domain.repository.ProfileRepository;
 
 public final class DefaultExcelWorkbookLoader implements ExcelWorkbookLoader {
 
-    private final ProfileRepository profileRepository;
+    private static final DateTimeFormatter LENDING_DATE_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+        .withZone(ZoneId.systemDefault());
+
+    private final ProfileRepository        profileRepository;
 
     public DefaultExcelWorkbookLoader(final ProfileRepository profileRepo) {
         super();
@@ -64,14 +70,33 @@ public final class DefaultExcelWorkbookLoader implements ExcelWorkbookLoader {
         loadLendings(lendingSheet, style, dateStyle, gameBooks, fictionBooks);
     }
 
+    private final String getLendingStatus(final boolean lent, final Collection<BookLendingInfo> lendings) {
+        final BookLendingInfo lending;
+        final Profile         borrower;
+
+        if (!lent) {
+            return "Disponible";
+        }
+
+        lending = lendings.stream()
+            .filter(info -> info.returnDate()
+                .isEmpty())
+            .reduce((first, second) -> second)
+            .orElseThrow(() -> new IllegalStateException("A lent book has no active lending"));
+
+        borrower = profileRepository.findOne(lending.borrower())
+            .orElseThrow(() -> new IllegalStateException("Profile not found: " + lending.borrower()));
+
+        return String.format("%s (%s) %d días", borrower.name()
+            .fullName(), LENDING_DATE_FORMAT.format(lending.lendingDate()), lending.getDays());
+    }
+
     private final void loadFiction(final Sheet sheet, final CellStyle style, final CellStyle dateStyle,
             final Iterable<FictionBook> books) {
-        int             index;
-        Row             row;
-        Cell            cell;
-        BookLendingInfo lending;
-        Donation        donation;
-        Profile         borrower;
+        int      index;
+        Row      row;
+        Cell     cell;
+        Donation donation;
 
         index = 1;
         for (final FictionBook book : books) {
@@ -139,31 +164,8 @@ public final class DefaultExcelWorkbookLoader implements ExcelWorkbookLoader {
             }
 
             cell = row.createCell(9);
-            cell.setCellValue(book.lent());
+            cell.setCellValue(getLendingStatus(book.lent(), book.lendings()));
             cell.setCellStyle(style);
-
-            if (book.lent()) {
-                lending = book.lendings()
-                    .stream()
-                    .reduce((first, second) -> second)
-                    .get();
-
-                cell = row.createCell(10);
-                // TODO: handle missing data
-                borrower = profileRepository.findOne(lending.borrower())
-                    .get();
-                cell.setCellValue(borrower.name()
-                    .fullName());
-                cell.setCellStyle(style);
-
-                cell = row.createCell(11);
-                cell.setCellValue(Date.from(lending.lendingDate()));
-                cell.setCellStyle(dateStyle);
-
-                cell = row.createCell(12);
-                cell.setCellValue(lending.getDays());
-                cell.setCellStyle(style);
-            }
 
             index++;
         }
@@ -172,12 +174,10 @@ public final class DefaultExcelWorkbookLoader implements ExcelWorkbookLoader {
 
     private final void loadGames(final Sheet sheet, final CellStyle style, final CellStyle dateStyle,
             final Iterable<GameBook> books) {
-        int             index;
-        Row             row;
-        Cell            cell;
-        BookLendingInfo lending;
-        Donation        donation;
-        Profile         borrower;
+        int      index;
+        Row      row;
+        Cell     cell;
+        Donation donation;
 
         index = 1;
         for (final GameBook book : books) {
@@ -257,31 +257,8 @@ public final class DefaultExcelWorkbookLoader implements ExcelWorkbookLoader {
             }
 
             cell = row.createCell(11);
-            cell.setCellValue(book.lent());
+            cell.setCellValue(getLendingStatus(book.lent(), book.lendings()));
             cell.setCellStyle(style);
-
-            if (book.lent()) {
-                lending = book.lendings()
-                    .stream()
-                    .reduce((first, second) -> second)
-                    .get();
-
-                cell = row.createCell(12);
-                // TODO: handle missing data
-                borrower = profileRepository.findOne(lending.borrower())
-                    .get();
-                cell.setCellValue(borrower.name()
-                    .fullName());
-                cell.setCellStyle(style);
-
-                cell = row.createCell(13);
-                cell.setCellValue(Date.from(lending.lendingDate()));
-                cell.setCellStyle(dateStyle);
-
-                cell = row.createCell(14);
-                cell.setCellValue(lending.getDays());
-                cell.setCellStyle(style);
-            }
 
             index++;
         }
@@ -365,5 +342,4 @@ public final class DefaultExcelWorkbookLoader implements ExcelWorkbookLoader {
 
         return language;
     }
-
 }

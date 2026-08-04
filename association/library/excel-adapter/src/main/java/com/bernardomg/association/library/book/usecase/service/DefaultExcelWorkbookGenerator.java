@@ -45,10 +45,7 @@ public final class DefaultExcelWorkbookGenerator implements ExcelWorkbookGenerat
         sheet.setColumnWidth(6, 5000);
         sheet.setColumnWidth(7, 15000);
         sheet.setColumnWidth(8, 5000);
-        sheet.setColumnWidth(9, 5000);
-        sheet.setColumnWidth(10, 5000);
-        sheet.setColumnWidth(11, 5000);
-        sheet.setColumnWidth(12, 3000);
+        sheet.setColumnWidth(9, 15000);
 
         header = sheet.createRow(0);
 
@@ -97,19 +94,7 @@ public final class DefaultExcelWorkbookGenerator implements ExcelWorkbookGenerat
         headerCell.setCellStyle(headerStyle);
 
         headerCell = header.createCell(9);
-        headerCell.setCellValue("Prestado");
-        headerCell.setCellStyle(headerStyle);
-
-        headerCell = header.createCell(10);
-        headerCell.setCellValue("Socio");
-        headerCell.setCellStyle(headerStyle);
-
-        headerCell = header.createCell(11);
-        headerCell.setCellValue("Prestado en");
-        headerCell.setCellStyle(headerStyle);
-
-        headerCell = header.createCell(12);
-        headerCell.setCellValue("Días");
+        headerCell.setCellValue("Préstamo");
         headerCell.setCellStyle(headerStyle);
 
         return workbook;
@@ -134,10 +119,7 @@ public final class DefaultExcelWorkbookGenerator implements ExcelWorkbookGenerat
         sheet.setColumnWidth(8, 5000);
         sheet.setColumnWidth(9, 15000);
         sheet.setColumnWidth(10, 5000);
-        sheet.setColumnWidth(11, 5000);
-        sheet.setColumnWidth(12, 5000);
-        sheet.setColumnWidth(13, 5000);
-        sheet.setColumnWidth(14, 3000);
+        sheet.setColumnWidth(11, 15000);
 
         header = sheet.createRow(0);
 
@@ -194,19 +176,7 @@ public final class DefaultExcelWorkbookGenerator implements ExcelWorkbookGenerat
         headerCell.setCellStyle(headerStyle);
 
         headerCell = header.createCell(11);
-        headerCell.setCellValue("Prestado");
-        headerCell.setCellStyle(headerStyle);
-
-        headerCell = header.createCell(12);
-        headerCell.setCellValue("Socio");
-        headerCell.setCellStyle(headerStyle);
-
-        headerCell = header.createCell(13);
-        headerCell.setCellValue("Prestado en");
-        headerCell.setCellStyle(headerStyle);
-
-        headerCell = header.createCell(14);
-        headerCell.setCellValue("Días");
+        headerCell.setCellValue("Préstamo");
         headerCell.setCellStyle(headerStyle);
 
         return workbook;
