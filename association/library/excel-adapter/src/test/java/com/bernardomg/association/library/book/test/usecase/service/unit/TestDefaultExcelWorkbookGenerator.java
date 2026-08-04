@@ -34,6 +34,11 @@ class TestDefaultExcelWorkbookGenerator {
         "Publicación", "Sistema", "Tipo", "Autores", "Editores", "Donantes", "Donado en", "Prestado", "Socio",
         "Prestado en", "Días");
 
+    private static final List<Integer> LENDING_COLUMN_WIDTHS = List.of(4000, 3000, 17000, 9000, 5000, 5000);
+
+    private static final List<String>  LENDING_HEADERS       = List.of("Tipo", "Número", "Título", "Socio",
+        "Prestado en", "Devuelto en");
+
     private static void assertHeaderStyle(final XSSFWorkbook workbook, final Cell cell) {
         final XSSFFont font;
 
@@ -94,7 +99,19 @@ class TestDefaultExcelWorkbookGenerator {
     }
 
     @Test
-    @DisplayName("The workbook contains the games and fiction sheets")
+    @DisplayName("The lending sheet has the expected headers, widths and style")
+    void testGenerateWorkbookCreatesLendingSheet() {
+        final Workbook workbook;
+
+        // WHEN
+        workbook = generator.generateWorkbook();
+
+        // THEN
+        assertSheet(workbook, "Préstamos", LENDING_HEADERS, LENDING_COLUMN_WIDTHS);
+    }
+
+    @Test
+    @DisplayName("The workbook contains the games, fiction and lending sheets")
     void testGenerateWorkbookCreatesSheets() {
         final Workbook workbook;
 
@@ -102,10 +119,11 @@ class TestDefaultExcelWorkbookGenerator {
         workbook = generator.generateWorkbook();
 
         // THEN
-        assertAll(() -> assertEquals(2, workbook.getNumberOfSheets()),
+        assertAll(() -> assertEquals(3, workbook.getNumberOfSheets()),
             () -> assertEquals("Juegos", workbook.getSheetName(0)),
-            () -> assertEquals("Ficción", workbook.getSheetName(1)), () -> assertNotNull(workbook.getSheet("Juegos")),
-            () -> assertNotNull(workbook.getSheet("Ficción")));
+            () -> assertEquals("Ficción", workbook.getSheetName(1)),
+            () -> assertEquals("Préstamos", workbook.getSheetName(2)), () -> assertNotNull(workbook.getSheet("Juegos")),
+            () -> assertNotNull(workbook.getSheet("Ficción")), () -> assertNotNull(workbook.getSheet("Préstamos")));
     }
 
 }

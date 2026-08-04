@@ -23,6 +23,7 @@ public final class DefaultExcelWorkbookGenerator implements ExcelWorkbookGenerat
 
         generateGamesSheet(workbook);
         generateFictionSheet(workbook);
+        generateLendingsSheet(workbook);
 
         return workbook;
     }
@@ -207,6 +208,43 @@ public final class DefaultExcelWorkbookGenerator implements ExcelWorkbookGenerat
         headerCell = header.createCell(14);
         headerCell.setCellValue("Días");
         headerCell.setCellStyle(headerStyle);
+
+        return workbook;
+    }
+
+    private final Workbook generateLendingsSheet(final XSSFWorkbook workbook) {
+        final Sheet     sheet;
+        final Row       header;
+        final CellStyle headerStyle;
+        final XSSFFont  font;
+        final String[]  headers;
+        Cell            headerCell;
+
+        sheet = workbook.createSheet("Préstamos");
+        sheet.setColumnWidth(0, 4000);
+        sheet.setColumnWidth(1, 3000);
+        sheet.setColumnWidth(2, 17000);
+        sheet.setColumnWidth(3, 9000);
+        sheet.setColumnWidth(4, 5000);
+        sheet.setColumnWidth(5, 5000);
+
+        header = sheet.createRow(0);
+
+        headerStyle = workbook.createCellStyle();
+
+        font = workbook.createFont();
+        font.setFontName("Arial");
+        font.setFontHeightInPoints((short) 16);
+        font.setBold(true);
+        headerStyle.setFont(font);
+
+        headers = new String[] { "Tipo", "Número", "Título", "Socio", "Prestado en", "Devuelto en" };
+
+        for (int index = 0; index < headers.length; index++) {
+            headerCell = header.createCell(index);
+            headerCell.setCellValue(headers[index]);
+            headerCell.setCellStyle(headerStyle);
+        }
 
         return workbook;
     }

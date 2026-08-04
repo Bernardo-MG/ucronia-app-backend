@@ -68,7 +68,7 @@ class TestDefaultExcelWorkbookLoaderLoadWorkbook {
             .getStringCellValue()).isEqualTo(book.title()
                 .fullTitle());
         assertThat(row.getCell(2)
-            .getStringCellValue()).isEqualTo(book.language());
+            .getStringCellValue()).isEqualTo("Inglés");
         assertThat(row.getCell(3)
             .getStringCellValue()).isEqualTo(book.isbn());
         assertDateCell(row.getCell(4), Date.from(book.publishDate()
@@ -101,7 +101,7 @@ class TestDefaultExcelWorkbookLoaderLoadWorkbook {
             .getStringCellValue()).isEqualTo(book.title()
                 .fullTitle());
         assertThat(row.getCell(2)
-            .getStringCellValue()).isEqualTo(book.language());
+            .getStringCellValue()).isEqualTo("Inglés");
         assertThat(row.getCell(3)
             .getStringCellValue()).isEqualTo(book.isbn());
         assertDateCell(row.getCell(4), Date.from(book.publishDate()

@@ -42,6 +42,7 @@ public final class DefaultExcelWorkbookLoader implements ExcelWorkbookLoader {
         final CellStyle  dateStyle;
         final Sheet      gameSheet;
         final Sheet      fictionSheet;
+        final Sheet      lendingSheet;
         final DataFormat df;
 
         df = workbook.createDataFormat();
@@ -58,6 +59,9 @@ public final class DefaultExcelWorkbookLoader implements ExcelWorkbookLoader {
 
         fictionSheet = workbook.getSheetAt(1);
         loadFiction(fictionSheet, style, dateStyle, fictionBooks);
+
+        lendingSheet = workbook.getSheetAt(2);
+        loadLendings(lendingSheet, style, dateStyle, gameBooks, fictionBooks);
     }
 
     private final void loadFiction(final Sheet sheet, final CellStyle style, final CellStyle dateStyle,
@@ -282,6 +286,70 @@ public final class DefaultExcelWorkbookLoader implements ExcelWorkbookLoader {
             index++;
         }
 
+    }
+
+    private final void loadLendingRow(final Sheet sheet, final int index, final CellStyle style,
+            final CellStyle dateStyle, final String type, final long bookNumber, final String title,
+            final BookLendingInfo lending) {
+        final Profile borrower;
+        final Row     row;
+        Cell          cell;
+
+        row = sheet.createRow(index);
+
+        cell = row.createCell(0);
+        cell.setCellValue(type);
+        cell.setCellStyle(style);
+
+        cell = row.createCell(1);
+        cell.setCellValue(bookNumber);
+        cell.setCellStyle(style);
+
+        cell = row.createCell(2);
+        cell.setCellValue(title);
+        cell.setCellStyle(style);
+
+        cell = row.createCell(3);
+        borrower = profileRepository.findOne(lending.borrower())
+            .orElseThrow(() -> new IllegalStateException("Profile not found: " + lending.borrower()));
+        cell.setCellValue(borrower.name()
+            .fullName());
+        cell.setCellStyle(style);
+
+        cell = row.createCell(4);
+        cell.setCellValue(Date.from(lending.lendingDate()));
+        cell.setCellStyle(dateStyle);
+
+        cell = row.createCell(5);
+        if (lending.returnDate()
+            .isPresent()) {
+            cell.setCellValue(Date.from(lending.returnDate()
+                .get()));
+        }
+        cell.setCellStyle(dateStyle);
+    }
+
+    private final void loadLendings(final Sheet sheet, final CellStyle style, final CellStyle dateStyle,
+            final Iterable<GameBook> gameBooks, final Iterable<FictionBook> fictionBooks) {
+        int index;
+
+        index = 1;
+
+        for (final GameBook book : gameBooks) {
+            for (final BookLendingInfo lending : book.lendings()) {
+                loadLendingRow(sheet, index, style, dateStyle, "Juego", book.number(), book.title()
+                    .fullTitle(), lending);
+                index++;
+            }
+        }
+
+        for (final FictionBook book : fictionBooks) {
+            for (final BookLendingInfo lending : book.lendings()) {
+                loadLendingRow(sheet, index, style, dateStyle, "Ficción", book.number(), book.title()
+                    .fullTitle(), lending);
+                index++;
+            }
+        }
     }
 
     private final String translateLanguage(final String code) {
