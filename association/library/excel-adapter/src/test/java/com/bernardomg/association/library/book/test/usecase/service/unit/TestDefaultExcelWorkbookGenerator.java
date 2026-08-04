@@ -21,21 +21,26 @@ import com.bernardomg.association.library.book.usecase.service.DefaultExcelWorkb
 @DisplayName("DefaultExcelWorkbookGenerator")
 class TestDefaultExcelWorkbookGenerator {
 
-    private static final List<Integer> FICTION_COLUMN_WIDTHS = List.of(3000, 17000, 3000, 5000, 5000, 5000, 5000, 15000,
-        5000, 15000);
-
-    private static final List<String>  FICTION_HEADERS       = List.of("Número", "Título completo", "Idioma", "ISBN",
-        "Publicación", "Autores", "Editores", "Donantes", "Donado en", "Préstamo");
-
-    private static final List<Integer> GAME_COLUMN_WIDTHS    = List.of(3000, 17000, 3000, 5000, 5000, 5000, 5000, 5000,
+    private static final List<Integer> FICTION_COLUMN_WIDTHS         = List.of(3000, 17000, 3000, 5000, 5000, 5000,
         5000, 15000, 5000, 15000);
 
-    private static final List<String>  GAME_HEADERS          = List.of("Número", "Título completo", "Idioma", "ISBN",
-        "Publicación", "Sistema", "Tipo", "Autores", "Editores", "Donantes", "Donado en", "Préstamo");
+    private static final List<String>  FICTION_HEADERS               = List.of("Número", "Título completo", "Idioma",
+        "ISBN", "Publicación", "Autores", "Editores", "Donantes", "Donado en", "Préstamo");
 
-    private static final List<Integer> LENDING_COLUMN_WIDTHS = List.of(4000, 3000, 17000, 9000, 5000, 5000);
+    private static final List<Integer> GAME_COLUMN_WIDTHS            = List.of(3000, 17000, 3000, 5000, 5000, 5000,
+        5000, 5000, 5000, 15000, 5000, 15000);
 
-    private static final List<String>  LENDING_HEADERS       = List.of("Tipo", "Número", "Título", "Socio",
+    private static final List<String>  GAME_HEADERS                  = List.of("Número", "Título completo", "Idioma",
+        "ISBN", "Publicación", "Sistema", "Tipo", "Autores", "Editores", "Donantes", "Donado en", "Préstamo");
+
+    private static final List<Integer> LENDING_COLUMN_WIDTHS         = List.of(4000, 3000, 17000, 9000, 5000);
+
+    private static final List<String>  LENDING_HEADERS               = List.of("Tipo", "Número", "Título", "Socio",
+        "Prestado en");
+
+    private static final List<Integer> LENDING_HISTORY_COLUMN_WIDTHS = List.of(4000, 3000, 17000, 9000, 5000, 5000);
+
+    private static final List<String>  LENDING_HISTORY_HEADERS       = List.of("Tipo", "Número", "Título", "Socio",
         "Prestado en", "Devuelto en");
 
     private static void assertHeaderStyle(final XSSFWorkbook workbook, final Cell cell) {
@@ -106,7 +111,7 @@ class TestDefaultExcelWorkbookGenerator {
         workbook = generator.generateWorkbook();
 
         // THEN
-        assertSheet(workbook, "Historial de préstamos", LENDING_HEADERS, LENDING_COLUMN_WIDTHS);
+        assertSheet(workbook, "Historial de préstamos", LENDING_HISTORY_HEADERS, LENDING_HISTORY_COLUMN_WIDTHS);
     }
 
     @Test

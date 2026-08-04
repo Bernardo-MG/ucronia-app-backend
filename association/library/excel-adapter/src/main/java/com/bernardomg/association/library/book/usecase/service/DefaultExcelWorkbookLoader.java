@@ -69,11 +69,11 @@ public final class DefaultExcelWorkbookLoader implements ExcelWorkbookLoader {
 
         // Only active lendings
         lendingSheet = workbook.getSheetAt(2);
-        loadLendings(lendingSheet, style, dateStyle, gameBooks, fictionBooks, true);
+        loadLendings(lendingSheet, style, dateStyle, gameBooks, fictionBooks, true, false);
 
         // Complete history
         lendingHistorySheet = workbook.getSheetAt(3);
-        loadLendings(lendingHistorySheet, style, dateStyle, gameBooks, fictionBooks, false);
+        loadLendings(lendingHistorySheet, style, dateStyle, gameBooks, fictionBooks, false, true);
     }
 
     private final String getLendingStatus(final boolean lent, final Collection<BookLendingInfo> lendings) {
@@ -273,7 +273,7 @@ public final class DefaultExcelWorkbookLoader implements ExcelWorkbookLoader {
 
     private final void loadLendingRow(final Sheet sheet, final int index, final CellStyle style,
             final CellStyle dateStyle, final String type, final long bookNumber, final String title,
-            final BookLendingInfo lending) {
+            final BookLendingInfo lending, final boolean includeReturnDate) {
         final Profile borrower;
         final Row     row;
         Cell          cell;
@@ -292,9 +292,10 @@ public final class DefaultExcelWorkbookLoader implements ExcelWorkbookLoader {
         cell.setCellValue(title);
         cell.setCellStyle(style);
 
-        cell = row.createCell(3);
         borrower = profileRepository.findOne(lending.borrower())
             .orElseThrow(() -> new IllegalStateException("Profile not found: " + lending.borrower()));
+
+        cell = row.createCell(3);
         cell.setCellValue(borrower.name()
             .fullName());
         cell.setCellStyle(style);
@@ -303,17 +304,20 @@ public final class DefaultExcelWorkbookLoader implements ExcelWorkbookLoader {
         cell.setCellValue(Date.from(lending.lendingDate()));
         cell.setCellStyle(dateStyle);
 
-        cell = row.createCell(5);
-        if (lending.returnDate()
-            .isPresent()) {
-            cell.setCellValue(Date.from(lending.returnDate()
-                .get()));
+        if (includeReturnDate) {
+            cell = row.createCell(5);
+
+            lending.returnDate()
+                .map(Date::from)
+                .ifPresent(cell::setCellValue);
+
+            cell.setCellStyle(dateStyle);
         }
-        cell.setCellStyle(dateStyle);
     }
 
     private final void loadLendings(final Sheet sheet, final CellStyle style, final CellStyle dateStyle,
-            final Iterable<GameBook> gameBooks, final Iterable<FictionBook> fictionBooks, final boolean activeOnly) {
+            final Iterable<GameBook> gameBooks, final Iterable<FictionBook> fictionBooks, final boolean activeOnly,
+            final boolean includeReturnDate) {
         int index;
 
         index = 1;
@@ -323,7 +327,7 @@ public final class DefaultExcelWorkbookLoader implements ExcelWorkbookLoader {
                 if (!activeOnly || lending.returnDate()
                     .isEmpty()) {
                     loadLendingRow(sheet, index, style, dateStyle, "Juego", book.number(), book.title()
-                        .fullTitle(), lending);
+                        .fullTitle(), lending, includeReturnDate);
 
                     index++;
                 }
@@ -334,8 +338,8 @@ public final class DefaultExcelWorkbookLoader implements ExcelWorkbookLoader {
             for (final BookLendingInfo lending : book.lendings()) {
                 if (!activeOnly || lending.returnDate()
                     .isEmpty()) {
-                    loadLendingRow(sheet, index, style, dateStyle, "Ficción", book.number(), book.title()
-                        .fullTitle(), lending);
+                    loadLendingRow(sheet, index, style, dateStyle, "Juego", book.number(), book.title()
+                        .fullTitle(), lending, includeReturnDate);
 
                     index++;
                 }

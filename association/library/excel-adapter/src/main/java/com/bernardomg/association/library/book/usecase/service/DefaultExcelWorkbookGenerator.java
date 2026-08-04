@@ -23,8 +23,8 @@ public final class DefaultExcelWorkbookGenerator implements ExcelWorkbookGenerat
 
         generateGamesSheet(workbook);
         generateFictionSheet(workbook);
-        generateLendingsSheet(workbook, "Préstamos");
-        generateLendingsSheet(workbook, "Historial de préstamos");
+        generateLendingsSheet(workbook);
+        generateLendingHistorySheet(workbook);
 
         return workbook;
     }
@@ -183,21 +183,25 @@ public final class DefaultExcelWorkbookGenerator implements ExcelWorkbookGenerat
         return workbook;
     }
 
-    private final Workbook generateLendingsSheet(final XSSFWorkbook workbook, final String sheetName) {
+    private final Workbook generateLendingHistorySheet(final XSSFWorkbook workbook) {
+        return generateLendingSheet(workbook, "Historial de préstamos",
+            new String[] { "Tipo", "Número", "Título", "Socio", "Prestado en", "Devuelto en" },
+            new int[] { 4000, 3000, 17000, 9000, 5000, 5000 });
+    }
+
+    private final Workbook generateLendingSheet(final XSSFWorkbook workbook, final String sheetName,
+            final String[] headers, final int[] columnWidths) {
         final Sheet     sheet;
         final Row       header;
         final CellStyle headerStyle;
         final XSSFFont  font;
-        final String[]  headers;
         Cell            headerCell;
 
         sheet = workbook.createSheet(sheetName);
-        sheet.setColumnWidth(0, 4000);
-        sheet.setColumnWidth(1, 3000);
-        sheet.setColumnWidth(2, 17000);
-        sheet.setColumnWidth(3, 9000);
-        sheet.setColumnWidth(4, 5000);
-        sheet.setColumnWidth(5, 5000);
+
+        for (int index = 0; index < columnWidths.length; index++) {
+            sheet.setColumnWidth(index, columnWidths[index]);
+        }
 
         header = sheet.createRow(0);
         headerStyle = workbook.createCellStyle();
@@ -208,8 +212,6 @@ public final class DefaultExcelWorkbookGenerator implements ExcelWorkbookGenerat
         font.setBold(true);
         headerStyle.setFont(font);
 
-        headers = new String[] { "Tipo", "Número", "Título", "Socio", "Prestado en", "Devuelto en" };
-
         for (int index = 0; index < headers.length; index++) {
             headerCell = header.createCell(index);
             headerCell.setCellValue(headers[index]);
@@ -217,6 +219,12 @@ public final class DefaultExcelWorkbookGenerator implements ExcelWorkbookGenerat
         }
 
         return workbook;
+    }
+
+    private final Workbook generateLendingsSheet(final XSSFWorkbook workbook) {
+        return generateLendingSheet(workbook, "Préstamos",
+            new String[] { "Tipo", "Número", "Título", "Socio", "Prestado en" },
+            new int[] { 4000, 3000, 17000, 9000, 5000 });
     }
 
 }
