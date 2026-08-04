@@ -1,0 +1,287 @@
+
+package com.bernardomg.association.library.book.usecase.service;
+
+import java.util.Date;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.DataFormat;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+
+import com.bernardomg.association.library.author.domain.model.Author;
+import com.bernardomg.association.library.book.domain.model.BookLendingInfo;
+import com.bernardomg.association.library.book.domain.model.Donation;
+import com.bernardomg.association.library.book.domain.model.Donor;
+import com.bernardomg.association.library.book.domain.model.FictionBook;
+import com.bernardomg.association.library.book.domain.model.GameBook;
+import com.bernardomg.association.library.booktype.domain.model.BookType;
+import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
+import com.bernardomg.association.library.publisher.domain.model.Publisher;
+import com.bernardomg.association.profile.domain.model.Profile;
+import com.bernardomg.association.profile.domain.repository.ProfileRepository;
+
+public final class DefaultExcelWorkbookLoader implements ExcelWorkbookLoader {
+
+    private final ProfileRepository profileRepository;
+
+    public DefaultExcelWorkbookLoader(final ProfileRepository profileRepo) {
+        super();
+
+        // TODO: avoid depending on profile
+        profileRepository = Objects.requireNonNull(profileRepo);
+    }
+
+    @Override
+    public final void loadWorkbook(final Workbook workbook, final Iterable<GameBook> gameBooks,
+            final Iterable<FictionBook> fictionBooks) {
+        final CellStyle  style;
+        final CellStyle  dateStyle;
+        final Sheet      gameSheet;
+        final Sheet      fictionSheet;
+        final DataFormat df;
+
+        df = workbook.createDataFormat();
+
+        style = workbook.createCellStyle();
+        style.setWrapText(true);
+
+        dateStyle = workbook.createCellStyle();
+        dateStyle.setWrapText(true);
+        dateStyle.setDataFormat(df.getFormat("dd/MM/yyyy"));
+
+        gameSheet = workbook.getSheetAt(0);
+        loadGames(gameSheet, style, dateStyle, gameBooks);
+
+        fictionSheet = workbook.getSheetAt(1);
+        loadFiction(fictionSheet, style, dateStyle, fictionBooks);
+    }
+
+    private final void loadFiction(final Sheet sheet, final CellStyle style, final CellStyle dateStyle,
+            final Iterable<FictionBook> books) {
+        int             index;
+        Row             row;
+        Cell            cell;
+        BookLendingInfo lending;
+        Donation        donation;
+        Profile         borrower;
+
+        index = 1;
+        for (final FictionBook book : books) {
+            row = sheet.createRow(index);
+
+            cell = row.createCell(0);
+            cell.setCellValue(book.number());
+            cell.setCellStyle(style);
+
+            cell = row.createCell(1);
+            cell.setCellValue(book.title()
+                .fullTitle());
+            cell.setCellStyle(style);
+
+            cell = row.createCell(2);
+            cell.setCellValue(book.language());
+            cell.setCellStyle(style);
+
+            cell = row.createCell(3);
+            cell.setCellValue(book.isbn());
+            cell.setCellStyle(style);
+
+            cell = row.createCell(4);
+            if (book.publishDate()
+                .isPresent()) {
+                cell.setCellValue(Date.from(book.publishDate()
+                    .get()));
+            }
+            cell.setCellStyle(dateStyle);
+
+            cell = row.createCell(5);
+            cell.setCellValue(book.authors()
+                .stream()
+                .map(Author::name)
+                .collect(Collectors.joining(", ")));
+            cell.setCellStyle(style);
+
+            cell = row.createCell(6);
+            cell.setCellValue(book.publishers()
+                .stream()
+                .map(Publisher::name)
+                .collect(Collectors.joining(", ")));
+            cell.setCellStyle(style);
+
+            if (book.donation()
+                .isPresent()) {
+                donation = book.donation()
+                    .get();
+
+                cell = row.createCell(7);
+                cell.setCellValue(donation.donors()
+                    .stream()
+                    .map(Donor::name)
+                    .map(Donor.Name::fullName)
+                    .collect(Collectors.joining(", ")));
+                cell.setCellStyle(style);
+
+                cell = row.createCell(8);
+                if (donation.date()
+                    .isPresent()) {
+                    cell.setCellValue(Date.from(donation.date()
+                        .get()));
+                }
+                cell.setCellStyle(dateStyle);
+            }
+
+            cell = row.createCell(9);
+            cell.setCellValue(book.lent());
+            cell.setCellStyle(style);
+
+            if (book.lent()) {
+                lending = book.lendings()
+                    .stream()
+                    .reduce((first, second) -> second)
+                    .get();
+
+                cell = row.createCell(10);
+                // TODO: handle missing data
+                borrower = profileRepository.findOne(lending.borrower())
+                    .get();
+                cell.setCellValue(borrower.name()
+                    .fullName());
+                cell.setCellStyle(style);
+
+                cell = row.createCell(11);
+                cell.setCellValue(Date.from(lending.lendingDate()));
+                cell.setCellStyle(dateStyle);
+
+                cell = row.createCell(12);
+                cell.setCellValue(lending.getDays());
+                cell.setCellStyle(style);
+            }
+
+            index++;
+        }
+
+    }
+
+    private final void loadGames(final Sheet sheet, final CellStyle style, final CellStyle dateStyle,
+            final Iterable<GameBook> books) {
+        int             index;
+        Row             row;
+        Cell            cell;
+        BookLendingInfo lending;
+        Donation        donation;
+        Profile         borrower;
+
+        index = 1;
+        for (final GameBook book : books) {
+            row = sheet.createRow(index);
+
+            cell = row.createCell(0);
+            cell.setCellValue(book.number());
+            cell.setCellStyle(style);
+
+            cell = row.createCell(1);
+            cell.setCellValue(book.title()
+                .fullTitle());
+            cell.setCellStyle(style);
+
+            cell = row.createCell(2);
+            cell.setCellValue(book.language());
+            cell.setCellStyle(style);
+
+            cell = row.createCell(3);
+            cell.setCellValue(book.isbn());
+            cell.setCellStyle(style);
+
+            cell = row.createCell(4);
+            if (book.publishDate()
+                .isPresent()) {
+                cell.setCellValue(Date.from(book.publishDate()
+                    .get()));
+            }
+            cell.setCellStyle(dateStyle);
+
+            cell = row.createCell(5);
+            cell.setCellValue(book.gameSystem()
+                .map(GameSystem::name)
+                .orElse(""));
+            cell.setCellStyle(style);
+
+            cell = row.createCell(6);
+            cell.setCellValue(book.bookType()
+                .map(BookType::name)
+                .orElse(""));
+            cell.setCellStyle(style);
+
+            cell = row.createCell(7);
+            cell.setCellValue(book.authors()
+                .stream()
+                .map(Author::name)
+                .collect(Collectors.joining(", ")));
+            cell.setCellStyle(style);
+
+            cell = row.createCell(8);
+            cell.setCellValue(book.publishers()
+                .stream()
+                .map(Publisher::name)
+                .collect(Collectors.joining(", ")));
+            cell.setCellStyle(style);
+
+            if (book.donation()
+                .isPresent()) {
+                donation = book.donation()
+                    .get();
+
+                cell = row.createCell(9);
+                cell.setCellValue(donation.donors()
+                    .stream()
+                    .map(Donor::name)
+                    .map(Donor.Name::fullName)
+                    .collect(Collectors.joining(", ")));
+                cell.setCellStyle(style);
+
+                cell = row.createCell(10);
+                if (donation.date()
+                    .isPresent()) {
+                    cell.setCellValue(Date.from(donation.date()
+                        .get()));
+                }
+                cell.setCellStyle(dateStyle);
+            }
+
+            cell = row.createCell(11);
+            cell.setCellValue(book.lent());
+            cell.setCellStyle(style);
+
+            if (book.lent()) {
+                lending = book.lendings()
+                    .stream()
+                    .reduce((first, second) -> second)
+                    .get();
+
+                cell = row.createCell(12);
+                // TODO: handle missing data
+                borrower = profileRepository.findOne(lending.borrower())
+                    .get();
+                cell.setCellValue(borrower.name()
+                    .fullName());
+                cell.setCellStyle(style);
+
+                cell = row.createCell(13);
+                cell.setCellValue(Date.from(lending.lendingDate()));
+                cell.setCellStyle(dateStyle);
+
+                cell = row.createCell(14);
+                cell.setCellValue(lending.getDays());
+                cell.setCellStyle(style);
+            }
+
+            index++;
+        }
+
+    }
+
+}

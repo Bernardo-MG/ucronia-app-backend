@@ -46,9 +46,13 @@ import com.bernardomg.association.library.book.domain.repository.DonorRepository
 import com.bernardomg.association.library.book.domain.repository.FictionBookRepository;
 import com.bernardomg.association.library.book.domain.repository.GameBookRepository;
 import com.bernardomg.association.library.book.usecase.service.BookReportService;
+import com.bernardomg.association.library.book.usecase.service.DefaultExcelWorkbookGenerator;
+import com.bernardomg.association.library.book.usecase.service.DefaultExcelWorkbookLoader;
 import com.bernardomg.association.library.book.usecase.service.DefaultFictionBookService;
 import com.bernardomg.association.library.book.usecase.service.DefaultGameBookService;
 import com.bernardomg.association.library.book.usecase.service.ExcelPoiBookReportService;
+import com.bernardomg.association.library.book.usecase.service.ExcelWorkbookGenerator;
+import com.bernardomg.association.library.book.usecase.service.ExcelWorkbookLoader;
 import com.bernardomg.association.library.book.usecase.service.FictionBookService;
 import com.bernardomg.association.library.book.usecase.service.GameBookService;
 import com.bernardomg.association.library.booktype.adapter.inbound.jpa.repository.BookTypeSpringRepository;
@@ -105,7 +109,12 @@ public class AssociationLibraryAutoConfiguration {
     @Bean("bookReportService")
     public BookReportService getBookReportService(final GameBookRepository gameBookRepository,
             final FictionBookRepository fictionBookRepository, final ProfileRepository profileRepository) {
-        return new ExcelPoiBookReportService(gameBookRepository, fictionBookRepository, profileRepository);
+        final ExcelWorkbookGenerator excelGenerator;
+        final ExcelWorkbookLoader    workbookLoader;
+
+        excelGenerator = new DefaultExcelWorkbookGenerator();
+        workbookLoader = new DefaultExcelWorkbookLoader(profileRepository);
+        return new ExcelPoiBookReportService(gameBookRepository, fictionBookRepository, excelGenerator, workbookLoader);
     }
 
     @Bean("bookRepository")
