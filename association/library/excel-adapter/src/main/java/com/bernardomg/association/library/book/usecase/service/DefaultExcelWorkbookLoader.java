@@ -49,6 +49,7 @@ public final class DefaultExcelWorkbookLoader implements ExcelWorkbookLoader {
         final Sheet      gameSheet;
         final Sheet      fictionSheet;
         final Sheet      lendingSheet;
+        final Sheet      lendingHistorySheet;
         final DataFormat df;
 
         df = workbook.createDataFormat();
@@ -66,8 +67,13 @@ public final class DefaultExcelWorkbookLoader implements ExcelWorkbookLoader {
         fictionSheet = workbook.getSheetAt(1);
         loadFiction(fictionSheet, style, dateStyle, fictionBooks);
 
+        // Only active lendings
         lendingSheet = workbook.getSheetAt(2);
-        loadLendings(lendingSheet, style, dateStyle, gameBooks, fictionBooks);
+        loadLendings(lendingSheet, style, dateStyle, gameBooks, fictionBooks, true);
+
+        // Complete history
+        lendingHistorySheet = workbook.getSheetAt(3);
+        loadLendings(lendingHistorySheet, style, dateStyle, gameBooks, fictionBooks, false);
     }
 
     private final String getLendingStatus(final boolean lent, final Collection<BookLendingInfo> lendings) {
@@ -307,24 +313,32 @@ public final class DefaultExcelWorkbookLoader implements ExcelWorkbookLoader {
     }
 
     private final void loadLendings(final Sheet sheet, final CellStyle style, final CellStyle dateStyle,
-            final Iterable<GameBook> gameBooks, final Iterable<FictionBook> fictionBooks) {
+            final Iterable<GameBook> gameBooks, final Iterable<FictionBook> fictionBooks, final boolean activeOnly) {
         int index;
 
         index = 1;
 
         for (final GameBook book : gameBooks) {
             for (final BookLendingInfo lending : book.lendings()) {
-                loadLendingRow(sheet, index, style, dateStyle, "Juego", book.number(), book.title()
-                    .fullTitle(), lending);
-                index++;
+                if (!activeOnly || lending.returnDate()
+                    .isEmpty()) {
+                    loadLendingRow(sheet, index, style, dateStyle, "Juego", book.number(), book.title()
+                        .fullTitle(), lending);
+
+                    index++;
+                }
             }
         }
 
         for (final FictionBook book : fictionBooks) {
             for (final BookLendingInfo lending : book.lendings()) {
-                loadLendingRow(sheet, index, style, dateStyle, "Ficción", book.number(), book.title()
-                    .fullTitle(), lending);
-                index++;
+                if (!activeOnly || lending.returnDate()
+                    .isEmpty()) {
+                    loadLendingRow(sheet, index, style, dateStyle, "Ficción", book.number(), book.title()
+                        .fullTitle(), lending);
+
+                    index++;
+                }
             }
         }
     }

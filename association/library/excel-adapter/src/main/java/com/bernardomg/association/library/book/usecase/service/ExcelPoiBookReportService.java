@@ -75,13 +75,11 @@ public final class ExcelPoiBookReportService implements BookReportService {
 
         log.debug("Creating excel");
 
-        // TODO: how to test this?
-
-        workbook = excelGenerator.generateWorkbook();
-
         sort = Sorting.asc("title", "language", "isbn");
         gameBooks = gameBookRepository.findAll(sort);
         fictionBooks = fictionBookRepository.findAll(sort);
+
+        workbook = excelGenerator.generateWorkbook();
         workbookLoader.loadWorkbook(workbook, gameBooks, fictionBooks);
 
         return ExcelParsing.toStream(workbook);

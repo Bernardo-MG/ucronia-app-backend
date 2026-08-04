@@ -98,6 +98,18 @@ class TestDefaultExcelWorkbookGenerator {
     }
 
     @Test
+    @DisplayName("The lending history sheet has the expected headers, widths and style")
+    void testGenerateWorkbookCreatesLendingHistorySheet() {
+        final Workbook workbook;
+
+        // WHEN
+        workbook = generator.generateWorkbook();
+
+        // THEN
+        assertSheet(workbook, "Historial de préstamos", LENDING_HEADERS, LENDING_COLUMN_WIDTHS);
+    }
+
+    @Test
     @DisplayName("The lending sheet has the expected headers, widths and style")
     void testGenerateWorkbookCreatesLendingSheet() {
         final Workbook workbook;
@@ -118,11 +130,11 @@ class TestDefaultExcelWorkbookGenerator {
         workbook = generator.generateWorkbook();
 
         // THEN
-        assertAll(() -> assertEquals(3, workbook.getNumberOfSheets()),
+        assertAll(() -> assertEquals(4, workbook.getNumberOfSheets()),
             () -> assertEquals("Juegos", workbook.getSheetName(0)),
             () -> assertEquals("Ficción", workbook.getSheetName(1)),
-            () -> assertEquals("Préstamos", workbook.getSheetName(2)), () -> assertNotNull(workbook.getSheet("Juegos")),
-            () -> assertNotNull(workbook.getSheet("Ficción")), () -> assertNotNull(workbook.getSheet("Préstamos")));
+            () -> assertEquals("Préstamos", workbook.getSheetName(2)),
+            () -> assertEquals("Historial de préstamos", workbook.getSheetName(3)));
     }
 
 }

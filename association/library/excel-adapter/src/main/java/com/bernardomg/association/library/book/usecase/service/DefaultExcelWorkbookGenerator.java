@@ -23,7 +23,8 @@ public final class DefaultExcelWorkbookGenerator implements ExcelWorkbookGenerat
 
         generateGamesSheet(workbook);
         generateFictionSheet(workbook);
-        generateLendingsSheet(workbook);
+        generateLendingsSheet(workbook, "Préstamos");
+        generateLendingsSheet(workbook, "Historial de préstamos");
 
         return workbook;
     }
@@ -182,7 +183,7 @@ public final class DefaultExcelWorkbookGenerator implements ExcelWorkbookGenerat
         return workbook;
     }
 
-    private final Workbook generateLendingsSheet(final XSSFWorkbook workbook) {
+    private final Workbook generateLendingsSheet(final XSSFWorkbook workbook, final String sheetName) {
         final Sheet     sheet;
         final Row       header;
         final CellStyle headerStyle;
@@ -190,7 +191,7 @@ public final class DefaultExcelWorkbookGenerator implements ExcelWorkbookGenerat
         final String[]  headers;
         Cell            headerCell;
 
-        sheet = workbook.createSheet("Préstamos");
+        sheet = workbook.createSheet(sheetName);
         sheet.setColumnWidth(0, 4000);
         sheet.setColumnWidth(1, 3000);
         sheet.setColumnWidth(2, 17000);
@@ -199,7 +200,6 @@ public final class DefaultExcelWorkbookGenerator implements ExcelWorkbookGenerat
         sheet.setColumnWidth(5, 5000);
 
         header = sheet.createRow(0);
-
         headerStyle = workbook.createCellStyle();
 
         font = workbook.createFont();
