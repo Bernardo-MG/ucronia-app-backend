@@ -229,6 +229,10 @@ public final class DefaultExcelWorkbookGenerator implements ExcelWorkbookGenerat
         // Keep padding/title/header rows and first data column visible while scrolling.
         sheet.createFreezePane(FIRST_BOOK_COLUMN + 1, BOOK_HEADER_ROW + 1);
 
+        // Add filter dropdowns to the header row for easier sorting and filtering.
+        sheet.setAutoFilter(new CellRangeAddress(BOOK_HEADER_ROW, BOOK_HEADER_ROW, FIRST_BOOK_COLUMN,
+            lastBookColumn));
+
         for (int column = lastVisibleColumn + 1;
                 column <= SpreadsheetVersion.EXCEL2007.getLastColumnIndex(); column++) {
             sheet.setColumnHidden(column, true);
