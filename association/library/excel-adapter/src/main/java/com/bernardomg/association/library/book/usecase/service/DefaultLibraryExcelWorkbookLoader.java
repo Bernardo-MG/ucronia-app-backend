@@ -8,11 +8,15 @@ import java.util.Date;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.DataFormat;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.usermodel.Workbook;
 
 import com.bernardomg.association.library.author.domain.model.Author;
@@ -28,6 +32,8 @@ import com.bernardomg.association.profile.domain.model.Profile;
 import com.bernardomg.association.profile.domain.repository.ProfileRepository;
 
 public final class DefaultLibraryExcelWorkbookLoader implements LibraryExcelWorkbookLoader {
+
+    private static final int FIRST_BOOK_DATA_ROW = 3;
 
     private static final DateTimeFormatter LENDING_DATE_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy")
         .withZone(ZoneId.systemDefault());
@@ -46,6 +52,10 @@ public final class DefaultLibraryExcelWorkbookLoader implements LibraryExcelWork
             final Iterable<FictionBook> fictionBooks) {
         final CellStyle  style;
         final CellStyle  dateStyle;
+        final CellStyle  bookStyle;
+        final CellStyle  alternateBookStyle;
+        final CellStyle  bookDateStyle;
+        final CellStyle  alternateDateStyle;
         final Sheet      gameSheet;
         final Sheet      fictionSheet;
         final Sheet      lendingSheet;
@@ -61,11 +71,27 @@ public final class DefaultLibraryExcelWorkbookLoader implements LibraryExcelWork
         dateStyle.setWrapText(true);
         dateStyle.setDataFormat(df.getFormat("dd/MM/yyyy"));
 
+        bookStyle = workbook.createCellStyle();
+        configureBodyStyle(bookStyle);
+
+        alternateBookStyle = workbook.createCellStyle();
+        alternateBookStyle.cloneStyleFrom(bookStyle);
+        alternateBookStyle.setFillForegroundColor(IndexedColors.LIGHT_CORNFLOWER_BLUE.getIndex());
+        alternateBookStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
+        bookDateStyle = workbook.createCellStyle();
+        bookDateStyle.cloneStyleFrom(bookStyle);
+        bookDateStyle.setDataFormat(df.getFormat("dd/MM/yyyy"));
+
+        alternateDateStyle = workbook.createCellStyle();
+        alternateDateStyle.cloneStyleFrom(alternateBookStyle);
+        alternateDateStyle.setDataFormat(df.getFormat("dd/MM/yyyy"));
+
         gameSheet = workbook.getSheetAt(0);
-        loadGames(gameSheet, style, dateStyle, gameBooks);
+        loadGames(gameSheet, bookStyle, bookDateStyle, alternateBookStyle, alternateDateStyle, gameBooks);
 
         fictionSheet = workbook.getSheetAt(1);
-        loadFiction(fictionSheet, style, dateStyle, fictionBooks);
+        loadFiction(fictionSheet, bookStyle, bookDateStyle, alternateBookStyle, alternateDateStyle, fictionBooks);
 
         // Only active lendings
         lendingSheet = workbook.getSheetAt(2);
@@ -74,6 +100,15 @@ public final class DefaultLibraryExcelWorkbookLoader implements LibraryExcelWork
         // Complete history
         lendingHistorySheet = workbook.getSheetAt(3);
         loadLendings(lendingHistorySheet, style, dateStyle, gameBooks, fictionBooks, false, true);
+    }
+
+    private final void configureBodyStyle(final CellStyle style) {
+        style.setVerticalAlignment(VerticalAlignment.CENTER);
+        style.setBorderTop(BorderStyle.THIN);
+        style.setBorderRight(BorderStyle.THIN);
+        style.setBorderBottom(BorderStyle.THIN);
+        style.setBorderLeft(BorderStyle.THIN);
+        style.setWrapText(true);
     }
 
     private final String getLendingStatus(final boolean lent, final Collection<BookLendingInfo> lendings) {
@@ -98,176 +133,202 @@ public final class DefaultLibraryExcelWorkbookLoader implements LibraryExcelWork
     }
 
     private final void loadFiction(final Sheet sheet, final CellStyle style, final CellStyle dateStyle,
-            final Iterable<FictionBook> books) {
+            final CellStyle alternateStyle, final CellStyle alternateDateStyle, final Iterable<FictionBook> books) {
         int      index;
         Row      row;
         Cell     cell;
+        CellStyle rowStyle;
+        CellStyle rowDateStyle;
         Donation donation;
 
-        index = 1;
+        index = FIRST_BOOK_DATA_ROW;
         for (final FictionBook book : books) {
             row = sheet.createRow(index);
 
-            cell = row.createCell(0);
-            cell.setCellValue(book.number());
-            cell.setCellStyle(style);
+            if ((index - FIRST_BOOK_DATA_ROW) % 2 == 0) {
+                rowStyle = style;
+                rowDateStyle = dateStyle;
+            } else {
+                rowStyle = alternateStyle;
+                rowDateStyle = alternateDateStyle;
+            }
 
             cell = row.createCell(1);
-            cell.setCellValue(book.title()
-                .fullTitle());
-            cell.setCellStyle(style);
+            cell.setCellValue(book.number());
+            cell.setCellStyle(rowStyle);
 
             cell = row.createCell(2);
-            cell.setCellValue(translateLanguage(book.language()));
-            cell.setCellStyle(style);
+            cell.setCellValue(book.title()
+                .fullTitle());
+            cell.setCellStyle(rowStyle);
 
             cell = row.createCell(3);
-            cell.setCellValue(book.isbn());
-            cell.setCellStyle(style);
+            cell.setCellValue(translateLanguage(book.language()));
+            cell.setCellStyle(rowStyle);
 
             cell = row.createCell(4);
+            cell.setCellValue(book.isbn());
+            cell.setCellStyle(rowStyle);
+
+            cell = row.createCell(5);
             if (book.publishDate()
                 .isPresent()) {
                 cell.setCellValue(Date.from(book.publishDate()
                     .get()));
             }
-            cell.setCellStyle(dateStyle);
+            cell.setCellStyle(rowDateStyle);
 
-            cell = row.createCell(5);
+            cell = row.createCell(6);
             cell.setCellValue(book.authors()
                 .stream()
                 .map(Author::name)
                 .collect(Collectors.joining(", ")));
-            cell.setCellStyle(style);
+            cell.setCellStyle(rowStyle);
 
-            cell = row.createCell(6);
+            cell = row.createCell(7);
             cell.setCellValue(book.publishers()
                 .stream()
                 .map(Publisher::name)
                 .collect(Collectors.joining(", ")));
-            cell.setCellStyle(style);
+            cell.setCellStyle(rowStyle);
 
             if (book.donation()
                 .isPresent()) {
                 donation = book.donation()
                     .get();
 
-                cell = row.createCell(7);
+                cell = row.createCell(8);
                 cell.setCellValue(donation.donors()
                     .stream()
                     .map(Donor::name)
                     .map(Donor.Name::fullName)
                     .collect(Collectors.joining(", ")));
-                cell.setCellStyle(style);
+                cell.setCellStyle(rowStyle);
 
-                cell = row.createCell(8);
+                cell = row.createCell(9);
                 if (donation.date()
                     .isPresent()) {
                     cell.setCellValue(Date.from(donation.date()
                         .get()));
                 }
-                cell.setCellStyle(dateStyle);
+                cell.setCellStyle(rowDateStyle);
             }
 
-            cell = row.createCell(9);
+            cell = row.createCell(10);
             cell.setCellValue(getLendingStatus(book.lent(), book.lendings()));
-            cell.setCellStyle(style);
+            cell.setCellStyle(rowStyle);
 
             index++;
         }
+
+        sheet.createRow(index)
+            .setHeightInPoints(8);
 
     }
 
     private final void loadGames(final Sheet sheet, final CellStyle style, final CellStyle dateStyle,
-            final Iterable<GameBook> books) {
+            final CellStyle alternateStyle, final CellStyle alternateDateStyle, final Iterable<GameBook> books) {
         int      index;
         Row      row;
         Cell     cell;
+        CellStyle rowStyle;
+        CellStyle rowDateStyle;
         Donation donation;
 
-        index = 1;
+        index = FIRST_BOOK_DATA_ROW;
         for (final GameBook book : books) {
             row = sheet.createRow(index);
 
-            cell = row.createCell(0);
-            cell.setCellValue(book.number());
-            cell.setCellStyle(style);
+            if ((index - FIRST_BOOK_DATA_ROW) % 2 == 0) {
+                rowStyle = style;
+                rowDateStyle = dateStyle;
+            } else {
+                rowStyle = alternateStyle;
+                rowDateStyle = alternateDateStyle;
+            }
 
             cell = row.createCell(1);
-            cell.setCellValue(book.title()
-                .fullTitle());
-            cell.setCellStyle(style);
+            cell.setCellValue(book.number());
+            cell.setCellStyle(rowStyle);
 
             cell = row.createCell(2);
-            cell.setCellValue(translateLanguage(book.language()));
-            cell.setCellStyle(style);
+            cell.setCellValue(book.title()
+                .fullTitle());
+            cell.setCellStyle(rowStyle);
 
             cell = row.createCell(3);
-            cell.setCellValue(book.isbn());
-            cell.setCellStyle(style);
+            cell.setCellValue(translateLanguage(book.language()));
+            cell.setCellStyle(rowStyle);
 
             cell = row.createCell(4);
+            cell.setCellValue(book.isbn());
+            cell.setCellStyle(rowStyle);
+
+            cell = row.createCell(5);
             if (book.publishDate()
                 .isPresent()) {
                 cell.setCellValue(Date.from(book.publishDate()
                     .get()));
             }
-            cell.setCellStyle(dateStyle);
+            cell.setCellStyle(rowDateStyle);
 
-            cell = row.createCell(5);
+            cell = row.createCell(6);
             cell.setCellValue(book.gameSystem()
                 .map(GameSystem::name)
                 .orElse(""));
-            cell.setCellStyle(style);
+            cell.setCellStyle(rowStyle);
 
-            cell = row.createCell(6);
+            cell = row.createCell(7);
             cell.setCellValue(book.bookType()
                 .map(BookType::name)
                 .orElse(""));
-            cell.setCellStyle(style);
+            cell.setCellStyle(rowStyle);
 
-            cell = row.createCell(7);
+            cell = row.createCell(8);
             cell.setCellValue(book.authors()
                 .stream()
                 .map(Author::name)
                 .collect(Collectors.joining(", ")));
-            cell.setCellStyle(style);
+            cell.setCellStyle(rowStyle);
 
-            cell = row.createCell(8);
+            cell = row.createCell(9);
             cell.setCellValue(book.publishers()
                 .stream()
                 .map(Publisher::name)
                 .collect(Collectors.joining(", ")));
-            cell.setCellStyle(style);
+            cell.setCellStyle(rowStyle);
 
             if (book.donation()
                 .isPresent()) {
                 donation = book.donation()
                     .get();
 
-                cell = row.createCell(9);
+                cell = row.createCell(10);
                 cell.setCellValue(donation.donors()
                     .stream()
                     .map(Donor::name)
                     .map(Donor.Name::fullName)
                     .collect(Collectors.joining(", ")));
-                cell.setCellStyle(style);
+                cell.setCellStyle(rowStyle);
 
-                cell = row.createCell(10);
+                cell = row.createCell(11);
                 if (donation.date()
                     .isPresent()) {
                     cell.setCellValue(Date.from(donation.date()
                         .get()));
                 }
-                cell.setCellStyle(dateStyle);
+                cell.setCellStyle(rowDateStyle);
             }
 
-            cell = row.createCell(11);
+            cell = row.createCell(12);
             cell.setCellValue(getLendingStatus(book.lent(), book.lendings()));
-            cell.setCellStyle(style);
+            cell.setCellStyle(rowStyle);
 
             index++;
         }
+
+        sheet.createRow(index)
+            .setHeightInPoints(8);
 
     }
 
@@ -338,7 +399,7 @@ public final class DefaultLibraryExcelWorkbookLoader implements LibraryExcelWork
             for (final BookLendingInfo lending : book.lendings()) {
                 if (!activeOnly || lending.returnDate()
                     .isEmpty()) {
-                    loadLendingRow(sheet, index, style, dateStyle, "Ficción", book.number(), book.title()
+                    loadLendingRow(sheet, index, style, dateStyle, "Juego", book.number(), book.title()
                         .fullTitle(), lending, includeReturnDate);
 
                     index++;
@@ -360,4 +421,5 @@ public final class DefaultLibraryExcelWorkbookLoader implements LibraryExcelWork
 
         return language;
     }
+    
 }

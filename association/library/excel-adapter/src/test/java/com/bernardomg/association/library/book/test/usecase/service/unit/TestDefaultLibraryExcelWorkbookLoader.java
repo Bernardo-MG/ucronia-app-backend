@@ -51,8 +51,8 @@ class TestDefaultLibraryExcelWorkbookLoader {
     private static final DateTimeFormatter LENDING_DATE_FORMAT = DateTimeFormatter.ofPattern(DATE_FORMAT)
         .withZone(ZoneId.systemDefault());
 
-    private static void assertAllCellsWrapText(final Row row, final int cellCount) {
-        for (int column = 0; column < cellCount; column++) {
+    private static void assertAllCellsWrapText(final Row row, final int firstColumn, final int cellCount) {
+        for (int column = firstColumn; column < firstColumn + cellCount; column++) {
             assertThat(row.getCell(column)
                 .getCellStyle()
                 .getWrapText()).as("Cell %s should wrap text", column)
@@ -74,30 +74,30 @@ class TestDefaultLibraryExcelWorkbookLoader {
         donation = book.donation()
             .orElseThrow();
 
-        assertThat(row.getCell(0)
-            .getNumericCellValue()).isEqualTo(book.number());
         assertThat(row.getCell(1)
+            .getNumericCellValue()).isEqualTo(book.number());
+        assertThat(row.getCell(2)
             .getStringCellValue()).isEqualTo(book.title()
                 .fullTitle());
-        assertThat(row.getCell(2)
-            .getStringCellValue()).isEqualTo("Inglés");
         assertThat(row.getCell(3)
+            .getStringCellValue()).isEqualTo("Inglés");
+        assertThat(row.getCell(4)
             .getStringCellValue()).isEqualTo(book.isbn());
-        assertDateCell(row.getCell(4), Date.from(book.publishDate()
+        assertDateCell(row.getCell(5), Date.from(book.publishDate()
             .orElseThrow()));
-        assertThat(row.getCell(5)
-            .getStringCellValue()).isEqualTo(authorNames(book));
         assertThat(row.getCell(6)
-            .getStringCellValue()).isEqualTo(publisherNames(book));
+            .getStringCellValue()).isEqualTo(authorNames(book));
         assertThat(row.getCell(7)
+            .getStringCellValue()).isEqualTo(publisherNames(book));
+        assertThat(row.getCell(8)
             .getStringCellValue()).isEqualTo(donorNames(donation));
-        assertDateCell(row.getCell(8), Date.from(donation.date()
+        assertDateCell(row.getCell(9), Date.from(donation.date()
             .orElseThrow()));
-        assertThat(row.getCell(9)
+        assertThat(row.getCell(10)
             .getStringCellValue()).isEqualTo(expectedLendingStatus);
 
         assertThat(row.getPhysicalNumberOfCells()).isEqualTo(10);
-        assertAllCellsWrapText(row, 10);
+        assertAllCellsWrapText(row, 1, 10);
     }
 
     private static void assertGameRow(final Row row, final GameBook book, final String expectedLendingStatus) {
@@ -106,38 +106,38 @@ class TestDefaultLibraryExcelWorkbookLoader {
         donation = book.donation()
             .orElseThrow();
 
-        assertThat(row.getCell(0)
-            .getNumericCellValue()).isEqualTo(book.number());
         assertThat(row.getCell(1)
+            .getNumericCellValue()).isEqualTo(book.number());
+        assertThat(row.getCell(2)
             .getStringCellValue()).isEqualTo(book.title()
                 .fullTitle());
-        assertThat(row.getCell(2)
-            .getStringCellValue()).isEqualTo("Inglés");
         assertThat(row.getCell(3)
+            .getStringCellValue()).isEqualTo("Inglés");
+        assertThat(row.getCell(4)
             .getStringCellValue()).isEqualTo(book.isbn());
-        assertDateCell(row.getCell(4), Date.from(book.publishDate()
+        assertDateCell(row.getCell(5), Date.from(book.publishDate()
             .orElseThrow()));
-        assertThat(row.getCell(5)
+        assertThat(row.getCell(6)
             .getStringCellValue()).isEqualTo(book.gameSystem()
                 .map(GameSystem::name)
                 .orElse(""));
-        assertThat(row.getCell(6)
+        assertThat(row.getCell(7)
             .getStringCellValue()).isEqualTo(book.bookType()
                 .map(BookType::name)
                 .orElse(""));
-        assertThat(row.getCell(7)
-            .getStringCellValue()).isEqualTo(authorNames(book));
         assertThat(row.getCell(8)
-            .getStringCellValue()).isEqualTo(publisherNames(book));
+            .getStringCellValue()).isEqualTo(authorNames(book));
         assertThat(row.getCell(9)
+            .getStringCellValue()).isEqualTo(publisherNames(book));
+        assertThat(row.getCell(10)
             .getStringCellValue()).isEqualTo(donorNames(donation));
-        assertDateCell(row.getCell(10), Date.from(donation.date()
+        assertDateCell(row.getCell(11), Date.from(donation.date()
             .orElseThrow()));
-        assertThat(row.getCell(11)
+        assertThat(row.getCell(12)
             .getStringCellValue()).isEqualTo(expectedLendingStatus);
 
         assertThat(row.getPhysicalNumberOfCells()).isEqualTo(12);
-        assertAllCellsWrapText(row, 12);
+        assertAllCellsWrapText(row, 1, 12);
     }
 
     private static String authorNames(final FictionBook book) {
@@ -200,6 +200,7 @@ class TestDefaultLibraryExcelWorkbookLoader {
 
     @Test
     @DisplayName("Empty collections leave all sheets without data rows")
+    @SuppressWarnings("resource")
     void testLoadWorkbookWithNoBooks() {
         final Workbook workbook;
 
@@ -210,18 +211,21 @@ class TestDefaultLibraryExcelWorkbookLoader {
         loader.loadWorkbook(workbook, List.of(), List.of());
 
         // THEN
-        assertThat(workbook.getSheet("Juegos")
+        assertThat(workbook.getSheetAt(0)
+            .getRow(3)
+            .getPhysicalNumberOfCells()).isZero();
+        assertThat(workbook.getSheetAt(1)
+            .getRow(3)
+            .getPhysicalNumberOfCells()).isZero();
+        assertThat(workbook.getSheetAt(2)
             .getRow(1)).isNull();
-        assertThat(workbook.getSheet("Ficción")
-            .getRow(1)).isNull();
-        assertThat(workbook.getSheet("Préstamos")
-            .getRow(1)).isNull();
-        assertThat(workbook.getSheet("Historial de préstamos")
+        assertThat(workbook.getSheetAt(3)
             .getRow(1)).isNull();
     }
 
     @Test
     @DisplayName("Lent books show the borrower, lending date and number of days")
+    @SuppressWarnings("resource")
     void testLoadWorkbookWritesActiveLendingStatus() {
         final FictionBook     availableFiction;
         final GameBook        availableGame;
@@ -262,18 +266,19 @@ class TestDefaultLibraryExcelWorkbookLoader {
 
         // THEN
         assertThat(workbook.getSheet("Juegos")
-            .getRow(1)
-            .getCell(11)
+            .getRow(3)
+            .getCell(12)
             .getStringCellValue()).isEqualTo(expectedStatus);
 
         assertThat(workbook.getSheet("Ficción")
-            .getRow(1)
-            .getCell(9)
+            .getRow(3)
+            .getCell(10)
             .getStringCellValue()).isEqualTo(expectedStatus);
     }
 
     @Test
     @DisplayName("Full game and fiction books are written to their sheets")
+    @SuppressWarnings("resource")
     void testLoadWorkbookWritesBooks() {
         final GameBook    gameBook;
         final FictionBook fictionBook;
@@ -289,9 +294,9 @@ class TestDefaultLibraryExcelWorkbookLoader {
 
         // THEN
         assertGameRow(workbook.getSheetAt(0)
-            .getRow(1), gameBook, "Disponible");
+            .getRow(3), gameBook, "Disponible");
         assertFictionRow(workbook.getSheetAt(1)
-            .getRow(1), fictionBook, "Disponible");
+            .getRow(3), fictionBook, "Disponible");
     }
 
 }

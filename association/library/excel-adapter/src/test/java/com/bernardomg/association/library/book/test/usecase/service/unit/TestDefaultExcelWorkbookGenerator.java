@@ -3,7 +3,9 @@ package com.bernardomg.association.library.book.test.usecase.service.unit;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
@@ -54,26 +56,49 @@ class TestDefaultExcelWorkbookGenerator {
     }
 
     private static void assertSheet(final Workbook workbook, final String sheetName, final List<String> expectedHeaders,
-            final List<Integer> expectedWidths) {
+            final List<Integer> expectedWidths, final int headerRow, final int firstColumn) {
         final Sheet sheet;
         final Row   header;
 
         sheet = workbook.getSheet(sheetName);
-        header = sheet.getRow(0);
-        assertAll(() -> assertNotNull(sheet), () -> assertNotNull(header),
+        assertNotNull(sheet);
+        header = sheet.getRow(headerRow);
+        assertAll(() -> assertNotNull(header),
             () -> assertEquals(expectedHeaders.size(), header.getPhysicalNumberOfCells()));
 
         for (int index = 0; index < expectedHeaders.size(); index++) {
-            final int  column = index;
+            final int  column = index + firstColumn;
             final Cell cell   = header.getCell(column);
 
             assertAll(() -> assertNotNull(cell, "Missing header cell at column " + column),
-                () -> assertEquals(expectedHeaders.get(column), cell.getStringCellValue()),
-                () -> assertEquals(expectedWidths.get(column)
+                () -> assertEquals(expectedHeaders.get(column - firstColumn), cell.getStringCellValue()),
+                () -> assertEquals(expectedWidths.get(column - firstColumn)
                     .intValue(), sheet.getColumnWidth(column)));
 
             assertHeaderStyle((XSSFWorkbook) workbook, cell);
         }
+    }
+
+    private static void assertBookSheet(final Workbook workbook, final String sheetName,
+            final List<String> expectedHeaders, final List<Integer> expectedWidths) {
+        final Cell  title;
+        final Sheet sheet;
+        final int   rightPaddingColumn;
+
+        sheet = workbook.getSheet(sheetName);
+        assertSheet(workbook, sheetName, expectedHeaders, expectedWidths, 2, 1);
+
+        title = sheet.getRow(1)
+            .getCell(1);
+        rightPaddingColumn = expectedHeaders.size() + 1;
+
+        assertAll(() -> assertEquals("Biblioteca de A.R. Ucronía", title.getStringCellValue()),
+            () -> assertEquals(1, sheet.getNumMergedRegions()),
+            () -> assertEquals(1000, sheet.getColumnWidth(0)),
+            () -> assertEquals(1000, sheet.getColumnWidth(rightPaddingColumn)),
+            () -> assertTrue(sheet.isColumnHidden(rightPaddingColumn + 1)),
+            () -> assertFalse(sheet.isDisplayGridlines()),
+            () -> assertFalse(sheet.isDisplayRowColHeadings()));
     }
 
     private final DefaultExcelWorkbookGenerator generator = new DefaultExcelWorkbookGenerator();
@@ -87,7 +112,7 @@ class TestDefaultExcelWorkbookGenerator {
         workbook = generator.generateWorkbook();
 
         // THEN
-        assertSheet(workbook, "Ficción", FICTION_HEADERS, FICTION_COLUMN_WIDTHS);
+        assertBookSheet(workbook, "Ficción", FICTION_HEADERS, FICTION_COLUMN_WIDTHS);
     }
 
     @Test
@@ -99,7 +124,7 @@ class TestDefaultExcelWorkbookGenerator {
         workbook = generator.generateWorkbook();
 
         // THEN
-        assertSheet(workbook, "Juegos", GAME_HEADERS, GAME_COLUMN_WIDTHS);
+        assertBookSheet(workbook, "Juegos", GAME_HEADERS, GAME_COLUMN_WIDTHS);
     }
 
     @Test
@@ -111,7 +136,7 @@ class TestDefaultExcelWorkbookGenerator {
         workbook = generator.generateWorkbook();
 
         // THEN
-        assertSheet(workbook, "Historial de préstamos", LENDING_HISTORY_HEADERS, LENDING_HISTORY_COLUMN_WIDTHS);
+        assertSheet(workbook, "Historial de préstamos", LENDING_HISTORY_HEADERS, LENDING_HISTORY_COLUMN_WIDTHS, 0, 0);
     }
 
     @Test
@@ -123,7 +148,7 @@ class TestDefaultExcelWorkbookGenerator {
         workbook = generator.generateWorkbook();
 
         // THEN
-        assertSheet(workbook, "Préstamos", LENDING_HEADERS, LENDING_COLUMN_WIDTHS);
+        assertSheet(workbook, "Préstamos", LENDING_HEADERS, LENDING_COLUMN_WIDTHS, 0, 0);
     }
 
     @Test
