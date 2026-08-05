@@ -13,6 +13,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.DataFormat;
 import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -72,32 +73,36 @@ public final class DefaultLibraryExcelWorkbookLoader implements LibraryExcelWork
 
         alternateLendingStyle = workbook.createCellStyle();
         alternateLendingStyle.cloneStyleFrom(lendingStyle);
-        alternateLendingStyle.setFillForegroundColor(IndexedColors.LIGHT_CORNFLOWER_BLUE.getIndex());
+        alternateLendingStyle.setFillForegroundColor(IndexedColors.PALE_BLUE.getIndex());
         alternateLendingStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 
         lendingDateStyle = workbook.createCellStyle();
         lendingDateStyle.cloneStyleFrom(lendingStyle);
         lendingDateStyle.setDataFormat(df.getFormat(EXCEL_DATE_FORMAT));
+        lendingDateStyle.setAlignment(HorizontalAlignment.CENTER);
 
         alternateLendingDateStyle = workbook.createCellStyle();
         alternateLendingDateStyle.cloneStyleFrom(alternateLendingStyle);
         alternateLendingDateStyle.setDataFormat(df.getFormat(EXCEL_DATE_FORMAT));
+        alternateLendingDateStyle.setAlignment(HorizontalAlignment.CENTER);
 
         bookStyle = workbook.createCellStyle();
         configureBodyStyle(bookStyle);
 
         alternateBookStyle = workbook.createCellStyle();
         alternateBookStyle.cloneStyleFrom(bookStyle);
-        alternateBookStyle.setFillForegroundColor(IndexedColors.LIGHT_CORNFLOWER_BLUE.getIndex());
+        alternateBookStyle.setFillForegroundColor(IndexedColors.PALE_BLUE.getIndex());
         alternateBookStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 
         bookDateStyle = workbook.createCellStyle();
         bookDateStyle.cloneStyleFrom(bookStyle);
         bookDateStyle.setDataFormat(df.getFormat(EXCEL_DATE_FORMAT));
+        bookDateStyle.setAlignment(HorizontalAlignment.CENTER);
 
         alternateDateStyle = workbook.createCellStyle();
         alternateDateStyle.cloneStyleFrom(alternateBookStyle);
         alternateDateStyle.setDataFormat(df.getFormat(EXCEL_DATE_FORMAT));
+        alternateDateStyle.setAlignment(HorizontalAlignment.CENTER);
 
         gameSheet = workbook.getSheetAt(0);
         loadGames(gameSheet, bookStyle, bookDateStyle, alternateBookStyle, alternateDateStyle, gameBooks);

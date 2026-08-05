@@ -22,6 +22,12 @@ public final class DefaultExcelWorkbookGenerator implements ExcelWorkbookGenerat
 
     private static final int BOOK_TITLE_ROW  = 1;
 
+    private static final short HEADER_FONT_SIZE = 12;
+
+    private static final short TITLE_FONT_SIZE = 15;
+
+    private static final int TITLE_ROW_HEIGHT_POINTS = 24;
+
     private static final int DEFAULT_ROW_HEIGHT_POINTS = 15;
 
     private static final int FIRST_BOOK_COLUMN = 1;
@@ -53,16 +59,16 @@ public final class DefaultExcelWorkbookGenerator implements ExcelWorkbookGenerat
 
         sheet = workbook.createSheet("Ficción");
         configureBookSheet(sheet, 10);
-        sheet.setColumnWidth(1, 3000);
-        sheet.setColumnWidth(2, 17000);
-        sheet.setColumnWidth(3, 3000);
-        sheet.setColumnWidth(4, 5000);
-        sheet.setColumnWidth(5, 5000);
-        sheet.setColumnWidth(6, 5000);
-        sheet.setColumnWidth(7, 5000);
-        sheet.setColumnWidth(8, 15000);
-        sheet.setColumnWidth(9, 5000);
-        sheet.setColumnWidth(10, 15000);
+        sheet.setColumnWidth(1, 4000);
+        sheet.setColumnWidth(2, 20000);
+        sheet.setColumnWidth(3, 4200);
+        sheet.setColumnWidth(4, 6500);
+        sheet.setColumnWidth(5, 6500);
+        sheet.setColumnWidth(6, 8500);
+        sheet.setColumnWidth(7, 8500);
+        sheet.setColumnWidth(8, 22000);
+        sheet.setColumnWidth(9, 7000);
+        sheet.setColumnWidth(10, 24000);
 
         generateBookTitle(workbook, sheet, 10);
         header = sheet.createRow(BOOK_HEADER_ROW);
@@ -71,7 +77,7 @@ public final class DefaultExcelWorkbookGenerator implements ExcelWorkbookGenerat
 
         font = workbook.createFont();
         font.setFontName("Arial");
-        font.setFontHeightInPoints((short) 16);
+        font.setFontHeightInPoints(HEADER_FONT_SIZE);
         font.setBold(true);
         font.setColor(IndexedColors.WHITE.getIndex());
         headerStyle.setFont(font);
@@ -129,18 +135,18 @@ public final class DefaultExcelWorkbookGenerator implements ExcelWorkbookGenerat
 
         sheet = workbook.createSheet("Juegos");
         configureBookSheet(sheet, 12);
-        sheet.setColumnWidth(1, 3000);
-        sheet.setColumnWidth(2, 17000);
-        sheet.setColumnWidth(3, 3000);
-        sheet.setColumnWidth(4, 5000);
-        sheet.setColumnWidth(5, 5000);
-        sheet.setColumnWidth(6, 5000);
-        sheet.setColumnWidth(7, 5000);
-        sheet.setColumnWidth(8, 5000);
-        sheet.setColumnWidth(9, 5000);
-        sheet.setColumnWidth(10, 15000);
-        sheet.setColumnWidth(11, 5000);
-        sheet.setColumnWidth(12, 15000);
+        sheet.setColumnWidth(1, 4000);
+        sheet.setColumnWidth(2, 20000);
+        sheet.setColumnWidth(3, 4200);
+        sheet.setColumnWidth(4, 6500);
+        sheet.setColumnWidth(5, 6500);
+        sheet.setColumnWidth(6, 7500);
+        sheet.setColumnWidth(7, 6500);
+        sheet.setColumnWidth(8, 8500);
+        sheet.setColumnWidth(9, 8500);
+        sheet.setColumnWidth(10, 22000);
+        sheet.setColumnWidth(11, 7000);
+        sheet.setColumnWidth(12, 24000);
 
         generateBookTitle(workbook, sheet, 12);
         header = sheet.createRow(BOOK_HEADER_ROW);
@@ -149,7 +155,7 @@ public final class DefaultExcelWorkbookGenerator implements ExcelWorkbookGenerat
 
         font = workbook.createFont();
         font.setFontName("Arial");
-        font.setFontHeightInPoints((short) 16);
+        font.setFontHeightInPoints(HEADER_FONT_SIZE);
         font.setBold(true);
         font.setColor(IndexedColors.WHITE.getIndex());
         headerStyle.setFont(font);
@@ -220,6 +226,9 @@ public final class DefaultExcelWorkbookGenerator implements ExcelWorkbookGenerat
         topPaddingRow = sheet.createRow(0);
         topPaddingRow.setHeightInPoints(DEFAULT_ROW_HEIGHT_POINTS);
 
+        // Keep padding/title/header rows and first data column visible while scrolling.
+        sheet.createFreezePane(FIRST_BOOK_COLUMN + 1, BOOK_HEADER_ROW + 1);
+
         for (int column = lastVisibleColumn + 1;
                 column <= SpreadsheetVersion.EXCEL2007.getLastColumnIndex(); column++) {
             sheet.setColumnHidden(column, true);
@@ -246,7 +255,7 @@ public final class DefaultExcelWorkbookGenerator implements ExcelWorkbookGenerat
         final XSSFFont  titleFont;
 
         titleRow = sheet.createRow(BOOK_TITLE_ROW);
-        titleRow.setHeightInPoints(30);
+        titleRow.setHeightInPoints(TITLE_ROW_HEIGHT_POINTS);
         titleCell = titleRow.createCell(FIRST_BOOK_COLUMN);
         titleCell.setCellValue("Biblioteca de A.R. Ucronía");
 
@@ -258,7 +267,7 @@ public final class DefaultExcelWorkbookGenerator implements ExcelWorkbookGenerat
 
         titleFont = workbook.createFont();
         titleFont.setFontName("Arial");
-        titleFont.setFontHeightInPoints((short) 20);
+        titleFont.setFontHeightInPoints(TITLE_FONT_SIZE);
         titleFont.setBold(true);
         titleFont.setColor(IndexedColors.WHITE.getIndex());
         titleStyle.setFont(titleFont);
@@ -271,7 +280,7 @@ public final class DefaultExcelWorkbookGenerator implements ExcelWorkbookGenerat
     private final Workbook generateLendingHistorySheet(final XSSFWorkbook workbook) {
         return generateLendingSheet(workbook, "Historial de préstamos",
             new String[] { "Tipo", "Número", "Título", "Socio", "Prestado en", "Devuelto en" },
-            new int[] { 4000, 3000, 17000, 9000, 5000, 5000 });
+            new int[] { 6000, 3800, 20000, 17000, 8000, 8000 });
     }
 
     private final Workbook generateLendingSheet(final XSSFWorkbook workbook, final String sheetName,
@@ -296,7 +305,7 @@ public final class DefaultExcelWorkbookGenerator implements ExcelWorkbookGenerat
 
         font = workbook.createFont();
         font.setFontName("Arial");
-        font.setFontHeightInPoints((short) 16);
+        font.setFontHeightInPoints(HEADER_FONT_SIZE);
         font.setBold(true);
         font.setColor(IndexedColors.WHITE.getIndex());
         headerStyle.setFont(font);
@@ -316,7 +325,7 @@ public final class DefaultExcelWorkbookGenerator implements ExcelWorkbookGenerat
     private final Workbook generateLendingsSheet(final XSSFWorkbook workbook) {
         return generateLendingSheet(workbook, "Préstamos",
             new String[] { "Tipo", "Número", "Título", "Socio", "Prestado en" },
-            new int[] { 4000, 3000, 17000, 9000, 5000 });
+            new int[] { 6000, 3800, 20000, 17000, 8000 });
     }
 
 }
