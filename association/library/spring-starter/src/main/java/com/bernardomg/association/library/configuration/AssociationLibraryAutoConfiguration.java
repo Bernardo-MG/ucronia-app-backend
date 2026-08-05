@@ -45,16 +45,18 @@ import com.bernardomg.association.library.book.domain.repository.BookRepository;
 import com.bernardomg.association.library.book.domain.repository.DonorRepository;
 import com.bernardomg.association.library.book.domain.repository.FictionBookRepository;
 import com.bernardomg.association.library.book.domain.repository.GameBookRepository;
+import com.bernardomg.association.library.book.usecase.service.ApachePoiReportGenerator;
 import com.bernardomg.association.library.book.usecase.service.BookReportService;
 import com.bernardomg.association.library.book.usecase.service.DefaultExcelWorkbookGenerator;
-import com.bernardomg.association.library.book.usecase.service.DefaultExcelWorkbookLoader;
+import com.bernardomg.association.library.book.usecase.service.DefaultLibraryExcelWorkbookLoader;
 import com.bernardomg.association.library.book.usecase.service.DefaultFictionBookService;
 import com.bernardomg.association.library.book.usecase.service.DefaultGameBookService;
-import com.bernardomg.association.library.book.usecase.service.ExcelPoiBookReportService;
+import com.bernardomg.association.library.book.usecase.service.DefaultBookReportService;
 import com.bernardomg.association.library.book.usecase.service.ExcelWorkbookGenerator;
-import com.bernardomg.association.library.book.usecase.service.ExcelWorkbookLoader;
+import com.bernardomg.association.library.book.usecase.service.LibraryExcelWorkbookLoader;
 import com.bernardomg.association.library.book.usecase.service.FictionBookService;
 import com.bernardomg.association.library.book.usecase.service.GameBookService;
+import com.bernardomg.association.library.book.usecase.service.ReportGenerator;
 import com.bernardomg.association.library.booktype.adapter.inbound.jpa.repository.BookTypeSpringRepository;
 import com.bernardomg.association.library.booktype.adapter.inbound.jpa.repository.JpaBookTypeRepository;
 import com.bernardomg.association.library.booktype.domain.repository.BookTypeRepository;
@@ -110,11 +112,13 @@ public class AssociationLibraryAutoConfiguration {
     public BookReportService getBookReportService(final GameBookRepository gameBookRepository,
             final FictionBookRepository fictionBookRepository, final ProfileRepository profileRepository) {
         final ExcelWorkbookGenerator excelGenerator;
-        final ExcelWorkbookLoader    workbookLoader;
+        final LibraryExcelWorkbookLoader    workbookLoader;
+        final ReportGenerator reportGenerator;
 
         excelGenerator = new DefaultExcelWorkbookGenerator();
-        workbookLoader = new DefaultExcelWorkbookLoader(profileRepository);
-        return new ExcelPoiBookReportService(gameBookRepository, fictionBookRepository, excelGenerator, workbookLoader);
+        workbookLoader = new DefaultLibraryExcelWorkbookLoader(profileRepository);
+        reportGenerator = new ApachePoiReportGenerator(excelGenerator,workbookLoader);
+        return new DefaultBookReportService(gameBookRepository, fictionBookRepository, reportGenerator);
     }
 
     @Bean("bookRepository")

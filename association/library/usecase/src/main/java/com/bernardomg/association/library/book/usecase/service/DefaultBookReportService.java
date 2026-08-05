@@ -27,7 +27,6 @@ package com.bernardomg.association.library.book.usecase.service;
 import java.io.ByteArrayOutputStream;
 import java.util.Objects;
 
-import org.apache.poi.ss.usermodel.Workbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,54 +34,46 @@ import com.bernardomg.association.library.book.domain.model.FictionBook;
 import com.bernardomg.association.library.book.domain.model.GameBook;
 import com.bernardomg.association.library.book.domain.repository.FictionBookRepository;
 import com.bernardomg.association.library.book.domain.repository.GameBookRepository;
-import com.bernardomg.excel.ExcelParsing;
 import com.bernardomg.pagination.domain.Sorting;
 
 import jakarta.transaction.Transactional;
 
 @Transactional
-public final class ExcelPoiBookReportService implements BookReportService {
+public final class DefaultBookReportService implements BookReportService {
 
     /**
      * Logger for the class.
      */
-    private static final Logger          log = LoggerFactory.getLogger(ExcelPoiBookReportService.class);
+    private static final Logger         log = LoggerFactory.getLogger(DefaultBookReportService.class);
 
-    private final ExcelWorkbookGenerator excelGenerator;
+    private final FictionBookRepository fictionBookRepository;
 
-    private final FictionBookRepository  fictionBookRepository;
+    private final GameBookRepository    gameBookRepository;
 
-    private final GameBookRepository     gameBookRepository;
+    private final ReportGenerator       reportGenerator;
 
-    private final ExcelWorkbookLoader    workbookLoader;
-
-    public ExcelPoiBookReportService(final GameBookRepository gameBookRepo, final FictionBookRepository fictionBookRepo,
-            final ExcelWorkbookGenerator excelGen, final ExcelWorkbookLoader workbookLoad) {
+    public DefaultBookReportService(final GameBookRepository gameBookRepo, final FictionBookRepository fictionBookRepo,
+            final ReportGenerator reportGen) {
         super();
 
         gameBookRepository = Objects.requireNonNull(gameBookRepo);
         fictionBookRepository = Objects.requireNonNull(fictionBookRepo);
-        excelGenerator = Objects.requireNonNull(excelGen);
-        workbookLoader = Objects.requireNonNull(workbookLoad);
+        reportGenerator = Objects.requireNonNull(reportGen);
     }
 
     @Override
     public final ByteArrayOutputStream getReport() {
         final Iterable<GameBook>    gameBooks;
         final Iterable<FictionBook> fictionBooks;
-        final Workbook              workbook;
         final Sorting               sort;
 
-        log.debug("Creating excel");
+        log.debug("Creating report");
 
         sort = Sorting.asc("title", "language", "isbn");
         gameBooks = gameBookRepository.findAll(sort);
         fictionBooks = fictionBookRepository.findAll(sort);
 
-        workbook = excelGenerator.generateWorkbook();
-        workbookLoader.loadWorkbook(workbook, gameBooks, fictionBooks);
-
-        return ExcelParsing.toStream(workbook);
+        return reportGenerator.getReport(gameBooks, fictionBooks);
     }
 
 }

@@ -55,18 +55,8 @@
          <artifactId>pagination</artifactId>
       </dependency>
       <!-- ============================================== -->
-      <!-- =============== APACHE POI =================== -->
+      <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
       <!-- ============================================== -->
-      <dependency>
-         <!-- Apache POI -->
-         <groupId>org.apache.poi</groupId>
-         <artifactId>poi</artifactId>
-      </dependency>
-      <dependency>
-         <!-- Apache POI OOXML -->
-         <groupId>org.apache.poi</groupId>
-         <artifactId>poi-ooxml</artifactId>
-      </dependency>
       <dependency>
          <groupId>com.bernardomg.association.library</groupId>
          <artifactId>association-library-testing</artifactId>

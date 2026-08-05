@@ -27,14 +27,14 @@ import com.bernardomg.association.library.publisher.domain.model.Publisher;
 import com.bernardomg.association.profile.domain.model.Profile;
 import com.bernardomg.association.profile.domain.repository.ProfileRepository;
 
-public final class DefaultExcelWorkbookLoader implements ExcelWorkbookLoader {
+public final class DefaultLibraryExcelWorkbookLoader implements LibraryExcelWorkbookLoader {
 
     private static final DateTimeFormatter LENDING_DATE_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy")
         .withZone(ZoneId.systemDefault());
 
     private final ProfileRepository        profileRepository;
 
-    public DefaultExcelWorkbookLoader(final ProfileRepository profileRepo) {
+    public DefaultLibraryExcelWorkbookLoader(final ProfileRepository profileRepo) {
         super();
 
         // TODO: avoid depending on profile

@@ -1,0 +1,47 @@
+
+package com.bernardomg.association.library.book.usecase.service;
+
+import java.io.ByteArrayOutputStream;
+import java.util.Objects;
+
+import org.apache.poi.ss.usermodel.Workbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.bernardomg.association.library.book.domain.model.FictionBook;
+import com.bernardomg.association.library.book.domain.model.GameBook;
+import com.bernardomg.excel.ExcelParsing;
+
+public final class ApachePoiReportGenerator implements ReportGenerator {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger              log = LoggerFactory.getLogger(ApachePoiReportGenerator.class);
+
+    private final ExcelWorkbookGenerator     excelGenerator;
+
+    private final LibraryExcelWorkbookLoader workbookLoader;
+
+    public ApachePoiReportGenerator(final ExcelWorkbookGenerator excelGen,
+            final LibraryExcelWorkbookLoader workbookLoad) {
+        super();
+
+        excelGenerator = Objects.requireNonNull(excelGen);
+        workbookLoader = Objects.requireNonNull(workbookLoad);
+    }
+
+    @Override
+    public final ByteArrayOutputStream getReport(final Iterable<GameBook> gameBooks,
+            final Iterable<FictionBook> fictionBooks) {
+        final Workbook workbook;
+
+        log.debug("Creating excel report");
+
+        workbook = excelGenerator.generateWorkbook();
+        workbookLoader.loadWorkbook(workbook, gameBooks, fictionBooks);
+
+        return ExcelParsing.toStream(workbook);
+    }
+
+}

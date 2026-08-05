@@ -35,7 +35,7 @@ import com.bernardomg.association.library.book.domain.model.GameBook;
 import com.bernardomg.association.library.book.test.configuration.factory.FictionBooks;
 import com.bernardomg.association.library.book.test.configuration.factory.GameBooks;
 import com.bernardomg.association.library.book.usecase.service.DefaultExcelWorkbookGenerator;
-import com.bernardomg.association.library.book.usecase.service.DefaultExcelWorkbookLoader;
+import com.bernardomg.association.library.book.usecase.service.DefaultLibraryExcelWorkbookLoader;
 import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
@@ -43,8 +43,8 @@ import com.bernardomg.association.profile.domain.model.Profile;
 import com.bernardomg.association.profile.domain.repository.ProfileRepository;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("DefaultExcelWorkbookLoader")
-class TestDefaultExcelWorkbookLoaderLoadWorkbook {
+@DisplayName("DefaultLibraryExcelWorkbookLoader")
+class TestDefaultLibraryExcelWorkbookLoader {
 
     private static final String            DATE_FORMAT         = "dd/MM/yyyy";
 
@@ -177,10 +177,10 @@ class TestDefaultExcelWorkbookLoaderLoadWorkbook {
     }
 
     @InjectMocks
-    private DefaultExcelWorkbookLoader loader;
+    private DefaultLibraryExcelWorkbookLoader loader;
 
     @Mock
-    private ProfileRepository          profileRepository;
+    private ProfileRepository                 profileRepository;
 
     @Test
     @DisplayName("A profile repository is required")
@@ -192,7 +192,7 @@ class TestDefaultExcelWorkbookLoaderLoadWorkbook {
         repository = null;
 
         // WHEN
-        callable = () -> new DefaultExcelWorkbookLoader(repository);
+        callable = () -> new DefaultLibraryExcelWorkbookLoader(repository);
 
         // THEN
         assertThatThrownBy(callable).isInstanceOf(NullPointerException.class);
