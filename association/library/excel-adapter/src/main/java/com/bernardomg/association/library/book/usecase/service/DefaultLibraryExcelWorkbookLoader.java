@@ -338,7 +338,7 @@ public final class DefaultLibraryExcelWorkbookLoader implements LibraryExcelWork
             for (final BookLendingInfo lending : book.lendings()) {
                 if (!activeOnly || lending.returnDate()
                     .isEmpty()) {
-                    loadLendingRow(sheet, index, style, dateStyle, "Juego", book.number(), book.title()
+                    loadLendingRow(sheet, index, style, dateStyle, "Ficción", book.number(), book.title()
                         .fullTitle(), lending, includeReturnDate);
 
                     index++;
