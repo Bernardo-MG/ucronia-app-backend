@@ -212,6 +212,7 @@
       <spring.boot.version>3.5.9</spring.boot.version>
       <spring.data.version>2025.1.1</spring.data.version>
       <spring.version>6.2.15</spring.version>
+      <testcontainers.version>2.0.5</testcontainers.version>
       <swagger.version>2.2.41</swagger.version>
       <!-- ============================================== -->
       <!-- ============== PLUGINS VERSIONS ============== -->
@@ -256,6 +257,14 @@
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-bom</artifactId>
             <version>${spring.data.version}</version>
+            <type>pom</type>
+            <scope>import</scope>
+         </dependency>
+         <dependency>
+            <!-- Test containers BOM -->
+            <groupId>org.testcontainers</groupId>
+            <artifactId>testcontainers-bom</artifactId>
+            <version>${testcontainers.version}</version>
             <type>pom</type>
             <scope>import</scope>
          </dependency>
@@ -562,20 +571,12 @@
       <dependency>
          <!-- Test containers -->
          <groupId>org.testcontainers</groupId>
-         <artifactId>testcontainers</artifactId>
-         <exclusions>
-           <exclusion>
-             <groupId>junit</groupId>
-             <artifactId>junit</artifactId>
-           </exclusion>
-         </exclusions>
-         <scope>test</scope>
+         <artifactId>testcontainers-junit-jupiter</artifactId>
       </dependency>
       <dependency>
          <!-- Postgresql test container -->
          <groupId>org.testcontainers</groupId>
-         <artifactId>postgresql </artifactId>
-         <scope>test</scope>
+         <artifactId>testcontainers-postgresql</artifactId>
       </dependency>
       <dependency>
          <!-- GSON -->
