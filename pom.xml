@@ -203,6 +203,7 @@
       <bernardomg.framework.version>0.7.0</bernardomg.framework.version>
       <bernardomg.framework.security.version>0.5.12</bernardomg.framework.security.version>
       <bernardomg.framework.ws.starter.starter>0.7.0</bernardomg.framework.ws.starter.starter>
+      <commons.codec.version>1.19.0</commons.codec.version>
       <commons.lang3.version>3.20.0</commons.lang3.version>
       <jackson.annotations.version>2.20</jackson.annotations.version>
       <jakarta.validation.version>3.1.1</jakarta.validation.version>
@@ -471,6 +472,20 @@
             <artifactId>poi-ooxml</artifactId>
             <version>${apache.poi.version}</version>
          </dependency>
+         <!-- ============================================== -->
+         <!-- ============ TEST CONTAINERS ================= -->
+         <!-- ============================================== -->
+	     <dependency>
+	        <!-- Test containers -->
+	        <groupId>org.testcontainers</groupId>
+	        <artifactId>testcontainers</artifactId>
+	        <version>${testcontainers.version}</version>
+	     </dependency>
+	     <dependency>
+	        <groupId>commons-codec</groupId>
+	        <artifactId>commons-codec</artifactId>
+	        <version>${commons.codec.version}</version>
+	     </dependency>
       </dependencies>
    </dependencyManagement>
 
@@ -572,11 +587,13 @@
          <!-- Test containers -->
          <groupId>org.testcontainers</groupId>
          <artifactId>testcontainers-junit-jupiter</artifactId>
+         <scope>test</scope>
       </dependency>
       <dependency>
          <!-- Postgresql test container -->
          <groupId>org.testcontainers</groupId>
          <artifactId>testcontainers-postgresql</artifactId>
+         <scope>test</scope>
       </dependency>
       <dependency>
          <!-- GSON -->
