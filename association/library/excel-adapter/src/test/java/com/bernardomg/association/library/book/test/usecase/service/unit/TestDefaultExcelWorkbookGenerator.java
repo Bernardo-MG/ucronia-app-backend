@@ -136,7 +136,7 @@ class TestDefaultExcelWorkbookGenerator {
         workbook = generator.generateWorkbook();
 
         // THEN
-        assertSheet(workbook, "Historial de préstamos", LENDING_HISTORY_HEADERS, LENDING_HISTORY_COLUMN_WIDTHS, 0, 0);
+        assertBookSheet(workbook, "Historial de préstamos", LENDING_HISTORY_HEADERS, LENDING_HISTORY_COLUMN_WIDTHS);
     }
 
     @Test
@@ -148,7 +148,7 @@ class TestDefaultExcelWorkbookGenerator {
         workbook = generator.generateWorkbook();
 
         // THEN
-        assertSheet(workbook, "Préstamos", LENDING_HEADERS, LENDING_COLUMN_WIDTHS, 0, 0);
+        assertBookSheet(workbook, "Préstamos", LENDING_HEADERS, LENDING_COLUMN_WIDTHS);
     }
 
     @Test

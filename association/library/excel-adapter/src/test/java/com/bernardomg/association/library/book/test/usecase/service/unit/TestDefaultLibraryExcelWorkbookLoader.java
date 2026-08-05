@@ -218,9 +218,11 @@ class TestDefaultLibraryExcelWorkbookLoader {
             .getRow(3)
             .getPhysicalNumberOfCells()).isZero();
         assertThat(workbook.getSheetAt(2)
-            .getRow(1)).isNull();
+            .getRow(3)
+            .getPhysicalNumberOfCells()).isZero();
         assertThat(workbook.getSheetAt(3)
-            .getRow(1)).isNull();
+            .getRow(3)
+            .getPhysicalNumberOfCells()).isZero();
     }
 
     @Test

@@ -22,6 +22,8 @@ public final class DefaultExcelWorkbookGenerator implements ExcelWorkbookGenerat
 
     private static final int BOOK_TITLE_ROW  = 1;
 
+    private static final int DEFAULT_ROW_HEIGHT_POINTS = 15;
+
     private static final int FIRST_BOOK_COLUMN = 1;
 
     public DefaultExcelWorkbookGenerator() {
@@ -205,6 +207,7 @@ public final class DefaultExcelWorkbookGenerator implements ExcelWorkbookGenerat
     }
 
     private final void configureBookSheet(final Sheet sheet, final int lastBookColumn) {
+        final Row topPaddingRow;
         final int lastVisibleColumn;
 
         lastVisibleColumn = lastBookColumn + 1;
@@ -212,6 +215,10 @@ public final class DefaultExcelWorkbookGenerator implements ExcelWorkbookGenerat
         sheet.setColumnWidth(lastVisibleColumn, 1000);
         sheet.setDisplayGridlines(false);
         sheet.setDisplayRowColHeadings(false);
+        sheet.setDefaultRowHeightInPoints(0);
+
+        topPaddingRow = sheet.createRow(0);
+        topPaddingRow.setHeightInPoints(DEFAULT_ROW_HEIGHT_POINTS);
 
         for (int column = lastVisibleColumn + 1;
                 column <= SpreadsheetVersion.EXCEL2007.getLastColumnIndex(); column++) {
@@ -277,24 +284,31 @@ public final class DefaultExcelWorkbookGenerator implements ExcelWorkbookGenerat
 
         sheet = workbook.createSheet(sheetName);
 
+        configureBookSheet(sheet, columnWidths.length);
+
         for (int index = 0; index < columnWidths.length; index++) {
-            sheet.setColumnWidth(index, columnWidths[index]);
+            sheet.setColumnWidth(index + FIRST_BOOK_COLUMN, columnWidths[index]);
         }
 
-        header = sheet.createRow(0);
+        generateBookTitle(workbook, sheet, columnWidths.length);
+        header = sheet.createRow(BOOK_HEADER_ROW);
         headerStyle = workbook.createCellStyle();
 
         font = workbook.createFont();
         font.setFontName("Arial");
         font.setFontHeightInPoints((short) 16);
         font.setBold(true);
+        font.setColor(IndexedColors.WHITE.getIndex());
         headerStyle.setFont(font);
+        configureHeaderStyle(headerStyle);
 
         for (int index = 0; index < headers.length; index++) {
-            headerCell = header.createCell(index);
+            headerCell = header.createCell(index + FIRST_BOOK_COLUMN);
             headerCell.setCellValue(headers[index]);
             headerCell.setCellStyle(headerStyle);
         }
+
+        header.setHeightInPoints(DEFAULT_ROW_HEIGHT_POINTS);
 
         return workbook;
     }
