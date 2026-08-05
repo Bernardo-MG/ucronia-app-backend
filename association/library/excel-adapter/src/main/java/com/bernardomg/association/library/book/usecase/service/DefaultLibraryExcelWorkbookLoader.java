@@ -28,8 +28,6 @@ import com.bernardomg.association.library.book.domain.model.GameBook;
 import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
-import com.bernardomg.association.profile.domain.model.Profile;
-import com.bernardomg.association.profile.domain.repository.ProfileRepository;
 
 public final class DefaultLibraryExcelWorkbookLoader implements LibraryExcelWorkbookLoader {
 
@@ -37,16 +35,17 @@ public final class DefaultLibraryExcelWorkbookLoader implements LibraryExcelWork
 
     private static final int DEFAULT_ROW_HEIGHT_POINTS = 15;
 
-    private static final DateTimeFormatter LENDING_DATE_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+    private static final String EXCEL_DATE_FORMAT = "dd/MM/yyyy";
+
+    private static final DateTimeFormatter LENDING_DATE_FORMAT = DateTimeFormatter.ofPattern(EXCEL_DATE_FORMAT)
         .withZone(ZoneId.systemDefault());
 
-    private final ProfileRepository        profileRepository;
+    private final BorrowerNameResolver     borrowerNameResolver;
 
-    public DefaultLibraryExcelWorkbookLoader(final ProfileRepository profileRepo) {
+    public DefaultLibraryExcelWorkbookLoader(final BorrowerNameResolver resolver) {
         super();
 
-        // TODO: avoid depending on profile
-        profileRepository = Objects.requireNonNull(profileRepo);
+        borrowerNameResolver = Objects.requireNonNull(resolver);
     }
 
     @Override
@@ -78,11 +77,11 @@ public final class DefaultLibraryExcelWorkbookLoader implements LibraryExcelWork
 
         lendingDateStyle = workbook.createCellStyle();
         lendingDateStyle.cloneStyleFrom(lendingStyle);
-        lendingDateStyle.setDataFormat(df.getFormat("dd/MM/yyyy"));
+        lendingDateStyle.setDataFormat(df.getFormat(EXCEL_DATE_FORMAT));
 
         alternateLendingDateStyle = workbook.createCellStyle();
         alternateLendingDateStyle.cloneStyleFrom(alternateLendingStyle);
-        alternateLendingDateStyle.setDataFormat(df.getFormat("dd/MM/yyyy"));
+        alternateLendingDateStyle.setDataFormat(df.getFormat(EXCEL_DATE_FORMAT));
 
         bookStyle = workbook.createCellStyle();
         configureBodyStyle(bookStyle);
@@ -94,11 +93,11 @@ public final class DefaultLibraryExcelWorkbookLoader implements LibraryExcelWork
 
         bookDateStyle = workbook.createCellStyle();
         bookDateStyle.cloneStyleFrom(bookStyle);
-        bookDateStyle.setDataFormat(df.getFormat("dd/MM/yyyy"));
+        bookDateStyle.setDataFormat(df.getFormat(EXCEL_DATE_FORMAT));
 
         alternateDateStyle = workbook.createCellStyle();
         alternateDateStyle.cloneStyleFrom(alternateBookStyle);
-        alternateDateStyle.setDataFormat(df.getFormat("dd/MM/yyyy"));
+        alternateDateStyle.setDataFormat(df.getFormat(EXCEL_DATE_FORMAT));
 
         gameSheet = workbook.getSheetAt(0);
         loadGames(gameSheet, bookStyle, bookDateStyle, alternateBookStyle, alternateDateStyle, gameBooks);
@@ -128,7 +127,7 @@ public final class DefaultLibraryExcelWorkbookLoader implements LibraryExcelWork
 
     private final String getLendingStatus(final boolean lent, final Collection<BookLendingInfo> lendings) {
         final BookLendingInfo lending;
-        final Profile         borrower;
+        final String          borrowerName;
 
         if (!lent) {
             return "Disponible";
@@ -140,11 +139,10 @@ public final class DefaultLibraryExcelWorkbookLoader implements LibraryExcelWork
             .reduce((first, second) -> second)
             .orElseThrow(() -> new IllegalStateException("A lent book has no active lending"));
 
-        borrower = profileRepository.findOne(lending.borrower())
-            .orElseThrow(() -> new IllegalStateException("Profile not found: " + lending.borrower()));
+        borrowerName = borrowerNameResolver.getBorrowerName(lending.borrower());
 
-        return String.format("%s (%s) %d días", borrower.name()
-            .fullName(), LENDING_DATE_FORMAT.format(lending.lendingDate()), lending.getDays());
+        return String.format("%s (%s) %d días", borrowerName, LENDING_DATE_FORMAT.format(lending.lendingDate()),
+            lending.getDays());
     }
 
     private final void loadFiction(final Sheet sheet, final CellStyle style, final CellStyle dateStyle,
@@ -352,7 +350,7 @@ public final class DefaultLibraryExcelWorkbookLoader implements LibraryExcelWork
     private final void loadLendingRow(final Sheet sheet, final int index, final CellStyle style,
             final CellStyle dateStyle, final String type, final long bookNumber, final String title,
             final BookLendingInfo lending, final boolean includeReturnDate) {
-        final Profile borrower;
+        final String  borrowerName;
         final Row     row;
         Cell          cell;
 
@@ -371,12 +369,10 @@ public final class DefaultLibraryExcelWorkbookLoader implements LibraryExcelWork
         cell.setCellValue(title);
         cell.setCellStyle(style);
 
-        borrower = profileRepository.findOne(lending.borrower())
-            .orElseThrow(() -> new IllegalStateException("Profile not found: " + lending.borrower()));
+        borrowerName = borrowerNameResolver.getBorrowerName(lending.borrower());
 
         cell = row.createCell(4);
-        cell.setCellValue(borrower.name()
-            .fullName());
+        cell.setCellValue(borrowerName);
         cell.setCellStyle(style);
 
         cell = row.createCell(5);

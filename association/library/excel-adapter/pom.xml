@@ -41,10 +41,6 @@
          <groupId>com.bernardomg.association.library</groupId>
          <artifactId>association-library-usecase</artifactId>
       </dependency>
-      <dependency>
-         <groupId>com.bernardomg.association.profile</groupId>
-         <artifactId>association-profile-domain</artifactId>
-      </dependency>
       <!-- ============================================== -->
       <!-- =============== APACHE POI =================== -->
       <!-- ============================================== -->
@@ -64,11 +60,6 @@
       <dependency>
          <groupId>com.bernardomg.association.library</groupId>
          <artifactId>association-library-testing</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.association.profile</groupId>
-         <artifactId>association-profile-testing</artifactId>
          <scope>test</scope>
       </dependency>
    </dependencies>
