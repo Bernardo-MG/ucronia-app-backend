@@ -200,7 +200,6 @@ class TestDefaultLibraryExcelWorkbookLoader {
 
     @Test
     @DisplayName("Empty collections leave all sheets without data rows")
-    @SuppressWarnings("resource")
     void testLoadWorkbookWithNoBooks() {
         final Workbook workbook;
 
@@ -211,17 +210,18 @@ class TestDefaultLibraryExcelWorkbookLoader {
         loader.loadWorkbook(workbook, List.of(), List.of());
 
         // THEN
-        assertThat(workbook.getSheetAt(0)
+        assertThat(workbook.getSheet("Juegos")
             .getRow(1)).isNull();
-        assertThat(workbook.getSheetAt(1)
+        assertThat(workbook.getSheet("Ficción")
             .getRow(1)).isNull();
-        assertThat(workbook.getSheetAt(2)
+        assertThat(workbook.getSheet("Préstamos")
+            .getRow(1)).isNull();
+        assertThat(workbook.getSheet("Historial de préstamos")
             .getRow(1)).isNull();
     }
 
     @Test
     @DisplayName("Lent books show the borrower, lending date and number of days")
-    @SuppressWarnings("resource")
     void testLoadWorkbookWritesActiveLendingStatus() {
         final FictionBook     availableFiction;
         final GameBook        availableGame;
@@ -274,7 +274,6 @@ class TestDefaultLibraryExcelWorkbookLoader {
 
     @Test
     @DisplayName("Full game and fiction books are written to their sheets")
-    @SuppressWarnings("resource")
     void testLoadWorkbookWritesBooks() {
         final GameBook    gameBook;
         final FictionBook fictionBook;
