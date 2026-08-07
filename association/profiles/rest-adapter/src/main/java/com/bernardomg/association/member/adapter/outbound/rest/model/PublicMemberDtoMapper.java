@@ -67,10 +67,6 @@ public final class PublicMemberDtoMapper {
             .sort(sortingResponse);
     }
 
-    public static final PublicMemberResponseDto toResponseDto(final PublicMember member) {
-        return new PublicMemberResponseDto().content(PublicMemberDtoMapper.toDto(member));
-    }
-
     private static final PropertyDto toDto(final Property property) {
         final DirectionEnum direction;
 

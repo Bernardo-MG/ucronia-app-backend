@@ -166,7 +166,7 @@ public final class JpaSponsorRepository implements SponsorRepository {
 
         log.trace("Finding sponsor with number {}", number);
 
-        sponsor = sponsorSpringRepository.findByNumber(number)
+        sponsor = readSponsorSpringRepository.findByNumber(number)
             .map(SponsorEntityMapper::toDomain);
 
         log.trace("Found sponsor with number {}: {}", number, sponsor);

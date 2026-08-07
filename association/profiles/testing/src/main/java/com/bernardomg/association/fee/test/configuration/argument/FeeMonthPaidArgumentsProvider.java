@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.fee.argument;
+package com.bernardomg.association.fee.test.configuration.argument;
 
 import java.util.stream.Stream;
 

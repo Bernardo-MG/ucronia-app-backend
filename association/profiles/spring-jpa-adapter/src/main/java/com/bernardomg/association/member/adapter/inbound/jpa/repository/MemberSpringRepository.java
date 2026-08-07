@@ -38,8 +38,6 @@ import com.bernardomg.association.member.adapter.inbound.jpa.model.MembershipEvo
 
 public interface MemberSpringRepository extends JpaRepository<MemberEntity, Long> {
 
-    public void deleteByNumber(final Long number);
-
     public Optional<MemberEntity> findByNumber(@Param("number") final Long number);
 
     @Query("""
