@@ -24,8 +24,6 @@
 
 package com.bernardomg.association.library.lending.adapter.outbound.rest.model;
 
-import java.util.Optional;
-
 import com.bernardomg.association.library.adapter.outbound.rest.dto.AuditDetailsDto;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.AuditUserDto;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.BookLendingBookDto;
@@ -46,13 +44,8 @@ import com.bernardomg.security.domain.audit.model.AuditDetails.AuditUser;
 
 public final class BookLendingDtoMapper {
 
-    public static final BookLendingResponseDto toResponseDto(final BookLending author) {
-        return new BookLendingResponseDto().content(toDto(author));
-    }
-
-    public static final BookLendingResponseDto toResponseDto(final Optional<BookLending> author) {
-        return new BookLendingResponseDto().content(author.map(BookLendingDtoMapper::toDto)
-            .orElse(null));
+    public static final BookLendingResponseDto toResponseDto(final BookLending lending) {
+        return new BookLendingResponseDto().content(toDto(lending));
     }
 
     public static final BookLendingPageResponseDto toResponseDto(final Page<BookLending> page) {
