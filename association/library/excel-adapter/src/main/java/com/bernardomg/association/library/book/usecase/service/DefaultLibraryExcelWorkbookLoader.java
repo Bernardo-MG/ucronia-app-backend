@@ -34,7 +34,19 @@ public final class DefaultLibraryExcelWorkbookLoader implements LibraryExcelWork
 
     private static final int FIRST_BOOK_DATA_ROW = 3;
 
+    private static final int FIRST_BOOK_COLUMN = 1;
+
+    private static final int END_PADDING_COLUMN_WIDTH = 1000;
+
     private static final int DEFAULT_ROW_HEIGHT_POINTS = 15;
+
+    private static final int MIN_COLUMN_WIDTH = 8000;
+
+    private static final double AUTO_SIZE_MULTIPLIER = 1.6d;
+
+    private static final int MAX_COLUMN_WIDTH = 255 * 256;
+
+    private static final int COLUMN_WIDTH_PADDING = 4000;
 
     private static final String EXCEL_DATE_FORMAT = "dd/MM/yyyy";
 
@@ -119,6 +131,31 @@ public final class DefaultLibraryExcelWorkbookLoader implements LibraryExcelWork
         lendingHistorySheet = workbook.getSheetAt(3);
         loadLendings(lendingHistorySheet, lendingStyle, lendingDateStyle, alternateLendingStyle,
             alternateLendingDateStyle, gameBooks, fictionBooks, false, true);
+
+        adjustSheetColumnWidths(gameSheet, 12);
+        adjustSheetColumnWidths(fictionSheet, 10);
+        adjustSheetColumnWidths(lendingSheet, 5);
+        adjustSheetColumnWidths(lendingHistorySheet, 6);
+    }
+
+    private final void adjustSheetColumnWidths(final Sheet sheet, final int lastBookColumn) {
+        int autosizedWidth;
+        int expandedWidth;
+        int desiredWidth;
+
+        for (int column = FIRST_BOOK_COLUMN; column <= lastBookColumn; column++) {
+            sheet.autoSizeColumn(column);
+
+            autosizedWidth = sheet.getColumnWidth(column);
+            expandedWidth = (int) Math.ceil(autosizedWidth * AUTO_SIZE_MULTIPLIER);
+            desiredWidth = Math.min(MAX_COLUMN_WIDTH,
+                Math.max(MIN_COLUMN_WIDTH, expandedWidth + COLUMN_WIDTH_PADDING));
+
+            sheet.setColumnWidth(column, desiredWidth);
+        }
+
+        // Preserve the visible empty padding column at the end of each sheet.
+        sheet.setColumnWidth(lastBookColumn + 1, END_PADDING_COLUMN_WIDTH);
     }
 
     private final void configureBodyStyle(final CellStyle style) {
