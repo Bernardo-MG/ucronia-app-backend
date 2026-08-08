@@ -35,12 +35,12 @@ class TestDefaultExcelWorkbookGenerator {
     private static final List<String>  GAME_HEADERS                  = List.of("Número", "Título completo", "Idioma",
         "ISBN", "Publicación", "Sistema", "Tipo", "Autores", "Editores", "Donantes", "Donado en", "Préstamo");
 
-    private static final List<Integer> LENDING_COLUMN_WIDTHS         = List.of(4000, 3000, 17000, 9000, 5000);
+    private static final List<Integer> LENDING_COLUMN_WIDTHS         = List.of(6000, 3000, 17000, 9000, 5000);
 
     private static final List<String>  LENDING_HEADERS               = List.of("Tipo", "Número", "Título", "Socio",
         "Prestado en");
 
-    private static final List<Integer> LENDING_HISTORY_COLUMN_WIDTHS = List.of(4000, 3000, 17000, 9000, 5000, 5000);
+    private static final List<Integer> LENDING_HISTORY_COLUMN_WIDTHS = List.of(6000, 3000, 17000, 9000, 5000, 5000);
 
     private static final List<String>  LENDING_HISTORY_HEADERS       = List.of("Tipo", "Número", "Título", "Socio",
         "Prestado en", "Devuelto en");
