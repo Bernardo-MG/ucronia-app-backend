@@ -15,9 +15,9 @@ import com.bernardomg.association.library.book.domain.model.GameBook;
 import com.bernardomg.association.library.book.test.configuration.factory.FictionBooks;
 import com.bernardomg.association.library.book.test.configuration.factory.GameBooks;
 import com.bernardomg.association.library.book.usecase.service.ApachePoiReportGenerator;
-import com.bernardomg.association.library.book.usecase.service.BorrowerNameResolver;
 import com.bernardomg.association.library.book.usecase.service.DefaultApachePoiWorkbookGenerator;
 import com.bernardomg.association.library.book.usecase.service.DefaultLibraryApachePoiWorkbookLoader;
+import com.bernardomg.association.library.book.usecase.service.NameResolver;
 import com.bernardomg.association.library.book.usecase.service.ReportGenerator;
 
 /**
@@ -30,7 +30,7 @@ public final class ManualExcelReportGenerator {
     private static final Logger log = LoggerFactory.getLogger(ManualExcelReportGenerator.class);
 
     public static void main(final String[] args) throws IOException {
-        final BorrowerNameResolver  resolver;
+        final NameResolver          resolver;
         final ReportGenerator       generator;
         final List<GameBook>        gameBooks;
         final List<FictionBook>     fictionBooks;

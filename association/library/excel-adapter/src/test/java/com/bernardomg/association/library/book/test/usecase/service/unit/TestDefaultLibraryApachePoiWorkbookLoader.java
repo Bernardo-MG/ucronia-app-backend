@@ -32,9 +32,9 @@ import com.bernardomg.association.library.book.domain.model.FictionBook;
 import com.bernardomg.association.library.book.domain.model.GameBook;
 import com.bernardomg.association.library.book.test.configuration.factory.FictionBooks;
 import com.bernardomg.association.library.book.test.configuration.factory.GameBooks;
-import com.bernardomg.association.library.book.usecase.service.BorrowerNameResolver;
 import com.bernardomg.association.library.book.usecase.service.DefaultApachePoiWorkbookGenerator;
 import com.bernardomg.association.library.book.usecase.service.DefaultLibraryApachePoiWorkbookLoader;
+import com.bernardomg.association.library.book.usecase.service.NameResolver;
 import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
@@ -174,7 +174,7 @@ class TestDefaultLibraryApachePoiWorkbookLoader {
     }
 
     @Mock
-    private BorrowerNameResolver                  borrowerNameResolver;
+    private NameResolver                          borrowerNameResolver;
 
     @InjectMocks
     private DefaultLibraryApachePoiWorkbookLoader loader;
@@ -182,8 +182,8 @@ class TestDefaultLibraryApachePoiWorkbookLoader {
     @Test
     @DisplayName("A borrower name resolver is required")
     void testConstructorRejectsNullRepository() {
-        final BorrowerNameResolver repository;
-        final ThrowingCallable     callable;
+        final NameResolver     repository;
+        final ThrowingCallable callable;
 
         // GIVEN
         repository = null;
@@ -249,7 +249,7 @@ class TestDefaultLibraryApachePoiWorkbookLoader {
             availableGame.publishers(), availableGame.donation(), availableGame.bookType(), availableGame.gameSystem(),
             availableGame.audit());
 
-        given(borrowerNameResolver.getBorrowerName(42L)).willReturn("Ana García");
+        given(borrowerNameResolver.getName(42L)).willReturn("Ana García");
 
         expectedStatus = String.format("Ana García (%s) %d días", LENDING_DATE_FORMAT.format(lending.lendingDate()),
             lending.getDays());

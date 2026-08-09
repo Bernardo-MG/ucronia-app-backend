@@ -24,9 +24,9 @@ import com.bernardomg.association.library.book.domain.model.FictionBook;
 import com.bernardomg.association.library.book.domain.model.GameBook;
 import com.bernardomg.association.library.book.test.configuration.factory.FictionBooks;
 import com.bernardomg.association.library.book.test.configuration.factory.GameBooks;
-import com.bernardomg.association.library.book.usecase.service.BorrowerNameResolver;
 import com.bernardomg.association.library.book.usecase.service.DefaultApachePoiWorkbookGenerator;
 import com.bernardomg.association.library.book.usecase.service.DefaultLibraryApachePoiWorkbookLoader;
+import com.bernardomg.association.library.book.usecase.service.NameResolver;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Excel logo palette styling")
@@ -48,7 +48,7 @@ class TestExcelLogoPaletteStyling {
     }
 
     @Mock
-    private BorrowerNameResolver borrowerNameResolver;
+    private NameResolver borrowerNameResolver;
 
     @Test
     @DisplayName("Alternating book and lending rows use the logo mint band color")
@@ -144,7 +144,7 @@ class TestExcelLogoPaletteStyling {
             FictionBooks.full()
                 .audit());
 
-        given(borrowerNameResolver.getBorrowerName(7L)).willReturn("Ana García");
+        given(borrowerNameResolver.getName(7L)).willReturn("Ana García");
 
         loader = new DefaultLibraryApachePoiWorkbookLoader(borrowerNameResolver);
         workbook = new DefaultApachePoiWorkbookGenerator().generateWorkbook();

@@ -48,7 +48,6 @@ import com.bernardomg.association.library.book.domain.repository.GameBookReposit
 import com.bernardomg.association.library.book.usecase.service.ApachePoiReportGenerator;
 import com.bernardomg.association.library.book.usecase.service.ApachePoiWorkbookGenerator;
 import com.bernardomg.association.library.book.usecase.service.BookReportService;
-import com.bernardomg.association.library.book.usecase.service.BorrowerNameResolver;
 import com.bernardomg.association.library.book.usecase.service.DefaultApachePoiWorkbookGenerator;
 import com.bernardomg.association.library.book.usecase.service.DefaultBookReportService;
 import com.bernardomg.association.library.book.usecase.service.DefaultFictionBookService;
@@ -57,6 +56,7 @@ import com.bernardomg.association.library.book.usecase.service.DefaultLibraryApa
 import com.bernardomg.association.library.book.usecase.service.FictionBookService;
 import com.bernardomg.association.library.book.usecase.service.GameBookService;
 import com.bernardomg.association.library.book.usecase.service.LibraryApachePoiWorkbookLoader;
+import com.bernardomg.association.library.book.usecase.service.NameResolver;
 import com.bernardomg.association.library.book.usecase.service.ReportGenerator;
 import com.bernardomg.association.library.booktype.adapter.inbound.jpa.repository.BookTypeSpringRepository;
 import com.bernardomg.association.library.booktype.adapter.inbound.jpa.repository.JpaBookTypeRepository;
@@ -112,7 +112,7 @@ public class AssociationLibraryAutoConfiguration {
     @Bean("bookReportService")
     public BookReportService getBookReportService(final GameBookRepository gameBookRepository,
             final FictionBookRepository fictionBookRepository, final ProfileRepository profileRepository) {
-        final BorrowerNameResolver           borrowerNameResolver;
+        final NameResolver                   borrowerNameResolver;
         final ApachePoiWorkbookGenerator     excelGenerator;
         final LibraryApachePoiWorkbookLoader workbookLoader;
         final ReportGenerator                reportGenerator;

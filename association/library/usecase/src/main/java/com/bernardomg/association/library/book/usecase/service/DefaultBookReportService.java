@@ -25,6 +25,7 @@
 package com.bernardomg.association.library.book.usecase.service;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Collection;
 import java.util.Objects;
 
 import org.slf4j.Logger;
@@ -63,9 +64,9 @@ public final class DefaultBookReportService implements BookReportService {
 
     @Override
     public final ByteArrayOutputStream getReport() {
-        final Iterable<GameBook>    gameBooks;
-        final Iterable<FictionBook> fictionBooks;
-        final Sorting               sort;
+        final Collection<GameBook>    gameBooks;
+        final Collection<FictionBook> fictionBooks;
+        final Sorting                 sort;
 
         log.debug("Creating report");
 

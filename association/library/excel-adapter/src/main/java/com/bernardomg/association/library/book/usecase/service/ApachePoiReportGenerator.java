@@ -2,6 +2,7 @@
 package com.bernardomg.association.library.book.usecase.service;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Collection;
 import java.util.Objects;
 
 import org.apache.poi.ss.usermodel.Workbook;
@@ -32,8 +33,8 @@ public final class ApachePoiReportGenerator implements ReportGenerator {
     }
 
     @Override
-    public final ByteArrayOutputStream getReport(final Iterable<GameBook> gameBooks,
-            final Iterable<FictionBook> fictionBooks) {
+    public final ByteArrayOutputStream getReport(final Collection<GameBook> gameBooks,
+            final Collection<FictionBook> fictionBooks) {
         final Workbook workbook;
 
         log.debug("Creating excel report");

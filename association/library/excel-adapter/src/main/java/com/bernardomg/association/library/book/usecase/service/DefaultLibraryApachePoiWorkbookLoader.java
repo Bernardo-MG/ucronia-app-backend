@@ -49,24 +49,21 @@ public final class DefaultLibraryApachePoiWorkbookLoader implements LibraryApach
 
     private static final int               MAX_COLUMN_WIDTH          = 255 * 256;
 
-    private final BorrowerNameResolver     borrowerNameResolver;
+    private final NameResolver             borrowerNameResolver;
 
-    public DefaultLibraryApachePoiWorkbookLoader(final BorrowerNameResolver resolver) {
+    public DefaultLibraryApachePoiWorkbookLoader(final NameResolver resolver) {
         super();
 
         borrowerNameResolver = Objects.requireNonNull(resolver);
     }
 
     @Override
-    public final void loadWorkbook(final Workbook workbook, final Iterable<GameBook> gameBooks,
-            final Iterable<FictionBook> fictionBooks) {
+    public final void loadWorkbook(final Workbook workbook, final Collection<GameBook> gameBooks,
+            final Collection<FictionBook> fictionBooks) {
         final CellStyle  lendingStyle;
-        final CellStyle  lendingDateStyle;
-        final CellStyle  alternateLendingStyle;
-        final CellStyle  alternateLendingDateStyle;
+        final CellStyle  dateStyle;
+        final CellStyle  alternateStyle;
         final CellStyle  bookStyle;
-        final CellStyle  alternateBookStyle;
-        final CellStyle  bookDateStyle;
         final CellStyle  alternateDateStyle;
         final Sheet      gameSheet;
         final Sheet      fictionSheet;
@@ -79,54 +76,37 @@ public final class DefaultLibraryApachePoiWorkbookLoader implements LibraryApach
         lendingStyle = workbook.createCellStyle();
         configureBodyStyle(lendingStyle);
 
-        alternateLendingStyle = workbook.createCellStyle();
-        alternateLendingStyle.cloneStyleFrom(lendingStyle);
-        alternateLendingStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-        ((XSSFCellStyle) alternateLendingStyle).setFillForegroundColor(ExcelPalette.BAND_BACKGROUND);
+        alternateStyle = workbook.createCellStyle();
+        alternateStyle.cloneStyleFrom(lendingStyle);
+        alternateStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        ((XSSFCellStyle) alternateStyle).setFillForegroundColor(ExcelPalette.BAND_BACKGROUND);
 
-        lendingDateStyle = workbook.createCellStyle();
-        lendingDateStyle.cloneStyleFrom(lendingStyle);
-        lendingDateStyle.setDataFormat(df.getFormat(EXCEL_DATE_FORMAT));
-        lendingDateStyle.setAlignment(HorizontalAlignment.CENTER);
-
-        alternateLendingDateStyle = workbook.createCellStyle();
-        alternateLendingDateStyle.cloneStyleFrom(alternateLendingStyle);
-        alternateLendingDateStyle.setDataFormat(df.getFormat(EXCEL_DATE_FORMAT));
-        alternateLendingDateStyle.setAlignment(HorizontalAlignment.CENTER);
+        dateStyle = workbook.createCellStyle();
+        dateStyle.cloneStyleFrom(lendingStyle);
+        dateStyle.setDataFormat(df.getFormat(EXCEL_DATE_FORMAT));
+        dateStyle.setAlignment(HorizontalAlignment.CENTER);
 
         bookStyle = workbook.createCellStyle();
         configureBodyStyle(bookStyle);
 
-        alternateBookStyle = workbook.createCellStyle();
-        alternateBookStyle.cloneStyleFrom(bookStyle);
-        alternateBookStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-        ((XSSFCellStyle) alternateBookStyle).setFillForegroundColor(ExcelPalette.BAND_BACKGROUND);
-
-        bookDateStyle = workbook.createCellStyle();
-        bookDateStyle.cloneStyleFrom(bookStyle);
-        bookDateStyle.setDataFormat(df.getFormat(EXCEL_DATE_FORMAT));
-        bookDateStyle.setAlignment(HorizontalAlignment.CENTER);
-
         alternateDateStyle = workbook.createCellStyle();
-        alternateDateStyle.cloneStyleFrom(alternateBookStyle);
+        alternateDateStyle.cloneStyleFrom(alternateStyle);
         alternateDateStyle.setDataFormat(df.getFormat(EXCEL_DATE_FORMAT));
         alternateDateStyle.setAlignment(HorizontalAlignment.CENTER);
 
         gameSheet = workbook.getSheetAt(0);
-        loadGames(gameSheet, bookStyle, bookDateStyle, alternateBookStyle, alternateDateStyle, gameBooks);
+        loadGames(gameSheet, bookStyle, dateStyle, alternateStyle, alternateDateStyle, gameBooks);
 
         fictionSheet = workbook.getSheetAt(1);
-        loadFiction(fictionSheet, bookStyle, bookDateStyle, alternateBookStyle, alternateDateStyle, fictionBooks);
+        loadFiction(fictionSheet, bookStyle, dateStyle, alternateStyle, alternateDateStyle, fictionBooks);
 
-        // Only active lendings
         lendingSheet = workbook.getSheetAt(2);
-        loadLendings(lendingSheet, lendingStyle, lendingDateStyle, alternateLendingStyle, alternateLendingDateStyle,
-            gameBooks, fictionBooks, true, false);
+        loadLendings(lendingSheet, lendingStyle, dateStyle, alternateStyle, alternateDateStyle, gameBooks, fictionBooks,
+            true, false);
 
-        // Complete history
         lendingHistorySheet = workbook.getSheetAt(3);
-        loadLendings(lendingHistorySheet, lendingStyle, lendingDateStyle, alternateLendingStyle,
-            alternateLendingDateStyle, gameBooks, fictionBooks, false, true);
+        loadLendings(lendingHistorySheet, lendingStyle, dateStyle, alternateStyle, alternateDateStyle, gameBooks,
+            fictionBooks, false, true);
 
         autoAdjustColumns(gameSheet, 12);
         autoAdjustColumns(fictionSheet, 10);
@@ -152,7 +132,6 @@ public final class DefaultLibraryApachePoiWorkbookLoader implements LibraryApach
         style.setBorderRight(BorderStyle.THIN);
         style.setBorderBottom(BorderStyle.THIN);
         style.setBorderLeft(BorderStyle.THIN);
-        // Keep body text on a single line so autoSizeColumn expands columns to full content width.
         style.setWrapText(false);
     }
 
@@ -170,7 +149,7 @@ public final class DefaultLibraryApachePoiWorkbookLoader implements LibraryApach
             .reduce((first, second) -> second)
             .orElseThrow(() -> new IllegalStateException("A lent book has no active lending"));
 
-        borrowerName = borrowerNameResolver.getBorrowerName(lending.borrower());
+        borrowerName = borrowerNameResolver.getName(lending.borrower());
 
         return String.format("%s (%s) %d días", borrowerName, LENDING_DATE_FORMAT.format(lending.lendingDate()),
             lending.getDays());
@@ -220,6 +199,8 @@ public final class DefaultLibraryApachePoiWorkbookLoader implements LibraryApach
                 .isPresent()) {
                 cell.setCellValue(Date.from(book.publishDate()
                     .get()));
+            } else {
+                cell.setCellValue("");
             }
             cell.setCellStyle(rowDateStyle);
 
@@ -255,8 +236,15 @@ public final class DefaultLibraryApachePoiWorkbookLoader implements LibraryApach
                     .isPresent()) {
                     cell.setCellValue(Date.from(donation.date()
                         .get()));
+                } else {
+                    cell.setCellValue("");
                 }
                 cell.setCellStyle(rowDateStyle);
+            } else {
+                cell = row.createCell(8);
+                cell.setCellValue("");
+                cell = row.createCell(9);
+                cell.setCellValue("");
             }
 
             cell = row.createCell(10);
@@ -315,6 +303,8 @@ public final class DefaultLibraryApachePoiWorkbookLoader implements LibraryApach
                 .isPresent()) {
                 cell.setCellValue(Date.from(book.publishDate()
                     .get()));
+            } else {
+                cell.setCellValue("");
             }
             cell.setCellStyle(rowDateStyle);
 
@@ -364,6 +354,11 @@ public final class DefaultLibraryApachePoiWorkbookLoader implements LibraryApach
                         .get()));
                 }
                 cell.setCellStyle(rowDateStyle);
+            } else {
+                cell = row.createCell(10);
+                cell.setCellValue("");
+                cell = row.createCell(11);
+                cell.setCellValue("");
             }
 
             cell = row.createCell(12);
@@ -400,7 +395,7 @@ public final class DefaultLibraryApachePoiWorkbookLoader implements LibraryApach
         cell.setCellValue(title);
         cell.setCellStyle(style);
 
-        borrowerName = borrowerNameResolver.getBorrowerName(lending.borrower());
+        borrowerName = borrowerNameResolver.getName(lending.borrower());
 
         cell = row.createCell(4);
         cell.setCellValue(borrowerName);
@@ -462,7 +457,7 @@ public final class DefaultLibraryApachePoiWorkbookLoader implements LibraryApach
                         rowDateStyle = alternateDateStyle;
                     }
 
-                    loadLendingRow(sheet, index, rowStyle, rowDateStyle, "Juego", book.number(), book.title()
+                    loadLendingRow(sheet, index, rowStyle, rowDateStyle, "Ficción", book.number(), book.title()
                         .fullTitle(), lending, includeReturnDate);
 
                     index++;
