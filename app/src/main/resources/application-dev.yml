@@ -28,6 +28,10 @@ spring:
 # CORS
 cors:
   allowedOrigins: http://localhost:4200
+  pattern: /**
+  allowedMethods: '*'
+  exposedHeaders: '*'
+  allowedHeaders: '*'
 
 # Security
 security:

@@ -392,24 +392,4 @@ class TestFeeServiceUpdate {
             .isEqualTo(Fees.updatePaid());
     }
 
-    @Test
-    @DisplayName("With a changed transaction, it throws an exception")
-    void testUpdate_TransactionChanged() {
-        final ThrowingCallable execution;
-        final FieldFailure     failure;
-
-        // GIVEN
-        given(feeRepository.findOne(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));
-        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
-
-        // WHEN
-        execution = () -> service.update(Fees.alternativeTransaction());
-
-        // THEN
-        failure = new FieldFailure("modified", "transaction", "transaction.modified",
-            TransactionConstants.ALTERNATIVE_INDEX);
-
-        ValidationAssertions.assertThatFieldFails(execution, failure);
-    }
-
 }

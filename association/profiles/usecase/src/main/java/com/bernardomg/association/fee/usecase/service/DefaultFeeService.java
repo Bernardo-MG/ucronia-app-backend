@@ -58,7 +58,6 @@ import com.bernardomg.association.fee.usecase.validation.FeeMonthNotExistingRule
 import com.bernardomg.association.fee.usecase.validation.FeeNotPaidInFutureRule;
 import com.bernardomg.association.fee.usecase.validation.FeePaymentsMonthsNotExistingRule;
 import com.bernardomg.association.fee.usecase.validation.FeePaymentsNotPaidInFutureRule;
-import com.bernardomg.association.fee.usecase.validation.FeeTransactionNotChangedRule;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.MemberFees;
@@ -122,8 +121,7 @@ public final class DefaultFeeService implements FeeService {
             new FeePaymentsMonthsNotExistingRule(memberRepository, feeRepository));
 
         validatorCreate = new FieldRuleValidator<>(new FeeMonthNotExistingRule(memberRepository, feeRepository));
-        validatorUpdate = new FieldRuleValidator<>(new FeeNotPaidInFutureRule(),
-            new FeeTransactionNotChangedRule(feeRepository));
+        validatorUpdate = new FieldRuleValidator<>(new FeeNotPaidInFutureRule());
     }
 
     @Override
@@ -421,29 +419,10 @@ public final class DefaultFeeService implements FeeService {
     }
 
     private final boolean addedPayment(final Fee received, final Fee existing) {
-        final Boolean added;
-
-        if (received.transaction()
-            .isPresent()) {
-            if (!existing.transaction()
-                .isPresent()) {
-                added = true;
-            } else if (received.transaction()
-                .get()
-                .index() == null) {
-                added = false;
-            } else {
-                added = received.transaction()
-                    .get()
-                    .index() != existing.transaction()
-                        .get()
-                        .index();
-            }
-        } else {
-            added = false;
-        }
-
-        return added;
+        return (received.transaction()
+            .isPresent()
+                && !existing.transaction()
+                    .isPresent());
     }
 
     private final boolean changedPayment(final Fee received, final Fee existing) {

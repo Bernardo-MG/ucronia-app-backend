@@ -45,10 +45,17 @@ import com.bernardomg.association.library.book.domain.repository.BookRepository;
 import com.bernardomg.association.library.book.domain.repository.DonorRepository;
 import com.bernardomg.association.library.book.domain.repository.FictionBookRepository;
 import com.bernardomg.association.library.book.domain.repository.GameBookRepository;
+import com.bernardomg.association.library.book.usecase.generator.ApachePoiReportGenerator;
+import com.bernardomg.association.library.book.usecase.generator.ApachePoiWorkbookGenerator;
+import com.bernardomg.association.library.book.usecase.generator.DefaultApachePoiWorkbookGenerator;
+import com.bernardomg.association.library.book.usecase.generator.DefaultLibraryApachePoiWorkbookLoader;
+import com.bernardomg.association.library.book.usecase.generator.LibraryApachePoiWorkbookLoader;
+import com.bernardomg.association.library.book.usecase.generator.NameResolver;
+import com.bernardomg.association.library.book.usecase.generator.ReportGenerator;
 import com.bernardomg.association.library.book.usecase.service.BookReportService;
+import com.bernardomg.association.library.book.usecase.service.DefaultBookReportService;
 import com.bernardomg.association.library.book.usecase.service.DefaultFictionBookService;
 import com.bernardomg.association.library.book.usecase.service.DefaultGameBookService;
-import com.bernardomg.association.library.book.usecase.service.ExcelPoiBookReportService;
 import com.bernardomg.association.library.book.usecase.service.FictionBookService;
 import com.bernardomg.association.library.book.usecase.service.GameBookService;
 import com.bernardomg.association.library.booktype.adapter.inbound.jpa.repository.BookTypeSpringRepository;
@@ -105,7 +112,19 @@ public class AssociationLibraryAutoConfiguration {
     @Bean("bookReportService")
     public BookReportService getBookReportService(final GameBookRepository gameBookRepository,
             final FictionBookRepository fictionBookRepository, final ProfileRepository profileRepository) {
-        return new ExcelPoiBookReportService(gameBookRepository, fictionBookRepository, profileRepository);
+        final NameResolver                   borrowerNameResolver;
+        final ApachePoiWorkbookGenerator     excelGenerator;
+        final LibraryApachePoiWorkbookLoader workbookLoader;
+        final ReportGenerator                reportGenerator;
+
+        borrowerNameResolver = id -> profileRepository.findOne(id)
+            .orElseThrow(() -> new IllegalStateException("Profile not found: " + id))
+            .name()
+            .fullName();
+        excelGenerator = new DefaultApachePoiWorkbookGenerator();
+        workbookLoader = new DefaultLibraryApachePoiWorkbookLoader(borrowerNameResolver);
+        reportGenerator = new ApachePoiReportGenerator(excelGenerator, workbookLoader);
+        return new DefaultBookReportService(gameBookRepository, fictionBookRepository, reportGenerator);
     }
 
     @Bean("bookRepository")
