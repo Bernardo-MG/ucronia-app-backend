@@ -12,7 +12,9 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFFont;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public final class DefaultApachePoiWorkbookGenerator implements ApachePoiWorkbookGenerator {
@@ -75,12 +77,12 @@ public final class DefaultApachePoiWorkbookGenerator implements ApachePoiWorkboo
     private final void configureHeaderStyle(final CellStyle style) {
         style.setAlignment(HorizontalAlignment.CENTER);
         style.setVerticalAlignment(VerticalAlignment.CENTER);
-        style.setFillForegroundColor(IndexedColors.DARK_BLUE.getIndex());
         style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         style.setBorderTop(BorderStyle.THIN);
         style.setBorderRight(BorderStyle.THIN);
         style.setBorderBottom(BorderStyle.THIN);
         style.setBorderLeft(BorderStyle.THIN);
+        ((XSSFCellStyle) style).setFillForegroundColor(ExcelLogoPalette.HEADER_BACKGROUND);
     }
 
     private final Workbook generateFictionSheet(final XSSFWorkbook workbook) {
@@ -91,6 +93,7 @@ public final class DefaultApachePoiWorkbookGenerator implements ApachePoiWorkboo
         Cell            headerCell;
 
         sheet = workbook.createSheet("Ficción");
+        ((XSSFSheet) sheet).setTabColor(ExcelLogoPalette.FICTION_TAB);
         configureBookSheet(sheet, 10);
         sheet.setColumnWidth(1, 4000);
         sheet.setColumnWidth(2, 20000);
@@ -169,6 +172,7 @@ public final class DefaultApachePoiWorkbookGenerator implements ApachePoiWorkboo
         Cell            headerCell;
 
         sheet = workbook.createSheet("Juegos");
+        ((XSSFSheet) sheet).setTabColor(ExcelLogoPalette.GAMES_TAB);
         configureBookSheet(sheet, 12);
         sheet.setColumnWidth(1, 4000);
         sheet.setColumnWidth(2, 20000);
@@ -265,6 +269,12 @@ public final class DefaultApachePoiWorkbookGenerator implements ApachePoiWorkboo
 
         sheet = workbook.createSheet(sheetName);
 
+        if ("Préstamos".equals(sheetName)) {
+            ((XSSFSheet) sheet).setTabColor(ExcelLogoPalette.LENDINGS_TAB);
+        } else {
+            ((XSSFSheet) sheet).setTabColor(ExcelLogoPalette.HISTORY_TAB);
+        }
+
         configureBookSheet(sheet, columnWidths.length);
 
         for (int index = 0; index < columnWidths.length; index++) {
@@ -314,8 +324,8 @@ public final class DefaultApachePoiWorkbookGenerator implements ApachePoiWorkboo
         titleStyle = workbook.createCellStyle();
         titleStyle.setAlignment(HorizontalAlignment.CENTER);
         titleStyle.setVerticalAlignment(VerticalAlignment.CENTER);
-        titleStyle.setFillForegroundColor(IndexedColors.DARK_BLUE.getIndex());
         titleStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        ((XSSFCellStyle) titleStyle).setFillForegroundColor(ExcelLogoPalette.TITLE_BACKGROUND);
 
         titleFont = workbook.createFont();
         titleFont.setFontName("Arial");

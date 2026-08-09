@@ -14,11 +14,11 @@ import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.DataFormat;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
-import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.book.domain.model.BookLendingInfo;
@@ -81,8 +81,8 @@ public final class DefaultLibraryApachePoiWorkbookLoader implements LibraryApach
 
         alternateLendingStyle = workbook.createCellStyle();
         alternateLendingStyle.cloneStyleFrom(lendingStyle);
-        alternateLendingStyle.setFillForegroundColor(IndexedColors.PALE_BLUE.getIndex());
         alternateLendingStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        ((XSSFCellStyle) alternateLendingStyle).setFillForegroundColor(ExcelLogoPalette.BAND_BACKGROUND);
 
         lendingDateStyle = workbook.createCellStyle();
         lendingDateStyle.cloneStyleFrom(lendingStyle);
@@ -99,8 +99,8 @@ public final class DefaultLibraryApachePoiWorkbookLoader implements LibraryApach
 
         alternateBookStyle = workbook.createCellStyle();
         alternateBookStyle.cloneStyleFrom(bookStyle);
-        alternateBookStyle.setFillForegroundColor(IndexedColors.PALE_BLUE.getIndex());
         alternateBookStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        ((XSSFCellStyle) alternateBookStyle).setFillForegroundColor(ExcelLogoPalette.BAND_BACKGROUND);
 
         bookDateStyle = workbook.createCellStyle();
         bookDateStyle.cloneStyleFrom(bookStyle);
