@@ -78,33 +78,32 @@ public final class DefaultApachePoiWorkbookGenerator implements ApachePoiWorkboo
         style.setBorderRight(BorderStyle.THIN);
         style.setBorderBottom(BorderStyle.THIN);
         style.setBorderLeft(BorderStyle.THIN);
-        ((XSSFCellStyle) style).setFillForegroundColor(ExcelLogoPalette.HEADER_BACKGROUND);
+        ((XSSFCellStyle) style).setFillForegroundColor(ExcelPalette.HEADER_BACKGROUND);
     }
 
     private final Workbook generateFictionSheet(final XSSFWorkbook workbook) {
         return generateSheet(workbook, "Ficción",
             List.of("Número", "Título completo", "Idioma", "ISBN", "Publicación", "Sistema", "Tipo", "Autores",
                 "Editores", "Donantes", "Donado en", "Préstamo"),
-            List.of(4000, 20000, 4200, 6500, 6500, 8500, 8500, 22000, 7000, 24000), ExcelLogoPalette.FICTION_TAB);
+            List.of(4000, 20000, 4200, 6500, 6500, 8500, 8500, 22000, 7000, 24000), ExcelPalette.FICTION_TAB);
     }
 
     private final Workbook generateGamesSheet(final XSSFWorkbook workbook) {
         return generateSheet(workbook, "Juegos",
             List.of("Número", "Título completo", "Idioma", "ISBN", "Publicación", "Sistema", "Tipo", "Autores",
                 "Editores", "Donantes", "Donado en", "Préstamo"),
-            List.of(4000, 20000, 4200, 6500, 6500, 7500, 6500, 8500, 8500, 22000, 7000, 24000),
-            ExcelLogoPalette.GAMES_TAB);
+            List.of(4000, 20000, 4200, 6500, 6500, 7500, 6500, 8500, 8500, 22000, 7000, 24000), ExcelPalette.GAMES_TAB);
     }
 
     private final Workbook generateLendingHistorySheet(final XSSFWorkbook workbook) {
         return generateSheet(workbook, "Historial de préstamos",
             List.of("Tipo", "Número", "Título", "Socio", "Prestado en", "Devuelto en"),
-            List.of(6000, 3800, 20000, 17000, 8000, 8000), ExcelLogoPalette.HISTORY_TAB);
+            List.of(6000, 3800, 20000, 17000, 8000, 8000), ExcelPalette.HISTORY_TAB);
     }
 
     private final Workbook generateLendingsSheet(final XSSFWorkbook workbook) {
         return generateSheet(workbook, "Préstamos", List.of("Tipo", "Número", "Título", "Socio", "Prestado en"),
-            List.of(6000, 3800, 20000, 17000, 8000), ExcelLogoPalette.LENDINGS_TAB);
+            List.of(6000, 3800, 20000, 17000, 8000), ExcelPalette.LENDINGS_TAB);
     }
 
     private final Workbook generateSheet(final XSSFWorkbook workbook, final String sheetName,
@@ -165,7 +164,7 @@ public final class DefaultApachePoiWorkbookGenerator implements ApachePoiWorkboo
         titleStyle.setAlignment(HorizontalAlignment.CENTER);
         titleStyle.setVerticalAlignment(VerticalAlignment.CENTER);
         titleStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-        ((XSSFCellStyle) titleStyle).setFillForegroundColor(ExcelLogoPalette.TITLE_BACKGROUND);
+        ((XSSFCellStyle) titleStyle).setFillForegroundColor(ExcelPalette.TITLE_BACKGROUND);
 
         titleFont = workbook.createFont();
         titleFont.setFontName("Arial");

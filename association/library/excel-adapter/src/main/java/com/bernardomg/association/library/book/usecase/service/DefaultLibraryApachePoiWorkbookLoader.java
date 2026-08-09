@@ -82,7 +82,7 @@ public final class DefaultLibraryApachePoiWorkbookLoader implements LibraryApach
         alternateLendingStyle = workbook.createCellStyle();
         alternateLendingStyle.cloneStyleFrom(lendingStyle);
         alternateLendingStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-        ((XSSFCellStyle) alternateLendingStyle).setFillForegroundColor(ExcelLogoPalette.BAND_BACKGROUND);
+        ((XSSFCellStyle) alternateLendingStyle).setFillForegroundColor(ExcelPalette.BAND_BACKGROUND);
 
         lendingDateStyle = workbook.createCellStyle();
         lendingDateStyle.cloneStyleFrom(lendingStyle);
@@ -100,7 +100,7 @@ public final class DefaultLibraryApachePoiWorkbookLoader implements LibraryApach
         alternateBookStyle = workbook.createCellStyle();
         alternateBookStyle.cloneStyleFrom(bookStyle);
         alternateBookStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-        ((XSSFCellStyle) alternateBookStyle).setFillForegroundColor(ExcelLogoPalette.BAND_BACKGROUND);
+        ((XSSFCellStyle) alternateBookStyle).setFillForegroundColor(ExcelPalette.BAND_BACKGROUND);
 
         bookDateStyle = workbook.createCellStyle();
         bookDateStyle.cloneStyleFrom(bookStyle);

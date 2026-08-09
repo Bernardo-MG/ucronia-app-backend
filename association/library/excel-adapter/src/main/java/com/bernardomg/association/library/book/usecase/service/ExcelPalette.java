@@ -4,7 +4,7 @@ package com.bernardomg.association.library.book.usecase.service;
 import org.apache.poi.xssf.usermodel.DefaultIndexedColorMap;
 import org.apache.poi.xssf.usermodel.XSSFColor;
 
-final class ExcelLogoPalette {
+final class ExcelPalette {
 
     static final XSSFColor BAND_BACKGROUND   = color(0xD8, 0xEC, 0xE4);
 
@@ -24,7 +24,7 @@ final class ExcelLogoPalette {
         return new XSSFColor(new byte[] { (byte) red, (byte) green, (byte) blue }, new DefaultIndexedColorMap());
     }
 
-    private ExcelLogoPalette() {
+    private ExcelPalette() {
         super();
     }
 
