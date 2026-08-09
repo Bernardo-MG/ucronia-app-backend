@@ -13,34 +13,6 @@ components:
           pattern: '^(name.firstName|name.lastName|number)\|(asc|desc)$'
           example: username|asc
   schemas:
-    SponsorName:
-      type: object
-      required: [firstName, lastName, fullName]
-      properties:
-        firstName:
-          type: string
-          example: 'John'
-          maxLength: 50
-        lastName:
-          type: string
-          example: 'Smith'
-          maxLength: 50
-        fullName:
-          type: string
-          example: 'John Smith'
-          maxLength: 101
-    EditionSponsorName:
-      type: object
-      required: [firstName, lastName]
-      properties:
-        firstName:
-          type: string
-          example: 'John'
-          maxLength: 50
-        lastName:
-          type: string
-          example: 'Smith'
-          maxLength: 50
     ContactMethod:
       type: object
       required: [number, name]
@@ -82,7 +54,7 @@ components:
           maxLength: 15
           description: Unique identifier of the sponsor.
         name:
-          $ref: '#/components/schemas/SponsorName'
+          $ref: '../../profile/components/profiles.yml#/components/schemas/Name'
         birthDate:
           $ref: '../common/dates.yml#/components/schemas/Date'
         contactChannels:
@@ -116,7 +88,7 @@ components:
           maxLength: 15
           description: Unique identifier of the sponsor.
         name:
-          $ref: '#/components/schemas/EditionSponsorName'
+          $ref: '../../profile/components/profiles.yml#/components/schemas/EditionName'
     SponsorUpdate:
       type: object
       required: [name]
@@ -125,7 +97,7 @@ components:
           type: string
           maxLength: 15
         name:
-          $ref: '#/components/schemas/EditionSponsorName'
+          $ref: '../../profile/components/profiles.yml#/components/schemas/EditionName'
         birthDate:
           $ref: '../common/dates.yml#/components/schemas/Date'
         contactChannels:
@@ -150,7 +122,7 @@ components:
           type: string
           maxLength: 15
         name:
-          $ref: '#/components/schemas/EditionSponsorName'
+          $ref: '../../profile/components/profiles.yml#/components/schemas/EditionName'
         birthDate:
           $ref: '../common/dates.yml#/components/schemas/Date'
         contactChannels:

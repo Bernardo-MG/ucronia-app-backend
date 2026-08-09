@@ -42,11 +42,11 @@ import com.bernardomg.association.fee.domain.filter.FeeFilter;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeePayments;
 import com.bernardomg.association.fee.usecase.service.FeeService;
+import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.web.WebSorting;
-import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.domain.permission.constant.Actions;
 
 /**

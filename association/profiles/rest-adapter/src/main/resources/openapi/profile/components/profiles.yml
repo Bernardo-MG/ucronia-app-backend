@@ -13,7 +13,7 @@ components:
           pattern: '^(name.firstName|name.lastName|number)\|(asc|desc)$'
           example: name.firstName|asc
   schemas:
-    ProfileName:
+    Name:
       type: object
       required: [firstName, lastName, fullName]
       properties:
@@ -25,11 +25,15 @@ components:
           type: string
           example: 'Smith'
           maxLength: 50
+        nickname:
+          type: string
+          example: 'Jhonny'
+          maxLength: 50
         fullName:
           type: string
           example: 'John Smith'
           maxLength: 101
-    EditionProfileName:
+    EditionName:
       type: object
       required: [firstName, lastName]
       properties:
@@ -40,6 +44,10 @@ components:
         lastName:
           type: string
           example: 'Smith'
+          maxLength: 50
+        nickname:
+          type: string
+          example: 'Jhonny'
           maxLength: 50
     ContactChannel:
       type: object
@@ -72,7 +80,7 @@ components:
           maxLength: 15
           description: Unique identifier of the profile.
         name:
-          $ref: 'profiles.yml#/components/schemas/ProfileName'
+          $ref: 'profiles.yml#/components/schemas/Name'
         birthDate:
           $ref: '../common/dates.yml#/components/schemas/Date'
         contactChannels:
@@ -102,7 +110,7 @@ components:
           maxLength: 15
           description: Unique identifier of the contact.
         name:
-          $ref: 'profiles.yml#/components/schemas/EditionProfileName'
+          $ref: 'profiles.yml#/components/schemas/EditionName'
     ProfileUpdate:
       type: object
       required: [name]
@@ -111,7 +119,7 @@ components:
           type: string
           maxLength: 15
         name:
-          $ref: 'profiles.yml#/components/schemas/EditionProfileName'
+          $ref: 'profiles.yml#/components/schemas/EditionName'
         birthDate:
           $ref: '../common/dates.yml#/components/schemas/Date'
         contactChannels:
@@ -132,7 +140,7 @@ components:
           type: string
           maxLength: 15
         name:
-          $ref: 'profiles.yml#/components/schemas/EditionProfileName'
+          $ref: 'profiles.yml#/components/schemas/EditionName'
         birthDate:
           $ref: '../common/dates.yml#/components/schemas/Date'
         contactChannels:
