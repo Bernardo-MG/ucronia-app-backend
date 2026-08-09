@@ -1,6 +1,9 @@
 
 package com.bernardomg.association.library.book.usecase.service;
 
+import java.util.Collection;
+import java.util.List;
+
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -13,6 +16,7 @@ import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -28,10 +32,6 @@ public final class DefaultApachePoiWorkbookGenerator implements ApachePoiWorkboo
     private static final int   FIRST_BOOK_COLUMN         = 1;
 
     private static final short HEADER_FONT_SIZE          = 12;
-
-    private static final int   HEADER_ROW_HEIGHT_POINTS  = 20;
-
-    private static final int   PADDING_COLUMN_WIDTH      = 1000;
 
     private static final short TITLE_FONT_SIZE           = 15;
 
@@ -53,13 +53,9 @@ public final class DefaultApachePoiWorkbookGenerator implements ApachePoiWorkboo
         return workbook;
     }
 
-    private final void applyPaddingColumns(final Sheet sheet, final int lastBookColumn) {
-        sheet.setColumnWidth(0, PADDING_COLUMN_WIDTH);
-        sheet.setColumnWidth(lastBookColumn + 1, PADDING_COLUMN_WIDTH);
-    }
-
-    private final void configureBookSheet(final Sheet sheet, final int lastBookColumn) {
+    private final void configureHeader(final Sheet sheet, final int lastBookColumn) {
         final Row topPaddingRow;
+
         sheet.setDisplayGridlines(false);
         sheet.setDisplayRowColHeadings(false);
         sheet.setDefaultRowHeightInPoints(DEFAULT_ROW_HEIGHT_POINTS);
@@ -86,203 +82,53 @@ public final class DefaultApachePoiWorkbookGenerator implements ApachePoiWorkboo
     }
 
     private final Workbook generateFictionSheet(final XSSFWorkbook workbook) {
-        final Sheet     sheet;
-        final Row       header;
-        final CellStyle headerStyle;
-        final XSSFFont  font;
-        Cell            headerCell;
-
-        sheet = workbook.createSheet("Ficción");
-        ((XSSFSheet) sheet).setTabColor(ExcelLogoPalette.FICTION_TAB);
-        configureBookSheet(sheet, 10);
-        sheet.setColumnWidth(1, 4000);
-        sheet.setColumnWidth(2, 20000);
-        sheet.setColumnWidth(3, 4200);
-        sheet.setColumnWidth(4, 6500);
-        sheet.setColumnWidth(5, 6500);
-        sheet.setColumnWidth(6, 8500);
-        sheet.setColumnWidth(7, 8500);
-        sheet.setColumnWidth(8, 22000);
-        sheet.setColumnWidth(9, 7000);
-        sheet.setColumnWidth(10, 24000);
-        applyPaddingColumns(sheet, 10);
-
-        generateTitle(workbook, sheet, 10);
-        header = sheet.createRow(BOOK_HEADER_ROW);
-        header.setHeightInPoints(HEADER_ROW_HEIGHT_POINTS);
-
-        headerStyle = workbook.createCellStyle();
-
-        font = workbook.createFont();
-        font.setFontName("Arial");
-        font.setFontHeightInPoints(HEADER_FONT_SIZE);
-        font.setBold(true);
-        font.setColor(IndexedColors.WHITE.getIndex());
-        headerStyle.setFont(font);
-        configureHeaderStyle(headerStyle);
-
-        headerCell = header.createCell(1);
-        headerCell.setCellValue("Número");
-        headerCell.setCellStyle(headerStyle);
-
-        headerCell = header.createCell(2);
-        headerCell.setCellValue("Título completo");
-        headerCell.setCellStyle(headerStyle);
-
-        headerCell = header.createCell(3);
-        headerCell.setCellValue("Idioma");
-        headerCell.setCellStyle(headerStyle);
-
-        headerCell = header.createCell(4);
-        headerCell.setCellValue("ISBN");
-        headerCell.setCellStyle(headerStyle);
-
-        headerCell = header.createCell(5);
-        headerCell.setCellValue("Publicación");
-        headerCell.setCellStyle(headerStyle);
-
-        headerCell = header.createCell(6);
-        headerCell.setCellValue("Autores");
-        headerCell.setCellStyle(headerStyle);
-
-        headerCell = header.createCell(7);
-        headerCell.setCellValue("Editores");
-        headerCell.setCellStyle(headerStyle);
-
-        headerCell = header.createCell(8);
-        headerCell.setCellValue("Donantes");
-        headerCell.setCellStyle(headerStyle);
-
-        headerCell = header.createCell(9);
-        headerCell.setCellValue("Donado en");
-        headerCell.setCellStyle(headerStyle);
-
-        headerCell = header.createCell(10);
-        headerCell.setCellValue("Préstamo");
-        headerCell.setCellStyle(headerStyle);
-
-        return workbook;
+        return generateSheet(workbook, "Ficción",
+            List.of("Número", "Título completo", "Idioma", "ISBN", "Publicación", "Sistema", "Tipo", "Autores",
+                "Editores", "Donantes", "Donado en", "Préstamo"),
+            List.of(4000, 20000, 4200, 6500, 6500, 8500, 8500, 22000, 7000, 24000), ExcelLogoPalette.FICTION_TAB);
     }
 
     private final Workbook generateGamesSheet(final XSSFWorkbook workbook) {
-        final Sheet     sheet;
-        final Row       header;
-        final CellStyle headerStyle;
-        final XSSFFont  font;
-        Cell            headerCell;
-
-        sheet = workbook.createSheet("Juegos");
-        ((XSSFSheet) sheet).setTabColor(ExcelLogoPalette.GAMES_TAB);
-        configureBookSheet(sheet, 12);
-        sheet.setColumnWidth(1, 4000);
-        sheet.setColumnWidth(2, 20000);
-        sheet.setColumnWidth(3, 4200);
-        sheet.setColumnWidth(4, 6500);
-        sheet.setColumnWidth(5, 6500);
-        sheet.setColumnWidth(6, 7500);
-        sheet.setColumnWidth(7, 6500);
-        sheet.setColumnWidth(8, 8500);
-        sheet.setColumnWidth(9, 8500);
-        sheet.setColumnWidth(10, 22000);
-        sheet.setColumnWidth(11, 7000);
-        sheet.setColumnWidth(12, 24000);
-        applyPaddingColumns(sheet, 12);
-
-        generateTitle(workbook, sheet, 12);
-        header = sheet.createRow(BOOK_HEADER_ROW);
-        header.setHeightInPoints(HEADER_ROW_HEIGHT_POINTS);
-
-        headerStyle = workbook.createCellStyle();
-
-        font = workbook.createFont();
-        font.setFontName("Arial");
-        font.setFontHeightInPoints(HEADER_FONT_SIZE);
-        font.setBold(true);
-        font.setColor(IndexedColors.WHITE.getIndex());
-        headerStyle.setFont(font);
-        configureHeaderStyle(headerStyle);
-
-        headerCell = header.createCell(1);
-        headerCell.setCellValue("Número");
-        headerCell.setCellStyle(headerStyle);
-
-        headerCell = header.createCell(2);
-        headerCell.setCellValue("Título completo");
-        headerCell.setCellStyle(headerStyle);
-
-        headerCell = header.createCell(3);
-        headerCell.setCellValue("Idioma");
-        headerCell.setCellStyle(headerStyle);
-
-        headerCell = header.createCell(4);
-        headerCell.setCellValue("ISBN");
-        headerCell.setCellStyle(headerStyle);
-
-        headerCell = header.createCell(5);
-        headerCell.setCellValue("Publicación");
-        headerCell.setCellStyle(headerStyle);
-
-        headerCell = header.createCell(6);
-        headerCell.setCellValue("Sistema");
-        headerCell.setCellStyle(headerStyle);
-
-        headerCell = header.createCell(7);
-        headerCell.setCellValue("Tipo");
-        headerCell.setCellStyle(headerStyle);
-
-        headerCell = header.createCell(8);
-        headerCell.setCellValue("Autores");
-        headerCell.setCellStyle(headerStyle);
-
-        headerCell = header.createCell(9);
-        headerCell.setCellValue("Editores");
-        headerCell.setCellStyle(headerStyle);
-
-        headerCell = header.createCell(10);
-        headerCell.setCellValue("Donantes");
-        headerCell.setCellStyle(headerStyle);
-
-        headerCell = header.createCell(11);
-        headerCell.setCellValue("Donado en");
-        headerCell.setCellStyle(headerStyle);
-
-        headerCell = header.createCell(12);
-        headerCell.setCellValue("Préstamo");
-        headerCell.setCellStyle(headerStyle);
-
-        return workbook;
+        return generateSheet(workbook, "Juegos",
+            List.of("Número", "Título completo", "Idioma", "ISBN", "Publicación", "Sistema", "Tipo", "Autores",
+                "Editores", "Donantes", "Donado en", "Préstamo"),
+            List.of(4000, 20000, 4200, 6500, 6500, 7500, 6500, 8500, 8500, 22000, 7000, 24000),
+            ExcelLogoPalette.GAMES_TAB);
     }
 
     private final Workbook generateLendingHistorySheet(final XSSFWorkbook workbook) {
-        return generateLendingSheet(workbook, "Historial de préstamos",
-            new String[] { "Tipo", "Número", "Título", "Socio", "Prestado en", "Devuelto en" },
-            new int[] { 6000, 3800, 20000, 17000, 8000, 8000 });
+        return generateSheet(workbook, "Historial de préstamos",
+            List.of("Tipo", "Número", "Título", "Socio", "Prestado en", "Devuelto en"),
+            List.of(6000, 3800, 20000, 17000, 8000, 8000), ExcelLogoPalette.HISTORY_TAB);
     }
 
-    private final Workbook generateLendingSheet(final XSSFWorkbook workbook, final String sheetName,
-            final String[] headers, final int[] columnWidths) {
+    private final Workbook generateLendingsSheet(final XSSFWorkbook workbook) {
+        return generateSheet(workbook, "Préstamos", List.of("Tipo", "Número", "Título", "Socio", "Prestado en"),
+            List.of(6000, 3800, 20000, 17000, 8000), ExcelLogoPalette.LENDINGS_TAB);
+    }
+
+    private final Workbook generateSheet(final XSSFWorkbook workbook, final String sheetName,
+            final Collection<String> headerTexts, final Collection<Integer> columnWidths, final XSSFColor tabColor) {
         final Sheet     sheet;
         final Row       header;
         final CellStyle headerStyle;
         final XSSFFont  font;
         Cell            headerCell;
+        int             index;
 
         sheet = workbook.createSheet(sheetName);
 
-        if ("Préstamos".equals(sheetName)) {
-            ((XSSFSheet) sheet).setTabColor(ExcelLogoPalette.LENDINGS_TAB);
-        } else {
-            ((XSSFSheet) sheet).setTabColor(ExcelLogoPalette.HISTORY_TAB);
+        ((XSSFSheet) sheet).setTabColor(tabColor);
+
+        configureHeader(sheet, columnWidths.size());
+
+        index = 0;
+        for (final Integer width : columnWidths) {
+            sheet.setColumnWidth(index + FIRST_BOOK_COLUMN, width);
+            index++;
         }
 
-        configureBookSheet(sheet, columnWidths.length);
-
-        for (int index = 0; index < columnWidths.length; index++) {
-            sheet.setColumnWidth(index + FIRST_BOOK_COLUMN, columnWidths[index]);
-        }
-        applyPaddingColumns(sheet, columnWidths.length);
-
-        generateTitle(workbook, sheet, columnWidths.length);
+        generateTitle(workbook, sheet, columnWidths.size());
         header = sheet.createRow(BOOK_HEADER_ROW);
         headerStyle = workbook.createCellStyle();
 
@@ -294,21 +140,15 @@ public final class DefaultApachePoiWorkbookGenerator implements ApachePoiWorkboo
         headerStyle.setFont(font);
         configureHeaderStyle(headerStyle);
 
-        for (int index = 0; index < headers.length; index++) {
+        for (final String headerText : headerTexts) {
             headerCell = header.createCell(index + FIRST_BOOK_COLUMN);
-            headerCell.setCellValue(headers[index]);
+            headerCell.setCellValue(headerText);
             headerCell.setCellStyle(headerStyle);
         }
 
         header.setHeightInPoints(DEFAULT_ROW_HEIGHT_POINTS);
 
         return workbook;
-    }
-
-    private final Workbook generateLendingsSheet(final XSSFWorkbook workbook) {
-        return generateLendingSheet(workbook, "Préstamos",
-            new String[] { "Tipo", "Número", "Título", "Socio", "Prestado en" },
-            new int[] { 6000, 3800, 20000, 17000, 8000 });
     }
 
     private final void generateTitle(final XSSFWorkbook workbook, final Sheet sheet, final int lastBookColumn) {

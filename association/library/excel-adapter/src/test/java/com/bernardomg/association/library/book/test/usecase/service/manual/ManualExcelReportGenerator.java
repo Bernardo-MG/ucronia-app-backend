@@ -39,7 +39,7 @@ public final class ManualExcelReportGenerator {
 
         log.info("Generating test library excel report");
 
-        resolver = borrower -> "Socio " + borrower;
+        resolver = member -> "Socio " + member;
         generator = new ApachePoiReportGenerator(new DefaultApachePoiWorkbookGenerator(),
             new DefaultLibraryApachePoiWorkbookLoader(resolver));
 
@@ -48,7 +48,7 @@ public final class ManualExcelReportGenerator {
 
         excel = generator.getReport(gameBooks, fictionBooks);
 
-        output = Path.of("target", "manual", "library-report.xlsx");
+        output = Path.of("target", "manual_test", "library-report.xlsx");
         Files.createDirectories(output.getParent());
         Files.write(output, excel.toByteArray());
 
