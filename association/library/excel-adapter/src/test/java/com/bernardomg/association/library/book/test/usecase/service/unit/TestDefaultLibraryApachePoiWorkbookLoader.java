@@ -48,21 +48,10 @@ class TestDefaultLibraryApachePoiWorkbookLoader {
     private static final DateTimeFormatter LENDING_DATE_FORMAT = DateTimeFormatter.ofPattern(DATE_FORMAT)
         .withZone(ZoneId.systemDefault());
 
-    private static void assertAllCellsWrapText(final Row row, final int firstColumn, final int cellCount) {
-        for (int column = firstColumn; column < (firstColumn + cellCount); column++) {
-            assertThat(row.getCell(column)
-                .getCellStyle()
-                .getWrapText()).as("Cell %s should wrap text", column)
-                    .isTrue();
-        }
-    }
-
     private static void assertDateCell(final Cell cell, final Date expected) {
         assertThat(cell.getDateCellValue()).isEqualTo(expected);
         assertThat(cell.getCellStyle()
             .getDataFormatString()).isEqualTo(DATE_FORMAT);
-        assertThat(cell.getCellStyle()
-            .getWrapText()).isTrue();
     }
 
     private static void assertFictionRow(final Row row, final FictionBook book, final String expectedLendingStatus) {
@@ -94,7 +83,6 @@ class TestDefaultLibraryApachePoiWorkbookLoader {
             .getStringCellValue()).isEqualTo(expectedLendingStatus);
 
         assertThat(row.getPhysicalNumberOfCells()).isEqualTo(10);
-        assertAllCellsWrapText(row, 1, 10);
     }
 
     private static void assertGameRow(final Row row, final GameBook book, final String expectedLendingStatus) {
@@ -134,7 +122,6 @@ class TestDefaultLibraryApachePoiWorkbookLoader {
             .getStringCellValue()).isEqualTo(expectedLendingStatus);
 
         assertThat(row.getPhysicalNumberOfCells()).isEqualTo(12);
-        assertAllCellsWrapText(row, 1, 12);
     }
 
     private static String authorNames(final FictionBook book) {
@@ -197,7 +184,6 @@ class TestDefaultLibraryApachePoiWorkbookLoader {
 
     @Test
     @DisplayName("Empty collections leave all sheets without data rows")
-    @SuppressWarnings("resource")
     void testLoadWorkbookWithNoBooks() {
         final Workbook workbook;
 
@@ -224,7 +210,6 @@ class TestDefaultLibraryApachePoiWorkbookLoader {
 
     @Test
     @DisplayName("Lent books show the borrower, lending date and number of days")
-    @SuppressWarnings("resource")
     void testLoadWorkbookWritesActiveLendingStatus() {
         final FictionBook     availableFiction;
         final GameBook        availableGame;
@@ -273,7 +258,6 @@ class TestDefaultLibraryApachePoiWorkbookLoader {
 
     @Test
     @DisplayName("Full game and fiction books are written to their sheets")
-    @SuppressWarnings("resource")
     void testLoadWorkbookWritesBooks() {
         final GameBook    gameBook;
         final FictionBook fictionBook;

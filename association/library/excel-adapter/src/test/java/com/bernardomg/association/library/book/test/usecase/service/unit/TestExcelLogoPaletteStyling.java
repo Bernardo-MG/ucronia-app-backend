@@ -52,7 +52,6 @@ class TestExcelLogoPaletteStyling {
 
     @Test
     @DisplayName("Alternating book and lending rows use the logo mint band color")
-    @SuppressWarnings("resource")
     void testAlternatingRowsUseLogoBandColor() {
         final BookLendingInfo                       activeLending;
         final FictionBook                           fictionBook;
