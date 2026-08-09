@@ -37,6 +37,9 @@ public class PublicMemberEntity implements Serializable {
     @Column(name = "last_name", table = "profiles")
     private String            lastName;
 
+    @Column(name = "nickname", table = "profiles")
+    private String            nickname;
+
     @Column(name = "number", table = "profiles")
     private Long              number;
 
@@ -70,6 +73,10 @@ public class PublicMemberEntity implements Serializable {
         return lastName;
     }
 
+    public String getNickname() {
+        return nickname;
+    }
+
     public Long getNumber() {
         return number;
     }
@@ -99,6 +106,10 @@ public class PublicMemberEntity implements Serializable {
         this.lastName = lastName;
     }
 
+    public void setNickname(final String nickname) {
+        this.nickname = nickname;
+    }
+
     public void setNumber(final Long number) {
         this.number = number;
     }
@@ -110,7 +121,7 @@ public class PublicMemberEntity implements Serializable {
     @Override
     public String toString() {
         return "PublicMemberEntity [id=" + id + ", number=" + number + ", firstName=" + firstName + ", lastName="
-                + lastName + ", active=" + active + ", renew=" + renew + "]";
+                + lastName + ", nickname=" + nickname + ", active=" + active + ", renew=" + renew + "]";
     }
 
 }

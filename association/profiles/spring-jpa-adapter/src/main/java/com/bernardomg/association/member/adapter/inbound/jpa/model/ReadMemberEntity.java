@@ -71,6 +71,9 @@ public class ReadMemberEntity implements Serializable {
     @Column(name = "last_name", table = "profiles")
     private String                                     lastName;
 
+    @Column(name = "nickname", table = "profiles")
+    private String                                     nickname;
+
     @Column(name = "number", table = "profiles")
     private Long                                       number;
 
@@ -132,6 +135,10 @@ public class ReadMemberEntity implements Serializable {
         return lastName;
     }
 
+    public String getNickname() {
+        return nickname;
+    }
+
     public Long getNumber() {
         return number;
     }
@@ -189,6 +196,10 @@ public class ReadMemberEntity implements Serializable {
         this.lastName = lastName;
     }
 
+    public void setNickname(final String nickname) {
+        this.nickname = nickname;
+    }
+
     public void setNumber(final Long number) {
         this.number = number;
     }
@@ -204,9 +215,9 @@ public class ReadMemberEntity implements Serializable {
     @Override
     public String toString() {
         return "ReadMemberEntity [id=" + id + ", active=" + active + ", feeType=" + feeType + ", number=" + number
-                + ", firstName=" + firstName + ", lastName=" + lastName + ", renew=" + renew + ", identifier="
-                + identifier + ", address=" + address + ", birthDate=" + birthDate + ", comments=" + comments
-                + ", types=" + types + ", contactChannels=" + contactChannels + "]";
+                + ", firstName=" + firstName + ", lastName=" + lastName + ", nickname=" + nickname + ", renew=" + renew
+                + ", identifier=" + identifier + ", address=" + address + ", birthDate=" + birthDate + ", comments="
+                + comments + ", types=" + types + ", contactChannels=" + contactChannels + "]";
     }
 
 }

@@ -66,6 +66,9 @@ public class ReadSponsorEntity implements Serializable {
     @Column(name = "last_name", table = "profiles")
     private String                           lastName;
 
+    @Column(name = "nickname")
+    private String                           nickname;
+
     @Column(name = "number", table = "profiles")
     private Long                             number;
 
@@ -121,6 +124,10 @@ public class ReadSponsorEntity implements Serializable {
         return lastName;
     }
 
+    public String getNickname() {
+        return nickname;
+    }
+
     public Long getNumber() {
         return number;
     }
@@ -170,6 +177,10 @@ public class ReadSponsorEntity implements Serializable {
         this.lastName = lastName;
     }
 
+    public void setNickname(final String nickname) {
+        this.nickname = nickname;
+    }
+
     public void setNumber(final Long number) {
         this.number = number;
     }
@@ -185,9 +196,9 @@ public class ReadSponsorEntity implements Serializable {
     @Override
     public String toString() {
         return "ReadGuestEntity [id=" + id + ", address=" + address + ", birthDate=" + birthDate + ", comments="
-                + comments + ", contactChannels=" + contactChannels + ", firstName=" + firstName + ", identifier="
-                + identifier + ", lastName=" + lastName + ", number=" + number + ", types=" + types + ", games=" + years
-                + "]";
+                + comments + ", contactChannels=" + contactChannels + ", firstName=" + firstName + ", lastName="
+                + lastName + nickname + ", birthDate=" + ", identifier=" + identifier + ", number=" + number
+                + ", types=" + types + ", games=" + years + "]";
     }
 
 }

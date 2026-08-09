@@ -54,7 +54,9 @@ public final class GuestEntityMapper {
         name = new Name(entity.getProfile()
             .getFirstName(),
             entity.getProfile()
-                .getLastName());
+                .getLastName(),
+            Optional.of(entity.getProfile()
+                .getNickname()));
 
         contactChannels = entity.getProfile()
             .getContactChannels()
@@ -83,7 +85,7 @@ public final class GuestEntityMapper {
         final Collection<ContactChannel> contactChannels;
         final AuditDetails               audit;
 
-        name = new Name(entity.getFirstName(), entity.getLastName());
+        name = new Name(entity.getFirstName(), entity.getLastName(), Optional.of(entity.getNickname()));
 
         contactChannels = entity.getContactChannels()
             .stream()
@@ -108,6 +110,9 @@ public final class GuestEntityMapper {
             .firstName());
         profile.setLastName(data.name()
             .lastName());
+        profile.setNickname(data.name()
+            .nickname()
+            .orElse(null));
         profile.setIdentifier(data.identifier()
             .orElse(null));
         profile.setBirthDate(data.birthDate()
@@ -149,6 +154,9 @@ public final class GuestEntityMapper {
             .firstName());
         profile.setLastName(data.name()
             .lastName());
+        profile.setNickname(data.name()
+            .nickname()
+            .orElse(null));
         profile.setIdentifier(data.identifier()
             .orElse(null));
         profile.setBirthDate(data.birthDate()
