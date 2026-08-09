@@ -38,25 +38,8 @@
          <artifactId>association-library-domain</artifactId>
       </dependency>
       <dependency>
-         <groupId>com.bernardomg.association.profile</groupId>
-         <artifactId>association-profile-domain</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>jakarta.transaction</groupId>
-         <artifactId>jakarta.transaction-api</artifactId>
-      </dependency>
-      <!-- ============================================== -->
-      <!-- ================ FRAMEWORK =================== -->
-      <!-- ============================================== -->
-      <dependency>
-         <!-- Validation -->
-         <groupId>com.bernardomg.framework</groupId>
-         <artifactId>validation</artifactId>
-      </dependency>
-      <dependency>
-         <!-- Pagination -->
-         <groupId>com.bernardomg.framework</groupId>
-         <artifactId>pagination</artifactId>
+         <groupId>com.bernardomg.association.library</groupId>
+         <artifactId>association-library-usecase</artifactId>
       </dependency>
       <!-- ============================================== -->
       <!-- =============== APACHE POI =================== -->
@@ -71,14 +54,12 @@
          <groupId>org.apache.poi</groupId>
          <artifactId>poi-ooxml</artifactId>
       </dependency>
+      <!-- ============================================== -->
+      <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
+      <!-- ============================================== -->
       <dependency>
          <groupId>com.bernardomg.association.library</groupId>
          <artifactId>association-library-testing</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.association.profile</groupId>
-         <artifactId>association-profile-testing</artifactId>
          <scope>test</scope>
       </dependency>
    </dependencies>
