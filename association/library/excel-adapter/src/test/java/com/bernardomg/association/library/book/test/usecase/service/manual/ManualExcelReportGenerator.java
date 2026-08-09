@@ -43,7 +43,7 @@ public final class ManualExcelReportGenerator {
         generator = new ApachePoiReportGenerator(new DefaultApachePoiWorkbookGenerator(),
             new DefaultLibraryApachePoiWorkbookLoader(resolver));
 
-        gameBooks = List.of(GameBooks.full());
+        gameBooks = List.of(GameBooks.minimal(),GameBooks.minimal());
         fictionBooks = List.of(FictionBooks.full());
 
         excel = generator.getReport(gameBooks, fictionBooks);

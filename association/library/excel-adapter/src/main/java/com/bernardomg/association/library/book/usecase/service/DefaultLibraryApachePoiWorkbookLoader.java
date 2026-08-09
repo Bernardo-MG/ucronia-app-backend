@@ -199,8 +199,6 @@ public final class DefaultLibraryApachePoiWorkbookLoader implements LibraryApach
                 .isPresent()) {
                 cell.setCellValue(Date.from(book.publishDate()
                     .get()));
-            } else {
-                cell.setCellValue("");
             }
             cell.setCellStyle(rowDateStyle);
 
@@ -236,15 +234,13 @@ public final class DefaultLibraryApachePoiWorkbookLoader implements LibraryApach
                     .isPresent()) {
                     cell.setCellValue(Date.from(donation.date()
                         .get()));
-                } else {
-                    cell.setCellValue("");
                 }
                 cell.setCellStyle(rowDateStyle);
             } else {
                 cell = row.createCell(8);
-                cell.setCellValue("");
+                cell.setCellStyle(rowStyle);
                 cell = row.createCell(9);
-                cell.setCellValue("");
+                cell.setCellStyle(rowStyle);
             }
 
             cell = row.createCell(10);
@@ -303,8 +299,6 @@ public final class DefaultLibraryApachePoiWorkbookLoader implements LibraryApach
                 .isPresent()) {
                 cell.setCellValue(Date.from(book.publishDate()
                     .get()));
-            } else {
-                cell.setCellValue("");
             }
             cell.setCellStyle(rowDateStyle);
 
@@ -356,9 +350,9 @@ public final class DefaultLibraryApachePoiWorkbookLoader implements LibraryApach
                 cell.setCellStyle(rowDateStyle);
             } else {
                 cell = row.createCell(10);
-                cell.setCellValue("");
+                cell.setCellStyle(rowStyle);
                 cell = row.createCell(11);
-                cell.setCellValue("");
+                cell.setCellStyle(rowStyle);
             }
 
             cell = row.createCell(12);
