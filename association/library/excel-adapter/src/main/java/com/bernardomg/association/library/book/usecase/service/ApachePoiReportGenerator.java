@@ -17,14 +17,14 @@ public final class ApachePoiReportGenerator implements ReportGenerator {
     /**
      * Logger for the class.
      */
-    private static final Logger              log = LoggerFactory.getLogger(ApachePoiReportGenerator.class);
+    private static final Logger                  log = LoggerFactory.getLogger(ApachePoiReportGenerator.class);
 
-    private final ExcelWorkbookGenerator     excelGenerator;
+    private final ApachePoiWorkbookGenerator     excelGenerator;
 
-    private final LibraryExcelWorkbookLoader workbookLoader;
+    private final LibraryApachePoiWorkbookLoader workbookLoader;
 
-    public ApachePoiReportGenerator(final ExcelWorkbookGenerator excelGen,
-            final LibraryExcelWorkbookLoader workbookLoad) {
+    public ApachePoiReportGenerator(final ApachePoiWorkbookGenerator excelGen,
+            final LibraryApachePoiWorkbookLoader workbookLoad) {
         super();
 
         excelGenerator = Objects.requireNonNull(excelGen);

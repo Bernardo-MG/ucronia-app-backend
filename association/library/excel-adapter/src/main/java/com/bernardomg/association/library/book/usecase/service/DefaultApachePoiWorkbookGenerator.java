@@ -15,7 +15,7 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-public final class DefaultExcelWorkbookGenerator implements ExcelWorkbookGenerator {
+public final class DefaultApachePoiWorkbookGenerator implements ApachePoiWorkbookGenerator {
 
     private static final int   BOOK_HEADER_ROW           = 2;
 
@@ -33,7 +33,7 @@ public final class DefaultExcelWorkbookGenerator implements ExcelWorkbookGenerat
 
     private static final short TITLE_FONT_SIZE           = 15;
 
-    public DefaultExcelWorkbookGenerator() {
+    public DefaultApachePoiWorkbookGenerator() {
         super();
     }
 

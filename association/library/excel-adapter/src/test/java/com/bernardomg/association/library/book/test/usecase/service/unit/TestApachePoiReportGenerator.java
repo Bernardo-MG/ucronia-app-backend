@@ -22,21 +22,21 @@ import com.bernardomg.association.library.book.domain.model.GameBook;
 import com.bernardomg.association.library.book.test.configuration.factory.FictionBooks;
 import com.bernardomg.association.library.book.test.configuration.factory.GameBooks;
 import com.bernardomg.association.library.book.usecase.service.ApachePoiReportGenerator;
-import com.bernardomg.association.library.book.usecase.service.ExcelWorkbookGenerator;
-import com.bernardomg.association.library.book.usecase.service.LibraryExcelWorkbookLoader;
+import com.bernardomg.association.library.book.usecase.service.ApachePoiWorkbookGenerator;
+import com.bernardomg.association.library.book.usecase.service.LibraryApachePoiWorkbookLoader;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("ApachePoiReportGenerator")
 class TestApachePoiReportGenerator {
 
     @Mock
-    private ExcelWorkbookGenerator     excelGenerator;
+    private ApachePoiWorkbookGenerator     excelGenerator;
 
     @InjectMocks
-    private ApachePoiReportGenerator   generator;
+    private ApachePoiReportGenerator       generator;
 
     @Mock
-    private LibraryExcelWorkbookLoader workbookLoader;
+    private LibraryApachePoiWorkbookLoader workbookLoader;
 
     @Test
     @DisplayName("The generated workbook is loaded and returned as an Excel stream")

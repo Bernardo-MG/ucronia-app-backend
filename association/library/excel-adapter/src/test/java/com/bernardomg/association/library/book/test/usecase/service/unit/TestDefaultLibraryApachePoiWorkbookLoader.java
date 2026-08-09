@@ -33,15 +33,15 @@ import com.bernardomg.association.library.book.domain.model.GameBook;
 import com.bernardomg.association.library.book.test.configuration.factory.FictionBooks;
 import com.bernardomg.association.library.book.test.configuration.factory.GameBooks;
 import com.bernardomg.association.library.book.usecase.service.BorrowerNameResolver;
-import com.bernardomg.association.library.book.usecase.service.DefaultExcelWorkbookGenerator;
-import com.bernardomg.association.library.book.usecase.service.DefaultLibraryExcelWorkbookLoader;
+import com.bernardomg.association.library.book.usecase.service.DefaultApachePoiWorkbookGenerator;
+import com.bernardomg.association.library.book.usecase.service.DefaultLibraryApachePoiWorkbookLoader;
 import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("DefaultLibraryExcelWorkbookLoader")
-class TestDefaultLibraryExcelWorkbookLoader {
+@DisplayName("DefaultLibraryApachePoiWorkbookLoader")
+class TestDefaultLibraryApachePoiWorkbookLoader {
 
     private static final String            DATE_FORMAT         = "dd/MM/yyyy";
 
@@ -174,10 +174,10 @@ class TestDefaultLibraryExcelWorkbookLoader {
     }
 
     @Mock
-    private BorrowerNameResolver              borrowerNameResolver;
+    private BorrowerNameResolver                  borrowerNameResolver;
 
     @InjectMocks
-    private DefaultLibraryExcelWorkbookLoader loader;
+    private DefaultLibraryApachePoiWorkbookLoader loader;
 
     @Test
     @DisplayName("A borrower name resolver is required")
@@ -189,7 +189,7 @@ class TestDefaultLibraryExcelWorkbookLoader {
         repository = null;
 
         // WHEN
-        callable = () -> new DefaultLibraryExcelWorkbookLoader(repository);
+        callable = () -> new DefaultLibraryApachePoiWorkbookLoader(repository);
 
         // THEN
         assertThatThrownBy(callable).isInstanceOf(NullPointerException.class);
@@ -202,7 +202,7 @@ class TestDefaultLibraryExcelWorkbookLoader {
         final Workbook workbook;
 
         // GIVEN
-        workbook = new DefaultExcelWorkbookGenerator().generateWorkbook();
+        workbook = new DefaultApachePoiWorkbookGenerator().generateWorkbook();
 
         // WHEN
         loader.loadWorkbook(workbook, List.of(), List.of());
@@ -254,7 +254,7 @@ class TestDefaultLibraryExcelWorkbookLoader {
         expectedStatus = String.format("Ana García (%s) %d días", LENDING_DATE_FORMAT.format(lending.lendingDate()),
             lending.getDays());
 
-        workbook = new DefaultExcelWorkbookGenerator().generateWorkbook();
+        workbook = new DefaultApachePoiWorkbookGenerator().generateWorkbook();
 
         // WHEN
         loader.loadWorkbook(workbook, List.of(lentGame), List.of(lentFiction));
@@ -282,7 +282,7 @@ class TestDefaultLibraryExcelWorkbookLoader {
         // GIVEN
         gameBook = GameBooks.full();
         fictionBook = FictionBooks.full();
-        workbook = new DefaultExcelWorkbookGenerator().generateWorkbook();
+        workbook = new DefaultApachePoiWorkbookGenerator().generateWorkbook();
 
         // WHEN
         loader.loadWorkbook(workbook, List.of(gameBook), List.of(fictionBook));

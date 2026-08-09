@@ -18,10 +18,10 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.bernardomg.association.library.book.usecase.service.DefaultExcelWorkbookGenerator;
+import com.bernardomg.association.library.book.usecase.service.DefaultApachePoiWorkbookGenerator;
 
-@DisplayName("DefaultExcelWorkbookGenerator")
-class TestDefaultExcelWorkbookGenerator {
+@DisplayName("DefaultApachePoiWorkbookGenerator")
+class TestDefaultApachePoiWorkbookGenerator {
 
     private static final List<Integer> FICTION_COLUMN_WIDTHS         = List.of(3000, 17000, 3000, 5000, 5000, 5000,
         5000, 15000, 5000, 15000);
@@ -99,7 +99,7 @@ class TestDefaultExcelWorkbookGenerator {
         }
     }
 
-    private final DefaultExcelWorkbookGenerator generator = new DefaultExcelWorkbookGenerator();
+    private final DefaultApachePoiWorkbookGenerator generator = new DefaultApachePoiWorkbookGenerator();
 
     @Test
     @DisplayName("The fiction sheet has the expected headers, widths and style")

@@ -16,8 +16,8 @@ import com.bernardomg.association.library.book.test.configuration.factory.Fictio
 import com.bernardomg.association.library.book.test.configuration.factory.GameBooks;
 import com.bernardomg.association.library.book.usecase.service.ApachePoiReportGenerator;
 import com.bernardomg.association.library.book.usecase.service.BorrowerNameResolver;
-import com.bernardomg.association.library.book.usecase.service.DefaultExcelWorkbookGenerator;
-import com.bernardomg.association.library.book.usecase.service.DefaultLibraryExcelWorkbookLoader;
+import com.bernardomg.association.library.book.usecase.service.DefaultApachePoiWorkbookGenerator;
+import com.bernardomg.association.library.book.usecase.service.DefaultLibraryApachePoiWorkbookLoader;
 import com.bernardomg.association.library.book.usecase.service.ReportGenerator;
 
 /**
@@ -40,8 +40,8 @@ public final class ManualExcelReportGenerator {
         log.info("Generating test library excel report");
 
         resolver = borrower -> "Socio " + borrower;
-        generator = new ApachePoiReportGenerator(new DefaultExcelWorkbookGenerator(),
-            new DefaultLibraryExcelWorkbookLoader(resolver));
+        generator = new ApachePoiReportGenerator(new DefaultApachePoiWorkbookGenerator(),
+            new DefaultLibraryApachePoiWorkbookLoader(resolver));
 
         gameBooks = List.of(GameBooks.full());
         fictionBooks = List.of(FictionBooks.full());

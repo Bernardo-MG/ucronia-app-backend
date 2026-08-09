@@ -30,7 +30,7 @@ import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
 
-public final class DefaultLibraryExcelWorkbookLoader implements LibraryExcelWorkbookLoader {
+public final class DefaultLibraryApachePoiWorkbookLoader implements LibraryApachePoiWorkbookLoader {
 
     private static final int               AUTO_SIZE_PADDING         = 1024;
 
@@ -51,7 +51,7 @@ public final class DefaultLibraryExcelWorkbookLoader implements LibraryExcelWork
 
     private final BorrowerNameResolver     borrowerNameResolver;
 
-    public DefaultLibraryExcelWorkbookLoader(final BorrowerNameResolver resolver) {
+    public DefaultLibraryApachePoiWorkbookLoader(final BorrowerNameResolver resolver) {
         super();
 
         borrowerNameResolver = Objects.requireNonNull(resolver);
