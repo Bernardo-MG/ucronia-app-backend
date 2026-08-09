@@ -83,8 +83,8 @@ public final class DefaultApachePoiWorkbookGenerator implements ApachePoiWorkboo
 
     private final Workbook generateFictionSheet(final XSSFWorkbook workbook) {
         return generateSheet(workbook, "Ficción",
-            List.of("Número", "Título completo", "Idioma", "ISBN", "Publicación", "Sistema", "Tipo", "Autores",
-                "Editores", "Donantes", "Donado en", "Préstamo"),
+            List.of("Número", "Título completo", "Idioma", "ISBN", "Publicación", "Autores", "Editores", "Donantes",
+                "Donado en", "Préstamo"),
             List.of(4000, 20000, 4200, 6500, 6500, 8500, 8500, 22000, 7000, 24000), ExcelPalette.FICTION_TAB);
     }
 
@@ -139,10 +139,12 @@ public final class DefaultApachePoiWorkbookGenerator implements ApachePoiWorkboo
         headerStyle.setFont(font);
         configureHeaderStyle(headerStyle);
 
+        index = 0;
         for (final String headerText : headerTexts) {
             headerCell = header.createCell(index + FIRST_BOOK_COLUMN);
             headerCell.setCellValue(headerText);
             headerCell.setCellStyle(headerStyle);
+            index++;
         }
 
         header.setHeightInPoints(DEFAULT_ROW_HEIGHT_POINTS);
