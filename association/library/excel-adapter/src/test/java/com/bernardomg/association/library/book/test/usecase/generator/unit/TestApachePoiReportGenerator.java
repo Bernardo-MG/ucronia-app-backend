@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.library.book.test.usecase.service.unit;
+package com.bernardomg.association.library.book.test.usecase.generator.unit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
@@ -21,9 +21,9 @@ import com.bernardomg.association.library.book.domain.model.FictionBook;
 import com.bernardomg.association.library.book.domain.model.GameBook;
 import com.bernardomg.association.library.book.test.configuration.factory.FictionBooks;
 import com.bernardomg.association.library.book.test.configuration.factory.GameBooks;
-import com.bernardomg.association.library.book.usecase.service.ApachePoiReportGenerator;
-import com.bernardomg.association.library.book.usecase.service.ApachePoiWorkbookGenerator;
-import com.bernardomg.association.library.book.usecase.service.LibraryApachePoiWorkbookLoader;
+import com.bernardomg.association.library.book.usecase.generator.ApachePoiReportGenerator;
+import com.bernardomg.association.library.book.usecase.generator.ApachePoiWorkbookGenerator;
+import com.bernardomg.association.library.book.usecase.generator.LibraryApachePoiWorkbookLoader;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("ApachePoiReportGenerator")

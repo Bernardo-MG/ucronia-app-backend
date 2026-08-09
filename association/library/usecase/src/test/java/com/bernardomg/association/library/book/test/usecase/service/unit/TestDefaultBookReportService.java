@@ -21,8 +21,8 @@ import com.bernardomg.association.library.book.domain.repository.FictionBookRepo
 import com.bernardomg.association.library.book.domain.repository.GameBookRepository;
 import com.bernardomg.association.library.book.test.configuration.factory.FictionBooks;
 import com.bernardomg.association.library.book.test.configuration.factory.GameBooks;
+import com.bernardomg.association.library.book.usecase.generator.ReportGenerator;
 import com.bernardomg.association.library.book.usecase.service.DefaultBookReportService;
-import com.bernardomg.association.library.book.usecase.service.ReportGenerator;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultBookReportService")

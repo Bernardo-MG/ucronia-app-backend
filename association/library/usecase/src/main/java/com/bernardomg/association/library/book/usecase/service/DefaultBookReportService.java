@@ -35,6 +35,7 @@ import com.bernardomg.association.library.book.domain.model.FictionBook;
 import com.bernardomg.association.library.book.domain.model.GameBook;
 import com.bernardomg.association.library.book.domain.repository.FictionBookRepository;
 import com.bernardomg.association.library.book.domain.repository.GameBookRepository;
+import com.bernardomg.association.library.book.usecase.generator.ReportGenerator;
 import com.bernardomg.pagination.domain.Sorting;
 
 import jakarta.transaction.Transactional;

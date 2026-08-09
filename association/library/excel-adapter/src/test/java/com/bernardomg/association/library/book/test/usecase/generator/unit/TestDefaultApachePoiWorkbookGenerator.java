@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.library.book.test.usecase.service.unit;
+package com.bernardomg.association.library.book.test.usecase.generator.unit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
@@ -17,7 +17,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.bernardomg.association.library.book.usecase.service.DefaultApachePoiWorkbookGenerator;
+import com.bernardomg.association.library.book.usecase.generator.DefaultApachePoiWorkbookGenerator;
 
 @DisplayName("DefaultApachePoiWorkbookGenerator")
 class TestDefaultApachePoiWorkbookGenerator {

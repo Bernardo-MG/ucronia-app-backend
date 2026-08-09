@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.library.book.test.usecase.service.manual;
+package com.bernardomg.association.library.book.test.usecase.generator.manual;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -14,11 +14,11 @@ import com.bernardomg.association.library.book.domain.model.FictionBook;
 import com.bernardomg.association.library.book.domain.model.GameBook;
 import com.bernardomg.association.library.book.test.configuration.factory.FictionBooks;
 import com.bernardomg.association.library.book.test.configuration.factory.GameBooks;
-import com.bernardomg.association.library.book.usecase.service.ApachePoiReportGenerator;
-import com.bernardomg.association.library.book.usecase.service.DefaultApachePoiWorkbookGenerator;
-import com.bernardomg.association.library.book.usecase.service.DefaultLibraryApachePoiWorkbookLoader;
-import com.bernardomg.association.library.book.usecase.service.NameResolver;
-import com.bernardomg.association.library.book.usecase.service.ReportGenerator;
+import com.bernardomg.association.library.book.usecase.generator.ApachePoiReportGenerator;
+import com.bernardomg.association.library.book.usecase.generator.DefaultApachePoiWorkbookGenerator;
+import com.bernardomg.association.library.book.usecase.generator.DefaultLibraryApachePoiWorkbookLoader;
+import com.bernardomg.association.library.book.usecase.generator.NameResolver;
+import com.bernardomg.association.library.book.usecase.generator.ReportGenerator;
 
 /**
  * Manual utility to generate a sample Excel report.
@@ -43,7 +43,7 @@ public final class ManualExcelReportGenerator {
         generator = new ApachePoiReportGenerator(new DefaultApachePoiWorkbookGenerator(),
             new DefaultLibraryApachePoiWorkbookLoader(resolver));
 
-        gameBooks = List.of(GameBooks.minimal(),GameBooks.minimal());
+        gameBooks = List.of(GameBooks.minimal(), GameBooks.minimal());
         fictionBooks = List.of(FictionBooks.full());
 
         excel = generator.getReport(gameBooks, fictionBooks);

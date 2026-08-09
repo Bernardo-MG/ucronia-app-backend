@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.library.book.test.usecase.service.unit;
+package com.bernardomg.association.library.book.test.usecase.generator.unit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
@@ -24,9 +24,9 @@ import com.bernardomg.association.library.book.domain.model.FictionBook;
 import com.bernardomg.association.library.book.domain.model.GameBook;
 import com.bernardomg.association.library.book.test.configuration.factory.FictionBooks;
 import com.bernardomg.association.library.book.test.configuration.factory.GameBooks;
-import com.bernardomg.association.library.book.usecase.service.DefaultApachePoiWorkbookGenerator;
-import com.bernardomg.association.library.book.usecase.service.DefaultLibraryApachePoiWorkbookLoader;
-import com.bernardomg.association.library.book.usecase.service.NameResolver;
+import com.bernardomg.association.library.book.usecase.generator.DefaultApachePoiWorkbookGenerator;
+import com.bernardomg.association.library.book.usecase.generator.DefaultLibraryApachePoiWorkbookLoader;
+import com.bernardomg.association.library.book.usecase.generator.NameResolver;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Excel logo palette styling")

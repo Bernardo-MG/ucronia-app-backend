@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.library.book.usecase.service;
+package com.bernardomg.association.library.book.usecase.generator;
 
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
