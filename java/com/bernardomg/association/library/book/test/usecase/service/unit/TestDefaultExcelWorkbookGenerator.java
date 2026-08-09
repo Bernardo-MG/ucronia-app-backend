@@ -45,26 +45,6 @@ class TestDefaultExcelWorkbookGenerator {
     private static final List<String>  LENDING_HISTORY_HEADERS       = List.of("Tipo", "Número", "Título", "Socio",
         "Prestado en", "Devuelto en");
 
-    private static void assertBookSheet(final Workbook workbook, final String sheetName,
-            final List<String> expectedHeaders, final List<Integer> expectedWidths) {
-        final Cell  title;
-        final Sheet sheet;
-        final int   rightPaddingColumn;
-
-        sheet = workbook.getSheet(sheetName);
-        assertSheet(workbook, sheetName, expectedHeaders, expectedWidths, 2, 1);
-
-        title = sheet.getRow(1)
-            .getCell(1);
-        rightPaddingColumn = expectedHeaders.size() + 1;
-
-        assertAll(() -> assertEquals("Biblioteca de A.R. Ucronía", title.getStringCellValue()),
-            () -> assertEquals(1, sheet.getNumMergedRegions()), () -> assertEquals(1000, sheet.getColumnWidth(0)),
-            () -> assertEquals(1000, sheet.getColumnWidth(rightPaddingColumn)),
-            () -> assertTrue(sheet.isColumnHidden(rightPaddingColumn + 1)),
-            () -> assertFalse(sheet.isDisplayGridlines()), () -> assertFalse(sheet.isDisplayRowColHeadings()));
-    }
-
     private static void assertHeaderStyle(final XSSFWorkbook workbook, final Cell cell) {
         final XSSFFont font;
 
@@ -97,6 +77,28 @@ class TestDefaultExcelWorkbookGenerator {
 
             assertHeaderStyle((XSSFWorkbook) workbook, cell);
         }
+    }
+
+    private static void assertBookSheet(final Workbook workbook, final String sheetName,
+            final List<String> expectedHeaders, final List<Integer> expectedWidths) {
+        final Cell  title;
+        final Sheet sheet;
+        final int   rightPaddingColumn;
+
+        sheet = workbook.getSheet(sheetName);
+        assertSheet(workbook, sheetName, expectedHeaders, expectedWidths, 2, 1);
+
+        title = sheet.getRow(1)
+            .getCell(1);
+        rightPaddingColumn = expectedHeaders.size() + 1;
+
+        assertAll(() -> assertEquals("Biblioteca de A.R. Ucronía", title.getStringCellValue()),
+            () -> assertEquals(1, sheet.getNumMergedRegions()),
+            () -> assertEquals(1000, sheet.getColumnWidth(0)),
+            () -> assertEquals(1000, sheet.getColumnWidth(rightPaddingColumn)),
+            () -> assertTrue(sheet.isColumnHidden(rightPaddingColumn + 1)),
+            () -> assertFalse(sheet.isDisplayGridlines()),
+            () -> assertFalse(sheet.isDisplayRowColHeadings()));
     }
 
     private final DefaultExcelWorkbookGenerator generator = new DefaultExcelWorkbookGenerator();

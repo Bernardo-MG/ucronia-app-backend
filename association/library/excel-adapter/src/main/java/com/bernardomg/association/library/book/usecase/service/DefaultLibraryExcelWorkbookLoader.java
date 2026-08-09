@@ -32,26 +32,22 @@ import com.bernardomg.association.library.publisher.domain.model.Publisher;
 
 public final class DefaultLibraryExcelWorkbookLoader implements LibraryExcelWorkbookLoader {
 
-    private static final int FIRST_BOOK_DATA_ROW = 3;
+    private static final int               AUTO_SIZE_PADDING         = 1024;
 
-    private static final int FIRST_BOOK_COLUMN = 1;
+    private static final int               DEFAULT_ROW_HEIGHT_POINTS = 15;
 
-    private static final int END_PADDING_COLUMN_WIDTH = 1000;
+    private static final int               END_PADDING_COLUMN_WIDTH  = 1000;
 
-    private static final int DEFAULT_ROW_HEIGHT_POINTS = 15;
+    private static final String            EXCEL_DATE_FORMAT         = "dd/MM/yyyy";
 
-    private static final int MIN_COLUMN_WIDTH = 8000;
+    private static final int               FIRST_BOOK_COLUMN         = 1;
 
-    private static final double AUTO_SIZE_MULTIPLIER = 1.6d;
+    private static final int               FIRST_BOOK_DATA_ROW       = 3;
 
-    private static final int MAX_COLUMN_WIDTH = 255 * 256;
-
-    private static final int COLUMN_WIDTH_PADDING = 4000;
-
-    private static final String EXCEL_DATE_FORMAT = "dd/MM/yyyy";
-
-    private static final DateTimeFormatter LENDING_DATE_FORMAT = DateTimeFormatter.ofPattern(EXCEL_DATE_FORMAT)
+    private static final DateTimeFormatter LENDING_DATE_FORMAT       = DateTimeFormatter.ofPattern(EXCEL_DATE_FORMAT)
         .withZone(ZoneId.systemDefault());
+
+    private static final int               MAX_COLUMN_WIDTH          = 255 * 256;
 
     private final BorrowerNameResolver     borrowerNameResolver;
 
@@ -124,37 +120,29 @@ public final class DefaultLibraryExcelWorkbookLoader implements LibraryExcelWork
 
         // Only active lendings
         lendingSheet = workbook.getSheetAt(2);
-        loadLendings(lendingSheet, lendingStyle, lendingDateStyle, alternateLendingStyle,
-            alternateLendingDateStyle, gameBooks, fictionBooks, true, false);
+        loadLendings(lendingSheet, lendingStyle, lendingDateStyle, alternateLendingStyle, alternateLendingDateStyle,
+            gameBooks, fictionBooks, true, false);
 
         // Complete history
         lendingHistorySheet = workbook.getSheetAt(3);
         loadLendings(lendingHistorySheet, lendingStyle, lendingDateStyle, alternateLendingStyle,
             alternateLendingDateStyle, gameBooks, fictionBooks, false, true);
 
-        adjustSheetColumnWidths(gameSheet, 12);
-        adjustSheetColumnWidths(fictionSheet, 10);
-        adjustSheetColumnWidths(lendingSheet, 5);
-        adjustSheetColumnWidths(lendingHistorySheet, 6);
+        autoAdjustColumns(gameSheet, 12);
+        autoAdjustColumns(fictionSheet, 10);
+        autoAdjustColumns(lendingSheet, 5);
+        autoAdjustColumns(lendingHistorySheet, 6);
     }
 
-    private final void adjustSheetColumnWidths(final Sheet sheet, final int lastBookColumn) {
-        int autosizedWidth;
-        int expandedWidth;
-        int desiredWidth;
+    private final void autoAdjustColumns(final Sheet sheet, final int lastBookColumn) {
+        int width;
 
         for (int column = FIRST_BOOK_COLUMN; column <= lastBookColumn; column++) {
-            sheet.autoSizeColumn(column);
-
-            autosizedWidth = sheet.getColumnWidth(column);
-            expandedWidth = (int) Math.ceil(autosizedWidth * AUTO_SIZE_MULTIPLIER);
-            desiredWidth = Math.min(MAX_COLUMN_WIDTH,
-                Math.max(MIN_COLUMN_WIDTH, expandedWidth + COLUMN_WIDTH_PADDING));
-
-            sheet.setColumnWidth(column, desiredWidth);
+            sheet.autoSizeColumn(column, true);
+            width = Math.min(MAX_COLUMN_WIDTH, sheet.getColumnWidth(column) + AUTO_SIZE_PADDING);
+            sheet.setColumnWidth(column, width);
         }
 
-        // Preserve the visible empty padding column at the end of each sheet.
         sheet.setColumnWidth(lastBookColumn + 1, END_PADDING_COLUMN_WIDTH);
     }
 
@@ -164,7 +152,8 @@ public final class DefaultLibraryExcelWorkbookLoader implements LibraryExcelWork
         style.setBorderRight(BorderStyle.THIN);
         style.setBorderBottom(BorderStyle.THIN);
         style.setBorderLeft(BorderStyle.THIN);
-        style.setWrapText(true);
+        // Keep body text on a single line so autoSizeColumn expands columns to full content width.
+        style.setWrapText(false);
     }
 
     private final String getLendingStatus(final boolean lent, final Collection<BookLendingInfo> lendings) {
@@ -189,19 +178,19 @@ public final class DefaultLibraryExcelWorkbookLoader implements LibraryExcelWork
 
     private final void loadFiction(final Sheet sheet, final CellStyle style, final CellStyle dateStyle,
             final CellStyle alternateStyle, final CellStyle alternateDateStyle, final Iterable<FictionBook> books) {
-        int      index;
-        Row      row;
-        Cell     cell;
+        int       index;
+        Row       row;
+        Cell      cell;
         CellStyle rowStyle;
         CellStyle rowDateStyle;
-        Donation donation;
+        Donation  donation;
 
         index = FIRST_BOOK_DATA_ROW;
         for (final FictionBook book : books) {
             row = sheet.createRow(index);
             row.setHeightInPoints(DEFAULT_ROW_HEIGHT_POINTS);
 
-            if ((index - FIRST_BOOK_DATA_ROW) % 2 == 0) {
+            if (((index - FIRST_BOOK_DATA_ROW) % 2) == 0) {
                 rowStyle = style;
                 rowDateStyle = dateStyle;
             } else {
@@ -284,19 +273,19 @@ public final class DefaultLibraryExcelWorkbookLoader implements LibraryExcelWork
 
     private final void loadGames(final Sheet sheet, final CellStyle style, final CellStyle dateStyle,
             final CellStyle alternateStyle, final CellStyle alternateDateStyle, final Iterable<GameBook> books) {
-        int      index;
-        Row      row;
-        Cell     cell;
+        int       index;
+        Row       row;
+        Cell      cell;
         CellStyle rowStyle;
         CellStyle rowDateStyle;
-        Donation donation;
+        Donation  donation;
 
         index = FIRST_BOOK_DATA_ROW;
         for (final GameBook book : books) {
             row = sheet.createRow(index);
             row.setHeightInPoints(DEFAULT_ROW_HEIGHT_POINTS);
 
-            if ((index - FIRST_BOOK_DATA_ROW) % 2 == 0) {
+            if (((index - FIRST_BOOK_DATA_ROW) % 2) == 0) {
                 rowStyle = style;
                 rowDateStyle = dateStyle;
             } else {
@@ -392,9 +381,9 @@ public final class DefaultLibraryExcelWorkbookLoader implements LibraryExcelWork
     private final void loadLendingRow(final Sheet sheet, final int index, final CellStyle style,
             final CellStyle dateStyle, final String type, final long bookNumber, final String title,
             final BookLendingInfo lending, final boolean includeReturnDate) {
-        final String  borrowerName;
-        final Row     row;
-        Cell          cell;
+        final String borrowerName;
+        final Row    row;
+        Cell         cell;
 
         row = sheet.createRow(index);
         row.setHeightInPoints(DEFAULT_ROW_HEIGHT_POINTS);
@@ -433,10 +422,9 @@ public final class DefaultLibraryExcelWorkbookLoader implements LibraryExcelWork
     }
 
     private final void loadLendings(final Sheet sheet, final CellStyle style, final CellStyle dateStyle,
-            final CellStyle alternateStyle, final CellStyle alternateDateStyle,
-            final Iterable<GameBook> gameBooks, final Iterable<FictionBook> fictionBooks,
-            final boolean activeOnly, final boolean includeReturnDate) {
-        int index;
+            final CellStyle alternateStyle, final CellStyle alternateDateStyle, final Iterable<GameBook> gameBooks,
+            final Iterable<FictionBook> fictionBooks, final boolean activeOnly, final boolean includeReturnDate) {
+        int       index;
         CellStyle rowStyle;
         CellStyle rowDateStyle;
 
@@ -446,7 +434,7 @@ public final class DefaultLibraryExcelWorkbookLoader implements LibraryExcelWork
             for (final BookLendingInfo lending : book.lendings()) {
                 if (!activeOnly || lending.returnDate()
                     .isEmpty()) {
-                    if ((index - FIRST_BOOK_DATA_ROW) % 2 == 0) {
+                    if (((index - FIRST_BOOK_DATA_ROW) % 2) == 0) {
                         rowStyle = style;
                         rowDateStyle = dateStyle;
                     } else {
@@ -466,7 +454,7 @@ public final class DefaultLibraryExcelWorkbookLoader implements LibraryExcelWork
             for (final BookLendingInfo lending : book.lendings()) {
                 if (!activeOnly || lending.returnDate()
                     .isEmpty()) {
-                    if ((index - FIRST_BOOK_DATA_ROW) % 2 == 0) {
+                    if (((index - FIRST_BOOK_DATA_ROW) % 2) == 0) {
                         rowStyle = style;
                         rowDateStyle = dateStyle;
                     } else {
@@ -499,5 +487,5 @@ public final class DefaultLibraryExcelWorkbookLoader implements LibraryExcelWork
 
         return language;
     }
-    
+
 }

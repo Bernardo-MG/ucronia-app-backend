@@ -49,7 +49,7 @@ class TestDefaultLibraryExcelWorkbookLoader {
         .withZone(ZoneId.systemDefault());
 
     private static void assertAllCellsWrapText(final Row row, final int firstColumn, final int cellCount) {
-        for (int column = firstColumn; column < (firstColumn + cellCount); column++) {
+        for (int column = firstColumn; column < firstColumn + cellCount; column++) {
             assertThat(row.getCell(column)
                 .getCellStyle()
                 .getWrapText()).as("Cell %s should wrap text", column)
@@ -173,17 +173,17 @@ class TestDefaultLibraryExcelWorkbookLoader {
             .collect(Collectors.joining(", "));
     }
 
-    @Mock
-    private BorrowerNameResolver              borrowerNameResolver;
-
     @InjectMocks
     private DefaultLibraryExcelWorkbookLoader loader;
+
+    @Mock
+    private BorrowerNameResolver              borrowerNameResolver;
 
     @Test
     @DisplayName("A borrower name resolver is required")
     void testConstructorRejectsNullRepository() {
         final BorrowerNameResolver repository;
-        final ThrowingCallable     callable;
+        final ThrowingCallable  callable;
 
         // GIVEN
         repository = null;
