@@ -57,7 +57,7 @@ public final class MemberEntityMapper {
             entity.getFeeType()
                 .getAmount());
 
-        name = new Name(entity.getFirstName(), entity.getLastName(), Optional.of(entity.getNickname()));
+        name = new Name(entity.getFirstName(), entity.getLastName(), Optional.ofNullable(entity.getNickname()));
 
         contactChannels = entity.getContactChannels()
             .stream()
@@ -84,7 +84,7 @@ public final class MemberEntityMapper {
             entity.getFeeType()
                 .getAmount());
 
-        name = new Name(entity.getFirstName(), entity.getLastName(), Optional.of(entity.getNickname()));
+        name = new Name(entity.getFirstName(), entity.getLastName(), Optional.ofNullable(entity.getNickname()));
 
         contactChannels = entity.getContactChannels()
             .stream()

@@ -66,7 +66,7 @@ public class ReadSponsorEntity implements Serializable {
     @Column(name = "last_name", table = "profiles")
     private String                           lastName;
 
-    @Column(name = "nickname")
+    @Column(name = "nickname", table = "profiles")
     private String                           nickname;
 
     @Column(name = "number", table = "profiles")
