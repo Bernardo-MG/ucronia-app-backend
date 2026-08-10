@@ -37,6 +37,7 @@ import com.bernardomg.association.TestApplication;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityConstants;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.ReadMemberEntity;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.KeySpringRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.ReadMemberSpringRepository;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
@@ -65,6 +66,9 @@ class ITMemberRepositorySave {
 
     @Autowired
     private ReadMemberSpringRepository springRepository;
+
+    @Autowired
+    private KeySpringRepository  keySpringRepository;
 
     public ITMemberRepositorySave() {
         super();
@@ -232,11 +236,32 @@ class ITMemberRepositorySave {
         Assertions.assertThat(created.keyNumber())
             .as("created member key")
             .contains(MemberConstants.KEY);
+        Assertions.assertThat(keySpringRepository.existsByNumber(MemberConstants.KEY))
+            .as("registered key")
+            .isTrue();
         Assertions.assertThat(existing.map(Member::keyNumber)
             .orElse(null))
             .as("secondMember")
             .isNotNull()
             .isEmpty();
+    }
+
+    @Test
+    @DisplayName("When assigning a new key to a member, the key is added to the key catalog")
+    @PositiveFeeType
+    void testSave_SetsNewKeyInCatalog() {
+        final Member member;
+
+        // GIVEN
+        member = Members.withKey();
+
+        // WHEN
+        repository.save(member);
+
+        // THEN
+        Assertions.assertThat(keySpringRepository.existsByNumber(MemberConstants.KEY))
+            .as("registered key")
+            .isTrue();
     }
 
     @Test

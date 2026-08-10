@@ -1,5 +1,15 @@
 databaseChangeLog:
   - changeSet:
+      id: inventory_schema
+      author: Bernardo
+      changes:
+        - sqlFile:
+            encoding: UTF-8
+            path: sql/create_inventory_schema.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: true
+  - changeSet:
       id: member
       author: Bernardo
       changes:
@@ -47,3 +57,63 @@ databaseChangeLog:
             columns:
               - column:
                   name: key_number
+  - changeSet:
+      id: key
+      author: Bernardo
+      changes:
+        - createTable:
+            schemaName: inventory
+            tableName: keys
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: number
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: missing
+                  type: boolean
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(250)
+                  defaultValue: ''
+                  constraints:
+                    nullable: false
+        - addAutoIncrement:
+            schemaName: inventory
+            tableName: keys
+            columnName: id
+            columnDataType: bigint
+            incrementBy: 1
+            startWith: 1
+        - createIndex:
+            schemaName: inventory
+            tableName: keys
+            indexName: idx_keys_number
+            columns:
+              - column:
+                  name: number
+        - sql:
+            sql: |
+              INSERT INTO inventory.keys (number, missing, description)
+              SELECT DISTINCT m.key_number, false, ''
+              FROM directory.members m
+              WHERE m.key_number IS NOT NULL;
+        - addForeignKeyConstraint:
+            baseTableSchemaName: directory
+            baseTableName: members
+            baseColumnNames: key_number
+            referencedTableSchemaName: inventory
+            referencedTableName: keys
+            referencedColumnNames: number
+            constraintName: fk_members_key_number

@@ -35,15 +35,18 @@ import com.bernardomg.association.member.adapter.inbound.event.ApplyRenewalOnMon
 import com.bernardomg.association.member.adapter.inbound.event.DeactivateMemberOnFeeDeletedEventListener;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberContactMethodRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberCountRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaKeyRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMembershipEvolutionRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaPublicMemberRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberContactMethodSpringRepository;
+import com.bernardomg.association.member.adapter.inbound.jpa.repository.KeySpringRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.PublicMemberSpringRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.ReadMemberSpringRepository;
 import com.bernardomg.association.member.domain.repository.MemberContactMethodRepository;
 import com.bernardomg.association.member.domain.repository.MemberCountRepository;
+import com.bernardomg.association.member.domain.repository.KeyRepository;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.domain.repository.MembershipEvolutionRepository;
 import com.bernardomg.association.member.domain.repository.PublicMemberRepository;
@@ -95,6 +98,11 @@ public class AssociationMemberAutoConfiguration {
         return new JpaMemberCountRepository(memberSpringRepository);
     }
 
+    @Bean("keyRepository")
+    public KeyRepository getKeyRepository(final KeySpringRepository keySpringRepository) {
+        return new JpaKeyRepository(keySpringRepository);
+    }
+
     @Bean("memberCountService")
     public MemberCountService getMemberCountService(final MemberCountRepository memberCountRepository) {
         return new DefaultMemberCountService(memberCountRepository);
@@ -104,9 +112,10 @@ public class AssociationMemberAutoConfiguration {
     public MemberRepository getMemberRepository(final ReadMemberSpringRepository readMemberSpringRepository,
             final MemberSpringRepository memberSpringRepository,
             final MemberContactMethodSpringRepository memberContactMethodSpringRepository,
-            final FeeTypeSpringRepository feeTypeSpringRepository) {
+            final FeeTypeSpringRepository feeTypeSpringRepository,
+            final KeySpringRepository keySpringRepository) {
         return new JpaMemberRepository(readMemberSpringRepository, memberSpringRepository,
-            memberContactMethodSpringRepository, feeTypeSpringRepository);
+            memberContactMethodSpringRepository, feeTypeSpringRepository, keySpringRepository);
     }
 
     @Bean("memberService")
