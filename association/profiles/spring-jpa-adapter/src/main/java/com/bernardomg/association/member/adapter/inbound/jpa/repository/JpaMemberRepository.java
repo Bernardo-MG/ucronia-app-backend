@@ -319,11 +319,23 @@ public final class JpaMemberRepository implements MemberRepository {
         }
     }
 
+    private final void releaseKeyForAnotherMember(final Member member) {
+        member.keyNumber()
+            .ifPresent(keyNumber -> memberSpringRepository.findByKeyNumber(keyNumber)
+                .filter(existing -> !Objects.equals(existing.getNumber(), member.number()))
+                .ifPresent(existing -> {
+                    existing.setKeyNumber(null);
+                    memberSpringRepository.save(existing);
+                }));
+    }
+
     private final MemberEntity toEntity(final Member member, final Supplier<Long> number) {
         final Optional<MemberEntity>                existing;
         final MemberEntity                          entity;
         final Collection<MemberContactMethodEntity> contactMethods;
         final Optional<FeeTypeEntity>               feeType;
+
+        releaseKeyForAnotherMember(member);
 
         existing = memberSpringRepository.findByNumber(member.number());
         contactMethods = getContactMethods(member);

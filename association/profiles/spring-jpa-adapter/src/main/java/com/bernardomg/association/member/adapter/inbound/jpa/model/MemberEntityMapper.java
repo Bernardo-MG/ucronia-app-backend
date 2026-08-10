@@ -67,7 +67,8 @@ public final class MemberEntityMapper {
         audit = toDomain(entity.getAudit());
         return new Member(Optional.ofNullable(entity.getIdentifier()), entity.getNumber(), name,
             Optional.ofNullable(entity.getBirthDate()), contactChannels, Optional.ofNullable(entity.getAddress()),
-            Optional.ofNullable(entity.getComments()), entity.getActive(), entity.getRenew(), feeType,
+            Optional.ofNullable(entity.getComments()), entity.getActive(), entity.getRenew(),
+            Optional.ofNullable(entity.getKeyNumber()), feeType,
             entity.getTypes(), audit);
     }
 
@@ -94,7 +95,8 @@ public final class MemberEntityMapper {
         audit = new AuditDetails();
         return new Member(Optional.ofNullable(entity.getIdentifier()), entity.getNumber(), name,
             Optional.ofNullable(entity.getBirthDate()), contactChannels, Optional.ofNullable(entity.getAddress()),
-            Optional.ofNullable(entity.getComments()), entity.getActive(), entity.getRenew(), feeType,
+            Optional.ofNullable(entity.getComments()), entity.getActive(), entity.getRenew(),
+            Optional.ofNullable(entity.getKeyNumber()), feeType,
             entity.getTypes(), audit);
     }
 
@@ -119,6 +121,8 @@ public final class MemberEntityMapper {
         entity.setAddress(data.address()
             .orElse(null));
         entity.setComments(data.comments()
+            .orElse(null));
+        entity.setKeyNumber(data.keyNumber()
             .orElse(null));
 
         contactChannels = data.contactChannels()
@@ -158,6 +162,8 @@ public final class MemberEntityMapper {
         entity.setAddress(data.address()
             .orElse(null));
         entity.setComments(data.comments()
+            .orElse(null));
+        entity.setKeyNumber(data.keyNumber()
             .orElse(null));
 
         contactChannels = data.contactChannels()

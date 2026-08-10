@@ -280,6 +280,8 @@ public final class DefaultMemberService implements MemberService {
                 .orElse(existing.active()),
             Optional.ofNullable(updated.renew())
                 .orElse(existing.renew()),
+            Optional.ofNullable(updated.keyNumber())
+                .orElse(existing.keyNumber()),
             Optional.ofNullable(updated.feeType())
                 .orElse(existing.feeType()),
             Optional.ofNullable(updated.types())

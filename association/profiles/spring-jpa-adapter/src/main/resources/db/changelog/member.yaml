@@ -32,3 +32,18 @@ databaseChangeLog:
                   name: renew_membership
                   type: boolean
                   defaultValue: true
+              - column:
+                  name: key_number
+                  type: bigint
+        - addUniqueConstraint:
+            constraintName: member_key_number_unique
+            schemaName: directory
+            tableName: members
+            columnNames: key_number
+        - createIndex:
+            schemaName: directory
+            tableName: members
+            indexName: idx_member_key_number
+            columns:
+              - column:
+                  name: key_number

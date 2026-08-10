@@ -68,6 +68,9 @@ public class ReadMemberEntity implements Serializable {
     @Column(name = "identifier", table = "profiles")
     private String                                     identifier;
 
+    @Column(name = "key_number", table = "members")
+    private Long                                       keyNumber;
+
     @Column(name = "last_name", table = "profiles")
     private String                                     lastName;
 
@@ -131,6 +134,10 @@ public class ReadMemberEntity implements Serializable {
         return identifier;
     }
 
+    public Long getKeyNumber() {
+        return keyNumber;
+    }
+
     public String getLastName() {
         return lastName;
     }
@@ -192,6 +199,10 @@ public class ReadMemberEntity implements Serializable {
         this.identifier = identifier;
     }
 
+    public void setKeyNumber(final Long keyNumber) {
+        this.keyNumber = keyNumber;
+    }
+
     public void setLastName(final String lastName) {
         this.lastName = lastName;
     }
@@ -216,8 +227,9 @@ public class ReadMemberEntity implements Serializable {
     public String toString() {
         return "ReadMemberEntity [id=" + id + ", active=" + active + ", feeType=" + feeType + ", number=" + number
                 + ", firstName=" + firstName + ", lastName=" + lastName + ", nickname=" + nickname + ", renew=" + renew
-                + ", identifier=" + identifier + ", address=" + address + ", birthDate=" + birthDate + ", comments="
-                + comments + ", types=" + types + ", contactChannels=" + contactChannels + "]";
+                + ", identifier=" + identifier + ", keyNumber=" + keyNumber + ", address=" + address + ", birthDate="
+                + birthDate + ", comments=" + comments + ", types=" + types + ", contactChannels=" + contactChannels
+                + "]";
     }
 
 }

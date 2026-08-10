@@ -80,6 +80,8 @@ components:
           type: string
           maxLength: 250
           description: Comments about the member.
+        keyNumber:
+          $ref: '../common/ids.yml#/components/schemas/Id'
         feeType:
           $ref: '#/components/schemas/MemberFeeType'
         active:
@@ -130,6 +132,8 @@ components:
         comments:
           type: string
           maxLength: 250
+        keyNumber:
+          $ref: '../common/ids.yml#/components/schemas/Id'
         active:
           type: boolean
           description: Whether the member is active.
