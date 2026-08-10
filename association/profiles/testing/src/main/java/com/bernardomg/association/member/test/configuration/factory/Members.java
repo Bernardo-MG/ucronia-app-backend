@@ -26,6 +26,29 @@ public final class Members {
             Optional.of(MemberConstants.BIRTH_DATE), List.of(), Optional.of(MemberConstants.ADDRESS),
             Optional.of(MemberConstants.COMMENTS), true, true, feeType, new HashSet<>(List.of(Member.PROFILE_TYPE)));
     }
+    public static final Member withKey() {
+        final Name    name;
+        final FeeType feeType;
+
+        feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
+
+        name = new Name(MemberConstants.FIRST_NAME, MemberConstants.LAST_NAME);
+        return new Member(Optional.of(MemberConstants.IDENTIFIER), MemberConstants.NUMBER, name,
+            Optional.of(MemberConstants.BIRTH_DATE), List.of(), Optional.of(MemberConstants.ADDRESS),
+            Optional.of(MemberConstants.COMMENTS), true, true, Optional.ofNullable(MemberConstants.KEY), feeType, new HashSet<>(List.of(Member.PROFILE_TYPE)));
+    }
+
+    public static final Member alternativeWithKey() {
+        final Name    name;
+        final FeeType feeType;
+
+        feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
+
+        name = new Name(MemberConstants.ALTERNATIVE_FIRST_NAME, MemberConstants.ALTERNATIVE_LAST_NAME);
+        return new Member(Optional.of(MemberConstants.ALTERNATIVE_IDENTIFIER), MemberConstants.ALTERNATIVE_NUMBER, name,
+            Optional.of(MemberConstants.BIRTH_DATE), List.of(), Optional.of(MemberConstants.ADDRESS),
+            Optional.of(MemberConstants.COMMENTS), true, true, Optional.ofNullable(MemberConstants.KEY), feeType, new HashSet<>(List.of(Member.PROFILE_TYPE)));
+    }
 
     public static final Member activeNoRenew() {
         final Name    name;

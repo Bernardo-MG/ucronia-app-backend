@@ -68,8 +68,7 @@ public final class MemberEntityMapper {
         return new Member(Optional.ofNullable(entity.getIdentifier()), entity.getNumber(), name,
             Optional.ofNullable(entity.getBirthDate()), contactChannels, Optional.ofNullable(entity.getAddress()),
             Optional.ofNullable(entity.getComments()), entity.getActive(), entity.getRenew(),
-            Optional.ofNullable(entity.getKeyNumber()), feeType,
-            entity.getTypes(), audit);
+            Optional.ofNullable(entity.getKeyNumber()), feeType, entity.getTypes(), audit);
     }
 
     public static final Member toDomain(final ReadMemberEntity entity) {
@@ -96,8 +95,7 @@ public final class MemberEntityMapper {
         return new Member(Optional.ofNullable(entity.getIdentifier()), entity.getNumber(), name,
             Optional.ofNullable(entity.getBirthDate()), contactChannels, Optional.ofNullable(entity.getAddress()),
             Optional.ofNullable(entity.getComments()), entity.getActive(), entity.getRenew(),
-            Optional.ofNullable(entity.getKeyNumber()), feeType,
-            entity.getTypes(), audit);
+            Optional.ofNullable(entity.getKeyNumber()), feeType, entity.getTypes(), audit);
     }
 
     public static final MemberEntity toEntity(final Member data,

@@ -30,6 +30,8 @@ public final class MemberConstants {
 
     public static final String  COMMENTS               = "Comments";
 
+    public static final long  KEY               = 100L;
+
     public static final String  EMAIL                  = "email@somewhere.com";
 
     public static final String  FIRST_NAME             = "Name 1";

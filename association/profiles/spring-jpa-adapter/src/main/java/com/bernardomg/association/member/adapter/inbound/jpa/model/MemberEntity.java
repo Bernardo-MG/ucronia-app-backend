@@ -245,8 +245,7 @@ public class MemberEntity implements Serializable {
                 + contactChannels + ", feeType=" + feeType + ", firstName=" + firstName + ", lastName=" + lastName
                 + ", nickname=" + nickname + ", identifier=" + identifier + ", birthDate=" + birthDate + ", address="
                 + address + ", comments=" + comments + ", keyNumber=" + keyNumber + ", types=" + types + ", renew="
-                + renew + ", audit=" + audit
-                + "]";
+                + renew + ", audit=" + audit + "]";
     }
 
 }

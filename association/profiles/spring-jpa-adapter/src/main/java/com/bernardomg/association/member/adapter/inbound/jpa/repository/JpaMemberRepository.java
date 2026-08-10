@@ -310,15 +310,6 @@ public final class JpaMemberRepository implements MemberRepository {
         return memberContactMethodSpringRepository.findAllByNumberIn(contactMethodNumbers);
     }
 
-    private final void setType(final MemberEntity entity) {
-        if (entity.getTypes() == null) {
-            entity.setTypes(new HashSet<>(List.of(MemberEntityConstants.PROFILE_TYPE)));
-        } else {
-            entity.getTypes()
-                .add(MemberEntityConstants.PROFILE_TYPE);
-        }
-    }
-
     private final void releaseKeyForAnotherMember(final Member member) {
         member.keyNumber()
             .ifPresent(keyNumber -> memberSpringRepository.findByKeyNumber(keyNumber)
@@ -327,6 +318,15 @@ public final class JpaMemberRepository implements MemberRepository {
                     existing.setKeyNumber(null);
                     memberSpringRepository.save(existing);
                 }));
+    }
+
+    private final void setType(final MemberEntity entity) {
+        if (entity.getTypes() == null) {
+            entity.setTypes(new HashSet<>(List.of(MemberEntityConstants.PROFILE_TYPE)));
+        } else {
+            entity.getTypes()
+                .add(MemberEntityConstants.PROFILE_TYPE);
+        }
     }
 
     private final MemberEntity toEntity(final Member member, final Supplier<Long> number) {

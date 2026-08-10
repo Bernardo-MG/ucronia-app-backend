@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.integration;
 
+import java.util.Optional;
+
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
@@ -40,6 +42,8 @@ import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMemberWithEmail;
+import com.bernardomg.association.member.test.configuration.data.annotation.AlternativeMemberWithKey;
+import com.bernardomg.association.member.test.configuration.factory.MemberConstants;
 import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.association.member.test.configuration.factory.ReadMemberEntities;
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
@@ -204,6 +208,35 @@ class ITMemberRepositorySave {
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.id", "profile.number",
                 "profile.contactChannels.id", "profile.contactChannels.profileId", "profile.contactChannels.profile")
             .containsExactly(ReadMemberEntities.active());
+    }
+
+    @Test
+    @DisplayName("When assigning an existing key to another member, the key is reassigned")
+    @PositiveFeeType
+    @AlternativeMemberWithKey
+    void testSave_ReassignKey() {
+        final Member           created;
+        final Optional<Member> existing;
+        final Member           newWithKey;
+
+        // GIVEN
+        newWithKey = Members.withKey();
+
+        // WHEN
+        created = repository.save(newWithKey);
+
+        // THEN
+        existing = repository.findOne(Members.alternativeWithKey()
+            .number());
+
+        Assertions.assertThat(created.keyNumber())
+            .as("created member key")
+            .contains(MemberConstants.KEY);
+        Assertions.assertThat(existing.map(Member::keyNumber)
+            .orElse(null))
+            .as("secondMember")
+            .isNotNull()
+            .isEmpty();
     }
 
     @Test

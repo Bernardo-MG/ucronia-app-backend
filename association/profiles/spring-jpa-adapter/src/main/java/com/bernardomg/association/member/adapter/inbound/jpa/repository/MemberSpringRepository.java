@@ -38,7 +38,7 @@ import com.bernardomg.association.member.adapter.inbound.jpa.model.MembershipEvo
 
 public interface MemberSpringRepository extends JpaRepository<MemberEntity, Long> {
 
-  public Optional<MemberEntity> findByKeyNumber(@Param("keyNumber") final Long keyNumber);
+    public Optional<MemberEntity> findByKeyNumber(@Param("keyNumber") final Long keyNumber);
 
     public Optional<MemberEntity> findByNumber(@Param("number") final Long number);
 
