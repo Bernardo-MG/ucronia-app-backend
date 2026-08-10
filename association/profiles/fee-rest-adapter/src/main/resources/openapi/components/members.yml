@@ -25,6 +25,10 @@ components:
           type: string
           example: 'Smith'
           maxLength: 50
+        nickname:
+          type: string
+          example: 'Jhonny'
+          maxLength: 50
         fullName:
           type: string
           example: 'John Smith'

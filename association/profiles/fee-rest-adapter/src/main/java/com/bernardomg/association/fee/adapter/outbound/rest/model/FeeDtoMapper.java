@@ -78,7 +78,7 @@ public final class FeeDtoMapper {
         final Name        name;
         final FeeType     feeType;
 
-        name = new Name("", "");
+        name = new Name("", "", Optional.empty());
         feeType = new FeeType(-1, "", 0F);
         if (change.getTransaction() == null) {
             fee = Fee.unpaid(month, number, name, feeType);
@@ -149,6 +149,10 @@ public final class FeeDtoMapper {
             .lastName(fee.member()
                 .name()
                 .lastName())
+            .nickname(fee.member()
+                .name()
+                .nickname()
+                .orElse(null))
             .fullName(fee.member()
                 .name()
                 .fullName());

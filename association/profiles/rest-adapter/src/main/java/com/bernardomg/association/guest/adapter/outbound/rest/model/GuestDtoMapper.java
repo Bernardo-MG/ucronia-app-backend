@@ -37,11 +37,11 @@ import com.bernardomg.association.guest.adapter.outbound.rest.dto.ContactMethodD
 import com.bernardomg.association.guest.adapter.outbound.rest.dto.EditionContactChannelDto;
 import com.bernardomg.association.guest.adapter.outbound.rest.dto.GuestCreationDto;
 import com.bernardomg.association.guest.adapter.outbound.rest.dto.GuestDto;
-import com.bernardomg.association.guest.adapter.outbound.rest.dto.GuestNameDto;
 import com.bernardomg.association.guest.adapter.outbound.rest.dto.GuestPageResponseDto;
 import com.bernardomg.association.guest.adapter.outbound.rest.dto.GuestPatchDto;
 import com.bernardomg.association.guest.adapter.outbound.rest.dto.GuestResponseDto;
 import com.bernardomg.association.guest.adapter.outbound.rest.dto.GuestUpdateDto;
+import com.bernardomg.association.guest.adapter.outbound.rest.dto.NameDto;
 import com.bernardomg.association.guest.adapter.outbound.rest.dto.PropertyDto;
 import com.bernardomg.association.guest.adapter.outbound.rest.dto.PropertyDto.DirectionEnum;
 import com.bernardomg.association.guest.adapter.outbound.rest.dto.SortingDto;
@@ -63,7 +63,9 @@ public final class GuestDtoMapper {
         name = new Name(creation.getName()
             .getFirstName(),
             creation.getName()
-                .getLastName());
+                .getLastName(),
+            Optional.ofNullable(creation.getName()
+                .getNickname()));
 
         return new Guest(Optional.ofNullable(creation.getIdentifier()), -1L, name, Optional.empty(), List.of(),
             List.of(), Optional.empty(), Optional.empty(), Set.of());
@@ -76,7 +78,9 @@ public final class GuestDtoMapper {
         name = new Name(change.getName()
             .getFirstName(),
             change.getName()
-                .getLastName());
+                .getLastName(),
+            Optional.ofNullable(change.getName()
+                .getNickname()));
         contactChannels = change.getContactChannels()
             .stream()
             .map(GuestDtoMapper::toDomain)
@@ -94,7 +98,9 @@ public final class GuestDtoMapper {
         name = new Name(change.getName()
             .getFirstName(),
             change.getName()
-                .getLastName());
+                .getLastName(),
+            Optional.ofNullable(change.getName()
+                .getNickname()));
         contactChannels = change.getContactChannels()
             .stream()
             .map(GuestDtoMapper::toDomain)
@@ -184,10 +190,10 @@ public final class GuestDtoMapper {
     }
 
     private static final GuestDto toDto(final Guest guest) {
-        GuestNameDto            name;
+        NameDto                 name;
         List<ContactChannelDto> contactChannels;
 
-        name = new GuestNameDto().firstName(guest.name()
+        name = new NameDto().firstName(guest.name()
             .firstName())
             .lastName(guest.name()
                 .lastName())

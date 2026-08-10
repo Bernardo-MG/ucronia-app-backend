@@ -13,34 +13,6 @@ components:
           pattern: '^(name.firstName|name.lastName|number)\|(asc|desc)$'
           example: username|asc
   schemas:
-    GuestName:
-      type: object
-      required: [firstName, lastName, fullName]
-      properties:
-        firstName:
-          type: string
-          example: 'John'
-          maxLength: 50
-        lastName:
-          type: string
-          example: 'Smith'
-          maxLength: 50
-        fullName:
-          type: string
-          example: 'John Smith'
-          maxLength: 101
-    EditionGuestName:
-      type: object
-      required: [firstName, lastName]
-      properties:
-        firstName:
-          type: string
-          example: 'John'
-          maxLength: 50
-        lastName:
-          type: string
-          example: 'Smith'
-          maxLength: 50
     ContactChannel:
       type: object
       required: [method, detail]
@@ -82,7 +54,7 @@ components:
           description: Unique identifier of the guest.
           maxLength: 15
         name:
-          $ref: '#/components/schemas/GuestName'
+          $ref: '../../profile/components/profiles.yml#/components/schemas/Name'
         birthDate:
           $ref: '../common/dates.yml#/components/schemas/Date'
         contactChannels:
@@ -115,7 +87,7 @@ components:
           type: string
           description: Unique identifier of the contact.
         name:
-          $ref: '#/components/schemas/EditionGuestName'
+          $ref: '../../profile/components/profiles.yml#/components/schemas/EditionName'
     GuestUpdate:
       type: object
       required: [name]
@@ -123,7 +95,7 @@ components:
         identifier:
           type: string
         name:
-          $ref: '#/components/schemas/EditionGuestName'
+          $ref: '../../profile/components/profiles.yml#/components/schemas/EditionName'
         birthDate:
           $ref: '../common/dates.yml#/components/schemas/Date'
         contactChannels:
@@ -147,7 +119,7 @@ components:
         identifier:
           type: string
         name:
-          $ref: '#/components/schemas/EditionGuestName'
+          $ref: '../../profile/components/profiles.yml#/components/schemas/EditionName'
         birthDate:
           $ref: '../common/dates.yml#/components/schemas/Date'
         contactChannels:

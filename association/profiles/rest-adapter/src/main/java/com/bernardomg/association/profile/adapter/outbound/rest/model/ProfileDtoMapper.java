@@ -35,9 +35,9 @@ import com.bernardomg.association.profile.adapter.outbound.rest.dto.AuditUserDto
 import com.bernardomg.association.profile.adapter.outbound.rest.dto.ContactChannelDto;
 import com.bernardomg.association.profile.adapter.outbound.rest.dto.ContactMethodDto;
 import com.bernardomg.association.profile.adapter.outbound.rest.dto.EditionContactChannelDto;
+import com.bernardomg.association.profile.adapter.outbound.rest.dto.NameDto;
 import com.bernardomg.association.profile.adapter.outbound.rest.dto.ProfileCreationDto;
 import com.bernardomg.association.profile.adapter.outbound.rest.dto.ProfileDto;
-import com.bernardomg.association.profile.adapter.outbound.rest.dto.ProfileNameDto;
 import com.bernardomg.association.profile.adapter.outbound.rest.dto.ProfilePageResponseDto;
 import com.bernardomg.association.profile.adapter.outbound.rest.dto.ProfilePatchDto;
 import com.bernardomg.association.profile.adapter.outbound.rest.dto.ProfileResponseDto;
@@ -64,7 +64,9 @@ public final class ProfileDtoMapper {
         name = new Name(change.getName()
             .getFirstName(),
             change.getName()
-                .getLastName());
+                .getLastName(),
+            Optional.ofNullable(change.getName()
+                .getNickname()));
         contactChannels = change.getContactChannels()
             .stream()
             .map(ProfileDtoMapper::toDomain)
@@ -82,7 +84,9 @@ public final class ProfileDtoMapper {
         name = new Name(change.getName()
             .getFirstName(),
             change.getName()
-                .getLastName());
+                .getLastName(),
+            Optional.ofNullable(change.getName()
+                .getNickname()));
         contactChannels = change.getContactChannels()
             .stream()
             .map(ProfileDtoMapper::toDomain)
@@ -99,7 +103,9 @@ public final class ProfileDtoMapper {
         name = new Name(creation.getName()
             .getFirstName(),
             creation.getName()
-                .getLastName());
+                .getLastName(),
+            Optional.ofNullable(creation.getName()
+                .getNickname()));
 
         return new Profile(Optional.ofNullable(creation.getIdentifier()), -1L, name, Optional.empty(), List.of(),
             Optional.empty(), Optional.empty(), Set.of());
@@ -184,13 +190,16 @@ public final class ProfileDtoMapper {
     }
 
     private static final ProfileDto toDto(final Profile profile) {
-        ProfileNameDto          name;
+        NameDto                 name;
         List<ContactChannelDto> contactChannels;
 
-        name = new ProfileNameDto().firstName(profile.name()
+        name = new NameDto().firstName(profile.name()
             .firstName())
             .lastName(profile.name()
                 .lastName())
+            .nickname(profile.name()
+                .nickname()
+                .orElse(null))
             .fullName(profile.name()
                 .fullName());
         contactChannels = profile.contactChannels()

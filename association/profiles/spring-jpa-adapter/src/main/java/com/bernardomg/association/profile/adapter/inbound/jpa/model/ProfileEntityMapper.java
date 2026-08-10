@@ -46,7 +46,7 @@ public final class ProfileEntityMapper {
         final Collection<ContactChannel> contactChannels;
         final AuditDetails               audit;
 
-        name = new Name(entity.getFirstName(), entity.getLastName());
+        name = new Name(entity.getFirstName(), entity.getLastName(), Optional.ofNullable(entity.getNickname()));
 
         contactChannels = entity.getContactChannels()
             .stream()
@@ -70,6 +70,9 @@ public final class ProfileEntityMapper {
             .firstName());
         entity.setLastName(data.name()
             .lastName());
+        entity.setNickname(data.name()
+            .nickname()
+            .orElse(null));
         entity.setIdentifier(data.identifier()
             .orElse(null));
         entity.setBirthDate(data.birthDate()

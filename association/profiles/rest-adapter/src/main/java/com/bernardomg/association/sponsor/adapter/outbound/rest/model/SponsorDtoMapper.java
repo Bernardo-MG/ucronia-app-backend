@@ -38,12 +38,12 @@ import com.bernardomg.association.sponsor.adapter.outbound.rest.dto.AuditUserDto
 import com.bernardomg.association.sponsor.adapter.outbound.rest.dto.ContactChannelDto;
 import com.bernardomg.association.sponsor.adapter.outbound.rest.dto.ContactMethodDto;
 import com.bernardomg.association.sponsor.adapter.outbound.rest.dto.EditionContactChannelDto;
+import com.bernardomg.association.sponsor.adapter.outbound.rest.dto.NameDto;
 import com.bernardomg.association.sponsor.adapter.outbound.rest.dto.PropertyDto;
 import com.bernardomg.association.sponsor.adapter.outbound.rest.dto.PropertyDto.DirectionEnum;
 import com.bernardomg.association.sponsor.adapter.outbound.rest.dto.SortingDto;
 import com.bernardomg.association.sponsor.adapter.outbound.rest.dto.SponsorCreationDto;
 import com.bernardomg.association.sponsor.adapter.outbound.rest.dto.SponsorDto;
-import com.bernardomg.association.sponsor.adapter.outbound.rest.dto.SponsorNameDto;
 import com.bernardomg.association.sponsor.adapter.outbound.rest.dto.SponsorPageResponseDto;
 import com.bernardomg.association.sponsor.adapter.outbound.rest.dto.SponsorPatchDto;
 import com.bernardomg.association.sponsor.adapter.outbound.rest.dto.SponsorResponseDto;
@@ -64,7 +64,9 @@ public final class SponsorDtoMapper {
         name = new Name(change.getName()
             .getFirstName(),
             change.getName()
-                .getLastName());
+                .getLastName(),
+            Optional.ofNullable(change.getName()
+                .getNickname()));
         contactChannels = change.getContactChannels()
             .stream()
             .map(SponsorDtoMapper::toDomain)
@@ -82,7 +84,9 @@ public final class SponsorDtoMapper {
         name = new Name(change.getName()
             .getFirstName(),
             change.getName()
-                .getLastName());
+                .getLastName(),
+            Optional.ofNullable(change.getName()
+                .getNickname()));
         contactChannels = change.getContactChannels()
             .stream()
             .map(SponsorDtoMapper::toDomain)
@@ -99,7 +103,9 @@ public final class SponsorDtoMapper {
         name = new Name(creation.getName()
             .getFirstName(),
             creation.getName()
-                .getLastName());
+                .getLastName(),
+            Optional.ofNullable(creation.getName()
+                .getNickname()));
 
         return new Sponsor(Optional.ofNullable(creation.getIdentifier()), -1L, name, Optional.empty(), List.of(),
             List.of(), Optional.empty(), Optional.empty(), Set.of());
@@ -172,7 +178,7 @@ public final class SponsorDtoMapper {
     }
 
     private static final ContactChannelDto toDto(final ContactChannel contact) {
-        ContactMethodDto method;
+        final ContactMethodDto method;
 
         method = new ContactMethodDto().number(contact.contactMethod()
             .number())
@@ -197,13 +203,16 @@ public final class SponsorDtoMapper {
     }
 
     private static final SponsorDto toDto(final Sponsor sponsor) {
-        SponsorNameDto          name;
-        List<ContactChannelDto> contactChannels;
+        final NameDto                 name;
+        final List<ContactChannelDto> contactChannels;
 
-        name = new SponsorNameDto().firstName(sponsor.name()
+        name = new NameDto().firstName(sponsor.name()
             .firstName())
             .lastName(sponsor.name()
                 .lastName())
+            .nickname(sponsor.name()
+                .nickname()
+                .orElse(null))
             .fullName(sponsor.name()
                 .fullName());
         contactChannels = sponsor.contactChannels()

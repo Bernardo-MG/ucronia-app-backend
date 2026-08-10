@@ -13,34 +13,6 @@ components:
           pattern: '^(name\.firstName|name\.lastName|number)\|(asc|desc)$'
           example: username|asc
   schemas:
-    MemberName:
-      type: object
-      required: [firstName, lastName, fullName]
-      properties:
-        firstName:
-          type: string
-          example: 'John'
-          maxLength: 50
-        lastName:
-          type: string
-          example: 'Smith'
-          maxLength: 50
-        fullName:
-          type: string
-          example: 'John Smith'
-          maxLength: 101
-    EditionMemberName:
-      type: object
-      required: [firstName, lastName]
-      properties:
-        firstName:
-          type: string
-          example: 'John'
-          maxLength: 50
-        lastName:
-          type: string
-          example: 'Smith'
-          maxLength: 50
     ContactMethod:
       type: object
       required: [number, name]
@@ -78,7 +50,7 @@ components:
         number:
           $ref: '../common/ids.yml#/components/schemas/Id'
         name:
-          $ref: '#/components/schemas/MemberName'
+          $ref: '../../profile/components/profiles.yml#/components/schemas/Name'
         renew:
           type: boolean
           description: Whether the member is eligible for renewal.
@@ -93,7 +65,7 @@ components:
           maxLength: 15
           description: Unique identifier of the member.
         name:
-          $ref: '#/components/schemas/MemberName'
+          $ref: '../../profile/components/profiles.yml#/components/schemas/Name'
         birthDate:
           $ref: '../common/dates.yml#/components/schemas/Date'
         contactChannels:
@@ -133,7 +105,7 @@ components:
           description: Unique identifier of the member.
           maxLength: 15
         name:
-          $ref: '#/components/schemas/EditionMemberName'
+          $ref: '../../profile/components/profiles.yml#/components/schemas/EditionName'
     MemberUpdate:
       type: object
       required: [name, active, renew]
@@ -144,7 +116,7 @@ components:
         feeType:
           $ref: '../common/ids.yml#/components/schemas/Id'
         name:
-          $ref: '#/components/schemas/EditionMemberName'
+          $ref: '../../profile/components/profiles.yml#/components/schemas/EditionName'
         birthDate:
           $ref: '../common/dates.yml#/components/schemas/Date'
         contactChannels:

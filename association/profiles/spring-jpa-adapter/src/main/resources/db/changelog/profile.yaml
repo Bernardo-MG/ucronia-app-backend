@@ -43,6 +43,9 @@ databaseChangeLog:
                   type: varchar(50)
                   defaultValue: ''
               - column:
+                  name: nickname
+                  type: varchar(50)
+              - column:
                   name: birth_date
                   type: datetime
               - column:
