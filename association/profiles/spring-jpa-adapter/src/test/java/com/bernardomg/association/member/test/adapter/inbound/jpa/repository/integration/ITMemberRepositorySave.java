@@ -59,6 +59,9 @@ import com.bernardomg.test.annotation.IntegrationTest;
 class ITMemberRepositorySave {
 
     @Autowired
+    private KeySpringRepository        keySpringRepository;
+
+    @Autowired
     private ProfileSpringRepository    profileSpringRepository;
 
     @Autowired
@@ -66,9 +69,6 @@ class ITMemberRepositorySave {
 
     @Autowired
     private ReadMemberSpringRepository springRepository;
-
-    @Autowired
-    private KeySpringRepository  keySpringRepository;
 
     public ITMemberRepositorySave() {
         super();
@@ -247,24 +247,6 @@ class ITMemberRepositorySave {
     }
 
     @Test
-    @DisplayName("When assigning a new key to a member, the key is added to the key catalog")
-    @PositiveFeeType
-    void testSave_SetsNewKeyInCatalog() {
-        final Member member;
-
-        // GIVEN
-        member = Members.withKey();
-
-        // WHEN
-        repository.save(member);
-
-        // THEN
-        Assertions.assertThat(keySpringRepository.existsByNumber(MemberConstants.KEY))
-            .as("registered key")
-            .isTrue();
-    }
-
-    @Test
     @DisplayName("When the type is removed, the member is not changed")
     @PositiveFeeType
     @ActiveMember
@@ -305,6 +287,24 @@ class ITMemberRepositorySave {
         Assertions.assertThat(saved)
             .as("member")
             .isEqualTo(Members.created());
+    }
+
+    @Test
+    @DisplayName("When assigning a new key to a member, the key is added to the key catalog")
+    @PositiveFeeType
+    void testSave_SetsNewKeyInCatalog() {
+        final Member member;
+
+        // GIVEN
+        member = Members.withKey();
+
+        // WHEN
+        repository.save(member);
+
+        // THEN
+        Assertions.assertThat(keySpringRepository.existsByNumber(MemberConstants.KEY))
+            .as("registered key")
+            .isTrue();
     }
 
     @Test

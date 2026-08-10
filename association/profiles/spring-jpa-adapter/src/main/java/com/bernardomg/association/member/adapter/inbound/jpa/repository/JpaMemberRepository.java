@@ -42,11 +42,11 @@ import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTypeEntity;
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTypeEntityMapper;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeTypeSpringRepository;
 import com.bernardomg.association.fee.domain.model.FeeType;
+import com.bernardomg.association.member.adapter.inbound.jpa.model.KeyEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberContactMethodEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityConstants;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityMapper;
-import com.bernardomg.association.member.adapter.inbound.jpa.model.KeyEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.ReadMemberEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.specification.ReadMemberSpecifications;
 import com.bernardomg.association.member.domain.filter.MemberFilter;
@@ -70,19 +70,18 @@ public final class JpaMemberRepository implements MemberRepository {
 
     private final FeeTypeSpringRepository             feeTypeSpringRepository;
 
+    private final KeySpringRepository                 keySpringRepository;
+
     private final MemberContactMethodSpringRepository memberContactMethodSpringRepository;
 
     private final MemberSpringRepository              memberSpringRepository;
-
-    private final KeySpringRepository           keySpringRepository;
 
     private final ReadMemberSpringRepository          readMemberSpringRepository;
 
     public JpaMemberRepository(final ReadMemberSpringRepository readMemberSpringRepo,
             final MemberSpringRepository memberSpringRepo,
             final MemberContactMethodSpringRepository memberContactMethodSpringRepo,
-            final FeeTypeSpringRepository feeTypeSpringRepo,
-            final KeySpringRepository keySpringRepo) {
+            final FeeTypeSpringRepository feeTypeSpringRepo, final KeySpringRepository keySpringRepo) {
         super();
 
         readMemberSpringRepository = Objects.requireNonNull(readMemberSpringRepo);
@@ -285,6 +284,21 @@ public final class JpaMemberRepository implements MemberRepository {
         return saved;
     }
 
+    private void ensureKeyExists(final Member member) {
+        member.keyNumber()
+            .filter(number -> !keySpringRepository.existsByNumber(number))
+            .ifPresent(number -> {
+                final KeyEntity key;
+
+                key = new KeyEntity();
+                key.setNumber(number);
+                key.setMissing(false);
+                key.setDescription("");
+
+                keySpringRepository.save(key);
+            });
+    }
+
     private final Sorting fixSorting(final Sorting sorting) {
         final Collection<Property> properties;
 
@@ -323,21 +337,6 @@ public final class JpaMemberRepository implements MemberRepository {
                     existing.setKeyNumber(null);
                     memberSpringRepository.save(existing);
                 }));
-    }
-
-    private void ensureKeyExists(final Member member) {
-        member.keyNumber()
-            .filter(number -> !keySpringRepository.existsByNumber(number))
-            .ifPresent(number -> {
-                final KeyEntity key;
-
-                key = new KeyEntity();
-                key.setNumber(number);
-                key.setMissing(false);
-                key.setDescription("");
-
-                keySpringRepository.save(key);
-            });
     }
 
     private final void setType(final MemberEntity entity) {
