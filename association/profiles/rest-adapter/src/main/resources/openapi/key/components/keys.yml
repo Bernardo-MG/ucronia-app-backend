@@ -1,0 +1,51 @@
+components:
+  schemas:
+    Key:
+      type: object
+      required: [number, missing, description]
+      properties:
+        number:
+          $ref: '../../member/common/ids.yml#/components/schemas/Id'
+        missing:
+          type: boolean
+          description: Whether the key is missing.
+        description:
+          type: string
+          maxLength: 250
+          description: Description for the key.
+    KeyCreation:
+      type: object
+      required: [number]
+      properties:
+        number:
+          $ref: '../../member/common/ids.yml#/components/schemas/Id'
+        missing:
+          type: boolean
+          default: false
+        description:
+          type: string
+          maxLength: 250
+          default: ''
+    KeyUpdate:
+      type: object
+      required: [missing, description]
+      properties:
+        missing:
+          type: boolean
+          description: Whether the key is missing.
+        description:
+          type: string
+          maxLength: 250
+          description: Description for the key.
+    KeysResponse:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/Key'
+    KeyResponse:
+      type: object
+      properties:
+        content:
+          $ref: '#/components/schemas/Key'

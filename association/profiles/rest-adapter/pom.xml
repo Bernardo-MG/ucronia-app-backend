@@ -166,6 +166,17 @@
                    </configuration>
                 </execution>
                 <execution>
+                   <id>key</id>
+                   <goals>
+                      <goal>generate</goal>
+                   </goals>
+                   <configuration>
+                      <inputSpec>${project.basedir}/src/main/resources/openapi/key/key.yml</inputSpec>
+                      <apiPackage>com.bernardomg.association.member.adapter.outbound.rest.controller</apiPackage>
+                      <modelPackage>com.bernardomg.association.member.adapter.outbound.rest.dto</modelPackage>
+                   </configuration>
+                </execution>
+                <execution>
                    <id>sponsor</id>
                    <goals>
                       <goal>generate</goal>

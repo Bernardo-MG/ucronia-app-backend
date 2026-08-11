@@ -25,12 +25,19 @@
 package com.bernardomg.association.member.domain.repository;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import com.bernardomg.association.member.domain.model.Key;
 
 public interface KeyRepository {
 
+    public void delete(final Long number);
+
+    public boolean exists(final Long number);
+
     public Collection<Key> findAll();
+
+    public Optional<Key> findOne(final Long number);
 
     public Key save(final Key key);
 

@@ -22,23 +22,25 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.adapter.inbound.jpa.repository;
+package com.bernardomg.association.member.domain.exception;
 
-import java.util.List;
-import java.util.Optional;
+/**
+ * Missing key exception.
+ */
+public final class MissingKeyException extends RuntimeException {
 
-import org.springframework.data.jpa.repository.JpaRepository;
+    private static final long serialVersionUID = -5407844090427896645L;
 
-import com.bernardomg.association.member.adapter.inbound.jpa.model.KeyEntity;
+    private final long        number;
 
-public interface KeySpringRepository extends JpaRepository<KeyEntity, Long> {
+    public MissingKeyException(final long number) {
+        super(String.format("Missing key with number %s", number));
 
-    public void deleteByNumber(final Long number);
+        this.number = number;
+    }
 
-    public boolean existsByNumber(final Long number);
-
-    public List<KeyEntity> findAllByOrderByNumberAsc();
-
-    public Optional<KeyEntity> findByNumber(final Long number);
+    public long getNumber() {
+        return number;
+    }
 
 }

@@ -50,12 +50,14 @@ import com.bernardomg.association.member.domain.repository.MemberCountRepository
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.domain.repository.MembershipEvolutionRepository;
 import com.bernardomg.association.member.domain.repository.PublicMemberRepository;
+import com.bernardomg.association.member.usecase.service.DefaultKeyService;
 import com.bernardomg.association.member.usecase.service.DefaultMemberCountService;
 import com.bernardomg.association.member.usecase.service.DefaultMemberService;
 import com.bernardomg.association.member.usecase.service.DefaultMemberStatusService;
 import com.bernardomg.association.member.usecase.service.DefaultMembershipEvolutionService;
 import com.bernardomg.association.member.usecase.service.DefaultProfileMembershipService;
 import com.bernardomg.association.member.usecase.service.DefaultPublicMemberService;
+import com.bernardomg.association.member.usecase.service.KeyService;
 import com.bernardomg.association.member.usecase.service.MemberCountService;
 import com.bernardomg.association.member.usecase.service.MemberService;
 import com.bernardomg.association.member.usecase.service.MemberStatusService;
@@ -90,6 +92,11 @@ public class AssociationMemberAutoConfiguration {
     @Bean("keyRepository")
     public KeyRepository getKeyRepository(final KeySpringRepository keySpringRepository) {
         return new JpaKeyRepository(keySpringRepository);
+    }
+
+    @Bean("keyService")
+    public KeyService getKeyService(final KeyRepository keyRepository) {
+        return new DefaultKeyService(keyRepository);
     }
 
     @Bean("memberContactMethodRepository")

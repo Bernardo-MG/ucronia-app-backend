@@ -26,6 +26,7 @@ package com.bernardomg.association.member.adapter.inbound.jpa.repository;
 
 import java.util.Collection;
 import java.util.Objects;
+import java.util.Optional;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,11 +47,27 @@ public final class JpaKeyRepository implements KeyRepository {
     }
 
     @Override
+    public void delete(final Long number) {
+        keySpringRepository.deleteByNumber(number);
+    }
+
+    @Override
+    public boolean exists(final Long number) {
+        return keySpringRepository.existsByNumber(number);
+    }
+
+    @Override
     public Collection<Key> findAll() {
         return keySpringRepository.findAllByOrderByNumberAsc()
             .stream()
             .map(KeyEntityMapper::toDomain)
             .toList();
+    }
+
+    @Override
+    public Optional<Key> findOne(final Long number) {
+        return keySpringRepository.findByNumber(number)
+            .map(KeyEntityMapper::toDomain);
     }
 
     @Override
