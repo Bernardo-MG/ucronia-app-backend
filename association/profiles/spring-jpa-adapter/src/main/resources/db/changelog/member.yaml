@@ -10,6 +10,45 @@ databaseChangeLog:
             splitStatements: true
             stripComments: true
   - changeSet:
+      id: key
+      author: Bernardo
+      changes:
+        - createTable:
+            schemaName: inventory
+            tableName: keys
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: number
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: missing
+                  type: boolean
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(250)
+                  defaultValue: ''
+                  constraints:
+                    nullable: false
+        - createIndex:
+            schemaName: inventory
+            tableName: keys
+            indexName: idx_keys_number
+            columns:
+              - column:
+                  name: number
+  - changeSet:
       id: member
       author: Bernardo
       changes:
@@ -58,42 +97,3 @@ databaseChangeLog:
             columns:
               - column:
                   name: key_number
-  - changeSet:
-      id: key
-      author: Bernardo
-      changes:
-        - createTable:
-            schemaName: inventory
-            tableName: keys
-            columns:
-              - column:
-                  name: id
-                  type: bigint
-                  constraints:
-                    primaryKey: true
-                    nullable: false
-              - column:
-                  name: number
-                  type: bigint
-                  constraints:
-                    nullable: false
-                    unique: true
-              - column:
-                  name: missing
-                  type: boolean
-                  defaultValueBoolean: false
-                  constraints:
-                    nullable: false
-              - column:
-                  name: description
-                  type: varchar(250)
-                  defaultValue: ''
-                  constraints:
-                    nullable: false
-        - createIndex:
-            schemaName: inventory
-            tableName: keys
-            indexName: idx_keys_number
-            columns:
-              - column:
-                  name: number
