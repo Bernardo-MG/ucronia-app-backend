@@ -45,11 +45,12 @@ databaseChangeLog:
               - column:
                   name: key_number
                   type: bigint
-        - addUniqueConstraint:
-            constraintName: member_key_number_unique
-            schemaName: directory
-            tableName: members
-            columnNames: key_number
+                  constraints:
+                    unique: true
+                    nullable: false
+                    foreignKeyName: fk_members_key_number
+                    references: inventory.keys(id)
+                    deleteCascade: true
         - createIndex:
             schemaName: directory
             tableName: members
@@ -89,13 +90,6 @@ databaseChangeLog:
                   defaultValue: ''
                   constraints:
                     nullable: false
-        - addAutoIncrement:
-            schemaName: inventory
-            tableName: keys
-            columnName: id
-            columnDataType: bigint
-            incrementBy: 1
-            startWith: 1
         - createIndex:
             schemaName: inventory
             tableName: keys
@@ -103,17 +97,3 @@ databaseChangeLog:
             columns:
               - column:
                   name: number
-        - sql:
-            sql: |
-              INSERT INTO inventory.keys (number, missing, description)
-              SELECT DISTINCT m.key_number, false, ''
-              FROM directory.members m
-              WHERE m.key_number IS NOT NULL;
-        - addForeignKeyConstraint:
-            baseTableSchemaName: directory
-            baseTableName: members
-            baseColumnNames: key_number
-            referencedTableSchemaName: inventory
-            referencedTableName: keys
-            referencedColumnNames: number
-            constraintName: fk_members_key_number
