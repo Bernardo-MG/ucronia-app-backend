@@ -12,13 +12,7 @@ public final class MemberConstants {
 
     public static final String  ALTERNATIVE_EMAIL      = "email2@somewhere.com";
 
-    public static final String  ALTERNATIVE_FIRST_NAME = "Name 2";
-
-    public static final String  ALTERNATIVE_FULL_NAME  = "Name 2 Last name 2";
-
     public static final String  ALTERNATIVE_IDENTIFIER = "67890";
-
-    public static final String  ALTERNATIVE_LAST_NAME  = "Last name 2";
 
     public static final long    ALTERNATIVE_NUMBER     = 20;
 
@@ -32,15 +26,9 @@ public final class MemberConstants {
 
     public static final String  EMAIL                  = "email@somewhere.com";
 
-    public static final String  FIRST_NAME             = "Name 1";
-
-    public static final String  FULL_NAME              = "Name 1 Last name 1";
-
     public static final String  IDENTIFIER             = "6789";
 
     public static final long    KEY                    = 100L;
-
-    public static final String  LAST_NAME              = "Last name 1";
 
     public static final long    NUMBER                 = 10;
 

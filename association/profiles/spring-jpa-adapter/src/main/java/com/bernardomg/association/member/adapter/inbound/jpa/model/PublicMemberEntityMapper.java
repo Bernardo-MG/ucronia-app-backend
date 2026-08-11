@@ -45,7 +45,7 @@ public final class PublicMemberEntityMapper {
                 .getNumber());
         }
 
-        name = new Name(entity.getFirstName(), entity.getLastName());
+        name = new Name(entity.getFirstName(), entity.getLastName(), Optional.ofNullable(entity.getNickname()));
         return new PublicMember(entity.getNumber(), name, entity.getRenew(), key);
     }
 

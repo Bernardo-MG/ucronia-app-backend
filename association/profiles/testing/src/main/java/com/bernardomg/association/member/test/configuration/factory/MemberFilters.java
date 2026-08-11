@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.MemberStatus;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 
 public final class MemberFilters {
 
@@ -18,15 +19,15 @@ public final class MemberFilters {
 
     public static final MemberFilter alternativeFirstName() {
         return new MemberFilter(Optional.of(MemberStatus.INACTIVE),
-            Optional.of(MemberConstants.ALTERNATIVE_FIRST_NAME));
+            Optional.of(ProfileConstants.ALTERNATIVE_FIRST_NAME));
     }
 
     public static final MemberFilter firstName() {
-        return new MemberFilter(Optional.empty(), Optional.of(MemberConstants.FIRST_NAME));
+        return new MemberFilter(Optional.empty(), Optional.of(ProfileConstants.FIRST_NAME));
     }
 
     public static final MemberFilter fullName() {
-        return new MemberFilter(Optional.empty(), Optional.of(MemberConstants.FULL_NAME));
+        return new MemberFilter(Optional.empty(), Optional.of(ProfileConstants.FULL_NAME));
     }
 
     public static final MemberFilter inactive() {
@@ -34,12 +35,12 @@ public final class MemberFilters {
     }
 
     public static final MemberFilter lastName() {
-        return new MemberFilter(Optional.empty(), Optional.of(MemberConstants.LAST_NAME));
+        return new MemberFilter(Optional.empty(), Optional.of(ProfileConstants.LAST_NAME));
     }
 
     public static final MemberFilter partialName() {
         return new MemberFilter(Optional.empty(),
-            Optional.of(MemberConstants.FIRST_NAME.substring(0, MemberConstants.FIRST_NAME.length() - 2)));
+            Optional.of(ProfileConstants.FIRST_NAME.substring(0, ProfileConstants.FIRST_NAME.length() - 2)));
     }
 
     private MemberFilters() {
