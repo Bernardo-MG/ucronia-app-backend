@@ -79,8 +79,8 @@ public record Member(Optional<String> identifier, Long number, Name name, Option
     public Member(final Optional<String> identifier, final Long number, final Name name,
             final Optional<Instant> birthDate, final Collection<ContactChannel> contactChannels,
             final Optional<String> address, final Optional<String> comments, final Boolean active, final Boolean renew,
-            final Optional<Long> keyNumber, final FeeType feeType, final Set<String> types) {
-        this(identifier, number, name, birthDate, contactChannels, address, comments, active, renew, keyNumber, feeType,
+            final Optional<Long> key, final FeeType feeType, final Set<String> types) {
+        this(identifier, number, name, birthDate, contactChannels, address, comments, active, renew, key, feeType,
             types, new AuditDetails());
     }
 
@@ -128,13 +128,13 @@ public record Member(Optional<String> identifier, Long number, Name name, Option
     }
 
     public Member deactivated() {
-        return new Member(identifier, number, name, birthDate, contactChannels, address, comments, false, false,
-            key, feeType, types);
+        return new Member(identifier, number, name, birthDate, contactChannels, address, comments, false, false, key,
+            feeType, types);
     }
 
     public Member activated() {
-        return new Member(identifier, number, name, birthDate, contactChannels, address, comments, true, true,
-            key, feeType, types);
+        return new Member(identifier, number, name, birthDate, contactChannels, address, comments, true, true, key,
+            feeType, types);
     }
 
 }

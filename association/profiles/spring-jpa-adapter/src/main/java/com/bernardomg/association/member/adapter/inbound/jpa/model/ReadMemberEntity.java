@@ -68,8 +68,9 @@ public class ReadMemberEntity implements Serializable {
     @Column(name = "identifier", table = "profiles")
     private String                                     identifier;
 
-    @Column(name = "key_number", table = "members")
-    private Long                                       keyNumber;
+    @OneToOne
+    @JoinColumn(name = "key_id", table = "members", referencedColumnName = "id")
+    private KeyEntity                                  key;
 
     @Column(name = "last_name", table = "profiles")
     private String                                     lastName;
@@ -134,8 +135,8 @@ public class ReadMemberEntity implements Serializable {
         return identifier;
     }
 
-    public Long getKeyNumber() {
-        return keyNumber;
+    public KeyEntity getKey() {
+        return key;
     }
 
     public String getLastName() {
@@ -199,8 +200,8 @@ public class ReadMemberEntity implements Serializable {
         this.identifier = identifier;
     }
 
-    public void setKeyNumber(final Long keyNumber) {
-        this.keyNumber = keyNumber;
+    public void setKey(final KeyEntity key) {
+        this.key = key;
     }
 
     public void setLastName(final String lastName) {
@@ -227,9 +228,8 @@ public class ReadMemberEntity implements Serializable {
     public String toString() {
         return "ReadMemberEntity [id=" + id + ", active=" + active + ", feeType=" + feeType + ", number=" + number
                 + ", firstName=" + firstName + ", lastName=" + lastName + ", nickname=" + nickname + ", renew=" + renew
-                + ", identifier=" + identifier + ", keyNumber=" + keyNumber + ", address=" + address + ", birthDate="
-                + birthDate + ", comments=" + comments + ", types=" + types + ", contactChannels=" + contactChannels
-                + "]";
+                + ", identifier=" + identifier + ", key=" + key + ", address=" + address + ", birthDate=" + birthDate
+                + ", comments=" + comments + ", types=" + types + ", contactChannels=" + contactChannels + "]";
     }
 
 }

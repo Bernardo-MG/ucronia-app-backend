@@ -72,7 +72,8 @@ public final class Members {
 
         feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
 
-        name = new Name(MemberConstants.ALTERNATIVE_FIRST_NAME, MemberConstants.ALTERNATIVE_LAST_NAME);
+        name = new Name(ProfileConstants.ALTERNATIVE_FIRST_NAME, ProfileConstants.ALTERNATIVE_LAST_NAME,
+            Optional.empty());
         return new Member(Optional.of(MemberConstants.ALTERNATIVE_IDENTIFIER), MemberConstants.ALTERNATIVE_NUMBER, name,
             Optional.of(MemberConstants.BIRTH_DATE), List.of(), Optional.of(MemberConstants.ADDRESS),
             Optional.of(MemberConstants.COMMENTS), true, true, Optional.ofNullable(MemberConstants.KEY), feeType,
@@ -278,7 +279,7 @@ public final class Members {
 
         feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
 
-        name = new Name(MemberConstants.FIRST_NAME, MemberConstants.LAST_NAME);
+        name = new Name(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME, Optional.empty());
         return new Member(Optional.of(MemberConstants.IDENTIFIER), MemberConstants.NUMBER, name,
             Optional.of(MemberConstants.BIRTH_DATE), List.of(), Optional.of(MemberConstants.ADDRESS),
             Optional.of(MemberConstants.COMMENTS), true, true, Optional.ofNullable(MemberConstants.KEY), feeType,
