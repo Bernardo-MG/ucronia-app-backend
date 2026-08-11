@@ -38,7 +38,6 @@ import com.bernardomg.association.fee.domain.model.FeeType;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.profile.domain.model.Name;
 
 import jakarta.transaction.Transactional;
 
@@ -98,7 +97,6 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
     private final Fee toFee(final Instant date, final Member member) {
         final FeeType feeType;
         final Fee     fee;
-        final Name    name;
 
         feeType = memberRepository.findFeeType(member.number())
             .orElseThrow(() -> {
@@ -107,17 +105,12 @@ public final class DefaultFeeMaintenanceService implements FeeMaintenanceService
                 throw new MissingFeeTypeException(member.number());
             });
 
-        name = new Name(member.name()
-            .firstName(),
-            member.name()
-                .lastName());
-
         if (feeType.amount() == 0) {
             // No amount
             // Set to paid automatically
-            fee = Fee.paid(date, member.number(), name, feeType);
+            fee = Fee.paid(date, member.number(), member.name(), feeType);
         } else {
-            fee = Fee.unpaid(date, member.number(), name, feeType);
+            fee = Fee.unpaid(date, member.number(), member.name(), feeType);
         }
 
         return fee;

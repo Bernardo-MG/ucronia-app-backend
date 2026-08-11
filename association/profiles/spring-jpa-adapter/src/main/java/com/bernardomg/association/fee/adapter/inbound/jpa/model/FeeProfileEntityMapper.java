@@ -37,7 +37,7 @@ public final class FeeProfileEntityMapper {
     public static final FeeProfile toDomain(final FeeProfileEntity entity) {
         final Name name;
 
-        name = new Name(entity.getFirstName(), entity.getLastName());
+        name = new Name(entity.getFirstName(), entity.getLastName(), Optional.ofNullable(entity.getNickname()));
 
         return new FeeProfile(Optional.ofNullable(entity.getIdentifier()), entity.getNumber(), name);
     }

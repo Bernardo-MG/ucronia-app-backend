@@ -11,7 +11,7 @@ public final class FeeProfiles {
     public static final FeeProfile valid() {
         final Name name;
 
-        name = new Name(FeeProfileConstants.FIRST_NAME, FeeProfileConstants.LAST_NAME);
+        name = new Name(FeeProfileConstants.FIRST_NAME, FeeProfileConstants.LAST_NAME, Optional.empty());
         return new FeeProfile(Optional.of(FeeProfileConstants.IDENTIFIER), FeeProfileConstants.NUMBER, name);
     }
 

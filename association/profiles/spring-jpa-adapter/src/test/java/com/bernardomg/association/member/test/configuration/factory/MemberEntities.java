@@ -11,6 +11,7 @@ import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberContactChannelEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityConstants;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 
 public final class MemberEntities {
 
@@ -27,8 +28,8 @@ public final class MemberEntities {
         entity = new MemberEntity();
         entity.setId(1L);
         entity.setNumber(MemberConstants.NUMBER);
-        entity.setFirstName(MemberConstants.FIRST_NAME);
-        entity.setLastName(MemberConstants.LAST_NAME);
+        entity.setFirstName(ProfileConstants.FIRST_NAME);
+        entity.setLastName(ProfileConstants.LAST_NAME);
         entity.setBirthDate(MemberConstants.BIRTH_DATE);
         entity.setIdentifier(MemberConstants.IDENTIFIER);
         entity.setContactChannels(new ArrayList<>(List.of()));
@@ -56,8 +57,8 @@ public final class MemberEntities {
         entity = new MemberEntity();
         entity.setId(2L);
         entity.setNumber(MemberConstants.ALTERNATIVE_NUMBER);
-        entity.setFirstName(MemberConstants.FIRST_NAME);
-        entity.setLastName(MemberConstants.LAST_NAME);
+        entity.setFirstName(ProfileConstants.FIRST_NAME);
+        entity.setLastName(ProfileConstants.LAST_NAME);
         entity.setBirthDate(MemberConstants.BIRTH_DATE);
         entity.setIdentifier("6789");
         entity.setContactChannels(new ArrayList<>());
@@ -85,8 +86,8 @@ public final class MemberEntities {
         entity = new MemberEntity();
         entity.setId(1L);
         entity.setNumber(MemberConstants.NUMBER);
-        entity.setFirstName(MemberConstants.FIRST_NAME);
-        entity.setLastName(MemberConstants.LAST_NAME);
+        entity.setFirstName(ProfileConstants.FIRST_NAME);
+        entity.setLastName(ProfileConstants.LAST_NAME);
         entity.setBirthDate(MemberConstants.BIRTH_DATE);
         entity.setIdentifier(MemberConstants.IDENTIFIER);
         entity.setContactChannels(new ArrayList<>(List.of()));
@@ -115,7 +116,7 @@ public final class MemberEntities {
         entity.setId(1L);
         entity.setNumber(MemberConstants.NUMBER);
         entity.setFirstName(MemberConstants.CHANGED_FIRST_NAME);
-        entity.setLastName(MemberConstants.LAST_NAME);
+        entity.setLastName(ProfileConstants.LAST_NAME);
         entity.setBirthDate(MemberConstants.BIRTH_DATE);
         entity.setIdentifier("6789");
         entity.setContactChannels(new ArrayList<>());
@@ -149,8 +150,8 @@ public final class MemberEntities {
         entity.setId(1L);
         entity.setId(1L);
         entity.setNumber(MemberConstants.NUMBER);
-        entity.setFirstName(MemberConstants.FIRST_NAME);
-        entity.setLastName(MemberConstants.LAST_NAME);
+        entity.setFirstName(ProfileConstants.FIRST_NAME);
+        entity.setLastName(ProfileConstants.LAST_NAME);
         entity.setBirthDate(MemberConstants.BIRTH_DATE);
         entity.setIdentifier("6789");
         entity.setContactChannels(new ArrayList<>(List.of(contactChannelEntity)));

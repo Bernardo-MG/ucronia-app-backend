@@ -34,6 +34,7 @@ import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.member.test.configuration.factory.MemberConstants;
 import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.association.member.usecase.service.MemberService;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
@@ -76,16 +77,16 @@ class TestMemberController {
                         "lastName": "%s"
                     }
                 }
-                """, MemberConstants.IDENTIFIER, FeeConstants.FEE_TYPE_NUMBER, MemberConstants.FIRST_NAME,
-            MemberConstants.LAST_NAME);
+                """, MemberConstants.IDENTIFIER, FeeConstants.FEE_TYPE_NUMBER, ProfileConstants.FIRST_NAME,
+            ProfileConstants.LAST_NAME);
 
         // WHEN + THEN
         mockMvc.perform(post("/profile/member").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
             .andExpect(status().isCreated())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.content.name.firstName", equalTo(MemberConstants.FIRST_NAME)))
-            .andExpect(jsonPath("$.content.name.lastName", equalTo(MemberConstants.LAST_NAME)))
+            .andExpect(jsonPath("$.content.name.firstName", equalTo(ProfileConstants.FIRST_NAME)))
+            .andExpect(jsonPath("$.content.name.lastName", equalTo(ProfileConstants.LAST_NAME)))
             .andExpect(jsonPath("$.content.number").exists());
     }
 
@@ -106,8 +107,8 @@ class TestMemberController {
                         "lastName": "%s"
                     }
                 }
-                """, MemberConstants.IDENTIFIER, FeeConstants.FEE_TYPE_NUMBER, MemberConstants.FIRST_NAME,
-            MemberConstants.LAST_NAME);
+                """, MemberConstants.IDENTIFIER, FeeConstants.FEE_TYPE_NUMBER, ProfileConstants.FIRST_NAME,
+            ProfileConstants.LAST_NAME);
 
         // WHEN + THEN
         mockMvc.perform(post("/profile/member").contentType(MediaType.APPLICATION_JSON)

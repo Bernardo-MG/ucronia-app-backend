@@ -39,7 +39,6 @@ import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.Member.FeeType;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.profile.domain.exception.MissingProfileException;
-import com.bernardomg.association.profile.domain.model.Name;
 import com.bernardomg.association.profile.domain.model.Profile;
 import com.bernardomg.association.profile.domain.repository.ProfileRepository;
 
@@ -80,7 +79,6 @@ public final class DefaultProfileMembershipService implements ProfileMembershipS
         final Member      toCreate;
         final Member      created;
         final FeeType     memberFeeType;
-        final Name        name;
         final Set<String> types;
 
         log.debug("Converting profile {} to member", number);
@@ -103,14 +101,10 @@ public final class DefaultProfileMembershipService implements ProfileMembershipS
         }
 
         memberFeeType = new FeeType(feeType, "", 0f);
-        name = new Name(existing.name()
-            .firstName(),
-            existing.name()
-                .lastName());
         types = Stream.concat(existing.types()
             .stream(), Stream.of(Member.PROFILE_TYPE))
             .collect(Collectors.toSet());
-        toCreate = new Member(existing.identifier(), existing.number(), name, existing.birthDate(),
+        toCreate = new Member(existing.identifier(), existing.number(), existing.name(), existing.birthDate(),
             existing.contactChannels(), existing.address(), existing.comments(), true, true, memberFeeType, types);
 
         created = memberRepository.save(toCreate);

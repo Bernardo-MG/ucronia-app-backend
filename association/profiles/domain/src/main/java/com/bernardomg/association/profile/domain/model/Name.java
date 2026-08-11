@@ -18,10 +18,6 @@ public record Name(String firstName, String lastName, Optional<String> nickname)
         this.nickname = nickname.map(StringUtils::trim);
     }
 
-    public Name(final String firstName, final String lastName) {
-        this(firstName, lastName, Optional.empty());
-    }
-
     public String fullName() {
         return nickname.map(value -> String.format("%s \"%s\" %s", firstName, value, lastName))
             .orElseGet(() -> String.format("%s %s", firstName, lastName));

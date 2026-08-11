@@ -130,7 +130,6 @@ public final class DefaultFeeService implements FeeService {
         final Fee     created;
         final Member  member;
         final FeeType feeType;
-        final Name    name;
 
         log.info("Creating unpaid fee for {} for month {}", number, date);
 
@@ -146,17 +145,12 @@ public final class DefaultFeeService implements FeeService {
                 throw new MissingFeeTypeException(member.number());
             });
 
-        name = new Name(member.name()
-            .firstName(),
-            member.name()
-                .lastName());
-
         if (feeType.amount() == 0) {
             // No amount
             // Set to paid automatically
-            newFee = Fee.paid(date, member.number(), name, feeType);
+            newFee = Fee.paid(date, member.number(), member.name(), feeType);
         } else {
-            newFee = Fee.unpaid(date, member.number(), name, feeType);
+            newFee = Fee.unpaid(date, member.number(), member.name(), feeType);
         }
 
         validatorCreate.validate(newFee);
@@ -543,16 +537,12 @@ public final class DefaultFeeService implements FeeService {
             final FeeTransaction transaction) {
         final FeeType         feeType;
         final Fee.Transaction feeTransaction;
-        final Name            name;
 
         // TODO: should receive a member
         feeType = new FeeType(memberFeeType.number(), memberFeeType.name(), memberFeeType.amount());
         feeTransaction = new Fee.Transaction(transaction.index(), transaction.date());
-        name = new Name(member.name()
-            .firstName(),
-            member.name()
-                .lastName());
-        return Fee.paid(month, member.number(), name, feeType, feeTransaction);
+
+        return Fee.paid(month, member.number(), member.name(), feeType, feeTransaction);
     }
 
 }
