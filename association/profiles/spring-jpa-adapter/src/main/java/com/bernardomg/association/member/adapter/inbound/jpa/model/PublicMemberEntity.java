@@ -7,6 +7,8 @@ import java.util.Objects;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.SecondaryTable;
 import jakarta.persistence.Table;
@@ -34,8 +36,9 @@ public class PublicMemberEntity implements Serializable {
     @Column(name = "id", table = "members", nullable = false, unique = true)
     private Long              id;
 
-    @Column(name = "key_number", table = "members")
-    private Long              keyNumber;
+    @OneToOne
+    @JoinColumn(name = "key_id", table = "members", referencedColumnName = "id")
+    private KeyEntity         key;
 
     @Column(name = "last_name", table = "profiles")
     private String            lastName;
@@ -72,8 +75,8 @@ public class PublicMemberEntity implements Serializable {
         return id;
     }
 
-    public Long getKeyNumber() {
-        return keyNumber;
+    public KeyEntity getKey() {
+        return key;
     }
 
     public String getLastName() {
@@ -109,8 +112,8 @@ public class PublicMemberEntity implements Serializable {
         this.id = id;
     }
 
-    public void setKeyNumber(final Long keyNumber) {
-        this.keyNumber = keyNumber;
+    public void setKey(final KeyEntity key) {
+        this.key = key;
     }
 
     public void setLastName(final String lastName) {
@@ -132,7 +135,8 @@ public class PublicMemberEntity implements Serializable {
     @Override
     public String toString() {
         return "PublicMemberEntity [id=" + id + ", number=" + number + ", firstName=" + firstName + ", lastName="
-                + lastName + ", nickname=" + nickname + ", active=" + active + ", renew=" + renew + "]";
+                + lastName + ", nickname=" + nickname + ", active=" + active + ", renew=" + renew + ", key=" + key
+                + "]";
     }
 
 }

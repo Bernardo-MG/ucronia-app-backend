@@ -285,7 +285,7 @@ public final class JpaMemberRepository implements MemberRepository {
     }
 
     private void ensureKeyExists(final Member member) {
-        member.keyNumber()
+        member.key()
             .filter(number -> !keySpringRepository.existsByNumber(number))
             .ifPresent(number -> {
                 final KeyEntity key;
@@ -330,11 +330,11 @@ public final class JpaMemberRepository implements MemberRepository {
     }
 
     private final void releaseKeyForAnotherMember(final Member member) {
-        member.keyNumber()
+        member.key()
             .ifPresent(keyNumber -> memberSpringRepository.findByKeyNumber(keyNumber)
                 .filter(existing -> !Objects.equals(existing.getNumber(), member.number()))
                 .ifPresent(existing -> {
-                    existing.setKeyNumber(null);
+                    existing.setKey(null);
                     memberSpringRepository.save(existing);
                 }));
     }
@@ -353,6 +353,7 @@ public final class JpaMemberRepository implements MemberRepository {
         final MemberEntity                          entity;
         final Collection<MemberContactMethodEntity> contactMethods;
         final Optional<FeeTypeEntity>               feeType;
+        final Optional<KeyEntity>                   key;
 
         releaseKeyForAnotherMember(member);
         ensureKeyExists(member);
@@ -369,6 +370,13 @@ public final class JpaMemberRepository implements MemberRepository {
         feeType = feeTypeSpringRepository.findByNumber(member.feeType()
             .number());
         entity.setFeeType(feeType.orElse(null));
+
+        if (member.key()
+            .isPresent()) {
+            key = keySpringRepository.findByNumber(member.key()
+                .get());
+            entity.setKey(key.orElse(null));
+        }
 
         setType(entity);
 

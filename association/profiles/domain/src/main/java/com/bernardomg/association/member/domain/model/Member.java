@@ -39,14 +39,14 @@ import com.bernardomg.security.domain.audit.model.AuditDetails;
 
 public record Member(Optional<String> identifier, Long number, Name name, Optional<Instant> birthDate,
         Collection<ContactChannel> contactChannels, Optional<String> address, Optional<String> comments, Boolean active,
-        Boolean renew, Optional<Long> keyNumber, FeeType feeType, Set<String> types, AuditDetails audit) {
+        Boolean renew, Optional<Long> key, FeeType feeType, Set<String> types, AuditDetails audit) {
 
     public static final String PROFILE_TYPE = "member";
 
     public Member(final Optional<String> identifier, final Long number, final Name name,
             final Optional<Instant> birthDate, final Collection<ContactChannel> contactChannels,
             final Optional<String> address, final Optional<String> comments, final Boolean active, final Boolean renew,
-            final Optional<Long> keyNumber, final FeeType feeType, final Set<String> types, final AuditDetails audit) {
+            final Optional<Long> key, final FeeType feeType, final Set<String> types, final AuditDetails audit) {
         Objects.requireNonNull(identifier, "Identifier can't be null");
         Objects.requireNonNull(number, "Number can't be null");
         Objects.requireNonNull(name, "Name can't be null");
@@ -55,7 +55,7 @@ public record Member(Optional<String> identifier, Long number, Name name, Option
         Objects.requireNonNull(comments, "Comments can't be null");
         Objects.requireNonNull(active, "Active flag can't be null");
         Objects.requireNonNull(renew, "Renew flag can't be null");
-        Objects.requireNonNull(keyNumber, "Key number can't be null");
+        Objects.requireNonNull(key, "Key number can't be null");
         Objects.requireNonNull(feeType, "Fee type can't be null");
         Objects.requireNonNull(types, "Types can't be null");
         Objects.requireNonNull(contactChannels, "Contact channels can't be null");
@@ -70,7 +70,7 @@ public record Member(Optional<String> identifier, Long number, Name name, Option
         this.comments = handleEmpty(comments);
         this.active = active;
         this.renew = renew;
-        this.keyNumber = keyNumber;
+        this.key = key;
         this.feeType = feeType;
         this.types = Set.copyOf(types);
         this.audit = audit;
@@ -129,12 +129,12 @@ public record Member(Optional<String> identifier, Long number, Name name, Option
 
     public Member deactivated() {
         return new Member(identifier, number, name, birthDate, contactChannels, address, comments, false, false,
-            keyNumber, feeType, types);
+            key, feeType, types);
     }
 
     public Member activated() {
         return new Member(identifier, number, name, birthDate, contactChannels, address, comments, true, true,
-            keyNumber, feeType, types);
+            key, feeType, types);
     }
 
 }

@@ -214,7 +214,7 @@ public final class MemberDtoMapper {
                 .orElse(null))
             .comments(member.comments()
                 .orElse(null))
-            .keyNumber(member.keyNumber()
+            .keyNumber(member.key()
                 .orElse(null))
             .active(member.active())
             .renew(member.renew())

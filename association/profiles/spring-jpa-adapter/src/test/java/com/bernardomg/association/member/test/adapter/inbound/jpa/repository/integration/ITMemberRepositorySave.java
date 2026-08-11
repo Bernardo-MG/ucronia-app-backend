@@ -233,13 +233,13 @@ class ITMemberRepositorySave {
         existing = repository.findOne(Members.alternativeWithKey()
             .number());
 
-        Assertions.assertThat(created.keyNumber())
+        Assertions.assertThat(created.key())
             .as("created member key")
             .contains(MemberConstants.KEY);
         Assertions.assertThat(keySpringRepository.existsByNumber(MemberConstants.KEY))
             .as("registered key")
             .isTrue();
-        Assertions.assertThat(existing.map(Member::keyNumber)
+        Assertions.assertThat(existing.map(Member::key)
             .orElse(null))
             .as("secondMember")
             .isNotNull()

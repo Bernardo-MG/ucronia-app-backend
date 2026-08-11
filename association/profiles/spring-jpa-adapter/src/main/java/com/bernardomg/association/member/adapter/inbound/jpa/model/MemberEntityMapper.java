@@ -49,6 +49,7 @@ public final class MemberEntityMapper {
         final Name                       name;
         final Collection<ContactChannel> contactChannels;
         final AuditDetails               audit;
+        final Optional<Long>             key;
 
         feeType = new FeeType(entity.getFeeType()
             .getNumber(),
@@ -64,11 +65,18 @@ public final class MemberEntityMapper {
             .map(MemberEntityMapper::toDomain)
             .toList();
 
+        if (entity.getKey() == null) {
+            key = Optional.empty();
+        } else {
+            key = Optional.of(entity.getKey()
+                .getNumber());
+        }
+
         audit = toDomain(entity.getAudit());
         return new Member(Optional.ofNullable(entity.getIdentifier()), entity.getNumber(), name,
             Optional.ofNullable(entity.getBirthDate()), contactChannels, Optional.ofNullable(entity.getAddress()),
-            Optional.ofNullable(entity.getComments()), entity.getActive(), entity.getRenew(),
-            Optional.ofNullable(entity.getKeyNumber()), feeType, entity.getTypes(), audit);
+            Optional.ofNullable(entity.getComments()), entity.getActive(), entity.getRenew(), key, feeType,
+            entity.getTypes(), audit);
     }
 
     public static final Member toDomain(final ReadMemberEntity entity) {
@@ -120,8 +128,6 @@ public final class MemberEntityMapper {
             .orElse(null));
         entity.setComments(data.comments()
             .orElse(null));
-        entity.setKeyNumber(data.keyNumber()
-            .orElse(null));
 
         contactChannels = data.contactChannels()
             .stream()
@@ -160,8 +166,6 @@ public final class MemberEntityMapper {
         entity.setAddress(data.address()
             .orElse(null));
         entity.setComments(data.comments()
-            .orElse(null));
-        entity.setKeyNumber(data.keyNumber()
             .orElse(null));
 
         contactChannels = data.contactChannels()

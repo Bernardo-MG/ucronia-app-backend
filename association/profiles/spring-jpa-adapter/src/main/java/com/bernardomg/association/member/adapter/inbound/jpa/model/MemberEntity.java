@@ -76,8 +76,9 @@ public class MemberEntity implements Serializable {
     @Column(name = "identifier", table = "profiles")
     private String                                 identifier;
 
-    @Column(name = "key_number", table = "members")
-    private Long                                   keyNumber;
+    @OneToOne
+    @JoinColumn(name = "key_id", table = "members", referencedColumnName = "id")
+    private KeyEntity                              key;
 
     @Column(name = "last_name", table = "profiles")
     private String                                 lastName;
@@ -146,8 +147,8 @@ public class MemberEntity implements Serializable {
         return identifier;
     }
 
-    public Long getKeyNumber() {
-        return keyNumber;
+    public KeyEntity getKey() {
+        return key;
     }
 
     public String getLastName() {
@@ -215,8 +216,8 @@ public class MemberEntity implements Serializable {
         this.identifier = identifier;
     }
 
-    public void setKeyNumber(final Long keyNumber) {
-        this.keyNumber = keyNumber;
+    public void setKey(final KeyEntity key) {
+        this.key = key;
     }
 
     public void setLastName(final String lastName) {
@@ -244,8 +245,8 @@ public class MemberEntity implements Serializable {
         return "MemberEntity [id=" + id + ", number=" + number + ", active=" + active + ", contactChannels="
                 + contactChannels + ", feeType=" + feeType + ", firstName=" + firstName + ", lastName=" + lastName
                 + ", nickname=" + nickname + ", identifier=" + identifier + ", birthDate=" + birthDate + ", address="
-                + address + ", comments=" + comments + ", keyNumber=" + keyNumber + ", types=" + types + ", renew="
-                + renew + ", audit=" + audit + "]";
+                + address + ", comments=" + comments + ", key=" + key + ", types=" + types + ", renew=" + renew
+                + ", audit=" + audit + "]";
     }
 
 }

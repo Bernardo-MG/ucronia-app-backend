@@ -82,18 +82,12 @@ databaseChangeLog:
                   type: boolean
                   defaultValue: true
               - column:
-                  name: key_number
+                  name: key_id
                   type: bigint
                   constraints:
                     unique: true
                     nullable: false
-                    foreignKeyName: fk_members_key_number
+                    foreignKeyName: fk_members_key
                     references: inventory.keys(id)
                     deleteCascade: true
-        - createIndex:
-            schemaName: directory
-            tableName: members
-            indexName: idx_member_key_number
-            columns:
-              - column:
-                  name: key_number
+
