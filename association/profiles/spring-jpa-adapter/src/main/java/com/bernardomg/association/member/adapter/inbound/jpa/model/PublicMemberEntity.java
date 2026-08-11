@@ -34,6 +34,9 @@ public class PublicMemberEntity implements Serializable {
     @Column(name = "id", table = "members", nullable = false, unique = true)
     private Long              id;
 
+    @Column(name = "key_number", table = "members")
+    private Long              keyNumber;
+
     @Column(name = "last_name", table = "profiles")
     private String            lastName;
 
@@ -69,6 +72,10 @@ public class PublicMemberEntity implements Serializable {
         return id;
     }
 
+    public Long getKeyNumber() {
+        return keyNumber;
+    }
+
     public String getLastName() {
         return lastName;
     }
@@ -100,6 +107,10 @@ public class PublicMemberEntity implements Serializable {
 
     public void setId(final Long id) {
         this.id = id;
+    }
+
+    public void setKeyNumber(final Long keyNumber) {
+        this.keyNumber = keyNumber;
     }
 
     public void setLastName(final String lastName) {

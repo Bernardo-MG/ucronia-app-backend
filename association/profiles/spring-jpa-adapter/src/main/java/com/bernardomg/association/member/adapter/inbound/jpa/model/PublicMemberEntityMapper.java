@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.member.adapter.inbound.jpa.model;
 
+import java.util.Optional;
+
 import com.bernardomg.association.member.domain.model.PublicMember;
 import com.bernardomg.association.profile.domain.model.Name;
 
@@ -36,7 +38,8 @@ public final class PublicMemberEntityMapper {
         final Name name;
 
         name = new Name(entity.getFirstName(), entity.getLastName());
-        return new PublicMember(entity.getNumber(), name, entity.getRenew());
+        return new PublicMember(entity.getNumber(), name, entity.getRenew(),
+            Optional.ofNullable(entity.getKeyNumber()));
     }
 
     private PublicMemberEntityMapper() {

@@ -25,19 +25,22 @@
 package com.bernardomg.association.member.domain.model;
 
 import java.util.Objects;
+import java.util.Optional;
 
 import com.bernardomg.association.profile.domain.model.Name;
 
-public record PublicMember(Long number, Name name, boolean renew) {
+public record PublicMember(Long number, Name name, boolean renew, Optional<Long> keyNumber) {
 
-    public PublicMember(final Long number, final Name name, final boolean renew) {
+    public PublicMember(final Long number, final Name name, final boolean renew, final Optional<Long> keyNumber) {
         Objects.requireNonNull(number, "Number can't be null");
         Objects.requireNonNull(name, "Name can't be null");
         Objects.requireNonNull(renew, "Renew flag can't be null");
+        Objects.requireNonNull(keyNumber, "Key number can't be null");
 
         this.number = number;
         this.name = name;
         this.renew = renew;
+        this.keyNumber = keyNumber;
     }
 
 }

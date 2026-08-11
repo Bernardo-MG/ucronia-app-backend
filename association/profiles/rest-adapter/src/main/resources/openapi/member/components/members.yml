@@ -54,6 +54,8 @@ components:
         renew:
           type: boolean
           description: Whether the member is eligible for renewal.
+        keyNumber:
+          $ref: '../common/ids.yml#/components/schemas/Id'
     Member:
       type: object
       required: [number, name]
