@@ -28,20 +28,16 @@ import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 
-public record Key(Long number, Boolean missing, String description) {
+public record Key(Long number, Boolean available, String description) {
 
-    public Key(final Long number, final Boolean missing, final String description) {
+    public Key(final Long number, final Boolean available, final String description) {
         Objects.requireNonNull(number, "Number can't be null");
-        Objects.requireNonNull(missing, "Missing flag can't be null");
+        Objects.requireNonNull(available, "Available flag can't be null");
         Objects.requireNonNull(description, "Description can't be null");
 
         this.number = number;
-        this.missing = missing;
+        this.available = available;
         this.description = StringUtils.trim(description);
-    }
-
-    public Key(final Long number) {
-        this(number, false, "");
     }
 
 }

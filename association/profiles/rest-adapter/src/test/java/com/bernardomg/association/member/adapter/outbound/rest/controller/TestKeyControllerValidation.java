@@ -1,3 +1,4 @@
+
 package com.bernardomg.association.member.adapter.outbound.rest.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -22,7 +23,7 @@ import com.bernardomg.association.member.usecase.service.KeyService;
 @DisplayName("KeyController - Validation")
 class TestKeyControllerValidation {
 
-    private MockMvc  mockMvc;
+    private MockMvc    mockMvc;
 
     @Mock
     private KeyService service;

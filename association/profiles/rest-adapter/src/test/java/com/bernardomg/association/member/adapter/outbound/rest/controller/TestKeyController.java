@@ -1,3 +1,4 @@
+
 package com.bernardomg.association.member.adapter.outbound.rest.controller;
 
 import static org.hamcrest.Matchers.equalTo;
@@ -27,16 +28,16 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
-import com.bernardomg.association.member.domain.model.Key;
+import com.bernardomg.association.member.test.configuration.factory.Keys;
 import com.bernardomg.association.member.usecase.service.KeyService;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("KeyController")
 class TestKeyController {
 
-    private static final Long   KEY_NUMBER  = 100L;
-
     private static final String DESCRIPTION = "Main entrance key";
+
+    private static final Long   KEY_NUMBER  = 100L;
 
     private MockMvc             mockMvc;
 
@@ -61,7 +62,7 @@ class TestKeyController {
         final String requestBody;
 
         // GIVEN
-        given(service.create(any())).willReturn(new Key(KEY_NUMBER, false, DESCRIPTION));
+        given(service.create(any())).willReturn(Keys.available());
 
         requestBody = String.format("""
                 {
@@ -85,7 +86,7 @@ class TestKeyController {
     @DisplayName("When deleting a key, it is accepted")
     void testDeleteKey() throws Exception {
         // GIVEN
-        given(service.delete(anyLong())).willReturn(new Key(KEY_NUMBER, false, DESCRIPTION));
+        given(service.delete(anyLong())).willReturn(Keys.available());
 
         // WHEN + THEN
         mockMvc.perform(delete("/profile/key/{number}", KEY_NUMBER).contentType(MediaType.APPLICATION_JSON))
@@ -98,7 +99,7 @@ class TestKeyController {
     @DisplayName("When keys exist, they are returned")
     void testGetAllKeys() throws Exception {
         // GIVEN
-        given(service.getAll()).willReturn(List.of(new Key(KEY_NUMBER, false, DESCRIPTION)));
+        given(service.getAll()).willReturn(List.of(Keys.available()));
 
         // WHEN + THEN
         mockMvc.perform(get("/profile/key").contentType(MediaType.APPLICATION_JSON))
@@ -111,7 +112,7 @@ class TestKeyController {
     @DisplayName("When the key exists, it is returned")
     void testGetKeyByNumber() throws Exception {
         // GIVEN
-        given(service.getOne(KEY_NUMBER)).willReturn(Optional.of(new Key(KEY_NUMBER, false, DESCRIPTION)));
+        given(service.getOne(KEY_NUMBER)).willReturn(Optional.of(Keys.available()));
 
         // WHEN + THEN
         mockMvc.perform(get("/profile/key/{number}", KEY_NUMBER).contentType(MediaType.APPLICATION_JSON))
@@ -126,7 +127,7 @@ class TestKeyController {
         final String requestBody;
 
         // GIVEN
-        given(service.update(any())).willReturn(new Key(KEY_NUMBER, true, "Missing key"));
+        given(service.update(any())).willReturn(Keys.available());
 
         requestBody = """
                 {

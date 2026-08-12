@@ -2,13 +2,13 @@ components:
   schemas:
     Key:
       type: object
-      required: [number, missing, description]
+      required: [number, available, description]
       properties:
         number:
           $ref: '../../member/common/ids.yml#/components/schemas/Id'
-        missing:
+        available:
           type: boolean
-          description: Whether the key is missing.
+          description: Whether the key is available.
         description:
           type: string
           maxLength: 250
@@ -19,7 +19,7 @@ components:
       properties:
         number:
           $ref: '../../member/common/ids.yml#/components/schemas/Id'
-        missing:
+        available:
           type: boolean
           default: false
         description:
@@ -28,11 +28,11 @@ components:
           default: ''
     KeyUpdate:
       type: object
-      required: [missing, description]
+      required: [available, description]
       properties:
-        missing:
+        available:
           type: boolean
-          description: Whether the key is missing.
+          description: Whether the key is available.
         description:
           type: string
           maxLength: 250

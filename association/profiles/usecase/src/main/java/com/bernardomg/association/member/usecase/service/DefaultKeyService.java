@@ -60,7 +60,7 @@ public final class DefaultKeyService implements KeyService {
 
         log.debug("Creating key {}", key);
 
-        toCreate = new Key(key.number(), key.missing(), key.description());
+        toCreate = new Key(key.number(), key.available(), key.description());
         saved = repository.save(toCreate);
 
         log.debug("Created key {}", saved);
@@ -131,7 +131,7 @@ public final class DefaultKeyService implements KeyService {
             throw new MissingKeyException(key.number());
         }
 
-        toUpdate = new Key(key.number(), key.missing(), key.description());
+        toUpdate = new Key(key.number(), key.available(), key.description());
         updated = repository.save(toUpdate);
 
         log.debug("Updated key with number {}: {}", key.number(), updated);

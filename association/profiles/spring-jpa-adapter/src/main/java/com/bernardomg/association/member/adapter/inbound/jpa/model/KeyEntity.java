@@ -42,6 +42,9 @@ public class KeyEntity implements Serializable {
     @Transient
     private static final long serialVersionUID = -3092324949984669924L;
 
+    @Column(name = "available", nullable = false)
+    private Boolean           available;
+
     @Column(name = "description", nullable = false)
     private String            description;
 
@@ -49,9 +52,6 @@ public class KeyEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
     private Long              id;
-
-    @Column(name = "missing", nullable = false)
-    private Boolean           missing;
 
     @Column(name = "number", nullable = false, unique = true)
     private Long              number;
@@ -67,16 +67,16 @@ public class KeyEntity implements Serializable {
         return Objects.equals(id, other.id);
     }
 
+    public Boolean getAvailable() {
+        return available;
+    }
+
     public String getDescription() {
         return description;
     }
 
     public Long getId() {
         return id;
-    }
-
-    public Boolean getMissing() {
-        return missing;
     }
 
     public Long getNumber() {
@@ -88,16 +88,16 @@ public class KeyEntity implements Serializable {
         return Objects.hash(id);
     }
 
+    public void setAvailable(final Boolean missing) {
+        available = missing;
+    }
+
     public void setDescription(final String description) {
         this.description = description;
     }
 
     public void setId(final Long id) {
         this.id = id;
-    }
-
-    public void setMissing(final Boolean missing) {
-        this.missing = missing;
     }
 
     public void setNumber(final Long number) {

@@ -78,7 +78,7 @@ public final class JpaKeyRepository implements KeyRepository {
             .orElseGet(KeyEntity::new);
 
         entity.setNumber(key.number());
-        entity.setMissing(key.missing());
+        entity.setAvailable(key.available());
         entity.setDescription(key.description());
 
         return KeyEntityMapper.toDomain(keySpringRepository.save(entity));

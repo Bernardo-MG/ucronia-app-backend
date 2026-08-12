@@ -29,7 +29,7 @@ import com.bernardomg.association.member.domain.model.Key;
 public final class KeyEntityMapper {
 
     public static Key toDomain(final KeyEntity entity) {
-        return new Key(entity.getNumber(), entity.getMissing(), entity.getDescription());
+        return new Key(entity.getNumber(), entity.getAvailable(), entity.getDescription());
     }
 
     public static KeyEntity toEntity(final Key model) {
@@ -37,7 +37,7 @@ public final class KeyEntityMapper {
 
         entity = new KeyEntity();
         entity.setNumber(model.number());
-        entity.setMissing(model.missing());
+        entity.setAvailable(model.available());
         entity.setDescription(model.description());
 
         return entity;

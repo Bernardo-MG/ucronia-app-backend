@@ -37,13 +37,13 @@ import com.bernardomg.association.member.domain.model.Key;
 public final class KeyDtoMapper {
 
     public static Key toDomain(final KeyCreationDto creation) {
-        final Boolean missing;
+        final Boolean available;
         final String  description;
 
-        if (creation.getMissing() == null) {
-            missing = false;
+        if (creation.getAvailable() == null) {
+            available = false;
         } else {
-            missing = creation.getMissing();
+            available = creation.getAvailable();
         }
         if (creation.getDescription() == null) {
             description = "";
@@ -51,11 +51,11 @@ public final class KeyDtoMapper {
             description = creation.getDescription();
         }
 
-        return new Key(creation.getNumber(), missing, description);
+        return new Key(creation.getNumber(), available, description);
     }
 
     public static Key toDomain(final long number, final KeyUpdateDto change) {
-        return new Key(number, change.getMissing(), change.getDescription());
+        return new Key(number, change.getAvailable(), change.getDescription());
     }
 
     public static KeysResponseDto toResponseDto(final Collection<Key> keys) {
@@ -75,7 +75,7 @@ public final class KeyDtoMapper {
 
     private static KeyDto toDto(final Key key) {
         return new KeyDto().number(key.number())
-            .missing(key.missing())
+            .available(key.available())
             .description(key.description());
     }
 

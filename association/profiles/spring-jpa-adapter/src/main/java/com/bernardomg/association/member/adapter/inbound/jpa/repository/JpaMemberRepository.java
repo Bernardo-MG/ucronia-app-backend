@@ -284,21 +284,6 @@ public final class JpaMemberRepository implements MemberRepository {
         return saved;
     }
 
-    private void ensureKeyExists(final Member member) {
-        member.key()
-            .filter(number -> !keySpringRepository.existsByNumber(number))
-            .ifPresent(number -> {
-                final KeyEntity key;
-
-                key = new KeyEntity();
-                key.setNumber(number);
-                key.setMissing(false);
-                key.setDescription("");
-
-                keySpringRepository.save(key);
-            });
-    }
-
     private final Sorting fixSorting(final Sorting sorting) {
         final Collection<Property> properties;
 
@@ -356,7 +341,6 @@ public final class JpaMemberRepository implements MemberRepository {
         final Optional<KeyEntity>                   key;
 
         releaseKeyForAnotherMember(member);
-        ensureKeyExists(member);
 
         existing = memberSpringRepository.findByNumber(member.number());
         contactMethods = getContactMethods(member);
