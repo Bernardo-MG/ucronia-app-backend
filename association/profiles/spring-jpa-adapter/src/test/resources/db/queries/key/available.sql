@@ -1,2 +1,2 @@
-INSERT INTO inventory.keys (id, number, missing, description) VALUES
-   (1, 100, false, 'Main entrance key');
+INSERT INTO inventory.keys (id, number, available, description) VALUES
+   (1, 100, true, 'Main entrance key');
