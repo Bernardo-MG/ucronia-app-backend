@@ -60,7 +60,7 @@ class ITKeyRepositoryFindAll {
         // THEN
         Assertions.assertThat(keys)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Keys.valid());
+            .containsExactly(Keys.available());
     }
 
 }

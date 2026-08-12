@@ -61,7 +61,7 @@ class ITKeyRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(key)
-            .contains(Keys.valid());
+            .contains(Keys.available());
     }
 
     @Test

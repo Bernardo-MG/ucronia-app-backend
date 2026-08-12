@@ -43,7 +43,7 @@ class TestKeyServiceDelete {
         final Key key;
 
         // GIVEN
-        key = Keys.valid();
+        key = Keys.available();
         given(repository.findOne(KeyConstants.NUMBER)).willReturn(Optional.of(key));
 
         // WHEN
@@ -57,7 +57,7 @@ class TestKeyServiceDelete {
     @DisplayName("With a not existing key, an exception is thrown")
     void testDelete_NotExisting() {
         final ThrowingCallable execution;
-        Keys.valid();
+        Keys.available();
         given(repository.findOne(KeyConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN

@@ -42,7 +42,7 @@ class TestKeyServiceUpdate {
         final Key              key;
 
         // GIVEN
-        key = Keys.valid();
+        key = Keys.available();
         given(repository.exists(KeyConstants.NUMBER)).willReturn(false);
 
         // WHEN
@@ -59,7 +59,7 @@ class TestKeyServiceUpdate {
         final Key key;
 
         // GIVEN
-        key = Keys.valid();
+        key = Keys.available();
         given(repository.exists(KeyConstants.NUMBER)).willReturn(true);
         given(repository.save(key)).willReturn(key);
 
@@ -77,7 +77,7 @@ class TestKeyServiceUpdate {
         final Key key;
 
         // GIVEN
-        key = Keys.valid();
+        key = Keys.available();
         given(repository.exists(KeyConstants.NUMBER)).willReturn(true);
         given(repository.save(key)).willReturn(key);
 

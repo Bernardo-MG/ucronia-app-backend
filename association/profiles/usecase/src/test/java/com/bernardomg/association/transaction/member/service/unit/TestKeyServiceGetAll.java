@@ -41,7 +41,7 @@ class TestKeyServiceGetAll {
         final Key           key;
 
         // GIVEN
-        key = Keys.valid();
+        key = Keys.available();
         given(repository.findAll()).willReturn(List.of(key));
 
         // WHEN

@@ -38,7 +38,7 @@ class TestKeyServiceCreate {
         final Key key;
 
         // GIVEN
-        key = Keys.valid();
+        key = Keys.available();
 
         // WHEN
         service.create(key);
@@ -54,7 +54,7 @@ class TestKeyServiceCreate {
         final Key key;
 
         // GIVEN
-        key = Keys.valid();
+        key = Keys.available();
         given(repository.save(key)).willReturn(key);
 
         // WHEN

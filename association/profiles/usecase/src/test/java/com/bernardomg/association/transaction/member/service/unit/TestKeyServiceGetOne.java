@@ -44,7 +44,7 @@ class TestKeyServiceGetOne {
         final Key           key;
 
         // GIVEN
-        key = Keys.valid();
+        key = Keys.available();
         given(repository.findOne(NUMBER)).willReturn(Optional.of(key));
 
         // WHEN
