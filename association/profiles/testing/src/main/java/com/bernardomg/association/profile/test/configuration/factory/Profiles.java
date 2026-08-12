@@ -6,7 +6,6 @@ import java.util.Optional;
 import java.util.Set;
 
 import com.bernardomg.association.profile.domain.model.ContactChannel;
-import com.bernardomg.association.profile.domain.model.ContactMethod;
 import com.bernardomg.association.profile.domain.model.Name;
 import com.bernardomg.association.profile.domain.model.Profile;
 
@@ -23,11 +22,9 @@ public final class Profiles {
     public static final Profile createdWithEmail() {
         final Name           name;
         final ContactChannel contactChannel;
-        final ContactMethod  contactMethod;
 
         name = new Name(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME, Optional.empty());
-        contactMethod = ContactMethods.email();
-        contactChannel = new ContactChannel(contactMethod, ProfileConstants.EMAIL);
+        contactChannel = ContactChannels.withEmail();
         return new Profile(Optional.of(ProfileConstants.IDENTIFIER), 1L, name, Optional.of(ProfileConstants.BIRTH_DATE),
             List.of(contactChannel), Optional.of(ProfileConstants.ADDRESS), Optional.of(ProfileConstants.COMMENTS),
             Set.of());
@@ -105,12 +102,10 @@ public final class Profiles {
         final Name           name;
         final ContactChannel contactChannelA;
         final ContactChannel contactChannelB;
-        final ContactMethod  contactMethod;
 
         name = new Name(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME, Optional.empty());
-        contactMethod = ContactMethods.email();
-        contactChannelA = new ContactChannel(contactMethod, ProfileConstants.EMAIL);
-        contactChannelB = new ContactChannel(contactMethod, ProfileConstants.ALTERNATIVE_EMAIL);
+        contactChannelA = ContactChannels.withEmail();
+        contactChannelB = ContactChannels.withAlternativeEmail();
         return new Profile(Optional.of(ProfileConstants.IDENTIFIER), ProfileConstants.NUMBER, name,
             Optional.of(ProfileConstants.BIRTH_DATE), List.of(contactChannelA, contactChannelB),
             Optional.of(ProfileConstants.ADDRESS), Optional.of(ProfileConstants.COMMENTS), Set.of());

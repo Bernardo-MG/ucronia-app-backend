@@ -34,7 +34,7 @@ import com.bernardomg.association.TestApplication;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.member.domain.repository.KeyRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.AlternativeMemberWithKey;
-import com.bernardomg.association.member.test.configuration.factory.MemberConstants;
+import com.bernardomg.association.member.test.configuration.factory.KeyConstants;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -51,10 +51,10 @@ class ITKeyRepositoryDelete {
     @AlternativeMemberWithKey
     void testDelete() {
         // WHEN
-        repository.delete(MemberConstants.KEY);
+        repository.delete(KeyConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(repository.findOne(MemberConstants.KEY))
+        Assertions.assertThat(repository.findOne(KeyConstants.NUMBER))
             .isEmpty();
     }
 
@@ -62,10 +62,10 @@ class ITKeyRepositoryDelete {
     @DisplayName("When deleting a missing key, nothing happens")
     void testDelete_NoData() {
         // WHEN
-        repository.delete(MemberConstants.KEY);
+        repository.delete(KeyConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(repository.findOne(MemberConstants.KEY))
+        Assertions.assertThat(repository.findOne(KeyConstants.NUMBER))
             .isEmpty();
     }
 

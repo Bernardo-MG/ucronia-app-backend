@@ -23,15 +23,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.association.member.domain.exception.MissingKeyException;
 import com.bernardomg.association.member.domain.model.Key;
 import com.bernardomg.association.member.domain.repository.KeyRepository;
+import com.bernardomg.association.member.test.configuration.factory.KeyConstants;
+import com.bernardomg.association.member.test.configuration.factory.Keys;
 import com.bernardomg.association.member.usecase.service.DefaultKeyService;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Key service - delete")
 class TestKeyServiceDelete {
-
-    private static final Long NUMBER = 100L;
-
-    private static final Key  KEY    = new Key(NUMBER, false, "Main entrance key");
 
     @Mock
     private KeyRepository     repository;
@@ -42,26 +40,28 @@ class TestKeyServiceDelete {
     @Test
     @DisplayName("When deleting a key, it is removed")
     void testDelete() {
+        final Key key;
+
         // GIVEN
-        given(repository.findOne(NUMBER)).willReturn(Optional.of(KEY));
+        key = Keys.valid();
+        given(repository.findOne(KeyConstants.NUMBER)).willReturn(Optional.of(key));
 
         // WHEN
-        service.delete(NUMBER);
+        service.delete(KeyConstants.NUMBER);
 
         // THEN
-        verify(repository).delete(NUMBER);
+        verify(repository).delete(KeyConstants.NUMBER);
     }
 
     @Test
     @DisplayName("With a not existing key, an exception is thrown")
     void testDelete_NotExisting() {
         final ThrowingCallable execution;
-
-        // GIVEN
-        given(repository.findOne(NUMBER)).willReturn(Optional.empty());
+        Keys.valid();
+        given(repository.findOne(KeyConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.delete(NUMBER);
+        execution = () -> service.delete(KeyConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)

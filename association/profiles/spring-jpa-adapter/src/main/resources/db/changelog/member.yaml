@@ -86,7 +86,6 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     unique: true
-                    nullable: false
                     foreignKeyName: fk_members_key
                     references: inventory.keys(id)
                     deleteCascade: true

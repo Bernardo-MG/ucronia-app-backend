@@ -24,11 +24,7 @@ public final class MemberConstants {
 
     public static final String  COMMENTS               = "Comments";
 
-    public static final String  EMAIL                  = "email@somewhere.com";
-
     public static final String  IDENTIFIER             = "6789";
-
-    public static final long    KEY                    = 100L;
 
     public static final long    NUMBER                 = 10;
 

@@ -42,13 +42,18 @@ import com.bernardomg.association.fee.domain.exception.MissingFeeTypeException;
 import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.FeeTypeConstants;
+import com.bernardomg.association.member.domain.exception.MissingKeyException;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.repository.KeyRepository;
 import com.bernardomg.association.member.domain.repository.MemberContactMethodRepository;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.test.configuration.factory.KeyConstants;
 import com.bernardomg.association.member.test.configuration.factory.MemberConstants;
 import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.association.member.usecase.service.DefaultMemberService;
+import com.bernardomg.association.profile.domain.exception.MissingContactMethodException;
+import com.bernardomg.association.profile.test.configuration.factory.ContactMethodConstants;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
@@ -58,6 +63,9 @@ class TestMemberServicePatch {
 
     @Mock
     private FeeTypeRepository             feeTypeRepository;
+
+    @Mock
+    private KeyRepository                 keyRepository;
 
     @Mock
     private MemberContactMethodRepository memberContactMethodRepository;
@@ -70,6 +78,48 @@ class TestMemberServicePatch {
 
     public TestMemberServicePatch() {
         super();
+    }
+
+    @Test
+    @DisplayName("With a missing contact method, an exception is thrown")
+    void testPatch_ContactMethodMissing() {
+        final Member           member;
+        final ThrowingCallable execution;
+
+        // GIVEN
+        member = Members.withEmail();
+
+        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+        given(feeTypeRepository.exists(member.feeType()
+            .number())).willReturn(true);
+        given(memberContactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(false);
+
+        // WHEN
+        execution = () -> service.patch(member);
+
+        // THEN
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(MissingContactMethodException.class);
+    }
+
+    @Test
+    @DisplayName("With a not existing feeType, an exception is thrown")
+    void testPatch_FeeTypeMissing() {
+        final Member           member;
+        final ThrowingCallable execution;
+
+        // GIVEN
+        member = Members.nameChange();
+
+        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+        given(feeTypeRepository.exists(FeeTypeConstants.NUMBER)).willReturn(false);
+
+        // WHEN
+        execution = () -> service.patch(member);
+
+        // THEN
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(MissingFeeTypeException.class);
     }
 
     @Test
@@ -95,6 +145,27 @@ class TestMemberServicePatch {
     }
 
     @Test
+    @DisplayName("With a missing key, an exception is thrown")
+    void testPatch_KeyMissing() {
+        final Member           member;
+        final ThrowingCallable execution;
+
+        // GIVEN
+        member = Members.withKey();
+
+        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
+        given(feeTypeRepository.exists(FeeConstants.FEE_TYPE_NUMBER)).willReturn(true);
+        given(keyRepository.exists(KeyConstants.NUMBER)).willReturn(false);
+
+        // WHEN
+        execution = () -> service.patch(member);
+
+        // THEN
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(MissingKeyException.class);
+    }
+
+    @Test
     @DisplayName("With a not existing member, an exception is thrown")
     void testPatch_NotExisting_Exception() {
         final Member           member;
@@ -111,26 +182,6 @@ class TestMemberServicePatch {
         // THEN
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(MissingMemberException.class);
-    }
-
-    @Test
-    @DisplayName("With a not existing feeType, an exception is thrown")
-    void testPatch_NotExistingFeeType_Exception() {
-        final Member           member;
-        final ThrowingCallable execution;
-
-        // GIVEN
-        member = Members.nameChange();
-
-        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
-        given(feeTypeRepository.exists(FeeTypeConstants.NUMBER)).willReturn(false);
-
-        // WHEN
-        execution = () -> service.patch(member);
-
-        // THEN
-        Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingFeeTypeException.class);
     }
 
     @Test

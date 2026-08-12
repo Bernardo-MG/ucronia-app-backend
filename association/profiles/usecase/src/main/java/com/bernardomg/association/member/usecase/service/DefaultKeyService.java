@@ -120,8 +120,8 @@ public final class DefaultKeyService implements KeyService {
     @Override
     public Key update(final Key key) {
         final boolean exists;
-        final Key toUpdate;
-        final Key updated;
+        final Key     toUpdate;
+        final Key     updated;
 
         log.debug("Updating key with number {} using data {}", key.number(), key);
 

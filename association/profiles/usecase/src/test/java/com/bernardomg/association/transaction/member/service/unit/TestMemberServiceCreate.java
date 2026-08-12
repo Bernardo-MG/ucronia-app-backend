@@ -36,14 +36,20 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.association.fee.domain.exception.MissingFeeTypeException;
 import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
+import com.bernardomg.association.member.domain.exception.MissingKeyException;
 import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.repository.KeyRepository;
 import com.bernardomg.association.member.domain.repository.MemberContactMethodRepository;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.member.test.configuration.factory.KeyConstants;
 import com.bernardomg.association.member.test.configuration.factory.MemberConstants;
 import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.association.member.usecase.service.DefaultMemberService;
+import com.bernardomg.association.profile.domain.exception.MissingContactMethodException;
+import com.bernardomg.association.profile.test.configuration.factory.ContactMethodConstants;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
@@ -53,6 +59,9 @@ class TestMemberServiceCreate {
 
     @Mock
     private FeeTypeRepository             feeTypeRepository;
+
+    @Mock
+    private KeyRepository                 keyRepository;
 
     @Mock
     private MemberContactMethodRepository memberContactMethodRepository;
@@ -65,6 +74,45 @@ class TestMemberServiceCreate {
 
     public TestMemberServiceCreate() {
         super();
+    }
+
+    @Test
+    @DisplayName("With a missing contact method, an exception is thrown")
+    void testCreate_ContactMethodMissing() {
+        final Member           member;
+        final ThrowingCallable execution;
+
+        // GIVEN
+        member = Members.withEmail();
+        given(feeTypeRepository.exists(member.feeType()
+            .number())).willReturn(true);
+
+        given(memberContactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(false);
+
+        // WHEN
+        execution = () -> service.create(member);
+
+        // THEN
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(MissingContactMethodException.class);
+    }
+
+    @Test
+    @DisplayName("With a missing fee type, an exception is thrown")
+    void testCreate_FeeTypeMissing() {
+        final Member           member;
+        final ThrowingCallable execution;
+
+        // GIVEN
+        member = Members.active();
+        given(feeTypeRepository.exists(FeeConstants.FEE_TYPE_NUMBER)).willReturn(false);
+
+        // WHEN
+        execution = () -> service.create(member);
+
+        // THEN
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(MissingFeeTypeException.class);
     }
 
     @Test
@@ -85,6 +133,25 @@ class TestMemberServiceCreate {
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
             new FieldFailure("existing", "identifier", MemberConstants.IDENTIFIER));
+    }
+
+    @Test
+    @DisplayName("With a missing key, an exception is thrown")
+    void testCreate_KeyMissing() {
+        final Member           member;
+        final ThrowingCallable execution;
+
+        // GIVEN
+        member = Members.withKey();
+        given(feeTypeRepository.exists(FeeConstants.FEE_TYPE_NUMBER)).willReturn(true);
+        given(keyRepository.exists(KeyConstants.NUMBER)).willReturn(false);
+
+        // WHEN
+        execution = () -> service.create(member);
+
+        // THEN
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(MissingKeyException.class);
     }
 
     @Test

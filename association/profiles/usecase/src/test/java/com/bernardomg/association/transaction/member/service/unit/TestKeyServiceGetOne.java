@@ -22,6 +22,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.association.member.domain.exception.MissingKeyException;
 import com.bernardomg.association.member.domain.model.Key;
 import com.bernardomg.association.member.domain.repository.KeyRepository;
+import com.bernardomg.association.member.test.configuration.factory.Keys;
 import com.bernardomg.association.member.usecase.service.DefaultKeyService;
 
 @ExtendWith(MockitoExtension.class)
@@ -39,17 +40,19 @@ class TestKeyServiceGetOne {
     @Test
     @DisplayName("When there is data, it is returned")
     void testGetOne() {
-        final Optional<Key> key;
+        final Optional<Key> read;
+        final Key           key;
 
         // GIVEN
-        given(repository.findOne(NUMBER)).willReturn(Optional.of(new Key(100L, false, "Main entrance key")));
+        key = Keys.valid();
+        given(repository.findOne(NUMBER)).willReturn(Optional.of(key));
 
         // WHEN
-        key = service.getOne(NUMBER);
+        read = service.getOne(NUMBER);
 
         // THEN
-        Assertions.assertThat(key)
-            .contains(new Key(100L, false, "Main entrance key"));
+        Assertions.assertThat(read)
+            .contains(key);
     }
 
     @Test

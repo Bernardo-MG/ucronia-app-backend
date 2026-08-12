@@ -32,9 +32,11 @@ import org.slf4j.LoggerFactory;
 
 import com.bernardomg.association.fee.domain.exception.MissingFeeTypeException;
 import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
+import com.bernardomg.association.member.domain.exception.MissingKeyException;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.Member;
+import com.bernardomg.association.member.domain.repository.KeyRepository;
 import com.bernardomg.association.member.domain.repository.MemberContactMethodRepository;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.usecase.validation.MemberIdentifierNotExistForAnotherRule;
@@ -71,6 +73,8 @@ public final class DefaultMemberService implements MemberService {
 
     private final FeeTypeRepository             feeTypeRepository;
 
+    private final KeyRepository                 keyRepository;
+
     private final MemberRepository              memberRepository;
 
     private final Validator<Member>             patchValidator;
@@ -78,12 +82,14 @@ public final class DefaultMemberService implements MemberService {
     private final Validator<Member>             updateValidator;
 
     public DefaultMemberService(final MemberRepository memberRepo,
-            final MemberContactMethodRepository contactMethodRepo, final FeeTypeRepository feeTypeRepo) {
+            final MemberContactMethodRepository contactMethodRepo, final FeeTypeRepository feeTypeRepo,
+            final KeyRepository keyRepo) {
         super();
 
         memberRepository = Objects.requireNonNull(memberRepo);
         contactMethodRepository = Objects.requireNonNull(contactMethodRepo);
         feeTypeRepository = Objects.requireNonNull(feeTypeRepo);
+        keyRepository = Objects.requireNonNull(keyRepo);
 
         createValidator = new FieldRuleValidator<>(new MemberIdentifierNotExistRule(memberRepo));
         updateValidator = new FieldRuleValidator<>(new MemberIdentifierNotExistForAnotherRule(memberRepo));
@@ -102,6 +108,16 @@ public final class DefaultMemberService implements MemberService {
                 .number());
             throw new MissingFeeTypeException(member.feeType()
                 .number());
+        }
+
+        if ((member.key()
+            .isPresent())
+                && (!keyRepository.exists(member.key()
+                    .get()))) {
+            log.error("Missing key {}", member.feeType()
+                .number());
+            throw new MissingKeyException(member.key()
+                .get());
         }
 
         // TODO: maybe send an exception with all
@@ -191,6 +207,16 @@ public final class DefaultMemberService implements MemberService {
                 .number());
         }
 
+        if ((member.key()
+            .isPresent())
+                && (!keyRepository.exists(member.key()
+                    .get()))) {
+            log.error("Missing key {}", member.feeType()
+                .number());
+            throw new MissingKeyException(member.key()
+                .get());
+        }
+
         // TODO: maybe send an exception with all
         member.contactChannels()
             .stream()
@@ -225,6 +251,16 @@ public final class DefaultMemberService implements MemberService {
                 .number());
             throw new MissingFeeTypeException(member.feeType()
                 .number());
+        }
+
+        if ((member.key()
+            .isPresent())
+                && (!keyRepository.exists(member.key()
+                    .get()))) {
+            log.error("Missing key {}", member.feeType()
+                .number());
+            throw new MissingKeyException(member.key()
+                .get());
         }
 
         // TODO: maybe send an exception with all

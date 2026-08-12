@@ -21,15 +21,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.association.member.domain.exception.MissingKeyException;
 import com.bernardomg.association.member.domain.model.Key;
 import com.bernardomg.association.member.domain.repository.KeyRepository;
+import com.bernardomg.association.member.test.configuration.factory.KeyConstants;
+import com.bernardomg.association.member.test.configuration.factory.Keys;
 import com.bernardomg.association.member.usecase.service.DefaultKeyService;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Key service - update")
 class TestKeyServiceUpdate {
-
-    private static final Long NUMBER = 100L;
-
-    private static final Key  KEY    = new Key(NUMBER, true, "Missing key");
 
     @Mock
     private KeyRepository     repository;
@@ -38,50 +36,57 @@ class TestKeyServiceUpdate {
     private DefaultKeyService service;
 
     @Test
-    @DisplayName("When updating a key, the change is persisted")
-    void testUpdate_PersistedData() {
+    @DisplayName("When updating a not existing key, an exception is thrown")
+    void testUpdate_NotExisting() {
+        final ThrowingCallable execution;
+        final Key              key;
+
         // GIVEN
-        given(repository.exists(NUMBER)).willReturn(true);
-        given(repository.save(KEY)).willReturn(KEY);
+        key = Keys.valid();
+        given(repository.exists(KeyConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        service.update(KEY);
+        execution = () -> service.update(key);
 
         // THEN
-        verify(repository).save(KEY);
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(MissingKeyException.class);
+    }
+
+    @Test
+    @DisplayName("When updating a key, the change is persisted")
+    void testUpdate_PersistedData() {
+        final Key key;
+
+        // GIVEN
+        key = Keys.valid();
+        given(repository.exists(KeyConstants.NUMBER)).willReturn(true);
+        given(repository.save(key)).willReturn(key);
+
+        // WHEN
+        service.update(key);
+
+        // THEN
+        verify(repository).save(key);
     }
 
     @Test
     @DisplayName("When updating a key, the change is returned")
     void testUpdate_ReturnedData() {
         final Key updated;
+        final Key key;
 
         // GIVEN
-        given(repository.exists(NUMBER)).willReturn(true);
-        given(repository.save(KEY)).willReturn(KEY);
+        key = Keys.valid();
+        given(repository.exists(KeyConstants.NUMBER)).willReturn(true);
+        given(repository.save(key)).willReturn(key);
 
         // WHEN
-        updated = service.update(KEY);
+        updated = service.update(key);
 
         // THEN
         Assertions.assertThat(updated)
-            .isEqualTo(KEY);
-    }
-
-    @Test
-    @DisplayName("When updating a not existing key, an exception is thrown")
-    void testUpdate_NotExisting() {
-        final ThrowingCallable execution;
-
-        // GIVEN
-        given(repository.exists(NUMBER)).willReturn(false);
-
-        // WHEN
-        execution = () -> service.update(KEY);
-
-        // THEN
-        Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingKeyException.class);
+            .isEqualTo(key);
     }
 
 }

@@ -126,8 +126,9 @@ public class AssociationMemberAutoConfiguration {
 
     @Bean("memberService")
     public MemberService getMemberService(final MemberRepository memberRepository,
-            final MemberContactMethodRepository contactMethodRepository, final FeeTypeRepository feeTypeRepository) {
-        return new DefaultMemberService(memberRepository, contactMethodRepository, feeTypeRepository);
+            final MemberContactMethodRepository contactMethodRepository, final FeeTypeRepository feeTypeRepository,
+            final KeyRepository keyRepository) {
+        return new DefaultMemberService(memberRepository, contactMethodRepository, feeTypeRepository, keyRepository);
     }
 
     @Bean("membershipEvolutionRepository")

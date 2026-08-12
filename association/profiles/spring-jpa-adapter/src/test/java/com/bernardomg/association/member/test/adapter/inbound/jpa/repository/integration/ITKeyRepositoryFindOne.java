@@ -37,7 +37,8 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.Positiv
 import com.bernardomg.association.member.domain.model.Key;
 import com.bernardomg.association.member.domain.repository.KeyRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.AlternativeMemberWithKey;
-import com.bernardomg.association.member.test.configuration.factory.MemberConstants;
+import com.bernardomg.association.member.test.configuration.factory.KeyConstants;
+import com.bernardomg.association.member.test.configuration.factory.Keys;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -56,11 +57,11 @@ class ITKeyRepositoryFindOne {
         final Optional<Key> key;
 
         // WHEN
-        key = repository.findOne(MemberConstants.KEY);
+        key = repository.findOne(KeyConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(key)
-            .contains(new Key(MemberConstants.KEY, false, "Main entrance key"));
+            .contains(Keys.valid());
     }
 
     @Test
@@ -69,7 +70,7 @@ class ITKeyRepositoryFindOne {
         final Optional<Key> key;
 
         // WHEN
-        key = repository.findOne(MemberConstants.KEY);
+        key = repository.findOne(KeyConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(key)

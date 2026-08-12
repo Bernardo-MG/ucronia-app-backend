@@ -19,16 +19,15 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.member.domain.model.Key;
 import com.bernardomg.association.member.domain.repository.KeyRepository;
+import com.bernardomg.association.member.test.configuration.factory.Keys;
 import com.bernardomg.association.member.usecase.service.DefaultKeyService;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Key service - create")
 class TestKeyServiceCreate {
 
-    private static final Key TO_CREATE = new Key(100L, false, "Main entrance key");
-
     @Mock
-    private KeyRepository repository;
+    private KeyRepository     repository;
 
     @InjectMocks
     private DefaultKeyService service;
@@ -36,28 +35,35 @@ class TestKeyServiceCreate {
     @Test
     @DisplayName("With a valid key, it is persisted")
     void testCreate_PersistedData() {
+        final Key key;
+
+        // GIVEN
+        key = Keys.valid();
+
         // WHEN
-        service.create(TO_CREATE);
+        service.create(key);
 
         // THEN
-        verify(repository).save(TO_CREATE);
+        verify(repository).save(key);
     }
 
     @Test
     @DisplayName("With a valid key, it is returned")
     void testCreate_ReturnedData() {
         final Key created;
+        final Key key;
 
         // GIVEN
-        given(repository.save(TO_CREATE)).willReturn(TO_CREATE);
+        key = Keys.valid();
+        given(repository.save(key)).willReturn(key);
 
         // WHEN
-        created = service.create(TO_CREATE);
+        created = service.create(key);
 
         // THEN
         Assertions.assertThat(created)
             .as("key")
-            .isEqualTo(TO_CREATE);
+            .isEqualTo(key);
     }
 
 }

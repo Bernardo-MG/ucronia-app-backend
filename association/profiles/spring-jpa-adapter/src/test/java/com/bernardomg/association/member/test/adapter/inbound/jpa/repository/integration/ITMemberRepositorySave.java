@@ -44,7 +44,7 @@ import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMemberWithEmail;
 import com.bernardomg.association.member.test.configuration.data.annotation.AlternativeMemberWithKey;
-import com.bernardomg.association.member.test.configuration.factory.MemberConstants;
+import com.bernardomg.association.member.test.configuration.factory.KeyConstants;
 import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.association.member.test.configuration.factory.ReadMemberEntities;
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
@@ -235,8 +235,8 @@ class ITMemberRepositorySave {
 
         Assertions.assertThat(created.key())
             .as("created member key")
-            .contains(MemberConstants.KEY);
-        Assertions.assertThat(keySpringRepository.existsByNumber(MemberConstants.KEY))
+            .contains(KeyConstants.NUMBER);
+        Assertions.assertThat(keySpringRepository.existsByNumber(KeyConstants.NUMBER))
             .as("registered key")
             .isTrue();
         Assertions.assertThat(existing.map(Member::key)
@@ -302,7 +302,7 @@ class ITMemberRepositorySave {
         repository.save(member);
 
         // THEN
-        Assertions.assertThat(keySpringRepository.existsByNumber(MemberConstants.KEY))
+        Assertions.assertThat(keySpringRepository.existsByNumber(KeyConstants.NUMBER))
             .as("registered key")
             .isTrue();
     }

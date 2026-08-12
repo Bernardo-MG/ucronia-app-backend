@@ -21,6 +21,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.member.domain.model.Key;
 import com.bernardomg.association.member.domain.repository.KeyRepository;
+import com.bernardomg.association.member.test.configuration.factory.Keys;
 import com.bernardomg.association.member.usecase.service.DefaultKeyService;
 
 @ExtendWith(MockitoExtension.class)
@@ -37,17 +38,18 @@ class TestKeyServiceGetAll {
     @DisplayName("When there is data, it is returned")
     void testGetAll() {
         final Iterable<Key> keys;
+        final Key           key;
 
         // GIVEN
-        given(repository.findAll()).willReturn(List.of(new Key(100L, false, "Main entrance key")));
+        key = Keys.valid();
+        given(repository.findAll()).willReturn(List.of(key));
 
         // WHEN
         keys = service.getAll();
 
         // THEN
         Assertions.assertThat(keys)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(new Key(100L, false, "Main entrance key"));
+            .containsExactly(key);
     }
 
     @Test
