@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.usecase.service;
+package com.bernardomg.association.key.usecase.service;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -30,9 +30,9 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bernardomg.association.member.domain.exception.MissingKeyException;
-import com.bernardomg.association.member.domain.model.Key;
-import com.bernardomg.association.member.domain.repository.KeyRepository;
+import com.bernardomg.association.key.domain.exception.MissingKeyException;
+import com.bernardomg.association.key.domain.model.Key;
+import com.bernardomg.association.key.domain.repository.KeyRepository;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;

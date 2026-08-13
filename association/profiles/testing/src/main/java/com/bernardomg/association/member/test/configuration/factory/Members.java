@@ -7,6 +7,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
+import com.bernardomg.association.key.test.configuration.factory.KeyConstants;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.Member.FeeType;
 import com.bernardomg.association.profile.domain.model.ContactChannel;

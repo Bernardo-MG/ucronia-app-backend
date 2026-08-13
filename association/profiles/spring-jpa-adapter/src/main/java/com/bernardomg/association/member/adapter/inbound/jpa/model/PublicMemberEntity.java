@@ -4,6 +4,8 @@ package com.bernardomg.association.member.adapter.inbound.jpa.model;
 import java.io.Serializable;
 import java.util.Objects;
 
+import com.bernardomg.association.key.adapter.inbound.jpa.model.KeyEntity;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

@@ -16,7 +16,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
-import com.bernardomg.association.member.usecase.service.KeyService;
+import com.bernardomg.association.key.adapter.outbound.rest.controller.KeyController;
+import com.bernardomg.association.key.usecase.service.KeyService;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("KeyController - Validation")

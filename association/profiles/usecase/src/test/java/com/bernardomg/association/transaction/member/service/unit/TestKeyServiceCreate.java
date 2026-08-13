@@ -17,10 +17,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.member.domain.model.Key;
-import com.bernardomg.association.member.domain.repository.KeyRepository;
-import com.bernardomg.association.member.test.configuration.factory.Keys;
-import com.bernardomg.association.member.usecase.service.DefaultKeyService;
+import com.bernardomg.association.key.domain.model.Key;
+import com.bernardomg.association.key.domain.repository.KeyRepository;
+import com.bernardomg.association.key.test.configuration.factory.Keys;
+import com.bernardomg.association.key.usecase.service.DefaultKeyService;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Key service - create")

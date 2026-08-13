@@ -32,9 +32,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.TestApplication;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
-import com.bernardomg.association.member.domain.repository.KeyRepository;
+import com.bernardomg.association.key.domain.repository.KeyRepository;
+import com.bernardomg.association.key.test.configuration.factory.KeyConstants;
 import com.bernardomg.association.member.test.configuration.data.annotation.AlternativeMemberWithKey;
-import com.bernardomg.association.member.test.configuration.factory.KeyConstants;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest

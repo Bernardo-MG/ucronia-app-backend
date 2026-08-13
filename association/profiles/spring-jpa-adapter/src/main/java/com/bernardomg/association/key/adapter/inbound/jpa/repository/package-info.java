@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2022-2025 Bernardo Martinez Garrido
+ * Copyright (c) 2022-2025 Bernardo Martínez Garrido
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,22 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.domain.model;
+/**
+ * Key JPA repositories.
+ */
 
-import java.util.Objects;
-
-import org.apache.commons.lang3.StringUtils;
-
-public record Key(Long number, Boolean available, String description) {
-
-    public Key(final Long number, final Boolean available, final String description) {
-        Objects.requireNonNull(number, "Number can't be null");
-        Objects.requireNonNull(available, "Available flag can't be null");
-        Objects.requireNonNull(description, "Description can't be null");
-
-        this.number = number;
-        this.available = available;
-        this.description = StringUtils.trim(description);
-    }
-
-}
+package com.bernardomg.association.key.adapter.inbound.jpa.repository;

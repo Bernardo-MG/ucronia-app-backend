@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.adapter.inbound.jpa.repository;
+package com.bernardomg.association.key.adapter.inbound.jpa.repository;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -32,10 +32,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.member.adapter.inbound.jpa.model.KeyEntity;
-import com.bernardomg.association.member.adapter.inbound.jpa.model.KeyEntityMapper;
-import com.bernardomg.association.member.domain.model.Key;
-import com.bernardomg.association.member.domain.repository.KeyRepository;
+import com.bernardomg.association.key.adapter.inbound.jpa.model.KeyEntity;
+import com.bernardomg.association.key.adapter.inbound.jpa.model.KeyEntityMapper;
+import com.bernardomg.association.key.domain.model.Key;
+import com.bernardomg.association.key.domain.repository.KeyRepository;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;

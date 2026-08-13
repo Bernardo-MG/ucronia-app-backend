@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.adapter.inbound.jpa.model;
+package com.bernardomg.association.key.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
 import java.util.Objects;

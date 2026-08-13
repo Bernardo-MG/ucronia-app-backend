@@ -28,10 +28,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
-import com.bernardomg.association.member.domain.model.Key;
-import com.bernardomg.association.member.test.configuration.factory.KeyConstants;
-import com.bernardomg.association.member.test.configuration.factory.Keys;
-import com.bernardomg.association.member.usecase.service.KeyService;
+import com.bernardomg.association.key.adapter.outbound.rest.controller.KeyController;
+import com.bernardomg.association.key.domain.model.Key;
+import com.bernardomg.association.key.test.configuration.factory.KeyConstants;
+import com.bernardomg.association.key.test.configuration.factory.Keys;
+import com.bernardomg.association.key.usecase.service.KeyService;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;

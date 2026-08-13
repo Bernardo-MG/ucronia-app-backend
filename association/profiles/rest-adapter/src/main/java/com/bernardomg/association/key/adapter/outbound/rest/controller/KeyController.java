@@ -22,20 +22,20 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.adapter.outbound.rest.controller;
+package com.bernardomg.association.key.adapter.outbound.rest.controller;
 
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.member.adapter.outbound.rest.dto.KeyCreationDto;
-import com.bernardomg.association.member.adapter.outbound.rest.dto.KeyPageResponseDto;
-import com.bernardomg.association.member.adapter.outbound.rest.dto.KeyResponseDto;
-import com.bernardomg.association.member.adapter.outbound.rest.dto.KeyUpdateDto;
-import com.bernardomg.association.member.adapter.outbound.rest.model.KeyDtoMapper;
-import com.bernardomg.association.member.domain.model.Key;
-import com.bernardomg.association.member.usecase.service.KeyService;
+import com.bernardomg.association.key.adapter.outbound.rest.dto.KeyCreationDto;
+import com.bernardomg.association.key.adapter.outbound.rest.dto.KeyPageResponseDto;
+import com.bernardomg.association.key.adapter.outbound.rest.dto.KeyResponseDto;
+import com.bernardomg.association.key.adapter.outbound.rest.dto.KeyUpdateDto;
+import com.bernardomg.association.key.adapter.outbound.rest.model.KeyDtoMapper;
+import com.bernardomg.association.key.domain.model.Key;
+import com.bernardomg.association.key.usecase.service.KeyService;
 import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;

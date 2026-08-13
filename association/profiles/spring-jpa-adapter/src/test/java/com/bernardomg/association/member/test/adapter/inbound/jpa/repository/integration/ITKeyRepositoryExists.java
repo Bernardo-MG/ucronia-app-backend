@@ -9,9 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.TestApplication;
-import com.bernardomg.association.member.domain.repository.KeyRepository;
+import com.bernardomg.association.key.domain.repository.KeyRepository;
+import com.bernardomg.association.key.test.configuration.factory.KeyConstants;
 import com.bernardomg.association.member.test.configuration.data.annotation.AvailableKey;
-import com.bernardomg.association.member.test.configuration.factory.KeyConstants;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest

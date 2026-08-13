@@ -22,29 +22,24 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.adapter.inbound.jpa.model;
+package com.bernardomg.association.key.adapter.inbound.jpa.repository;
 
-import com.bernardomg.association.member.domain.model.Key;
+import java.util.Optional;
 
-public final class KeyEntityMapper {
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
-    public static Key toDomain(final KeyEntity entity) {
-        return new Key(entity.getNumber(), entity.getAvailable(), entity.getDescription());
-    }
+import com.bernardomg.association.key.adapter.inbound.jpa.model.KeyEntity;
 
-    public static KeyEntity toEntity(final Key model) {
-        final KeyEntity entity;
+public interface KeySpringRepository extends JpaRepository<KeyEntity, Long> {
 
-        entity = new KeyEntity();
-        entity.setNumber(model.number());
-        entity.setAvailable(model.available());
-        entity.setDescription(model.description());
+    public void deleteByNumber(final Long number);
 
-        return entity;
-    }
+    public boolean existsByNumber(final Long number);
 
-    private KeyEntityMapper() {
-        super();
-    }
+    public Optional<KeyEntity> findByNumber(final Long number);
+
+    @Query("SELECT COALESCE(MAX(k.number), 0) + 1 FROM Key k")
+    public Long findNextNumber();
 
 }

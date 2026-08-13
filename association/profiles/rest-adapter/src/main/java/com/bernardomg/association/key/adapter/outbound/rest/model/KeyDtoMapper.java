@@ -22,19 +22,19 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.adapter.outbound.rest.model;
+package com.bernardomg.association.key.adapter.outbound.rest.model;
 
 import java.util.Optional;
 
-import com.bernardomg.association.member.adapter.outbound.rest.dto.KeyCreationDto;
-import com.bernardomg.association.member.adapter.outbound.rest.dto.KeyDto;
-import com.bernardomg.association.member.adapter.outbound.rest.dto.KeyPageResponseDto;
-import com.bernardomg.association.member.adapter.outbound.rest.dto.KeyResponseDto;
-import com.bernardomg.association.member.adapter.outbound.rest.dto.KeyUpdateDto;
-import com.bernardomg.association.member.adapter.outbound.rest.dto.PropertyDto;
-import com.bernardomg.association.member.adapter.outbound.rest.dto.PropertyDto.DirectionEnum;
-import com.bernardomg.association.member.adapter.outbound.rest.dto.SortingDto;
-import com.bernardomg.association.member.domain.model.Key;
+import com.bernardomg.association.key.adapter.outbound.rest.dto.KeyCreationDto;
+import com.bernardomg.association.key.adapter.outbound.rest.dto.KeyDto;
+import com.bernardomg.association.key.adapter.outbound.rest.dto.KeyPageResponseDto;
+import com.bernardomg.association.key.adapter.outbound.rest.dto.KeyResponseDto;
+import com.bernardomg.association.key.adapter.outbound.rest.dto.KeyUpdateDto;
+import com.bernardomg.association.key.adapter.outbound.rest.dto.PropertyDto;
+import com.bernardomg.association.key.adapter.outbound.rest.dto.PropertyDto.DirectionEnum;
+import com.bernardomg.association.key.adapter.outbound.rest.dto.SortingDto;
+import com.bernardomg.association.key.domain.model.Key;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
 import com.bernardomg.pagination.domain.Sorting.Property;

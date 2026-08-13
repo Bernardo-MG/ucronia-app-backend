@@ -9,13 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.TestApplication;
-import com.bernardomg.association.member.adapter.inbound.jpa.model.KeyEntity;
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.KeySpringRepository;
-import com.bernardomg.association.member.domain.model.Key;
-import com.bernardomg.association.member.domain.repository.KeyRepository;
+import com.bernardomg.association.key.adapter.inbound.jpa.model.KeyEntity;
+import com.bernardomg.association.key.adapter.inbound.jpa.repository.KeySpringRepository;
+import com.bernardomg.association.key.domain.model.Key;
+import com.bernardomg.association.key.domain.repository.KeyRepository;
+import com.bernardomg.association.key.test.configuration.factory.Keys;
 import com.bernardomg.association.member.test.configuration.data.annotation.AvailableKey;
 import com.bernardomg.association.member.test.configuration.factory.KeyEntities;
-import com.bernardomg.association.member.test.configuration.factory.Keys;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest

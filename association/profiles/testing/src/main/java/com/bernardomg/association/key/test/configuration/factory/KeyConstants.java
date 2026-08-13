@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.member.test.configuration.factory;
+package com.bernardomg.association.key.test.configuration.factory;
 
 public final class KeyConstants {
 

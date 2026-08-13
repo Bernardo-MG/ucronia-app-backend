@@ -22,28 +22,25 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.usecase.service;
+package com.bernardomg.association.key.domain.repository;
 
 import java.util.Optional;
 
-import com.bernardomg.association.member.domain.model.Key;
+import com.bernardomg.association.key.domain.model.Key;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 
-/**
- * Key CRUD service.
- */
-public interface KeyService {
+public interface KeyRepository {
 
-    public Key create(final Key key);
+    public void delete(final Long number);
 
-    public Key delete(final long number);
+    public boolean exists(final Long number);
 
-    public Page<Key> getAll(final Pagination pagination, final Sorting sorting);
+    public Page<Key> findAll(final Pagination pagination, final Sorting sorting);
 
-    public Optional<Key> getOne(final long number);
+    public Optional<Key> findOne(final Long number);
 
-    public Key update(final Key key);
+    public Key save(final Key key);
 
 }

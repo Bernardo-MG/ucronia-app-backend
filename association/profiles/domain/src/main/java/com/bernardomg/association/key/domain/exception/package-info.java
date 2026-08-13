@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2022-2025 Bernardo Martinez Garrido
+ * Copyright (c) 2022-2025 Bernardo Martínez Garrido
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,24 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.adapter.inbound.jpa.repository;
+/**
+ * Key exceptions.
+ */
 
-import java.util.Optional;
-
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-
-import com.bernardomg.association.member.adapter.inbound.jpa.model.KeyEntity;
-
-public interface KeySpringRepository extends JpaRepository<KeyEntity, Long> {
-
-    public void deleteByNumber(final Long number);
-
-    public boolean existsByNumber(final Long number);
-
-    public Optional<KeyEntity> findByNumber(final Long number);
-
-    @Query("SELECT COALESCE(MAX(k.number), 0) + 1 FROM Key k")
-    public Long findNextNumber();
-
-}
+package com.bernardomg.association.key.domain.exception;

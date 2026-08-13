@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2022-2025 Bernardo Martinez Garrido
+ * Copyright (c) 2022-2025 Bernardo Martínez Garrido
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,25 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.domain.exception;
-
 /**
- * Missing key exception.
+ * Key JPA model.
  */
-public final class MissingKeyException extends RuntimeException {
 
-    private static final long serialVersionUID = -5407844090427896645L;
-
-    private final long        number;
-
-    public MissingKeyException(final long number) {
-        super(String.format("Missing key with number %s", number));
-
-        this.number = number;
-    }
-
-    public long getNumber() {
-        return number;
-    }
-
-}
+package com.bernardomg.association.key.adapter.inbound.jpa.model;

@@ -11,6 +11,7 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTypeEntity;
+import com.bernardomg.association.key.adapter.inbound.jpa.model.KeyEntity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

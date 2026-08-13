@@ -22,25 +22,22 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.domain.repository;
+package com.bernardomg.association.key.domain.model;
 
-import java.util.Optional;
+import java.util.Objects;
 
-import com.bernardomg.association.member.domain.model.Key;
-import com.bernardomg.pagination.domain.Page;
-import com.bernardomg.pagination.domain.Pagination;
-import com.bernardomg.pagination.domain.Sorting;
+import org.apache.commons.lang3.StringUtils;
 
-public interface KeyRepository {
+public record Key(Long number, Boolean available, String description) {
 
-    public void delete(final Long number);
+    public Key(final Long number, final Boolean available, final String description) {
+        Objects.requireNonNull(number, "Number can't be null");
+        Objects.requireNonNull(available, "Available flag can't be null");
+        Objects.requireNonNull(description, "Description can't be null");
 
-    public boolean exists(final Long number);
-
-    public Page<Key> findAll(final Pagination pagination, final Sorting sorting);
-
-    public Optional<Key> findOne(final Long number);
-
-    public Key save(final Key key);
+        this.number = number;
+        this.available = available;
+        this.description = StringUtils.trim(description);
+    }
 
 }
