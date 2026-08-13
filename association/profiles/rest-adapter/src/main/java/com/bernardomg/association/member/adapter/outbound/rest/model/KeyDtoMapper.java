@@ -51,7 +51,7 @@ public final class KeyDtoMapper {
             description = creation.getDescription();
         }
 
-        return new Key(creation.getNumber(), available, description);
+        return new Key(-1L, available, description);
     }
 
     public static Key toDomain(final long number, final KeyUpdateDto change) {

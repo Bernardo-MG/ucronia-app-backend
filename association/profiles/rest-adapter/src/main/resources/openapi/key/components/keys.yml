@@ -15,10 +15,8 @@ components:
           description: Description for the key.
     KeyCreation:
       type: object
-      required: [number]
+      required: [available, description]
       properties:
-        number:
-          $ref: '../../member/common/ids.yml#/components/schemas/Id'
         available:
           type: boolean
           default: false
