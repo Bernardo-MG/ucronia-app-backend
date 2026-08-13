@@ -22,6 +22,7 @@ get:
   parameters:
     - $ref: '../common/pagination.yml#/components/parameters/pageParam'
     - $ref: '../common/pagination.yml#/components/parameters/sizeParam'
+    - $ref: '../components/keys.yml#/components/parameters/keysSortParam'
   responses:
     '200':
       description: Keys page.

@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.member.adapter.outbound.rest.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.web.bind.annotation.RestController;
@@ -39,6 +40,7 @@ import com.bernardomg.framework.security.access.annotation.RequireResourceAuthor
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
+import com.bernardomg.pagination.web.WebSorting;
 import com.bernardomg.security.domain.permission.constant.Actions;
 
 @RestController
@@ -76,13 +78,13 @@ public class KeyController implements KeyApi {
 
     @Override
     @RequireResourceAuthorization(resource = "MEMBER_PROFILE", action = Actions.READ)
-    public KeyPageResponseDto getAllKeys(final Integer page, final Integer size) {
+    public KeyPageResponseDto getAllKeys(final Integer page, final Integer size, final List<String> sort) {
         final Page<Key>  keys;
         final Pagination pagination;
         final Sorting    sorting;
 
         pagination = new Pagination(page, size);
-        sorting = Sorting.unsorted();
+        sorting = WebSorting.toSorting(sort);
 
         keys = service.getAll(pagination, sorting);
 

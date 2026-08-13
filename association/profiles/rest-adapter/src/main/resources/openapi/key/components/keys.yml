@@ -1,4 +1,17 @@
 components:
+  parameters:
+    keysSortParam:
+      name: sort
+      description: Sorting to apply.
+      in: query
+      style: form
+      explode: true
+      schema:
+        type: array
+        items:
+          type: string
+          pattern: '^(description|number)\|(asc|desc)$'
+          example: username|asc
   schemas:
     Key:
       type: object
