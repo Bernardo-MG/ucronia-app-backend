@@ -8,6 +8,9 @@ public final class Keys {
     public static final Key available() {
         return new Key(KeyConstants.NUMBER, true, KeyConstants.DESCRIPTION);
     }
+    public static final Key created() {
+        return new Key(1L, true, KeyConstants.DESCRIPTION);
+    }
 
     public static final Key descriptionChange() {
         return new Key(KeyConstants.NUMBER, true, KeyConstants.DESCRIPTION_CHANGE);

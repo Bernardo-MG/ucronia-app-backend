@@ -41,6 +41,13 @@ databaseChangeLog:
                   defaultValue: ''
                   constraints:
                     nullable: false
+        - addAutoIncrement:
+            schemaName: inventory
+            tableName: keys
+            columnName: id
+            columnDataType: bigint
+            incrementBy: 1
+            startWith: 1
         - createIndex:
             schemaName: inventory
             tableName: keys

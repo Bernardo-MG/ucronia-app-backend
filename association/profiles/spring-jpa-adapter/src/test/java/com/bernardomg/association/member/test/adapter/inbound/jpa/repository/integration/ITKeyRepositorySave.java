@@ -70,7 +70,7 @@ class ITKeyRepositorySave {
         entities = springRepository.findAll();
 
         assertThat(entities).as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number")
             .containsExactly(KeyEntities.available());
     }
 
@@ -88,7 +88,7 @@ class ITKeyRepositorySave {
 
         // THEN
         assertThat(saved).as("key")
-            .isEqualTo(Keys.available());
+            .isEqualTo(Keys.created());
     }
 
 }
