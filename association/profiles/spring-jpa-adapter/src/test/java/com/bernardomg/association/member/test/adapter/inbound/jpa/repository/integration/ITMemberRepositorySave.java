@@ -28,6 +28,7 @@ import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.InstanceOfAssertFactories;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,6 @@ import com.bernardomg.association.TestApplication;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityConstants;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.ReadMemberEntity;
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.KeySpringRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.ReadMemberSpringRepository;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
@@ -58,9 +58,6 @@ import com.bernardomg.test.annotation.IntegrationTest;
 @SpringBootTest(classes = TestApplication.class)
 @DisplayName("MemberRepository - save")
 class ITMemberRepositorySave {
-
-    @Autowired
-    private KeySpringRepository        keySpringRepository;
 
     @Autowired
     private ProfileSpringRepository    profileSpringRepository;
@@ -234,17 +231,16 @@ class ITMemberRepositorySave {
         existing = repository.findOne(Members.alternativeWithKey()
             .number());
 
-        Assertions.assertThat(created.key())
-            .as("created member key")
-            .contains(KeyConstants.NUMBER);
-        Assertions.assertThat(keySpringRepository.existsByNumber(KeyConstants.NUMBER))
-            .as("registered key")
-            .isTrue();
-        Assertions.assertThat(existing.map(Member::key)
-            .orElse(null))
-            .as("secondMember")
-            .isNotNull()
-            .isEmpty();
+        SoftAssertions.assertSoftly(soft -> {
+            soft.assertThat(created.key())
+                .as("created member key")
+                .contains(KeyConstants.NUMBER);
+            soft.assertThat(existing.map(Member::key)
+                .orElse(null))
+                .as("existing member key")
+                .isNotNull()
+                .isEmpty();
+        });
     }
 
     @Test

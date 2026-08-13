@@ -250,6 +250,7 @@ public final class JpaMemberRepository implements MemberRepository {
         log.debug("Saving member profile {}", member);
 
         number = () -> readMemberSpringRepository.findNextNumber();
+        releaseKeyForAnotherMember(member);
         entity = toEntity(member, number);
 
         created = MemberEntityMapper.toDomain(memberSpringRepository.save(entity));
@@ -270,6 +271,9 @@ public final class JpaMemberRepository implements MemberRepository {
 
         sourceNumber = new AtomicLong(readMemberSpringRepository.findNextNumber());
         number = () -> sourceNumber.getAndIncrement();
+
+        members.stream()
+            .forEach(this::releaseKeyForAnotherMember);
         entities = members.stream()
             .map(m -> toEntity(m, number))
             .toList();
@@ -315,13 +319,20 @@ public final class JpaMemberRepository implements MemberRepository {
     }
 
     private final void releaseKeyForAnotherMember(final Member member) {
-        member.key()
-            .ifPresent(keyNumber -> memberSpringRepository.findByKeyNumber(keyNumber)
-                .filter(existing -> !Objects.equals(existing.getNumber(), member.number()))
-                .ifPresent(existing -> {
-                    existing.setKey(null);
-                    memberSpringRepository.save(existing);
-                }));
+        final Optional<MemberEntity> anotherMember;
+        final MemberEntity           existing;
+
+        if (member.key()
+            .isPresent()) {
+            anotherMember = memberSpringRepository.findByKeyNumber(member.key()
+                .get())
+                .filter(read -> !Objects.equals(read.getNumber(), member.number()));
+            if (anotherMember.isPresent()) {
+                existing = anotherMember.get();
+                existing.setKey(null);
+                memberSpringRepository.save(existing);
+            }
+        }
     }
 
     private final void setType(final MemberEntity entity) {
@@ -339,8 +350,6 @@ public final class JpaMemberRepository implements MemberRepository {
         final Collection<MemberContactMethodEntity> contactMethods;
         final Optional<FeeTypeEntity>               feeType;
         final Optional<KeyEntity>                   key;
-
-        releaseKeyForAnotherMember(member);
 
         existing = memberSpringRepository.findByNumber(member.number());
         contactMethods = getContactMethods(member);
