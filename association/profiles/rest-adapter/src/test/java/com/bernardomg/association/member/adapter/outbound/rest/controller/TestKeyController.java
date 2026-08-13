@@ -28,6 +28,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
+import com.bernardomg.association.member.test.configuration.factory.KeyConstants;
 import com.bernardomg.association.member.test.configuration.factory.Keys;
 import com.bernardomg.association.member.usecase.service.KeyService;
 
@@ -35,19 +36,16 @@ import com.bernardomg.association.member.usecase.service.KeyService;
 @DisplayName("KeyController")
 class TestKeyController {
 
-    private static final String DESCRIPTION = "Main entrance key";
-
-    private static final Long   KEY_NUMBER  = 100L;
-
-    private MockMvc             mockMvc;
+    private MockMvc    mockMvc;
 
     @Mock
-    private KeyService          service;
+    private KeyService service;
 
     @BeforeEach
     void setUp() {
-        final LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
+        final LocalValidatorFactoryBean validator;
 
+        validator = new LocalValidatorFactoryBean();
         validator.setMessageInterpolator(new ParameterMessageInterpolator());
         validator.afterPropertiesSet();
 
@@ -67,19 +65,18 @@ class TestKeyController {
         requestBody = String.format("""
                 {
                     "number": %d,
-                    "missing": false,
+                    "available": true,
                     "description": "%s"
                 }
-                """, KEY_NUMBER, DESCRIPTION);
+                """, KeyConstants.NUMBER, KeyConstants.DESCRIPTION);
 
         // WHEN + THEN
         mockMvc.perform(post("/profile/key").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
             .andExpect(status().isCreated())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.content.number", equalTo(KEY_NUMBER.intValue())))
-            .andExpect(jsonPath("$.content.missing", equalTo(false)))
-            .andExpect(jsonPath("$.content.description", equalTo(DESCRIPTION)));
+            .andExpect(jsonPath("$.content.number", equalTo((int) KeyConstants.NUMBER)))
+            .andExpect(jsonPath("$.content.description", equalTo(KeyConstants.DESCRIPTION)));
     }
 
     @Test
@@ -89,10 +86,10 @@ class TestKeyController {
         given(service.delete(anyLong())).willReturn(Keys.available());
 
         // WHEN + THEN
-        mockMvc.perform(delete("/profile/key/{number}", KEY_NUMBER).contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(delete("/profile/key/{number}", KeyConstants.NUMBER).contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.content.number", equalTo(KEY_NUMBER.intValue())));
+            .andExpect(jsonPath("$.content.number", equalTo((int) KeyConstants.NUMBER)));
     }
 
     @Test
@@ -105,20 +102,20 @@ class TestKeyController {
         mockMvc.perform(get("/profile/key").contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.content[0].number", equalTo(KEY_NUMBER.intValue())));
+            .andExpect(jsonPath("$.content[0].number", equalTo((int) KeyConstants.NUMBER)));
     }
 
     @Test
     @DisplayName("When the key exists, it is returned")
     void testGetKeyByNumber() throws Exception {
         // GIVEN
-        given(service.getOne(KEY_NUMBER)).willReturn(Optional.of(Keys.available()));
+        given(service.getOne(KeyConstants.NUMBER)).willReturn(Optional.of(Keys.available()));
 
         // WHEN + THEN
-        mockMvc.perform(get("/profile/key/{number}", KEY_NUMBER).contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/profile/key/{number}", KeyConstants.NUMBER).contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.content.number", equalTo(KEY_NUMBER.intValue())));
+            .andExpect(jsonPath("$.content.number", equalTo((int) KeyConstants.NUMBER)));
     }
 
     @Test
@@ -131,19 +128,19 @@ class TestKeyController {
 
         requestBody = """
                 {
-                    "missing": true,
+                    "available": true,
                     "description": "Missing key"
                 }
                 """;
 
         // WHEN + THEN
-        mockMvc.perform(put("/profile/key/{number}", KEY_NUMBER).contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(put("/profile/key/{number}", KeyConstants.NUMBER).contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.content.number", equalTo(KEY_NUMBER.intValue())))
-            .andExpect(jsonPath("$.content.missing", equalTo(true)))
-            .andExpect(jsonPath("$.content.description", equalTo("Missing key")));
+            .andExpect(jsonPath("$.content.number", equalTo((int) KeyConstants.NUMBER)))
+            .andExpect(jsonPath("$.content.available", equalTo(true)))
+            .andExpect(jsonPath("$.content.description", equalTo(KeyConstants.DESCRIPTION)));
     }
 
 }
