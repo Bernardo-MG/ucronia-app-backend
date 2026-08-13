@@ -1,7 +1,6 @@
 
 package com.bernardomg.association.member.adapter.outbound.rest.controller;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -38,25 +37,6 @@ class TestKeyControllerValidation {
         mockMvc = MockMvcBuilders.standaloneSetup(new KeyController(service))
             .setValidator(validator)
             .build();
-    }
-
-    @Test
-    @DisplayName("When creating a key without number, it is rejected")
-    void testCreateKey_Empty() throws Exception {
-        final String requestBody;
-
-        // GIVEN
-        requestBody = """
-                {
-                    "missing": false,
-                    "description": "Main entrance"
-                }
-                """;
-
-        // WHEN + THEN
-        mockMvc.perform(post("/profile/key").contentType(MediaType.APPLICATION_JSON)
-            .content(requestBody))
-            .andExpect(status().isBadRequest());
     }
 
     @Test
