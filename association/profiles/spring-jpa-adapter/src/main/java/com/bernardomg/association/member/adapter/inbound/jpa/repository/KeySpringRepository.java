@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import com.bernardomg.association.member.adapter.inbound.jpa.model.KeyEntity;
 
@@ -40,5 +41,8 @@ public interface KeySpringRepository extends JpaRepository<KeyEntity, Long> {
     public List<KeyEntity> findAllByOrderByNumberAsc();
 
     public Optional<KeyEntity> findByNumber(final Long number);
+
+    @Query("SELECT COALESCE(MAX(k.number), 0) + 1 FROM Key k")
+    public Long findNextNumber();
 
 }

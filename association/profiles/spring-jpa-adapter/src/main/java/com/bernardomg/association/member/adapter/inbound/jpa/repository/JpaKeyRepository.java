@@ -107,15 +107,21 @@ public final class JpaKeyRepository implements KeyRepository {
 
     @Override
     public final Key save(final Key key) {
-        final KeyEntity entity;
-        final Key       created;
+        final Optional<KeyEntity> existing;
+        final KeyEntity           entity;
+        final Key                 created;
 
         log.debug("Saving key {}", key);
 
-        entity = keySpringRepository.findByNumber(key.number())
-            .orElseGet(KeyEntity::new);
+        existing = keySpringRepository.findByNumber(key.number());
 
-        entity.setNumber(key.number());
+        if (existing.isPresent()) {
+            entity = existing.get();
+        } else {
+            entity = new KeyEntity();
+            entity.setNumber(keySpringRepository.findNextNumber());
+        }
+
         entity.setAvailable(key.available());
         entity.setDescription(key.description());
 
