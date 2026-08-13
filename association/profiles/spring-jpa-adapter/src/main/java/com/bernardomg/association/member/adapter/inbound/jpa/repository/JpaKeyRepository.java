@@ -28,6 +28,8 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.member.adapter.inbound.jpa.model.KeyEntity;
@@ -38,6 +40,11 @@ import com.bernardomg.association.member.domain.repository.KeyRepository;
 @Transactional
 public final class JpaKeyRepository implements KeyRepository {
 
+    /**
+     * Logger for the class.
+     */
+    private static final Logger       log = LoggerFactory.getLogger(JpaKeyRepository.class);
+
     private final KeySpringRepository keySpringRepository;
 
     public JpaKeyRepository(final KeySpringRepository keySpringRepository) {
@@ -47,32 +54,63 @@ public final class JpaKeyRepository implements KeyRepository {
     }
 
     @Override
-    public void delete(final Long number) {
+    public final void delete(final Long number) {
+        log.debug("Deleting key {}", number);
+
         keySpringRepository.deleteByNumber(number);
+
+        log.debug("Deleted member profile {}", number);
     }
 
     @Override
-    public boolean exists(final Long number) {
-        return keySpringRepository.existsByNumber(number);
+    public final boolean exists(final Long number) {
+        final boolean exists;
+
+        log.debug("Checking if key {} exists", number);
+
+        exists = keySpringRepository.existsByNumber(number);
+
+        log.debug("Key {} exists: {}", number, exists);
+
+        return exists;
     }
 
     @Override
-    public Collection<Key> findAll() {
-        return keySpringRepository.findAllByOrderByNumberAsc()
+    public final Collection<Key> findAll() {
+        final Collection<Key> read;
+
+        log.debug("Finding all the keys");
+
+        read = keySpringRepository.findAllByOrderByNumberAsc()
             .stream()
             .map(KeyEntityMapper::toDomain)
             .toList();
+
+        log.debug("Found all keys");
+
+        return read;
     }
 
     @Override
-    public Optional<Key> findOne(final Long number) {
-        return keySpringRepository.findByNumber(number)
+    public final Optional<Key> findOne(final Long number) {
+        final Optional<Key> key;
+
+        log.trace("Finding key with number {}", number);
+
+        key = keySpringRepository.findByNumber(number)
             .map(KeyEntityMapper::toDomain);
+
+        log.trace("Found key with number {}: {}", number, key);
+
+        return key;
     }
 
     @Override
-    public Key save(final Key key) {
+    public final Key save(final Key key) {
         final KeyEntity entity;
+        final Key       created;
+
+        log.debug("Saving key {}", key);
 
         entity = keySpringRepository.findByNumber(key.number())
             .orElseGet(KeyEntity::new);
@@ -81,7 +119,11 @@ public final class JpaKeyRepository implements KeyRepository {
         entity.setAvailable(key.available());
         entity.setDescription(key.description());
 
-        return KeyEntityMapper.toDomain(keySpringRepository.save(entity));
+        created = KeyEntityMapper.toDomain(keySpringRepository.save(entity));
+
+        log.debug("Saved key {}", key);
+
+        return created;
     }
 
 }
