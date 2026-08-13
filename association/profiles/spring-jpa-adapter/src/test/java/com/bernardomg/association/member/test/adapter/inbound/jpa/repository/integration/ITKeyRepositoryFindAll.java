@@ -37,6 +37,9 @@ import com.bernardomg.association.member.domain.model.Key;
 import com.bernardomg.association.member.domain.repository.KeyRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.AlternativeMemberWithKey;
 import com.bernardomg.association.member.test.configuration.factory.Keys;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -52,13 +55,17 @@ class ITKeyRepositoryFindAll {
     @PositiveFeeType
     @AlternativeMemberWithKey
     void testFindAll() {
-        final Iterable<Key> keys;
+        final Page<Key>  keys;
+        final Pagination pagination;
+        final Sorting    sorting;
 
         // WHEN
-        keys = repository.findAll();
+        pagination = Pagination.unpaged();
+        sorting = Sorting.unsorted();
+        keys = repository.findAll(pagination, sorting);
 
         // THEN
-        Assertions.assertThat(keys)
+        Assertions.assertThat(keys.content())
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Keys.available());
     }

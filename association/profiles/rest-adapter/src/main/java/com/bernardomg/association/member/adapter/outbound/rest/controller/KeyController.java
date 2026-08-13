@@ -24,19 +24,21 @@
 
 package com.bernardomg.association.member.adapter.outbound.rest.controller;
 
-import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.member.adapter.outbound.rest.dto.KeyCreationDto;
+import com.bernardomg.association.member.adapter.outbound.rest.dto.KeyPageResponseDto;
 import com.bernardomg.association.member.adapter.outbound.rest.dto.KeyResponseDto;
 import com.bernardomg.association.member.adapter.outbound.rest.dto.KeyUpdateDto;
-import com.bernardomg.association.member.adapter.outbound.rest.dto.KeysResponseDto;
 import com.bernardomg.association.member.adapter.outbound.rest.model.KeyDtoMapper;
 import com.bernardomg.association.member.domain.model.Key;
 import com.bernardomg.association.member.usecase.service.KeyService;
 import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.security.domain.permission.constant.Actions;
 
 @RestController
@@ -74,10 +76,15 @@ public class KeyController implements KeyApi {
 
     @Override
     @RequireResourceAuthorization(resource = "MEMBER_PROFILE", action = Actions.READ)
-    public KeysResponseDto getAllKeys() {
-        final Collection<Key> keys;
+    public KeyPageResponseDto getAllKeys(final Integer page, final Integer size) {
+        final Page<Key>  keys;
+        final Pagination pagination;
+        final Sorting    sorting;
 
-        keys = service.getAll();
+        pagination = new Pagination(page, size);
+        sorting = Sorting.unsorted();
+
+        keys = service.getAll(pagination, sorting);
 
         return KeyDtoMapper.toResponseDto(keys);
     }

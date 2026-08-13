@@ -24,18 +24,22 @@
 
 package com.bernardomg.association.member.adapter.inbound.jpa.repository;
 
-import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.member.adapter.inbound.jpa.model.KeyEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.KeyEntityMapper;
 import com.bernardomg.association.member.domain.model.Key;
 import com.bernardomg.association.member.domain.repository.KeyRepository;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
+import com.bernardomg.pagination.springframework.SpringPagination;
 
 @Transactional
 public final class JpaKeyRepository implements KeyRepository {
@@ -76,19 +80,19 @@ public final class JpaKeyRepository implements KeyRepository {
     }
 
     @Override
-    public final Collection<Key> findAll() {
-        final Collection<Key> read;
+    public final Page<Key> findAll(final Pagination pagination, final Sorting sorting) {
+        final org.springframework.data.domain.Page<Key> read;
+        final Pageable                                  pageable;
 
         log.debug("Finding all the keys");
 
-        read = keySpringRepository.findAllByOrderByNumberAsc()
-            .stream()
-            .map(KeyEntityMapper::toDomain)
-            .toList();
+        pageable = SpringPagination.toPageable(pagination, sorting);
+        read = keySpringRepository.findAll(pageable)
+            .map(KeyEntityMapper::toDomain);
 
         log.debug("Found all keys");
 
-        return read;
+        return SpringPagination.toPage(read);
     }
 
     @Override

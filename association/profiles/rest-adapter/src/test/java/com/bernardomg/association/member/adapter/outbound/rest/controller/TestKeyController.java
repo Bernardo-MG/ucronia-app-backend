@@ -28,9 +28,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
+import com.bernardomg.association.member.domain.model.Key;
 import com.bernardomg.association.member.test.configuration.factory.KeyConstants;
 import com.bernardomg.association.member.test.configuration.factory.Keys;
 import com.bernardomg.association.member.usecase.service.KeyService;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("KeyController")
@@ -95,8 +99,15 @@ class TestKeyController {
     @Test
     @DisplayName("When keys exist, they are returned")
     void testGetAllKeys() throws Exception {
+        final Page<Key>  existing;
+        final Pagination pagination;
+        final Sorting    sorting;
+
         // GIVEN
-        given(service.getAll()).willReturn(List.of(Keys.available()));
+        pagination = Pagination.unpaged();
+        sorting = Sorting.unsorted();
+        existing = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
+        given(service.getAll(pagination, sorting)).willReturn(existing);
 
         // WHEN + THEN
         mockMvc.perform(get("/profile/key").contentType(MediaType.APPLICATION_JSON))

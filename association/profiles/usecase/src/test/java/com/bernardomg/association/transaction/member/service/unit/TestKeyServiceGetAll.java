@@ -23,6 +23,9 @@ import com.bernardomg.association.member.domain.model.Key;
 import com.bernardomg.association.member.domain.repository.KeyRepository;
 import com.bernardomg.association.member.test.configuration.factory.Keys;
 import com.bernardomg.association.member.usecase.service.DefaultKeyService;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Key service - get all")
@@ -37,34 +40,52 @@ class TestKeyServiceGetAll {
     @Test
     @DisplayName("When there is data, it is returned")
     void testGetAll() {
-        final Iterable<Key> keys;
-        final Key           key;
+        final Page<Key>  keys;
+        final Key        key;
+        final Pagination pagination;
+        final Sorting    sorting;
+        final Page<Key>  existing;
 
         // GIVEN
+        pagination = Pagination.unpaged();
+        sorting = Sorting.unsorted();
+
         key = Keys.available();
-        given(repository.findAll()).willReturn(List.of(key));
+        existing = new Page<>(List.of(key), 0, 0, 0, 0, 0, false, false, sorting);
+        given(repository.findAll(pagination, sorting)).willReturn(existing);
 
         // WHEN
-        keys = service.getAll();
+        keys = service.getAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(keys)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .as("keys")
             .containsExactly(key);
     }
 
     @Test
     @DisplayName("When there is no data, nothing is returned")
     void testGetAll_NoData() {
-        final Iterable<Key> keys;
+        final Page<Key>  keys;
+        final Pagination pagination;
+        final Sorting    sorting;
+        final Page<Key>  existing;
 
         // GIVEN
-        given(repository.findAll()).willReturn(List.of());
+        pagination = Pagination.unpaged();
+        sorting = Sorting.unsorted();
+
+        existing = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
+        given(repository.findAll(pagination, sorting)).willReturn(existing);
 
         // WHEN
-        keys = service.getAll();
+        keys = service.getAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(keys)
+            .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();
     }

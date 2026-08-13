@@ -24,15 +24,20 @@
 
 package com.bernardomg.association.member.adapter.outbound.rest.model;
 
-import java.util.Collection;
 import java.util.Optional;
 
 import com.bernardomg.association.member.adapter.outbound.rest.dto.KeyCreationDto;
 import com.bernardomg.association.member.adapter.outbound.rest.dto.KeyDto;
+import com.bernardomg.association.member.adapter.outbound.rest.dto.KeyPageResponseDto;
 import com.bernardomg.association.member.adapter.outbound.rest.dto.KeyResponseDto;
 import com.bernardomg.association.member.adapter.outbound.rest.dto.KeyUpdateDto;
-import com.bernardomg.association.member.adapter.outbound.rest.dto.KeysResponseDto;
+import com.bernardomg.association.member.adapter.outbound.rest.dto.PropertyDto;
+import com.bernardomg.association.member.adapter.outbound.rest.dto.PropertyDto.DirectionEnum;
+import com.bernardomg.association.member.adapter.outbound.rest.dto.SortingDto;
 import com.bernardomg.association.member.domain.model.Key;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Sorting.Direction;
+import com.bernardomg.pagination.domain.Sorting.Property;
 
 public final class KeyDtoMapper {
 
@@ -58,12 +63,6 @@ public final class KeyDtoMapper {
         return new Key(number, change.getAvailable(), change.getDescription());
     }
 
-    public static KeysResponseDto toResponseDto(final Collection<Key> keys) {
-        return new KeysResponseDto().content(keys.stream()
-            .map(KeyDtoMapper::toDto)
-            .toList());
-    }
-
     public static KeyResponseDto toResponseDto(final Key key) {
         return new KeyResponseDto().content(toDto(key));
     }
@@ -73,10 +72,45 @@ public final class KeyDtoMapper {
             .orElse(null));
     }
 
+    public static final KeyPageResponseDto toResponseDto(final Page<Key> page) {
+        final SortingDto sortingResponse;
+
+        sortingResponse = new SortingDto().properties(page.sort()
+            .properties()
+            .stream()
+            .map(KeyDtoMapper::toDto)
+            .toList());
+        return new KeyPageResponseDto().content(page.content()
+            .stream()
+            .map(KeyDtoMapper::toDto)
+            .toList())
+            .size(page.size())
+            .page(page.page())
+            .totalElements(page.totalElements())
+            .totalPages(page.totalPages())
+            .elementsInPage(page.elementsInPage())
+            .first(page.first())
+            .last(page.last())
+            .sort(sortingResponse);
+    }
+
     private static KeyDto toDto(final Key key) {
         return new KeyDto().number(key.number())
             .available(key.available())
             .description(key.description());
+    }
+
+    private static final PropertyDto toDto(final Property property) {
+        final DirectionEnum direction;
+
+        if (property.direction() == Direction.ASC) {
+            direction = DirectionEnum.ASC;
+        } else {
+            direction = DirectionEnum.DESC;
+        }
+
+        return new PropertyDto().name(property.name())
+            .direction(direction);
     }
 
     private KeyDtoMapper() {

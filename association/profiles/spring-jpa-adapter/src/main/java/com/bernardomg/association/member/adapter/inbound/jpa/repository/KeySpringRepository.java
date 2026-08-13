@@ -24,7 +24,6 @@
 
 package com.bernardomg.association.member.adapter.inbound.jpa.repository;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -37,8 +36,6 @@ public interface KeySpringRepository extends JpaRepository<KeyEntity, Long> {
     public void deleteByNumber(final Long number);
 
     public boolean existsByNumber(final Long number);
-
-    public List<KeyEntity> findAllByOrderByNumberAsc();
 
     public Optional<KeyEntity> findByNumber(final Long number);
 

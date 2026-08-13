@@ -5,7 +5,7 @@ components:
       required: [number, available, description]
       properties:
         number:
-          $ref: '../../member/common/ids.yml#/components/schemas/Id'
+          $ref: '../common/ids.yml#/components/schemas/Id'
         available:
           type: boolean
           description: Whether the key is available.
@@ -35,13 +35,15 @@ components:
           type: string
           maxLength: 250
           description: Description for the key.
-    KeysResponse:
-      type: object
-      properties:
-        content:
-          type: array
-          items:
-            $ref: '#/components/schemas/Key'
+    KeyPageResponse:
+      allOf:
+        - $ref: '../common/responses.yml#/components/schemas/PageResponse'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/Key'
     KeyResponse:
       type: object
       properties:

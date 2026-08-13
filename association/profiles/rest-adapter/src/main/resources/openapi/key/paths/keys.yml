@@ -19,10 +19,13 @@ get:
   summary: Get all keys.
   operationId: getAllKeys
   tags: [Key]
+  parameters:
+    - $ref: '../common/pagination.yml#/components/parameters/pageParam'
+    - $ref: '../common/pagination.yml#/components/parameters/sizeParam'
   responses:
     '200':
-      description: Keys list.
+      description: Keys page.
       content:
         application/json:
           schema:
-            $ref: '../components/keys.yml#/components/schemas/KeysResponse'
+            $ref: '../components/keys.yml#/components/schemas/KeyPageResponse'

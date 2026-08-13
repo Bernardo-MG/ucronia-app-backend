@@ -24,7 +24,6 @@
 
 package com.bernardomg.association.member.usecase.service;
 
-import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -34,6 +33,9 @@ import org.slf4j.LoggerFactory;
 import com.bernardomg.association.member.domain.exception.MissingKeyException;
 import com.bernardomg.association.member.domain.model.Key;
 import com.bernardomg.association.member.domain.repository.KeyRepository;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
 
 import jakarta.transaction.Transactional;
 
@@ -54,7 +56,7 @@ public final class DefaultKeyService implements KeyService {
     }
 
     @Override
-    public Key create(final Key key) {
+    public final Key create(final Key key) {
         final Key toCreate;
         final Key saved;
 
@@ -69,7 +71,7 @@ public final class DefaultKeyService implements KeyService {
     }
 
     @Override
-    public Key delete(final long number) {
+    public final Key delete(final long number) {
         final Key key;
 
         log.debug("Deleting key {}", number);
@@ -88,12 +90,12 @@ public final class DefaultKeyService implements KeyService {
     }
 
     @Override
-    public Collection<Key> getAll() {
-        final Collection<Key> keys;
+    public final Page<Key> getAll(final Pagination pagination, final Sorting sorting) {
+        final Page<Key> keys;
 
         log.debug("Getting all keys");
 
-        keys = repository.findAll();
+        keys = repository.findAll(pagination, sorting);
 
         log.debug("Got all keys: {}", keys);
 
@@ -101,7 +103,7 @@ public final class DefaultKeyService implements KeyService {
     }
 
     @Override
-    public Optional<Key> getOne(final long number) {
+    public final Optional<Key> getOne(final long number) {
         final Optional<Key> key;
 
         log.debug("Reading key {}", number);
@@ -118,7 +120,7 @@ public final class DefaultKeyService implements KeyService {
     }
 
     @Override
-    public Key update(final Key key) {
+    public final Key update(final Key key) {
         final boolean exists;
         final Key     toUpdate;
         final Key     updated;

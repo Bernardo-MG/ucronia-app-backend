@@ -24,10 +24,12 @@
 
 package com.bernardomg.association.member.usecase.service;
 
-import java.util.Collection;
 import java.util.Optional;
 
 import com.bernardomg.association.member.domain.model.Key;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
 
 /**
  * Key CRUD service.
@@ -38,7 +40,7 @@ public interface KeyService {
 
     public Key delete(final long number);
 
-    public Collection<Key> getAll();
+    public Page<Key> getAll(final Pagination pagination, final Sorting sorting);
 
     public Optional<Key> getOne(final long number);
 
