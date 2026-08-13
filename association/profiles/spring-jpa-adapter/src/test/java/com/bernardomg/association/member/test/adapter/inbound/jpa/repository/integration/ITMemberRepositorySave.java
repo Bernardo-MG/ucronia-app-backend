@@ -44,6 +44,7 @@ import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMemberWithEmail;
 import com.bernardomg.association.member.test.configuration.data.annotation.AlternativeMemberWithKey;
+import com.bernardomg.association.member.test.configuration.data.annotation.AvailableKey;
 import com.bernardomg.association.member.test.configuration.factory.KeyConstants;
 import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.association.member.test.configuration.factory.ReadMemberEntities;
@@ -290,24 +291,6 @@ class ITMemberRepositorySave {
     }
 
     @Test
-    @DisplayName("When assigning a new key to a member, the key is added to the key catalog")
-    @PositiveFeeType
-    void testSave_SetsNewKeyInCatalog() {
-        final Member member;
-
-        // GIVEN
-        member = Members.withKey();
-
-        // WHEN
-        repository.save(member);
-
-        // THEN
-        Assertions.assertThat(keySpringRepository.existsByNumber(KeyConstants.NUMBER))
-            .as("registered key")
-            .isTrue();
-    }
-
-    @Test
     @DisplayName("When the member is persisted, the profile types includes the member type")
     @PositiveFeeType
     void testSave_SetsType() {
@@ -353,6 +336,30 @@ class ITMemberRepositorySave {
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.id", "profile.number",
                 "contactChannels.id", "contactChannels.profileId", "contactChannels.profile")
             .containsExactly(ReadMemberEntities.withEmail());
+    }
+
+    @Test
+    @DisplayName("With a member with a key, the member is persisted")
+    @PositiveFeeType
+    @AvailableKey
+    void testSave_WithKey_PersistedData() {
+        final Member                     member;
+        final Iterable<ReadMemberEntity> entities;
+
+        // GIVEN
+        member = Members.withKey();
+
+        // WHEN
+        repository.save(member);
+
+        // THEN
+        entities = springRepository.findAll();
+
+        Assertions.assertThat(entities)
+            .as("entities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.id", "profile.number",
+                "contactChannels.id", "contactChannels.profileId", "contactChannels.profile")
+            .containsExactly(ReadMemberEntities.withKey());
     }
 
 }

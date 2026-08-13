@@ -9,8 +9,9 @@ public final class KeyEntities {
         final KeyEntity entity;
 
         entity = new KeyEntity();
-        entity.setId(1L);
-        entity.setNumber(MemberConstants.NUMBER);
+        entity.setId(KeyConstants.ID);
+        entity.setNumber(KeyConstants.NUMBER);
+        entity.setAvailable(true);
         entity.setDescription(KeyConstants.DESCRIPTION);
 
         return entity;
@@ -20,8 +21,9 @@ public final class KeyEntities {
         final KeyEntity entity;
 
         entity = new KeyEntity();
-        entity.setId(1L);
-        entity.setNumber(MemberConstants.NUMBER);
+        entity.setId(KeyConstants.ID);
+        entity.setNumber(KeyConstants.NUMBER);
+        entity.setAvailable(true);
         entity.setDescription(KeyConstants.DESCRIPTION_CHANGE);
 
         return entity;

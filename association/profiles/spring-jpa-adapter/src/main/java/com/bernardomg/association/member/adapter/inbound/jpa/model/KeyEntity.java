@@ -104,4 +104,10 @@ public class KeyEntity implements Serializable {
         this.number = number;
     }
 
+    @Override
+    public String toString() {
+        return "KeyEntity [id=" + id + ", number=" + number + ", available=" + available + ", description="
+                + description + "]";
+    }
+
 }
