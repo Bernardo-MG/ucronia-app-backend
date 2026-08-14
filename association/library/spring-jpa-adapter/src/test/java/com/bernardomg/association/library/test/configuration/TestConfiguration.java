@@ -64,11 +64,13 @@ import com.bernardomg.association.library.publisher.domain.repository.PublisherR
 @EnableJpaRepositories(basePackages = { "com.bernardomg.association.library.**.adapter.inbound.jpa",
         "com.bernardomg.association.member.adapter.inbound.jpa", "com.bernardomg.association.fee.adapter.inbound.jpa",
         "com.bernardomg.association.transaction.adapter.inbound.jpa",
-        "com.bernardomg.association.profile.adapter.inbound.jpa", "com.bernardomg.security.adapter.inbound.jpa" })
+        "com.bernardomg.association.profile.adapter.inbound.jpa", "com.bernardomg.association.key.adapter.inbound.jpa",
+        "com.bernardomg.security.adapter.inbound.jpa" })
 @EntityScan(basePackages = { "com.bernardomg.association.library.**.adapter.inbound.jpa",
         "com.bernardomg.association.member.adapter.inbound.jpa", "com.bernardomg.association.fee.adapter.inbound.jpa",
         "com.bernardomg.association.transaction.adapter.inbound.jpa",
-        "com.bernardomg.association.profile.adapter.inbound.jpa", "com.bernardomg.security.adapter.inbound.jpa" })
+        "com.bernardomg.association.profile.adapter.inbound.jpa", "com.bernardomg.association.key.adapter.inbound.jpa",
+        "com.bernardomg.security.adapter.inbound.jpa" })
 public class TestConfiguration {
 
     @Bean("authenticationTrustResolver")
