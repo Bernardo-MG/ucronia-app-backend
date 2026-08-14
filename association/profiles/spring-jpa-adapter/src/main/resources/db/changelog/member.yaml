@@ -47,7 +47,12 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     unique: true
-                    foreignKeyName: fk_members_key
-                    references: inventory.keys(id)
-                    deleteCascade: true
-
+        - addForeignKeyConstraint:
+            constraintName: fk_members_key
+            baseTableSchemaName: directory
+            baseTableName: members
+            baseColumnNames: key_id
+            referencedTableSchemaName: inventory
+            referencedTableName: keys
+            referencedColumnNames: id
+            onDelete: SET NULL
