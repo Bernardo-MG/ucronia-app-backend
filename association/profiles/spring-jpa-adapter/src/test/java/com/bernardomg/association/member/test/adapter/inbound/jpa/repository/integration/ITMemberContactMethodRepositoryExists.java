@@ -32,8 +32,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.TestApplication;
 import com.bernardomg.association.member.domain.repository.MemberContactMethodRepository;
-import com.bernardomg.association.member.test.configuration.factory.ContactMethodConstants;
 import com.bernardomg.association.profile.test.configuration.data.annotation.EmailContactMethod;
+import com.bernardomg.association.profile.test.configuration.factory.ContactMethodConstants;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest

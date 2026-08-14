@@ -138,7 +138,7 @@ public final class MemberEntities {
 
         contactChannelEntity = new MemberContactChannelEntity();
         contactChannelEntity.setContactMethod(MemberContactMethodEntities.email());
-        contactChannelEntity.setDetail(MemberConstants.EMAIL);
+        contactChannelEntity.setDetail(ProfileConstants.EMAIL);
 
         feeType = new FeeTypeEntity();
         feeType.setId(1L);

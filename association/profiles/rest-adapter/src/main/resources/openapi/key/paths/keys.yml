@@ -1,0 +1,32 @@
+post:
+  summary: Create a new key.
+  operationId: createKey
+  tags: [Key]
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/keys.yml#/components/schemas/KeyCreation'
+  responses:
+    '201':
+      description: Key created.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/keys.yml#/components/schemas/KeyResponse'
+get:
+  summary: Get all keys.
+  operationId: getAllKeys
+  tags: [Key]
+  parameters:
+    - $ref: '../common/pagination.yml#/components/parameters/pageParam'
+    - $ref: '../common/pagination.yml#/components/parameters/sizeParam'
+    - $ref: '../components/keys.yml#/components/parameters/keysSortParam'
+  responses:
+    '200':
+      description: Keys page.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/keys.yml#/components/schemas/KeyPageResponse'

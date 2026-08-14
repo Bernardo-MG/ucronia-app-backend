@@ -2,6 +2,7 @@
 package com.bernardomg.association.member.test.configuration.factory;
 
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberContactMethodEntity;
+import com.bernardomg.association.profile.test.configuration.factory.ContactMethodConstants;
 
 public final class MemberContactMethodEntities {
 

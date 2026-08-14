@@ -93,7 +93,9 @@ public final class PublicMemberDtoMapper {
                 .fullName());
         return new PublicMemberDto().number(member.number())
             .name(profileName)
-            .renew(member.renew());
+            .renew(member.renew())
+            .key(member.key()
+                .orElse(null));
     }
 
     private PublicMemberDtoMapper() {

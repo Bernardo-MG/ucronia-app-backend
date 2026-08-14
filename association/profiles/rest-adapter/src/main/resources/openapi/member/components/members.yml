@@ -54,6 +54,8 @@ components:
         renew:
           type: boolean
           description: Whether the member is eligible for renewal.
+        key:
+          $ref: '../common/ids.yml#/components/schemas/Id'
     Member:
       type: object
       required: [number, name]
@@ -80,6 +82,8 @@ components:
           type: string
           maxLength: 250
           description: Comments about the member.
+        key:
+          $ref: '../common/ids.yml#/components/schemas/Id'
         feeType:
           $ref: '#/components/schemas/MemberFeeType'
         active:
@@ -130,6 +134,8 @@ components:
         comments:
           type: string
           maxLength: 250
+        key:
+          $ref: '../common/ids.yml#/components/schemas/Id'
         active:
           type: boolean
           description: Whether the member is active.

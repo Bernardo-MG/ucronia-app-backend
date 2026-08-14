@@ -32,3 +32,17 @@ databaseChangeLog:
                   name: renew_membership
                   type: boolean
                   defaultValue: true
+              - column:
+                  name: key_id
+                  type: bigint
+                  constraints:
+                    unique: true
+        - addForeignKeyConstraint:
+            constraintName: fk_members_key
+            baseTableSchemaName: directory
+            baseTableName: members
+            baseColumnNames: key_id
+            referencedTableSchemaName: inventory
+            referencedTableName: keys
+            referencedColumnNames: id
+            onDelete: SET NULL

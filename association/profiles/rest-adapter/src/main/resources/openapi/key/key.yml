@@ -1,0 +1,13 @@
+openapi: 3.0.3
+info:
+  title: Ucronia API
+  version: 1.0.0
+  description: API for managing keys in the Ucronia association.
+servers:
+  - url: https://localhost
+    description: Local development
+paths:
+  /profile/key:
+    $ref: paths/keys.yml
+  /profile/key/{number}:
+    $ref: paths/keys_by_id.yml
