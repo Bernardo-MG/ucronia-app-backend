@@ -105,9 +105,9 @@ class TestKeyController {
         final Sorting    sorting;
 
         // GIVEN
-        pagination = Pagination.unpaged();
+        pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
-        existing = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
+        existing = new Page<>(List.of(Keys.available()), 0, 0, 0, 0, 0, false, false, sorting);
         given(service.getAll(pagination, sorting)).willReturn(existing);
 
         // WHEN + THEN
