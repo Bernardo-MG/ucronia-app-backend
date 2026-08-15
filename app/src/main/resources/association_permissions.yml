@@ -149,6 +149,12 @@ permissions:
       - update
       - delete
       - view
+  - resource: key
+    actions:
+      - create
+      - read
+      - update
+      - delete
   - resource: security
     actions:
       - view

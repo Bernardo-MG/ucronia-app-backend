@@ -55,7 +55,7 @@ public class KeyController implements KeyApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "MEMBER_PROFILE", action = Actions.CREATE)
+    @RequireResourceAuthorization(resource = "KEY", action = Actions.CREATE)
     public KeyResponseDto createKey(final KeyCreationDto keyCreationDto) {
         final Key key;
         final Key created;
@@ -67,7 +67,7 @@ public class KeyController implements KeyApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "MEMBER_PROFILE", action = Actions.DELETE)
+    @RequireResourceAuthorization(resource = "KEY", action = Actions.DELETE)
     public KeyResponseDto deleteKey(final Long number) {
         final Key key;
 
@@ -77,7 +77,7 @@ public class KeyController implements KeyApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "MEMBER_PROFILE", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "KEY", action = Actions.READ)
     public KeyPageResponseDto getAllKeys(final Integer page, final Integer size, final List<String> sort) {
         final Page<Key>  keys;
         final Pagination pagination;
@@ -92,7 +92,7 @@ public class KeyController implements KeyApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "MEMBER_PROFILE", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "KEY", action = Actions.READ)
     public KeyResponseDto getKeyByNumber(final Long number) {
         final Optional<Key> key;
 
@@ -102,7 +102,7 @@ public class KeyController implements KeyApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "MEMBER_PROFILE", action = Actions.UPDATE)
+    @RequireResourceAuthorization(resource = "KEY", action = Actions.UPDATE)
     public KeyResponseDto updateKey(final Long number, final KeyUpdateDto keyUpdateDto) {
         final Key key;
         final Key updated;
