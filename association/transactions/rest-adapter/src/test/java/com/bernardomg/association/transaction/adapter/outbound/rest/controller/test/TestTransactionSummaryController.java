@@ -1,14 +1,11 @@
 
-package com.bernardomg.association.transaction.adapter.outbound.rest.controller;
+package com.bernardomg.association.transaction.adapter.outbound.rest.controller.test;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.time.Instant;
-import java.util.List;
 
 import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,17 +19,19 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
-import com.bernardomg.association.transaction.test.configuration.factory.TransactionEvolutionMonths;
-import com.bernardomg.association.transaction.usecase.service.TransactionEvolutionService;
+import com.bernardomg.association.transaction.adapter.outbound.rest.controller.TransactionSummaryController;
+import com.bernardomg.association.transaction.test.configuration.factory.TransactionConstants;
+import com.bernardomg.association.transaction.test.configuration.factory.TransactionSummaries;
+import com.bernardomg.association.transaction.usecase.service.TransactionSummaryService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("TransactionEvolutionController")
-class TestTransactionEvolutionController {
+@DisplayName("TransactionSummaryController")
+class TestTransactionSummaryController {
 
-    private MockMvc                     mockMvc;
+    private MockMvc                   mockMvc;
 
     @Mock
-    private TransactionEvolutionService service;
+    private TransactionSummaryService service;
 
     @BeforeEach
     void setUp() {
@@ -41,30 +40,23 @@ class TestTransactionEvolutionController {
         validator.setMessageInterpolator(new ParameterMessageInterpolator());
         validator.afterPropertiesSet();
 
-        mockMvc = MockMvcBuilders.standaloneSetup(new TransactionEvolutionController(service))
+        mockMvc = MockMvcBuilders.standaloneSetup(new TransactionSummaryController(service))
             .setValidator(validator)
             .build();
     }
 
     @Test
-    @DisplayName("When requesting the monthly evolution, it is returned")
-    void testGetMonthlyTransactionEvolution() throws Exception {
-        final String from;
-        final String to;
-
+    @DisplayName("When requesting the summary, it is returned")
+    void testGetTransactionSummary() throws Exception {
         // GIVEN
-        from = "2025-01-01T00:00:00Z";
-        to = "2025-12-31T00:00:00Z";
-        given(service.getEvolution(Instant.parse(from), Instant.parse(to)))
-            .willReturn(List.of(TransactionEvolutionMonths.forAmount(10F)));
+        given(service.getSummary()).willReturn(TransactionSummaries.amount(TransactionConstants.AMOUNT));
 
         // WHEN + THEN
-        mockMvc.perform(get("/transaction/balance/monthly").param("from", "2025-01-01T00:00:00Z")
-            .param("to", "2025-12-31T00:00:00Z")
-            .contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/transaction/summary").contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.content").isArray());
+            .andExpect(jsonPath("$.content.results").exists())
+            .andExpect(jsonPath("$.content.total").exists());
     }
 
 }

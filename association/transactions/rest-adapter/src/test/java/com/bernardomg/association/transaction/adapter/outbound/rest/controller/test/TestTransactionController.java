@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.transaction.adapter.outbound.rest.controller;
+package com.bernardomg.association.transaction.adapter.outbound.rest.controller.test;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.any;
@@ -27,18 +27,21 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
+import com.bernardomg.association.transaction.adapter.outbound.rest.controller.TransactionController;
+import com.bernardomg.association.transaction.domain.model.TransactionMonthsRange;
+import com.bernardomg.association.transaction.test.configuration.factory.TransactionCalendarMonthsRanges;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionConstants;
-import com.bernardomg.association.transaction.test.configuration.factory.TransactionTypes;
-import com.bernardomg.association.transaction.usecase.service.TransactionTypeService;
+import com.bernardomg.association.transaction.test.configuration.factory.Transactions;
+import com.bernardomg.association.transaction.usecase.service.TransactionService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("TransactionTypeController")
-class TestTransactionTypeController {
+@DisplayName("TransactionController")
+class TestTransactionController {
 
-    private MockMvc                mockMvc;
+    private MockMvc            mockMvc;
 
     @Mock
-    private TransactionTypeService service;
+    private TransactionService service;
 
     @BeforeEach
     void setUp() {
@@ -47,7 +50,7 @@ class TestTransactionTypeController {
         validator.setMessageInterpolator(new ParameterMessageInterpolator());
         validator.afterPropertiesSet();
 
-        mockMvc = MockMvcBuilders.standaloneSetup(new TransactionTypeController(service))
+        mockMvc = MockMvcBuilders.standaloneSetup(new TransactionController(service))
             .setValidator(validator)
             .build();
     }
@@ -58,7 +61,7 @@ class TestTransactionTypeController {
         final String requestBody;
 
         // GIVEN
-        given(service.create(any())).willReturn(TransactionTypes.valid());
+        given(service.create(any())).willReturn(Transactions.positive());
 
         requestBody = String.format("""
                 {
@@ -69,7 +72,7 @@ class TestTransactionTypeController {
                 """, TransactionConstants.DATE, TransactionConstants.AMOUNT, TransactionConstants.DESCRIPTION);
 
         // WHEN + THEN
-        mockMvc.perform(post("/transaction/type").contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(post("/transaction").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
             .andExpect(status().isCreated())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -82,7 +85,7 @@ class TestTransactionTypeController {
     @DisplayName("When the transaction is deleted, it is accepted")
     void testDeleteTransaction() throws Exception {
         // GIVEN
-        given(service.delete(anyLong())).willReturn(TransactionTypes.valid());
+        given(service.delete(anyLong())).willReturn(Transactions.positive());
 
         // WHEN + THEN
         mockMvc
@@ -96,7 +99,7 @@ class TestTransactionTypeController {
     @DisplayName("When the transaction exists, it is returned")
     void testGetOneTransaction() throws Exception {
         // GIVEN
-        given(service.getOne(TransactionConstants.INDEX)).willReturn(Optional.of(TransactionTypes.valid()));
+        given(service.getOne(TransactionConstants.INDEX)).willReturn(Optional.of(Transactions.positive()));
 
         // WHEN + THEN
         mockMvc.perform(get("/transaction/{index}", TransactionConstants.INDEX).contentType(MediaType.APPLICATION_JSON))
@@ -106,12 +109,26 @@ class TestTransactionTypeController {
     }
 
     @Test
+    @DisplayName("When requesting the transaction range, it is returned")
+    void testGetTransactionRange() throws Exception {
+        // GIVEN
+        given(service.getRange())
+            .willReturn(new TransactionMonthsRange(TransactionCalendarMonthsRanges.FULL_YEAR_MONTHS));
+
+        // WHEN + THEN
+        mockMvc.perform(get("/transaction/range").contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$.content.months").isArray());
+    }
+
+    @Test
     @DisplayName("When updating a valid transaction, it is accepted")
     void testUpdateTransaction_ValidData() throws Exception {
         final String requestBody;
 
         // GIVEN
-        given(service.update(any())).willReturn(TransactionTypes.valid());
+        given(service.update(any())).willReturn(Transactions.positive());
 
         requestBody = String.format("""
                 {
@@ -119,14 +136,14 @@ class TestTransactionTypeController {
                     "amount": %s,
                     "description": "%s"
                 }
-                """, TransactionConstants.DATE, TransactionConstants.AMOUNT_BIGGER, TransactionConstants.DESCRIPTION);
+                """, TransactionConstants.DATE, TransactionConstants.AMOUNT, TransactionConstants.DESCRIPTION);
 
         // WHEN + THEN
         mockMvc.perform(put("/transaction/{index}", TransactionConstants.INDEX).contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.content.amount", equalTo((double) TransactionConstants.AMOUNT_BIGGER)));
+            .andExpect(jsonPath("$.content.amount", equalTo((double) TransactionConstants.AMOUNT)));
     }
 
 }
