@@ -31,54 +31,46 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.transaction.TestApplication;
-import com.bernardomg.association.transaction.domain.model.Transaction;
-import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
-import com.bernardomg.association.transaction.test.configuration.data.annotation.PositiveTransaction;
-import com.bernardomg.association.transaction.test.configuration.factory.Transactions;
-import com.bernardomg.pagination.domain.Sorting;
+import com.bernardomg.association.transaction.domain.repository.TransactionTypeRepository;
+import com.bernardomg.association.transaction.test.configuration.data.annotation.ValidTransactionType;
+import com.bernardomg.association.transaction.test.configuration.factory.TransactionTypeConstants;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("TransactionRepository - find all")
-class ITTransactionRepositoryFindAll {
+@DisplayName("TransactionTypeRepository - exists")
+class ITTransactionTypeRepositoryExists {
 
     @Autowired
-    private TransactionRepository repository;
+    private TransactionTypeRepository repository;
 
     @Test
-    @DisplayName("When there is no data, nothing is returned")
-    void testFindAll_NoData() {
-        final Iterable<Transaction> transactions;
-        final Sorting               sorting;
-
-        // GIVEN
-        sorting = Sorting.unsorted();
+    @DisplayName("With an existing transaction type, it exists")
+    @ValidTransactionType
+    void testExists() {
+        final boolean exists;
 
         // WHEN
-        transactions = repository.findAll(sorting);
+        exists = repository.exists(TransactionTypeConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(transactions)
-            .isEmpty();
+        Assertions.assertThat(exists)
+            .as("exists")
+            .isTrue();
     }
 
     @Test
-    @DisplayName("When there is a transaction, it is returned")
-    @PositiveTransaction
-    void testFindAll_Transaction() {
-        final Iterable<Transaction> transactions;
-        final Sorting               sorting;
-
-        // GIVEN
-        sorting = Sorting.unsorted();
+    @DisplayName("With no transaction type, nothing exists")
+    void testExists_NoData() {
+        final boolean exists;
 
         // WHEN
-        transactions = repository.findAll(sorting);
+        exists = repository.exists(TransactionTypeConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(transactions)
-            .containsExactly(Transactions.positive());
+        Assertions.assertThat(exists)
+            .as("exists")
+            .isFalse();
     }
 
 }

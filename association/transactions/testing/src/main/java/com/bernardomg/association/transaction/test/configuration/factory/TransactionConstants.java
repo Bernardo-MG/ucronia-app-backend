@@ -71,4 +71,8 @@ public final class TransactionConstants {
         .atStartOfDay(ZoneOffset.UTC)
         .toInstant();
 
+    private TransactionConstants() {
+        super();
+    }
+
 }
