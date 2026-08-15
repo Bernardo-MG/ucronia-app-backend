@@ -22,16 +22,16 @@ permissions:
       - update
       - delete
       - view
+  - resource: permission
+    actions:
+      - read
   - resource: transaction
     actions:
       - create
       - read
       - update
       - delete
-  - resource: permission
-    actions:
-      - read
-  - resource: transaction
+  - resource: transaction_type
     actions:
       - create
       - read

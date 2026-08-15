@@ -1,0 +1,33 @@
+post:
+  summary: Create a transaction type.
+  operationId: createTransactionType
+  tags: [TransactionType]
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/transaction_types.yml#/components/schemas/TransactionTypeCreation'
+  responses:
+    '201':
+      description: Transaction type created.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/transaction_types.yml#/components/schemas/TransactionTypeResponse'
+
+get:
+  summary: Get all transactions.
+  operationId: getAllTransactionTypes
+  tags: [TransactionType]
+  parameters:
+    - $ref: '../common/pagination.yml#/components/parameters/pageParam'
+    - $ref: '../common/pagination.yml#/components/parameters/sizeParam'
+    - $ref: '../components/transaction_types.yml#/components/parameters/transactionTypesSortParam'
+  responses:
+    '200':
+      description: Transaction types page
+      content:
+        application/json:
+          schema:
+            $ref: '../components/transaction_types.yml#/components/schemas/TransactionTypePageResponse'
