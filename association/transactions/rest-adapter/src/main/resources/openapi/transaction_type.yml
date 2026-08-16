@@ -9,5 +9,5 @@ servers:
 paths:
   /transaction/type:
     $ref: paths/transaction_types.yml
-  /transaction/type/{index}:
+  /transaction/type/{number}:
     $ref: paths/transaction_types_by_id.yml

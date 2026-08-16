@@ -95,7 +95,7 @@ public final class TransactionTypeDtoMapper {
     private static final TransactionTypeDto toDto(final TransactionType transactionType) {
         return new TransactionTypeDto().number(transactionType.number())
             .description(transactionType.description())
-            .description(transactionType.color());
+            .color(transactionType.color());
     }
 
     private TransactionTypeDtoMapper() {

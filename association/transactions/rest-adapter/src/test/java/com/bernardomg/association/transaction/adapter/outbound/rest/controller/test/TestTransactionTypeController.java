@@ -2,8 +2,6 @@
 package com.bernardomg.association.transaction.adapter.outbound.rest.controller.test;
 
 import static org.hamcrest.Matchers.equalTo;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -28,7 +26,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import com.bernardomg.association.transaction.adapter.outbound.rest.controller.TransactionTypeController;
-import com.bernardomg.association.transaction.test.configuration.factory.TransactionConstants;
+import com.bernardomg.association.transaction.test.configuration.factory.TransactionTypeConstants;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionTypes;
 import com.bernardomg.association.transaction.usecase.service.TransactionTypeService;
 
@@ -59,51 +57,54 @@ class TestTransactionTypeController {
         final String requestBody;
 
         // GIVEN
-        given(service.create(any())).willReturn(TransactionTypes.valid());
+        given(service.create(TransactionTypes.toCreate())).willReturn(TransactionTypes.valid());
 
         requestBody = String.format("""
                 {
-                    "date": "%s",
-                    "amount": %s,
-                    "description": "%s"
+                    "description": "%s",
+                    "color": "%s"
                 }
-                """, TransactionConstants.DATE, TransactionConstants.AMOUNT, TransactionConstants.DESCRIPTION);
+                """, TransactionTypeConstants.DESCRIPTION, TransactionTypeConstants.COLOR);
 
         // WHEN + THEN
         mockMvc.perform(post("/transaction/type").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
             .andExpect(status().isCreated())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.content.date").exists())
-            .andExpect(jsonPath("$.content.amount").exists())
-            .andExpect(jsonPath("$.content.description", equalTo(TransactionConstants.DESCRIPTION)));
+            .andExpect(jsonPath("$.content.description", equalTo(TransactionTypeConstants.DESCRIPTION)))
+            .andExpect(jsonPath("$.content.color", equalTo(TransactionTypeConstants.COLOR)));
     }
 
     @Test
     @DisplayName("When the transaction is deleted, it is accepted")
     void testDeleteTransaction() throws Exception {
         // GIVEN
-        given(service.delete(anyLong())).willReturn(TransactionTypes.valid());
+        given(service.delete(TransactionTypeConstants.NUMBER)).willReturn(TransactionTypes.valid());
 
         // WHEN + THEN
         mockMvc
-            .perform(delete("/transaction/{index}", TransactionConstants.INDEX).contentType(MediaType.APPLICATION_JSON))
+            .perform(delete("/transaction/type/{number}", TransactionTypeConstants.NUMBER)
+                .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.content.index").exists());
+            .andExpect(jsonPath("$.content.number").exists());
     }
 
     @Test
     @DisplayName("When the transaction exists, it is returned")
     void testGetOneTransaction() throws Exception {
         // GIVEN
-        given(service.getOne(TransactionConstants.INDEX)).willReturn(Optional.of(TransactionTypes.valid()));
+        given(service.getOne(TransactionTypeConstants.NUMBER)).willReturn(Optional.of(TransactionTypes.valid()));
 
         // WHEN + THEN
-        mockMvc.perform(get("/transaction/{index}", TransactionConstants.INDEX).contentType(MediaType.APPLICATION_JSON))
+        mockMvc
+            .perform(get("/transaction/type/{number}", TransactionTypeConstants.NUMBER)
+                .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.content.index").exists());
+            .andExpect(jsonPath("$.content.number").exists())
+            .andExpect(jsonPath("$.content.description", equalTo(TransactionTypeConstants.DESCRIPTION)))
+            .andExpect(jsonPath("$.content.color", equalTo(TransactionTypeConstants.COLOR)));
     }
 
     @Test
@@ -112,22 +113,23 @@ class TestTransactionTypeController {
         final String requestBody;
 
         // GIVEN
-        given(service.update(any())).willReturn(TransactionTypes.valid());
+        given(service.update(TransactionTypes.alternative())).willReturn(TransactionTypes.alternative());
 
         requestBody = String.format("""
                 {
-                    "date": "%s",
-                    "amount": %s,
-                    "description": "%s"
+                    "description": "%s",
+                    "color": "%s"
                 }
-                """, TransactionConstants.DATE, TransactionConstants.AMOUNT_BIGGER, TransactionConstants.DESCRIPTION);
+                """, TransactionTypeConstants.ALTERNATIVE_DESCRIPTION, TransactionTypeConstants.COLOR);
 
         // WHEN + THEN
-        mockMvc.perform(put("/transaction/{index}", TransactionConstants.INDEX).contentType(MediaType.APPLICATION_JSON)
-            .content(requestBody))
+        mockMvc
+            .perform(put("/transaction/type/{number}", TransactionTypeConstants.NUMBER)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.content.amount", equalTo((double) TransactionConstants.AMOUNT_BIGGER)));
+            .andExpect(jsonPath("$.content.description", equalTo(TransactionTypeConstants.ALTERNATIVE_DESCRIPTION)));
     }
 
 }
