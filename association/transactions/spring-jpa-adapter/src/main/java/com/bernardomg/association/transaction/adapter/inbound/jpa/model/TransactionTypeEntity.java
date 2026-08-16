@@ -33,12 +33,14 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity(name = "TransactionType")
 @Table(schema = "funds", name = "transaction_types",
         indexes = { @Index(name = "idx_transaction_types_number", columnList = "number", unique = true) })
 public class TransactionTypeEntity implements Serializable {
 
+    @Transient
     private static final long serialVersionUID = 4603617058960663867L;
 
     @Column(name = "color", nullable = false, length = 7)
