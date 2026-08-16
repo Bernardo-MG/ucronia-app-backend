@@ -42,11 +42,13 @@ import com.bernardomg.association.transaction.domain.repository.TransactionTypeR
 import com.bernardomg.association.transaction.usecase.service.DefaultTransactionEvolutionService;
 import com.bernardomg.association.transaction.usecase.service.DefaultTransactionService;
 import com.bernardomg.association.transaction.usecase.service.DefaultTransactionSummaryService;
+import com.bernardomg.association.transaction.usecase.service.DefaultTransactionTypeService;
 import com.bernardomg.association.transaction.usecase.service.ExcelPoiTransactionReportService;
 import com.bernardomg.association.transaction.usecase.service.TransactionEvolutionService;
 import com.bernardomg.association.transaction.usecase.service.TransactionReportService;
 import com.bernardomg.association.transaction.usecase.service.TransactionService;
 import com.bernardomg.association.transaction.usecase.service.TransactionSummaryService;
+import com.bernardomg.association.transaction.usecase.service.TransactionTypeService;
 
 @AutoConfiguration
 @ComponentScan({ "com.bernardomg.association.transaction.adapter.outbound.rest.controller",
@@ -97,6 +99,11 @@ public class AssociationTransactionAutoConfiguration {
     public TransactionTypeRepository
             getTransactionTypeRepository(final TransactionTypeSpringRepository transactionTypeSpringRepository) {
         return new JpaTransactionTypeRepository(transactionTypeSpringRepository);
+    }
+
+    @Bean("transactionTypeService")
+    public TransactionTypeService getTransactionTypeService(final TransactionTypeRepository transactionTypeRepository) {
+        return new DefaultTransactionTypeService(transactionTypeRepository);
     }
 
 }

@@ -86,7 +86,7 @@ class TestTransactionServiceUpdate {
         service.update(transaction);
 
         // THEN
-        verify(transactionRepository).save(Transactions.positive());
+        verify(transactionRepository).save(transaction);
     }
 
     @Test
@@ -98,7 +98,7 @@ class TestTransactionServiceUpdate {
         // GIVEN
         transaction = Transactions.positive();
 
-        given(transactionRepository.save(Transactions.positive())).willReturn(Transactions.positive());
+        given(transactionRepository.save(transaction)).willReturn(transaction);
         given(transactionRepository.exists(TransactionConstants.INDEX)).willReturn(true);
 
         // WHEN
@@ -107,7 +107,7 @@ class TestTransactionServiceUpdate {
         // THEN
         Assertions.assertThat(updated)
             .as("transaction")
-            .isEqualTo(Transactions.positive());
+            .isEqualTo(transaction);
     }
 
     @Test
@@ -132,7 +132,7 @@ class TestTransactionServiceUpdate {
     }
 
     @Test
-    @DisplayName("With a not existing entity, an exception is thrown")
+    @DisplayName("With a not existing transaction, an exception is thrown")
     void testUpdate_NotExisting_Exception() {
         final Transaction      transaction;
         final ThrowingCallable execution;

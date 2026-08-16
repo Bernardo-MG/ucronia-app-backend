@@ -25,6 +25,7 @@
 package com.bernardomg.transaction.test.service.unit;
 
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 import java.util.Optional;
 
@@ -37,60 +38,50 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.transaction.domain.exception.MissingTransactionException;
-import com.bernardomg.association.transaction.domain.model.Transaction;
-import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
+import com.bernardomg.association.transaction.domain.exception.MissingTransactionTypeException;
+import com.bernardomg.association.transaction.domain.repository.TransactionTypeRepository;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionConstants;
-import com.bernardomg.association.transaction.test.configuration.factory.Transactions;
-import com.bernardomg.association.transaction.usecase.service.DefaultTransactionService;
+import com.bernardomg.association.transaction.test.configuration.factory.TransactionTypes;
+import com.bernardomg.association.transaction.usecase.service.DefaultTransactionTypeService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Transaction service - get one")
-class TestTransactionServiceGetOne {
+@DisplayName("Transaction type service - delete")
+class TestTransactionTypeServiceDelete {
 
     @InjectMocks
-    private DefaultTransactionService service;
+    private DefaultTransactionTypeService service;
 
     @Mock
-    private TransactionRepository     transactionRepository;
-
-    public TestTransactionServiceGetOne() {
-        super();
-    }
+    private TransactionTypeRepository     transactionTypeRepository;
 
     @Test
-    @DisplayName("When there is data it is returned")
-    void testFindOne() {
-        final Optional<Transaction> read;
-        final Transaction           transaction;
-
-        // GIVEN
-        transaction = Transactions.positive();
-        given(transactionRepository.findOne(TransactionConstants.INDEX)).willReturn(Optional.of(transaction));
-
-        // WHEN
-        read = service.getOne(TransactionConstants.INDEX);
-
-        // THEN
-        Assertions.assertThat(read)
-            .as("transaction")
-            .contains(transaction);
-    }
-
-    @Test
-    @DisplayName("When there is no data an exception is thrown")
-    void testFindOne_NoData() {
+    @DisplayName("When the transaction doesn't exist, an exception is thrown")
+    void testDelete_NotExisting() {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(transactionRepository.findOne(TransactionConstants.INDEX)).willReturn(Optional.empty());
+        given(transactionTypeRepository.findOne(TransactionConstants.INDEX)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.getOne(TransactionConstants.INDEX);
+        execution = () -> service.delete(TransactionConstants.INDEX);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingTransactionException.class);
+            .isInstanceOf(MissingTransactionTypeException.class);
+    }
+
+    @Test
+    @DisplayName("When deleting the repository is called")
+    void testDelete_RemovesEntity() {
+        // GIVEN
+        given(transactionTypeRepository.findOne(TransactionConstants.INDEX))
+            .willReturn(Optional.of(TransactionTypes.valid()));
+
+        // WHEN
+        service.delete(TransactionConstants.INDEX);
+
+        // THEN
+        verify(transactionTypeRepository).delete(TransactionConstants.INDEX);
     }
 
 }

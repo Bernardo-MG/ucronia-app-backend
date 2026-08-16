@@ -37,36 +37,36 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.transaction.domain.exception.MissingTransactionException;
-import com.bernardomg.association.transaction.domain.model.Transaction;
-import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
+import com.bernardomg.association.transaction.domain.exception.MissingTransactionTypeException;
+import com.bernardomg.association.transaction.domain.model.TransactionType;
+import com.bernardomg.association.transaction.domain.repository.TransactionTypeRepository;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionConstants;
-import com.bernardomg.association.transaction.test.configuration.factory.Transactions;
-import com.bernardomg.association.transaction.usecase.service.DefaultTransactionService;
+import com.bernardomg.association.transaction.test.configuration.factory.TransactionTypes;
+import com.bernardomg.association.transaction.usecase.service.DefaultTransactionTypeService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Transaction service - get one")
-class TestTransactionServiceGetOne {
+@DisplayName("Transaction type service - get one")
+class TestTransactionTypeServiceGetOne {
 
     @InjectMocks
-    private DefaultTransactionService service;
+    private DefaultTransactionTypeService service;
 
     @Mock
-    private TransactionRepository     transactionRepository;
+    private TransactionTypeRepository     transactionTypeRepository;
 
-    public TestTransactionServiceGetOne() {
+    public TestTransactionTypeServiceGetOne() {
         super();
     }
 
     @Test
     @DisplayName("When there is data it is returned")
     void testFindOne() {
-        final Optional<Transaction> read;
-        final Transaction           transaction;
+        final Optional<TransactionType> read;
+        final TransactionType           transactionType;
 
         // GIVEN
-        transaction = Transactions.positive();
-        given(transactionRepository.findOne(TransactionConstants.INDEX)).willReturn(Optional.of(transaction));
+        transactionType = TransactionTypes.valid();
+        given(transactionTypeRepository.findOne(TransactionConstants.INDEX)).willReturn(Optional.of(transactionType));
 
         // WHEN
         read = service.getOne(TransactionConstants.INDEX);
@@ -74,7 +74,7 @@ class TestTransactionServiceGetOne {
         // THEN
         Assertions.assertThat(read)
             .as("transaction")
-            .contains(transaction);
+            .contains(transactionType);
     }
 
     @Test
@@ -83,14 +83,14 @@ class TestTransactionServiceGetOne {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(transactionRepository.findOne(TransactionConstants.INDEX)).willReturn(Optional.empty());
+        given(transactionTypeRepository.findOne(TransactionConstants.INDEX)).willReturn(Optional.empty());
 
         // WHEN
         execution = () -> service.getOne(TransactionConstants.INDEX);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingTransactionException.class);
+            .isInstanceOf(MissingTransactionTypeException.class);
     }
 
 }
