@@ -243,7 +243,7 @@ databaseChangeLog:
             constraintName: fk_books_game_system
             baseTableSchemaName: inventory
             baseTableName: books
-            baseColumnNames: transaction_type_id
+            baseColumnNames: game_system_id
             referencedTableSchemaName: inventory
             referencedTableName: game_systems
             referencedColumnNames: id
@@ -252,7 +252,7 @@ databaseChangeLog:
             constraintName: fk_books_book_type
             baseTableSchemaName: inventory
             baseTableName: books
-            baseColumnNames: transaction_type_id
+            baseColumnNames: book_type_id
             referencedTableSchemaName: inventory
             referencedTableName: book_types
             referencedColumnNames: id
