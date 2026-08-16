@@ -123,7 +123,7 @@ databaseChangeLog:
             baseTableSchemaName: funds
             baseTableName: fees
             baseColumnNames: transaction_id
-            referencedTableSchemaName: inventory
+            referencedTableSchemaName: funds
             referencedTableName: transactions
             referencedColumnNames: id
             onDelete: SET NULL
