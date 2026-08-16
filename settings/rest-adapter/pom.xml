@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+ <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
@@ -114,6 +114,26 @@
       <!-- ============================================== -->
       <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
       <!-- ============================================== -->
+      <dependency>
+         <groupId>com.bernardomg</groupId>
+         <artifactId>testing</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.settings</groupId>
+         <artifactId>settings-testing</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>com.fasterxml.jackson.datatype</groupId>
+         <artifactId>jackson-datatype-jsr310</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+	     <groupId>org.hibernate.validator</groupId>
+	     <artifactId>hibernate-validator</artifactId>
+	     <scope>test</scope>
+	  </dependency>
       <dependency>
          <!-- Spring Web MVC -->
          <groupId>org.springframework</groupId>
