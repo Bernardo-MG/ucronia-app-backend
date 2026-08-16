@@ -37,84 +37,76 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.transaction.domain.filter.TransactionFilter;
-import com.bernardomg.association.transaction.domain.model.Transaction;
-import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
-import com.bernardomg.association.transaction.test.configuration.factory.Transactions;
-import com.bernardomg.association.transaction.test.configuration.factory.TransactionsFilters;
-import com.bernardomg.association.transaction.usecase.service.DefaultTransactionService;
+import com.bernardomg.association.transaction.domain.model.TransactionType;
+import com.bernardomg.association.transaction.domain.repository.TransactionTypeRepository;
+import com.bernardomg.association.transaction.test.configuration.factory.TransactionTypes;
+import com.bernardomg.association.transaction.usecase.service.DefaultTransactionTypeService;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Transaction service - get all")
-class TestTransactionServiceGetAll {
+@DisplayName("Transaction type service - get all")
+class TestTransactionTypeServiceGetAll {
 
     @InjectMocks
-    private DefaultTransactionService service;
+    private DefaultTransactionTypeService service;
 
     @Mock
-    private TransactionRepository     transactionRepository;
+    private TransactionTypeRepository     transactionTypeRepository;
 
-    public TestTransactionServiceGetAll() {
+    public TestTransactionTypeServiceGetAll() {
         super();
     }
 
     @Test
     @DisplayName("When there is data it is returned")
     void testGetAll() {
-        final Page<Transaction> transactions;
-        final Page<Transaction> existing;
-        final Transaction       transaction;
-        final TransactionFilter transactionFilter;
-        final Pagination        pagination;
-        final Sorting           sorting;
+        final Page<TransactionType> transactionTypes;
+        final Page<TransactionType> existing;
+        final TransactionType       transactionType;
+        final Pagination            pagination;
+        final Sorting               sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
 
-        transactionFilter = TransactionsFilters.empty();
-
-        transaction = Transactions.positive();
-        existing = new Page<>(List.of(transaction), 0, 0, 0, 0, 0, false, false, sorting);
-        given(transactionRepository.findAll(transactionFilter, pagination, sorting)).willReturn(existing);
+        transactionType = TransactionTypes.valid();
+        existing = new Page<>(List.of(transactionType), 0, 0, 0, 0, 0, false, false, sorting);
+        given(transactionTypeRepository.findAll(pagination, sorting)).willReturn(existing);
 
         // WHEN
-        transactions = service.getAll(transactionFilter, pagination, sorting);
+        transactionTypes = service.getAll(pagination, sorting);
 
         // THEN
-        Assertions.assertThat(transactions)
+        Assertions.assertThat(transactionTypes)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("transactions")
-            .containsExactly(transaction);
+            .containsExactly(transactionType);
     }
 
     @Test
     @DisplayName("When there is no data nothing is returned")
     void testGetAll_NoData() {
-        final Page<Transaction> transactions;
-        final Page<Transaction> existing;
-        final TransactionFilter transactionFilter;
-        final Pagination        pagination;
-        final Sorting           sorting;
+        final Page<TransactionType> transactionTypes;
+        final Page<TransactionType> existing;
+        final Pagination            pagination;
+        final Sorting               sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
 
-        transactionFilter = TransactionsFilters.empty();
-
         existing = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
-        given(transactionRepository.findAll(transactionFilter, pagination, sorting)).willReturn(existing);
+        given(transactionTypeRepository.findAll(pagination, sorting)).willReturn(existing);
 
         // WHEN
-        transactions = service.getAll(transactionFilter, pagination, sorting);
+        transactionTypes = service.getAll(pagination, sorting);
 
         // THEN
-        Assertions.assertThat(transactions)
+        Assertions.assertThat(transactionTypes)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("transactions")

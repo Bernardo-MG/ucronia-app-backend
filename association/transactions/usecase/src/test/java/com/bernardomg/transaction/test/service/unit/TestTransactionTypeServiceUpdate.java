@@ -25,8 +25,7 @@
 package com.bernardomg.transaction.test.service.unit;
 
 import static org.mockito.BDDMockito.given;
-
-import java.util.Optional;
+import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
@@ -38,55 +37,73 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.transaction.domain.exception.MissingTransactionException;
-import com.bernardomg.association.transaction.domain.model.Transaction;
-import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
+import com.bernardomg.association.transaction.domain.model.TransactionType;
+import com.bernardomg.association.transaction.domain.repository.TransactionTypeRepository;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionConstants;
-import com.bernardomg.association.transaction.test.configuration.factory.Transactions;
-import com.bernardomg.association.transaction.usecase.service.DefaultTransactionService;
+import com.bernardomg.association.transaction.test.configuration.factory.TransactionTypes;
+import com.bernardomg.association.transaction.usecase.service.DefaultTransactionTypeService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Transaction service - get one")
-class TestTransactionServiceGetOne {
+@DisplayName("Transaction type service - update")
+class TestTransactionTypeServiceUpdate {
 
     @InjectMocks
-    private DefaultTransactionService service;
+    private DefaultTransactionTypeService service;
 
     @Mock
-    private TransactionRepository     transactionRepository;
-
-    public TestTransactionServiceGetOne() {
-        super();
-    }
+    private TransactionTypeRepository     transactionTypeRepository;
 
     @Test
-    @DisplayName("When there is data it is returned")
-    void testFindOne() {
-        final Optional<Transaction> read;
-        final Transaction           transaction;
+    @DisplayName("With a valid transaction type, it is persisted")
+    void testCreate_PersistedData() {
+        final TransactionType transactionType;
 
         // GIVEN
-        transaction = Transactions.positive();
-        given(transactionRepository.findOne(TransactionConstants.INDEX)).willReturn(Optional.of(transaction));
+        transactionType = TransactionTypes.valid();
+
+        given(transactionTypeRepository.exists(TransactionConstants.INDEX)).willReturn(true);
 
         // WHEN
-        read = service.getOne(TransactionConstants.INDEX);
+        service.update(transactionType);
 
         // THEN
-        Assertions.assertThat(read)
-            .as("transaction")
-            .contains(transaction);
+        verify(transactionTypeRepository).save(transactionType);
     }
 
     @Test
-    @DisplayName("When there is no data an exception is thrown")
-    void testFindOne_NoData() {
+    @DisplayName("With a valid transaction type, it is returned")
+    void testCreate_ReturnedData() {
+        final TransactionType transactionType;
+        final TransactionType updated;
+
+        // GIVEN
+        transactionType = TransactionTypes.valid();
+
+        given(transactionTypeRepository.save(transactionType)).willReturn(transactionType);
+        given(transactionTypeRepository.exists(TransactionConstants.INDEX)).willReturn(true);
+
+        // WHEN
+        updated = service.update(transactionType);
+
+        // THEN
+        Assertions.assertThat(updated)
+            .as("transaction")
+            .isEqualTo(transactionType);
+    }
+
+    @Test
+    @DisplayName("With a not existing transaction type, an exception is thrown")
+    void testUpdate_NotExisting_Exception() {
+        final TransactionType  transactionType;
         final ThrowingCallable execution;
 
         // GIVEN
-        given(transactionRepository.findOne(TransactionConstants.INDEX)).willReturn(Optional.empty());
+        transactionType = TransactionTypes.valid();
+
+        given(transactionTypeRepository.exists(TransactionConstants.INDEX)).willReturn(false);
 
         // WHEN
-        execution = () -> service.getOne(TransactionConstants.INDEX);
+        execution = () -> service.update(transactionType);
 
         // THEN
         Assertions.assertThatThrownBy(execution)

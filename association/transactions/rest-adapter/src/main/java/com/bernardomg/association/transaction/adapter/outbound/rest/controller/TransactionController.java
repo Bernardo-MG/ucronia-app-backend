@@ -63,6 +63,7 @@ public class TransactionController implements TransactionApi {
 
     public TransactionController(final TransactionService service) {
         super();
+
         this.service = service;
     }
 

@@ -1,6 +1,7 @@
 
-package com.bernardomg.association.transaction.adapter.outbound.rest.controller;
+package com.bernardomg.association.transaction.adapter.outbound.rest.controller.test;
 
+import static org.hamcrest.Matchers.isA;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
@@ -23,14 +24,15 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
+import com.bernardomg.association.transaction.adapter.outbound.rest.controller.TransactionController;
 import com.bernardomg.association.transaction.usecase.service.TransactionService;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("TransactionController")
-class TestTransactionControllerPagination {
+@DisplayName("TransactionController - Sorting")
+class TestTransactionControllerSorting {
 
     private MockMvc            mockMvc;
 
@@ -50,39 +52,36 @@ class TestTransactionControllerPagination {
     }
 
     @Test
-    @DisplayName("When the page is zero, it is rejected")
-    void testGetAllTransactions_PageZero() throws Exception {
-        // WHEN + THEN
-        mockMvc.perform(get("/transaction").param("page", "0")
-            .param("size", "10")
-            .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    @DisplayName("When the pagination is valid, it is accepted")
-    void testGetAllTransactions_Pagination() throws Exception {
+    @DisplayName("When sorting by date ascending, it is accepted")
+    void testGetAllTransactions_DateAsc() throws Exception {
         // GIVEN
-        given(service.getAll(any(), eq(new Pagination(1, 20)), any()))
-            .willReturn(new Page<>(List.of(), 20, 1, 0, 0, 0, false, false, Sorting.unsorted()));
+        given(service.getAll(any(), eq(new Pagination(1, 10)), any()))
+            .willReturn(new Page<>(List.of(), 10, 1, 0, 0, 0, false, false, Sorting.unsorted()));
 
         // WHEN + THEN
         mockMvc.perform(get("/transaction").param("page", "1")
-            .param("size", "20")
+            .param("size", "10")
+            .param("sort", "date|asc")
+            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+    }
+
+    @Test
+    @DisplayName("When sorting by date descending, it is accepted")
+    void testGetAllTransactions_DateDesc() throws Exception {
+        // GIVEN
+        given(service.getAll(any(), eq(new Pagination(1, 10)), any()))
+            .willReturn(new Page<>(List.of(), 10, 1, 0, 0, 0, false, false, Sorting.unsorted()));
+
+        // WHEN + THEN
+        mockMvc.perform(get("/transaction").param("page", "1")
+            .param("size", "10")
+            .param("sort", "date|desc")
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.content").isArray());
-    }
-
-    @Test
-    @DisplayName("When the size is zero, it is rejected")
-    void testGetAllTransactions_SizeZero() throws Exception {
-        // WHEN + THEN
-        mockMvc.perform(get("/transaction").param("page", "1")
-            .param("size", "0")
-            .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isBadRequest());
+            .andExpect(jsonPath("$.content", isA(java.util.ArrayList.class)));
     }
 
 }

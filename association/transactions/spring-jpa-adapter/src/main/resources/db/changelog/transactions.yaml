@@ -15,6 +15,48 @@ databaseChangeLog:
       changes:
         - createTable:
             schemaName: funds
+            tableName: transaction_types
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: number
+                  type: bigint
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(200)
+                  constraints:
+                    nullable: false
+                  defaultValue: ''
+              - column:
+                  name: color
+                  type: varchar(7)
+                  constraints:
+                    nullable: false
+                  defaultValue: '#000000'
+        - addAutoIncrement:
+            schemaName: funds
+            tableName: transaction_types
+            columnName: id
+            columnDataType: bigint
+            incrementBy: 1
+            startWith: 1
+        - createIndex:
+            schemaName: funds
+            tableName: transaction_types
+            indexName: idx_transaction_types_number
+            columns:
+              - column:
+                  name: number
+        - createTable:
+            schemaName: funds
             tableName: transactions
             columns:
               - column:
@@ -29,6 +71,11 @@ databaseChangeLog:
                   constraints:
                     unique: true
                     nullable: false
+              - column:
+                  name: transaction_type_id
+                  type: bigint
+                  constraints:
+                    unique: true
               - column:
                   name: description
                   type: varchar(200)
@@ -86,6 +133,15 @@ databaseChangeLog:
             columns:
               - column:
                   name: index
+        - addForeignKeyConstraint:
+            constraintName: fk_transactions_transaction_type
+            baseTableSchemaName: funds
+            baseTableName: transactions
+            baseColumnNames: transaction_type_id
+            referencedTableSchemaName: funds
+            referencedTableName: transaction_types
+            referencedColumnNames: id
+            onDelete: SET NULL
       modifySql:
         - append:
             dbms: mysql

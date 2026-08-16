@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.transaction.adapter.outbound.rest.controller;
+package com.bernardomg.association.transaction.adapter.outbound.rest.controller.test;
 
 import static org.hamcrest.Matchers.isA;
 import static org.mockito.ArgumentMatchers.any;
@@ -24,19 +24,20 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
-import com.bernardomg.association.transaction.usecase.service.TransactionService;
+import com.bernardomg.association.transaction.adapter.outbound.rest.controller.TransactionTypeController;
+import com.bernardomg.association.transaction.usecase.service.TransactionTypeService;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("TransactionController - Sorting")
-class TestTransactionControllerSorting {
+@DisplayName("TransactionTypeController - Sorting")
+class TestTransactionTypeControllerSorting {
 
-    private MockMvc            mockMvc;
+    private MockMvc                mockMvc;
 
     @Mock
-    private TransactionService service;
+    private TransactionTypeService service;
 
     @BeforeEach
     void setUp() {
@@ -45,22 +46,22 @@ class TestTransactionControllerSorting {
         validator.setMessageInterpolator(new ParameterMessageInterpolator());
         validator.afterPropertiesSet();
 
-        mockMvc = MockMvcBuilders.standaloneSetup(new TransactionController(service))
+        mockMvc = MockMvcBuilders.standaloneSetup(new TransactionTypeController(service))
             .setValidator(validator)
             .build();
     }
 
     @Test
     @DisplayName("When sorting by date ascending, it is accepted")
-    void testGetAllTransactions_DateAsc() throws Exception {
+    void testGetAllTransactions_DescriptionAsc() throws Exception {
         // GIVEN
-        given(service.getAll(any(), eq(new Pagination(1, 10)), any()))
+        given(service.getAll(eq(new Pagination(1, 10)), any()))
             .willReturn(new Page<>(List.of(), 10, 1, 0, 0, 0, false, false, Sorting.unsorted()));
 
         // WHEN + THEN
-        mockMvc.perform(get("/transaction").param("page", "1")
+        mockMvc.perform(get("/transaction/type").param("page", "1")
             .param("size", "10")
-            .param("sort", "date|asc")
+            .param("sort", "description|asc")
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON));
@@ -68,15 +69,15 @@ class TestTransactionControllerSorting {
 
     @Test
     @DisplayName("When sorting by date descending, it is accepted")
-    void testGetAllTransactions_DateDesc() throws Exception {
+    void testGetAllTransactions_DescriptionDesc() throws Exception {
         // GIVEN
-        given(service.getAll(any(), eq(new Pagination(1, 10)), any()))
+        given(service.getAll(eq(new Pagination(1, 10)), any()))
             .willReturn(new Page<>(List.of(), 10, 1, 0, 0, 0, false, false, Sorting.unsorted()));
 
         // WHEN + THEN
-        mockMvc.perform(get("/transaction").param("page", "1")
+        mockMvc.perform(get("/transaction/type").param("page", "1")
             .param("size", "10")
-            .param("sort", "date|desc")
+            .param("sort", "description|desc")
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))

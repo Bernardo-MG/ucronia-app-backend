@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.transaction.adapter.outbound.rest.controller;
+package com.bernardomg.association.transaction.adapter.outbound.rest.controller.test;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.any;
@@ -27,6 +27,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
+import com.bernardomg.association.transaction.adapter.outbound.rest.controller.TransactionController;
 import com.bernardomg.association.transaction.domain.model.TransactionMonthsRange;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionCalendarMonthsRanges;
 import com.bernardomg.association.transaction.test.configuration.factory.TransactionConstants;
@@ -127,7 +128,7 @@ class TestTransactionController {
         final String requestBody;
 
         // GIVEN
-        given(service.update(any())).willReturn(Transactions.forAmount(TransactionConstants.AMOUNT_BIGGER));
+        given(service.update(any())).willReturn(Transactions.positive());
 
         requestBody = String.format("""
                 {
@@ -135,14 +136,14 @@ class TestTransactionController {
                     "amount": %s,
                     "description": "%s"
                 }
-                """, TransactionConstants.DATE, TransactionConstants.AMOUNT_BIGGER, TransactionConstants.DESCRIPTION);
+                """, TransactionConstants.DATE, TransactionConstants.AMOUNT, TransactionConstants.DESCRIPTION);
 
         // WHEN + THEN
         mockMvc.perform(put("/transaction/{index}", TransactionConstants.INDEX).contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.content.amount", equalTo((double) TransactionConstants.AMOUNT_BIGGER)));
+            .andExpect(jsonPath("$.content.amount", equalTo((double) TransactionConstants.AMOUNT)));
     }
 
 }

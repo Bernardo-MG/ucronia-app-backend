@@ -64,4 +64,8 @@ public final class Transactions {
             TransactionConstants.DESCRIPTION);
     }
 
+    private Transactions() {
+        super();
+    }
+
 }

@@ -31,54 +31,60 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.transaction.TestApplication;
-import com.bernardomg.association.transaction.domain.model.Transaction;
-import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
-import com.bernardomg.association.transaction.test.configuration.data.annotation.PositiveTransaction;
-import com.bernardomg.association.transaction.test.configuration.factory.Transactions;
+import com.bernardomg.association.transaction.domain.model.TransactionType;
+import com.bernardomg.association.transaction.domain.repository.TransactionTypeRepository;
+import com.bernardomg.association.transaction.test.configuration.data.annotation.ValidTransactionType;
+import com.bernardomg.association.transaction.test.configuration.factory.TransactionTypes;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("TransactionRepository - find all")
-class ITTransactionRepositoryFindAll {
+@DisplayName("TransactionTypeRepository - find all")
+class ITTransactionTypeRepositoryFindAll {
 
     @Autowired
-    private TransactionRepository repository;
+    private TransactionTypeRepository repository;
 
     @Test
     @DisplayName("When there is no data, nothing is returned")
     void testFindAll_NoData() {
-        final Iterable<Transaction> transactions;
+        final Page<TransactionType> transactionTypes;
+        final Pagination            pagination;
         final Sorting               sorting;
 
         // GIVEN
+        pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
 
         // WHEN
-        transactions = repository.findAll(sorting);
+        transactionTypes = repository.findAll(pagination, sorting);
 
         // THEN
-        Assertions.assertThat(transactions)
+        Assertions.assertThat(transactionTypes.content())
             .isEmpty();
     }
 
     @Test
     @DisplayName("When there is a transaction, it is returned")
-    @PositiveTransaction
+    @ValidTransactionType
     void testFindAll_Transaction() {
-        final Iterable<Transaction> transactions;
+        final Page<TransactionType> transactionTypes;
+        final Pagination            pagination;
         final Sorting               sorting;
 
         // GIVEN
+        pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
 
         // WHEN
-        transactions = repository.findAll(sorting);
+        transactionTypes = repository.findAll(pagination, sorting);
 
         // THEN
-        Assertions.assertThat(transactions)
-            .containsExactly(Transactions.positive());
+        Assertions.assertThat(transactionTypes.content())
+            .containsExactly(TransactionTypes.valid());
     }
 
 }
