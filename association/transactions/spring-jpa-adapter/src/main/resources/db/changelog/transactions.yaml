@@ -74,8 +74,6 @@ databaseChangeLog:
               - column:
                   name: transaction_type_id
                   type: bigint
-                  constraints:
-                    unique: true
               - column:
                   name: description
                   type: varchar(200)

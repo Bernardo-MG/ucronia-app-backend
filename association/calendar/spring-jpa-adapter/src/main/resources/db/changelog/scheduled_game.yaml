@@ -21,15 +21,21 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: false
-                    foreignKeyName: fk_scheduled_games_profile
-                    references: directory.profiles(id)
-                    deleteCascade: true
               - column:
                   name: max_players
                   type: bigint
                   defaultValueNumeric: 1
                   constraints:
                     nullable: false
+        - addForeignKeyConstraint:
+            constraintName: fk_scheduled_games_master
+            baseTableSchemaName: calendar
+            baseTableName: scheduled_games
+            baseColumnNames: master_id
+            referencedTableSchemaName: directory
+            referencedTableName: profiles
+            referencedColumnNames: id
+            onDelete: SET NULL
   - changeSet:
       id: scheduled_game_initial_data
       author: Bernardo
