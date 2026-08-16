@@ -29,6 +29,7 @@ import com.bernardomg.association.library.book.domain.model.GameBook;
 import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
+import com.bernardomg.association.profile.domain.model.Name;
 
 public final class DefaultLibraryApachePoiWorkbookLoader implements LibraryApachePoiWorkbookLoader {
 
@@ -225,7 +226,7 @@ public final class DefaultLibraryApachePoiWorkbookLoader implements LibraryApach
                 cell.setCellValue(donation.donors()
                     .stream()
                     .map(Donor::name)
-                    .map(Donor.Name::fullName)
+                    .map(Name::fullName)
                     .collect(Collectors.joining(", ")));
                 cell.setCellStyle(rowStyle);
 
@@ -337,7 +338,7 @@ public final class DefaultLibraryApachePoiWorkbookLoader implements LibraryApach
                 cell.setCellValue(donation.donors()
                     .stream()
                     .map(Donor::name)
-                    .map(Donor.Name::fullName)
+                    .map(Name::fullName)
                     .collect(Collectors.joining(", ")));
                 cell.setCellStyle(rowStyle);
 

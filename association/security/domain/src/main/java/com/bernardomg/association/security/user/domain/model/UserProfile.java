@@ -6,6 +6,8 @@ import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.bernardomg.association.profile.domain.model.Name;
+
 public record UserProfile(Optional<String> identifier, Long number, Name name) {
 
     public UserProfile(final Optional<String> identifier, final Long number, final Name name) {
@@ -16,23 +18,6 @@ public record UserProfile(Optional<String> identifier, Long number, Name name) {
         this.identifier = handleEmpty(identifier);
         this.number = Objects.requireNonNull(number);
         this.name = Objects.requireNonNull(name);
-    }
-
-    public record Name(String firstName, String lastName) {
-
-        public Name(final String firstName, final String lastName) {
-            Objects.requireNonNull(firstName, "First name can't be null");
-            Objects.requireNonNull(lastName, "Last name can't be null");
-
-            this.firstName = StringUtils.trim(firstName);
-            this.lastName = StringUtils.trim(lastName);
-        }
-
-        public final String fullName() {
-            return String.format("%s %s", firstName, lastName)
-                .trim();
-        }
-
     }
 
     private static final Optional<String> handleEmpty(final Optional<String> value) {

@@ -59,6 +59,9 @@ public class UserProfileEntity implements Serializable {
     @Column(name = "last_name")
     private String            lastName;
 
+    @Column(name = "nickname")
+    private String            nickname;
+
     @Column(name = "number")
     private Long              number;
 
@@ -89,6 +92,10 @@ public class UserProfileEntity implements Serializable {
         return lastName;
     }
 
+    public String getNickname() {
+        return nickname;
+    }
+
     public Long getNumber() {
         return number;
     }
@@ -114,6 +121,10 @@ public class UserProfileEntity implements Serializable {
         this.lastName = lastName;
     }
 
+    public void setNickname(final String nickname) {
+        this.nickname = nickname;
+    }
+
     public void setNumber(final Long number) {
         this.number = number;
     }
@@ -121,7 +132,7 @@ public class UserProfileEntity implements Serializable {
     @Override
     public String toString() {
         return "ProfileEntity [id=" + id + ", identifier=" + identifier + ", firstName=" + firstName + ", lastName="
-                + lastName + ", number=" + number + "]";
+                + lastName + ", nickname=" + nickname + ", number=" + number + "]";
     }
 
 }

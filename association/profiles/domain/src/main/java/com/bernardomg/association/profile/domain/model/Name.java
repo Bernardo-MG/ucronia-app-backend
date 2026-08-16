@@ -15,12 +15,28 @@ public record Name(String firstName, String lastName, Optional<String> nickname)
 
         this.firstName = StringUtils.trim(firstName);
         this.lastName = StringUtils.trim(lastName);
-        this.nickname = nickname.map(StringUtils::trim);
+
+        this.nickname = handleEmpty(nickname);
     }
 
     public String fullName() {
         return nickname.map(value -> String.format("%s \"%s\" %s", firstName, value, lastName))
             .orElseGet(() -> String.format("%s %s", firstName, lastName));
+    }
+
+    private final static Optional<String> handleEmpty(final Optional<String> value) {
+        final Optional<String> trimmed;
+        final Optional<String> result;
+
+        trimmed = value.map(StringUtils::trim);
+        if (trimmed.orElse("")
+            .isEmpty()) {
+            result = Optional.empty();
+        } else {
+            result = value.map(StringUtils::trim);
+        }
+
+        return result;
     }
 
 }

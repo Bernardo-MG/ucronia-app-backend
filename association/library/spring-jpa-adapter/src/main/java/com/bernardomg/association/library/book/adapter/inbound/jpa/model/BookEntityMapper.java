@@ -41,6 +41,7 @@ import com.bernardomg.association.library.gamesystem.adapter.inbound.jpa.model.G
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.model.PublisherEntity;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
+import com.bernardomg.association.profile.domain.model.Name;
 import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditMetadata;
 import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditUserEntity;
 import com.bernardomg.security.domain.audit.model.AuditDetails;
@@ -136,9 +137,10 @@ public final class BookEntityMapper {
     }
 
     public static final Donor toDonorDomain(final DonorEntity entity) {
-        final Donor.Name name;
+        final Name name;
 
-        name = new Donor.Name(entity.getFirstName(), entity.getLastName());
+        name = new Name(entity.getFirstName(), entity.getLastName(), Optional.ofNullable(entity.getNickname()));
+
         return new Donor(entity.getNumber(), name);
     }
 

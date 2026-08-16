@@ -29,6 +29,7 @@ import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.bernardomg.association.profile.domain.model.Name;
 import com.bernardomg.security.domain.account.model.Account;
 
 /**
@@ -78,23 +79,6 @@ public final record ProfileAccount(String email, String username, String name, O
             this.identifier = handleEmpty(identifier);
             this.number = number;
             this.name = name;
-        }
-
-        public record Name(String firstName, String lastName) {
-
-            public Name(final String firstName, final String lastName) {
-                Objects.requireNonNull(firstName, "First name can't be null");
-                Objects.requireNonNull(lastName, "Last anme can't be null");
-
-                this.firstName = StringUtils.trim(firstName);
-                this.lastName = StringUtils.trim(lastName);
-            }
-
-            public final String fullName() {
-                return String.format("%s %s", firstName, lastName)
-                    .trim();
-            }
-
         }
 
     }
