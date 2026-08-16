@@ -54,7 +54,7 @@ class ITUserProfileRepositoryUnassignProfile {
     private UserAssignedProfileSpringRepository userProfileSpringRepository;
 
     @Autowired
-    private AssociationUserSpringRepository                userSpringRepository;
+    private AssociationUserSpringRepository     userSpringRepository;
 
     @Test
     @DisplayName("With a member assigned to the user, it removes the member")

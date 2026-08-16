@@ -38,6 +38,7 @@ import com.bernardomg.association.library.book.usecase.generator.NameResolver;
 import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
+import com.bernardomg.association.profile.domain.model.Name;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultLibraryApachePoiWorkbookLoader")
@@ -142,7 +143,7 @@ class TestDefaultLibraryApachePoiWorkbookLoader {
         return donation.donors()
             .stream()
             .map(Donor::name)
-            .map(Donor.Name::fullName)
+            .map(Name::fullName)
             .collect(Collectors.joining(", "));
     }
 

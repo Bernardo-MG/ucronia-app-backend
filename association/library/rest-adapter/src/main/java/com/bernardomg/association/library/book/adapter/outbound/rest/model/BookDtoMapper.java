@@ -63,6 +63,7 @@ import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
+import com.bernardomg.association.profile.domain.model.Name;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
 import com.bernardomg.pagination.domain.Sorting.Property;
@@ -113,7 +114,7 @@ public final class BookDtoMapper {
                     .getDonors()
                     .stream()
                     .filter(Objects::nonNull)
-                    .map(d -> new Donor(d.getNumber(), new Donor.Name("", "")))
+                    .map(d -> new Donor(d.getNumber(), new Name("", "", Optional.empty())))
                     .toList();
             }
             if (fictionBookUpdateDto.getDonation()
@@ -210,7 +211,7 @@ public final class BookDtoMapper {
                     .getDonors()
                     .stream()
                     .filter(Objects::nonNull)
-                    .map(d -> new Donor(d.getNumber(), new Donor.Name("", "")))
+                    .map(d -> new Donor(d.getNumber(), new Name("", "", Optional.empty())))
                     .toList();
             }
             if (gameBookUpdateDto.getDonation()
@@ -428,6 +429,9 @@ public final class BookDtoMapper {
             .firstName())
             .lastName(donor.name()
                 .lastName())
+            .nickname(donor.name()
+                .nickname()
+                .orElse(null))
             .fullName(donor.name()
                 .fullName());
         return new DonorDto().number(donor.number())

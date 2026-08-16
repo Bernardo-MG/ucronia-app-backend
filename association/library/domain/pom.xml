@@ -38,6 +38,10 @@
          <artifactId>security-model</artifactId>
       </dependency>
       <dependency>
+         <groupId>com.bernardomg.association.profile</groupId>
+         <artifactId>association-profile-domain</artifactId>
+      </dependency>
+      <dependency>
          <groupId>org.apache.commons</groupId>
          <artifactId>commons-lang3</artifactId>
       </dependency>
