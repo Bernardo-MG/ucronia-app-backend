@@ -37,12 +37,12 @@ public class OpenApiConfiguration {
 
     @Bean("openApiWhitelist")
     public WhitelistRoute getOpenApiWhitelist() {
-        return WhitelistRoute.of("/api-docs/**", HttpMethod.GET);
+        return WhitelistRoute.of("/api-docs/**", HttpMethod.GET, HttpMethod.OPTIONS);
     }
 
     @Bean("swaggerApiWhitelist")
     public WhitelistRoute getSwaggerApiWhitelist() {
-        return WhitelistRoute.of("/swagger-ui/**", HttpMethod.GET);
+        return WhitelistRoute.of("/swagger-ui/**", HttpMethod.GET, HttpMethod.OPTIONS);
     }
 
 }

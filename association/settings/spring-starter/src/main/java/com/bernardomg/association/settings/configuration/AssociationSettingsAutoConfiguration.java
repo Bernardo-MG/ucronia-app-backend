@@ -47,7 +47,7 @@ public class AssociationSettingsAutoConfiguration {
     @Bean("settingWhitelist")
     public WhitelistRoute getSettingWhitelist() {
         // TODO: this is for the public settings
-        return WhitelistRoute.of("/settings/public/**", HttpMethod.GET);
+        return WhitelistRoute.of("/settings/public/**", HttpMethod.GET, HttpMethod.OPTIONS);
     }
 
     @Bean(name = "settingsLoader", initMethod = "run")
