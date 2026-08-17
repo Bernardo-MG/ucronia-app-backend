@@ -600,5 +600,13 @@
             Member keys.
          </action>
       </release>
+      <release version="0.7.9" date="2026-08-16" description="Fixes">
+         <action dev="bmg" type="fix">
+            Whitelisted options.
+         </action>
+         <action dev="bmg" type="update">
+            Security update.
+         </action>
+      </release>
    </body>
 </document>
