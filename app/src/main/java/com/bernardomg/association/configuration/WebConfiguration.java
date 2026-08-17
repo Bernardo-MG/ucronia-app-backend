@@ -49,7 +49,7 @@ public class WebConfiguration implements WebMvcConfigurer {
     @Bean("prometeusActuatorWhitelist")
     public WhitelistRoute getHealthActuatorWhitelist() {
         // Only for develop for now
-        return WhitelistRoute.of("/actuator/prometheus", HttpMethod.GET);
+        return WhitelistRoute.of("/actuator/prometheus", HttpMethod.GET, HttpMethod.OPTIONS);
     }
 
     @Bean

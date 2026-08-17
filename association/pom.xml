@@ -11,7 +11,7 @@
    <parent>
       <groupId>com.bernardomg</groupId>
       <artifactId>ucronia-app-backend</artifactId>
-      <version>0.7.8</version>
+      <version>0.7.9</version>
    </parent>
 
    <!-- ********************************************** -->
