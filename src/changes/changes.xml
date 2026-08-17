@@ -583,7 +583,10 @@
             Fixed null pointers.
          </action>
       </release>
-      <release version="0.7.8" date="2026-08-16" description="">
+      <release version="0.7.8" date="2026-08-16" description="Audit and improvements">
+         <action dev="bmg" type="add">
+            Entity audit.
+         </action>
          <action dev="bmg" type="update">
             Security update.
          </action>
