@@ -24,26 +24,14 @@
 
 package com.bernardomg.association.fee.adapter.outbound.rest.controller;
 
-import java.time.Year;
-import java.util.Collection;
-import java.util.List;
-
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeeCalendarResponseDto;
-import com.bernardomg.association.fee.adapter.outbound.rest.dto.MemberStatusDto;
 import com.bernardomg.association.fee.adapter.outbound.rest.dto.YearsRangeResponseDto;
 import com.bernardomg.association.fee.adapter.outbound.rest.model.FeeDtoMapper;
 import com.bernardomg.association.fee.usecase.service.FeeService;
-import com.bernardomg.association.member.domain.model.MemberFees;
-import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.domain.model.YearsRange;
 import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
-import com.bernardomg.pagination.domain.Sorting;
-import com.bernardomg.pagination.web.WebSorting;
 import com.bernardomg.security.domain.permission.constant.Actions;
-
-import jakarta.validation.Valid;
 
 /**
  * Fee calendar REST controller.
@@ -63,21 +51,6 @@ public class FeeCalendarController implements FeeCalendarApi {
         super();
 
         this.service = service;
-    }
-
-    @Override
-    @RequireResourceAuthorization(resource = "FEE", action = Actions.READ)
-    public FeeCalendarResponseDto getFeesCalendar(final Integer year, final MemberStatusDto status,
-            @Valid final List<String> sort) {
-        final MemberStatus           memberStatus;
-        final Sorting                sorting;
-        final Collection<MemberFees> fees;
-
-        memberStatus = MemberStatus.valueOf(status.name());
-        sorting = WebSorting.toSorting(sort);
-        fees = service.getForYear(Year.of(year), memberStatus, sorting);
-
-        return FeeDtoMapper.toCalendarResponseDto(fees);
     }
 
     @Override

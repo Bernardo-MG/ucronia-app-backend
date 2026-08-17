@@ -30,9 +30,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeeCalendarDto;
-import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeeCalendarMemberDto;
-import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeeCalendarResponseDto;
 import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeeDto;
 import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeeFeeTypeDto;
 import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeeMemberDto;
@@ -43,7 +40,6 @@ import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeeTransactionDt
 import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeeUpdateDto;
 import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeesResponseDto;
 import com.bernardomg.association.fee.adapter.outbound.rest.dto.MemberNameDto;
-import com.bernardomg.association.fee.adapter.outbound.rest.dto.MonthFeeDto;
 import com.bernardomg.association.fee.adapter.outbound.rest.dto.PropertyDto;
 import com.bernardomg.association.fee.adapter.outbound.rest.dto.PropertyDto.DirectionEnum;
 import com.bernardomg.association.fee.adapter.outbound.rest.dto.SortingDto;
@@ -53,7 +49,6 @@ import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.Fee.Transaction;
 import com.bernardomg.association.fee.domain.model.FeePayments;
 import com.bernardomg.association.fee.domain.model.FeeType;
-import com.bernardomg.association.member.domain.model.MemberFees;
 import com.bernardomg.association.member.domain.model.YearsRange;
 import com.bernardomg.association.profile.domain.model.Name;
 import com.bernardomg.pagination.domain.Page;
@@ -61,12 +56,6 @@ import com.bernardomg.pagination.domain.Sorting.Direction;
 import com.bernardomg.pagination.domain.Sorting.Property;
 
 public final class FeeDtoMapper {
-
-    public static final FeeCalendarResponseDto toCalendarResponseDto(final Collection<MemberFees> fees) {
-        return new FeeCalendarResponseDto().content(fees.stream()
-            .map(FeeDtoMapper::toDto)
-            .toList());
-    }
 
     public static final FeePayments toDomain(final FeePaymentsDto dto) {
         return new FeePayments(dto.getMember(), dto.getPaymentDate(), dto.getMonths());
@@ -186,38 +175,6 @@ public final class FeeDtoMapper {
             .member(member)
             .transaction(transaction)
             .feeType(feeType);
-    }
-
-    private static final FeeCalendarDto toDto(final MemberFees memberFee) {
-        final FeeCalendarMemberDto member;
-        final MemberNameDto        name;
-        final List<MonthFeeDto>    months;
-
-        name = new MemberNameDto().firstName(memberFee.member()
-            .name()
-            .firstName())
-            .lastName(memberFee.member()
-                .name()
-                .lastName())
-            .fullName(memberFee.member()
-                .name()
-                .fullName());
-        member = new FeeCalendarMemberDto().name(name)
-            .number(memberFee.member()
-                .number())
-            .active(memberFee.member()
-                .active());
-        months = memberFee.fees()
-            .stream()
-            .map(FeeDtoMapper::toDto)
-            .toList();
-        return new FeeCalendarDto().member(member)
-            .fees(months);
-    }
-
-    private static final MonthFeeDto toDto(final MemberFees.Fee fee) {
-        return new MonthFeeDto().month(fee.month())
-            .paid(fee.paid());
     }
 
     private static final PropertyDto toDto(final Property property) {
