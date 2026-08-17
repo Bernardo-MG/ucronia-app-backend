@@ -33,7 +33,6 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,7 +52,6 @@ import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.domain.Sorting.Property;
 import com.bernardomg.pagination.springframework.SpringPagination;
-import com.bernardomg.pagination.springframework.SpringSorting;
 
 @Transactional
 public final class JpaFeeRepository implements FeeRepository {
@@ -143,12 +141,13 @@ public final class JpaFeeRepository implements FeeRepository {
             found = feeSpringRepository.findAll(pageable)
                 .map(FeeEntityMapper::toDomain);
         } else {
-            pageable = SpringPagination.toPageable(pagination, sorting);
+            pageable = SpringPagination.toPageable(pagination, fixedSorting);
             found = feeSpringRepository.findAll(spec.get(), pageable)
                 .map(FeeEntityMapper::toDomain);
         }
 
-        log.debug("Found all fees with query {}, pagination {} and sorting {}: {}", filter, pagination, sorting, found);
+        log.debug("Found all fees with query {}, pagination {} and sorting {}: {}", filter, pagination, fixedSorting,
+            found);
 
         return SpringPagination.toPage(found);
     }
@@ -171,66 +170,6 @@ public final class JpaFeeRepository implements FeeRepository {
             found);
 
         return SpringPagination.toPage(found);
-    }
-
-    @Override
-    public final Collection<Fee> findAllInYear(final Year year, final Sorting sorting) {
-        final Collection<Fee> fees;
-        final Sort            sort;
-        final Sorting         fixedSorting;
-
-        fixedSorting = fixSorting(sorting);
-        log.debug("Finding all fees in year {} sorting {}", year, fixedSorting);
-
-        sort = SpringSorting.toSort(fixedSorting);
-        fees = feeSpringRepository.findAllForYear(year.getValue(), sort)
-            .stream()
-            .map(FeeEntityMapper::toDomain)
-            .toList();
-
-        log.debug("Found all fees in year {} sorting {}: {}", year, fixedSorting, fees);
-
-        return fees;
-    }
-
-    @Override
-    public final Collection<Fee> findAllInYearForActiveMembers(final Year year, final Sorting sorting) {
-        final Collection<Fee> found;
-        final Sort            sort;
-        final Sorting         fixedSorting;
-
-        fixedSorting = fixSorting(sorting);
-        log.debug("Finding all fees for active members in year {} sorting {}", year, fixedSorting);
-
-        sort = SpringSorting.toSort(fixedSorting);
-        found = feeSpringRepository.findAllForYearAndActiveMembers(year.getValue(), sort)
-            .stream()
-            .map(FeeEntityMapper::toDomain)
-            .toList();
-
-        log.debug("Found all fees for active members in year {} sorting {}: {}", year, fixedSorting, found);
-
-        return found;
-    }
-
-    @Override
-    public final Collection<Fee> findAllInYearForInactiveMembers(final Year year, final Sorting sorting) {
-        final Collection<Fee> found;
-        final Sort            sort;
-        final Sorting         fixedSorting;
-
-        fixedSorting = fixSorting(sorting);
-        log.debug("Finding all fees for inactive members in year {} sorting {}", year, fixedSorting);
-
-        sort = SpringSorting.toSort(fixedSorting);
-        found = feeSpringRepository.findAllForYearAndInactiveMembers(year.getValue(), sort)
-            .stream()
-            .map(FeeEntityMapper::toDomain)
-            .toList();
-
-        log.debug("Found all fees for inactive members in year {} sorting {}: {}", year, fixedSorting, found);
-
-        return found;
     }
 
     @Override

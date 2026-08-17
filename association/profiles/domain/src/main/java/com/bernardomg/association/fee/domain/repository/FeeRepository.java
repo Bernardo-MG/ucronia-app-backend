@@ -25,7 +25,6 @@
 package com.bernardomg.association.fee.domain.repository;
 
 import java.time.Instant;
-import java.time.Year;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -47,12 +46,6 @@ public interface FeeRepository {
     public Page<Fee> findAll(final FeeFilter filter, final Pagination pagination, final Sorting sorting);
 
     public Page<Fee> findAllForMember(final Long number, final Pagination pagination, final Sorting sorting);
-
-    public Collection<Fee> findAllInYear(final Year year, final Sorting sorting);
-
-    public Collection<Fee> findAllInYearForActiveMembers(final Year year, final Sorting sorting);
-
-    public Collection<Fee> findAllInYearForInactiveMembers(final Year year, final Sorting sorting);
 
     public Optional<Fee> findOne(final Long number, final Instant date);
 

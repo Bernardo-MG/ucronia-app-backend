@@ -54,10 +54,6 @@ class ITSponsorRepositoryFindAllSort {
     @Autowired
     private SponsorRepository repository;
 
-    public ITSponsorRepositoryFindAllSort() {
-        super();
-    }
-
     @Test
     @DisplayName("With ascending order by first name it returns the ordered data")
     void testFindAll_FirstName_Asc() {
