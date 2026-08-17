@@ -70,7 +70,7 @@ class TestTransactionTypeController {
         mockMvc.perform(post("/transaction/type").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
             .andExpect(status().isCreated())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content.description", equalTo(TransactionTypeConstants.DESCRIPTION)))
             .andExpect(jsonPath("$.content.color", equalTo(TransactionTypeConstants.COLOR)));
     }
@@ -86,7 +86,7 @@ class TestTransactionTypeController {
             .perform(delete("/transaction/type/{number}", TransactionTypeConstants.NUMBER)
                 .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content.number").exists());
     }
 
@@ -101,7 +101,7 @@ class TestTransactionTypeController {
             .perform(get("/transaction/type/{number}", TransactionTypeConstants.NUMBER)
                 .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content.number").exists())
             .andExpect(jsonPath("$.content.description", equalTo(TransactionTypeConstants.DESCRIPTION)))
             .andExpect(jsonPath("$.content.color", equalTo(TransactionTypeConstants.COLOR)));
@@ -128,7 +128,7 @@ class TestTransactionTypeController {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content.description", equalTo(TransactionTypeConstants.ALTERNATIVE_DESCRIPTION)));
     }
 

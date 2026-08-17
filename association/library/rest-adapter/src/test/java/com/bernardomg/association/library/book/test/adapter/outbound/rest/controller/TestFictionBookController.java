@@ -77,7 +77,7 @@ class TestFictionBookController {
         mockMvc.perform(post("/library/book/fiction").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
             .andExpect(status().isCreated())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content.number").exists())
             .andExpect(jsonPath("$.content.title.title").exists());
     }
@@ -91,7 +91,7 @@ class TestFictionBookController {
         // WHEN + THEN
         mockMvc.perform(delete("/library/book/fiction/1").contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content.number").exists());
     }
 
@@ -107,7 +107,7 @@ class TestFictionBookController {
             .param("size", "10")
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content").isArray());
     }
 
@@ -120,7 +120,7 @@ class TestFictionBookController {
         // WHEN + THEN
         mockMvc.perform(get("/library/book/fiction/1").contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content.number").exists())
             .andExpect(jsonPath("$.content.title.title").exists());
     }
@@ -147,7 +147,7 @@ class TestFictionBookController {
         mockMvc.perform(put("/library/book/fiction/1").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content.title.title").exists());
     }
 

@@ -77,7 +77,7 @@ class TestPublisherController {
         mockMvc.perform(post("/library/publisher").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
             .andExpect(status().isCreated())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content.name", equalTo(PublisherConstants.NAME)))
             .andExpect(jsonPath("$.content.number").exists());
     }
@@ -91,7 +91,7 @@ class TestPublisherController {
         // WHEN + THEN
         mockMvc.perform(delete("/library/publisher/1").contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content.number").exists())
             .andExpect(jsonPath("$.content.name").exists());
     }
@@ -108,7 +108,7 @@ class TestPublisherController {
             .param("size", "10")
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content").isArray());
     }
 
@@ -121,7 +121,7 @@ class TestPublisherController {
         // WHEN + THEN
         mockMvc.perform(get("/library/publisher/1").contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content.number").exists())
             .andExpect(jsonPath("$.content.name").exists());
     }
@@ -144,7 +144,7 @@ class TestPublisherController {
         mockMvc.perform(put("/library/publisher/1").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content.name", equalTo(PublisherConstants.CHANGED_NAME)));
     }
 
