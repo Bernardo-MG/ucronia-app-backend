@@ -143,12 +143,12 @@ public final class JpaFeeRepository implements FeeRepository {
             found = feeSpringRepository.findAll(pageable)
                 .map(FeeEntityMapper::toDomain);
         } else {
-            pageable = SpringPagination.toPageable(pagination, sorting);
+            pageable = SpringPagination.toPageable(pagination, fixedSorting);
             found = feeSpringRepository.findAll(spec.get(), pageable)
                 .map(FeeEntityMapper::toDomain);
         }
 
-        log.debug("Found all fees with query {}, pagination {} and sorting {}: {}", filter, pagination, sorting, found);
+        log.debug("Found all fees with query {}, pagination {} and sorting {}: {}", filter, pagination, fixedSorting, found);
 
         return SpringPagination.toPage(found);
     }
