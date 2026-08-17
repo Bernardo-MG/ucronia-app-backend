@@ -66,7 +66,6 @@ class ITFeeRepositoryFindAllSort {
     @PositiveFeeType
     @MultipleProfilesAccents
     @MultipleFees
-    @Disabled("Database dependant")
     void testFindAll_Accents_Name_Asc() {
         final Page<Fee>  fees;
         final FeeFilter  feeFilter;
@@ -90,8 +89,8 @@ class ITFeeRepositoryFindAllSort {
                 .name()
                 .fullName())
             .as("fee full names")
-            .containsExactly("Name a Last name 1", "Name é Last name 2", "Name i Last name 3", "Name o Last name 4",
-                "Name u Last name 5");
+            .containsExactly("Name á Last name 1", "Name é Last name 2", "Name í Last name 3", "Name ó Last name 4",
+                "Name ú Last name 5");
     }
 
     @Test

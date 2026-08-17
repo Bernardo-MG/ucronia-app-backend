@@ -173,3 +173,24 @@ databaseChangeLog:
             columnDataType: bigint
             incrementBy: 1
             startWith: 1
+  - changeSet:
+      id: spanish_names
+      author: Bernardo
+      dbms: postgresql
+      changes:
+        - sql:
+            sql: |
+              CREATE COLLATION IF NOT EXISTS directory.spanish_names
+                (provider = icu, locale = 'es-ES-u-ks-level2');
+
+              ALTER TABLE directory.profiles
+                ALTER COLUMN first_name TYPE varchar(50)
+                COLLATE directory.spanish_names;
+
+              ALTER TABLE directory.profiles
+                ALTER COLUMN last_name TYPE varchar(50)
+                COLLATE directory.spanish_names;
+
+              ALTER TABLE directory.profiles
+                ALTER COLUMN nickname TYPE varchar(50)
+                COLLATE directory.spanish_names;
