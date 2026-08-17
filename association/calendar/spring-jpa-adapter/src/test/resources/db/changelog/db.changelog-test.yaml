@@ -1,0 +1,15 @@
+databaseChangeLog:
+  - include:
+      file: classpath:db/changelog/auth/initialize.yaml
+  - include:
+      file: profile.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: calendar.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: activity.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: scheduled_game.yaml
+      relativeToChangelogFile: true

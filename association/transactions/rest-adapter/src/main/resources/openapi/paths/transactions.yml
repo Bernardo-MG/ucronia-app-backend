@@ -41,7 +41,7 @@ get:
         $ref: '../common/dates.yml#/components/schemas/Date'
     - name: description
       in: query
-      description: Substring to filter d by.
+      description: Description to filter by.
       schema:
         type: string
   responses:

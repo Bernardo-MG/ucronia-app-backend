@@ -43,8 +43,6 @@ public interface GameSystemRepository {
 
     public Page<GameSystem> findAll(final Pagination pagination, final Sorting sorting);
 
-    public long findNextNumber();
-
     public Optional<GameSystem> findOne(final long number);
 
     public GameSystem save(final GameSystem gameSystem);

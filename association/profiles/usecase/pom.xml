@@ -11,7 +11,7 @@
    <parent>
       <groupId>com.bernardomg.association.profile</groupId>
       <artifactId>association-profile</artifactId>
-      <version>0.7.7</version>
+      <version>0.7.8</version>
    </parent>
 
    <!-- ********************************************** -->
@@ -55,18 +55,16 @@
          <artifactId>pagination</artifactId>
       </dependency>
       <!-- ============================================== -->
-      <!-- =============== APACHE POI =================== -->
+      <!-- ================== SPRING ==================== -->
       <!-- ============================================== -->
       <dependency>
-         <!-- Apache POI -->
-         <groupId>org.apache.poi</groupId>
-         <artifactId>poi</artifactId>
+         <!-- Spring context -->
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-context</artifactId>
       </dependency>
-      <dependency>
-         <!-- Apache POI OOXML -->
-         <groupId>org.apache.poi</groupId>
-         <artifactId>poi-ooxml</artifactId>
-      </dependency>
+      <!-- ============================================== -->
+      <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
+      <!-- ============================================== -->
       <dependency>
          <groupId>com.bernardomg.association.profile</groupId>
          <artifactId>association-profile-testing</artifactId>

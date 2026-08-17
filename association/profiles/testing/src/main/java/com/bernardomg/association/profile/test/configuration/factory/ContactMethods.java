@@ -17,4 +17,8 @@ public final class ContactMethods {
         return new ContactMethod(ContactMethodConstants.NUMBER, ContactMethodConstants.PHONE);
     }
 
+    private ContactMethods() {
+        super();
+    }
+
 }

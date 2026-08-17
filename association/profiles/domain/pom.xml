@@ -11,7 +11,7 @@
    <parent>
       <groupId>com.bernardomg.association.profile</groupId>
       <artifactId>association-profile</artifactId>
-      <version>0.7.7</version>
+      <version>0.7.8</version>
    </parent>
 
    <!-- ********************************************** -->
@@ -32,6 +32,14 @@
       <dependency>
          <groupId>com.bernardomg.framework</groupId>
          <artifactId>pagination</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.framework</groupId>
+         <artifactId>event</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.framework.security</groupId>
+         <artifactId>security-model</artifactId>
       </dependency>
       <dependency>
          <groupId>org.apache.commons</groupId>

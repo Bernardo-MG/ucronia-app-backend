@@ -11,7 +11,7 @@
    <parent>
       <groupId>com.bernardomg.association.security</groupId>
       <artifactId>association-security</artifactId>
-      <version>0.7.7</version>
+      <version>0.7.8</version>
    </parent>
 
    <!-- ********************************************** -->
@@ -22,17 +22,38 @@
    <artifactId>association-security-spring-jpa-adapter</artifactId>
    <packaging>jar</packaging>
 
-   <name>Association Security REST Adapter</name>
+   <name>Association Security Spring JPA Adapter</name>
 
    <!-- ********************************************** -->
    <!-- *************** DEPENDENCIES ***************** -->
    <!-- ********************************************** -->
 
    <dependencies>
+      <!-- ============================================== -->
+      <!-- ================ FRAMEWORK =================== -->
+      <!-- ============================================== -->
+      <dependency>
+         <groupId>com.bernardomg.framework.security</groupId>
+         <artifactId>security-jpa-model</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.framework.security</groupId>
+         <artifactId>security-usecase</artifactId>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- ================= PROJECT ==================== -->
+      <!-- ============================================== -->
       <dependency>
          <groupId>com.bernardomg.association.security</groupId>
          <artifactId>association-security-domain</artifactId>
       </dependency>
+      <dependency>
+         <groupId>com.bernardomg.association.profile</groupId>
+         <artifactId>association-profile-spring-jpa-adapter</artifactId>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- ================== SPRING ==================== -->
+      <!-- ============================================== -->
       <dependency>
          <groupId>org.springframework.data</groupId>
          <artifactId>spring-data-jpa</artifactId>
@@ -45,15 +66,6 @@
          <groupId>jakarta.persistence</groupId>
          <artifactId>jakarta.persistence-api</artifactId>
       </dependency>
-      <dependency>
-         <groupId>jakarta.transaction</groupId>
-         <artifactId>jakarta.transaction-api</artifactId>
-      </dependency>
-      <dependency>
-	     <groupId>org.hibernate.orm</groupId>
-	     <artifactId>hibernate-core</artifactId>
-	     <scope>provided</scope>
-	  </dependency>
       <!-- ============================================== -->
       <!-- ================ VALIDATION ================== -->
       <!-- ============================================== -->
@@ -73,11 +85,6 @@
       <dependency>
          <groupId>com.bernardomg</groupId>
          <artifactId>testing</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.association.profile</groupId>
-         <artifactId>association-profile-spring-jpa-adapter</artifactId>
          <scope>test</scope>
       </dependency>
       <dependency>
@@ -118,6 +125,11 @@
       <dependency>
          <groupId>org.hibernate.validator</groupId>
          <artifactId>hibernate-validator</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.framework.security</groupId>
+         <artifactId>security-adapter</artifactId>
          <scope>test</scope>
       </dependency>
    </dependencies>

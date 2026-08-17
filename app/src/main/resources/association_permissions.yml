@@ -1,10 +1,37 @@
 actions:
   - view
 permissions:
+  - resource: activity
+    actions:
+      - create
+      - read
+      - update
+      - delete
+      - view
+  - resource: scheduled_game
+    actions:
+      - create
+      - read
+      - update
+      - delete
+      - view
+  - resource: calendar_type
+    actions:
+      - create
+      - read
+      - update
+      - delete
+      - view
   - resource: permission
     actions:
       - read
   - resource: transaction
+    actions:
+      - create
+      - read
+      - update
+      - delete
+  - resource: transaction_type
     actions:
       - create
       - read
@@ -122,6 +149,12 @@ permissions:
       - update
       - delete
       - view
+  - resource: key
+    actions:
+      - create
+      - read
+      - update
+      - delete
   - resource: security
     actions:
       - view

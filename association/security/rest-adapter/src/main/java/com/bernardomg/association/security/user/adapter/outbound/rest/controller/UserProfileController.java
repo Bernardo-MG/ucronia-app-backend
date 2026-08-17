@@ -30,13 +30,13 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.security.account.domain.model.ProfileAccount.Profile;
 import com.bernardomg.association.security.adapter.outbound.rest.controller.UserProfileApi;
 import com.bernardomg.association.security.adapter.outbound.rest.dto.ProfileResponseDto;
 import com.bernardomg.association.security.user.adapter.outbound.rest.model.UserProfileDtoMapper;
+import com.bernardomg.association.security.user.domain.model.UserProfile;
 import com.bernardomg.association.security.user.usecase.service.UserProfileService;
-import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
-import com.bernardomg.security.permission.domain.constant.Actions;
+import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
+import com.bernardomg.security.domain.permission.constant.Actions;
 
 /**
  * User member REST controller.
@@ -60,7 +60,7 @@ public class UserProfileController implements UserProfileApi {
     @Override
     @RequireResourceAuthorization(resource = "USER", action = Actions.UPDATE)
     public ProfileResponseDto assignProfileToUser(final String username, final Long memberNumber) {
-        final Profile profile;
+        final UserProfile profile;
 
         profile = service.assignProfile(username, memberNumber);
         return UserProfileDtoMapper.toResponseDto(profile);
@@ -70,7 +70,7 @@ public class UserProfileController implements UserProfileApi {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAuthorization(resource = "USER", action = Actions.READ)
     public ProfileResponseDto getAssignedProfile(final String username) {
-        final Optional<Profile> profile;
+        final Optional<UserProfile> profile;
 
         profile = service.getProfile(username);
 
@@ -80,7 +80,7 @@ public class UserProfileController implements UserProfileApi {
     @Override
     @RequireResourceAuthorization(resource = "USER", action = Actions.UPDATE)
     public ProfileResponseDto unassignProfile(final String username) {
-        final Profile profile;
+        final UserProfile profile;
 
         profile = service.unassignProfile(username);
 

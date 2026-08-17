@@ -9,9 +9,11 @@ components:
         results:
           type: number
           format: float
+          minimum: 0
         total:
           type: number
           format: float
+          minimum: 0
     TransactionMonthlyEvolutionResponse:
       type: object
       properties:

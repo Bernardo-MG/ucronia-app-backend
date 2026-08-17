@@ -1,0 +1,72 @@
+databaseChangeLog:
+  - changeSet:
+      id: scheduled_game
+      author: Bernardo
+      changes:
+        - createTable:
+            schemaName: calendar
+            tableName: scheduled_games
+            columns:
+              - column:
+                  name: calendar_info
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    foreignKeyName: fk_scheduled_games_calendar_info
+                    references: calendar.calendar_info(id)
+                    deleteCascade: true
+              - column:
+                  name: master_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: max_players
+                  type: bigint
+                  defaultValueNumeric: 1
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            constraintName: fk_scheduled_games_master
+            baseTableSchemaName: calendar
+            baseTableName: scheduled_games
+            baseColumnNames: master_id
+            referencedTableSchemaName: directory
+            referencedTableName: profiles
+            referencedColumnNames: id
+            onDelete: SET NULL
+  - changeSet:
+      id: scheduled_game_initial_data
+      author: Bernardo
+      changes:
+        - insert:
+            schemaName: calendar
+            tableName: calendar_type
+            columns:
+              - column:
+                  name: number
+                  valueNumeric: 2
+              - column:
+                  name: name
+                  value: Oneshot
+              - column:
+                  name: color
+                  value: '#008000'
+        - insert:
+            schemaName: calendar
+            tableName: calendar_type
+            columns:
+              - column:
+                  name: number
+                  valueNumeric: 3
+              - column:
+                  name: name
+                  value: Campaña
+              - column:
+                  name: color
+                  value: '#0000FF'
+      modifySql:
+        - append:
+            dbms: mysql
+            value: ' ENGINE=InnoDB DEFAULT CHARSET=latin1'

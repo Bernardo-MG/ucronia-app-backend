@@ -33,27 +33,41 @@ import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.bernardomg.security.domain.audit.model.AuditDetails;
+
 public record Profile(Optional<String> identifier, Long number, Name name, Optional<Instant> birthDate,
         Collection<ContactChannel> contactChannels, Optional<String> address, Optional<String> comments,
-        Set<String> types) {
+        Set<String> types, AuditDetails audit) {
 
     public Profile(final Optional<String> identifier, final Long number, final Name name,
             final Optional<Instant> birthDate, final Collection<ContactChannel> contactChannels,
-            final Optional<String> address, final Optional<String> comments, final Set<String> types) {
-        Objects.requireNonNull(identifier);
-        Objects.requireNonNull(address);
-        Objects.requireNonNull(comments);
-        Objects.requireNonNull(types);
-        Objects.requireNonNull(contactChannels);
+            final Optional<String> address, final Optional<String> comments, final Set<String> types,
+            final AuditDetails audit) {
+        Objects.requireNonNull(identifier, "Identifier can't be null");
+        Objects.requireNonNull(number, "Number can't be null");
+        Objects.requireNonNull(name, "Name can't be null");
+        Objects.requireNonNull(birthDate, "Birth date can't be null");
+        Objects.requireNonNull(address, "Address can't be null");
+        Objects.requireNonNull(comments, "Comments can't be null");
+        Objects.requireNonNull(types, "Types can't be null");
+        Objects.requireNonNull(contactChannels, "Contact channels can't be null");
+        Objects.requireNonNull(audit, "Audit can't be null");
 
         this.identifier = handleEmpty(identifier);
-        this.number = Objects.requireNonNull(number);
-        this.name = Objects.requireNonNull(name);
-        this.birthDate = Objects.requireNonNull(birthDate);
+        this.number = number;
+        this.name = name;
+        this.birthDate = birthDate;
         this.contactChannels = List.copyOf(contactChannels);
         this.address = handleEmpty(address);
         this.comments = handleEmpty(comments);
         this.types = Set.copyOf(types);
+        this.audit = audit;
+    }
+
+    public Profile(final Optional<String> identifier, final Long number, final Name name,
+            final Optional<Instant> birthDate, final Collection<ContactChannel> contactChannels,
+            final Optional<String> address, final Optional<String> comments, final Set<String> types) {
+        this(identifier, number, name, birthDate, contactChannels, address, comments, types, new AuditDetails());
     }
 
     private final static Optional<String> handleEmpty(final Optional<String> value) {
@@ -69,34 +83,6 @@ public record Profile(Optional<String> identifier, Long number, Name name, Optio
         }
 
         return result;
-    }
-
-    public record Name(String firstName, String lastName) {
-
-        public Name(final String firstName, final String lastName) {
-            Objects.requireNonNull(firstName);
-            Objects.requireNonNull(lastName);
-
-            this.firstName = StringUtils.trim(firstName);
-            this.lastName = StringUtils.trim(lastName);
-        }
-
-        public final String fullName() {
-            return String.format("%s %s", firstName, lastName)
-                .trim();
-        }
-
-    }
-
-    public record ContactChannel(ContactMethod contactMethod, String detail) {
-
-        public ContactChannel(final ContactMethod contactMethod, final String detail) {
-            Objects.requireNonNull(detail);
-
-            this.contactMethod = Objects.requireNonNull(contactMethod);
-            this.detail = StringUtils.trim(detail);
-        }
-
     }
 
 }

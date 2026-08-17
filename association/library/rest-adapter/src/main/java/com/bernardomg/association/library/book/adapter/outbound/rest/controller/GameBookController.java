@@ -35,17 +35,15 @@ import com.bernardomg.association.library.adapter.outbound.rest.dto.GameBookPage
 import com.bernardomg.association.library.adapter.outbound.rest.dto.GameBookResponseDto;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.GameBookUpdateDto;
 import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookDtoMapper;
-import com.bernardomg.association.library.book.domain.model.BookFilter;
+import com.bernardomg.association.library.book.domain.filter.BookFilter;
 import com.bernardomg.association.library.book.domain.model.GameBook;
 import com.bernardomg.association.library.book.usecase.service.GameBookService;
+import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.web.WebSorting;
-import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
-import com.bernardomg.security.permission.domain.constant.Actions;
-
-import jakarta.validation.Valid;
+import com.bernardomg.security.domain.permission.constant.Actions;
 
 /**
  * Game book REST controller.
@@ -68,7 +66,7 @@ public class GameBookController implements GameBookApi {
 
     @Override
     @RequireResourceAuthorization(resource = "LIBRARY_BOOK", action = Actions.CREATE)
-    public GameBookResponseDto createGameBook(@Valid final BookCreationDto bookCreationDto) {
+    public GameBookResponseDto createGameBook(final BookCreationDto bookCreationDto) {
         final GameBook gameBook;
 
         gameBook = service.create(BookDtoMapper.toGameDomain(bookCreationDto));
@@ -88,8 +86,8 @@ public class GameBookController implements GameBookApi {
 
     @Override
     @RequireResourceAuthorization(resource = "LIBRARY_BOOK", action = Actions.READ)
-    public GameBookPageResponseDto getAllGameBooks(@Valid final Integer page, @Valid final Integer size,
-            @Valid final List<String> sort, @Valid final String title) {
+    public GameBookPageResponseDto getAllGameBooks(final Integer page, final Integer size, final List<String> sort,
+            final String title) {
         final Pagination     pagination;
         final Sorting        sorting;
         final Page<GameBook> gameBooks;
@@ -115,7 +113,7 @@ public class GameBookController implements GameBookApi {
 
     @Override
     @RequireResourceAuthorization(resource = "LIBRARY_BOOK", action = Actions.UPDATE)
-    public GameBookResponseDto updateGameBook(final Long number, @Valid final GameBookUpdateDto gameBookUpdateDto) {
+    public GameBookResponseDto updateGameBook(final Long number, final GameBookUpdateDto gameBookUpdateDto) {
         final GameBook updated;
         final GameBook gameBook;
 

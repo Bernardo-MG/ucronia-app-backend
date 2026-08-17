@@ -37,6 +37,31 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                   defaultValue: 'string'
+              # Audit columns
+              - column:
+                  name: created_at
+                  type: datetime
+                  constraints:
+                    nullable: true
+              - column:
+                  name: created_by
+                  type: bigint
+                  constraints:
+                    nullable: true
+                    foreignKeyName: fk_fees_created_by_user
+                    references: security.users(id)
+              - column:
+                  name: updated_at
+                  type: datetime
+                  constraints:
+                    nullable: true
+              - column:
+                  name: updated_by
+                  type: bigint
+                  constraints:
+                    nullable: true
+                    foreignKeyName: fk_fees_updated_by_user
+                    references: security.users(id)
         - addAutoIncrement:
             schemaName: configuration
             tableName: settings
@@ -44,6 +69,13 @@ databaseChangeLog:
             columnDataType: bigint
             incrementBy: 1
             startWith: 1
+        - createIndex:
+            schemaName: configuration
+            tableName: settings
+            indexName: idx_settings_code
+            columns:
+              - column:
+                  name: code
       modifySql:
         - append:
             dbms: mysql

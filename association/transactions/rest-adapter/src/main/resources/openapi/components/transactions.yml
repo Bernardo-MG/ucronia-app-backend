@@ -39,6 +39,7 @@ components:
           maxLength: 200
     Transaction:
       type: object
+      required: [index, date, amount, description]
       properties:
         index:
           $ref: '../common/ids.yml#/components/schemas/Id'
@@ -49,6 +50,9 @@ components:
           format: float
         description:
           type: string
+          maxLength: 200
+        audit:
+          $ref: 'audit.yml#/components/schemas/AuditDetails'
     TransactionMonthsRange:
       type: object
       required: [months]

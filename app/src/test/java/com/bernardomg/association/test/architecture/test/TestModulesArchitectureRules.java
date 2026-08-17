@@ -15,6 +15,7 @@ public class TestModulesArchitectureRules {
     @ArchTest
     static final ArchRule module_dependencies_are_respected = layeredArchitecture().consideringAllDependencies()
 
+        // Profile modules
         .layer("Profiles")
         .definedBy("com.bernardomg.association.profile..")
         .layer("Members")
@@ -23,18 +24,23 @@ public class TestModulesArchitectureRules {
         .definedBy("com.bernardomg.association.sponsor..")
         .layer("Guests")
         .definedBy("com.bernardomg.association.guest..")
+        .layer("Keys")
+        .definedBy("com.bernardomg.association.key..")
+
         .layer("Transactions")
         .definedBy("com.bernardomg.association.transaction..")
         .layer("Fees")
         .definedBy("com.bernardomg.association.fee..")
+        .layer("Calendar")
+        .definedBy("com.bernardomg.association.calendar..")
+        .layer("Activity")
+        .definedBy("com.bernardomg.association.calendar.activity..")
 
         // Security modules
         .layer("Users")
         .definedBy("com.bernardomg.association.security.user..")
         .layer("Account")
         .definedBy("com.bernardomg.association.security.account..")
-        .layer("Security configuration")
-        .definedBy("com.bernardomg.association.security.configuration..")
 
         // Misc modules
         .layer("Settings")
@@ -59,31 +65,37 @@ public class TestModulesArchitectureRules {
         .definedBy("com.bernardomg.association.library.configuration..")
 
         .whereLayer("Profiles")
-        .mayOnlyBeAccessedByLayers("Members", "Sponsors", "Guests", "Users", "Account", "Fees", "Library books",
-            "Library lending", "Library configuration", "Security configuration")
+        // TODO: library shouldn't have access
+        .mayOnlyBeAccessedByLayers("Guests", "Sponsors", "Members", "Fees", "Library books", "Library configuration",
+            "Users", "Account")
         .whereLayer("Members")
-        .mayOnlyBeAccessedByLayers("Fees", "Account", "Library books", "Library configuration")
+        .mayOnlyBeAccessedByLayers("Fees")
         .whereLayer("Sponsors")
         .mayNotBeAccessedByAnyLayer()
         .whereLayer("Guests")
         .mayNotBeAccessedByAnyLayer()
-        .whereLayer("Transactions")
-        .mayOnlyBeAccessedByLayers("Fees")
-        .whereLayer("Fees")
-        // TODO: circular dependency
+        .whereLayer("Keys")
         .mayOnlyBeAccessedByLayers("Members")
+        .whereLayer("Transactions")
+        .mayNotBeAccessedByAnyLayer()
+        .whereLayer("Fees")
+        .mayOnlyBeAccessedByLayers("Members")
+        .whereLayer("Calendar")
+        .mayNotBeAccessedByAnyLayer()
+        .whereLayer("Activity")
+        .mayNotBeAccessedByAnyLayer()
 
         // Security modules
         .whereLayer("Users")
-        .mayOnlyBeAccessedByLayers("Account", "Fees", "Security configuration")
+        .mayOnlyBeAccessedByLayers("Fees")
         .whereLayer("Account")
-        .mayOnlyBeAccessedByLayers("Security configuration", "Fees", "Users")
+        .mayNotBeAccessedByAnyLayer()
 
         // Misc modules
         .whereLayer("Settings")
-        .mayOnlyBeAccessedByLayers("Association settings", "Fees", "Members")
+        .mayOnlyBeAccessedByLayers("Association settings")
         .whereLayer("Association settings")
-        .mayOnlyBeAccessedByLayers("Fees")
+        .mayNotBeAccessedByAnyLayer()
 
         // Library modules
         .whereLayer("Library authors")

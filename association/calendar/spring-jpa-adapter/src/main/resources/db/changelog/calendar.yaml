@@ -1,0 +1,423 @@
+databaseChangeLog:
+  - changeSet:
+      id: calendar_schema
+      author: Bernardo
+      changes:
+        - sqlFile:
+            encoding: UTF-8
+            path: sql/create_calendar_schema.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: true
+  - changeSet:
+      id: calendar
+      author: Bernardo
+      changes:
+
+        - createTable:
+            schemaName: calendar
+            tableName: calendar_type
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: number
+                  type: bigint
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: color
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+        - addAutoIncrement:
+            schemaName: calendar
+            tableName: calendar_type
+            columnName: id
+            columnDataType: bigint
+            incrementBy: 1
+            startWith: 1
+        - createIndex:
+            schemaName: calendar
+            tableName: calendar_type
+            indexName: idx_calendar_type_number
+            columns:
+              - column:
+                  name: number
+
+        - createTable:
+            schemaName: calendar
+            tableName: calendar_status
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(50)
+                  constraints:
+                    unique: true
+                    nullable: false
+        - addAutoIncrement:
+            schemaName: calendar
+            tableName: calendar_status
+            columnName: id
+            columnDataType: bigint
+            incrementBy: 1
+            startWith: 1
+
+        - createTable:
+            schemaName: calendar
+            tableName: recurrence_status
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(50)
+                  constraints:
+                    unique: true
+                    nullable: false
+        - addAutoIncrement:
+            schemaName: calendar
+            tableName: recurrence_status
+            columnName: id
+            columnDataType: bigint
+            incrementBy: 1
+            startWith: 1
+
+        - createTable:
+            schemaName: calendar
+            tableName: calendar_info
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: number
+                  type: bigint
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: calendar_status_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_calendar_info_calendar_status
+                    references: calendar.calendar_status(id)
+              - column:
+                  name: title
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(200)
+                  constraints:
+                    nullable: true
+                  defaultValue: ''
+              - column:
+                  name: image
+                  type: varchar(200)
+                  constraints:
+                    nullable: true
+                  defaultValue: ''
+              - column:
+                  name: location
+                  type: varchar(200)
+                  constraints:
+                    nullable: true
+                  defaultValue: ''
+              - column:
+                  name: start_date
+                  type: datetime
+                  constraints:
+                    nullable: true
+              - column:
+                  name: recurrence_interval
+                  type: bigint
+                  constraints:
+                    nullable: true
+              - column:
+                  name: recurrence_unit
+                  type: varchar(6)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: recurrence_last_evaluated_at
+                  type: datetime
+                  constraints:
+                    nullable: true
+              - column:
+                  name: recurrence_status_id
+                  type: bigint
+                  constraints:
+                    nullable: true
+                    foreignKeyName: fk_calendar_info_recurrence_status
+                    references: calendar.recurrence_status(id)
+              # Audit columns
+              - column:
+                  name: created_at
+                  type: datetime
+                  constraints:
+                    nullable: true
+              - column:
+                  name: created_by
+                  type: bigint
+                  constraints:
+                    nullable: true
+                    foreignKeyName: fk_fees_created_by_user
+                    references: security.users(id)
+              - column:
+                  name: updated_at
+                  type: datetime
+                  constraints:
+                    nullable: true
+              - column:
+                  name: updated_by
+                  type: bigint
+                  constraints:
+                    nullable: true
+                    foreignKeyName: fk_fees_updated_by_user
+                    references: security.users(id)
+        - addAutoIncrement:
+            schemaName: calendar
+            tableName: calendar_info
+            columnName: id
+            columnDataType: bigint
+            incrementBy: 1
+            startWith: 1
+        - createIndex:
+            schemaName: calendar
+            tableName: calendar_info
+            indexName: idx_calendar_info_number
+            columns:
+              - column:
+                  name: number
+
+        - createTable:
+            schemaName: calendar
+            tableName: calendar_dates
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: start_date
+                  type: datetime
+                  constraints:
+                    nullable: false
+              - column:
+                  name: end_date
+                  type: datetime
+                  constraints:
+                    nullable: false
+              # Audit columns
+              - column:
+                  name: created_at
+                  type: datetime
+                  constraints:
+                    nullable: true
+              - column:
+                  name: created_by
+                  type: bigint
+                  constraints:
+                    nullable: true
+                    foreignKeyName: fk_fees_created_by_user
+                    references: security.users(id)
+              - column:
+                  name: updated_at
+                  type: datetime
+                  constraints:
+                    nullable: true
+              - column:
+                  name: updated_by
+                  type: bigint
+                  constraints:
+                    nullable: true
+                    foreignKeyName: fk_fees_updated_by_user
+                    references: security.users(id)
+        - addAutoIncrement:
+            schemaName: calendar
+            tableName: calendar_dates
+            columnName: id
+            columnDataType: bigint
+            incrementBy: 1
+            startWith: 1
+
+  - changeSet:
+      id: calendar_relationships
+      author: Bernardo
+      changes:
+
+        - createTable:
+            schemaName: calendar
+            tableName: calendar_info_types
+            columns:
+              - column:
+                  name: calendar_info_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_calendar_info_types_calendar_info
+                    references: calendar.calendar_info(id)
+                    deleteCascade: true
+              - column:
+                  name: calendar_type_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_calendar_info_types_calendar_type
+                    references: calendar.calendar_type(id)
+                    deleteCascade: true
+        - addPrimaryKey:
+            schemaName: calendar
+            tableName: calendar_info_types
+            columnNames: calendar_info_id, calendar_type_id
+            constraintName: pk_calendar_info_types
+
+        - createTable:
+            schemaName: calendar
+            tableName: calendar_info_calendar_status
+            columns:
+              - column:
+                  name: calendar_info_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_calendar_info_calendar_status_calendar_info
+                    references: calendar.calendar_info(id)
+                    deleteCascade: true
+              - column:
+                  name: calendar_status_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_calendar_info_calendar_status_calendar_status
+                    references: calendar.calendar_status(id)
+                    deleteCascade: true
+        - addPrimaryKey:
+            schemaName: calendar
+            tableName: calendar_info_calendar_status
+            columnNames: calendar_info_id, calendar_status_id
+            constraintName: pk_calendar_info_calendar_status
+
+        - createTable:
+            schemaName: calendar
+            tableName: calendar_info_dates
+            columns:
+              - column:
+                  name: calendar_info_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_calendar_info_dates_calendar_info
+                    references: calendar.calendar_info(id)
+                    deleteCascade: true
+              - column:
+                  name: calendar_date_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_calendar_info_dates_calendar_dates
+                    references: calendar.calendar_dates(id)
+                    deleteCascade: true
+        - addPrimaryKey:
+            schemaName: calendar
+            tableName: calendar_info_dates
+            columnNames: calendar_info_id, calendar_date_id
+            constraintName: pk_calendar_info_dates
+
+  - changeSet:
+      id: calendar_status_initial_data
+      author: Bernardo
+      changes:
+        - insert:
+            schemaName: calendar
+            tableName: calendar_status
+            columns:
+              - column:
+                  name: name
+                  value: DRAFT
+        - insert:
+            schemaName: calendar
+            tableName: calendar_status
+            columns:
+              - column:
+                  name: name
+                  value: PENDING_REVIEW
+        - insert:
+            schemaName: calendar
+            tableName: calendar_status
+            columns:
+              - column:
+                  name: name
+                  value: PUBLISHED
+        - insert:
+            schemaName: calendar
+            tableName: calendar_status
+            columns:
+              - column:
+                  name: name
+                  value: CANCELLED
+        - insert:
+            schemaName: calendar
+            tableName: calendar_status
+            columns:
+              - column:
+                  name: name
+                  value: REJECTED
+
+  - changeSet:
+      id: calendar_recurrence_status_initial_data
+      author: Bernardo
+      changes:
+        - insert:
+            schemaName: calendar
+            tableName: recurrence_status
+            columns:
+              - column:
+                  name: name
+                  value: ACTIVE
+        - insert:
+            schemaName: calendar
+            tableName: recurrence_status
+            columns:
+              - column:
+                  name: name
+                  value: CANCELLED
+        - insert:
+            schemaName: calendar
+            tableName: recurrence_status
+            columns:
+              - column:
+                  name: name
+                  value: COMPLETED
+      modifySql:
+        - append:
+            dbms: mysql
+            value: ' ENGINE=InnoDB DEFAULT CHARSET=latin1'

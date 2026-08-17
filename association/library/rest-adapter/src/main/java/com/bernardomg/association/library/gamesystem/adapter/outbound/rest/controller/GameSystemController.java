@@ -37,15 +37,12 @@ import com.bernardomg.association.library.adapter.outbound.rest.dto.GameSystemUp
 import com.bernardomg.association.library.gamesystem.adapter.outbound.rest.model.GameSystemDtoMapper;
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.gamesystem.usecase.service.GameSystemService;
+import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.web.WebSorting;
-import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
-import com.bernardomg.security.permission.domain.constant.Actions;
-
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
+import com.bernardomg.security.domain.permission.constant.Actions;
 
 /**
  * Author REST controller.
@@ -68,7 +65,7 @@ public class GameSystemController implements GameSystemApi {
 
     @Override
     @RequireResourceAuthorization(resource = "LIBRARY_GAME_SYSTEM", action = Actions.CREATE)
-    public GameSystemResponseDto createGameSystem(@Valid final GameSystemCreationDto gameSystemCreationDto) {
+    public GameSystemResponseDto createGameSystem(final GameSystemCreationDto gameSystemCreationDto) {
         final GameSystem gameSystem;
 
         gameSystem = service.create(new GameSystem(-1L, gameSystemCreationDto.getName()));
@@ -88,8 +85,8 @@ public class GameSystemController implements GameSystemApi {
 
     @Override
     @RequireResourceAuthorization(resource = "LIBRARY_GAME_SYSTEM", action = Actions.READ)
-    public GameSystemPageResponseDto getAllGameSystems(@Min(0) @Valid final Integer page,
-            @Min(1) @Valid final Integer size, @Valid final List<String> sort) {
+    public GameSystemPageResponseDto getAllGameSystems(final Integer page, final Integer size,
+            final List<String> sort) {
         final Pagination       pagination;
         final Sorting          sorting;
         final Page<GameSystem> gameSystems;
@@ -113,8 +110,7 @@ public class GameSystemController implements GameSystemApi {
 
     @Override
     @RequireResourceAuthorization(resource = "LIBRARY_AUTHOR", action = Actions.UPDATE)
-    public GameSystemResponseDto updateGameSystem(final Long number,
-            @Valid final GameSystemUpdateDto gameSystemUpdateDto) {
+    public GameSystemResponseDto updateGameSystem(final Long number, final GameSystemUpdateDto gameSystemUpdateDto) {
         final GameSystem updated;
         final GameSystem gameSystem;
 

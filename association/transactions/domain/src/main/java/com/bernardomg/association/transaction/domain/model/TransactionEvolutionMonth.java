@@ -30,9 +30,13 @@ import java.util.Objects;
 public record TransactionEvolutionMonth(Instant month, float results, float total) {
 
     public TransactionEvolutionMonth(final Instant month, final float results, final float total) {
-        this.month = Objects.requireNonNull(month);
-        this.results = Objects.requireNonNull(results);
-        this.total = Objects.requireNonNull(total);
+        Objects.requireNonNull(month, "Month can't be null");
+        Objects.requireNonNull(results, "Results can't be null");
+        Objects.requireNonNull(total, "Total can't be null");
+
+        this.month = month;
+        this.results = results;
+        this.total = total;
     }
 
 }

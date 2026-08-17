@@ -33,10 +33,14 @@ components:
           type: string
           example: 'Smith'
           maxLength: 50
+        nickname:
+          type: string
+          example: 'Jhonny'
+          maxLength: 50
         fullName:
           type: string
           example: 'John Smith'
-          maxLength: 100
+          maxLength: 101
     BookCreation:
       type: object
       required: [title, isbn, language]
@@ -109,12 +113,16 @@ components:
       properties:
         supertitle:
           type: string
+          maxLength: 100
         title:
           type: string
+          maxLength: 100
         subtitle:
           type: string
+          maxLength: 100
         fullTitle:
           type: string
+          maxLength: 302
     Donation:
       type: object
       properties:
@@ -134,8 +142,10 @@ components:
           $ref: '#/components/schemas/BookTitle'
         isbn:
           type: string
+          maxLength: 17
         language:
           type: string
+          maxLength: 15
         publishDate:
           $ref: '../common/dates.yml#/components/schemas/Date'
           nullable: true
@@ -156,6 +166,8 @@ components:
         donation:
           $ref: '#/components/schemas/Donation'
           nullable: true
+        audit:
+          $ref: 'audit.yml#/components/schemas/AuditDetails'
     GameBook:
       type: object
       properties:
@@ -165,8 +177,10 @@ components:
           $ref: '#/components/schemas/BookTitle'
         isbn:
           type: string
+          maxLength: 17
         language:
           type: string
+          maxLength: 15
         publishDate:
           $ref: '../common/dates.yml#/components/schemas/Date'
           nullable: true
@@ -191,6 +205,8 @@ components:
         donation:
           $ref: '#/components/schemas/Donation'
           nullable: true
+        audit:
+          $ref: 'audit.yml#/components/schemas/AuditDetails'
     FictionBookPageResponse:
       allOf:
         - $ref: '../common/responses.yml#/components/schemas/PageResponse'

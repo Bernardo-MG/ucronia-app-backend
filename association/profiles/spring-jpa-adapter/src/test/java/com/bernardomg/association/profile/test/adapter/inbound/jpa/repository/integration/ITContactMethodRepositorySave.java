@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.bernardomg.association.profile.TestApplication;
+import com.bernardomg.association.TestApplication;
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactMethodEntity;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ContactMethodSpringRepository;
 import com.bernardomg.association.profile.domain.model.ContactMethod;
@@ -113,6 +113,8 @@ class ITContactMethodRepositorySave {
         // THEN
         Assertions.assertThat(saved)
             .as("contact method")
+            .usingRecursiveComparison()
+            .ignoringFields("number")
             .isEqualTo(ContactMethods.email());
     }
 

@@ -11,7 +11,7 @@
    <parent>
       <groupId>com.bernardomg</groupId>
       <artifactId>ucronia-app-backend</artifactId>
-      <version>0.7.7</version>
+      <version>0.7.8</version>
    </parent>
 
    <!-- ********************************************** -->
@@ -34,6 +34,11 @@
          <artifactId>scheduler-spring-starter</artifactId>
       </dependency>
       <dependency>
+         <!-- Spring WS Starter -->
+         <groupId>com.bernardomg.framework.spring</groupId>
+         <artifactId>spring-ws-starter</artifactId>
+      </dependency>
+      <dependency>
          <groupId>com.bernardomg.settings</groupId>
          <artifactId>settings-spring-starter</artifactId>
       </dependency>
@@ -50,24 +55,12 @@
          <artifactId>association-profile-spring-starter</artifactId>
       </dependency>
       <dependency>
-         <groupId>com.bernardomg.association.member</groupId>
-         <artifactId>association-member-spring-starter</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.association.fee</groupId>
-         <artifactId>association-fee-spring-starter</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.association.guest</groupId>
-         <artifactId>association-guest-spring-starter</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.association.sponsor</groupId>
-         <artifactId>association-sponsor-spring-starter</artifactId>
-      </dependency>
-      <dependency>
          <groupId>com.bernardomg.association.library</groupId>
          <artifactId>association-library-spring-starter</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.association.calendar</groupId>
+         <artifactId>association-calendar-spring-starter</artifactId>
       </dependency>
       <dependency>
          <groupId>com.bernardomg.association.security</groupId>
@@ -159,6 +152,11 @@
          <!-- Spring ORM -->
          <groupId>org.springframework</groupId>
          <artifactId>spring-orm</artifactId>
+      </dependency>
+      <dependency>
+         <!-- Spring Aspects -->
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-aspects</artifactId>
       </dependency>
       <!-- ============================================== -->
       <!-- =============== SPRING BOOT ================== -->

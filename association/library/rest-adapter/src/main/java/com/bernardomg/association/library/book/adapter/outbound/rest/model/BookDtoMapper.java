@@ -30,13 +30,13 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import com.bernardomg.association.library.adapter.outbound.rest.dto.AuditDetailsDto;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.AuditUserDto;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.AuthorDto;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.BookCreationDto;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.BookLendingInfoDto;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.BookTitleDto;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.BookTypeDto;
-import com.bernardomg.association.library.adapter.outbound.rest.dto.BorrowerDto;
-import com.bernardomg.association.library.adapter.outbound.rest.dto.BorrowerNameDto;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.DonationDto;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.DonorDto;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.DonorNameDto;
@@ -63,9 +63,12 @@ import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
+import com.bernardomg.association.profile.domain.model.Name;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
 import com.bernardomg.pagination.domain.Sorting.Property;
+import com.bernardomg.security.domain.audit.model.AuditDetails;
+import com.bernardomg.security.domain.audit.model.AuditDetails.AuditUser;
 
 public final class BookDtoMapper {
 
@@ -111,7 +114,7 @@ public final class BookDtoMapper {
                     .getDonors()
                     .stream()
                     .filter(Objects::nonNull)
-                    .map(d -> new Donor(d.getNumber(), new Donor.Name("", "")))
+                    .map(d -> new Donor(d.getNumber(), new Name("", "", Optional.empty())))
                     .toList();
             }
             if (fictionBookUpdateDto.getDonation()
@@ -208,7 +211,7 @@ public final class BookDtoMapper {
                     .getDonors()
                     .stream()
                     .filter(Objects::nonNull)
-                    .map(d -> new Donor(d.getNumber(), new Donor.Name("", "")))
+                    .map(d -> new Donor(d.getNumber(), new Name("", "", Optional.empty())))
                     .toList();
             }
             if (gameBookUpdateDto.getDonation()
@@ -269,8 +272,8 @@ public final class BookDtoMapper {
 
         title = new Title(supertitle, bookCreationDto.getTitle()
             .getTitle(), subtitle);
-        return new FictionBook(-1, title, bookCreationDto.getIsbn(), bookCreationDto.getLanguage(), Optional.empty(), false,
-            List.of(), List.of(), List.of(), Optional.empty());
+        return new FictionBook(-1, title, bookCreationDto.getIsbn(), bookCreationDto.getLanguage(), Optional.empty(),
+            false, List.of(), List.of(), List.of(), Optional.empty());
     }
 
     public static final FictionBookResponseDto toFictionResponseDto(final Optional<FictionBook> fictionBooks) {
@@ -361,28 +364,41 @@ public final class BookDtoMapper {
         return new GameBookResponseDto().content(toDto(gameBook));
     }
 
+    private static final AuditDetailsDto toDto(final AuditDetails audit) {
+        final AuditDetailsDto dto;
+
+        if (audit == null) {
+            dto = null;
+        } else {
+            dto = new AuditDetailsDto().createdAt(audit.createdAt())
+                .createdBy(toDto(audit.createdBy()))
+                .updatedAt(audit.updatedAt())
+                .updatedBy(toDto(audit.updatedBy()));
+        }
+
+        return dto;
+    }
+
+    private static final AuditUserDto toDto(final AuditUser user) {
+        final AuditUserDto dto;
+
+        if (user == null) {
+            dto = null;
+        } else {
+            dto = new AuditUserDto().email(user.email())
+                .username(user.username())
+                .name(user.name());
+        }
+        return dto;
+    }
+
     private static final AuthorDto toDto(final Author author) {
         return new AuthorDto().number(author.number())
             .name(author.name());
     }
 
     private static final BookLendingInfoDto toDto(final BookLendingInfo lending) {
-        final BorrowerNameDto name;
-        final BorrowerDto     borrower;
-
-        name = new BorrowerNameDto().firstName(lending.borrower()
-            .name()
-            .firstName())
-            .lastName(lending.borrower()
-                .name()
-                .lastName())
-            .fullName(lending.borrower()
-                .name()
-                .fullName());
-        borrower = new BorrowerDto().name(name)
-            .number(lending.borrower()
-                .number());
-        return new BookLendingInfoDto().borrower(borrower)
+        return new BookLendingInfoDto().borrower(lending.borrower())
             .lendingDate(lending.lendingDate())
             .returnDate(lending.returnDate()
                 .orElse(null))
@@ -413,6 +429,9 @@ public final class BookDtoMapper {
             .firstName())
             .lastName(donor.name()
                 .lastName())
+            .nickname(donor.name()
+                .nickname()
+                .orElse(null))
             .fullName(donor.name()
                 .fullName());
         return new DonorDto().number(donor.number())
@@ -463,7 +482,8 @@ public final class BookDtoMapper {
             .publishers(publishers)
             .lendings(lendings)
             .lent(fictionBook.lent())
-            .donation(donation);
+            .donation(donation)
+            .audit(toDto(fictionBook.audit()));
     }
 
     private static final GameBookDto toDto(final GameBook gameBook) {
@@ -520,7 +540,8 @@ public final class BookDtoMapper {
             .lent(gameBook.lent())
             .donation(donation)
             .gameSystem(gameSystem)
-            .bookType(bookType);
+            .bookType(bookType)
+            .audit(toDto(gameBook.audit()));
     }
 
     private static final GameSystemDto toDto(final GameSystem gameSystem) {

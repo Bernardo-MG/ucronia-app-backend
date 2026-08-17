@@ -30,6 +30,6 @@ import com.bernardomg.association.security.account.domain.model.ProfileAccount.P
 
 public interface AccountProfileRepository {
 
-    public Optional<Profile> findOne(final Long number);
+    public Optional<Profile> findByUsername(final String username);
 
 }

@@ -32,19 +32,26 @@ import java.util.Set;
 
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditMetadata;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
 @Entity(name = "Profile")
 @Table(schema = "directory", name = "profiles")
+@EntityListeners(AuditingEntityListener.class)
 public class ProfileEntity implements Serializable {
 
     /**
@@ -56,13 +63,17 @@ public class ProfileEntity implements Serializable {
     @Column(name = "address")
     private String                           address;
 
+    @Embedded
+    private AuditMetadata                    audit            = new AuditMetadata();
+
     @Column(name = "birth_date")
     private Instant                          birthDate;
 
     @Column(name = "comments")
     private String                           comments;
 
-    @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "profile_id", nullable = false)
     private Collection<ContactChannelEntity> contactChannels;
 
     @Column(name = "first_name", nullable = false)
@@ -78,6 +89,9 @@ public class ProfileEntity implements Serializable {
 
     @Column(name = "last_name")
     private String                           lastName;
+
+    @Column(name = "nickname")
+    private String                           nickname;
 
     @Column(name = "number")
     private Long                             number;
@@ -99,6 +113,10 @@ public class ProfileEntity implements Serializable {
 
     public String getAddress() {
         return address;
+    }
+
+    public AuditMetadata getAudit() {
+        return audit;
     }
 
     public Instant getBirthDate() {
@@ -129,6 +147,10 @@ public class ProfileEntity implements Serializable {
         return lastName;
     }
 
+    public String getNickname() {
+        return nickname;
+    }
+
     public Long getNumber() {
         return number;
     }
@@ -144,6 +166,10 @@ public class ProfileEntity implements Serializable {
 
     public void setAddress(final String address) {
         this.address = address;
+    }
+
+    public void setAudit(final AuditMetadata audit) {
+        this.audit = audit;
     }
 
     public void setBirthDate(final Instant birthDate) {
@@ -174,6 +200,10 @@ public class ProfileEntity implements Serializable {
         this.lastName = lastName;
     }
 
+    public void setNickname(final String nickname) {
+        this.nickname = nickname;
+    }
+
     public void setNumber(final Long number) {
         this.number = number;
     }
@@ -185,8 +215,9 @@ public class ProfileEntity implements Serializable {
     @Override
     public String toString() {
         return "ProfileEntity [id=" + id + ", identifier=" + identifier + ", firstName=" + firstName + ", lastName="
-                + lastName + ", birthDate=" + birthDate + ", comments=" + comments + ", address=" + address
-                + ", contactChannels=" + contactChannels + ", number=" + number + ", types=" + types + "]";
+                + lastName + ", nickname=" + nickname + ", birthDate=" + birthDate + ", comments=" + comments
+                + ", address=" + address + ", contactChannels=" + contactChannels + ", number=" + number + ", types="
+                + types + ", audit=" + audit + "]";
     }
 
 }

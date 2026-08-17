@@ -35,17 +35,15 @@ import com.bernardomg.association.library.adapter.outbound.rest.dto.FictionBookP
 import com.bernardomg.association.library.adapter.outbound.rest.dto.FictionBookResponseDto;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.FictionBookUpdateDto;
 import com.bernardomg.association.library.book.adapter.outbound.rest.model.BookDtoMapper;
-import com.bernardomg.association.library.book.domain.model.BookFilter;
+import com.bernardomg.association.library.book.domain.filter.BookFilter;
 import com.bernardomg.association.library.book.domain.model.FictionBook;
 import com.bernardomg.association.library.book.usecase.service.FictionBookService;
+import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.web.WebSorting;
-import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
-import com.bernardomg.security.permission.domain.constant.Actions;
-
-import jakarta.validation.Valid;
+import com.bernardomg.security.domain.permission.constant.Actions;
 
 /**
  * Game book REST controller.
@@ -69,7 +67,7 @@ public class FictionBookController implements FictionBookApi {
 
     @Override
     @RequireResourceAuthorization(resource = "LIBRARY_BOOK", action = Actions.CREATE)
-    public FictionBookResponseDto createFictionBook(@Valid final BookCreationDto bookCreationDto) {
+    public FictionBookResponseDto createFictionBook(final BookCreationDto bookCreationDto) {
         final FictionBook fictionBook;
 
         fictionBook = service.create(BookDtoMapper.toFictionDomain(bookCreationDto));
@@ -89,8 +87,8 @@ public class FictionBookController implements FictionBookApi {
 
     @Override
     @RequireResourceAuthorization(resource = "LIBRARY_BOOK", action = Actions.READ)
-    public FictionBookPageResponseDto getAllFictionBooks(@Valid final Integer page, @Valid final Integer size,
-            @Valid final List<String> sort, @Valid final String title) {
+    public FictionBookPageResponseDto getAllFictionBooks(final Integer page, final Integer size,
+            final List<String> sort, final String title) {
         final Pagination        pagination;
         final Sorting           sorting;
         final Page<FictionBook> fictionBooks;
@@ -117,7 +115,7 @@ public class FictionBookController implements FictionBookApi {
     @Override
     @RequireResourceAuthorization(resource = "LIBRARY_BOOK", action = Actions.UPDATE)
     public FictionBookResponseDto updateFictionBook(final Long number,
-            @Valid final FictionBookUpdateDto fictionBookUpdateDto) {
+            final FictionBookUpdateDto fictionBookUpdateDto) {
         final FictionBook updated;
         final FictionBook fictionBook;
 

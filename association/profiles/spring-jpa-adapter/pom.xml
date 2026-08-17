@@ -11,7 +11,7 @@
    <parent>
       <groupId>com.bernardomg.association.profile</groupId>
       <artifactId>association-profile</artifactId>
-      <version>0.7.7</version>
+      <version>0.7.8</version>
    </parent>
 
    <!-- ********************************************** -->
@@ -22,17 +22,30 @@
    <artifactId>association-profile-spring-jpa-adapter</artifactId>
    <packaging>jar</packaging>
 
-   <name>Association Profiles REST Adapter</name>
+   <name>Association Profiles Spring JPA Adapter</name>
 
    <!-- ********************************************** -->
    <!-- *************** DEPENDENCIES ***************** -->
    <!-- ********************************************** -->
 
    <dependencies>
+      <!-- ============================================== -->
+      <!-- ================ FRAMEWORK =================== -->
+      <!-- ============================================== -->
+      <dependency>
+         <groupId>com.bernardomg.framework.security</groupId>
+         <artifactId>security-jpa-model</artifactId>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- ================= PROJECT ==================== -->
+      <!-- ============================================== -->
       <dependency>
          <groupId>com.bernardomg.association.profile</groupId>
          <artifactId>association-profile-domain</artifactId>
       </dependency>
+      <!-- ============================================== -->
+      <!-- ================== SPRING ==================== -->
+      <!-- ============================================== -->
       <dependency>
          <groupId>org.springframework.data</groupId>
          <artifactId>spring-data-jpa</artifactId>
@@ -46,14 +59,10 @@
          <artifactId>jakarta.persistence-api</artifactId>
       </dependency>
       <dependency>
-         <groupId>jakarta.transaction</groupId>
-         <artifactId>jakarta.transaction-api</artifactId>
+        <groupId>org.hibernate.orm</groupId>
+        <artifactId>hibernate-core</artifactId>
+        <scope>provided</scope>
       </dependency>
-      <dependency>
-	     <groupId>org.hibernate.orm</groupId>
-	     <artifactId>hibernate-core</artifactId>
-	     <scope>provided</scope>
-	  </dependency>
       <!-- ============================================== -->
       <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
       <!-- ============================================== -->
@@ -65,6 +74,12 @@
       <dependency>
          <groupId>com.bernardomg</groupId>
          <artifactId>testing</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+          <groupId>com.bernardomg.association.transaction</groupId>
+          <artifactId>association-transaction-spring-jpa-adapter</artifactId>
+         <version>${project.version}</version>
          <scope>test</scope>
       </dependency>
       <dependency>
@@ -100,6 +115,11 @@
          <!-- Jackson databinding -->
          <groupId>com.fasterxml.jackson.core</groupId>
          <artifactId>jackson-databind</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.framework.security</groupId>
+         <artifactId>security-adapter</artifactId>
          <scope>test</scope>
       </dependency>
    </dependencies>

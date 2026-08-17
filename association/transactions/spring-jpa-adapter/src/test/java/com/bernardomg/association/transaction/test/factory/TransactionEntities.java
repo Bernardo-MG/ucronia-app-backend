@@ -9,7 +9,9 @@ import com.bernardomg.association.transaction.test.configuration.factory.Transac
 public final class TransactionEntities {
 
     public static final TransactionEntity decimal() {
-        final TransactionEntity entity = new TransactionEntity();
+        final TransactionEntity entity;
+
+        entity = new TransactionEntity();
         entity.setIndex(TransactionConstants.INDEX);
         entity.setAmount(TransactionConstants.AMOUNT_DECIMAL);
         entity.setDate(TransactionConstants.DATE);
@@ -18,7 +20,9 @@ public final class TransactionEntities {
     }
 
     public static final TransactionEntity februaryFee() {
-        final TransactionEntity entity = new TransactionEntity();
+        final TransactionEntity entity;
+
+        entity = new TransactionEntity();
         entity.setIndex(TransactionConstants.INDEX);
         entity.setAmount(TransactionConstants.AMOUNT_BIGGER);
         entity.setDate(TransactionConstants.DATE);
@@ -27,7 +31,9 @@ public final class TransactionEntities {
     }
 
     public static final TransactionEntity forAmount(final Float value) {
-        final TransactionEntity entity = new TransactionEntity();
+        final TransactionEntity entity;
+
+        entity = new TransactionEntity();
         entity.setIndex(TransactionConstants.INDEX);
         entity.setAmount(value);
         entity.setDate(TransactionConstants.DATE);
@@ -36,7 +42,9 @@ public final class TransactionEntities {
     }
 
     public static final TransactionEntity forAmount(final Float value, final Instant date) {
-        final TransactionEntity entity = new TransactionEntity();
+        final TransactionEntity entity;
+
+        entity = new TransactionEntity();
         entity.setIndex(TransactionConstants.INDEX);
         entity.setAmount(value);
         entity.setDate(date);
@@ -45,7 +53,9 @@ public final class TransactionEntities {
     }
 
     public static final TransactionEntity forAmount(final Float value, final Instant date, final Long index) {
-        final TransactionEntity entity = new TransactionEntity();
+        final TransactionEntity entity;
+
+        entity = new TransactionEntity();
         entity.setIndex(index);
         entity.setAmount(value);
         entity.setDate(date);
@@ -54,11 +64,18 @@ public final class TransactionEntities {
     }
 
     public static final TransactionEntity valid() {
-        final TransactionEntity entity = new TransactionEntity();
+        final TransactionEntity entity;
+
+        entity = new TransactionEntity();
         entity.setIndex(TransactionConstants.INDEX);
         entity.setAmount(TransactionConstants.AMOUNT);
         entity.setDate(TransactionConstants.DATE);
         entity.setDescription(TransactionConstants.DESCRIPTION);
         return entity;
     }
+
+    private TransactionEntities() {
+        super();
+    }
+
 }

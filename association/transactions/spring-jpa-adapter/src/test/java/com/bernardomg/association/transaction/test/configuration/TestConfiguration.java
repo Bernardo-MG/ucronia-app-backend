@@ -28,20 +28,32 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.security.authentication.AuthenticationTrustResolver;
+import org.springframework.security.authentication.AuthenticationTrustResolverImpl;
 
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.JpaTransactionEvolutionRepository;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.JpaTransactionRepository;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.JpaTransactionSummaryRepository;
+import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.JpaTransactionTypeRepository;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.MonthlyEvolutionSpringRepository;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
+import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionTypeSpringRepository;
 import com.bernardomg.association.transaction.domain.repository.TransactionEvolutionRepository;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.association.transaction.domain.repository.TransactionSummaryRepository;
+import com.bernardomg.association.transaction.domain.repository.TransactionTypeRepository;
 
 @Configuration
-@EnableJpaRepositories(basePackages = "com.bernardomg.association.transaction.adapter.inbound.jpa")
-@EntityScan(basePackages = "com.bernardomg.association.transaction.adapter.inbound.jpa")
+@EnableJpaRepositories(basePackages = { "com.bernardomg.association.transaction.adapter.inbound.jpa",
+        "com.bernardomg.security.adapter.inbound.jpa" })
+@EntityScan(basePackages = { "com.bernardomg.association.transaction.adapter.inbound.jpa",
+        "com.bernardomg.security.adapter.inbound.jpa" })
 public class TestConfiguration {
+
+    @Bean("authenticationTrustResolver")
+    public AuthenticationTrustResolver getAuthenticationTrustResolver() {
+        return new AuthenticationTrustResolverImpl();
+    }
 
     @Bean("transactionEvolutionRepository")
     public TransactionEvolutionRepository
@@ -59,6 +71,12 @@ public class TestConfiguration {
     public TransactionSummaryRepository
             getTransactionSummaryRepository(final MonthlyEvolutionSpringRepository monthlyEvolutionRepository) {
         return new JpaTransactionSummaryRepository(monthlyEvolutionRepository);
+    }
+
+    @Bean("transactionTypeRepository")
+    public TransactionTypeRepository
+            getTransactionTypeRepository(final TransactionTypeSpringRepository transactionTypeSpringRepository) {
+        return new JpaTransactionTypeRepository(transactionTypeSpringRepository);
     }
 
 }

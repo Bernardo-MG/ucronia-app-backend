@@ -44,9 +44,6 @@ import com.bernardomg.association.transaction.domain.repository.TransactionEvolu
 import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.springframework.SpringSorting;
 
-import jakarta.transaction.Transactional;
-
-@Transactional
 public final class JpaTransactionEvolutionRepository implements TransactionEvolutionRepository {
 
     /**

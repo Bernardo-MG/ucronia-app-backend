@@ -20,6 +20,8 @@ components:
           $ref: '../common/ids.yml#/components/schemas/Id'
         name:
           type: string
+          minLength: 1
+          maxLength: 100
           example: 'Core book'
     BookTypeCreation:
       type: object
@@ -27,16 +29,18 @@ components:
       properties:
         name:
           type: string
-          example: 'Core book'
+          minLength: 1
           maxLength: 100
+          example: 'Core book'
     BookTypeUpdate:
       type: object
       required: [name]
       properties:
         name:
           type: string
-          example: 'Core book'
+          minLength: 1
           maxLength: 100
+          example: 'Core book'
     BookTypePageResponse:
       allOf:
         - $ref: '../common/responses.yml#/components/schemas/PageResponse'

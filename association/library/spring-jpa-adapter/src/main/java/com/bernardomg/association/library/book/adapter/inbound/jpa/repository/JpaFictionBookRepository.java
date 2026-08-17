@@ -39,13 +39,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.association.library.author.adapter.inbound.jpa.model.AuthorEntity;
 import com.bernardomg.association.library.author.adapter.inbound.jpa.repository.AuthorSpringRepository;
 import com.bernardomg.association.library.author.domain.model.Author;
-import com.bernardomg.association.library.book.adapter.inbound.jpa.model.BookEntityMapper;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.model.DonorEntity;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.model.FictionBookEntity;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.model.FictionBookEntityMapper;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.specification.FictionBookSpecifications;
-import com.bernardomg.association.library.book.domain.exception.MissingDonorException;
-import com.bernardomg.association.library.book.domain.model.BookFilter;
+import com.bernardomg.association.library.book.domain.filter.BookFilter;
 import com.bernardomg.association.library.book.domain.model.BookLendingInfo;
 import com.bernardomg.association.library.book.domain.model.Donor;
 import com.bernardomg.association.library.book.domain.model.FictionBook;
@@ -53,8 +51,6 @@ import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.library.book.domain.repository.FictionBookRepository;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.BookLendingEntity;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.repository.BookLendingSpringRepository;
-import com.bernardomg.association.library.lending.adapter.inbound.jpa.repository.BorrowerSpringRepository;
-import com.bernardomg.association.library.lending.domain.model.Borrower;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.model.PublisherEntity;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.repository.PublisherSpringRepository;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
@@ -79,22 +75,18 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
 
     private final FictionBookSpringRepository bookSpringRepository;
 
-    private final BorrowerSpringRepository    borrowerSpringRepository;
-
     private final DonorSpringRepository       donorSpringRepository;
 
     private final PublisherSpringRepository   publisherSpringRepository;
 
     public JpaFictionBookRepository(final FictionBookSpringRepository bookSpringRepo,
             final AuthorSpringRepository authorSpringRepo, final PublisherSpringRepository publisherSpringRepo,
-            final BorrowerSpringRepository borrowerSpringRepo, final DonorSpringRepository donorSpringRepo,
-            final BookLendingSpringRepository bookLendingSpringRepo) {
+            final DonorSpringRepository donorSpringRepo, final BookLendingSpringRepository bookLendingSpringRepo) {
         super();
 
         bookSpringRepository = Objects.requireNonNull(bookSpringRepo);
         authorSpringRepository = Objects.requireNonNull(authorSpringRepo);
         publisherSpringRepository = Objects.requireNonNull(publisherSpringRepo);
-        borrowerSpringRepository = Objects.requireNonNull(borrowerSpringRepo);
         donorSpringRepository = Objects.requireNonNull(donorSpringRepo);
         bookLendingSpringRepository = Objects.requireNonNull(bookLendingSpringRepo);
     }
@@ -196,19 +188,6 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
     }
 
     @Override
-    public final long findNextNumber() {
-        final long number;
-
-        log.debug("Finding next number for the books");
-
-        number = bookSpringRepository.findNextNumber();
-
-        log.debug("Found number {}", number);
-
-        return number;
-    }
-
-    @Override
     public final Optional<FictionBook> findOne(final long number) {
         final Optional<FictionBook> book;
 
@@ -228,6 +207,7 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
         final FictionBookEntity           entity;
         final FictionBookEntity           created;
         final FictionBook                 saved;
+        final Long                        number;
 
         log.debug("Saving book {}", book);
 
@@ -237,6 +217,9 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
+        } else {
+            number = bookSpringRepository.findNextNumber();
+            entity.setNumber(number);
         }
 
         created = bookSpringRepository.save(entity);
@@ -280,16 +263,9 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
     }
 
     private final BookLendingInfo toDomain(final FictionBookEntity bookEntity, final BookLendingEntity entity) {
-        final Borrower borrower;
-        borrower = borrowerSpringRepository.findByProfileId(entity.getProfileId())
-            .map(BookEntityMapper::toDomain)
-            .orElseThrow(() -> {
-                log.error("Missing donor {}", entity.getProfileId());
-                throw new MissingDonorException(entity.getProfileId());
-            });
-
         new Title(bookEntity.getSupertitle(), bookEntity.getTitle(), bookEntity.getSubtitle());
-        return new BookLendingInfo(borrower, entity.getLendingDate(), Optional.ofNullable(entity.getReturnDate()));
+        return new BookLendingInfo(entity.getBorrower()
+            .getNumber(), entity.getLendingDate(), Optional.ofNullable(entity.getReturnDate()));
     }
 
     private final FictionBookEntity toEntity(final FictionBook domain) {

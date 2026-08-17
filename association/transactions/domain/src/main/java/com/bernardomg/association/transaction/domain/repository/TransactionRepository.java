@@ -45,8 +45,6 @@ public interface TransactionRepository {
     public Page<Transaction> findAll(final TransactionFilter filter, final Pagination pagination,
             final Sorting sorting);
 
-    public long findNextIndex();
-
     public Optional<Transaction> findOne(final Long index);
 
     public TransactionMonthsRange findRange();

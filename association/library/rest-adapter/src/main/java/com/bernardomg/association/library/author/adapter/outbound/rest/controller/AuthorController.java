@@ -37,15 +37,12 @@ import com.bernardomg.association.library.adapter.outbound.rest.dto.AuthorUpdate
 import com.bernardomg.association.library.author.adapter.outbound.rest.model.AuthorDtoMapper;
 import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.author.usecase.service.AuthorService;
+import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.web.WebSorting;
-import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
-import com.bernardomg.security.permission.domain.constant.Actions;
-
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
+import com.bernardomg.security.domain.permission.constant.Actions;
 
 /**
  * Author REST controller.
@@ -68,7 +65,7 @@ public class AuthorController implements AuthorApi {
 
     @Override
     @RequireResourceAuthorization(resource = "LIBRARY_AUTHOR", action = Actions.CREATE)
-    public AuthorResponseDto createAuthor(@Valid final AuthorCreationDto authorCreationDto) {
+    public AuthorResponseDto createAuthor(final AuthorCreationDto authorCreationDto) {
         final Author author;
 
         author = service.create(new Author(-1L, authorCreationDto.getName()));
@@ -88,8 +85,7 @@ public class AuthorController implements AuthorApi {
 
     @Override
     @RequireResourceAuthorization(resource = "LIBRARY_AUTHOR", action = Actions.READ)
-    public AuthorPageResponseDto getAllAuthors(@Min(0) @Valid final Integer page, @Min(1) @Valid final Integer size,
-            @Valid final List<String> sort) {
+    public AuthorPageResponseDto getAllAuthors(final Integer page, final Integer size, final List<String> sort) {
         final Pagination   pagination;
         final Sorting      sorting;
         final Page<Author> authors;
@@ -113,7 +109,7 @@ public class AuthorController implements AuthorApi {
 
     @Override
     @RequireResourceAuthorization(resource = "FEE", action = Actions.CREATE)
-    public AuthorResponseDto updateAuthor(final Long number, @Valid final AuthorUpdateDto authorUpdateDto) {
+    public AuthorResponseDto updateAuthor(final Long number, final AuthorUpdateDto authorUpdateDto) {
         final Author updated;
         final Author author;
 

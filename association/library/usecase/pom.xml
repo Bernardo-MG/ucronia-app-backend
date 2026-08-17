@@ -11,7 +11,7 @@
    <parent>
       <groupId>com.bernardomg.association.library</groupId>
       <artifactId>association-library</artifactId>
-      <version>0.7.7</version>
+      <version>0.7.8</version>
    </parent>
 
    <!-- ********************************************** -->
@@ -55,18 +55,8 @@
          <artifactId>pagination</artifactId>
       </dependency>
       <!-- ============================================== -->
-      <!-- =============== APACHE POI =================== -->
+      <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
       <!-- ============================================== -->
-      <dependency>
-         <!-- Apache POI -->
-         <groupId>org.apache.poi</groupId>
-         <artifactId>poi</artifactId>
-      </dependency>
-      <dependency>
-         <!-- Apache POI OOXML -->
-         <groupId>org.apache.poi</groupId>
-         <artifactId>poi-ooxml</artifactId>
-      </dependency>
       <dependency>
          <groupId>com.bernardomg.association.library</groupId>
          <artifactId>association-library-testing</artifactId>

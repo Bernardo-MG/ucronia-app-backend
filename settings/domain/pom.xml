@@ -11,7 +11,7 @@
    <parent>
       <groupId>com.bernardomg.settings</groupId>
       <artifactId>settings</artifactId>
-      <version>0.7.7</version>
+      <version>0.7.8</version>
    </parent>
 
    <!-- ********************************************** -->
@@ -29,6 +29,10 @@
    <!-- ********************************************** -->
 
    <dependencies>
+      <dependency>
+         <groupId>com.bernardomg.framework.security</groupId>
+         <artifactId>security-model</artifactId>
+      </dependency>
       <dependency>
          <groupId>org.apache.commons</groupId>
          <artifactId>commons-lang3</artifactId>

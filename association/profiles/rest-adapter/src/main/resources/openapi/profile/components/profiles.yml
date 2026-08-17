@@ -1,0 +1,170 @@
+components:
+  parameters:
+    profilesSortParam:
+      name: sort
+      description: Sorting to apply.
+      in: query
+      style: form
+      explode: true
+      schema:
+        type: array
+        items:
+          type: string
+          pattern: '^(name.firstName|name.lastName|number)\|(asc|desc)$'
+          example: name.firstName|asc
+  schemas:
+    Name:
+      type: object
+      required: [firstName, lastName, fullName]
+      properties:
+        firstName:
+          type: string
+          example: 'John'
+          maxLength: 50
+        lastName:
+          type: string
+          example: 'Smith'
+          maxLength: 50
+        nickname:
+          type: string
+          example: 'Jhonny'
+          maxLength: 50
+        fullName:
+          type: string
+          example: 'John Smith'
+          maxLength: 101
+    EditionName:
+      type: object
+      required: [firstName, lastName]
+      properties:
+        firstName:
+          type: string
+          example: 'John'
+          maxLength: 50
+        lastName:
+          type: string
+          example: 'Smith'
+          maxLength: 50
+        nickname:
+          type: string
+          example: 'Jhonny'
+          maxLength: 50
+    ContactChannel:
+      type: object
+      required: [method, detail]
+      properties:
+        method:
+          $ref: 'contact_methods.yml#/components/schemas/ContactMethod'
+        detail:
+          type: string
+          maxLength: 50
+          description: Contact channel detail.
+    EditionContactChannel:
+      type: object
+      required: [method, detail]
+      properties:
+        method:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        detail:
+          type: string
+          maxLength: 50
+          description: Contact detail.
+    Profile:
+      type: object
+      required: [number, name]
+      properties:
+        number:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        identifier:
+          type: string
+          maxLength: 15
+          description: Unique identifier of the profile.
+        name:
+          $ref: 'profiles.yml#/components/schemas/Name'
+        birthDate:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+        contactChannels:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContactChannel'
+        address:
+          type: string
+          maxLength: 250
+          description: Profile address.
+        comments:
+          type: string
+          maxLength: 250
+          description: Comments about the profile.
+        types:
+          type: array
+          items:
+            type: string
+        audit:
+          $ref: 'audit.yml#/components/schemas/AuditDetails'
+    ProfileCreation:
+      type: object
+      required: [name]
+      properties:
+        identifier:
+          type: string
+          maxLength: 15
+          description: Unique identifier of the contact.
+        name:
+          $ref: 'profiles.yml#/components/schemas/EditionName'
+    ProfileUpdate:
+      type: object
+      required: [name]
+      properties:
+        identifier:
+          type: string
+          maxLength: 15
+        name:
+          $ref: 'profiles.yml#/components/schemas/EditionName'
+        birthDate:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+        contactChannels:
+          type: array
+          items:
+            $ref: '#/components/schemas/EditionContactChannel'
+        address:
+          type: string
+          maxLength: 250
+          description: Profile address.
+        comments:
+          type: string
+          maxLength: 250
+    ProfilePatch:
+      type: object
+      properties:
+        identifier:
+          type: string
+          maxLength: 15
+        name:
+          $ref: 'profiles.yml#/components/schemas/EditionName'
+        birthDate:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+        contactChannels:
+          type: array
+          items:
+            $ref: '#/components/schemas/EditionContactChannel'
+        address:
+          type: string
+          maxLength: 250
+          description: Profile address.
+        comments:
+          type: string
+          maxLength: 250
+    ProfilePageResponse:
+      allOf:
+        - $ref: '../common/responses.yml#/components/schemas/PageResponse'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/Profile'
+    ProfileResponse:
+      type: object
+      properties:
+        content:
+          $ref: '#/components/schemas/Profile'

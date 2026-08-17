@@ -30,12 +30,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import com.bernardomg.association.profile.adapter.outbound.rest.dto.AuditDetailsDto;
+import com.bernardomg.association.profile.adapter.outbound.rest.dto.AuditUserDto;
 import com.bernardomg.association.profile.adapter.outbound.rest.dto.ContactChannelDto;
 import com.bernardomg.association.profile.adapter.outbound.rest.dto.ContactMethodDto;
 import com.bernardomg.association.profile.adapter.outbound.rest.dto.EditionContactChannelDto;
+import com.bernardomg.association.profile.adapter.outbound.rest.dto.NameDto;
 import com.bernardomg.association.profile.adapter.outbound.rest.dto.ProfileCreationDto;
 import com.bernardomg.association.profile.adapter.outbound.rest.dto.ProfileDto;
-import com.bernardomg.association.profile.adapter.outbound.rest.dto.ProfileNameDto;
 import com.bernardomg.association.profile.adapter.outbound.rest.dto.ProfilePageResponseDto;
 import com.bernardomg.association.profile.adapter.outbound.rest.dto.ProfilePatchDto;
 import com.bernardomg.association.profile.adapter.outbound.rest.dto.ProfileResponseDto;
@@ -43,13 +45,15 @@ import com.bernardomg.association.profile.adapter.outbound.rest.dto.ProfileUpdat
 import com.bernardomg.association.profile.adapter.outbound.rest.dto.PropertyDto;
 import com.bernardomg.association.profile.adapter.outbound.rest.dto.PropertyDto.DirectionEnum;
 import com.bernardomg.association.profile.adapter.outbound.rest.dto.SortingDto;
+import com.bernardomg.association.profile.domain.model.ContactChannel;
 import com.bernardomg.association.profile.domain.model.ContactMethod;
+import com.bernardomg.association.profile.domain.model.Name;
 import com.bernardomg.association.profile.domain.model.Profile;
-import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
-import com.bernardomg.association.profile.domain.model.Profile.Name;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
 import com.bernardomg.pagination.domain.Sorting.Property;
+import com.bernardomg.security.domain.audit.model.AuditDetails;
+import com.bernardomg.security.domain.audit.model.AuditDetails.AuditUser;
 
 public final class ProfileDtoMapper {
 
@@ -60,7 +64,9 @@ public final class ProfileDtoMapper {
         name = new Name(change.getName()
             .getFirstName(),
             change.getName()
-                .getLastName());
+                .getLastName(),
+            Optional.ofNullable(change.getName()
+                .getNickname()));
         contactChannels = change.getContactChannels()
             .stream()
             .map(ProfileDtoMapper::toDomain)
@@ -78,7 +84,9 @@ public final class ProfileDtoMapper {
         name = new Name(change.getName()
             .getFirstName(),
             change.getName()
-                .getLastName());
+                .getLastName(),
+            Optional.ofNullable(change.getName()
+                .getNickname()));
         contactChannels = change.getContactChannels()
             .stream()
             .map(ProfileDtoMapper::toDomain)
@@ -95,7 +103,9 @@ public final class ProfileDtoMapper {
         name = new Name(creation.getName()
             .getFirstName(),
             creation.getName()
-                .getLastName());
+                .getLastName(),
+            Optional.ofNullable(creation.getName()
+                .getNickname()));
 
         return new Profile(Optional.ofNullable(creation.getIdentifier()), -1L, name, Optional.empty(), List.of(),
             Optional.empty(), Optional.empty(), Set.of());
@@ -139,6 +149,34 @@ public final class ProfileDtoMapper {
         return new ContactChannel(contactMethod, dto.getDetail());
     }
 
+    private static final AuditDetailsDto toDto(final AuditDetails audit) {
+        final AuditDetailsDto dto;
+
+        if (audit == null) {
+            dto = null;
+        } else {
+            dto = new AuditDetailsDto().createdAt(audit.createdAt())
+                .createdBy(toDto(audit.createdBy()))
+                .updatedAt(audit.updatedAt())
+                .updatedBy(toDto(audit.updatedBy()));
+        }
+
+        return dto;
+    }
+
+    private static final AuditUserDto toDto(final AuditUser user) {
+        final AuditUserDto dto;
+
+        if (user == null) {
+            dto = null;
+        } else {
+            dto = new AuditUserDto().email(user.email())
+                .username(user.username())
+                .name(user.name());
+        }
+        return dto;
+    }
+
     private static final ContactChannelDto toDto(final ContactChannel contactChannel) {
         ContactMethodDto method;
 
@@ -152,13 +190,16 @@ public final class ProfileDtoMapper {
     }
 
     private static final ProfileDto toDto(final Profile profile) {
-        ProfileNameDto          name;
+        NameDto                 name;
         List<ContactChannelDto> contactChannels;
 
-        name = new ProfileNameDto().firstName(profile.name()
+        name = new NameDto().firstName(profile.name()
             .firstName())
             .lastName(profile.name()
                 .lastName())
+            .nickname(profile.name()
+                .nickname()
+                .orElse(null))
             .fullName(profile.name()
                 .fullName());
         contactChannels = profile.contactChannels()
@@ -177,7 +218,8 @@ public final class ProfileDtoMapper {
                 .orElse(null))
             .comments(profile.comments()
                 .orElse(null))
-            .types(new ArrayList<>(profile.types()));
+            .types(new ArrayList<>(profile.types()))
+            .audit(toDto(profile.audit()));
     }
 
     private static final PropertyDto toDto(final Property property) {

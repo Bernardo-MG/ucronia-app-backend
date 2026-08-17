@@ -123,19 +123,6 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
     }
 
     @Override
-    public final long findNextNumber() {
-        final long number;
-
-        log.debug("Finding next number for the game systems");
-
-        number = gameSystemSpringRepository.findNextNumber();
-
-        log.debug("Found next number for the game systems: {}", number);
-
-        return number;
-    }
-
-    @Override
     public final Optional<GameSystem> findOne(final long number) {
         final Optional<GameSystem> gameSystem;
 
@@ -155,6 +142,7 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
         final GameSystemEntity           entity;
         final GameSystemEntity           created;
         final GameSystem                 saved;
+        final Long                       number;
 
         log.debug("Saving game system {}", gameSystem);
 
@@ -164,6 +152,9 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
+        } else {
+            number = gameSystemSpringRepository.findNextNumber();
+            entity.setNumber(number);
         }
 
         created = gameSystemSpringRepository.save(entity);

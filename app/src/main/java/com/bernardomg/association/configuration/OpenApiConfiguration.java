@@ -29,7 +29,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 
-import com.bernardomg.security.web.whitelist.WhitelistRoute;
+import com.bernardomg.security.springframework.web.whitelist.WhitelistRoute;
 
 @Configuration
 @ConditionalOnProperty(name = "openapi.enabled", havingValue = "true")

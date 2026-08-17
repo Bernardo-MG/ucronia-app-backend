@@ -24,6 +24,10 @@
 
 package com.bernardomg.settings.adapter.inbound.jpa.model;
 
+import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditMetadata;
+import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditUserEntity;
+import com.bernardomg.security.domain.audit.model.AuditDetails;
+import com.bernardomg.security.domain.audit.model.AuditDetails.AuditUser;
 import com.bernardomg.settings.domain.model.Setting;
 
 /**
@@ -32,7 +36,10 @@ import com.bernardomg.settings.domain.model.Setting;
 public final class SettingsEntityMapper {
 
     public static final Setting toDomain(final SettingsEntity entity) {
-        return new Setting(entity.getType(), entity.getCode(), entity.getValue());
+        final AuditDetails audit;
+
+        audit = toDomain(entity.getAudit());
+        return new Setting(entity.getType(), entity.getCode(), entity.getValue(), audit);
     }
 
     public static final SettingsEntity toEntity(final Setting model) {
@@ -52,6 +59,31 @@ public final class SettingsEntityMapper {
         entity.setType(model.type());
 
         return entity;
+    }
+
+    private static final AuditUser toAuditDomain(final AuditUserEntity user) {
+        final AuditUser auditUser;
+
+        if (user == null) {
+            auditUser = null;
+        } else {
+            auditUser = new AuditUser(user.getEmail(), user.getUsername(), user.getName());
+        }
+
+        return auditUser;
+    }
+
+    private static final AuditDetails toDomain(final AuditMetadata audit) {
+        final AuditDetails auditDetails;
+
+        if (audit == null) {
+            auditDetails = new AuditDetails();
+        } else {
+            auditDetails = new AuditDetails(audit.getCreatedAt(), toAuditDomain(audit.getCreatedBy()),
+                audit.getUpdatedAt(), toAuditDomain(audit.getUpdatedBy()));
+        }
+
+        return auditDetails;
     }
 
     private SettingsEntityMapper() {

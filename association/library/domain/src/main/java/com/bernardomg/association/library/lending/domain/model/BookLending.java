@@ -30,23 +30,37 @@ import java.util.Objects;
 import java.util.Optional;
 
 import com.bernardomg.association.library.book.domain.model.Title;
+import com.bernardomg.security.domain.audit.model.AuditDetails;
 
-public record BookLending(LentBook book, Borrower borrower, Instant lendingDate, Optional<Instant> returnDate) {
+public record BookLending(LentBook book, long borrower, Instant lendingDate, Optional<Instant> returnDate,
+        AuditDetails audit) {
 
-    public BookLending(final LentBook book, final Borrower borrower, final Instant lendingDate,
-            final Optional<Instant> returnDate) {
-        this.book = Objects.requireNonNull(book);
-        this.borrower = Objects.requireNonNull(borrower);
-        this.lendingDate = Objects.requireNonNull(lendingDate);
-        this.returnDate = Objects.requireNonNull(returnDate);
+    public BookLending(final LentBook book, final long borrower, final Instant lendingDate,
+            final Optional<Instant> returnDate, final AuditDetails audit) {
+        Objects.requireNonNull(book, "Book can't be null");
+        Objects.requireNonNull(borrower, "Borrower can't be null");
+        Objects.requireNonNull(lendingDate, "Lending date can't be null");
+        Objects.requireNonNull(returnDate, "Return date can't be null");
+        Objects.requireNonNull(audit, "Audit can't be null");
+
+        this.book = book;
+        this.borrower = borrower;
+        this.lendingDate = lendingDate;
+        this.returnDate = returnDate;
+        this.audit = audit;
     }
 
-    public BookLending(final LentBook book, final Borrower borrower, final Instant lendingDate) {
-        this(book, borrower, lendingDate, Optional.empty());
+    public BookLending(final LentBook book, final long borrower, final Instant lendingDate,
+            final Optional<Instant> returnDate) {
+        this(book, borrower, lendingDate, returnDate, new AuditDetails());
+    }
+
+    public BookLending(final LentBook book, final long borrower, final Instant lendingDate) {
+        this(book, borrower, lendingDate, Optional.empty(), new AuditDetails());
     }
 
     public BookLending returned(final Instant date) {
-        return new BookLending(book, borrower, lendingDate, Optional.of(date));
+        return new BookLending(book, borrower, lendingDate, Optional.of(date), new AuditDetails());
     }
 
     public record LentBook(long number, Title title) {}

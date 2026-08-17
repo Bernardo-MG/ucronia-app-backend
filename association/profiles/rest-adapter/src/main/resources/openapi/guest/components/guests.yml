@@ -1,0 +1,153 @@
+components:
+  parameters:
+    guestsSortParam:
+      name: sort
+      description: Sorting to apply.
+      in: query
+      style: form
+      explode: true
+      schema:
+        type: array
+        items:
+          type: string
+          pattern: '^(name.firstName|name.lastName|number)\|(asc|desc)$'
+          example: username|asc
+  schemas:
+    ContactChannel:
+      type: object
+      required: [method, detail]
+      properties:
+        method:
+          $ref: '#/components/schemas/ContactMethod'
+        detail:
+          type: string
+          maxLength: 50
+          description: Contact channel detail.
+    ContactMethod:
+      type: object
+      required: [number, name]
+      properties:
+        number:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        name:
+          type: string
+          maxLength: 50
+          description: Name of the contact method.
+    EditionContactChannel:
+      type: object
+      required: [method, detail]
+      properties:
+        method:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        detail:
+          type: string
+          maxLength: 50
+          description: Contact detail.
+    Guest:
+      type: object
+      required: [number, name]
+      properties:
+        number:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        identifier:
+          type: string
+          description: Unique identifier of the guest.
+          maxLength: 15
+        name:
+          $ref: '../../profile/components/profiles.yml#/components/schemas/Name'
+        birthDate:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+        contactChannels:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContactChannel'
+        games:
+          type: array
+          items:
+            $ref: '../common/dates.yml#/components/schemas/Date'
+        address:
+          type: string
+          description: Guest address.
+          maxLength: 250
+        comments:
+          type: string
+          description: Comments about the guest.
+          maxLength: 250
+        types:
+          type: array
+          items:
+            type: string
+        audit:
+          $ref: 'audit.yml#/components/schemas/AuditDetails'
+    GuestCreation:
+      type: object
+      required: [name]
+      properties:
+        identifier:
+          type: string
+          description: Unique identifier of the contact.
+        name:
+          $ref: '../../profile/components/profiles.yml#/components/schemas/EditionName'
+    GuestUpdate:
+      type: object
+      required: [name]
+      properties:
+        identifier:
+          type: string
+        name:
+          $ref: '../../profile/components/profiles.yml#/components/schemas/EditionName'
+        birthDate:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+        contactChannels:
+          type: array
+          items:
+            $ref: '#/components/schemas/EditionContactChannel'
+        games:
+          type: array
+          items:
+            $ref: '../common/dates.yml#/components/schemas/Date'
+        address:
+          type: string
+          description: Guest address.
+          maxLength: 250
+        comments:
+          type: string
+          maxLength: 250
+    GuestPatch:
+      type: object
+      properties:
+        identifier:
+          type: string
+        name:
+          $ref: '../../profile/components/profiles.yml#/components/schemas/EditionName'
+        birthDate:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+        contactChannels:
+          type: array
+          items:
+            $ref: '#/components/schemas/EditionContactChannel'
+        games:
+          type: array
+          items:
+            $ref: '../common/dates.yml#/components/schemas/Date'
+        address:
+          type: string
+          description: Guest address.
+          maxLength: 250
+        comments:
+          type: string
+          maxLength: 250
+    GuestPageResponse:
+      allOf:
+        - $ref: '../common/responses.yml#/components/schemas/PageResponse'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/Guest'
+    GuestResponse:
+      type: object
+      properties:
+        content:
+          $ref: '#/components/schemas/Guest'

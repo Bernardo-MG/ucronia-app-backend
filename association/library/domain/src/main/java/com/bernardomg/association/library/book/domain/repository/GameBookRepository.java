@@ -27,7 +27,7 @@ package com.bernardomg.association.library.book.domain.repository;
 import java.util.Collection;
 import java.util.Optional;
 
-import com.bernardomg.association.library.book.domain.model.BookFilter;
+import com.bernardomg.association.library.book.domain.filter.BookFilter;
 import com.bernardomg.association.library.book.domain.model.GameBook;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -46,8 +46,6 @@ public interface GameBookRepository {
     public Page<GameBook> findAll(final BookFilter filter, final Pagination pagination, final Sorting sorting);
 
     public Collection<GameBook> findAll(final Sorting sorting);
-
-    public long findNextNumber();
 
     public Optional<GameBook> findOne(final long number);
 

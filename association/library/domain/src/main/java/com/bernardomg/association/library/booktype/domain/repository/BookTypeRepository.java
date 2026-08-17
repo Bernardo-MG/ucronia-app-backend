@@ -43,8 +43,6 @@ public interface BookTypeRepository {
 
     public Page<BookType> findAll(final Pagination pagination, final Sorting sorting);
 
-    public long findNextNumber();
-
     public Optional<BookType> findOne(final long number);
 
     public BookType save(final BookType bookType);

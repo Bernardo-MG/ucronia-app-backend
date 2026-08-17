@@ -1,0 +1,57 @@
+get:
+  summary: Get a specific transaction type
+  operationId: getOneTransactionType
+  tags: [TransactionType]
+  parameters:
+    - in: path
+      name: number
+      required: true
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  responses:
+    '200':
+      description: Transaction type details
+      content:
+        application/json:
+          schema:
+            $ref: '../components/transaction_types.yml#/components/schemas/TransactionTypeResponse'
+delete:
+  summary: Delete a transaction type
+  operationId: deleteTransactionType
+  tags: [TransactionType]
+  parameters:
+    - in: path
+      name: number
+      required: true
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  responses:
+    '200':
+      description: Deleted transaction type
+      content:
+        application/json:
+          schema:
+            $ref: '../components/transaction_types.yml#/components/schemas/TransactionTypeResponse'
+put:
+  summary: Update a transaction type
+  operationId: updateTransactionType
+  tags: [TransactionType]
+  parameters:
+    - in: path
+      name: number
+      required: true
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/transaction_types.yml#/components/schemas/TransactionTypeUpdate'
+  responses:
+    '200':
+      description: Transaction type updated
+      content:
+        application/json:
+          schema:
+            $ref: '../components/transaction_types.yml#/components/schemas/TransactionTypeResponse'

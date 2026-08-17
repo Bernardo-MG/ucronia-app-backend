@@ -1,0 +1,68 @@
+components:
+  parameters:
+    transactionTypesSortParam:
+      name: sort
+      description: Sorting to apply.
+      in: query
+      style: form
+      explode: true
+      schema:
+        type: array
+        items:
+          type: string
+          pattern: '^(description|color|number)\|(asc|desc)$'
+          example: date|asc
+  schemas:
+    TransactionTypeCreation:
+      type: object
+      required: [description, color]
+      properties:
+        description:
+          type: string
+          maxLength: 200
+        color:
+          type: string
+          maxLength: 200
+    TransactionTypeUpdate:
+      type: object
+      required: [description, color]
+      properties:
+        description:
+          type: string
+          maxLength: 200
+        color:
+          type: string
+          maxLength: 200
+    TransactionType:
+      type: object
+      required: [number, description, color]
+      properties:
+        number:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        description:
+          type: string
+          maxLength: 200
+        color:
+          type: string
+          maxLength: 200
+    TransactionTypePageResponse:
+      allOf:
+        - $ref: '../common/responses.yml#/components/schemas/PageResponse'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/TransactionType'
+    TransactionTypeResponse:
+      type: object
+      properties:
+        content:
+          $ref: '#/components/schemas/TransactionType'
+    TransactionTypesResponse:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/TransactionType'

@@ -40,13 +40,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.association.library.author.adapter.inbound.jpa.model.AuthorEntity;
 import com.bernardomg.association.library.author.adapter.inbound.jpa.repository.AuthorSpringRepository;
 import com.bernardomg.association.library.author.domain.model.Author;
-import com.bernardomg.association.library.book.adapter.inbound.jpa.model.BookEntityMapper;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.model.DonorEntity;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.model.GameBookEntity;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.model.GameBookEntityMapper;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.specification.GameBookSpecifications;
-import com.bernardomg.association.library.book.domain.exception.MissingDonorException;
-import com.bernardomg.association.library.book.domain.model.BookFilter;
+import com.bernardomg.association.library.book.domain.filter.BookFilter;
 import com.bernardomg.association.library.book.domain.model.BookLendingInfo;
 import com.bernardomg.association.library.book.domain.model.Donor;
 import com.bernardomg.association.library.book.domain.model.GameBook;
@@ -58,8 +56,6 @@ import com.bernardomg.association.library.gamesystem.adapter.inbound.jpa.model.G
 import com.bernardomg.association.library.gamesystem.adapter.inbound.jpa.repository.GameSystemSpringRepository;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.BookLendingEntity;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.repository.BookLendingSpringRepository;
-import com.bernardomg.association.library.lending.adapter.inbound.jpa.repository.BorrowerSpringRepository;
-import com.bernardomg.association.library.lending.domain.model.Borrower;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.model.PublisherEntity;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.repository.PublisherSpringRepository;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
@@ -86,8 +82,6 @@ public final class JpaGameBookRepository implements GameBookRepository {
 
     private final BookTypeSpringRepository    bookTypeSpringRepository;
 
-    private final BorrowerSpringRepository    borrowerSpringRepository;
-
     private final DonorSpringRepository       donorSpringRepository;
 
     private final GameSystemSpringRepository  gameSystemSpringRepository;
@@ -97,8 +91,7 @@ public final class JpaGameBookRepository implements GameBookRepository {
     public JpaGameBookRepository(final GameBookSpringRepository bookSpringRepo,
             final AuthorSpringRepository authorSpringRepo, final PublisherSpringRepository publisherSpringRepo,
             final BookTypeSpringRepository bookTypeSpringRepo, final GameSystemSpringRepository gameSystemSpringRepo,
-            final BorrowerSpringRepository borrowerSpringRepo, final DonorSpringRepository donorSpringRepo,
-            final BookLendingSpringRepository bookLendingSpringRepo) {
+            final DonorSpringRepository donorSpringRepo, final BookLendingSpringRepository bookLendingSpringRepo) {
         super();
 
         bookSpringRepository = Objects.requireNonNull(bookSpringRepo);
@@ -106,7 +99,6 @@ public final class JpaGameBookRepository implements GameBookRepository {
         publisherSpringRepository = Objects.requireNonNull(publisherSpringRepo);
         bookTypeSpringRepository = Objects.requireNonNull(bookTypeSpringRepo);
         gameSystemSpringRepository = Objects.requireNonNull(gameSystemSpringRepo);
-        borrowerSpringRepository = Objects.requireNonNull(borrowerSpringRepo);
         donorSpringRepository = Objects.requireNonNull(donorSpringRepo);
         bookLendingSpringRepository = Objects.requireNonNull(bookLendingSpringRepo);
     }
@@ -207,19 +199,6 @@ public final class JpaGameBookRepository implements GameBookRepository {
     }
 
     @Override
-    public final long findNextNumber() {
-        final long number;
-
-        log.debug("Finding next number for the books");
-
-        number = bookSpringRepository.findNextNumber();
-
-        log.debug("Found number {}", number);
-
-        return number;
-    }
-
-    @Override
     public final Optional<GameBook> findOne(final long number) {
         final Optional<GameBook> book;
 
@@ -239,6 +218,7 @@ public final class JpaGameBookRepository implements GameBookRepository {
         final GameBookEntity           entity;
         final GameBookEntity           created;
         final GameBook                 saved;
+        final Long                     number;
 
         log.debug("Saving book {}", book);
 
@@ -248,6 +228,9 @@ public final class JpaGameBookRepository implements GameBookRepository {
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
+        } else {
+            number = bookSpringRepository.findNextNumber();
+            entity.setNumber(number);
         }
 
         created = bookSpringRepository.save(entity);
@@ -291,16 +274,9 @@ public final class JpaGameBookRepository implements GameBookRepository {
     }
 
     private final BookLendingInfo toDomain(final GameBookEntity bookEntity, final BookLendingEntity entity) {
-        final Borrower borrower;
-        borrower = borrowerSpringRepository.findByProfileId(entity.getProfileId())
-            .map(BookEntityMapper::toDomain)
-            .orElseThrow(() -> {
-                log.error("Missing donor {}", entity.getProfileId());
-                throw new MissingDonorException(entity.getProfileId());
-            });
-
         new Title(bookEntity.getSupertitle(), bookEntity.getTitle(), bookEntity.getSubtitle());
-        return new BookLendingInfo(borrower, entity.getLendingDate(), Optional.ofNullable(entity.getReturnDate()));
+        return new BookLendingInfo(entity.getBorrower()
+            .getNumber(), entity.getLendingDate(), Optional.ofNullable(entity.getReturnDate()));
     }
 
     private final GameBookEntity toEntity(final GameBook domain) {

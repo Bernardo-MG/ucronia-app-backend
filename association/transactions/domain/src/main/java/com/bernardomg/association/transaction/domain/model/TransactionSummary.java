@@ -29,8 +29,11 @@ import java.util.Objects;
 public record TransactionSummary(float results, float total) {
 
     public TransactionSummary(final float results, final float total) {
-        this.results = Objects.requireNonNull(results);
-        this.total = Objects.requireNonNull(total);
+        Objects.requireNonNull(results, "Results can't be null");
+        Objects.requireNonNull(total, "Total can't be null");
+
+        this.results = results;
+        this.total = total;
     }
 
 }

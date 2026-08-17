@@ -66,6 +66,7 @@ class TestTransactionServiceGetAll {
     void testGetAll() {
         final Page<Transaction> transactions;
         final Page<Transaction> existing;
+        final Transaction       transaction;
         final TransactionFilter transactionFilter;
         final Pagination        pagination;
         final Sorting           sorting;
@@ -76,7 +77,8 @@ class TestTransactionServiceGetAll {
 
         transactionFilter = TransactionsFilters.empty();
 
-        existing = new Page<>(List.of(Transactions.positive()), 0, 0, 0, 0, 0, false, false, sorting);
+        transaction = Transactions.positive();
+        existing = new Page<>(List.of(transaction), 0, 0, 0, 0, 0, false, false, sorting);
         given(transactionRepository.findAll(transactionFilter, pagination, sorting)).willReturn(existing);
 
         // WHEN
@@ -87,7 +89,7 @@ class TestTransactionServiceGetAll {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("transactions")
-            .containsExactly(Transactions.positive());
+            .containsExactly(transaction);
     }
 
     @Test

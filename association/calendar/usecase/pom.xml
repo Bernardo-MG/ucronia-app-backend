@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+   <modelVersion>4.0.0</modelVersion>
+
+	<!-- ********************************************** -->
+	<!-- ****************** BASE POM ****************** -->
+	<!-- ********************************************** -->
+
+   <parent>
+      <groupId>com.bernardomg.association.calendar</groupId>
+      <artifactId>association-calendar</artifactId>
+      <version>0.7.8</version>
+   </parent>
+
+	<!-- ********************************************** -->
+	<!-- **************** PROJECT INFO **************** -->
+	<!-- ********************************************** -->
+
+   <groupId>com.bernardomg.association.calendar</groupId>
+   <artifactId>association-calendar-usecase</artifactId>
+   <packaging>jar</packaging>
+
+   <name>Association Calendar Usecase</name>
+
+	<!-- ********************************************** -->
+	<!-- *************** DEPENDENCIES ***************** -->
+	<!-- ********************************************** -->
+
+   <dependencies>
+	  <!-- ============================================== -->
+	  <!-- ================ FRAMEWORK =================== -->
+	  <!-- ============================================== -->
+      <dependency>
+			<!-- Validation -->
+         <groupId>com.bernardomg.framework</groupId>
+         <artifactId>validation</artifactId>
+      </dependency>
+      <dependency>
+			<!-- Pagination -->
+         <groupId>com.bernardomg.framework</groupId>
+         <artifactId>pagination</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg</groupId>
+         <artifactId>excel</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.framework</groupId>
+         <artifactId>event</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.association.calendar</groupId>
+         <artifactId>association-calendar-domain</artifactId>
+      </dependency>
+	  <!-- ============================================== -->
+	  <!-- ================= JAKARTA ==================== -->
+	  <!-- ============================================== -->
+      <dependency>
+         <groupId>jakarta.transaction</groupId>
+         <artifactId>jakarta.transaction-api</artifactId>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
+      <!-- ============================================== -->
+      <dependency>
+         <groupId>com.bernardomg.association.calendar</groupId>
+         <artifactId>association-calendar-testing</artifactId>
+         <scope>test</scope>
+      </dependency>
+   </dependencies>
+
+</project>

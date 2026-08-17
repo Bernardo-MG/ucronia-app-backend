@@ -30,6 +30,8 @@ import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Optional;
 
+import com.bernardomg.association.transaction.adapter.outbound.rest.dto.AuditDetailsDto;
+import com.bernardomg.association.transaction.adapter.outbound.rest.dto.AuditUserDto;
 import com.bernardomg.association.transaction.adapter.outbound.rest.dto.PropertyDto;
 import com.bernardomg.association.transaction.adapter.outbound.rest.dto.PropertyDto.DirectionEnum;
 import com.bernardomg.association.transaction.adapter.outbound.rest.dto.SortingDto;
@@ -48,6 +50,8 @@ import com.bernardomg.association.transaction.domain.model.TransactionSummary;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
 import com.bernardomg.pagination.domain.Sorting.Property;
+import com.bernardomg.security.domain.audit.model.AuditDetails;
+import com.bernardomg.security.domain.audit.model.AuditDetails.AuditUser;
 
 public final class TransactionDtoMapper {
 
@@ -111,6 +115,34 @@ public final class TransactionDtoMapper {
         return new TransactionSummaryResponseDto().content(summaryDto);
     }
 
+    private static final AuditDetailsDto toDto(final AuditDetails audit) {
+        final AuditDetailsDto dto;
+
+        if (audit == null) {
+            dto = null;
+        } else {
+            dto = new AuditDetailsDto().createdAt(audit.createdAt())
+                .createdBy(toDto(audit.createdBy()))
+                .updatedAt(audit.updatedAt())
+                .updatedBy(toDto(audit.updatedBy()));
+        }
+
+        return dto;
+    }
+
+    private static final AuditUserDto toDto(final AuditUser user) {
+        final AuditUserDto dto;
+
+        if (user == null) {
+            dto = null;
+        } else {
+            dto = new AuditUserDto().email(user.email())
+                .username(user.username())
+                .name(user.name());
+        }
+        return dto;
+    }
+
     private static final PropertyDto toDto(final Property property) {
         final DirectionEnum direction;
 
@@ -127,7 +159,8 @@ public final class TransactionDtoMapper {
         return new TransactionDto().index(transaction.index())
             .date(transaction.date())
             .amount(transaction.amount())
-            .description(transaction.description());
+            .description(transaction.description())
+            .audit(toDto(transaction.audit()));
     }
 
     private static final Instant toInstant(final YearMonth month) {

@@ -11,7 +11,7 @@
    <parent>
       <groupId>com.bernardomg</groupId>
       <artifactId>ucronia-app-backend</artifactId>
-      <version>0.7.7</version>
+      <version>0.7.8</version>
    </parent>
 
    <!-- ********************************************** -->
@@ -32,12 +32,9 @@
      <module>security</module>
      <module>settings</module>
      <module>transactions</module>
-     <module>fees</module>
      <module>profiles</module>
-     <module>members</module>
-     <module>guest</module>
-     <module>sponsor</module>
      <module>library</module>
+     <module>calendar</module>
    </modules>
 
 </project>

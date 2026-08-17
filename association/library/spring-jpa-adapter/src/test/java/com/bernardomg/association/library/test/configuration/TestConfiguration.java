@@ -28,6 +28,8 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.security.authentication.AuthenticationTrustResolver;
+import org.springframework.security.authentication.AuthenticationTrustResolverImpl;
 
 import com.bernardomg.association.library.author.adapter.inbound.jpa.repository.AuthorSpringRepository;
 import com.bernardomg.association.library.author.adapter.inbound.jpa.repository.JpaAuthorRepository;
@@ -53,9 +55,7 @@ import com.bernardomg.association.library.gamesystem.domain.repository.GameSyste
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.repository.BookLendingSpringRepository;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.repository.BorrowerSpringRepository;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.repository.JpaBookLendingRepository;
-import com.bernardomg.association.library.lending.adapter.inbound.jpa.repository.JpaBorrowerRepository;
 import com.bernardomg.association.library.lending.domain.repository.BookLendingRepository;
-import com.bernardomg.association.library.lending.domain.repository.BorrowerRepository;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.repository.JpaPublisherRepository;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.repository.PublisherSpringRepository;
 import com.bernardomg.association.library.publisher.domain.repository.PublisherRepository;
@@ -64,12 +64,19 @@ import com.bernardomg.association.library.publisher.domain.repository.PublisherR
 @EnableJpaRepositories(basePackages = { "com.bernardomg.association.library.**.adapter.inbound.jpa",
         "com.bernardomg.association.member.adapter.inbound.jpa", "com.bernardomg.association.fee.adapter.inbound.jpa",
         "com.bernardomg.association.transaction.adapter.inbound.jpa",
-        "com.bernardomg.association.profile.adapter.inbound.jpa" })
+        "com.bernardomg.association.profile.adapter.inbound.jpa", "com.bernardomg.association.key.adapter.inbound.jpa",
+        "com.bernardomg.security.adapter.inbound.jpa" })
 @EntityScan(basePackages = { "com.bernardomg.association.library.**.adapter.inbound.jpa",
         "com.bernardomg.association.member.adapter.inbound.jpa", "com.bernardomg.association.fee.adapter.inbound.jpa",
         "com.bernardomg.association.transaction.adapter.inbound.jpa",
-        "com.bernardomg.association.profile.adapter.inbound.jpa" })
+        "com.bernardomg.association.profile.adapter.inbound.jpa", "com.bernardomg.association.key.adapter.inbound.jpa",
+        "com.bernardomg.security.adapter.inbound.jpa" })
 public class TestConfiguration {
+
+    @Bean("authenticationTrustResolver")
+    public AuthenticationTrustResolver getAuthenticationTrustResolver() {
+        return new AuthenticationTrustResolverImpl();
+    }
 
     @Bean("authorRepository")
     public AuthorRepository getAuthorRepository(final AuthorSpringRepository authorSpringRepository) {
@@ -85,19 +92,13 @@ public class TestConfiguration {
 
     @Bean("bookRepository")
     public BookRepository getBookRepository(final BookSpringRepository bookSpringRepository,
-            final BorrowerSpringRepository borrowerSpringRepository,
             final BookLendingSpringRepository bookLendingSpringRepository) {
-        return new JpaBookRepository(bookSpringRepository, borrowerSpringRepository, bookLendingSpringRepository);
+        return new JpaBookRepository(bookSpringRepository, bookLendingSpringRepository);
     }
 
     @Bean("bookTypeRepository")
     public BookTypeRepository getBookTypeRepository(final BookTypeSpringRepository bookTypeSpringRepository) {
         return new JpaBookTypeRepository(bookTypeSpringRepository);
-    }
-
-    @Bean("borrowerRepository")
-    public BorrowerRepository getBorrowerRepository(final BorrowerSpringRepository borrowerSpringRepository) {
-        return new JpaBorrowerRepository(borrowerSpringRepository);
     }
 
     @Bean("donorRepository")
@@ -109,10 +110,10 @@ public class TestConfiguration {
     public FictionBookRepository getFictionBookRepository(final FictionBookSpringRepository bookSpringRepository,
             final AuthorSpringRepository authorSpringRepository,
             final PublisherSpringRepository publisherSpringRepository,
-            final BorrowerSpringRepository borrowerSpringRepository, final DonorSpringRepository donorSpringRepository,
+            final DonorSpringRepository donorSpringRepository,
             final BookLendingSpringRepository bookLendingSpringRepository) {
         return new JpaFictionBookRepository(bookSpringRepository, authorSpringRepository, publisherSpringRepository,
-            borrowerSpringRepository, donorSpringRepository, bookLendingSpringRepository);
+            donorSpringRepository, bookLendingSpringRepository);
     }
 
     @Bean("gameBookRepository")
@@ -121,11 +122,10 @@ public class TestConfiguration {
             final PublisherSpringRepository publisherSpringRepository,
             final BookTypeSpringRepository bookTypeSpringRepository,
             final GameSystemSpringRepository gameSystemSpringRepository,
-            final BorrowerSpringRepository borrowerSpringRepository, final DonorSpringRepository donorSpringRepository,
+            final DonorSpringRepository donorSpringRepository,
             final BookLendingSpringRepository bookLendingSpringRepository) {
         return new JpaGameBookRepository(bookSpringRepository, authorSpringRepository, publisherSpringRepository,
-            bookTypeSpringRepository, gameSystemSpringRepository, borrowerSpringRepository, donorSpringRepository,
-            bookLendingSpringRepository);
+            bookTypeSpringRepository, gameSystemSpringRepository, donorSpringRepository, bookLendingSpringRepository);
     }
 
     @Bean("gameSystemRepository")

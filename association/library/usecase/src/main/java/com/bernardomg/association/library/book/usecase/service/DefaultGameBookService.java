@@ -37,7 +37,7 @@ import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.author.domain.repository.AuthorRepository;
 import com.bernardomg.association.library.book.domain.exception.MissingBookException;
 import com.bernardomg.association.library.book.domain.exception.MissingDonorException;
-import com.bernardomg.association.library.book.domain.model.BookFilter;
+import com.bernardomg.association.library.book.domain.filter.BookFilter;
 import com.bernardomg.association.library.book.domain.model.Donation;
 import com.bernardomg.association.library.book.domain.model.Donor;
 import com.bernardomg.association.library.book.domain.model.GameBook;
@@ -113,7 +113,6 @@ public final class DefaultGameBookService implements GameBookService {
     @Override
     public final GameBook create(final GameBook book) {
         final GameBook              toCreate;
-        final Long                  number;
         final Collection<Author>    authors;
         final Collection<Publisher> publishers;
         final Collection<Donor>     donors;
@@ -123,9 +122,6 @@ public final class DefaultGameBookService implements GameBookService {
         log.debug("Creating book {}", book);
 
         validateRelationships(book);
-
-        // Get number
-        number = bookRepository.findNextNumber();
 
         // TODO: relationships are no longer received on create
         // Remove duplicates
@@ -152,7 +148,7 @@ public final class DefaultGameBookService implements GameBookService {
         } else {
             donation = Optional.empty();
         }
-        toCreate = new GameBook(number, book.title(), book.isbn(), book.language(), book.publishDate(), false, authors,
+        toCreate = new GameBook(-1, book.title(), book.isbn(), book.language(), book.publishDate(), false, authors,
             List.of(), publishers, donation, book.bookType(), book.gameSystem());
 
         createBookValidator.validate(book);

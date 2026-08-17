@@ -26,27 +26,16 @@ package com.bernardomg.association.library.book.domain.model;
 
 import java.util.Objects;
 
-import org.apache.commons.lang3.StringUtils;
+import com.bernardomg.association.profile.domain.model.Name;
 
 public record Donor(long number, Name name) {
 
     public Donor(final long number, final Name name) {
-        this.number = Objects.requireNonNull(number);
-        this.name = Objects.requireNonNull(name);
-    }
+        Objects.requireNonNull(number, "Number can't be null");
+        Objects.requireNonNull(name, "Name can't be null");
 
-    public record Name(String firstName, String lastName) {
-
-        public Name(final String firstName, final String lastName) {
-            this.firstName = StringUtils.trim(firstName);
-            this.lastName = StringUtils.trim(lastName);
-        }
-
-        public final String fullName() {
-            return String.format("%s %s", firstName, lastName)
-                .trim();
-        }
-
+        this.number = number;
+        this.name = name;
     }
 
 }

@@ -70,20 +70,18 @@ class TestTransactionServiceCreate {
     }
 
     @Test
-    @DisplayName("With a member with padded name, the member is persisted")
+    @DisplayName("With a transaction with padded name, the member is persisted")
     void testCreate_Padded_PersistedData() {
         final Transaction transaction;
 
         // GIVEN
         transaction = Transactions.padded();
 
-        given(transactionRepository.findNextIndex()).willReturn(TransactionConstants.INDEX);
-
         // WHEN
         service.create(transaction);
 
         // THEN
-        verify(transactionRepository).save(Transactions.positive());
+        verify(transactionRepository).save(transaction);
     }
 
     @Test
@@ -94,13 +92,11 @@ class TestTransactionServiceCreate {
         // GIVEN
         transaction = Transactions.positive();
 
-        given(transactionRepository.findNextIndex()).willReturn(TransactionConstants.INDEX);
-
         // WHEN
         service.create(transaction);
 
         // THEN
-        verify(transactionRepository).save(Transactions.positive());
+        verify(transactionRepository).save(transaction);
     }
 
     @Test
@@ -112,8 +108,7 @@ class TestTransactionServiceCreate {
         // GIVEN
         transaction = Transactions.positive();
 
-        given(transactionRepository.save(Transactions.positive())).willReturn(Transactions.positive());
-        given(transactionRepository.findNextIndex()).willReturn(TransactionConstants.INDEX);
+        given(transactionRepository.save(transaction)).willReturn(transaction);
 
         // WHEN
         created = service.create(transaction);
@@ -121,7 +116,7 @@ class TestTransactionServiceCreate {
         // THEN
         Assertions.assertThat(created)
             .as("transaction")
-            .isEqualTo(Transactions.positive());
+            .isEqualTo(transaction);
     }
 
 }

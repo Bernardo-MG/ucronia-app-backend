@@ -28,9 +28,13 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Optional;
 
+import com.bernardomg.association.profile.domain.model.ContactChannel;
+import com.bernardomg.association.profile.domain.model.Name;
 import com.bernardomg.association.profile.domain.model.Profile;
-import com.bernardomg.association.profile.domain.model.Profile.ContactChannel;
-import com.bernardomg.association.profile.domain.model.Profile.Name;
+import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditMetadata;
+import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditUserEntity;
+import com.bernardomg.security.domain.audit.model.AuditDetails;
+import com.bernardomg.security.domain.audit.model.AuditDetails.AuditUser;
 
 /**
  * Profile entity mapper.
@@ -40,17 +44,19 @@ public final class ProfileEntityMapper {
     public static final Profile toDomain(final ProfileEntity entity) {
         final Name                       name;
         final Collection<ContactChannel> contactChannels;
+        final AuditDetails               audit;
 
-        name = new Name(entity.getFirstName(), entity.getLastName());
+        name = new Name(entity.getFirstName(), entity.getLastName(), Optional.ofNullable(entity.getNickname()));
 
         contactChannels = entity.getContactChannels()
             .stream()
             .map(ContactChannelEntityMapper::toDomain)
             .toList();
 
+        audit = toDomain(entity.getAudit());
         return new Profile(Optional.ofNullable(entity.getIdentifier()), entity.getNumber(), name,
             Optional.ofNullable(entity.getBirthDate()), contactChannels, Optional.ofNullable(entity.getAddress()),
-            Optional.ofNullable(entity.getComments()), entity.getTypes());
+            Optional.ofNullable(entity.getComments()), entity.getTypes(), audit);
     }
 
     public static final ProfileEntity toEntity(final Profile data,
@@ -64,6 +70,9 @@ public final class ProfileEntityMapper {
             .firstName());
         entity.setLastName(data.name()
             .lastName());
+        entity.setNickname(data.name()
+            .nickname()
+            .orElse(null));
         entity.setIdentifier(data.identifier()
             .orElse(null));
         entity.setBirthDate(data.birthDate()
@@ -75,7 +84,7 @@ public final class ProfileEntityMapper {
 
         contactChannels = data.contactChannels()
             .stream()
-            .map(c -> toEntity(entity, c, contactMethods))
+            .map(c -> toEntity(c, contactMethods))
             .toList();
         if (entity.getContactChannels() != null) {
             entity.getContactChannels()
@@ -91,7 +100,32 @@ public final class ProfileEntityMapper {
         return entity;
     }
 
-    private static final ContactChannelEntity toEntity(final ProfileEntity contact, final ContactChannel data,
+    private static final AuditUser toAuditDomain(final AuditUserEntity user) {
+        final AuditUser auditUser;
+
+        if (user == null) {
+            auditUser = null;
+        } else {
+            auditUser = new AuditUser(user.getEmail(), user.getUsername(), user.getName());
+        }
+
+        return auditUser;
+    }
+
+    private static final AuditDetails toDomain(final AuditMetadata audit) {
+        final AuditDetails auditDetails;
+
+        if (audit == null) {
+            auditDetails = new AuditDetails();
+        } else {
+            auditDetails = new AuditDetails(audit.getCreatedAt(), toAuditDomain(audit.getCreatedBy()),
+                audit.getUpdatedAt(), toAuditDomain(audit.getUpdatedBy()));
+        }
+
+        return auditDetails;
+    }
+
+    private static final ContactChannelEntity toEntity(final ContactChannel data,
             final Collection<ContactMethodEntity> contactMethods) {
         final ContactChannelEntity          entity;
         final Optional<ContactMethodEntity> contactMethod;
@@ -103,7 +137,6 @@ public final class ProfileEntityMapper {
             .findFirst();
 
         entity = new ContactChannelEntity();
-        entity.setProfile(contact);
         entity.setContactMethod(contactMethod.get());
         entity.setDetail(data.detail());
 

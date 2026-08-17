@@ -26,29 +26,32 @@ package com.bernardomg.association.security.user.adapter.outbound.rest.model;
 
 import java.util.Optional;
 
-import com.bernardomg.association.security.account.domain.model.ProfileAccount.Profile;
 import com.bernardomg.association.security.adapter.outbound.rest.dto.ProfileDto;
 import com.bernardomg.association.security.adapter.outbound.rest.dto.ProfileNameDto;
 import com.bernardomg.association.security.adapter.outbound.rest.dto.ProfileResponseDto;
+import com.bernardomg.association.security.user.domain.model.UserProfile;
 
 public final class UserProfileDtoMapper {
 
-    public static final ProfileResponseDto toResponseDto(final Optional<Profile> profile) {
+    public static final ProfileResponseDto toResponseDto(final Optional<UserProfile> profile) {
         return new ProfileResponseDto().content(profile.map(UserProfileDtoMapper::toDto)
             .orElse(null));
     }
 
-    public static final ProfileResponseDto toResponseDto(final Profile profile) {
+    public static final ProfileResponseDto toResponseDto(final UserProfile profile) {
         return new ProfileResponseDto().content(UserProfileDtoMapper.toDto(profile));
     }
 
-    private static final ProfileDto toDto(final Profile profile) {
+    private static final ProfileDto toDto(final UserProfile profile) {
         ProfileNameDto name;
 
         name = new ProfileNameDto().firstName(profile.name()
             .firstName())
             .lastName(profile.name()
                 .lastName())
+            .nickname(profile.name()
+                .nickname()
+                .orElse(null))
             .fullName(profile.name()
                 .fullName());
         return new ProfileDto().identifier(profile.identifier()

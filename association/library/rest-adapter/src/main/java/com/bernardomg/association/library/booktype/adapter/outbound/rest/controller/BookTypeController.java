@@ -37,15 +37,12 @@ import com.bernardomg.association.library.adapter.outbound.rest.dto.BookTypeUpda
 import com.bernardomg.association.library.booktype.adapter.outbound.rest.model.BookTypeDtoMapper;
 import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.booktype.usecase.service.BookTypeService;
+import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.web.WebSorting;
-import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
-import com.bernardomg.security.permission.domain.constant.Actions;
-
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
+import com.bernardomg.security.domain.permission.constant.Actions;
 
 /**
  * Book type REST controller.
@@ -68,7 +65,7 @@ public class BookTypeController implements BookTypeApi {
 
     @Override
     @RequireResourceAuthorization(resource = "LIBRARY_BOOK_TYPE", action = Actions.CREATE)
-    public BookTypeResponseDto createBookType(@Valid final BookTypeCreationDto bookTypeCreationDto) {
+    public BookTypeResponseDto createBookType(final BookTypeCreationDto bookTypeCreationDto) {
         final BookType bookType;
 
         bookType = service.create(new BookType(-1L, bookTypeCreationDto.getName()));
@@ -88,8 +85,7 @@ public class BookTypeController implements BookTypeApi {
 
     @Override
     @RequireResourceAuthorization(resource = "LIBRARY_BOOK_TYPE", action = Actions.READ)
-    public BookTypePageResponseDto getAllBookTypes(@Min(0) @Valid final Integer page, @Min(1) @Valid final Integer size,
-            @Valid final List<String> sort) {
+    public BookTypePageResponseDto getAllBookTypes(final Integer page, final Integer size, final List<String> sort) {
         final Pagination     pagination;
         final Sorting        sorting;
         final Page<BookType> bookTypes;
@@ -113,7 +109,7 @@ public class BookTypeController implements BookTypeApi {
 
     @Override
     @RequireResourceAuthorization(resource = "LIBRARY_AUTHOR", action = Actions.UPDATE)
-    public BookTypeResponseDto updateBookType(final Long number, @Valid final BookTypeUpdateDto bookTypeUpdateDto) {
+    public BookTypeResponseDto updateBookType(final Long number, final BookTypeUpdateDto bookTypeUpdateDto) {
         final BookType updated;
         final BookType bookType;
 

@@ -29,7 +29,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.bernardomg.association.library.book.adapter.inbound.jpa.model.GameBookEntity;
-import com.bernardomg.association.library.book.domain.model.BookFilter;
+import com.bernardomg.association.library.book.domain.filter.BookFilter;
 
 import jakarta.persistence.criteria.Expression;
 
@@ -60,16 +60,8 @@ public final class GameBookSpecifications {
         final String likePattern = "%" + pattern.toLowerCase() + "%";
 
         return (root, query, cb) -> {
-            Expression<String> fullTitle = cb.concat(
-                cb.concat(
-                    root.get("subtitle"),
-                    cb.literal(" ")
-                ),
-                cb.concat(
-                    cb.concat(root.get("title"), cb.literal(" ")),
-                    root.get("supertitle")
-                )
-            );
+            final Expression<String> fullTitle = cb.concat(cb.concat(root.get("subtitle"), cb.literal(" ")),
+                cb.concat(cb.concat(root.get("title"), cb.literal(" ")), root.get("supertitle")));
 
             return cb.like(cb.lower(fullTitle), likePattern);
         };

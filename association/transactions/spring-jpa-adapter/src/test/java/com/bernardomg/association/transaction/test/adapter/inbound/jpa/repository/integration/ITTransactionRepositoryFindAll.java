@@ -46,11 +46,6 @@ class ITTransactionRepositoryFindAll {
     @Autowired
     private TransactionRepository repository;
 
-    public ITTransactionRepositoryFindAll() {
-        super();
-        // TODO: test sorting
-    }
-
     @Test
     @DisplayName("When there is no data, nothing is returned")
     void testFindAll_NoData() {

@@ -85,8 +85,6 @@ class TestContactMethodServiceCreate {
         // GIVEN
         contactMethod = ContactMethods.email();
 
-        given(ContactMethodRepository.findNextNumber()).willReturn(ContactMethodConstants.NUMBER);
-
         // WHEN
         service.create(contactMethod);
 
@@ -104,7 +102,6 @@ class TestContactMethodServiceCreate {
         contactMethod = ContactMethods.email();
 
         given(ContactMethodRepository.save(ContactMethods.email())).willReturn(ContactMethods.email());
-        given(ContactMethodRepository.findNextNumber()).willReturn(ContactMethodConstants.NUMBER);
 
         // WHEN
         created = service.create(contactMethod);

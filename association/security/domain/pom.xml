@@ -11,7 +11,7 @@
    <parent>
       <groupId>com.bernardomg.association.security</groupId>
       <artifactId>association-security</artifactId>
-      <version>0.7.7</version>
+      <version>0.7.8</version>
    </parent>
 
    <!-- ********************************************** -->
@@ -38,23 +38,15 @@
          <artifactId>commons-lang3</artifactId>
       </dependency>
       <dependency>
-         <!-- Spring WS Security Starter -->
-         <groupId>com.bernardomg.framework.spring</groupId>
-         <artifactId>spring-ws-security-starter</artifactId>
-         <exclusions>
-             <exclusion>
-                 <groupId>com.bernardomg.framework.spring</groupId>
-                 <artifactId>spring-ws-starter</artifactId>
-             </exclusion>
-             <exclusion>
-                 <groupId>org.springframework.boot</groupId>
-                 <artifactId>spring-boot-autoconfigure</artifactId>
-             </exclusion>
-             <exclusion>
-                 <groupId>org.springframework</groupId>
-                 <artifactId>spring-tx</artifactId>
-             </exclusion>
-         </exclusions>
+         <groupId>com.bernardomg.association.profile</groupId>
+         <artifactId>association-profile-domain</artifactId>
+      </dependency>
+	  <!-- ============================================== -->
+	  <!-- ================ FRAMEWORK =================== -->
+	  <!-- ============================================== -->
+      <dependency>
+         <groupId>com.bernardomg.framework.security</groupId>
+         <artifactId>security-model</artifactId>
       </dependency>
    </dependencies>
 

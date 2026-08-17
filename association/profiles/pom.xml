@@ -11,7 +11,7 @@
    <parent>
       <groupId>com.bernardomg.association</groupId>
       <artifactId>association</artifactId>
-      <version>0.7.7</version>
+      <version>0.7.8</version>
    </parent>
 
    <!-- ********************************************** -->
@@ -33,7 +33,10 @@
      <module>testing</module>
      <module>usecase</module>
      <module>spring-jpa-adapter</module>
+     <module>event-adapter</module>
      <module>rest-adapter</module>
+     <module>fee-rest-adapter</module>
+     <module>spring-security</module>
      <module>spring-starter</module>
    </modules>
 
@@ -63,12 +66,27 @@
          </dependency>
          <dependency>
             <groupId>com.bernardomg.association.profile</groupId>
+            <artifactId>association-profile-event-adapter</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.association.profile</groupId>
             <artifactId>association-profile-spring-jpa-adapter</artifactId>
             <version>${project.version}</version>
          </dependency>
          <dependency>
             <groupId>com.bernardomg.association.profile</groupId>
+            <artifactId>association-profile-spring-security-adapter</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.association.profile</groupId>
             <artifactId>association-profile-rest-adapter</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.association.profile</groupId>
+            <artifactId>association-fee-rest-adapter</artifactId>
             <version>${project.version}</version>
          </dependency>
       </dependencies>

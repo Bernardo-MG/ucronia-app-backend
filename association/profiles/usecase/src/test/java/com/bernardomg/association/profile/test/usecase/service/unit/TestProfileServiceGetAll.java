@@ -77,7 +77,7 @@ class TestProfileServiceGetAll {
         final Page<Profile> existing;
         final Pagination    pagination;
         final Sorting       sorting;
-        final ProfileFilter  filter;
+        final ProfileFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
@@ -105,7 +105,7 @@ class TestProfileServiceGetAll {
         final Page<Profile> existing;
         final Pagination    pagination;
         final Sorting       sorting;
-        final ProfileFilter  filter;
+        final ProfileFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
@@ -131,7 +131,7 @@ class TestProfileServiceGetAll {
     void testGetAll_Sort_Paged_Asc_FirstName() {
         final Pagination    pagination;
         final Sorting       sorting;
-        final ProfileFilter  filter;
+        final ProfileFilter filter;
         final Page<Profile> existing;
 
         // GIVEN
@@ -158,7 +158,7 @@ class TestProfileServiceGetAll {
         final Pagination    pagination;
         final Sorting       sorting;
         final Page<Profile> existing;
-        final ProfileFilter  filter;
+        final ProfileFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);

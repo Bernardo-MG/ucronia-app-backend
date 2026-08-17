@@ -1,25 +1,43 @@
 databaseChangeLog:
+  # Security
+  - include:
+      file: classpath:db/changelog/auth/initialize.yaml
   # General
   - include:
       file: classpath:db/changelog/settings.yaml
+  # Profiles
   - include:
-      file: directory.yaml
-      relativeToChangelogFile: true
-  # Association
-  - include:
-      file: transactions.yaml
-      relativeToChangelogFile: true
-  - include:
-      file: fees.yaml
-      relativeToChangelogFile: true
-  - include:
-      file: member.yaml
+      file: profile.yaml
       relativeToChangelogFile: true
   - include:
       file: sponsor.yaml
       relativeToChangelogFile: true
   - include:
       file: guest.yaml
+      relativeToChangelogFile: true
+  # Funds
+  - include:
+      file: transactions.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: fees.yaml
+      relativeToChangelogFile: true
+  # Member
+  - include:
+      file: key.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: member.yaml
+      relativeToChangelogFile: true
+  # Calendar
+  - include:
+      file: calendar.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: activity.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: scheduled_game.yaml
       relativeToChangelogFile: true
   # Inventory
   - include:
@@ -28,9 +46,7 @@ databaseChangeLog:
   - include:
       file: library.yaml
       relativeToChangelogFile: true
-  # Security
-  - include:
-      file: classpath:db/changelog/auth/initialize.yaml
+  # Authentication
   - include:
       file: auth.yaml
       relativeToChangelogFile: true

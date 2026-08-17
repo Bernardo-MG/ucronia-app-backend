@@ -20,6 +20,8 @@ components:
           $ref: '../common/ids.yml#/components/schemas/Id'
         name:
           type: string
+          minLength: 1
+          maxLength: 100
           example: 'Wizards of the Coast'
     PublisherCreation:
       type: object
@@ -27,16 +29,18 @@ components:
       properties:
         name:
           type: string
-          example: 'Wizards of the Coast'
+          minLength: 1
           maxLength: 100
+          example: 'Wizards of the Coast'
     PublisherUpdate:
       type: object
       required: [name]
       properties:
         name:
           type: string
-          example: 'Wizards of the Coast'
+          minLength: 1
           maxLength: 100
+          example: 'Wizards of the Coast'
     PublisherPageResponse:
       allOf:
         - $ref: '../common/responses.yml#/components/schemas/PageResponse'

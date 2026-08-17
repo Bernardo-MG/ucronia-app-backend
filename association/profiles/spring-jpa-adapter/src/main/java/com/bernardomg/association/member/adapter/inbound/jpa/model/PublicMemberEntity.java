@@ -1,0 +1,144 @@
+
+package com.bernardomg.association.member.adapter.inbound.jpa.model;
+
+import java.io.Serializable;
+import java.util.Objects;
+
+import com.bernardomg.association.key.adapter.inbound.jpa.model.KeyEntity;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrimaryKeyJoinColumn;
+import jakarta.persistence.SecondaryTable;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
+
+@Entity(name = "PublicMember")
+@Table(schema = "directory", name = "members")
+@SecondaryTable(schema = "directory", name = "profiles",
+        pkJoinColumns = @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id"))
+public class PublicMemberEntity implements Serializable {
+
+    /**
+     *
+     */
+    @Transient
+    private static final long serialVersionUID = 8139806507534262996L;
+
+    @Column(name = "active", table = "members", nullable = false)
+    private Boolean           active;
+
+    @Column(name = "first_name", table = "profiles", nullable = false)
+    private String            firstName;
+
+    @Id
+    @Column(name = "id", table = "members", nullable = false, unique = true)
+    private Long              id;
+
+    @OneToOne
+    @JoinColumn(name = "key_id", table = "members", referencedColumnName = "id")
+    private KeyEntity         key;
+
+    @Column(name = "last_name", table = "profiles")
+    private String            lastName;
+
+    @Column(name = "nickname", table = "profiles")
+    private String            nickname;
+
+    @Column(name = "number", table = "profiles")
+    private Long              number;
+
+    @Column(name = "renew_membership", table = "members", nullable = false)
+    private Boolean           renew;
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof final PublicMemberEntity other)) {
+            return false;
+        }
+        return Objects.equals(id, other.id);
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public KeyEntity getKey() {
+        return key;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public Long getNumber() {
+        return number;
+    }
+
+    public Boolean getRenew() {
+        return renew;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    public void setActive(final Boolean active) {
+        this.active = active;
+    }
+
+    public void setFirstName(final String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setId(final Long id) {
+        this.id = id;
+    }
+
+    public void setKey(final KeyEntity key) {
+        this.key = key;
+    }
+
+    public void setLastName(final String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setNickname(final String nickname) {
+        this.nickname = nickname;
+    }
+
+    public void setNumber(final Long number) {
+        this.number = number;
+    }
+
+    public void setRenew(final Boolean renew) {
+        this.renew = renew;
+    }
+
+    @Override
+    public String toString() {
+        return "PublicMemberEntity [id=" + id + ", number=" + number + ", firstName=" + firstName + ", lastName="
+                + lastName + ", nickname=" + nickname + ", active=" + active + ", renew=" + renew + ", key=" + key
+                + "]";
+    }
+
+}

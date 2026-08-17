@@ -27,10 +27,16 @@ package com.bernardomg.association.library.lending.adapter.inbound.jpa.model;
 import java.io.Serializable;
 import java.time.Instant;
 
+import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditMetadata;
+
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
@@ -45,47 +51,70 @@ public class BookLendingEntity implements Serializable {
     @Transient
     private static final long serialVersionUID = 1328776989450853491L;
 
+    @Embedded
+    private AuditMetadata     audit            = new AuditMetadata();
+
     @Id
     @Column(name = "book_id", nullable = false)
     private Long              bookId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "borrower_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private BorrowerEntity    borrower;
+
+    @Id
+    @Column(name = "borrower_id", nullable = false)
+    private Long              borrowerId;
 
     @Id
     @Column(name = "lending_date", nullable = false)
     private Instant           lendingDate;
 
-    @Id
-    @Column(name = "profile_id", nullable = false)
-    private Long              profileId;
-
     @Column(name = "return_date")
     private Instant           returnDate;
 
+    public AuditMetadata getAudit() {
+        return audit;
+    }
+
     public Long getBookId() {
         return bookId;
+    }
+
+    public BorrowerEntity getBorrower() {
+        return borrower;
+    }
+
+    public Long getBorrowerId() {
+        return borrowerId;
     }
 
     public Instant getLendingDate() {
         return lendingDate;
     }
 
-    public Long getProfileId() {
-        return profileId;
-    }
-
     public Instant getReturnDate() {
         return returnDate;
+    }
+
+    public void setAudit(final AuditMetadata audit) {
+        this.audit = audit;
     }
 
     public void setBookId(final Long bookId) {
         this.bookId = bookId;
     }
 
-    public void setLendingDate(final Instant lendingDate) {
-        this.lendingDate = lendingDate;
+    public void setBorrower(final BorrowerEntity borrower) {
+        this.borrower = borrower;
     }
 
-    public void setProfileId(final Long profileId) {
-        this.profileId = profileId;
+    public void setBorrowerId(final Long borrowerId) {
+        this.borrowerId = borrowerId;
+    }
+
+    public void setLendingDate(final Instant lendingDate) {
+        this.lendingDate = lendingDate;
     }
 
     public void setReturnDate(final Instant returnDate) {
@@ -94,8 +123,8 @@ public class BookLendingEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "BookLendingEntity [bookId=" + bookId + ", lendingDate=" + lendingDate + ", profileId=" + profileId
-                + ", returnDate=" + returnDate + "]";
+        return "BookLendingEntity [bookId=" + bookId + ", lendingDate=" + lendingDate + ", borrowerId=" + borrowerId
+                + ", returnDate=" + returnDate + ", borrower=" + borrower + "]";
     }
 
 }

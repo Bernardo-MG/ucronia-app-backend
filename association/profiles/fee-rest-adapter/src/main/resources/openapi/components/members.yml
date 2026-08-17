@@ -1,0 +1,47 @@
+components:
+  parameters:
+    membersSortParam:
+      name: sort
+      description: Sorting to apply.
+      in: query
+      style: form
+      explode: true
+      schema:
+        type: array
+        items:
+          type: string
+          pattern: '^(name.firstName|name.lastName|number)\|(asc|desc)$'
+          example: username|asc
+  schemas:
+    MemberName:
+      type: object
+      required: [firstName, lastName, fullName]
+      properties:
+        firstName:
+          type: string
+          example: 'John'
+          maxLength: 50
+        lastName:
+          type: string
+          example: 'Smith'
+          maxLength: 50
+        nickname:
+          type: string
+          example: 'Jhonny'
+          maxLength: 50
+        fullName:
+          type: string
+          example: 'John Smith'
+          maxLength: 100
+    FeeMember:
+      type: object
+      required: [number, name]
+      properties:
+        number:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        name:
+          $ref: '#/components/schemas/MemberName'
+    MemberStatus:
+      type: string
+      description: Status filter for member queries.
+      enum: [ACTIVE, INACTIVE, ALL]

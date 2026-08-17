@@ -31,7 +31,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.bernardomg.association.profile.TestApplication;
+import com.bernardomg.association.TestApplication;
 import com.bernardomg.association.profile.domain.filter.ProfileFilter;
 import com.bernardomg.association.profile.domain.model.Profile;
 import com.bernardomg.association.profile.domain.repository.ProfileRepository;
@@ -58,7 +58,7 @@ class ITProfileRepositoryFindAllQueryName {
         final Page<Profile> profiles;
         final Pagination    pagination;
         final Sorting       sorting;
-        final ProfileFilter  filter;
+        final ProfileFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
@@ -82,7 +82,7 @@ class ITProfileRepositoryFindAllQueryName {
         final Page<Profile> profiles;
         final Pagination    pagination;
         final Sorting       sorting;
-        final ProfileFilter  filter;
+        final ProfileFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
@@ -106,7 +106,7 @@ class ITProfileRepositoryFindAllQueryName {
         final Page<Profile> profiles;
         final Pagination    pagination;
         final Sorting       sorting;
-        final ProfileFilter  filter;
+        final ProfileFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
@@ -129,7 +129,7 @@ class ITProfileRepositoryFindAllQueryName {
         final Page<Profile> profiles;
         final Pagination    pagination;
         final Sorting       sorting;
-        final ProfileFilter  filter;
+        final ProfileFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
@@ -153,7 +153,7 @@ class ITProfileRepositoryFindAllQueryName {
         final Page<Profile> profiles;
         final Pagination    pagination;
         final Sorting       sorting;
-        final ProfileFilter  filter;
+        final ProfileFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);
@@ -177,7 +177,7 @@ class ITProfileRepositoryFindAllQueryName {
         final Page<Profile> profiles;
         final Pagination    pagination;
         final Sorting       sorting;
-        final ProfileFilter  filter;
+        final ProfileFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 100);

@@ -67,8 +67,6 @@ class TestBookTypeServiceCreate {
         // GIVEN
         bookType = BookTypes.emptyName();
 
-        given(bookTypeRepository.findNextNumber()).willReturn(BookTypeConstants.NUMBER);
-
         // WHEN
         execution = () -> service.create(bookType);
 
@@ -84,8 +82,6 @@ class TestBookTypeServiceCreate {
 
         // GIVEN
         bookType = BookTypes.toCreate();
-
-        given(bookTypeRepository.findNextNumber()).willReturn(BookTypeConstants.NUMBER);
 
         given(bookTypeRepository.existsByName(BookTypeConstants.NAME)).willReturn(true);
 
@@ -105,13 +101,11 @@ class TestBookTypeServiceCreate {
         // GIVEN
         bookType = BookTypes.padded();
 
-        given(bookTypeRepository.findNextNumber()).willReturn(BookTypeConstants.NUMBER);
-
         // WHEN
         service.create(bookType);
 
         // THEN
-        verify(bookTypeRepository).save(BookTypes.valid());
+        verify(bookTypeRepository).save(BookTypes.toCreate());
     }
 
     @Test
@@ -122,13 +116,11 @@ class TestBookTypeServiceCreate {
         // GIVEN
         bookType = BookTypes.toCreate();
 
-        given(bookTypeRepository.findNextNumber()).willReturn(BookTypeConstants.NUMBER);
-
         // WHEN
         service.create(bookType);
 
         // THEN
-        verify(bookTypeRepository).save(BookTypes.valid());
+        verify(bookTypeRepository).save(BookTypes.toCreate());
     }
 
     @Test
@@ -140,9 +132,7 @@ class TestBookTypeServiceCreate {
         // GIVEN
         bookType = BookTypes.toCreate();
 
-        given(bookTypeRepository.findNextNumber()).willReturn(BookTypeConstants.NUMBER);
-
-        given(bookTypeRepository.save(BookTypes.valid())).willReturn(BookTypes.valid());
+        given(bookTypeRepository.save(BookTypes.toCreate())).willReturn(BookTypes.valid());
 
         // WHEN
         created = service.create(bookType);

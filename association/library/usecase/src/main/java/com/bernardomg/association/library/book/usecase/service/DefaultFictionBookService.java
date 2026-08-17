@@ -37,7 +37,7 @@ import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.association.library.author.domain.repository.AuthorRepository;
 import com.bernardomg.association.library.book.domain.exception.MissingBookException;
 import com.bernardomg.association.library.book.domain.exception.MissingDonorException;
-import com.bernardomg.association.library.book.domain.model.BookFilter;
+import com.bernardomg.association.library.book.domain.filter.BookFilter;
 import com.bernardomg.association.library.book.domain.model.Donation;
 import com.bernardomg.association.library.book.domain.model.Donor;
 import com.bernardomg.association.library.book.domain.model.FictionBook;
@@ -99,7 +99,6 @@ public final class DefaultFictionBookService implements FictionBookService {
     @Override
     public final FictionBook create(final FictionBook book) {
         final FictionBook           toCreate;
-        final Long                  number;
         final Collection<Author>    authors;
         final Collection<Publisher> publishers;
         final Collection<Donor>     donors;
@@ -109,9 +108,6 @@ public final class DefaultFictionBookService implements FictionBookService {
         log.debug("Creating book {}", book);
 
         validateRelationships(book);
-
-        // Get number
-        number = bookRepository.findNextNumber();
 
         // TODO: relationships are no longer received on create
         // Remove duplicates
@@ -138,8 +134,8 @@ public final class DefaultFictionBookService implements FictionBookService {
         } else {
             donation = Optional.empty();
         }
-        toCreate = new FictionBook(number, book.title(), book.isbn(), book.language(), book.publishDate(), false,
-            authors, List.of(), publishers, donation);
+        toCreate = new FictionBook(-1, book.title(), book.isbn(), book.language(), book.publishDate(), false, authors,
+            List.of(), publishers, donation);
 
         createBookValidator.validate(book);
 

@@ -35,14 +35,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.association.library.book.adapter.inbound.jpa.model.BookEntity;
 import com.bernardomg.association.library.book.adapter.inbound.jpa.repository.BookSpringRepository;
-import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.BookLendingEntity;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.BookLendingEntityMapper;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.BorrowerEntity;
-import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.BorrowerEntityMapper;
 import com.bernardomg.association.library.lending.domain.model.BookLending;
-import com.bernardomg.association.library.lending.domain.model.BookLending.LentBook;
-import com.bernardomg.association.library.lending.domain.model.Borrower;
 import com.bernardomg.association.library.lending.domain.repository.BookLendingRepository;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -173,14 +169,18 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
 
         bookEntity = bookSpringRepository.findByNumber(lending.book()
             .number());
-        borrower = borrowerSpringRepository.findByNumber(lending.borrower()
-            .number());
+
+        borrower = borrowerSpringRepository.getByNumber(lending.borrower());
 
         if ((bookEntity.isPresent()) && (borrower.isPresent())) {
-            toCreate = BookLendingEntityMapper.toEntity(lending, bookEntity.get(), borrower.get());
+            toCreate = BookLendingEntityMapper.toEntity(lending, bookEntity.get());
+
+            toCreate.setBorrowerId(borrower.get()
+                .getId());
+            toCreate.setBorrower(borrower.get());
 
             created = bookLendingSpringRepository.save(toCreate);
-            saved = BookLendingEntityMapper.toDomain(created, bookEntity.get(), borrower.get());
+            saved = BookLendingEntityMapper.toDomain(created, bookEntity.get());
 
             log.debug("Saved book lending {}", lending);
         } else {
@@ -192,24 +192,10 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
     }
 
     private final BookLending toDomain(final BookLendingEntity entity) {
-        final Optional<Borrower>   borrower;
         final Optional<BookEntity> bookEntity;
-        final LentBook             lentBook;
-        final Title                title;
 
         bookEntity = bookSpringRepository.findById(entity.getBookId());
-        borrower = borrowerSpringRepository.findById(entity.getProfileId())
-            .map(BorrowerEntityMapper::toDomain);
-        title = new Title(bookEntity.get()
-            .getSupertitle(),
-            bookEntity.get()
-                .getTitle(),
-            bookEntity.get()
-                .getSubtitle());
-        lentBook = new LentBook(bookEntity.get()
-            .getNumber(), title);
-        return new BookLending(lentBook, borrower.get(), entity.getLendingDate(),
-            Optional.ofNullable(entity.getReturnDate()));
+        return BookLendingEntityMapper.toDomain(entity, bookEntity.get());
     }
 
 }

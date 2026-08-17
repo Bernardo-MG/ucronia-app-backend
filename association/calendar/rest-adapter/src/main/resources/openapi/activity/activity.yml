@@ -1,0 +1,13 @@
+openapi: 3.0.3
+info:
+  title: Ucronia API
+  version: 1.0.0
+  description: API for managing the Ucronia association.
+servers:
+  - url: https://localhost
+    description: Local development
+paths:
+  /activity:
+    $ref: paths/activities.yml
+  /activity/{number}:
+    $ref: paths/activities_by_id.yml

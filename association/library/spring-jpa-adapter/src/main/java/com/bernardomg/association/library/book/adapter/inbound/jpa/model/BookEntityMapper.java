@@ -39,10 +39,13 @@ import com.bernardomg.association.library.booktype.adapter.inbound.jpa.model.Boo
 import com.bernardomg.association.library.booktype.domain.model.BookType;
 import com.bernardomg.association.library.gamesystem.adapter.inbound.jpa.model.GameSystemEntity;
 import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
-import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.BorrowerEntity;
-import com.bernardomg.association.library.lending.domain.model.Borrower;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.model.PublisherEntity;
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
+import com.bernardomg.association.profile.domain.model.Name;
+import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditMetadata;
+import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditUserEntity;
+import com.bernardomg.security.domain.audit.model.AuditDetails;
+import com.bernardomg.security.domain.audit.model.AuditDetails.AuditUser;
 
 /**
  * Author repository mapper.
@@ -62,6 +65,7 @@ public final class BookEntityMapper {
         final String                supertitle;
         final String                subtitle;
         final Optional<Donation>    donation;
+        final AuditDetails          audit;
 
         // Publishers
         if (entity.getPublishers() == null) {
@@ -114,19 +118,14 @@ public final class BookEntityMapper {
         }
         title = new Title(supertitle, entity.getTitle(), subtitle);
 
+        audit = toDomain(entity.getAudit());
+
         return new Book(entity.getNumber(), title, entity.getIsbn(), entity.getLanguage(),
-            Optional.ofNullable(entity.getPublishDate()), lent, authors, lendings, publishers, donation);
+            Optional.ofNullable(entity.getPublishDate()), lent, authors, lendings, publishers, donation, audit);
     }
 
     public static final BookType toDomain(final BookTypeEntity entity) {
         return new BookType(entity.getNumber(), entity.getName());
-    }
-
-    public static final Borrower toDomain(final BorrowerEntity entity) {
-        final Borrower.Name name;
-
-        name = new Borrower.Name(entity.getFirstName(), entity.getLastName());
-        return new Borrower(entity.getNumber(), name);
     }
 
     public static final GameSystem toDomain(final GameSystemEntity entity) {
@@ -138,10 +137,36 @@ public final class BookEntityMapper {
     }
 
     public static final Donor toDonorDomain(final DonorEntity entity) {
-        final Donor.Name name;
+        final Name name;
 
-        name = new Donor.Name(entity.getFirstName(), entity.getLastName());
+        name = new Name(entity.getFirstName(), entity.getLastName(), Optional.ofNullable(entity.getNickname()));
+
         return new Donor(entity.getNumber(), name);
+    }
+
+    private static final AuditUser toAuditDomain(final AuditUserEntity user) {
+        final AuditUser auditUser;
+
+        if (user == null) {
+            auditUser = null;
+        } else {
+            auditUser = new AuditUser(user.getEmail(), user.getUsername(), user.getName());
+        }
+
+        return auditUser;
+    }
+
+    private static final AuditDetails toDomain(final AuditMetadata audit) {
+        final AuditDetails auditDetails;
+
+        if (audit == null) {
+            auditDetails = new AuditDetails();
+        } else {
+            auditDetails = new AuditDetails(audit.getCreatedAt(), toAuditDomain(audit.getCreatedBy()),
+                audit.getUpdatedAt(), toAuditDomain(audit.getUpdatedBy()));
+        }
+
+        return auditDetails;
     }
 
     private BookEntityMapper() {
