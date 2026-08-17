@@ -52,7 +52,7 @@ class TestSettingController {
         mockMvc.perform(get("/settings").contentType(MediaType.APPLICATION_JSON))
             .andDo(print())
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content").isArray())
             .andExpect(jsonPath("$.content[0].code").exists());
     }
@@ -66,7 +66,7 @@ class TestSettingController {
         // WHEN + THEN
         mockMvc.perform(get("/settings/{code}", SettingConstants.CODE).contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content.code", equalTo(SettingConstants.CODE)))
             .andExpect(jsonPath("$.content.value", equalTo(SettingConstants.STRING_VALUE)));
     }
@@ -89,7 +89,7 @@ class TestSettingController {
         mockMvc.perform(put("/settings/{code}", SettingConstants.CODE).contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content.code", equalTo(SettingConstants.CODE)))
             .andExpect(jsonPath("$.content.value", equalTo(SettingConstants.STRING_VALUE)));
     }

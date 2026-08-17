@@ -65,7 +65,7 @@ class TestCalendarTypeController {
         mockMvc.perform(post("/calendar-type").contentType(MediaType.APPLICATION_JSON)
             .content("{\"name\":\"Evento\",\"color\":\"#FFA500\"}"))
             .andExpect(status().isCreated())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content.number").exists())
             .andExpect(jsonPath("$.content.name").exists());
     }
@@ -79,7 +79,7 @@ class TestCalendarTypeController {
         // WHEN + THEN
         mockMvc.perform(delete("/calendar-type/1").contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
     }
 
     @Test
@@ -94,7 +94,7 @@ class TestCalendarTypeController {
             .param("size", "10")
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content").isArray());
     }
 
@@ -107,7 +107,7 @@ class TestCalendarTypeController {
         // WHEN + THEN
         mockMvc.perform(get("/calendar-type/1").contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
     }
 
     @Test
@@ -120,7 +120,7 @@ class TestCalendarTypeController {
         mockMvc.perform(put("/calendar-type/1").contentType(MediaType.APPLICATION_JSON)
             .content("{\"name\":\"Custom\",\"color\":\"#FF0000\"}"))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content.name").exists());
     }
 

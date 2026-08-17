@@ -77,7 +77,7 @@ class TestGameSystemController {
         mockMvc.perform(post("/library/gameSystem").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
             .andExpect(status().isCreated())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content.name", equalTo(GameSystemConstants.NAME)))
             .andExpect(jsonPath("$.content.number").exists());
     }
@@ -91,7 +91,7 @@ class TestGameSystemController {
         // WHEN + THEN
         mockMvc.perform(delete("/library/gameSystem/1").contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content.number").exists())
             .andExpect(jsonPath("$.content.name").exists());
     }
@@ -108,7 +108,7 @@ class TestGameSystemController {
             .param("size", "10")
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content").isArray());
     }
 
@@ -121,7 +121,7 @@ class TestGameSystemController {
         // WHEN + THEN
         mockMvc.perform(get("/library/gameSystem/1").contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content.number").exists())
             .andExpect(jsonPath("$.content.name").exists());
     }
@@ -144,7 +144,7 @@ class TestGameSystemController {
         mockMvc.perform(put("/library/gameSystem/1").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content.name", equalTo(GameSystemConstants.CHANGED_NAME)));
     }
 

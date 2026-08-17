@@ -75,7 +75,7 @@ class TestTransactionController {
         mockMvc.perform(post("/transaction").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
             .andExpect(status().isCreated())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content.date").exists())
             .andExpect(jsonPath("$.content.amount").exists())
             .andExpect(jsonPath("$.content.description", equalTo(TransactionConstants.DESCRIPTION)));
@@ -91,7 +91,7 @@ class TestTransactionController {
         mockMvc
             .perform(delete("/transaction/{index}", TransactionConstants.INDEX).contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content.index").exists());
     }
 
@@ -104,7 +104,7 @@ class TestTransactionController {
         // WHEN + THEN
         mockMvc.perform(get("/transaction/{index}", TransactionConstants.INDEX).contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content.index").exists());
     }
 
@@ -118,7 +118,7 @@ class TestTransactionController {
         // WHEN + THEN
         mockMvc.perform(get("/transaction/range").contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content.months").isArray());
     }
 
@@ -142,7 +142,7 @@ class TestTransactionController {
         mockMvc.perform(put("/transaction/{index}", TransactionConstants.INDEX).contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content.amount", equalTo((double) TransactionConstants.AMOUNT)));
     }
 

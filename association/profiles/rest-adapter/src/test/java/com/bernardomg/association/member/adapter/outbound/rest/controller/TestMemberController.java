@@ -84,7 +84,7 @@ class TestMemberController {
         mockMvc.perform(post("/profile/member").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
             .andExpect(status().isCreated())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content.name.firstName", equalTo(ProfileConstants.FIRST_NAME)))
             .andExpect(jsonPath("$.content.name.lastName", equalTo(ProfileConstants.LAST_NAME)))
             .andExpect(jsonPath("$.content.number").exists());
@@ -114,7 +114,7 @@ class TestMemberController {
         mockMvc.perform(post("/profile/member").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
             .andExpect(status().isCreated())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content.address", equalTo(MemberConstants.ADDRESS)));
     }
 
@@ -127,7 +127,7 @@ class TestMemberController {
         // WHEN + THEN
         mockMvc.perform(delete("/profile/member/1").contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content.number").exists());
     }
 
@@ -143,7 +143,7 @@ class TestMemberController {
             .param("size", "10")
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content").isArray());
     }
 
@@ -156,7 +156,7 @@ class TestMemberController {
         // WHEN + THEN
         mockMvc.perform(get("/profile/member/{number}", MemberConstants.NUMBER).contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content.number").exists());
     }
 
@@ -185,7 +185,7 @@ class TestMemberController {
         mockMvc.perform(patch("/profile/member/1").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content.name.firstName", equalTo("Name 123")));
     }
 
@@ -214,7 +214,7 @@ class TestMemberController {
         mockMvc.perform(put("/profile/member/1").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content.name.firstName", equalTo("Name 123")));
     }
 

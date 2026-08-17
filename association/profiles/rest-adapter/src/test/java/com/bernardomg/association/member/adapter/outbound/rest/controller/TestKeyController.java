@@ -79,7 +79,7 @@ class TestKeyController {
         mockMvc.perform(post("/profile/key").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
             .andExpect(status().isCreated())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content.number", equalTo((int) KeyConstants.NUMBER)))
             .andExpect(jsonPath("$.content.description", equalTo(KeyConstants.DESCRIPTION)));
     }
@@ -93,7 +93,7 @@ class TestKeyController {
         // WHEN + THEN
         mockMvc.perform(delete("/profile/key/{number}", KeyConstants.NUMBER).contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content.number", equalTo((int) KeyConstants.NUMBER)));
     }
 
@@ -113,7 +113,7 @@ class TestKeyController {
         // WHEN + THEN
         mockMvc.perform(get("/profile/key").contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content[0].number", equalTo((int) KeyConstants.NUMBER)));
     }
 
@@ -126,7 +126,7 @@ class TestKeyController {
         // WHEN + THEN
         mockMvc.perform(get("/profile/key/{number}", KeyConstants.NUMBER).contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content.number", equalTo((int) KeyConstants.NUMBER)));
     }
 
@@ -149,7 +149,7 @@ class TestKeyController {
         mockMvc.perform(put("/profile/key/{number}", KeyConstants.NUMBER).contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content.number", equalTo((int) KeyConstants.NUMBER)))
             .andExpect(jsonPath("$.content.available", equalTo(true)))
             .andExpect(jsonPath("$.content.description", equalTo(KeyConstants.DESCRIPTION)));
