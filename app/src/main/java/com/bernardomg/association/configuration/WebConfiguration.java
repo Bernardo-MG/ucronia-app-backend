@@ -28,12 +28,21 @@ import java.util.Locale;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
+import com.bernardomg.security.springframework.web.whitelist.WhitelistRoute;
+
 @Configuration
 public class WebConfiguration implements WebMvcConfigurer {
+
+    @Bean("prometeusActuatorWhitelist")
+    public WhitelistRoute getHealthActuatorWhitelist() {
+        // Only for develop for now
+        return WhitelistRoute.of("/actuator/prometheus", HttpMethod.GET, HttpMethod.OPTIONS);
+    }
 
     @Bean
     public LocaleResolver localeResolver() {

@@ -40,6 +40,7 @@ import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.MultipleActiveMember;
+import com.bernardomg.association.member.test.configuration.data.annotation.MultipleActiveMemberAccents;
 import com.bernardomg.association.member.test.configuration.factory.MemberFilters;
 import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.pagination.domain.Page;
@@ -109,6 +110,31 @@ class ITMemberRepositoryFindAllSort {
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Members.forNumber(5), Members.forNumber(4), Members.forNumber(3), Members.forNumber(2),
                 Members.forNumber(1));
+    }
+
+    @Test
+    @DisplayName("With ascending order by first name with accents it returns the ordered data")
+    @PositiveFeeType
+    @MultipleActiveMemberAccents
+    void testFindAll_FirstNameAccents_Asc() {
+        final Page<Member> members;
+        final Pagination   pagination;
+        final Sorting      sorting;
+        final MemberFilter filter;
+
+        pagination = new Pagination(1, 10);
+        sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC)));
+        filter = MemberFilters.all();
+
+        members = repository.findAll(filter, pagination, sorting);
+
+        Assertions.assertThat(members)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.list(Member.class))
+            .extracting(member -> member.name()
+                .fullName())
+            .containsExactly("Name á Last name 1", "Name é Last name 2", "Name í Last name 3",
+                "Name ó Last name 4", "Name ú Last name 5");
     }
 
     @Test

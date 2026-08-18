@@ -51,7 +51,9 @@ public final class FeeEntityMapper {
         name = new Name(entity.getMember()
             .getFirstName(),
             entity.getMember()
-                .getLastName());
+                .getLastName(),
+            Optional.ofNullable(entity.getMember()
+                .getNickname()));
 
         feeType = new FeeType(entity.getFeeType()
             .getNumber(),

@@ -49,6 +49,9 @@ import com.bernardomg.association.guest.adapter.inbound.jpa.repository.GuestSpri
 import com.bernardomg.association.guest.adapter.inbound.jpa.repository.JpaGuestRepository;
 import com.bernardomg.association.guest.adapter.inbound.jpa.repository.ReadGuestSpringRepository;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
+import com.bernardomg.association.key.adapter.inbound.jpa.repository.JpaKeyRepository;
+import com.bernardomg.association.key.adapter.inbound.jpa.repository.KeySpringRepository;
+import com.bernardomg.association.key.domain.repository.KeyRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberContactMethodRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberCountRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberRepository;
@@ -80,13 +83,15 @@ import com.bernardomg.association.sponsor.domain.repository.SponsorRepository;
         "com.bernardomg.association.transaction.adapter.inbound.jpa",
         "com.bernardomg.association.profile.adapter.inbound.jpa",
         "com.bernardomg.association.sponsor.adapter.inbound.jpa",
-        "com.bernardomg.association.guest.adapter.inbound.jpa", "com.bernardomg.security.adapter.inbound.jpa" })
+        "com.bernardomg.association.guest.adapter.inbound.jpa", "com.bernardomg.association.key.adapter.inbound.jpa",
+        "com.bernardomg.security.adapter.inbound.jpa" })
 @EntityScan(basePackages = { "com.bernardomg.association.member.adapter.inbound.jpa",
         "com.bernardomg.association.fee.adapter.inbound.jpa",
         "com.bernardomg.association.transaction.adapter.inbound.jpa",
         "com.bernardomg.association.profile.adapter.inbound.jpa",
         "com.bernardomg.association.sponsor.adapter.inbound.jpa",
-        "com.bernardomg.association.guest.adapter.inbound.jpa", "com.bernardomg.security.adapter.inbound.jpa" })
+        "com.bernardomg.association.guest.adapter.inbound.jpa", "com.bernardomg.association.key.adapter.inbound.jpa",
+        "com.bernardomg.security.adapter.inbound.jpa" })
 public class TestConfiguration {
 
     @Bean("authenticationTrustResolver")
@@ -139,6 +144,11 @@ public class TestConfiguration {
             contactMethodSpringRepository);
     }
 
+    @Bean("keyRepository")
+    public KeyRepository getKeyRepository(final KeySpringRepository keySpringRepository) {
+        return new JpaKeyRepository(keySpringRepository);
+    }
+
     @Bean("memberContactMethodRepository")
     public MemberContactMethodRepository
             getMemberContactMethodRepository(final MemberContactMethodSpringRepository contactMethodSpringRepository) {
@@ -154,9 +164,9 @@ public class TestConfiguration {
     public MemberRepository getMemberRepository(final ReadMemberSpringRepository readMemberSpringRepository,
             final MemberSpringRepository memberSpringRepository,
             final MemberContactMethodSpringRepository memberContactMethodSpringRepository,
-            final FeeTypeSpringRepository feeTypeSpringRepository) {
+            final FeeTypeSpringRepository feeTypeSpringRepository, final KeySpringRepository keySpringRepository) {
         return new JpaMemberRepository(readMemberSpringRepository, memberSpringRepository,
-            memberContactMethodSpringRepository, feeTypeSpringRepository);
+            memberContactMethodSpringRepository, feeTypeSpringRepository, keySpringRepository);
     }
 
     @Bean("membershipEvolutionRepository")

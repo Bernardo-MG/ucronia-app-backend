@@ -10,6 +10,7 @@ import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityConstants;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.ReadMemberContactChannelEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.ReadMemberEntity;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 
 public final class ReadMemberEntities {
 
@@ -27,8 +28,8 @@ public final class ReadMemberEntities {
         entity.setId(1L);
         entity.setId(1L);
         entity.setNumber(MemberConstants.NUMBER);
-        entity.setFirstName(MemberConstants.FIRST_NAME);
-        entity.setLastName(MemberConstants.LAST_NAME);
+        entity.setFirstName(ProfileConstants.FIRST_NAME);
+        entity.setLastName(ProfileConstants.LAST_NAME);
         entity.setBirthDate(MemberConstants.BIRTH_DATE);
         entity.setIdentifier(MemberConstants.IDENTIFIER);
         entity.setContactChannels(new ArrayList<>(List.of()));
@@ -56,8 +57,8 @@ public final class ReadMemberEntities {
         entity.setId(1L);
         entity.setId(2L);
         entity.setNumber(MemberConstants.ALTERNATIVE_NUMBER);
-        entity.setFirstName(MemberConstants.FIRST_NAME);
-        entity.setLastName(MemberConstants.LAST_NAME);
+        entity.setFirstName(ProfileConstants.FIRST_NAME);
+        entity.setLastName(ProfileConstants.LAST_NAME);
         entity.setBirthDate(MemberConstants.BIRTH_DATE);
         entity.setIdentifier("6789");
         entity.setContactChannels(new ArrayList<>());
@@ -85,8 +86,8 @@ public final class ReadMemberEntities {
         entity.setId(1L);
         entity.setId(1L);
         entity.setNumber(MemberConstants.NUMBER);
-        entity.setFirstName(MemberConstants.FIRST_NAME);
-        entity.setLastName(MemberConstants.LAST_NAME);
+        entity.setFirstName(ProfileConstants.FIRST_NAME);
+        entity.setLastName(ProfileConstants.LAST_NAME);
         entity.setBirthDate(MemberConstants.BIRTH_DATE);
         entity.setIdentifier(MemberConstants.IDENTIFIER);
         entity.setContactChannels(new ArrayList<>(List.of()));
@@ -115,7 +116,7 @@ public final class ReadMemberEntities {
         entity.setId(1L);
         entity.setNumber(MemberConstants.NUMBER);
         entity.setFirstName(MemberConstants.CHANGED_FIRST_NAME);
-        entity.setLastName(MemberConstants.LAST_NAME);
+        entity.setLastName(ProfileConstants.LAST_NAME);
         entity.setBirthDate(MemberConstants.BIRTH_DATE);
         entity.setIdentifier("6789");
         entity.setContactChannels(new ArrayList<>());
@@ -136,7 +137,7 @@ public final class ReadMemberEntities {
 
         contactChannelEntity = new ReadMemberContactChannelEntity();
         contactChannelEntity.setContactMethod(MemberContactMethodEntities.email());
-        contactChannelEntity.setDetail(MemberConstants.EMAIL);
+        contactChannelEntity.setDetail(ProfileConstants.EMAIL);
 
         feeType = new FeeTypeEntity();
         feeType.setId(1L);
@@ -147,8 +148,8 @@ public final class ReadMemberEntities {
         entity = new ReadMemberEntity();
         entity.setId(1L);
         entity.setNumber(MemberConstants.NUMBER);
-        entity.setFirstName(MemberConstants.FIRST_NAME);
-        entity.setLastName(MemberConstants.LAST_NAME);
+        entity.setFirstName(ProfileConstants.FIRST_NAME);
+        entity.setLastName(ProfileConstants.LAST_NAME);
         entity.setBirthDate(MemberConstants.BIRTH_DATE);
         entity.setIdentifier("6789");
         entity.setContactChannels(new ArrayList<>(List.of(contactChannelEntity)));
@@ -160,6 +161,36 @@ public final class ReadMemberEntities {
         entity.setActive(true);
         entity.setRenew(true);
 
+        entity.setTypes(new HashSet<>(List.of(MemberEntityConstants.PROFILE_TYPE)));
+
+        return entity;
+    }
+
+    public static final ReadMemberEntity withKey() {
+        final ReadMemberEntity entity;
+        final FeeTypeEntity    feeType;
+
+        feeType = new FeeTypeEntity();
+        feeType.setId(1L);
+        feeType.setNumber(FeeConstants.FEE_TYPE_NUMBER);
+        feeType.setName(FeeConstants.FEE_TYPE_NAME);
+        feeType.setAmount(FeeConstants.FEE_TYPE_AMOUNT);
+
+        entity = new ReadMemberEntity();
+        entity.setId(1L);
+        entity.setId(1L);
+        entity.setNumber(MemberConstants.NUMBER);
+        entity.setFirstName(ProfileConstants.FIRST_NAME);
+        entity.setLastName(ProfileConstants.LAST_NAME);
+        entity.setBirthDate(MemberConstants.BIRTH_DATE);
+        entity.setIdentifier(MemberConstants.IDENTIFIER);
+        entity.setContactChannels(new ArrayList<>(List.of()));
+        entity.setAddress(MemberConstants.ADDRESS);
+        entity.setComments(MemberConstants.COMMENTS);
+        entity.setFeeType(feeType);
+        entity.setActive(true);
+        entity.setRenew(true);
+        entity.setKey(KeyEntities.available());
         entity.setTypes(new HashSet<>(List.of(MemberEntityConstants.PROFILE_TYPE)));
 
         return entity;

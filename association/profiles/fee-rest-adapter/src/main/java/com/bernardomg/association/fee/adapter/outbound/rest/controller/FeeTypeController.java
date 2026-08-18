@@ -36,11 +36,11 @@ import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeeTypeUpdateDto
 import com.bernardomg.association.fee.adapter.outbound.rest.model.FeeTypeDtoMapper;
 import com.bernardomg.association.fee.domain.model.FeeType;
 import com.bernardomg.association.fee.usecase.service.FeeTypeService;
+import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.web.WebSorting;
-import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.domain.permission.constant.Actions;
 
 /**

@@ -12,6 +12,7 @@ import org.hibernate.type.SqlTypes;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTypeEntity;
+import com.bernardomg.association.key.adapter.inbound.jpa.model.KeyEntity;
 import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditMetadata;
 
 import jakarta.persistence.CascadeType;
@@ -76,8 +77,15 @@ public class MemberEntity implements Serializable {
     @Column(name = "identifier", table = "profiles")
     private String                                 identifier;
 
+    @OneToOne
+    @JoinColumn(name = "key_id", table = "members", referencedColumnName = "id")
+    private KeyEntity                              key;
+
     @Column(name = "last_name", table = "profiles")
     private String                                 lastName;
+
+    @Column(name = "nickname", table = "profiles")
+    private String                                 nickname;
 
     @Column(name = "number", table = "profiles")
     private Long                                   number;
@@ -140,8 +148,16 @@ public class MemberEntity implements Serializable {
         return identifier;
     }
 
+    public KeyEntity getKey() {
+        return key;
+    }
+
     public String getLastName() {
         return lastName;
+    }
+
+    public String getNickname() {
+        return nickname;
     }
 
     public Long getNumber() {
@@ -201,8 +217,16 @@ public class MemberEntity implements Serializable {
         this.identifier = identifier;
     }
 
+    public void setKey(final KeyEntity key) {
+        this.key = key;
+    }
+
     public void setLastName(final String lastName) {
         this.lastName = lastName;
+    }
+
+    public void setNickname(final String nickname) {
+        this.nickname = nickname;
     }
 
     public void setNumber(final Long number) {
@@ -221,8 +245,9 @@ public class MemberEntity implements Serializable {
     public String toString() {
         return "MemberEntity [id=" + id + ", number=" + number + ", active=" + active + ", contactChannels="
                 + contactChannels + ", feeType=" + feeType + ", firstName=" + firstName + ", lastName=" + lastName
-                + ", identifier=" + identifier + ", birthDate=" + birthDate + ", address=" + address + ", comments="
-                + comments + ", types=" + types + ", renew=" + renew + ", audit=" + audit + "]";
+                + ", nickname=" + nickname + ", identifier=" + identifier + ", birthDate=" + birthDate + ", address="
+                + address + ", comments=" + comments + ", key=" + key + ", types=" + types + ", renew=" + renew
+                + ", audit=" + audit + "]";
     }
 
 }

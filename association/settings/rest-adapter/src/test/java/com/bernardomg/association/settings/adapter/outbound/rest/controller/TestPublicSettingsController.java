@@ -48,7 +48,7 @@ class TestPublicSettingsController {
         // WHEN + THEN
         mockMvc.perform(get("/settings/public").contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content.map", equalTo(AssociationSettingsConstants.GOOGLE_MAPS_CODE)))
             .andExpect(jsonPath("$.content.calendar", equalTo(AssociationSettingsConstants.TEAMUP_CODE)))
             .andExpect(jsonPath("$.content.email", equalTo(AssociationSettingsConstants.EMAIL_CODE)))

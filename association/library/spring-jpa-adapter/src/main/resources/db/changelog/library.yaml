@@ -204,19 +204,9 @@ databaseChangeLog:
               - column:
                   name: game_system_id
                   type: bigint
-                  constraints:
-                    nullable: true
-                    foreignKeyName: fk_books_game_system
-                    references: inventory.game_systems(id)
-                    deleteCascade: true
               - column:
                   name: book_type_id
                   type: bigint
-                  constraints:
-                    nullable: true
-                    foreignKeyName: fk_books_book_type
-                    references: inventory.book_types(id)
-                    deleteCascade: true
               # Audit columns
               - column:
                   name: created_at
@@ -249,6 +239,24 @@ databaseChangeLog:
             columnDataType: bigint
             incrementBy: 1
             startWith: 1
+        - addForeignKeyConstraint:
+            constraintName: fk_books_game_system
+            baseTableSchemaName: inventory
+            baseTableName: books
+            baseColumnNames: game_system_id
+            referencedTableSchemaName: inventory
+            referencedTableName: game_systems
+            referencedColumnNames: id
+            onDelete: SET NULL
+        - addForeignKeyConstraint:
+            constraintName: fk_books_book_type
+            baseTableSchemaName: inventory
+            baseTableName: books
+            baseColumnNames: book_type_id
+            referencedTableSchemaName: inventory
+            referencedTableName: book_types
+            referencedColumnNames: id
+            onDelete: SET NULL
         - createIndex:
             schemaName: inventory
             tableName: books

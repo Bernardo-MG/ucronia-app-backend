@@ -26,7 +26,7 @@ package com.bernardomg.association.member.adapter.outbound.rest.model;
 
 import java.util.Optional;
 
-import com.bernardomg.association.member.adapter.outbound.rest.dto.MemberNameDto;
+import com.bernardomg.association.member.adapter.outbound.rest.dto.NameDto;
 import com.bernardomg.association.member.adapter.outbound.rest.dto.PropertyDto;
 import com.bernardomg.association.member.adapter.outbound.rest.dto.PropertyDto.DirectionEnum;
 import com.bernardomg.association.member.adapter.outbound.rest.dto.PublicMemberDto;
@@ -80,17 +80,22 @@ public final class PublicMemberDtoMapper {
     }
 
     private static final PublicMemberDto toDto(final PublicMember member) {
-        final MemberNameDto profileName;
+        final NameDto profileName;
 
-        profileName = new MemberNameDto().firstName(member.name()
+        profileName = new NameDto().firstName(member.name()
             .firstName())
             .lastName(member.name()
                 .lastName())
+            .nickname(member.name()
+                .nickname()
+                .orElse(null))
             .fullName(member.name()
                 .fullName());
         return new PublicMemberDto().number(member.number())
             .name(profileName)
-            .renew(member.renew());
+            .renew(member.renew())
+            .key(member.key()
+                .orElse(null));
     }
 
     private PublicMemberDtoMapper() {

@@ -33,4 +33,8 @@ public final class TransactionsFilters {
         return new TransactionFilter(Optional.empty(), Optional.empty(), Optional.empty(), Optional.of(date));
     }
 
+    private TransactionsFilters() {
+        super();
+    }
+
 }

@@ -4,9 +4,13 @@ package com.bernardomg.association.member.adapter.inbound.jpa.model;
 import java.io.Serializable;
 import java.util.Objects;
 
+import com.bernardomg.association.key.adapter.inbound.jpa.model.KeyEntity;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.SecondaryTable;
 import jakarta.persistence.Table;
@@ -34,8 +38,15 @@ public class PublicMemberEntity implements Serializable {
     @Column(name = "id", table = "members", nullable = false, unique = true)
     private Long              id;
 
+    @OneToOne
+    @JoinColumn(name = "key_id", table = "members", referencedColumnName = "id")
+    private KeyEntity         key;
+
     @Column(name = "last_name", table = "profiles")
     private String            lastName;
+
+    @Column(name = "nickname", table = "profiles")
+    private String            nickname;
 
     @Column(name = "number", table = "profiles")
     private Long              number;
@@ -66,8 +77,16 @@ public class PublicMemberEntity implements Serializable {
         return id;
     }
 
+    public KeyEntity getKey() {
+        return key;
+    }
+
     public String getLastName() {
         return lastName;
+    }
+
+    public String getNickname() {
+        return nickname;
     }
 
     public Long getNumber() {
@@ -95,8 +114,16 @@ public class PublicMemberEntity implements Serializable {
         this.id = id;
     }
 
+    public void setKey(final KeyEntity key) {
+        this.key = key;
+    }
+
     public void setLastName(final String lastName) {
         this.lastName = lastName;
+    }
+
+    public void setNickname(final String nickname) {
+        this.nickname = nickname;
     }
 
     public void setNumber(final Long number) {
@@ -110,7 +137,8 @@ public class PublicMemberEntity implements Serializable {
     @Override
     public String toString() {
         return "PublicMemberEntity [id=" + id + ", number=" + number + ", firstName=" + firstName + ", lastName="
-                + lastName + ", active=" + active + ", renew=" + renew + "]";
+                + lastName + ", nickname=" + nickname + ", active=" + active + ", renew=" + renew + ", key=" + key
+                + "]";
     }
 
 }

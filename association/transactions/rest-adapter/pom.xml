@@ -25,16 +25,6 @@
    <name>Association Transactions REST Adapter</name>
 
    <!-- ********************************************** -->
-   <!-- **************** PROPERTIES ****************** -->
-   <!-- ********************************************** -->
-
-   <properties>
-     <openapi.generator.maven.plugin.inputSpec>${project.basedir}/src/main/resources/openapi/transaction.yml</openapi.generator.maven.plugin.inputSpec>
-     <openapi.generator.maven.plugin.apiPackage>com.bernardomg.association.transaction.adapter.outbound.rest.controller</openapi.generator.maven.plugin.apiPackage>
-     <openapi.generator.maven.plugin.modelPackage>com.bernardomg.association.transaction.adapter.outbound.rest.dto</openapi.generator.maven.plugin.modelPackage>
-   </properties>
-
-   <!-- ********************************************** -->
    <!-- *************** DEPENDENCIES ***************** -->
    <!-- ********************************************** -->
 
@@ -104,6 +94,14 @@
          <artifactId>spring-context</artifactId>
       </dependency>
       <!-- ============================================== -->
+      <!-- ================= JACKSON ==================== -->
+      <!-- ============================================== -->
+      <dependency>
+         <!-- Jackson annotations -->
+         <groupId>com.fasterxml.jackson.core</groupId>
+         <artifactId>jackson-annotations</artifactId>
+      </dependency>
+      <!-- ============================================== -->
       <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
       <!-- ============================================== -->
       <dependency>
@@ -145,9 +143,26 @@
              <artifactId>openapi-generator-maven-plugin</artifactId>
              <executions>
                 <execution>
+                   <id>transaction</id>
                    <goals>
                       <goal>generate</goal>
                    </goals>
+                   <configuration>
+                      <inputSpec>${project.basedir}/src/main/resources/openapi/transaction.yml</inputSpec>
+                      <apiPackage>com.bernardomg.association.transaction.adapter.outbound.rest.controller</apiPackage>
+                      <modelPackage>com.bernardomg.association.transaction.adapter.outbound.rest.dto</modelPackage>
+                   </configuration>
+                </execution>
+                <execution>
+                   <id>guest</id>
+                   <goals>
+                      <goal>generate</goal>
+                   </goals>
+                   <configuration>
+                      <inputSpec>${project.basedir}/src/main/resources/openapi/transaction_type.yml</inputSpec>
+                      <apiPackage>com.bernardomg.association.transaction.adapter.outbound.rest.controller</apiPackage>
+                      <modelPackage>com.bernardomg.association.transaction.adapter.outbound.rest.dto</modelPackage>
+                   </configuration>
                 </execution>
              </executions>
           </plugin>

@@ -63,7 +63,7 @@ class TestMemberControllerSorting {
             .param("sort", "name.lastName|desc")
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
     }
 
     @Test
@@ -79,7 +79,7 @@ class TestMemberControllerSorting {
             .param("sort", "number|asc")
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content", isA(java.util.ArrayList.class)));
     }
 
@@ -96,7 +96,7 @@ class TestMemberControllerSorting {
             .param("sort", "name.firstName|asc")
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
     }
 
 }

@@ -7,11 +7,13 @@ import java.util.Objects;
 import java.util.Optional;
 
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
+import com.bernardomg.association.key.test.configuration.factory.KeyConstants;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.Member.FeeType;
 import com.bernardomg.association.profile.domain.model.ContactChannel;
-import com.bernardomg.association.profile.domain.model.ContactMethod;
 import com.bernardomg.association.profile.domain.model.Name;
+import com.bernardomg.association.profile.test.configuration.factory.ContactChannels;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 
 public final class Members {
 
@@ -21,7 +23,7 @@ public final class Members {
 
         feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
 
-        name = new Name(MemberConstants.FIRST_NAME, MemberConstants.LAST_NAME);
+        name = new Name(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME, Optional.empty());
         return new Member(Optional.of(MemberConstants.IDENTIFIER), MemberConstants.NUMBER, name,
             Optional.of(MemberConstants.BIRTH_DATE), List.of(), Optional.of(MemberConstants.ADDRESS),
             Optional.of(MemberConstants.COMMENTS), true, true, feeType, new HashSet<>(List.of(Member.PROFILE_TYPE)));
@@ -33,7 +35,7 @@ public final class Members {
 
         feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
 
-        name = new Name(MemberConstants.FIRST_NAME, MemberConstants.LAST_NAME);
+        name = new Name(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME, Optional.empty());
         return new Member(Optional.of(MemberConstants.IDENTIFIER), MemberConstants.NUMBER, name,
             Optional.of(MemberConstants.BIRTH_DATE), List.of(), Optional.of(MemberConstants.ADDRESS),
             Optional.of(MemberConstants.COMMENTS), true, false, feeType, new HashSet<>(List.of(Member.PROFILE_TYPE)));
@@ -45,7 +47,8 @@ public final class Members {
 
         feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
 
-        name = new Name(MemberConstants.ALTERNATIVE_FIRST_NAME, MemberConstants.ALTERNATIVE_LAST_NAME);
+        name = new Name(ProfileConstants.ALTERNATIVE_FIRST_NAME, ProfileConstants.ALTERNATIVE_LAST_NAME,
+            Optional.empty());
         return new Member(Optional.of(MemberConstants.ALTERNATIVE_IDENTIFIER), MemberConstants.ALTERNATIVE_NUMBER, name,
             Optional.of(MemberConstants.BIRTH_DATE), List.of(), Optional.of(MemberConstants.ADDRESS),
             Optional.of(MemberConstants.COMMENTS), true, true, feeType, new HashSet<>(List.of(Member.PROFILE_TYPE)));
@@ -57,10 +60,25 @@ public final class Members {
 
         feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
 
-        name = new Name(MemberConstants.ALTERNATIVE_FIRST_NAME, MemberConstants.ALTERNATIVE_LAST_NAME);
+        name = new Name(ProfileConstants.ALTERNATIVE_FIRST_NAME, ProfileConstants.ALTERNATIVE_LAST_NAME,
+            Optional.empty());
         return new Member(Optional.of(MemberConstants.ALTERNATIVE_IDENTIFIER), MemberConstants.ALTERNATIVE_NUMBER, name,
             Optional.of(MemberConstants.BIRTH_DATE), List.of(), Optional.of(MemberConstants.ADDRESS),
             Optional.of(MemberConstants.COMMENTS), false, true, feeType, new HashSet<>(List.of(Member.PROFILE_TYPE)));
+    }
+
+    public static final Member alternativeWithKey() {
+        final Name    name;
+        final FeeType feeType;
+
+        feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
+
+        name = new Name(ProfileConstants.ALTERNATIVE_FIRST_NAME, ProfileConstants.ALTERNATIVE_LAST_NAME,
+            Optional.empty());
+        return new Member(Optional.of(MemberConstants.ALTERNATIVE_IDENTIFIER), MemberConstants.ALTERNATIVE_NUMBER, name,
+            Optional.of(MemberConstants.BIRTH_DATE), List.of(), Optional.of(MemberConstants.ADDRESS),
+            Optional.of(MemberConstants.COMMENTS), true, true, Optional.ofNullable(KeyConstants.NUMBER), feeType,
+            new HashSet<>(List.of(Member.PROFILE_TYPE)));
     }
 
     public static final Member created() {
@@ -69,7 +87,7 @@ public final class Members {
 
         feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
 
-        name = new Name(MemberConstants.FIRST_NAME, MemberConstants.LAST_NAME);
+        name = new Name(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME, Optional.empty());
         return new Member(Optional.of(MemberConstants.IDENTIFIER), 1L, name, Optional.of(MemberConstants.BIRTH_DATE),
             List.of(), Optional.of(MemberConstants.ADDRESS), Optional.of(MemberConstants.COMMENTS), true, true, feeType,
             new HashSet<>(List.of(Member.PROFILE_TYPE)));
@@ -81,7 +99,7 @@ public final class Members {
 
         feeType = new FeeType(0L, "", 0F);
 
-        name = new Name(MemberConstants.FIRST_NAME, MemberConstants.LAST_NAME);
+        name = new Name(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME, Optional.empty());
         return new Member(Optional.of(MemberConstants.IDENTIFIER), MemberConstants.NUMBER, name,
             Optional.of(MemberConstants.BIRTH_DATE), List.of(), Optional.of(MemberConstants.ADDRESS),
             Optional.of(MemberConstants.COMMENTS), true, true, feeType, new HashSet<>(List.of(Member.PROFILE_TYPE)));
@@ -93,7 +111,7 @@ public final class Members {
 
         feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
 
-        name = new Name(MemberConstants.CHANGED_FIRST_NAME, MemberConstants.LAST_NAME);
+        name = new Name(MemberConstants.CHANGED_FIRST_NAME, ProfileConstants.LAST_NAME, Optional.empty());
         return new Member(Optional.of(MemberConstants.IDENTIFIER), MemberConstants.NUMBER, name,
             Optional.of(MemberConstants.BIRTH_DATE), List.of(), Optional.of(MemberConstants.ADDRESS),
             Optional.of(MemberConstants.COMMENTS), true, true, feeType, new HashSet<>(List.of(Member.PROFILE_TYPE)));
@@ -105,7 +123,7 @@ public final class Members {
 
         feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
 
-        name = new Name("Name " + number, "Last name " + number);
+        name = new Name("Name " + number, "Last name " + number, Optional.empty());
         return new Member(Optional.of(Objects.toString(number * 10)), number * 10, name,
             Optional.of(MemberConstants.BIRTH_DATE), List.of(), Optional.of(MemberConstants.ADDRESS),
             Optional.of(MemberConstants.COMMENTS), true, true, feeType, new HashSet<>(List.of(Member.PROFILE_TYPE)));
@@ -117,7 +135,7 @@ public final class Members {
 
         feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
 
-        name = new Name(MemberConstants.FIRST_NAME, MemberConstants.LAST_NAME);
+        name = new Name(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME, Optional.empty());
         return new Member(Optional.of(MemberConstants.IDENTIFIER), MemberConstants.NUMBER, name,
             Optional.of(MemberConstants.BIRTH_DATE), List.of(), Optional.of(MemberConstants.ADDRESS),
             Optional.of(MemberConstants.COMMENTS), false, true, feeType, new HashSet<>(List.of(Member.PROFILE_TYPE)));
@@ -129,7 +147,7 @@ public final class Members {
 
         feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
 
-        name = new Name(MemberConstants.FIRST_NAME, MemberConstants.LAST_NAME);
+        name = new Name(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME, Optional.empty());
         return new Member(Optional.of(MemberConstants.IDENTIFIER), MemberConstants.NUMBER, name,
             Optional.of(MemberConstants.BIRTH_DATE), List.of(), Optional.of(MemberConstants.ADDRESS),
             Optional.of(MemberConstants.COMMENTS), false, false, feeType, new HashSet<>(List.of(Member.PROFILE_TYPE)));
@@ -141,7 +159,7 @@ public final class Members {
 
         feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
 
-        name = new Name("Name 123", "Last name");
+        name = new Name("Name 123", "Last name", Optional.empty());
         return new Member(Optional.of(MemberConstants.IDENTIFIER), MemberConstants.NUMBER, name,
             Optional.of(MemberConstants.BIRTH_DATE), List.of(), Optional.of(MemberConstants.ADDRESS),
             Optional.of(MemberConstants.COMMENTS), true, true, feeType, new HashSet<>(List.of(Member.PROFILE_TYPE)));
@@ -153,7 +171,7 @@ public final class Members {
 
         feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
 
-        name = new Name("Name 123", "Last name");
+        name = new Name("Name 123", "Last name", Optional.empty());
         return new Member(Optional.of(MemberConstants.IDENTIFIER), MemberConstants.NUMBER, name,
             Optional.of(MemberConstants.BIRTH_DATE), List.of(), Optional.of(MemberConstants.ADDRESS),
             Optional.of(MemberConstants.COMMENTS), true, true, feeType, new HashSet<>(List.of(Member.PROFILE_TYPE)));
@@ -165,7 +183,7 @@ public final class Members {
 
         feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
 
-        name = new Name(MemberConstants.FIRST_NAME, MemberConstants.LAST_NAME);
+        name = new Name(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME, Optional.empty());
         return new Member(Optional.of(MemberConstants.IDENTIFIER), MemberConstants.NUMBER, name,
             Optional.of(MemberConstants.BIRTH_DATE), List.of(), Optional.of(MemberConstants.ADDRESS),
             Optional.of(MemberConstants.COMMENTS), true, true, feeType, new HashSet<>(List.of(Member.PROFILE_TYPE)));
@@ -177,7 +195,7 @@ public final class Members {
 
         feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
 
-        name = new Name(MemberConstants.FIRST_NAME, MemberConstants.LAST_NAME);
+        name = new Name(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME, Optional.empty());
         return new Member(Optional.of(MemberConstants.IDENTIFIER), MemberConstants.NUMBER, name,
             Optional.of(MemberConstants.BIRTH_DATE), List.of(), Optional.of(MemberConstants.ADDRESS),
             Optional.of(MemberConstants.COMMENTS), true, true, feeType, new HashSet<>(List.of(Member.PROFILE_TYPE)));
@@ -189,7 +207,8 @@ public final class Members {
 
         feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
 
-        name = new Name(" " + MemberConstants.FIRST_NAME + " ", " " + MemberConstants.LAST_NAME + " ");
+        name = new Name(" " + ProfileConstants.FIRST_NAME + " ", " " + ProfileConstants.LAST_NAME + " ",
+            Optional.empty());
         return new Member(Optional.of(MemberConstants.IDENTIFIER), MemberConstants.NUMBER, name,
             Optional.of(MemberConstants.BIRTH_DATE), List.of(), Optional.of(MemberConstants.ADDRESS),
             Optional.of(MemberConstants.COMMENTS), true, true, feeType, new HashSet<>(List.of(Member.PROFILE_TYPE)));
@@ -201,7 +220,7 @@ public final class Members {
 
         feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, "", 0f);
 
-        name = new Name(MemberConstants.FIRST_NAME, MemberConstants.LAST_NAME);
+        name = new Name(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME, Optional.empty());
         return new Member(Optional.of(MemberConstants.IDENTIFIER), MemberConstants.NUMBER, name,
             Optional.of(MemberConstants.BIRTH_DATE), List.of(), Optional.of(MemberConstants.ADDRESS),
             Optional.of(MemberConstants.COMMENTS), true, true, feeType, new HashSet<>(List.of(Member.PROFILE_TYPE)));
@@ -211,13 +230,11 @@ public final class Members {
         final Name           name;
         final FeeType        feeType;
         final ContactChannel contactChannel;
-        final ContactMethod  contactMethod;
 
         feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, "", 0f);
 
-        name = new Name(MemberConstants.FIRST_NAME, MemberConstants.LAST_NAME);
-        contactMethod = email();
-        contactChannel = new ContactChannel(contactMethod, MemberConstants.EMAIL);
+        name = new Name(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME, Optional.empty());
+        contactChannel = ContactChannels.withEmail();
         return new Member(Optional.of(MemberConstants.IDENTIFIER), MemberConstants.NUMBER, name,
             Optional.of(MemberConstants.BIRTH_DATE), List.of(contactChannel), Optional.of(MemberConstants.ADDRESS),
             Optional.of(MemberConstants.COMMENTS), true, true, feeType, new HashSet<>());
@@ -226,14 +243,12 @@ public final class Members {
     public static final Member withEmail() {
         final Name           name;
         final ContactChannel contactChannel;
-        final ContactMethod  contactMethod;
         final FeeType        feeType;
 
         feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
 
-        name = new Name(MemberConstants.FIRST_NAME, MemberConstants.LAST_NAME);
-        contactMethod = email();
-        contactChannel = new ContactChannel(contactMethod, MemberConstants.EMAIL);
+        name = new Name(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME, Optional.empty());
+        contactChannel = ContactChannels.withEmail();
         return new Member(Optional.of(MemberConstants.IDENTIFIER), MemberConstants.NUMBER, name,
             Optional.of(MemberConstants.BIRTH_DATE), List.of(contactChannel), Optional.of(MemberConstants.ADDRESS),
             Optional.of(MemberConstants.COMMENTS), true, true, feeType, new HashSet<>(List.of(Member.PROFILE_TYPE)));
@@ -242,17 +257,28 @@ public final class Members {
     public static final Member withEmailAndEmptyFeeType() {
         final Name           name;
         final ContactChannel contactChannel;
-        final ContactMethod  contactMethod;
         final FeeType        feeType;
 
         feeType = new FeeType(0L, "", 0F);
 
-        name = new Name(MemberConstants.FIRST_NAME, MemberConstants.LAST_NAME);
-        contactMethod = email();
-        contactChannel = new ContactChannel(contactMethod, MemberConstants.EMAIL);
+        name = new Name(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME, Optional.empty());
+        contactChannel = ContactChannels.withEmail();
         return new Member(Optional.of(MemberConstants.IDENTIFIER), MemberConstants.NUMBER, name,
             Optional.of(MemberConstants.BIRTH_DATE), List.of(contactChannel), Optional.of(MemberConstants.ADDRESS),
             Optional.of(MemberConstants.COMMENTS), true, true, feeType, new HashSet<>(List.of(Member.PROFILE_TYPE)));
+    }
+
+    public static final Member withKey() {
+        final Name    name;
+        final FeeType feeType;
+
+        feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
+
+        name = new Name(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME, Optional.empty());
+        return new Member(Optional.of(MemberConstants.IDENTIFIER), MemberConstants.NUMBER, name,
+            Optional.of(MemberConstants.BIRTH_DATE), List.of(), Optional.of(MemberConstants.ADDRESS),
+            Optional.of(MemberConstants.COMMENTS), true, true, Optional.ofNullable(KeyConstants.NUMBER), feeType,
+            new HashSet<>(List.of(Member.PROFILE_TYPE)));
     }
 
     public static final Member withoutType() {
@@ -261,14 +287,10 @@ public final class Members {
 
         feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
 
-        name = new Name(MemberConstants.FIRST_NAME, MemberConstants.LAST_NAME);
+        name = new Name(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME, Optional.empty());
         return new Member(Optional.of(MemberConstants.IDENTIFIER), MemberConstants.NUMBER, name,
             Optional.of(MemberConstants.BIRTH_DATE), List.of(), Optional.of(MemberConstants.ADDRESS),
             Optional.of(MemberConstants.COMMENTS), true, true, feeType, new HashSet<>());
-    }
-
-    private static final ContactMethod email() {
-        return new ContactMethod(ContactMethodConstants.NUMBER, ContactMethodConstants.EMAIL);
     }
 
 }

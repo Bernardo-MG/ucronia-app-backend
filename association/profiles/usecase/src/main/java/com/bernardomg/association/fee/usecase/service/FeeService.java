@@ -25,15 +25,12 @@
 package com.bernardomg.association.fee.usecase.service;
 
 import java.time.Instant;
-import java.time.Year;
 import java.util.Collection;
 import java.util.Optional;
 
 import com.bernardomg.association.fee.domain.filter.FeeFilter;
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeePayments;
-import com.bernardomg.association.member.domain.model.MemberFees;
-import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.domain.model.YearsRange;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -82,19 +79,6 @@ public interface FeeService {
      * @return all the fees matching the filter
      */
     public Page<Fee> getAll(final FeeFilter filter, final Pagination pagination, final Sorting sorting);
-
-    /**
-     * Returns all the member fees for a year.
-     *
-     * @param year
-     *            year to read
-     * @param status
-     *            member active status
-     * @param sorting
-     *            sorting to apply
-     * @return all the member fees for a year
-     */
-    public Collection<MemberFees> getForYear(final Year year, final MemberStatus status, final Sorting sorting);
 
     /**
      * Returns the fee for the received member in the received date, if it exists. Otherwise an empty {@code Optional}

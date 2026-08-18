@@ -37,7 +37,6 @@ import com.bernardomg.association.guest.domain.exception.GuestExistsException;
 import com.bernardomg.association.guest.domain.model.Guest;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
 import com.bernardomg.association.profile.domain.exception.MissingProfileException;
-import com.bernardomg.association.profile.domain.model.Name;
 import com.bernardomg.association.profile.domain.model.Profile;
 import com.bernardomg.association.profile.domain.repository.ProfileRepository;
 
@@ -73,7 +72,6 @@ public final class DefaultProfileGuestService implements ProfileGuestService {
         final Profile     existing;
         final Guest       toCreate;
         final Guest       created;
-        final Name        name;
         final Set<String> types;
 
         log.debug("Converting profile {} to guest", number);
@@ -89,14 +87,10 @@ public final class DefaultProfileGuestService implements ProfileGuestService {
             throw new GuestExistsException(number);
         }
 
-        name = new Name(existing.name()
-            .firstName(),
-            existing.name()
-                .lastName());
         types = Stream.concat(existing.types()
             .stream(), Stream.of(Guest.PROFILE_TYPE))
             .collect(Collectors.toSet());
-        toCreate = new Guest(existing.identifier(), existing.number(), name, existing.birthDate(),
+        toCreate = new Guest(existing.identifier(), existing.number(), existing.name(), existing.birthDate(),
             existing.contactChannels(), List.of(), existing.address(), existing.comments(), types);
 
         created = guestRepository.save(toCreate);

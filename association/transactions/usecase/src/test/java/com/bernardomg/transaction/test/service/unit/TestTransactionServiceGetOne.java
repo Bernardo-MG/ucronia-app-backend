@@ -61,19 +61,20 @@ class TestTransactionServiceGetOne {
     @Test
     @DisplayName("When there is data it is returned")
     void testFindOne() {
-        final Optional<Transaction> transaction;
+        final Optional<Transaction> read;
+        final Transaction           transaction;
 
         // GIVEN
-        given(transactionRepository.findOne(TransactionConstants.INDEX))
-            .willReturn(Optional.of(Transactions.positive()));
+        transaction = Transactions.positive();
+        given(transactionRepository.findOne(TransactionConstants.INDEX)).willReturn(Optional.of(transaction));
 
         // WHEN
-        transaction = service.getOne(TransactionConstants.INDEX);
+        read = service.getOne(TransactionConstants.INDEX);
 
         // THEN
-        Assertions.assertThat(transaction)
+        Assertions.assertThat(read)
             .as("transaction")
-            .contains(Transactions.positive());
+            .contains(transaction);
     }
 
     @Test

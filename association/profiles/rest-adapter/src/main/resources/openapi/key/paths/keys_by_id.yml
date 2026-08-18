@@ -1,0 +1,66 @@
+get:
+  summary: Get a specific key by number.
+  operationId: getKeyByNumber
+  tags: [Key]
+  parameters:
+    - name: number
+      in: path
+      required: true
+      description: Key number.
+      schema:
+        $ref: '../../member/common/ids.yml#/components/schemas/Id'
+  responses:
+    '200':
+      description: Requested key.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/keys.yml#/components/schemas/KeyResponse'
+    '404':
+      description: Key not found.
+put:
+  summary: Update a key.
+  operationId: updateKey
+  tags: [Key]
+  parameters:
+    - name: number
+      in: path
+      required: true
+      description: Key number.
+      schema:
+        $ref: '../../member/common/ids.yml#/components/schemas/Id'
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/keys.yml#/components/schemas/KeyUpdate'
+  responses:
+    '200':
+      description: Updated key.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/keys.yml#/components/schemas/KeyResponse'
+    '404':
+      description: Key not found.
+delete:
+  summary: Delete a key.
+  operationId: deleteKey
+  tags: [Key]
+  parameters:
+    - name: number
+      in: path
+      required: true
+      description: Key number.
+      schema:
+        $ref: '../../member/common/ids.yml#/components/schemas/Id'
+  responses:
+    '200':
+      description: Key deleted successfully.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/keys.yml#/components/schemas/KeyResponse'
+    '404':
+      description: Key not found.

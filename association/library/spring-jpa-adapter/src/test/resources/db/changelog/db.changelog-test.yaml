@@ -2,6 +2,9 @@ databaseChangeLog:
   - include:
       file: classpath:db/changelog/auth/initialize.yaml
   - include:
+      file: key.yaml
+      relativeToChangelogFile: true
+  - include:
       file: profile.yaml
       relativeToChangelogFile: true
   - include:

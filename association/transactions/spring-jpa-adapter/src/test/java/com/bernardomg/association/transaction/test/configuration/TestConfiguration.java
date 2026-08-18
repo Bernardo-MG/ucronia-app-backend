@@ -34,11 +34,14 @@ import org.springframework.security.authentication.AuthenticationTrustResolverIm
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.JpaTransactionEvolutionRepository;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.JpaTransactionRepository;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.JpaTransactionSummaryRepository;
+import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.JpaTransactionTypeRepository;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.MonthlyEvolutionSpringRepository;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
+import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionTypeSpringRepository;
 import com.bernardomg.association.transaction.domain.repository.TransactionEvolutionRepository;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.association.transaction.domain.repository.TransactionSummaryRepository;
+import com.bernardomg.association.transaction.domain.repository.TransactionTypeRepository;
 
 @Configuration
 @EnableJpaRepositories(basePackages = { "com.bernardomg.association.transaction.adapter.inbound.jpa",
@@ -68,6 +71,12 @@ public class TestConfiguration {
     public TransactionSummaryRepository
             getTransactionSummaryRepository(final MonthlyEvolutionSpringRepository monthlyEvolutionRepository) {
         return new JpaTransactionSummaryRepository(monthlyEvolutionRepository);
+    }
+
+    @Bean("transactionTypeRepository")
+    public TransactionTypeRepository
+            getTransactionTypeRepository(final TransactionTypeSpringRepository transactionTypeSpringRepository) {
+        return new JpaTransactionTypeRepository(transactionTypeSpringRepository);
     }
 
 }

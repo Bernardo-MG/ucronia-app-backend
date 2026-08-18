@@ -26,6 +26,8 @@ public class TestModulesArchitectureRules {
         .definedBy("com.bernardomg.association.sponsor..")
         .layer("Guests")
         .definedBy("com.bernardomg.association.guest..")
+        .layer("Keys")
+        .definedBy("com.bernardomg.association.key..")
 
         .layer("Transactions")
         .definedBy("com.bernardomg.association.transaction..")
@@ -68,13 +70,16 @@ public class TestModulesArchitectureRules {
 
         .whereLayer("Profiles")
         // TODO: library shouldn't have access
-        .mayOnlyBeAccessedByLayers("Guests", "Sponsors", "Members", "Fees", "Library books", "Library configuration")
+        .mayOnlyBeAccessedByLayers("Guests", "Sponsors", "Members", "Fees", "Library books", "Library configuration",
+            "Users", "Account")
         .whereLayer("Members")
         .mayOnlyBeAccessedByLayers("Fees")
         .whereLayer("Sponsors")
         .mayNotBeAccessedByAnyLayer()
         .whereLayer("Guests")
         .mayNotBeAccessedByAnyLayer()
+        .whereLayer("Keys")
+        .mayOnlyBeAccessedByLayers("Members")
         .whereLayer("Transactions")
         .mayNotBeAccessedByAnyLayer()
         .whereLayer("Fees")

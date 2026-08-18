@@ -86,11 +86,6 @@ databaseChangeLog:
               - column:
                   name: transaction_id
                   type: bigint
-                  constraints:
-                    nullable: true
-                    foreignKeyName: fk_fees_transaction
-                    references: funds.transactions(id)
-                    deleteCascade: true
               # Audit columns
               - column:
                   name: created_at
@@ -123,6 +118,15 @@ databaseChangeLog:
             columnDataType: bigint
             incrementBy: 1
             startWith: 1
+        - addForeignKeyConstraint:
+            constraintName: fk_fees_transaction
+            baseTableSchemaName: funds
+            baseTableName: fees
+            baseColumnNames: transaction_id
+            referencedTableSchemaName: funds
+            referencedTableName: transactions
+            referencedColumnNames: id
+            onDelete: SET NULL
         - addUniqueConstraint:
             constraintName: fees_unique_date
             schemaName: funds

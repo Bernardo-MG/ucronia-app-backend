@@ -66,7 +66,7 @@ public final class CalendarInfoPublishedEvent extends AbstractEvent {
 
     @Override
     public String toString() {
-        return "FeeDeletedEvent [calendarNumber=" + calendarNumber + "]";
+        return "CalendarInfoPublishedEvent [calendarNumber=" + calendarNumber + "]";
     }
 
 }

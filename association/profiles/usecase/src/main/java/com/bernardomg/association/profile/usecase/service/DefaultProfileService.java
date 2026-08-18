@@ -219,20 +219,40 @@ public final class DefaultProfileService implements ProfileService {
     }
 
     private final Profile copy(final Profile existing, final Profile updated) {
-        final Name name;
+        final Name             name;
+        final String           firstName;
+        final String           lastName;
+        final Optional<String> nickname;
 
-        if (updated.name() == null) {
-            name = existing.name();
+        if (updated.name()
+            .firstName()
+            .isBlank()) {
+            firstName = existing.name()
+                .firstName();
         } else {
-            name = new Name(Optional.ofNullable(updated.name()
-                .firstName())
-                .orElse(existing.name()
-                    .firstName()),
-                Optional.ofNullable(updated.name()
-                    .lastName())
-                    .orElse(existing.name()
-                        .lastName()));
+            firstName = updated.name()
+                .firstName();
         }
+        if (updated.name()
+            .lastName()
+            .isBlank()) {
+            lastName = existing.name()
+                .lastName();
+        } else {
+            lastName = updated.name()
+                .lastName();
+        }
+        if (updated.name()
+            .nickname()
+            .isEmpty()) {
+            nickname = existing.name()
+                .nickname();
+        } else {
+            nickname = updated.name()
+                .nickname();
+        }
+        name = new Name(firstName, lastName, nickname);
+
         return new Profile(Optional.ofNullable(updated.identifier())
             .orElse(existing.identifier()),
             Optional.ofNullable(updated.number())

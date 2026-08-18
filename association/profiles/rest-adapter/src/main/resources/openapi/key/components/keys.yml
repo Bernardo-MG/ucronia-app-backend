@@ -1,0 +1,64 @@
+components:
+  parameters:
+    keysSortParam:
+      name: sort
+      description: Sorting to apply.
+      in: query
+      style: form
+      explode: true
+      schema:
+        type: array
+        items:
+          type: string
+          pattern: '^(description|number)\|(asc|desc)$'
+          example: username|asc
+  schemas:
+    Key:
+      type: object
+      required: [number, available, description]
+      properties:
+        number:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        available:
+          type: boolean
+          description: Whether the key is available.
+        description:
+          type: string
+          maxLength: 250
+          description: Description for the key.
+    KeyCreation:
+      type: object
+      required: [available, description]
+      properties:
+        available:
+          type: boolean
+          default: false
+        description:
+          type: string
+          maxLength: 250
+          default: ''
+    KeyUpdate:
+      type: object
+      required: [available, description]
+      properties:
+        available:
+          type: boolean
+          description: Whether the key is available.
+        description:
+          type: string
+          maxLength: 250
+          description: Description for the key.
+    KeyPageResponse:
+      allOf:
+        - $ref: '../common/responses.yml#/components/schemas/PageResponse'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/Key'
+    KeyResponse:
+      type: object
+      properties:
+        content:
+          $ref: '#/components/schemas/Key'

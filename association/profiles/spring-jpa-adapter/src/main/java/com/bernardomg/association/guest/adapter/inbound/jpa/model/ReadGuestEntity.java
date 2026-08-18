@@ -71,6 +71,9 @@ public class ReadGuestEntity implements Serializable {
     @Column(name = "last_name", table = "profiles")
     private String                           lastName;
 
+    @Column(name = "nickname", table = "profiles")
+    private String                           nickname;
+
     @Column(name = "number", table = "profiles")
     private Long                             number;
 
@@ -125,6 +128,10 @@ public class ReadGuestEntity implements Serializable {
         return lastName;
     }
 
+    public String getNickname() {
+        return nickname;
+    }
+
     public Long getNumber() {
         return number;
     }
@@ -174,6 +181,10 @@ public class ReadGuestEntity implements Serializable {
         this.lastName = lastName;
     }
 
+    public void setNickname(final String nickname) {
+        this.nickname = nickname;
+    }
+
     public void setNumber(final Long number) {
         this.number = number;
     }
@@ -185,9 +196,9 @@ public class ReadGuestEntity implements Serializable {
     @Override
     public String toString() {
         return "ReadGuestEntity [id=" + id + ", address=" + address + ", birthDate=" + birthDate + ", comments="
-                + comments + ", contactChannels=" + contactChannels + ", firstName=" + firstName + ", identifier="
-                + identifier + ", lastName=" + lastName + ", number=" + number + ", types=" + types + ", games=" + games
-                + "]";
+                + comments + ", contactChannels=" + contactChannels + ", firstName=" + firstName + ", lastName="
+                + lastName + ", nickname=" + nickname + ", identifier=" + identifier + ", number=" + number + ", types="
+                + types + ", games=" + games + "]";
     }
 
 }

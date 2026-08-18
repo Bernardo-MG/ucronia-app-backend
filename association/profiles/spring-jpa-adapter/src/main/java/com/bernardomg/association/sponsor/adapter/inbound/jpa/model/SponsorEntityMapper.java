@@ -52,7 +52,7 @@ public final class SponsorEntityMapper {
         final Collection<ContactChannel> contactChannels;
         final AuditDetails               audit;
 
-        name = new Name(entity.getFirstName(), entity.getLastName());
+        name = new Name(entity.getFirstName(), entity.getLastName(), Optional.ofNullable(entity.getNickname()));
 
         contactChannels = entity.getContactChannels()
             .stream()
@@ -74,7 +74,9 @@ public final class SponsorEntityMapper {
         name = new Name(entity.getProfile()
             .getFirstName(),
             entity.getProfile()
-                .getLastName());
+                .getLastName(),
+            Optional.ofNullable(entity.getProfile()
+                .getNickname()));
 
         contactChannels = entity.getProfile()
             .getContactChannels()
@@ -110,6 +112,9 @@ public final class SponsorEntityMapper {
             .firstName());
         profile.setLastName(data.name()
             .lastName());
+        profile.setNickname(data.name()
+            .nickname()
+            .orElse(null));
         profile.setIdentifier(data.identifier()
             .orElse(null));
         profile.setBirthDate(data.birthDate()
@@ -151,6 +156,9 @@ public final class SponsorEntityMapper {
             .firstName());
         profile.setLastName(data.name()
             .lastName());
+        profile.setNickname(data.name()
+            .nickname()
+            .orElse(null));
         profile.setIdentifier(data.identifier()
             .orElse(null));
         profile.setBirthDate(data.birthDate()

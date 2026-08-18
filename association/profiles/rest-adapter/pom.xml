@@ -92,6 +92,14 @@
          <artifactId>spring-web</artifactId>
       </dependency>
       <!-- ============================================== -->
+      <!-- ================= JACKSON ==================== -->
+      <!-- ============================================== -->
+      <dependency>
+         <!-- Jackson annotations -->
+         <groupId>com.fasterxml.jackson.core</groupId>
+         <artifactId>jackson-annotations</artifactId>
+      </dependency>
+      <!-- ============================================== -->
       <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
       <!-- ============================================== -->
       <dependency>
@@ -163,6 +171,17 @@
                       <inputSpec>${project.basedir}/src/main/resources/openapi/member/member.yml</inputSpec>
                       <apiPackage>com.bernardomg.association.member.adapter.outbound.rest.controller</apiPackage>
                       <modelPackage>com.bernardomg.association.member.adapter.outbound.rest.dto</modelPackage>
+                   </configuration>
+                </execution>
+                <execution>
+                   <id>key</id>
+                   <goals>
+                      <goal>generate</goal>
+                   </goals>
+                   <configuration>
+                      <inputSpec>${project.basedir}/src/main/resources/openapi/key/key.yml</inputSpec>
+                      <apiPackage>com.bernardomg.association.key.adapter.outbound.rest.controller</apiPackage>
+                      <modelPackage>com.bernardomg.association.key.adapter.outbound.rest.dto</modelPackage>
                    </configuration>
                 </execution>
                 <execution>

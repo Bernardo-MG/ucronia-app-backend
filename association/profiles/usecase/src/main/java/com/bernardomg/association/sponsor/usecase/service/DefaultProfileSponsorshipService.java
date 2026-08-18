@@ -37,7 +37,6 @@ import org.slf4j.LoggerFactory;
 import com.bernardomg.association.profile.domain.exception.MissingProfileException;
 import com.bernardomg.association.profile.domain.model.ContactChannel;
 import com.bernardomg.association.profile.domain.model.ContactMethod;
-import com.bernardomg.association.profile.domain.model.Name;
 import com.bernardomg.association.profile.domain.model.Profile;
 import com.bernardomg.association.profile.domain.repository.ProfileRepository;
 import com.bernardomg.association.sponsor.domain.exception.SponsorExistsException;
@@ -77,7 +76,6 @@ public final class DefaultProfileSponsorshipService implements ProfileSponsorshi
         final Sponsor                    toCreate;
         final Sponsor                    created;
         final Collection<ContactChannel> contactChannels;
-        final Name                       name;
         final Set<String>                types;
 
         log.debug("Converting profile {} to sponsor", number);
@@ -97,15 +95,11 @@ public final class DefaultProfileSponsorshipService implements ProfileSponsorshi
             .stream()
             .map(this::toSponsorContactChannel)
             .toList();
-        name = new Name(existing.name()
-            .firstName(),
-            existing.name()
-                .lastName());
         types = Stream.concat(existing.types()
             .stream(), Stream.of(Sponsor.PROFILE_TYPE))
             .collect(Collectors.toSet());
-        toCreate = new Sponsor(existing.identifier(), existing.number(), name, existing.birthDate(), contactChannels,
-            List.of(), existing.address(), existing.comments(), types);
+        toCreate = new Sponsor(existing.identifier(), existing.number(), existing.name(), existing.birthDate(),
+            contactChannels, List.of(), existing.address(), existing.comments(), types);
 
         created = sponsorRepository.save(toCreate);
 

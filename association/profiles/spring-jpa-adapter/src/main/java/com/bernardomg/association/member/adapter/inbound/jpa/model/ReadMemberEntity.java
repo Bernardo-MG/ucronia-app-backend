@@ -11,6 +11,7 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTypeEntity;
+import com.bernardomg.association.key.adapter.inbound.jpa.model.KeyEntity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -68,8 +69,15 @@ public class ReadMemberEntity implements Serializable {
     @Column(name = "identifier", table = "profiles")
     private String                                     identifier;
 
+    @OneToOne
+    @JoinColumn(name = "key_id", table = "members", referencedColumnName = "id")
+    private KeyEntity                                  key;
+
     @Column(name = "last_name", table = "profiles")
     private String                                     lastName;
+
+    @Column(name = "nickname", table = "profiles")
+    private String                                     nickname;
 
     @Column(name = "number", table = "profiles")
     private Long                                       number;
@@ -128,8 +136,16 @@ public class ReadMemberEntity implements Serializable {
         return identifier;
     }
 
+    public KeyEntity getKey() {
+        return key;
+    }
+
     public String getLastName() {
         return lastName;
+    }
+
+    public String getNickname() {
+        return nickname;
     }
 
     public Long getNumber() {
@@ -185,8 +201,16 @@ public class ReadMemberEntity implements Serializable {
         this.identifier = identifier;
     }
 
+    public void setKey(final KeyEntity key) {
+        this.key = key;
+    }
+
     public void setLastName(final String lastName) {
         this.lastName = lastName;
+    }
+
+    public void setNickname(final String nickname) {
+        this.nickname = nickname;
     }
 
     public void setNumber(final Long number) {
@@ -204,9 +228,9 @@ public class ReadMemberEntity implements Serializable {
     @Override
     public String toString() {
         return "ReadMemberEntity [id=" + id + ", active=" + active + ", feeType=" + feeType + ", number=" + number
-                + ", firstName=" + firstName + ", lastName=" + lastName + ", renew=" + renew + ", identifier="
-                + identifier + ", address=" + address + ", birthDate=" + birthDate + ", comments=" + comments
-                + ", types=" + types + ", contactChannels=" + contactChannels + "]";
+                + ", firstName=" + firstName + ", lastName=" + lastName + ", nickname=" + nickname + ", renew=" + renew
+                + ", identifier=" + identifier + ", key=" + key + ", address=" + address + ", birthDate=" + birthDate
+                + ", comments=" + comments + ", types=" + types + ", contactChannels=" + contactChannels + "]";
     }
 
 }

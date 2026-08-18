@@ -2,6 +2,7 @@
 package com.bernardomg.association.member.test.configuration.factory;
 
 import com.bernardomg.association.member.adapter.inbound.jpa.model.PublicMemberEntity;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 
 public final class PublicMemberEntities {
 
@@ -11,8 +12,8 @@ public final class PublicMemberEntities {
         entity = new PublicMemberEntity();
         entity.setId(1L);
         entity.setNumber(MemberConstants.NUMBER);
-        entity.setFirstName(MemberConstants.ALTERNATIVE_FIRST_NAME);
-        entity.setLastName(MemberConstants.ALTERNATIVE_LAST_NAME);
+        entity.setFirstName(ProfileConstants.ALTERNATIVE_FIRST_NAME);
+        entity.setLastName(ProfileConstants.ALTERNATIVE_LAST_NAME);
 
         return entity;
     }
@@ -23,8 +24,8 @@ public final class PublicMemberEntities {
         entity = new PublicMemberEntity();
         entity.setId(1L);
         entity.setNumber(MemberConstants.NUMBER);
-        entity.setFirstName(MemberConstants.FIRST_NAME);
-        entity.setLastName(MemberConstants.LAST_NAME);
+        entity.setFirstName(ProfileConstants.FIRST_NAME);
+        entity.setLastName(ProfileConstants.LAST_NAME);
 
         return entity;
     }

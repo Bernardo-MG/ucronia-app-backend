@@ -24,15 +24,10 @@
 
 package com.bernardomg.association.fee.usecase.service;
 
-import java.text.Normalizer;
 import java.time.Instant;
-import java.time.Year;
 import java.time.ZoneOffset;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -48,7 +43,6 @@ import com.bernardomg.association.fee.domain.exception.MissingFeeException;
 import com.bernardomg.association.fee.domain.exception.MissingFeeTypeException;
 import com.bernardomg.association.fee.domain.filter.FeeFilter;
 import com.bernardomg.association.fee.domain.model.Fee;
-import com.bernardomg.association.fee.domain.model.FeeMember;
 import com.bernardomg.association.fee.domain.model.FeePayments;
 import com.bernardomg.association.fee.domain.model.FeeTransaction;
 import com.bernardomg.association.fee.domain.model.FeeType;
@@ -60,11 +54,8 @@ import com.bernardomg.association.fee.usecase.validation.FeePaymentsMonthsNotExi
 import com.bernardomg.association.fee.usecase.validation.FeePaymentsNotPaidInFutureRule;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.domain.model.MemberFees;
-import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.domain.model.YearsRange;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.profile.domain.model.Name;
 import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -130,7 +121,6 @@ public final class DefaultFeeService implements FeeService {
         final Fee     created;
         final Member  member;
         final FeeType feeType;
-        final Name    name;
 
         log.info("Creating unpaid fee for {} for month {}", number, date);
 
@@ -146,17 +136,12 @@ public final class DefaultFeeService implements FeeService {
                 throw new MissingFeeTypeException(member.number());
             });
 
-        name = new Name(member.name()
-            .firstName(),
-            member.name()
-                .lastName());
-
         if (feeType.amount() == 0) {
             // No amount
             // Set to paid automatically
-            newFee = Fee.paid(date, member.number(), name, feeType);
+            newFee = Fee.paid(date, member.number(), member.name(), feeType);
         } else {
-            newFee = Fee.unpaid(date, member.number(), name, feeType);
+            newFee = Fee.unpaid(date, member.number(), member.name(), feeType);
         }
 
         validatorCreate.validate(newFee);
@@ -202,71 +187,6 @@ public final class DefaultFeeService implements FeeService {
         log.debug("Got all fees with filter {}, pagination {} and sorting {}: {}", filter, pagination, sorting, fees);
 
         return fees;
-    }
-
-    @Override
-    public final Collection<MemberFees> getForYear(final Year year, final MemberStatus status, final Sorting sorting) {
-        final Collection<Fee>        readFees;
-        final Map<Object, List<Fee>> memberFees;
-        final Collection<MemberFees> calendarFees;
-        final Collection<MemberFees> sortedCalendarFees;
-        final Collection<Long>       memberNumbers;
-        final Comparator<MemberFees> feeCalendarComparator;
-        List<Fee>                    fees;
-        MemberFees                   calendarFee;
-        Collection<MemberFees.Fee>   membFees;
-        Name                         name;
-
-        log.info("Getting fee calendar for year {} and status {}", year, status);
-
-        // Select query based on status
-        readFees = switch (status) {
-            case ACTIVE -> feeRepository.findAllInYearForActiveMembers(year, sorting);
-            case INACTIVE -> feeRepository.findAllInYearForInactiveMembers(year, sorting);
-            default -> feeRepository.findAllInYear(year, sorting);
-        };
-
-        log.debug("Read fees: {}", readFees);
-
-        // Member fees grouped by member number
-        memberFees = readFees.stream()
-            .collect(Collectors.groupingBy(f -> f.member()
-                .number()));
-        log.debug("Member fees: {}", memberFees);
-
-        memberNumbers = readFees.stream()
-            .map(Fee::member)
-            .map(FeeMember::number)
-            .distinct()
-            .sorted()
-            .toList();
-        log.debug("Member numbers: {}", memberNumbers);
-
-        calendarFees = new ArrayList<>();
-        for (final Long memberNumber : memberNumbers) {
-            fees = memberFees.get(memberNumber);
-            membFees = fees.stream()
-                .map(this::toMemberFee)
-                .sorted(Comparator.comparing(MemberFees.Fee::month))
-                .toList();
-            name = fees.iterator()
-                .next()
-                .member()
-                .name();
-
-            calendarFee = toFeeYear(memberNumber, name, status, membFees);
-            calendarFees.add(calendarFee);
-        }
-        feeCalendarComparator = Comparator.comparing(fc -> normalizeString(fc.member()
-            .name()
-            .fullName()));
-        sortedCalendarFees = calendarFees.stream()
-            .sorted(feeCalendarComparator)
-            .toList();
-
-        log.debug("Got fee calendar for year {} and status {}: {}", year, status, sortedCalendarFees);
-
-        return sortedCalendarFees;
     }
 
     @Override
@@ -474,12 +394,6 @@ public final class DefaultFeeService implements FeeService {
         return new Fee(fee.month(), fee.paid(), fee.member(), existing.feeType(), transaction);
     }
 
-    private final String normalizeString(final String input) {
-        // TODO: test this
-        return Normalizer.normalize(input, Normalizer.Form.NFD)
-            .replaceAll("\\p{M}", "");
-    }
-
     private final FeeTransaction savePaymentTransaction(final Member member, final FeeType feeType,
             final Collection<Instant> feeMonths, final Instant payDate) {
         final FeeTransaction transaction;
@@ -519,40 +433,16 @@ public final class DefaultFeeService implements FeeService {
             .number()));
     }
 
-    private final MemberFees toFeeYear(final Long number, final Name name, final MemberStatus status,
-            final Collection<MemberFees.Fee> fees) {
-        final boolean           active;
-        final MemberFees.Member member;
-
-        active = switch (status) {
-            case ACTIVE -> true;
-            case INACTIVE -> false;
-            // TODO: get all active in a single query
-            default -> memberRepository.isActive(number);
-        };
-
-        member = new MemberFees.Member(number, name, active);
-        return new MemberFees(member, fees);
-    }
-
-    private final MemberFees.Fee toMemberFee(final Fee fee) {
-        return new MemberFees.Fee(fee.month(), fee.paid());
-    }
-
     private final Fee toPaidFee(final FeeType memberFeeType, final Member member, final Instant month,
             final FeeTransaction transaction) {
         final FeeType         feeType;
         final Fee.Transaction feeTransaction;
-        final Name            name;
 
         // TODO: should receive a member
         feeType = new FeeType(memberFeeType.number(), memberFeeType.name(), memberFeeType.amount());
         feeTransaction = new Fee.Transaction(transaction.index(), transaction.date());
-        name = new Name(member.name()
-            .firstName(),
-            member.name()
-                .lastName());
-        return Fee.paid(month, member.number(), name, feeType, feeTransaction);
+
+        return Fee.paid(month, member.number(), member.name(), feeType, feeTransaction);
     }
 
 }
