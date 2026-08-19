@@ -51,6 +51,11 @@
          <artifactId>validation</artifactId>
       </dependency>
       <dependency>
+         <!-- AWS S3 -->
+         <groupId>software.amazon.awssdk</groupId>
+         <artifactId>s3</artifactId>
+      </dependency>
+      <dependency>
 			<!-- Pagination -->
          <groupId>com.bernardomg.framework</groupId>
          <artifactId>pagination</artifactId>

@@ -34,6 +34,8 @@ services:
         condition: service_healthy
       mail:
         condition: service_healthy
+      s3:
+        condition: service_healthy
     environment:
       # Activates profile
       - spring.profiles.active=dev
@@ -54,12 +56,20 @@ services:
       - email.security.passwordRecovery.url=http://localhost:4200/password/reset/
       # Scheduler
       - scheduler.zone=CET
+      # S3-compatible image storage
+      - image.s3.endpoint=http://s3:4566
+      - image.s3.region=eu-west-1
+      - image.s3.bucket=ucronia-images
+      - image.s3.access-key=test
+      - image.s3.secret-key=test
+      - image.s3.path-style=true
     volumes:
       - association-logs:/app/logs
     networks:
       - db
       - mail
       - monitoring
+      - object-storage
 
   load-sample-data:
     image: postgres:18.0-alpine
@@ -97,6 +107,23 @@ services:
       retries: 5
     networks:
       - mail
+  s3:
+    image: localstack/localstack:4.4.0
+    environment:
+      - SERVICES=s3
+      - AWS_DEFAULT_REGION=eu-west-1
+    ports:
+      - "4566:4566"
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:4566/_localstack/health"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    volumes:
+      - s3-data:/var/lib/localstack
+      - ./localstack/init-s3.sh:/etc/localstack/init/ready.d/init-s3.sh:ro
+    networks:
+      - object-storage
   #============#
   # MONITORING #
   #============#
@@ -156,7 +183,9 @@ services:
 volumes:
   association-data:
   association-logs:
+  s3-data:
 networks:
   db:
   mail:
   monitoring:
+  object-storage:

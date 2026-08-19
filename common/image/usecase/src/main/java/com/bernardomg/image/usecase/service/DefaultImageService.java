@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2022-2025 Bernardo Martínez Garrido
+ * Copyright (c) 2022-2025 Bernardo MartÃ­nez Garrido
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,60 +24,58 @@
 
 package com.bernardomg.image.usecase.service;
 
-import java.net.URI;
-import java.util.Map;
+import java.util.Objects;
 
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestClient;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.bernardomg.image.domain.model.ImageContent;
 
-import jakarta.transaction.Transactional;
+import software.amazon.awssdk.core.ResponseBytes;
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.GetObjectRequest;
+import software.amazon.awssdk.services.s3.model.GetObjectResponse;
+import software.amazon.awssdk.services.s3.model.NoSuchKeyException;
 
 /**
- * Default implementation of the activity service.
+ * Loads images from an S3-compatible object store.
  *
  * @author Bernardo Mart&iacute;nez Garrido
- *
  */
-@Transactional
 public final class DefaultImageService implements ImageService {
 
-    private final RestClient          client;
+    private final String   bucket;
 
-    private final Map<String, String> images = Map.of("metroludik-2026.png",
-        "https://drive.google.com/thumbnail?id=1Zv5g0i3PNEDwn30YPALy4HaqFDpZL_A3&sz=w1000");
+    private final S3Client client;
 
-    public DefaultImageService(final RestClient.Builder builder) {
-        client = builder.defaultHeader(HttpHeaders.USER_AGENT, "Mozilla/5.0")
-            .build();
+    public DefaultImageService(final S3Client s3Client, final String s3Bucket) {
+        super();
+        
+        client = Objects.requireNonNull(s3Client);
+        bucket = Objects.requireNonNull(s3Bucket);
     }
 
     @Override
-    public final ImageContent getImage(final String name) {
-        final ResponseEntity<byte[]> response;
-        final String                 url;
-        final MediaType              mediaType;
+    public ImageContent getImage(final String name) {
+        final GetObjectRequest                 request;
+        final ResponseBytes<GetObjectResponse> response;
+        final String                           mediaType;
 
-        url = images.get(name);
-
-        if (url == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Image not found");
+        request = GetObjectRequest.builder()
+            .bucket(bucket)
+            .key(name)
+            .build();
+        try {
+            response = client.getObjectAsBytes(request);
+        } catch (final NoSuchKeyException ex) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Image not found", ex);
         }
 
-        response = client.get()
-            .uri(URI.create(url))
-            .retrieve()
-            .toEntity(byte[].class);
-
-        mediaType = response.getHeaders()
-            .getContentType();
-
-        return new ImageContent(response.getBody(),
-            mediaType != null ? mediaType.toString() : MediaType.APPLICATION_OCTET_STREAM.toString());
+        mediaType = response.response()
+            .contentType();
+        return new ImageContent(response.asByteArray(), mediaType != null ? mediaType
+                : MediaType.APPLICATION_OCTET_STREAM_VALUE);
     }
+
 }
