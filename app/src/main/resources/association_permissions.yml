@@ -1,5 +1,3 @@
-actions:
-  - view
 permissions:
   - resource: activity
     actions:
@@ -7,21 +5,18 @@ permissions:
       - read
       - update
       - delete
-      - view
   - resource: scheduled_game
     actions:
       - create
       - read
       - update
       - delete
-      - view
   - resource: calendar_type
     actions:
       - create
       - read
       - update
       - delete
-      - view
   - resource: permission
     actions:
       - read
@@ -40,16 +35,11 @@ permissions:
   - resource: balance
     actions:
       - read
-  - resource: funds
-    actions:
-      - view
   - resource: fee
     actions:
       - create
       - read
       - update
-      - delete
-      - view
   - resource: fee_type
     actions:
       - create
@@ -59,7 +49,6 @@ permissions:
   - resource: my_fees
     actions:
       - read
-      - view
   - resource: inventory_donor
     actions:
       - create
@@ -72,52 +61,42 @@ permissions:
       - read
       - update
       - delete
-      - view
   - resource: library_publisher
     actions:
       - create
       - read
       - update
       - delete
-      - view
   - resource: library_book
     actions:
       - create
       - read
       - update
       - delete
-      - view
   - resource: library_book_type
     actions:
       - create
       - read
       - update
       - delete
-      - view
   - resource: library_game_system
     actions:
       - create
       - read
       - update
       - delete
-      - view
   - resource: library_lending
     actions:
       - create
       - read
       - update
       - delete
-      - view
-  - resource: library
-    actions:
-      - view
   - resource: profile
     actions:
       - create
       - read
       - update
       - delete
-      - view
   - resource: contact_method
     actions:
       - create
@@ -127,41 +106,33 @@ permissions:
   - resource: member
     actions:
       - read
-      - view
   - resource: member_profile
     actions:
       - create
       - read
       - update
       - delete
-      - view
   - resource: sponsor
     actions:
       - create
       - read
       - update
       - delete
-      - view
   - resource: guest
     actions:
       - create
       - read
       - update
       - delete
-      - view
   - resource: key
     actions:
       - create
       - read
       - update
       - delete
-  - resource: security
-    actions:
-      - view
   - resource: association_settings
     actions:
       - create
       - read
       - update
       - delete
-      - view
