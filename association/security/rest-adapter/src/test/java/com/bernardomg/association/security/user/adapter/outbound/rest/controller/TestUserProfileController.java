@@ -19,7 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import com.bernardomg.association.security.account.test.configuration.factory.AccountProfileConstants;
+import com.bernardomg.association.security.user.test.configuration.factory.AccountProfileConstants;
 import com.bernardomg.association.security.user.test.configuration.factory.UserConstants;
 import com.bernardomg.association.security.user.test.configuration.factory.UserProfileConstants;
 import com.bernardomg.association.security.user.test.configuration.factory.UserProfiles;

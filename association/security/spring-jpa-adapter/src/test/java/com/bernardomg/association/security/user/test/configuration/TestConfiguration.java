@@ -31,9 +31,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.authentication.AuthenticationTrustResolver;
 import org.springframework.security.authentication.AuthenticationTrustResolverImpl;
 
-import com.bernardomg.association.security.account.adapter.inbound.jpa.repository.AccountAssignedProfileSpringRepository;
-import com.bernardomg.association.security.account.adapter.inbound.jpa.repository.JpaAccountProfileRepository;
-import com.bernardomg.association.security.account.domain.repository.AccountProfileRepository;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.AssociationUserSpringRepository;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.JpaUserProfileRepository;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.UserAssignedProfileSpringRepository;
@@ -48,12 +45,6 @@ import com.bernardomg.association.security.user.domain.repository.UserProfileRep
         "com.bernardomg.association.security.account.adapter.inbound.jpa",
         "com.bernardomg.security.adapter.inbound.jpa" })
 public class TestConfiguration {
-
-    @Bean("accountProfileRepository")
-    public AccountProfileRepository
-            getAccountProfileRepository(final AccountAssignedProfileSpringRepository accountUserSpringRepository) {
-        return new JpaAccountProfileRepository(accountUserSpringRepository);
-    }
 
     @Bean("authenticationTrustResolver")
     public AuthenticationTrustResolver getAuthenticationTrustResolver() {
