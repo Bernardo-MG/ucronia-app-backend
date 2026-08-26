@@ -25,10 +25,6 @@ spring:
     username: postgres
     password: password
 
-# CORS
-cors:
-  allowedOrigins: http://localhost:4200
-
 # Security
 security:
   # JWT
@@ -38,6 +34,9 @@ security:
   # Token
   token:
     validity: 15d
+  # CORS
+  cors:
+    allowedOrigins: http://localhost:4200
 
 # Management
 management:
