@@ -34,8 +34,8 @@ import com.bernardomg.association.security.user.domain.repository.UserProfileRep
 import com.bernardomg.association.security.user.test.TestApplication;
 import com.bernardomg.association.security.user.test.configuration.data.annotation.AlternativeUserWithMember;
 import com.bernardomg.association.security.user.test.configuration.data.annotation.ValidUserWithProfile;
-import com.bernardomg.association.security.user.test.configuration.factory.AccountProfileConstants;
 import com.bernardomg.association.security.user.test.configuration.factory.UserConstants;
+import com.bernardomg.association.security.user.test.configuration.factory.UserProfileConstants;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -53,7 +53,7 @@ class ITUserProfileRepositoryExistsByMemberForAnotherUser {
         final boolean exists;
 
         // WHEN
-        exists = repository.existsByProfileForAnotherUser(UserConstants.USERNAME, AccountProfileConstants.NUMBER);
+        exists = repository.existsByProfileForAnotherUser(UserConstants.USERNAME, UserProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(exists)
@@ -67,7 +67,7 @@ class ITUserProfileRepositoryExistsByMemberForAnotherUser {
         final boolean exists;
 
         // WHEN
-        exists = repository.existsByProfileForAnotherUser(UserConstants.USERNAME, AccountProfileConstants.NUMBER);
+        exists = repository.existsByProfileForAnotherUser(UserConstants.USERNAME, UserProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(exists)
@@ -80,7 +80,7 @@ class ITUserProfileRepositoryExistsByMemberForAnotherUser {
         final boolean exists;
 
         // WHEN
-        exists = repository.existsByProfileForAnotherUser(UserConstants.USERNAME, AccountProfileConstants.NUMBER);
+        exists = repository.existsByProfileForAnotherUser(UserConstants.USERNAME, UserProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(exists)
