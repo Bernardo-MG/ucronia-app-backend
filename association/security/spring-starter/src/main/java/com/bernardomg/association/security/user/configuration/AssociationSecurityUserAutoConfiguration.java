@@ -27,10 +27,7 @@ package com.bernardomg.association.security.user.configuration;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.security.authentication.AuthenticationTrustResolver;
 
-import com.bernardomg.association.security.account.usecase.AccountProfileService;
-import com.bernardomg.association.security.account.usecase.DefaultAccountProfileService;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.AssociationUserSpringRepository;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.JpaUserProfileRepository;
 import com.bernardomg.association.security.user.adapter.inbound.jpa.repository.UserAssignedProfileSpringRepository;
@@ -39,23 +36,11 @@ import com.bernardomg.association.security.user.domain.repository.UserProfileRep
 import com.bernardomg.association.security.user.usecase.service.DefaultUserProfileService;
 import com.bernardomg.association.security.user.usecase.service.UserProfileService;
 import com.bernardomg.security.domain.user.repository.UserRepository;
-import com.bernardomg.security.springframework.session.SecurityContextHolderUsernameInSessionProvider;
-import com.bernardomg.security.usecase.session.UsernameInSessionProvider;
 
 @AutoConfiguration
 @ComponentScan({ "com.bernardomg.association.security.user.adapter.outbound.rest.controller",
         "com.bernardomg.association.security.user.adapter.inbound.jpa" })
 public class AssociationSecurityUserAutoConfiguration {
-
-    @Bean("accountProfileService")
-    public AccountProfileService getAccountProfileService(final UserProfileRepository userProfileRepository,
-            final AuthenticationTrustResolver trustResolver) {
-        final UsernameInSessionProvider usernameProvider;
-
-        // TODO: maybe it should be injected
-        usernameProvider = new SecurityContextHolderUsernameInSessionProvider(trustResolver);
-        return new DefaultAccountProfileService(userProfileRepository, usernameProvider);
-    }
 
     @Bean("userProfileRepository")
     public UserProfileRepository getUserProfileRepository(
