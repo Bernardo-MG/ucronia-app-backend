@@ -39,6 +39,8 @@ public class TestModulesArchitectureRules {
         // Security modules
         .layer("Users")
         .definedBy("com.bernardomg.association.security.user..")
+        .layer("Account")
+        .definedBy("com.bernardomg.association.security.account..")
 
         // Misc modules
         .layer("Settings")
@@ -65,7 +67,7 @@ public class TestModulesArchitectureRules {
         .whereLayer("Profiles")
         // TODO: library shouldn't have access
         .mayOnlyBeAccessedByLayers("Guests", "Sponsors", "Members", "Fees", "Library books", "Library configuration",
-            "Users")
+            "Users", "Account")
         .whereLayer("Members")
         .mayOnlyBeAccessedByLayers("Fees")
         .whereLayer("Sponsors")
@@ -85,7 +87,9 @@ public class TestModulesArchitectureRules {
 
         // Security modules
         .whereLayer("Users")
-        .mayOnlyBeAccessedByLayers("Fees")
+        .mayOnlyBeAccessedByLayers("Fees", "Account")
+        .whereLayer("Account")
+        .mayNotBeAccessedByAnyLayer()
 
         // Misc modules
         .whereLayer("Settings")
