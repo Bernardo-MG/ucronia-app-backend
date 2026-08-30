@@ -613,5 +613,10 @@
             Removed duplicated bean.
          </action>
       </release>
+      <release version="0.7.11" date="2026-08-16" description="Fixes">
+         <action dev="bmg" type="fix">
+            Account profile correction.
+         </action>
+      </release>
    </body>
 </document>

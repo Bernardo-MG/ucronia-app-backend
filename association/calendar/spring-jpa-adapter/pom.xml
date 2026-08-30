@@ -11,7 +11,7 @@
    <parent>
       <groupId>com.bernardomg.association.calendar</groupId>
       <artifactId>association-calendar</artifactId>
-      <version>0.7.10</version>
+      <version>0.7.11</version>
    </parent>
 
    <!-- ********************************************** -->

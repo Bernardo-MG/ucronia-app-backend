@@ -23,7 +23,7 @@
  */
 
 /**
- * Account repositories.
+ * User member controllers.
  */
 
-package com.bernardomg.association.security.account.adapter.inbound.jpa.repository;
+package com.bernardomg.association.security.account.adapter.outbound.rest.controller;

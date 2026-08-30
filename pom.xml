@@ -21,7 +21,7 @@
 
    <groupId>com.bernardomg</groupId>
    <artifactId>ucronia-app-backend</artifactId>
-   <version>0.7.10</version>
+   <version>0.7.11</version>
    <packaging>pom</packaging>
 
    <name>Ucronia App Backend</name>
@@ -201,7 +201,7 @@
       <bernardomg.framework.test.architecture>1.0.8</bernardomg.framework.test.architecture>
       <bernardomg.framework.validation.version>0.2.5</bernardomg.framework.validation.version>
       <bernardomg.framework.version>0.7.0</bernardomg.framework.version>
-      <bernardomg.framework.security.version>0.15.14</bernardomg.framework.security.version>
+      <bernardomg.framework.security.version>0.15.17</bernardomg.framework.security.version>
       <bernardomg.framework.ws.starter.starter>0.7.0</bernardomg.framework.ws.starter.starter>
       <commons.byteBuddy.version>1.18.3</commons.byteBuddy.version>
       <commons.codec.version>1.19.0</commons.codec.version>

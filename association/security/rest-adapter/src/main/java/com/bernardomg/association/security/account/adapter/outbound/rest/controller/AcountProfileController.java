@@ -22,8 +22,38 @@
  * SOFTWARE.
  */
 
-/**
- * Account persistence model.
- */
+package com.bernardomg.association.security.account.adapter.outbound.rest.controller;
 
-package com.bernardomg.association.security.account.adapter.inbound.jpa.model;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.bernardomg.association.security.account.adapter.outbound.rest.dto.AccountProfileResponseDto;
+import com.bernardomg.association.security.account.adapter.outbound.rest.model.AccountProfileDtoMapper;
+import com.bernardomg.association.security.account.usecase.AccountProfileService;
+import com.bernardomg.framework.security.access.annotation.Unsecured;
+
+/**
+ * User member REST controller.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+@RestController
+public class AcountProfileController implements AccountApi {
+
+    /**
+     * Account profile service.
+     */
+    private final AccountProfileService service;
+
+    public AcountProfileController(final AccountProfileService service) {
+        super();
+        this.service = service;
+    }
+
+    @Override
+    @Unsecured
+    public AccountProfileResponseDto getCurrentUserProfile() {
+        return AccountProfileDtoMapper.toResponse(service.getCurrentProfile());
+    }
+
+}

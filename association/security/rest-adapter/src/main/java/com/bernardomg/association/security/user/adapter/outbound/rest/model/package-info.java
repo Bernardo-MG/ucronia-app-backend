@@ -23,7 +23,7 @@
  */
 
 /**
- * Account model.
+ * User member controller model.
  */
 
-package com.bernardomg.association.security.account.domain.model;
+package com.bernardomg.association.security.user.adapter.outbound.rest.model;

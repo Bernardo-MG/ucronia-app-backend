@@ -22,14 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.security.account.domain.repository;
+/**
+ * User member controller model.
+ */
 
-import java.util.Optional;
-
-import com.bernardomg.association.security.account.domain.model.ProfileAccount.Profile;
-
-public interface AccountProfileRepository {
-
-    public Optional<Profile> findByUsername(final String username);
-
-}
+package com.bernardomg.association.security.account.adapter.outbound.rest.model;

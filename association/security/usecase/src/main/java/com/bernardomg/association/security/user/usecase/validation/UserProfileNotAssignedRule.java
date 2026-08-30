@@ -60,7 +60,7 @@ public final class UserProfileNotAssignedRule implements FieldRule<AssignUserPro
 
         if (userProfileRepository.existsByProfileForAnotherUser(profile.username(), profile.number())) {
             log.error("Profile {} already assigned to a user", profile.number());
-            fieldFailure = new FieldFailure("existing", "profile", profile.number());
+            fieldFailure = new FieldFailure("assigned", "profile", profile.number());
             failure = Optional.of(fieldFailure);
         } else {
             failure = Optional.empty();

@@ -36,3 +36,12 @@ security:
   permissions:
     files:
       - classpath:association_permissions.yml
+  # CORS
+  cors:
+    pattern: /**
+    allowedOrigins: ${CORS_ALLOWED_ORIGINS}
+    allowedMethods: GET,POST,PUT,PATCH,DELETE,OPTIONS
+    allowedHeaders: Authorization,Content-Type,Accept,Origin,X-Request-ID
+    exposedHeaders: Location,X-Request-ID
+    allowCredentials: true
+    maxAge: 3600

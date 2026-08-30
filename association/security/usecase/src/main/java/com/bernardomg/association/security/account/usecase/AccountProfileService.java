@@ -22,24 +22,14 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.security.account.adapter.inbound.jpa.repository;
+package com.bernardomg.association.security.account.usecase;
 
 import java.util.Optional;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
+import com.bernardomg.association.security.user.domain.model.UserProfile;
 
-import com.bernardomg.association.security.account.adapter.inbound.jpa.model.AccountAssignedProfileEntity;
-import com.bernardomg.association.security.account.adapter.inbound.jpa.model.AccountProfileEntity;
+public interface AccountProfileService {
 
-public interface AccountAssignedProfileSpringRepository extends JpaRepository<AccountAssignedProfileEntity, Long> {
-
-    @Query("""
-            SELECT u.profile
-            FROM AccountAssignedProfile u
-            WHERE u.username = :username
-            """)
-    Optional<AccountProfileEntity> findProfileByUsername(@Param("username") final String username);
+    public Optional<UserProfile> getCurrentProfile();
 
 }
