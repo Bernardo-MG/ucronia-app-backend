@@ -1,0 +1,11 @@
+get:
+  summary: Get the current user profile.
+  operationId: getCurrentUserProfile
+  tags: [Account]
+  responses:
+    '200':
+      description: The current authenticated user's profile. Returns null if not assigned.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/account_profile.yml#/components/schemas/AccountProfileResponse'

@@ -30,8 +30,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.security.adapter.outbound.rest.controller.UserProfileApi;
-import com.bernardomg.association.security.adapter.outbound.rest.dto.ProfileResponseDto;
+import com.bernardomg.association.security.user.adapter.outbound.rest.dto.ProfileResponseDto;
 import com.bernardomg.association.security.user.adapter.outbound.rest.model.UserProfileDtoMapper;
 import com.bernardomg.association.security.user.domain.model.UserProfile;
 import com.bernardomg.association.security.user.usecase.service.UserProfileService;
@@ -63,7 +62,7 @@ public class UserProfileController implements UserProfileApi {
         final UserProfile profile;
 
         profile = service.assignProfile(username, memberNumber);
-        return UserProfileDtoMapper.toResponseDto(profile);
+        return UserProfileDtoMapper.toResponse(profile);
     }
 
     @Override
@@ -74,7 +73,7 @@ public class UserProfileController implements UserProfileApi {
 
         profile = service.getProfile(username);
 
-        return UserProfileDtoMapper.toResponseDto(profile);
+        return UserProfileDtoMapper.toResponse(profile);
     }
 
     @Override
@@ -84,7 +83,7 @@ public class UserProfileController implements UserProfileApi {
 
         profile = service.unassignProfile(username);
 
-        return UserProfileDtoMapper.toResponseDto(profile);
+        return UserProfileDtoMapper.toResponse(profile);
     }
 
 }

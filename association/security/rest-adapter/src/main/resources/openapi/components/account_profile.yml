@@ -1,0 +1,7 @@
+components:
+  schemas:
+    AccountProfileResponse:
+      type: object
+      properties:
+        content:
+          $ref: './profiles.yml#/components/schemas/Profile'

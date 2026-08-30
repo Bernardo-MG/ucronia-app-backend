@@ -81,7 +81,7 @@ class TestUserProfileServiceAssignProfile {
 
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
-            new FieldFailure("existing", "profile", UserProfileConstants.NUMBER));
+            new FieldFailure("assigned", "profile", UserProfileConstants.NUMBER));
     }
 
     @Test
