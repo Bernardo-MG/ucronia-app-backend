@@ -46,7 +46,7 @@ public final class ScheduledGameEntityMapper {
         final Optional<Recurrence> recurrence;
         final GameSessionType      gameSessionType;
         final AuditDetails         audit;
-        final GameTable            table;
+        final Optional<GameTable>  table;
 
         if (entity.getRecurrence() == null) {
             recurrence = Optional.empty();
@@ -66,9 +66,9 @@ public final class ScheduledGameEntityMapper {
         audit = toDomain(entity.getAudit());
 
         if (entity.getTable() == null) {
-            table = new GameTable(-1, "", "");
+            table = Optional.empty();
         } else {
-            table = toDomain(entity.getTable());
+            table = Optional.of(toDomain(entity.getTable()));
         }
 
         return new ScheduledGame(entity.getNumber(), entity.getTitle(), entity.getDescription(), entity.getLocation(),

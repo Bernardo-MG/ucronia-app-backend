@@ -14,21 +14,21 @@ public final class ScheduledGames {
 
     public static final ScheduledGame cancelled() {
         return new ScheduledGame(ScheduledGameConstants.NUMBER, ScheduledGameConstants.TITLE,
-            ScheduledGameConstants.DESCRIPTION, ScheduledGameConstants.LOCATION, GameTables.valid(),
+            ScheduledGameConstants.DESCRIPTION, ScheduledGameConstants.LOCATION, Optional.empty(),
             ScheduledGameConstants.NUMBER_MASTER, ScheduledGameConstants.MAX_PLAYERS, ScheduledGameConstants.IMAGE,
             ScheduledGameConstants.START, Optional.empty(), CalendarStatus.CANCELLED, GameSessionType.ONESHOT);
     }
 
     public static final ScheduledGame draft() {
         return new ScheduledGame(ScheduledGameConstants.NUMBER, ScheduledGameConstants.TITLE,
-            ScheduledGameConstants.DESCRIPTION, ScheduledGameConstants.LOCATION, GameTables.valid(),
+            ScheduledGameConstants.DESCRIPTION, ScheduledGameConstants.LOCATION, Optional.empty(),
             ScheduledGameConstants.NUMBER_MASTER, ScheduledGameConstants.MAX_PLAYERS, ScheduledGameConstants.IMAGE,
             ScheduledGameConstants.START, Optional.empty(), CalendarStatus.DRAFT, GameSessionType.ONESHOT);
     }
 
     public static final ScheduledGame negativeMaxPlayers() {
         return new ScheduledGame(ScheduledGameConstants.NUMBER, ScheduledGameConstants.TITLE,
-            ScheduledGameConstants.DESCRIPTION, ScheduledGameConstants.LOCATION, GameTables.valid(),
+            ScheduledGameConstants.DESCRIPTION, ScheduledGameConstants.LOCATION, Optional.empty(),
             ScheduledGameConstants.NUMBER_MASTER, -1, ScheduledGameConstants.IMAGE, ScheduledGameConstants.START,
             Optional.empty(), CalendarStatus.DRAFT, GameSessionType.ONESHOT);
     }
@@ -38,28 +38,28 @@ public final class ScheduledGames {
 
         recurrence = new Recurrence(-1, RecurrenceUnit.WEEKLY, RecurrenceStatus.ACTIVE);
         return new ScheduledGame(ScheduledGameConstants.NUMBER, ScheduledGameConstants.TITLE,
-            ScheduledGameConstants.DESCRIPTION, ScheduledGameConstants.LOCATION, GameTables.valid(),
+            ScheduledGameConstants.DESCRIPTION, ScheduledGameConstants.LOCATION, Optional.empty(),
             ScheduledGameConstants.NUMBER_MASTER, ScheduledGameConstants.MAX_PLAYERS, ScheduledGameConstants.IMAGE,
             ScheduledGameConstants.START, Optional.of(recurrence), CalendarStatus.DRAFT, GameSessionType.CAMPAIGN);
     }
 
     public static final ScheduledGame published() {
         return new ScheduledGame(ScheduledGameConstants.NUMBER, ScheduledGameConstants.TITLE,
-            ScheduledGameConstants.DESCRIPTION, ScheduledGameConstants.LOCATION, GameTables.valid(),
+            ScheduledGameConstants.DESCRIPTION, ScheduledGameConstants.LOCATION, Optional.empty(),
             ScheduledGameConstants.NUMBER_MASTER, ScheduledGameConstants.MAX_PLAYERS, ScheduledGameConstants.IMAGE,
             ScheduledGameConstants.START, Optional.empty(), CalendarStatus.PUBLISHED, GameSessionType.ONESHOT);
     }
 
     public static final ScheduledGame rejected() {
         return new ScheduledGame(ScheduledGameConstants.NUMBER, ScheduledGameConstants.TITLE,
-            ScheduledGameConstants.DESCRIPTION, ScheduledGameConstants.LOCATION, GameTables.valid(),
+            ScheduledGameConstants.DESCRIPTION, ScheduledGameConstants.LOCATION, Optional.empty(),
             ScheduledGameConstants.NUMBER_MASTER, ScheduledGameConstants.MAX_PLAYERS, ScheduledGameConstants.IMAGE,
             ScheduledGameConstants.START, Optional.empty(), CalendarStatus.REJECTED, GameSessionType.ONESHOT);
     }
 
     public static final ScheduledGame titleChange() {
         return new ScheduledGame(ScheduledGameConstants.NUMBER, ScheduledGameConstants.ALTERNATIVE_TITLE,
-            ScheduledGameConstants.DESCRIPTION, ScheduledGameConstants.LOCATION, GameTables.valid(),
+            ScheduledGameConstants.DESCRIPTION, ScheduledGameConstants.LOCATION, Optional.empty(),
             ScheduledGameConstants.NUMBER_MASTER, ScheduledGameConstants.MAX_PLAYERS, ScheduledGameConstants.IMAGE,
             ScheduledGameConstants.START, Optional.empty(), CalendarStatus.PUBLISHED, GameSessionType.ONESHOT);
     }
@@ -69,7 +69,7 @@ public final class ScheduledGames {
 
         recurrence = new Recurrence(1, RecurrenceUnit.WEEKLY, RecurrenceStatus.ACTIVE);
         return new ScheduledGame(ScheduledGameConstants.NUMBER, ScheduledGameConstants.TITLE,
-            ScheduledGameConstants.DESCRIPTION, ScheduledGameConstants.LOCATION, GameTables.valid(),
+            ScheduledGameConstants.DESCRIPTION, ScheduledGameConstants.LOCATION, Optional.empty(),
             ScheduledGameConstants.NUMBER_MASTER, ScheduledGameConstants.MAX_PLAYERS, ScheduledGameConstants.IMAGE,
             ScheduledGameConstants.START, Optional.of(recurrence), CalendarStatus.DRAFT, GameSessionType.CAMPAIGN);
     }
@@ -79,7 +79,7 @@ public final class ScheduledGames {
 
         recurrence = new Recurrence(1, RecurrenceUnit.WEEKLY, RecurrenceStatus.ACTIVE);
         return new ScheduledGame(ScheduledGameConstants.NUMBER, ScheduledGameConstants.TITLE,
-            ScheduledGameConstants.DESCRIPTION, ScheduledGameConstants.LOCATION, GameTables.valid(),
+            ScheduledGameConstants.DESCRIPTION, ScheduledGameConstants.LOCATION, Optional.empty(),
             ScheduledGameConstants.NUMBER_MASTER, ScheduledGameConstants.MAX_PLAYERS, ScheduledGameConstants.IMAGE,
             ScheduledGameConstants.START, Optional.of(recurrence), CalendarStatus.DRAFT, GameSessionType.ONESHOT);
     }
@@ -89,14 +89,14 @@ public final class ScheduledGames {
 
         recurrence = new Recurrence(1, RecurrenceUnit.WEEKLY, RecurrenceStatus.ACTIVE);
         return new ScheduledGame(ScheduledGameConstants.NUMBER, ScheduledGameConstants.TITLE,
-            ScheduledGameConstants.DESCRIPTION, ScheduledGameConstants.LOCATION, GameTables.valid(),
+            ScheduledGameConstants.DESCRIPTION, ScheduledGameConstants.LOCATION, Optional.empty(),
             ScheduledGameConstants.NUMBER_MASTER, ScheduledGameConstants.MAX_PLAYERS, ScheduledGameConstants.IMAGE,
             ScheduledGameConstants.START, Optional.of(recurrence), CalendarStatus.PUBLISHED, GameSessionType.ONESHOT);
     }
 
     public static final ScheduledGame zeroMaxPlayers() {
         return new ScheduledGame(ScheduledGameConstants.NUMBER, ScheduledGameConstants.TITLE,
-            ScheduledGameConstants.DESCRIPTION, ScheduledGameConstants.LOCATION, GameTables.valid(),
+            ScheduledGameConstants.DESCRIPTION, ScheduledGameConstants.LOCATION, Optional.empty(),
             ScheduledGameConstants.NUMBER_MASTER, 0, ScheduledGameConstants.IMAGE, ScheduledGameConstants.START,
             Optional.empty(), CalendarStatus.DRAFT, GameSessionType.ONESHOT);
     }
@@ -106,7 +106,7 @@ public final class ScheduledGames {
 
         recurrence = new Recurrence(0, RecurrenceUnit.WEEKLY, RecurrenceStatus.ACTIVE);
         return new ScheduledGame(ScheduledGameConstants.NUMBER, ScheduledGameConstants.TITLE,
-            ScheduledGameConstants.DESCRIPTION, ScheduledGameConstants.LOCATION, GameTables.valid(),
+            ScheduledGameConstants.DESCRIPTION, ScheduledGameConstants.LOCATION, Optional.empty(),
             ScheduledGameConstants.NUMBER_MASTER, ScheduledGameConstants.MAX_PLAYERS, ScheduledGameConstants.IMAGE,
             ScheduledGameConstants.START, Optional.of(recurrence), CalendarStatus.DRAFT, GameSessionType.CAMPAIGN);
     }

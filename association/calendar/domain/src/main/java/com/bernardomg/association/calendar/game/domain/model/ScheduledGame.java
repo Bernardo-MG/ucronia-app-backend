@@ -34,14 +34,14 @@ import com.bernardomg.association.calendar.domain.model.CalendarStatus;
 import com.bernardomg.association.calendar.domain.model.Recurrence;
 import com.bernardomg.security.domain.audit.model.AuditDetails;
 
-public record ScheduledGame(long number, String title, String description, String location, GameTable table,
+public record ScheduledGame(long number, String title, String description, String location, Optional<GameTable> table,
         Long master, int maxPlayers, String image, Instant start, Optional<Recurrence> recurrence,
         CalendarStatus status, GameSessionType gameSessionType, AuditDetails audit) {
 
     public ScheduledGame(final long number, final String title, final String description, final String location,
-            final GameTable table, final Long master, final int maxPlayers, final String image, final Instant start,
-            final Optional<Recurrence> recurrence, final CalendarStatus status, final GameSessionType gameSessionType,
-            final AuditDetails audit) {
+            final Optional<GameTable> table, final Long master, final int maxPlayers, final String image,
+            final Instant start, final Optional<Recurrence> recurrence, final CalendarStatus status,
+            final GameSessionType gameSessionType, final AuditDetails audit) {
         Objects.requireNonNull(number, "Number can't be null");
         Objects.requireNonNull(title, "Title can't be null");
         Objects.requireNonNull(description, "Description can't be null");
@@ -72,8 +72,9 @@ public record ScheduledGame(long number, String title, String description, Strin
     }
 
     public ScheduledGame(final long number, final String title, final String description, final String location,
-            final GameTable table, final Long master, final int maxPlayers, final String image, final Instant start,
-            final Optional<Recurrence> recurrence, final CalendarStatus status, final GameSessionType gameSessionType) {
+            final Optional<GameTable> table, final Long master, final int maxPlayers, final String image,
+            final Instant start, final Optional<Recurrence> recurrence, final CalendarStatus status,
+            final GameSessionType gameSessionType) {
         this(number, title, description, location, table, master, maxPlayers, image, start, recurrence, status,
             gameSessionType, new AuditDetails());
     }

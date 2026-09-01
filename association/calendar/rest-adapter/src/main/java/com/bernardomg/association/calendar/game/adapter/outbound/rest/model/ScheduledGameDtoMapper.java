@@ -60,7 +60,7 @@ public final class ScheduledGameDtoMapper {
         final Optional<Recurrence> recurrence;
         final RecurrenceUnit       recurrenceUnit;
         final GameSessionType      gameSessionType;
-        final GameTable            table;
+        final Optional<GameTable>  table;
 
         if (change.getRecurrence() == null) {
             recurrence = Optional.empty();
@@ -78,9 +78,9 @@ public final class ScheduledGameDtoMapper {
         }
         gameSessionType = toGameSessionType(change.getGameType());
         if (change.getTable() == null) {
-            table = new GameTable(-1, "", "");
+            table = Optional.empty();
         } else {
-            table = new GameTable(change.getTable(), "", "");
+            table = Optional.of(new GameTable(change.getTable(), "", ""));
         }
         return new ScheduledGame(number, change.getTitle(), getNullable(change.getDescription()),
             getNullable(change.getLocation()), table, change.getMaster(), change.getMaxPlayers(),
@@ -91,7 +91,7 @@ public final class ScheduledGameDtoMapper {
         final Optional<Recurrence> recurrence;
         final RecurrenceUnit       recurrenceUnit;
         final GameSessionType      gameSessionType;
-        final GameTable            table;
+        final Optional<GameTable>  table;
 
         if (creation.getRecurrence() == null) {
             recurrence = Optional.empty();
@@ -109,9 +109,9 @@ public final class ScheduledGameDtoMapper {
         }
         gameSessionType = toGameSessionType(creation.getGameType());
         if (creation.getTable() == null) {
-            table = new GameTable(-1, "", "");
+            table = Optional.empty();
         } else {
-            table = new GameTable(creation.getTable(), "", "");
+            table = Optional.of(new GameTable(creation.getTable(), "", ""));
         }
         return new ScheduledGame(-1, creation.getTitle(), getNullable(creation.getDescription()),
             getNullable(creation.getLocation()), table, creation.getMaster(), creation.getMaxPlayers(),
