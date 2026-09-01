@@ -46,6 +46,7 @@ import com.bernardomg.association.calendar.game.adapter.outbound.rest.dto.Schedu
 import com.bernardomg.association.calendar.game.adapter.outbound.rest.dto.ScheduledGameUpdateDto;
 import com.bernardomg.association.calendar.game.adapter.outbound.rest.dto.SortingDto;
 import com.bernardomg.association.calendar.game.domain.model.GameSessionType;
+import com.bernardomg.association.calendar.game.domain.model.GameTable;
 import com.bernardomg.association.calendar.game.domain.model.ScheduledGame;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
@@ -59,6 +60,7 @@ public final class ScheduledGameDtoMapper {
         final Optional<Recurrence> recurrence;
         final RecurrenceUnit       recurrenceUnit;
         final GameSessionType      gameSessionType;
+        final GameTable            table;
 
         if (change.getRecurrence() == null) {
             recurrence = Optional.empty();
@@ -75,8 +77,9 @@ public final class ScheduledGameDtoMapper {
             }
         }
         gameSessionType = toGameSessionType(change.getGameType());
+        table = new GameTable(change.getTable(), "", "");
         return new ScheduledGame(number, change.getTitle(), getNullable(change.getDescription()),
-            getNullable(change.getLocation()), change.getMaster(), change.getMaxPlayers(),
+            getNullable(change.getLocation()), table, change.getMaster(), change.getMaxPlayers(),
             getNullable(change.getImage()), change.getStart(), recurrence, CalendarStatus.DRAFT, gameSessionType);
     }
 
@@ -84,6 +87,7 @@ public final class ScheduledGameDtoMapper {
         final Optional<Recurrence> recurrence;
         final RecurrenceUnit       recurrenceUnit;
         final GameSessionType      gameSessionType;
+        final GameTable            table;
 
         if (creation.getRecurrence() == null) {
             recurrence = Optional.empty();
@@ -100,8 +104,9 @@ public final class ScheduledGameDtoMapper {
             }
         }
         gameSessionType = toGameSessionType(creation.getGameType());
+        table = new GameTable(creation.getTable(), "", "");
         return new ScheduledGame(-1, creation.getTitle(), getNullable(creation.getDescription()),
-            getNullable(creation.getLocation()), creation.getMaster(), creation.getMaxPlayers(),
+            getNullable(creation.getLocation()), table, creation.getMaster(), creation.getMaxPlayers(),
             getNullable(creation.getImage()), creation.getStart(), recurrence, CalendarStatus.DRAFT, gameSessionType);
     }
 

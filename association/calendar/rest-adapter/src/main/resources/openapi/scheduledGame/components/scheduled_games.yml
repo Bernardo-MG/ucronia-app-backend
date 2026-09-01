@@ -24,6 +24,19 @@ components:
         end:
           $ref: '../common/dates.yml#/components/schemas/Date'
 
+    GameTable:
+      type: object
+      required: [start, end]
+      properties:
+        number:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        title:
+          type: string
+          maxLength: 50
+        description:
+          type: string
+          maxLength: 200
+
     ScheduledGameCreation:
       type: object
       required: [title, master, maxPlayers, start, gameType]
@@ -37,6 +50,8 @@ components:
         location:
           type: string
           maxLength: 200
+        table:
+          $ref: '../common/ids.yml#/components/schemas/Id'
         master:
           $ref: '../common/ids.yml#/components/schemas/Id'
         maxPlayers:
@@ -67,6 +82,8 @@ components:
         location:
           type: string
           maxLength: 200
+        table:
+          $ref: '../common/ids.yml#/components/schemas/Id'
         master:
           $ref: '../common/ids.yml#/components/schemas/Id'
         maxPlayers:
@@ -129,6 +146,8 @@ components:
         location:
           type: string
           maxLength: 200
+        table:
+          $ref: '#/components/schemas/GameTable'
         master:
           $ref: '../common/ids.yml#/components/schemas/Id'
         maxPlayers:

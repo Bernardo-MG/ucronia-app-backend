@@ -34,18 +34,19 @@ import com.bernardomg.association.calendar.domain.model.CalendarStatus;
 import com.bernardomg.association.calendar.domain.model.Recurrence;
 import com.bernardomg.security.domain.audit.model.AuditDetails;
 
-public record ScheduledGame(long number, String title, String description, String location, Long master, int maxPlayers,
-        String image, Instant start, Optional<Recurrence> recurrence, CalendarStatus status,
-        GameSessionType gameSessionType, AuditDetails audit) {
+public record ScheduledGame(long number, String title, String description, String location, GameTable table,
+        Long master, int maxPlayers, String image, Instant start, Optional<Recurrence> recurrence,
+        CalendarStatus status, GameSessionType gameSessionType, AuditDetails audit) {
 
     public ScheduledGame(final long number, final String title, final String description, final String location,
-            final Long master, final int maxPlayers, final String image, final Instant start,
+            final GameTable table, final Long master, final int maxPlayers, final String image, final Instant start,
             final Optional<Recurrence> recurrence, final CalendarStatus status, final GameSessionType gameSessionType,
             final AuditDetails audit) {
         Objects.requireNonNull(number, "Number can't be null");
         Objects.requireNonNull(title, "Title can't be null");
         Objects.requireNonNull(description, "Description can't be null");
         Objects.requireNonNull(location, "Location can't be null");
+        Objects.requireNonNull(table, "Table can't be null");
         Objects.requireNonNull(image, "Image can't be null");
         Objects.requireNonNull(master, "Master can't be null");
         Objects.requireNonNull(maxPlayers, "Max players can't be null");
@@ -59,6 +60,7 @@ public record ScheduledGame(long number, String title, String description, Strin
         this.title = StringUtils.trim(title);
         this.description = StringUtils.trim(description);
         this.location = StringUtils.trim(location);
+        this.table = table;
         this.master = master;
         this.maxPlayers = maxPlayers;
         this.image = StringUtils.trim(image);
@@ -70,20 +72,20 @@ public record ScheduledGame(long number, String title, String description, Strin
     }
 
     public ScheduledGame(final long number, final String title, final String description, final String location,
-            final Long master, final int maxPlayers, final String image, final Instant start,
+            final GameTable table, final Long master, final int maxPlayers, final String image, final Instant start,
             final Optional<Recurrence> recurrence, final CalendarStatus status, final GameSessionType gameSessionType) {
-        this(number, title, description, location, master, maxPlayers, image, start, recurrence, status,
+        this(number, title, description, location, table, master, maxPlayers, image, start, recurrence, status,
             gameSessionType, new AuditDetails());
     }
 
     public ScheduledGame publish() {
-        return new ScheduledGame(number, title, description, location, master, maxPlayers, image, start, recurrence,
-            CalendarStatus.PUBLISHED, gameSessionType, new AuditDetails());
+        return new ScheduledGame(number, title, description, location, table, master, maxPlayers, image, start,
+            recurrence, CalendarStatus.PUBLISHED, gameSessionType, new AuditDetails());
     }
 
     public ScheduledGame draft() {
-        return new ScheduledGame(number, title, description, location, master, maxPlayers, image, start, recurrence,
-            CalendarStatus.DRAFT, gameSessionType, new AuditDetails());
+        return new ScheduledGame(number, title, description, location, table, master, maxPlayers, image, start,
+            recurrence, CalendarStatus.DRAFT, gameSessionType, new AuditDetails());
     }
 
 }
