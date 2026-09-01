@@ -26,8 +26,8 @@ public class ScheduledGameEntity extends CalendarInfoEntity {
     @Column(name = "max_players", nullable = false)
     private Integer                    maxPlayers;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "game_table_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "game_table_id")
     private GameTableEntity            table;
 
     public ScheduledGameProfileEntity getMaster() {

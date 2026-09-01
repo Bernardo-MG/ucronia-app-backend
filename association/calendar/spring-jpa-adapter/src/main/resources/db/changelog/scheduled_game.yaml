@@ -60,7 +60,7 @@ databaseChangeLog:
                   name: game_table_id
                   type: bigint
                   constraints:
-                    nullable: false
+                    nullable: true
               - column:
                   name: master_id
                   type: bigint

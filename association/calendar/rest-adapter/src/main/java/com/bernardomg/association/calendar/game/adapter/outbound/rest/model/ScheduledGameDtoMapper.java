@@ -77,7 +77,11 @@ public final class ScheduledGameDtoMapper {
             }
         }
         gameSessionType = toGameSessionType(change.getGameType());
-        table = new GameTable(change.getTable(), "", "");
+        if (change.getTable() == null) {
+            table = new GameTable(-1, "", "");
+        } else {
+            table = new GameTable(change.getTable(), "", "");
+        }
         return new ScheduledGame(number, change.getTitle(), getNullable(change.getDescription()),
             getNullable(change.getLocation()), table, change.getMaster(), change.getMaxPlayers(),
             getNullable(change.getImage()), change.getStart(), recurrence, CalendarStatus.DRAFT, gameSessionType);
@@ -104,7 +108,11 @@ public final class ScheduledGameDtoMapper {
             }
         }
         gameSessionType = toGameSessionType(creation.getGameType());
-        table = new GameTable(creation.getTable(), "", "");
+        if (creation.getTable() == null) {
+            table = new GameTable(-1, "", "");
+        } else {
+            table = new GameTable(creation.getTable(), "", "");
+        }
         return new ScheduledGame(-1, creation.getTitle(), getNullable(creation.getDescription()),
             getNullable(creation.getLocation()), table, creation.getMaster(), creation.getMaxPlayers(),
             getNullable(creation.getImage()), creation.getStart(), recurrence, CalendarStatus.DRAFT, gameSessionType);
