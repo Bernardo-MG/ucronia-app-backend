@@ -65,7 +65,11 @@ public final class ScheduledGameEntityMapper {
 
         audit = toDomain(entity.getAudit());
 
-        table = toDomain(entity.getTable());
+        if (entity.getTable() == null) {
+            table = new GameTable(-1, "", "");
+        } else {
+            table = toDomain(entity.getTable());
+        }
 
         return new ScheduledGame(entity.getNumber(), entity.getTitle(), entity.getDescription(), entity.getLocation(),
             table, entity.getMaster()
