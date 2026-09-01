@@ -74,7 +74,7 @@ databaseChangeLog:
             referencedTableSchemaName: calendar
             referencedTableName: game_tables
             referencedColumnNames: id
-            onDelete: SET NULL:
+            onDelete: "SET NULL"
         - addForeignKeyConstraint:
             constraintName: fk_scheduled_games_master
             baseTableSchemaName: calendar
@@ -83,7 +83,7 @@ databaseChangeLog:
             referencedTableSchemaName: directory
             referencedTableName: profiles
             referencedColumnNames: id
-            onDelete: SET NULL:
+            onDelete: "SET NULL"
   - changeSet:
       id: scheduled_game_initial_data
       author: Bernardo
