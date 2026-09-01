@@ -10,7 +10,7 @@ components:
         type: array
         items:
           type: string
-          pattern: '^(member.name.firstName|member.name.lastName|month|paid)\|(asc|desc)$'
+          pattern: '^(member.name.firstName|member.name.lastName|member.name.number|month|paid)\|(asc|desc)$'
           example: member.name.firstName|asc
   schemas:
     Fee:
