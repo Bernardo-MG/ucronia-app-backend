@@ -46,7 +46,6 @@ import com.bernardomg.association.calendar.game.adapter.outbound.rest.dto.Schedu
 import com.bernardomg.association.calendar.game.adapter.outbound.rest.dto.ScheduledGameUpdateDto;
 import com.bernardomg.association.calendar.game.adapter.outbound.rest.dto.SortingDto;
 import com.bernardomg.association.calendar.game.domain.model.GameSessionType;
-import com.bernardomg.association.calendar.game.domain.model.GameTable;
 import com.bernardomg.association.calendar.game.domain.model.ScheduledGame;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
@@ -60,7 +59,7 @@ public final class ScheduledGameDtoMapper {
         final Optional<Recurrence> recurrence;
         final RecurrenceUnit       recurrenceUnit;
         final GameSessionType      gameSessionType;
-        final Optional<GameTable>  table;
+        final Optional<Long>       table;
 
         if (change.getRecurrence() == null) {
             recurrence = Optional.empty();
@@ -80,7 +79,7 @@ public final class ScheduledGameDtoMapper {
         if (change.getTable() == null) {
             table = Optional.empty();
         } else {
-            table = Optional.of(new GameTable(change.getTable(), "", ""));
+            table = Optional.of(change.getTable());
         }
         return new ScheduledGame(number, change.getTitle(), getNullable(change.getDescription()),
             getNullable(change.getLocation()), table, change.getMaster(), change.getMaxPlayers(),
@@ -91,7 +90,7 @@ public final class ScheduledGameDtoMapper {
         final Optional<Recurrence> recurrence;
         final RecurrenceUnit       recurrenceUnit;
         final GameSessionType      gameSessionType;
-        final Optional<GameTable>  table;
+        final Optional<Long>       table;
 
         if (creation.getRecurrence() == null) {
             recurrence = Optional.empty();
@@ -111,7 +110,7 @@ public final class ScheduledGameDtoMapper {
         if (creation.getTable() == null) {
             table = Optional.empty();
         } else {
-            table = Optional.of(new GameTable(creation.getTable(), "", ""));
+            table = Optional.of(creation.getTable());
         }
         return new ScheduledGame(-1, creation.getTitle(), getNullable(creation.getDescription()),
             getNullable(creation.getLocation()), table, creation.getMaster(), creation.getMaxPlayers(),
@@ -230,6 +229,8 @@ public final class ScheduledGameDtoMapper {
             .title(scheduledGame.title())
             .description(scheduledGame.description())
             .location(scheduledGame.location())
+            .table(scheduledGame.table()
+                .orElse(null))
             .master(scheduledGame.master())
             .maxPlayers(scheduledGame.maxPlayers())
             .image(scheduledGame.image())

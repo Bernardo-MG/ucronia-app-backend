@@ -8,7 +8,6 @@ import com.bernardomg.association.calendar.domain.model.Recurrence;
 import com.bernardomg.association.calendar.domain.model.Recurrence.RecurrenceStatus;
 import com.bernardomg.association.calendar.domain.model.Recurrence.RecurrenceUnit;
 import com.bernardomg.association.calendar.game.domain.model.GameSessionType;
-import com.bernardomg.association.calendar.game.domain.model.GameTable;
 import com.bernardomg.association.calendar.game.domain.model.ScheduledGame;
 
 public final class ScheduledGames {
@@ -97,12 +96,10 @@ public final class ScheduledGames {
 
     public static final ScheduledGame withTable() {
         final Recurrence recurrence;
-        final GameTable  table;
 
         recurrence = new Recurrence(1, RecurrenceUnit.WEEKLY, RecurrenceStatus.ACTIVE);
-        table = GameTables.valid();
         return new ScheduledGame(ScheduledGameConstants.NUMBER, ScheduledGameConstants.TITLE,
-            ScheduledGameConstants.DESCRIPTION, ScheduledGameConstants.LOCATION, Optional.of(table),
+            ScheduledGameConstants.DESCRIPTION, ScheduledGameConstants.LOCATION, Optional.of(GameTableConstants.NUMBER),
             ScheduledGameConstants.NUMBER_MASTER, ScheduledGameConstants.MAX_PLAYERS, ScheduledGameConstants.IMAGE,
             ScheduledGameConstants.START, Optional.of(recurrence), CalendarStatus.DRAFT, GameSessionType.ONESHOT);
     }

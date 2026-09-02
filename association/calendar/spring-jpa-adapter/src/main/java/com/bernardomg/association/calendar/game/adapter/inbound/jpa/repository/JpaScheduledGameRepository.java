@@ -55,7 +55,6 @@ import com.bernardomg.association.calendar.game.adapter.inbound.jpa.model.Schedu
 import com.bernardomg.association.calendar.game.domain.exception.MissingScheduledGameProfileException;
 import com.bernardomg.association.calendar.game.domain.exception.MissingScheduledGameSessionTypeException;
 import com.bernardomg.association.calendar.game.domain.model.GameSessionType;
-import com.bernardomg.association.calendar.game.domain.model.GameTable;
 import com.bernardomg.association.calendar.game.domain.model.ScheduledGame;
 import com.bernardomg.association.calendar.game.domain.repository.ScheduledGameRepository;
 import com.bernardomg.pagination.domain.Page;
@@ -243,14 +242,14 @@ public final class JpaScheduledGameRepository implements ScheduledGameRepository
         entity.setStatus(statusEntity);
     }
 
-    private final void setTable(final ScheduledGameEntity entity, final GameTable table) {
+    private final void setTable(final ScheduledGameEntity entity, final long table) {
         final GameTableEntity gameTable;
 
-        gameTable = gameTableSpringRepository.findByNumber(table.number())
+        gameTable = gameTableSpringRepository.findByNumber(table)
             // TODO: use correct id
             .orElseThrow(() -> {
-                log.error("Missing game table {}", table.number());
-                return new MissingGameTableException(table.number());
+                log.error("Missing game table {}", table);
+                return new MissingGameTableException(table);
             });
 
         entity.setTable(gameTable);

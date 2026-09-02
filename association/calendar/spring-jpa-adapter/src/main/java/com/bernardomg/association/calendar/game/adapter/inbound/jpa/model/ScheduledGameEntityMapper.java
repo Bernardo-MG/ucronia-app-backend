@@ -30,7 +30,6 @@ import com.bernardomg.association.calendar.adapter.inbound.jpa.model.CalendarInf
 import com.bernardomg.association.calendar.domain.model.Recurrence;
 import com.bernardomg.association.calendar.domain.model.Recurrence.RecurrenceStatus;
 import com.bernardomg.association.calendar.game.domain.model.GameSessionType;
-import com.bernardomg.association.calendar.game.domain.model.GameTable;
 import com.bernardomg.association.calendar.game.domain.model.ScheduledGame;
 import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditMetadata;
 import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditUserEntity;
@@ -46,7 +45,7 @@ public final class ScheduledGameEntityMapper {
         final Optional<Recurrence> recurrence;
         final GameSessionType      gameSessionType;
         final AuditDetails         audit;
-        final Optional<GameTable>  table;
+        final Optional<Long>       table;
 
         if (entity.getRecurrence() == null) {
             recurrence = Optional.empty();
@@ -68,7 +67,8 @@ public final class ScheduledGameEntityMapper {
         if (entity.getTable() == null) {
             table = Optional.empty();
         } else {
-            table = Optional.of(toDomain(entity.getTable()));
+            table = Optional.of(entity.getTable()
+                .getNumber());
         }
 
         return new ScheduledGame(entity.getNumber(), entity.getTitle(), entity.getDescription(), entity.getLocation(),
@@ -130,10 +130,6 @@ public final class ScheduledGameEntityMapper {
         }
 
         return auditDetails;
-    }
-
-    private static final GameTable toDomain(final GameTableEntity entity) {
-        return new GameTable(entity.getNumber(), entity.getName(), entity.getDescription());
     }
 
     private ScheduledGameEntityMapper() {
