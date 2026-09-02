@@ -41,9 +41,9 @@ class TestPublicSettingsController {
     @DisplayName("When requesting public settings, they are returned")
     void testGetPublicSettings() throws Exception {
         // GIVEN
-        given(service.getSettings()).willReturn(
-            new PublicSettings(AssociationSettingsConstants.GOOGLE_MAPS_CODE, AssociationSettingsConstants.TEAMUP_CODE,
-                AssociationSettingsConstants.EMAIL_CODE, AssociationSettingsConstants.INSTAGRAM_CODE));
+        given(service.getSettings()).willReturn(new PublicSettings(AssociationSettingsConstants.GOOGLE_MAPS_CODE,
+            AssociationSettingsConstants.TEAMUP_CODE, AssociationSettingsConstants.EMAIL_CODE,
+            AssociationSettingsConstants.INSTAGRAM_CODE, AssociationSettingsConstants.TELEGRAM_CODE));
 
         // WHEN + THEN
         mockMvc.perform(get("/settings/public").contentType(MediaType.APPLICATION_JSON))
@@ -52,7 +52,8 @@ class TestPublicSettingsController {
             .andExpect(jsonPath("$.content.map", equalTo(AssociationSettingsConstants.GOOGLE_MAPS_CODE)))
             .andExpect(jsonPath("$.content.calendar", equalTo(AssociationSettingsConstants.TEAMUP_CODE)))
             .andExpect(jsonPath("$.content.email", equalTo(AssociationSettingsConstants.EMAIL_CODE)))
-            .andExpect(jsonPath("$.content.instagram", equalTo(AssociationSettingsConstants.INSTAGRAM_CODE)));
+            .andExpect(jsonPath("$.content.instagram", equalTo(AssociationSettingsConstants.INSTAGRAM_CODE)))
+            .andExpect(jsonPath("$.content.telegram", equalTo(AssociationSettingsConstants.TELEGRAM_CODE)));
     }
 
 }
