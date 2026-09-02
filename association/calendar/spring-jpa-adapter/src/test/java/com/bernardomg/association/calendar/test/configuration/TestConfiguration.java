@@ -35,6 +35,7 @@ import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.Calend
 import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.CalendarInfoSpringRepository;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.CalendarStatusSpringRepository;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.CalendarTypeSpringRepository;
+import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.GameTableSpringRepository;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.JpaCalendarTypeRepository;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.RecurrenceStatusSpringRepository;
 import com.bernardomg.association.calendar.domain.repository.CalendarTypeRepository;
@@ -71,9 +72,11 @@ public class TestConfiguration {
             final ScheduledGameSpringRepository scheduledGameSpringRepository,
             final CalendarTypeSpringRepository calendarTypeSpringRepository,
             final CalendarStatusSpringRepository calendarStatusSpringRepository,
-            final RecurrenceStatusSpringRepository recurrenceStatusSpringRepository) {
+            final RecurrenceStatusSpringRepository recurrenceStatusSpringRepository,
+            final GameTableSpringRepository gameTableSpringRepository) {
         return new JpaScheduledGameRepository(scheduledGameSpringRepository, scheduledGameProfileSpringRepository,
-            calendarTypeSpringRepository, calendarStatusSpringRepository, recurrenceStatusSpringRepository);
+            calendarTypeSpringRepository, calendarStatusSpringRepository, recurrenceStatusSpringRepository,
+            gameTableSpringRepository);
     }
 
 }

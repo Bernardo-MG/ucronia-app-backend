@@ -13,7 +13,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
 @Entity(name = "GameTable")
-@Table(schema = "calendar", name = "table")
+@Table(schema = "calendar", name = "game_tables")
 public class GameTableEntity implements Serializable {
 
     @Transient

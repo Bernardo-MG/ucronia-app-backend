@@ -12,6 +12,7 @@ import com.bernardomg.association.calendar.game.adapter.inbound.jpa.model.Schedu
 import com.bernardomg.association.calendar.game.adapter.inbound.jpa.repository.ScheduledGameSpringRepository;
 import com.bernardomg.association.calendar.game.domain.model.ScheduledGame;
 import com.bernardomg.association.calendar.game.domain.repository.ScheduledGameRepository;
+import com.bernardomg.association.calendar.game.test.configuration.data.annotation.ValidTable;
 import com.bernardomg.association.calendar.game.test.configuration.data.annotation.WeeklyScheduledGame;
 import com.bernardomg.association.calendar.game.test.configuration.factory.ScheduledGames;
 import com.bernardomg.association.calendar.game.test.factory.ScheduledGameEntities;
@@ -242,6 +243,52 @@ class ITScheduledGameRepositorySave {
             .usingRecursiveComparison()
             .ignoringFields("number")
             .isEqualTo(ScheduledGames.titleChange());
+    }
+
+    @Test
+    @DisplayName("Persists a scheduled game with a table")
+    @ValidProfile
+    @ValidTable
+    void testSave_WithTable_PersistedData() {
+        final Iterable<ScheduledGameEntity> scheduledGames;
+        final ScheduledGame                 scheduledGame;
+
+        // GIVEN
+        scheduledGame = ScheduledGames.withTable();
+
+        // WHEN
+        repository.save(scheduledGame);
+
+        // THEN
+        scheduledGames = springRepository.findAll();
+
+        Assertions.assertThat(scheduledGames)
+            .as("scheduled games")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "master.id", "master.number",
+                "table.id")
+            .containsExactly(ScheduledGameEntities.withTable());
+    }
+
+    @Test
+    @DisplayName("When creating a scheduled game with a table, it is returned")
+    @ValidProfile
+    @ValidTable
+    void testSave_WithTable_ReturnedData() {
+        final ScheduledGame created;
+        final ScheduledGame scheduledGame;
+
+        // GIVEN
+        scheduledGame = ScheduledGames.withTable();
+
+        // WHEN
+        created = repository.save(scheduledGame);
+
+        // THEN
+        Assertions.assertThat(created)
+            .as("created")
+            .usingRecursiveComparison()
+            .ignoringFields("number")
+            .isEqualTo(ScheduledGames.withTable());
     }
 
 }
