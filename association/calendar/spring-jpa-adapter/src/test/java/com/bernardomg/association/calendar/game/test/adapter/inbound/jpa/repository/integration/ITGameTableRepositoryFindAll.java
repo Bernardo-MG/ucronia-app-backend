@@ -24,70 +24,71 @@
 
 package com.bernardomg.association.calendar.game.test.adapter.inbound.jpa.repository.integration;
 
-import java.util.Optional;
-
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.calendar.TestApplication;
-import com.bernardomg.association.calendar.activity.test.configuration.factory.ActivityConstants;
-import com.bernardomg.association.calendar.game.domain.model.ScheduledGame;
-import com.bernardomg.association.calendar.game.domain.repository.ScheduledGameRepository;
-import com.bernardomg.association.calendar.game.test.configuration.data.annotation.ScheduledGameWithTable;
-import com.bernardomg.association.calendar.game.test.configuration.data.annotation.WeeklyScheduledGame;
-import com.bernardomg.association.calendar.game.test.configuration.factory.ScheduledGames;
+import com.bernardomg.association.calendar.game.domain.model.GameTable;
+import com.bernardomg.association.calendar.game.domain.repository.GameTableRepository;
+import com.bernardomg.association.calendar.game.test.configuration.data.annotation.ValidTable;
+import com.bernardomg.association.calendar.game.test.configuration.factory.GameTables;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("ScheduledGameRepository - find one")
-class ITScheduledGameRepositoryFindOne {
+@DisplayName("GameTableRepository - find all")
+class ITGameTableRepositoryFindAll {
 
     @Autowired
-    private ScheduledGameRepository repository;
+    private GameTableRepository repository;
 
     @Test
-    @DisplayName("With an existing scheduled game, it is returned")
-    @WeeklyScheduledGame
-    void testFindOne() {
-        final Optional<ScheduledGame> scheduledGame;
+    @DisplayName("When there are tables, they are returned")
+    @ValidTable
+    void testFindAll() {
+        final Page<GameTable> gameTables;
+        final Pagination      pagination;
+        final Sorting         sorting;
+
+        // GIVEN
+        pagination = new Pagination(1, 20);
+        sorting = Sorting.unsorted();
 
         // WHEN
-        scheduledGame = repository.findOne(ActivityConstants.NUMBER);
+        gameTables = repository.findAll(pagination, sorting);
 
         // THEN
-        Assertions.assertThat(scheduledGame)
-            .contains(ScheduledGames.weeklyOneshot());
+        Assertions.assertThat(gameTables)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .as("game tables")
+            .contains(GameTables.valid());
     }
 
     @Test
-    @DisplayName("With no scheduled game, nothing is returned")
-    void testFindOne_NoData() {
-        final Optional<ScheduledGame> scheduledGame;
+    @DisplayName("When there is no data, nothing is returned")
+    void testFindAll_DefaultCount() {
+        final Page<GameTable> gameTables;
+        final Pagination      pagination;
+        final Sorting         sorting;
+
+        // GIVEN
+        pagination = new Pagination(1, 20);
+        sorting = Sorting.unsorted();
 
         // WHEN
-        scheduledGame = repository.findOne(ActivityConstants.NUMBER);
+        gameTables = repository.findAll(pagination, sorting);
 
         // THEN
-        Assertions.assertThat(scheduledGame)
+        Assertions.assertThat(gameTables.content())
             .isEmpty();
-    }
-
-    @Test
-    @DisplayName("With an existing scheduled game with a table, it is returned")
-    @ScheduledGameWithTable
-    void testFindOne_WithTable() {
-        final Optional<ScheduledGame> scheduledGame;
-
-        // WHEN
-        scheduledGame = repository.findOne(ActivityConstants.NUMBER);
-
-        // THEN
-        Assertions.assertThat(scheduledGame)
-            .contains(ScheduledGames.withTable());
     }
 
 }

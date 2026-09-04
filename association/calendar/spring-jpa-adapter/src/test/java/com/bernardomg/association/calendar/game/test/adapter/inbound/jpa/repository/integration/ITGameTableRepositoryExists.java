@@ -24,8 +24,6 @@
 
 package com.bernardomg.association.calendar.game.test.adapter.inbound.jpa.repository.integration;
 
-import java.util.Optional;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -33,61 +31,46 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.calendar.TestApplication;
-import com.bernardomg.association.calendar.activity.test.configuration.factory.ActivityConstants;
-import com.bernardomg.association.calendar.game.domain.model.ScheduledGame;
-import com.bernardomg.association.calendar.game.domain.repository.ScheduledGameRepository;
-import com.bernardomg.association.calendar.game.test.configuration.data.annotation.ScheduledGameWithTable;
-import com.bernardomg.association.calendar.game.test.configuration.data.annotation.WeeklyScheduledGame;
-import com.bernardomg.association.calendar.game.test.configuration.factory.ScheduledGames;
+import com.bernardomg.association.calendar.game.domain.repository.GameTableRepository;
+import com.bernardomg.association.calendar.game.test.configuration.data.annotation.ValidTable;
+import com.bernardomg.association.calendar.game.test.configuration.factory.GameTableConstants;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("ScheduledGameRepository - find one")
-class ITScheduledGameRepositoryFindOne {
+@DisplayName("GameTableRepository - exists")
+class ITGameTableRepositoryExists {
 
     @Autowired
-    private ScheduledGameRepository repository;
+    private GameTableRepository repository;
 
     @Test
-    @DisplayName("With an existing scheduled game, it is returned")
-    @WeeklyScheduledGame
-    void testFindOne() {
-        final Optional<ScheduledGame> scheduledGame;
+    @DisplayName("With an existing game table, it exists")
+    @ValidTable
+    void testExists() {
+        final boolean exists;
 
         // WHEN
-        scheduledGame = repository.findOne(ActivityConstants.NUMBER);
+        exists = repository.exists(GameTableConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(scheduledGame)
-            .contains(ScheduledGames.weeklyOneshot());
+        Assertions.assertThat(exists)
+            .as("exists")
+            .isTrue();
     }
 
     @Test
-    @DisplayName("With no scheduled game, nothing is returned")
-    void testFindOne_NoData() {
-        final Optional<ScheduledGame> scheduledGame;
+    @DisplayName("With a not existing game table, nothing exists")
+    void testExists_NoData() {
+        final boolean exists;
 
         // WHEN
-        scheduledGame = repository.findOne(ActivityConstants.NUMBER);
+        exists = repository.exists(GameTableConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(scheduledGame)
-            .isEmpty();
-    }
-
-    @Test
-    @DisplayName("With an existing scheduled game with a table, it is returned")
-    @ScheduledGameWithTable
-    void testFindOne_WithTable() {
-        final Optional<ScheduledGame> scheduledGame;
-
-        // WHEN
-        scheduledGame = repository.findOne(ActivityConstants.NUMBER);
-
-        // THEN
-        Assertions.assertThat(scheduledGame)
-            .contains(ScheduledGames.withTable());
+        Assertions.assertThat(exists)
+            .as("exists")
+            .isFalse();
     }
 
 }

@@ -26,12 +26,20 @@ public class ScheduledGameEntity extends CalendarInfoEntity {
     @Column(name = "max_players", nullable = false)
     private Integer                    maxPlayers;
 
+    @ManyToOne
+    @JoinColumn(name = "game_table_id")
+    private GameTableEntity            table;
+
     public ScheduledGameProfileEntity getMaster() {
         return master;
     }
 
     public Integer getMaxPlayers() {
         return maxPlayers;
+    }
+
+    public GameTableEntity getTable() {
+        return table;
     }
 
     public void setMaster(final ScheduledGameProfileEntity master) {
@@ -42,13 +50,17 @@ public class ScheduledGameEntity extends CalendarInfoEntity {
         this.maxPlayers = maxPlayers;
     }
 
+    public void setTable(final GameTableEntity table) {
+        this.table = table;
+    }
+
     @Override
     public String toString() {
         return "ScheduledGameEntity [id=" + getId() + ", number=" + getNumber() + ", status=" + getStatus()
                 + ", calendarDates=" + getCalendarDates() + ", description=" + getDescription() + ", image="
-                + getImage() + ", location=" + getLocation() + ", title=" + getTitle() + ", types=" + getTypes()
-                + ", master=" + master + ", maxPlayers=" + maxPlayers + ", recurrence=" + getRecurrence() + ", start="
-                + getStart() + "]";
+                + getImage() + ", location=" + getLocation() + ", table=" + getTable() + ", title=" + getTitle()
+                + ", types=" + getTypes() + ", master=" + master + ", maxPlayers=" + maxPlayers + ", recurrence="
+                + getRecurrence() + ", start=" + getStart() + "]";
     }
 
 }

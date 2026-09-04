@@ -152,6 +152,43 @@ public final class ScheduledGameEntities {
         return entity;
     }
 
+    public static final ScheduledGameEntity withTable() {
+        final ScheduledGameEntity        entity;
+        final ScheduledGameProfileEntity profile;
+        final CalendarInfoRecurrence     recurrence;
+        final RecurrenceStatusEntity     recurrenceStatus;
+
+        entity = new ScheduledGameEntity();
+        entity.setNumber(ScheduledGameConstants.NUMBER);
+        entity.setStatus(CalendarStatusEntities.draft());
+        entity.setTitle(ScheduledGameConstants.TITLE);
+        entity.setDescription(ScheduledGameConstants.DESCRIPTION);
+        entity.setLocation(ScheduledGameConstants.LOCATION);
+        entity.setImage(ScheduledGameConstants.IMAGE);
+        entity.setMaxPlayers(ScheduledGameConstants.MAX_PLAYERS);
+        entity.setStart(ScheduledGameConstants.START);
+
+        recurrence = new CalendarInfoRecurrence();
+        recurrence.setInterval(1);
+        recurrence.setUnit(RecurrenceUnit.WEEKLY);
+
+        recurrenceStatus = new RecurrenceStatusEntity();
+        recurrenceStatus.setId(1L);
+        recurrenceStatus.setName(RecurrenceStatus.ACTIVE);
+        recurrence.setStatus(recurrenceStatus);
+
+        entity.setRecurrence(recurrence);
+
+        profile = ScheduledGameProfileEntities.master();
+        entity.setMaster(profile);
+
+        entity.setTable(GameTableEntities.valid());
+
+        entity.setTypes(new HashSet<>(List.of(CalendarTypeEntities.oneshot())));
+
+        return entity;
+    }
+
     private ScheduledGameEntities() {
         super();
     }

@@ -1,0 +1,67 @@
+components:
+  parameters:
+    gameTablesSortParam:
+      name: sort
+      description: Sorting to apply.
+      in: query
+      style: form
+      explode: true
+      required: false
+      schema:
+        type: array
+        items:
+          type: string
+          pattern: '^(number|name|description)\|(asc|desc)$'
+          example: name|asc
+
+  schemas:
+    GameTable:
+      type: object
+      required: [number, name, description]
+      properties:
+        number:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        name:
+          type: string
+          maxLength: 50
+        description:
+          type: string
+          maxLength: 200
+
+    GameTableCreation:
+      type: object
+      required: [name, description]
+      properties:
+        name:
+          type: string
+          maxLength: 50
+        description:
+          type: string
+          maxLength: 200
+
+    GameTableUpdate:
+      type: object
+      required: [name, description]
+      properties:
+        name:
+          type: string
+          maxLength: 50
+        description:
+          type: string
+          maxLength: 200
+
+    GameTablePageResponse:
+      allOf:
+        - $ref: '../common/responses.yml#/components/schemas/PageResponse'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/GameTable'
+
+    GameTableResponse:
+      type: object
+      properties:
+        content:
+          $ref: '#/components/schemas/GameTable'

@@ -24,8 +24,6 @@
 
 package com.bernardomg.association.calendar.game.test.adapter.inbound.jpa.repository.integration;
 
-import java.util.Optional;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -33,61 +31,56 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.calendar.TestApplication;
-import com.bernardomg.association.calendar.activity.test.configuration.factory.ActivityConstants;
-import com.bernardomg.association.calendar.game.domain.model.ScheduledGame;
-import com.bernardomg.association.calendar.game.domain.repository.ScheduledGameRepository;
-import com.bernardomg.association.calendar.game.test.configuration.data.annotation.ScheduledGameWithTable;
-import com.bernardomg.association.calendar.game.test.configuration.data.annotation.WeeklyScheduledGame;
-import com.bernardomg.association.calendar.game.test.configuration.factory.ScheduledGames;
+import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.GameTableSpringRepository;
+import com.bernardomg.association.calendar.game.domain.repository.GameTableRepository;
+import com.bernardomg.association.calendar.game.test.configuration.data.annotation.ValidTable;
+import com.bernardomg.association.calendar.game.test.configuration.factory.GameTableConstants;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("ScheduledGameRepository - find one")
-class ITScheduledGameRepositoryFindOne {
+@DisplayName("GameTableRepository - delete")
+class ITGameTableRepositoryDelete {
 
     @Autowired
-    private ScheduledGameRepository repository;
+    private GameTableRepository       repository;
+
+    @Autowired
+    private GameTableSpringRepository springRepository;
 
     @Test
-    @DisplayName("With an existing scheduled game, it is returned")
-    @WeeklyScheduledGame
-    void testFindOne() {
-        final Optional<ScheduledGame> scheduledGame;
+    @DisplayName("When the game table exists, it is deleted")
+    @ValidTable
+    void testDelete() {
+        final long count;
+
+        // GIVEN
+        count = springRepository.count();
 
         // WHEN
-        scheduledGame = repository.findOne(ActivityConstants.NUMBER);
+        repository.delete(GameTableConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(scheduledGame)
-            .contains(ScheduledGames.weeklyOneshot());
+        Assertions.assertThat(springRepository.count())
+            .as("game tables")
+            .isLessThan(count);
     }
 
     @Test
-    @DisplayName("With no scheduled game, nothing is returned")
-    void testFindOne_NoData() {
-        final Optional<ScheduledGame> scheduledGame;
+    @DisplayName("When the game table doesn't exist, nothing is removed")
+    void testDelete_NotExisting() {
+        final long count;
+
+        // GIVEN
+        count = springRepository.count();
 
         // WHEN
-        scheduledGame = repository.findOne(ActivityConstants.NUMBER);
+        repository.delete(-1);
 
         // THEN
-        Assertions.assertThat(scheduledGame)
-            .isEmpty();
-    }
-
-    @Test
-    @DisplayName("With an existing scheduled game with a table, it is returned")
-    @ScheduledGameWithTable
-    void testFindOne_WithTable() {
-        final Optional<ScheduledGame> scheduledGame;
-
-        // WHEN
-        scheduledGame = repository.findOne(ActivityConstants.NUMBER);
-
-        // THEN
-        Assertions.assertThat(scheduledGame)
-            .contains(ScheduledGames.withTable());
+        Assertions.assertThat(springRepository.count())
+            .as("game tables")
+            .isEqualTo(count);
     }
 
 }

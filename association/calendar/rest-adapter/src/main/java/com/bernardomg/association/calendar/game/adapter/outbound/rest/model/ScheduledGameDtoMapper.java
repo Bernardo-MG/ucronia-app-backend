@@ -59,6 +59,7 @@ public final class ScheduledGameDtoMapper {
         final Optional<Recurrence> recurrence;
         final RecurrenceUnit       recurrenceUnit;
         final GameSessionType      gameSessionType;
+        final Optional<Long>       table;
 
         if (change.getRecurrence() == null) {
             recurrence = Optional.empty();
@@ -75,8 +76,13 @@ public final class ScheduledGameDtoMapper {
             }
         }
         gameSessionType = toGameSessionType(change.getGameType());
+        if (change.getTable() == null) {
+            table = Optional.empty();
+        } else {
+            table = Optional.of(change.getTable());
+        }
         return new ScheduledGame(number, change.getTitle(), getNullable(change.getDescription()),
-            getNullable(change.getLocation()), change.getMaster(), change.getMaxPlayers(),
+            getNullable(change.getLocation()), table, change.getMaster(), change.getMaxPlayers(),
             getNullable(change.getImage()), change.getStart(), recurrence, CalendarStatus.DRAFT, gameSessionType);
     }
 
@@ -84,6 +90,7 @@ public final class ScheduledGameDtoMapper {
         final Optional<Recurrence> recurrence;
         final RecurrenceUnit       recurrenceUnit;
         final GameSessionType      gameSessionType;
+        final Optional<Long>       table;
 
         if (creation.getRecurrence() == null) {
             recurrence = Optional.empty();
@@ -100,8 +107,13 @@ public final class ScheduledGameDtoMapper {
             }
         }
         gameSessionType = toGameSessionType(creation.getGameType());
+        if (creation.getTable() == null) {
+            table = Optional.empty();
+        } else {
+            table = Optional.of(creation.getTable());
+        }
         return new ScheduledGame(-1, creation.getTitle(), getNullable(creation.getDescription()),
-            getNullable(creation.getLocation()), creation.getMaster(), creation.getMaxPlayers(),
+            getNullable(creation.getLocation()), table, creation.getMaster(), creation.getMaxPlayers(),
             getNullable(creation.getImage()), creation.getStart(), recurrence, CalendarStatus.DRAFT, gameSessionType);
     }
 
@@ -217,6 +229,8 @@ public final class ScheduledGameDtoMapper {
             .title(scheduledGame.title())
             .description(scheduledGame.description())
             .location(scheduledGame.location())
+            .table(scheduledGame.table()
+                .orElse(null))
             .master(scheduledGame.master())
             .maxPlayers(scheduledGame.maxPlayers())
             .image(scheduledGame.image())
