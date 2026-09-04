@@ -50,10 +50,10 @@ services:
       - spring.mail.port=1025
       - spring.mail.username=username
       - spring.mail.password=password
-      - email.security.appName=Ucronía
-      - email.security.from=security@somewhere.com
-      - email.security.activateUser.url=http://localhost:4200/users/activate
-      - email.security.passwordRecovery.url=http://localhost:4200/password/reset/
+      - security.email.appName=Ucronía
+      - security.email.from=security@somewhere.com
+      - security.email.activateUser.url=http://localhost:4200/users/activate
+      - security.email.passwordRecovery.url=http://localhost:4200/password/reset/
       # Scheduler
       - scheduler.zone=CET
       # S3-compatible image storage

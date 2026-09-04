@@ -22,22 +22,14 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.settings.usecase.constants;
+package com.bernardomg.association.security.account.usecase;
 
-public final class AssociationSettingsKey {
+import java.util.Optional;
 
-    public static final String EMAIL       = "contact.email";
+import com.bernardomg.association.security.user.domain.model.UserProfile;
 
-    public static final String GOOGLE_MAPS = "contact.googleMap";
+public interface AccountProfileService {
 
-    public static final String INSTAGRAM   = "contact.instagram";
-
-    public static final String TEAMUP      = "contact.teamup";
-
-    public static final String TELEGRAM    = "contact.telegram";
-
-    private AssociationSettingsKey() {
-        super();
-    }
+    public Optional<UserProfile> getCurrentProfile();
 
 }

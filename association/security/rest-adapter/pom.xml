@@ -121,9 +121,26 @@
              <artifactId>openapi-generator-maven-plugin</artifactId>
              <executions>
                 <execution>
+                   <id>security</id>
                    <goals>
                       <goal>generate</goal>
                    </goals>
+                   <configuration>
+                      <inputSpec>${project.basedir}/src/main/resources/openapi/security.yml</inputSpec>
+                      <apiPackage>com.bernardomg.association.security.user.adapter.outbound.rest.controller</apiPackage>
+                      <modelPackage>com.bernardomg.association.security.user.adapter.outbound.rest.dto</modelPackage>
+                   </configuration>
+                </execution>
+                <execution>
+                   <id>account_profile</id>
+                   <goals>
+                      <goal>generate</goal>
+                   </goals>
+                   <configuration>
+                      <inputSpec>${project.basedir}/src/main/resources/openapi/account_profile.yml</inputSpec>
+                      <apiPackage>com.bernardomg.association.security.account.adapter.outbound.rest.controller</apiPackage>
+                      <modelPackage>com.bernardomg.association.security.account.adapter.outbound.rest.dto</modelPackage>
+                   </configuration>
                 </execution>
              </executions>
           </plugin>

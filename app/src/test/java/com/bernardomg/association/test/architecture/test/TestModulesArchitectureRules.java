@@ -91,7 +91,7 @@ public class TestModulesArchitectureRules {
 
         // Security modules
         .whereLayer("Users")
-        .mayOnlyBeAccessedByLayers("Fees")
+        .mayOnlyBeAccessedByLayers("Fees", "Account")
         .whereLayer("Account")
         .mayNotBeAccessedByAnyLayer()
 

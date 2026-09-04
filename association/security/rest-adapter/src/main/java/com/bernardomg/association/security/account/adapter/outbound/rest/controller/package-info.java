@@ -22,22 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.settings.usecase.constants;
+/**
+ * User member controllers.
+ */
 
-public final class AssociationSettingsKey {
-
-    public static final String EMAIL       = "contact.email";
-
-    public static final String GOOGLE_MAPS = "contact.googleMap";
-
-    public static final String INSTAGRAM   = "contact.instagram";
-
-    public static final String TEAMUP      = "contact.teamup";
-
-    public static final String TELEGRAM    = "contact.telegram";
-
-    private AssociationSettingsKey() {
-        super();
-    }
-
-}
+package com.bernardomg.association.security.account.adapter.outbound.rest.controller;

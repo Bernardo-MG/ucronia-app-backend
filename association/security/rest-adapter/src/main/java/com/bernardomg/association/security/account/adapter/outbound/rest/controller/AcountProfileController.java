@@ -22,22 +22,38 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.settings.usecase.constants;
+package com.bernardomg.association.security.account.adapter.outbound.rest.controller;
 
-public final class AssociationSettingsKey {
+import org.springframework.web.bind.annotation.RestController;
 
-    public static final String EMAIL       = "contact.email";
+import com.bernardomg.association.security.account.adapter.outbound.rest.dto.AccountProfileResponseDto;
+import com.bernardomg.association.security.account.adapter.outbound.rest.model.AccountProfileDtoMapper;
+import com.bernardomg.association.security.account.usecase.AccountProfileService;
+import com.bernardomg.framework.security.access.annotation.Unsecured;
 
-    public static final String GOOGLE_MAPS = "contact.googleMap";
+/**
+ * User member REST controller.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+@RestController
+public class AcountProfileController implements AccountApi {
 
-    public static final String INSTAGRAM   = "contact.instagram";
+    /**
+     * Account profile service.
+     */
+    private final AccountProfileService service;
 
-    public static final String TEAMUP      = "contact.teamup";
-
-    public static final String TELEGRAM    = "contact.telegram";
-
-    private AssociationSettingsKey() {
+    public AcountProfileController(final AccountProfileService service) {
         super();
+        this.service = service;
+    }
+
+    @Override
+    @Unsecured
+    public AccountProfileResponseDto getCurrentUserProfile() {
+        return AccountProfileDtoMapper.toResponse(service.getCurrentProfile());
     }
 
 }

@@ -22,24 +22,20 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.security.user.adapter.outbound.rest.model;
+package com.bernardomg.association.security.account.adapter.outbound.rest.model;
 
 import java.util.Optional;
 
-import com.bernardomg.association.security.user.adapter.outbound.rest.dto.ProfileDto;
-import com.bernardomg.association.security.user.adapter.outbound.rest.dto.ProfileNameDto;
-import com.bernardomg.association.security.user.adapter.outbound.rest.dto.ProfileResponseDto;
+import com.bernardomg.association.security.account.adapter.outbound.rest.dto.AccountProfileResponseDto;
+import com.bernardomg.association.security.account.adapter.outbound.rest.dto.ProfileDto;
+import com.bernardomg.association.security.account.adapter.outbound.rest.dto.ProfileNameDto;
 import com.bernardomg.association.security.user.domain.model.UserProfile;
 
-public final class UserProfileDtoMapper {
+public final class AccountProfileDtoMapper {
 
-    public static final ProfileResponseDto toResponse(final Optional<UserProfile> profile) {
-        return new ProfileResponseDto().content(profile.map(UserProfileDtoMapper::toDto)
+    public static final AccountProfileResponseDto toResponse(final Optional<UserProfile> profile) {
+        return new AccountProfileResponseDto().content(profile.map(AccountProfileDtoMapper::toDto)
             .orElse(null));
-    }
-
-    public static final ProfileResponseDto toResponse(final UserProfile profile) {
-        return new ProfileResponseDto().content(UserProfileDtoMapper.toDto(profile));
     }
 
     private static final ProfileDto toDto(final UserProfile profile) {
@@ -60,7 +56,7 @@ public final class UserProfileDtoMapper {
             .name(name);
     }
 
-    private UserProfileDtoMapper() {
+    private AccountProfileDtoMapper() {
         super();
     }
 

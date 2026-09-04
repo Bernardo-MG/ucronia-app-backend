@@ -36,7 +36,8 @@ public final class PublicSettingsDtoMapper {
         settingsDto = new PublicSettingsDto().calendar(settings.calendar())
             .map(settings.map())
             .email(settings.email())
-            .instagram(settings.instagram());
+            .instagram(settings.instagram())
+            .telegram(settings.telegram());
         return new PublicSettingsResponseDto().content(settingsDto);
     }
 
