@@ -52,10 +52,6 @@ class TestGameTableServiceUpdate {
     @InjectMocks
     private DefaultGameTableService service;
 
-    public TestGameTableServiceUpdate() {
-        super();
-    }
-
     @Test
     @DisplayName("When updating an existing game table, the updated data is returned")
     void testUpdate() {

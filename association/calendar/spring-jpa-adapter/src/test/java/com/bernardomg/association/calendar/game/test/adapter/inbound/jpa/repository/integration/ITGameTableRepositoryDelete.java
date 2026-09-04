@@ -38,7 +38,6 @@ import com.bernardomg.association.calendar.game.test.configuration.factory.GameT
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
-@ValidTable
 @SpringBootTest(classes = TestApplication.class)
 @DisplayName("GameTableRepository - delete")
 class ITGameTableRepositoryDelete {
@@ -49,8 +48,22 @@ class ITGameTableRepositoryDelete {
     @Autowired
     private GameTableSpringRepository springRepository;
 
-    public ITGameTableRepositoryDelete() {
-        super();
+    @Test
+    @DisplayName("When the game table exists, it is deleted")
+    @ValidTable
+    void testDelete() {
+        final long count;
+
+        // GIVEN
+        count = springRepository.count();
+
+        // WHEN
+        repository.delete(GameTableConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(springRepository.count())
+            .as("game tables")
+            .isLessThan(count);
     }
 
     @Test
@@ -68,23 +81,6 @@ class ITGameTableRepositoryDelete {
         Assertions.assertThat(springRepository.count())
             .as("game tables")
             .isEqualTo(count);
-    }
-
-    @Test
-    @DisplayName("When the game table exists, it is deleted")
-    void testDelete_RemovesEntity() {
-        final long count;
-
-        // GIVEN
-        count = springRepository.count();
-
-        // WHEN
-        repository.delete(GameTableConstants.NUMBER);
-
-        // THEN
-        Assertions.assertThat(springRepository.count())
-            .as("game tables")
-            .isLessThan(count);
     }
 
 }

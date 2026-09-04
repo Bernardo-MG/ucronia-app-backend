@@ -41,7 +41,6 @@ import com.bernardomg.association.calendar.game.test.configuration.factory.GameT
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
-@ValidTable
 @SpringBootTest(classes = TestApplication.class)
 @DisplayName("GameTableRepository - find one")
 class ITGameTableRepositoryFindOne {
@@ -49,12 +48,9 @@ class ITGameTableRepositoryFindOne {
     @Autowired
     private GameTableRepository repository;
 
-    public ITGameTableRepositoryFindOne() {
-        super();
-    }
-
     @Test
     @DisplayName("With an existing game table, it is returned")
+    @ValidTable
     void testFindOne() {
         final Optional<GameTable> gameTable;
 
@@ -69,11 +65,11 @@ class ITGameTableRepositoryFindOne {
 
     @Test
     @DisplayName("With a not existing game table number, nothing is returned")
-    void testFindOne_NotFound() {
+    void testFindOne_NoData() {
         final Optional<GameTable> gameTable;
 
         // WHEN
-        gameTable = repository.findOne(-1L);
+        gameTable = repository.findOne(GameTableConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(gameTable)

@@ -42,7 +42,6 @@ import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
-@ValidTable
 @SpringBootTest(classes = TestApplication.class)
 @DisplayName("GameTableRepository - find all")
 class ITGameTableRepositoryFindAll {
@@ -50,12 +49,9 @@ class ITGameTableRepositoryFindAll {
     @Autowired
     private GameTableRepository repository;
 
-    public ITGameTableRepositoryFindAll() {
-        super();
-    }
-
     @Test
-    @DisplayName("With the default game tables, all are returned")
+    @DisplayName("When there are tables, they are returned")
+    @ValidTable
     void testFindAll() {
         final Page<GameTable> gameTables;
         final Pagination      pagination;
@@ -77,7 +73,7 @@ class ITGameTableRepositoryFindAll {
     }
 
     @Test
-    @DisplayName("The default game tables have the expected count")
+    @DisplayName("When there is no data, nothing is returned")
     void testFindAll_DefaultCount() {
         final Page<GameTable> gameTables;
         final Pagination      pagination;
@@ -91,11 +87,8 @@ class ITGameTableRepositoryFindAll {
         gameTables = repository.findAll(pagination, sorting);
 
         // THEN
-        Assertions.assertThat(gameTables)
-            .extracting(Page::content)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .as("game tables count")
-            .hasSize(1);
+        Assertions.assertThat(gameTables.content())
+            .isEmpty();
     }
 
 }

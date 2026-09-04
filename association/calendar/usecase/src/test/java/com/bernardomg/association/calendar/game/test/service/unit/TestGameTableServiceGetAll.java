@@ -55,10 +55,6 @@ class TestGameTableServiceGetAll {
     @InjectMocks
     private DefaultGameTableService service;
 
-    public TestGameTableServiceGetAll() {
-        super();
-    }
-
     @Test
     @DisplayName("When there is data it is returned")
     void testGetAll() {

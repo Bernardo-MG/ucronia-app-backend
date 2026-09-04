@@ -54,10 +54,6 @@ class TestGameTableServiceDelete {
     @InjectMocks
     private DefaultGameTableService service;
 
-    public TestGameTableServiceDelete() {
-        super();
-    }
-
     @Test
     @DisplayName("When deleting an existing game table, the deleted data is returned")
     void testDelete() {

@@ -37,7 +37,6 @@ import com.bernardomg.association.calendar.game.test.configuration.factory.GameT
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
-@ValidTable
 @SpringBootTest(classes = TestApplication.class)
 @DisplayName("GameTableRepository - exists")
 class ITGameTableRepositoryExists {
@@ -47,6 +46,7 @@ class ITGameTableRepositoryExists {
 
     @Test
     @DisplayName("With an existing game table, it exists")
+    @ValidTable
     void testExists() {
         final boolean exists;
 
@@ -65,7 +65,7 @@ class ITGameTableRepositoryExists {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(-1);
+        exists = repository.exists(GameTableConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(exists)

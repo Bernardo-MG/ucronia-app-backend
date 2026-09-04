@@ -49,10 +49,6 @@ class TestGameTableServiceCreate {
     @InjectMocks
     private DefaultGameTableService service;
 
-    public TestGameTableServiceCreate() {
-        super();
-    }
-
     @Test
     @DisplayName("When creating a game table, the persisted data is returned")
     void testCreate() {

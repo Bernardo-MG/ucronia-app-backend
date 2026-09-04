@@ -16,6 +16,16 @@ public final class GameTableEntities {
 
         return entity;
     }
+    public static final GameTableEntity nameChange() {
+        final GameTableEntity entity;
+
+        entity = new GameTableEntity();
+        entity.setNumber(GameTableConstants.NUMBER);
+        entity.setName(GameTableConstants.ALTERNATIVE_NAME);
+        entity.setDescription(GameTableConstants.DESCRIPTION);
+
+        return entity;
+    }
 
     private GameTableEntities() {
         super();
