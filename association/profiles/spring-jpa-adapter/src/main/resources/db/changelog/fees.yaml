@@ -126,7 +126,7 @@ databaseChangeLog:
             referencedTableSchemaName: funds
             referencedTableName: transactions
             referencedColumnNames: id
-            onDelete: SET NULL
+            onDelete: "SET NULL"
         - addUniqueConstraint:
             constraintName: fees_unique_date
             schemaName: funds

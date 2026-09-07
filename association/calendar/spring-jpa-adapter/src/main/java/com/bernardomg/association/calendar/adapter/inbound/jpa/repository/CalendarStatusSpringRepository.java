@@ -10,6 +10,6 @@ import com.bernardomg.association.calendar.domain.model.CalendarStatus;
 
 public interface CalendarStatusSpringRepository extends JpaRepository<CalendarStatusEntity, Long> {
 
-    Optional<CalendarStatusEntity> findByName(CalendarStatus status);
+    public Optional<CalendarStatusEntity> findByName(CalendarStatus status);
 
 }

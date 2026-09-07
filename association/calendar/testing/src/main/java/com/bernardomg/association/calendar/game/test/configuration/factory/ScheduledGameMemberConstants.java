@@ -9,4 +9,8 @@ public final class ScheduledGameMemberConstants {
 
     public static final String SURNAME_MASTER = "Last name 1";
 
+    private ScheduledGameMemberConstants() {
+        super();
+    }
+
 }

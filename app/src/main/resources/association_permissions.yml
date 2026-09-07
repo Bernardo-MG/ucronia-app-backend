@@ -5,6 +5,12 @@ permissions:
       - read
       - update
       - delete
+  - resource: game_table
+    actions:
+      - create
+      - read
+      - update
+      - delete
   - resource: scheduled_game
     actions:
       - create
