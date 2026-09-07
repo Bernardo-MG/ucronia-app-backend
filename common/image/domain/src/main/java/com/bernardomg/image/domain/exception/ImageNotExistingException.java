@@ -22,22 +22,36 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.image.usecase.service;
-
-import com.bernardomg.image.domain.model.ImageContent;
+package com.bernardomg.image.domain.exception;
 
 /**
- * Activity service. Supports all the CRUD operations.
+ * Image not existing exception.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface ImageService {
+public final class ImageNotExistingException extends RuntimeException {
 
-    public void createImage(final String name, final ImageContent content);
+    private static final long serialVersionUID = -2547922646355830379L;
 
-    public ImageContent getImage(final String name);
+    /**
+     * Name which caused the exception.
+     */
+    private final  String name;
 
-    public void updateImage(final String name, final ImageContent content);
+    public ImageNotExistingException(final String name) {
+        super(String.format("Image with name %s doesn't exist", name));
+
+        this.name = name;
+    }
+
+    /**
+     * Returns the name which caused the exception.
+     *
+     * @return the name which caused the exception
+     */
+    public final String getName() {
+        return name;
+    }
 
 }

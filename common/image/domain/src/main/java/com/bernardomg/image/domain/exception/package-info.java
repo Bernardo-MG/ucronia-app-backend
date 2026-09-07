@@ -22,22 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.image.usecase.service;
-
-import com.bernardomg.image.domain.model.ImageContent;
-
 /**
- * Activity service. Supports all the CRUD operations.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Image exceptions.
  */
-public interface ImageService {
 
-    public void createImage(final String name, final ImageContent content);
-
-    public ImageContent getImage(final String name);
-
-    public void updateImage(final String name, final ImageContent content);
-
-}
+package com.bernardomg.image.domain.exception;

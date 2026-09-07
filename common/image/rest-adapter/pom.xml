@@ -81,6 +81,11 @@
          <artifactId>spring-webmvc</artifactId>
          <scope>test</scope>
       </dependency>
+      <dependency>
+         <groupId>com.bernardomg.image</groupId>
+         <artifactId>image-testing</artifactId>
+         <scope>test</scope>
+      </dependency>
    </dependencies>
 
 	<!-- ********************************************** -->

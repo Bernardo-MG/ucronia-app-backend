@@ -44,25 +44,46 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.bernardomg.image.domain.model.ImageContent;
+import com.bernardomg.image.test.configuration.factory.ImageConstants;
 import com.bernardomg.image.usecase.service.ImageService;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("ImageController")
 class TestImageController {
 
-    private static final byte[] DATA = { 1, 2, 3 };
-
-    private static final String NAME = "image.png";
-
-    private MockMvc             mockMvc;
+    private MockMvc      mockMvc;
 
     @Mock
-    private ImageService        service;
+    private ImageService service;
 
     @BeforeEach
     void setUp() {
         mockMvc = MockMvcBuilders.standaloneSetup(new ImageController(service))
             .build();
+    }
+
+    @Test
+    @DisplayName("When updating an image, it is accepted and persisted")
+    void testUpdateImage() throws Exception {
+        final ArgumentCaptor<ImageContent> contentCaptor;
+        final MockMultipartFile            file;
+
+        // GIVEN
+        contentCaptor = ArgumentCaptor.forClass(ImageContent.class);
+        file = new MockMultipartFile("file", ImageConstants.NAME, MediaType.IMAGE_PNG_VALUE, ImageConstants.DATA);
+
+        // WHEN + THEN
+        mockMvc.perform(multipart(HttpMethod.PUT, "/images/{name}", ImageConstants.NAME).file(file))
+            .andExpect(status().isNoContent());
+
+        verify(service).updateImage(eq(ImageConstants.NAME), contentCaptor.capture());
+
+        Assertions.assertThat(contentCaptor.getValue()
+            .data())
+            .containsExactly(ImageConstants.DATA);
+        Assertions.assertThat(contentCaptor.getValue()
+            .mediaType())
+            .isEqualTo(MediaType.IMAGE_PNG_VALUE);
     }
 
     @Test
@@ -73,17 +94,17 @@ class TestImageController {
 
         // GIVEN
         contentCaptor = ArgumentCaptor.forClass(ImageContent.class);
-        file = new MockMultipartFile("file", NAME, MediaType.IMAGE_PNG_VALUE, DATA);
+        file = new MockMultipartFile("file", ImageConstants.NAME, MediaType.IMAGE_PNG_VALUE, ImageConstants.DATA);
 
         // WHEN + THEN
-        mockMvc.perform(multipart(HttpMethod.PUT, "/images/{name}", NAME).file(file))
-            .andExpect(status().isNoContent());
+        mockMvc.perform(multipart(HttpMethod.POST, "/images/{name}", ImageConstants.NAME).file(file))
+            .andExpect(status().isCreated());
 
-        verify(service).uploadImage(eq(NAME), contentCaptor.capture());
+        verify(service).createImage(eq(ImageConstants.NAME), contentCaptor.capture());
 
         Assertions.assertThat(contentCaptor.getValue()
             .data())
-            .containsExactly(DATA);
+            .containsExactly(ImageConstants.DATA);
         Assertions.assertThat(contentCaptor.getValue()
             .mediaType())
             .isEqualTo(MediaType.IMAGE_PNG_VALUE);

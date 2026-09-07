@@ -73,8 +73,24 @@ public class ImageController implements ImageApi {
     }
 
     @Override
+    @RequireResourceAuthorization(resource = "IMAGE", action = Actions.UPDATE)
+    public ResponseEntity<Void> updateImage(final String name, final MultipartFile file) {
+        service.updateImage(name, getImageContent(file));
+
+        return ResponseEntity.noContent()
+            .build();
+    }
+
+    @Override
     @RequireResourceAuthorization(resource = "IMAGE", action = Actions.CREATE)
     public ResponseEntity<Void> uploadImage(final String name, final MultipartFile file) {
+        service.createImage(name, getImageContent(file));
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+            .build();
+    }
+
+    private ImageContent getImageContent(final MultipartFile file) {
         final String mediaType;
         final byte[] data;
 
@@ -90,9 +106,7 @@ public class ImageController implements ImageApi {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unable to read image", ex);
         }
 
-        service.uploadImage(name, new ImageContent(data, mediaType));
-        return ResponseEntity.noContent()
-            .build();
+        return new ImageContent(data, mediaType);
     }
 
 }

@@ -22,22 +22,36 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.image.usecase.service;
-
-import com.bernardomg.image.domain.model.ImageContent;
+package com.bernardomg.image.domain.exception;
 
 /**
- * Activity service. Supports all the CRUD operations.
+ * Image already exists exception.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface ImageService {
+public final class ImageAlreadyExistsException extends RuntimeException {
 
-    public void createImage(final String name, final ImageContent content);
+    private static final long serialVersionUID = -2547922646355830379L;
 
-    public ImageContent getImage(final String name);
+    /**
+     * Name which caused the exception.
+     */
+    private final  String name;
 
-    public void updateImage(final String name, final ImageContent content);
+    public ImageAlreadyExistsException(final String name) {
+        super(String.format("Image with name %s already exists", name));
+
+        this.name = name;
+    }
+
+    /**
+     * Returns the name which caused the exception.
+     *
+     * @return the name which caused the exception
+     */
+    public final String getName() {
+        return name;
+    }
 
 }

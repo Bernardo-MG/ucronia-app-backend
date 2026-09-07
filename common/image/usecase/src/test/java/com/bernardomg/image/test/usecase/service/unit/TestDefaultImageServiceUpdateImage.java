@@ -39,7 +39,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.image.domain.exception.ImageAlreadyExistsException;
+import com.bernardomg.image.domain.exception.ImageNotExistingException;
 import com.bernardomg.image.domain.model.ImageContent;
 import com.bernardomg.image.test.configuration.factory.ImageConstants;
 import com.bernardomg.image.usecase.service.DefaultImageService;
@@ -52,15 +52,15 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.model.S3Exception;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Image service - upload image")
-class TestImageServiceUploadImage {
+@DisplayName("Image service - update image")
+class TestImageServiceUpdateImage {
 
     @Mock
     private S3Client client;
 
     @Test
-    @DisplayName("When uploading an image, its data and metadata are sent to storage")
-    void testUploadImage() throws IOException {
+    @DisplayName("When updating an image, its data and metadata are sent to storage")
+    void testUpdateImage() throws IOException {
         final ArgumentCaptor<PutObjectRequest> requestCaptor;
         final ArgumentCaptor<RequestBody>      bodyCaptor;
         final DefaultImageService              service;
@@ -75,17 +75,15 @@ class TestImageServiceUploadImage {
             .key(ImageConstants.NAME)
             .build();
 
-        given(client.headObject(headRequest)).willThrow(S3Exception.builder()
-            .statusCode(404)
+        given(client.headObject(headRequest)).willReturn(HeadObjectResponse.builder()
             .build());
 
         // WHEN
-        service.createImage(ImageConstants.NAME, new ImageContent(ImageConstants.DATA, ImageConstants.MEDIA_TYPE));
+        service.updateImage(ImageConstants.NAME, new ImageContent(ImageConstants.DATA, ImageConstants.MEDIA_TYPE));
 
         // THEN
         verify(client).headObject(headRequest);
         verify(client).putObject(requestCaptor.capture(), bodyCaptor.capture());
-
         Assertions.assertThat(requestCaptor.getValue()
             .bucket())
             .isEqualTo(ImageConstants.BUCKET);
@@ -103,8 +101,8 @@ class TestImageServiceUploadImage {
     }
 
     @Test
-    @DisplayName("When uploading an existing image, a conflict is raised")
-    void testUploadImage_Existing() {
+    @DisplayName("When updating a missing image, not found is raised")
+    void testUpdateImage_Missing() {
         final DefaultImageService service;
         final HeadObjectRequest   headRequest;
 
@@ -115,14 +113,15 @@ class TestImageServiceUploadImage {
             .key(ImageConstants.NAME)
             .build();
 
-        given(client.headObject(headRequest)).willReturn(HeadObjectResponse.builder()
+        given(client.headObject(headRequest)).willThrow(S3Exception.builder()
+            .statusCode(404)
             .build());
 
         // WHEN + THEN
         Assertions
-            .assertThatThrownBy(() -> service.createImage(ImageConstants.NAME,
+            .assertThatThrownBy(() -> service.updateImage(ImageConstants.NAME,
                 new ImageContent(ImageConstants.DATA, ImageConstants.MEDIA_TYPE)))
-            .isInstanceOfSatisfying(ImageAlreadyExistsException.class, ex -> Assertions.assertThat(ex.getName())
+            .isInstanceOfSatisfying(ImageNotExistingException.class, ex -> Assertions.assertThat(ex.getName())
                 .isEqualTo(ImageConstants.NAME));
         verify(client).headObject(headRequest);
         verify(client, never()).putObject(any(PutObjectRequest.class), any(RequestBody.class));

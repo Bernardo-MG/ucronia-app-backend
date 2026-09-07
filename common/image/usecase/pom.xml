@@ -81,6 +81,9 @@
          <groupId>org.apache.poi</groupId>
          <artifactId>poi-ooxml</artifactId>
       </dependency>
+      <!-- ============================================== -->
+      <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
+      <!-- ============================================== -->
       <dependency>
          <groupId>com.bernardomg.image</groupId>
          <artifactId>image-testing</artifactId>

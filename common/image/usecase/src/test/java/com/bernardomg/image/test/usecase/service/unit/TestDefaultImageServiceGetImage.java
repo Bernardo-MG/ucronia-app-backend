@@ -35,6 +35,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.image.domain.model.ImageContent;
+import com.bernardomg.image.test.configuration.factory.ImageConstants;
 import com.bernardomg.image.usecase.service.DefaultImageService;
 
 import software.amazon.awssdk.core.ResponseBytes;
@@ -46,16 +47,8 @@ import software.amazon.awssdk.services.s3.model.GetObjectResponse;
 @DisplayName("Image service - get image")
 class TestImageServiceGetImage {
 
-    private static final String BUCKET     = "images";
-
-    private static final byte[] DATA       = { 1, 2, 3 };
-
-    private static final String MEDIA_TYPE = "image/png";
-
-    private static final String NAME       = "image.png";
-
     @Mock
-    private S3Client            client;
+    private S3Client client;
 
     @Test
     @DisplayName("When getting an image, its data and media type are returned")
@@ -67,24 +60,24 @@ class TestImageServiceGetImage {
 
         // GIVEN
         request = GetObjectRequest.builder()
-            .bucket(BUCKET)
-            .key(NAME)
+            .bucket(ImageConstants.BUCKET)
+            .key(ImageConstants.NAME)
             .build();
         response = ResponseBytes.fromByteArray(GetObjectResponse.builder()
-            .contentType(MEDIA_TYPE)
-            .build(), DATA);
-        service = new DefaultImageService(client, BUCKET);
+            .contentType(ImageConstants.MEDIA_TYPE)
+            .build(), ImageConstants.DATA);
+        service = new DefaultImageService(client, ImageConstants.BUCKET);
 
         given(client.getObjectAsBytes(request)).willReturn(response);
 
         // WHEN
-        image = service.getImage(NAME);
+        image = service.getImage(ImageConstants.NAME);
 
         // THEN
         Assertions.assertThat(image.data())
-            .containsExactly(DATA);
+            .containsExactly(ImageConstants.DATA);
         Assertions.assertThat(image.mediaType())
-            .isEqualTo(MEDIA_TYPE);
+            .isEqualTo(ImageConstants.MEDIA_TYPE);
         verify(client).getObjectAsBytes(request);
     }
 
