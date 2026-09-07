@@ -28,6 +28,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,6 +38,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.image.domain.model.ImageContent;
 import com.bernardomg.image.test.configuration.factory.ImageConstants;
 import com.bernardomg.image.usecase.service.DefaultImageService;
+import com.bernardomg.image.usecase.service.ImageService;
 
 import software.amazon.awssdk.core.ResponseBytes;
 import software.amazon.awssdk.services.s3.S3Client;
@@ -48,7 +50,14 @@ import software.amazon.awssdk.services.s3.model.GetObjectResponse;
 class TestImageServiceGetImage {
 
     @Mock
-    private S3Client client;
+    private S3Client     client;
+
+    private ImageService service;
+
+    @BeforeEach
+    public void setupService() {
+        service = new DefaultImageService(client, ImageConstants.BUCKET);
+    }
 
     @Test
     @DisplayName("When getting an image, its data and media type are returned")
@@ -56,7 +65,6 @@ class TestImageServiceGetImage {
         final ImageContent                     image;
         final GetObjectRequest                 request;
         final ResponseBytes<GetObjectResponse> response;
-        final DefaultImageService              service;
 
         // GIVEN
         request = GetObjectRequest.builder()
@@ -66,7 +74,6 @@ class TestImageServiceGetImage {
         response = ResponseBytes.fromByteArray(GetObjectResponse.builder()
             .contentType(ImageConstants.MEDIA_TYPE)
             .build(), ImageConstants.DATA);
-        service = new DefaultImageService(client, ImageConstants.BUCKET);
 
         given(client.getObjectAsBytes(request)).willReturn(response);
 

@@ -32,6 +32,7 @@ import static org.mockito.Mockito.verify;
 import java.io.IOException;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -43,6 +44,7 @@ import com.bernardomg.image.domain.exception.ImageNotExistingException;
 import com.bernardomg.image.domain.model.ImageContent;
 import com.bernardomg.image.test.configuration.factory.ImageConstants;
 import com.bernardomg.image.usecase.service.DefaultImageService;
+import com.bernardomg.image.usecase.service.ImageService;
 
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
@@ -56,20 +58,25 @@ import software.amazon.awssdk.services.s3.model.S3Exception;
 class TestImageServiceUpdateImage {
 
     @Mock
-    private S3Client client;
+    private S3Client     client;
+
+    private ImageService service;
+
+    @BeforeEach
+    public void setupService() {
+        service = new DefaultImageService(client, ImageConstants.BUCKET);
+    }
 
     @Test
     @DisplayName("When updating an image, its data and metadata are sent to storage")
     void testUpdateImage() throws IOException {
         final ArgumentCaptor<PutObjectRequest> requestCaptor;
         final ArgumentCaptor<RequestBody>      bodyCaptor;
-        final DefaultImageService              service;
         final HeadObjectRequest                headRequest;
 
         // GIVEN
         requestCaptor = ArgumentCaptor.forClass(PutObjectRequest.class);
         bodyCaptor = ArgumentCaptor.forClass(RequestBody.class);
-        service = new DefaultImageService(client, ImageConstants.BUCKET);
         headRequest = HeadObjectRequest.builder()
             .bucket(ImageConstants.BUCKET)
             .key(ImageConstants.NAME)
@@ -103,11 +110,9 @@ class TestImageServiceUpdateImage {
     @Test
     @DisplayName("When updating a missing image, not found is raised")
     void testUpdateImage_Missing() {
-        final DefaultImageService service;
-        final HeadObjectRequest   headRequest;
+        final HeadObjectRequest headRequest;
 
         // GIVEN
-        service = new DefaultImageService(client, ImageConstants.BUCKET);
         headRequest = HeadObjectRequest.builder()
             .bucket(ImageConstants.BUCKET)
             .key(ImageConstants.NAME)

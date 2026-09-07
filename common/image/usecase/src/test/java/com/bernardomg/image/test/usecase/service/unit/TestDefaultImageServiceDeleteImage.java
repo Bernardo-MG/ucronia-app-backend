@@ -30,6 +30,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -39,6 +40,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.image.domain.exception.ImageNotExistingException;
 import com.bernardomg.image.test.configuration.factory.ImageConstants;
 import com.bernardomg.image.usecase.service.DefaultImageService;
+import com.bernardomg.image.usecase.service.ImageService;
 
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
@@ -51,17 +53,22 @@ import software.amazon.awssdk.services.s3.model.S3Exception;
 class TestImageServiceDeleteImage {
 
     @Mock
-    private S3Client client;
+    private S3Client     client;
+
+    private ImageService service;
+
+    @BeforeEach
+    public void setupService() {
+        service = new DefaultImageService(client, ImageConstants.BUCKET);
+    }
 
     @Test
     @DisplayName("When deleting an image, it is removed from storage")
     void testDeleteImage() {
         final DeleteObjectRequest deleteRequest;
         final HeadObjectRequest   headRequest;
-        final DefaultImageService service;
 
         // GIVEN
-        service = new DefaultImageService(client, ImageConstants.BUCKET);
         headRequest = HeadObjectRequest.builder()
             .bucket(ImageConstants.BUCKET)
             .key(ImageConstants.NAME)
@@ -85,11 +92,9 @@ class TestImageServiceDeleteImage {
     @Test
     @DisplayName("When deleting a missing image, not found is raised")
     void testDeleteImage_Missing() {
-        final HeadObjectRequest   headRequest;
-        final DefaultImageService service;
+        final HeadObjectRequest headRequest;
 
         // GIVEN
-        service = new DefaultImageService(client, ImageConstants.BUCKET);
         headRequest = HeadObjectRequest.builder()
             .bucket(ImageConstants.BUCKET)
             .key(ImageConstants.NAME)
