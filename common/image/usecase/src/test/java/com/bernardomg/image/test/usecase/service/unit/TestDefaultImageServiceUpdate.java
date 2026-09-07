@@ -29,28 +29,33 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
+import java.io.IOException;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.image.domain.exception.ImageNotExistingException;
+import com.bernardomg.image.domain.model.ImageContent;
 import com.bernardomg.image.test.configuration.factory.ImageConstants;
 import com.bernardomg.image.usecase.service.DefaultImageService;
 import com.bernardomg.image.usecase.service.ImageService;
 
+import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
 import software.amazon.awssdk.services.s3.model.HeadObjectRequest;
 import software.amazon.awssdk.services.s3.model.HeadObjectResponse;
+import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.model.S3Exception;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Image service - delete image")
-class TestImageServiceDeleteImage {
+@DisplayName("Image service - update image")
+class TestImageServiceUpdateImage {
 
     @Mock
     private S3Client     client;
@@ -63,17 +68,16 @@ class TestImageServiceDeleteImage {
     }
 
     @Test
-    @DisplayName("When deleting an image, it is removed from storage")
-    void testDeleteImage() {
-        final DeleteObjectRequest deleteRequest;
-        final HeadObjectRequest   headRequest;
+    @DisplayName("When updating an image, its data and metadata are sent to storage")
+    void testUpdate() throws IOException {
+        final ArgumentCaptor<PutObjectRequest> requestCaptor;
+        final ArgumentCaptor<RequestBody>      bodyCaptor;
+        final HeadObjectRequest                headRequest;
 
         // GIVEN
+        requestCaptor = ArgumentCaptor.forClass(PutObjectRequest.class);
+        bodyCaptor = ArgumentCaptor.forClass(RequestBody.class);
         headRequest = HeadObjectRequest.builder()
-            .bucket(ImageConstants.BUCKET)
-            .key(ImageConstants.NAME)
-            .build();
-        deleteRequest = DeleteObjectRequest.builder()
             .bucket(ImageConstants.BUCKET)
             .key(ImageConstants.NAME)
             .build();
@@ -82,16 +86,30 @@ class TestImageServiceDeleteImage {
             .build());
 
         // WHEN
-        service.deleteImage(ImageConstants.NAME);
+        service.update(ImageConstants.NAME, new ImageContent(ImageConstants.DATA, ImageConstants.MEDIA_TYPE));
 
         // THEN
         verify(client).headObject(headRequest);
-        verify(client).deleteObject(deleteRequest);
+        verify(client).putObject(requestCaptor.capture(), bodyCaptor.capture());
+        Assertions.assertThat(requestCaptor.getValue()
+            .bucket())
+            .isEqualTo(ImageConstants.BUCKET);
+        Assertions.assertThat(requestCaptor.getValue()
+            .key())
+            .isEqualTo(ImageConstants.NAME);
+        Assertions.assertThat(requestCaptor.getValue()
+            .contentType())
+            .isEqualTo(ImageConstants.MEDIA_TYPE);
+        Assertions.assertThat(bodyCaptor.getValue()
+            .contentStreamProvider()
+            .newStream()
+            .readAllBytes())
+            .containsExactly(ImageConstants.DATA);
     }
 
     @Test
-    @DisplayName("When deleting a missing image, not found is raised")
-    void testDeleteImage_Missing() {
+    @DisplayName("When updating a missing image, not found is raised")
+    void testUpdate_Missing() {
         final HeadObjectRequest headRequest;
 
         // GIVEN
@@ -105,11 +123,12 @@ class TestImageServiceDeleteImage {
             .build());
 
         // WHEN + THEN
-        Assertions.assertThatThrownBy(() -> service.deleteImage(ImageConstants.NAME))
+        Assertions.assertThatThrownBy(
+            () -> service.update(ImageConstants.NAME, new ImageContent(ImageConstants.DATA, ImageConstants.MEDIA_TYPE)))
             .isInstanceOfSatisfying(ImageNotExistingException.class, ex -> Assertions.assertThat(ex.getName())
                 .isEqualTo(ImageConstants.NAME));
         verify(client).headObject(headRequest);
-        verify(client, never()).deleteObject(any(DeleteObjectRequest.class));
+        verify(client, never()).putObject(any(PutObjectRequest.class), any(RequestBody.class));
     }
 
 }

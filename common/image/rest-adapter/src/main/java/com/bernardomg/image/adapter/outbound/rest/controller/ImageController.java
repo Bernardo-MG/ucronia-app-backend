@@ -62,7 +62,7 @@ public class ImageController implements ImageApi {
     @Override
     @RequireResourceAuthorization(resource = "IMAGE", action = Actions.DELETE)
     public ResponseEntity<Void> deleteImage(final String name) {
-        service.deleteImage(name);
+        service.delete(name);
 
         return ResponseEntity.noContent()
             .build();
@@ -73,7 +73,7 @@ public class ImageController implements ImageApi {
     public ResponseEntity<Resource> getImage(final String name) {
         final ImageContent content;
 
-        content = service.getImage(name);
+        content = service.getOne(name);
 
         // TODO: return the image content structure
         return ResponseEntity.ok()
@@ -84,7 +84,7 @@ public class ImageController implements ImageApi {
     @Override
     @RequireResourceAuthorization(resource = "IMAGE", action = Actions.UPDATE)
     public ResponseEntity<Void> updateImage(final String name, final MultipartFile file) {
-        service.updateImage(name, getImageContent(file));
+        service.update(name, getImageContent(file));
 
         return ResponseEntity.noContent()
             .build();
@@ -93,7 +93,7 @@ public class ImageController implements ImageApi {
     @Override
     @RequireResourceAuthorization(resource = "IMAGE", action = Actions.CREATE)
     public ResponseEntity<Void> uploadImage(final String name, final MultipartFile file) {
-        service.createImage(name, getImageContent(file));
+        service.create(name, getImageContent(file));
 
         return ResponseEntity.status(HttpStatus.CREATED)
             .build();

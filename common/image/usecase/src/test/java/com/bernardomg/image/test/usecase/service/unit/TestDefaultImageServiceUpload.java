@@ -68,8 +68,8 @@ class TestImageServiceUploadImage {
     }
 
     @Test
-    @DisplayName("When uploading an image, its data and metadata are sent to storage")
-    void testUploadImage() throws IOException {
+    @DisplayName("When creating an image, its data and metadata are sent to storage")
+    void testCreate() throws IOException {
         final ArgumentCaptor<PutObjectRequest> requestCaptor;
         final ArgumentCaptor<RequestBody>      bodyCaptor;
         final HeadObjectRequest                headRequest;
@@ -87,7 +87,7 @@ class TestImageServiceUploadImage {
             .build());
 
         // WHEN
-        service.createImage(ImageConstants.NAME, new ImageContent(ImageConstants.DATA, ImageConstants.MEDIA_TYPE));
+        service.create(ImageConstants.NAME, new ImageContent(ImageConstants.DATA, ImageConstants.MEDIA_TYPE));
 
         // THEN
         verify(client).headObject(headRequest);
@@ -110,8 +110,8 @@ class TestImageServiceUploadImage {
     }
 
     @Test
-    @DisplayName("When uploading an existing image, a conflict is raised")
-    void testUploadImage_Existing() {
+    @DisplayName("When creating an existing image, a conflict is raised")
+    void testCreate_Existing() {
         final HeadObjectRequest headRequest;
 
         // GIVEN
@@ -124,9 +124,8 @@ class TestImageServiceUploadImage {
             .build());
 
         // WHEN + THEN
-        Assertions
-            .assertThatThrownBy(() -> service.createImage(ImageConstants.NAME,
-                new ImageContent(ImageConstants.DATA, ImageConstants.MEDIA_TYPE)))
+        Assertions.assertThatThrownBy(
+            () -> service.create(ImageConstants.NAME, new ImageContent(ImageConstants.DATA, ImageConstants.MEDIA_TYPE)))
             .isInstanceOfSatisfying(ImageAlreadyExistsException.class, ex -> Assertions.assertThat(ex.getName())
                 .isEqualTo(ImageConstants.NAME));
         verify(client).headObject(headRequest);

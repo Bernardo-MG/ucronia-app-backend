@@ -70,7 +70,7 @@ public final class DefaultImageService implements ImageService {
     }
 
     @Override
-    public final void createImage(final String name, final ImageContent content) {
+    public final void create(final String name, final ImageContent content) {
         if (imageExists(name)) {
             log.error("Image {} already exists", name);
             throw new ImageAlreadyExistsException(name);
@@ -80,7 +80,7 @@ public final class DefaultImageService implements ImageService {
     }
 
     @Override
-    public final void deleteImage(final String name) {
+    public final void delete(final String name) {
         final DeleteObjectRequest request;
 
         if (!imageExists(name)) {
@@ -96,7 +96,7 @@ public final class DefaultImageService implements ImageService {
     }
 
     @Override
-    public final ImageContent getImage(final String name) {
+    public final ImageContent getOne(final String name) {
         final GetObjectRequest                 request;
         final ResponseBytes<GetObjectResponse> response;
         final String                           mediaType;
@@ -119,7 +119,7 @@ public final class DefaultImageService implements ImageService {
     }
 
     @Override
-    public final void updateImage(final String name, final ImageContent content) {
+    public final void update(final String name, final ImageContent content) {
         if (!imageExists(name)) {
             log.error("Image {} doesn't exist", name);
             throw new ImageNotExistingException(name);

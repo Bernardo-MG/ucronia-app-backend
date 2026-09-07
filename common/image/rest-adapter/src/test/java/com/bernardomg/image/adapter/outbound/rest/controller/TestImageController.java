@@ -70,7 +70,7 @@ class TestImageController {
         mockMvc.perform(delete("/images/{name}", ImageConstants.NAME))
             .andExpect(status().isNoContent());
 
-        verify(service).deleteImage(ImageConstants.NAME);
+        verify(service).delete(ImageConstants.NAME);
     }
 
     @Test
@@ -87,7 +87,7 @@ class TestImageController {
         mockMvc.perform(multipart(HttpMethod.PUT, "/images/{name}", ImageConstants.NAME).file(file))
             .andExpect(status().isNoContent());
 
-        verify(service).updateImage(eq(ImageConstants.NAME), contentCaptor.capture());
+        verify(service).update(eq(ImageConstants.NAME), contentCaptor.capture());
 
         Assertions.assertThat(contentCaptor.getValue()
             .data())
@@ -111,7 +111,7 @@ class TestImageController {
         mockMvc.perform(multipart(HttpMethod.POST, "/images/{name}", ImageConstants.NAME).file(file))
             .andExpect(status().isCreated());
 
-        verify(service).createImage(eq(ImageConstants.NAME), contentCaptor.capture());
+        verify(service).create(eq(ImageConstants.NAME), contentCaptor.capture());
 
         Assertions.assertThat(contentCaptor.getValue()
             .data())

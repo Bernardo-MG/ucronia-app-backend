@@ -24,7 +24,9 @@
 
 package com.bernardomg.image.test.usecase.service.unit;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.Assertions;
@@ -35,19 +37,20 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.image.domain.model.ImageContent;
+import com.bernardomg.image.domain.exception.ImageNotExistingException;
 import com.bernardomg.image.test.configuration.factory.ImageConstants;
 import com.bernardomg.image.usecase.service.DefaultImageService;
 import com.bernardomg.image.usecase.service.ImageService;
 
-import software.amazon.awssdk.core.ResponseBytes;
 import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.model.GetObjectRequest;
-import software.amazon.awssdk.services.s3.model.GetObjectResponse;
+import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
+import software.amazon.awssdk.services.s3.model.HeadObjectRequest;
+import software.amazon.awssdk.services.s3.model.HeadObjectResponse;
+import software.amazon.awssdk.services.s3.model.S3Exception;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Image service - get image")
-class TestImageServiceGetImage {
+@DisplayName("Image service - delete image")
+class TestImageServiceDeleteImage {
 
     @Mock
     private S3Client     client;
@@ -60,32 +63,53 @@ class TestImageServiceGetImage {
     }
 
     @Test
-    @DisplayName("When getting an image, its data and media type are returned")
-    void testGetImage() {
-        final ImageContent                     image;
-        final GetObjectRequest                 request;
-        final ResponseBytes<GetObjectResponse> response;
+    @DisplayName("When deleting an image, it is removed from storage")
+    void testDelete() {
+        final DeleteObjectRequest deleteRequest;
+        final HeadObjectRequest   headRequest;
 
         // GIVEN
-        request = GetObjectRequest.builder()
+        headRequest = HeadObjectRequest.builder()
             .bucket(ImageConstants.BUCKET)
             .key(ImageConstants.NAME)
             .build();
-        response = ResponseBytes.fromByteArray(GetObjectResponse.builder()
-            .contentType(ImageConstants.MEDIA_TYPE)
-            .build(), ImageConstants.DATA);
+        deleteRequest = DeleteObjectRequest.builder()
+            .bucket(ImageConstants.BUCKET)
+            .key(ImageConstants.NAME)
+            .build();
 
-        given(client.getObjectAsBytes(request)).willReturn(response);
+        given(client.headObject(headRequest)).willReturn(HeadObjectResponse.builder()
+            .build());
 
         // WHEN
-        image = service.getImage(ImageConstants.NAME);
+        service.delete(ImageConstants.NAME);
 
         // THEN
-        Assertions.assertThat(image.data())
-            .containsExactly(ImageConstants.DATA);
-        Assertions.assertThat(image.mediaType())
-            .isEqualTo(ImageConstants.MEDIA_TYPE);
-        verify(client).getObjectAsBytes(request);
+        verify(client).headObject(headRequest);
+        verify(client).deleteObject(deleteRequest);
+    }
+
+    @Test
+    @DisplayName("When deleting a missing image, not found is raised")
+    void testDelete_Missing() {
+        final HeadObjectRequest headRequest;
+
+        // GIVEN
+        headRequest = HeadObjectRequest.builder()
+            .bucket(ImageConstants.BUCKET)
+            .key(ImageConstants.NAME)
+            .build();
+
+        given(client.headObject(headRequest)).willThrow(S3Exception.builder()
+            .statusCode(404)
+            .build());
+
+        // WHEN + THEN
+        Assertions.assertThatThrownBy(() -> service.delete(ImageConstants.NAME))
+            .isInstanceOfSatisfying(ImageNotExistingException.class, ex -> Assertions.assertThat(ex.getName())
+                .isEqualTo(ImageConstants.NAME));
+        verify(client).headObject(headRequest);
+        verify(client, never()).deleteObject(any(DeleteObjectRequest.class));
     }
 
 }

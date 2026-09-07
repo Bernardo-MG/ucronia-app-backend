@@ -34,12 +34,12 @@ import com.bernardomg.image.domain.model.ImageContent;
  */
 public interface ImageService {
 
-    public void createImage(final String name, final ImageContent content);
+    public void create(final String name, final ImageContent content);
 
-    public void deleteImage(final String name);
+    public void delete(final String name);
 
-    public ImageContent getImage(final String name);
+    public ImageContent getOne(final String name);
 
-    public void updateImage(final String name, final ImageContent content);
+    public void update(final String name, final ImageContent content);
 
 }
