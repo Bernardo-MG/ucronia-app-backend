@@ -247,7 +247,7 @@ databaseChangeLog:
             referencedTableSchemaName: inventory
             referencedTableName: game_systems
             referencedColumnNames: id
-            onDelete: SET NULL
+            onDelete: "SET NULL"
         - addForeignKeyConstraint:
             constraintName: fk_books_book_type
             baseTableSchemaName: inventory
@@ -256,7 +256,7 @@ databaseChangeLog:
             referencedTableSchemaName: inventory
             referencedTableName: book_types
             referencedColumnNames: id
-            onDelete: SET NULL
+            onDelete: "SET NULL"
         - createIndex:
             schemaName: inventory
             tableName: books

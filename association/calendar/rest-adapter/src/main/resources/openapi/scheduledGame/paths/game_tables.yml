@@ -1,0 +1,33 @@
+post:
+  summary: Create a game table.
+  operationId: createGameTable
+  tags: [GameTable]
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/game_tables.yml#/components/schemas/GameTableCreation'
+  responses:
+    '201':
+      description: Game table created.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/game_tables.yml#/components/schemas/GameTableResponse'
+
+get:
+  summary: Get all game tables.
+  operationId: getAllGameTables
+  tags: [GameTable]
+  parameters:
+    - $ref: '../common/pagination.yml#/components/parameters/pageParam'
+    - $ref: '../common/pagination.yml#/components/parameters/sizeParam'
+    - $ref: '../components/game_tables.yml#/components/parameters/gameTablesSortParam'
+  responses:
+    '200':
+      description: Game tables page
+      content:
+        application/json:
+          schema:
+            $ref: '../components/game_tables.yml#/components/schemas/GameTablePageResponse'
