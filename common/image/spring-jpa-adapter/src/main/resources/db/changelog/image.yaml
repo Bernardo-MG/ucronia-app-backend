@@ -53,29 +53,3 @@ databaseChangeLog:
                   type: BIGINT
                   constraints:
                     nullable: false
-  - changeSet:
-      id: image_initial_data
-      author: Bernardo
-      changes:
-        - insert:
-            schemaName: image
-            tableName: images
-            columns:
-              - column:
-                  name: number
-                  valueNumeric: 1
-              - column:
-                  name: name
-                  value: Metroludik 2026
-              - column:
-                  name: description
-                  value: Metroludik 2026 image
-              - column:
-                  name: object_key
-                  value: metroludik-2026.png
-              - column:
-                  name: media_type
-                  value: image/png
-              - column:
-                  name: size
-                  valueNumeric: 68

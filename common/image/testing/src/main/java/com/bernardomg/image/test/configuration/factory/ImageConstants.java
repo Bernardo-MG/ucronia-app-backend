@@ -3,6 +3,8 @@ package com.bernardomg.image.test.configuration.factory;
 
 public final class ImageConstants {
 
+    public static final String ALTERNATIVE_NAME = "alternative.png";
+
     public static final String BUCKET      = "images";
 
     public static final byte[] DATA        = { 1, 2, 3 };
