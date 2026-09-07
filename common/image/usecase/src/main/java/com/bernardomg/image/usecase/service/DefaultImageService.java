@@ -33,10 +33,12 @@ import org.springframework.web.server.ResponseStatusException;
 import com.bernardomg.image.domain.model.ImageContent;
 
 import software.amazon.awssdk.core.ResponseBytes;
+import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.GetObjectResponse;
 import software.amazon.awssdk.services.s3.model.NoSuchKeyException;
+import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 /**
  * Loads images from an S3-compatible object store.
@@ -57,7 +59,7 @@ public final class DefaultImageService implements ImageService {
     }
 
     @Override
-    public ImageContent getImage(final String name) {
+    public final ImageContent getImage(final String name) {
         final GetObjectRequest                 request;
         final ResponseBytes<GetObjectResponse> response;
         final String                           mediaType;
@@ -76,6 +78,18 @@ public final class DefaultImageService implements ImageService {
             .contentType();
         return new ImageContent(response.asByteArray(), mediaType != null ? mediaType
                 : MediaType.APPLICATION_OCTET_STREAM_VALUE);
+    }
+
+    @Override
+    public final void uploadImage(final String name, final ImageContent content) {
+        final PutObjectRequest request;
+
+        request = PutObjectRequest.builder()
+            .bucket(bucket)
+            .key(name)
+            .contentType(content.mediaType())
+            .build();
+        client.putObject(request, RequestBody.fromBytes(content.data()));
     }
 
 }

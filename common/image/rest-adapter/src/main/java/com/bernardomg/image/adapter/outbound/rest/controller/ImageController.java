@@ -24,13 +24,17 @@
 
 package com.bernardomg.image.adapter.outbound.rest.controller;
 
+import java.io.IOException;
 import java.util.Objects;
 
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.bernardomg.image.domain.model.ImageContent;
 import com.bernardomg.image.usecase.service.ImageService;
@@ -53,15 +57,37 @@ public class ImageController implements ImageApi {
     }
 
     @Override
-    public ResponseEntity<Resource> getImage(String name) {
+    public ResponseEntity<Resource> getImage(final String name) {
         final ImageContent content;
 
         content = service.getImage(name);
 
         // TODO: return the image content structure
         return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(content.mediaType()))
-                .body(new ByteArrayResource(content.data()));
+            .contentType(MediaType.parseMediaType(content.mediaType()))
+            .body(new ByteArrayResource(content.data()));
+    }
+
+    @Override
+    public ResponseEntity<Void> uploadImage(final String name, final MultipartFile file) {
+        final String mediaType;
+        final byte[] data;
+
+        if (file.getContentType() == null) {
+            mediaType = MediaType.APPLICATION_OCTET_STREAM_VALUE;
+        } else {
+            mediaType = file.getContentType();
+        }
+
+        try {
+            data = file.getBytes();
+        } catch (final IOException ex) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unable to read image", ex);
+        }
+
+        service.uploadImage(name, new ImageContent(data, mediaType));
+        return ResponseEntity.noContent()
+            .build();
     }
 
 }

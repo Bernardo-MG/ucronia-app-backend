@@ -29,3 +29,30 @@ get:
       description: Invalid URL.
     '404':
       description: Image not found.
+put:
+  summary: Upload or replace an image.
+  operationId: uploadImage
+  tags: [Image]
+  parameters:
+    - in: path
+      name: name
+      required: true
+      description: Image name.
+      schema:
+        type: string
+  requestBody:
+    required: true
+    content:
+      multipart/form-data:
+        schema:
+          type: object
+          required: [file]
+          properties:
+            file:
+              type: string
+              format: binary
+  responses:
+    '204':
+      description: Image uploaded.
+    '400':
+      description: Invalid image.

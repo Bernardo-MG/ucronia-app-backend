@@ -36,4 +36,6 @@ public interface ImageService {
 
     public ImageContent getImage(final String name);
 
+    public void uploadImage(final String name, final ImageContent content);
+
 }
