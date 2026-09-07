@@ -35,23 +35,23 @@ public final class ImageNotExistingException extends RuntimeException {
     private static final long serialVersionUID = -2547922646355830379L;
 
     /**
-     * Name which caused the exception.
+     * Number which caused the exception.
      */
-    private final  String name;
+    private final  long number;
 
-    public ImageNotExistingException(final String name) {
-        super(String.format("Image with name %s doesn't exist", name));
+    public ImageNotExistingException(final long number) {
+        super(String.format("Image %s doesn't exist", number));
 
-        this.name = name;
+        this.number = number;
     }
 
     /**
-     * Returns the name which caused the exception.
+     * Returns the number which caused the exception.
      *
-     * @return the name which caused the exception
+     * @return the number which caused the exception
      */
-    public final String getName() {
-        return name;
+    public final long getNumber() {
+        return number;
     }
 
 }

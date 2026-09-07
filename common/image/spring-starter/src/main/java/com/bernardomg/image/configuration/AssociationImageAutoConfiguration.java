@@ -27,11 +27,16 @@ package com.bernardomg.image.configuration;
 import java.net.URI;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.HttpMethod;
 
+import com.bernardomg.image.adapter.inbound.jpa.repository.ImageSpringRepository;
+import com.bernardomg.image.adapter.inbound.jpa.repository.JpaImageRepository;
+import com.bernardomg.image.domain.repository.ImageRepository;
 import com.bernardomg.image.usecase.service.DefaultImageService;
 import com.bernardomg.image.usecase.service.ImageService;
 import com.bernardomg.security.springframework.web.whitelist.WhitelistRoute;
@@ -43,13 +48,21 @@ import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.S3ClientBuilder;
 
 @AutoConfiguration
-@ComponentScan({ "com.bernardomg.image.adapter.outbound.rest.controller" })
+@ComponentScan({ "com.bernardomg.image.adapter.outbound.rest.controller", "com.bernardomg.image.adapter.inbound.jpa" })
+@EnableJpaRepositories(basePackages = "com.bernardomg.image.adapter.inbound.jpa.repository")
+@EntityScan(basePackages = "com.bernardomg.image.adapter.inbound.jpa.model")
 @EnableConfigurationProperties(ImageS3Properties.class)
 public class AssociationImageAutoConfiguration {
 
+    @Bean("imageRepository")
+    public ImageRepository getImageRepository(final ImageSpringRepository repository) {
+        return new JpaImageRepository(repository);
+    }
+
     @Bean("imageService")
-    public ImageService getImageService(final S3Client s3Client, final ImageS3Properties properties) {
-        return new DefaultImageService(s3Client, properties.getBucket());
+    public ImageService getImageService(final ImageRepository repository, final S3Client s3Client,
+            final ImageS3Properties properties) {
+        return new DefaultImageService(repository, s3Client, properties.getBucket());
     }
 
     @Bean("imageWhitelist")

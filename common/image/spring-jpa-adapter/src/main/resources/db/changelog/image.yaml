@@ -1,0 +1,81 @@
+databaseChangeLog:
+  - changeSet:
+      id: image_schema
+      author: Bernardo
+      changes:
+        - sql:
+            sql: CREATE SCHEMA IF NOT EXISTS image
+  - changeSet:
+      id: image_table
+      author: Bernardo
+      changes:
+        - createTable:
+            schemaName: image
+            tableName: images
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: number
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: name
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: description
+                  type: VARCHAR(500)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: object_key
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: media_type
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: size
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: image_initial_data
+      author: Bernardo
+      changes:
+        - insert:
+            schemaName: image
+            tableName: images
+            columns:
+              - column:
+                  name: number
+                  valueNumeric: 1
+              - column:
+                  name: name
+                  value: Metroludik 2026
+              - column:
+                  name: description
+                  value: Metroludik 2026 image
+              - column:
+                  name: object_key
+                  value: metroludik-2026.png
+              - column:
+                  name: media_type
+                  value: image/png
+              - column:
+                  name: size
+                  valueNumeric: 68

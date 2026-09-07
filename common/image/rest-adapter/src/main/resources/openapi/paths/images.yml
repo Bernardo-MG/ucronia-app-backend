@@ -1,105 +1,38 @@
-get:
-  summary: Get the image.
-  operationId: getImage
-  tags: [Image]
-  parameters:
-    - in: path
-      name: name
-      required: true
-      description: Image name.
-      schema:
-        type: string
-  responses:
-    '200':
-      description: Image content.
-      content:
-        image/png:
-          schema:
-            $ref: '../components/images.yml#/components/schemas/Image'
-        image/jpeg:
-          schema:
-            $ref: '../components/images.yml#/components/schemas/Image'
-        image/webp:
-          schema:
-            $ref: '../components/images.yml#/components/schemas/Image'
-        image/gif:
-          schema:
-            $ref: '../components/images.yml#/components/schemas/Image'
-    '400':
-      description: Invalid URL.
-    '404':
-      description: Image not found.
-delete:
-  summary: Delete an image.
-  operationId: deleteImage
-  tags: [Image]
-  parameters:
-    - in: path
-      name: name
-      required: true
-      description: Image name.
-      schema:
-        type: string
-  responses:
-    '204':
-      description: Image deleted.
-    '404':
-      description: Image not found.
 post:
-  summary: Upload an image.
-  operationId: uploadImage
+  summary: Create an image.
+  operationId: createImage
   tags: [Image]
-  parameters:
-    - in: path
-      name: name
-      required: true
-      description: Image name.
-      schema:
-        type: string
   requestBody:
     required: true
     content:
       multipart/form-data:
         schema:
           type: object
-          required: [file]
+          required: [name, description, file]
           properties:
-            file:
-              type: string
-              format: binary
+            name: { type: string, minLength: 1, maxLength: 100 }
+            description: { type: string, maxLength: 500 }
+            file: { type: string, format: binary }
   responses:
     '201':
-      description: Image uploaded.
-    '400':
-      description: Invalid image.
-    '409':
-      description: Image already exists.
-put:
-  summary: Update an image.
-  operationId: updateImage
+      description: Image created.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/images.yml#/components/schemas/ImageResponse'
+    '409': { description: Image name already exists. }
+get:
+  summary: Get all images.
+  operationId: getAllImages
   tags: [Image]
   parameters:
-    - in: path
-      name: name
-      required: true
-      description: Image name.
-      schema:
-        type: string
-  requestBody:
-    required: true
-    content:
-      multipart/form-data:
-        schema:
-          type: object
-          required: [file]
-          properties:
-            file:
-              type: string
-              format: binary
+    - $ref: '../common/pagination.yml#/components/parameters/pageParam'
+    - $ref: '../common/pagination.yml#/components/parameters/sizeParam'
+    - $ref: '../components/images.yml#/components/parameters/imagesSortParam'
   responses:
-    '204':
-      description: Image updated.
-    '400':
-      description: Invalid image.
-    '404':
-      description: Image not found.
+    '200':
+      description: Page of image metadata.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/images.yml#/components/schemas/ImagePageResponse'

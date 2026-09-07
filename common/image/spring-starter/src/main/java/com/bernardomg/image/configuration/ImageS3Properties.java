@@ -1,3 +1,4 @@
+
 package com.bernardomg.image.configuration;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -7,16 +8,16 @@ public class ImageS3Properties {
 
     private String  accessKey;
 
-    private String  bucket ;
+    private String  bucket;
 
     private String  endpoint;
 
     private boolean pathStyle;
 
-    private String  region ;
+    private String  region;
 
     private String  secretKey;
-    
+
     public ImageS3Properties() {
         super();
     }

@@ -1,5 +1,40 @@
 components:
+  parameters:
+    imagesSortParam:
+      name: sort
+      description: Sorting to apply.
+      in: query
+      style: form
+      explode: true
+      schema:
+        type: array
+        items:
+          type: string
+          pattern: '^(name|number|mediaType|size)\|(asc|desc)$'
+          example: name|asc
   schemas:
     Image:
+      type: object
+      properties:
+        number: { type: integer, format: int64 }
+        name: { type: string, minLength: 1, maxLength: 100 }
+        description: { type: string, maxLength: 500 }
+        mediaType: { type: string }
+        size: { type: integer, format: int64 }
+    ImageResponse:
+      type: object
+      properties:
+        content:
+          $ref: '#/components/schemas/Image'
+    ImagePageResponse:
+      allOf:
+        - $ref: '../common/responses.yml#/components/schemas/PageResponse'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/Image'
+    ImageContent:
       type: string
       format: binary

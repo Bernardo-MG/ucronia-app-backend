@@ -1,4 +1,7 @@
 databaseChangeLog:
+  # Images
+  - include:
+      file: classpath:db/changelog/image.yaml
   # Security
   - include:
       file: classpath:db/changelog/auth/initialize.yaml

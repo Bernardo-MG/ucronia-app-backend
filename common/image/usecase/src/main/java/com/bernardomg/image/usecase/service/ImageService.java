@@ -24,7 +24,11 @@
 
 package com.bernardomg.image.usecase.service;
 
+import com.bernardomg.image.domain.model.Image;
 import com.bernardomg.image.domain.model.ImageContent;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
 
 /**
  * Activity service. Supports all the CRUD operations.
@@ -34,12 +38,16 @@ import com.bernardomg.image.domain.model.ImageContent;
  */
 public interface ImageService {
 
-    public void create(final String name, final ImageContent content);
+    public Image create(final Image image, final ImageContent content);
 
-    public void delete(final String name);
+    public Image delete(final Long number);
 
-    public ImageContent getOne(final String name);
+    public Page<Image> getAll(final Pagination pagination, final Sorting sorting);
 
-    public void update(final String name, final ImageContent content);
+    public ImageContent getContent(final Long number);
+
+    public Image getOne(final Long number);
+
+    public Image update(final Image image, final ImageContent content);
 
 }

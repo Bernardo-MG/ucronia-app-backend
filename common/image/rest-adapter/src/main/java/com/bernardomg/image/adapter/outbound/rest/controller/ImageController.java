@@ -1,31 +1,9 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2022-2025 Bernardo Martínez Garrido
- * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * <p>
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * <p>
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
-
+/** The MIT License (MIT). Copyright (c) 2022-2025 Bernardo Martínez Garrido. */
 package com.bernardomg.image.adapter.outbound.rest.controller;
 
 import java.io.IOException;
 import java.util.Objects;
+import java.util.List;
 
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
@@ -38,84 +16,84 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.framework.security.access.annotation.Unsecured;
+import com.bernardomg.image.adapter.outbound.rest.dto.ImageResponseDto;
+import com.bernardomg.image.adapter.outbound.rest.dto.ImagePageResponseDto;
+import com.bernardomg.image.adapter.outbound.rest.model.ImageDtoMapper;
+import com.bernardomg.image.domain.model.Image;
 import com.bernardomg.image.domain.model.ImageContent;
 import com.bernardomg.image.usecase.service.ImageService;
 import com.bernardomg.security.domain.permission.constant.Actions;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
+import com.bernardomg.pagination.web.WebSorting;
 
-/**
- * Activity REST controller.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
- */
 @RestController
 public class ImageController implements ImageApi {
-
     private final ImageService service;
 
-    public ImageController(final ImageService service) {
-        super();
+    public ImageController(final ImageService imageService) {
+        service = Objects.requireNonNull(imageService);
+    }
 
-        this.service = Objects.requireNonNull(service);
+    @Override
+    @RequireResourceAuthorization(resource = "IMAGE", action = Actions.CREATE)
+    public ResponseEntity<ImageResponseDto> createImage(final String name, final String description,
+            final MultipartFile file) {
+        final ImageContent content = getImageContent(file);
+        final ImageResponseDto response = ImageDtoMapper.toResponseDto(service.create(
+            new Image(-1L, name, description, "", content.mediaType(), content.data().length), content));
+        return ResponseEntity.status(HttpStatus.CREATED)
+            .body(response);
     }
 
     @Override
     @RequireResourceAuthorization(resource = "IMAGE", action = Actions.DELETE)
-    public ResponseEntity<Void> deleteImage(final String name) {
-        service.delete(name);
-
-        return ResponseEntity.noContent()
-            .build();
+    public ResponseEntity<ImageResponseDto> deleteImage(final Long number) {
+        return ResponseEntity.ok(ImageDtoMapper.toResponseDto(service.delete(number)));
     }
 
     @Override
     @Unsecured
-    public ResponseEntity<Resource> getImage(final String name) {
-        final ImageContent content;
+    public ResponseEntity<ImagePageResponseDto> getAllImages(final Integer page, final Integer size,
+            final List<String> sort) {
+        final Pagination pagination = new Pagination(page, size);
+        final Sorting sorting = WebSorting.toSorting(sort);
+        final Page<Image> images = service.getAll(pagination, sorting);
+        return ResponseEntity.ok(ImageDtoMapper.toResponseDto(images));
+    }
 
-        content = service.getOne(name);
+    @Override
+    @Unsecured
+    public ResponseEntity<ImageResponseDto> getImage(final Long number) {
+        return ResponseEntity.ok(ImageDtoMapper.toResponseDto(service.getOne(number)));
+    }
 
-        // TODO: return the image content structure
-        return ResponseEntity.ok()
-            .contentType(MediaType.parseMediaType(content.mediaType()))
+    @Override
+    @Unsecured
+    public ResponseEntity<Resource> getImageContent(final Long number) {
+        final ImageContent content = service.getContent(number);
+        return ResponseEntity.ok().contentType(MediaType.parseMediaType(content.mediaType()))
             .body(new ByteArrayResource(content.data()));
     }
 
     @Override
     @RequireResourceAuthorization(resource = "IMAGE", action = Actions.UPDATE)
-    public ResponseEntity<Void> updateImage(final String name, final MultipartFile file) {
-        service.update(name, getImageContent(file));
-
-        return ResponseEntity.noContent()
-            .build();
-    }
-
-    @Override
-    @RequireResourceAuthorization(resource = "IMAGE", action = Actions.CREATE)
-    public ResponseEntity<Void> uploadImage(final String name, final MultipartFile file) {
-        service.create(name, getImageContent(file));
-
-        return ResponseEntity.status(HttpStatus.CREATED)
-            .build();
+    public ResponseEntity<ImageResponseDto> updateImage(final Long number, final String name, final String description,
+            final MultipartFile file) {
+        final ImageContent content = getImageContent(file);
+        final ImageResponseDto response = ImageDtoMapper.toResponseDto(service.update(
+            new Image(number, name, description, "", content.mediaType(), content.data().length), content));
+        return ResponseEntity.ok(response);
     }
 
     private ImageContent getImageContent(final MultipartFile file) {
-        final String mediaType;
-        final byte[] data;
-
-        if (file.getContentType() == null) {
-            mediaType = MediaType.APPLICATION_OCTET_STREAM_VALUE;
-        } else {
-            mediaType = file.getContentType();
-        }
-
+        final String mediaType = file.getContentType() == null ? MediaType.APPLICATION_OCTET_STREAM_VALUE
+                : file.getContentType();
         try {
-            data = file.getBytes();
+            return new ImageContent(file.getBytes(), mediaType);
         } catch (final IOException ex) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unable to read image", ex);
         }
-
-        return new ImageContent(data, mediaType);
     }
-
 }

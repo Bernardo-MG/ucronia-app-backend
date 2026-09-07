@@ -28,88 +28,115 @@ import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 import com.bernardomg.image.domain.exception.ImageAlreadyExistsException;
 import com.bernardomg.image.domain.exception.ImageNotExistingException;
+import com.bernardomg.image.domain.model.Image;
 import com.bernardomg.image.domain.model.ImageContent;
+import com.bernardomg.image.domain.repository.ImageRepository;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
 
+import jakarta.transaction.Transactional;
 import software.amazon.awssdk.core.ResponseBytes;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.GetObjectResponse;
-import software.amazon.awssdk.services.s3.model.HeadObjectRequest;
 import software.amazon.awssdk.services.s3.model.NoSuchKeyException;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
-import software.amazon.awssdk.services.s3.model.S3Exception;
 
 /**
  * Loads images from an S3-compatible object store.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
+@Transactional
 public final class DefaultImageService implements ImageService {
 
     /**
      * Logger for the class.
      */
-    private static final Logger log = LoggerFactory.getLogger(DefaultImageService.class);
+    private static final Logger   log = LoggerFactory.getLogger(DefaultImageService.class);
 
-    private final String        bucket;
+    private final String          bucket;
 
-    private final S3Client      client;
+    private final S3Client        client;
 
-    public DefaultImageService(final S3Client s3Client, final String s3Bucket) {
+    private final ImageRepository repository;
+
+    public DefaultImageService(final ImageRepository imageRepository, final S3Client s3Client, final String s3Bucket) {
         super();
 
         client = Objects.requireNonNull(s3Client);
+        repository = Objects.requireNonNull(imageRepository);
         bucket = Objects.requireNonNull(s3Bucket);
     }
 
     @Override
-    public final void create(final String name, final ImageContent content) {
-        if (imageExists(name)) {
-            log.error("Image {} already exists", name);
-            throw new ImageAlreadyExistsException(name);
+    public final Image create(final Image image, final ImageContent content) {
+        final Image toCreate;
+        final Image created;
+
+        if (repository.existsByName(image.name())) {
+            log.error("Image {} already exists", image.name());
+            throw new ImageAlreadyExistsException(image.name());
         }
 
-        storeImage(name, content);
+        toCreate = new Image(image.number(), image.name(), image.description(), image.key(), content.mediaType(),
+            content.data().length);
+        created = repository.save(toCreate);
+        storeImage(created.key(), content);
+
+        return created;
     }
 
     @Override
-    public final void delete(final String name) {
+    public final Image delete(final Long number) {
         final DeleteObjectRequest request;
+        final Image               image;
 
-        if (!imageExists(name)) {
-            log.error("Image {} doesn't exist", name);
-            throw new ImageNotExistingException(name);
-        }
+        image = getOne(number);
 
         request = DeleteObjectRequest.builder()
             .bucket(bucket)
-            .key(name)
+            .key(image.key())
             .build();
+        repository.delete(number);
         client.deleteObject(request);
+
+        return image;
     }
 
     @Override
-    public final ImageContent getOne(final String name) {
+    public final Page<Image> getAll(final Pagination pagination, final Sorting sorting) {
+        return repository.findAll(pagination, sorting);
+    }
+
+    @Override
+    public final ImageContent getContent(final Long number) {
         final GetObjectRequest                 request;
         final ResponseBytes<GetObjectResponse> response;
         final String                           mediaType;
+        final Image                            image;
 
+        image = repository.findOne(number)
+            .orElseThrow(() -> {
+                log.error("Image {} doesn't exist", number);
+                return new ImageNotExistingException(number);
+            });
         request = GetObjectRequest.builder()
             .bucket(bucket)
-            .key(name)
+            .key(image.key())
             .build();
         try {
             response = client.getObjectAsBytes(request);
         } catch (final NoSuchKeyException ex) {
-            log.error("Image {} doesn't exist", name);
-            throw new ImageNotExistingException(name);
+            log.error("Image {} doesn't exist", number);
+            throw new ImageNotExistingException(number);
         }
 
         mediaType = response.response()
@@ -119,33 +146,33 @@ public final class DefaultImageService implements ImageService {
     }
 
     @Override
-    public final void update(final String name, final ImageContent content) {
-        if (!imageExists(name)) {
-            log.error("Image {} doesn't exist", name);
-            throw new ImageNotExistingException(name);
-        }
-        storeImage(name, content);
+    public final Image getOne(final Long number) {
+        return repository.findOne(number)
+            .orElseThrow(() -> {
+                log.error("Image {} doesn't exist", number);
+                return new ImageNotExistingException(number);
+            });
     }
 
-    private final boolean imageExists(final String name) {
-        final HeadObjectRequest request;
-        boolean                 result;
+    @Override
+    public final Image update(final Image image, final ImageContent content) {
+        final Image existing;
+        final Image updated;
 
-        request = HeadObjectRequest.builder()
-            .bucket(bucket)
-            .key(name)
-            .build();
-        try {
-            client.headObject(request);
-            result = true;
-        } catch (final S3Exception ex) {
-            if (ex.statusCode() != HttpStatus.NOT_FOUND.value()) {
-                throw ex;
-            }
-            result = false;
+        existing = repository.findOne(image.number())
+            .orElseThrow(() -> {
+                log.error("Image {} doesn't exist", image.number());
+                return new ImageNotExistingException(image.number());
+            });
+        if (repository.existsByNameForAnother(image.name(), image.number())) {
+            log.error("Image {} already exists", image.name());
+            throw new ImageAlreadyExistsException(image.name());
         }
-
-        return result;
+        updated = repository.save(new Image(image.number(), image.name(), image.description(), existing.key(),
+            content.mediaType(), content.data().length));
+        storeImage(updated.key(), content);
+        
+        return updated;
     }
 
     private final void storeImage(final String name, final ImageContent content) {
