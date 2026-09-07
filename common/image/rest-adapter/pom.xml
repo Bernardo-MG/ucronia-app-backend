@@ -53,6 +53,17 @@
          <artifactId>spring-ws-security-starter</artifactId>
       </dependency>
       <!-- ============================================== -->
+      <!-- ================== OPENAPI =================== -->
+      <!-- ============================================== -->
+      <dependency>
+        <groupId>org.openapitools</groupId>
+        <artifactId>jackson-databind-nullable</artifactId>
+      </dependency>
+      <dependency>
+        <groupId>io.swagger.core.v3</groupId>
+        <artifactId>swagger-annotations</artifactId>
+      </dependency>
+      <!-- ============================================== -->
       <!-- ================= JAKARTA ==================== -->
       <!-- ============================================== -->
       <dependency>
@@ -74,16 +85,40 @@
          <scope>provided</scope>
       </dependency>
       <!-- ============================================== -->
+      <!-- ================== SPRING ==================== -->
+      <!-- ============================================== -->
+      <dependency>
+         <!-- Spring Web MVC -->
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-web</artifactId>
+      </dependency>
+      <dependency>
+         <!-- Spring Context -->
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-context</artifactId>
+      </dependency>
+      <!-- ============================================== -->
       <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
       <!-- ============================================== -->
       <dependency>
-         <groupId>org.springframework</groupId>
-         <artifactId>spring-webmvc</artifactId>
+         <groupId>com.bernardomg.image</groupId>
+         <artifactId>image-testing</artifactId>
          <scope>test</scope>
       </dependency>
       <dependency>
-         <groupId>com.bernardomg.image</groupId>
-         <artifactId>image-testing</artifactId>
+         <groupId>com.fasterxml.jackson.datatype</groupId>
+         <artifactId>jackson-datatype-jsr310</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>org.hibernate.validator</groupId>
+         <artifactId>hibernate-validator</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <!-- Spring Web MVC -->
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-webmvc</artifactId>
          <scope>test</scope>
       </dependency>
    </dependencies>

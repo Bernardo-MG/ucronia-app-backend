@@ -1,9 +1,10 @@
 /** The MIT License (MIT). Copyright (c) 2022-2025 Bernardo Martínez Garrido. */
+
 package com.bernardomg.image.adapter.outbound.rest.controller;
 
 import java.io.IOException;
-import java.util.Objects;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
@@ -16,20 +17,21 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.framework.security.access.annotation.Unsecured;
-import com.bernardomg.image.adapter.outbound.rest.dto.ImageResponseDto;
 import com.bernardomg.image.adapter.outbound.rest.dto.ImagePageResponseDto;
+import com.bernardomg.image.adapter.outbound.rest.dto.ImageResponseDto;
 import com.bernardomg.image.adapter.outbound.rest.model.ImageDtoMapper;
 import com.bernardomg.image.domain.model.Image;
 import com.bernardomg.image.domain.model.ImageContent;
 import com.bernardomg.image.usecase.service.ImageService;
-import com.bernardomg.security.domain.permission.constant.Actions;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.web.WebSorting;
+import com.bernardomg.security.domain.permission.constant.Actions;
 
 @RestController
 public class ImageController implements ImageApi {
+
     private final ImageService service;
 
     public ImageController(final ImageService imageService) {
@@ -40,9 +42,9 @@ public class ImageController implements ImageApi {
     @RequireResourceAuthorization(resource = "IMAGE", action = Actions.CREATE)
     public ResponseEntity<ImageResponseDto> createImage(final String name, final String description,
             final MultipartFile file) {
-        final ImageContent content = getImageContent(file);
-        final ImageResponseDto response = ImageDtoMapper.toResponseDto(service.create(
-            new Image(-1L, name, description, "", content.mediaType(), content.data().length), content));
+        final ImageContent     content  = getImageContent(file);
+        final ImageResponseDto response = ImageDtoMapper.toResponseDto(
+            service.create(new Image(-1L, name, description, "", content.mediaType(), content.data().length), content));
         return ResponseEntity.status(HttpStatus.CREATED)
             .body(response);
     }
@@ -57,9 +59,9 @@ public class ImageController implements ImageApi {
     @Unsecured
     public ResponseEntity<ImagePageResponseDto> getAllImages(final Integer page, final Integer size,
             final List<String> sort) {
-        final Pagination pagination = new Pagination(page, size);
-        final Sorting sorting = WebSorting.toSorting(sort);
-        final Page<Image> images = service.getAll(pagination, sorting);
+        final Pagination  pagination = new Pagination(page, size);
+        final Sorting     sorting    = WebSorting.toSorting(sort);
+        final Page<Image> images     = service.getAll(pagination, sorting);
         return ResponseEntity.ok(ImageDtoMapper.toResponseDto(images));
     }
 
@@ -73,7 +75,8 @@ public class ImageController implements ImageApi {
     @Unsecured
     public ResponseEntity<Resource> getImageContent(final Long number) {
         final ImageContent content = service.getContent(number);
-        return ResponseEntity.ok().contentType(MediaType.parseMediaType(content.mediaType()))
+        return ResponseEntity.ok()
+            .contentType(MediaType.parseMediaType(content.mediaType()))
             .body(new ByteArrayResource(content.data()));
     }
 
@@ -81,9 +84,9 @@ public class ImageController implements ImageApi {
     @RequireResourceAuthorization(resource = "IMAGE", action = Actions.UPDATE)
     public ResponseEntity<ImageResponseDto> updateImage(final Long number, final String name, final String description,
             final MultipartFile file) {
-        final ImageContent content = getImageContent(file);
-        final ImageResponseDto response = ImageDtoMapper.toResponseDto(service.update(
-            new Image(number, name, description, "", content.mediaType(), content.data().length), content));
+        final ImageContent     content  = getImageContent(file);
+        final ImageResponseDto response = ImageDtoMapper.toResponseDto(service
+            .update(new Image(number, name, description, "", content.mediaType(), content.data().length), content));
         return ResponseEntity.ok(response);
     }
 
@@ -96,4 +99,5 @@ public class ImageController implements ImageApi {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unable to read image", ex);
         }
     }
+
 }
