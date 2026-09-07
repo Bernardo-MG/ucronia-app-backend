@@ -1,20 +1,40 @@
-#!/bin/sh
-set -eu
+import base64
+import os
 
-BUCKET="${IMAGE_S3_BUCKET:-ucronia-images}"
-SAMPLE_FILE="/tmp/metroludik-2026.png"
+import boto3
+from botocore.exceptions import ClientError
 
-if ! awslocal s3api head-bucket --bucket "${BUCKET}" 2>/dev/null; then
-  awslocal s3api create-bucket \
-    --bucket "${BUCKET}" \
-    --create-bucket-configuration LocationConstraint=eu-west-1
-fi
 
-printf '%s' 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=' \
-  | base64 -d > "${SAMPLE_FILE}"
+bucket = os.getenv("IMAGE_S3_BUCKET", "ucronia-images")
+region = os.getenv("AWS_DEFAULT_REGION", "eu-west-1")
+s3 = boto3.client(
+    "s3",
+    endpoint_url="http://localhost:4566",
+    region_name=region,
+    aws_access_key_id="test",
+    aws_secret_access_key="test",
+)
 
-awslocal s3api put-object \
-  --bucket "${BUCKET}" \
-  --key metroludik-2026.png \
-  --body "${SAMPLE_FILE}" \
-  --content-type image/png
+try:
+    s3.head_bucket(Bucket=bucket)
+except ClientError as error:
+    if error.response["ResponseMetadata"]["HTTPStatusCode"] != 404:
+        raise
+
+    create_parameters = {"Bucket": bucket}
+    if region != "us-east-1":
+        create_parameters["CreateBucketConfiguration"] = {
+            "LocationConstraint": region,
+        }
+
+    s3.create_bucket(**create_parameters)
+
+s3.put_object(
+    Bucket=bucket,
+    Key="metroludik-2026.png",
+    Body=base64.b64decode(
+        "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0l"
+        "EQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII="
+    ),
+    ContentType="image/png",
+)

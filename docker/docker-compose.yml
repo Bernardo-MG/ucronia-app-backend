@@ -107,23 +107,41 @@ services:
       retries: 5
     networks:
       - mail
+
   s3:
     image: localstack/localstack:4.4.0
     environment:
       - SERVICES=s3
       - AWS_DEFAULT_REGION=eu-west-1
+      - IMAGE_S3_BUCKET=ucronia-images
     ports:
       - "4566:4566"
     healthcheck:
-      test: ["CMD", "curl", "--fail", "http://localhost:4566/_localstack/health"]
+      test: ["CMD-SHELL", "awslocal s3api list-buckets >/dev/null 2>&1"]
       interval: 5s
       timeout: 5s
       retries: 20
     volumes:
       - s3-data:/var/lib/localstack
-      - ./localstack/init-s3.sh:/etc/localstack/init/ready.d/init-s3.sh:ro
     networks:
       - object-storage
+
+  s3-init:
+    image: localstack/localstack:4.4.0
+    depends_on:
+      s3:
+        condition: service_healthy
+    entrypoint: ["python3", "/init/init-s3.py"]
+    environment:
+      - AWS_DEFAULT_REGION=eu-west-1
+      - AWS_ENDPOINT_URL=http://s3:4566
+      - IMAGE_S3_BUCKET=ucronia-images
+    volumes:
+      - ./localstack/init-s3.py:/init/init-s3.py:ro
+    restart: "no"
+    networks:
+      - object-storage
+
   #============#
   # MONITORING #
   #============#
