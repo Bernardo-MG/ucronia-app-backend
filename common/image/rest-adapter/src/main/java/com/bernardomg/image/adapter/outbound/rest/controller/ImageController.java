@@ -36,8 +36,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
+import com.bernardomg.framework.security.access.annotation.Unsecured;
 import com.bernardomg.image.domain.model.ImageContent;
 import com.bernardomg.image.usecase.service.ImageService;
+import com.bernardomg.security.domain.permission.constant.Actions;
 
 /**
  * Activity REST controller.
@@ -57,6 +60,7 @@ public class ImageController implements ImageApi {
     }
 
     @Override
+    @Unsecured
     public ResponseEntity<Resource> getImage(final String name) {
         final ImageContent content;
 
@@ -69,6 +73,7 @@ public class ImageController implements ImageApi {
     }
 
     @Override
+    @RequireResourceAuthorization(resource = "IMAGE", action = Actions.CREATE)
     public ResponseEntity<Void> uploadImage(final String name, final MultipartFile file) {
         final String mediaType;
         final byte[] data;
