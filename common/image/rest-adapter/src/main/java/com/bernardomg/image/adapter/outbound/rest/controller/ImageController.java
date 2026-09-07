@@ -60,6 +60,15 @@ public class ImageController implements ImageApi {
     }
 
     @Override
+    @RequireResourceAuthorization(resource = "IMAGE", action = Actions.DELETE)
+    public ResponseEntity<Void> deleteImage(final String name) {
+        service.deleteImage(name);
+
+        return ResponseEntity.noContent()
+            .build();
+    }
+
+    @Override
     @Unsecured
     public ResponseEntity<Resource> getImage(final String name) {
         final ImageContent content;

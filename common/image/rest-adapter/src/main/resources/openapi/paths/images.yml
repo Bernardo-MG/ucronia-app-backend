@@ -29,6 +29,22 @@ get:
       description: Invalid URL.
     '404':
       description: Image not found.
+delete:
+  summary: Delete an image.
+  operationId: deleteImage
+  tags: [Image]
+  parameters:
+    - in: path
+      name: name
+      required: true
+      description: Image name.
+      schema:
+        type: string
+  responses:
+    '204':
+      description: Image deleted.
+    '404':
+      description: Image not found.
 post:
   summary: Upload an image.
   operationId: uploadImage

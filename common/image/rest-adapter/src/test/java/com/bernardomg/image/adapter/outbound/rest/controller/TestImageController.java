@@ -26,6 +26,7 @@ package com.bernardomg.image.adapter.outbound.rest.controller;
 
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -60,6 +61,16 @@ class TestImageController {
     void setUp() {
         mockMvc = MockMvcBuilders.standaloneSetup(new ImageController(service))
             .build();
+    }
+
+    @Test
+    @DisplayName("When deleting an image, it is accepted and deleted")
+    void testDeleteImage() throws Exception {
+        // WHEN + THEN
+        mockMvc.perform(delete("/images/{name}", ImageConstants.NAME))
+            .andExpect(status().isNoContent());
+
+        verify(service).deleteImage(ImageConstants.NAME);
     }
 
     @Test

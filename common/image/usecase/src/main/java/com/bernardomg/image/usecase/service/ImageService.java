@@ -36,6 +36,8 @@ public interface ImageService {
 
     public void createImage(final String name, final ImageContent content);
 
+    public void deleteImage(final String name);
+
     public ImageContent getImage(final String name);
 
     public void updateImage(final String name, final ImageContent content);

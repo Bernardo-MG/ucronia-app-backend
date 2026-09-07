@@ -38,6 +38,7 @@ import com.bernardomg.image.domain.model.ImageContent;
 import software.amazon.awssdk.core.ResponseBytes;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.GetObjectResponse;
 import software.amazon.awssdk.services.s3.model.HeadObjectRequest;
@@ -79,6 +80,22 @@ public final class DefaultImageService implements ImageService {
     }
 
     @Override
+    public final void deleteImage(final String name) {
+        final DeleteObjectRequest request;
+
+        if (!imageExists(name)) {
+            log.error("Image {} doesn't exist", name);
+            throw new ImageNotExistingException(name);
+        }
+
+        request = DeleteObjectRequest.builder()
+            .bucket(bucket)
+            .key(name)
+            .build();
+        client.deleteObject(request);
+    }
+
+    @Override
     public final ImageContent getImage(final String name) {
         final GetObjectRequest                 request;
         final ResponseBytes<GetObjectResponse> response;
@@ -112,7 +129,7 @@ public final class DefaultImageService implements ImageService {
 
     private final boolean imageExists(final String name) {
         final HeadObjectRequest request;
-         boolean result;
+        boolean                 result;
 
         request = HeadObjectRequest.builder()
             .bucket(bucket)
@@ -122,11 +139,10 @@ public final class DefaultImageService implements ImageService {
             client.headObject(request);
             result = true;
         } catch (final S3Exception ex) {
-            if (ex.statusCode() == HttpStatus.NOT_FOUND.value()) {
-                result= false;
-            } else {
+            if (ex.statusCode() != HttpStatus.NOT_FOUND.value()) {
                 throw ex;
             }
+            result = false;
         }
 
         return result;
