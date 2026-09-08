@@ -27,11 +27,10 @@ package com.bernardomg.image.configuration;
 import java.net.URI;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.HttpMethod;
 
 import com.bernardomg.image.adapter.inbound.jpa.repository.ImageSpringRepository;
@@ -48,9 +47,8 @@ import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.S3ClientBuilder;
 
 @AutoConfiguration
-@ComponentScan({ "com.bernardomg.image.adapter.outbound.rest.controller", "com.bernardomg.image.adapter.inbound.jpa" })
-@EnableJpaRepositories(basePackages = "com.bernardomg.image.adapter.inbound.jpa.repository")
-@EntityScan(basePackages = "com.bernardomg.image.adapter.inbound.jpa.model")
+@ComponentScan({ "com.bernardomg.image.adapter.outbound.rest.controller" })
+@AutoConfigurationPackage(basePackages = { "com.bernardomg.image.adapter.inbound.jpa" })
 @EnableConfigurationProperties(ImageS3Properties.class)
 public class AssociationImageAutoConfiguration {
 
