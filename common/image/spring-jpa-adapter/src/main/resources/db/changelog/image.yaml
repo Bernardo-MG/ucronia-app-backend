@@ -1,0 +1,80 @@
+databaseChangeLog:
+  - changeSet:
+      id: image_schema
+      author: Bernardo
+      changes:
+        - sql:
+            sql: CREATE SCHEMA IF NOT EXISTS image
+  - changeSet:
+      id: image_table
+      author: Bernardo
+      changes:
+        - createTable:
+            schemaName: image
+            tableName: images
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: number
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: name
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: description
+                  type: VARCHAR(500)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: object_key
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: media_type
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: size
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              # Audit columns
+              - column:
+                  name: created_at
+                  type: datetime
+                  constraints:
+                    nullable: true
+              - column:
+                  name: created_by
+                  type: bigint
+                  constraints:
+                    nullable: true
+                    foreignKeyName: fk_images_created_by_user
+                    references: security.users(id)
+              - column:
+                  name: updated_at
+                  type: datetime
+                  constraints:
+                    nullable: true
+              - column:
+                  name: updated_by
+                  type: bigint
+                  constraints:
+                    nullable: true
+                    foreignKeyName: fk_images_updated_by_user
+                    references: security.users(id)

@@ -1,0 +1,27 @@
+get:
+  summary: Get image content.
+  operationId: getImageContent
+  tags: [Image]
+  parameters:
+    - in: path
+      name: number
+      required: true
+      description: Image number.
+      schema: { type: integer, format: int64 }
+  responses:
+    '200':
+      description: Image content.
+      content:
+        image/png:
+          schema:
+            $ref: '../components/images.yml#/components/schemas/ImageContent'
+        image/jpeg:
+          schema:
+            $ref: '../components/images.yml#/components/schemas/ImageContent'
+        image/webp:
+          schema:
+            $ref: '../components/images.yml#/components/schemas/ImageContent'
+        image/gif:
+          schema:
+            $ref: '../components/images.yml#/components/schemas/ImageContent'
+    '404': { description: Image not found. }

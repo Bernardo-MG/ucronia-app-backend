@@ -1,4 +1,10 @@
 permissions:
+  - resource: image
+    actions:
+      - create
+      - read
+      - update
+      - delete
   - resource: activity
     actions:
       - create
