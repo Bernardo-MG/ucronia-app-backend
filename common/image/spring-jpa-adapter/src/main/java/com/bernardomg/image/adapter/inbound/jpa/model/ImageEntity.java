@@ -4,8 +4,14 @@ package com.bernardomg.image.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
 
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditMetadata;
+
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -13,9 +19,13 @@ import jakarta.persistence.Table;
 
 @Entity(name = "Image")
 @Table(schema = "image", name = "images")
+@EntityListeners(AuditingEntityListener.class)
 public class ImageEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    @Embedded
+    private AuditMetadata     audit            = new AuditMetadata();
 
     @Column(name = "description", nullable = false, length = 500)
     private String            description;
@@ -39,6 +49,10 @@ public class ImageEntity implements Serializable {
 
     @Column(name = "size", nullable = false)
     private Long              size;
+
+    public AuditMetadata getAudit() {
+        return audit;
+    }
 
     public String getDescription() {
         return description;
@@ -66,6 +80,10 @@ public class ImageEntity implements Serializable {
 
     public Long getSize() {
         return size;
+    }
+
+    public void setAudit(final AuditMetadata value) {
+        audit = value;
     }
 
     public void setDescription(final String value) {
@@ -98,6 +116,7 @@ public class ImageEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "ImageEntity [id=" + id + ", number=" + number + ", name=" + name + ", key=" + key + "]";
+        return "ImageEntity [id=" + id + ", number=" + number + ", name=" + name + ", key=" + key + ", audit=" + audit
+                + "]";
     }
 }

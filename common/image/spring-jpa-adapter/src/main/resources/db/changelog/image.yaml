@@ -53,3 +53,28 @@ databaseChangeLog:
                   type: BIGINT
                   constraints:
                     nullable: false
+              # Audit columns
+              - column:
+                  name: created_at
+                  type: datetime
+                  constraints:
+                    nullable: true
+              - column:
+                  name: created_by
+                  type: bigint
+                  constraints:
+                    nullable: true
+                    foreignKeyName: fk_images_created_by_user
+                    references: security.users(id)
+              - column:
+                  name: updated_at
+                  type: datetime
+                  constraints:
+                    nullable: true
+              - column:
+                  name: updated_by
+                  type: bigint
+                  constraints:
+                    nullable: true
+                    foreignKeyName: fk_images_updated_by_user
+                    references: security.users(id)

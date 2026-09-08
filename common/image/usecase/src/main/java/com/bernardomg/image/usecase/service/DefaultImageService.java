@@ -169,9 +169,9 @@ public final class DefaultImageService implements ImageService {
             throw new ImageAlreadyExistsException(image.name());
         }
         updated = repository.save(new Image(image.number(), image.name(), image.description(), existing.key(),
-            content.mediaType(), content.data().length));
+            content.mediaType(), content.data().length, existing.audit()));
         storeImage(updated.key(), content);
-        
+
         return updated;
     }
 

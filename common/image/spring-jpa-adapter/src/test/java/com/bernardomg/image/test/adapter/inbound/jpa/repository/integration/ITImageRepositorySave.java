@@ -43,7 +43,7 @@ class ITImageRepositorySave {
         // THEN
         Assertions.assertThat(springRepository.findAll())
             .as("images")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "audit")
             .containsExactly(ImageEntities.nameChange());
     }
 
@@ -63,6 +63,8 @@ class ITImageRepositorySave {
         // THEN
         Assertions.assertThat(saved)
             .as("image")
+            .usingRecursiveComparison()
+            .ignoringFields("audit")
             .isEqualTo(Images.nameChange());
     }
 
@@ -75,7 +77,7 @@ class ITImageRepositorySave {
         // THEN
         Assertions.assertThat(springRepository.findAll())
             .as("images")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "audit")
             .containsExactly(ImageEntities.valid());
     }
 
@@ -90,6 +92,8 @@ class ITImageRepositorySave {
         // THEN
         Assertions.assertThat(saved)
             .as("image")
+            .usingRecursiveComparison()
+            .ignoringFields("audit")
             .isEqualTo(Images.valid());
     }
 }

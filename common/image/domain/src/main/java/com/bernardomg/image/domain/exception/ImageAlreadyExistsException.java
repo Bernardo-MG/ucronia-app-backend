@@ -37,7 +37,7 @@ public final class ImageAlreadyExistsException extends RuntimeException {
     /**
      * Name which caused the exception.
      */
-    private final  String name;
+    private final String      name;
 
     public ImageAlreadyExistsException(final String name) {
         super(String.format("Image with name %s already exists", name));

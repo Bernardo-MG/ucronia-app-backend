@@ -37,7 +37,7 @@ public final class ImageNotExistingException extends RuntimeException {
     /**
      * Number which caused the exception.
      */
-    private final  long number;
+    private final long        number;
 
     public ImageNotExistingException(final long number) {
         super(String.format("Image %s doesn't exist", number));

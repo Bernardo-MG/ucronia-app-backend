@@ -21,6 +21,8 @@ components:
         description: { type: string, maxLength: 500 }
         mediaType: { type: string }
         size: { type: integer, format: int64 }
+        audit:
+          $ref: 'audit.yml#/components/schemas/AuditDetails'
     ImageResponse:
       type: object
       properties:
