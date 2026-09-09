@@ -28,7 +28,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -177,7 +176,7 @@ public final class JpaActivityRepository implements ActivityRepository {
         // TODO: shouldn't be needed
         createdDates = calendarDateSpringRepository.saveAll(entity.getCalendarDates());
 
-        entity.setCalendarDates(Set.copyOf(createdDates));
+        entity.setCalendarDates(createdDates);
 
         setType(entity);
         setStatus(entity, CalendarStatus.PUBLISHED);

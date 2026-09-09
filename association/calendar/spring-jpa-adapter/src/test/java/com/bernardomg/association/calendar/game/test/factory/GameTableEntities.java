@@ -6,22 +6,23 @@ import com.bernardomg.association.calendar.game.test.configuration.factory.GameT
 
 public final class GameTableEntities {
 
-    public static final GameTableEntity valid() {
-        final GameTableEntity entity;
-
-        entity = new GameTableEntity();
-        entity.setNumber(GameTableConstants.NUMBER);
-        entity.setName(GameTableConstants.NAME);
-        entity.setDescription(GameTableConstants.DESCRIPTION);
-
-        return entity;
-    }
     public static final GameTableEntity nameChange() {
         final GameTableEntity entity;
 
         entity = new GameTableEntity();
         entity.setNumber(GameTableConstants.NUMBER);
         entity.setName(GameTableConstants.ALTERNATIVE_NAME);
+        entity.setDescription(GameTableConstants.DESCRIPTION);
+
+        return entity;
+    }
+
+    public static final GameTableEntity valid() {
+        final GameTableEntity entity;
+
+        entity = new GameTableEntity();
+        entity.setNumber(GameTableConstants.NUMBER);
+        entity.setName(GameTableConstants.NAME);
         entity.setDescription(GameTableConstants.DESCRIPTION);
 
         return entity;

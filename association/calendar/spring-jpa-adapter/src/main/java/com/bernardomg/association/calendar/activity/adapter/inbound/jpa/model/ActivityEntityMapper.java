@@ -24,9 +24,8 @@
 
 package com.bernardomg.association.calendar.activity.adapter.inbound.jpa.model;
 
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import com.bernardomg.association.calendar.activity.domain.model.Activity;
 import com.bernardomg.association.calendar.activity.domain.model.Activity.ActivityDate;
@@ -58,8 +57,8 @@ public final class ActivityEntityMapper {
     }
 
     public static final CalendarInfoEntity toEntity(final Activity activity) {
-        final CalendarInfoEntity      entity;
-        final Set<CalendarDateEntity> dates;
+        final CalendarInfoEntity             entity;
+        final Collection<CalendarDateEntity> dates;
 
         entity = new CalendarInfoEntity();
         entity.setNumber(activity.number());
@@ -71,7 +70,7 @@ public final class ActivityEntityMapper {
         dates = activity.dates()
             .stream()
             .map(ActivityEntityMapper::toEntity)
-            .collect(Collectors.toSet());
+            .toList();
         entity.setCalendarDates(dates);
 
         return entity;
