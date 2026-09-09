@@ -30,13 +30,3 @@ except ClientError as error:
         }
 
     s3.create_bucket(**create_parameters)
-
-s3.put_object(
-    Bucket=bucket,
-    Key="metroludik-2026.png",
-    Body=base64.b64decode(
-        "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0l"
-        "EQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII="
-    ),
-    ContentType="image/png",
-)
