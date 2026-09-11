@@ -16,12 +16,20 @@ public final class CalendarDateConstants {
         .plus(2L, ChronoUnit.DAYS)
         .plus(5L, ChronoUnit.HOURS);
 
+    public static final Instant FROM         = LocalDateTime.of(2020, Month.JANUARY, 1, 12, 0)
+        .toInstant(ZoneOffset.UTC);
+
     public static final Instant START        = LocalDateTime.of(2020, Month.FEBRUARY, 1, 14, 0)
         .toInstant(ZoneOffset.UTC);
 
     public static final Instant START_FUTURE = Instant.now()
         .plus(2L, ChronoUnit.DAYS);
 
-    public static final String  TITLE        = "Title";
+    public static final Instant TO           = LocalDateTime.of(2020, Month.JANUARY, 1, 14, 0)
+        .toInstant(ZoneOffset.UTC);
+
+    private CalendarDateConstants() {
+        super();
+    }
 
 }

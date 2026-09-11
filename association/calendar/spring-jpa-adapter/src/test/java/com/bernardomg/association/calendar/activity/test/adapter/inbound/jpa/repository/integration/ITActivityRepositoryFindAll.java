@@ -26,6 +26,7 @@ package com.bernardomg.association.calendar.activity.test.adapter.inbound.jpa.re
 
 import java.time.Month;
 import java.time.temporal.ChronoUnit;
+import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.InstanceOfAssertFactories;
@@ -36,6 +37,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.calendar.TestApplication;
+import com.bernardomg.association.calendar.activity.domain.filter.ActivityFilter;
 import com.bernardomg.association.calendar.activity.domain.model.Activity;
 import com.bernardomg.association.calendar.activity.domain.model.Activity.ActivityDate;
 import com.bernardomg.association.calendar.activity.domain.repository.ActivityRepository;
@@ -70,13 +72,16 @@ class ITActivityRepositoryFindAllWithFilter {
         final Page<Activity> activities;
         final Pagination     pagination;
         final Sorting        sorting;
+        final ActivityFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
 
+        filter = new ActivityFilter(Optional.empty(), Optional.empty());
+
         // WHEN
-        activities = repository.findAll(pagination, sorting);
+        activities = repository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(activities)
@@ -92,13 +97,16 @@ class ITActivityRepositoryFindAllWithFilter {
         final Page<Activity> activities;
         final Pagination     pagination;
         final Sorting        sorting;
+        final ActivityFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
 
+        filter = new ActivityFilter(Optional.empty(), Optional.empty());
+
         // WHEN
-        activities = repository.findAll(pagination, sorting);
+        activities = repository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(activities)
@@ -116,13 +124,16 @@ class ITActivityRepositoryFindAllWithFilter {
         final Page<Activity> activities;
         final Pagination     pagination;
         final Sorting        sorting;
+        final ActivityFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
 
+        filter = new ActivityFilter(Optional.empty(), Optional.empty());
+
         // WHEN
-        activities = repository.findAll(pagination, sorting);
+        activities = repository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(activities)
@@ -140,6 +151,7 @@ class ITActivityRepositoryFindAllWithFilter {
         final Page<Activity> activities;
         final Pagination     pagination;
         final Sorting        sorting;
+        final ActivityFilter filter;
         final ActivityDate   date1;
         final ActivityDate   date2;
         final ActivityDate   date3;
@@ -149,6 +161,8 @@ class ITActivityRepositoryFindAllWithFilter {
         // GIVEN
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
+
+        filter = new ActivityFilter(Optional.empty(), Optional.empty());
 
         date1 = new ActivityDate(CalendarDateConstants.START, CalendarDateConstants.END);
         date2 = new ActivityDate(CalendarDateConstants.START.plus(1L, ChronoUnit.DAYS),
@@ -161,7 +175,7 @@ class ITActivityRepositoryFindAllWithFilter {
             CalendarDateConstants.END.plus(4L, ChronoUnit.DAYS));
 
         // WHEN
-        activities = repository.findAll(pagination, sorting);
+        activities = repository.findAll(filter, pagination, sorting);
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
@@ -184,6 +198,7 @@ class ITActivityRepositoryFindAllWithFilter {
         final Page<Activity> activities;
         final Pagination     pagination;
         final Sorting        sorting;
+        final ActivityFilter filter;
         final ActivityDate   date1;
         final ActivityDate   date2;
         final ActivityDate   date3;
@@ -193,6 +208,8 @@ class ITActivityRepositoryFindAllWithFilter {
         // GIVEN
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
+
+        filter = new ActivityFilter(Optional.empty(), Optional.empty());
 
         date1 = new ActivityDate(CalendarDateConstants.START, CalendarDateConstants.END);
         date2 = new ActivityDate(CalendarDateConstants.START.plus(1L, ChronoUnit.DAYS),
@@ -205,7 +222,7 @@ class ITActivityRepositoryFindAllWithFilter {
             CalendarDateConstants.END.plus(4L, ChronoUnit.DAYS));
 
         // WHEN
-        activities = repository.findAll(pagination, sorting);
+        activities = repository.findAll(filter, pagination, sorting);
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
@@ -227,13 +244,16 @@ class ITActivityRepositoryFindAllWithFilter {
         final Page<Activity> activities;
         final Pagination     pagination;
         final Sorting        sorting;
+        final ActivityFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 20);
         sorting = Sorting.unsorted();
 
+        filter = new ActivityFilter(Optional.empty(), Optional.empty());
+
         // WHEN
-        activities = repository.findAll(pagination, sorting);
+        activities = repository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(activities)

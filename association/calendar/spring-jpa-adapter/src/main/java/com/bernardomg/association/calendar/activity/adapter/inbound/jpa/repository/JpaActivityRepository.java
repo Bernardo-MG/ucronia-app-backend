@@ -32,9 +32,12 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 
 import com.bernardomg.association.calendar.activity.adapter.inbound.jpa.model.ActivityEntityConstants;
 import com.bernardomg.association.calendar.activity.adapter.inbound.jpa.model.ActivityEntityMapper;
+import com.bernardomg.association.calendar.activity.adapter.inbound.jpa.specification.ActivitySpecifications;
+import com.bernardomg.association.calendar.activity.domain.filter.ActivityFilter;
 import com.bernardomg.association.calendar.activity.domain.model.Activity;
 import com.bernardomg.association.calendar.activity.domain.repository.ActivityRepository;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.model.CalendarDateEntity;
@@ -115,21 +118,30 @@ public final class JpaActivityRepository implements ActivityRepository {
     }
 
     @Override
-    public final Page<Activity> findAll(final Pagination pagination, final Sorting sorting) {
+    public final Page<Activity> findAll(final ActivityFilter filter, final Pagination pagination,
+            final Sorting sorting) {
         final org.springframework.data.domain.Page<CalendarInfoEntity> page;
         final org.springframework.data.domain.Page<Activity>           read;
         final Pageable                                                 pageable;
+        final Optional<Specification<CalendarInfoEntity>>              spec;
 
-        log.debug("Finding activities with pagination {} and sorting {}", pagination, sorting);
+        log.debug("Finding activities with filter {}, pagination {} and sorting {}", filter, pagination, sorting);
 
         pageable = SpringPagination.toPageable(pagination, sorting);
-        if (sorting.properties()
+        spec = ActivitySpecifications.filter(filter);
+        if (spec.isEmpty()) {
+            if (sorting.properties()
+                .isEmpty()) {
+                page = calendarInfoSpringRepository.findAllOrderByFirstDate(pageable);
+            } else {
+                page = calendarInfoSpringRepository.findAll(pageable);
+            }
+        } else if (sorting.properties()
             .isEmpty()) {
-            page = calendarInfoSpringRepository.findAllOrderByFirstDate(pageable);
+            page = calendarInfoSpringRepository.findAllOrderByFirstDate(spec.get(), pageable);
         } else {
-            page = calendarInfoSpringRepository.findAll(pageable);
+            page = calendarInfoSpringRepository.findAll(spec.get(), pageable);
         }
-
         read = page.map(ActivityEntityMapper::toDomain);
 
         log.debug("Found activities {}", read);
