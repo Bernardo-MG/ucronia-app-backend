@@ -47,7 +47,7 @@ public interface CalendarInfoSpringRepository
             GROUP BY info
             ORDER BY min(date.start) ASC
             """)
-    public Page<CalendarInfoEntity> findAllOrderByFirstDate(final Specification<CalendarInfoEntity> spec,final Pageable pageable);
+    public Page<CalendarInfoEntity> findAllOrderByFirstDate(final Pageable pageable);
 
     @Query(value = """
             SELECT info
@@ -56,7 +56,8 @@ public interface CalendarInfoSpringRepository
             GROUP BY info
             ORDER BY min(date.start) ASC
             """)
-    public Page<CalendarInfoEntity> findAllOrderByFirstDate(final Pageable pageable);
+    public Page<CalendarInfoEntity> findAllOrderByFirstDate(final Specification<CalendarInfoEntity> spec,
+            final Pageable pageable);
 
     public Optional<CalendarInfoEntity> findByNumber(final long number);
 

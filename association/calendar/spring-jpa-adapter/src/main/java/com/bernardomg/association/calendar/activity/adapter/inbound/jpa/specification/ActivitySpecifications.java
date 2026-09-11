@@ -36,6 +36,7 @@ import com.bernardomg.association.calendar.adapter.inbound.jpa.model.CalendarDat
 import com.bernardomg.association.calendar.adapter.inbound.jpa.model.CalendarInfoEntity;
 
 import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Root;
 import jakarta.persistence.criteria.Subquery;
 
@@ -55,6 +56,20 @@ public final class ActivitySpecifications {
             .filter(Optional::isPresent)
             .map(Optional::get)
             .reduce((BinaryOperator<Specification<CalendarInfoEntity>>) Specification::and);
+    }
+
+    public static final Specification<CalendarInfoEntity> orderByFirstDate() {
+        return (root, query, cb) -> {
+            final Join<CalendarInfoEntity, CalendarDateEntity> dates;
+
+            if (!Long.class.equals(query.getResultType()) && !Long.TYPE.equals(query.getResultType())) {
+                dates = root.join("calendarDates", JoinType.LEFT);
+                query.groupBy(root);
+                query.orderBy(cb.asc(cb.least(dates.<Instant> get("start"))));
+            }
+
+            return cb.conjunction();
+        };
     }
 
     private static final Specification<CalendarInfoEntity> endingOnOrAfter(final Instant date) {

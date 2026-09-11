@@ -138,7 +138,8 @@ public final class JpaActivityRepository implements ActivityRepository {
             }
         } else if (sorting.properties()
             .isEmpty()) {
-            page = calendarInfoSpringRepository.findAllOrderByFirstDate(spec.get(), pageable);
+            page = calendarInfoSpringRepository.findAll(spec.get()
+                .and(ActivitySpecifications.orderByFirstDate()), pageable);
         } else {
             page = calendarInfoSpringRepository.findAll(spec.get(), pageable);
         }
