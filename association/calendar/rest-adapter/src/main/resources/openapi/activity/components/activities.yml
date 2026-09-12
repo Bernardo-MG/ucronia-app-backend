@@ -26,7 +26,7 @@ components:
 
     ActivityCreation:
       type: object
-      required: [dates, title]
+      required: [title, dates, image]
       properties:
         title:
           type: string
@@ -49,7 +49,7 @@ components:
 
     ActivityUpdate:
       type: object
-      required: [dates, title]
+      required: [title, dates, image]
       properties:
         title:
           type: string

@@ -84,6 +84,8 @@ public final class DefaultActivityService implements ActivityService {
 
         validatorCreate.validate(activity);
 
+        // TODO: validate the image
+
         saved = activityRepository.save(activity);
 
         // TODO: send a source
