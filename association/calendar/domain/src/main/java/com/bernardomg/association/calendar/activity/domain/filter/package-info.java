@@ -22,26 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.calendar.activity.domain.repository;
-
-import java.util.Optional;
-
-import com.bernardomg.association.calendar.activity.domain.filter.ActivityFilter;
-import com.bernardomg.association.calendar.activity.domain.model.Activity;
-import com.bernardomg.pagination.domain.Page;
-import com.bernardomg.pagination.domain.Pagination;
-import com.bernardomg.pagination.domain.Sorting;
-
-public interface ActivityRepository {
-
-    public void delete(final long number);
-
-    public boolean exists(final long number);
-
-    public Page<Activity> findAll(final ActivityFilter filter, final Pagination pagination, final Sorting sorting);
-
-    public Optional<Activity> findOne(final Long number);
-
-    public Activity save(final Activity activity);
-
-}
+/**
+ * Activity filters.
+ */
+package com.bernardomg.association.calendar.activity.domain.filter;

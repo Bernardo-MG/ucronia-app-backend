@@ -25,6 +25,7 @@
 package com.bernardomg.association.calendar.activity.test.adapter.inbound.jpa.repository.integration;
 
 import java.time.Month;
+import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.InstanceOfAssertFactories;
@@ -34,6 +35,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.calendar.TestApplication;
+import com.bernardomg.association.calendar.activity.domain.filter.ActivityFilter;
 import com.bernardomg.association.calendar.activity.domain.model.Activity;
 import com.bernardomg.association.calendar.activity.domain.repository.ActivityRepository;
 import com.bernardomg.association.calendar.activity.test.configuration.data.annotation.MultipleActivity;
@@ -59,7 +61,11 @@ class ITActivityRepositoryFindAllWithFilterPagination extends AbstractPagination
 
     @Override
     protected final Page<Activity> read(final Pagination pagination, final Sorting sorting) {
-        return repository.findAll(pagination, sorting);
+        final ActivityFilter filter;
+
+        filter = new ActivityFilter(Optional.empty(), Optional.empty());
+
+        return repository.findAll(filter, pagination, sorting);
     }
 
     @Test
@@ -68,13 +74,16 @@ class ITActivityRepositoryFindAllWithFilterPagination extends AbstractPagination
         final Page<Activity> activities;
         final Pagination     pagination;
         final Sorting        sorting;
+        final ActivityFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 1);
         sorting = Sorting.unsorted();
 
+        filter = new ActivityFilter(Optional.empty(), Optional.empty());
+
         // WHEN
-        activities = repository.findAll(pagination, sorting);
+        activities = repository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(activities)
@@ -89,13 +98,16 @@ class ITActivityRepositoryFindAllWithFilterPagination extends AbstractPagination
         final Page<Activity> activities;
         final Pagination     pagination;
         final Sorting        sorting;
+        final ActivityFilter filter;
 
         // GIVEN
         pagination = new Pagination(2, 1);
         sorting = Sorting.unsorted();
 
+        filter = new ActivityFilter(Optional.empty(), Optional.empty());
+
         // WHEN
-        activities = repository.findAll(pagination, sorting);
+        activities = repository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(activities)

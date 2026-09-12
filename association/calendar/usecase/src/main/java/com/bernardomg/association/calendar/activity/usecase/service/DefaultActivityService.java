@@ -31,6 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bernardomg.association.calendar.activity.domain.exception.MissingActivityException;
+import com.bernardomg.association.calendar.activity.domain.filter.ActivityFilter;
 import com.bernardomg.association.calendar.activity.domain.model.Activity;
 import com.bernardomg.association.calendar.activity.domain.repository.ActivityRepository;
 import com.bernardomg.association.calendar.activity.usecase.validation.ActivityEndAfterDateRule;
@@ -115,14 +116,16 @@ public final class DefaultActivityService implements ActivityService {
     }
 
     @Override
-    public final Page<Activity> getAll(final Pagination pagination, final Sorting sorting) {
+    public final Page<Activity> getAll(final ActivityFilter filter, final Pagination pagination,
+            final Sorting sorting) {
         final Page<Activity> activities;
 
-        log.info("Getting all activities with pagination {} and sorting {}", pagination, sorting);
+        log.info("Getting activities with filter {}, pagination {} and sorting {}", filter, pagination, sorting);
 
-        activities = activityRepository.findAll(pagination, sorting);
+        activities = activityRepository.findAll(filter, pagination, sorting);
 
-        log.debug("Got all activities with pagination {} and sorting {}: {}", pagination, sorting, activities);
+        log.debug("Got activities with filter {}, pagination {} and sorting {}: {}", filter, pagination, sorting,
+            activities);
 
         return activities;
     }

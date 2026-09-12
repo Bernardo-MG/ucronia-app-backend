@@ -52,7 +52,7 @@ class TestActivityControllerSorting {
     @DisplayName("When sorting by title ascending, it is accepted")
     void testGetAllActivities_TitleAsc() throws Exception {
         // GIVEN
-        given(service.getAll(eq(new Pagination(1, 10)), any()))
+        given(service.getAll(any(), eq(new Pagination(1, 10)), any()))
             .willReturn(new Page<>(List.of(), 1, 1, 0, 0, 0, false, false, Sorting.unsorted()));
 
         // WHEN + THEN
@@ -68,7 +68,7 @@ class TestActivityControllerSorting {
     @DisplayName("When sorting by title descending, it is accepted")
     void testGetAllActivities_TitleDesc() throws Exception {
         // GIVEN
-        given(service.getAll(eq(new Pagination(1, 10)), any()))
+        given(service.getAll(any(), eq(new Pagination(1, 10)), any()))
             .willReturn(new Page<>(List.of(), 1, 1, 0, 0, 0, false, false, Sorting.unsorted()));
 
         // WHEN + THEN

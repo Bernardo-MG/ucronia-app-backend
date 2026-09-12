@@ -27,6 +27,7 @@ package com.bernardomg.association.calendar.activity.test.service.unit;
 import static org.mockito.BDDMockito.given;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.InstanceOfAssertFactories;
@@ -37,6 +38,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.association.calendar.activity.domain.filter.ActivityFilter;
 import com.bernardomg.association.calendar.activity.domain.model.Activity;
 import com.bernardomg.association.calendar.activity.domain.repository.ActivityRepository;
 import com.bernardomg.association.calendar.activity.test.configuration.factory.Activities;
@@ -59,10 +61,6 @@ class TestActivitieserviceGetAll {
     @InjectMocks
     private DefaultActivityService service;
 
-    public TestActivitieserviceGetAll() {
-        super();
-    }
-
     @Test
     @DisplayName("When there is data it is returned")
     void testGetAll() {
@@ -70,16 +68,19 @@ class TestActivitieserviceGetAll {
         final Page<Activity> existing;
         final Pagination     pagination;
         final Sorting        sorting;
+        final ActivityFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
 
+        filter = new ActivityFilter(Optional.empty(), Optional.empty());
+
         existing = new Page<>(List.of(Activities.singleDay()), 0, 0, 0, 0, 0, false, false, sorting);
-        given(activityRepository.findAll(pagination, sorting)).willReturn(existing);
+        given(activityRepository.findAll(filter, pagination, sorting)).willReturn(existing);
 
         // WHEN
-        activities = service.getAll(pagination, sorting);
+        activities = service.getAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(activities)
@@ -96,16 +97,19 @@ class TestActivitieserviceGetAll {
         final Page<Activity> existing;
         final Pagination     pagination;
         final Sorting        sorting;
+        final ActivityFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
 
+        filter = new ActivityFilter(Optional.empty(), Optional.empty());
+
         existing = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
-        given(activityRepository.findAll(pagination, sorting)).willReturn(existing);
+        given(activityRepository.findAll(filter, pagination, sorting)).willReturn(existing);
 
         // WHEN
-        activities = service.getAll(pagination, sorting);
+        activities = service.getAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(activities)
