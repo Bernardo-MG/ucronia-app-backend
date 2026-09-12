@@ -35,6 +35,7 @@ import com.bernardomg.association.calendar.activity.adapter.outbound.rest.dto.Ac
 import com.bernardomg.association.calendar.activity.adapter.outbound.rest.dto.ActivityResponseDto;
 import com.bernardomg.association.calendar.activity.adapter.outbound.rest.dto.ActivityUpdateDto;
 import com.bernardomg.association.calendar.activity.adapter.outbound.rest.model.ActivityDtoMapper;
+import com.bernardomg.association.calendar.activity.domain.filter.ActivityFilter;
 import com.bernardomg.association.calendar.activity.domain.model.Activity;
 import com.bernardomg.association.calendar.activity.usecase.service.ActivityService;
 import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
@@ -60,6 +61,7 @@ public class ActivityController implements ActivityApi {
 
     public ActivityController(final ActivityService service) {
         super();
+
         this.service = service;
     }
 
@@ -88,14 +90,16 @@ public class ActivityController implements ActivityApi {
     @Override
     @RequireResourceAuthorization(resource = "ACTIVITY", action = Actions.READ)
     public ActivityPageResponseDto getAllActivities(final Integer page, final Integer size, final List<String> sort,
-            final Instant date, final Instant from, final Instant to) {
+            final Instant from, final Instant to) {
+        final ActivityFilter filter;
         final Pagination     pagination;
         final Sorting        sorting;
         final Page<Activity> activities;
 
         pagination = new Pagination(page, size);
         sorting = WebSorting.toSorting(sort);
-        activities = service.getAll(pagination, sorting);
+        filter = new ActivityFilter(Optional.ofNullable(from), Optional.ofNullable(to));
+        activities = service.getAll(filter, pagination, sorting);
 
         return ActivityDtoMapper.toResponseDto(activities);
     }
