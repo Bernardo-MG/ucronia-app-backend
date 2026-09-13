@@ -65,6 +65,7 @@ class TestActivityController {
         requestBody = """
                 {
                     "title": "Activity",
+                    "image": "http://somewhere.com/image.jpg",
                     "dates": [
                         {
                             "start": "2025-08-01T00:00:00Z",
@@ -136,6 +137,7 @@ class TestActivityController {
         requestBody = """
                 {
                     "title": "Activity Updated",
+                    "image": "http://somewhere.com/image.jpg",
                     "dates": [
                         {
                             "start": "2025-08-01T00:00:00Z",
