@@ -6,7 +6,6 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.image.adapter.inbound.jpa.model.ImageFolderEntity;
 
@@ -14,12 +13,16 @@ public interface ImageFolderSpringRepository extends JpaRepository<ImageFolderEn
 
     public void deleteByNumber(final Long number);
 
-    @Query("""
-            SELECT CASE WHEN COUNT(f) > 0 THEN TRUE ELSE FALSE END FROM ImageFolder f \
-            WHERE f.name = :name AND (:excluded IS NULL OR f.number != :excluded) \
-            AND ((:parent IS NULL AND f.parent IS NULL) OR f.parent.number = :parent)""")
-    public boolean existsByNameAndParent(@Param("name") final String name, @Param("parent") final Long parentNumber,
-            @Param("excluded") final Long excludedNumber);
+    public boolean existsByNameAndParentIsNull(final String name);
+
+    public boolean existsByNameAndParentIsNullAndNumberNot(final String name, final Long number);
+
+    public boolean existsByNameAndParentNumber(final String name, final Long parentNumber);
+
+    public boolean existsByNameAndParentNumberAndNumberNot(final String name, final Long parentNumber,
+            final Long number);
+
+    public boolean existsByNumber(final Long number);
 
     public boolean existsByParentNumber(final Long parentNumber);
 

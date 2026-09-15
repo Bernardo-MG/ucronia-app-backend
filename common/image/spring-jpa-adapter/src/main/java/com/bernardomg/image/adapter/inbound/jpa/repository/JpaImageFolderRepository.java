@@ -46,7 +46,7 @@ public final class JpaImageFolderRepository implements ImageFolderRepository {
 
         log.debug("Checking if image folder {} exists", number);
 
-        exists = repository.existsById(number);
+        exists = repository.existsByNumber(number);
 
         log.debug("Image folder {} exists: {}", number, exists);
 
@@ -59,7 +59,15 @@ public final class JpaImageFolderRepository implements ImageFolderRepository {
 
         log.debug("Checking if image folder {} exists below parent {}, excluding folder {}", name, parent, excluded);
 
-        exists = repository.existsByNameAndParent(name, parent, excluded);
+        if ((parent == null) && (excluded == null)) {
+            exists = repository.existsByNameAndParentIsNull(name);
+        } else if (parent == null) {
+            exists = repository.existsByNameAndParentIsNullAndNumberNot(name, excluded);
+        } else if (excluded == null) {
+            exists = repository.existsByNameAndParentNumber(name, parent);
+        } else {
+            exists = repository.existsByNameAndParentNumberAndNumberNot(name, parent, excluded);
+        }
 
         log.debug("Image folder {} exists below parent {}, excluding folder {}: {}", name, parent, excluded, exists);
 
