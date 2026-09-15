@@ -15,6 +15,8 @@ import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity(name = "Image")
@@ -29,6 +31,10 @@ public class ImageEntity implements Serializable {
 
     @Column(name = "description", nullable = false, length = 500)
     private String            description;
+
+    @ManyToOne(fetch = jakarta.persistence.FetchType.LAZY)
+    @JoinColumn(name = "folder_id")
+    private ImageFolderEntity folder;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,6 +62,10 @@ public class ImageEntity implements Serializable {
 
     public String getDescription() {
         return description;
+    }
+
+    public ImageFolderEntity getFolder() {
+        return folder;
     }
 
     public Long getId() {
@@ -88,6 +98,10 @@ public class ImageEntity implements Serializable {
 
     public void setDescription(final String value) {
         description = value;
+    }
+
+    public void setFolder(final ImageFolderEntity value) {
+        folder = value;
     }
 
     public void setId(final Long value) {

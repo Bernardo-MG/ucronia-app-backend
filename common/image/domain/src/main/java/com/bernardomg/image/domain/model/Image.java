@@ -3,35 +3,43 @@
 package com.bernardomg.image.domain.model;
 
 import java.util.Objects;
+import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 
 import com.bernardomg.security.domain.audit.model.AuditDetails;
 
 public record Image(Long number, String name, String description, String key, String mediaType, long size,
-        AuditDetails audit) {
+        Optional<Long> folderNumber, AuditDetails audit) {
 
-    public Image(final Long number, final String name, final String description, final String key,
-            final String mediaType, final long size, final AuditDetails audit) {
+    public Image {
         Objects.requireNonNull(number, "Number can't be null");
         Objects.requireNonNull(name, "Name can't be null");
         Objects.requireNonNull(description, "Description can't be null");
         Objects.requireNonNull(key, "Key can't be null");
         Objects.requireNonNull(mediaType, "Media type can't be null");
+        Objects.requireNonNull(folderNumber, "Folder number can't be null");
         Objects.requireNonNull(audit, "Audit can't be null");
 
-        this.number = number;
-        this.name = StringUtils.trim(name);
-        this.description = StringUtils.trim(description);
-        this.key = StringUtils.trim(key);
-        this.mediaType = StringUtils.trim(mediaType);
-        this.size = size;
-        this.audit = audit;
+        name = StringUtils.trim(name);
+        description = StringUtils.trim(description);
+        key = StringUtils.trim(key);
+        mediaType = StringUtils.trim(mediaType);
+    }
+
+    public Image(final Long number, final String name, final String description, final String key,
+            final String mediaType, final long size, final AuditDetails audit) {
+        this(number, name, description, key, mediaType, size, Optional.empty(), audit);
+    }
+
+    public Image(final Long number, final String name, final String description, final String key,
+            final String mediaType, final long size, final Optional<Long> folderNumber) {
+        this(number, name, description, key, mediaType, size, folderNumber, new AuditDetails());
     }
 
     public Image(final Long number, final String name, final String description, final String key,
             final String mediaType, final long size) {
-        this(number, name, description, key, mediaType, size, new AuditDetails());
+        this(number, name, description, key, mediaType, size, Optional.empty(), new AuditDetails());
     }
 
 }

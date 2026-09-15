@@ -23,6 +23,8 @@ public final class ImageDtoMapper {
         return new ImageResponseDto().content(new ImageDto().number(image.number())
             .name(image.name())
             .description(image.description())
+            .folderNumber(image.folderNumber()
+                .orElse(null))
             .mediaType(image.mediaType())
             .size(image.size())
             .audit(toDto(image.audit())));
@@ -80,6 +82,8 @@ public final class ImageDtoMapper {
         return new ImageDto().number(image.number())
             .name(image.name())
             .description(image.description())
+            .folderNumber(image.folderNumber()
+                .orElse(null))
             .mediaType(image.mediaType())
             .size(image.size())
             .audit(toDto(image.audit()));

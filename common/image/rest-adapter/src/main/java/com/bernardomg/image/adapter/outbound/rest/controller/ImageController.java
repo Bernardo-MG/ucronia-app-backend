@@ -36,14 +36,19 @@ public class ImageController implements ImageApi {
 
     public ImageController(final ImageService imageService) {
         service = Objects.requireNonNull(imageService);
+
+        // TODO: why is it returning ResponseEntity?
     }
 
     @Override
     @RequireResourceAuthorization(resource = "IMAGE", action = Actions.CREATE)
     public ResponseEntity<ImageResponseDto> createImage(final String name, final String description,
             final MultipartFile file) {
-        final ImageContent     content  = getImageContent(file);
-        final ImageResponseDto response = ImageDtoMapper.toResponseDto(
+        final ImageContent     content;
+        final ImageResponseDto response;
+
+        content = getImageContent(file);
+        response = ImageDtoMapper.toResponseDto(
             service.create(new Image(-1L, name, description, "", content.mediaType(), content.data().length), content));
         return ResponseEntity.status(HttpStatus.CREATED)
             .body(response);
@@ -59,9 +64,13 @@ public class ImageController implements ImageApi {
     @Unsecured
     public ResponseEntity<ImagePageResponseDto> getAllImages(final Integer page, final Integer size,
             final List<String> sort) {
-        final Pagination  pagination = new Pagination(page, size);
-        final Sorting     sorting    = WebSorting.toSorting(sort);
-        final Page<Image> images     = service.getAll(pagination, sorting);
+        final Pagination  pagination;
+        final Sorting     sorting;
+        final Page<Image> images;
+
+        pagination = new Pagination(page, size);
+        sorting = WebSorting.toSorting(sort);
+        images = service.getAll(pagination, sorting);
         return ResponseEntity.ok(ImageDtoMapper.toResponseDto(images));
     }
 
@@ -74,7 +83,9 @@ public class ImageController implements ImageApi {
     @Override
     @Unsecured
     public ResponseEntity<Resource> getImageContent(final Long number) {
-        final ImageContent content = service.getContent(number);
+        final ImageContent content;
+
+        content = service.getContent(number);
         return ResponseEntity.ok()
             .contentType(MediaType.parseMediaType(content.mediaType()))
             .body(new ByteArrayResource(content.data()));
@@ -84,15 +95,24 @@ public class ImageController implements ImageApi {
     @RequireResourceAuthorization(resource = "IMAGE", action = Actions.UPDATE)
     public ResponseEntity<ImageResponseDto> updateImage(final Long number, final String name, final String description,
             final MultipartFile file) {
-        final ImageContent     content  = getImageContent(file);
-        final ImageResponseDto response = ImageDtoMapper.toResponseDto(service
+        final ImageContent     content;
+        final ImageResponseDto response;
+
+        content = getImageContent(file);
+        response = ImageDtoMapper.toResponseDto(service
             .update(new Image(number, name, description, "", content.mediaType(), content.data().length), content));
         return ResponseEntity.ok(response);
     }
 
     private ImageContent getImageContent(final MultipartFile file) {
-        final String mediaType = file.getContentType() == null ? MediaType.APPLICATION_OCTET_STREAM_VALUE
-                : file.getContentType();
+        final String mediaType;
+
+        if (file.getContentType() == null) {
+            mediaType = MediaType.APPLICATION_OCTET_STREAM_VALUE;
+        } else {
+            mediaType = file.getContentType();
+        }
+
         try {
             return new ImageContent(file.getBytes(), mediaType);
         } catch (final IOException ex) {

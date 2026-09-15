@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.image.adapter.inbound.jpa.model.ImageEntity;
 import com.bernardomg.image.adapter.inbound.jpa.model.ImageEntityMapper;
+import com.bernardomg.image.adapter.inbound.jpa.model.ImageFolderEntity;
 import com.bernardomg.image.domain.model.Image;
 import com.bernardomg.image.domain.repository.ImageRepository;
 import com.bernardomg.pagination.domain.Page;
@@ -25,12 +26,16 @@ public final class JpaImageRepository implements ImageRepository {
     /**
      * Logger for the class.
      */
-    private static final Logger         log = LoggerFactory.getLogger(JpaImageRepository.class);
+    private static final Logger               log = LoggerFactory.getLogger(JpaImageRepository.class);
 
-    private final ImageSpringRepository repository;
+    private final ImageFolderSpringRepository folderRepository;
 
-    public JpaImageRepository(final ImageSpringRepository imageRepository) {
+    private final ImageSpringRepository       repository;
+
+    public JpaImageRepository(final ImageSpringRepository imageRepository,
+            final ImageFolderSpringRepository imageFolderRepository) {
         repository = Objects.requireNonNull(imageRepository);
+        folderRepository = Objects.requireNonNull(imageFolderRepository);
     }
 
     @Override
@@ -40,6 +45,19 @@ public final class JpaImageRepository implements ImageRepository {
         repository.deleteByNumber(number);
 
         log.debug("Deleted image {}", number);
+    }
+
+    @Override
+    public final boolean exists(final Long number) {
+        final boolean exists;
+
+        log.debug("Checking if image {} exists", number);
+
+        exists = repository.existsById(number);
+
+        log.debug("Image {} exists: {}", number, exists);
+
+        return exists;
     }
 
     @Override
@@ -85,6 +103,21 @@ public final class JpaImageRepository implements ImageRepository {
     }
 
     @Override
+    public final Page<Image> findAllByFolder(final Long folderNumber, final Pagination pagination,
+            final Sorting sorting) {
+        final Pageable                                    pageable = SpringPagination.toPageable(pagination, sorting);
+        final org.springframework.data.domain.Page<Image> read;
+        if (folderNumber == null) {
+            read = repository.findAllByFolderIsNull(pageable)
+                .map(ImageEntityMapper::toDomain);
+        } else {
+            read = repository.findAllByFolderNumber(folderNumber, pageable)
+                .map(ImageEntityMapper::toDomain);
+        }
+        return SpringPagination.toPage(read);
+    }
+
+    @Override
     public final Optional<Image> findOne(final Long number) {
         final Optional<Image> image;
 
@@ -99,12 +132,28 @@ public final class JpaImageRepository implements ImageRepository {
     }
 
     @Override
+    public final boolean hasImagesInFolder(final Long folderNumber) {
+        return repository.existsByFolderNumber(folderNumber);
+    }
+
+    @Override
+    public final Image move(final Long number, final Long folderNumber) {
+        final ImageEntity entity = repository.findByNumber(number)
+            .orElseThrow();
+        entity.setFolder(folderNumber == null ? null
+                : folderRepository.findByNumber(folderNumber)
+                    .orElseThrow());
+        return ImageEntityMapper.toDomain(repository.save(entity));
+    }
+
+    @Override
     public final Image save(final Image image) {
         final Optional<ImageEntity> existing;
         final ImageEntity           entity;
         final Long                  number;
         final Image                 toCreate;
         final Image                 saved;
+        final ImageFolderEntity     folder;
 
         log.debug("Saving image {}", image);
 
@@ -116,8 +165,18 @@ public final class JpaImageRepository implements ImageRepository {
         } else {
             number = repository.findNextNumber();
             toCreate = new Image(number, image.name(), image.description(), "images/" + number, image.mediaType(),
-                image.size(), image.audit());
+                image.size(), image.folderNumber(), image.audit());
             entity = ImageEntityMapper.toEntity(toCreate);
+        }
+
+        if (image.folderNumber()
+            .isEmpty()) {
+            entity.setFolder(null);
+        } else {
+            folder = folderRepository.findByNumber(image.folderNumber()
+                .get())
+                .orElseThrow();
+            entity.setFolder(folder);
         }
 
         saved = ImageEntityMapper.toDomain(repository.save(entity));

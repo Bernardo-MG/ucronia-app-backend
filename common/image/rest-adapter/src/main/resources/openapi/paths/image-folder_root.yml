@@ -1,0 +1,16 @@
+parameters:
+  - in: path
+    name: imageNumber
+    required: true
+    schema: { type: integer, format: int64 }
+delete:
+  summary: Move an image to the root.
+  operationId: moveImageToRoot
+  tags: [Image folder]
+  responses:
+    '200':
+      description: Image moved to the root.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/images.yml#/components/schemas/ImageResponse'

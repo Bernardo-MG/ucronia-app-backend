@@ -87,7 +87,7 @@ public final class DefaultImageService implements ImageService {
         }
 
         toCreate = new Image(image.number(), image.name(), image.description(), image.key(), content.mediaType(),
-            content.data().length);
+            content.data().length, image.folderNumber());
         created = repository.save(toCreate);
         storeImage(created.key(), content);
 
@@ -169,7 +169,7 @@ public final class DefaultImageService implements ImageService {
             throw new ImageAlreadyExistsException(image.name());
         }
         updated = repository.save(new Image(image.number(), image.name(), image.description(), existing.key(),
-            content.mediaType(), content.data().length, existing.audit()));
+            content.mediaType(), content.data().length, existing.folderNumber(), existing.audit()));
         storeImage(updated.key(), content);
 
         return updated;

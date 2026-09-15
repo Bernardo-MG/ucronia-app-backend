@@ -22,6 +22,7 @@ import com.bernardomg.image.domain.model.Image;
 import com.bernardomg.image.domain.model.ImageContent;
 import com.bernardomg.image.domain.repository.ImageRepository;
 import com.bernardomg.image.test.configuration.factory.ImageConstants;
+import com.bernardomg.image.test.configuration.factory.Images;
 import com.bernardomg.image.usecase.service.DefaultImageService;
 
 import software.amazon.awssdk.core.sync.RequestBody;
@@ -35,8 +36,6 @@ class TestImageServiceUpdate {
     @Mock
     private S3Client            client;
 
-    private Image               image;
-
     @Mock
     private ImageRepository     repository;
 
@@ -45,8 +44,6 @@ class TestImageServiceUpdate {
     @BeforeEach
     void setUp() {
         service = new DefaultImageService(repository, client, ImageConstants.BUCKET);
-        image = new Image(ImageConstants.NUMBER, ImageConstants.NAME, ImageConstants.DESCRIPTION, ImageConstants.KEY,
-            ImageConstants.MEDIA_TYPE, ImageConstants.DATA.length);
     }
 
     @Test
@@ -55,15 +52,15 @@ class TestImageServiceUpdate {
         final Image updated;
 
         // GIVEN
-        given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.of(image));
-        given(repository.save(any(Image.class))).willReturn(image);
+        given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.of(Images.valid()));
+        given(repository.save(any(Image.class))).willReturn(Images.valid());
 
         // WHEN
-        updated = service.update(image, new ImageContent(ImageConstants.DATA, ImageConstants.MEDIA_TYPE));
+        updated = service.update(Images.valid(), new ImageContent(ImageConstants.DATA, ImageConstants.MEDIA_TYPE));
 
         // THEN
         Assertions.assertThat(updated)
-            .isEqualTo(image);
+            .isEqualTo(Images.valid());
         verify(repository).existsByNameForAnother(ImageConstants.NAME, ImageConstants.NUMBER);
         verify(client).putObject(any(PutObjectRequest.class), any(RequestBody.class));
     }
@@ -72,13 +69,13 @@ class TestImageServiceUpdate {
     @DisplayName("When updating an image with an existing name, conflict is raised")
     void testUpdateDuplicateName() {
         // GIVEN
-        given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.of(image));
+        given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.of(Images.valid()));
         given(repository.existsByNameForAnother(ImageConstants.NAME, ImageConstants.NUMBER)).willReturn(true);
 
         // WHEN + THEN
         Assertions
             .assertThatThrownBy(
-                () -> service.update(image, new ImageContent(ImageConstants.DATA, ImageConstants.MEDIA_TYPE)))
+                () -> service.update(Images.valid(), new ImageContent(ImageConstants.DATA, ImageConstants.MEDIA_TYPE)))
             .isInstanceOf(ImageAlreadyExistsException.class);
         verify(client, never()).putObject(any(PutObjectRequest.class), any(RequestBody.class));
     }

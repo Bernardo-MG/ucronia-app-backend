@@ -13,13 +13,21 @@ public interface ImageRepository {
 
     public void delete(final Long number);
 
+    public boolean exists(final Long number);
+
     public boolean existsByName(final String name);
 
     public boolean existsByNameForAnother(final String name, final Long number);
 
     public Page<Image> findAll(final Pagination pagination, final Sorting sorting);
 
+    public Page<Image> findAllByFolder(final Long folderNumber, final Pagination pagination, final Sorting sorting);
+
     public Optional<Image> findOne(final Long number);
+
+    public boolean hasImagesInFolder(final Long folderNumber);
+
+    public Image move(final Long number, final Long folderNumber);
 
     public Image save(final Image image);
 

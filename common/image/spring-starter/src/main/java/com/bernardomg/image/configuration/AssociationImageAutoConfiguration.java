@@ -33,10 +33,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpMethod;
 
+import com.bernardomg.image.adapter.inbound.jpa.repository.ImageFolderSpringRepository;
 import com.bernardomg.image.adapter.inbound.jpa.repository.ImageSpringRepository;
+import com.bernardomg.image.adapter.inbound.jpa.repository.JpaImageFolderRepository;
 import com.bernardomg.image.adapter.inbound.jpa.repository.JpaImageRepository;
+import com.bernardomg.image.domain.repository.ImageFolderRepository;
 import com.bernardomg.image.domain.repository.ImageRepository;
+import com.bernardomg.image.usecase.service.DefaultImageFolderService;
 import com.bernardomg.image.usecase.service.DefaultImageService;
+import com.bernardomg.image.usecase.service.ImageFolderService;
 import com.bernardomg.image.usecase.service.ImageService;
 import com.bernardomg.security.springframework.web.whitelist.WhitelistRoute;
 
@@ -52,9 +57,26 @@ import software.amazon.awssdk.services.s3.S3ClientBuilder;
 @EnableConfigurationProperties(ImageS3Properties.class)
 public class AssociationImageAutoConfiguration {
 
+    @Bean("imageFolderRepository")
+    public ImageFolderRepository getImageFolderRepository(final ImageFolderSpringRepository repository) {
+        return new JpaImageFolderRepository(repository);
+    }
+
+    @Bean("imageFolderService")
+    public ImageFolderService getImageFolderService(final ImageFolderRepository folderRepository,
+            final ImageRepository imageRepository) {
+        return new DefaultImageFolderService(folderRepository, imageRepository);
+    }
+
+    @Bean("imageFolderWhitelist")
+    public WhitelistRoute getImageFolderWhitelist() {
+        return WhitelistRoute.of("/image-folders/**", HttpMethod.GET);
+    }
+
     @Bean("imageRepository")
-    public ImageRepository getImageRepository(final ImageSpringRepository repository) {
-        return new JpaImageRepository(repository);
+    public ImageRepository getImageRepository(final ImageSpringRepository repository,
+            final ImageFolderSpringRepository folderRepository) {
+        return new JpaImageRepository(repository, folderRepository);
     }
 
     @Bean("imageService")

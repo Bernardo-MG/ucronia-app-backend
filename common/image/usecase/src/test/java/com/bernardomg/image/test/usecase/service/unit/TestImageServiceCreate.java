@@ -20,6 +20,7 @@ import com.bernardomg.image.domain.model.Image;
 import com.bernardomg.image.domain.model.ImageContent;
 import com.bernardomg.image.domain.repository.ImageRepository;
 import com.bernardomg.image.test.configuration.factory.ImageConstants;
+import com.bernardomg.image.test.configuration.factory.Images;
 import com.bernardomg.image.usecase.service.DefaultImageService;
 
 import software.amazon.awssdk.core.sync.RequestBody;
@@ -33,8 +34,6 @@ class TestImageServiceCreate {
     @Mock
     private S3Client            client;
 
-    private Image               image;
-
     @Mock
     private ImageRepository     repository;
 
@@ -43,8 +42,6 @@ class TestImageServiceCreate {
     @BeforeEach
     void setUp() {
         service = new DefaultImageService(repository, client, ImageConstants.BUCKET);
-        image = new Image(ImageConstants.NUMBER, ImageConstants.NAME, ImageConstants.DESCRIPTION, ImageConstants.KEY,
-            ImageConstants.MEDIA_TYPE, ImageConstants.DATA.length);
     }
 
     @Test
@@ -53,14 +50,14 @@ class TestImageServiceCreate {
         final Image created;
 
         // GIVEN
-        given(repository.save(any(Image.class))).willReturn(image);
+        given(repository.save(any(Image.class))).willReturn(Images.valid());
 
         // WHEN
-        created = service.create(image, new ImageContent(ImageConstants.DATA, ImageConstants.MEDIA_TYPE));
+        created = service.create(Images.valid(), new ImageContent(ImageConstants.DATA, ImageConstants.MEDIA_TYPE));
 
         // THEN
         Assertions.assertThat(created)
-            .isEqualTo(image);
+            .isEqualTo(Images.valid());
         verify(repository).existsByName(ImageConstants.NAME);
         verify(client).putObject(any(PutObjectRequest.class), any(RequestBody.class));
     }
@@ -74,7 +71,7 @@ class TestImageServiceCreate {
         // WHEN + THEN
         Assertions
             .assertThatThrownBy(
-                () -> service.create(image, new ImageContent(ImageConstants.DATA, ImageConstants.MEDIA_TYPE)))
+                () -> service.create(Images.valid(), new ImageContent(ImageConstants.DATA, ImageConstants.MEDIA_TYPE)))
             .isInstanceOf(ImageAlreadyExistsException.class);
         verify(client, never()).putObject(any(PutObjectRequest.class), any(RequestBody.class));
     }
