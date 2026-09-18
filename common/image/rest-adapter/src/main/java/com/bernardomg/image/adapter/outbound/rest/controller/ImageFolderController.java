@@ -40,14 +40,7 @@ public class ImageFolderController implements ImageFolderApi {
         final ImageFolder    created;
         final Optional<Long> parentNumber;
 
-        if (request.getParentNumber()
-            .isPresent()) {
-            parentNumber = Optional.ofNullable(request.getParentNumber()
-                .get());
-        } else {
-            parentNumber = Optional.empty();
-        }
-
+        parentNumber = Optional.ofNullable(request.getParentNumber());
         created = service.create(new ImageFolder(-1L, request.getName(), parentNumber));
         return ResponseEntity.status(HttpStatus.CREATED)
             .body(ImageFolderDtoMapper.toDto(created));
@@ -108,14 +101,7 @@ public class ImageFolderController implements ImageFolderApi {
         final ImageFolder    folder;
         final Optional<Long> parentNumber;
 
-        if (request.getParentNumber()
-            .isPresent()) {
-            parentNumber = Optional.ofNullable(request.getParentNumber()
-                .get());
-        } else {
-            parentNumber = Optional.empty();
-        }
-
+        parentNumber = Optional.ofNullable(request.getParentNumber());
         folder = new ImageFolder(number, request.getName(), parentNumber);
         return ResponseEntity.ok(ImageFolderDtoMapper.toDto(service.update(folder)));
     }

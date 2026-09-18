@@ -12,7 +12,6 @@ components:
         parentNumber:
           type: integer
           format: int64
-          nullable: true
     ImageFolderCreation:
       type: object
       required: [name]
@@ -24,7 +23,6 @@ components:
         parentNumber:
           type: integer
           format: int64
-          nullable: true
     ImageFolderUpdate:
       type: object
       required: [name]
@@ -36,4 +34,3 @@ components:
         parentNumber:
           type: integer
           format: int64
-          nullable: true
