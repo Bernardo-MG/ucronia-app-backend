@@ -1,0 +1,20 @@
+parameters:
+  - in: path
+    name: folderNumber
+    required: true
+    schema: { type: integer, format: int64 }
+  - in: path
+    name: imageNumber
+    required: true
+    schema: { type: integer, format: int64 }
+put:
+  summary: Move an image into a folder.
+  operationId: moveImageToFolder
+  tags: [Image folder]
+  responses:
+    '200':
+      description: Image moved.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/images.yml#/components/schemas/ImageResponse'

@@ -13,3 +13,15 @@ paths:
     $ref: paths/images_by_id.yml
   /images/{number}/content:
     $ref: paths/images_content.yml
+  /image-folders:
+    $ref: paths/image-folders.yml
+  /image-folders/{number}:
+    $ref: paths/image-folders_by_id.yml
+  /image-folders/{folderNumber}/images/{imageNumber}:
+    $ref: paths/image-folder_image.yml
+  /image-folders/{folderNumber}/images:
+    $ref: paths/image-folder_images.yml
+  /image-folders/root/images:
+    $ref: paths/image-folder_root_images.yml
+  /image-folders/images/{imageNumber}:
+    $ref: paths/image-folder_root.yml

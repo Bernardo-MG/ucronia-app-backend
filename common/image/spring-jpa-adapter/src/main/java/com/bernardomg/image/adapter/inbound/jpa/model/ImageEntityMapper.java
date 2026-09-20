@@ -2,6 +2,8 @@
 
 package com.bernardomg.image.adapter.inbound.jpa.model;
 
+import java.util.Optional;
+
 import com.bernardomg.image.domain.model.Image;
 import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditMetadata;
 import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditUserEntity;
@@ -11,8 +13,17 @@ import com.bernardomg.security.domain.audit.model.AuditDetails.AuditUser;
 public final class ImageEntityMapper {
 
     public static Image toDomain(final ImageEntity entity) {
+        final Optional<Long> folder;
+
+        if (entity.getFolder() == null) {
+            folder = Optional.empty();
+        } else {
+            folder = Optional.ofNullable(entity.getFolder()
+                .getNumber());
+        }
+
         return new Image(entity.getNumber(), entity.getName(), entity.getDescription(), entity.getKey(),
-            entity.getMediaType(), entity.getSize(), toDomain(entity.getAudit()));
+            entity.getMediaType(), entity.getSize(), folder, toDomain(entity.getAudit()));
     }
 
     public static ImageEntity toEntity(final Image image) {

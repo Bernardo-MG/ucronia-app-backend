@@ -1,0 +1,31 @@
+get:
+  summary: Get the image folder tree.
+  operationId: getImageFolders
+  tags: [Image folder]
+  responses:
+    '200':
+      description: All image folders.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '../components/image-folders.yml#/components/schemas/ImageFolder'
+post:
+  summary: Create an image folder.
+  operationId: createImageFolder
+  tags: [Image folder]
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/image-folders.yml#/components/schemas/ImageFolderCreation'
+  responses:
+    '201':
+      description: Folder created.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/image-folders.yml#/components/schemas/ImageFolder'
+    '409': { description: A sibling folder with the same name exists. }

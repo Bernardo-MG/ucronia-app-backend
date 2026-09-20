@@ -18,6 +18,7 @@ import com.bernardomg.image.domain.exception.ImageNotExistingException;
 import com.bernardomg.image.domain.model.Image;
 import com.bernardomg.image.domain.repository.ImageRepository;
 import com.bernardomg.image.test.configuration.factory.ImageConstants;
+import com.bernardomg.image.test.configuration.factory.Images;
 import com.bernardomg.image.usecase.service.DefaultImageService;
 
 import software.amazon.awssdk.services.s3.S3Client;
@@ -29,8 +30,6 @@ class TestImageServiceGetOne {
     @Mock
     private S3Client            client;
 
-    private Image               image;
-
     @Mock
     private ImageRepository     repository;
 
@@ -39,8 +38,6 @@ class TestImageServiceGetOne {
     @BeforeEach
     void setUp() {
         service = new DefaultImageService(repository, client, ImageConstants.BUCKET);
-        image = new Image(ImageConstants.NUMBER, ImageConstants.NAME, ImageConstants.DESCRIPTION, ImageConstants.KEY,
-            ImageConstants.MEDIA_TYPE, ImageConstants.DATA.length);
     }
 
     @Test
@@ -49,14 +46,14 @@ class TestImageServiceGetOne {
         final Image result;
 
         // GIVEN
-        given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.of(image));
+        given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.of(Images.valid()));
 
         // WHEN
         result = service.getOne(ImageConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(result)
-            .isEqualTo(image);
+            .isEqualTo(Images.valid());
     }
 
     @Test

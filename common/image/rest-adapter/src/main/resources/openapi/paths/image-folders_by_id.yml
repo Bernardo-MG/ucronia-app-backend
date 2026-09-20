@@ -1,0 +1,47 @@
+parameters:
+  - in: path
+    name: number
+    required: true
+    schema: { type: integer, format: int64 }
+get:
+  summary: Get an image folder.
+  operationId: getImageFolder
+  tags: [Image folder]
+  responses:
+    '200':
+      description: Image folder metadata.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/image-folders.yml#/components/schemas/ImageFolder'
+    '404': { description: Folder not found. }
+put:
+  summary: Rename or move an image folder.
+  operationId: updateImageFolder
+  tags: [Image folder]
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/image-folders.yml#/components/schemas/ImageFolderUpdate'
+  responses:
+    '200':
+      description: Folder updated.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/image-folders.yml#/components/schemas/ImageFolder'
+    '400': { description: The requested hierarchy contains a cycle. }
+delete:
+  summary: Delete an empty image folder.
+  operationId: deleteImageFolder
+  tags: [Image folder]
+  responses:
+    '200':
+      description: Folder deleted.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/image-folders.yml#/components/schemas/ImageFolder'
+    '409': { description: Folder contains images or child folders. }

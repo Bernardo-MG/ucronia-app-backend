@@ -1,0 +1,36 @@
+components:
+  schemas:
+    ImageFolder:
+      type: object
+      properties:
+        number:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        parentNumber:
+          type: integer
+          format: int64
+    ImageFolderCreation:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        parentNumber:
+          type: integer
+          format: int64
+    ImageFolderUpdate:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        parentNumber:
+          type: integer
+          format: int64

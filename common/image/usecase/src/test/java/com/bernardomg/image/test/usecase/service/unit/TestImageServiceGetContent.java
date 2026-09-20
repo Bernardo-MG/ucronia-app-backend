@@ -14,10 +14,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.image.domain.model.Image;
 import com.bernardomg.image.domain.model.ImageContent;
 import com.bernardomg.image.domain.repository.ImageRepository;
 import com.bernardomg.image.test.configuration.factory.ImageConstants;
+import com.bernardomg.image.test.configuration.factory.Images;
 import com.bernardomg.image.usecase.service.DefaultImageService;
 
 import software.amazon.awssdk.core.ResponseBytes;
@@ -32,8 +32,6 @@ class TestImageServiceGetContent {
     @Mock
     private S3Client            client;
 
-    private Image               image;
-
     @Mock
     private ImageRepository     repository;
 
@@ -42,8 +40,6 @@ class TestImageServiceGetContent {
     @BeforeEach
     void setUp() {
         service = new DefaultImageService(repository, client, ImageConstants.BUCKET);
-        image = new Image(ImageConstants.NUMBER, ImageConstants.NAME, ImageConstants.DESCRIPTION, ImageConstants.KEY,
-            ImageConstants.MEDIA_TYPE, ImageConstants.DATA.length);
     }
 
     @Test
@@ -61,7 +57,7 @@ class TestImageServiceGetContent {
         response = GetObjectResponse.builder()
             .contentType(ImageConstants.MEDIA_TYPE)
             .build();
-        given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.of(image));
+        given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.of(Images.valid()));
         given(client.getObjectAsBytes(request)).willReturn(ResponseBytes.fromByteArray(response, ImageConstants.DATA));
 
         // WHEN

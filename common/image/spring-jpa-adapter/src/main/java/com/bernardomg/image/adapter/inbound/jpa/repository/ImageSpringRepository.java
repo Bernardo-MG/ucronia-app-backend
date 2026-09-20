@@ -4,6 +4,8 @@ package com.bernardomg.image.adapter.inbound.jpa.repository;
 
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -14,10 +16,16 @@ public interface ImageSpringRepository extends JpaRepository<ImageEntity, Long> 
 
     public void deleteByNumber(final Long number);
 
+    public boolean existsByFolderNumber(final Long folderNumber);
+
     public boolean existsByName(final String name);
 
     @Query("SELECT CASE WHEN COUNT(i) > 0 THEN TRUE ELSE FALSE END FROM Image i WHERE i.number != :number AND i.name = :name")
     public boolean existsByNotNumberAndName(@Param("number") final Long number, @Param("name") final String name);
+
+    public Page<ImageEntity> findAllByFolderIsNull(final Pageable pageable);
+
+    public Page<ImageEntity> findAllByFolderNumber(final Long folderNumber, final Pageable pageable);
 
     public Optional<ImageEntity> findByNumber(final Long number);
 

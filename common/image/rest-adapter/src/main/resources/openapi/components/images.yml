@@ -19,6 +19,7 @@ components:
         number: { type: integer, format: int64 }
         name: { type: string, minLength: 1, maxLength: 100 }
         description: { type: string, maxLength: 500 }
+        folderNumber: { type: integer, format: int64, nullable: true }
         mediaType: { type: string }
         size: { type: integer, format: int64 }
         audit:
