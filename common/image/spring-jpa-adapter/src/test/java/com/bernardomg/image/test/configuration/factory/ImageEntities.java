@@ -20,7 +20,7 @@ public final class ImageEntities {
         entity.setName(ImageConstants.NAME);
         entity.setDescription(ImageConstants.DESCRIPTION);
         entity.setKey(ImageConstants.KEY);
-        entity.setMediaType(ImageConstants.MEDIA_TYPE);
+        entity.setMediaType(ImageConstants.PNG_MEDIA_TYPE);
         entity.setSize((long) ImageConstants.DATA.length);
         return entity;
     }

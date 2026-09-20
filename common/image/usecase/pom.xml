@@ -4,9 +4,9 @@
 
    <modelVersion>4.0.0</modelVersion>
 
-	<!-- ********************************************** -->
-	<!-- ****************** BASE POM ****************** -->
-	<!-- ********************************************** -->
+    <!-- ********************************************** -->
+    <!-- ****************** BASE POM ****************** -->
+    <!-- ********************************************** -->
 
    <parent>
       <groupId>com.bernardomg.image</groupId>
@@ -14,9 +14,9 @@
       <version>1.0.0-SNAPSHOT</version>
    </parent>
 
-	<!-- ********************************************** -->
-	<!-- **************** PROJECT INFO **************** -->
-	<!-- ********************************************** -->
+    <!-- ********************************************** -->
+    <!-- **************** PROJECT INFO **************** -->
+    <!-- ********************************************** -->
 
    <groupId>com.bernardomg.image</groupId>
    <artifactId>image-usecase</artifactId>
@@ -24,15 +24,11 @@
 
    <name>Images Usecase</name>
 
-	<!-- ********************************************** -->
-	<!-- *************** DEPENDENCIES ***************** -->
-	<!-- ********************************************** -->
+    <!-- ********************************************** -->
+    <!-- *************** DEPENDENCIES ***************** -->
+    <!-- ********************************************** -->
 
    <dependencies>
-      <dependency>
-         <groupId>com.bernardomg</groupId>
-         <artifactId>excel</artifactId>
-      </dependency>
       <dependency>
          <groupId>com.bernardomg.image</groupId>
          <artifactId>image-domain</artifactId>
@@ -42,44 +38,18 @@
          <groupId>jakarta.transaction</groupId>
          <artifactId>jakarta.transaction-api</artifactId>
       </dependency>
-		<!-- ============================================== -->
-		<!-- ================ FRAMEWORK =================== -->
-		<!-- ============================================== -->
+      <!-- ============================================== -->
+      <!-- ================ FRAMEWORK =================== -->
+      <!-- ============================================== -->
       <dependency>
-			<!-- Validation -->
+         <!-- Validation -->
          <groupId>com.bernardomg.framework</groupId>
          <artifactId>validation</artifactId>
       </dependency>
       <dependency>
-         <!-- AWS S3 -->
-         <groupId>software.amazon.awssdk</groupId>
-         <artifactId>s3</artifactId>
-      </dependency>
-      <dependency>
-			<!-- Pagination -->
+         <!-- Pagination -->
          <groupId>com.bernardomg.framework</groupId>
          <artifactId>pagination</artifactId>
-      </dependency>
-      <!-- ============================================== -->
-      <!-- ================== SPRING ==================== -->
-      <!-- ============================================== -->
-      <dependency>
-         <!-- Spring Web -->
-         <groupId>org.springframework</groupId>
-         <artifactId>spring-web</artifactId>
-      </dependency>
-		<!-- ============================================== -->
-		<!-- =============== APACHE POI =================== -->
-		<!-- ============================================== -->
-      <dependency>
-			<!-- Apache POI -->
-         <groupId>org.apache.poi</groupId>
-         <artifactId>poi</artifactId>
-      </dependency>
-      <dependency>
-			<!-- Apache POI OOXML -->
-         <groupId>org.apache.poi</groupId>
-         <artifactId>poi-ooxml</artifactId>
       </dependency>
       <!-- ============================================== -->
       <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->

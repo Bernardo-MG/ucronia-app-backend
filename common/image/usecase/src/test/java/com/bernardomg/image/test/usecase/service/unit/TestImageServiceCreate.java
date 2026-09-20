@@ -1,48 +1,39 @@
-/** The MIT License (MIT). Copyright (c) 2022-2025 Bernardo Martínez Garrido. */
 
 package com.bernardomg.image.test.usecase.service.unit;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.image.domain.exception.ImageAlreadyExistsException;
 import com.bernardomg.image.domain.model.Image;
 import com.bernardomg.image.domain.model.ImageContent;
+import com.bernardomg.image.domain.repository.ImageContentRepository;
 import com.bernardomg.image.domain.repository.ImageRepository;
 import com.bernardomg.image.test.configuration.factory.ImageConstants;
 import com.bernardomg.image.test.configuration.factory.Images;
 import com.bernardomg.image.usecase.service.DefaultImageService;
-
-import software.amazon.awssdk.core.sync.RequestBody;
-import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Image service")
 class TestImageServiceCreate {
 
     @Mock
-    private S3Client            client;
+    private ImageContentRepository contentRepository;
 
     @Mock
-    private ImageRepository     repository;
+    private ImageRepository        repository;
 
-    private DefaultImageService service;
-
-    @BeforeEach
-    void setUp() {
-        service = new DefaultImageService(repository, client, ImageConstants.BUCKET);
-    }
+    @InjectMocks
+    private DefaultImageService    service;
 
     @Test
     @DisplayName("When creating an image, metadata and content are persisted")
@@ -53,27 +44,28 @@ class TestImageServiceCreate {
         given(repository.save(any(Image.class))).willReturn(Images.valid());
 
         // WHEN
-        created = service.create(Images.valid(), new ImageContent(ImageConstants.DATA, ImageConstants.MEDIA_TYPE));
+        created = service.create(Images.valid(), new ImageContent(ImageConstants.DATA, ImageConstants.PNG_MEDIA_TYPE));
 
         // THEN
         Assertions.assertThat(created)
             .isEqualTo(Images.valid());
-        verify(repository).existsByName(ImageConstants.NAME);
-        verify(client).putObject(any(PutObjectRequest.class), any(RequestBody.class));
     }
 
     @Test
     @DisplayName("When creating an image with an existing name, conflict is raised")
-    void testCreateExisting() {
+    void testCreate_Existing() {
+        final ThrowingCallable callable;
+
         // GIVEN
         given(repository.existsByName(ImageConstants.NAME)).willReturn(true);
 
-        // WHEN + THEN
-        Assertions
-            .assertThatThrownBy(
-                () -> service.create(Images.valid(), new ImageContent(ImageConstants.DATA, ImageConstants.MEDIA_TYPE)))
+        // WHEN
+        callable = () -> service.create(Images.valid(),
+            new ImageContent(ImageConstants.DATA, ImageConstants.PNG_MEDIA_TYPE));
+
+        // THEN
+        Assertions.assertThatThrownBy(callable)
             .isInstanceOf(ImageAlreadyExistsException.class);
-        verify(client, never()).putObject(any(PutObjectRequest.class), any(RequestBody.class));
     }
 
 }

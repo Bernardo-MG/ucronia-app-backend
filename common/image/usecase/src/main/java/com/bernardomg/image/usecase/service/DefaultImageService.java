@@ -28,26 +28,18 @@ import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.MediaType;
 
 import com.bernardomg.image.domain.exception.ImageAlreadyExistsException;
 import com.bernardomg.image.domain.exception.ImageNotExistingException;
 import com.bernardomg.image.domain.model.Image;
 import com.bernardomg.image.domain.model.ImageContent;
+import com.bernardomg.image.domain.repository.ImageContentRepository;
 import com.bernardomg.image.domain.repository.ImageRepository;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 
 import jakarta.transaction.Transactional;
-import software.amazon.awssdk.core.ResponseBytes;
-import software.amazon.awssdk.core.sync.RequestBody;
-import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
-import software.amazon.awssdk.services.s3.model.GetObjectRequest;
-import software.amazon.awssdk.services.s3.model.GetObjectResponse;
-import software.amazon.awssdk.services.s3.model.NoSuchKeyException;
-import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 /**
  * Loads images from an S3-compatible object store.
@@ -60,20 +52,17 @@ public final class DefaultImageService implements ImageService {
     /**
      * Logger for the class.
      */
-    private static final Logger   log = LoggerFactory.getLogger(DefaultImageService.class);
+    private static final Logger          log = LoggerFactory.getLogger(DefaultImageService.class);
 
-    private final String          bucket;
+    private final ImageContentRepository imageContentRepository;
 
-    private final S3Client        client;
+    private final ImageRepository        imageRepository;
 
-    private final ImageRepository repository;
-
-    public DefaultImageService(final ImageRepository imageRepository, final S3Client s3Client, final String s3Bucket) {
+    public DefaultImageService(final ImageRepository imageRepo, final ImageContentRepository imageContentRepo) {
         super();
 
-        client = Objects.requireNonNull(s3Client);
-        repository = Objects.requireNonNull(imageRepository);
-        bucket = Objects.requireNonNull(s3Bucket);
+        imageRepository = Objects.requireNonNull(imageRepo);
+        imageContentRepository = Objects.requireNonNull(imageContentRepo);
     }
 
     @Override
@@ -81,77 +70,87 @@ public final class DefaultImageService implements ImageService {
         final Image toCreate;
         final Image created;
 
-        if (repository.existsByName(image.name())) {
+        log.debug("Creating image {}", image);
+
+        if (imageRepository.existsByName(image.name())) {
             log.error("Image {} already exists", image.name());
             throw new ImageAlreadyExistsException(image.name());
         }
 
         toCreate = new Image(image.number(), image.name(), image.description(), image.key(), content.mediaType(),
             content.data().length, image.folderNumber());
-        created = repository.save(toCreate);
-        storeImage(created.key(), content);
+        created = imageRepository.save(toCreate);
+        imageContentRepository.save(created.key(), content);
+
+        log.debug("Created image {}", created);
 
         return created;
     }
 
     @Override
     public final Image delete(final Long number) {
-        final DeleteObjectRequest request;
-        final Image               image;
+        final Image deleted;
 
-        image = getOne(number);
+        log.debug("Deleting image {}", number);
 
-        request = DeleteObjectRequest.builder()
-            .bucket(bucket)
-            .key(image.key())
-            .build();
-        repository.delete(number);
-        client.deleteObject(request);
+        deleted = getOne(number);
 
-        return image;
+        imageRepository.delete(number);
+        imageContentRepository.delete(deleted.key());
+
+        log.debug("Deleted image {}", deleted);
+
+        return deleted;
     }
 
     @Override
     public final Page<Image> getAll(final Pagination pagination, final Sorting sorting) {
-        return repository.findAll(pagination, sorting);
+        final Page<Image> page;
+
+        log.debug("Reading all images with pagination {} and sorting {}", pagination, sorting);
+
+        page = imageRepository.findAll(pagination, sorting);
+
+        log.debug("Read all images with pagination {} and sorting {}: {}", pagination, sorting, page);
+
+        return page;
     }
 
     @Override
     public final ImageContent getContent(final Long number) {
-        final GetObjectRequest                 request;
-        final ResponseBytes<GetObjectResponse> response;
-        final String                           mediaType;
-        final Image                            image;
+        final Image        image;
+        final ImageContent imageContent;
 
-        image = repository.findOne(number)
+        log.debug("Reading image content for {}", number);
+
+        image = imageRepository.findOne(number)
             .orElseThrow(() -> {
                 log.error("Image {} doesn't exist", number);
                 return new ImageNotExistingException(number);
             });
-        request = GetObjectRequest.builder()
-            .bucket(bucket)
-            .key(image.key())
-            .build();
-        try {
-            response = client.getObjectAsBytes(request);
-        } catch (final NoSuchKeyException ex) {
-            log.error("Image {} doesn't exist", number);
-            throw new ImageNotExistingException(number);
-        }
 
-        mediaType = response.response()
-            .contentType();
-        return new ImageContent(response.asByteArray(),
-            mediaType != null ? mediaType : MediaType.APPLICATION_OCTET_STREAM_VALUE);
+        imageContent = imageContentRepository.getOne(image.key());
+
+        log.debug("Read image content for {}", number);
+
+        return imageContent;
     }
 
     @Override
     public final Image getOne(final Long number) {
-        return repository.findOne(number)
+        final Image image;
+
+        log.debug("Reading image {}", number);
+
+        image = imageRepository.findOne(number)
             .orElseThrow(() -> {
                 log.error("Image {} doesn't exist", number);
                 return new ImageNotExistingException(number);
             });
+
+        log.debug("Read image {}", image);
+
+        return image;
     }
 
     @Override
@@ -159,31 +158,24 @@ public final class DefaultImageService implements ImageService {
         final Image existing;
         final Image updated;
 
-        existing = repository.findOne(image.number())
+        log.debug("Updating image {}", image);
+
+        existing = imageRepository.findOne(image.number())
             .orElseThrow(() -> {
                 log.error("Image {} doesn't exist", image.number());
                 return new ImageNotExistingException(image.number());
             });
-        if (repository.existsByNameForAnother(image.name(), image.number())) {
+        if (imageRepository.existsByNameForAnother(image.name(), image.number())) {
             log.error("Image {} already exists", image.name());
             throw new ImageAlreadyExistsException(image.name());
         }
-        updated = repository.save(new Image(image.number(), image.name(), image.description(), existing.key(),
+        updated = imageRepository.save(new Image(image.number(), image.name(), image.description(), existing.key(),
             content.mediaType(), content.data().length, existing.folderNumber(), existing.audit()));
-        storeImage(updated.key(), content);
+        imageContentRepository.save(updated.key(), content);
+
+        log.debug("Updated image {}", updated);
 
         return updated;
-    }
-
-    private final void storeImage(final String name, final ImageContent content) {
-        final PutObjectRequest request;
-
-        request = PutObjectRequest.builder()
-            .bucket(bucket)
-            .key(name)
-            .contentType(content.mediaType())
-            .build();
-        client.putObject(request, RequestBody.fromBytes(content.data()));
     }
 
 }

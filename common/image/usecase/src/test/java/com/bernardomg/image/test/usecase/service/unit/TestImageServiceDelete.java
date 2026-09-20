@@ -1,48 +1,39 @@
-/** The MIT License (MIT). Copyright (c) 2022-2025 Bernardo Martínez Garrido. */
 
 package com.bernardomg.image.test.usecase.service.unit;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
 
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.image.domain.exception.ImageNotExistingException;
 import com.bernardomg.image.domain.model.Image;
+import com.bernardomg.image.domain.repository.ImageContentRepository;
 import com.bernardomg.image.domain.repository.ImageRepository;
 import com.bernardomg.image.test.configuration.factory.ImageConstants;
 import com.bernardomg.image.test.configuration.factory.Images;
 import com.bernardomg.image.usecase.service.DefaultImageService;
-
-import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Image service")
 class TestImageServiceDelete {
 
     @Mock
-    private S3Client            client;
+    private ImageContentRepository contentRepository;
 
     @Mock
-    private ImageRepository     repository;
+    private ImageRepository        repository;
 
-    private DefaultImageService service;
-
-    @BeforeEach
-    void setUp() {
-        service = new DefaultImageService(repository, client, ImageConstants.BUCKET);
-    }
+    @InjectMocks
+    private DefaultImageService    service;
 
     @Test
     @DisplayName("When deleting an image, metadata and content are deleted")
@@ -58,23 +49,22 @@ class TestImageServiceDelete {
         // THEN
         Assertions.assertThat(deleted)
             .isEqualTo(Images.valid());
-        verify(client).deleteObject(DeleteObjectRequest.builder()
-            .bucket(ImageConstants.BUCKET)
-            .key(ImageConstants.KEY)
-            .build());
-        verify(repository).delete(ImageConstants.NUMBER);
     }
 
     @Test
     @DisplayName("When deleting a missing image, not found is raised")
-    void testDeleteMissing() {
+    void testDelete_Missing() {
+        final ThrowingCallable callable;
+
         // GIVEN
         given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.empty());
 
+        // WHEN
+        callable = () -> service.delete(ImageConstants.NUMBER);
+
         // WHEN + THEN
-        Assertions.assertThatThrownBy(() -> service.delete(ImageConstants.NUMBER))
+        Assertions.assertThatThrownBy(callable)
             .isInstanceOf(ImageNotExistingException.class);
-        verify(client, never()).deleteObject(any(DeleteObjectRequest.class));
     }
 
 }

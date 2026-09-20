@@ -1,4 +1,3 @@
-/** The MIT License (MIT). Copyright (c) 2022-2025 Bernardo Martínez Garrido. */
 
 package com.bernardomg.image.test.usecase.service.unit;
 
@@ -7,38 +6,34 @@ import static org.mockito.BDDMockito.given;
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.image.domain.exception.ImageNotExistingException;
 import com.bernardomg.image.domain.model.Image;
+import com.bernardomg.image.domain.repository.ImageContentRepository;
 import com.bernardomg.image.domain.repository.ImageRepository;
 import com.bernardomg.image.test.configuration.factory.ImageConstants;
 import com.bernardomg.image.test.configuration.factory.Images;
 import com.bernardomg.image.usecase.service.DefaultImageService;
-
-import software.amazon.awssdk.services.s3.S3Client;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Image service")
 class TestImageServiceGetOne {
 
     @Mock
-    private S3Client            client;
+    private ImageContentRepository contentRepository;
 
     @Mock
-    private ImageRepository     repository;
+    private ImageRepository        repository;
 
-    private DefaultImageService service;
-
-    @BeforeEach
-    void setUp() {
-        service = new DefaultImageService(repository, client, ImageConstants.BUCKET);
-    }
+    @InjectMocks
+    private DefaultImageService    service;
 
     @Test
     @DisplayName("When getting an image, its metadata is returned")
@@ -58,12 +53,17 @@ class TestImageServiceGetOne {
 
     @Test
     @DisplayName("When getting a missing image, not found is raised")
-    void testGetOneMissing() {
+    void testGetOne_Missing() {
+        final ThrowingCallable callable;
+
         // GIVEN
         given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.empty());
 
+        // WHEN
+        callable = () -> service.getOne(ImageConstants.NUMBER);
+
         // WHEN + THEN
-        Assertions.assertThatThrownBy(() -> service.getOne(ImageConstants.NUMBER))
+        Assertions.assertThatThrownBy(callable)
             .isInstanceOf(ImageNotExistingException.class);
     }
 

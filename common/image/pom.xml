@@ -34,6 +34,7 @@
      <module>usecase</module>
      <module>spring-jpa-adapter</module>
      <module>rest-adapter</module>
+     <module>s3-adapter</module>
      <module>spring-starter</module>
    </modules>
 
@@ -69,6 +70,11 @@
          <dependency>
             <groupId>com.bernardomg.image</groupId>
             <artifactId>image-spring-jpa-adapter</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.image</groupId>
+            <artifactId>image-s3-adapter</artifactId>
             <version>${project.version}</version>
          </dependency>
       </dependencies>

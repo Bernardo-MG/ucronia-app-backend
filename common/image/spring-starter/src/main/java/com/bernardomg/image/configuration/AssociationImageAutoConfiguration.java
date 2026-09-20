@@ -37,6 +37,8 @@ import com.bernardomg.image.adapter.inbound.jpa.repository.ImageFolderSpringRepo
 import com.bernardomg.image.adapter.inbound.jpa.repository.ImageSpringRepository;
 import com.bernardomg.image.adapter.inbound.jpa.repository.JpaImageFolderRepository;
 import com.bernardomg.image.adapter.inbound.jpa.repository.JpaImageRepository;
+import com.bernardomg.image.adapter.s3.repository.S3ImageContentRepository;
+import com.bernardomg.image.domain.repository.ImageContentRepository;
 import com.bernardomg.image.domain.repository.ImageFolderRepository;
 import com.bernardomg.image.domain.repository.ImageRepository;
 import com.bernardomg.image.usecase.service.DefaultImageFolderService;
@@ -56,6 +58,12 @@ import software.amazon.awssdk.services.s3.S3ClientBuilder;
 @AutoConfigurationPackage(basePackages = { "com.bernardomg.image.adapter.inbound.jpa" })
 @EnableConfigurationProperties(ImageS3Properties.class)
 public class AssociationImageAutoConfiguration {
+
+    @Bean("imageContentRepository")
+    public ImageContentRepository getImageContentRepository(final S3Client s3Client,
+            final ImageS3Properties properties) {
+        return new S3ImageContentRepository(s3Client, properties.getBucket());
+    }
 
     @Bean("imageFolderRepository")
     public ImageFolderRepository getImageFolderRepository(final ImageFolderSpringRepository repository) {
@@ -80,9 +88,9 @@ public class AssociationImageAutoConfiguration {
     }
 
     @Bean("imageService")
-    public ImageService getImageService(final ImageRepository repository, final S3Client s3Client,
-            final ImageS3Properties properties) {
-        return new DefaultImageService(repository, s3Client, properties.getBucket());
+    public ImageService getImageService(final ImageRepository imageRepository,
+            final ImageContentRepository imageContentRepository) {
+        return new DefaultImageService(imageRepository, imageContentRepository);
     }
 
     @Bean("imageWhitelist")

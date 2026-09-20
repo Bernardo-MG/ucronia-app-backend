@@ -102,7 +102,7 @@ class TestImageController {
     void testGetImageContent() throws Exception {
         // GIVEN
         given(service.getContent(ImageConstants.NUMBER))
-            .willReturn(new ImageContent(ImageConstants.DATA, ImageConstants.MEDIA_TYPE));
+            .willReturn(new ImageContent(ImageConstants.DATA, ImageConstants.PNG_MEDIA_TYPE));
 
         // WHEN + THEN
         mockMvc.perform(get("/images/{number}/content", ImageConstants.NUMBER))
