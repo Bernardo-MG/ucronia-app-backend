@@ -28,4 +28,5 @@ post:
         application/json:
           schema:
             $ref: '../components/image-folders.yml#/components/schemas/ImageFolder'
-    '409': { description: A sibling folder with the same name exists. }
+    '409':
+       description: A sibling folder with the same name exists.

@@ -178,4 +178,28 @@ public final class DefaultImageService implements ImageService {
         return updated;
     }
 
+    @Override
+    public final Image updateMetadata(final Image image) {
+        final Image existing;
+        final Image updated;
+
+        log.debug("Updating metadata for image {}", image);
+
+        existing = imageRepository.findOne(image.number())
+            .orElseThrow(() -> {
+                log.error("Image {} doesn't exist", image.number());
+                return new ImageNotExistingException(image.number());
+            });
+        if (imageRepository.existsByNameForAnother(image.name(), image.number())) {
+            log.error("Image {} already exists", image.name());
+            throw new ImageAlreadyExistsException(image.name());
+        }
+        updated = imageRepository.save(new Image(existing.number(), image.name(), image.description(), existing.key(),
+            existing.mediaType(), existing.size(), existing.folderNumber(), existing.audit()));
+
+        log.debug("Updated metadata for image {}", updated);
+
+        return updated;
+    }
+
 }

@@ -16,14 +16,65 @@ components:
     Image:
       type: object
       properties:
-        number: { type: integer, format: int64 }
-        name: { type: string, minLength: 1, maxLength: 100 }
-        description: { type: string, maxLength: 500 }
-        folderNumber: { type: integer, format: int64, nullable: true }
-        mediaType: { type: string }
-        size: { type: integer, format: int64 }
+        number:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        name: 
+          type: string
+          minLength: 1
+          maxLength: 100
+        description:
+          type: string
+          maxLength: 500
+        folderNumber:
+          type: integer
+          format: int64
+          nullable: true
+        mediaType:
+          type: string
+        size:
+          type: integer
+          format: int64
         audit:
           $ref: 'audit.yml#/components/schemas/AuditDetails'
+    ImageCreation:
+      type: object
+      required: [name, description]
+      properties:
+        name: 
+          type: string
+          minLength: 1
+          maxLength: 100
+        description:
+          type: string
+          maxLength: 500
+        file:
+          type: string
+          format: binary
+    ImageUpdate:
+      type: object
+      required: [name, description]
+      properties:
+        name: 
+          type: string
+          minLength: 1
+          maxLength: 100
+        description:
+          type: string
+          maxLength: 500
+        file:
+          type: string
+          format: binary
+    ImageMetadataUpdate:
+      type: object
+      required: [name, description]
+      properties:
+        name: 
+          type: string
+          minLength: 1
+          maxLength: 100
+        description:
+          type: string
+          maxLength: 500
     ImageResponse:
       type: object
       properties:

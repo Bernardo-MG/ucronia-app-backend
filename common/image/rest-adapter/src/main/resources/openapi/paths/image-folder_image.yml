@@ -2,11 +2,13 @@ parameters:
   - in: path
     name: folderNumber
     required: true
-    schema: { type: integer, format: int64 }
+    schema:
+       $ref: '../common/ids.yml#/components/schemas/Id'
   - in: path
     name: imageNumber
     required: true
-    schema: { type: integer, format: int64 }
+    schema:
+       $ref: '../common/ids.yml#/components/schemas/Id'
 put:
   summary: Move an image into a folder.
   operationId: moveImageToFolder

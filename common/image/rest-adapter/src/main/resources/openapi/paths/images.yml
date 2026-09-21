@@ -7,12 +7,7 @@ post:
     content:
       multipart/form-data:
         schema:
-          type: object
-          required: [name, description, file]
-          properties:
-            name: { type: string, minLength: 1, maxLength: 100 }
-            description: { type: string, maxLength: 500 }
-            file: { type: string, format: binary }
+           $ref: '../components/images.yml#/components/schemas/ImageCreation'
   responses:
     '201':
       description: Image created.
@@ -20,7 +15,8 @@ post:
         application/json:
           schema:
             $ref: '../components/images.yml#/components/schemas/ImageResponse'
-    '409': { description: Image name already exists. }
+    '409':
+      description: Image name already exists.
 get:
   summary: Get all images.
   operationId: getAllImages

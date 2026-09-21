@@ -2,7 +2,8 @@ parameters:
   - in: path
     name: number
     required: true
-    schema: { type: integer, format: int64 }
+    schema:
+       $ref: '../common/ids.yml#/components/schemas/Id'
 get:
   summary: Get an image folder.
   operationId: getImageFolder
@@ -14,7 +15,8 @@ get:
         application/json:
           schema:
             $ref: '../components/image-folders.yml#/components/schemas/ImageFolder'
-    '404': { description: Folder not found. }
+    '404':
+       description: Folder not found.
 put:
   summary: Rename or move an image folder.
   operationId: updateImageFolder
@@ -32,7 +34,8 @@ put:
         application/json:
           schema:
             $ref: '../components/image-folders.yml#/components/schemas/ImageFolder'
-    '400': { description: The requested hierarchy contains a cycle. }
+    '400':
+       description: The requested hierarchy contains a cycle.
 delete:
   summary: Delete an empty image folder.
   operationId: deleteImageFolder
@@ -44,4 +47,5 @@ delete:
         application/json:
           schema:
             $ref: '../components/image-folders.yml#/components/schemas/ImageFolder'
-    '409': { description: Folder contains images or child folders. }
+    '409':
+       description: Folder contains images or child folders.

@@ -5,6 +5,7 @@ package com.bernardomg.image.adapter.outbound.rest.model;
 import com.bernardomg.image.adapter.outbound.rest.dto.AuditDetailsDto;
 import com.bernardomg.image.adapter.outbound.rest.dto.AuditUserDto;
 import com.bernardomg.image.adapter.outbound.rest.dto.ImageDto;
+import com.bernardomg.image.adapter.outbound.rest.dto.ImageMetadataUpdateDto;
 import com.bernardomg.image.adapter.outbound.rest.dto.ImagePageResponseDto;
 import com.bernardomg.image.adapter.outbound.rest.dto.ImageResponseDto;
 import com.bernardomg.image.adapter.outbound.rest.dto.PropertyDto;
@@ -18,6 +19,10 @@ import com.bernardomg.security.domain.audit.model.AuditDetails;
 import com.bernardomg.security.domain.audit.model.AuditDetails.AuditUser;
 
 public final class ImageDtoMapper {
+
+    public static final Image toDomain(final long number, final ImageMetadataUpdateDto change) {
+        return new Image(number, change.getName(), change.getDescription(), "", "", 0);
+    }
 
     public static ImageResponseDto toResponseDto(final Image image) {
         return new ImageResponseDto().content(new ImageDto().number(image.number())

@@ -50,4 +50,6 @@ public interface ImageService {
 
     public Image update(final Image image, final ImageContent content);
 
+    public Image updateMetadata(final Image image);
+
 }

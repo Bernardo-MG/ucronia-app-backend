@@ -2,7 +2,8 @@ parameters:
   - in: path
     name: folderNumber
     required: true
-    schema: { type: integer, format: int64 }
+    schema:
+       $ref: '../common/ids.yml#/components/schemas/Id'
 get:
   summary: Get the images directly contained by a folder.
   operationId: getImagesInFolder

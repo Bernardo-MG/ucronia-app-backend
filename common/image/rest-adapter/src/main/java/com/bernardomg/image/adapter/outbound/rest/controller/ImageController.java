@@ -17,6 +17,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.framework.security.access.annotation.Unsecured;
+import com.bernardomg.image.adapter.outbound.rest.dto.ImageMetadataUpdateDto;
 import com.bernardomg.image.adapter.outbound.rest.dto.ImagePageResponseDto;
 import com.bernardomg.image.adapter.outbound.rest.dto.ImageResponseDto;
 import com.bernardomg.image.adapter.outbound.rest.model.ImageDtoMapper;
@@ -46,10 +47,11 @@ public class ImageController implements ImageApi {
             final MultipartFile file) {
         final ImageContent     content;
         final ImageResponseDto response;
+        final Image            image;
 
         content = getImageContent(file);
-        response = ImageDtoMapper.toResponseDto(
-            service.create(new Image(-1L, name, description, "", content.mediaType(), content.data().length), content));
+        image = new Image(-1L, name, description, "", content.mediaType(), content.data().length);
+        response = ImageDtoMapper.toResponseDto(service.create(image, content));
         return ResponseEntity.status(HttpStatus.CREATED)
             .body(response);
     }
@@ -102,6 +104,18 @@ public class ImageController implements ImageApi {
         response = ImageDtoMapper.toResponseDto(service
             .update(new Image(number, name, description, "", content.mediaType(), content.data().length), content));
         return ResponseEntity.ok(response);
+    }
+
+    @Override
+    @RequireResourceAuthorization(resource = "IMAGE", action = Actions.UPDATE)
+    public ResponseEntity<ImageResponseDto> updateImageMetadata(final Long number,
+            final ImageMetadataUpdateDto imageMetadataUpdateDto) {
+        final Image updated;
+        final Image image;
+
+        image = ImageDtoMapper.toDomain(number, imageMetadataUpdateDto);
+        updated = service.updateMetadata(image);
+        return ResponseEntity.ok(ImageDtoMapper.toResponseDto(updated));
     }
 
     private ImageContent getImageContent(final MultipartFile file) {

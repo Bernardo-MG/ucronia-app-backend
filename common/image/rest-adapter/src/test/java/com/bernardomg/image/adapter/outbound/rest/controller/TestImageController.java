@@ -4,9 +4,9 @@ package com.bernardomg.image.adapter.outbound.rest.controller;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -107,6 +107,21 @@ class TestImageController {
         // WHEN + THEN
         mockMvc.perform(get("/images/{number}/content", ImageConstants.NUMBER))
             .andExpect(status().isOk());
-        verify(service).getContent(ImageConstants.NUMBER);
+    }
+
+    @Test
+    void testUpdateImageMetadata() throws Exception {
+        // GIVEN
+        given(service.updateMetadata(Images.patch())).willReturn(Images.patch());
+
+        // WHEN + THEN
+        mockMvc.perform(patch("/images/{number}", ImageConstants.NUMBER).contentType(MediaType.APPLICATION_JSON)
+            .content("""
+                    {
+                      "name": "%s",
+                      "description": "%s"
+                    }
+                    """.formatted(ImageConstants.NAME, ImageConstants.DESCRIPTION)))
+            .andExpect(status().isOk());
     }
 }

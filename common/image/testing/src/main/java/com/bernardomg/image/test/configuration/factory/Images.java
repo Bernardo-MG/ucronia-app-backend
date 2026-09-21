@@ -11,6 +11,10 @@ public final class Images {
             ImageConstants.KEY, ImageConstants.PNG_MEDIA_TYPE, ImageConstants.DATA.length);
     }
 
+    public static Image patch() {
+        return new Image(ImageConstants.NUMBER, ImageConstants.NAME, ImageConstants.DESCRIPTION, "", "", 0);
+    }
+
     public static Image valid() {
         return new Image(ImageConstants.NUMBER, ImageConstants.NAME, ImageConstants.DESCRIPTION, ImageConstants.KEY,
             ImageConstants.PNG_MEDIA_TYPE, ImageConstants.DATA.length);
