@@ -39,6 +39,7 @@ import com.bernardomg.association.calendar.activity.domain.filter.ActivityFilter
 import com.bernardomg.association.calendar.activity.domain.model.Activity;
 import com.bernardomg.association.calendar.activity.usecase.service.ActivityService;
 import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
+import com.bernardomg.framework.security.access.annotation.Unsecured;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
@@ -88,7 +89,7 @@ public class ActivityController implements ActivityApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "ACTIVITY", action = Actions.READ)
+    @Unsecured
     public ActivityPageResponseDto getAllActivities(final Integer page, final Integer size, final List<String> sort,
             final Instant from, final Instant to) {
         final ActivityFilter filter;
@@ -105,7 +106,7 @@ public class ActivityController implements ActivityApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "ACTIVITY", action = Actions.READ)
+    @Unsecured
     public ActivityResponseDto getOneActivity(final Long number) {
         final Optional<Activity> activity;
 

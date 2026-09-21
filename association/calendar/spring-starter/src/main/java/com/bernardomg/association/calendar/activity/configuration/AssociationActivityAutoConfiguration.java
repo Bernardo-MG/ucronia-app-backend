@@ -27,6 +27,7 @@ package com.bernardomg.association.calendar.activity.configuration;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.http.HttpMethod;
 
 import com.bernardomg.association.calendar.activity.adapter.inbound.jpa.repository.JpaActivityRepository;
 import com.bernardomg.association.calendar.activity.domain.repository.ActivityRepository;
@@ -37,6 +38,7 @@ import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.Calend
 import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.CalendarStatusSpringRepository;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.CalendarTypeSpringRepository;
 import com.bernardomg.event.emitter.EventEmitter;
+import com.bernardomg.security.springframework.web.whitelist.WhitelistRoute;
 
 @AutoConfiguration
 @ComponentScan({ "com.bernardomg.association.calendar.activity.adapter.outbound.rest.controller" })
@@ -55,6 +57,11 @@ public class AssociationActivityAutoConfiguration {
     public ActivityService getActivityService(final ActivityRepository activityRepository,
             final EventEmitter eventEmitter) {
         return new DefaultActivityService(activityRepository, eventEmitter);
+    }
+
+    @Bean("activityWhitelist")
+    public WhitelistRoute getOpenApiWhitelist() {
+        return WhitelistRoute.of("/activity", HttpMethod.GET, HttpMethod.OPTIONS);
     }
 
 }
