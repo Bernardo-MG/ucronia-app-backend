@@ -53,7 +53,7 @@ public final class JpaImageRepository implements ImageRepository {
 
         log.debug("Checking if image {} exists", number);
 
-        exists = repository.existsById(number);
+        exists = repository.existsByNumber(number);
 
         log.debug("Image {} exists: {}", number, exists);
 
