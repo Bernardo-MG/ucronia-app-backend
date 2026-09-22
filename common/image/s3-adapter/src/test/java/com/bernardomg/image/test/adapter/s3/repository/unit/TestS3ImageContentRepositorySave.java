@@ -5,6 +5,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 
+import java.io.ByteArrayInputStream;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -41,7 +43,8 @@ class TestS3ImageContentRepositorySave {
         final PutObjectRequest request;
 
         // GIVEN
-        content = new ImageContent(ImageConstants.DATA, ImageConstants.PNG_MEDIA_TYPE);
+        content = new ImageContent(new ByteArrayInputStream(ImageConstants.DATA), ImageConstants.DATA.length,
+            ImageConstants.PNG_MEDIA_TYPE);
         request = PutObjectRequest.builder()
             .bucket(ImageConstants.BUCKET)
             .key(ImageConstants.KEY)

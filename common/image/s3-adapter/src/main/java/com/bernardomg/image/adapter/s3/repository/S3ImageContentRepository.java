@@ -11,7 +11,7 @@ import com.bernardomg.image.domain.exception.ImageContentNotExistingException;
 import com.bernardomg.image.domain.model.ImageContent;
 import com.bernardomg.image.domain.repository.ImageContentRepository;
 
-import software.amazon.awssdk.core.ResponseBytes;
+import software.amazon.awssdk.core.ResponseInputStream;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
@@ -51,16 +51,16 @@ public final class S3ImageContentRepository implements ImageContentRepository {
 
     @Override
     public final ImageContent getOne(final String key) {
-        final GetObjectRequest                 request;
-        final ResponseBytes<GetObjectResponse> response;
-        final String                           mediaType;
+        final GetObjectRequest                       request;
+        final ResponseInputStream<GetObjectResponse> response;
+        final String                                 mediaType;
 
         request = GetObjectRequest.builder()
             .bucket(bucket)
             .key(key)
             .build();
         try {
-            response = client.getObjectAsBytes(request);
+            response = client.getObject(request);
         } catch (final NoSuchKeyException ex) {
             log.error("Image {} doesn't exist", key);
             throw new ImageContentNotExistingException(key);
@@ -68,8 +68,8 @@ public final class S3ImageContentRepository implements ImageContentRepository {
 
         mediaType = response.response()
             .contentType();
-        return new ImageContent(response.asByteArray(),
-            mediaType != null ? mediaType : MediaType.APPLICATION_OCTET_STREAM_VALUE);
+        return new ImageContent(response, response.response()
+            .contentLength(), mediaType != null ? mediaType : MediaType.APPLICATION_OCTET_STREAM_VALUE);
     }
 
     @Override
@@ -81,7 +81,7 @@ public final class S3ImageContentRepository implements ImageContentRepository {
             .key(name)
             .contentType(content.mediaType())
             .build();
-        client.putObject(request, RequestBody.fromBytes(content.data()));
+        client.putObject(request, RequestBody.fromInputStream(content.data(), content.size()));
     }
 
 }

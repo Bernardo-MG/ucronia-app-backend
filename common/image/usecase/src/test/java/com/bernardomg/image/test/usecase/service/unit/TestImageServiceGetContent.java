@@ -3,6 +3,8 @@ package com.bernardomg.image.test.usecase.service.unit;
 
 import static org.mockito.BDDMockito.given;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
@@ -35,12 +37,13 @@ class TestImageServiceGetContent {
 
     @Test
     @DisplayName("When getting image content, it is loaded from storage")
-    void testGetContent() {
+    void testGetContent() throws IOException {
         final ImageContent content;
         final ImageContent existing;
 
         // GIVEN
-        existing = new ImageContent(ImageConstants.DATA, ImageConstants.PNG_MEDIA_TYPE);
+        existing = new ImageContent(new ByteArrayInputStream(ImageConstants.DATA), ImageConstants.DATA.length,
+            ImageConstants.PNG_MEDIA_TYPE);
         given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.of(Images.valid()));
         given(contentRepository.getOne(ImageConstants.KEY)).willReturn(existing);
 
@@ -48,7 +51,8 @@ class TestImageServiceGetContent {
         content = service.getContent(ImageConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(content.data())
+        Assertions.assertThat(content.data()
+            .readAllBytes())
             .containsExactly(ImageConstants.DATA);
     }
 

@@ -13,6 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.io.ByteArrayInputStream;
 import com.bernardomg.image.domain.exception.ImageAlreadyExistsException;
 import com.bernardomg.image.domain.model.Image;
 import com.bernardomg.image.domain.model.ImageContent;
@@ -44,7 +45,8 @@ class TestImageServiceCreate {
         given(repository.save(any(Image.class))).willReturn(Images.valid());
 
         // WHEN
-        created = service.create(Images.valid(), new ImageContent(ImageConstants.DATA, ImageConstants.PNG_MEDIA_TYPE));
+        created = service.create(Images.valid(), new ImageContent(new ByteArrayInputStream(ImageConstants.DATA),
+            ImageConstants.DATA.length, ImageConstants.PNG_MEDIA_TYPE));
 
         // THEN
         Assertions.assertThat(created)
@@ -61,7 +63,8 @@ class TestImageServiceCreate {
 
         // WHEN
         callable = () -> service.create(Images.valid(),
-            new ImageContent(ImageConstants.DATA, ImageConstants.PNG_MEDIA_TYPE));
+            new ImageContent(new ByteArrayInputStream(ImageConstants.DATA), ImageConstants.DATA.length,
+                ImageConstants.PNG_MEDIA_TYPE));
 
         // THEN
         Assertions.assertThatThrownBy(callable)

@@ -14,6 +14,7 @@ import java.util.List;
 
 import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -27,6 +28,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import com.bernardomg.image.domain.model.Image;
 import com.bernardomg.image.domain.model.ImageContent;
 import com.bernardomg.image.test.configuration.factory.ImageConstants;
+import com.bernardomg.image.test.configuration.factory.ImageContents;
 import com.bernardomg.image.test.configuration.factory.Images;
 import com.bernardomg.image.usecase.service.ImageService;
 import com.bernardomg.pagination.domain.Page;
@@ -34,6 +36,7 @@ import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
+@DisplayName("ImageController")
 class TestImageController {
 
     private MockMvc      mockMvc;
@@ -54,6 +57,7 @@ class TestImageController {
     }
 
     @Test
+    @DisplayName("Can create an image")
     void testCreateImage() throws Exception {
         final MockMultipartFile file;
 
@@ -69,6 +73,7 @@ class TestImageController {
     }
 
     @Test
+    @DisplayName("Can get all the images")
     void testGetAllImages() throws Exception {
         final Page<Image> page;
 
@@ -85,6 +90,7 @@ class TestImageController {
     }
 
     @Test
+    @DisplayName("Can get an image")
     void testGetImage() throws Exception {
 
         // GIVEN
@@ -99,10 +105,10 @@ class TestImageController {
     }
 
     @Test
+    @DisplayName("Can get an image content")
     void testGetImageContent() throws Exception {
         // GIVEN
-        given(service.getContent(ImageConstants.NUMBER))
-            .willReturn(new ImageContent(ImageConstants.DATA, ImageConstants.PNG_MEDIA_TYPE));
+        given(service.getContent(ImageConstants.NUMBER)).willReturn(ImageContents.image());
 
         // WHEN + THEN
         mockMvc.perform(get("/images/{number}/content", ImageConstants.NUMBER))
@@ -110,6 +116,7 @@ class TestImageController {
     }
 
     @Test
+    @DisplayName("Can update an image metadata")
     void testUpdateImageMetadata() throws Exception {
         // GIVEN
         given(service.updateMetadata(Images.patch())).willReturn(Images.patch());
@@ -124,4 +131,5 @@ class TestImageController {
                     """.formatted(ImageConstants.NAME, ImageConstants.DESCRIPTION)))
             .andExpect(status().isOk());
     }
+
 }

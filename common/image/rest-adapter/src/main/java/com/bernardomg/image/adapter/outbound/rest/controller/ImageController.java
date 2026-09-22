@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
-import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -50,7 +50,7 @@ public class ImageController implements ImageApi {
         final Image            image;
 
         content = getImageContent(file);
-        image = new Image(-1L, name, description, "", content.mediaType(), content.data().length);
+        image = new Image(-1L, name, description, "", content.mediaType(), content.size());
         response = ImageDtoMapper.toResponseDto(service.create(image, content));
         return ResponseEntity.status(HttpStatus.CREATED)
             .body(response);
@@ -90,7 +90,8 @@ public class ImageController implements ImageApi {
         content = service.getContent(number);
         return ResponseEntity.ok()
             .contentType(MediaType.parseMediaType(content.mediaType()))
-            .body(new ByteArrayResource(content.data()));
+            .contentLength(content.size())
+            .body(new InputStreamResource(content.data()));
     }
 
     @Override
@@ -101,8 +102,8 @@ public class ImageController implements ImageApi {
         final ImageResponseDto response;
 
         content = getImageContent(file);
-        response = ImageDtoMapper.toResponseDto(service
-            .update(new Image(number, name, description, "", content.mediaType(), content.data().length), content));
+        response = ImageDtoMapper.toResponseDto(
+            service.update(new Image(number, name, description, "", content.mediaType(), content.size()), content));
         return ResponseEntity.ok(response);
     }
 
@@ -128,7 +129,7 @@ public class ImageController implements ImageApi {
         }
 
         try {
-            return new ImageContent(file.getBytes(), mediaType);
+            return new ImageContent(file.getInputStream(), file.getSize(), mediaType);
         } catch (final IOException ex) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unable to read image", ex);
         }

@@ -4,6 +4,7 @@ package com.bernardomg.image.test.usecase.service.unit;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
+import java.io.ByteArrayInputStream;
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
@@ -47,7 +48,8 @@ class TestImageServiceUpdate {
         given(repository.save(any(Image.class))).willReturn(Images.valid());
 
         // WHEN
-        updated = service.update(Images.valid(), new ImageContent(ImageConstants.DATA, ImageConstants.PNG_MEDIA_TYPE));
+        updated = service.update(Images.valid(), new ImageContent(new ByteArrayInputStream(ImageConstants.DATA),
+            ImageConstants.DATA.length, ImageConstants.PNG_MEDIA_TYPE));
 
         // THEN
         Assertions.assertThat(updated)
@@ -64,8 +66,8 @@ class TestImageServiceUpdate {
         given(repository.existsByNameForAnother(ImageConstants.NAME, ImageConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        callable = () -> service.update(Images.valid(),
-            new ImageContent(ImageConstants.DATA, ImageConstants.PNG_MEDIA_TYPE));
+        callable = () -> service.update(Images.valid(), new ImageContent(new ByteArrayInputStream(ImageConstants.DATA),
+            ImageConstants.DATA.length, ImageConstants.PNG_MEDIA_TYPE));
 
         // WHEN + THEN
         Assertions.assertThatThrownBy(callable)

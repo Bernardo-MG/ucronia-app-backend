@@ -3,6 +3,9 @@ package com.bernardomg.image.test.adapter.s3.repository.unit;
 
 import static org.mockito.BDDMockito.given;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
@@ -19,7 +22,8 @@ import com.bernardomg.image.domain.exception.ImageContentNotExistingException;
 import com.bernardomg.image.domain.model.ImageContent;
 import com.bernardomg.image.test.configuration.factory.ImageConstants;
 
-import software.amazon.awssdk.core.ResponseBytes;
+import software.amazon.awssdk.core.ResponseInputStream;
+import software.amazon.awssdk.http.AbortableInputStream;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.GetObjectResponse;
@@ -41,10 +45,11 @@ class TestS3ImageContentRepositoryGetOne {
 
     @Test
     @DisplayName("When getting image content, data and media type are returned")
-    void testGetOne() {
-        final ImageContent      content;
-        final GetObjectRequest  request;
-        final GetObjectResponse response;
+    void testGetOne() throws IOException {
+        final ImageContent                           content;
+        final GetObjectRequest                       request;
+        final GetObjectResponse                      response;
+        final ResponseInputStream<GetObjectResponse> responseStream;
 
         // GIVEN
         request = GetObjectRequest.builder()
@@ -53,16 +58,26 @@ class TestS3ImageContentRepositoryGetOne {
             .build();
         response = GetObjectResponse.builder()
             .contentType(ImageConstants.PNG_MEDIA_TYPE)
+            .contentLength((long) ImageConstants.DATA.length)
             .build();
-        given(client.getObjectAsBytes(request)).willReturn(ResponseBytes.fromByteArray(response, ImageConstants.DATA));
+        responseStream = new ResponseInputStream<>(response,
+            AbortableInputStream.create(new ByteArrayInputStream(ImageConstants.DATA)));
+        given(client.getObject(request)).willReturn(responseStream);
 
         // WHEN
         content = repository.getOne(ImageConstants.KEY);
 
         // THEN
         SoftAssertions.assertSoftly(soft -> {
-            soft.assertThat(content.data())
-                .containsExactly(ImageConstants.DATA);
+            try {
+                soft.assertThat(content.data()
+                    .readAllBytes())
+                    .containsExactly(ImageConstants.DATA);
+            } catch (final IOException e) {
+                soft.fail();
+            }
+            soft.assertThat(content.size())
+                .isEqualTo(ImageConstants.DATA.length);
             soft.assertThat(content.mediaType())
                 .isEqualTo(ImageConstants.PNG_MEDIA_TYPE);
         });
@@ -79,7 +94,7 @@ class TestS3ImageContentRepositoryGetOne {
             .bucket(ImageConstants.BUCKET)
             .key(ImageConstants.KEY)
             .build();
-        given(client.getObjectAsBytes(request)).willThrow(NoSuchKeyException.builder()
+        given(client.getObject(request)).willThrow(NoSuchKeyException.builder()
             .build());
 
         // WHEN
@@ -92,10 +107,11 @@ class TestS3ImageContentRepositoryGetOne {
 
     @Test
     @DisplayName("When getting image content without a media type, the default media type is returned")
-    void testGetOne_WithoutMediaType() {
-        final ImageContent      content;
-        final GetObjectRequest  request;
-        final GetObjectResponse response;
+    void testGetOne_WithoutMediaType() throws IOException {
+        final ImageContent                           content;
+        final GetObjectRequest                       request;
+        final GetObjectResponse                      response;
+        final ResponseInputStream<GetObjectResponse> responseStream;
 
         // GIVEN
         request = GetObjectRequest.builder()
@@ -103,16 +119,24 @@ class TestS3ImageContentRepositoryGetOne {
             .key(ImageConstants.KEY)
             .build();
         response = GetObjectResponse.builder()
+            .contentLength((long) ImageConstants.DATA.length)
             .build();
-        given(client.getObjectAsBytes(request)).willReturn(ResponseBytes.fromByteArray(response, ImageConstants.DATA));
+        responseStream = new ResponseInputStream<>(response,
+            AbortableInputStream.create(new ByteArrayInputStream(ImageConstants.DATA)));
+        given(client.getObject(request)).willReturn(responseStream);
 
         // WHEN
         content = repository.getOne(ImageConstants.KEY);
 
         // THEN
         SoftAssertions.assertSoftly(soft -> {
-            soft.assertThat(content.data())
-                .containsExactly(ImageConstants.DATA);
+            try {
+                soft.assertThat(content.data()
+                    .readAllBytes())
+                    .containsExactly(ImageConstants.DATA);
+            } catch (final IOException e) {
+                soft.fail();
+            }
             soft.assertThat(content.mediaType())
                 .isEqualTo(MediaType.APPLICATION_OCTET_STREAM_VALUE);
         });
