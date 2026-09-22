@@ -14,6 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.content.domain.policy.ContentPolicy;
 import com.bernardomg.image.domain.exception.ImageNotExistingException;
 import com.bernardomg.image.domain.model.Image;
 import com.bernardomg.image.domain.repository.ImageContentRepository;
@@ -25,6 +26,9 @@ import com.bernardomg.image.usecase.service.DefaultImageService;
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Image service")
 class TestImageServiceDelete {
+
+    @Mock
+    private ContentPolicy          contentPolicy;
 
     @Mock
     private ImageContentRepository contentRepository;

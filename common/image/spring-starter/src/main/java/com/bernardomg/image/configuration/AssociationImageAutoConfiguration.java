@@ -33,6 +33,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpMethod;
 
+import com.bernardomg.content.domain.policy.ContentPolicy;
+import com.bernardomg.content.domain.policy.RestrictedContentPolicy;
 import com.bernardomg.image.adapter.inbound.jpa.repository.ImageFolderSpringRepository;
 import com.bernardomg.image.adapter.inbound.jpa.repository.ImageSpringRepository;
 import com.bernardomg.image.adapter.inbound.jpa.repository.JpaImageFolderRepository;
@@ -56,8 +58,14 @@ import software.amazon.awssdk.services.s3.S3ClientBuilder;
 @AutoConfiguration
 @ComponentScan({ "com.bernardomg.image.adapter.outbound.rest.controller" })
 @AutoConfigurationPackage(basePackages = { "com.bernardomg.image.adapter.inbound.jpa" })
-@EnableConfigurationProperties(ImageS3Properties.class)
+@EnableConfigurationProperties({ ImageContentProperties.class, ImageS3Properties.class })
 public class AssociationImageAutoConfiguration {
+
+    @Bean("imageContentPolicy")
+    public ContentPolicy getImageContentPolicy(final ImageContentProperties properties) {
+        return new RestrictedContentPolicy(properties.getMaximumSize()
+            .toBytes(), properties.getAllowedMediaTypes());
+    }
 
     @Bean("imageContentRepository")
     public ImageContentRepository getImageContentRepository(final S3Client s3Client,
@@ -89,8 +97,8 @@ public class AssociationImageAutoConfiguration {
 
     @Bean("imageService")
     public ImageService getImageService(final ImageRepository imageRepository,
-            final ImageContentRepository imageContentRepository) {
-        return new DefaultImageService(imageRepository, imageContentRepository);
+            final ImageContentRepository imageContentRepository, final ContentPolicy imageContentPolicy) {
+        return new DefaultImageService(imageRepository, imageContentRepository, imageContentPolicy);
     }
 
     @Bean("imageWhitelist")

@@ -29,6 +29,7 @@ import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.bernardomg.content.domain.policy.ContentPolicy;
 import com.bernardomg.image.domain.exception.ImageAlreadyExistsException;
 import com.bernardomg.image.domain.exception.ImageNotExistingException;
 import com.bernardomg.image.domain.model.Image;
@@ -54,15 +55,19 @@ public final class DefaultImageService implements ImageService {
      */
     private static final Logger          log = LoggerFactory.getLogger(DefaultImageService.class);
 
+    private final ContentPolicy          imageContentPolicy;
+
     private final ImageContentRepository imageContentRepository;
 
     private final ImageRepository        imageRepository;
 
-    public DefaultImageService(final ImageRepository imageRepo, final ImageContentRepository imageContentRepo) {
+    public DefaultImageService(final ImageRepository imageRepo, final ImageContentRepository imageContentRepo,
+            final ContentPolicy contentPolicy) {
         super();
 
         imageRepository = Objects.requireNonNull(imageRepo);
         imageContentRepository = Objects.requireNonNull(imageContentRepo);
+        imageContentPolicy = Objects.requireNonNull(contentPolicy);
     }
 
     @Override
@@ -76,6 +81,8 @@ public final class DefaultImageService implements ImageService {
             log.error("Image {} already exists", image.name());
             throw new ImageAlreadyExistsException(image.name());
         }
+
+        imageContentPolicy.validate(content.size(), content.mediaType());
 
         toCreate = new Image(image.number(), image.name(), image.description(), image.key(), content.mediaType(),
             content.size(), image.folderNumber());
@@ -169,6 +176,9 @@ public final class DefaultImageService implements ImageService {
             log.error("Image {} already exists", image.name());
             throw new ImageAlreadyExistsException(image.name());
         }
+
+        imageContentPolicy.validate(content.size(), content.mediaType());
+
         updated = imageRepository.save(new Image(image.number(), image.name(), image.description(), existing.key(),
             content.mediaType(), content.size(), existing.folderNumber(), existing.audit()));
         imageContentRepository.save(updated.key(), content);

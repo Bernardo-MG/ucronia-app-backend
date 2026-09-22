@@ -13,6 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.content.domain.policy.ContentPolicy;
 import com.bernardomg.image.domain.model.Image;
 import com.bernardomg.image.domain.repository.ImageContentRepository;
 import com.bernardomg.image.domain.repository.ImageRepository;
@@ -25,6 +26,9 @@ import com.bernardomg.pagination.domain.Sorting;
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Image service")
 class TestImageServiceGetAll {
+
+    @Mock
+    private ContentPolicy          contentPolicy;
 
     @Mock
     private ImageContentRepository contentRepository;

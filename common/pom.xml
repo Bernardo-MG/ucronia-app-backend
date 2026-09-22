@@ -30,6 +30,7 @@
 
    <modules>
      <module>testing</module>
+     <module>content</module>
      <module>excel</module>
      <module>scheduler</module>
      <module>image</module>

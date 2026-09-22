@@ -4,6 +4,8 @@ package com.bernardomg.image.test.usecase.service.unit;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
+import java.io.ByteArrayInputStream;
+
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
@@ -13,7 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.io.ByteArrayInputStream;
+import com.bernardomg.content.domain.policy.ContentPolicy;
 import com.bernardomg.image.domain.exception.ImageAlreadyExistsException;
 import com.bernardomg.image.domain.model.Image;
 import com.bernardomg.image.domain.model.ImageContent;
@@ -26,6 +28,9 @@ import com.bernardomg.image.usecase.service.DefaultImageService;
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Image service")
 class TestImageServiceCreate {
+
+    @Mock
+    private ContentPolicy          contentPolicy;
 
     @Mock
     private ImageContentRepository contentRepository;
@@ -62,9 +67,8 @@ class TestImageServiceCreate {
         given(repository.existsByName(ImageConstants.NAME)).willReturn(true);
 
         // WHEN
-        callable = () -> service.create(Images.valid(),
-            new ImageContent(new ByteArrayInputStream(ImageConstants.DATA), ImageConstants.DATA.length,
-                ImageConstants.PNG_MEDIA_TYPE));
+        callable = () -> service.create(Images.valid(), new ImageContent(new ByteArrayInputStream(ImageConstants.DATA),
+            ImageConstants.DATA.length, ImageConstants.PNG_MEDIA_TYPE));
 
         // THEN
         Assertions.assertThatThrownBy(callable)
