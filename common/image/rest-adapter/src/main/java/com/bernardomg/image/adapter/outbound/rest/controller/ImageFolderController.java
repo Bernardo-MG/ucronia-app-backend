@@ -1,4 +1,3 @@
-/** The MIT License (MIT). Copyright (c) 2022-2026 Bernardo Martínez Garrido. */
 
 package com.bernardomg.image.adapter.outbound.rest.controller;
 

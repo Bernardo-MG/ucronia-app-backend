@@ -24,8 +24,7 @@
 
 package com.bernardomg.image.configuration;
 
-import java.net.URI;
-
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -33,14 +32,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpMethod;
 
+import com.bernardomg.content.domain.key.ContentKeyGenerator;
 import com.bernardomg.content.domain.policy.ContentPolicy;
 import com.bernardomg.content.domain.policy.RestrictedContentPolicy;
+import com.bernardomg.content.domain.repository.ContentRepository;
 import com.bernardomg.image.adapter.inbound.jpa.repository.ImageFolderSpringRepository;
 import com.bernardomg.image.adapter.inbound.jpa.repository.ImageSpringRepository;
 import com.bernardomg.image.adapter.inbound.jpa.repository.JpaImageFolderRepository;
 import com.bernardomg.image.adapter.inbound.jpa.repository.JpaImageRepository;
-import com.bernardomg.image.adapter.s3.repository.S3ImageContentRepository;
-import com.bernardomg.image.domain.repository.ImageContentRepository;
 import com.bernardomg.image.domain.repository.ImageFolderRepository;
 import com.bernardomg.image.domain.repository.ImageRepository;
 import com.bernardomg.image.usecase.service.DefaultImageFolderService;
@@ -49,28 +48,16 @@ import com.bernardomg.image.usecase.service.ImageFolderService;
 import com.bernardomg.image.usecase.service.ImageService;
 import com.bernardomg.security.springframework.web.whitelist.WhitelistRoute;
 
-import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
-import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
-import software.amazon.awssdk.regions.Region;
-import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.S3ClientBuilder;
-
 @AutoConfiguration
 @ComponentScan({ "com.bernardomg.image.adapter.outbound.rest.controller" })
 @AutoConfigurationPackage(basePackages = { "com.bernardomg.image.adapter.inbound.jpa" })
-@EnableConfigurationProperties({ ImageContentProperties.class, ImageS3Properties.class })
+@EnableConfigurationProperties(ImageContentProperties.class)
 public class AssociationImageAutoConfiguration {
 
     @Bean("imageContentPolicy")
-    public ContentPolicy getImageContentPolicy(final ImageContentProperties properties) {
+    public ContentPolicy getContentPolicy(final ImageContentProperties properties) {
         return new RestrictedContentPolicy(properties.getMaximumSize()
             .toBytes(), properties.getAllowedMediaTypes());
-    }
-
-    @Bean("imageContentRepository")
-    public ImageContentRepository getImageContentRepository(final S3Client s3Client,
-            final ImageS3Properties properties) {
-        return new S3ImageContentRepository(s3Client, properties.getBucket());
     }
 
     @Bean("imageFolderRepository")
@@ -97,32 +84,15 @@ public class AssociationImageAutoConfiguration {
 
     @Bean("imageService")
     public ImageService getImageService(final ImageRepository imageRepository,
-            final ImageContentRepository imageContentRepository, final ContentPolicy imageContentPolicy) {
-        return new DefaultImageService(imageRepository, imageContentRepository, imageContentPolicy);
+            final ContentRepository contentRepository,
+            @Qualifier("imageContentPolicy") final ContentPolicy imageContentPolicy,
+            final ContentKeyGenerator contentKeyGenerator) {
+        return new DefaultImageService(imageRepository, contentRepository, imageContentPolicy, contentKeyGenerator);
     }
 
     @Bean("imageWhitelist")
     public WhitelistRoute getImageWhitelist() {
         return WhitelistRoute.of("/images/**", HttpMethod.GET);
-    }
-
-    @Bean
-    public S3Client getS3Client(final ImageS3Properties properties) {
-        final S3ClientBuilder builder;
-
-        builder = S3Client.builder()
-            .region(Region.of(properties.getRegion()))
-            .forcePathStyle(properties.isPathStyle());
-        if ((properties.getEndpoint() != null) && !properties.getEndpoint()
-            .isBlank()) {
-            builder.endpointOverride(URI.create(properties.getEndpoint()));
-        }
-        if ((properties.getAccessKey() != null) && !properties.getAccessKey()
-            .isBlank()) {
-            builder.credentialsProvider(StaticCredentialsProvider
-                .create(AwsBasicCredentials.create(properties.getAccessKey(), properties.getSecretKey())));
-        }
-        return builder.build();
     }
 
 }

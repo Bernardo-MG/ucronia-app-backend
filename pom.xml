@@ -296,6 +296,21 @@
             <version>${project.version}</version>
          </dependency>
          <dependency>
+            <groupId>com.bernardomg.content</groupId>
+            <artifactId>content-rest-adapter</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.content</groupId>
+            <artifactId>content-s3-adapter</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.content</groupId>
+            <artifactId>content-spring-starter</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
             <groupId>com.bernardomg.image</groupId>
             <artifactId>image-spring-starter</artifactId>
             <version>${project.version}</version>

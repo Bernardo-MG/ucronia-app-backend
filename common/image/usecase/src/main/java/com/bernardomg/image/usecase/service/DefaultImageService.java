@@ -29,12 +29,13 @@ import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.bernardomg.content.domain.key.ContentKeyGenerator;
+import com.bernardomg.content.domain.model.Content;
 import com.bernardomg.content.domain.policy.ContentPolicy;
+import com.bernardomg.content.domain.repository.ContentRepository;
 import com.bernardomg.image.domain.exception.ImageAlreadyExistsException;
 import com.bernardomg.image.domain.exception.ImageNotExistingException;
 import com.bernardomg.image.domain.model.Image;
-import com.bernardomg.image.domain.model.ImageContent;
-import com.bernardomg.image.domain.repository.ImageContentRepository;
 import com.bernardomg.image.domain.repository.ImageRepository;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -53,25 +54,28 @@ public final class DefaultImageService implements ImageService {
     /**
      * Logger for the class.
      */
-    private static final Logger          log = LoggerFactory.getLogger(DefaultImageService.class);
+    private static final Logger       log = LoggerFactory.getLogger(DefaultImageService.class);
 
-    private final ContentPolicy          imageContentPolicy;
+    private final ContentKeyGenerator contentKeyGenerator;
 
-    private final ImageContentRepository imageContentRepository;
+    private final ContentRepository   contentRepository;
 
-    private final ImageRepository        imageRepository;
+    private final ContentPolicy       imageContentPolicy;
 
-    public DefaultImageService(final ImageRepository imageRepo, final ImageContentRepository imageContentRepo,
-            final ContentPolicy contentPolicy) {
+    private final ImageRepository     imageRepository;
+
+    public DefaultImageService(final ImageRepository imageRepo, final ContentRepository contentRepo,
+            final ContentPolicy contentPolicy, final ContentKeyGenerator keyGenerator) {
         super();
 
         imageRepository = Objects.requireNonNull(imageRepo);
-        imageContentRepository = Objects.requireNonNull(imageContentRepo);
+        contentRepository = Objects.requireNonNull(contentRepo);
         imageContentPolicy = Objects.requireNonNull(contentPolicy);
+        contentKeyGenerator = Objects.requireNonNull(keyGenerator);
     }
 
     @Override
-    public final Image create(final Image image, final ImageContent content) {
+    public final Image create(final Image image, final Content content) {
         final Image toCreate;
         final Image created;
 
@@ -84,10 +88,10 @@ public final class DefaultImageService implements ImageService {
 
         imageContentPolicy.validate(content.size(), content.mediaType());
 
-        toCreate = new Image(image.number(), image.name(), image.description(), image.key(), content.mediaType(),
-            content.size(), image.folderNumber());
+        toCreate = new Image(image.number(), image.name(), image.description(), contentKeyGenerator.generate("images"),
+            content.mediaType(), content.size(), image.folderNumber());
         created = imageRepository.save(toCreate);
-        imageContentRepository.save(created.key(), content);
+        contentRepository.save(created.key(), content);
 
         log.debug("Created image {}", created);
 
@@ -103,7 +107,7 @@ public final class DefaultImageService implements ImageService {
         deleted = getOne(number);
 
         imageRepository.delete(number);
-        imageContentRepository.delete(deleted.key());
+        contentRepository.delete(deleted.key());
 
         log.debug("Deleted image {}", deleted);
 
@@ -124,9 +128,9 @@ public final class DefaultImageService implements ImageService {
     }
 
     @Override
-    public final ImageContent getContent(final Long number) {
-        final Image        image;
-        final ImageContent imageContent;
+    public final Content getContent(final Long number) {
+        final Image   image;
+        final Content imageContent;
 
         log.debug("Reading image content for {}", number);
 
@@ -136,7 +140,7 @@ public final class DefaultImageService implements ImageService {
                 return new ImageNotExistingException(number);
             });
 
-        imageContent = imageContentRepository.getOne(image.key());
+        imageContent = contentRepository.getOne(image.key());
 
         log.debug("Read image content for {}", number);
 
@@ -161,7 +165,7 @@ public final class DefaultImageService implements ImageService {
     }
 
     @Override
-    public final Image update(final Image image, final ImageContent content) {
+    public final Image update(final Image image, final Content content) {
         final Image existing;
         final Image updated;
 
@@ -181,7 +185,7 @@ public final class DefaultImageService implements ImageService {
 
         updated = imageRepository.save(new Image(image.number(), image.name(), image.description(), existing.key(),
             content.mediaType(), content.size(), existing.folderNumber(), existing.audit()));
-        imageContentRepository.save(updated.key(), content);
+        contentRepository.save(updated.key(), content);
 
         log.debug("Updated image {}", updated);
 

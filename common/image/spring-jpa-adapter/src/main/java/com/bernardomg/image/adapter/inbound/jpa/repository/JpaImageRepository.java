@@ -164,7 +164,7 @@ public final class JpaImageRepository implements ImageRepository {
                 .getId());
         } else {
             number = repository.findNextNumber();
-            toCreate = new Image(number, image.name(), image.description(), "images/" + number, image.mediaType(),
+            toCreate = new Image(number, image.name(), image.description(), image.key(), image.mediaType(),
                 image.size(), image.folderNumber(), image.audit());
             entity = ImageEntityMapper.toEntity(toCreate);
         }

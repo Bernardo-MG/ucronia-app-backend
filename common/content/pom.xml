@@ -19,26 +19,52 @@
 	<!-- ********************************************** -->
 
    <groupId>com.bernardomg.content</groupId>
-   <artifactId>content-domain</artifactId>
-   <packaging>jar</packaging>
+   <artifactId>content</artifactId>
+   <packaging>pom</packaging>
 
-   <name>Content Domain</name>
+   <name>Content</name>
+
+	<!-- ********************************************** -->
+	<!-- ******************* MODULES ****************** -->
+	<!-- ********************************************** -->
+
+   <modules>
+     <module>domain</module>
+     <module>rest-adapter</module>
+     <module>s3-adapter</module>
+     <module>spring-starter</module>
+   </modules>
 
 	<!-- ********************************************** -->
 	<!-- *************** DEPENDENCIES ***************** -->
 	<!-- ********************************************** -->
 
-   <dependencies>
-      <dependency>
-         <groupId>org.junit.jupiter</groupId>
-         <artifactId>junit-jupiter-api</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <groupId>org.assertj</groupId>
-         <artifactId>assertj-core</artifactId>
-         <scope>test</scope>
-      </dependency>
-   </dependencies>
+   <dependencyManagement>
+      <dependencies>
+         <!-- ============================================== -->
+         <!-- ================= PROJECT ==================== -->
+         <!-- ============================================== -->
+         <dependency>
+            <groupId>com.bernardomg.content</groupId>
+            <artifactId>content-domain</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.content</groupId>
+            <artifactId>content-rest-adapter</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.content</groupId>
+            <artifactId>content-s3-adapter</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.content</groupId>
+            <artifactId>content-spring-starter</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+      </dependencies>
+   </dependencyManagement>
 
 </project>

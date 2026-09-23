@@ -15,9 +15,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.content.domain.key.ContentKeyGenerator;
+import com.bernardomg.content.domain.model.Content;
 import com.bernardomg.content.domain.policy.ContentPolicy;
-import com.bernardomg.image.domain.model.ImageContent;
-import com.bernardomg.image.domain.repository.ImageContentRepository;
+import com.bernardomg.content.domain.repository.ContentRepository;
 import com.bernardomg.image.domain.repository.ImageRepository;
 import com.bernardomg.image.test.configuration.factory.ImageConstants;
 import com.bernardomg.image.test.configuration.factory.Images;
@@ -28,25 +29,28 @@ import com.bernardomg.image.usecase.service.DefaultImageService;
 class TestImageServiceGetContent {
 
     @Mock
-    private ContentPolicy          contentPolicy;
+    private ContentKeyGenerator contentKeyGenerator;
 
     @Mock
-    private ImageContentRepository contentRepository;
+    private ContentPolicy       contentPolicy;
 
     @Mock
-    private ImageRepository        repository;
+    private ContentRepository   contentRepository;
+
+    @Mock
+    private ImageRepository     repository;
 
     @InjectMocks
-    private DefaultImageService    service;
+    private DefaultImageService service;
 
     @Test
     @DisplayName("When getting image content, it is loaded from storage")
     void testGetContent() throws IOException {
-        final ImageContent content;
-        final ImageContent existing;
+        final Content content;
+        final Content existing;
 
         // GIVEN
-        existing = new ImageContent(new ByteArrayInputStream(ImageConstants.DATA), ImageConstants.DATA.length,
+        existing = new Content(new ByteArrayInputStream(ImageConstants.DATA), ImageConstants.DATA.length,
             ImageConstants.PNG_MEDIA_TYPE);
         given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.of(Images.valid()));
         given(contentRepository.getOne(ImageConstants.KEY)).willReturn(existing);

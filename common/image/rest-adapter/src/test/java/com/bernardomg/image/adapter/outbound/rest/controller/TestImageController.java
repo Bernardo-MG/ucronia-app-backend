@@ -25,10 +25,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
+import com.bernardomg.content.domain.model.Content;
 import com.bernardomg.image.domain.model.Image;
-import com.bernardomg.image.domain.model.ImageContent;
+import com.bernardomg.image.test.configuration.factory.Contents;
 import com.bernardomg.image.test.configuration.factory.ImageConstants;
-import com.bernardomg.image.test.configuration.factory.ImageContents;
 import com.bernardomg.image.test.configuration.factory.Images;
 import com.bernardomg.image.usecase.service.ImageService;
 import com.bernardomg.pagination.domain.Page;
@@ -63,7 +63,7 @@ class TestImageController {
 
         // GIVEN
         file = new MockMultipartFile("file", ImageConstants.NAME, MediaType.IMAGE_PNG_VALUE, ImageConstants.DATA);
-        given(service.create(any(Image.class), any(ImageContent.class))).willReturn(Images.valid());
+        given(service.create(any(Image.class), any(Content.class))).willReturn(Images.valid());
 
         // WHEN + THEN
         mockMvc.perform(multipart("/images").file(file)
@@ -90,6 +90,17 @@ class TestImageController {
     }
 
     @Test
+    @DisplayName("Can get an image content")
+    void testGetContent() throws Exception {
+        // GIVEN
+        given(service.getContent(ImageConstants.NUMBER)).willReturn(Contents.image());
+
+        // WHEN + THEN
+        mockMvc.perform(get("/images/{number}/content", ImageConstants.NUMBER))
+            .andExpect(status().isOk());
+    }
+
+    @Test
     @DisplayName("Can get an image")
     void testGetImage() throws Exception {
 
@@ -102,17 +113,6 @@ class TestImageController {
             .andExpect(jsonPath("$.content.number").value(ImageConstants.NUMBER))
             .andExpect(jsonPath("$.content.name").value(ImageConstants.NAME))
             .andExpect(jsonPath("$.content.description").value(ImageConstants.DESCRIPTION));
-    }
-
-    @Test
-    @DisplayName("Can get an image content")
-    void testGetImageContent() throws Exception {
-        // GIVEN
-        given(service.getContent(ImageConstants.NUMBER)).willReturn(ImageContents.image());
-
-        // WHEN + THEN
-        mockMvc.perform(get("/images/{number}/content", ImageConstants.NUMBER))
-            .andExpect(status().isOk());
     }
 
     @Test

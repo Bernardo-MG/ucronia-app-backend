@@ -1,8 +1,6 @@
-/** The MIT License (MIT). Copyright (c) 2022-2025 Bernardo Martínez Garrido. */
 
 package com.bernardomg.image.adapter.outbound.rest.controller;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
@@ -13,8 +11,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.server.ResponseStatusException;
 
+import com.bernardomg.content.adapter.rest.MultipartContentMapper;
+import com.bernardomg.content.domain.model.Content;
 import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.framework.security.access.annotation.Unsecured;
 import com.bernardomg.image.adapter.outbound.rest.dto.ImageMetadataUpdateDto;
@@ -22,7 +21,6 @@ import com.bernardomg.image.adapter.outbound.rest.dto.ImagePageResponseDto;
 import com.bernardomg.image.adapter.outbound.rest.dto.ImageResponseDto;
 import com.bernardomg.image.adapter.outbound.rest.model.ImageDtoMapper;
 import com.bernardomg.image.domain.model.Image;
-import com.bernardomg.image.domain.model.ImageContent;
 import com.bernardomg.image.usecase.service.ImageService;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -45,11 +43,11 @@ public class ImageController implements ImageApi {
     @RequireResourceAuthorization(resource = "IMAGE", action = Actions.CREATE)
     public ResponseEntity<ImageResponseDto> createImage(final String name, final String description,
             final MultipartFile file) {
-        final ImageContent     content;
+        final Content          content;
         final ImageResponseDto response;
         final Image            image;
 
-        content = getImageContent(file);
+        content = MultipartContentMapper.toContent(file);
         image = new Image(-1L, name, description, "", content.mediaType(), content.size());
         response = ImageDtoMapper.toResponseDto(service.create(image, content));
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -85,7 +83,7 @@ public class ImageController implements ImageApi {
     @Override
     @Unsecured
     public ResponseEntity<Resource> getImageContent(final Long number) {
-        final ImageContent content;
+        final Content content;
 
         content = service.getContent(number);
         return ResponseEntity.ok()
@@ -98,10 +96,10 @@ public class ImageController implements ImageApi {
     @RequireResourceAuthorization(resource = "IMAGE", action = Actions.UPDATE)
     public ResponseEntity<ImageResponseDto> updateImage(final Long number, final String name, final String description,
             final MultipartFile file) {
-        final ImageContent     content;
+        final Content          content;
         final ImageResponseDto response;
 
-        content = getImageContent(file);
+        content = MultipartContentMapper.toContent(file);
         response = ImageDtoMapper.toResponseDto(
             service.update(new Image(number, name, description, "", content.mediaType(), content.size()), content));
         return ResponseEntity.ok(response);
@@ -117,22 +115,6 @@ public class ImageController implements ImageApi {
         image = ImageDtoMapper.toDomain(number, imageMetadataUpdateDto);
         updated = service.updateMetadata(image);
         return ResponseEntity.ok(ImageDtoMapper.toResponseDto(updated));
-    }
-
-    private ImageContent getImageContent(final MultipartFile file) {
-        final String mediaType;
-
-        if (file.getContentType() == null) {
-            mediaType = MediaType.APPLICATION_OCTET_STREAM_VALUE;
-        } else {
-            mediaType = file.getContentType();
-        }
-
-        try {
-            return new ImageContent(file.getInputStream(), file.getSize(), mediaType);
-        } catch (final IOException ex) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unable to read image", ex);
-        }
     }
 
 }

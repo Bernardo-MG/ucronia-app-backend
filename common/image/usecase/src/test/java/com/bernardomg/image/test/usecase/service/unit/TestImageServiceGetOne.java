@@ -14,10 +14,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.content.domain.key.ContentKeyGenerator;
 import com.bernardomg.content.domain.policy.ContentPolicy;
+import com.bernardomg.content.domain.repository.ContentRepository;
 import com.bernardomg.image.domain.exception.ImageNotExistingException;
 import com.bernardomg.image.domain.model.Image;
-import com.bernardomg.image.domain.repository.ImageContentRepository;
 import com.bernardomg.image.domain.repository.ImageRepository;
 import com.bernardomg.image.test.configuration.factory.ImageConstants;
 import com.bernardomg.image.test.configuration.factory.Images;
@@ -28,16 +29,19 @@ import com.bernardomg.image.usecase.service.DefaultImageService;
 class TestImageServiceGetOne {
 
     @Mock
-    private ContentPolicy          contentPolicy;
+    private ContentKeyGenerator contentKeyGenerator;
 
     @Mock
-    private ImageContentRepository contentRepository;
+    private ContentPolicy       contentPolicy;
 
     @Mock
-    private ImageRepository        repository;
+    private ContentRepository   contentRepository;
+
+    @Mock
+    private ImageRepository     repository;
 
     @InjectMocks
-    private DefaultImageService    service;
+    private DefaultImageService service;
 
     @Test
     @DisplayName("When getting an image, its metadata is returned")
