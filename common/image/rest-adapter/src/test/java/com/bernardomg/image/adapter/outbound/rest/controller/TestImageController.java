@@ -7,6 +7,7 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -19,6 +20,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
@@ -97,7 +99,11 @@ class TestImageController {
 
         // WHEN + THEN
         mockMvc.perform(get("/images/{number}/content", ImageConstants.NUMBER))
-            .andExpect(status().isOk());
+            .andExpect(status().isOk())
+            .andExpect(header().string(HttpHeaders.CONTENT_DISPOSITION, "inline"))
+            .andExpect(header().string(HttpHeaders.CONTENT_TYPE, ImageConstants.PNG_MEDIA_TYPE))
+            .andExpect(header().longValue(HttpHeaders.CONTENT_LENGTH, ImageConstants.DATA.length))
+            .andExpect(header().string("X-Content-Type-Options", "nosniff"));
     }
 
     @Test

@@ -12,6 +12,17 @@ get:
   responses:
     '200':
       description: Image content.
+      headers:
+        Content-Disposition:
+          description: Indicates that the image should be displayed inline.
+          schema:
+            type: string
+            example: inline
+        X-Content-Type-Options:
+          description: Prevents media type sniffing.
+          schema:
+            type: string
+            example: nosniff
       content:
         image/png:
           schema:

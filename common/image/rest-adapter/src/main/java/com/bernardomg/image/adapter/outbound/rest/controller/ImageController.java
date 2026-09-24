@@ -4,15 +4,13 @@ package com.bernardomg.image.adapter.outbound.rest.controller;
 import java.util.List;
 import java.util.Objects;
 
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.bernardomg.content.adapter.rest.MultipartContentMapper;
+import com.bernardomg.content.adapter.rest.ContentDtoMapper;
 import com.bernardomg.content.domain.model.Content;
 import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.framework.security.access.annotation.Unsecured;
@@ -47,7 +45,7 @@ public class ImageController implements ImageApi {
         final ImageResponseDto response;
         final Image            image;
 
-        content = MultipartContentMapper.toContent(file);
+        content = ContentDtoMapper.toContent(file);
         image = new Image(-1L, name, description, "", content.mediaType(), content.size());
         response = ImageDtoMapper.toResponseDto(service.create(image, content));
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -83,13 +81,7 @@ public class ImageController implements ImageApi {
     @Override
     @Unsecured
     public ResponseEntity<Resource> getImageContent(final Long number) {
-        final Content content;
-
-        content = service.getContent(number);
-        return ResponseEntity.ok()
-            .contentType(MediaType.parseMediaType(content.mediaType()))
-            .contentLength(content.size())
-            .body(new InputStreamResource(content.data()));
+        return ContentDtoMapper.toInline(service.getContent(number));
     }
 
     @Override
@@ -99,7 +91,7 @@ public class ImageController implements ImageApi {
         final Content          content;
         final ImageResponseDto response;
 
-        content = MultipartContentMapper.toContent(file);
+        content = ContentDtoMapper.toContent(file);
         response = ImageDtoMapper.toResponseDto(
             service.update(new Image(number, name, description, "", content.mediaType(), content.size()), content));
         return ResponseEntity.ok(response);
