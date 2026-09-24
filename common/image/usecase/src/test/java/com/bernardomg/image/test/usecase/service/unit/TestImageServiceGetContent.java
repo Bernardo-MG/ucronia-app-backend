@@ -3,7 +3,6 @@ package com.bernardomg.image.test.usecase.service.unit;
 
 import static org.mockito.BDDMockito.given;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Optional;
 
@@ -20,6 +19,7 @@ import com.bernardomg.content.domain.model.Content;
 import com.bernardomg.content.domain.policy.ContentPolicy;
 import com.bernardomg.content.domain.repository.ContentRepository;
 import com.bernardomg.image.domain.repository.ImageRepository;
+import com.bernardomg.image.test.configuration.factory.Contents;
 import com.bernardomg.image.test.configuration.factory.ImageConstants;
 import com.bernardomg.image.test.configuration.factory.Images;
 import com.bernardomg.image.usecase.service.DefaultImageService;
@@ -50,8 +50,7 @@ class TestImageServiceGetContent {
         final Content existing;
 
         // GIVEN
-        existing = new Content(new ByteArrayInputStream(ImageConstants.DATA), ImageConstants.DATA.length,
-            ImageConstants.PNG_MEDIA_TYPE);
+        existing = Contents.image();
         given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.of(Images.valid()));
         given(contentRepository.getOne(ImageConstants.KEY)).willReturn(existing);
 

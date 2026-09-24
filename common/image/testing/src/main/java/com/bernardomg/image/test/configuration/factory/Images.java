@@ -6,6 +6,11 @@ import com.bernardomg.image.domain.model.Image;
 
 public final class Images {
 
+    public static Image change() {
+        return new Image(ImageConstants.NUMBER, ImageConstants.NAME, ImageConstants.DESCRIPTION,
+            ImageConstants.CHANGE_KEY, ImageConstants.PNG_MEDIA_TYPE, ImageConstants.DATA.length);
+    }
+
     public static Image nameChange() {
         return new Image(ImageConstants.NUMBER, ImageConstants.ALTERNATIVE_NAME, ImageConstants.DESCRIPTION,
             ImageConstants.KEY, ImageConstants.PNG_MEDIA_TYPE, ImageConstants.DATA.length);

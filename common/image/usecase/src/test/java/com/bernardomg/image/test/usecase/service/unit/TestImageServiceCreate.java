@@ -4,6 +4,7 @@ package com.bernardomg.image.test.usecase.service.unit;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
+import static org.mockito.BDDMockito.willThrow;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
@@ -65,6 +66,7 @@ class TestImageServiceCreate {
     @DisplayName("When creating an image, the content should be persisted")
     void testCreate_PersistContent() {
         final Content content;
+
         // GIVEN
         given(contentKeyGenerator.generate("images")).willReturn(ImageConstants.KEY);
         given(repository.save(any(Image.class))).willReturn(Images.valid());
@@ -75,6 +77,28 @@ class TestImageServiceCreate {
         // THEN
         then(contentRepository).should()
             .save(ImageConstants.KEY, content);
+    }
+
+    @Test
+    @DisplayName("When metadata persistence fails, the uploaded content is deleted")
+    void testCreate_PersistenceFailureDeletesContent() {
+        final ThrowingCallable callable;
+        final RuntimeException failure;
+
+        // GIVEN
+        failure = new RuntimeException("Persistence failed");
+        given(contentKeyGenerator.generate("images")).willReturn(ImageConstants.KEY);
+        willThrow(failure).given(repository)
+            .save(any(Image.class));
+
+        // WHEN
+        callable = () -> service.create(Images.valid(), Contents.image());
+
+        // THEN
+        Assertions.assertThatThrownBy(callable)
+            .isSameAs(failure);
+        then(contentRepository).should()
+            .delete(ImageConstants.KEY);
     }
 
     @Test
