@@ -7,7 +7,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.image.adapter.inbound.jpa.model.ImageEntity;
 
@@ -17,24 +16,14 @@ public interface ImageSpringRepository extends JpaRepository<ImageEntity, Long> 
 
     public boolean existsByFolderNumber(final long folderNumber);
 
-    @Query("""
-            SELECT CASE WHEN COUNT(i) > 0 THEN TRUE ELSE FALSE END
-            FROM Image i
-            WHERE i.name = :name
-              AND ((:folderNumber IS NULL AND i.folder IS NULL) OR i.folder.number = :folderNumber)
-            """)
-    public boolean existsByNameAndFolder(@Param("name") final String name,
-            @Param("folderNumber") final Long folderNumber);
+    public boolean existsByNameAndFolderIsNull(final String name);
 
-    @Query("""
-            SELECT CASE WHEN COUNT(i) > 0 THEN TRUE ELSE FALSE END
-            FROM Image i
-            WHERE i.name = :name
-              AND i.number != :excludedNumber
-              AND ((:folderNumber IS NULL AND i.folder IS NULL) OR i.folder.number = :folderNumber)
-            """)
-    public boolean existsByNameAndFolder(@Param("name") final String name,
-            @Param("folderNumber") final Long folderNumber, @Param("excludedNumber") final long excludedNumber);
+    public boolean existsByNameAndFolderNumber(final String name, final long folderNumber);
+
+    public boolean existsByNameAndFolderNumberAndNumberNot(final String name, final long folderNumber,
+            final long excludedNumber);
+
+    public boolean existsByNameAndNumberNotAndFolderIsNull(final String name, final long excludedNumber);
 
     public boolean existsByNumber(final long number);
 
