@@ -1,4 +1,3 @@
-/** The MIT License (MIT). Copyright (c) 2022-2025 Bernardo Martínez Garrido. */
 
 package com.bernardomg.image.test.adapter.inbound.jpa.repository.integration;
 
@@ -29,7 +28,7 @@ class ITImageRepositoryExistsByNameForAnother {
         final boolean exists;
 
         // WHEN
-        exists = repository.existsByNameForAnother(ImageConstants.NAME, -1L);
+        exists = repository.existsByNameAndFolder(ImageConstants.NAME, null, -1L);
 
         // THEN
         Assertions.assertThat(exists)
@@ -44,7 +43,7 @@ class ITImageRepositoryExistsByNameForAnother {
         final boolean exists;
 
         // WHEN
-        exists = repository.existsByNameForAnother(ImageConstants.NAME, ImageConstants.NUMBER);
+        exists = repository.existsByNameAndFolder(ImageConstants.NAME, null, ImageConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(exists)
@@ -58,7 +57,7 @@ class ITImageRepositoryExistsByNameForAnother {
         final boolean exists;
 
         // WHEN
-        exists = repository.existsByNameForAnother(ImageConstants.NAME, ImageConstants.NUMBER);
+        exists = repository.existsByNameAndFolder(ImageConstants.NAME, null, ImageConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(exists)

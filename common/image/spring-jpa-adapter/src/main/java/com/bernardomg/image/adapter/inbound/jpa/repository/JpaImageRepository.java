@@ -1,4 +1,3 @@
-/** The MIT License (MIT). Copyright (c) 2022-2025 Bernardo Martínez Garrido. */
 
 package com.bernardomg.image.adapter.inbound.jpa.repository;
 
@@ -61,27 +60,27 @@ public final class JpaImageRepository implements ImageRepository {
     }
 
     @Override
-    public final boolean existsByName(final String name) {
+    public final boolean existsByNameAndFolder(final String name, final Long folderNumber) {
         final boolean exists;
 
-        log.debug("Checking if image {} exists", name);
+        log.debug("Checking if image {} exists in folder {}", name, folderNumber);
 
-        exists = repository.existsByName(name);
+        exists = repository.existsByNameAndFolder(name, folderNumber);
 
-        log.debug("Image {} exists: {}", name, exists);
+        log.debug("Image {} exists in folder {}: {}", name, folderNumber, exists);
 
         return exists;
     }
 
     @Override
-    public final boolean existsByNameForAnother(final String name, final Long number) {
+    public final boolean existsByNameAndFolder(final String name, final Long folderNumber, final long excludedNumber) {
         final boolean exists;
 
-        log.debug("Checking if image {} exists for another distinct from {}", name, number);
+        log.debug("Checking if image {} exists in folder {}, excluding {}", name, folderNumber, excludedNumber);
 
-        exists = repository.existsByNotNumberAndName(number, name);
+        exists = repository.existsByNameAndFolder(name, folderNumber, excludedNumber);
 
-        log.debug("Image {} exists: {}", name, exists);
+        log.debug("Image {} exists in folder {}: {}", name, folderNumber, exists);
 
         return exists;
     }

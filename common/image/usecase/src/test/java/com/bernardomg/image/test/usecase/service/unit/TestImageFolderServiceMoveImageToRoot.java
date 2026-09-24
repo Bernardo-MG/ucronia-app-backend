@@ -3,6 +3,8 @@ package com.bernardomg.image.test.usecase.service.unit;
 
 import static org.mockito.BDDMockito.given;
 
+import java.util.Optional;
+
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
@@ -12,6 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.image.domain.exception.ImageAlreadyExistsException;
 import com.bernardomg.image.domain.exception.ImageNotExistingException;
 import com.bernardomg.image.domain.model.Image;
 import com.bernardomg.image.domain.repository.ImageFolderRepository;
@@ -39,7 +42,7 @@ class TestImageFolderServiceMoveImageToRoot {
         final Image moved;
 
         // GIVEN
-        given(imageRepository.exists(ImageFolderConstants.IMAGE_NUMBER)).willReturn(true);
+        given(imageRepository.findOne(ImageFolderConstants.IMAGE_NUMBER)).willReturn(Optional.of(Images.valid()));
         given(imageRepository.move(ImageFolderConstants.IMAGE_NUMBER, null)).willReturn(Images.valid());
 
         // WHEN
@@ -56,7 +59,7 @@ class TestImageFolderServiceMoveImageToRoot {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(imageRepository.exists(ImageFolderConstants.IMAGE_NUMBER)).willReturn(false);
+        given(imageRepository.findOne(ImageFolderConstants.IMAGE_NUMBER)).willReturn(Optional.empty());
 
         // WHEN
         execution = () -> service.moveImageToRoot(ImageFolderConstants.IMAGE_NUMBER);
@@ -64,6 +67,26 @@ class TestImageFolderServiceMoveImageToRoot {
         // THEN
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(ImageNotExistingException.class);
+    }
+
+    @Test
+    @DisplayName("With the same name in the root folder, an exception is thrown")
+    void testMoveImageToRoot_NameConflict() {
+        final ThrowingCallable execution;
+
+        // GIVEN
+        given(imageRepository.findOne(ImageFolderConstants.IMAGE_NUMBER)).willReturn(Optional.of(Images.valid()));
+        given(imageRepository.existsByNameAndFolder(Images.valid()
+            .name(), null,
+            Images.valid()
+                .number())).willReturn(true);
+
+        // WHEN
+        execution = () -> service.moveImageToRoot(ImageFolderConstants.IMAGE_NUMBER);
+
+        // THEN
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(ImageAlreadyExistsException.class);
     }
 
 }

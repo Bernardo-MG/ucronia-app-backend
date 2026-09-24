@@ -1,4 +1,3 @@
-/** The MIT License (MIT). Copyright (c) 2022-2025 Bernardo Martínez Garrido. */
 
 package com.bernardomg.image.test.adapter.inbound.jpa.repository.integration;
 

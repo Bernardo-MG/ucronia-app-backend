@@ -83,7 +83,8 @@ public final class DefaultImageService implements ImageService {
 
         log.debug("Creating image {}", image);
 
-        if (imageRepository.existsByName(image.name())) {
+        if (imageRepository.existsByNameAndFolder(image.name(), image.folderNumber()
+            .orElse(null))) {
             log.error("Image {} already exists", image.name());
             throw new ImageAlreadyExistsException(image.name());
         }
@@ -189,7 +190,8 @@ public final class DefaultImageService implements ImageService {
                 log.error("Image {} doesn't exist", image.number());
                 return new ImageNotExistingException(image.number());
             });
-        if (imageRepository.existsByNameForAnother(image.name(), image.number())) {
+        if (imageRepository.existsByNameAndFolder(image.name(), existing.folderNumber()
+            .orElse(null), image.number())) {
             log.error("Image {} already exists", image.name());
             throw new ImageAlreadyExistsException(image.name());
         }
@@ -224,7 +226,8 @@ public final class DefaultImageService implements ImageService {
                 log.error("Image {} doesn't exist", image.number());
                 return new ImageNotExistingException(image.number());
             });
-        if (imageRepository.existsByNameForAnother(image.name(), image.number())) {
+        if (imageRepository.existsByNameAndFolder(image.name(), existing.folderNumber()
+            .orElse(null), image.number())) {
             log.error("Image {} already exists", image.name());
             throw new ImageAlreadyExistsException(image.name());
         }

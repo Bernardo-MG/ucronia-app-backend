@@ -1,4 +1,3 @@
-/** The MIT License (MIT). Copyright (c) 2022-2025 Bernardo Martínez Garrido. */
 
 package com.bernardomg.image.adapter.inbound.jpa.repository;
 
@@ -18,10 +17,24 @@ public interface ImageSpringRepository extends JpaRepository<ImageEntity, Long> 
 
     public boolean existsByFolderNumber(final long folderNumber);
 
-    public boolean existsByName(final String name);
+    @Query("""
+            SELECT CASE WHEN COUNT(i) > 0 THEN TRUE ELSE FALSE END
+            FROM Image i
+            WHERE i.name = :name
+              AND ((:folderNumber IS NULL AND i.folder IS NULL) OR i.folder.number = :folderNumber)
+            """)
+    public boolean existsByNameAndFolder(@Param("name") final String name,
+            @Param("folderNumber") final Long folderNumber);
 
-    @Query("SELECT CASE WHEN COUNT(i) > 0 THEN TRUE ELSE FALSE END FROM Image i WHERE i.number != :number AND i.name = :name")
-    public boolean existsByNotNumberAndName(@Param("number") final long number, @Param("name") final String name);
+    @Query("""
+            SELECT CASE WHEN COUNT(i) > 0 THEN TRUE ELSE FALSE END
+            FROM Image i
+            WHERE i.name = :name
+              AND i.number != :excludedNumber
+              AND ((:folderNumber IS NULL AND i.folder IS NULL) OR i.folder.number = :folderNumber)
+            """)
+    public boolean existsByNameAndFolder(@Param("name") final String name,
+            @Param("folderNumber") final Long folderNumber, @Param("excludedNumber") final long excludedNumber);
 
     public boolean existsByNumber(final long number);
 

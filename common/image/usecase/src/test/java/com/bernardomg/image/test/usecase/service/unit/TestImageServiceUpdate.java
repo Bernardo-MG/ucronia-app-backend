@@ -99,7 +99,7 @@ class TestImageServiceUpdate {
 
         // GIVEN
         given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.of(Images.valid()));
-        given(repository.existsByNameForAnother(ImageConstants.NAME, ImageConstants.NUMBER)).willReturn(true);
+        given(repository.existsByNameAndFolder(ImageConstants.NAME, null, ImageConstants.NUMBER)).willReturn(true);
 
         // WHEN
         callable = () -> service.update(Images.valid(), Contents.image());

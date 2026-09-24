@@ -10,6 +10,7 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.bernardomg.image.domain.exception.ImageAlreadyExistsException;
 import com.bernardomg.image.domain.exception.ImageFolderAlreadyExistsException;
 import com.bernardomg.image.domain.exception.ImageFolderCantBeMovedException;
 import com.bernardomg.image.domain.exception.ImageFolderNotEmptyException;
@@ -154,6 +155,7 @@ public final class DefaultImageFolderService implements ImageFolderService {
 
     @Override
     public final Image moveImage(final Long imageNumber, final Long folderNumber) {
+        final Image image;
         final Image moved;
 
         log.debug("Moving image {} to folder {}", imageNumber, folderNumber);
@@ -163,10 +165,12 @@ public final class DefaultImageFolderService implements ImageFolderService {
             throw new ImageFolderNotExistingException(folderNumber);
         }
 
-        if (!imageRepository.exists(imageNumber)) {
-            log.error("Missing image {}", imageNumber);
-            throw new ImageNotExistingException(imageNumber);
-        }
+        image = imageRepository.findOne(imageNumber)
+            .orElseThrow(() -> {
+                log.error("Missing image {}", imageNumber);
+                return new ImageNotExistingException(imageNumber);
+            });
+        validateImageName(image, folderNumber);
 
         moved = imageRepository.move(imageNumber, folderNumber);
 
@@ -177,14 +181,17 @@ public final class DefaultImageFolderService implements ImageFolderService {
 
     @Override
     public final Image moveImageToRoot(final Long imageNumber) {
+        final Image image;
         final Image moved;
 
         log.debug("Moving image {} to the root folder", imageNumber);
 
-        if (!imageRepository.exists(imageNumber)) {
-            log.error("Missing image {}", imageNumber);
-            throw new ImageNotExistingException(imageNumber);
-        }
+        image = imageRepository.findOne(imageNumber)
+            .orElseThrow(() -> {
+                log.error("Missing image {}", imageNumber);
+                return new ImageNotExistingException(imageNumber);
+            });
+        validateImageName(image, null);
 
         moved = imageRepository.move(imageNumber, null);
 
@@ -227,6 +234,13 @@ public final class DefaultImageFolderService implements ImageFolderService {
         log.debug("Updated image folder {}", updated);
 
         return updated;
+    }
+
+    private final void validateImageName(final Image image, final Long folderNumber) {
+        if (imageRepository.existsByNameAndFolder(image.name(), folderNumber, image.number())) {
+            log.error("Image {} already exists in folder {}", image.name(), folderNumber);
+            throw new ImageAlreadyExistsException(image.name());
+        }
     }
 
     private final void validateParent(final Long folderNumber, final Long parentNumber) {

@@ -6,6 +6,8 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.BDDMockito.willThrow;
 
+import java.util.Optional;
+
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
@@ -52,7 +54,7 @@ class TestImageServiceCreate {
         final ThrowingCallable callable;
 
         // GIVEN
-        given(repository.existsByName(ImageConstants.NAME)).willReturn(true);
+        given(repository.existsByNameAndFolder(ImageConstants.NAME, null)).willReturn(true);
 
         // WHEN
         callable = () -> service.create(Images.valid(), Contents.image());
@@ -60,6 +62,27 @@ class TestImageServiceCreate {
         // THEN
         Assertions.assertThatThrownBy(callable)
             .isInstanceOf(ImageAlreadyExistsException.class);
+    }
+
+    @Test
+    @DisplayName("When creating an image, the name is checked in its folder")
+    void testCreate_NameCheckedInFolder() {
+        final Long  folderNumber;
+        final Image image;
+
+        // GIVEN
+        folderNumber = 2L;
+        image = new Image(ImageConstants.NUMBER, ImageConstants.NAME, ImageConstants.DESCRIPTION, ImageConstants.KEY,
+            ImageConstants.PNG_MEDIA_TYPE, ImageConstants.DATA.length, Optional.of(folderNumber));
+        given(contentKeyGenerator.generate("images")).willReturn(ImageConstants.KEY);
+        given(repository.save(any(Image.class))).willReturn(image);
+
+        // WHEN
+        service.create(image, Contents.image());
+
+        // THEN
+        then(repository).should()
+            .existsByNameAndFolder(ImageConstants.NAME, folderNumber);
     }
 
     @Test
