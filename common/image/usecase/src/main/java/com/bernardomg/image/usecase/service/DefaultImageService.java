@@ -54,7 +54,7 @@ public final class DefaultImageService implements ImageService {
     /**
      * Logger for the class.
      */
-    private static final Logger       log = LoggerFactory.getLogger(DefaultImageService.class);
+    private static final Logger       log       = LoggerFactory.getLogger(DefaultImageService.class);
 
     private final ContentKeyGenerator contentKeyGenerator;
 
@@ -63,6 +63,8 @@ public final class DefaultImageService implements ImageService {
     private final ContentPolicy       imageContentPolicy;
 
     private final ImageRepository     imageRepository;
+
+    private final String              namespace = "images";
 
     public DefaultImageService(final ImageRepository imageRepo, final ContentRepository contentRepo,
             final ContentPolicy contentPolicy, final ContentKeyGenerator keyGenerator) {
@@ -88,7 +90,7 @@ public final class DefaultImageService implements ImageService {
 
         imageContentPolicy.validate(content.size(), content.mediaType());
 
-        toCreate = new Image(image.number(), image.name(), image.description(), contentKeyGenerator.generate("images"),
+        toCreate = new Image(image.number(), image.name(), image.description(), contentKeyGenerator.generate(namespace),
             content.mediaType(), content.size(), image.folderNumber());
         contentRepository.save(toCreate.key(), content);
         try {
@@ -111,7 +113,12 @@ public final class DefaultImageService implements ImageService {
 
         deleted = getOne(number);
 
-        imageRepository.delete(number);
+        try {
+            imageRepository.delete(number);
+        } catch (final RuntimeException ex) {
+            deleteContent(deleted.key());
+            throw ex;
+        }
         deleteContent(deleted.key());
 
         log.debug("Deleted image {}", deleted);
@@ -189,7 +196,7 @@ public final class DefaultImageService implements ImageService {
 
         imageContentPolicy.validate(content.size(), content.mediaType());
 
-        key = contentKeyGenerator.generate("images");
+        key = contentKeyGenerator.generate(namespace);
         contentRepository.save(key, content);
         try {
             updated = imageRepository.save(new Image(image.number(), image.name(), image.description(), key,

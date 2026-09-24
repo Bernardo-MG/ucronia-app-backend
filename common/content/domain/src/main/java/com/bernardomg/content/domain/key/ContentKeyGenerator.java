@@ -3,6 +3,6 @@ package com.bernardomg.content.domain.key;
 
 public interface ContentKeyGenerator {
 
-    String generate(String namespace);
+    public String generate(final String namespace);
 
 }
