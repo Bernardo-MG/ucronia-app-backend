@@ -3,6 +3,7 @@ package com.bernardomg.image.test.usecase.service.unit;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
 
 import java.io.ByteArrayInputStream;
 import java.util.Optional;
@@ -49,19 +50,26 @@ class TestImageServiceUpdate {
     @Test
     @DisplayName("When updating an image, metadata and content are persisted")
     void testUpdate() {
+        final Content content;
         final Image updated;
 
         // GIVEN
         given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.of(Images.valid()));
+        given(contentKeyGenerator.generate("images")).willReturn("images/replacement");
         given(repository.save(any(Image.class))).willReturn(Images.valid());
+        content = new Content(new ByteArrayInputStream(ImageConstants.DATA), ImageConstants.DATA.length,
+            ImageConstants.PNG_MEDIA_TYPE);
 
         // WHEN
-        updated = service.update(Images.valid(), new Content(new ByteArrayInputStream(ImageConstants.DATA),
-            ImageConstants.DATA.length, ImageConstants.PNG_MEDIA_TYPE));
+        updated = service.update(Images.valid(), content);
 
         // THEN
         Assertions.assertThat(updated)
             .isEqualTo(Images.valid());
+        then(contentRepository).should()
+            .save("images/replacement", content);
+        then(contentRepository).should()
+            .delete(ImageConstants.KEY);
     }
 
     @Test

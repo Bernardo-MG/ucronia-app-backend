@@ -90,8 +90,13 @@ public final class DefaultImageService implements ImageService {
 
         toCreate = new Image(image.number(), image.name(), image.description(), contentKeyGenerator.generate("images"),
             content.mediaType(), content.size(), image.folderNumber());
-        created = imageRepository.save(toCreate);
-        contentRepository.save(created.key(), content);
+        contentRepository.save(toCreate.key(), content);
+        try {
+            created = imageRepository.save(toCreate);
+        } catch (final RuntimeException ex) {
+            deleteContent(toCreate.key());
+            throw ex;
+        }
 
         log.debug("Created image {}", created);
 
@@ -107,7 +112,7 @@ public final class DefaultImageService implements ImageService {
         deleted = getOne(number);
 
         imageRepository.delete(number);
-        contentRepository.delete(deleted.key());
+        deleteContent(deleted.key());
 
         log.debug("Deleted image {}", deleted);
 
@@ -166,8 +171,9 @@ public final class DefaultImageService implements ImageService {
 
     @Override
     public final Image update(final Image image, final Content content) {
-        final Image existing;
-        final Image updated;
+        final Image  existing;
+        final String key;
+        final Image  updated;
 
         log.debug("Updating image {}", image);
 
@@ -183,9 +189,16 @@ public final class DefaultImageService implements ImageService {
 
         imageContentPolicy.validate(content.size(), content.mediaType());
 
-        updated = imageRepository.save(new Image(image.number(), image.name(), image.description(), existing.key(),
-            content.mediaType(), content.size(), existing.folderNumber(), existing.audit()));
-        contentRepository.save(updated.key(), content);
+        key = contentKeyGenerator.generate("images");
+        contentRepository.save(key, content);
+        try {
+            updated = imageRepository.save(new Image(image.number(), image.name(), image.description(), key,
+                content.mediaType(), content.size(), existing.folderNumber(), existing.audit()));
+        } catch (final RuntimeException ex) {
+            deleteContent(key);
+            throw ex;
+        }
+        deleteContent(existing.key());
 
         log.debug("Updated image {}", updated);
 
@@ -214,6 +227,14 @@ public final class DefaultImageService implements ImageService {
         log.debug("Updated metadata for image {}", updated);
 
         return updated;
+    }
+
+    private final void deleteContent(final String key) {
+        try {
+            contentRepository.delete(key);
+        } catch (final RuntimeException ex) {
+            log.warn("Failed to delete content {}", key, ex);
+        }
     }
 
 }

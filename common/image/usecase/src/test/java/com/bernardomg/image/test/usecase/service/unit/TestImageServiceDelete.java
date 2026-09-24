@@ -2,6 +2,7 @@
 package com.bernardomg.image.test.usecase.service.unit;
 
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
 
 import java.util.Optional;
 
@@ -57,6 +58,8 @@ class TestImageServiceDelete {
         // THEN
         Assertions.assertThat(deleted)
             .isEqualTo(Images.valid());
+        then(contentRepository).should()
+            .delete(ImageConstants.KEY);
     }
 
     @Test
