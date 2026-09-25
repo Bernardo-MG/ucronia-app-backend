@@ -24,6 +24,9 @@ get:
             type: string
             example: nosniff
       content:
+        image/bmp:
+          schema:
+            $ref: '../components/images.yml#/components/schemas/ImageContent'
         image/png:
           schema:
             $ref: '../components/images.yml#/components/schemas/ImageContent'
