@@ -2,6 +2,8 @@
 
 package com.bernardomg.image.test.configuration.factory;
 
+import java.util.Optional;
+
 import com.bernardomg.image.domain.model.Image;
 
 public final class Images {
@@ -20,9 +22,19 @@ public final class Images {
         return new Image(ImageConstants.NUMBER, ImageConstants.NAME, ImageConstants.DESCRIPTION, "", "", 0);
     }
 
-    public static Image valid() {
+    public static Image publicAccess() {
         return new Image(ImageConstants.NUMBER, ImageConstants.NAME, ImageConstants.DESCRIPTION, ImageConstants.KEY,
-            ImageConstants.PNG_MEDIA_TYPE, ImageConstants.DATA.length);
+            ImageConstants.PNG_MEDIA_TYPE, ImageConstants.DATA.length, true, Optional.empty());
+    }
+
+    public static Image privateAccessInFolder() {
+        return new Image(ImageConstants.NUMBER, ImageConstants.NAME, ImageConstants.DESCRIPTION, ImageConstants.KEY,
+            ImageConstants.PNG_MEDIA_TYPE, ImageConstants.DATA.length, false, Optional.of(ImageFolderConstants.NUMBER));
+    }
+
+    public static Image publicAccessInFolder() {
+        return new Image(ImageConstants.NUMBER, ImageConstants.NAME, ImageConstants.DESCRIPTION, ImageConstants.KEY,
+            ImageConstants.PNG_MEDIA_TYPE, ImageConstants.DATA.length, true, Optional.of(ImageFolderConstants.NUMBER));
     }
 
     private Images() {

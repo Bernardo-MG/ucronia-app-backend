@@ -23,6 +23,11 @@ public interface ImageRepository {
 
     public Page<Image> findAllByFolder(final Long folderNumber, final Pagination pagination, final Sorting sorting);
 
+    public Page<Image> findAllPublic(final Pagination pagination, final Sorting sorting);
+
+    public Page<Image> findAllPublicByFolder(final Long folderNumber, final Pagination pagination,
+            final Sorting sorting);
+
     public Optional<Image> findOne(final Long number);
 
     public boolean hasImagesInFolder(final Long folderNumber);

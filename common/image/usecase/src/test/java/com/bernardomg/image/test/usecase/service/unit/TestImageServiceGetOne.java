@@ -49,14 +49,14 @@ class TestImageServiceGetOne {
         final Image result;
 
         // GIVEN
-        given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.of(Images.valid()));
+        given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.of(Images.publicAccess()));
 
         // WHEN
         result = service.getOne(ImageConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(result)
-            .isEqualTo(Images.valid());
+            .isEqualTo(Images.publicAccess());
     }
 
     @Test

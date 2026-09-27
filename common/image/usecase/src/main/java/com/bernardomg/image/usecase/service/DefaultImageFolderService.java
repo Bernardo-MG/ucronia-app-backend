@@ -141,6 +141,20 @@ public final class DefaultImageFolderService implements ImageFolderService {
     }
 
     @Override
+    public final Page<Image> getPublicImages(final Long folderNumber, final Pagination pagination,
+            final Sorting sorting) {
+        if (!folderRepository.exists(folderNumber)) {
+            throw new ImageFolderNotExistingException(folderNumber);
+        }
+        return imageRepository.findAllPublicByFolder(folderNumber, pagination, sorting);
+    }
+
+    @Override
+    public final Page<Image> getPublicRootImages(final Pagination pagination, final Sorting sorting) {
+        return imageRepository.findAllPublicByFolder(null, pagination, sorting);
+    }
+
+    @Override
     public final Page<Image> getRootImages(final Pagination pagination, final Sorting sorting) {
         final Page<Image> images;
 

@@ -10,9 +10,9 @@ import java.lang.annotation.Target;
 
 import org.springframework.test.context.jdbc.Sql;
 
-@Sql("/db/queries/image/single.sql")
+@Sql("/db/queries/image/private.sql")
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-public @interface ValidImage {}
+public @interface PrivateImage {}

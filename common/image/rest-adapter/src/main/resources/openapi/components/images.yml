@@ -34,6 +34,8 @@ components:
         size:
           type: integer
           format: int64
+        publicAccess:
+          type: boolean
         audit:
           $ref: 'audit.yml#/components/schemas/AuditDetails'
     ImageCreation:
@@ -47,12 +49,15 @@ components:
         description:
           type: string
           maxLength: 500
+        publicAccess:
+          type: boolean
+          default: true
         file:
           type: string
           format: binary
     ImageUpdate:
       type: object
-      required: [name, description]
+      required: [name, description, publicAccess]
       properties:
         name: 
           type: string
@@ -61,12 +66,14 @@ components:
         description:
           type: string
           maxLength: 500
+        publicAccess:
+          type: boolean
         file:
           type: string
           format: binary
     ImageMetadataUpdate:
       type: object
-      required: [name, description]
+      required: [name, description, publicAccess]
       properties:
         name: 
           type: string
@@ -75,6 +82,8 @@ components:
         description:
           type: string
           maxLength: 500
+        publicAccess:
+          type: boolean
     ImageResponse:
       type: object
       properties:

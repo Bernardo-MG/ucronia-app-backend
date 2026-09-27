@@ -10,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.bernardomg.image.TestApplication;
 import com.bernardomg.image.adapter.inbound.jpa.repository.ImageSpringRepository;
 import com.bernardomg.image.domain.repository.ImageRepository;
-import com.bernardomg.image.test.configuration.data.annotation.ValidImage;
+import com.bernardomg.image.test.configuration.data.annotation.PublicImage;
 import com.bernardomg.image.test.configuration.factory.ImageConstants;
 import com.bernardomg.test.annotation.IntegrationTest;
 
@@ -27,7 +27,7 @@ class ITImageRepositoryDelete {
 
     @Test
     @DisplayName("With an image, it is deleted")
-    @ValidImage
+    @PublicImage
     void testDelete() {
         // WHEN
         repository.delete(ImageConstants.NUMBER);

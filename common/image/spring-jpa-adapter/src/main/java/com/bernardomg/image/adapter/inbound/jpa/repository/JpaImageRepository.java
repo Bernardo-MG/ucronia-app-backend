@@ -112,8 +112,10 @@ public final class JpaImageRepository implements ImageRepository {
     @Override
     public final Page<Image> findAllByFolder(final Long folderNumber, final Pagination pagination,
             final Sorting sorting) {
-        final Pageable                                    pageable = SpringPagination.toPageable(pagination, sorting);
+        final Pageable                                    pageable;
         final org.springframework.data.domain.Page<Image> read;
+
+        pageable = SpringPagination.toPageable(pagination, sorting);
         if (folderNumber == null) {
             read = repository.findAllByFolderIsNull(pageable)
                 .map(ImageEntityMapper::toDomain);
@@ -121,6 +123,33 @@ public final class JpaImageRepository implements ImageRepository {
             read = repository.findAllByFolderNumber(folderNumber, pageable)
                 .map(ImageEntityMapper::toDomain);
         }
+        return SpringPagination.toPage(read);
+    }
+
+    @Override
+    public final Page<Image> findAllPublic(final Pagination pagination, final Sorting sorting) {
+        final Pageable pageable;
+
+        pageable = SpringPagination.toPageable(pagination, sorting);
+        return SpringPagination.toPage(repository.findAllByPublicAccessTrue(pageable)
+            .map(ImageEntityMapper::toDomain));
+    }
+
+    @Override
+    public final Page<Image> findAllPublicByFolder(final Long folderNumber, final Pagination pagination,
+            final Sorting sorting) {
+        final Pageable                                    pageable;
+        final org.springframework.data.domain.Page<Image> read;
+
+        pageable = SpringPagination.toPageable(pagination, sorting);
+        if (folderNumber == null) {
+            read = repository.findAllByFolderIsNullAndPublicAccessTrue(pageable)
+                .map(ImageEntityMapper::toDomain);
+        } else {
+            read = repository.findAllByFolderNumberAndPublicAccessTrue(folderNumber, pageable)
+                .map(ImageEntityMapper::toDomain);
+        }
+
         return SpringPagination.toPage(read);
     }
 
@@ -145,11 +174,18 @@ public final class JpaImageRepository implements ImageRepository {
 
     @Override
     public final Image move(final Long number, final Long folderNumber) {
-        final ImageEntity entity = repository.findByNumber(number)
+        final ImageEntity       entity;
+        final ImageFolderEntity folderEntity;
+
+        entity = repository.findByNumber(number)
             .orElseThrow();
-        entity.setFolder(folderNumber == null ? null
-                : folderRepository.findByNumber(folderNumber)
-                    .orElseThrow());
+        if (folderNumber == null) {
+            folderEntity = null;
+        } else {
+            folderEntity = folderRepository.findByNumber(folderNumber)
+                .orElseThrow();
+        }
+        entity.setFolder(folderEntity);
         return ImageEntityMapper.toDomain(repository.save(entity));
     }
 
@@ -172,7 +208,7 @@ public final class JpaImageRepository implements ImageRepository {
         } else {
             number = repository.findNextNumber();
             toCreate = new Image(number, image.name(), image.description(), image.key(), image.mediaType(),
-                image.size(), image.folderNumber(), image.audit());
+                image.size(), image.publicAccess(), image.folderNumber(), image.audit());
             entity = ImageEntityMapper.toEntity(toCreate);
         }
 

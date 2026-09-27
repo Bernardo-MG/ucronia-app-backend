@@ -42,15 +42,15 @@ class TestImageFolderServiceMoveImageToRoot {
         final Image moved;
 
         // GIVEN
-        given(imageRepository.findOne(ImageFolderConstants.IMAGE_NUMBER)).willReturn(Optional.of(Images.valid()));
-        given(imageRepository.move(ImageFolderConstants.IMAGE_NUMBER, null)).willReturn(Images.valid());
+        given(imageRepository.findOne(ImageFolderConstants.IMAGE_NUMBER)).willReturn(Optional.of(Images.publicAccess()));
+        given(imageRepository.move(ImageFolderConstants.IMAGE_NUMBER, null)).willReturn(Images.publicAccess());
 
         // WHEN
         moved = service.moveImageToRoot(ImageFolderConstants.IMAGE_NUMBER);
 
         // THEN
         Assertions.assertThat(moved)
-            .isEqualTo(Images.valid());
+            .isEqualTo(Images.publicAccess());
     }
 
     @Test
@@ -75,10 +75,10 @@ class TestImageFolderServiceMoveImageToRoot {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(imageRepository.findOne(ImageFolderConstants.IMAGE_NUMBER)).willReturn(Optional.of(Images.valid()));
-        given(imageRepository.existsByNameAndFolder(Images.valid()
+        given(imageRepository.findOne(ImageFolderConstants.IMAGE_NUMBER)).willReturn(Optional.of(Images.publicAccess()));
+        given(imageRepository.existsByNameAndFolder(Images.publicAccess()
             .name(), null,
-            Images.valid()
+            Images.publicAccess()
                 .number())).willReturn(true);
 
         // WHEN

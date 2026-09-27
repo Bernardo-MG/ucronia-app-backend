@@ -22,8 +22,8 @@ import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("ImageFolderService - get root images")
-class TestImageFolderServiceGetRootImages {
+@DisplayName("Image folder service - get public root images")
+class TestImageFolderServiceGetPublicRootImages {
 
     @Mock
     private ImageFolderRepository     folderRepository;
@@ -35,10 +35,10 @@ class TestImageFolderServiceGetRootImages {
     private DefaultImageFolderService service;
 
     @Test
-    @DisplayName("When reading root images, the requested page is returned")
-    void testGetRootImages() {
-        final Page<Image> result;
+    @DisplayName("When reading public root images, the requested page is returned")
+    void testGetPublicRootImages() {
         final Page<Image> existing;
+        final Page<Image> result;
         final Pagination  pagination;
         final Sorting     sorting;
 
@@ -46,11 +46,10 @@ class TestImageFolderServiceGetRootImages {
         pagination = new Pagination(0, 10);
         sorting = Sorting.unsorted();
         existing = new Page<>(List.of(), 0, 0, 0, 0, 0, true, true, sorting);
-
-        given(imageRepository.findAllByFolder(null, pagination, sorting)).willReturn(existing);
+        given(imageRepository.findAllPublicByFolder(null, pagination, sorting)).willReturn(existing);
 
         // WHEN
-        result = service.getRootImages(pagination, sorting);
+        result = service.getPublicRootImages(pagination, sorting);
 
         // THEN
         Assertions.assertThat(result)
@@ -58,10 +57,10 @@ class TestImageFolderServiceGetRootImages {
     }
 
     @Test
-    @DisplayName("When reading root images with no data, the returned page is empty")
-    void testGetRootImages_NoData() {
-        final Page<Image> result;
+    @DisplayName("When reading public root images with no data, the requested page is empty")
+    void testGetPublicRootImages_NoData() {
         final Page<Image> existing;
+        final Page<Image> result;
         final Pagination  pagination;
         final Sorting     sorting;
 
@@ -69,11 +68,10 @@ class TestImageFolderServiceGetRootImages {
         pagination = new Pagination(0, 10);
         sorting = Sorting.unsorted();
         existing = new Page<>(List.of(), 0, 0, 0, 0, 0, true, true, sorting);
-
-        given(imageRepository.findAllByFolder(null, pagination, sorting)).willReturn(existing);
+        given(imageRepository.findAllPublicByFolder(null, pagination, sorting)).willReturn(existing);
 
         // WHEN
-        result = service.getRootImages(pagination, sorting);
+        result = service.getPublicRootImages(pagination, sorting);
 
         // THEN
         Assertions.assertThat(result.content())

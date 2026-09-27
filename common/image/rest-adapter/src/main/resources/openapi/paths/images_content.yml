@@ -23,6 +23,10 @@ get:
           schema:
             type: string
             example: nosniff
+        Cache-Control:
+          description: Private images are returned with `private, no-store`.
+          schema:
+            type: string
       content:
         image/bmp:
           schema:
@@ -41,3 +45,5 @@ get:
             $ref: '../components/images.yml#/components/schemas/ImageContent'
     '404':
       description: Image not found.
+    '403':
+      description: IMAGE:READ is required for a private image.

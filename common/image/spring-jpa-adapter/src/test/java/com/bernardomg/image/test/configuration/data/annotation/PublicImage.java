@@ -10,9 +10,9 @@ import java.lang.annotation.Target;
 
 import org.springframework.test.context.jdbc.Sql;
 
-@Sql("/db/queries/image_folder/tree.sql")
+@Sql("/db/queries/image/public.sql")
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-public @interface ValidImageFolderTree {}
+public @interface PublicImage {}

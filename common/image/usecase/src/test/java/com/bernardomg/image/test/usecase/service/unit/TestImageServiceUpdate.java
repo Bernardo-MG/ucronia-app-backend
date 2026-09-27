@@ -30,7 +30,7 @@ import com.bernardomg.image.test.configuration.factory.Images;
 import com.bernardomg.image.usecase.service.DefaultImageService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Image service")
+@DisplayName("Image service - update")
 class TestImageServiceUpdate {
 
     @Mock
@@ -55,17 +55,17 @@ class TestImageServiceUpdate {
         final Image   updated;
 
         // GIVEN
-        given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.of(Images.valid()));
+        given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.of(Images.publicAccess()));
         given(contentKeyGenerator.generate("images")).willReturn(ImageConstants.CHANGE_KEY);
-        given(repository.save(any(Image.class))).willReturn(Images.valid());
+        given(repository.save(any(Image.class))).willReturn(Images.publicAccess());
         content = Contents.image();
 
         // WHEN
-        updated = service.update(Images.valid(), content);
+        updated = service.update(Images.publicAccess(), content);
 
         // THEN
         Assertions.assertThat(updated)
-            .isEqualTo(Images.valid());
+            .isEqualTo(Images.publicAccess());
         then(contentRepository).should()
             .save(ImageConstants.CHANGE_KEY, content);
         then(contentRepository).should()
@@ -78,18 +78,18 @@ class TestImageServiceUpdate {
         final Image updated;
 
         // GIVEN
-        given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.of(Images.valid()));
+        given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.of(Images.publicAccess()));
         given(contentKeyGenerator.generate("images")).willReturn(ImageConstants.CHANGE_KEY);
-        given(repository.save(any(Image.class))).willReturn(Images.valid());
+        given(repository.save(any(Image.class))).willReturn(Images.publicAccess());
         willThrow(new RuntimeException("S3 deletion failed")).given(contentRepository)
             .delete(ImageConstants.KEY);
 
         // WHEN
-        updated = service.update(Images.valid(), Contents.image());
+        updated = service.update(Images.publicAccess(), Contents.image());
 
         // THEN
         Assertions.assertThat(updated)
-            .isEqualTo(Images.valid());
+            .isEqualTo(Images.publicAccess());
     }
 
     @Test
@@ -98,11 +98,11 @@ class TestImageServiceUpdate {
         final ThrowingCallable callable;
 
         // GIVEN
-        given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.of(Images.valid()));
+        given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.of(Images.publicAccess()));
         given(repository.existsByNameAndFolder(ImageConstants.NAME, null, ImageConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        callable = () -> service.update(Images.valid(), Contents.image());
+        callable = () -> service.update(Images.publicAccess(), Contents.image());
 
         // WHEN + THEN
         Assertions.assertThatThrownBy(callable)
@@ -117,13 +117,13 @@ class TestImageServiceUpdate {
 
         // GIVEN
         failure = new RuntimeException("Persistence failed");
-        given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.of(Images.valid()));
+        given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.of(Images.publicAccess()));
         given(contentKeyGenerator.generate("images")).willReturn(ImageConstants.CHANGE_KEY);
         willThrow(failure).given(repository)
             .save(any(Image.class));
 
         // WHEN
-        callable = () -> service.update(Images.valid(), Contents.image());
+        callable = () -> service.update(Images.publicAccess(), Contents.image());
 
         // THEN
         Assertions.assertThatThrownBy(callable)
@@ -137,12 +137,12 @@ class TestImageServiceUpdate {
     void testUpdate_PersistsReplacementKey() {
 
         // GIVEN
-        given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.of(Images.valid()));
+        given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.of(Images.publicAccess()));
         given(contentKeyGenerator.generate("images")).willReturn(ImageConstants.CHANGE_KEY);
-        given(repository.save(any(Image.class))).willReturn(Images.valid());
+        given(repository.save(any(Image.class))).willReturn(Images.publicAccess());
 
         // WHEN
-        service.update(Images.valid(), Contents.image());
+        service.update(Images.publicAccess(), Contents.image());
 
         // THEN
         then(repository).should()

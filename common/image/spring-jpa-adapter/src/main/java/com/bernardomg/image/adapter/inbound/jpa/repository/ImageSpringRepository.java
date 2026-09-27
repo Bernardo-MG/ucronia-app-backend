@@ -29,7 +29,13 @@ public interface ImageSpringRepository extends JpaRepository<ImageEntity, Long> 
 
     public Page<ImageEntity> findAllByFolderIsNull(final Pageable pageable);
 
+    public Page<ImageEntity> findAllByFolderIsNullAndPublicAccessTrue(final Pageable pageable);
+
     public Page<ImageEntity> findAllByFolderNumber(final long folderNumber, final Pageable pageable);
+
+    public Page<ImageEntity> findAllByFolderNumberAndPublicAccessTrue(final long folderNumber, final Pageable pageable);
+
+    public Page<ImageEntity> findAllByPublicAccessTrue(final Pageable pageable);
 
     public Optional<ImageEntity> findByNumber(final long number);
 

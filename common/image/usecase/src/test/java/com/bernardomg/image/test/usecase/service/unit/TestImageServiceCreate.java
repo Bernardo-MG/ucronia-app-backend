@@ -30,7 +30,7 @@ import com.bernardomg.image.test.configuration.factory.Images;
 import com.bernardomg.image.usecase.service.DefaultImageService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Image service")
+@DisplayName("Image service - create")
 class TestImageServiceCreate {
 
     @Mock
@@ -57,7 +57,7 @@ class TestImageServiceCreate {
         given(repository.existsByNameAndFolder(ImageConstants.NAME, null)).willReturn(true);
 
         // WHEN
-        callable = () -> service.create(Images.valid(), Contents.image());
+        callable = () -> service.create(Images.publicAccess(), Contents.image());
 
         // THEN
         Assertions.assertThatThrownBy(callable)
@@ -92,10 +92,10 @@ class TestImageServiceCreate {
 
         // GIVEN
         given(contentKeyGenerator.generate("images")).willReturn(ImageConstants.KEY);
-        given(repository.save(any(Image.class))).willReturn(Images.valid());
+        given(repository.save(any(Image.class))).willReturn(Images.publicAccess());
         content = Contents.image();
 
-        service.create(Images.valid(), content);
+        service.create(Images.publicAccess(), content);
 
         // THEN
         then(contentRepository).should()
@@ -115,7 +115,7 @@ class TestImageServiceCreate {
             .save(any(Image.class));
 
         // WHEN
-        callable = () -> service.create(Images.valid(), Contents.image());
+        callable = () -> service.create(Images.publicAccess(), Contents.image());
 
         // THEN
         Assertions.assertThatThrownBy(callable)
@@ -132,15 +132,15 @@ class TestImageServiceCreate {
 
         // GIVEN
         given(contentKeyGenerator.generate("images")).willReturn(ImageConstants.KEY);
-        given(repository.save(any(Image.class))).willReturn(Images.valid());
+        given(repository.save(any(Image.class))).willReturn(Images.publicAccess());
         content = Contents.image();
 
         // WHEN
-        created = service.create(Images.valid(), content);
+        created = service.create(Images.publicAccess(), content);
 
         // THEN
         Assertions.assertThat(created)
-            .isEqualTo(Images.valid());
+            .isEqualTo(Images.publicAccess());
     }
 
 }

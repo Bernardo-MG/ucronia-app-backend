@@ -27,7 +27,7 @@ import com.bernardomg.image.test.configuration.factory.Images;
 import com.bernardomg.image.usecase.service.DefaultImageService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Image service")
+@DisplayName("Image service - delete")
 class TestImageServiceDelete {
 
     @Mock
@@ -49,7 +49,7 @@ class TestImageServiceDelete {
     @DisplayName("When deleting an image, the image is deleted")
     void testDelete() {
         // GIVEN
-        given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.of(Images.valid()));
+        given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.of(Images.publicAccess()));
 
         // WHEN
         service.delete(ImageConstants.NUMBER);
@@ -64,7 +64,7 @@ class TestImageServiceDelete {
     void testDelete_ContentDeletionFailureIsIgnored() {
 
         // GIVEN
-        given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.of(Images.valid()));
+        given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.of(Images.publicAccess()));
         willThrow(new RuntimeException("S3 deletion failed")).given(contentRepository)
             .delete(ImageConstants.KEY);
 
@@ -98,14 +98,14 @@ class TestImageServiceDelete {
         final Image deleted;
 
         // GIVEN
-        given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.of(Images.valid()));
+        given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.of(Images.publicAccess()));
 
         // WHEN
         deleted = service.delete(ImageConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(deleted)
-            .isEqualTo(Images.valid());
+            .isEqualTo(Images.publicAccess());
     }
 
 }

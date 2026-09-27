@@ -9,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.image.TestApplication;
 import com.bernardomg.image.domain.repository.ImageRepository;
-import com.bernardomg.image.test.configuration.data.annotation.ValidImage;
+import com.bernardomg.image.test.configuration.data.annotation.PublicImage;
 import com.bernardomg.image.test.configuration.factory.ImageConstants;
 import com.bernardomg.test.annotation.IntegrationTest;
 
@@ -23,7 +23,7 @@ class ITImageRepositoryExistsByNameForAnother {
 
     @Test
     @DisplayName("With another image with the same name, it exists")
-    @ValidImage
+    @PublicImage
     void testExistsByNameForAnother_Another() {
         final boolean exists;
 
@@ -38,7 +38,7 @@ class ITImageRepositoryExistsByNameForAnother {
 
     @Test
     @DisplayName("With only the edited image, nothing exists")
-    @ValidImage
+    @PublicImage
     void testExistsByNameForAnother_Itself() {
         final boolean exists;
 

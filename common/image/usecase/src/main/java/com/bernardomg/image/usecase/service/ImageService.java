@@ -44,6 +44,8 @@ public interface ImageService {
 
     public Page<Image> getAll(final Pagination pagination, final Sorting sorting);
 
+    public Page<Image> getAllPublic(final Pagination pagination, final Sorting sorting);
+
     public Content getContent(final Long number);
 
     public Image getOne(final Long number);

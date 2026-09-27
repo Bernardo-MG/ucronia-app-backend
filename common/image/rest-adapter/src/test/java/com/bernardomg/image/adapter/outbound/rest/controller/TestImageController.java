@@ -28,6 +28,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import com.bernardomg.content.domain.model.Content;
+import com.bernardomg.image.adapter.outbound.rest.security.SpringSecurityImageReadAuthorizer;
 import com.bernardomg.image.domain.model.Image;
 import com.bernardomg.image.test.configuration.factory.Contents;
 import com.bernardomg.image.test.configuration.factory.ImageConstants;
@@ -53,7 +54,7 @@ class TestImageController {
         validator.setMessageInterpolator(new ParameterMessageInterpolator());
         validator.afterPropertiesSet();
 
-        mockMvc = MockMvcBuilders.standaloneSetup(new ImageController(service))
+        mockMvc = MockMvcBuilders.standaloneSetup(new ImageController(service, new SpringSecurityImageReadAuthorizer()))
             .setValidator(validator)
             .build();
     }
@@ -65,12 +66,13 @@ class TestImageController {
 
         // GIVEN
         file = new MockMultipartFile("file", ImageConstants.NAME, MediaType.IMAGE_PNG_VALUE, ImageConstants.DATA);
-        given(service.create(any(Image.class), any(Content.class))).willReturn(Images.valid());
+        given(service.create(any(Image.class), any(Content.class))).willReturn(Images.publicAccess());
 
         // WHEN + THEN
         mockMvc.perform(multipart("/images").file(file)
             .param("name", ImageConstants.NAME)
-            .param("description", ImageConstants.DESCRIPTION))
+            .param("description", ImageConstants.DESCRIPTION)
+            .param("public", "true"))
             .andExpect(status().isCreated());
     }
 
@@ -80,8 +82,8 @@ class TestImageController {
         final Page<Image> page;
 
         // GIVEN
-        page = new Page<>(List.of(Images.valid()), 10, 1, 1, 1, 1, true, true, Sorting.unsorted());
-        given(service.getAll(any(Pagination.class), any(Sorting.class))).willReturn(page);
+        page = new Page<>(List.of(Images.publicAccess()), 10, 1, 1, 1, 1, true, true, Sorting.unsorted());
+        given(service.getAllPublic(any(Pagination.class), any(Sorting.class))).willReturn(page);
 
         // WHEN + THEN
         mockMvc.perform(get("/images").param("page", "1")
@@ -95,6 +97,7 @@ class TestImageController {
     @DisplayName("Can get an image content")
     void testGetContent() throws Exception {
         // GIVEN
+        given(service.getOne(ImageConstants.NUMBER)).willReturn(Images.publicAccess());
         given(service.getContent(ImageConstants.NUMBER)).willReturn(Contents.image());
 
         // WHEN + THEN
@@ -111,7 +114,7 @@ class TestImageController {
     void testGetImage() throws Exception {
 
         // GIVEN
-        given(service.getOne(ImageConstants.NUMBER)).willReturn(Images.valid());
+        given(service.getOne(ImageConstants.NUMBER)).willReturn(Images.publicAccess());
 
         // WHEN + THEN
         mockMvc.perform(get("/images/{number}", ImageConstants.NUMBER))
@@ -132,7 +135,8 @@ class TestImageController {
             .content("""
                     {
                       "name": "%s",
-                      "description": "%s"
+                      "description": "%s",
+                      "public": true
                     }
                     """.formatted(ImageConstants.NAME, ImageConstants.DESCRIPTION)))
             .andExpect(status().isOk());

@@ -52,6 +52,9 @@ public class ImageEntity implements Serializable {
     @Column(name = "number", nullable = false, unique = true)
     private Long              number;
 
+    @Column(name = "public_access", nullable = false)
+    private boolean           publicAccess;
+
     @Column(name = "size", nullable = false)
     private Long              size;
 
@@ -91,6 +94,10 @@ public class ImageEntity implements Serializable {
         return size;
     }
 
+    public boolean isPublicAccess() {
+        return publicAccess;
+    }
+
     public void setAudit(final AuditMetadata value) {
         audit = value;
     }
@@ -123,13 +130,19 @@ public class ImageEntity implements Serializable {
         number = value;
     }
 
+    public void setPublicAccess(final boolean value) {
+        publicAccess = value;
+    }
+
     public void setSize(final Long value) {
         size = value;
     }
 
     @Override
     public String toString() {
-        return "ImageEntity [id=" + id + ", number=" + number + ", name=" + name + ", key=" + key + ", audit=" + audit
-                + "]";
+        return "ImageEntity [id=" + id + ", key=" + key + ", name=" + name + ", description=" + description
+                + ", folder=" + folder + ", mediaType=" + mediaType + ", number=" + number + ", publicAccess="
+                + publicAccess + ", size=" + size + ", audit=" + audit + "]";
     }
+
 }

@@ -24,7 +24,7 @@ import com.bernardomg.image.test.configuration.factory.Images;
 import com.bernardomg.image.usecase.service.DefaultImageService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Image service")
+@DisplayName("Image service - update metadata")
 class TestImageServiceUpdateMetadata {
 
     @Mock
@@ -48,15 +48,15 @@ class TestImageServiceUpdateMetadata {
         final Image updated;
 
         // GIVEN
-        given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.of(Images.valid()));
-        given(repository.save(any(Image.class))).willReturn(Images.valid());
+        given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.of(Images.publicAccess()));
+        given(repository.save(any(Image.class))).willReturn(Images.publicAccess());
 
         // WHEN
-        updated = service.updateMetadata(Images.valid());
+        updated = service.updateMetadata(Images.publicAccess());
 
         // THEN
         Assertions.assertThat(updated)
-            .isEqualTo(Images.valid());
+            .isEqualTo(Images.publicAccess());
     }
 
 }

@@ -44,16 +44,16 @@ class TestImageFolderServiceMoveImage {
 
         // GIVEN
         given(folderRepository.exists(ImageFolderConstants.NUMBER)).willReturn(true);
-        given(imageRepository.findOne(ImageFolderConstants.IMAGE_NUMBER)).willReturn(Optional.of(Images.valid()));
+        given(imageRepository.findOne(ImageFolderConstants.IMAGE_NUMBER)).willReturn(Optional.of(Images.publicAccess()));
         given(imageRepository.move(ImageFolderConstants.IMAGE_NUMBER, ImageFolderConstants.NUMBER))
-            .willReturn(Images.valid());
+            .willReturn(Images.publicAccess());
 
         // WHEN
         moved = service.moveImage(ImageFolderConstants.IMAGE_NUMBER, ImageFolderConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(moved)
-            .isEqualTo(Images.valid());
+            .isEqualTo(Images.publicAccess());
     }
 
     @Test
@@ -96,10 +96,10 @@ class TestImageFolderServiceMoveImage {
 
         // GIVEN
         given(folderRepository.exists(ImageFolderConstants.NUMBER)).willReturn(true);
-        given(imageRepository.findOne(ImageFolderConstants.IMAGE_NUMBER)).willReturn(Optional.of(Images.valid()));
-        given(imageRepository.existsByNameAndFolder(Images.valid()
+        given(imageRepository.findOne(ImageFolderConstants.IMAGE_NUMBER)).willReturn(Optional.of(Images.publicAccess()));
+        given(imageRepository.existsByNameAndFolder(Images.publicAccess()
             .name(), ImageFolderConstants.NUMBER,
-            Images.valid()
+            Images.publicAccess()
                 .number())).willReturn(true);
 
         // WHEN

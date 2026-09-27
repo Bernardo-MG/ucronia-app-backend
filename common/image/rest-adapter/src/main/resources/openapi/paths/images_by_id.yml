@@ -18,6 +18,8 @@ get:
             $ref: '../components/images.yml#/components/schemas/ImageResponse'
     '404':
        description: Image not found.
+    '403':
+       description: Private image.
 delete:
   summary: Delete an image.
   operationId: deleteImage

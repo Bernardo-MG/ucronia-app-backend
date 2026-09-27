@@ -22,7 +22,7 @@ public final class ImageEntityMapper {
         }
 
         return new Image(entity.getNumber(), entity.getName(), entity.getDescription(), entity.getKey(),
-            entity.getMediaType(), entity.getSize(), folder, toDomain(entity.getAudit()));
+            entity.getMediaType(), entity.getSize(), entity.isPublicAccess(), folder, toDomain(entity.getAudit()));
     }
 
     public static ImageEntity toEntity(final Image image) {
@@ -35,6 +35,7 @@ public final class ImageEntityMapper {
         entity.setKey(image.key());
         entity.setMediaType(image.mediaType());
         entity.setSize(image.size());
+        entity.setPublicAccess(image.publicAccess());
 
         return entity;
     }

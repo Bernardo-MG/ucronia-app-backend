@@ -25,7 +25,7 @@ import com.bernardomg.image.test.configuration.factory.Images;
 import com.bernardomg.image.usecase.service.DefaultImageService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Image service")
+@DisplayName("Image service - get content")
 class TestImageServiceGetContent {
 
     @Mock
@@ -51,7 +51,7 @@ class TestImageServiceGetContent {
 
         // GIVEN
         existing = Contents.image();
-        given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.of(Images.valid()));
+        given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.of(Images.publicAccess()));
         given(contentRepository.getOne(ImageConstants.KEY)).willReturn(existing);
 
         // WHEN

@@ -40,6 +40,8 @@ import com.bernardomg.image.adapter.inbound.jpa.repository.ImageFolderSpringRepo
 import com.bernardomg.image.adapter.inbound.jpa.repository.ImageSpringRepository;
 import com.bernardomg.image.adapter.inbound.jpa.repository.JpaImageFolderRepository;
 import com.bernardomg.image.adapter.inbound.jpa.repository.JpaImageRepository;
+import com.bernardomg.image.adapter.outbound.rest.security.ImageReadAuthorizer;
+import com.bernardomg.image.adapter.outbound.rest.security.SpringSecurityImageReadAuthorizer;
 import com.bernardomg.image.domain.repository.ImageFolderRepository;
 import com.bernardomg.image.domain.repository.ImageRepository;
 import com.bernardomg.image.usecase.service.DefaultImageFolderService;
@@ -74,6 +76,11 @@ public class AssociationImageAutoConfiguration {
     @Bean("imageFolderWhitelist")
     public WhitelistRoute getImageFolderWhitelist() {
         return WhitelistRoute.of("/image-folders/**", HttpMethod.GET);
+    }
+
+    @Bean("imageReadAuthorizer")
+    public ImageReadAuthorizer getImageReadAuthorizer(final ImageContentProperties properties) {
+        return new SpringSecurityImageReadAuthorizer();
     }
 
     @Bean("imageRepository")

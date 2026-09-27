@@ -25,8 +25,8 @@ import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Image service - get all")
-class TestImageServiceGetAll {
+@DisplayName("Image service - get all public")
+class TestImageServiceGetAllPublic {
 
     @Mock
     private ContentKeyGenerator contentKeyGenerator;
@@ -44,8 +44,8 @@ class TestImageServiceGetAll {
     private DefaultImageService service;
 
     @Test
-    @DisplayName("When getting all images, the requested page is returned")
-    void testGetAll() {
+    @DisplayName("When getting public images, the requested page is returned")
+    void testGetAllPublic() {
         final Page<Image> existing;
         final Page<Image> result;
         final Pagination  pagination;
@@ -55,10 +55,10 @@ class TestImageServiceGetAll {
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
         existing = new Page<>(List.of(Images.publicAccess()), 10, 1, 1, 1, 1, true, true, sorting);
-        given(repository.findAll(pagination, sorting)).willReturn(existing);
+        given(repository.findAllPublic(pagination, sorting)).willReturn(existing);
 
         // WHEN
-        result = service.getAll(pagination, sorting);
+        result = service.getAllPublic(pagination, sorting);
 
         // THEN
         Assertions.assertThat(result)
@@ -66,8 +66,8 @@ class TestImageServiceGetAll {
     }
 
     @Test
-    @DisplayName("When getting all images and there is no data, an empty page is returned")
-    void testGetAll_Empty() {
+    @DisplayName("When getting public images and there is no data, the returned page is empty")
+    void testGetAllPublic_Returned() {
         final Page<Image> existing;
         final Page<Image> result;
         final Pagination  pagination;
@@ -77,10 +77,10 @@ class TestImageServiceGetAll {
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
         existing = new Page<>(List.of(), 10, 1, 1, 1, 1, true, true, sorting);
-        given(repository.findAll(pagination, sorting)).willReturn(existing);
+        given(repository.findAllPublic(pagination, sorting)).willReturn(existing);
 
         // WHEN
-        result = service.getAll(pagination, sorting);
+        result = service.getAllPublic(pagination, sorting);
 
         // THEN
         Assertions.assertThat(result.content())

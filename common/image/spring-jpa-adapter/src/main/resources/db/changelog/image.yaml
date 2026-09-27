@@ -110,6 +110,12 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
+                  name: public_access
+                  type: boolean
+                  defaultValueBoolean: true
+                  constraints:
+                    nullable: false
+              - column:
                   name: folder_id
                   type: bigint
                   constraints:

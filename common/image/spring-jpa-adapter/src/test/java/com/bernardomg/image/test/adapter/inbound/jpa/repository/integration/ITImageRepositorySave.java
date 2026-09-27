@@ -11,7 +11,7 @@ import com.bernardomg.image.TestApplication;
 import com.bernardomg.image.adapter.inbound.jpa.repository.ImageSpringRepository;
 import com.bernardomg.image.domain.model.Image;
 import com.bernardomg.image.domain.repository.ImageRepository;
-import com.bernardomg.image.test.configuration.data.annotation.ValidImage;
+import com.bernardomg.image.test.configuration.data.annotation.PublicImage;
 import com.bernardomg.image.test.configuration.factory.ImageEntities;
 import com.bernardomg.image.test.configuration.factory.Images;
 import com.bernardomg.test.annotation.IntegrationTest;
@@ -29,7 +29,7 @@ class ITImageRepositorySave {
 
     @Test
     @DisplayName("When the image name is changed, it is updated")
-    @ValidImage
+    @PublicImage
     void testSave_Existing_ChangeName_Persisted() {
         final Image image;
 
@@ -48,7 +48,7 @@ class ITImageRepositorySave {
 
     @Test
     @DisplayName("When the image name is changed, it is returned")
-    @ValidImage
+    @PublicImage
     void testSave_Existing_ChangeName_Returned() {
         final Image image;
         final Image saved;
@@ -71,13 +71,13 @@ class ITImageRepositorySave {
     @DisplayName("When saving, an image is persisted")
     void testSave_Persisted() {
         // WHEN
-        repository.save(Images.valid());
+        repository.save(Images.publicAccess());
 
         // THEN
         Assertions.assertThat(springRepository.findAll())
             .as("images")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "audit")
-            .containsExactly(ImageEntities.valid());
+            .containsExactly(ImageEntities.publicAccess());
     }
 
     @Test
@@ -86,13 +86,13 @@ class ITImageRepositorySave {
         final Image saved;
 
         // WHEN
-        saved = repository.save(Images.valid());
+        saved = repository.save(Images.publicAccess());
 
         // THEN
         Assertions.assertThat(saved)
             .as("image")
             .usingRecursiveComparison()
             .ignoringFields("audit")
-            .isEqualTo(Images.valid());
+            .isEqualTo(Images.publicAccess());
     }
 }

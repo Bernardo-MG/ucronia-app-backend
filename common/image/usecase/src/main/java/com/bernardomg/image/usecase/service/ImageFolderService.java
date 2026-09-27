@@ -22,6 +22,10 @@ public interface ImageFolderService {
 
     public ImageFolder getOne(final Long number);
 
+    public Page<Image> getPublicImages(final Long folderNumber, final Pagination pagination, final Sorting sorting);
+
+    public Page<Image> getPublicRootImages(final Pagination pagination, final Sorting sorting);
+
     public Page<Image> getRootImages(final Pagination pagination, final Sorting sorting);
 
     public Image moveImage(final Long imageNumber, final Long folderNumber);

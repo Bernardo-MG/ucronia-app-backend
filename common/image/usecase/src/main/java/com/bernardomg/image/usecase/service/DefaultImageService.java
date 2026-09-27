@@ -92,7 +92,7 @@ public final class DefaultImageService implements ImageService {
         imageContentPolicy.validate(content.size(), content.mediaType());
 
         toCreate = new Image(image.number(), image.name(), image.description(), contentKeyGenerator.generate(namespace),
-            content.mediaType(), content.size(), image.folderNumber());
+            content.mediaType(), content.size(), image.publicAccess(), image.folderNumber());
         contentRepository.save(toCreate.key(), content);
         try {
             created = imageRepository.save(toCreate);
@@ -141,6 +141,11 @@ public final class DefaultImageService implements ImageService {
     }
 
     @Override
+    public final Page<Image> getAllPublic(final Pagination pagination, final Sorting sorting) {
+        return imageRepository.findAllPublic(pagination, sorting);
+    }
+
+    @Override
     public final Content getContent(final Long number) {
         final Image   image;
         final Content imageContent;
@@ -181,6 +186,7 @@ public final class DefaultImageService implements ImageService {
     public final Image update(final Image image, final Content content) {
         final Image  existing;
         final String key;
+        final Image  toUpdate;
         final Image  updated;
 
         log.debug("Updating image {}", image);
@@ -201,8 +207,9 @@ public final class DefaultImageService implements ImageService {
         key = contentKeyGenerator.generate(namespace);
         contentRepository.save(key, content);
         try {
-            updated = imageRepository.save(new Image(image.number(), image.name(), image.description(), key,
-                content.mediaType(), content.size(), existing.folderNumber(), existing.audit()));
+            toUpdate = new Image(image.number(), image.name(), image.description(), key, content.mediaType(),
+                content.size(), image.publicAccess(), existing.folderNumber(), existing.audit());
+            updated = imageRepository.save(toUpdate);
         } catch (final RuntimeException ex) {
             deleteContent(key);
             throw ex;
@@ -217,6 +224,7 @@ public final class DefaultImageService implements ImageService {
     @Override
     public final Image updateMetadata(final Image image) {
         final Image existing;
+        final Image toUpdate;
         final Image updated;
 
         log.debug("Updating metadata for image {}", image);
@@ -231,8 +239,9 @@ public final class DefaultImageService implements ImageService {
             log.error("Image {} already exists", image.name());
             throw new ImageAlreadyExistsException(image.name());
         }
-        updated = imageRepository.save(new Image(existing.number(), image.name(), image.description(), existing.key(),
-            existing.mediaType(), existing.size(), existing.folderNumber(), existing.audit()));
+        toUpdate = new Image(existing.number(), image.name(), image.description(), existing.key(), existing.mediaType(),
+            existing.size(), image.publicAccess(), existing.folderNumber(), existing.audit());
+        updated = imageRepository.save(toUpdate);
 
         log.debug("Updated metadata for image {}", updated);
 
