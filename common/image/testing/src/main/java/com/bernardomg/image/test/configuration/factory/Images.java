@@ -22,6 +22,11 @@ public final class Images {
         return new Image(ImageConstants.NUMBER, ImageConstants.NAME, ImageConstants.DESCRIPTION, "", "", 0);
     }
 
+    public static Image privateAccess() {
+        return new Image(ImageConstants.NUMBER, ImageConstants.NAME, ImageConstants.DESCRIPTION, ImageConstants.KEY,
+            ImageConstants.PNG_MEDIA_TYPE, ImageConstants.DATA.length, false, Optional.empty());
+    }
+
     public static Image publicAccess() {
         return new Image(ImageConstants.NUMBER, ImageConstants.NAME, ImageConstants.DESCRIPTION, ImageConstants.KEY,
             ImageConstants.PNG_MEDIA_TYPE, ImageConstants.DATA.length, true, Optional.empty());

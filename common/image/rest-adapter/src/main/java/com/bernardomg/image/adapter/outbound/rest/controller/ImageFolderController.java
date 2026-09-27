@@ -19,8 +19,10 @@ import com.bernardomg.image.adapter.outbound.rest.dto.ImageResponseDto;
 import com.bernardomg.image.adapter.outbound.rest.model.ImageDtoMapper;
 import com.bernardomg.image.adapter.outbound.rest.model.ImageFolderDtoMapper;
 import com.bernardomg.image.adapter.outbound.rest.security.ImageReadAuthorizer;
+import com.bernardomg.image.domain.model.Image;
 import com.bernardomg.image.domain.model.ImageFolder;
 import com.bernardomg.image.usecase.service.ImageFolderService;
+import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.web.WebSorting;
 import com.bernardomg.security.domain.permission.constant.Actions;
@@ -75,20 +77,34 @@ public class ImageFolderController implements ImageFolderApi {
     @Unsecured
     public ResponseEntity<ImagePageResponseDto> getImagesInFolder(final Long folderNumber, final Integer page,
             final Integer size, final List<String> sort) {
-        final Pagination pagination = new Pagination(page, size);
-        return ResponseEntity.ok(ImageDtoMapper.toResponseDto(
-            authorizer.canReadPrivateImages() ? service.getImages(folderNumber, pagination, WebSorting.toSorting(sort))
-                    : service.getPublicImages(folderNumber, pagination, WebSorting.toSorting(sort))));
+        final Pagination  pagination;
+        final Page<Image> images;
+
+        pagination = new Pagination(page, size);
+        if (authorizer.canReadPrivateImages()) {
+            images = service.getImages(folderNumber, pagination, WebSorting.toSorting(sort));
+        } else {
+            images = service.getPublicImages(folderNumber, pagination, WebSorting.toSorting(sort));
+        }
+
+        return ResponseEntity.ok(ImageDtoMapper.toResponseDto(images));
     }
 
     @Override
     @Unsecured
     public ResponseEntity<ImagePageResponseDto> getRootImages(final Integer page, final Integer size,
             final List<String> sort) {
-        final Pagination pagination = new Pagination(page, size);
-        return ResponseEntity.ok(ImageDtoMapper.toResponseDto(
-            authorizer.canReadPrivateImages() ? service.getRootImages(pagination, WebSorting.toSorting(sort))
-                    : service.getPublicRootImages(pagination, WebSorting.toSorting(sort))));
+        final Pagination  pagination;
+        final Page<Image> images;
+
+        pagination = new Pagination(page, size);
+        if (authorizer.canReadPrivateImages()) {
+            images = service.getRootImages(pagination, WebSorting.toSorting(sort));
+        } else {
+            images = service.getPublicRootImages(pagination, WebSorting.toSorting(sort));
+        }
+
+        return ResponseEntity.ok(ImageDtoMapper.toResponseDto(images));
     }
 
     @Override

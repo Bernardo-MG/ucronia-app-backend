@@ -48,6 +48,8 @@ import com.bernardomg.image.usecase.service.DefaultImageFolderService;
 import com.bernardomg.image.usecase.service.DefaultImageService;
 import com.bernardomg.image.usecase.service.ImageFolderService;
 import com.bernardomg.image.usecase.service.ImageService;
+import com.bernardomg.security.springframework.access.interceptor.AuthorityResourcePermissionEvaluator;
+import com.bernardomg.security.springframework.access.interceptor.ResourcePermissionEvaluator;
 import com.bernardomg.security.springframework.web.whitelist.WhitelistRoute;
 
 @AutoConfiguration
@@ -79,8 +81,11 @@ public class AssociationImageAutoConfiguration {
     }
 
     @Bean("imageReadAuthorizer")
-    public ImageReadAuthorizer getImageReadAuthorizer(final ImageContentProperties properties) {
-        return new SpringSecurityImageReadAuthorizer();
+    public ImageReadAuthorizer getImageReadAuthorizer() {
+        final ResourcePermissionEvaluator permissionEvaluator;
+
+        permissionEvaluator = new AuthorityResourcePermissionEvaluator();
+        return new SpringSecurityImageReadAuthorizer(permissionEvaluator);
     }
 
     @Bean("imageRepository")

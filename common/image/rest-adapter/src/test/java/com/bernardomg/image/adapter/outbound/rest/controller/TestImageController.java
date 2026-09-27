@@ -1,4 +1,3 @@
-/** The MIT License (MIT). Copyright (c) 2022-2025 Bernardo Martínez Garrido. */
 
 package com.bernardomg.image.adapter.outbound.rest.controller;
 
@@ -37,24 +36,32 @@ import com.bernardomg.image.usecase.service.ImageService;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
+import com.bernardomg.security.springframework.access.interceptor.ResourcePermissionEvaluator;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("ImageController")
 class TestImageController {
 
-    private MockMvc      mockMvc;
+    private MockMvc                     mockMvc;
 
     @Mock
-    private ImageService service;
+    private ResourcePermissionEvaluator permissionEvaluator;
+
+    @Mock
+    private ImageService                service;
 
     @BeforeEach
     void setUp() {
-        final LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
+        final LocalValidatorFactoryBean validator;
 
+        validator = new LocalValidatorFactoryBean();
         validator.setMessageInterpolator(new ParameterMessageInterpolator());
         validator.afterPropertiesSet();
 
-        mockMvc = MockMvcBuilders.standaloneSetup(new ImageController(service, new SpringSecurityImageReadAuthorizer()))
+        given(permissionEvaluator.isAuthorized(any(), any(), any())).willReturn(true);
+
+        mockMvc = MockMvcBuilders
+            .standaloneSetup(new ImageController(service, new SpringSecurityImageReadAuthorizer(permissionEvaluator)))
             .setValidator(validator)
             .build();
     }
