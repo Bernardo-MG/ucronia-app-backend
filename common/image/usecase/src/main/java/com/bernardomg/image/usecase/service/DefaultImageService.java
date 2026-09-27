@@ -114,12 +114,7 @@ public final class DefaultImageService implements ImageService {
 
         deleted = getOne(number);
 
-        try {
-            imageRepository.delete(number);
-        } catch (final RuntimeException ex) {
-            deleteContent(deleted.key());
-            throw ex;
-        }
+        imageRepository.delete(number);
         deleteContent(deleted.key());
 
         log.debug("Deleted image {}", deleted);

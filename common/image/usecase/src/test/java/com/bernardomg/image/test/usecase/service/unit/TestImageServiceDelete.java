@@ -77,6 +77,27 @@ class TestImageServiceDelete {
     }
 
     @Test
+    @DisplayName("When metadata deletion fails, the content is preserved")
+    void testDelete_MetadataDeletionFailurePreservesContent() {
+        final RuntimeException  exception;
+        final ThrowingCallable execution;
+
+        // GIVEN
+        exception = new RuntimeException("Database deletion failed");
+        given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.of(Images.publicAccess()));
+        willThrow(exception).given(repository)
+            .delete(ImageConstants.NUMBER);
+
+        // WHEN
+        execution = () -> service.delete(ImageConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThatThrownBy(execution)
+            .isSameAs(exception);
+        then(contentRepository).shouldHaveNoInteractions();
+    }
+
+    @Test
     @DisplayName("When deleting a missing image, not found is raised")
     void testDelete_Missing() {
         final ThrowingCallable callable;
