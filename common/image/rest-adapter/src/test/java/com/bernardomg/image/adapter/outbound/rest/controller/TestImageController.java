@@ -58,8 +58,6 @@ class TestImageController {
         validator.setMessageInterpolator(new ParameterMessageInterpolator());
         validator.afterPropertiesSet();
 
-        given(permissionEvaluator.isAuthorized(any(), any(), any())).willReturn(true);
-
         mockMvc = MockMvcBuilders
             .standaloneSetup(new ImageController(service, new SpringSecurityImageReadAuthorizer(permissionEvaluator)))
             .setValidator(validator)
@@ -143,7 +141,7 @@ class TestImageController {
                     {
                       "name": "%s",
                       "description": "%s",
-                      "public": true
+                      "publicAccess": true
                     }
                     """.formatted(ImageConstants.NAME, ImageConstants.DESCRIPTION)))
             .andExpect(status().isOk());
