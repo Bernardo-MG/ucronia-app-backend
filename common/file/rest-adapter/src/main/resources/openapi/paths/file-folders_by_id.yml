@@ -1,0 +1,51 @@
+parameters:
+  - in: path
+    name: number
+    required: true
+    schema:
+       $ref: '../common/ids.yml#/components/schemas/Id'
+get:
+  summary: Get an file folder.
+  operationId: getFileFolder
+  tags: [File folder]
+  responses:
+    '200':
+      description: File folder metadata.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/file-folders.yml#/components/schemas/FileFolder'
+    '404':
+       description: Folder not found.
+put:
+  summary: Rename or move an file folder.
+  operationId: updateFileFolder
+  tags: [File folder]
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/file-folders.yml#/components/schemas/FileFolderUpdate'
+  responses:
+    '200':
+      description: Folder updated.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/file-folders.yml#/components/schemas/FileFolder'
+    '400':
+       description: The requested hierarchy contains a cycle.
+delete:
+  summary: Delete an empty file folder.
+  operationId: deleteFileFolder
+  tags: [File folder]
+  responses:
+    '200':
+      description: Folder deleted.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/file-folders.yml#/components/schemas/FileFolder'
+    '409':
+       description: Folder contains files or child folders.

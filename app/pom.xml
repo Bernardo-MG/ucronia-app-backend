@@ -43,6 +43,10 @@
          <artifactId>settings-spring-starter</artifactId>
       </dependency>
       <dependency>
+         <groupId>com.bernardomg.file</groupId>
+         <artifactId>file-spring-starter</artifactId>
+      </dependency>
+      <dependency>
          <groupId>com.bernardomg.image</groupId>
          <artifactId>image-spring-starter</artifactId>
       </dependency>

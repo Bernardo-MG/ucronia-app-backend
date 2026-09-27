@@ -1,0 +1,77 @@
+parameters:
+  - in: path
+    name: number
+    required: true
+    description: File number.
+    schema:
+       $ref: '../common/ids.yml#/components/schemas/Id'
+get:
+  summary: Get file metadata.
+  operationId: getFile
+  tags: [File]
+  responses:
+    '200':
+      description: File metadata.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/files.yml#/components/schemas/FileResponse'
+    '404':
+       description: File not found.
+    '403':
+       description: Private file.
+delete:
+  summary: Delete a file.
+  operationId: deleteFile
+  tags: [File]
+  responses:
+    '200':
+      description: Deleted file metadata.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/files.yml#/components/schemas/FileResponse'
+    '404':
+       description: File not found.
+patch:
+  summary: Update file metadata without replacing its content.
+  operationId: updateFileMetadata
+  tags: [File]
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/files.yml#/components/schemas/FileMetadataUpdate'
+  responses:
+    '200':
+      description: Updated file metadata.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/files.yml#/components/schemas/FileResponse'
+    '404':
+       description: File not found.
+    '409':
+       description: File name already exists.
+put:
+  summary: Update a file.
+  operationId: updateFile
+  tags: [File]
+  requestBody:
+    required: true
+    content:
+      multipart/form-data:
+        schema:
+           $ref: '../components/files.yml#/components/schemas/FileUpdate'
+  responses:
+    '200':
+      description: Updated file metadata.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/files.yml#/components/schemas/FileResponse'
+    '404':
+       description: File not found.
+    '409':
+       description: File name already exists.
