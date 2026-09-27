@@ -3,8 +3,9 @@ package com.bernardomg.image.test.usecase.service.unit;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
+import static org.mockito.BDDMockito.willThrow;
 
-import java.io.ByteArrayInputStream;
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
@@ -16,48 +17,79 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.content.domain.key.ContentKeyGenerator;
+import com.bernardomg.content.domain.model.Content;
 import com.bernardomg.content.domain.policy.ContentPolicy;
+import com.bernardomg.content.domain.repository.ContentRepository;
 import com.bernardomg.image.domain.exception.ImageAlreadyExistsException;
 import com.bernardomg.image.domain.model.Image;
-import com.bernardomg.image.domain.model.ImageContent;
-import com.bernardomg.image.domain.repository.ImageContentRepository;
 import com.bernardomg.image.domain.repository.ImageRepository;
+import com.bernardomg.image.test.configuration.factory.Contents;
 import com.bernardomg.image.test.configuration.factory.ImageConstants;
 import com.bernardomg.image.test.configuration.factory.Images;
 import com.bernardomg.image.usecase.service.DefaultImageService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Image service")
+@DisplayName("Image service - update")
 class TestImageServiceUpdate {
 
     @Mock
-    private ContentPolicy          contentPolicy;
+    private ContentKeyGenerator contentKeyGenerator;
 
     @Mock
-    private ImageContentRepository contentRepository;
+    private ContentPolicy       contentPolicy;
 
     @Mock
-    private ImageRepository        repository;
+    private ContentRepository   contentRepository;
+
+    @Mock
+    private ImageRepository     repository;
 
     @InjectMocks
-    private DefaultImageService    service;
+    private DefaultImageService service;
 
     @Test
     @DisplayName("When updating an image, metadata and content are persisted")
     void testUpdate() {
-        final Image updated;
+        final Content content;
+        final Image   updated;
 
         // GIVEN
-        given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.of(Images.valid()));
-        given(repository.save(any(Image.class))).willReturn(Images.valid());
+        given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.of(Images.publicAccess()));
+        given(contentKeyGenerator.generate("images")).willReturn(ImageConstants.CHANGE_KEY);
+        given(repository.save(any(Image.class))).willReturn(Images.publicAccess());
+        content = Contents.image();
 
         // WHEN
-        updated = service.update(Images.valid(), new ImageContent(new ByteArrayInputStream(ImageConstants.DATA),
-            ImageConstants.DATA.length, ImageConstants.PNG_MEDIA_TYPE));
+        updated = service.update(Images.publicAccess(), content);
 
         // THEN
         Assertions.assertThat(updated)
-            .isEqualTo(Images.valid());
+            .isEqualTo(Images.publicAccess());
+        then(contentRepository).should()
+            .save(ImageConstants.CHANGE_KEY, content);
+        then(contentRepository).should()
+            .delete(ImageConstants.KEY);
+    }
+
+    @Test
+    @DisplayName("When old content deletion fails, the update still succeeds")
+    void testUpdate_ContentDeletionFailureIsIgnored() {
+        final Image updated;
+
+        // GIVEN
+        given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.of(Images.publicAccess()));
+        given(contentKeyGenerator.generate("images")).willReturn(ImageConstants.CHANGE_KEY);
+        given(repository.save(any(Image.class))).willReturn(Images.publicAccess());
+        willThrow(new RuntimeException("S3 deletion failed")).given(contentRepository)
+            .delete(ImageConstants.KEY);
+
+        // WHEN
+        updated = service.update(Images.publicAccess(), Contents.image());
+
+        // THEN
+        Assertions.assertThat(updated)
+            .isEqualTo(Images.publicAccess());
     }
 
     @Test
@@ -66,16 +98,55 @@ class TestImageServiceUpdate {
         final ThrowingCallable callable;
 
         // GIVEN
-        given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.of(Images.valid()));
-        given(repository.existsByNameForAnother(ImageConstants.NAME, ImageConstants.NUMBER)).willReturn(true);
+        given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.of(Images.publicAccess()));
+        given(repository.existsByNameAndFolder(ImageConstants.NAME, null, ImageConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        callable = () -> service.update(Images.valid(), new ImageContent(new ByteArrayInputStream(ImageConstants.DATA),
-            ImageConstants.DATA.length, ImageConstants.PNG_MEDIA_TYPE));
+        callable = () -> service.update(Images.publicAccess(), Contents.image());
 
         // WHEN + THEN
         Assertions.assertThatThrownBy(callable)
             .isInstanceOf(ImageAlreadyExistsException.class);
+    }
+
+    @Test
+    @DisplayName("When update persistence fails, the replacement content is deleted")
+    void testUpdate_PersistenceFailureDeletesReplacement() {
+        final ThrowingCallable callable;
+        final RuntimeException failure;
+
+        // GIVEN
+        failure = new RuntimeException("Persistence failed");
+        given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.of(Images.publicAccess()));
+        given(contentKeyGenerator.generate("images")).willReturn(ImageConstants.CHANGE_KEY);
+        willThrow(failure).given(repository)
+            .save(any(Image.class));
+
+        // WHEN
+        callable = () -> service.update(Images.publicAccess(), Contents.image());
+
+        // THEN
+        Assertions.assertThatThrownBy(callable)
+            .isSameAs(failure);
+        then(contentRepository).should()
+            .delete(ImageConstants.CHANGE_KEY);
+    }
+
+    @Test
+    @DisplayName("When updating an image, metadata references the replacement content")
+    void testUpdate_PersistsReplacementKey() {
+
+        // GIVEN
+        given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.of(Images.publicAccess()));
+        given(contentKeyGenerator.generate("images")).willReturn(ImageConstants.CHANGE_KEY);
+        given(repository.save(any(Image.class))).willReturn(Images.publicAccess());
+
+        // WHEN
+        service.update(Images.publicAccess(), Contents.image());
+
+        // THEN
+        then(repository).should()
+            .save(Images.change());
     }
 
 }

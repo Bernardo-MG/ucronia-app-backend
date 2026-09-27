@@ -57,4 +57,27 @@ class TestImageFolderServiceGetRootImages {
             .isEqualTo(existing);
     }
 
+    @Test
+    @DisplayName("When reading root images with no data, the returned page is empty")
+    void testGetRootImages_NoData() {
+        final Page<Image> result;
+        final Page<Image> existing;
+        final Pagination  pagination;
+        final Sorting     sorting;
+
+        // GIVEN
+        pagination = new Pagination(0, 10);
+        sorting = Sorting.unsorted();
+        existing = new Page<>(List.of(), 0, 0, 0, 0, 0, true, true, sorting);
+
+        given(imageRepository.findAllByFolder(null, pagination, sorting)).willReturn(existing);
+
+        // WHEN
+        result = service.getRootImages(pagination, sorting);
+
+        // THEN
+        Assertions.assertThat(result.content())
+            .isEmpty();
+    }
+
 }

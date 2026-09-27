@@ -1,4 +1,3 @@
-/** The MIT License (MIT). Copyright (c) 2022-2025 Bernardo Martínez Garrido. */
 
 package com.bernardomg.image.adapter.inbound.jpa.repository;
 
@@ -8,7 +7,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.image.adapter.inbound.jpa.model.ImageEntity;
 
@@ -18,16 +16,26 @@ public interface ImageSpringRepository extends JpaRepository<ImageEntity, Long> 
 
     public boolean existsByFolderNumber(final long folderNumber);
 
-    public boolean existsByName(final String name);
+    public boolean existsByNameAndFolderIsNull(final String name);
 
-    @Query("SELECT CASE WHEN COUNT(i) > 0 THEN TRUE ELSE FALSE END FROM Image i WHERE i.number != :number AND i.name = :name")
-    public boolean existsByNotNumberAndName(@Param("number") final long number, @Param("name") final String name);
+    public boolean existsByNameAndFolderNumber(final String name, final long folderNumber);
+
+    public boolean existsByNameAndFolderNumberAndNumberNot(final String name, final long folderNumber,
+            final long excludedNumber);
+
+    public boolean existsByNameAndNumberNotAndFolderIsNull(final String name, final long excludedNumber);
 
     public boolean existsByNumber(final long number);
 
     public Page<ImageEntity> findAllByFolderIsNull(final Pageable pageable);
 
+    public Page<ImageEntity> findAllByFolderIsNullAndPublicAccessTrue(final Pageable pageable);
+
     public Page<ImageEntity> findAllByFolderNumber(final long folderNumber, final Pageable pageable);
+
+    public Page<ImageEntity> findAllByFolderNumberAndPublicAccessTrue(final long folderNumber, final Pageable pageable);
+
+    public Page<ImageEntity> findAllByPublicAccessTrue(final Pageable pageable);
 
     public Optional<ImageEntity> findByNumber(final long number);
 

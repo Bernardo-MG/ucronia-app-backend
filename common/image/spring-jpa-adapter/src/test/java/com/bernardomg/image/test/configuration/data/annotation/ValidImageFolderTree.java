@@ -1,4 +1,3 @@
-/** The MIT License (MIT). Copyright (c) 2022-2026 Bernardo Martínez Garrido. */
 
 package com.bernardomg.image.test.configuration.data.annotation;
 
@@ -11,7 +10,7 @@ import java.lang.annotation.Target;
 
 import org.springframework.test.context.jdbc.Sql;
 
-@Sql("/db/queries/image/folder/tree.sql")
+@Sql("/db/queries/image_folder/tree.sql")
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented

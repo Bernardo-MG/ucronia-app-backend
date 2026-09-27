@@ -25,12 +25,12 @@ spring:
     username: postgres
     password: password
 
-# Local S3-compatible image storage
-image:
-  s3:
+# Local S3-compatible content storage
+content:
+  storage:
     endpoint: http://localhost:4566
     region: eu-west-1
-    bucket: ucronia-images
+    bucket: ucronia-content
     access-key: test
     secret-key: test
     path-style: true

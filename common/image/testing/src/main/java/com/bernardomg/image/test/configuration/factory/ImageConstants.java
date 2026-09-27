@@ -7,6 +7,8 @@ public final class ImageConstants {
 
     public static final String BUCKET           = "images";
 
+    public static final String CHANGE_KEY       = "images/replacement";
+
     public static final byte[] DATA             = { 1, 2, 3 };
 
     public static final String DESCRIPTION      = "Image description";

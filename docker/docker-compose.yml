@@ -57,12 +57,12 @@ services:
       # Scheduler
       - scheduler.zone=CET
       # S3-compatible image storage
-      - image.s3.endpoint=http://s3:9000
-      - image.s3.region=eu-west-1
-      - image.s3.bucket=ucronia-images
-      - image.s3.access-key=test
-      - image.s3.secret-key=testtest
-      - image.s3.path-style=true
+      - content.storage.endpoint=http://s3:9000
+      - content.storage.region=eu-west-1
+      - content.storage.bucket=ucronia-content
+      - content.storage.access-key=test
+      - content.storage.secret-key=testtest
+      - content.storage.path-style=true
     volumes:
       - association-logs:/app/logs
     networks:
@@ -137,7 +137,7 @@ services:
      - -c
      - |
        mc alias set local http://s3:9000 test testtest
-       mc mb --ignore-existing local/ucronia-images
+       mc mb --ignore-existing local/ucronia-content
    restart: "no"
    networks:
      - object-storage

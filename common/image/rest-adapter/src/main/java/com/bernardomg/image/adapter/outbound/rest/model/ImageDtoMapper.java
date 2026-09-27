@@ -21,7 +21,8 @@ import com.bernardomg.security.domain.audit.model.AuditDetails.AuditUser;
 public final class ImageDtoMapper {
 
     public static final Image toDomain(final long number, final ImageMetadataUpdateDto change) {
-        return new Image(number, change.getName(), change.getDescription(), "", "", 0);
+        return new Image(number, change.getName(), change.getDescription(), "", "", 0, change.getPublicAccess(),
+            java.util.Optional.empty());
     }
 
     public static ImageResponseDto toResponseDto(final Image image) {
@@ -32,6 +33,7 @@ public final class ImageDtoMapper {
                 .orElse(null))
             .mediaType(image.mediaType())
             .size(image.size())
+            .publicAccess(image.publicAccess())
             .audit(toDto(image.audit())));
     }
 
@@ -91,6 +93,7 @@ public final class ImageDtoMapper {
                 .orElse(null))
             .mediaType(image.mediaType())
             .size(image.size())
+            .publicAccess(image.publicAccess())
             .audit(toDto(image.audit()));
     }
 

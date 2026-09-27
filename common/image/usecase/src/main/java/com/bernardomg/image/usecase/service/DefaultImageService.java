@@ -29,12 +29,13 @@ import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.bernardomg.content.domain.key.ContentKeyGenerator;
+import com.bernardomg.content.domain.model.Content;
 import com.bernardomg.content.domain.policy.ContentPolicy;
+import com.bernardomg.content.domain.repository.ContentRepository;
 import com.bernardomg.image.domain.exception.ImageAlreadyExistsException;
 import com.bernardomg.image.domain.exception.ImageNotExistingException;
 import com.bernardomg.image.domain.model.Image;
-import com.bernardomg.image.domain.model.ImageContent;
-import com.bernardomg.image.domain.repository.ImageContentRepository;
 import com.bernardomg.image.domain.repository.ImageRepository;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -53,41 +54,52 @@ public final class DefaultImageService implements ImageService {
     /**
      * Logger for the class.
      */
-    private static final Logger          log = LoggerFactory.getLogger(DefaultImageService.class);
+    private static final Logger       log       = LoggerFactory.getLogger(DefaultImageService.class);
 
-    private final ContentPolicy          imageContentPolicy;
+    private final ContentKeyGenerator contentKeyGenerator;
 
-    private final ImageContentRepository imageContentRepository;
+    private final ContentRepository   contentRepository;
 
-    private final ImageRepository        imageRepository;
+    private final ContentPolicy       imageContentPolicy;
 
-    public DefaultImageService(final ImageRepository imageRepo, final ImageContentRepository imageContentRepo,
-            final ContentPolicy contentPolicy) {
+    private final ImageRepository     imageRepository;
+
+    private final String              namespace = "images";
+
+    public DefaultImageService(final ImageRepository imageRepo, final ContentRepository contentRepo,
+            final ContentPolicy contentPolicy, final ContentKeyGenerator keyGenerator) {
         super();
 
         imageRepository = Objects.requireNonNull(imageRepo);
-        imageContentRepository = Objects.requireNonNull(imageContentRepo);
+        contentRepository = Objects.requireNonNull(contentRepo);
         imageContentPolicy = Objects.requireNonNull(contentPolicy);
+        contentKeyGenerator = Objects.requireNonNull(keyGenerator);
     }
 
     @Override
-    public final Image create(final Image image, final ImageContent content) {
+    public final Image create(final Image image, final Content content) {
         final Image toCreate;
         final Image created;
 
         log.debug("Creating image {}", image);
 
-        if (imageRepository.existsByName(image.name())) {
+        if (imageRepository.existsByNameAndFolder(image.name(), image.folderNumber()
+            .orElse(null))) {
             log.error("Image {} already exists", image.name());
             throw new ImageAlreadyExistsException(image.name());
         }
 
         imageContentPolicy.validate(content.size(), content.mediaType());
 
-        toCreate = new Image(image.number(), image.name(), image.description(), image.key(), content.mediaType(),
-            content.size(), image.folderNumber());
-        created = imageRepository.save(toCreate);
-        imageContentRepository.save(created.key(), content);
+        toCreate = new Image(image.number(), image.name(), image.description(), contentKeyGenerator.generate(namespace),
+            content.mediaType(), content.size(), image.publicAccess(), image.folderNumber());
+        contentRepository.save(toCreate.key(), content);
+        try {
+            created = imageRepository.save(toCreate);
+        } catch (final RuntimeException ex) {
+            deleteContent(toCreate.key());
+            throw ex;
+        }
 
         log.debug("Created image {}", created);
 
@@ -102,8 +114,13 @@ public final class DefaultImageService implements ImageService {
 
         deleted = getOne(number);
 
-        imageRepository.delete(number);
-        imageContentRepository.delete(deleted.key());
+        try {
+            imageRepository.delete(number);
+        } catch (final RuntimeException ex) {
+            deleteContent(deleted.key());
+            throw ex;
+        }
+        deleteContent(deleted.key());
 
         log.debug("Deleted image {}", deleted);
 
@@ -124,9 +141,14 @@ public final class DefaultImageService implements ImageService {
     }
 
     @Override
-    public final ImageContent getContent(final Long number) {
-        final Image        image;
-        final ImageContent imageContent;
+    public final Page<Image> getAllPublic(final Pagination pagination, final Sorting sorting) {
+        return imageRepository.findAllPublic(pagination, sorting);
+    }
+
+    @Override
+    public final Content getContent(final Long number) {
+        final Image   image;
+        final Content imageContent;
 
         log.debug("Reading image content for {}", number);
 
@@ -136,7 +158,7 @@ public final class DefaultImageService implements ImageService {
                 return new ImageNotExistingException(number);
             });
 
-        imageContent = imageContentRepository.getOne(image.key());
+        imageContent = contentRepository.getOne(image.key());
 
         log.debug("Read image content for {}", number);
 
@@ -161,9 +183,11 @@ public final class DefaultImageService implements ImageService {
     }
 
     @Override
-    public final Image update(final Image image, final ImageContent content) {
-        final Image existing;
-        final Image updated;
+    public final Image update(final Image image, final Content content) {
+        final Image  existing;
+        final String key;
+        final Image  toUpdate;
+        final Image  updated;
 
         log.debug("Updating image {}", image);
 
@@ -172,16 +196,25 @@ public final class DefaultImageService implements ImageService {
                 log.error("Image {} doesn't exist", image.number());
                 return new ImageNotExistingException(image.number());
             });
-        if (imageRepository.existsByNameForAnother(image.name(), image.number())) {
+        if (imageRepository.existsByNameAndFolder(image.name(), existing.folderNumber()
+            .orElse(null), image.number())) {
             log.error("Image {} already exists", image.name());
             throw new ImageAlreadyExistsException(image.name());
         }
 
         imageContentPolicy.validate(content.size(), content.mediaType());
 
-        updated = imageRepository.save(new Image(image.number(), image.name(), image.description(), existing.key(),
-            content.mediaType(), content.size(), existing.folderNumber(), existing.audit()));
-        imageContentRepository.save(updated.key(), content);
+        key = contentKeyGenerator.generate(namespace);
+        contentRepository.save(key, content);
+        try {
+            toUpdate = new Image(image.number(), image.name(), image.description(), key, content.mediaType(),
+                content.size(), image.publicAccess(), existing.folderNumber(), existing.audit());
+            updated = imageRepository.save(toUpdate);
+        } catch (final RuntimeException ex) {
+            deleteContent(key);
+            throw ex;
+        }
+        deleteContent(existing.key());
 
         log.debug("Updated image {}", updated);
 
@@ -191,6 +224,7 @@ public final class DefaultImageService implements ImageService {
     @Override
     public final Image updateMetadata(final Image image) {
         final Image existing;
+        final Image toUpdate;
         final Image updated;
 
         log.debug("Updating metadata for image {}", image);
@@ -200,16 +234,26 @@ public final class DefaultImageService implements ImageService {
                 log.error("Image {} doesn't exist", image.number());
                 return new ImageNotExistingException(image.number());
             });
-        if (imageRepository.existsByNameForAnother(image.name(), image.number())) {
+        if (imageRepository.existsByNameAndFolder(image.name(), existing.folderNumber()
+            .orElse(null), image.number())) {
             log.error("Image {} already exists", image.name());
             throw new ImageAlreadyExistsException(image.name());
         }
-        updated = imageRepository.save(new Image(existing.number(), image.name(), image.description(), existing.key(),
-            existing.mediaType(), existing.size(), existing.folderNumber(), existing.audit()));
+        toUpdate = new Image(existing.number(), image.name(), image.description(), existing.key(), existing.mediaType(),
+            existing.size(), image.publicAccess(), existing.folderNumber(), existing.audit());
+        updated = imageRepository.save(toUpdate);
 
         log.debug("Updated metadata for image {}", updated);
 
         return updated;
+    }
+
+    private final void deleteContent(final String key) {
+        try {
+            contentRepository.delete(key);
+        } catch (final RuntimeException ex) {
+            log.warn("Failed to delete content {}", key, ex);
+        }
     }
 
 }

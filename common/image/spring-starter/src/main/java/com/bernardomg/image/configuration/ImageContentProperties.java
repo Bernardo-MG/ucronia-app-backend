@@ -11,7 +11,7 @@ import org.springframework.util.unit.DataSize;
 public class ImageContentProperties {
 
     private Set<String> allowedMediaTypes = new LinkedHashSet<>(
-        Set.of("image/gif", "image/jpeg", "image/png", "image/webp"));
+        Set.of("image/bmp", "image/gif", "image/jpeg", "image/png", "image/webp"));
 
     private DataSize    maximumSize       = DataSize.ofMegabytes(10);
 

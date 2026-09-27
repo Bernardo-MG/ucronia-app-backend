@@ -1,4 +1,3 @@
-/** The MIT License (MIT). Copyright (c) 2022-2025 Bernardo Martínez Garrido. */
 
 package com.bernardomg.image.test.adapter.inbound.jpa.repository.integration;
 
@@ -10,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.image.TestApplication;
 import com.bernardomg.image.domain.repository.ImageRepository;
-import com.bernardomg.image.test.configuration.data.annotation.ValidImage;
+import com.bernardomg.image.test.configuration.data.annotation.PublicImage;
 import com.bernardomg.image.test.configuration.factory.ImageConstants;
 import com.bernardomg.test.annotation.IntegrationTest;
 
@@ -24,12 +23,12 @@ class ITImageRepositoryExistsByName {
 
     @Test
     @DisplayName("With an image with the name, it exists")
-    @ValidImage
+    @PublicImage
     void testExistsByName() {
         final boolean exists;
 
         // WHEN
-        exists = repository.existsByName(ImageConstants.NAME);
+        exists = repository.existsByNameAndFolder(ImageConstants.NAME, null);
 
         // THEN
         Assertions.assertThat(exists)
@@ -43,7 +42,7 @@ class ITImageRepositoryExistsByName {
         final boolean exists;
 
         // WHEN
-        exists = repository.existsByName(ImageConstants.NAME);
+        exists = repository.existsByNameAndFolder(ImageConstants.NAME, null);
 
         // THEN
         Assertions.assertThat(exists)

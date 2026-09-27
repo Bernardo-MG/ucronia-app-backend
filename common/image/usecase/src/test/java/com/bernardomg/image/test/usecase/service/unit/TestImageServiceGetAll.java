@@ -13,9 +13,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.content.domain.key.ContentKeyGenerator;
 import com.bernardomg.content.domain.policy.ContentPolicy;
+import com.bernardomg.content.domain.repository.ContentRepository;
 import com.bernardomg.image.domain.model.Image;
-import com.bernardomg.image.domain.repository.ImageContentRepository;
 import com.bernardomg.image.domain.repository.ImageRepository;
 import com.bernardomg.image.test.configuration.factory.Images;
 import com.bernardomg.image.usecase.service.DefaultImageService;
@@ -24,20 +25,23 @@ import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Image service")
+@DisplayName("Image service - get all")
 class TestImageServiceGetAll {
 
     @Mock
-    private ContentPolicy          contentPolicy;
+    private ContentKeyGenerator contentKeyGenerator;
 
     @Mock
-    private ImageContentRepository contentRepository;
+    private ContentPolicy       contentPolicy;
 
     @Mock
-    private ImageRepository        repository;
+    private ContentRepository   contentRepository;
+
+    @Mock
+    private ImageRepository     repository;
 
     @InjectMocks
-    private DefaultImageService    service;
+    private DefaultImageService service;
 
     @Test
     @DisplayName("When getting all images, the requested page is returned")
@@ -50,7 +54,7 @@ class TestImageServiceGetAll {
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
-        existing = new Page<>(List.of(Images.valid()), 10, 1, 1, 1, 1, true, true, sorting);
+        existing = new Page<>(List.of(Images.publicAccess()), 10, 1, 1, 1, 1, true, true, sorting);
         given(repository.findAll(pagination, sorting)).willReturn(existing);
 
         // WHEN
@@ -59,6 +63,28 @@ class TestImageServiceGetAll {
         // THEN
         Assertions.assertThat(result)
             .isEqualTo(existing);
+    }
+
+    @Test
+    @DisplayName("When getting all images and there is no data, an empty page is returned")
+    void testGetAll_Empty() {
+        final Page<Image> existing;
+        final Page<Image> result;
+        final Pagination  pagination;
+        final Sorting     sorting;
+
+        // GIVEN
+        pagination = new Pagination(1, 10);
+        sorting = Sorting.unsorted();
+        existing = new Page<>(List.of(), 10, 1, 1, 1, 1, true, true, sorting);
+        given(repository.findAll(pagination, sorting)).willReturn(existing);
+
+        // WHEN
+        result = service.getAll(pagination, sorting);
+
+        // THEN
+        Assertions.assertThat(result.content())
+            .isEmpty();
     }
 
 }

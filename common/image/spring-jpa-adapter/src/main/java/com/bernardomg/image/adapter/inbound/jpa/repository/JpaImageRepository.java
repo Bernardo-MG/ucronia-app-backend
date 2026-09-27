@@ -1,4 +1,3 @@
-/** The MIT License (MIT). Copyright (c) 2022-2025 Bernardo Martínez Garrido. */
 
 package com.bernardomg.image.adapter.inbound.jpa.repository;
 
@@ -61,27 +60,35 @@ public final class JpaImageRepository implements ImageRepository {
     }
 
     @Override
-    public final boolean existsByName(final String name) {
+    public final boolean existsByNameAndFolder(final String name, final Long folderNumber) {
         final boolean exists;
 
-        log.debug("Checking if image {} exists", name);
+        log.debug("Checking if image {} exists in folder {}", name, folderNumber);
 
-        exists = repository.existsByName(name);
+        if (folderNumber == null) {
+            exists = repository.existsByNameAndFolderIsNull(name);
+        } else {
+            exists = repository.existsByNameAndFolderNumber(name, folderNumber);
+        }
 
-        log.debug("Image {} exists: {}", name, exists);
+        log.debug("Image {} exists in folder {}: {}", name, folderNumber, exists);
 
         return exists;
     }
 
     @Override
-    public final boolean existsByNameForAnother(final String name, final Long number) {
+    public final boolean existsByNameAndFolder(final String name, final Long folderNumber, final long excludedNumber) {
         final boolean exists;
 
-        log.debug("Checking if image {} exists for another distinct from {}", name, number);
+        log.debug("Checking if image {} exists in folder {}, excluding {}", name, folderNumber, excludedNumber);
 
-        exists = repository.existsByNotNumberAndName(number, name);
+        if (folderNumber == null) {
+            exists = repository.existsByNameAndNumberNotAndFolderIsNull(name, excludedNumber);
+        } else {
+            exists = repository.existsByNameAndFolderNumberAndNumberNot(name, folderNumber, excludedNumber);
+        }
 
-        log.debug("Image {} exists: {}", name, exists);
+        log.debug("Image {} exists in folder {}: {}", name, folderNumber, exists);
 
         return exists;
     }
@@ -105,8 +112,10 @@ public final class JpaImageRepository implements ImageRepository {
     @Override
     public final Page<Image> findAllByFolder(final Long folderNumber, final Pagination pagination,
             final Sorting sorting) {
-        final Pageable                                    pageable = SpringPagination.toPageable(pagination, sorting);
+        final Pageable                                    pageable;
         final org.springframework.data.domain.Page<Image> read;
+
+        pageable = SpringPagination.toPageable(pagination, sorting);
         if (folderNumber == null) {
             read = repository.findAllByFolderIsNull(pageable)
                 .map(ImageEntityMapper::toDomain);
@@ -114,6 +123,33 @@ public final class JpaImageRepository implements ImageRepository {
             read = repository.findAllByFolderNumber(folderNumber, pageable)
                 .map(ImageEntityMapper::toDomain);
         }
+        return SpringPagination.toPage(read);
+    }
+
+    @Override
+    public final Page<Image> findAllPublic(final Pagination pagination, final Sorting sorting) {
+        final Pageable pageable;
+
+        pageable = SpringPagination.toPageable(pagination, sorting);
+        return SpringPagination.toPage(repository.findAllByPublicAccessTrue(pageable)
+            .map(ImageEntityMapper::toDomain));
+    }
+
+    @Override
+    public final Page<Image> findAllPublicByFolder(final Long folderNumber, final Pagination pagination,
+            final Sorting sorting) {
+        final Pageable                                    pageable;
+        final org.springframework.data.domain.Page<Image> read;
+
+        pageable = SpringPagination.toPageable(pagination, sorting);
+        if (folderNumber == null) {
+            read = repository.findAllByFolderIsNullAndPublicAccessTrue(pageable)
+                .map(ImageEntityMapper::toDomain);
+        } else {
+            read = repository.findAllByFolderNumberAndPublicAccessTrue(folderNumber, pageable)
+                .map(ImageEntityMapper::toDomain);
+        }
+
         return SpringPagination.toPage(read);
     }
 
@@ -138,11 +174,18 @@ public final class JpaImageRepository implements ImageRepository {
 
     @Override
     public final Image move(final Long number, final Long folderNumber) {
-        final ImageEntity entity = repository.findByNumber(number)
+        final ImageEntity       entity;
+        final ImageFolderEntity folderEntity;
+
+        entity = repository.findByNumber(number)
             .orElseThrow();
-        entity.setFolder(folderNumber == null ? null
-                : folderRepository.findByNumber(folderNumber)
-                    .orElseThrow());
+        if (folderNumber == null) {
+            folderEntity = null;
+        } else {
+            folderEntity = folderRepository.findByNumber(folderNumber)
+                .orElseThrow();
+        }
+        entity.setFolder(folderEntity);
         return ImageEntityMapper.toDomain(repository.save(entity));
     }
 
@@ -164,8 +207,8 @@ public final class JpaImageRepository implements ImageRepository {
                 .getId());
         } else {
             number = repository.findNextNumber();
-            toCreate = new Image(number, image.name(), image.description(), "images/" + number, image.mediaType(),
-                image.size(), image.folderNumber(), image.audit());
+            toCreate = new Image(number, image.name(), image.description(), image.key(), image.mediaType(),
+                image.size(), image.publicAccess(), image.folderNumber(), image.audit());
             entity = ImageEntityMapper.toEntity(toCreate);
         }
 

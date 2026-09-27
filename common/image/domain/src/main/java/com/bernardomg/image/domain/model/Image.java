@@ -10,7 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.bernardomg.security.domain.audit.model.AuditDetails;
 
 public record Image(Long number, String name, String description, String key, String mediaType, long size,
-        Optional<Long> folderNumber, AuditDetails audit) {
+        boolean publicAccess, Optional<Long> folderNumber, AuditDetails audit) {
 
     public Image {
         Objects.requireNonNull(number, "Number can't be null");
@@ -29,17 +29,27 @@ public record Image(Long number, String name, String description, String key, St
 
     public Image(final Long number, final String name, final String description, final String key,
             final String mediaType, final long size, final AuditDetails audit) {
-        this(number, name, description, key, mediaType, size, Optional.empty(), audit);
+        this(number, name, description, key, mediaType, size, true, Optional.empty(), audit);
+    }
+
+    public Image(final Long number, final String name, final String description, final String key,
+            final String mediaType, final long size, final Optional<Long> folderNumber, final AuditDetails audit) {
+        this(number, name, description, key, mediaType, size, true, folderNumber, audit);
     }
 
     public Image(final Long number, final String name, final String description, final String key,
             final String mediaType, final long size, final Optional<Long> folderNumber) {
-        this(number, name, description, key, mediaType, size, folderNumber, new AuditDetails());
+        this(number, name, description, key, mediaType, size, true, folderNumber, new AuditDetails());
+    }
+
+    public Image(final Long number, final String name, final String description, final String key,
+            final String mediaType, final long size, final boolean publicAccess, final Optional<Long> folderNumber) {
+        this(number, name, description, key, mediaType, size, publicAccess, folderNumber, new AuditDetails());
     }
 
     public Image(final Long number, final String name, final String description, final String key,
             final String mediaType, final long size) {
-        this(number, name, description, key, mediaType, size, Optional.empty(), new AuditDetails());
+        this(number, name, description, key, mediaType, size, true, Optional.empty(), new AuditDetails());
     }
 
 }

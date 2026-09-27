@@ -30,6 +30,10 @@
 
    <dependencies>
       <dependency>
+         <groupId>com.bernardomg.content</groupId>
+         <artifactId>content-domain</artifactId>
+      </dependency>
+      <dependency>
          <groupId>com.bernardomg.image</groupId>
          <artifactId>image-domain</artifactId>
       </dependency>

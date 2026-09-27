@@ -15,13 +15,18 @@ public interface ImageRepository {
 
     public boolean exists(final Long number);
 
-    public boolean existsByName(final String name);
+    public boolean existsByNameAndFolder(final String name, final Long folderNumber);
 
-    public boolean existsByNameForAnother(final String name, final Long number);
+    public boolean existsByNameAndFolder(final String name, final Long folderNumber, final long excludedNumber);
 
     public Page<Image> findAll(final Pagination pagination, final Sorting sorting);
 
     public Page<Image> findAllByFolder(final Long folderNumber, final Pagination pagination, final Sorting sorting);
+
+    public Page<Image> findAllPublic(final Pagination pagination, final Sorting sorting);
+
+    public Page<Image> findAllPublicByFolder(final Long folderNumber, final Pagination pagination,
+            final Sorting sorting);
 
     public Optional<Image> findOne(final Long number);
 
