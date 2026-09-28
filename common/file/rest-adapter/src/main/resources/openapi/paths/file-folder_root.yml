@@ -1,0 +1,17 @@
+parameters:
+  - in: path
+    name: fileNumber
+    required: true
+    schema:
+       $ref: '../common/ids.yml#/components/schemas/Id'
+delete:
+  summary: Move an file to the root.
+  operationId: moveFileToRoot
+  tags: [File folder]
+  responses:
+    '200':
+      description: File moved to the root.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/files.yml#/components/schemas/FileResponse'

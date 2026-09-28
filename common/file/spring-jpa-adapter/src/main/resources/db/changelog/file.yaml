@@ -1,0 +1,159 @@
+databaseChangeLog:
+  - changeSet:
+      id: file_schema
+      author: Bernardo
+      changes:
+        - sql:
+            sql: CREATE SCHEMA IF NOT EXISTS file
+  - changeSet:
+      id: file_tables
+      author: Bernardo
+      changes:
+        - createTable:
+            schemaName: file
+            tableName: file_folders
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: number
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: name
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: parent_id
+                  type: bigint
+                  constraints:
+                    nullable: true
+                    foreignKeyName: fk_file_folders_parent
+                    references: file.file_folders(id)
+              - column:
+                  name: created_at
+                  type: datetime
+              - column:
+                  name: created_by
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_file_folders_created_by_user
+                    references: security.users(id)
+              - column:
+                  name: updated_at
+                  type: datetime
+              - column:
+                  name: updated_by
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_file_folders_updated_by_user
+                    references: security.users(id)
+        - addUniqueConstraint:
+            schemaName: file
+            tableName: file_folders
+            columnNames: parent_id, name
+            constraintName: file_folders_unique_parent_name
+        - sql:
+            sql: >
+              CREATE UNIQUE INDEX file_folders_unique_root_name
+              ON file.file_folders (name)
+              WHERE parent_id IS NULL
+        - createTable:
+            schemaName: file
+            tableName: files
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: number
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: name
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(500)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: object_key
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: media_type
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: size
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: public_access
+                  type: boolean
+                  defaultValueBoolean: true
+                  constraints:
+                    nullable: false
+              - column:
+                  name: folder_id
+                  type: bigint
+                  constraints:
+                    nullable: true
+                    foreignKeyName: fk_files_folder
+                    references: file.file_folders(id)
+              - column:
+                  name: created_at
+                  type: datetime
+              - column:
+                  name: created_by
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_files_created_by_user
+                    references: security.users(id)
+              - column:
+                  name: updated_at
+                  type: datetime
+              - column:
+                  name: updated_by
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_files_updated_by_user
+                    references: security.users(id)
+        - addUniqueConstraint:
+            schemaName: file
+            tableName: files
+            columnNames: folder_id, name
+            constraintName: files_unique_folder_name
+        - sql:
+            sql: >
+              CREATE UNIQUE INDEX files_unique_root_name
+              ON file.files (name)
+              WHERE folder_id IS NULL
+        - createIndex:
+            schemaName: file
+            tableName: files
+            indexName: idx_files_folder
+            columns:
+              - column:
+                  name: folder_id

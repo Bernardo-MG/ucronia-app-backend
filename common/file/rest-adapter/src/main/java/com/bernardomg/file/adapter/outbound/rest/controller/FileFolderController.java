@@ -1,0 +1,133 @@
+
+package com.bernardomg.file.adapter.outbound.rest.controller;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.bernardomg.file.adapter.outbound.rest.dto.FileFolderCreationDto;
+import com.bernardomg.file.adapter.outbound.rest.dto.FileFolderDto;
+import com.bernardomg.file.adapter.outbound.rest.dto.FileFolderUpdateDto;
+import com.bernardomg.file.adapter.outbound.rest.dto.FilePageResponseDto;
+import com.bernardomg.file.adapter.outbound.rest.dto.FileResponseDto;
+import com.bernardomg.file.adapter.outbound.rest.model.FileDtoMapper;
+import com.bernardomg.file.adapter.outbound.rest.model.FileFolderDtoMapper;
+import com.bernardomg.file.adapter.outbound.rest.security.FileReadAuthorizer;
+import com.bernardomg.file.domain.model.File;
+import com.bernardomg.file.domain.model.FileFolder;
+import com.bernardomg.file.usecase.service.FileFolderService;
+import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
+import com.bernardomg.framework.security.access.annotation.Unsecured;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.web.WebSorting;
+import com.bernardomg.security.domain.permission.constant.Actions;
+
+@RestController
+public class FileFolderController implements FileFolderApi {
+
+    private final FileReadAuthorizer authorizer;
+
+    private final FileFolderService  service;
+
+    public FileFolderController(final FileFolderService fileFolderService,
+            final FileReadAuthorizer fileReadAuthorizer) {
+        service = Objects.requireNonNull(fileFolderService);
+        authorizer = Objects.requireNonNull(fileReadAuthorizer);
+    }
+
+    @Override
+    @RequireResourceAuthorization(resource = "FILE", action = Actions.CREATE)
+    public ResponseEntity<FileFolderDto> createFileFolder(final FileFolderCreationDto request) {
+        final FileFolder     created;
+        final Optional<Long> parentNumber;
+
+        parentNumber = Optional.ofNullable(request.getParentNumber());
+        created = service.create(new FileFolder(-1L, request.getName(), parentNumber));
+        return ResponseEntity.status(HttpStatus.CREATED)
+            .body(FileFolderDtoMapper.toDto(created));
+    }
+
+    @Override
+    @RequireResourceAuthorization(resource = "FILE", action = Actions.DELETE)
+    public ResponseEntity<FileFolderDto> deleteFileFolder(final Long number) {
+        return ResponseEntity.ok(FileFolderDtoMapper.toDto(service.delete(number)));
+    }
+
+    @Override
+    @Unsecured
+    public ResponseEntity<FileFolderDto> getFileFolder(final Long number) {
+        return ResponseEntity.ok(FileFolderDtoMapper.toDto(service.getOne(number)));
+    }
+
+    @Override
+    @Unsecured
+    public ResponseEntity<List<FileFolderDto>> getFileFolders() {
+        return ResponseEntity.ok(service.getAll()
+            .stream()
+            .map(FileFolderDtoMapper::toDto)
+            .toList());
+    }
+
+    @Override
+    @Unsecured
+    public ResponseEntity<FilePageResponseDto> getFilesInFolder(final Long folderNumber, final Integer page,
+            final Integer size, final List<String> sort) {
+        final Pagination pagination;
+        final Page<File> files;
+
+        pagination = new Pagination(page, size);
+        if (authorizer.canReadPrivateFiles()) {
+            files = service.getFiles(folderNumber, pagination, WebSorting.toSorting(sort));
+        } else {
+            files = service.getPublicFiles(folderNumber, pagination, WebSorting.toSorting(sort));
+        }
+
+        return ResponseEntity.ok(FileDtoMapper.toResponseDto(files));
+    }
+
+    @Override
+    @Unsecured
+    public ResponseEntity<FilePageResponseDto> getRootFiles(final Integer page, final Integer size,
+            final List<String> sort) {
+        final Pagination pagination;
+        final Page<File> files;
+
+        pagination = new Pagination(page, size);
+        if (authorizer.canReadPrivateFiles()) {
+            files = service.getRootFiles(pagination, WebSorting.toSorting(sort));
+        } else {
+            files = service.getPublicRootFiles(pagination, WebSorting.toSorting(sort));
+        }
+
+        return ResponseEntity.ok(FileDtoMapper.toResponseDto(files));
+    }
+
+    @Override
+    @RequireResourceAuthorization(resource = "FILE", action = Actions.UPDATE)
+    public ResponseEntity<FileResponseDto> moveFileToFolder(final Long folderNumber, final Long fileNumber) {
+        return ResponseEntity.ok(FileDtoMapper.toResponseDto(service.moveFile(fileNumber, folderNumber)));
+    }
+
+    @Override
+    @RequireResourceAuthorization(resource = "FILE", action = Actions.UPDATE)
+    public ResponseEntity<FileResponseDto> moveFileToRoot(final Long fileNumber) {
+        return ResponseEntity.ok(FileDtoMapper.toResponseDto(service.moveFileToRoot(fileNumber)));
+    }
+
+    @Override
+    @RequireResourceAuthorization(resource = "FILE", action = Actions.UPDATE)
+    public ResponseEntity<FileFolderDto> updateFileFolder(final Long number, final FileFolderUpdateDto request) {
+        final FileFolder     folder;
+        final Optional<Long> parentNumber;
+
+        parentNumber = Optional.ofNullable(request.getParentNumber());
+        folder = new FileFolder(number, request.getName(), parentNumber);
+        return ResponseEntity.ok(FileFolderDtoMapper.toDto(service.update(folder)));
+    }
+
+}

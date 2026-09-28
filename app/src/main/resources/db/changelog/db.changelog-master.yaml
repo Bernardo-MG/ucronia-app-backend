@@ -5,6 +5,9 @@ databaseChangeLog:
   # Images
   - include:
       file: classpath:db/changelog/image.yaml
+  # Files
+  - include:
+      file: classpath:db/changelog/file.yaml
   # General
   - include:
       file: classpath:db/changelog/settings.yaml
