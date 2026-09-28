@@ -29,14 +29,14 @@ import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.bernardomg.asset.domain.exception.AssetAlreadyExistsException;
+import com.bernardomg.asset.domain.exception.AssetNotExistingException;
 import com.bernardomg.asset.domain.model.Asset;
 import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.content.domain.key.ContentKeyGenerator;
 import com.bernardomg.content.domain.model.Content;
 import com.bernardomg.content.domain.policy.ContentPolicy;
 import com.bernardomg.content.domain.repository.ContentRepository;
-import com.bernardomg.file.domain.exception.FileAlreadyExistsException;
-import com.bernardomg.file.domain.exception.FileNotExistingException;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
@@ -86,7 +86,7 @@ public final class DefaultFileService implements FileService {
         if (fileRepository.existsByNameAndFolder(file.name(), file.folderNumber()
             .orElse(null))) {
             log.error("Asset {} already exists", file.name());
-            throw new FileAlreadyExistsException(file.name());
+            throw new AssetAlreadyExistsException(file.name());
         }
 
         fileContentPolicy.validate(content.size(), content.mediaType());
@@ -150,7 +150,7 @@ public final class DefaultFileService implements FileService {
         file = fileRepository.findOne(number)
             .orElseThrow(() -> {
                 log.error("Asset {} doesn't exist", number);
-                return new FileNotExistingException(number);
+                return new AssetNotExistingException(number);
             });
 
         fileContent = contentRepository.getOne(file.key());
@@ -169,7 +169,7 @@ public final class DefaultFileService implements FileService {
         file = fileRepository.findOne(number)
             .orElseThrow(() -> {
                 log.error("Asset {} doesn't exist", number);
-                return new FileNotExistingException(number);
+                return new AssetNotExistingException(number);
             });
 
         log.debug("Read file {}", file);
@@ -189,12 +189,12 @@ public final class DefaultFileService implements FileService {
         existing = fileRepository.findOne(file.number())
             .orElseThrow(() -> {
                 log.error("Asset {} doesn't exist", file.number());
-                return new FileNotExistingException(file.number());
+                return new AssetNotExistingException(file.number());
             });
         if (fileRepository.existsByNameAndFolder(file.name(), existing.folderNumber()
             .orElse(null), file.number())) {
             log.error("Asset {} already exists", file.name());
-            throw new FileAlreadyExistsException(file.name());
+            throw new AssetAlreadyExistsException(file.name());
         }
 
         fileContentPolicy.validate(content.size(), content.mediaType());
@@ -227,12 +227,12 @@ public final class DefaultFileService implements FileService {
         existing = fileRepository.findOne(file.number())
             .orElseThrow(() -> {
                 log.error("Asset {} doesn't exist", file.number());
-                return new FileNotExistingException(file.number());
+                return new AssetNotExistingException(file.number());
             });
         if (fileRepository.existsByNameAndFolder(file.name(), existing.folderNumber()
             .orElse(null), file.number())) {
             log.error("Asset {} already exists", file.name());
-            throw new FileAlreadyExistsException(file.name());
+            throw new AssetAlreadyExistsException(file.name());
         }
         toUpdate = new Asset(existing.number(), file.name(), file.description(), existing.key(), existing.mediaType(),
             existing.size(), file.publicAccess(), existing.folderNumber(), existing.audit());

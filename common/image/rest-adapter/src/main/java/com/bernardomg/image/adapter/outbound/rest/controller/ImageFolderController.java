@@ -5,12 +5,14 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.asset.domain.model.Asset;
 import com.bernardomg.asset.domain.model.AssetFolder;
+import com.bernardomg.asset.usecase.service.AssetFolderService;
 import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.framework.security.access.annotation.Unsecured;
 import com.bernardomg.image.adapter.outbound.rest.dto.ImageFolderCreationDto;
@@ -21,7 +23,6 @@ import com.bernardomg.image.adapter.outbound.rest.dto.ImageResponseDto;
 import com.bernardomg.image.adapter.outbound.rest.model.ImageDtoMapper;
 import com.bernardomg.image.adapter.outbound.rest.model.ImageFolderDtoMapper;
 import com.bernardomg.image.adapter.outbound.rest.security.ImageReadAuthorizer;
-import com.bernardomg.image.usecase.service.ImageFolderService;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.web.WebSorting;
@@ -32,9 +33,9 @@ public class ImageFolderController implements ImageFolderApi {
 
     private final ImageReadAuthorizer authorizer;
 
-    private final ImageFolderService  service;
+    private final AssetFolderService  service;
 
-    public ImageFolderController(final ImageFolderService imageFolderService,
+    public ImageFolderController(@Qualifier("imageFolderService") final AssetFolderService imageFolderService,
             final ImageReadAuthorizer imageReadAuthorizer) {
         service = Objects.requireNonNull(imageFolderService);
         authorizer = Objects.requireNonNull(imageReadAuthorizer);
@@ -82,9 +83,9 @@ public class ImageFolderController implements ImageFolderApi {
 
         pagination = new Pagination(page, size);
         if (authorizer.canReadPrivateImages()) {
-            images = service.getImages(folderNumber, pagination, WebSorting.toSorting(sort));
+            images = service.getAssets(folderNumber, pagination, WebSorting.toSorting(sort));
         } else {
-            images = service.getPublicImages(folderNumber, pagination, WebSorting.toSorting(sort));
+            images = service.getPublicAssets(folderNumber, pagination, WebSorting.toSorting(sort));
         }
 
         return ResponseEntity.ok(ImageDtoMapper.toResponseDto(images));
@@ -99,9 +100,9 @@ public class ImageFolderController implements ImageFolderApi {
 
         pagination = new Pagination(page, size);
         if (authorizer.canReadPrivateImages()) {
-            images = service.getRootImages(pagination, WebSorting.toSorting(sort));
+            images = service.getRootAssets(pagination, WebSorting.toSorting(sort));
         } else {
-            images = service.getPublicRootImages(pagination, WebSorting.toSorting(sort));
+            images = service.getPublicRootAssets(pagination, WebSorting.toSorting(sort));
         }
 
         return ResponseEntity.ok(ImageDtoMapper.toResponseDto(images));
@@ -110,13 +111,13 @@ public class ImageFolderController implements ImageFolderApi {
     @Override
     @RequireResourceAuthorization(resource = "IMAGE", action = Actions.UPDATE)
     public ResponseEntity<ImageResponseDto> moveImageToFolder(final Long folderNumber, final Long imageNumber) {
-        return ResponseEntity.ok(ImageDtoMapper.toResponseDto(service.moveImage(imageNumber, folderNumber)));
+        return ResponseEntity.ok(ImageDtoMapper.toResponseDto(service.moveAsset(imageNumber, folderNumber)));
     }
 
     @Override
     @RequireResourceAuthorization(resource = "IMAGE", action = Actions.UPDATE)
     public ResponseEntity<ImageResponseDto> moveImageToRoot(final Long imageNumber) {
-        return ResponseEntity.ok(ImageDtoMapper.toResponseDto(service.moveImageToRoot(imageNumber)));
+        return ResponseEntity.ok(ImageDtoMapper.toResponseDto(service.moveAssetToRoot(imageNumber)));
     }
 
     @Override

@@ -16,12 +16,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.asset.domain.exception.AssetNotExistingException;
 import com.bernardomg.asset.domain.model.Asset;
 import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.content.domain.key.ContentKeyGenerator;
 import com.bernardomg.content.domain.policy.ContentPolicy;
 import com.bernardomg.content.domain.repository.ContentRepository;
-import com.bernardomg.file.domain.exception.FileNotExistingException;
 import com.bernardomg.file.test.configuration.factory.FileConstants;
 import com.bernardomg.file.test.configuration.factory.Files;
 import com.bernardomg.file.usecase.service.DefaultFileService;
@@ -110,7 +110,7 @@ class TestFileServiceDelete {
 
         // WHEN + THEN
         Assertions.assertThatThrownBy(callable)
-            .isInstanceOf(FileNotExistingException.class);
+            .isInstanceOf(AssetNotExistingException.class);
     }
 
     @Test

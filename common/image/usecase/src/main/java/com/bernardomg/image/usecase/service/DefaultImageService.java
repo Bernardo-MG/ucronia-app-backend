@@ -29,14 +29,14 @@ import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.bernardomg.asset.domain.exception.AssetAlreadyExistsException;
+import com.bernardomg.asset.domain.exception.AssetNotExistingException;
 import com.bernardomg.asset.domain.model.Asset;
 import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.content.domain.key.ContentKeyGenerator;
 import com.bernardomg.content.domain.model.Content;
 import com.bernardomg.content.domain.policy.ContentPolicy;
 import com.bernardomg.content.domain.repository.ContentRepository;
-import com.bernardomg.image.domain.exception.ImageAlreadyExistsException;
-import com.bernardomg.image.domain.exception.ImageNotExistingException;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
@@ -86,7 +86,7 @@ public final class DefaultImageService implements ImageService {
         if (imageRepository.existsByNameAndFolder(image.name(), image.folderNumber()
             .orElse(null))) {
             log.error("Asset {} already exists", image.name());
-            throw new ImageAlreadyExistsException(image.name());
+            throw new AssetAlreadyExistsException(image.name());
         }
 
         imageContentPolicy.validate(content.size(), content.mediaType());
@@ -150,7 +150,7 @@ public final class DefaultImageService implements ImageService {
         image = imageRepository.findOne(number)
             .orElseThrow(() -> {
                 log.error("Asset {} doesn't exist", number);
-                return new ImageNotExistingException(number);
+                return new AssetNotExistingException(number);
             });
 
         imageContent = contentRepository.getOne(image.key());
@@ -169,7 +169,7 @@ public final class DefaultImageService implements ImageService {
         image = imageRepository.findOne(number)
             .orElseThrow(() -> {
                 log.error("Asset {} doesn't exist", number);
-                return new ImageNotExistingException(number);
+                return new AssetNotExistingException(number);
             });
 
         log.debug("Read image {}", image);
@@ -189,12 +189,12 @@ public final class DefaultImageService implements ImageService {
         existing = imageRepository.findOne(image.number())
             .orElseThrow(() -> {
                 log.error("Asset {} doesn't exist", image.number());
-                return new ImageNotExistingException(image.number());
+                return new AssetNotExistingException(image.number());
             });
         if (imageRepository.existsByNameAndFolder(image.name(), existing.folderNumber()
             .orElse(null), image.number())) {
             log.error("Asset {} already exists", image.name());
-            throw new ImageAlreadyExistsException(image.name());
+            throw new AssetAlreadyExistsException(image.name());
         }
 
         imageContentPolicy.validate(content.size(), content.mediaType());
@@ -227,12 +227,12 @@ public final class DefaultImageService implements ImageService {
         existing = imageRepository.findOne(image.number())
             .orElseThrow(() -> {
                 log.error("Asset {} doesn't exist", image.number());
-                return new ImageNotExistingException(image.number());
+                return new AssetNotExistingException(image.number());
             });
         if (imageRepository.existsByNameAndFolder(image.name(), existing.folderNumber()
             .orElse(null), image.number())) {
             log.error("Asset {} already exists", image.name());
-            throw new ImageAlreadyExistsException(image.name());
+            throw new AssetAlreadyExistsException(image.name());
         }
         toUpdate = new Asset(existing.number(), image.name(), image.description(), existing.key(), existing.mediaType(),
             existing.size(), image.publicAccess(), existing.folderNumber(), existing.audit());

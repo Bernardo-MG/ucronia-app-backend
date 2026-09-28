@@ -30,7 +30,31 @@
 
    <modules>
       <module>domain</module>
+      <module>testing</module>
+      <module>usecase</module>
       <module>spring-jpa-model</module>
    </modules>
+
+   <!-- ********************************************** -->
+   <!-- *************** DEPENDENCIES ***************** -->
+   <!-- ********************************************** -->
+
+   <dependencyManagement>
+      <dependencies>
+         <!-- ============================================== -->
+         <!-- ================= PROJECT ==================== -->
+         <!-- ============================================== -->
+         <dependency>
+            <groupId>com.bernardomg.asset</groupId>
+            <artifactId>asset-testing</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.asset</groupId>
+            <artifactId>asset-domain</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+      </dependencies>
+   </dependencyManagement>
 
 </project>

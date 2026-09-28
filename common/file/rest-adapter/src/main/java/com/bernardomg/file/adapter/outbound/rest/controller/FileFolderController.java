@@ -5,12 +5,14 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.asset.domain.model.Asset;
 import com.bernardomg.asset.domain.model.AssetFolder;
+import com.bernardomg.asset.usecase.service.AssetFolderService;
 import com.bernardomg.file.adapter.outbound.rest.dto.FileFolderCreationDto;
 import com.bernardomg.file.adapter.outbound.rest.dto.FileFolderDto;
 import com.bernardomg.file.adapter.outbound.rest.dto.FileFolderUpdateDto;
@@ -19,7 +21,6 @@ import com.bernardomg.file.adapter.outbound.rest.dto.FileResponseDto;
 import com.bernardomg.file.adapter.outbound.rest.model.FileDtoMapper;
 import com.bernardomg.file.adapter.outbound.rest.model.FileFolderDtoMapper;
 import com.bernardomg.file.adapter.outbound.rest.security.FileReadAuthorizer;
-import com.bernardomg.file.usecase.service.FileFolderService;
 import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.framework.security.access.annotation.Unsecured;
 import com.bernardomg.pagination.domain.Page;
@@ -32,9 +33,9 @@ public class FileFolderController implements FileFolderApi {
 
     private final FileReadAuthorizer authorizer;
 
-    private final FileFolderService  service;
+    private final AssetFolderService  service;
 
-    public FileFolderController(final FileFolderService fileFolderService,
+    public FileFolderController(@Qualifier("fileFolderService") final AssetFolderService fileFolderService,
             final FileReadAuthorizer fileReadAuthorizer) {
         service = Objects.requireNonNull(fileFolderService);
         authorizer = Objects.requireNonNull(fileReadAuthorizer);
@@ -82,9 +83,9 @@ public class FileFolderController implements FileFolderApi {
 
         pagination = new Pagination(page, size);
         if (authorizer.canReadPrivateFiles()) {
-            files = service.getFiles(folderNumber, pagination, WebSorting.toSorting(sort));
+            files = service.getAssets(folderNumber, pagination, WebSorting.toSorting(sort));
         } else {
-            files = service.getPublicFiles(folderNumber, pagination, WebSorting.toSorting(sort));
+            files = service.getPublicAssets(folderNumber, pagination, WebSorting.toSorting(sort));
         }
 
         return ResponseEntity.ok(FileDtoMapper.toResponseDto(files));
@@ -99,9 +100,9 @@ public class FileFolderController implements FileFolderApi {
 
         pagination = new Pagination(page, size);
         if (authorizer.canReadPrivateFiles()) {
-            files = service.getRootFiles(pagination, WebSorting.toSorting(sort));
+            files = service.getRootAssets(pagination, WebSorting.toSorting(sort));
         } else {
-            files = service.getPublicRootFiles(pagination, WebSorting.toSorting(sort));
+            files = service.getPublicRootAssets(pagination, WebSorting.toSorting(sort));
         }
 
         return ResponseEntity.ok(FileDtoMapper.toResponseDto(files));
@@ -110,13 +111,13 @@ public class FileFolderController implements FileFolderApi {
     @Override
     @RequireResourceAuthorization(resource = "FILE", action = Actions.UPDATE)
     public ResponseEntity<FileResponseDto> moveFileToFolder(final Long folderNumber, final Long fileNumber) {
-        return ResponseEntity.ok(FileDtoMapper.toResponseDto(service.moveFile(fileNumber, folderNumber)));
+        return ResponseEntity.ok(FileDtoMapper.toResponseDto(service.moveAsset(fileNumber, folderNumber)));
     }
 
     @Override
     @RequireResourceAuthorization(resource = "FILE", action = Actions.UPDATE)
     public ResponseEntity<FileResponseDto> moveFileToRoot(final Long fileNumber) {
-        return ResponseEntity.ok(FileDtoMapper.toResponseDto(service.moveFileToRoot(fileNumber)));
+        return ResponseEntity.ok(FileDtoMapper.toResponseDto(service.moveAssetToRoot(fileNumber)));
     }
 
     @Override

@@ -30,6 +30,10 @@
 
    <dependencies>
       <dependency>
+         <groupId>com.bernardomg.asset</groupId>
+         <artifactId>asset-usecase</artifactId>
+      </dependency>
+      <dependency>
          <groupId>com.bernardomg.content</groupId>
          <artifactId>content-domain</artifactId>
       </dependency>

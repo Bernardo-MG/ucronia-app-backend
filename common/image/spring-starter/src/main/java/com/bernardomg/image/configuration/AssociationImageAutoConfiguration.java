@@ -39,15 +39,15 @@ import com.bernardomg.asset.adapter.inbound.jpa.repository.JpaAssetFolderReposit
 import com.bernardomg.asset.adapter.inbound.jpa.repository.JpaAssetRepository;
 import com.bernardomg.asset.domain.repository.AssetFolderRepository;
 import com.bernardomg.asset.domain.repository.AssetRepository;
+import com.bernardomg.asset.usecase.service.AssetFolderService;
+import com.bernardomg.asset.usecase.service.DefaultAssetFolderService;
 import com.bernardomg.content.domain.key.ContentKeyGenerator;
 import com.bernardomg.content.domain.policy.ContentPolicy;
 import com.bernardomg.content.domain.policy.RestrictedContentPolicy;
 import com.bernardomg.content.domain.repository.ContentRepository;
 import com.bernardomg.image.adapter.outbound.rest.security.ImageReadAuthorizer;
 import com.bernardomg.image.adapter.outbound.rest.security.SpringSecurityImageReadAuthorizer;
-import com.bernardomg.image.usecase.service.DefaultImageFolderService;
 import com.bernardomg.image.usecase.service.DefaultImageService;
-import com.bernardomg.image.usecase.service.ImageFolderService;
 import com.bernardomg.image.usecase.service.ImageService;
 import com.bernardomg.security.springframework.access.interceptor.AuthorityResourcePermissionEvaluator;
 import com.bernardomg.security.springframework.access.interceptor.ResourcePermissionEvaluator;
@@ -72,10 +72,10 @@ public class AssociationImageAutoConfiguration {
     }
 
     @Bean("imageFolderService")
-    public ImageFolderService getImageFolderService(
+    public AssetFolderService getAssetFolderService(
             @Qualifier("imageFolderRepository") final AssetFolderRepository folderRepository,
             @Qualifier("imageRepository") final AssetRepository imageRepository) {
-        return new DefaultImageFolderService(folderRepository, imageRepository);
+        return new DefaultAssetFolderService(folderRepository, imageRepository);
     }
 
     @Bean("imageFolderWhitelist")

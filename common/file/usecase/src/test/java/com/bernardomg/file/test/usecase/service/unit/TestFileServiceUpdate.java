@@ -17,13 +17,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.asset.domain.exception.AssetAlreadyExistsException;
 import com.bernardomg.asset.domain.model.Asset;
 import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.content.domain.key.ContentKeyGenerator;
 import com.bernardomg.content.domain.model.Content;
 import com.bernardomg.content.domain.policy.ContentPolicy;
 import com.bernardomg.content.domain.repository.ContentRepository;
-import com.bernardomg.file.domain.exception.FileAlreadyExistsException;
 import com.bernardomg.file.test.configuration.factory.Contents;
 import com.bernardomg.file.test.configuration.factory.FileConstants;
 import com.bernardomg.file.test.configuration.factory.Files;
@@ -106,7 +106,7 @@ class TestFileServiceUpdate {
 
         // WHEN + THEN
         Assertions.assertThatThrownBy(callable)
-            .isInstanceOf(FileAlreadyExistsException.class);
+            .isInstanceOf(AssetAlreadyExistsException.class);
     }
 
     @Test

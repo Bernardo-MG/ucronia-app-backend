@@ -17,13 +17,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.asset.domain.exception.AssetAlreadyExistsException;
 import com.bernardomg.asset.domain.model.Asset;
 import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.content.domain.key.ContentKeyGenerator;
 import com.bernardomg.content.domain.model.Content;
 import com.bernardomg.content.domain.policy.ContentPolicy;
 import com.bernardomg.content.domain.repository.ContentRepository;
-import com.bernardomg.image.domain.exception.ImageAlreadyExistsException;
 import com.bernardomg.image.test.configuration.factory.Contents;
 import com.bernardomg.image.test.configuration.factory.ImageConstants;
 import com.bernardomg.image.test.configuration.factory.Images;
@@ -106,7 +106,7 @@ class TestImageServiceUpdate {
 
         // WHEN + THEN
         Assertions.assertThatThrownBy(callable)
-            .isInstanceOf(ImageAlreadyExistsException.class);
+            .isInstanceOf(AssetAlreadyExistsException.class);
     }
 
     @Test
