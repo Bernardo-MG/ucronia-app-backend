@@ -12,6 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.List;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -19,6 +20,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
@@ -108,7 +110,20 @@ class TestFileController {
         // WHEN + THEN
         mockMvc.perform(get("/files/{number}/content", FileConstants.NUMBER))
             .andExpect(status().isOk())
-            .andExpect(header().string(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"file.pdf\""))
+            .andExpect(header().exists(HttpHeaders.CONTENT_DISPOSITION))
+            .andExpect(result -> {
+                final String             header;
+                final ContentDisposition disposition;
+
+                header = result.getResponse()
+                    .getHeader(HttpHeaders.CONTENT_DISPOSITION);
+                disposition = ContentDisposition.parse(header);
+
+                Assertions.assertThat(disposition.getType())
+                    .isEqualTo("attachment");
+                Assertions.assertThat(disposition.getFilename())
+                    .isEqualTo("file.pdf");
+            })
             .andExpect(header().string(HttpHeaders.CONTENT_TYPE, FileConstants.PDF_MEDIA_TYPE))
             .andExpect(header().longValue(HttpHeaders.CONTENT_LENGTH, FileConstants.DATA.length))
             .andExpect(header().string("X-Content-Type-Options", "nosniff"));
