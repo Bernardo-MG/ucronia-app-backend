@@ -9,8 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.bernardomg.asset.adapter.inbound.jpa.repository.AssetFolderSpringRepository;
 import com.bernardomg.image.TestApplication;
-import com.bernardomg.image.adapter.inbound.jpa.repository.ImageFolderSpringRepository;
 import com.bernardomg.image.domain.model.ImageFolder;
 import com.bernardomg.image.domain.repository.ImageFolderRepository;
 import com.bernardomg.image.test.configuration.data.annotation.ValidImageFolder;
@@ -29,7 +29,7 @@ class ITImageFolderRepositorySave {
     private ImageFolderRepository       repository;
 
     @Autowired
-    private ImageFolderSpringRepository springRepository;
+    private AssetFolderSpringRepository springRepository;
 
     @Test
     @DisplayName("When changing the name, it is updated")

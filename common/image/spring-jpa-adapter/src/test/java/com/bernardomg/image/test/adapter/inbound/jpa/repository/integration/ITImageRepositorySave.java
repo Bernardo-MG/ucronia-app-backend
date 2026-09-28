@@ -7,8 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.bernardomg.asset.adapter.inbound.jpa.repository.AssetSpringRepository;
 import com.bernardomg.image.TestApplication;
-import com.bernardomg.image.adapter.inbound.jpa.repository.ImageSpringRepository;
 import com.bernardomg.image.domain.model.Image;
 import com.bernardomg.image.domain.repository.ImageRepository;
 import com.bernardomg.image.test.configuration.data.annotation.PublicImage;
@@ -25,7 +25,7 @@ class ITImageRepositorySave {
     private ImageRepository       repository;
 
     @Autowired
-    private ImageSpringRepository springRepository;
+    private AssetSpringRepository springRepository;
 
     @Test
     @DisplayName("When the image name is changed, it is updated")

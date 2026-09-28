@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.asset.adapter.inbound.jpa.model.AssetFolderEntity;
+import com.bernardomg.asset.adapter.inbound.jpa.repository.AssetFolderSpringRepository;
 import com.bernardomg.file.adapter.inbound.jpa.model.FileFolderEntityMapper;
 import com.bernardomg.file.domain.model.FileFolder;
 import com.bernardomg.file.domain.repository.FileFolderRepository;
@@ -20,11 +21,11 @@ public final class JpaFileFolderRepository implements FileFolderRepository {
     /**
      * Logger for the class.
      */
-    private static final Logger              log = LoggerFactory.getLogger(JpaFileFolderRepository.class);
+    private static final Logger               log = LoggerFactory.getLogger(JpaFileFolderRepository.class);
 
-    private final FileFolderSpringRepository repository;
+    private final AssetFolderSpringRepository repository;
 
-    public JpaFileFolderRepository(final FileFolderSpringRepository fileFolderRepository) {
+    public JpaFileFolderRepository(final AssetFolderSpringRepository fileFolderRepository) {
         super();
 
         repository = Objects.requireNonNull(fileFolderRepository);

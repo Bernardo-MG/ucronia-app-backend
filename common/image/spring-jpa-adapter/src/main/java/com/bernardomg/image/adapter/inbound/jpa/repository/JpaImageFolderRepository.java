@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.asset.adapter.inbound.jpa.model.AssetFolderEntity;
+import com.bernardomg.asset.adapter.inbound.jpa.repository.AssetFolderSpringRepository;
 import com.bernardomg.image.adapter.inbound.jpa.model.ImageFolderEntityMapper;
 import com.bernardomg.image.domain.model.ImageFolder;
 import com.bernardomg.image.domain.repository.ImageFolderRepository;
@@ -22,9 +23,9 @@ public final class JpaImageFolderRepository implements ImageFolderRepository {
      */
     private static final Logger               log = LoggerFactory.getLogger(JpaImageFolderRepository.class);
 
-    private final ImageFolderSpringRepository repository;
+    private final AssetFolderSpringRepository repository;
 
-    public JpaImageFolderRepository(final ImageFolderSpringRepository imageFolderRepository) {
+    public JpaImageFolderRepository(final AssetFolderSpringRepository imageFolderRepository) {
         super();
 
         repository = Objects.requireNonNull(imageFolderRepository);

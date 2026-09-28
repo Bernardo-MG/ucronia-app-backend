@@ -1,5 +1,5 @@
 
-package com.bernardomg.image.adapter.inbound.jpa.repository;
+package com.bernardomg.asset.adapter.inbound.jpa.repository;
 
 import java.util.Optional;
 
@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.bernardomg.asset.adapter.inbound.jpa.model.AssetFolderEntity;
 
-public interface ImageFolderSpringRepository extends JpaRepository<AssetFolderEntity, Long> {
+public interface AssetFolderSpringRepository extends JpaRepository<AssetFolderEntity, Long> {
 
     public void deleteByNumber(final Long number);
 

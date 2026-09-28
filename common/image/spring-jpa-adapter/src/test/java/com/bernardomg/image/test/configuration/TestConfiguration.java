@@ -8,8 +8,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.authentication.AuthenticationTrustResolver;
 import org.springframework.security.authentication.AuthenticationTrustResolverImpl;
 
-import com.bernardomg.image.adapter.inbound.jpa.repository.ImageFolderSpringRepository;
-import com.bernardomg.image.adapter.inbound.jpa.repository.ImageSpringRepository;
+import com.bernardomg.asset.adapter.inbound.jpa.repository.AssetFolderSpringRepository;
+import com.bernardomg.asset.adapter.inbound.jpa.repository.AssetSpringRepository;
 import com.bernardomg.image.adapter.inbound.jpa.repository.JpaImageFolderRepository;
 import com.bernardomg.image.adapter.inbound.jpa.repository.JpaImageRepository;
 import com.bernardomg.image.domain.repository.ImageFolderRepository;
@@ -28,13 +28,13 @@ public class TestConfiguration {
     }
 
     @Bean("imageFolderRepository")
-    public ImageFolderRepository getImageFolderRepository(final ImageFolderSpringRepository repository) {
+    public ImageFolderRepository getImageFolderRepository(final AssetFolderSpringRepository repository) {
         return new JpaImageFolderRepository(repository);
     }
 
     @Bean("imageRepository")
-    public ImageRepository getImageRepository(final ImageSpringRepository repository,
-            final ImageFolderSpringRepository folderRepository) {
+    public ImageRepository getImageRepository(final AssetSpringRepository repository,
+            final AssetFolderSpringRepository folderRepository) {
         return new JpaImageRepository(repository, folderRepository);
     }
 }

@@ -1,5 +1,5 @@
 
-package com.bernardomg.file.adapter.inbound.jpa.repository;
+package com.bernardomg.asset.adapter.inbound.jpa.repository;
 
 import java.util.Optional;
 
@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.bernardomg.asset.adapter.inbound.jpa.model.AssetEntity;
 
-public interface FileSpringRepository extends JpaRepository<AssetEntity, Long> {
+public interface AssetSpringRepository extends JpaRepository<AssetEntity, Long> {
 
     public void deleteByNumber(final long number);
 

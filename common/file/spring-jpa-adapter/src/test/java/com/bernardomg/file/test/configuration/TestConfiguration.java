@@ -8,8 +8,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.authentication.AuthenticationTrustResolver;
 import org.springframework.security.authentication.AuthenticationTrustResolverImpl;
 
-import com.bernardomg.file.adapter.inbound.jpa.repository.FileFolderSpringRepository;
-import com.bernardomg.file.adapter.inbound.jpa.repository.FileSpringRepository;
+import com.bernardomg.asset.adapter.inbound.jpa.repository.AssetFolderSpringRepository;
+import com.bernardomg.asset.adapter.inbound.jpa.repository.AssetSpringRepository;
 import com.bernardomg.file.adapter.inbound.jpa.repository.JpaFileFolderRepository;
 import com.bernardomg.file.adapter.inbound.jpa.repository.JpaFileRepository;
 import com.bernardomg.file.domain.repository.FileFolderRepository;
@@ -28,13 +28,13 @@ public class TestConfiguration {
     }
 
     @Bean("fileFolderRepository")
-    public FileFolderRepository getFileFolderRepository(final FileFolderSpringRepository repository) {
+    public FileFolderRepository getFileFolderRepository(final AssetFolderSpringRepository repository) {
         return new JpaFileFolderRepository(repository);
     }
 
     @Bean("fileRepository")
-    public FileRepository getFileRepository(final FileSpringRepository repository,
-            final FileFolderSpringRepository folderRepository) {
+    public FileRepository getFileRepository(final AssetSpringRepository repository,
+            final AssetFolderSpringRepository folderRepository) {
         return new JpaFileRepository(repository, folderRepository);
     }
 }

@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.asset.adapter.inbound.jpa.model.AssetEntity;
 import com.bernardomg.asset.adapter.inbound.jpa.model.AssetFolderEntity;
+import com.bernardomg.asset.adapter.inbound.jpa.repository.AssetFolderSpringRepository;
+import com.bernardomg.asset.adapter.inbound.jpa.repository.AssetSpringRepository;
 import com.bernardomg.image.adapter.inbound.jpa.model.ImageEntityMapper;
 import com.bernardomg.image.domain.model.Image;
 import com.bernardomg.image.domain.repository.ImageRepository;
@@ -27,12 +29,12 @@ public final class JpaImageRepository implements ImageRepository {
      */
     private static final Logger               log = LoggerFactory.getLogger(JpaImageRepository.class);
 
-    private final ImageFolderSpringRepository folderRepository;
+    private final AssetFolderSpringRepository folderRepository;
 
-    private final ImageSpringRepository       repository;
+    private final AssetSpringRepository       repository;
 
-    public JpaImageRepository(final ImageSpringRepository imageRepository,
-            final ImageFolderSpringRepository imageFolderRepository) {
+    public JpaImageRepository(final AssetSpringRepository imageRepository,
+            final AssetFolderSpringRepository imageFolderRepository) {
         repository = Objects.requireNonNull(imageRepository);
         folderRepository = Objects.requireNonNull(imageFolderRepository);
     }

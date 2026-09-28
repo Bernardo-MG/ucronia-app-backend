@@ -32,12 +32,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpMethod;
 
+import com.bernardomg.asset.adapter.inbound.jpa.repository.AssetFolderSpringRepository;
+import com.bernardomg.asset.adapter.inbound.jpa.repository.AssetSpringRepository;
 import com.bernardomg.content.domain.key.ContentKeyGenerator;
 import com.bernardomg.content.domain.policy.ContentPolicy;
 import com.bernardomg.content.domain.policy.RestrictedContentPolicy;
 import com.bernardomg.content.domain.repository.ContentRepository;
-import com.bernardomg.file.adapter.inbound.jpa.repository.FileFolderSpringRepository;
-import com.bernardomg.file.adapter.inbound.jpa.repository.FileSpringRepository;
 import com.bernardomg.file.adapter.inbound.jpa.repository.JpaFileFolderRepository;
 import com.bernardomg.file.adapter.inbound.jpa.repository.JpaFileRepository;
 import com.bernardomg.file.adapter.outbound.rest.security.FileReadAuthorizer;
@@ -66,7 +66,7 @@ public class AssociationFileAutoConfiguration {
     }
 
     @Bean("fileFolderRepository")
-    public FileFolderRepository getFileFolderRepository(final FileFolderSpringRepository repository) {
+    public FileFolderRepository getFileFolderRepository(final AssetFolderSpringRepository repository) {
         return new JpaFileFolderRepository(repository);
     }
 
@@ -90,8 +90,8 @@ public class AssociationFileAutoConfiguration {
     }
 
     @Bean("fileRepository")
-    public FileRepository getFileRepository(final FileSpringRepository repository,
-            final FileFolderSpringRepository folderRepository) {
+    public FileRepository getFileRepository(final AssetSpringRepository repository,
+            final AssetFolderSpringRepository folderRepository) {
         return new JpaFileRepository(repository, folderRepository);
     }
 

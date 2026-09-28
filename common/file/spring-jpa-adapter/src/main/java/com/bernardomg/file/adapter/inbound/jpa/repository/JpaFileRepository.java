@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.asset.adapter.inbound.jpa.model.AssetEntity;
 import com.bernardomg.asset.adapter.inbound.jpa.model.AssetFolderEntity;
+import com.bernardomg.asset.adapter.inbound.jpa.repository.AssetFolderSpringRepository;
+import com.bernardomg.asset.adapter.inbound.jpa.repository.AssetSpringRepository;
 import com.bernardomg.file.adapter.inbound.jpa.model.FileEntityMapper;
 import com.bernardomg.file.domain.model.File;
 import com.bernardomg.file.domain.repository.FileRepository;
@@ -25,14 +27,14 @@ public final class JpaFileRepository implements FileRepository {
     /**
      * Logger for the class.
      */
-    private static final Logger              log = LoggerFactory.getLogger(JpaFileRepository.class);
+    private static final Logger               log = LoggerFactory.getLogger(JpaFileRepository.class);
 
-    private final FileFolderSpringRepository folderRepository;
+    private final AssetFolderSpringRepository folderRepository;
 
-    private final FileSpringRepository       repository;
+    private final AssetSpringRepository       repository;
 
-    public JpaFileRepository(final FileSpringRepository fileRepository,
-            final FileFolderSpringRepository fileFolderRepository) {
+    public JpaFileRepository(final AssetSpringRepository fileRepository,
+            final AssetFolderSpringRepository fileFolderRepository) {
         repository = Objects.requireNonNull(fileRepository);
         folderRepository = Objects.requireNonNull(fileFolderRepository);
     }

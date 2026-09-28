@@ -7,8 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.bernardomg.asset.adapter.inbound.jpa.repository.AssetFolderSpringRepository;
 import com.bernardomg.file.TestApplication;
-import com.bernardomg.file.adapter.inbound.jpa.repository.FileFolderSpringRepository;
 import com.bernardomg.file.domain.repository.FileFolderRepository;
 import com.bernardomg.file.test.configuration.data.annotation.ValidFileFolder;
 import com.bernardomg.file.test.configuration.factory.FileFolderConstants;
@@ -20,10 +20,10 @@ import com.bernardomg.test.annotation.IntegrationTest;
 class ITFileFolderRepositoryDelete {
 
     @Autowired
-    private FileFolderRepository       repository;
+    private FileFolderRepository        repository;
 
     @Autowired
-    private FileFolderSpringRepository springRepository;
+    private AssetFolderSpringRepository springRepository;
 
     @Test
     @DisplayName("With an file folder, it is deleted")

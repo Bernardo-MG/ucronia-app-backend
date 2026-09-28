@@ -7,8 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.bernardomg.asset.adapter.inbound.jpa.repository.AssetSpringRepository;
 import com.bernardomg.file.TestApplication;
-import com.bernardomg.file.adapter.inbound.jpa.repository.FileSpringRepository;
 import com.bernardomg.file.domain.model.File;
 import com.bernardomg.file.domain.repository.FileRepository;
 import com.bernardomg.file.test.configuration.data.annotation.PublicFile;
@@ -22,10 +22,10 @@ import com.bernardomg.test.annotation.IntegrationTest;
 class ITFileRepositorySave {
 
     @Autowired
-    private FileRepository       repository;
+    private FileRepository        repository;
 
     @Autowired
-    private FileSpringRepository springRepository;
+    private AssetSpringRepository springRepository;
 
     @Test
     @DisplayName("When the file name is changed, it is updated")
