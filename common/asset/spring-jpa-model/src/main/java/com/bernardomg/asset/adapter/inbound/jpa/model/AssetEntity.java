@@ -1,5 +1,5 @@
 
-package com.bernardomg.file.adapter.inbound.jpa.model;
+package com.bernardomg.asset.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
 
@@ -8,20 +8,27 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditMetadata;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorColumn;
+import jakarta.persistence.DiscriminatorType;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
-@Entity(name = "File")
-@Table(schema = "file", name = "files")
+@Entity(name = "Asset")
+@Table(schema = "asset", name = "assets")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING, length = 20)
 @EntityListeners(AuditingEntityListener.class)
-public class FileEntity implements Serializable {
+public  class AssetEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -31,9 +38,9 @@ public class FileEntity implements Serializable {
     @Column(name = "description", nullable = false, length = 500)
     private String            description;
 
-    @ManyToOne(fetch = jakarta.persistence.FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "folder_id")
-    private FileFolderEntity  folder;
+    private AssetFolderEntity folder;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,10 +53,10 @@ public class FileEntity implements Serializable {
     @Column(name = "media_type", nullable = false, length = 100)
     private String            mediaType;
 
-    @Column(name = "name", nullable = false, unique = true, length = 100)
+    @Column(name = "name", nullable = false, length = 100)
     private String            name;
 
-    @Column(name = "number", nullable = false, unique = true)
+    @Column(name = "number", nullable = false)
     private Long              number;
 
     @Column(name = "public_access", nullable = false)
@@ -66,7 +73,7 @@ public class FileEntity implements Serializable {
         return description;
     }
 
-    public FileFolderEntity getFolder() {
+    public AssetFolderEntity getFolder() {
         return folder;
     }
 
@@ -106,7 +113,7 @@ public class FileEntity implements Serializable {
         description = value;
     }
 
-    public void setFolder(final FileFolderEntity value) {
+    public void setFolder(final AssetFolderEntity value) {
         folder = value;
     }
 
@@ -140,9 +147,9 @@ public class FileEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "FileEntity [id=" + id + ", key=" + key + ", name=" + name + ", description=" + description + ", folder="
-                + folder + ", mediaType=" + mediaType + ", number=" + number + ", publicAccess=" + publicAccess
-                + ", size=" + size + ", audit=" + audit + "]";
+        return "AssetEntity [id=" + id + ", key=" + key + ", name=" + name + ", description=" + description + ", audit="
+                + audit + ", folder=" + folder + ", mediaType=" + mediaType + ", number=" + number + ", publicAccess="
+                + publicAccess + ", size=" + size + "]";
     }
 
 }

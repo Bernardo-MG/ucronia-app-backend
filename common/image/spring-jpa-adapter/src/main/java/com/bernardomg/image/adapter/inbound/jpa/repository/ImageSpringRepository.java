@@ -8,9 +8,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.bernardomg.image.adapter.inbound.jpa.model.ImageEntity;
+import com.bernardomg.asset.adapter.inbound.jpa.model.AssetEntity;
 
-public interface ImageSpringRepository extends JpaRepository<ImageEntity, Long> {
+public interface ImageSpringRepository extends JpaRepository<AssetEntity, Long> {
 
     public void deleteByNumber(final long number);
 
@@ -27,18 +27,18 @@ public interface ImageSpringRepository extends JpaRepository<ImageEntity, Long> 
 
     public boolean existsByNumber(final long number);
 
-    public Page<ImageEntity> findAllByFolderIsNull(final Pageable pageable);
+    public Page<AssetEntity> findAllByFolderIsNull(final Pageable pageable);
 
-    public Page<ImageEntity> findAllByFolderIsNullAndPublicAccessTrue(final Pageable pageable);
+    public Page<AssetEntity> findAllByFolderIsNullAndPublicAccessTrue(final Pageable pageable);
 
-    public Page<ImageEntity> findAllByFolderNumber(final long folderNumber, final Pageable pageable);
+    public Page<AssetEntity> findAllByFolderNumber(final long folderNumber, final Pageable pageable);
 
-    public Page<ImageEntity> findAllByFolderNumberAndPublicAccessTrue(final long folderNumber, final Pageable pageable);
+    public Page<AssetEntity> findAllByFolderNumberAndPublicAccessTrue(final long folderNumber, final Pageable pageable);
 
-    public Page<ImageEntity> findAllByPublicAccessTrue(final Pageable pageable);
+    public Page<AssetEntity> findAllByPublicAccessTrue(final Pageable pageable);
 
-    public Optional<ImageEntity> findByNumber(final long number);
+    public Optional<AssetEntity> findByNumber(final long number);
 
-    @Query("SELECT COALESCE(MAX(i.number), 0) + 1 FROM Image i")
+    @Query("SELECT COALESCE(MAX(a.number), 0) + 1 FROM Asset a")
     public long findNextNumber();
 }

@@ -36,12 +36,11 @@ class ITImageRepositoryFindAllByFolder {
         final Page<Image> result;
 
         // WHEN
-        result = repository.findAllByFolder(ImageFolderConstants.NUMBER, new Pagination(1, 10),
-            Sorting.unsorted());
+        result = repository.findAllByFolder(ImageFolderConstants.NUMBER, new Pagination(1, 10), Sorting.unsorted());
 
         // THEN
         Assertions.assertThat(result.content())
-        .containsExactly(Images.privateAccessInFolder());
+            .containsExactly(Images.privateAccessInFolder());
     }
 
     @Test
@@ -52,8 +51,7 @@ class ITImageRepositoryFindAllByFolder {
         final Page<Image> result;
 
         // WHEN
-        result = repository.findAllByFolder(ImageFolderConstants.NUMBER, new Pagination(1, 10),
-            Sorting.unsorted());
+        result = repository.findAllByFolder(ImageFolderConstants.NUMBER, new Pagination(1, 10), Sorting.unsorted());
 
         // THEN
         Assertions.assertThat(result.content())

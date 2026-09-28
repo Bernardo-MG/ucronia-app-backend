@@ -1,5 +1,5 @@
 
-package com.bernardomg.file.adapter.inbound.jpa.model;
+package com.bernardomg.asset.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
 
@@ -8,6 +8,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditMetadata;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorColumn;
+import jakarta.persistence.DiscriminatorType;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -15,14 +17,18 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
-@Entity(name = "FileFolder")
-@Table(schema = "file", name = "file_folders")
+@Entity(name = "AssetFolder")
+@Table(schema = "asset", name = "asset_folders")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING, length = 20)
 @EntityListeners(AuditingEntityListener.class)
-public class FileFolderEntity implements Serializable {
+public class AssetFolderEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -36,12 +42,12 @@ public class FileFolderEntity implements Serializable {
     @Column(nullable = false, length = 100)
     private String            name;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private Long              number;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
-    private FileFolderEntity  parent;
+    private AssetFolderEntity parent;
 
     public AuditMetadata getAudit() {
         return audit;
@@ -59,7 +65,7 @@ public class FileFolderEntity implements Serializable {
         return number;
     }
 
-    public FileFolderEntity getParent() {
+    public AssetFolderEntity getParent() {
         return parent;
     }
 
@@ -79,8 +85,14 @@ public class FileFolderEntity implements Serializable {
         number = value;
     }
 
-    public void setParent(final FileFolderEntity value) {
+    public void setParent(final AssetFolderEntity value) {
         parent = value;
+    }
+
+    @Override
+    public String toString() {
+        return "AssetFolderEntity [id=" + id + ", number=" + number + ", name=" + name + ", audit=" + audit
+                + ", parent=" + parent + "]";
     }
 
 }

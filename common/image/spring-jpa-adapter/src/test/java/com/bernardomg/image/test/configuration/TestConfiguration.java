@@ -16,10 +16,10 @@ import com.bernardomg.image.domain.repository.ImageFolderRepository;
 import com.bernardomg.image.domain.repository.ImageRepository;
 
 @Configuration
-@EnableJpaRepositories(
-        basePackages = { "com.bernardomg.image.adapter.inbound.jpa", "com.bernardomg.security.adapter.inbound.jpa" })
+@EnableJpaRepositories(basePackages = { "com.bernardomg.asset.adapter.inbound.jpa",
+        "com.bernardomg.image.adapter.inbound.jpa", "com.bernardomg.security.adapter.inbound.jpa" })
 @EntityScan(
-        basePackages = { "com.bernardomg.image.adapter.inbound.jpa", "com.bernardomg.security.adapter.inbound.jpa" })
+        basePackages = { "com.bernardomg.security.adapter.inbound.jpa", "com.bernardomg.asset.adapter.inbound.jpa" })
 public class TestConfiguration {
 
     @Bean("authenticationTrustResolver")

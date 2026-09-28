@@ -9,9 +9,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.file.adapter.inbound.jpa.model.FileEntity;
+import com.bernardomg.asset.adapter.inbound.jpa.model.AssetEntity;
+import com.bernardomg.asset.adapter.inbound.jpa.model.AssetFolderEntity;
 import com.bernardomg.file.adapter.inbound.jpa.model.FileEntityMapper;
-import com.bernardomg.file.adapter.inbound.jpa.model.FileFolderEntity;
 import com.bernardomg.file.domain.model.File;
 import com.bernardomg.file.domain.repository.FileRepository;
 import com.bernardomg.pagination.domain.Page;
@@ -174,8 +174,8 @@ public final class JpaFileRepository implements FileRepository {
 
     @Override
     public final File move(final Long number, final Long folderNumber) {
-        final FileEntity       entity;
-        final FileFolderEntity folderEntity;
+        final AssetEntity       entity;
+        final AssetFolderEntity folderEntity;
 
         entity = repository.findByNumber(number)
             .orElseThrow();
@@ -191,12 +191,12 @@ public final class JpaFileRepository implements FileRepository {
 
     @Override
     public final File save(final File file) {
-        final Optional<FileEntity> existing;
-        final FileEntity           entity;
-        final Long                 number;
-        final File                 toCreate;
-        final File                 saved;
-        final FileFolderEntity     folder;
+        final Optional<AssetEntity> existing;
+        final AssetEntity           entity;
+        final Long                  number;
+        final File                  toCreate;
+        final File                  saved;
+        final AssetFolderEntity     folder;
 
         log.debug("Saving file {}", file);
 

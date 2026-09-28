@@ -54,7 +54,8 @@ import com.bernardomg.security.springframework.web.whitelist.WhitelistRoute;
 
 @AutoConfiguration
 @ComponentScan({ "com.bernardomg.image.adapter.outbound.rest.controller" })
-@AutoConfigurationPackage(basePackages = { "com.bernardomg.image.adapter.inbound.jpa" })
+@AutoConfigurationPackage(
+        basePackages = { "com.bernardomg.asset.adapter.inbound.jpa", "com.bernardomg.image.adapter.inbound.jpa" })
 @EnableConfigurationProperties(ImageContentProperties.class)
 public class AssociationImageAutoConfiguration {
 

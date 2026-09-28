@@ -39,6 +39,10 @@
       <!-- ================= PROJECT ==================== -->
       <!-- ============================================== -->
       <dependency>
+         <groupId>com.bernardomg.asset</groupId>
+         <artifactId>asset-spring-jpa-model</artifactId>
+      </dependency>
+      <dependency>
          <groupId>com.bernardomg.file</groupId>
          <artifactId>file-domain</artifactId>
       </dependency>

@@ -1,12 +1,12 @@
 
 package com.bernardomg.image.test.configuration.factory;
 
-import com.bernardomg.image.adapter.inbound.jpa.model.ImageFolderEntity;
+import com.bernardomg.asset.adapter.inbound.jpa.model.AssetFolderEntity;
 
 public final class ImageFolderEntities {
 
-    public static ImageFolderEntity nameChange() {
-        final ImageFolderEntity entity;
+    public static AssetFolderEntity nameChange() {
+        final AssetFolderEntity entity;
 
         entity = valid();
         entity.setName(ImageFolderConstants.ALTERNATIVE_NAME);
@@ -14,10 +14,10 @@ public final class ImageFolderEntities {
         return entity;
     }
 
-    public static ImageFolderEntity valid() {
-        final ImageFolderEntity entity;
+    public static AssetFolderEntity valid() {
+        final AssetFolderEntity entity;
 
-        entity = new ImageFolderEntity();
+        entity = new AssetFolderEntity();
         entity.setNumber(ImageFolderConstants.NUMBER);
         entity.setName(ImageFolderConstants.NAME);
 

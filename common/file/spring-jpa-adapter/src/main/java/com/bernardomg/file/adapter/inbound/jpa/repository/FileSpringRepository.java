@@ -8,9 +8,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.bernardomg.file.adapter.inbound.jpa.model.FileEntity;
+import com.bernardomg.asset.adapter.inbound.jpa.model.AssetEntity;
 
-public interface FileSpringRepository extends JpaRepository<FileEntity, Long> {
+public interface FileSpringRepository extends JpaRepository<AssetEntity, Long> {
 
     public void deleteByNumber(final long number);
 
@@ -27,18 +27,18 @@ public interface FileSpringRepository extends JpaRepository<FileEntity, Long> {
 
     public boolean existsByNumber(final long number);
 
-    public Page<FileEntity> findAllByFolderIsNull(final Pageable pageable);
+    public Page<AssetEntity> findAllByFolderIsNull(final Pageable pageable);
 
-    public Page<FileEntity> findAllByFolderIsNullAndPublicAccessTrue(final Pageable pageable);
+    public Page<AssetEntity> findAllByFolderIsNullAndPublicAccessTrue(final Pageable pageable);
 
-    public Page<FileEntity> findAllByFolderNumber(final long folderNumber, final Pageable pageable);
+    public Page<AssetEntity> findAllByFolderNumber(final long folderNumber, final Pageable pageable);
 
-    public Page<FileEntity> findAllByFolderNumberAndPublicAccessTrue(final long folderNumber, final Pageable pageable);
+    public Page<AssetEntity> findAllByFolderNumberAndPublicAccessTrue(final long folderNumber, final Pageable pageable);
 
-    public Page<FileEntity> findAllByPublicAccessTrue(final Pageable pageable);
+    public Page<AssetEntity> findAllByPublicAccessTrue(final Pageable pageable);
 
-    public Optional<FileEntity> findByNumber(final long number);
+    public Optional<AssetEntity> findByNumber(final long number);
 
-    @Query("SELECT COALESCE(MAX(i.number), 0) + 1 FROM File i")
+    @Query("SELECT COALESCE(MAX(a.number), 0) + 1 FROM Asset a")
     public long findNextNumber();
 }

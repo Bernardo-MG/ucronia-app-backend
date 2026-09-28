@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.image.adapter.inbound.jpa.model.ImageFolderEntity;
+import com.bernardomg.asset.adapter.inbound.jpa.model.AssetFolderEntity;
 import com.bernardomg.image.adapter.inbound.jpa.model.ImageFolderEntityMapper;
 import com.bernardomg.image.domain.model.ImageFolder;
 import com.bernardomg.image.domain.repository.ImageFolderRepository;
@@ -118,15 +118,15 @@ public final class JpaImageFolderRepository implements ImageFolderRepository {
 
     @Override
     public final ImageFolder save(final ImageFolder folder) {
-        final ImageFolderEntity entity;
-        final ImageFolderEntity parent;
-        final ImageFolderEntity persisted;
+        final AssetFolderEntity entity;
+        final AssetFolderEntity parent;
+        final AssetFolderEntity persisted;
         final ImageFolder       saved;
 
         log.debug("Saving image folder {}", folder);
 
         entity = repository.findByNumber(folder.number())
-            .orElseGet(ImageFolderEntity::new);
+            .orElseGet(AssetFolderEntity::new);
 
         if (entity.getNumber() == null) {
             entity.setNumber(repository.findNextNumber());

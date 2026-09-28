@@ -1,17 +1,17 @@
 databaseChangeLog:
   - changeSet:
-      id: image_schema
+      id: asset_schema
       author: Bernardo
       changes:
         - sql:
-            sql: CREATE SCHEMA IF NOT EXISTS image
+            sql: CREATE SCHEMA IF NOT EXISTS asset
   - changeSet:
-      id: image_tables
+      id: asset_tables
       author: Bernardo
       changes:
         - createTable:
-            schemaName: image
-            tableName: image_folders
+            schemaName: asset
+            tableName: asset_folders
             columns:
               - column:
                   name: id
@@ -21,11 +21,15 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
+                  name: type
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
                   name: number
                   type: bigint
                   constraints:
                     nullable: false
-                    unique: true
               - column:
                   name: name
                   type: varchar(100)
@@ -36,8 +40,6 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: true
-                    foreignKeyName: fk_image_folders_parent
-                    references: image.image_folders(id)
               - column:
                   name: created_at
                   type: datetime
@@ -45,7 +47,7 @@ databaseChangeLog:
                   name: created_by
                   type: bigint
                   constraints:
-                    foreignKeyName: fk_image_folders_created_by_user
+                    foreignKeyName: fk_asset_folders_created_by_user
                     references: security.users(id)
               - column:
                   name: updated_at
@@ -54,21 +56,34 @@ databaseChangeLog:
                   name: updated_by
                   type: bigint
                   constraints:
-                    foreignKeyName: fk_image_folders_updated_by_user
+                    foreignKeyName: fk_asset_folders_updated_by_user
                     references: security.users(id)
         - addUniqueConstraint:
-            schemaName: image
-            tableName: image_folders
-            columnNames: parent_id, name
-            constraintName: image_folders_unique_parent_name
-        - sql:
-            sql: >
-              CREATE UNIQUE INDEX image_folders_unique_root_name
-              ON image.image_folders (name)
-              WHERE parent_id IS NULL
+            schemaName: asset
+            tableName: asset_folders
+            columnNames: id, type
+            constraintName: uk_asset_folders_id_type
+        - addUniqueConstraint:
+            schemaName: asset
+            tableName: asset_folders
+            columnNames: type, number
+            constraintName: uk_asset_folders_type_number
+        - addUniqueConstraint:
+            schemaName: asset
+            tableName: asset_folders
+            columnNames: type, parent_id, name
+            constraintName: uk_asset_folders_parent_name
+        - addForeignKeyConstraint:
+            baseTableSchemaName: asset
+            baseTableName: asset_folders
+            baseColumnNames: parent_id, type
+            referencedTableSchemaName: asset
+            referencedTableName: asset_folders
+            referencedColumnNames: id, type
+            constraintName: fk_asset_folders_parent_type
         - createTable:
-            schemaName: image
-            tableName: images
+            schemaName: asset
+            tableName: assets
             columns:
               - column:
                   name: id
@@ -78,11 +93,15 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
+                  name: type
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
                   name: number
                   type: bigint
                   constraints:
                     nullable: false
-                    unique: true
               - column:
                   name: name
                   type: varchar(100)
@@ -120,8 +139,6 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: true
-                    foreignKeyName: fk_images_folder
-                    references: image.image_folders(id)
               - column:
                   name: created_at
                   type: datetime
@@ -129,7 +146,7 @@ databaseChangeLog:
                   name: created_by
                   type: bigint
                   constraints:
-                    foreignKeyName: fk_images_created_by_user
+                    foreignKeyName: fk_assets_created_by_user
                     references: security.users(id)
               - column:
                   name: updated_at
@@ -138,22 +155,32 @@ databaseChangeLog:
                   name: updated_by
                   type: bigint
                   constraints:
-                    foreignKeyName: fk_images_updated_by_user
+                    foreignKeyName: fk_assets_updated_by_user
                     references: security.users(id)
         - addUniqueConstraint:
-            schemaName: image
-            tableName: images
-            columnNames: folder_id, name
-            constraintName: images_unique_folder_name
-        - sql:
-            sql: >
-              CREATE UNIQUE INDEX images_unique_root_name
-              ON image.images (name)
-              WHERE folder_id IS NULL
+            schemaName: asset
+            tableName: assets
+            columnNames: type, number
+            constraintName: uk_assets_type_number
+        - addUniqueConstraint:
+            schemaName: asset
+            tableName: assets
+            columnNames: type, folder_id, name
+            constraintName: uk_assets_folder_name
+        - addForeignKeyConstraint:
+            baseTableSchemaName: asset
+            baseTableName: assets
+            baseColumnNames: folder_id, type
+            referencedTableSchemaName: asset
+            referencedTableName: asset_folders
+            referencedColumnNames: id, type
+            constraintName: fk_assets_folder_type
         - createIndex:
-            schemaName: image
-            tableName: images
-            indexName: idx_images_folder
+            schemaName: asset
+            tableName: assets
+            indexName: idx_assets_type_folder
             columns:
+              - column:
+                  name: type
               - column:
                   name: folder_id

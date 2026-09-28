@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.file.adapter.inbound.jpa.model.FileFolderEntity;
+import com.bernardomg.asset.adapter.inbound.jpa.model.AssetFolderEntity;
 import com.bernardomg.file.adapter.inbound.jpa.model.FileFolderEntityMapper;
 import com.bernardomg.file.domain.model.FileFolder;
 import com.bernardomg.file.domain.repository.FileFolderRepository;
@@ -118,15 +118,15 @@ public final class JpaFileFolderRepository implements FileFolderRepository {
 
     @Override
     public final FileFolder save(final FileFolder folder) {
-        final FileFolderEntity entity;
-        final FileFolderEntity parent;
-        final FileFolderEntity persisted;
-        final FileFolder       saved;
+        final AssetFolderEntity entity;
+        final AssetFolderEntity parent;
+        final AssetFolderEntity persisted;
+        final FileFolder        saved;
 
         log.debug("Saving file folder {}", folder);
 
         entity = repository.findByNumber(folder.number())
-            .orElseGet(FileFolderEntity::new);
+            .orElseGet(AssetFolderEntity::new);
 
         if (entity.getNumber() == null) {
             entity.setNumber(repository.findNextNumber());

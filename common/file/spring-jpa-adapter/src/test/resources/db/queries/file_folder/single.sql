@@ -1,2 +1,2 @@
-INSERT INTO file.file_folders (id, number, name, parent_id) VALUES
-   (10, 1, 'Activities', NULL);
+INSERT INTO asset.asset_folders (id, type, number, name, parent_id) VALUES
+   (10, 'FILE', 1, 'Activities', NULL);

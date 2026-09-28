@@ -1,12 +1,12 @@
 
 package com.bernardomg.file.test.configuration.factory;
 
-import com.bernardomg.file.adapter.inbound.jpa.model.FileFolderEntity;
+import com.bernardomg.asset.adapter.inbound.jpa.model.AssetFolderEntity;
 
 public final class FileFolderEntities {
 
-    public static FileFolderEntity nameChange() {
-        final FileFolderEntity entity;
+    public static AssetFolderEntity nameChange() {
+        final AssetFolderEntity entity;
 
         entity = valid();
         entity.setName(FileFolderConstants.ALTERNATIVE_NAME);
@@ -14,10 +14,10 @@ public final class FileFolderEntities {
         return entity;
     }
 
-    public static FileFolderEntity valid() {
-        final FileFolderEntity entity;
+    public static AssetFolderEntity valid() {
+        final AssetFolderEntity entity;
 
-        entity = new FileFolderEntity();
+        entity = new AssetFolderEntity();
         entity.setNumber(FileFolderConstants.NUMBER);
         entity.setName(FileFolderConstants.NAME);
 

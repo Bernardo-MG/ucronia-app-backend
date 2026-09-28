@@ -6,9 +6,9 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.bernardomg.image.adapter.inbound.jpa.model.ImageFolderEntity;
+import com.bernardomg.asset.adapter.inbound.jpa.model.AssetFolderEntity;
 
-public interface ImageFolderSpringRepository extends JpaRepository<ImageFolderEntity, Long> {
+public interface ImageFolderSpringRepository extends JpaRepository<AssetFolderEntity, Long> {
 
     public void deleteByNumber(final Long number);
 
@@ -25,9 +25,9 @@ public interface ImageFolderSpringRepository extends JpaRepository<ImageFolderEn
 
     public boolean existsByParentNumber(final Long parentNumber);
 
-    public Optional<ImageFolderEntity> findByNumber(final Long number);
+    public Optional<AssetFolderEntity> findByNumber(final Long number);
 
-    @Query("SELECT COALESCE(MAX(f.number), 0) + 1 FROM ImageFolder f")
+    @Query("SELECT COALESCE(MAX(f.number), 0) + 1 FROM AssetFolder f")
     public Long findNextNumber();
 
 }

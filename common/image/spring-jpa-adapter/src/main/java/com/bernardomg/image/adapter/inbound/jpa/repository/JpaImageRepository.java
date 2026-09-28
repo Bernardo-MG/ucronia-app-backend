@@ -9,9 +9,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.image.adapter.inbound.jpa.model.ImageEntity;
+import com.bernardomg.asset.adapter.inbound.jpa.model.AssetEntity;
+import com.bernardomg.asset.adapter.inbound.jpa.model.AssetFolderEntity;
 import com.bernardomg.image.adapter.inbound.jpa.model.ImageEntityMapper;
-import com.bernardomg.image.adapter.inbound.jpa.model.ImageFolderEntity;
 import com.bernardomg.image.domain.model.Image;
 import com.bernardomg.image.domain.repository.ImageRepository;
 import com.bernardomg.pagination.domain.Page;
@@ -174,8 +174,8 @@ public final class JpaImageRepository implements ImageRepository {
 
     @Override
     public final Image move(final Long number, final Long folderNumber) {
-        final ImageEntity       entity;
-        final ImageFolderEntity folderEntity;
+        final AssetEntity       entity;
+        final AssetFolderEntity folderEntity;
 
         entity = repository.findByNumber(number)
             .orElseThrow();
@@ -191,12 +191,12 @@ public final class JpaImageRepository implements ImageRepository {
 
     @Override
     public final Image save(final Image image) {
-        final Optional<ImageEntity> existing;
-        final ImageEntity           entity;
+        final Optional<AssetEntity> existing;
+        final AssetEntity           entity;
         final Long                  number;
         final Image                 toCreate;
         final Image                 saved;
-        final ImageFolderEntity     folder;
+        final AssetFolderEntity     folder;
 
         log.debug("Saving image {}", image);
 

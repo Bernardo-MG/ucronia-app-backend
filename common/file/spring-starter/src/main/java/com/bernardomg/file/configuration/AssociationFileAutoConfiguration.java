@@ -54,7 +54,8 @@ import com.bernardomg.security.springframework.web.whitelist.WhitelistRoute;
 
 @AutoConfiguration
 @ComponentScan({ "com.bernardomg.file.adapter.outbound.rest.controller" })
-@AutoConfigurationPackage(basePackages = { "com.bernardomg.file.adapter.inbound.jpa" })
+@AutoConfigurationPackage(
+        basePackages = { "com.bernardomg.asset.adapter.inbound.jpa", "com.bernardomg.file.adapter.inbound.jpa" })
 @EnableConfigurationProperties(FileContentProperties.class)
 public class AssociationFileAutoConfiguration {
 

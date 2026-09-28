@@ -1,14 +1,14 @@
 
 package com.bernardomg.image.test.configuration.factory;
 
-import com.bernardomg.image.adapter.inbound.jpa.model.ImageEntity;
+import com.bernardomg.asset.adapter.inbound.jpa.model.AssetEntity;
 
 public final class ImageEntities {
 
-    public static ImageEntity nameChange() {
-        final ImageEntity entity;
+    public static AssetEntity nameChange() {
+        final AssetEntity entity;
 
-        entity = new ImageEntity();
+        entity = new AssetEntity();
         entity.setNumber(ImageConstants.NUMBER);
         entity.setName(ImageConstants.NAME);
         entity.setDescription(ImageConstants.DESCRIPTION);
@@ -21,10 +21,10 @@ public final class ImageEntities {
         return entity;
     }
 
-    public static ImageEntity publicAccess() {
-        final ImageEntity entity;
+    public static AssetEntity publicAccess() {
+        final AssetEntity entity;
 
-        entity = new ImageEntity();
+        entity = new AssetEntity();
         entity.setNumber(ImageConstants.NUMBER);
         entity.setName(ImageConstants.NAME);
         entity.setDescription(ImageConstants.DESCRIPTION);

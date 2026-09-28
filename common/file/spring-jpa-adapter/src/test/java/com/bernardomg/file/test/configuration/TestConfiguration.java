@@ -16,9 +16,10 @@ import com.bernardomg.file.domain.repository.FileFolderRepository;
 import com.bernardomg.file.domain.repository.FileRepository;
 
 @Configuration
-@EnableJpaRepositories(
-        basePackages = { "com.bernardomg.file.adapter.inbound.jpa", "com.bernardomg.security.adapter.inbound.jpa" })
-@EntityScan(basePackages = { "com.bernardomg.file.adapter.inbound.jpa", "com.bernardomg.security.adapter.inbound.jpa" })
+@EnableJpaRepositories(basePackages = { "com.bernardomg.asset.adapter.inbound.jpa",
+        "com.bernardomg.file.adapter.inbound.jpa", "com.bernardomg.security.adapter.inbound.jpa" })
+@EntityScan(
+        basePackages = { "com.bernardomg.security.adapter.inbound.jpa", "com.bernardomg.asset.adapter.inbound.jpa" })
 public class TestConfiguration {
 
     @Bean("authenticationTrustResolver")

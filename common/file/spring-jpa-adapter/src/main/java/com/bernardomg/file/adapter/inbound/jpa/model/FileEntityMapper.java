@@ -3,6 +3,7 @@ package com.bernardomg.file.adapter.inbound.jpa.model;
 
 import java.util.Optional;
 
+import com.bernardomg.asset.adapter.inbound.jpa.model.AssetEntity;
 import com.bernardomg.file.domain.model.File;
 import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditMetadata;
 import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditUserEntity;
@@ -11,7 +12,7 @@ import com.bernardomg.security.domain.audit.model.AuditDetails.AuditUser;
 
 public final class FileEntityMapper {
 
-    public static File toDomain(final FileEntity entity) {
+    public static File toDomain(final AssetEntity entity) {
         final Optional<Long> folder;
 
         if (entity.getFolder() == null) {
@@ -25,10 +26,10 @@ public final class FileEntityMapper {
             entity.getMediaType(), entity.getSize(), entity.isPublicAccess(), folder, toDomain(entity.getAudit()));
     }
 
-    public static FileEntity toEntity(final File file) {
-        final FileEntity entity;
+    public static AssetEntity toEntity(final File file) {
+        final AssetEntity entity;
 
-        entity = new FileEntity();
+        entity = new AssetEntity();
         entity.setNumber(file.number());
         entity.setName(file.name());
         entity.setDescription(file.description());

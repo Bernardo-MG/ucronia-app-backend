@@ -3,6 +3,7 @@ package com.bernardomg.image.adapter.inbound.jpa.model;
 
 import java.util.Optional;
 
+import com.bernardomg.asset.adapter.inbound.jpa.model.AssetEntity;
 import com.bernardomg.image.domain.model.Image;
 import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditMetadata;
 import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditUserEntity;
@@ -11,7 +12,7 @@ import com.bernardomg.security.domain.audit.model.AuditDetails.AuditUser;
 
 public final class ImageEntityMapper {
 
-    public static Image toDomain(final ImageEntity entity) {
+    public static Image toDomain(final AssetEntity entity) {
         final Optional<Long> folder;
 
         if (entity.getFolder() == null) {
@@ -25,10 +26,10 @@ public final class ImageEntityMapper {
             entity.getMediaType(), entity.getSize(), entity.isPublicAccess(), folder, toDomain(entity.getAudit()));
     }
 
-    public static ImageEntity toEntity(final Image image) {
-        final ImageEntity entity;
+    public static AssetEntity toEntity(final Image image) {
+        final AssetEntity entity;
 
-        entity = new ImageEntity();
+        entity = new AssetEntity();
         entity.setNumber(image.number());
         entity.setName(image.name());
         entity.setDescription(image.description());

@@ -3,12 +3,13 @@ package com.bernardomg.image.adapter.inbound.jpa.model;
 
 import java.util.Optional;
 
+import com.bernardomg.asset.adapter.inbound.jpa.model.AssetFolderEntity;
 import com.bernardomg.image.domain.model.ImageFolder;
 import com.bernardomg.security.domain.audit.model.AuditDetails;
 
 public final class ImageFolderEntityMapper {
 
-    public static ImageFolder toDomain(final ImageFolderEntity entity) {
+    public static ImageFolder toDomain(final AssetFolderEntity entity) {
         final Optional<Long> parent;
 
         if (entity.getParent() == null) {

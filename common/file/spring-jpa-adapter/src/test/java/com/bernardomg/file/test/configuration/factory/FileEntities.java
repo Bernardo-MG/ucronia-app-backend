@@ -1,14 +1,14 @@
 
 package com.bernardomg.file.test.configuration.factory;
 
-import com.bernardomg.file.adapter.inbound.jpa.model.FileEntity;
+import com.bernardomg.asset.adapter.inbound.jpa.model.AssetEntity;
 
 public final class FileEntities {
 
-    public static FileEntity nameChange() {
-        final FileEntity entity;
+    public static AssetEntity nameChange() {
+        final AssetEntity entity;
 
-        entity = new FileEntity();
+        entity = new AssetEntity();
         entity.setNumber(FileConstants.NUMBER);
         entity.setName(FileConstants.NAME);
         entity.setDescription(FileConstants.DESCRIPTION);
@@ -21,10 +21,10 @@ public final class FileEntities {
         return entity;
     }
 
-    public static FileEntity publicAccess() {
-        final FileEntity entity;
+    public static AssetEntity publicAccess() {
+        final AssetEntity entity;
 
-        entity = new FileEntity();
+        entity = new AssetEntity();
         entity.setNumber(FileConstants.NUMBER);
         entity.setName(FileConstants.NAME);
         entity.setDescription(FileConstants.DESCRIPTION);
