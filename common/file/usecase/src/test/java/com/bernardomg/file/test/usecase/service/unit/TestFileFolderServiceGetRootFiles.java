@@ -13,9 +13,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.file.domain.model.File;
-import com.bernardomg.file.domain.repository.FileFolderRepository;
-import com.bernardomg.file.domain.repository.FileRepository;
+import com.bernardomg.asset.domain.model.Asset;
+import com.bernardomg.asset.domain.repository.AssetFolderRepository;
+import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.file.usecase.service.DefaultFileFolderService;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -26,10 +26,10 @@ import com.bernardomg.pagination.domain.Sorting;
 class TestFileFolderServiceGetRootFiles {
 
     @Mock
-    private FileRepository           fileRepository;
+    private AssetRepository          fileRepository;
 
     @Mock
-    private FileFolderRepository     folderRepository;
+    private AssetFolderRepository    folderRepository;
 
     @InjectMocks
     private DefaultFileFolderService service;
@@ -37,10 +37,10 @@ class TestFileFolderServiceGetRootFiles {
     @Test
     @DisplayName("When reading root files, the requested page is returned")
     void testGetRootFiles() {
-        final Page<File> result;
-        final Page<File> existing;
-        final Pagination pagination;
-        final Sorting    sorting;
+        final Page<Asset> result;
+        final Page<Asset> existing;
+        final Pagination  pagination;
+        final Sorting     sorting;
 
         // GIVEN
         pagination = new Pagination(0, 10);
@@ -60,10 +60,10 @@ class TestFileFolderServiceGetRootFiles {
     @Test
     @DisplayName("When reading root files with no data, the returned page is empty")
     void testGetRootFiles_NoData() {
-        final Page<File> result;
-        final Page<File> existing;
-        final Pagination pagination;
-        final Sorting    sorting;
+        final Page<Asset> result;
+        final Page<Asset> existing;
+        final Pagination  pagination;
+        final Sorting     sorting;
 
         // GIVEN
         pagination = new Pagination(0, 10);

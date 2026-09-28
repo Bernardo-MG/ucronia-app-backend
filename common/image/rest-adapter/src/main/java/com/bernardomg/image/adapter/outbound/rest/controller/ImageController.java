@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.bernardomg.asset.domain.model.Asset;
 import com.bernardomg.content.adapter.rest.ContentDtoMapper;
 import com.bernardomg.content.domain.model.Content;
 import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
@@ -21,7 +22,6 @@ import com.bernardomg.image.adapter.outbound.rest.dto.ImagePageResponseDto;
 import com.bernardomg.image.adapter.outbound.rest.dto.ImageResponseDto;
 import com.bernardomg.image.adapter.outbound.rest.model.ImageDtoMapper;
 import com.bernardomg.image.adapter.outbound.rest.security.ImageReadAuthorizer;
-import com.bernardomg.image.domain.model.Image;
 import com.bernardomg.image.usecase.service.ImageService;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -49,10 +49,10 @@ public class ImageController implements ImageApi {
             final Boolean publicAccess, final MultipartFile file) {
         final Content          content;
         final ImageResponseDto response;
-        final Image            image;
+        final Asset            image;
 
         content = ContentDtoMapper.toContent(file);
-        image = new Image(-1L, name, description, "", content.mediaType(), content.size(),
+        image = new Asset(-1L, name, description, "", content.mediaType(), content.size(),
             !Boolean.FALSE.equals(publicAccess), Optional.empty());
         response = ImageDtoMapper.toResponseDto(service.create(image, content));
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -71,7 +71,7 @@ public class ImageController implements ImageApi {
             final List<String> sort) {
         final Pagination  pagination;
         final Sorting     sorting;
-        final Page<Image> images;
+        final Page<Asset> images;
 
         pagination = new Pagination(page, size);
         sorting = WebSorting.toSorting(sort);
@@ -86,7 +86,7 @@ public class ImageController implements ImageApi {
     @Override
     @Unsecured
     public ResponseEntity<ImageResponseDto> getImage(final Long number) {
-        final Image image;
+        final Asset image;
 
         image = service.getOne(number);
         authorizer.checkCanRead(image);
@@ -96,7 +96,7 @@ public class ImageController implements ImageApi {
     @Override
     @Unsecured
     public ResponseEntity<Resource> getImageContent(final Long number) {
-        final Image                    image;
+        final Asset                    image;
         final ResponseEntity<Resource> inlineResponse;
         final ResponseEntity<Resource> response;
 
@@ -124,7 +124,7 @@ public class ImageController implements ImageApi {
         final ImageResponseDto response;
 
         content = ContentDtoMapper.toContent(file);
-        response = ImageDtoMapper.toResponseDto(service.update(new Image(number, name, description, "",
+        response = ImageDtoMapper.toResponseDto(service.update(new Asset(number, name, description, "",
             content.mediaType(), content.size(), publicAccess, Optional.empty()), content));
         return ResponseEntity.ok(response);
     }
@@ -133,8 +133,8 @@ public class ImageController implements ImageApi {
     @RequireResourceAuthorization(resource = "IMAGE", action = Actions.UPDATE)
     public ResponseEntity<ImageResponseDto> updateImageMetadata(final Long number,
             final ImageMetadataUpdateDto imageMetadataUpdateDto) {
-        final Image updated;
-        final Image image;
+        final Asset updated;
+        final Asset image;
 
         image = ImageDtoMapper.toDomain(number, imageMetadataUpdateDto);
         updated = service.updateMetadata(image);

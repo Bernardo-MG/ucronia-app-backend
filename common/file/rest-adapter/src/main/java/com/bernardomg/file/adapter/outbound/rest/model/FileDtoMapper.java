@@ -2,6 +2,7 @@
 
 package com.bernardomg.file.adapter.outbound.rest.model;
 
+import com.bernardomg.asset.domain.model.Asset;
 import com.bernardomg.file.adapter.outbound.rest.dto.AuditDetailsDto;
 import com.bernardomg.file.adapter.outbound.rest.dto.AuditUserDto;
 import com.bernardomg.file.adapter.outbound.rest.dto.FileDto;
@@ -11,7 +12,6 @@ import com.bernardomg.file.adapter.outbound.rest.dto.FileResponseDto;
 import com.bernardomg.file.adapter.outbound.rest.dto.PropertyDto;
 import com.bernardomg.file.adapter.outbound.rest.dto.PropertyDto.DirectionEnum;
 import com.bernardomg.file.adapter.outbound.rest.dto.SortingDto;
-import com.bernardomg.file.domain.model.File;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
 import com.bernardomg.pagination.domain.Sorting.Property;
@@ -20,12 +20,12 @@ import com.bernardomg.security.domain.audit.model.AuditDetails.AuditUser;
 
 public final class FileDtoMapper {
 
-    public static final File toDomain(final long number, final FileMetadataUpdateDto change) {
-        return new File(number, change.getName(), change.getDescription(), "", "", 0, change.getPublicAccess(),
+    public static final Asset toDomain(final long number, final FileMetadataUpdateDto change) {
+        return new Asset(number, change.getName(), change.getDescription(), "", "", 0, change.getPublicAccess(),
             java.util.Optional.empty());
     }
 
-    public static FileResponseDto toResponseDto(final File file) {
+    public static FileResponseDto toResponseDto(final Asset file) {
         return new FileResponseDto().content(new FileDto().number(file.number())
             .name(file.name())
             .description(file.description())
@@ -37,7 +37,7 @@ public final class FileDtoMapper {
             .audit(toDto(file.audit())));
     }
 
-    public static FilePageResponseDto toResponseDto(final Page<File> page) {
+    public static FilePageResponseDto toResponseDto(final Page<Asset> page) {
         final SortingDto sorting = new SortingDto().properties(page.sort()
             .properties()
             .stream()
@@ -55,6 +55,18 @@ public final class FileDtoMapper {
             .first(page.first())
             .last(page.last())
             .sort(sorting);
+    }
+
+    private static FileDto toDto(final Asset file) {
+        return new FileDto().number(file.number())
+            .name(file.name())
+            .description(file.description())
+            .folderNumber(file.folderNumber()
+                .orElse(null))
+            .mediaType(file.mediaType())
+            .size(file.size())
+            .publicAccess(file.publicAccess())
+            .audit(toDto(file.audit()));
     }
 
     private static AuditDetailsDto toDto(final AuditDetails audit) {
@@ -83,18 +95,6 @@ public final class FileDtoMapper {
                 .name(user.name());
         }
         return dto;
-    }
-
-    private static FileDto toDto(final File file) {
-        return new FileDto().number(file.number())
-            .name(file.name())
-            .description(file.description())
-            .folderNumber(file.folderNumber()
-                .orElse(null))
-            .mediaType(file.mediaType())
-            .size(file.size())
-            .publicAccess(file.publicAccess())
-            .audit(toDto(file.audit()));
     }
 
     private static PropertyDto toDto(final Property property) {

@@ -17,20 +17,20 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.asset.domain.model.Asset;
+import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.content.domain.key.ContentKeyGenerator;
 import com.bernardomg.content.domain.model.Content;
 import com.bernardomg.content.domain.policy.ContentPolicy;
 import com.bernardomg.content.domain.repository.ContentRepository;
 import com.bernardomg.image.domain.exception.ImageAlreadyExistsException;
-import com.bernardomg.image.domain.model.Image;
-import com.bernardomg.image.domain.repository.ImageRepository;
 import com.bernardomg.image.test.configuration.factory.Contents;
 import com.bernardomg.image.test.configuration.factory.ImageConstants;
 import com.bernardomg.image.test.configuration.factory.Images;
 import com.bernardomg.image.usecase.service.DefaultImageService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Image service - update")
+@DisplayName("Asset service - update")
 class TestImageServiceUpdate {
 
     @Mock
@@ -43,7 +43,7 @@ class TestImageServiceUpdate {
     private ContentRepository   contentRepository;
 
     @Mock
-    private ImageRepository     repository;
+    private AssetRepository     repository;
 
     @InjectMocks
     private DefaultImageService service;
@@ -52,12 +52,12 @@ class TestImageServiceUpdate {
     @DisplayName("When updating an image, metadata and content are persisted")
     void testUpdate() {
         final Content content;
-        final Image   updated;
+        final Asset   updated;
 
         // GIVEN
         given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.of(Images.publicAccess()));
         given(contentKeyGenerator.generate("images")).willReturn(ImageConstants.CHANGE_KEY);
-        given(repository.save(any(Image.class))).willReturn(Images.publicAccess());
+        given(repository.save(any(Asset.class))).willReturn(Images.publicAccess());
         content = Contents.image();
 
         // WHEN
@@ -75,12 +75,12 @@ class TestImageServiceUpdate {
     @Test
     @DisplayName("When old content deletion fails, the update still succeeds")
     void testUpdate_ContentDeletionFailureIsIgnored() {
-        final Image updated;
+        final Asset updated;
 
         // GIVEN
         given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.of(Images.publicAccess()));
         given(contentKeyGenerator.generate("images")).willReturn(ImageConstants.CHANGE_KEY);
-        given(repository.save(any(Image.class))).willReturn(Images.publicAccess());
+        given(repository.save(any(Asset.class))).willReturn(Images.publicAccess());
         willThrow(new RuntimeException("S3 deletion failed")).given(contentRepository)
             .delete(ImageConstants.KEY);
 
@@ -120,7 +120,7 @@ class TestImageServiceUpdate {
         given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.of(Images.publicAccess()));
         given(contentKeyGenerator.generate("images")).willReturn(ImageConstants.CHANGE_KEY);
         willThrow(failure).given(repository)
-            .save(any(Image.class));
+            .save(any(Asset.class));
 
         // WHEN
         callable = () -> service.update(Images.publicAccess(), Contents.image());
@@ -139,7 +139,7 @@ class TestImageServiceUpdate {
         // GIVEN
         given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.of(Images.publicAccess()));
         given(contentKeyGenerator.generate("images")).willReturn(ImageConstants.CHANGE_KEY);
-        given(repository.save(any(Image.class))).willReturn(Images.publicAccess());
+        given(repository.save(any(Asset.class))).willReturn(Images.publicAccess());
 
         // WHEN
         service.update(Images.publicAccess(), Contents.image());

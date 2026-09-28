@@ -9,26 +9,26 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.bernardomg.asset.domain.model.AssetFolder;
+import com.bernardomg.asset.domain.repository.AssetFolderRepository;
 import com.bernardomg.image.TestApplication;
-import com.bernardomg.image.domain.model.ImageFolder;
-import com.bernardomg.image.domain.repository.ImageFolderRepository;
 import com.bernardomg.image.test.configuration.data.annotation.ValidImageFolder;
 import com.bernardomg.image.test.configuration.factory.ImageFolders;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("ImageFolderRepository - find all")
+@DisplayName("AssetFolderRepository - find all")
 class ITImageFolderRepositoryFindAll {
 
     @Autowired
-    private ImageFolderRepository repository;
+    private AssetFolderRepository repository;
 
     @Test
     @DisplayName("When there are image folders, they are returned")
     @ValidImageFolder
     void testFindAll() {
-        final Collection<ImageFolder> folders;
+        final Collection<AssetFolder> folders;
 
         // WHEN
         folders = repository.findAll();
@@ -43,7 +43,7 @@ class ITImageFolderRepositoryFindAll {
     @Test
     @DisplayName("When there are no image folders, nothing is returned")
     void testFindAll_NoData() {
-        final Collection<ImageFolder> folders;
+        final Collection<AssetFolder> folders;
 
         // WHEN
         folders = repository.findAll();

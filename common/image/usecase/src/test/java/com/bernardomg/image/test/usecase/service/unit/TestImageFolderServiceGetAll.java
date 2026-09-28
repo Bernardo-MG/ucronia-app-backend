@@ -14,9 +14,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.image.domain.model.ImageFolder;
-import com.bernardomg.image.domain.repository.ImageFolderRepository;
-import com.bernardomg.image.domain.repository.ImageRepository;
+import com.bernardomg.asset.domain.model.AssetFolder;
+import com.bernardomg.asset.domain.repository.AssetFolderRepository;
+import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.image.test.configuration.factory.ImageFolders;
 import com.bernardomg.image.usecase.service.DefaultImageFolderService;
 
@@ -25,10 +25,10 @@ import com.bernardomg.image.usecase.service.DefaultImageFolderService;
 class TestImageFolderServiceGetAll {
 
     @Mock
-    private ImageFolderRepository     folderRepository;
+    private AssetFolderRepository     folderRepository;
 
     @Mock
-    private ImageRepository           imageRepository;
+    private AssetRepository           imageRepository;
 
     @InjectMocks
     private DefaultImageFolderService service;
@@ -36,7 +36,7 @@ class TestImageFolderServiceGetAll {
     @Test
     @DisplayName("When reading all image folders, all image folders are returned")
     void testGetAll() {
-        final Collection<ImageFolder> folders;
+        final Collection<AssetFolder> folders;
 
         // GIVEN
         given(folderRepository.findAll()).willReturn(List.of(ImageFolders.valid()));
@@ -52,7 +52,7 @@ class TestImageFolderServiceGetAll {
     @Test
     @DisplayName("When there is no data, nothing is returned")
     void testGetAll_Empty() {
-        final Collection<ImageFolder> folders;
+        final Collection<AssetFolder> folders;
 
         // GIVEN
         given(folderRepository.findAll()).willReturn(List.of());

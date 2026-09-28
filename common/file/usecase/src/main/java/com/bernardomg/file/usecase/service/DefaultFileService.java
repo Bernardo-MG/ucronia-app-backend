@@ -29,14 +29,14 @@ import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.bernardomg.asset.domain.model.Asset;
+import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.content.domain.key.ContentKeyGenerator;
 import com.bernardomg.content.domain.model.Content;
 import com.bernardomg.content.domain.policy.ContentPolicy;
 import com.bernardomg.content.domain.repository.ContentRepository;
 import com.bernardomg.file.domain.exception.FileAlreadyExistsException;
 import com.bernardomg.file.domain.exception.FileNotExistingException;
-import com.bernardomg.file.domain.model.File;
-import com.bernardomg.file.domain.repository.FileRepository;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
@@ -62,11 +62,11 @@ public final class DefaultFileService implements FileService {
 
     private final ContentPolicy       fileContentPolicy;
 
-    private final FileRepository      fileRepository;
+    private final AssetRepository     fileRepository;
 
     private final String              namespace = "files";
 
-    public DefaultFileService(final FileRepository fileRepo, final ContentRepository contentRepo,
+    public DefaultFileService(final AssetRepository fileRepo, final ContentRepository contentRepo,
             final ContentPolicy contentPolicy, final ContentKeyGenerator keyGenerator) {
         super();
 
@@ -77,21 +77,21 @@ public final class DefaultFileService implements FileService {
     }
 
     @Override
-    public final File create(final File file, final Content content) {
-        final File toCreate;
-        final File created;
+    public final Asset create(final Asset file, final Content content) {
+        final Asset toCreate;
+        final Asset created;
 
         log.debug("Creating file {}", file);
 
         if (fileRepository.existsByNameAndFolder(file.name(), file.folderNumber()
             .orElse(null))) {
-            log.error("File {} already exists", file.name());
+            log.error("Asset {} already exists", file.name());
             throw new FileAlreadyExistsException(file.name());
         }
 
         fileContentPolicy.validate(content.size(), content.mediaType());
 
-        toCreate = new File(file.number(), file.name(), file.description(), contentKeyGenerator.generate(namespace),
+        toCreate = new Asset(file.number(), file.name(), file.description(), contentKeyGenerator.generate(namespace),
             content.mediaType(), content.size(), file.publicAccess(), file.folderNumber());
         contentRepository.save(toCreate.key(), content);
         try {
@@ -107,8 +107,8 @@ public final class DefaultFileService implements FileService {
     }
 
     @Override
-    public final File delete(final Long number) {
-        final File deleted;
+    public final Asset delete(final Long number) {
+        final Asset deleted;
 
         log.debug("Deleting file {}", number);
 
@@ -123,8 +123,8 @@ public final class DefaultFileService implements FileService {
     }
 
     @Override
-    public final Page<File> getAll(final Pagination pagination, final Sorting sorting) {
-        final Page<File> page;
+    public final Page<Asset> getAll(final Pagination pagination, final Sorting sorting) {
+        final Page<Asset> page;
 
         log.debug("Reading all files with pagination {} and sorting {}", pagination, sorting);
 
@@ -136,20 +136,20 @@ public final class DefaultFileService implements FileService {
     }
 
     @Override
-    public final Page<File> getAllPublic(final Pagination pagination, final Sorting sorting) {
+    public final Page<Asset> getAllPublic(final Pagination pagination, final Sorting sorting) {
         return fileRepository.findAllPublic(pagination, sorting);
     }
 
     @Override
     public final Content getContent(final Long number) {
-        final File    file;
+        final Asset   file;
         final Content fileContent;
 
         log.debug("Reading file content for {}", number);
 
         file = fileRepository.findOne(number)
             .orElseThrow(() -> {
-                log.error("File {} doesn't exist", number);
+                log.error("Asset {} doesn't exist", number);
                 return new FileNotExistingException(number);
             });
 
@@ -161,14 +161,14 @@ public final class DefaultFileService implements FileService {
     }
 
     @Override
-    public final File getOne(final Long number) {
-        final File file;
+    public final Asset getOne(final Long number) {
+        final Asset file;
 
         log.debug("Reading file {}", number);
 
         file = fileRepository.findOne(number)
             .orElseThrow(() -> {
-                log.error("File {} doesn't exist", number);
+                log.error("Asset {} doesn't exist", number);
                 return new FileNotExistingException(number);
             });
 
@@ -178,22 +178,22 @@ public final class DefaultFileService implements FileService {
     }
 
     @Override
-    public final File update(final File file, final Content content) {
-        final File   existing;
+    public final Asset update(final Asset file, final Content content) {
+        final Asset  existing;
         final String key;
-        final File   toUpdate;
-        final File   updated;
+        final Asset  toUpdate;
+        final Asset  updated;
 
         log.debug("Updating file {}", file);
 
         existing = fileRepository.findOne(file.number())
             .orElseThrow(() -> {
-                log.error("File {} doesn't exist", file.number());
+                log.error("Asset {} doesn't exist", file.number());
                 return new FileNotExistingException(file.number());
             });
         if (fileRepository.existsByNameAndFolder(file.name(), existing.folderNumber()
             .orElse(null), file.number())) {
-            log.error("File {} already exists", file.name());
+            log.error("Asset {} already exists", file.name());
             throw new FileAlreadyExistsException(file.name());
         }
 
@@ -202,7 +202,7 @@ public final class DefaultFileService implements FileService {
         key = contentKeyGenerator.generate(namespace);
         contentRepository.save(key, content);
         try {
-            toUpdate = new File(file.number(), file.name(), file.description(), key, content.mediaType(),
+            toUpdate = new Asset(file.number(), file.name(), file.description(), key, content.mediaType(),
                 content.size(), file.publicAccess(), existing.folderNumber(), existing.audit());
             updated = fileRepository.save(toUpdate);
         } catch (final RuntimeException ex) {
@@ -217,24 +217,24 @@ public final class DefaultFileService implements FileService {
     }
 
     @Override
-    public final File updateMetadata(final File file) {
-        final File existing;
-        final File toUpdate;
-        final File updated;
+    public final Asset updateMetadata(final Asset file) {
+        final Asset existing;
+        final Asset toUpdate;
+        final Asset updated;
 
         log.debug("Updating metadata for file {}", file);
 
         existing = fileRepository.findOne(file.number())
             .orElseThrow(() -> {
-                log.error("File {} doesn't exist", file.number());
+                log.error("Asset {} doesn't exist", file.number());
                 return new FileNotExistingException(file.number());
             });
         if (fileRepository.existsByNameAndFolder(file.name(), existing.folderNumber()
             .orElse(null), file.number())) {
-            log.error("File {} already exists", file.name());
+            log.error("Asset {} already exists", file.name());
             throw new FileAlreadyExistsException(file.name());
         }
-        toUpdate = new File(existing.number(), file.name(), file.description(), existing.key(), existing.mediaType(),
+        toUpdate = new Asset(existing.number(), file.name(), file.description(), existing.key(), existing.mediaType(),
             existing.size(), file.publicAccess(), existing.folderNumber(), existing.audit());
         updated = fileRepository.save(toUpdate);
 

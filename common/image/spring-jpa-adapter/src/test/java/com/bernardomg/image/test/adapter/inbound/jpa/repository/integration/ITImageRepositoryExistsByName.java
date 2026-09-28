@@ -7,19 +7,19 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.image.TestApplication;
-import com.bernardomg.image.domain.repository.ImageRepository;
 import com.bernardomg.image.test.configuration.data.annotation.PublicImage;
 import com.bernardomg.image.test.configuration.factory.ImageConstants;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("ImageRepository - exists by name")
+@DisplayName("AssetRepository - exists by name")
 class ITImageRepositoryExistsByName {
 
     @Autowired
-    private ImageRepository repository;
+    private AssetRepository repository;
 
     @Test
     @DisplayName("With an image with the name, it exists")

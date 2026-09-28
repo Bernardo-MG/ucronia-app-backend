@@ -4,41 +4,41 @@ package com.bernardomg.file.test.configuration.factory;
 
 import java.util.Optional;
 
-import com.bernardomg.file.domain.model.File;
+import com.bernardomg.asset.domain.model.Asset;
 
 public final class Files {
 
-    public static File change() {
-        return new File(FileConstants.NUMBER, FileConstants.NAME, FileConstants.DESCRIPTION, FileConstants.CHANGE_KEY,
+    public static Asset change() {
+        return new Asset(FileConstants.NUMBER, FileConstants.NAME, FileConstants.DESCRIPTION, FileConstants.CHANGE_KEY,
             FileConstants.PDF_MEDIA_TYPE, FileConstants.DATA.length);
     }
 
-    public static File nameChange() {
-        return new File(FileConstants.NUMBER, FileConstants.ALTERNATIVE_NAME, FileConstants.DESCRIPTION,
+    public static Asset nameChange() {
+        return new Asset(FileConstants.NUMBER, FileConstants.ALTERNATIVE_NAME, FileConstants.DESCRIPTION,
             FileConstants.KEY, FileConstants.PDF_MEDIA_TYPE, FileConstants.DATA.length);
     }
 
-    public static File patch() {
-        return new File(FileConstants.NUMBER, FileConstants.NAME, FileConstants.DESCRIPTION, "", "", 0);
+    public static Asset patch() {
+        return new Asset(FileConstants.NUMBER, FileConstants.NAME, FileConstants.DESCRIPTION, "", "", 0);
     }
 
-    public static File privateAccess() {
-        return new File(FileConstants.NUMBER, FileConstants.NAME, FileConstants.DESCRIPTION, FileConstants.KEY,
+    public static Asset privateAccess() {
+        return new Asset(FileConstants.NUMBER, FileConstants.NAME, FileConstants.DESCRIPTION, FileConstants.KEY,
             FileConstants.PDF_MEDIA_TYPE, FileConstants.DATA.length, false, Optional.empty());
     }
 
-    public static File privateAccessInFolder() {
-        return new File(FileConstants.NUMBER, FileConstants.NAME, FileConstants.DESCRIPTION, FileConstants.KEY,
+    public static Asset privateAccessInFolder() {
+        return new Asset(FileConstants.NUMBER, FileConstants.NAME, FileConstants.DESCRIPTION, FileConstants.KEY,
             FileConstants.PDF_MEDIA_TYPE, FileConstants.DATA.length, false, Optional.of(FileFolderConstants.NUMBER));
     }
 
-    public static File publicAccess() {
-        return new File(FileConstants.NUMBER, FileConstants.NAME, FileConstants.DESCRIPTION, FileConstants.KEY,
+    public static Asset publicAccess() {
+        return new Asset(FileConstants.NUMBER, FileConstants.NAME, FileConstants.DESCRIPTION, FileConstants.KEY,
             FileConstants.PDF_MEDIA_TYPE, FileConstants.DATA.length, true, Optional.empty());
     }
 
-    public static File publicAccessInFolder() {
-        return new File(FileConstants.NUMBER, FileConstants.NAME, FileConstants.DESCRIPTION, FileConstants.KEY,
+    public static Asset publicAccessInFolder() {
+        return new Asset(FileConstants.NUMBER, FileConstants.NAME, FileConstants.DESCRIPTION, FileConstants.KEY,
             FileConstants.PDF_MEDIA_TYPE, FileConstants.DATA.length, true, Optional.of(FileFolderConstants.NUMBER));
     }
 

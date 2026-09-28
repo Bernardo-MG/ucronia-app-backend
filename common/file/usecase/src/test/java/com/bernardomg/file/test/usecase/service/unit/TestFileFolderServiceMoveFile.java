@@ -14,12 +14,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.asset.domain.model.Asset;
+import com.bernardomg.asset.domain.repository.AssetFolderRepository;
+import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.file.domain.exception.FileAlreadyExistsException;
 import com.bernardomg.file.domain.exception.FileFolderNotExistingException;
 import com.bernardomg.file.domain.exception.FileNotExistingException;
-import com.bernardomg.file.domain.model.File;
-import com.bernardomg.file.domain.repository.FileFolderRepository;
-import com.bernardomg.file.domain.repository.FileRepository;
 import com.bernardomg.file.test.configuration.factory.FileFolderConstants;
 import com.bernardomg.file.test.configuration.factory.Files;
 import com.bernardomg.file.usecase.service.DefaultFileFolderService;
@@ -29,10 +29,10 @@ import com.bernardomg.file.usecase.service.DefaultFileFolderService;
 class TestFileFolderServiceMoveFile {
 
     @Mock
-    private FileRepository           fileRepository;
+    private AssetRepository          fileRepository;
 
     @Mock
-    private FileFolderRepository     folderRepository;
+    private AssetFolderRepository    folderRepository;
 
     @InjectMocks
     private DefaultFileFolderService service;
@@ -40,7 +40,7 @@ class TestFileFolderServiceMoveFile {
     @Test
     @DisplayName("With an existing file and folder, the file is moved")
     void testMoveFile() {
-        final File moved;
+        final Asset moved;
 
         // GIVEN
         given(folderRepository.exists(FileFolderConstants.NUMBER)).willReturn(true);

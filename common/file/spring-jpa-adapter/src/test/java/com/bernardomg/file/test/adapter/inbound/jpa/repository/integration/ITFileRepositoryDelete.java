@@ -8,19 +8,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.asset.adapter.inbound.jpa.repository.AssetSpringRepository;
+import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.file.TestApplication;
-import com.bernardomg.file.domain.repository.FileRepository;
 import com.bernardomg.file.test.configuration.data.annotation.PublicFile;
 import com.bernardomg.file.test.configuration.factory.FileConstants;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("FileRepository - delete")
+@DisplayName("AssetRepository - delete")
 class ITFileRepositoryDelete {
 
     @Autowired
-    private FileRepository        repository;
+    private AssetRepository       repository;
 
     @Autowired
     private AssetSpringRepository springRepository;

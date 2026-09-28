@@ -7,7 +7,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import com.bernardomg.image.domain.model.Image;
+import com.bernardomg.asset.domain.model.Asset;
 import com.bernardomg.security.domain.permission.constant.Actions;
 import com.bernardomg.security.springframework.access.interceptor.ResourcePermissionEvaluator;
 
@@ -34,7 +34,7 @@ public final class SpringSecurityImageReadAuthorizer implements ImageReadAuthori
     }
 
     @Override
-    public void checkCanRead(final Image image) {
+    public void checkCanRead(final Asset image) {
         if (!image.publicAccess() && !canReadPrivateImages()) {
             throw new AccessDeniedException("No permissions for reading private images");
         }

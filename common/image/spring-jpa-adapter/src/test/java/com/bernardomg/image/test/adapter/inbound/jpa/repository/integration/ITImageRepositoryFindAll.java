@@ -8,9 +8,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.bernardomg.asset.domain.model.Asset;
+import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.image.TestApplication;
-import com.bernardomg.image.domain.model.Image;
-import com.bernardomg.image.domain.repository.ImageRepository;
 import com.bernardomg.image.test.configuration.data.annotation.PublicImage;
 import com.bernardomg.image.test.configuration.factory.Images;
 import com.bernardomg.pagination.domain.Page;
@@ -20,17 +20,17 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("ImageRepository - find all")
+@DisplayName("AssetRepository - find all")
 class ITImageRepositoryFindAll {
 
     @Autowired
-    private ImageRepository repository;
+    private AssetRepository repository;
 
     @Test
     @DisplayName("When there are images, they are returned")
     @PublicImage
     void testFindAll() {
-        final Page<Image> images;
+        final Page<Asset> images;
         final Pagination  pagination;
         final Sorting     sorting;
 
@@ -52,7 +52,7 @@ class ITImageRepositoryFindAll {
     @Test
     @DisplayName("When there are no images, nothing is returned")
     void testFindAll_NoData() {
-        final Page<Image> images;
+        final Page<Asset> images;
         final Pagination  pagination;
         final Sorting     sorting;
 

@@ -7,8 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.bernardomg.asset.domain.repository.AssetFolderRepository;
 import com.bernardomg.file.TestApplication;
-import com.bernardomg.file.domain.repository.FileFolderRepository;
 import com.bernardomg.file.test.configuration.data.annotation.ValidFileFolder;
 import com.bernardomg.file.test.configuration.data.annotation.ValidFileFolderTree;
 import com.bernardomg.file.test.configuration.factory.FileFolderConstants;
@@ -16,11 +16,11 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("FileFolderRepository - exists by name and parent")
+@DisplayName("AssetFolderRepository - exists by name and parent")
 class ITFileFolderRepositoryExistsByNameAndParent {
 
     @Autowired
-    private FileFolderRepository repository;
+    private AssetFolderRepository repository;
 
     @Test
     @DisplayName("With a child folder with the name and parent, it exists")

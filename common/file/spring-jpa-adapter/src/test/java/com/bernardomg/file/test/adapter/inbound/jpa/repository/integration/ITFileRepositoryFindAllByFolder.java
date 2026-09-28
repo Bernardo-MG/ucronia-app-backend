@@ -7,9 +7,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.bernardomg.asset.domain.model.Asset;
+import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.file.TestApplication;
-import com.bernardomg.file.domain.model.File;
-import com.bernardomg.file.domain.repository.FileRepository;
 import com.bernardomg.file.test.configuration.data.annotation.PrivateFileInFolder;
 import com.bernardomg.file.test.configuration.data.annotation.PublicFileInFolder;
 import com.bernardomg.file.test.configuration.data.annotation.ValidFileFolderTree;
@@ -22,18 +22,18 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("File repository - find all by folder")
+@DisplayName("Asset repository - find all by folder")
 class ITFileRepositoryFindAllByFolder {
 
     @Autowired
-    private FileRepository repository;
+    private AssetRepository repository;
 
     @Test
     @ValidFileFolderTree
     @PrivateFileInFolder
     @DisplayName("With a private file in the folder, it is returned")
     void testfindAllByFolder_Private() {
-        final Page<File> result;
+        final Page<Asset> result;
 
         // WHEN
         result = repository.findAllByFolder(FileFolderConstants.NUMBER, new Pagination(1, 10), Sorting.unsorted());
@@ -48,7 +48,7 @@ class ITFileRepositoryFindAllByFolder {
     @PublicFileInFolder
     @DisplayName("With a public file in the folder, it is returned")
     void testfindAllByFolder_Public() {
-        final Page<File> result;
+        final Page<Asset> result;
 
         // WHEN
         result = repository.findAllByFolder(FileFolderConstants.NUMBER, new Pagination(1, 10), Sorting.unsorted());

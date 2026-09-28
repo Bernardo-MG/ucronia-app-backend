@@ -17,20 +17,20 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.asset.domain.model.Asset;
+import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.content.domain.key.ContentKeyGenerator;
 import com.bernardomg.content.domain.model.Content;
 import com.bernardomg.content.domain.policy.ContentPolicy;
 import com.bernardomg.content.domain.repository.ContentRepository;
 import com.bernardomg.file.domain.exception.FileAlreadyExistsException;
-import com.bernardomg.file.domain.model.File;
-import com.bernardomg.file.domain.repository.FileRepository;
 import com.bernardomg.file.test.configuration.factory.Contents;
 import com.bernardomg.file.test.configuration.factory.FileConstants;
 import com.bernardomg.file.test.configuration.factory.Files;
 import com.bernardomg.file.usecase.service.DefaultFileService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("File service - update")
+@DisplayName("Asset service - update")
 class TestFileServiceUpdate {
 
     @Mock
@@ -43,7 +43,7 @@ class TestFileServiceUpdate {
     private ContentRepository   contentRepository;
 
     @Mock
-    private FileRepository      repository;
+    private AssetRepository     repository;
 
     @InjectMocks
     private DefaultFileService  service;
@@ -52,12 +52,12 @@ class TestFileServiceUpdate {
     @DisplayName("When updating an file, metadata and content are persisted")
     void testUpdate() {
         final Content content;
-        final File    updated;
+        final Asset   updated;
 
         // GIVEN
         given(repository.findOne(FileConstants.NUMBER)).willReturn(Optional.of(Files.publicAccess()));
         given(contentKeyGenerator.generate("files")).willReturn(FileConstants.CHANGE_KEY);
-        given(repository.save(any(File.class))).willReturn(Files.publicAccess());
+        given(repository.save(any(Asset.class))).willReturn(Files.publicAccess());
         content = Contents.file();
 
         // WHEN
@@ -75,12 +75,12 @@ class TestFileServiceUpdate {
     @Test
     @DisplayName("When old content deletion fails, the update still succeeds")
     void testUpdate_ContentDeletionFailureIsIgnored() {
-        final File updated;
+        final Asset updated;
 
         // GIVEN
         given(repository.findOne(FileConstants.NUMBER)).willReturn(Optional.of(Files.publicAccess()));
         given(contentKeyGenerator.generate("files")).willReturn(FileConstants.CHANGE_KEY);
-        given(repository.save(any(File.class))).willReturn(Files.publicAccess());
+        given(repository.save(any(Asset.class))).willReturn(Files.publicAccess());
         willThrow(new RuntimeException("S3 deletion failed")).given(contentRepository)
             .delete(FileConstants.KEY);
 
@@ -120,7 +120,7 @@ class TestFileServiceUpdate {
         given(repository.findOne(FileConstants.NUMBER)).willReturn(Optional.of(Files.publicAccess()));
         given(contentKeyGenerator.generate("files")).willReturn(FileConstants.CHANGE_KEY);
         willThrow(failure).given(repository)
-            .save(any(File.class));
+            .save(any(Asset.class));
 
         // WHEN
         callable = () -> service.update(Files.publicAccess(), Contents.file());
@@ -139,7 +139,7 @@ class TestFileServiceUpdate {
         // GIVEN
         given(repository.findOne(FileConstants.NUMBER)).willReturn(Optional.of(Files.publicAccess()));
         given(contentKeyGenerator.generate("files")).willReturn(FileConstants.CHANGE_KEY);
-        given(repository.save(any(File.class))).willReturn(Files.publicAccess());
+        given(repository.save(any(Asset.class))).willReturn(Files.publicAccess());
 
         // WHEN
         service.update(Files.publicAccess(), Contents.file());

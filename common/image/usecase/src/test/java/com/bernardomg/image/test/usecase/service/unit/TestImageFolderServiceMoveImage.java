@@ -14,12 +14,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.asset.domain.model.Asset;
+import com.bernardomg.asset.domain.repository.AssetFolderRepository;
+import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.image.domain.exception.ImageAlreadyExistsException;
 import com.bernardomg.image.domain.exception.ImageFolderNotExistingException;
 import com.bernardomg.image.domain.exception.ImageNotExistingException;
-import com.bernardomg.image.domain.model.Image;
-import com.bernardomg.image.domain.repository.ImageFolderRepository;
-import com.bernardomg.image.domain.repository.ImageRepository;
 import com.bernardomg.image.test.configuration.factory.ImageFolderConstants;
 import com.bernardomg.image.test.configuration.factory.Images;
 import com.bernardomg.image.usecase.service.DefaultImageFolderService;
@@ -29,10 +29,10 @@ import com.bernardomg.image.usecase.service.DefaultImageFolderService;
 class TestImageFolderServiceMoveImage {
 
     @Mock
-    private ImageFolderRepository     folderRepository;
+    private AssetFolderRepository     folderRepository;
 
     @Mock
-    private ImageRepository           imageRepository;
+    private AssetRepository           imageRepository;
 
     @InjectMocks
     private DefaultImageFolderService service;
@@ -40,11 +40,12 @@ class TestImageFolderServiceMoveImage {
     @Test
     @DisplayName("With an existing image and folder, the image is moved")
     void testMoveImage() {
-        final Image moved;
+        final Asset moved;
 
         // GIVEN
         given(folderRepository.exists(ImageFolderConstants.NUMBER)).willReturn(true);
-        given(imageRepository.findOne(ImageFolderConstants.IMAGE_NUMBER)).willReturn(Optional.of(Images.publicAccess()));
+        given(imageRepository.findOne(ImageFolderConstants.IMAGE_NUMBER))
+            .willReturn(Optional.of(Images.publicAccess()));
         given(imageRepository.move(ImageFolderConstants.IMAGE_NUMBER, ImageFolderConstants.NUMBER))
             .willReturn(Images.publicAccess());
 
@@ -96,7 +97,8 @@ class TestImageFolderServiceMoveImage {
 
         // GIVEN
         given(folderRepository.exists(ImageFolderConstants.NUMBER)).willReturn(true);
-        given(imageRepository.findOne(ImageFolderConstants.IMAGE_NUMBER)).willReturn(Optional.of(Images.publicAccess()));
+        given(imageRepository.findOne(ImageFolderConstants.IMAGE_NUMBER))
+            .willReturn(Optional.of(Images.publicAccess()));
         given(imageRepository.existsByNameAndFolder(Images.publicAccess()
             .name(), ImageFolderConstants.NUMBER,
             Images.publicAccess()

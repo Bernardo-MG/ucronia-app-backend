@@ -7,9 +7,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.bernardomg.asset.domain.model.Asset;
+import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.file.TestApplication;
-import com.bernardomg.file.domain.model.File;
-import com.bernardomg.file.domain.repository.FileRepository;
 import com.bernardomg.file.test.configuration.data.annotation.PrivateFile;
 import com.bernardomg.file.test.configuration.data.annotation.PublicFile;
 import com.bernardomg.file.test.configuration.factory.Files;
@@ -20,17 +20,17 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("File repository - find all public")
+@DisplayName("Asset repository - find all public")
 class ITFileRepositoryFindAllPublic {
 
     @Autowired
-    private FileRepository repository;
+    private AssetRepository repository;
 
     @Test
     @PrivateFile
     @DisplayName("With a private file, it is not returned")
     void testFindAllPublic_Private() {
-        final Page<File> result;
+        final Page<Asset> result;
 
         // WHEN
         result = repository.findAllPublic(new Pagination(1, 10), Sorting.unsorted());
@@ -44,7 +44,7 @@ class ITFileRepositoryFindAllPublic {
     @PublicFile
     @DisplayName("With a public file, it is returned")
     void testFindAllPublic_Public() {
-        final Page<File> result;
+        final Page<Asset> result;
 
         // WHEN
         result = repository.findAllPublic(new Pagination(1, 10), Sorting.unsorted());

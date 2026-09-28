@@ -7,9 +7,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.bernardomg.asset.domain.model.Asset;
+import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.image.TestApplication;
-import com.bernardomg.image.domain.model.Image;
-import com.bernardomg.image.domain.repository.ImageRepository;
 import com.bernardomg.image.test.configuration.data.annotation.PrivateImageInFolder;
 import com.bernardomg.image.test.configuration.data.annotation.PublicImageInFolder;
 import com.bernardomg.image.test.configuration.data.annotation.ValidImageFolderTree;
@@ -22,18 +22,18 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("Image repository - find all public by folder")
+@DisplayName("Asset repository - find all public by folder")
 class ITImageRepositoryFindAllPublicByFolder {
 
     @Autowired
-    private ImageRepository repository;
+    private AssetRepository repository;
 
     @Test
     @ValidImageFolderTree
     @PrivateImageInFolder
     @DisplayName("With a private image in the folder, it is not returned")
     void testFindAllPublicByFolder_Private() {
-        final Page<Image> result;
+        final Page<Asset> result;
 
         // WHEN
         result = repository.findAllPublicByFolder(ImageFolderConstants.NUMBER, new Pagination(1, 10),
@@ -49,7 +49,7 @@ class ITImageRepositoryFindAllPublicByFolder {
     @PublicImageInFolder
     @DisplayName("With a public image in the folder, it is returned")
     void testFindAllPublicByFolder_Public() {
-        final Page<Image> result;
+        final Page<Asset> result;
 
         // WHEN
         result = repository.findAllPublicByFolder(ImageFolderConstants.NUMBER, new Pagination(1, 10),

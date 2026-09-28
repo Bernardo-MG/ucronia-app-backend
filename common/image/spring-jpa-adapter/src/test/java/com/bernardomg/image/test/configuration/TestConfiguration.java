@@ -8,12 +8,13 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.authentication.AuthenticationTrustResolver;
 import org.springframework.security.authentication.AuthenticationTrustResolverImpl;
 
+import com.bernardomg.asset.adapter.inbound.jpa.model.AssetType;
 import com.bernardomg.asset.adapter.inbound.jpa.repository.AssetFolderSpringRepository;
 import com.bernardomg.asset.adapter.inbound.jpa.repository.AssetSpringRepository;
-import com.bernardomg.image.adapter.inbound.jpa.repository.JpaImageFolderRepository;
-import com.bernardomg.image.adapter.inbound.jpa.repository.JpaImageRepository;
-import com.bernardomg.image.domain.repository.ImageFolderRepository;
-import com.bernardomg.image.domain.repository.ImageRepository;
+import com.bernardomg.asset.adapter.inbound.jpa.repository.JpaAssetFolderRepository;
+import com.bernardomg.asset.adapter.inbound.jpa.repository.JpaAssetRepository;
+import com.bernardomg.asset.domain.repository.AssetFolderRepository;
+import com.bernardomg.asset.domain.repository.AssetRepository;
 
 @Configuration
 @EnableJpaRepositories(basePackages = { "com.bernardomg.asset.adapter.inbound.jpa",
@@ -28,13 +29,13 @@ public class TestConfiguration {
     }
 
     @Bean("imageFolderRepository")
-    public ImageFolderRepository getImageFolderRepository(final AssetFolderSpringRepository repository) {
-        return new JpaImageFolderRepository(repository);
+    public AssetFolderRepository getImageFolderRepository(final AssetFolderSpringRepository repository) {
+        return new JpaAssetFolderRepository(AssetType.IMAGE, repository);
     }
 
     @Bean("imageRepository")
-    public ImageRepository getImageRepository(final AssetSpringRepository repository,
+    public AssetRepository getImageRepository(final AssetSpringRepository repository,
             final AssetFolderSpringRepository folderRepository) {
-        return new JpaImageRepository(repository, folderRepository);
+        return new JpaAssetRepository(AssetType.IMAGE, repository, folderRepository);
     }
 }

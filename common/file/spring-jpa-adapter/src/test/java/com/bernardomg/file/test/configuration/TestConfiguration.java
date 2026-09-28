@@ -8,12 +8,13 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.authentication.AuthenticationTrustResolver;
 import org.springframework.security.authentication.AuthenticationTrustResolverImpl;
 
+import com.bernardomg.asset.adapter.inbound.jpa.model.AssetType;
 import com.bernardomg.asset.adapter.inbound.jpa.repository.AssetFolderSpringRepository;
 import com.bernardomg.asset.adapter.inbound.jpa.repository.AssetSpringRepository;
-import com.bernardomg.file.adapter.inbound.jpa.repository.JpaFileFolderRepository;
-import com.bernardomg.file.adapter.inbound.jpa.repository.JpaFileRepository;
-import com.bernardomg.file.domain.repository.FileFolderRepository;
-import com.bernardomg.file.domain.repository.FileRepository;
+import com.bernardomg.asset.adapter.inbound.jpa.repository.JpaAssetFolderRepository;
+import com.bernardomg.asset.adapter.inbound.jpa.repository.JpaAssetRepository;
+import com.bernardomg.asset.domain.repository.AssetFolderRepository;
+import com.bernardomg.asset.domain.repository.AssetRepository;
 
 @Configuration
 @EnableJpaRepositories(basePackages = { "com.bernardomg.asset.adapter.inbound.jpa",
@@ -28,13 +29,13 @@ public class TestConfiguration {
     }
 
     @Bean("fileFolderRepository")
-    public FileFolderRepository getFileFolderRepository(final AssetFolderSpringRepository repository) {
-        return new JpaFileFolderRepository(repository);
+    public AssetFolderRepository getFileFolderRepository(final AssetFolderSpringRepository repository) {
+        return new JpaAssetFolderRepository(AssetType.FILE, repository);
     }
 
     @Bean("fileRepository")
-    public FileRepository getFileRepository(final AssetSpringRepository repository,
+    public AssetRepository getFileRepository(final AssetSpringRepository repository,
             final AssetFolderSpringRepository folderRepository) {
-        return new JpaFileRepository(repository, folderRepository);
+        return new JpaAssetRepository(AssetType.FILE, repository, folderRepository);
     }
 }

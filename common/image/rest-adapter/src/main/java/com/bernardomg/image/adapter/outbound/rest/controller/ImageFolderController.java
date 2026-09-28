@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.asset.domain.model.Asset;
+import com.bernardomg.asset.domain.model.AssetFolder;
 import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.framework.security.access.annotation.Unsecured;
 import com.bernardomg.image.adapter.outbound.rest.dto.ImageFolderCreationDto;
@@ -19,8 +21,6 @@ import com.bernardomg.image.adapter.outbound.rest.dto.ImageResponseDto;
 import com.bernardomg.image.adapter.outbound.rest.model.ImageDtoMapper;
 import com.bernardomg.image.adapter.outbound.rest.model.ImageFolderDtoMapper;
 import com.bernardomg.image.adapter.outbound.rest.security.ImageReadAuthorizer;
-import com.bernardomg.image.domain.model.Image;
-import com.bernardomg.image.domain.model.ImageFolder;
 import com.bernardomg.image.usecase.service.ImageFolderService;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -43,11 +43,11 @@ public class ImageFolderController implements ImageFolderApi {
     @Override
     @RequireResourceAuthorization(resource = "IMAGE", action = Actions.CREATE)
     public ResponseEntity<ImageFolderDto> createImageFolder(final ImageFolderCreationDto request) {
-        final ImageFolder    created;
+        final AssetFolder    created;
         final Optional<Long> parentNumber;
 
         parentNumber = Optional.ofNullable(request.getParentNumber());
-        created = service.create(new ImageFolder(-1L, request.getName(), parentNumber));
+        created = service.create(new AssetFolder(-1L, request.getName(), parentNumber));
         return ResponseEntity.status(HttpStatus.CREATED)
             .body(ImageFolderDtoMapper.toDto(created));
     }
@@ -78,7 +78,7 @@ public class ImageFolderController implements ImageFolderApi {
     public ResponseEntity<ImagePageResponseDto> getImagesInFolder(final Long folderNumber, final Integer page,
             final Integer size, final List<String> sort) {
         final Pagination  pagination;
-        final Page<Image> images;
+        final Page<Asset> images;
 
         pagination = new Pagination(page, size);
         if (authorizer.canReadPrivateImages()) {
@@ -95,7 +95,7 @@ public class ImageFolderController implements ImageFolderApi {
     public ResponseEntity<ImagePageResponseDto> getRootImages(final Integer page, final Integer size,
             final List<String> sort) {
         final Pagination  pagination;
-        final Page<Image> images;
+        final Page<Asset> images;
 
         pagination = new Pagination(page, size);
         if (authorizer.canReadPrivateImages()) {
@@ -122,11 +122,11 @@ public class ImageFolderController implements ImageFolderApi {
     @Override
     @RequireResourceAuthorization(resource = "IMAGE", action = Actions.UPDATE)
     public ResponseEntity<ImageFolderDto> updateImageFolder(final Long number, final ImageFolderUpdateDto request) {
-        final ImageFolder    folder;
+        final AssetFolder    folder;
         final Optional<Long> parentNumber;
 
         parentNumber = Optional.ofNullable(request.getParentNumber());
-        folder = new ImageFolder(number, request.getName(), parentNumber);
+        folder = new AssetFolder(number, request.getName(), parentNumber);
         return ResponseEntity.ok(ImageFolderDtoMapper.toDto(service.update(folder)));
     }
 

@@ -32,18 +32,19 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpMethod;
 
+import com.bernardomg.asset.adapter.inbound.jpa.model.AssetType;
+import com.bernardomg.asset.adapter.inbound.jpa.repository.AssetFolderSpringRepository;
+import com.bernardomg.asset.adapter.inbound.jpa.repository.AssetSpringRepository;
+import com.bernardomg.asset.adapter.inbound.jpa.repository.JpaAssetFolderRepository;
+import com.bernardomg.asset.adapter.inbound.jpa.repository.JpaAssetRepository;
+import com.bernardomg.asset.domain.repository.AssetFolderRepository;
+import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.content.domain.key.ContentKeyGenerator;
 import com.bernardomg.content.domain.policy.ContentPolicy;
 import com.bernardomg.content.domain.policy.RestrictedContentPolicy;
 import com.bernardomg.content.domain.repository.ContentRepository;
-import com.bernardomg.image.adapter.inbound.jpa.repository.ImageFolderSpringRepository;
-import com.bernardomg.image.adapter.inbound.jpa.repository.ImageSpringRepository;
-import com.bernardomg.image.adapter.inbound.jpa.repository.JpaImageFolderRepository;
-import com.bernardomg.image.adapter.inbound.jpa.repository.JpaImageRepository;
 import com.bernardomg.image.adapter.outbound.rest.security.ImageReadAuthorizer;
 import com.bernardomg.image.adapter.outbound.rest.security.SpringSecurityImageReadAuthorizer;
-import com.bernardomg.image.domain.repository.ImageFolderRepository;
-import com.bernardomg.image.domain.repository.ImageRepository;
 import com.bernardomg.image.usecase.service.DefaultImageFolderService;
 import com.bernardomg.image.usecase.service.DefaultImageService;
 import com.bernardomg.image.usecase.service.ImageFolderService;
@@ -66,13 +67,14 @@ public class AssociationImageAutoConfiguration {
     }
 
     @Bean("imageFolderRepository")
-    public ImageFolderRepository getImageFolderRepository(final ImageFolderSpringRepository repository) {
-        return new JpaImageFolderRepository(repository);
+    public AssetFolderRepository getImageFolderRepository(final AssetFolderSpringRepository repository) {
+        return new JpaAssetFolderRepository(AssetType.IMAGE, repository);
     }
 
     @Bean("imageFolderService")
-    public ImageFolderService getImageFolderService(final ImageFolderRepository folderRepository,
-            final ImageRepository imageRepository) {
+    public ImageFolderService getImageFolderService(
+            @Qualifier("imageFolderRepository") final AssetFolderRepository folderRepository,
+            @Qualifier("imageRepository") final AssetRepository imageRepository) {
         return new DefaultImageFolderService(folderRepository, imageRepository);
     }
 
@@ -90,13 +92,13 @@ public class AssociationImageAutoConfiguration {
     }
 
     @Bean("imageRepository")
-    public ImageRepository getImageRepository(final ImageSpringRepository repository,
-            final ImageFolderSpringRepository folderRepository) {
-        return new JpaImageRepository(repository, folderRepository);
+    public AssetRepository getImageRepository(final AssetSpringRepository repository,
+            final AssetFolderSpringRepository folderRepository) {
+        return new JpaAssetRepository(AssetType.IMAGE, repository, folderRepository);
     }
 
     @Bean("imageService")
-    public ImageService getImageService(final ImageRepository imageRepository,
+    public ImageService getImageService(@Qualifier("imageRepository") final AssetRepository imageRepository,
             final ContentRepository contentRepository,
             @Qualifier("imageContentPolicy") final ContentPolicy imageContentPolicy,
             final ContentKeyGenerator contentKeyGenerator) {

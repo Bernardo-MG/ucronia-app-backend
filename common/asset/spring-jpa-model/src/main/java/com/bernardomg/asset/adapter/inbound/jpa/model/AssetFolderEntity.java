@@ -8,25 +8,21 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditMetadata;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.DiscriminatorColumn;
-import jakarta.persistence.DiscriminatorType;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity(name = "AssetFolder")
 @Table(schema = "asset", name = "asset_folders")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING, length = 20)
 @EntityListeners(AuditingEntityListener.class)
 public class AssetFolderEntity implements Serializable {
 
@@ -49,6 +45,10 @@ public class AssetFolderEntity implements Serializable {
     @JoinColumn(name = "parent_id")
     private AssetFolderEntity parent;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type", nullable = false, length = 20)
+    private AssetType         type;
+
     public AuditMetadata getAudit() {
         return audit;
     }
@@ -67,6 +67,10 @@ public class AssetFolderEntity implements Serializable {
 
     public AssetFolderEntity getParent() {
         return parent;
+    }
+
+    public AssetType getType() {
+        return type;
     }
 
     public void setAudit(final AuditMetadata value) {
@@ -89,10 +93,14 @@ public class AssetFolderEntity implements Serializable {
         parent = value;
     }
 
+    public void setType(final AssetType value) {
+        type = value;
+    }
+
     @Override
     public String toString() {
         return "AssetFolderEntity [id=" + id + ", number=" + number + ", name=" + name + ", audit=" + audit
-                + ", parent=" + parent + "]";
+                + ", parent=" + parent + ", type=" + type + "]";
     }
 
 }

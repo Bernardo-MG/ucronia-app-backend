@@ -17,20 +17,20 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.asset.domain.model.Asset;
+import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.content.domain.key.ContentKeyGenerator;
 import com.bernardomg.content.domain.model.Content;
 import com.bernardomg.content.domain.policy.ContentPolicy;
 import com.bernardomg.content.domain.repository.ContentRepository;
 import com.bernardomg.file.domain.exception.FileAlreadyExistsException;
-import com.bernardomg.file.domain.model.File;
-import com.bernardomg.file.domain.repository.FileRepository;
 import com.bernardomg.file.test.configuration.factory.Contents;
 import com.bernardomg.file.test.configuration.factory.FileConstants;
 import com.bernardomg.file.test.configuration.factory.Files;
 import com.bernardomg.file.usecase.service.DefaultFileService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("File service - create")
+@DisplayName("Asset service - create")
 class TestFileServiceCreate {
 
     @Mock
@@ -43,7 +43,7 @@ class TestFileServiceCreate {
     private ContentRepository   contentRepository;
 
     @Mock
-    private FileRepository      repository;
+    private AssetRepository     repository;
 
     @InjectMocks
     private DefaultFileService  service;
@@ -67,15 +67,15 @@ class TestFileServiceCreate {
     @Test
     @DisplayName("When creating an file, the name is checked in its folder")
     void testCreate_NameCheckedInFolder() {
-        final Long folderNumber;
-        final File file;
+        final Long  folderNumber;
+        final Asset file;
 
         // GIVEN
         folderNumber = 2L;
-        file = new File(FileConstants.NUMBER, FileConstants.NAME, FileConstants.DESCRIPTION, FileConstants.KEY,
+        file = new Asset(FileConstants.NUMBER, FileConstants.NAME, FileConstants.DESCRIPTION, FileConstants.KEY,
             FileConstants.PDF_MEDIA_TYPE, FileConstants.DATA.length, Optional.of(folderNumber));
         given(contentKeyGenerator.generate("files")).willReturn(FileConstants.KEY);
-        given(repository.save(any(File.class))).willReturn(file);
+        given(repository.save(any(Asset.class))).willReturn(file);
 
         // WHEN
         service.create(file, Contents.file());
@@ -92,7 +92,7 @@ class TestFileServiceCreate {
 
         // GIVEN
         given(contentKeyGenerator.generate("files")).willReturn(FileConstants.KEY);
-        given(repository.save(any(File.class))).willReturn(Files.publicAccess());
+        given(repository.save(any(Asset.class))).willReturn(Files.publicAccess());
         content = Contents.file();
 
         service.create(Files.publicAccess(), content);
@@ -112,7 +112,7 @@ class TestFileServiceCreate {
         failure = new RuntimeException("Persistence failed");
         given(contentKeyGenerator.generate("files")).willReturn(FileConstants.KEY);
         willThrow(failure).given(repository)
-            .save(any(File.class));
+            .save(any(Asset.class));
 
         // WHEN
         callable = () -> service.create(Files.publicAccess(), Contents.file());
@@ -128,11 +128,11 @@ class TestFileServiceCreate {
     @DisplayName("When creating an file, the correct file is returned")
     void testCreate_Returned() {
         final Content content;
-        final File    created;
+        final Asset   created;
 
         // GIVEN
         given(contentKeyGenerator.generate("files")).willReturn(FileConstants.KEY);
-        given(repository.save(any(File.class))).willReturn(Files.publicAccess());
+        given(repository.save(any(Asset.class))).willReturn(Files.publicAccess());
         content = Contents.file();
 
         // WHEN

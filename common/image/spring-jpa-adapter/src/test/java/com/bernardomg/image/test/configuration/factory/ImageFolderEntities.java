@@ -2,6 +2,7 @@
 package com.bernardomg.image.test.configuration.factory;
 
 import com.bernardomg.asset.adapter.inbound.jpa.model.AssetFolderEntity;
+import com.bernardomg.asset.adapter.inbound.jpa.model.AssetType;
 
 public final class ImageFolderEntities {
 
@@ -20,6 +21,7 @@ public final class ImageFolderEntities {
         entity = new AssetFolderEntity();
         entity.setNumber(ImageFolderConstants.NUMBER);
         entity.setName(ImageFolderConstants.NAME);
+        entity.setType(AssetType.IMAGE);
 
         return entity;
     }

@@ -10,9 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.asset.adapter.inbound.jpa.repository.AssetFolderSpringRepository;
+import com.bernardomg.asset.domain.model.AssetFolder;
+import com.bernardomg.asset.domain.repository.AssetFolderRepository;
 import com.bernardomg.file.TestApplication;
-import com.bernardomg.file.domain.model.FileFolder;
-import com.bernardomg.file.domain.repository.FileFolderRepository;
 import com.bernardomg.file.test.configuration.data.annotation.ValidFileFolder;
 import com.bernardomg.file.test.configuration.data.annotation.ValidFileFolderTree;
 import com.bernardomg.file.test.configuration.factory.FileFolderConstants;
@@ -22,11 +22,11 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("FileFolderRepository - save")
+@DisplayName("AssetFolderRepository - save")
 class ITFileFolderRepositorySave {
 
     @Autowired
-    private FileFolderRepository        repository;
+    private AssetFolderRepository       repository;
 
     @Autowired
     private AssetFolderSpringRepository springRepository;
@@ -49,7 +49,7 @@ class ITFileFolderRepositorySave {
     @DisplayName("When assigning a parent, it is updated")
     @ValidFileFolderTree
     void testSave_Existing_ChangeParent_Persisted() {
-        final FileFolder saved;
+        final AssetFolder saved;
 
         // WHEN
         saved = repository.save(FileFolders.withParent());
@@ -64,11 +64,11 @@ class ITFileFolderRepositorySave {
     @DisplayName("When removing a parent, it is updated")
     @ValidFileFolderTree
     void testSave_Existing_RemoveParent_Persisted() {
-        final FileFolder folder;
-        final FileFolder saved;
+        final AssetFolder folder;
+        final AssetFolder saved;
 
         // GIVEN
-        folder = new FileFolder(FileFolderConstants.CHILD_NUMBER, FileFolderConstants.CHILD_NAME, Optional.empty());
+        folder = new AssetFolder(FileFolderConstants.CHILD_NUMBER, FileFolderConstants.CHILD_NAME, Optional.empty());
 
         // WHEN
         saved = repository.save(folder);
@@ -95,7 +95,7 @@ class ITFileFolderRepositorySave {
     @Test
     @DisplayName("When saving a new file folder, it is returned")
     void testSave_New_Returned() {
-        final FileFolder saved;
+        final AssetFolder saved;
 
         // WHEN
         saved = repository.save(FileFolders.toCreate());

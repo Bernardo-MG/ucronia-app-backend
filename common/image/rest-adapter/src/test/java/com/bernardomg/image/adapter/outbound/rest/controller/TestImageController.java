@@ -26,9 +26,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
+import com.bernardomg.asset.domain.model.Asset;
 import com.bernardomg.content.domain.model.Content;
 import com.bernardomg.image.adapter.outbound.rest.security.SpringSecurityImageReadAuthorizer;
-import com.bernardomg.image.domain.model.Image;
 import com.bernardomg.image.test.configuration.factory.Contents;
 import com.bernardomg.image.test.configuration.factory.ImageConstants;
 import com.bernardomg.image.test.configuration.factory.Images;
@@ -71,7 +71,7 @@ class TestImageController {
 
         // GIVEN
         file = new MockMultipartFile("file", ImageConstants.NAME, MediaType.IMAGE_PNG_VALUE, ImageConstants.DATA);
-        given(service.create(any(Image.class), any(Content.class))).willReturn(Images.publicAccess());
+        given(service.create(any(Asset.class), any(Content.class))).willReturn(Images.publicAccess());
 
         // WHEN + THEN
         mockMvc.perform(multipart("/images").file(file)
@@ -84,7 +84,7 @@ class TestImageController {
     @Test
     @DisplayName("Can get all the images")
     void testGetAllImages() throws Exception {
-        final Page<Image> page;
+        final Page<Asset> page;
 
         // GIVEN
         page = new Page<>(List.of(Images.publicAccess()), 10, 1, 1, 1, 1, true, true, Sorting.unsorted());

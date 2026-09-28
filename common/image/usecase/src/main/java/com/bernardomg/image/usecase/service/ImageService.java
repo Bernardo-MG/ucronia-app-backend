@@ -24,8 +24,8 @@
 
 package com.bernardomg.image.usecase.service;
 
+import com.bernardomg.asset.domain.model.Asset;
 import com.bernardomg.content.domain.model.Content;
-import com.bernardomg.image.domain.model.Image;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
@@ -38,20 +38,20 @@ import com.bernardomg.pagination.domain.Sorting;
  */
 public interface ImageService {
 
-    public Image create(final Image image, final Content content);
+    public Asset create(final Asset image, final Content content);
 
-    public Image delete(final Long number);
+    public Asset delete(final Long number);
 
-    public Page<Image> getAll(final Pagination pagination, final Sorting sorting);
+    public Page<Asset> getAll(final Pagination pagination, final Sorting sorting);
 
-    public Page<Image> getAllPublic(final Pagination pagination, final Sorting sorting);
+    public Page<Asset> getAllPublic(final Pagination pagination, final Sorting sorting);
 
     public Content getContent(final Long number);
 
-    public Image getOne(final Long number);
+    public Asset getOne(final Long number);
 
-    public Image update(final Image image, final Content content);
+    public Asset update(final Asset image, final Content content);
 
-    public Image updateMetadata(final Image image);
+    public Asset updateMetadata(final Asset image);
 
 }

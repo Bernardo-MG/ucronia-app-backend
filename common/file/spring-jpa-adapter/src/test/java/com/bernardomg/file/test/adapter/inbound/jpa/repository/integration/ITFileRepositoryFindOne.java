@@ -9,9 +9,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.bernardomg.asset.domain.model.Asset;
+import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.file.TestApplication;
-import com.bernardomg.file.domain.model.File;
-import com.bernardomg.file.domain.repository.FileRepository;
 import com.bernardomg.file.test.configuration.data.annotation.PublicFile;
 import com.bernardomg.file.test.configuration.factory.FileConstants;
 import com.bernardomg.file.test.configuration.factory.Files;
@@ -19,17 +19,17 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("FileRepository - find one")
+@DisplayName("AssetRepository - find one")
 class ITFileRepositoryFindOne {
 
     @Autowired
-    private FileRepository repository;
+    private AssetRepository repository;
 
     @Test
     @DisplayName("With an file, it is returned")
     @PublicFile
     void testFindOne() {
-        final Optional<File> file;
+        final Optional<Asset> file;
 
         // WHEN
         file = repository.findOne(FileConstants.NUMBER);
@@ -43,7 +43,7 @@ class ITFileRepositoryFindOne {
     @Test
     @DisplayName("With no data, nothing is returned")
     void testFindOne_NoData() {
-        final Optional<File> file;
+        final Optional<Asset> file;
 
         // WHEN
         file = repository.findOne(FileConstants.NUMBER);

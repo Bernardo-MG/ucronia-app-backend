@@ -28,9 +28,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
+import com.bernardomg.asset.domain.model.Asset;
 import com.bernardomg.content.domain.model.Content;
 import com.bernardomg.file.adapter.outbound.rest.security.SpringSecurityFileReadAuthorizer;
-import com.bernardomg.file.domain.model.File;
 import com.bernardomg.file.test.configuration.factory.Contents;
 import com.bernardomg.file.test.configuration.factory.FileConstants;
 import com.bernardomg.file.test.configuration.factory.Files;
@@ -73,7 +73,7 @@ class TestFileController {
 
         // GIVEN
         file = new MockMultipartFile("file", FileConstants.NAME, MediaType.APPLICATION_PDF_VALUE, FileConstants.DATA);
-        given(service.create(any(File.class), any(Content.class))).willReturn(Files.publicAccess());
+        given(service.create(any(Asset.class), any(Content.class))).willReturn(Files.publicAccess());
 
         // WHEN + THEN
         mockMvc.perform(multipart("/files").file(file)
@@ -86,7 +86,7 @@ class TestFileController {
     @Test
     @DisplayName("Can get all the files")
     void testGetAllFiles() throws Exception {
-        final Page<File> page;
+        final Page<Asset> page;
 
         // GIVEN
         page = new Page<>(List.of(Files.publicAccess()), 10, 1, 1, 1, 1, true, true, Sorting.unsorted());
@@ -112,7 +112,7 @@ class TestFileController {
             .andExpect(status().isOk())
             .andExpect(header().exists(HttpHeaders.CONTENT_DISPOSITION))
             .andExpect(result -> {
-                final String             header;
+                final String         header;
                 final ContentDisposition disposition;
 
                 header = result.getResponse()

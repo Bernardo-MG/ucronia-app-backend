@@ -17,20 +17,20 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.asset.domain.model.Asset;
+import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.content.domain.key.ContentKeyGenerator;
 import com.bernardomg.content.domain.model.Content;
 import com.bernardomg.content.domain.policy.ContentPolicy;
 import com.bernardomg.content.domain.repository.ContentRepository;
 import com.bernardomg.image.domain.exception.ImageAlreadyExistsException;
-import com.bernardomg.image.domain.model.Image;
-import com.bernardomg.image.domain.repository.ImageRepository;
 import com.bernardomg.image.test.configuration.factory.Contents;
 import com.bernardomg.image.test.configuration.factory.ImageConstants;
 import com.bernardomg.image.test.configuration.factory.Images;
 import com.bernardomg.image.usecase.service.DefaultImageService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Image service - create")
+@DisplayName("Asset service - create")
 class TestImageServiceCreate {
 
     @Mock
@@ -43,7 +43,7 @@ class TestImageServiceCreate {
     private ContentRepository   contentRepository;
 
     @Mock
-    private ImageRepository     repository;
+    private AssetRepository     repository;
 
     @InjectMocks
     private DefaultImageService service;
@@ -68,14 +68,14 @@ class TestImageServiceCreate {
     @DisplayName("When creating an image, the name is checked in its folder")
     void testCreate_NameCheckedInFolder() {
         final Long  folderNumber;
-        final Image image;
+        final Asset image;
 
         // GIVEN
         folderNumber = 2L;
-        image = new Image(ImageConstants.NUMBER, ImageConstants.NAME, ImageConstants.DESCRIPTION, ImageConstants.KEY,
+        image = new Asset(ImageConstants.NUMBER, ImageConstants.NAME, ImageConstants.DESCRIPTION, ImageConstants.KEY,
             ImageConstants.PNG_MEDIA_TYPE, ImageConstants.DATA.length, Optional.of(folderNumber));
         given(contentKeyGenerator.generate("images")).willReturn(ImageConstants.KEY);
-        given(repository.save(any(Image.class))).willReturn(image);
+        given(repository.save(any(Asset.class))).willReturn(image);
 
         // WHEN
         service.create(image, Contents.image());
@@ -92,7 +92,7 @@ class TestImageServiceCreate {
 
         // GIVEN
         given(contentKeyGenerator.generate("images")).willReturn(ImageConstants.KEY);
-        given(repository.save(any(Image.class))).willReturn(Images.publicAccess());
+        given(repository.save(any(Asset.class))).willReturn(Images.publicAccess());
         content = Contents.image();
 
         service.create(Images.publicAccess(), content);
@@ -112,7 +112,7 @@ class TestImageServiceCreate {
         failure = new RuntimeException("Persistence failed");
         given(contentKeyGenerator.generate("images")).willReturn(ImageConstants.KEY);
         willThrow(failure).given(repository)
-            .save(any(Image.class));
+            .save(any(Asset.class));
 
         // WHEN
         callable = () -> service.create(Images.publicAccess(), Contents.image());
@@ -128,11 +128,11 @@ class TestImageServiceCreate {
     @DisplayName("When creating an image, the correct image is returned")
     void testCreate_Returned() {
         final Content content;
-        final Image   created;
+        final Asset   created;
 
         // GIVEN
         given(contentKeyGenerator.generate("images")).willReturn(ImageConstants.KEY);
-        given(repository.save(any(Image.class))).willReturn(Images.publicAccess());
+        given(repository.save(any(Asset.class))).willReturn(Images.publicAccess());
         content = Contents.image();
 
         // WHEN

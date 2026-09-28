@@ -7,8 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.bernardomg.asset.domain.repository.AssetFolderRepository;
 import com.bernardomg.image.TestApplication;
-import com.bernardomg.image.domain.repository.ImageFolderRepository;
 import com.bernardomg.image.test.configuration.data.annotation.ValidImageFolder;
 import com.bernardomg.image.test.configuration.data.annotation.ValidImageFolderTree;
 import com.bernardomg.image.test.configuration.factory.ImageFolderConstants;
@@ -16,11 +16,11 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("ImageFolderRepository - has children")
+@DisplayName("AssetFolderRepository - has children")
 class ITImageFolderRepositoryHasChildren {
 
     @Autowired
-    private ImageFolderRepository repository;
+    private AssetFolderRepository repository;
 
     @Test
     @DisplayName("With child folders, it has children")

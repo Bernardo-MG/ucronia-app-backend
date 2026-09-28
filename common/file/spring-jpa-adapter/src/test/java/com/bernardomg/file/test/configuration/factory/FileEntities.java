@@ -2,6 +2,7 @@
 package com.bernardomg.file.test.configuration.factory;
 
 import com.bernardomg.asset.adapter.inbound.jpa.model.AssetEntity;
+import com.bernardomg.asset.adapter.inbound.jpa.model.AssetType;
 
 public final class FileEntities {
 
@@ -17,6 +18,7 @@ public final class FileEntities {
         entity.setSize((long) FileConstants.DATA.length);
         entity.setName(FileConstants.ALTERNATIVE_NAME);
         entity.setPublicAccess(true);
+        entity.setType(AssetType.FILE);
 
         return entity;
     }
@@ -32,6 +34,7 @@ public final class FileEntities {
         entity.setMediaType(FileConstants.PDF_MEDIA_TYPE);
         entity.setSize((long) FileConstants.DATA.length);
         entity.setPublicAccess(true);
+        entity.setType(AssetType.FILE);
 
         return entity;
     }

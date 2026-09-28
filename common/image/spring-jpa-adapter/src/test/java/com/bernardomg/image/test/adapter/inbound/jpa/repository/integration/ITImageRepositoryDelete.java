@@ -8,19 +8,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.asset.adapter.inbound.jpa.repository.AssetSpringRepository;
+import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.image.TestApplication;
-import com.bernardomg.image.domain.repository.ImageRepository;
 import com.bernardomg.image.test.configuration.data.annotation.PublicImage;
 import com.bernardomg.image.test.configuration.factory.ImageConstants;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("ImageRepository - delete")
+@DisplayName("AssetRepository - delete")
 class ITImageRepositoryDelete {
 
     @Autowired
-    private ImageRepository       repository;
+    private AssetRepository       repository;
 
     @Autowired
     private AssetSpringRepository springRepository;

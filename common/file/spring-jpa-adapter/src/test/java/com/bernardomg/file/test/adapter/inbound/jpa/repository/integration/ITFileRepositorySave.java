@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.asset.adapter.inbound.jpa.repository.AssetSpringRepository;
+import com.bernardomg.asset.domain.model.Asset;
+import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.file.TestApplication;
-import com.bernardomg.file.domain.model.File;
-import com.bernardomg.file.domain.repository.FileRepository;
 import com.bernardomg.file.test.configuration.data.annotation.PublicFile;
 import com.bernardomg.file.test.configuration.factory.FileEntities;
 import com.bernardomg.file.test.configuration.factory.Files;
@@ -18,11 +18,11 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("FileRepository - save")
+@DisplayName("AssetRepository - save")
 class ITFileRepositorySave {
 
     @Autowired
-    private FileRepository        repository;
+    private AssetRepository       repository;
 
     @Autowired
     private AssetSpringRepository springRepository;
@@ -31,7 +31,7 @@ class ITFileRepositorySave {
     @DisplayName("When the file name is changed, it is updated")
     @PublicFile
     void testSave_Existing_ChangeName_Persisted() {
-        final File file;
+        final Asset file;
 
         // GIVEN
         file = Files.nameChange();
@@ -50,8 +50,8 @@ class ITFileRepositorySave {
     @DisplayName("When the file name is changed, it is returned")
     @PublicFile
     void testSave_Existing_ChangeName_Returned() {
-        final File file;
-        final File saved;
+        final Asset file;
+        final Asset saved;
 
         // GIVEN
         file = Files.nameChange();
@@ -83,7 +83,7 @@ class ITFileRepositorySave {
     @Test
     @DisplayName("When saving, the persisted file is returned")
     void testSave_Returned() {
-        final File saved;
+        final Asset saved;
 
         // WHEN
         saved = repository.save(Files.publicAccess());

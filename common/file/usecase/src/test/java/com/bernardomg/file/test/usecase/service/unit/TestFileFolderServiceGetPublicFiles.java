@@ -14,10 +14,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.asset.domain.model.Asset;
+import com.bernardomg.asset.domain.repository.AssetFolderRepository;
+import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.file.domain.exception.FileFolderNotExistingException;
-import com.bernardomg.file.domain.model.File;
-import com.bernardomg.file.domain.repository.FileFolderRepository;
-import com.bernardomg.file.domain.repository.FileRepository;
 import com.bernardomg.file.test.configuration.factory.FileFolderConstants;
 import com.bernardomg.file.usecase.service.DefaultFileFolderService;
 import com.bernardomg.pagination.domain.Page;
@@ -25,14 +25,14 @@ import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("File folder service - get public files")
+@DisplayName("Asset folder service - get public files")
 class TestFileFolderServiceGetPublicFiles {
 
     @Mock
-    private FileRepository           fileRepository;
+    private AssetRepository          fileRepository;
 
     @Mock
-    private FileFolderRepository     folderRepository;
+    private AssetFolderRepository    folderRepository;
 
     @InjectMocks
     private DefaultFileFolderService service;
@@ -40,10 +40,10 @@ class TestFileFolderServiceGetPublicFiles {
     @Test
     @DisplayName("With an existing folder, the requested public file page is returned")
     void testGetPublicFiles() {
-        final Page<File> existing;
-        final Page<File> result;
-        final Pagination pagination;
-        final Sorting    sorting;
+        final Page<Asset> existing;
+        final Page<Asset> result;
+        final Pagination  pagination;
+        final Sorting     sorting;
 
         // GIVEN
         pagination = new Pagination(0, 10);

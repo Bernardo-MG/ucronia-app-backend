@@ -4,41 +4,41 @@ package com.bernardomg.image.test.configuration.factory;
 
 import java.util.Optional;
 
-import com.bernardomg.image.domain.model.Image;
+import com.bernardomg.asset.domain.model.Asset;
 
 public final class Images {
 
-    public static Image change() {
-        return new Image(ImageConstants.NUMBER, ImageConstants.NAME, ImageConstants.DESCRIPTION,
+    public static Asset change() {
+        return new Asset(ImageConstants.NUMBER, ImageConstants.NAME, ImageConstants.DESCRIPTION,
             ImageConstants.CHANGE_KEY, ImageConstants.PNG_MEDIA_TYPE, ImageConstants.DATA.length);
     }
 
-    public static Image nameChange() {
-        return new Image(ImageConstants.NUMBER, ImageConstants.ALTERNATIVE_NAME, ImageConstants.DESCRIPTION,
+    public static Asset nameChange() {
+        return new Asset(ImageConstants.NUMBER, ImageConstants.ALTERNATIVE_NAME, ImageConstants.DESCRIPTION,
             ImageConstants.KEY, ImageConstants.PNG_MEDIA_TYPE, ImageConstants.DATA.length);
     }
 
-    public static Image patch() {
-        return new Image(ImageConstants.NUMBER, ImageConstants.NAME, ImageConstants.DESCRIPTION, "", "", 0);
+    public static Asset patch() {
+        return new Asset(ImageConstants.NUMBER, ImageConstants.NAME, ImageConstants.DESCRIPTION, "", "", 0);
     }
 
-    public static Image privateAccess() {
-        return new Image(ImageConstants.NUMBER, ImageConstants.NAME, ImageConstants.DESCRIPTION, ImageConstants.KEY,
+    public static Asset privateAccess() {
+        return new Asset(ImageConstants.NUMBER, ImageConstants.NAME, ImageConstants.DESCRIPTION, ImageConstants.KEY,
             ImageConstants.PNG_MEDIA_TYPE, ImageConstants.DATA.length, false, Optional.empty());
     }
 
-    public static Image publicAccess() {
-        return new Image(ImageConstants.NUMBER, ImageConstants.NAME, ImageConstants.DESCRIPTION, ImageConstants.KEY,
-            ImageConstants.PNG_MEDIA_TYPE, ImageConstants.DATA.length, true, Optional.empty());
-    }
-
-    public static Image privateAccessInFolder() {
-        return new Image(ImageConstants.NUMBER, ImageConstants.NAME, ImageConstants.DESCRIPTION, ImageConstants.KEY,
+    public static Asset privateAccessInFolder() {
+        return new Asset(ImageConstants.NUMBER, ImageConstants.NAME, ImageConstants.DESCRIPTION, ImageConstants.KEY,
             ImageConstants.PNG_MEDIA_TYPE, ImageConstants.DATA.length, false, Optional.of(ImageFolderConstants.NUMBER));
     }
 
-    public static Image publicAccessInFolder() {
-        return new Image(ImageConstants.NUMBER, ImageConstants.NAME, ImageConstants.DESCRIPTION, ImageConstants.KEY,
+    public static Asset publicAccess() {
+        return new Asset(ImageConstants.NUMBER, ImageConstants.NAME, ImageConstants.DESCRIPTION, ImageConstants.KEY,
+            ImageConstants.PNG_MEDIA_TYPE, ImageConstants.DATA.length, true, Optional.empty());
+    }
+
+    public static Asset publicAccessInFolder() {
+        return new Asset(ImageConstants.NUMBER, ImageConstants.NAME, ImageConstants.DESCRIPTION, ImageConstants.KEY,
             ImageConstants.PNG_MEDIA_TYPE, ImageConstants.DATA.length, true, Optional.of(ImageFolderConstants.NUMBER));
     }
 

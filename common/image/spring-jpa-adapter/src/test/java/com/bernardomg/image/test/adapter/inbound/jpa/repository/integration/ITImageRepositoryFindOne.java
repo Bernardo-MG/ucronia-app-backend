@@ -9,9 +9,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.bernardomg.asset.domain.model.Asset;
+import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.image.TestApplication;
-import com.bernardomg.image.domain.model.Image;
-import com.bernardomg.image.domain.repository.ImageRepository;
 import com.bernardomg.image.test.configuration.data.annotation.PublicImage;
 import com.bernardomg.image.test.configuration.factory.ImageConstants;
 import com.bernardomg.image.test.configuration.factory.Images;
@@ -19,17 +19,17 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("ImageRepository - find one")
+@DisplayName("AssetRepository - find one")
 class ITImageRepositoryFindOne {
 
     @Autowired
-    private ImageRepository repository;
+    private AssetRepository repository;
 
     @Test
     @DisplayName("With an image, it is returned")
     @PublicImage
     void testFindOne() {
-        final Optional<Image> image;
+        final Optional<Asset> image;
 
         // WHEN
         image = repository.findOne(ImageConstants.NUMBER);
@@ -43,7 +43,7 @@ class ITImageRepositoryFindOne {
     @Test
     @DisplayName("With no data, nothing is returned")
     void testFindOne_NoData() {
-        final Optional<Image> image;
+        final Optional<Asset> image;
 
         // WHEN
         image = repository.findOne(ImageConstants.NUMBER);

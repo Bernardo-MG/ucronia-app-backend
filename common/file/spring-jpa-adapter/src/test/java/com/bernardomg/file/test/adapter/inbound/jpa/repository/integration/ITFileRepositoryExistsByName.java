@@ -7,19 +7,19 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.file.TestApplication;
-import com.bernardomg.file.domain.repository.FileRepository;
 import com.bernardomg.file.test.configuration.data.annotation.PublicFile;
 import com.bernardomg.file.test.configuration.factory.FileConstants;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("FileRepository - exists by name")
+@DisplayName("AssetRepository - exists by name")
 class ITFileRepositoryExistsByName {
 
     @Autowired
-    private FileRepository repository;
+    private AssetRepository repository;
 
     @Test
     @DisplayName("With an file with the name, it exists")

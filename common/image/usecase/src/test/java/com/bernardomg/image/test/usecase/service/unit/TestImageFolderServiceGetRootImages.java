@@ -13,9 +13,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.image.domain.model.Image;
-import com.bernardomg.image.domain.repository.ImageFolderRepository;
-import com.bernardomg.image.domain.repository.ImageRepository;
+import com.bernardomg.asset.domain.model.Asset;
+import com.bernardomg.asset.domain.repository.AssetFolderRepository;
+import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.image.usecase.service.DefaultImageFolderService;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -26,10 +26,10 @@ import com.bernardomg.pagination.domain.Sorting;
 class TestImageFolderServiceGetRootImages {
 
     @Mock
-    private ImageFolderRepository     folderRepository;
+    private AssetFolderRepository     folderRepository;
 
     @Mock
-    private ImageRepository           imageRepository;
+    private AssetRepository           imageRepository;
 
     @InjectMocks
     private DefaultImageFolderService service;
@@ -37,8 +37,8 @@ class TestImageFolderServiceGetRootImages {
     @Test
     @DisplayName("When reading root images, the requested page is returned")
     void testGetRootImages() {
-        final Page<Image> result;
-        final Page<Image> existing;
+        final Page<Asset> result;
+        final Page<Asset> existing;
         final Pagination  pagination;
         final Sorting     sorting;
 
@@ -60,8 +60,8 @@ class TestImageFolderServiceGetRootImages {
     @Test
     @DisplayName("When reading root images with no data, the returned page is empty")
     void testGetRootImages_NoData() {
-        final Page<Image> result;
-        final Page<Image> existing;
+        final Page<Asset> result;
+        final Page<Asset> existing;
         final Pagination  pagination;
         final Sorting     sorting;
 

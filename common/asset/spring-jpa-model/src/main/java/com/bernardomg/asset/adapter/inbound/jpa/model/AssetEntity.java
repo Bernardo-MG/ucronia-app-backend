@@ -8,27 +8,23 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditMetadata;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.DiscriminatorColumn;
-import jakarta.persistence.DiscriminatorType;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity(name = "Asset")
 @Table(schema = "asset", name = "assets")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING, length = 20)
 @EntityListeners(AuditingEntityListener.class)
-public  class AssetEntity implements Serializable {
+public class AssetEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -65,6 +61,10 @@ public  class AssetEntity implements Serializable {
     @Column(name = "size", nullable = false)
     private Long              size;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type", nullable = false, length = 20)
+    private AssetType         type;
+
     public AuditMetadata getAudit() {
         return audit;
     }
@@ -99,6 +99,10 @@ public  class AssetEntity implements Serializable {
 
     public Long getSize() {
         return size;
+    }
+
+    public AssetType getType() {
+        return type;
     }
 
     public boolean isPublicAccess() {
@@ -145,11 +149,15 @@ public  class AssetEntity implements Serializable {
         size = value;
     }
 
+    public void setType(final AssetType value) {
+        type = value;
+    }
+
     @Override
     public String toString() {
         return "AssetEntity [id=" + id + ", key=" + key + ", name=" + name + ", description=" + description + ", audit="
                 + audit + ", folder=" + folder + ", mediaType=" + mediaType + ", number=" + number + ", publicAccess="
-                + publicAccess + ", size=" + size + "]";
+                + publicAccess + ", size=" + size + ", type=" + type + "]";
     }
 
 }

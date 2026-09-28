@@ -1,13 +1,13 @@
 /** The MIT License (MIT). Copyright (c) 2022-2026 Bernardo Martínez Garrido. */
 
-package com.bernardomg.file.domain.repository;
+package com.bernardomg.asset.domain.repository;
 
 import java.util.Collection;
 import java.util.Optional;
 
-import com.bernardomg.file.domain.model.FileFolder;
+import com.bernardomg.asset.domain.model.AssetFolder;
 
-public interface FileFolderRepository {
+public interface AssetFolderRepository {
 
     public void delete(final Long number);
 
@@ -15,12 +15,12 @@ public interface FileFolderRepository {
 
     public boolean existsByNameAndParent(final String name, final Long parentNumber, final Long excludedNumber);
 
-    public Collection<FileFolder> findAll();
+    public Collection<AssetFolder> findAll();
 
-    public Optional<FileFolder> findOne(final Long number);
+    public Optional<AssetFolder> findOne(final Long number);
 
     public boolean hasChildren(final Long number);
 
-    public FileFolder save(final FileFolder folder);
+    public AssetFolder save(final AssetFolder folder);
 
 }

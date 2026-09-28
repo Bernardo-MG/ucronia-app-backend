@@ -9,9 +9,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.bernardomg.asset.domain.model.AssetFolder;
+import com.bernardomg.asset.domain.repository.AssetFolderRepository;
 import com.bernardomg.file.TestApplication;
-import com.bernardomg.file.domain.model.FileFolder;
-import com.bernardomg.file.domain.repository.FileFolderRepository;
 import com.bernardomg.file.test.configuration.data.annotation.ValidFileFolder;
 import com.bernardomg.file.test.configuration.factory.FileFolderConstants;
 import com.bernardomg.file.test.configuration.factory.FileFolders;
@@ -19,17 +19,17 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("FileFolderRepository - find one")
+@DisplayName("AssetFolderRepository - find one")
 class ITFileFolderRepositoryFindOne {
 
     @Autowired
-    private FileFolderRepository repository;
+    private AssetFolderRepository repository;
 
     @Test
     @DisplayName("With an file folder, it is returned")
     @ValidFileFolder
     void testFindOne() {
-        final Optional<FileFolder> folder;
+        final Optional<AssetFolder> folder;
 
         // WHEN
         folder = repository.findOne(FileFolderConstants.NUMBER);
@@ -46,7 +46,7 @@ class ITFileFolderRepositoryFindOne {
     @Test
     @DisplayName("With no data, nothing is returned")
     void testFindOne_NoData() {
-        final Optional<FileFolder> folder;
+        final Optional<AssetFolder> folder;
 
         // WHEN
         folder = repository.findOne(FileFolderConstants.NUMBER);

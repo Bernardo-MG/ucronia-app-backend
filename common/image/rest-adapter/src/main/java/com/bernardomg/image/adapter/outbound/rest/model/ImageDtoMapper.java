@@ -2,6 +2,7 @@
 
 package com.bernardomg.image.adapter.outbound.rest.model;
 
+import com.bernardomg.asset.domain.model.Asset;
 import com.bernardomg.image.adapter.outbound.rest.dto.AuditDetailsDto;
 import com.bernardomg.image.adapter.outbound.rest.dto.AuditUserDto;
 import com.bernardomg.image.adapter.outbound.rest.dto.ImageDto;
@@ -11,7 +12,6 @@ import com.bernardomg.image.adapter.outbound.rest.dto.ImageResponseDto;
 import com.bernardomg.image.adapter.outbound.rest.dto.PropertyDto;
 import com.bernardomg.image.adapter.outbound.rest.dto.PropertyDto.DirectionEnum;
 import com.bernardomg.image.adapter.outbound.rest.dto.SortingDto;
-import com.bernardomg.image.domain.model.Image;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
 import com.bernardomg.pagination.domain.Sorting.Property;
@@ -20,12 +20,12 @@ import com.bernardomg.security.domain.audit.model.AuditDetails.AuditUser;
 
 public final class ImageDtoMapper {
 
-    public static final Image toDomain(final long number, final ImageMetadataUpdateDto change) {
-        return new Image(number, change.getName(), change.getDescription(), "", "", 0, change.getPublicAccess(),
+    public static final Asset toDomain(final long number, final ImageMetadataUpdateDto change) {
+        return new Asset(number, change.getName(), change.getDescription(), "", "", 0, change.getPublicAccess(),
             java.util.Optional.empty());
     }
 
-    public static ImageResponseDto toResponseDto(final Image image) {
+    public static ImageResponseDto toResponseDto(final Asset image) {
         return new ImageResponseDto().content(new ImageDto().number(image.number())
             .name(image.name())
             .description(image.description())
@@ -37,7 +37,7 @@ public final class ImageDtoMapper {
             .audit(toDto(image.audit())));
     }
 
-    public static ImagePageResponseDto toResponseDto(final Page<Image> page) {
+    public static ImagePageResponseDto toResponseDto(final Page<Asset> page) {
         final SortingDto sorting = new SortingDto().properties(page.sort()
             .properties()
             .stream()
@@ -55,6 +55,18 @@ public final class ImageDtoMapper {
             .first(page.first())
             .last(page.last())
             .sort(sorting);
+    }
+
+    private static ImageDto toDto(final Asset image) {
+        return new ImageDto().number(image.number())
+            .name(image.name())
+            .description(image.description())
+            .folderNumber(image.folderNumber()
+                .orElse(null))
+            .mediaType(image.mediaType())
+            .size(image.size())
+            .publicAccess(image.publicAccess())
+            .audit(toDto(image.audit()));
     }
 
     private static AuditDetailsDto toDto(final AuditDetails audit) {
@@ -83,18 +95,6 @@ public final class ImageDtoMapper {
                 .name(user.name());
         }
         return dto;
-    }
-
-    private static ImageDto toDto(final Image image) {
-        return new ImageDto().number(image.number())
-            .name(image.name())
-            .description(image.description())
-            .folderNumber(image.folderNumber()
-                .orElse(null))
-            .mediaType(image.mediaType())
-            .size(image.size())
-            .publicAccess(image.publicAccess())
-            .audit(toDto(image.audit()));
     }
 
     private static PropertyDto toDto(final Property property) {

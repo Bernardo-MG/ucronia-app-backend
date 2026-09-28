@@ -32,18 +32,19 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpMethod;
 
+import com.bernardomg.asset.adapter.inbound.jpa.model.AssetType;
 import com.bernardomg.asset.adapter.inbound.jpa.repository.AssetFolderSpringRepository;
 import com.bernardomg.asset.adapter.inbound.jpa.repository.AssetSpringRepository;
+import com.bernardomg.asset.adapter.inbound.jpa.repository.JpaAssetFolderRepository;
+import com.bernardomg.asset.adapter.inbound.jpa.repository.JpaAssetRepository;
+import com.bernardomg.asset.domain.repository.AssetFolderRepository;
+import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.content.domain.key.ContentKeyGenerator;
 import com.bernardomg.content.domain.policy.ContentPolicy;
 import com.bernardomg.content.domain.policy.RestrictedContentPolicy;
 import com.bernardomg.content.domain.repository.ContentRepository;
-import com.bernardomg.file.adapter.inbound.jpa.repository.JpaFileFolderRepository;
-import com.bernardomg.file.adapter.inbound.jpa.repository.JpaFileRepository;
 import com.bernardomg.file.adapter.outbound.rest.security.FileReadAuthorizer;
 import com.bernardomg.file.adapter.outbound.rest.security.SpringSecurityFileReadAuthorizer;
-import com.bernardomg.file.domain.repository.FileFolderRepository;
-import com.bernardomg.file.domain.repository.FileRepository;
 import com.bernardomg.file.usecase.service.DefaultFileFolderService;
 import com.bernardomg.file.usecase.service.DefaultFileService;
 import com.bernardomg.file.usecase.service.FileFolderService;
@@ -66,13 +67,14 @@ public class AssociationFileAutoConfiguration {
     }
 
     @Bean("fileFolderRepository")
-    public FileFolderRepository getFileFolderRepository(final AssetFolderSpringRepository repository) {
-        return new JpaFileFolderRepository(repository);
+    public AssetFolderRepository getFileFolderRepository(final AssetFolderSpringRepository repository) {
+        return new JpaAssetFolderRepository(AssetType.FILE, repository);
     }
 
     @Bean("fileFolderService")
-    public FileFolderService getFileFolderService(final FileFolderRepository folderRepository,
-            final FileRepository fileRepository) {
+    public FileFolderService getFileFolderService(
+            @Qualifier("fileFolderRepository") final AssetFolderRepository folderRepository,
+            @Qualifier("fileRepository") final AssetRepository fileRepository) {
         return new DefaultFileFolderService(folderRepository, fileRepository);
     }
 
@@ -90,13 +92,14 @@ public class AssociationFileAutoConfiguration {
     }
 
     @Bean("fileRepository")
-    public FileRepository getFileRepository(final AssetSpringRepository repository,
+    public AssetRepository getFileRepository(final AssetSpringRepository repository,
             final AssetFolderSpringRepository folderRepository) {
-        return new JpaFileRepository(repository, folderRepository);
+        return new JpaAssetRepository(AssetType.FILE, repository, folderRepository);
     }
 
     @Bean("fileService")
-    public FileService getFileService(final FileRepository fileRepository, final ContentRepository contentRepository,
+    public FileService getFileService(@Qualifier("fileRepository") final AssetRepository fileRepository,
+            final ContentRepository contentRepository,
             @Qualifier("fileContentPolicy") final ContentPolicy fileContentPolicy,
             final ContentKeyGenerator contentKeyGenerator) {
         return new DefaultFileService(fileRepository, contentRepository, fileContentPolicy, contentKeyGenerator);

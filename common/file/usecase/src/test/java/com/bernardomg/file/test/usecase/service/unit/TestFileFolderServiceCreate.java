@@ -14,11 +14,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.asset.domain.model.AssetFolder;
+import com.bernardomg.asset.domain.repository.AssetFolderRepository;
+import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.file.domain.exception.FileFolderAlreadyExistsException;
 import com.bernardomg.file.domain.exception.FileFolderNotExistingException;
-import com.bernardomg.file.domain.model.FileFolder;
-import com.bernardomg.file.domain.repository.FileFolderRepository;
-import com.bernardomg.file.domain.repository.FileRepository;
 import com.bernardomg.file.test.configuration.factory.FileFolderConstants;
 import com.bernardomg.file.test.configuration.factory.FileFolders;
 import com.bernardomg.file.usecase.service.DefaultFileFolderService;
@@ -28,10 +28,10 @@ import com.bernardomg.file.usecase.service.DefaultFileFolderService;
 class TestFileFolderServiceCreate {
 
     @Mock
-    private FileRepository           fileRepository;
+    private AssetRepository          fileRepository;
 
     @Mock
-    private FileFolderRepository     folderRepository;
+    private AssetFolderRepository    folderRepository;
 
     @InjectMocks
     private DefaultFileFolderService service;
@@ -40,7 +40,7 @@ class TestFileFolderServiceCreate {
     @DisplayName("With an existing sibling name, an exception is thrown")
     void testCreate_ExistingName() {
         final ThrowingCallable execution;
-        final FileFolder       folder;
+        final AssetFolder      folder;
 
         // GIVEN
         folder = FileFolders.toCreate();
@@ -59,7 +59,7 @@ class TestFileFolderServiceCreate {
     @DisplayName("With a missing parent, an exception is thrown")
     void testCreate_MissingParent() {
         final ThrowingCallable execution;
-        final FileFolder       folder;
+        final AssetFolder      folder;
 
         // GIVEN
         folder = FileFolders.withParent();
@@ -89,7 +89,7 @@ class TestFileFolderServiceCreate {
     @Test
     @DisplayName("With valid data, the created file folder is returned")
     void testCreate_ReturnedData() {
-        final FileFolder created;
+        final AssetFolder created;
 
         // GIVEN
         given(folderRepository.save(FileFolders.toCreate())).willReturn(FileFolders.valid());

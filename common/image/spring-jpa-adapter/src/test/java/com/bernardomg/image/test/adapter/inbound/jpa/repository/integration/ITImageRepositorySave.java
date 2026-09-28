@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.asset.adapter.inbound.jpa.repository.AssetSpringRepository;
+import com.bernardomg.asset.domain.model.Asset;
+import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.image.TestApplication;
-import com.bernardomg.image.domain.model.Image;
-import com.bernardomg.image.domain.repository.ImageRepository;
 import com.bernardomg.image.test.configuration.data.annotation.PublicImage;
 import com.bernardomg.image.test.configuration.factory.ImageEntities;
 import com.bernardomg.image.test.configuration.factory.Images;
@@ -18,11 +18,11 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("ImageRepository - save")
+@DisplayName("AssetRepository - save")
 class ITImageRepositorySave {
 
     @Autowired
-    private ImageRepository       repository;
+    private AssetRepository       repository;
 
     @Autowired
     private AssetSpringRepository springRepository;
@@ -31,7 +31,7 @@ class ITImageRepositorySave {
     @DisplayName("When the image name is changed, it is updated")
     @PublicImage
     void testSave_Existing_ChangeName_Persisted() {
-        final Image image;
+        final Asset image;
 
         // GIVEN
         image = Images.nameChange();
@@ -50,8 +50,8 @@ class ITImageRepositorySave {
     @DisplayName("When the image name is changed, it is returned")
     @PublicImage
     void testSave_Existing_ChangeName_Returned() {
-        final Image image;
-        final Image saved;
+        final Asset image;
+        final Asset saved;
 
         // GIVEN
         image = Images.nameChange();
@@ -83,7 +83,7 @@ class ITImageRepositorySave {
     @Test
     @DisplayName("When saving, the persisted image is returned")
     void testSave_Returned() {
-        final Image saved;
+        final Asset saved;
 
         // WHEN
         saved = repository.save(Images.publicAccess());

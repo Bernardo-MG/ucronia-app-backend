@@ -10,16 +10,16 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.bernardomg.asset.domain.model.Asset;
+import com.bernardomg.asset.domain.model.AssetFolder;
+import com.bernardomg.asset.domain.repository.AssetFolderRepository;
+import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.image.domain.exception.ImageAlreadyExistsException;
 import com.bernardomg.image.domain.exception.ImageFolderAlreadyExistsException;
 import com.bernardomg.image.domain.exception.ImageFolderCantBeMovedException;
 import com.bernardomg.image.domain.exception.ImageFolderNotEmptyException;
 import com.bernardomg.image.domain.exception.ImageFolderNotExistingException;
 import com.bernardomg.image.domain.exception.ImageNotExistingException;
-import com.bernardomg.image.domain.model.Image;
-import com.bernardomg.image.domain.model.ImageFolder;
-import com.bernardomg.image.domain.repository.ImageFolderRepository;
-import com.bernardomg.image.domain.repository.ImageRepository;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
@@ -34,11 +34,11 @@ public final class DefaultImageFolderService implements ImageFolderService {
      */
     private static final Logger         log = LoggerFactory.getLogger(DefaultImageFolderService.class);
 
-    private final ImageFolderRepository folderRepository;
+    private final AssetFolderRepository folderRepository;
 
-    private final ImageRepository       imageRepository;
+    private final AssetRepository       imageRepository;
 
-    public DefaultImageFolderService(final ImageFolderRepository folderRepo, final ImageRepository imageRepo) {
+    public DefaultImageFolderService(final AssetFolderRepository folderRepo, final AssetRepository imageRepo) {
         super();
 
         folderRepository = Objects.requireNonNull(folderRepo);
@@ -46,8 +46,8 @@ public final class DefaultImageFolderService implements ImageFolderService {
     }
 
     @Override
-    public final ImageFolder create(final ImageFolder folder) {
-        final ImageFolder created;
+    public final AssetFolder create(final AssetFolder folder) {
+        final AssetFolder created;
 
         log.debug("Creating image folder {}", folder);
 
@@ -56,12 +56,12 @@ public final class DefaultImageFolderService implements ImageFolderService {
 
         if (folderRepository.existsByNameAndParent(folder.name(), folder.parentNumber()
             .orElse(null), null)) {
-            log.error("Image folder with name {} already exists below parent {}", folder.name(), folder.parentNumber()
+            log.error("Asset folder with name {} already exists below parent {}", folder.name(), folder.parentNumber()
                 .orElse(null));
             throw new ImageFolderAlreadyExistsException(folder.name());
         }
 
-        created = folderRepository.save(new ImageFolder(-1L, folder.name(), folder.parentNumber()));
+        created = folderRepository.save(new AssetFolder(-1L, folder.name(), folder.parentNumber()));
 
         log.debug("Created image folder {}", created);
 
@@ -69,8 +69,8 @@ public final class DefaultImageFolderService implements ImageFolderService {
     }
 
     @Override
-    public final ImageFolder delete(final Long number) {
-        final ImageFolder deleted;
+    public final AssetFolder delete(final Long number) {
+        final AssetFolder deleted;
 
         log.debug("Deleting image folder {}", number);
 
@@ -80,8 +80,8 @@ public final class DefaultImageFolderService implements ImageFolderService {
                 return new ImageFolderNotExistingException(number);
             });
 
-        if (folderRepository.hasChildren(number) || imageRepository.hasImagesInFolder(number)) {
-            log.error("Image folder {} is not empty", number);
+        if (folderRepository.hasChildren(number) || imageRepository.hasAssetsInFolder(number)) {
+            log.error("Asset folder {} is not empty", number);
             throw new ImageFolderNotEmptyException(number);
         }
 
@@ -93,8 +93,8 @@ public final class DefaultImageFolderService implements ImageFolderService {
     }
 
     @Override
-    public final Collection<ImageFolder> getAll() {
-        final Collection<ImageFolder> folders;
+    public final Collection<AssetFolder> getAll() {
+        final Collection<AssetFolder> folders;
 
         log.debug("Reading all image folders");
 
@@ -106,8 +106,8 @@ public final class DefaultImageFolderService implements ImageFolderService {
     }
 
     @Override
-    public final Page<Image> getImages(final Long folderNumber, final Pagination pagination, final Sorting sorting) {
-        final Page<Image> images;
+    public final Page<Asset> getImages(final Long folderNumber, final Pagination pagination, final Sorting sorting) {
+        final Page<Asset> images;
 
         log.debug("Reading images in folder {} with pagination {} and sorting {}", folderNumber, pagination, sorting);
 
@@ -124,8 +124,8 @@ public final class DefaultImageFolderService implements ImageFolderService {
     }
 
     @Override
-    public final ImageFolder getOne(final Long number) {
-        final ImageFolder folder;
+    public final AssetFolder getOne(final Long number) {
+        final AssetFolder folder;
 
         log.debug("Reading image folder {}", number);
 
@@ -141,7 +141,7 @@ public final class DefaultImageFolderService implements ImageFolderService {
     }
 
     @Override
-    public final Page<Image> getPublicImages(final Long folderNumber, final Pagination pagination,
+    public final Page<Asset> getPublicImages(final Long folderNumber, final Pagination pagination,
             final Sorting sorting) {
         if (!folderRepository.exists(folderNumber)) {
             throw new ImageFolderNotExistingException(folderNumber);
@@ -150,13 +150,13 @@ public final class DefaultImageFolderService implements ImageFolderService {
     }
 
     @Override
-    public final Page<Image> getPublicRootImages(final Pagination pagination, final Sorting sorting) {
+    public final Page<Asset> getPublicRootImages(final Pagination pagination, final Sorting sorting) {
         return imageRepository.findAllPublicByFolder(null, pagination, sorting);
     }
 
     @Override
-    public final Page<Image> getRootImages(final Pagination pagination, final Sorting sorting) {
-        final Page<Image> images;
+    public final Page<Asset> getRootImages(final Pagination pagination, final Sorting sorting) {
+        final Page<Asset> images;
 
         log.debug("Reading root images with pagination {} and sorting {}", pagination, sorting);
 
@@ -168,9 +168,9 @@ public final class DefaultImageFolderService implements ImageFolderService {
     }
 
     @Override
-    public final Image moveImage(final Long imageNumber, final Long folderNumber) {
-        final Image image;
-        final Image moved;
+    public final Asset moveImage(final Long imageNumber, final Long folderNumber) {
+        final Asset image;
+        final Asset moved;
 
         log.debug("Moving image {} to folder {}", imageNumber, folderNumber);
 
@@ -194,9 +194,9 @@ public final class DefaultImageFolderService implements ImageFolderService {
     }
 
     @Override
-    public final Image moveImageToRoot(final Long imageNumber) {
-        final Image image;
-        final Image moved;
+    public final Asset moveImageToRoot(final Long imageNumber) {
+        final Asset image;
+        final Asset moved;
 
         log.debug("Moving image {} to the root folder", imageNumber);
 
@@ -215,9 +215,9 @@ public final class DefaultImageFolderService implements ImageFolderService {
     }
 
     @Override
-    public final ImageFolder update(final ImageFolder folder) {
-        final ImageFolder existing;
-        final ImageFolder updated;
+    public final AssetFolder update(final AssetFolder folder) {
+        final AssetFolder existing;
+        final AssetFolder updated;
 
         log.debug("Updating image folder {}", folder);
 
@@ -237,22 +237,22 @@ public final class DefaultImageFolderService implements ImageFolderService {
 
         if (folderRepository.existsByNameAndParent(folder.name(), folder.parentNumber()
             .orElse(null), folder.number())) {
-            log.error("Image folder with name {} already exists below parent {}", folder.name(), folder.parentNumber()
+            log.error("Asset folder with name {} already exists below parent {}", folder.name(), folder.parentNumber()
                 .orElse(null));
             throw new ImageFolderAlreadyExistsException(folder.name());
         }
 
         updated = folderRepository
-            .save(new ImageFolder(folder.number(), folder.name(), folder.parentNumber(), existing.audit()));
+            .save(new AssetFolder(folder.number(), folder.name(), folder.parentNumber(), existing.audit()));
 
         log.debug("Updated image folder {}", updated);
 
         return updated;
     }
 
-    private final void validateImageName(final Image image, final Long folderNumber) {
+    private final void validateImageName(final Asset image, final Long folderNumber) {
         if (imageRepository.existsByNameAndFolder(image.name(), folderNumber, image.number())) {
-            log.error("Image {} already exists in folder {}", image.name(), folderNumber);
+            log.error("Asset {} already exists in folder {}", image.name(), folderNumber);
             throw new ImageAlreadyExistsException(image.name());
         }
     }
@@ -266,7 +266,7 @@ public final class DefaultImageFolderService implements ImageFolderService {
 
         while (current != null) {
             if (Objects.equals(current, folderNumber) || !visited.add(current)) {
-                log.error("Image folder {} can't be moved below folder {}", folderNumber, parentNumber);
+                log.error("Asset folder {} can't be moved below folder {}", folderNumber, parentNumber);
                 throw new ImageFolderCantBeMovedException(folderNumber);
             }
 

@@ -8,9 +8,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.bernardomg.asset.domain.model.Asset;
+import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.file.TestApplication;
-import com.bernardomg.file.domain.model.File;
-import com.bernardomg.file.domain.repository.FileRepository;
 import com.bernardomg.file.test.configuration.data.annotation.PublicFile;
 import com.bernardomg.file.test.configuration.factory.Files;
 import com.bernardomg.pagination.domain.Page;
@@ -20,19 +20,19 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("FileRepository - find all")
+@DisplayName("AssetRepository - find all")
 class ITFileRepositoryFindAll {
 
     @Autowired
-    private FileRepository repository;
+    private AssetRepository repository;
 
     @Test
     @DisplayName("When there are files, they are returned")
     @PublicFile
     void testFindAll() {
-        final Page<File> files;
-        final Pagination pagination;
-        final Sorting    sorting;
+        final Page<Asset> files;
+        final Pagination  pagination;
+        final Sorting     sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
@@ -52,9 +52,9 @@ class ITFileRepositoryFindAll {
     @Test
     @DisplayName("When there are no files, nothing is returned")
     void testFindAll_NoData() {
-        final Page<File> files;
-        final Pagination pagination;
-        final Sorting    sorting;
+        final Page<Asset> files;
+        final Pagination  pagination;
+        final Sorting     sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);

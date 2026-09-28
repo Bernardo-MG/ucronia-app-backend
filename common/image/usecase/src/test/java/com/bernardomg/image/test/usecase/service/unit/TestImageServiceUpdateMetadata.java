@@ -14,17 +14,17 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.asset.domain.model.Asset;
+import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.content.domain.key.ContentKeyGenerator;
 import com.bernardomg.content.domain.policy.ContentPolicy;
 import com.bernardomg.content.domain.repository.ContentRepository;
-import com.bernardomg.image.domain.model.Image;
-import com.bernardomg.image.domain.repository.ImageRepository;
 import com.bernardomg.image.test.configuration.factory.ImageConstants;
 import com.bernardomg.image.test.configuration.factory.Images;
 import com.bernardomg.image.usecase.service.DefaultImageService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Image service - update metadata")
+@DisplayName("Asset service - update metadata")
 class TestImageServiceUpdateMetadata {
 
     @Mock
@@ -37,7 +37,7 @@ class TestImageServiceUpdateMetadata {
     private ContentRepository   contentRepository;
 
     @Mock
-    private ImageRepository     repository;
+    private AssetRepository     repository;
 
     @InjectMocks
     private DefaultImageService service;
@@ -45,11 +45,11 @@ class TestImageServiceUpdateMetadata {
     @Test
     @DisplayName("When updating image metadata, content is not persisted")
     void testUpdateMetadata() {
-        final Image updated;
+        final Asset updated;
 
         // GIVEN
         given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.of(Images.publicAccess()));
-        given(repository.save(any(Image.class))).willReturn(Images.publicAccess());
+        given(repository.save(any(Asset.class))).willReturn(Images.publicAccess());
 
         // WHEN
         updated = service.updateMetadata(Images.publicAccess());

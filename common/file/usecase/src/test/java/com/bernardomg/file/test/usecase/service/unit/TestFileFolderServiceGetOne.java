@@ -14,10 +14,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.asset.domain.model.AssetFolder;
+import com.bernardomg.asset.domain.repository.AssetFolderRepository;
+import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.file.domain.exception.FileFolderNotExistingException;
-import com.bernardomg.file.domain.model.FileFolder;
-import com.bernardomg.file.domain.repository.FileFolderRepository;
-import com.bernardomg.file.domain.repository.FileRepository;
 import com.bernardomg.file.test.configuration.factory.FileFolderConstants;
 import com.bernardomg.file.test.configuration.factory.FileFolders;
 import com.bernardomg.file.usecase.service.DefaultFileFolderService;
@@ -27,10 +27,10 @@ import com.bernardomg.file.usecase.service.DefaultFileFolderService;
 class TestFileFolderServiceGetOne {
 
     @Mock
-    private FileRepository           fileRepository;
+    private AssetRepository          fileRepository;
 
     @Mock
-    private FileFolderRepository     folderRepository;
+    private AssetFolderRepository    folderRepository;
 
     @InjectMocks
     private DefaultFileFolderService service;
@@ -38,7 +38,7 @@ class TestFileFolderServiceGetOne {
     @Test
     @DisplayName("When the file folder exists, it is returned")
     void testGetOne() {
-        final FileFolder folder;
+        final AssetFolder folder;
 
         // GIVEN
         given(folderRepository.findOne(FileFolderConstants.NUMBER)).willReturn(Optional.of(FileFolders.valid()));

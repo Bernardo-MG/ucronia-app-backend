@@ -1,12 +1,12 @@
 
 package com.bernardomg.file.adapter.outbound.rest.security;
 
-import com.bernardomg.file.domain.model.File;
+import com.bernardomg.asset.domain.model.Asset;
 
 public interface FileReadAuthorizer {
 
     public boolean canReadPrivateFiles();
 
-    public void checkCanRead(final File file);
+    public void checkCanRead(final Asset file);
 
 }

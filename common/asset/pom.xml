@@ -29,7 +29,8 @@
    <!-- ********************************************** -->
 
    <modules>
-     <module>spring-jpa-model</module>
+      <module>domain</module>
+      <module>spring-jpa-model</module>
    </modules>
 
 </project>

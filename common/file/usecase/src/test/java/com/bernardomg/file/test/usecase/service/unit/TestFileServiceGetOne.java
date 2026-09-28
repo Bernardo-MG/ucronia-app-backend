@@ -14,18 +14,18 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.asset.domain.model.Asset;
+import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.content.domain.key.ContentKeyGenerator;
 import com.bernardomg.content.domain.policy.ContentPolicy;
 import com.bernardomg.content.domain.repository.ContentRepository;
 import com.bernardomg.file.domain.exception.FileNotExistingException;
-import com.bernardomg.file.domain.model.File;
-import com.bernardomg.file.domain.repository.FileRepository;
 import com.bernardomg.file.test.configuration.factory.FileConstants;
 import com.bernardomg.file.test.configuration.factory.Files;
 import com.bernardomg.file.usecase.service.DefaultFileService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("File service")
+@DisplayName("Asset service")
 class TestFileServiceGetOne {
 
     @Mock
@@ -38,7 +38,7 @@ class TestFileServiceGetOne {
     private ContentRepository   contentRepository;
 
     @Mock
-    private FileRepository      repository;
+    private AssetRepository     repository;
 
     @InjectMocks
     private DefaultFileService  service;
@@ -46,7 +46,7 @@ class TestFileServiceGetOne {
     @Test
     @DisplayName("When getting an file, its metadata is returned")
     void testGetOne() {
-        final File result;
+        final Asset result;
 
         // GIVEN
         given(repository.findOne(FileConstants.NUMBER)).willReturn(Optional.of(Files.publicAccess()));

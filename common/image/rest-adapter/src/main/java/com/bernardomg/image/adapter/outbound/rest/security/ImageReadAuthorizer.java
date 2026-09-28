@@ -1,12 +1,12 @@
 
 package com.bernardomg.image.adapter.outbound.rest.security;
 
-import com.bernardomg.image.domain.model.Image;
+import com.bernardomg.asset.domain.model.Asset;
 
 public interface ImageReadAuthorizer {
 
     public boolean canReadPrivateImages();
 
-    public void checkCanRead(final Image image);
+    public void checkCanRead(final Asset image);
 
 }

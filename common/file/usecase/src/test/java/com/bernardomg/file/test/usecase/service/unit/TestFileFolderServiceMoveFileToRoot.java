@@ -14,11 +14,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.asset.domain.model.Asset;
+import com.bernardomg.asset.domain.repository.AssetFolderRepository;
+import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.file.domain.exception.FileAlreadyExistsException;
 import com.bernardomg.file.domain.exception.FileNotExistingException;
-import com.bernardomg.file.domain.model.File;
-import com.bernardomg.file.domain.repository.FileFolderRepository;
-import com.bernardomg.file.domain.repository.FileRepository;
 import com.bernardomg.file.test.configuration.factory.FileFolderConstants;
 import com.bernardomg.file.test.configuration.factory.Files;
 import com.bernardomg.file.usecase.service.DefaultFileFolderService;
@@ -28,10 +28,10 @@ import com.bernardomg.file.usecase.service.DefaultFileFolderService;
 class TestFileFolderServiceMoveFileToRoot {
 
     @Mock
-    private FileRepository           fileRepository;
+    private AssetRepository          fileRepository;
 
     @Mock
-    private FileFolderRepository     folderRepository;
+    private AssetFolderRepository    folderRepository;
 
     @InjectMocks
     private DefaultFileFolderService service;
@@ -39,7 +39,7 @@ class TestFileFolderServiceMoveFileToRoot {
     @Test
     @DisplayName("With an existing file, the file is moved to root")
     void testMoveFileToRoot() {
-        final File moved;
+        final Asset moved;
 
         // GIVEN
         given(fileRepository.findOne(FileFolderConstants.FILE_NUMBER)).willReturn(Optional.of(Files.publicAccess()));

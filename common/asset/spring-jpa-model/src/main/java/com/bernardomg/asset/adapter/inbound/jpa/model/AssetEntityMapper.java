@@ -1,18 +1,17 @@
 
-package com.bernardomg.file.adapter.inbound.jpa.model;
+package com.bernardomg.asset.adapter.inbound.jpa.model;
 
 import java.util.Optional;
 
-import com.bernardomg.asset.adapter.inbound.jpa.model.AssetEntity;
-import com.bernardomg.file.domain.model.File;
+import com.bernardomg.asset.domain.model.Asset;
 import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditMetadata;
 import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditUserEntity;
 import com.bernardomg.security.domain.audit.model.AuditDetails;
 import com.bernardomg.security.domain.audit.model.AuditDetails.AuditUser;
 
-public final class FileEntityMapper {
+public final class AssetEntityMapper {
 
-    public static File toDomain(final AssetEntity entity) {
+    public static Asset toDomain(final AssetEntity entity) {
         final Optional<Long> folder;
 
         if (entity.getFolder() == null) {
@@ -22,21 +21,21 @@ public final class FileEntityMapper {
                 .getNumber());
         }
 
-        return new File(entity.getNumber(), entity.getName(), entity.getDescription(), entity.getKey(),
+        return new Asset(entity.getNumber(), entity.getName(), entity.getDescription(), entity.getKey(),
             entity.getMediaType(), entity.getSize(), entity.isPublicAccess(), folder, toDomain(entity.getAudit()));
     }
 
-    public static AssetEntity toEntity(final File file) {
+    public static AssetEntity toEntity(final Asset asset) {
         final AssetEntity entity;
 
         entity = new AssetEntity();
-        entity.setNumber(file.number());
-        entity.setName(file.name());
-        entity.setDescription(file.description());
-        entity.setKey(file.key());
-        entity.setMediaType(file.mediaType());
-        entity.setSize(file.size());
-        entity.setPublicAccess(file.publicAccess());
+        entity.setNumber(asset.number());
+        entity.setName(asset.name());
+        entity.setDescription(asset.description());
+        entity.setKey(asset.key());
+        entity.setMediaType(asset.mediaType());
+        entity.setSize(asset.size());
+        entity.setPublicAccess(asset.publicAccess());
 
         return entity;
     }
@@ -66,7 +65,7 @@ public final class FileEntityMapper {
         return auditDetails;
     }
 
-    private FileEntityMapper() {
+    private AssetEntityMapper() {
         super();
     }
 }

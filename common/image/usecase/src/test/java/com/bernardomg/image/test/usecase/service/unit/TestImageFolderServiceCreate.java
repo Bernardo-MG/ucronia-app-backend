@@ -14,11 +14,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.asset.domain.model.AssetFolder;
+import com.bernardomg.asset.domain.repository.AssetFolderRepository;
+import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.image.domain.exception.ImageFolderAlreadyExistsException;
 import com.bernardomg.image.domain.exception.ImageFolderNotExistingException;
-import com.bernardomg.image.domain.model.ImageFolder;
-import com.bernardomg.image.domain.repository.ImageFolderRepository;
-import com.bernardomg.image.domain.repository.ImageRepository;
 import com.bernardomg.image.test.configuration.factory.ImageFolderConstants;
 import com.bernardomg.image.test.configuration.factory.ImageFolders;
 import com.bernardomg.image.usecase.service.DefaultImageFolderService;
@@ -28,10 +28,10 @@ import com.bernardomg.image.usecase.service.DefaultImageFolderService;
 class TestImageFolderServiceCreate {
 
     @Mock
-    private ImageFolderRepository     folderRepository;
+    private AssetFolderRepository     folderRepository;
 
     @Mock
-    private ImageRepository           imageRepository;
+    private AssetRepository           imageRepository;
 
     @InjectMocks
     private DefaultImageFolderService service;
@@ -40,7 +40,7 @@ class TestImageFolderServiceCreate {
     @DisplayName("With an existing sibling name, an exception is thrown")
     void testCreate_ExistingName() {
         final ThrowingCallable execution;
-        final ImageFolder      folder;
+        final AssetFolder      folder;
 
         // GIVEN
         folder = ImageFolders.toCreate();
@@ -59,7 +59,7 @@ class TestImageFolderServiceCreate {
     @DisplayName("With a missing parent, an exception is thrown")
     void testCreate_MissingParent() {
         final ThrowingCallable execution;
-        final ImageFolder      folder;
+        final AssetFolder      folder;
 
         // GIVEN
         folder = ImageFolders.withParent();
@@ -89,7 +89,7 @@ class TestImageFolderServiceCreate {
     @Test
     @DisplayName("With valid data, the created image folder is returned")
     void testCreate_ReturnedData() {
-        final ImageFolder created;
+        final AssetFolder created;
 
         // GIVEN
         given(folderRepository.save(ImageFolders.toCreate())).willReturn(ImageFolders.valid());

@@ -24,8 +24,8 @@
 
 package com.bernardomg.file.usecase.service;
 
+import com.bernardomg.asset.domain.model.Asset;
 import com.bernardomg.content.domain.model.Content;
-import com.bernardomg.file.domain.model.File;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
@@ -38,20 +38,20 @@ import com.bernardomg.pagination.domain.Sorting;
  */
 public interface FileService {
 
-    public File create(final File file, final Content content);
+    public Asset create(final Asset file, final Content content);
 
-    public File delete(final Long number);
+    public Asset delete(final Long number);
 
-    public Page<File> getAll(final Pagination pagination, final Sorting sorting);
+    public Page<Asset> getAll(final Pagination pagination, final Sorting sorting);
 
-    public Page<File> getAllPublic(final Pagination pagination, final Sorting sorting);
+    public Page<Asset> getAllPublic(final Pagination pagination, final Sorting sorting);
 
     public Content getContent(final Long number);
 
-    public File getOne(final Long number);
+    public Asset getOne(final Long number);
 
-    public File update(final File file, final Content content);
+    public Asset update(final Asset file, final Content content);
 
-    public File updateMetadata(final File file);
+    public Asset updateMetadata(final Asset file);
 
 }

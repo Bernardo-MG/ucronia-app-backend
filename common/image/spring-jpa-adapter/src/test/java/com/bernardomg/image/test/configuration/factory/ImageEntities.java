@@ -2,6 +2,7 @@
 package com.bernardomg.image.test.configuration.factory;
 
 import com.bernardomg.asset.adapter.inbound.jpa.model.AssetEntity;
+import com.bernardomg.asset.adapter.inbound.jpa.model.AssetType;
 
 public final class ImageEntities {
 
@@ -17,6 +18,7 @@ public final class ImageEntities {
         entity.setSize((long) ImageConstants.DATA.length);
         entity.setName(ImageConstants.ALTERNATIVE_NAME);
         entity.setPublicAccess(true);
+        entity.setType(AssetType.IMAGE);
 
         return entity;
     }
@@ -32,6 +34,7 @@ public final class ImageEntities {
         entity.setMediaType(ImageConstants.PNG_MEDIA_TYPE);
         entity.setSize((long) ImageConstants.DATA.length);
         entity.setPublicAccess(true);
+        entity.setType(AssetType.IMAGE);
 
         return entity;
     }

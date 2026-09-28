@@ -13,23 +13,23 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.image.domain.model.Image;
-import com.bernardomg.image.domain.repository.ImageFolderRepository;
-import com.bernardomg.image.domain.repository.ImageRepository;
+import com.bernardomg.asset.domain.model.Asset;
+import com.bernardomg.asset.domain.repository.AssetFolderRepository;
+import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.image.usecase.service.DefaultImageFolderService;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Image folder service - get public root images")
+@DisplayName("Asset folder service - get public root images")
 class TestImageFolderServiceGetPublicRootImages {
 
     @Mock
-    private ImageFolderRepository     folderRepository;
+    private AssetFolderRepository     folderRepository;
 
     @Mock
-    private ImageRepository           imageRepository;
+    private AssetRepository           imageRepository;
 
     @InjectMocks
     private DefaultImageFolderService service;
@@ -37,8 +37,8 @@ class TestImageFolderServiceGetPublicRootImages {
     @Test
     @DisplayName("When reading public root images, the requested page is returned")
     void testGetPublicRootImages() {
-        final Page<Image> existing;
-        final Page<Image> result;
+        final Page<Asset> existing;
+        final Page<Asset> result;
         final Pagination  pagination;
         final Sorting     sorting;
 
@@ -59,8 +59,8 @@ class TestImageFolderServiceGetPublicRootImages {
     @Test
     @DisplayName("When reading public root images with no data, the requested page is empty")
     void testGetPublicRootImages_NoData() {
-        final Page<Image> existing;
-        final Page<Image> result;
+        final Page<Asset> existing;
+        final Page<Asset> result;
         final Pagination  pagination;
         final Sorting     sorting;
 

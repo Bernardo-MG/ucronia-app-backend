@@ -30,6 +30,10 @@
 
    <dependencies>
       <dependency>
+         <groupId>com.bernardomg.asset</groupId>
+         <artifactId>asset-domain</artifactId>
+      </dependency>
+      <dependency>
          <groupId>com.bernardomg.framework</groupId>
          <artifactId>pagination</artifactId>
       </dependency>

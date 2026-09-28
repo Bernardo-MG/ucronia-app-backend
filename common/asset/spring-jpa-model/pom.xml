@@ -30,12 +30,24 @@
 
    <dependencies>
       <dependency>
+         <groupId>com.bernardomg.asset</groupId>
+         <artifactId>asset-domain</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.framework</groupId>
+         <artifactId>pagination</artifactId>
+      </dependency>
+      <dependency>
          <groupId>com.bernardomg.framework.security</groupId>
          <artifactId>security-jpa-model</artifactId>
       </dependency>
       <dependency>
          <groupId>org.springframework.data</groupId>
          <artifactId>spring-data-jpa</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-tx</artifactId>
       </dependency>
       <dependency>
          <groupId>jakarta.persistence</groupId>

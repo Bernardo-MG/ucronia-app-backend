@@ -7,7 +7,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import com.bernardomg.file.domain.model.File;
+import com.bernardomg.asset.domain.model.Asset;
 import com.bernardomg.security.domain.permission.constant.Actions;
 import com.bernardomg.security.springframework.access.interceptor.ResourcePermissionEvaluator;
 
@@ -34,7 +34,7 @@ public final class SpringSecurityFileReadAuthorizer implements FileReadAuthorize
     }
 
     @Override
-    public void checkCanRead(final File file) {
+    public void checkCanRead(final Asset file) {
         if (!file.publicAccess() && !canReadPrivateFiles()) {
             throw new AccessDeniedException("No permissions for reading private files");
         }

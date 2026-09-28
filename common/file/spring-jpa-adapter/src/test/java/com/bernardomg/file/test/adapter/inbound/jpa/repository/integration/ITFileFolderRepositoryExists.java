@@ -7,19 +7,19 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.bernardomg.asset.domain.repository.AssetFolderRepository;
 import com.bernardomg.file.TestApplication;
-import com.bernardomg.file.domain.repository.FileFolderRepository;
 import com.bernardomg.file.test.configuration.data.annotation.ValidFileFolder;
 import com.bernardomg.file.test.configuration.factory.FileFolderConstants;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("FileFolderRepository - exists")
+@DisplayName("AssetFolderRepository - exists")
 class ITFileFolderRepositoryExists {
 
     @Autowired
-    private FileFolderRepository repository;
+    private AssetFolderRepository repository;
 
     @Test
     @DisplayName("With an file folder, it exists")

@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.asset.domain.model.Asset;
+import com.bernardomg.asset.domain.model.AssetFolder;
 import com.bernardomg.file.adapter.outbound.rest.dto.FileFolderCreationDto;
 import com.bernardomg.file.adapter.outbound.rest.dto.FileFolderDto;
 import com.bernardomg.file.adapter.outbound.rest.dto.FileFolderUpdateDto;
@@ -17,8 +19,6 @@ import com.bernardomg.file.adapter.outbound.rest.dto.FileResponseDto;
 import com.bernardomg.file.adapter.outbound.rest.model.FileDtoMapper;
 import com.bernardomg.file.adapter.outbound.rest.model.FileFolderDtoMapper;
 import com.bernardomg.file.adapter.outbound.rest.security.FileReadAuthorizer;
-import com.bernardomg.file.domain.model.File;
-import com.bernardomg.file.domain.model.FileFolder;
 import com.bernardomg.file.usecase.service.FileFolderService;
 import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.framework.security.access.annotation.Unsecured;
@@ -43,11 +43,11 @@ public class FileFolderController implements FileFolderApi {
     @Override
     @RequireResourceAuthorization(resource = "FILE", action = Actions.CREATE)
     public ResponseEntity<FileFolderDto> createFileFolder(final FileFolderCreationDto request) {
-        final FileFolder     created;
+        final AssetFolder    created;
         final Optional<Long> parentNumber;
 
         parentNumber = Optional.ofNullable(request.getParentNumber());
-        created = service.create(new FileFolder(-1L, request.getName(), parentNumber));
+        created = service.create(new AssetFolder(-1L, request.getName(), parentNumber));
         return ResponseEntity.status(HttpStatus.CREATED)
             .body(FileFolderDtoMapper.toDto(created));
     }
@@ -77,8 +77,8 @@ public class FileFolderController implements FileFolderApi {
     @Unsecured
     public ResponseEntity<FilePageResponseDto> getFilesInFolder(final Long folderNumber, final Integer page,
             final Integer size, final List<String> sort) {
-        final Pagination pagination;
-        final Page<File> files;
+        final Pagination  pagination;
+        final Page<Asset> files;
 
         pagination = new Pagination(page, size);
         if (authorizer.canReadPrivateFiles()) {
@@ -94,8 +94,8 @@ public class FileFolderController implements FileFolderApi {
     @Unsecured
     public ResponseEntity<FilePageResponseDto> getRootFiles(final Integer page, final Integer size,
             final List<String> sort) {
-        final Pagination pagination;
-        final Page<File> files;
+        final Pagination  pagination;
+        final Page<Asset> files;
 
         pagination = new Pagination(page, size);
         if (authorizer.canReadPrivateFiles()) {
@@ -122,11 +122,11 @@ public class FileFolderController implements FileFolderApi {
     @Override
     @RequireResourceAuthorization(resource = "FILE", action = Actions.UPDATE)
     public ResponseEntity<FileFolderDto> updateFileFolder(final Long number, final FileFolderUpdateDto request) {
-        final FileFolder     folder;
+        final AssetFolder    folder;
         final Optional<Long> parentNumber;
 
         parentNumber = Optional.ofNullable(request.getParentNumber());
-        folder = new FileFolder(number, request.getName(), parentNumber);
+        folder = new AssetFolder(number, request.getName(), parentNumber);
         return ResponseEntity.ok(FileFolderDtoMapper.toDto(service.update(folder)));
     }
 

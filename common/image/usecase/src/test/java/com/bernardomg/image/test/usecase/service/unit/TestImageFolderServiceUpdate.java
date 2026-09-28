@@ -15,11 +15,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.asset.domain.model.AssetFolder;
+import com.bernardomg.asset.domain.repository.AssetFolderRepository;
+import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.image.domain.exception.ImageFolderAlreadyExistsException;
 import com.bernardomg.image.domain.exception.ImageFolderNotExistingException;
-import com.bernardomg.image.domain.model.ImageFolder;
-import com.bernardomg.image.domain.repository.ImageFolderRepository;
-import com.bernardomg.image.domain.repository.ImageRepository;
 import com.bernardomg.image.test.configuration.factory.ImageFolderConstants;
 import com.bernardomg.image.test.configuration.factory.ImageFolders;
 import com.bernardomg.image.usecase.service.DefaultImageFolderService;
@@ -29,10 +29,10 @@ import com.bernardomg.image.usecase.service.DefaultImageFolderService;
 class TestImageFolderServiceUpdate {
 
     @Mock
-    private ImageFolderRepository     folderRepository;
+    private AssetFolderRepository     folderRepository;
 
     @Mock
-    private ImageRepository           imageRepository;
+    private AssetRepository           imageRepository;
 
     @InjectMocks
     private DefaultImageFolderService service;
@@ -89,7 +89,7 @@ class TestImageFolderServiceUpdate {
     @Test
     @DisplayName("With valid data, the updated image folder is returned")
     void testUpdate_ReturnedData() {
-        final ImageFolder updated;
+        final AssetFolder updated;
 
         // GIVEN
         given(folderRepository.exists(ImageFolderConstants.NUMBER)).willReturn(true);

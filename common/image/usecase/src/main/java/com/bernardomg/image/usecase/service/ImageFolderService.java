@@ -4,34 +4,34 @@ package com.bernardomg.image.usecase.service;
 
 import java.util.Collection;
 
-import com.bernardomg.image.domain.model.Image;
-import com.bernardomg.image.domain.model.ImageFolder;
+import com.bernardomg.asset.domain.model.Asset;
+import com.bernardomg.asset.domain.model.AssetFolder;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 
 public interface ImageFolderService {
 
-    public ImageFolder create(final ImageFolder folder);
+    public AssetFolder create(final AssetFolder folder);
 
-    public ImageFolder delete(final Long number);
+    public AssetFolder delete(final Long number);
 
-    public Collection<ImageFolder> getAll();
+    public Collection<AssetFolder> getAll();
 
-    public Page<Image> getImages(final Long folderNumber, final Pagination pagination, final Sorting sorting);
+    public Page<Asset> getImages(final Long folderNumber, final Pagination pagination, final Sorting sorting);
 
-    public ImageFolder getOne(final Long number);
+    public AssetFolder getOne(final Long number);
 
-    public Page<Image> getPublicImages(final Long folderNumber, final Pagination pagination, final Sorting sorting);
+    public Page<Asset> getPublicImages(final Long folderNumber, final Pagination pagination, final Sorting sorting);
 
-    public Page<Image> getPublicRootImages(final Pagination pagination, final Sorting sorting);
+    public Page<Asset> getPublicRootImages(final Pagination pagination, final Sorting sorting);
 
-    public Page<Image> getRootImages(final Pagination pagination, final Sorting sorting);
+    public Page<Asset> getRootImages(final Pagination pagination, final Sorting sorting);
 
-    public Image moveImage(final Long imageNumber, final Long folderNumber);
+    public Asset moveImage(final Long imageNumber, final Long folderNumber);
 
-    public Image moveImageToRoot(final Long imageNumber);
+    public Asset moveImageToRoot(final Long imageNumber);
 
-    public ImageFolder update(final ImageFolder folder);
+    public AssetFolder update(final AssetFolder folder);
 
 }

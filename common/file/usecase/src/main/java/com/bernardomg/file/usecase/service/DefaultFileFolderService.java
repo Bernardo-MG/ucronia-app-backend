@@ -10,16 +10,16 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.bernardomg.asset.domain.model.Asset;
+import com.bernardomg.asset.domain.model.AssetFolder;
+import com.bernardomg.asset.domain.repository.AssetFolderRepository;
+import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.file.domain.exception.FileAlreadyExistsException;
 import com.bernardomg.file.domain.exception.FileFolderAlreadyExistsException;
 import com.bernardomg.file.domain.exception.FileFolderCantBeMovedException;
 import com.bernardomg.file.domain.exception.FileFolderNotEmptyException;
 import com.bernardomg.file.domain.exception.FileFolderNotExistingException;
 import com.bernardomg.file.domain.exception.FileNotExistingException;
-import com.bernardomg.file.domain.model.File;
-import com.bernardomg.file.domain.model.FileFolder;
-import com.bernardomg.file.domain.repository.FileFolderRepository;
-import com.bernardomg.file.domain.repository.FileRepository;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
@@ -32,13 +32,13 @@ public final class DefaultFileFolderService implements FileFolderService {
     /**
      * Logger for the class.
      */
-    private static final Logger        log = LoggerFactory.getLogger(DefaultFileFolderService.class);
+    private static final Logger         log = LoggerFactory.getLogger(DefaultFileFolderService.class);
 
-    private final FileRepository       fileRepository;
+    private final AssetRepository       fileRepository;
 
-    private final FileFolderRepository folderRepository;
+    private final AssetFolderRepository folderRepository;
 
-    public DefaultFileFolderService(final FileFolderRepository folderRepo, final FileRepository fileRepo) {
+    public DefaultFileFolderService(final AssetFolderRepository folderRepo, final AssetRepository fileRepo) {
         super();
 
         folderRepository = Objects.requireNonNull(folderRepo);
@@ -46,8 +46,8 @@ public final class DefaultFileFolderService implements FileFolderService {
     }
 
     @Override
-    public final FileFolder create(final FileFolder folder) {
-        final FileFolder created;
+    public final AssetFolder create(final AssetFolder folder) {
+        final AssetFolder created;
 
         log.debug("Creating file folder {}", folder);
 
@@ -56,12 +56,12 @@ public final class DefaultFileFolderService implements FileFolderService {
 
         if (folderRepository.existsByNameAndParent(folder.name(), folder.parentNumber()
             .orElse(null), null)) {
-            log.error("File folder with name {} already exists below parent {}", folder.name(), folder.parentNumber()
+            log.error("Asset folder with name {} already exists below parent {}", folder.name(), folder.parentNumber()
                 .orElse(null));
             throw new FileFolderAlreadyExistsException(folder.name());
         }
 
-        created = folderRepository.save(new FileFolder(-1L, folder.name(), folder.parentNumber()));
+        created = folderRepository.save(new AssetFolder(-1L, folder.name(), folder.parentNumber()));
 
         log.debug("Created file folder {}", created);
 
@@ -69,8 +69,8 @@ public final class DefaultFileFolderService implements FileFolderService {
     }
 
     @Override
-    public final FileFolder delete(final Long number) {
-        final FileFolder deleted;
+    public final AssetFolder delete(final Long number) {
+        final AssetFolder deleted;
 
         log.debug("Deleting file folder {}", number);
 
@@ -80,8 +80,8 @@ public final class DefaultFileFolderService implements FileFolderService {
                 return new FileFolderNotExistingException(number);
             });
 
-        if (folderRepository.hasChildren(number) || fileRepository.hasFilesInFolder(number)) {
-            log.error("File folder {} is not empty", number);
+        if (folderRepository.hasChildren(number) || fileRepository.hasAssetsInFolder(number)) {
+            log.error("Asset folder {} is not empty", number);
             throw new FileFolderNotEmptyException(number);
         }
 
@@ -93,8 +93,8 @@ public final class DefaultFileFolderService implements FileFolderService {
     }
 
     @Override
-    public final Collection<FileFolder> getAll() {
-        final Collection<FileFolder> folders;
+    public final Collection<AssetFolder> getAll() {
+        final Collection<AssetFolder> folders;
 
         log.debug("Reading all file folders");
 
@@ -106,8 +106,8 @@ public final class DefaultFileFolderService implements FileFolderService {
     }
 
     @Override
-    public final Page<File> getFiles(final Long folderNumber, final Pagination pagination, final Sorting sorting) {
-        final Page<File> files;
+    public final Page<Asset> getFiles(final Long folderNumber, final Pagination pagination, final Sorting sorting) {
+        final Page<Asset> files;
 
         log.debug("Reading files in folder {} with pagination {} and sorting {}", folderNumber, pagination, sorting);
 
@@ -124,8 +124,8 @@ public final class DefaultFileFolderService implements FileFolderService {
     }
 
     @Override
-    public final FileFolder getOne(final Long number) {
-        final FileFolder folder;
+    public final AssetFolder getOne(final Long number) {
+        final AssetFolder folder;
 
         log.debug("Reading file folder {}", number);
 
@@ -141,7 +141,7 @@ public final class DefaultFileFolderService implements FileFolderService {
     }
 
     @Override
-    public final Page<File> getPublicFiles(final Long folderNumber, final Pagination pagination,
+    public final Page<Asset> getPublicFiles(final Long folderNumber, final Pagination pagination,
             final Sorting sorting) {
         if (!folderRepository.exists(folderNumber)) {
             throw new FileFolderNotExistingException(folderNumber);
@@ -150,13 +150,13 @@ public final class DefaultFileFolderService implements FileFolderService {
     }
 
     @Override
-    public final Page<File> getPublicRootFiles(final Pagination pagination, final Sorting sorting) {
+    public final Page<Asset> getPublicRootFiles(final Pagination pagination, final Sorting sorting) {
         return fileRepository.findAllPublicByFolder(null, pagination, sorting);
     }
 
     @Override
-    public final Page<File> getRootFiles(final Pagination pagination, final Sorting sorting) {
-        final Page<File> files;
+    public final Page<Asset> getRootFiles(final Pagination pagination, final Sorting sorting) {
+        final Page<Asset> files;
 
         log.debug("Reading root files with pagination {} and sorting {}", pagination, sorting);
 
@@ -168,9 +168,9 @@ public final class DefaultFileFolderService implements FileFolderService {
     }
 
     @Override
-    public final File moveFile(final Long fileNumber, final Long folderNumber) {
-        final File file;
-        final File moved;
+    public final Asset moveFile(final Long fileNumber, final Long folderNumber) {
+        final Asset file;
+        final Asset moved;
 
         log.debug("Moving file {} to folder {}", fileNumber, folderNumber);
 
@@ -194,9 +194,9 @@ public final class DefaultFileFolderService implements FileFolderService {
     }
 
     @Override
-    public final File moveFileToRoot(final Long fileNumber) {
-        final File file;
-        final File moved;
+    public final Asset moveFileToRoot(final Long fileNumber) {
+        final Asset file;
+        final Asset moved;
 
         log.debug("Moving file {} to the root folder", fileNumber);
 
@@ -215,9 +215,9 @@ public final class DefaultFileFolderService implements FileFolderService {
     }
 
     @Override
-    public final FileFolder update(final FileFolder folder) {
-        final FileFolder existing;
-        final FileFolder updated;
+    public final AssetFolder update(final AssetFolder folder) {
+        final AssetFolder existing;
+        final AssetFolder updated;
 
         log.debug("Updating file folder {}", folder);
 
@@ -237,22 +237,22 @@ public final class DefaultFileFolderService implements FileFolderService {
 
         if (folderRepository.existsByNameAndParent(folder.name(), folder.parentNumber()
             .orElse(null), folder.number())) {
-            log.error("File folder with name {} already exists below parent {}", folder.name(), folder.parentNumber()
+            log.error("Asset folder with name {} already exists below parent {}", folder.name(), folder.parentNumber()
                 .orElse(null));
             throw new FileFolderAlreadyExistsException(folder.name());
         }
 
         updated = folderRepository
-            .save(new FileFolder(folder.number(), folder.name(), folder.parentNumber(), existing.audit()));
+            .save(new AssetFolder(folder.number(), folder.name(), folder.parentNumber(), existing.audit()));
 
         log.debug("Updated file folder {}", updated);
 
         return updated;
     }
 
-    private final void validateFileName(final File file, final Long folderNumber) {
+    private final void validateFileName(final Asset file, final Long folderNumber) {
         if (fileRepository.existsByNameAndFolder(file.name(), folderNumber, file.number())) {
-            log.error("File {} already exists in folder {}", file.name(), folderNumber);
+            log.error("Asset {} already exists in folder {}", file.name(), folderNumber);
             throw new FileAlreadyExistsException(file.name());
         }
     }
@@ -266,7 +266,7 @@ public final class DefaultFileFolderService implements FileFolderService {
 
         while (current != null) {
             if (Objects.equals(current, folderNumber) || !visited.add(current)) {
-                log.error("File folder {} can't be moved below folder {}", folderNumber, parentNumber);
+                log.error("Asset folder {} can't be moved below folder {}", folderNumber, parentNumber);
                 throw new FileFolderCantBeMovedException(folderNumber);
             }
 

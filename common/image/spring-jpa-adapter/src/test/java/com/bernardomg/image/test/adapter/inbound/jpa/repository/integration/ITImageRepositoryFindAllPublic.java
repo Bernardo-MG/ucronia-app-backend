@@ -7,9 +7,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.bernardomg.asset.domain.model.Asset;
+import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.image.TestApplication;
-import com.bernardomg.image.domain.model.Image;
-import com.bernardomg.image.domain.repository.ImageRepository;
 import com.bernardomg.image.test.configuration.data.annotation.PrivateImage;
 import com.bernardomg.image.test.configuration.data.annotation.PublicImage;
 import com.bernardomg.image.test.configuration.factory.Images;
@@ -20,17 +20,17 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("Image repository - find all public")
+@DisplayName("Asset repository - find all public")
 class ITImageRepositoryFindAllPublic {
 
     @Autowired
-    private ImageRepository repository;
+    private AssetRepository repository;
 
     @Test
     @PrivateImage
     @DisplayName("With a private image, it is not returned")
     void testFindAllPublic_Private() {
-        final Page<Image> result;
+        final Page<Asset> result;
 
         // WHEN
         result = repository.findAllPublic(new Pagination(1, 10), Sorting.unsorted());
@@ -44,7 +44,7 @@ class ITImageRepositoryFindAllPublic {
     @PublicImage
     @DisplayName("With a public image, it is returned")
     void testFindAllPublic_Public() {
-        final Page<Image> result;
+        final Page<Asset> result;
 
         // WHEN
         result = repository.findAllPublic(new Pagination(1, 10), Sorting.unsorted());
