@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,7 +36,7 @@ public class AssetFolderController implements AssetFolderApi {
     private final AssetFolderService  service;
 
     public AssetFolderController(final AssetFolderService assetFolderService,
-            final AssetReadAuthorizer assetReadAuthorizer) {
+            @Qualifier("assetReadAuthorizer") final AssetReadAuthorizer assetReadAuthorizer) {
         service = Objects.requireNonNull(assetFolderService);
         authorizer = Objects.requireNonNull(assetReadAuthorizer);
     }
@@ -81,7 +82,7 @@ public class AssetFolderController implements AssetFolderApi {
         final Page<Asset> assets;
 
         pagination = new Pagination(page, size);
-        if (authorizer.canReadPrivateAssets()) {
+        if (authorizer.canReadPrivate()) {
             assets = service.getAssets(folderNumber, pagination, WebSorting.toSorting(sort));
         } else {
             assets = service.getPublicAssets(folderNumber, pagination, WebSorting.toSorting(sort));
@@ -98,7 +99,7 @@ public class AssetFolderController implements AssetFolderApi {
         final Page<Asset> assets;
 
         pagination = new Pagination(page, size);
-        if (authorizer.canReadPrivateAssets()) {
+        if (authorizer.canReadPrivate()) {
             assets = service.getRootAssets(pagination, WebSorting.toSorting(sort));
         } else {
             assets = service.getPublicRootAssets(pagination, WebSorting.toSorting(sort));

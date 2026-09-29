@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -12,14 +13,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.bernardomg.asset.domain.model.Asset;
 import com.bernardomg.asset.adapter.outbound.rest.model.ContentDtoMapper;
+import com.bernardomg.asset.adapter.outbound.rest.security.AssetReadAuthorizer;
+import com.bernardomg.asset.domain.model.Asset;
 import com.bernardomg.asset.domain.model.Content;
 import com.bernardomg.file.adapter.outbound.rest.dto.FileMetadataUpdateDto;
 import com.bernardomg.file.adapter.outbound.rest.dto.FilePageResponseDto;
 import com.bernardomg.file.adapter.outbound.rest.dto.FileResponseDto;
 import com.bernardomg.file.adapter.outbound.rest.model.FileDtoMapper;
-import com.bernardomg.file.adapter.outbound.rest.security.FileReadAuthorizer;
 import com.bernardomg.file.usecase.service.FileService;
 import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.framework.security.access.annotation.Unsecured;
@@ -32,11 +33,12 @@ import com.bernardomg.security.domain.permission.constant.Actions;
 @RestController
 public class FileController implements FileApi {
 
-    private final FileReadAuthorizer authorizer;
+    private final AssetReadAuthorizer authorizer;
 
     private final FileService        service;
 
-    public FileController(final FileService fileService, final FileReadAuthorizer fileReadAuthorizer) {
+    public FileController(final FileService fileService,
+            @Qualifier("fileReadAuthorizer") final AssetReadAuthorizer fileReadAuthorizer) {
         service = Objects.requireNonNull(fileService);
         authorizer = Objects.requireNonNull(fileReadAuthorizer);
 
@@ -75,7 +77,7 @@ public class FileController implements FileApi {
 
         pagination = new Pagination(page, size);
         sorting = WebSorting.toSorting(sort);
-        if (authorizer.canReadPrivateFiles()) {
+        if (authorizer.canReadPrivate()) {
             files = service.getAll(pagination, sorting);
         } else {
             files = service.getAllPublic(pagination, sorting);

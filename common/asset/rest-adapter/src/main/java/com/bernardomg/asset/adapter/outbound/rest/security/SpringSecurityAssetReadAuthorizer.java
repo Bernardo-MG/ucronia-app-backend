@@ -13,29 +13,31 @@ import com.bernardomg.security.springframework.access.interceptor.ResourcePermis
 
 public final class SpringSecurityAssetReadAuthorizer implements AssetReadAuthorizer {
 
-    private static final String               RESOURCE = "ASSET";
-
     private final ResourcePermissionEvaluator permissionEvaluator;
 
-    public SpringSecurityAssetReadAuthorizer(final ResourcePermissionEvaluator permissionEvaluator) {
+    private final String                      resource;
+
+    public SpringSecurityAssetReadAuthorizer(final ResourcePermissionEvaluator permissionEval,
+            final String resourceName) {
         super();
 
-        this.permissionEvaluator = Objects.requireNonNull(permissionEvaluator);
+        permissionEvaluator = Objects.requireNonNull(permissionEval);
+        resource = Objects.requireNonNull(resourceName);
     }
 
     @Override
-    public boolean canReadPrivateAssets() {
+    public boolean canReadPrivate() {
         final Authentication authentication;
 
         authentication = SecurityContextHolder.getContext()
             .getAuthentication();
 
-        return permissionEvaluator.isAuthorized(authentication, RESOURCE, Actions.READ);
+        return permissionEvaluator.isAuthorized(authentication, resource, Actions.READ);
     }
 
     @Override
     public void checkCanRead(final Asset asset) {
-        if (!asset.publicAccess() && !canReadPrivateAssets()) {
+        if (!asset.publicAccess() && !canReadPrivate()) {
             throw new AccessDeniedException("No permissions for reading private assets");
         }
     }

@@ -30,7 +30,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import com.bernardomg.asset.domain.model.Asset;
 import com.bernardomg.asset.domain.model.Content;
-import com.bernardomg.file.adapter.outbound.rest.security.SpringSecurityFileReadAuthorizer;
+import com.bernardomg.asset.adapter.outbound.rest.security.SpringSecurityAssetReadAuthorizer;
 import com.bernardomg.file.test.configuration.factory.Contents;
 import com.bernardomg.file.test.configuration.factory.FileConstants;
 import com.bernardomg.file.test.configuration.factory.Files;
@@ -61,7 +61,8 @@ class TestFileController {
         validator.afterPropertiesSet();
 
         mockMvc = MockMvcBuilders
-            .standaloneSetup(new FileController(service, new SpringSecurityFileReadAuthorizer(permissionEvaluator)))
+            .standaloneSetup(
+                new FileController(service, new SpringSecurityAssetReadAuthorizer(permissionEvaluator, "FILE")))
             .setValidator(validator)
             .build();
     }

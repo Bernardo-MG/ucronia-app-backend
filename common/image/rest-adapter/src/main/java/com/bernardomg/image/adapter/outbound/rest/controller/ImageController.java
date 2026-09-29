@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -12,8 +13,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.bernardomg.asset.domain.model.Asset;
 import com.bernardomg.asset.adapter.outbound.rest.model.ContentDtoMapper;
+import com.bernardomg.asset.adapter.outbound.rest.security.AssetReadAuthorizer;
+import com.bernardomg.asset.domain.model.Asset;
 import com.bernardomg.asset.domain.model.Content;
 import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.framework.security.access.annotation.Unsecured;
@@ -21,7 +23,6 @@ import com.bernardomg.image.adapter.outbound.rest.dto.ImageMetadataUpdateDto;
 import com.bernardomg.image.adapter.outbound.rest.dto.ImagePageResponseDto;
 import com.bernardomg.image.adapter.outbound.rest.dto.ImageResponseDto;
 import com.bernardomg.image.adapter.outbound.rest.model.ImageDtoMapper;
-import com.bernardomg.image.adapter.outbound.rest.security.ImageReadAuthorizer;
 import com.bernardomg.image.usecase.service.ImageService;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -32,11 +33,12 @@ import com.bernardomg.security.domain.permission.constant.Actions;
 @RestController
 public class ImageController implements ImageApi {
 
-    private final ImageReadAuthorizer authorizer;
+    private final AssetReadAuthorizer authorizer;
 
     private final ImageService        service;
 
-    public ImageController(final ImageService imageService, final ImageReadAuthorizer imageReadAuthorizer) {
+    public ImageController(final ImageService imageService,
+            @Qualifier("imageReadAuthorizer") final AssetReadAuthorizer imageReadAuthorizer) {
         service = Objects.requireNonNull(imageService);
         authorizer = Objects.requireNonNull(imageReadAuthorizer);
 
@@ -75,7 +77,7 @@ public class ImageController implements ImageApi {
 
         pagination = new Pagination(page, size);
         sorting = WebSorting.toSorting(sort);
-        if (authorizer.canReadPrivateImages()) {
+        if (authorizer.canReadPrivate()) {
             images = service.getAll(pagination, sorting);
         } else {
             images = service.getAllPublic(pagination, sorting);

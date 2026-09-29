@@ -37,7 +37,7 @@ class TestSpringSecurityAssetReadAuthorizer {
 
     @BeforeEach
     void setUp() {
-        authorizer = new SpringSecurityAssetReadAuthorizer(permissionEvaluator);
+        authorizer = new SpringSecurityAssetReadAuthorizer(permissionEvaluator, "ASSET");
     }
 
     @Test
@@ -53,7 +53,7 @@ class TestSpringSecurityAssetReadAuthorizer {
         given(permissionEvaluator.isAuthorized(authentication, "ASSET", Actions.READ)).willReturn(true);
 
         // WHEN
-        authorized = authorizer.canReadPrivateAssets();
+        authorized = authorizer.canReadPrivate();
 
         // THEN
         Assertions.assertThat(authorized)
@@ -73,7 +73,7 @@ class TestSpringSecurityAssetReadAuthorizer {
         given(permissionEvaluator.isAuthorized(authentication, "ASSET", Actions.READ)).willReturn(false);
 
         // WHEN
-        authorized = authorizer.canReadPrivateAssets();
+        authorized = authorizer.canReadPrivate();
 
         // THEN
         Assertions.assertThat(authorized)

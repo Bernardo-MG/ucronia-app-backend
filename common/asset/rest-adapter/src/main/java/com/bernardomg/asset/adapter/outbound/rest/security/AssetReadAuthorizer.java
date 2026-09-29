@@ -5,7 +5,7 @@ import com.bernardomg.asset.domain.model.Asset;
 
 public interface AssetReadAuthorizer {
 
-    public boolean canReadPrivateAssets();
+    public boolean canReadPrivate();
 
     public void checkCanRead(final Asset asset);
 

@@ -32,13 +32,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpMethod;
 
-import com.bernardomg.asset.domain.repository.AssetRepository;
+import com.bernardomg.asset.adapter.outbound.rest.security.AssetReadAuthorizer;
+import com.bernardomg.asset.adapter.outbound.rest.security.SpringSecurityAssetReadAuthorizer;
 import com.bernardomg.asset.domain.key.ContentKeyGenerator;
 import com.bernardomg.asset.domain.policy.ContentPolicy;
 import com.bernardomg.asset.domain.policy.RestrictedContentPolicy;
+import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.asset.domain.repository.ContentRepository;
-import com.bernardomg.image.adapter.outbound.rest.security.ImageReadAuthorizer;
-import com.bernardomg.image.adapter.outbound.rest.security.SpringSecurityImageReadAuthorizer;
 import com.bernardomg.image.usecase.service.DefaultImageService;
 import com.bernardomg.image.usecase.service.ImageService;
 import com.bernardomg.security.springframework.access.interceptor.AuthorityResourcePermissionEvaluator;
@@ -58,11 +58,11 @@ public class AssociationImageAutoConfiguration {
     }
 
     @Bean("imageReadAuthorizer")
-    public ImageReadAuthorizer getImageReadAuthorizer() {
+    public AssetReadAuthorizer getImageReadAuthorizer() {
         final ResourcePermissionEvaluator permissionEvaluator;
 
         permissionEvaluator = new AuthorityResourcePermissionEvaluator();
-        return new SpringSecurityImageReadAuthorizer(permissionEvaluator);
+        return new SpringSecurityAssetReadAuthorizer(permissionEvaluator, "IMAGE");
     }
 
     @Bean("imageService")

@@ -56,12 +56,12 @@ public class AssetAutoConfiguration {
         return WhitelistRoute.of("/asset-folders/**", HttpMethod.GET);
     }
 
-    @Bean
+    @Bean("assetReadAuthorizer")
     public AssetReadAuthorizer getAssetReadAuthorizer() {
         final ResourcePermissionEvaluator permissionEvaluator;
 
         permissionEvaluator = new AuthorityResourcePermissionEvaluator();
-        return new SpringSecurityAssetReadAuthorizer(permissionEvaluator);
+        return new SpringSecurityAssetReadAuthorizer(permissionEvaluator, "ASSET");
     }
 
     @Bean("assetRepository")

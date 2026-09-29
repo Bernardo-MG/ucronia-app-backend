@@ -28,7 +28,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import com.bernardomg.asset.domain.model.Asset;
 import com.bernardomg.asset.domain.model.Content;
-import com.bernardomg.image.adapter.outbound.rest.security.SpringSecurityImageReadAuthorizer;
+import com.bernardomg.asset.adapter.outbound.rest.security.SpringSecurityAssetReadAuthorizer;
 import com.bernardomg.image.test.configuration.factory.Contents;
 import com.bernardomg.image.test.configuration.factory.ImageConstants;
 import com.bernardomg.image.test.configuration.factory.Images;
@@ -59,7 +59,8 @@ class TestImageController {
         validator.afterPropertiesSet();
 
         mockMvc = MockMvcBuilders
-            .standaloneSetup(new ImageController(service, new SpringSecurityImageReadAuthorizer(permissionEvaluator)))
+            .standaloneSetup(
+                new ImageController(service, new SpringSecurityAssetReadAuthorizer(permissionEvaluator, "IMAGE")))
             .setValidator(validator)
             .build();
     }
