@@ -45,10 +45,6 @@
       </dependency>
       <dependency>
          <groupId>com.bernardomg.image</groupId>
-         <artifactId>image-domain</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.image</groupId>
          <artifactId>image-usecase</artifactId>
       </dependency>
       <dependency>

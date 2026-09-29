@@ -34,8 +34,8 @@
          <artifactId>content-domain</artifactId>
       </dependency>
       <dependency>
-         <groupId>com.bernardomg.file</groupId>
-         <artifactId>file-domain</artifactId>
+         <groupId>com.bernardomg.asset</groupId>
+         <artifactId>asset-domain</artifactId>
       </dependency>
    </dependencies>
 

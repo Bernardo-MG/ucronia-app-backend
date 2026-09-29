@@ -29,7 +29,6 @@
    <!-- ********************************************** -->
 
    <modules>
-     <module>domain</module>
      <module>testing</module>
      <module>usecase</module>
      <module>rest-adapter</module>
@@ -48,11 +47,6 @@
          <dependency>
             <groupId>com.bernardomg.file</groupId>
             <artifactId>file-testing</artifactId>
-            <version>${project.version}</version>
-         </dependency>
-         <dependency>
-            <groupId>com.bernardomg.file</groupId>
-            <artifactId>file-domain</artifactId>
             <version>${project.version}</version>
          </dependency>
          <dependency>

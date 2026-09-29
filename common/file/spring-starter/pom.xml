@@ -39,10 +39,6 @@
       </dependency>
       <dependency>
          <groupId>com.bernardomg.file</groupId>
-         <artifactId>file-domain</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.file</groupId>
          <artifactId>file-usecase</artifactId>
       </dependency>
       <dependency>
