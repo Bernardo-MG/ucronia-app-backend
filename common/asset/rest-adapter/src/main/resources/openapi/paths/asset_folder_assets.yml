@@ -1,6 +1,6 @@
 parameters:
   - in: path
-    name: folderNumber
+    name: number
     required: true
     schema:
        $ref: '../common/ids.yml#/components/schemas/Id'

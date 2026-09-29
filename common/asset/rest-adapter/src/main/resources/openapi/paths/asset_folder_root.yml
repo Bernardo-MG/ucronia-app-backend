@@ -1,21 +1,16 @@
 parameters:
   - in: path
-    name: folderNumber
+    name: number
     required: true
     schema:
        $ref: '../common/ids.yml#/components/schemas/Id'
-  - in: path
-    name: assetNumber
-    required: true
-    schema:
-       $ref: '../common/ids.yml#/components/schemas/Id'
-put:
-  summary: Move an asset into a folder.
-  operationId: moveAssetToFolder
+delete:
+  summary: Move an asset to the root.
+  operationId: moveAssetToRoot
   tags: [Asset folder]
   responses:
     '200':
-      description: Asset moved.
+      description: Asset moved to the root.
       content:
         application/json:
           schema:

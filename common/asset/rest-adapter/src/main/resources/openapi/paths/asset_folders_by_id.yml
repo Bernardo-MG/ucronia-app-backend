@@ -14,7 +14,7 @@ get:
       content:
         application/json:
           schema:
-            $ref: '../components/asset-folders.yml#/components/schemas/AssetFolder'
+            $ref: '../components/asset_folders.yml#/components/schemas/AssetFolder'
     '404':
        description: Folder not found.
 put:
@@ -26,14 +26,14 @@ put:
     content:
       application/json:
         schema:
-          $ref: '../components/asset-folders.yml#/components/schemas/AssetFolderUpdate'
+          $ref: '../components/asset_folders.yml#/components/schemas/AssetFolderUpdate'
   responses:
     '200':
       description: Folder updated.
       content:
         application/json:
           schema:
-            $ref: '../components/asset-folders.yml#/components/schemas/AssetFolder'
+            $ref: '../components/asset_folders.yml#/components/schemas/AssetFolder'
     '400':
        description: The requested hierarchy contains a cycle.
 delete:
@@ -46,6 +46,6 @@ delete:
       content:
         application/json:
           schema:
-            $ref: '../components/asset-folders.yml#/components/schemas/AssetFolder'
+            $ref: '../components/asset_folders.yml#/components/schemas/AssetFolder'
     '409':
        description: Folder contains assets or child folders.

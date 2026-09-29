@@ -8,14 +8,14 @@ servers:
     description: Local development
 paths:
   /asset/folders:
-    $ref: paths/asset-folders.yml
+    $ref: paths/asset_folders.yml
   /asset/folders/{number}:
-    $ref: paths/asset-folders_by_id.yml
-  /asset/folders/{folderNumber}/assets/{assetNumber}:
-    $ref: paths/asset-folder_asset.yml
-  /asset/folders/{folderNumber}/assets:
-    $ref: paths/asset-folder_assets.yml
+    $ref: paths/asset_folders_by_id.yml
+  /asset/folders/{folder}/assets/{asset}:
+    $ref: paths/asset_folder_asset.yml
+  /asset/folders/{number}/assets:
+    $ref: paths/asset_folder_assets.yml
   /asset/folders/root/assets:
-    $ref: paths/asset-folder_root_assets.yml
-  /asset/folders/assets/{assetNumber}:
-    $ref: paths/asset-folder_root.yml
+    $ref: paths/asset_folder_root_assets.yml
+  /asset/folders/assets/{number}:
+    $ref: paths/asset_folder_root.yml
