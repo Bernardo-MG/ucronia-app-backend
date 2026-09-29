@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.asset.adapter.inbound.jpa.model.AssetFolderEntity;
 import com.bernardomg.asset.adapter.inbound.jpa.model.AssetFolderEntityMapper;
-import com.bernardomg.asset.adapter.inbound.jpa.model.AssetType;
 import com.bernardomg.asset.domain.model.AssetFolder;
 import com.bernardomg.asset.domain.repository.AssetFolderRepository;
 
@@ -25,32 +24,28 @@ public final class JpaAssetFolderRepository implements AssetFolderRepository {
 
     private final AssetFolderSpringRepository repository;
 
-    private final AssetType                   type;
-
-    public JpaAssetFolderRepository(final AssetType assetType,
-            final AssetFolderSpringRepository assetFolderRepository) {
+    public JpaAssetFolderRepository(final AssetFolderSpringRepository assetFolderRepository) {
         super();
 
-        type = Objects.requireNonNull(assetType);
         repository = Objects.requireNonNull(assetFolderRepository);
     }
 
     @Override
     public final void delete(final Long number) {
-        log.debug("Deleting {} asset folder {}", type, number);
+        log.debug("Deleting asset folder {}", number);
 
-        repository.deleteByTypeAndNumber(type, number);
+        repository.deleteByNumber(number);
 
-        log.debug("Deleted {} asset folder {}", type, number);
+        log.debug("Deleted asset folder {}", number);
     }
 
     @Override
     public final boolean exists(final Long number) {
         final boolean exists;
 
-        log.debug("Checking if image folder {} exists", number);
+        log.debug("Checking if asset folder {} exists", number);
 
-        exists = repository.existsByTypeAndNumber(type, number);
+        exists = repository.existsByNumber(number);
 
         log.debug("Asset folder {} exists: {}", number, exists);
 
@@ -61,16 +56,16 @@ public final class JpaAssetFolderRepository implements AssetFolderRepository {
     public final boolean existsByNameAndParent(final String name, final Long parent, final Long excluded) {
         final boolean exists;
 
-        log.debug("Checking if image folder {} exists below parent {}, excluding folder {}", name, parent, excluded);
+        log.debug("Checking if asset folder {} exists below parent {}, excluding folder {}", name, parent, excluded);
 
         if ((parent == null) && (excluded == null)) {
-            exists = repository.existsByTypeAndNameAndParentIsNull(type, name);
+            exists = repository.existsByNameAndParentIsNull(name);
         } else if (parent == null) {
-            exists = repository.existsByTypeAndNameAndParentIsNullAndNumberNot(type, name, excluded);
+            exists = repository.existsByNameAndParentIsNullAndNumberNot(name, excluded);
         } else if (excluded == null) {
-            exists = repository.existsByTypeAndNameAndParentNumber(type, name, parent);
+            exists = repository.existsByNameAndParentNumber(name, parent);
         } else {
-            exists = repository.existsByTypeAndNameAndParentNumberAndNumberNot(type, name, parent, excluded);
+            exists = repository.existsByNameAndParentNumberAndNumberNot(name, parent, excluded);
         }
 
         log.debug("Asset folder {} exists below parent {}, excluding folder {}: {}", name, parent, excluded, exists);
@@ -82,14 +77,14 @@ public final class JpaAssetFolderRepository implements AssetFolderRepository {
     public final Collection<AssetFolder> findAll() {
         final Collection<AssetFolder> folders;
 
-        log.debug("Finding all image folders");
+        log.debug("Finding all asset folders");
 
-        folders = repository.findAllByType(type)
+        folders = repository.findAll()
             .stream()
             .map(AssetFolderEntityMapper::toDomain)
             .toList();
 
-        log.debug("Found {} image folders", folders.size());
+        log.debug("Found {} asset folders", folders.size());
 
         return folders;
     }
@@ -98,12 +93,12 @@ public final class JpaAssetFolderRepository implements AssetFolderRepository {
     public final Optional<AssetFolder> findOne(final Long number) {
         final Optional<AssetFolder> folder;
 
-        log.debug("Finding image folder with number {}", number);
+        log.debug("Finding asset folder with number {}", number);
 
-        folder = repository.findByTypeAndNumber(type, number)
+        folder = repository.findByNumber(number)
             .map(AssetFolderEntityMapper::toDomain);
 
-        log.debug("Found image folder with number {}: {}", number, folder);
+        log.debug("Found asset folder with number {}: {}", number, folder);
 
         return folder;
     }
@@ -112,9 +107,9 @@ public final class JpaAssetFolderRepository implements AssetFolderRepository {
     public final boolean hasChildren(final Long number) {
         final boolean hasChildren;
 
-        log.debug("Checking if image folder {} has children", number);
+        log.debug("Checking if asset folder {} has children", number);
 
-        hasChildren = repository.existsByTypeAndParentNumber(type, number);
+        hasChildren = repository.existsByParentNumber(number);
 
         log.debug("Asset folder {} has children: {}", number, hasChildren);
 
@@ -128,26 +123,25 @@ public final class JpaAssetFolderRepository implements AssetFolderRepository {
         final AssetFolderEntity persisted;
         final AssetFolder       saved;
 
-        log.debug("Saving image folder {}", folder);
+        log.debug("Saving asset folder {}", folder);
 
-        entity = repository.findByTypeAndNumber(type, folder.number())
+        entity = repository.findByNumber(folder.number())
             .orElseGet(AssetFolderEntity::new);
 
         if (entity.getNumber() == null) {
-            entity.setNumber(repository.findNextNumber(type));
+            entity.setNumber(repository.findNextNumber());
         }
 
-        entity.setType(type);
         entity.setName(folder.name());
 
         if (folder.parentNumber()
             .isEmpty()) {
             entity.setParent(null);
         } else {
-            parent = repository.findByTypeAndNumber(type, folder.parentNumber()
+            parent = repository.findByNumber(folder.parentNumber()
                 .get())
                 .orElseThrow(() -> {
-                    log.error("Missing parent image folder {}", folder.parentNumber()
+                    log.error("Missing parent asset folder {}", folder.parentNumber()
                         .get());
                     return new IllegalArgumentException("Asset folder doesn't exist: " + folder.parentNumber()
                         .get());
@@ -158,7 +152,7 @@ public final class JpaAssetFolderRepository implements AssetFolderRepository {
         persisted = repository.save(entity);
         saved = AssetFolderEntityMapper.toDomain(persisted);
 
-        log.debug("Saved image folder {}", saved);
+        log.debug("Saved asset folder {}", saved);
 
         return saved;
     }

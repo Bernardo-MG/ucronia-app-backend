@@ -71,8 +71,7 @@ public class AssociationFileAutoConfiguration {
     }
 
     @Bean("fileService")
-    public FileService getFileService(@Qualifier("fileRepository") final AssetRepository fileRepository,
-            final ContentRepository contentRepository,
+    public FileService getFileService(final AssetRepository fileRepository, final ContentRepository contentRepository,
             @Qualifier("fileContentPolicy") final ContentPolicy fileContentPolicy,
             final ContentKeyGenerator contentKeyGenerator) {
         return new DefaultFileService(fileRepository, contentRepository, fileContentPolicy, contentKeyGenerator);

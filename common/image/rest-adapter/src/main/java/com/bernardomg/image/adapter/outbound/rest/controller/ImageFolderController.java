@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,7 +34,7 @@ public class ImageFolderController implements ImageFolderApi {
 
     private final AssetFolderService  service;
 
-    public ImageFolderController(@Qualifier("imageFolderService") final AssetFolderService imageFolderService,
+    public ImageFolderController(final AssetFolderService imageFolderService,
             final ImageReadAuthorizer imageReadAuthorizer) {
         service = Objects.requireNonNull(imageFolderService);
         authorizer = Objects.requireNonNull(imageReadAuthorizer);

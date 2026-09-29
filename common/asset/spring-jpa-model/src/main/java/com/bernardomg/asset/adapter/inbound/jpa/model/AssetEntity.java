@@ -11,8 +11,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -61,10 +59,6 @@ public class AssetEntity implements Serializable {
     @Column(name = "size", nullable = false)
     private Long              size;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "type", nullable = false, length = 20)
-    private AssetType         type;
-
     public AuditMetadata getAudit() {
         return audit;
     }
@@ -99,10 +93,6 @@ public class AssetEntity implements Serializable {
 
     public Long getSize() {
         return size;
-    }
-
-    public AssetType getType() {
-        return type;
     }
 
     public boolean isPublicAccess() {
@@ -149,15 +139,11 @@ public class AssetEntity implements Serializable {
         size = value;
     }
 
-    public void setType(final AssetType value) {
-        type = value;
-    }
-
     @Override
     public String toString() {
         return "AssetEntity [id=" + id + ", key=" + key + ", name=" + name + ", description=" + description + ", audit="
                 + audit + ", folder=" + folder + ", mediaType=" + mediaType + ", number=" + number + ", publicAccess="
-                + publicAccess + ", size=" + size + ", type=" + type + "]";
+                + publicAccess + ", size=" + size + "]";
     }
 
 }

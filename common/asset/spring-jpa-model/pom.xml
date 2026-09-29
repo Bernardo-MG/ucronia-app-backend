@@ -53,6 +53,59 @@
          <groupId>jakarta.persistence</groupId>
          <artifactId>jakarta.persistence-api</artifactId>
       </dependency>
+      <!-- ============================================== -->
+      <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
+      <!-- ============================================== -->
+      <dependency>
+         <groupId>com.bernardomg.asset</groupId>
+         <artifactId>asset-testing</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg</groupId>
+         <artifactId>testing</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-starter-data-jpa</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <!-- Postgres connector -->
+         <groupId>org.postgresql</groupId>
+         <artifactId>postgresql</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <!-- Liquibase -->
+         <groupId>org.liquibase</groupId>
+         <artifactId>liquibase-core</artifactId>
+         <exclusions>
+            <exclusion>
+               <groupId>ch.qos.logback</groupId>
+               <artifactId>logback-classic</artifactId>
+            </exclusion>
+         </exclusions>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <!-- Jackson -->
+         <groupId>com.fasterxml.jackson.core</groupId>
+         <artifactId>jackson-core</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <!-- Jackson databinding -->
+         <groupId>com.fasterxml.jackson.core</groupId>
+         <artifactId>jackson-databind</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.framework.security</groupId>
+         <artifactId>security-adapter</artifactId>
+         <scope>test</scope>
+      </dependency>
    </dependencies>
 
 </project>

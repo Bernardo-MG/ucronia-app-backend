@@ -11,8 +11,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -45,10 +43,6 @@ public class AssetFolderEntity implements Serializable {
     @JoinColumn(name = "parent_id")
     private AssetFolderEntity parent;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "type", nullable = false, length = 20)
-    private AssetType         type;
-
     public AuditMetadata getAudit() {
         return audit;
     }
@@ -67,10 +61,6 @@ public class AssetFolderEntity implements Serializable {
 
     public AssetFolderEntity getParent() {
         return parent;
-    }
-
-    public AssetType getType() {
-        return type;
     }
 
     public void setAudit(final AuditMetadata value) {
@@ -93,14 +83,10 @@ public class AssetFolderEntity implements Serializable {
         parent = value;
     }
 
-    public void setType(final AssetType value) {
-        type = value;
-    }
-
     @Override
     public String toString() {
         return "AssetFolderEntity [id=" + id + ", number=" + number + ", name=" + name + ", audit=" + audit
-                + ", parent=" + parent + ", type=" + type + "]";
+                + ", parent=" + parent + "]";
     }
 
 }

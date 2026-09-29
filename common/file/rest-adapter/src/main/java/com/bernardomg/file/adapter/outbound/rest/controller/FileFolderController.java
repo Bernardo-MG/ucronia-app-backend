@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,9 +32,9 @@ public class FileFolderController implements FileFolderApi {
 
     private final FileReadAuthorizer authorizer;
 
-    private final AssetFolderService  service;
+    private final AssetFolderService service;
 
-    public FileFolderController(@Qualifier("fileFolderService") final AssetFolderService fileFolderService,
+    public FileFolderController(final AssetFolderService fileFolderService,
             final FileReadAuthorizer fileReadAuthorizer) {
         service = Objects.requireNonNull(fileFolderService);
         authorizer = Objects.requireNonNull(fileReadAuthorizer);

@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.asset.adapter.inbound.jpa.model.AssetEntity;
 import com.bernardomg.asset.adapter.inbound.jpa.model.AssetEntityMapper;
 import com.bernardomg.asset.adapter.inbound.jpa.model.AssetFolderEntity;
-import com.bernardomg.asset.adapter.inbound.jpa.model.AssetType;
 import com.bernardomg.asset.domain.model.Asset;
 import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.pagination.domain.Page;
@@ -32,31 +31,28 @@ public final class JpaAssetRepository implements AssetRepository {
 
     private final AssetSpringRepository       repository;
 
-    private final AssetType                   type;
-
-    public JpaAssetRepository(final AssetType assetType, final AssetSpringRepository assetRepository,
+    public JpaAssetRepository(final AssetSpringRepository assetRepository,
             final AssetFolderSpringRepository assetFolderRepository) {
-        type = Objects.requireNonNull(assetType);
         repository = Objects.requireNonNull(assetRepository);
         folderRepository = Objects.requireNonNull(assetFolderRepository);
     }
 
     @Override
     public final void delete(final Long number) {
-        log.debug("Deleting {} asset {}", type, number);
+        log.debug("Deleting asset {}", number);
 
-        repository.deleteByTypeAndNumber(type, number);
+        repository.deleteByNumber(number);
 
-        log.debug("Deleted {} asset {}", type, number);
+        log.debug("Deleted asset {}", number);
     }
 
     @Override
     public final boolean exists(final Long number) {
         final boolean exists;
 
-        log.debug("Checking if {} asset {} exists", type, number);
+        log.debug("Checking if asset {} exists", number);
 
-        exists = repository.existsByTypeAndNumber(type, number);
+        exists = repository.existsByNumber(number);
 
         log.debug("Asset {} exists: {}", number, exists);
 
@@ -67,12 +63,12 @@ public final class JpaAssetRepository implements AssetRepository {
     public final boolean existsByNameAndFolder(final String name, final Long folderNumber) {
         final boolean exists;
 
-        log.debug("Checking if image {} exists in folder {}", name, folderNumber);
+        log.debug("Checking if asset {} exists in folder {}", name, folderNumber);
 
         if (folderNumber == null) {
-            exists = repository.existsByTypeAndNameAndFolderIsNull(type, name);
+            exists = repository.existsByNameAndFolderIsNull(name);
         } else {
-            exists = repository.existsByTypeAndNameAndFolderNumber(type, name, folderNumber);
+            exists = repository.existsByNameAndFolderNumber(name, folderNumber);
         }
 
         log.debug("Asset {} exists in folder {}: {}", name, folderNumber, exists);
@@ -84,13 +80,12 @@ public final class JpaAssetRepository implements AssetRepository {
     public final boolean existsByNameAndFolder(final String name, final Long folderNumber, final long excludedNumber) {
         final boolean exists;
 
-        log.debug("Checking if image {} exists in folder {}, excluding {}", name, folderNumber, excludedNumber);
+        log.debug("Checking if asset {} exists in folder {}, excluding {}", name, folderNumber, excludedNumber);
 
         if (folderNumber == null) {
-            exists = repository.existsByTypeAndNameAndNumberNotAndFolderIsNull(type, name, excludedNumber);
+            exists = repository.existsByNameAndNumberNotAndFolderIsNull(name, excludedNumber);
         } else {
-            exists = repository.existsByTypeAndNameAndFolderNumberAndNumberNot(type, name, folderNumber,
-                excludedNumber);
+            exists = repository.existsByNameAndFolderNumberAndNumberNot(name, folderNumber, excludedNumber);
         }
 
         log.debug("Asset {} exists in folder {}: {}", name, folderNumber, exists);
@@ -103,13 +98,13 @@ public final class JpaAssetRepository implements AssetRepository {
         final Pageable                                    pageable;
         final org.springframework.data.domain.Page<Asset> read;
 
-        log.debug("Finding {} assets with pagination {} and sorting {}", type, pagination, sorting);
+        log.debug("Finding assets with pagination {} and sorting {}", pagination, sorting);
 
         pageable = SpringPagination.toPageable(pagination, sorting);
-        read = repository.findAllByType(type, pageable)
+        read = repository.findAll(pageable)
             .map(AssetEntityMapper::toDomain);
 
-        log.debug("Found {} assets {}", type, read);
+        log.debug("Found assets {}", read);
 
         return SpringPagination.toPage(read);
     }
@@ -122,10 +117,10 @@ public final class JpaAssetRepository implements AssetRepository {
 
         pageable = SpringPagination.toPageable(pagination, sorting);
         if (folderNumber == null) {
-            read = repository.findAllByTypeAndFolderIsNull(type, pageable)
+            read = repository.findAllByFolderIsNull(pageable)
                 .map(AssetEntityMapper::toDomain);
         } else {
-            read = repository.findAllByTypeAndFolderNumber(type, folderNumber, pageable)
+            read = repository.findAllByFolderNumber(folderNumber, pageable)
                 .map(AssetEntityMapper::toDomain);
         }
         return SpringPagination.toPage(read);
@@ -136,7 +131,7 @@ public final class JpaAssetRepository implements AssetRepository {
         final Pageable pageable;
 
         pageable = SpringPagination.toPageable(pagination, sorting);
-        return SpringPagination.toPage(repository.findAllByTypeAndPublicAccessTrue(type, pageable)
+        return SpringPagination.toPage(repository.findAllByPublicAccessTrue(pageable)
             .map(AssetEntityMapper::toDomain));
     }
 
@@ -148,10 +143,10 @@ public final class JpaAssetRepository implements AssetRepository {
 
         pageable = SpringPagination.toPageable(pagination, sorting);
         if (folderNumber == null) {
-            read = repository.findAllByTypeAndFolderIsNullAndPublicAccessTrue(type, pageable)
+            read = repository.findAllByFolderIsNullAndPublicAccessTrue(pageable)
                 .map(AssetEntityMapper::toDomain);
         } else {
-            read = repository.findAllByTypeAndFolderNumberAndPublicAccessTrue(type, folderNumber, pageable)
+            read = repository.findAllByFolderNumberAndPublicAccessTrue(folderNumber, pageable)
                 .map(AssetEntityMapper::toDomain);
         }
 
@@ -160,21 +155,21 @@ public final class JpaAssetRepository implements AssetRepository {
 
     @Override
     public final Optional<Asset> findOne(final Long number) {
-        final Optional<Asset> image;
+        final Optional<Asset> asset;
 
-        log.debug("Finding {} asset with number {}", type, number);
+        log.debug("Finding asset with number {}", number);
 
-        image = repository.findByTypeAndNumber(type, number)
+        asset = repository.findByNumber(number)
             .map(AssetEntityMapper::toDomain);
 
-        log.debug("Found {} asset with number {}: {}", type, number, image);
+        log.debug("Found asset with number {}: {}", number, asset);
 
-        return image;
+        return asset;
     }
 
     @Override
     public final boolean hasAssetsInFolder(final Long folderNumber) {
-        return repository.existsByTypeAndFolderNumber(type, folderNumber);
+        return repository.existsByFolderNumber(folderNumber);
     }
 
     @Override
@@ -182,12 +177,12 @@ public final class JpaAssetRepository implements AssetRepository {
         final AssetEntity       entity;
         final AssetFolderEntity folderEntity;
 
-        entity = repository.findByTypeAndNumber(type, number)
+        entity = repository.findByNumber(number)
             .orElseThrow();
         if (folderNumber == null) {
             folderEntity = null;
         } else {
-            folderEntity = folderRepository.findByTypeAndNumber(type, folderNumber)
+            folderEntity = folderRepository.findByNumber(folderNumber)
                 .orElseThrow();
         }
         entity.setFolder(folderEntity);
@@ -195,7 +190,7 @@ public final class JpaAssetRepository implements AssetRepository {
     }
 
     @Override
-    public final Asset save(final Asset image) {
+    public final Asset save(final Asset asset) {
         final Optional<AssetEntity> existing;
         final AssetEntity           entity;
         final Long                  number;
@@ -203,27 +198,25 @@ public final class JpaAssetRepository implements AssetRepository {
         final Asset                 saved;
         final AssetFolderEntity     folder;
 
-        log.debug("Saving image {}", image);
+        log.debug("Saving asset {}", asset);
 
-        existing = repository.findByTypeAndNumber(type, image.number());
+        existing = repository.findByNumber(asset.number());
         if (existing.isPresent()) {
-            entity = AssetEntityMapper.toEntity(image);
-            entity.setType(type);
+            entity = AssetEntityMapper.toEntity(asset);
             entity.setId(existing.get()
                 .getId());
         } else {
-            number = repository.findNextNumber(type);
-            toCreate = new Asset(number, image.name(), image.description(), image.key(), image.mediaType(),
-                image.size(), image.publicAccess(), image.folderNumber(), image.audit());
+            number = repository.findNextNumber();
+            toCreate = new Asset(number, asset.name(), asset.description(), asset.key(), asset.mediaType(),
+                asset.size(), asset.publicAccess(), asset.folderNumber(), asset.audit());
             entity = AssetEntityMapper.toEntity(toCreate);
-            entity.setType(type);
         }
 
-        if (image.folderNumber()
+        if (asset.folderNumber()
             .isEmpty()) {
             entity.setFolder(null);
         } else {
-            folder = folderRepository.findByTypeAndNumber(type, image.folderNumber()
+            folder = folderRepository.findByNumber(asset.folderNumber()
                 .get())
                 .orElseThrow();
             entity.setFolder(folder);
@@ -231,7 +224,7 @@ public final class JpaAssetRepository implements AssetRepository {
 
         saved = AssetEntityMapper.toDomain(repository.save(entity));
 
-        log.debug("Saved image {}", saved);
+        log.debug("Saved asset {}", saved);
 
         return saved;
     }

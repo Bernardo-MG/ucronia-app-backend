@@ -71,7 +71,7 @@ public class AssociationImageAutoConfiguration {
     }
 
     @Bean("imageService")
-    public ImageService getImageService(@Qualifier("imageRepository") final AssetRepository imageRepository,
+    public ImageService getImageService(final AssetRepository imageRepository,
             final ContentRepository contentRepository,
             @Qualifier("imageContentPolicy") final ContentPolicy imageContentPolicy,
             final ContentKeyGenerator contentKeyGenerator) {

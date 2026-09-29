@@ -7,9 +7,9 @@ import com.bernardomg.content.domain.model.Content;
 
 public final class Contents {
 
-    public static final Content image() {
+    public static final Content pdf() {
         return new Content(new ByteArrayInputStream(AssetConstants.DATA), AssetConstants.DATA.length,
-            AssetConstants.PNG_MEDIA_TYPE);
+            AssetConstants.PDF_MEDIA_TYPE);
     }
 
     private Contents() {

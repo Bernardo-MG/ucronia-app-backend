@@ -21,11 +21,6 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: type
-                  type: varchar(20)
-                  constraints:
-                    nullable: false
-              - column:
                   name: number
                   type: bigint
                   constraints:
@@ -61,26 +56,21 @@ databaseChangeLog:
         - addUniqueConstraint:
             schemaName: asset
             tableName: asset_folders
-            columnNames: id, type
-            constraintName: uk_asset_folders_id_type
+            columnNames: number
+            constraintName: uk_asset_folders_number
         - addUniqueConstraint:
             schemaName: asset
             tableName: asset_folders
-            columnNames: type, number
-            constraintName: uk_asset_folders_type_number
-        - addUniqueConstraint:
-            schemaName: asset
-            tableName: asset_folders
-            columnNames: type, parent_id, name
+            columnNames: parent_id, name
             constraintName: uk_asset_folders_parent_name
         - addForeignKeyConstraint:
             baseTableSchemaName: asset
             baseTableName: asset_folders
-            baseColumnNames: parent_id, type
+            baseColumnNames: parent_id
             referencedTableSchemaName: asset
             referencedTableName: asset_folders
-            referencedColumnNames: id, type
-            constraintName: fk_asset_folders_parent_type
+            referencedColumnNames: id
+            constraintName: fk_asset_folders_parent
         - createTable:
             schemaName: asset
             tableName: assets
@@ -91,11 +81,6 @@ databaseChangeLog:
                   autoIncrement: true
                   constraints:
                     primaryKey: true
-                    nullable: false
-              - column:
-                  name: type
-                  type: varchar(20)
-                  constraints:
                     nullable: false
               - column:
                   name: number
@@ -160,27 +145,25 @@ databaseChangeLog:
         - addUniqueConstraint:
             schemaName: asset
             tableName: assets
-            columnNames: type, number
-            constraintName: uk_assets_type_number
+            columnNames: number
+            constraintName: uk_assets_number
         - addUniqueConstraint:
             schemaName: asset
             tableName: assets
-            columnNames: type, folder_id, name
+            columnNames: folder_id, name
             constraintName: uk_assets_folder_name
         - addForeignKeyConstraint:
             baseTableSchemaName: asset
             baseTableName: assets
-            baseColumnNames: folder_id, type
+            baseColumnNames: folder_id
             referencedTableSchemaName: asset
             referencedTableName: asset_folders
-            referencedColumnNames: id, type
-            constraintName: fk_assets_folder_type
+            referencedColumnNames: id
+            constraintName: fk_assets_folder
         - createIndex:
             schemaName: asset
             tableName: assets
-            indexName: idx_assets_type_folder
+            indexName: idx_assets_folder
             columns:
-              - column:
-                  name: type
               - column:
                   name: folder_id
