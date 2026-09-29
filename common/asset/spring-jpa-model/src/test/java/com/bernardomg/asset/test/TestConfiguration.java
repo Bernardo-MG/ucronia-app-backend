@@ -16,7 +16,8 @@ import com.bernardomg.asset.domain.repository.AssetFolderRepository;
 import com.bernardomg.asset.domain.repository.AssetRepository;
 
 @Configuration
-@EnableJpaRepositories(basePackages = { "com.bernardomg.asset.adapter.inbound.jpa", "com.bernardomg.security.adapter.inbound.jpa" })
+@EnableJpaRepositories(
+        basePackages = { "com.bernardomg.asset.adapter.inbound.jpa", "com.bernardomg.security.adapter.inbound.jpa" })
 @EntityScan(
         basePackages = { "com.bernardomg.security.adapter.inbound.jpa", "com.bernardomg.asset.adapter.inbound.jpa" })
 public class TestConfiguration {

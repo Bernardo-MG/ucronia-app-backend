@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.bernardomg.asset.domain.model.Asset;
-import com.bernardomg.content.adapter.rest.ContentDtoMapper;
-import com.bernardomg.content.domain.model.Content;
+import com.bernardomg.asset.adapter.outbound.rest.model.ContentDtoMapper;
+import com.bernardomg.asset.domain.model.Content;
 import com.bernardomg.file.adapter.outbound.rest.dto.FileMetadataUpdateDto;
 import com.bernardomg.file.adapter.outbound.rest.dto.FilePageResponseDto;
 import com.bernardomg.file.adapter.outbound.rest.dto.FileResponseDto;

@@ -34,10 +34,6 @@
          <artifactId>asset-usecase</artifactId>
       </dependency>
       <dependency>
-         <groupId>com.bernardomg.content</groupId>
-         <artifactId>content-domain</artifactId>
-      </dependency>
-      <dependency>
          <groupId>jakarta.transaction</groupId>
          <artifactId>jakarta.transaction-api</artifactId>
       </dependency>

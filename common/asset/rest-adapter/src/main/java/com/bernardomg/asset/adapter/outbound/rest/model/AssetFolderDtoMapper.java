@@ -2,8 +2,8 @@
 
 package com.bernardomg.asset.adapter.outbound.rest.model;
 
-import com.bernardomg.asset.domain.model.AssetFolder;
 import com.bernardomg.asset.adapter.outbound.rest.dto.AssetFolderDto;
+import com.bernardomg.asset.domain.model.AssetFolder;
 
 public final class AssetFolderDtoMapper {
 

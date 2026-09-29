@@ -25,7 +25,7 @@
 package com.bernardomg.image.usecase.service;
 
 import com.bernardomg.asset.domain.model.Asset;
-import com.bernardomg.content.domain.model.Content;
+import com.bernardomg.asset.domain.model.Content;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;

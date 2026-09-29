@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.bernardomg.asset.domain.model.Asset;
-import com.bernardomg.content.adapter.rest.ContentDtoMapper;
-import com.bernardomg.content.domain.model.Content;
+import com.bernardomg.asset.adapter.outbound.rest.model.ContentDtoMapper;
+import com.bernardomg.asset.domain.model.Content;
 import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.framework.security.access.annotation.Unsecured;
 import com.bernardomg.image.adapter.outbound.rest.dto.ImageMetadataUpdateDto;

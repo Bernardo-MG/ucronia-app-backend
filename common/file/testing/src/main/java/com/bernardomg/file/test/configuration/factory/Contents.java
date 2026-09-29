@@ -3,7 +3,7 @@ package com.bernardomg.file.test.configuration.factory;
 
 import java.io.ByteArrayInputStream;
 
-import com.bernardomg.content.domain.model.Content;
+import com.bernardomg.asset.domain.model.Content;
 
 public final class Contents {
 

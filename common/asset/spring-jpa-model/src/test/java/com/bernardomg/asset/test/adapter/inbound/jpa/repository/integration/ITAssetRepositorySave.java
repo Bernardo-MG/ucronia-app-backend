@@ -12,8 +12,8 @@ import com.bernardomg.asset.domain.model.Asset;
 import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.asset.test.configuration.TestApplication;
 import com.bernardomg.asset.test.configuration.data.annotation.PublicFile;
-import com.bernardomg.asset.test.configuration.factory.Assets;
 import com.bernardomg.asset.test.configuration.factory.AssetEntities;
+import com.bernardomg.asset.test.configuration.factory.Assets;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest

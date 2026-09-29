@@ -2,15 +2,15 @@
 
 package com.bernardomg.asset.adapter.outbound.rest.model;
 
-import com.bernardomg.asset.domain.model.Asset;
-import com.bernardomg.asset.adapter.outbound.rest.dto.AuditDetailsDto;
-import com.bernardomg.asset.adapter.outbound.rest.dto.AuditUserDto;
 import com.bernardomg.asset.adapter.outbound.rest.dto.AssetDto;
 import com.bernardomg.asset.adapter.outbound.rest.dto.AssetPageResponseDto;
 import com.bernardomg.asset.adapter.outbound.rest.dto.AssetResponseDto;
+import com.bernardomg.asset.adapter.outbound.rest.dto.AuditDetailsDto;
+import com.bernardomg.asset.adapter.outbound.rest.dto.AuditUserDto;
 import com.bernardomg.asset.adapter.outbound.rest.dto.PropertyDto;
 import com.bernardomg.asset.adapter.outbound.rest.dto.PropertyDto.DirectionEnum;
 import com.bernardomg.asset.adapter.outbound.rest.dto.SortingDto;
+import com.bernardomg.asset.domain.model.Asset;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
 import com.bernardomg.pagination.domain.Sorting.Property;

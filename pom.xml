@@ -254,6 +254,11 @@
          </dependency>
          <dependency>
             <groupId>com.bernardomg.asset</groupId>
+            <artifactId>asset-s3-adapter</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.asset</groupId>
             <artifactId>asset-usecase</artifactId>
             <version>${project.version}</version>
          </dependency>
@@ -313,26 +318,6 @@
          <dependency>
             <groupId>com.bernardomg</groupId>
             <artifactId>excel</artifactId>
-            <version>${project.version}</version>
-         </dependency>
-         <dependency>
-            <groupId>com.bernardomg.content</groupId>
-            <artifactId>content-domain</artifactId>
-            <version>${project.version}</version>
-         </dependency>
-         <dependency>
-            <groupId>com.bernardomg.content</groupId>
-            <artifactId>content-rest-adapter</artifactId>
-            <version>${project.version}</version>
-         </dependency>
-         <dependency>
-            <groupId>com.bernardomg.content</groupId>
-            <artifactId>content-s3-adapter</artifactId>
-            <version>${project.version}</version>
-         </dependency>
-         <dependency>
-            <groupId>com.bernardomg.content</groupId>
-            <artifactId>content-spring-starter</artifactId>
             <version>${project.version}</version>
          </dependency>
          <dependency>

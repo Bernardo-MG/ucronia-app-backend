@@ -15,10 +15,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.asset.domain.repository.AssetRepository;
-import com.bernardomg.content.domain.key.ContentKeyGenerator;
-import com.bernardomg.content.domain.model.Content;
-import com.bernardomg.content.domain.policy.ContentPolicy;
-import com.bernardomg.content.domain.repository.ContentRepository;
+import com.bernardomg.asset.domain.key.ContentKeyGenerator;
+import com.bernardomg.asset.domain.model.Content;
+import com.bernardomg.asset.domain.policy.ContentPolicy;
+import com.bernardomg.asset.domain.repository.ContentRepository;
 import com.bernardomg.file.test.configuration.factory.Contents;
 import com.bernardomg.file.test.configuration.factory.FileConstants;
 import com.bernardomg.file.test.configuration.factory.Files;

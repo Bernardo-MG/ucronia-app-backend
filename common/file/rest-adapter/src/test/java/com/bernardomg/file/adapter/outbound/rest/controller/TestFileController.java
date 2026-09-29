@@ -29,7 +29,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import com.bernardomg.asset.domain.model.Asset;
-import com.bernardomg.content.domain.model.Content;
+import com.bernardomg.asset.domain.model.Content;
 import com.bernardomg.file.adapter.outbound.rest.security.SpringSecurityFileReadAuthorizer;
 import com.bernardomg.file.test.configuration.factory.Contents;
 import com.bernardomg.file.test.configuration.factory.FileConstants;

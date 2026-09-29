@@ -40,8 +40,8 @@
 
    <dependencies>
       <dependency>
-         <groupId>com.bernardomg.content</groupId>
-         <artifactId>content-rest-adapter</artifactId>
+         <groupId>com.bernardomg.asset</groupId>
+         <artifactId>asset-rest-adapter</artifactId>
       </dependency>
       <dependency>
          <groupId>com.bernardomg.file</groupId>

@@ -31,7 +31,6 @@
    <modules>
      <module>testing</module>
      <module>asset</module>
-     <module>content</module>
      <module>excel</module>
      <module>scheduler</module>
      <module>file</module>

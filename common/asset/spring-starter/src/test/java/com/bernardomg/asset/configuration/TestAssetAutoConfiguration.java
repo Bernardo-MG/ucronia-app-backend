@@ -13,8 +13,10 @@ import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import com.bernardomg.asset.adapter.inbound.jpa.repository.AssetFolderSpringRepository;
 import com.bernardomg.asset.adapter.inbound.jpa.repository.AssetSpringRepository;
 import com.bernardomg.asset.adapter.outbound.rest.controller.AssetFolderController;
+import com.bernardomg.asset.domain.key.ContentKeyGenerator;
 import com.bernardomg.asset.domain.repository.AssetFolderRepository;
 import com.bernardomg.asset.domain.repository.AssetRepository;
+import com.bernardomg.asset.domain.repository.ContentRepository;
 import com.bernardomg.asset.usecase.service.AssetFolderService;
 
 @DisplayName("AssetAutoConfiguration")
@@ -23,7 +25,8 @@ class TestAssetAutoConfiguration {
     private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
         .withConfiguration(AutoConfigurations.of(AssetAutoConfiguration.class))
         .withBean(AssetSpringRepository.class, () -> mock(AssetSpringRepository.class))
-        .withBean(AssetFolderSpringRepository.class, () -> mock(AssetFolderSpringRepository.class));
+        .withBean(AssetFolderSpringRepository.class, () -> mock(AssetFolderSpringRepository.class))
+        .withPropertyValues("content.storage.region=eu-west-1", "content.storage.bucket=test");
 
     @Test
     @DisplayName("It creates one shared asset folder controller")
@@ -51,6 +54,20 @@ class TestAssetAutoConfiguration {
     void testAssetRepository() {
         contextRunner.run(context -> Assertions.assertThat(context)
             .hasSingleBean(AssetRepository.class));
+    }
+
+    @Test
+    @DisplayName("It creates one content key generator")
+    void testContentKeyGenerator() {
+        contextRunner.run(context -> Assertions.assertThat(context)
+            .hasSingleBean(ContentKeyGenerator.class));
+    }
+
+    @Test
+    @DisplayName("It creates one content repository")
+    void testContentRepository() {
+        contextRunner.run(context -> Assertions.assertThat(context)
+            .hasSingleBean(ContentRepository.class));
     }
 
 }
