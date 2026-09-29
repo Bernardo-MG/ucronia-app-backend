@@ -32,15 +32,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpMethod;
 
-import com.bernardomg.asset.adapter.inbound.jpa.model.AssetType;
-import com.bernardomg.asset.adapter.inbound.jpa.repository.AssetFolderSpringRepository;
-import com.bernardomg.asset.adapter.inbound.jpa.repository.AssetSpringRepository;
-import com.bernardomg.asset.adapter.inbound.jpa.repository.JpaAssetFolderRepository;
-import com.bernardomg.asset.adapter.inbound.jpa.repository.JpaAssetRepository;
-import com.bernardomg.asset.domain.repository.AssetFolderRepository;
 import com.bernardomg.asset.domain.repository.AssetRepository;
-import com.bernardomg.asset.usecase.service.AssetFolderService;
-import com.bernardomg.asset.usecase.service.DefaultAssetFolderService;
 import com.bernardomg.content.domain.key.ContentKeyGenerator;
 import com.bernardomg.content.domain.policy.ContentPolicy;
 import com.bernardomg.content.domain.policy.RestrictedContentPolicy;
@@ -55,8 +47,7 @@ import com.bernardomg.security.springframework.web.whitelist.WhitelistRoute;
 
 @AutoConfiguration
 @ComponentScan({ "com.bernardomg.file.adapter.outbound.rest.controller" })
-@AutoConfigurationPackage(
-        basePackages = { "com.bernardomg.asset.adapter.inbound.jpa", "com.bernardomg.file.adapter.inbound.jpa" })
+@AutoConfigurationPackage(basePackages = "com.bernardomg.file.adapter.inbound.jpa")
 @EnableConfigurationProperties(FileContentProperties.class)
 public class AssociationFileAutoConfiguration {
 
@@ -64,18 +55,6 @@ public class AssociationFileAutoConfiguration {
     public ContentPolicy getContentPolicy(final FileContentProperties properties) {
         return new RestrictedContentPolicy(properties.getMaximumSize()
             .toBytes(), properties.getAllowedMediaTypes());
-    }
-
-    @Bean("fileFolderRepository")
-    public AssetFolderRepository getFileFolderRepository(final AssetFolderSpringRepository repository) {
-        return new JpaAssetFolderRepository(AssetType.FILE, repository);
-    }
-
-    @Bean("fileFolderService")
-    public AssetFolderService getAssetFolderService(
-            @Qualifier("fileFolderRepository") final AssetFolderRepository folderRepository,
-            @Qualifier("fileRepository") final AssetRepository fileRepository) {
-        return new DefaultAssetFolderService(folderRepository, fileRepository);
     }
 
     @Bean("fileFolderWhitelist")
@@ -89,12 +68,6 @@ public class AssociationFileAutoConfiguration {
 
         permissionEvaluator = new AuthorityResourcePermissionEvaluator();
         return new SpringSecurityFileReadAuthorizer(permissionEvaluator);
-    }
-
-    @Bean("fileRepository")
-    public AssetRepository getFileRepository(final AssetSpringRepository repository,
-            final AssetFolderSpringRepository folderRepository) {
-        return new JpaAssetRepository(AssetType.FILE, repository, folderRepository);
     }
 
     @Bean("fileService")

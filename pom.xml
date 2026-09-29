@@ -253,6 +253,11 @@
             <version>${project.version}</version>
          </dependency>
          <dependency>
+            <groupId>com.bernardomg.asset</groupId>
+            <artifactId>asset-spring-starter</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
             <!-- AWS SDK BOM -->
             <groupId>software.amazon.awssdk</groupId>
             <artifactId>bom</artifactId>

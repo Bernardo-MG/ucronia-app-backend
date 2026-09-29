@@ -33,6 +33,7 @@
       <module>testing</module>
       <module>usecase</module>
       <module>spring-jpa-model</module>
+      <module>spring-starter</module>
    </modules>
 
    <!-- ********************************************** -->
@@ -52,6 +53,11 @@
          <dependency>
             <groupId>com.bernardomg.asset</groupId>
             <artifactId>asset-domain</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.asset</groupId>
+            <artifactId>asset-spring-starter</artifactId>
             <version>${project.version}</version>
          </dependency>
       </dependencies>

@@ -32,15 +32,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpMethod;
 
-import com.bernardomg.asset.adapter.inbound.jpa.model.AssetType;
-import com.bernardomg.asset.adapter.inbound.jpa.repository.AssetFolderSpringRepository;
-import com.bernardomg.asset.adapter.inbound.jpa.repository.AssetSpringRepository;
-import com.bernardomg.asset.adapter.inbound.jpa.repository.JpaAssetFolderRepository;
-import com.bernardomg.asset.adapter.inbound.jpa.repository.JpaAssetRepository;
-import com.bernardomg.asset.domain.repository.AssetFolderRepository;
 import com.bernardomg.asset.domain.repository.AssetRepository;
-import com.bernardomg.asset.usecase.service.AssetFolderService;
-import com.bernardomg.asset.usecase.service.DefaultAssetFolderService;
 import com.bernardomg.content.domain.key.ContentKeyGenerator;
 import com.bernardomg.content.domain.policy.ContentPolicy;
 import com.bernardomg.content.domain.policy.RestrictedContentPolicy;
@@ -55,8 +47,7 @@ import com.bernardomg.security.springframework.web.whitelist.WhitelistRoute;
 
 @AutoConfiguration
 @ComponentScan({ "com.bernardomg.image.adapter.outbound.rest.controller" })
-@AutoConfigurationPackage(
-        basePackages = { "com.bernardomg.asset.adapter.inbound.jpa", "com.bernardomg.image.adapter.inbound.jpa" })
+@AutoConfigurationPackage(basePackages = "com.bernardomg.image.adapter.inbound.jpa")
 @EnableConfigurationProperties(ImageContentProperties.class)
 public class AssociationImageAutoConfiguration {
 
@@ -64,18 +55,6 @@ public class AssociationImageAutoConfiguration {
     public ContentPolicy getContentPolicy(final ImageContentProperties properties) {
         return new RestrictedContentPolicy(properties.getMaximumSize()
             .toBytes(), properties.getAllowedMediaTypes());
-    }
-
-    @Bean("imageFolderRepository")
-    public AssetFolderRepository getImageFolderRepository(final AssetFolderSpringRepository repository) {
-        return new JpaAssetFolderRepository(AssetType.IMAGE, repository);
-    }
-
-    @Bean("imageFolderService")
-    public AssetFolderService getAssetFolderService(
-            @Qualifier("imageFolderRepository") final AssetFolderRepository folderRepository,
-            @Qualifier("imageRepository") final AssetRepository imageRepository) {
-        return new DefaultAssetFolderService(folderRepository, imageRepository);
     }
 
     @Bean("imageFolderWhitelist")
@@ -89,12 +68,6 @@ public class AssociationImageAutoConfiguration {
 
         permissionEvaluator = new AuthorityResourcePermissionEvaluator();
         return new SpringSecurityImageReadAuthorizer(permissionEvaluator);
-    }
-
-    @Bean("imageRepository")
-    public AssetRepository getImageRepository(final AssetSpringRepository repository,
-            final AssetFolderSpringRepository folderRepository) {
-        return new JpaAssetRepository(AssetType.IMAGE, repository, folderRepository);
     }
 
     @Bean("imageService")
