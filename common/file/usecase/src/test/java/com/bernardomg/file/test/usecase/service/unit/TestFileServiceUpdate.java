@@ -1,7 +1,9 @@
 
 package com.bernardomg.file.test.usecase.service.unit;
 
+import static com.bernardomg.asset.domain.model.AssetType.FILE;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.BDDMockito.willThrow;
@@ -18,11 +20,11 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.asset.domain.exception.AssetAlreadyExistsException;
-import com.bernardomg.asset.domain.model.Asset;
-import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.asset.domain.key.ContentKeyGenerator;
+import com.bernardomg.asset.domain.model.Asset;
 import com.bernardomg.asset.domain.model.Content;
 import com.bernardomg.asset.domain.policy.ContentPolicy;
+import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.asset.domain.repository.ContentRepository;
 import com.bernardomg.file.test.configuration.factory.Contents;
 import com.bernardomg.file.test.configuration.factory.FileConstants;
@@ -55,9 +57,9 @@ class TestFileServiceUpdate {
         final Asset   updated;
 
         // GIVEN
-        given(repository.findOne(FileConstants.NUMBER)).willReturn(Optional.of(Files.publicAccess()));
+        given(repository.findOne(FILE, FileConstants.NUMBER)).willReturn(Optional.of(Files.publicAccess()));
         given(contentKeyGenerator.generate("files")).willReturn(FileConstants.CHANGE_KEY);
-        given(repository.save(any(Asset.class))).willReturn(Files.publicAccess());
+        given(repository.save(eq(FILE), any(Asset.class))).willReturn(Files.publicAccess());
         content = Contents.file();
 
         // WHEN
@@ -78,9 +80,9 @@ class TestFileServiceUpdate {
         final Asset updated;
 
         // GIVEN
-        given(repository.findOne(FileConstants.NUMBER)).willReturn(Optional.of(Files.publicAccess()));
+        given(repository.findOne(FILE, FileConstants.NUMBER)).willReturn(Optional.of(Files.publicAccess()));
         given(contentKeyGenerator.generate("files")).willReturn(FileConstants.CHANGE_KEY);
-        given(repository.save(any(Asset.class))).willReturn(Files.publicAccess());
+        given(repository.save(eq(FILE), any(Asset.class))).willReturn(Files.publicAccess());
         willThrow(new RuntimeException("S3 deletion failed")).given(contentRepository)
             .delete(FileConstants.KEY);
 
@@ -98,8 +100,8 @@ class TestFileServiceUpdate {
         final ThrowingCallable callable;
 
         // GIVEN
-        given(repository.findOne(FileConstants.NUMBER)).willReturn(Optional.of(Files.publicAccess()));
-        given(repository.existsByNameAndFolder(FileConstants.NAME, null, FileConstants.NUMBER)).willReturn(true);
+        given(repository.findOne(FILE, FileConstants.NUMBER)).willReturn(Optional.of(Files.publicAccess()));
+        given(repository.existsByNameAndFolder(FILE, FileConstants.NAME, null, FileConstants.NUMBER)).willReturn(true);
 
         // WHEN
         callable = () -> service.update(Files.publicAccess(), Contents.file());
@@ -117,10 +119,10 @@ class TestFileServiceUpdate {
 
         // GIVEN
         failure = new RuntimeException("Persistence failed");
-        given(repository.findOne(FileConstants.NUMBER)).willReturn(Optional.of(Files.publicAccess()));
+        given(repository.findOne(FILE, FileConstants.NUMBER)).willReturn(Optional.of(Files.publicAccess()));
         given(contentKeyGenerator.generate("files")).willReturn(FileConstants.CHANGE_KEY);
         willThrow(failure).given(repository)
-            .save(any(Asset.class));
+            .save(any(), any());
 
         // WHEN
         callable = () -> service.update(Files.publicAccess(), Contents.file());
@@ -137,16 +139,16 @@ class TestFileServiceUpdate {
     void testUpdate_PersistsReplacementKey() {
 
         // GIVEN
-        given(repository.findOne(FileConstants.NUMBER)).willReturn(Optional.of(Files.publicAccess()));
+        given(repository.findOne(FILE, FileConstants.NUMBER)).willReturn(Optional.of(Files.publicAccess()));
         given(contentKeyGenerator.generate("files")).willReturn(FileConstants.CHANGE_KEY);
-        given(repository.save(any(Asset.class))).willReturn(Files.publicAccess());
+        given(repository.save(eq(FILE), any(Asset.class))).willReturn(Files.publicAccess());
 
         // WHEN
         service.update(Files.publicAccess(), Contents.file());
 
         // THEN
         then(repository).should()
-            .save(Files.change());
+            .save(FILE, eq(Files.change()));
     }
 
 }

@@ -1,7 +1,9 @@
 
 package com.bernardomg.image.test.usecase.service.unit;
 
+import static com.bernardomg.asset.domain.model.AssetType.IMAGE;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.BDDMockito.willThrow;
@@ -18,11 +20,11 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.asset.domain.exception.AssetAlreadyExistsException;
-import com.bernardomg.asset.domain.model.Asset;
-import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.asset.domain.key.ContentKeyGenerator;
+import com.bernardomg.asset.domain.model.Asset;
 import com.bernardomg.asset.domain.model.Content;
 import com.bernardomg.asset.domain.policy.ContentPolicy;
+import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.asset.domain.repository.ContentRepository;
 import com.bernardomg.image.test.configuration.factory.Contents;
 import com.bernardomg.image.test.configuration.factory.ImageConstants;
@@ -54,7 +56,7 @@ class TestImageServiceCreate {
         final ThrowingCallable callable;
 
         // GIVEN
-        given(repository.existsByNameAndFolder(ImageConstants.NAME, null)).willReturn(true);
+        given(repository.existsByNameAndFolder(IMAGE, ImageConstants.NAME, null)).willReturn(true);
 
         // WHEN
         callable = () -> service.create(Images.publicAccess(), Contents.image());
@@ -75,14 +77,14 @@ class TestImageServiceCreate {
         image = new Asset(ImageConstants.NUMBER, ImageConstants.NAME, ImageConstants.DESCRIPTION, ImageConstants.KEY,
             ImageConstants.PNG_MEDIA_TYPE, ImageConstants.DATA.length, Optional.of(folderNumber));
         given(contentKeyGenerator.generate("images")).willReturn(ImageConstants.KEY);
-        given(repository.save(any(Asset.class))).willReturn(image);
+        given(repository.save(eq(IMAGE), any(Asset.class))).willReturn(image);
 
         // WHEN
         service.create(image, Contents.image());
 
         // THEN
         then(repository).should()
-            .existsByNameAndFolder(ImageConstants.NAME, folderNumber);
+            .existsByNameAndFolder(IMAGE, ImageConstants.NAME, folderNumber);
     }
 
     @Test
@@ -92,7 +94,7 @@ class TestImageServiceCreate {
 
         // GIVEN
         given(contentKeyGenerator.generate("images")).willReturn(ImageConstants.KEY);
-        given(repository.save(any(Asset.class))).willReturn(Images.publicAccess());
+        given(repository.save(eq(IMAGE), any(Asset.class))).willReturn(Images.publicAccess());
         content = Contents.image();
 
         service.create(Images.publicAccess(), content);
@@ -112,7 +114,7 @@ class TestImageServiceCreate {
         failure = new RuntimeException("Persistence failed");
         given(contentKeyGenerator.generate("images")).willReturn(ImageConstants.KEY);
         willThrow(failure).given(repository)
-            .save(any(Asset.class));
+            .save(any(), any());
 
         // WHEN
         callable = () -> service.create(Images.publicAccess(), Contents.image());
@@ -132,7 +134,7 @@ class TestImageServiceCreate {
 
         // GIVEN
         given(contentKeyGenerator.generate("images")).willReturn(ImageConstants.KEY);
-        given(repository.save(any(Asset.class))).willReturn(Images.publicAccess());
+        given(repository.save(eq(IMAGE), any(Asset.class))).willReturn(Images.publicAccess());
         content = Contents.image();
 
         // WHEN

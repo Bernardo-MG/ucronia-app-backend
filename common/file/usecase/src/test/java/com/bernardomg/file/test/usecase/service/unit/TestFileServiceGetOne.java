@@ -1,6 +1,7 @@
 
 package com.bernardomg.file.test.usecase.service.unit;
 
+import static com.bernardomg.asset.domain.model.AssetType.FILE;
 import static org.mockito.BDDMockito.given;
 
 import java.util.Optional;
@@ -15,10 +16,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.asset.domain.exception.AssetNotExistingException;
-import com.bernardomg.asset.domain.model.Asset;
-import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.asset.domain.key.ContentKeyGenerator;
+import com.bernardomg.asset.domain.model.Asset;
 import com.bernardomg.asset.domain.policy.ContentPolicy;
+import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.asset.domain.repository.ContentRepository;
 import com.bernardomg.file.test.configuration.factory.FileConstants;
 import com.bernardomg.file.test.configuration.factory.Files;
@@ -49,7 +50,7 @@ class TestFileServiceGetOne {
         final Asset result;
 
         // GIVEN
-        given(repository.findOne(FileConstants.NUMBER)).willReturn(Optional.of(Files.publicAccess()));
+        given(repository.findOne(FILE, FileConstants.NUMBER)).willReturn(Optional.of(Files.publicAccess()));
 
         // WHEN
         result = service.getOne(FileConstants.NUMBER);
@@ -65,7 +66,7 @@ class TestFileServiceGetOne {
         final ThrowingCallable callable;
 
         // GIVEN
-        given(repository.findOne(FileConstants.NUMBER)).willReturn(Optional.empty());
+        given(repository.findOne(FILE, FileConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
         callable = () -> service.getOne(FileConstants.NUMBER);

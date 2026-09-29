@@ -1,6 +1,7 @@
 
 package com.bernardomg.image.test.usecase.service.unit;
 
+import static com.bernardomg.asset.domain.model.AssetType.IMAGE;
 import static org.mockito.BDDMockito.given;
 
 import java.util.Optional;
@@ -15,10 +16,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.asset.domain.exception.AssetNotExistingException;
-import com.bernardomg.asset.domain.model.Asset;
-import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.asset.domain.key.ContentKeyGenerator;
+import com.bernardomg.asset.domain.model.Asset;
 import com.bernardomg.asset.domain.policy.ContentPolicy;
+import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.asset.domain.repository.ContentRepository;
 import com.bernardomg.image.test.configuration.factory.ImageConstants;
 import com.bernardomg.image.test.configuration.factory.Images;
@@ -49,7 +50,7 @@ class TestImageServiceGetOne {
         final Asset result;
 
         // GIVEN
-        given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.of(Images.publicAccess()));
+        given(repository.findOne(IMAGE, ImageConstants.NUMBER)).willReturn(Optional.of(Images.publicAccess()));
 
         // WHEN
         result = service.getOne(ImageConstants.NUMBER);
@@ -65,7 +66,7 @@ class TestImageServiceGetOne {
         final ThrowingCallable callable;
 
         // GIVEN
-        given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.empty());
+        given(repository.findOne(IMAGE, ImageConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
         callable = () -> service.getOne(ImageConstants.NUMBER);

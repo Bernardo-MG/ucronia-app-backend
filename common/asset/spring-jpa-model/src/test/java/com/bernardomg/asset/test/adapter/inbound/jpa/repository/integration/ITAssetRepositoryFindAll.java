@@ -1,6 +1,9 @@
 
 package com.bernardomg.asset.test.adapter.inbound.jpa.repository.integration;
 
+import static com.bernardomg.asset.domain.model.AssetType.FILE;
+import static com.bernardomg.asset.domain.model.AssetType.IMAGE;
+
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
@@ -47,6 +50,34 @@ class ITAssetRepositoryFindAll {
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("files")
             .containsExactly(Assets.publicAccess());
+    }
+
+    @Test
+    @DisplayName("When filtering by file type, files are returned")
+    @PublicFile
+    void testFindAll_FileType() {
+        final Page<Asset> files;
+
+        // WHEN
+        files = repository.findAll(FILE, new Pagination(1, 20), Sorting.unsorted());
+
+        // THEN
+        Assertions.assertThat(files.content())
+            .containsExactly(Assets.publicAccess());
+    }
+
+    @Test
+    @DisplayName("When filtering by image type, files are not returned")
+    @PublicFile
+    void testFindAll_ImageType() {
+        final Page<Asset> images;
+
+        // WHEN
+        images = repository.findAll(IMAGE, new Pagination(1, 20), Sorting.unsorted());
+
+        // THEN
+        Assertions.assertThat(images.content())
+            .isEmpty();
     }
 
     @Test

@@ -13,6 +13,7 @@ import com.bernardomg.asset.adapter.inbound.jpa.model.AssetEntity;
 import com.bernardomg.asset.adapter.inbound.jpa.model.AssetEntityMapper;
 import com.bernardomg.asset.adapter.inbound.jpa.model.AssetFolderEntity;
 import com.bernardomg.asset.domain.model.Asset;
+import com.bernardomg.asset.domain.model.AssetType;
 import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -38,6 +39,15 @@ public final class JpaAssetRepository implements AssetRepository {
     }
 
     @Override
+    public final void delete(final AssetType type, final Long number) {
+        log.debug("Deleting {} asset {}", type, number);
+
+        repository.deleteByTypeAndNumber(type, number);
+
+        log.debug("Deleted {} asset {}", type, number);
+    }
+
+    @Override
     public final void delete(final Long number) {
         log.debug("Deleting asset {}", number);
 
@@ -56,6 +66,32 @@ public final class JpaAssetRepository implements AssetRepository {
 
         log.debug("Asset {} exists: {}", number, exists);
 
+        return exists;
+    }
+
+    @Override
+    public final boolean existsByNameAndFolder(final AssetType type, final String name, final Long folderNumber) {
+        final boolean exists;
+
+        if (folderNumber == null) {
+            exists = repository.existsByTypeAndNameAndFolderIsNull(type, name);
+        } else {
+            exists = repository.existsByTypeAndNameAndFolderNumber(type, name, folderNumber);
+        }
+        return exists;
+    }
+
+    @Override
+    public final boolean existsByNameAndFolder(final AssetType type, final String name, final Long folderNumber,
+            final long excludedNumber) {
+        final boolean exists;
+
+        if (folderNumber == null) {
+            exists = repository.existsByTypeAndNameAndNumberNotAndFolderIsNull(type, name, excludedNumber);
+        } else {
+            exists = repository.existsByTypeAndNameAndFolderNumberAndNumberNot(type, name, folderNumber,
+                excludedNumber);
+        }
         return exists;
     }
 
@@ -94,6 +130,15 @@ public final class JpaAssetRepository implements AssetRepository {
     }
 
     @Override
+    public final Page<Asset> findAll(final AssetType type, final Pagination pagination, final Sorting sorting) {
+        final Pageable pageable;
+
+        pageable = SpringPagination.toPageable(pagination, sorting);
+        return SpringPagination.toPage(repository.findAllByType(type, pageable)
+            .map(AssetEntityMapper::toDomain));
+    }
+
+    @Override
     public final Page<Asset> findAll(final Pagination pagination, final Sorting sorting) {
         final Pageable                                    pageable;
         final org.springframework.data.domain.Page<Asset> read;
@@ -127,6 +172,15 @@ public final class JpaAssetRepository implements AssetRepository {
     }
 
     @Override
+    public final Page<Asset> findAllPublic(final AssetType type, final Pagination pagination, final Sorting sorting) {
+        final Pageable pageable;
+
+        pageable = SpringPagination.toPageable(pagination, sorting);
+        return SpringPagination.toPage(repository.findAllByTypeAndPublicAccessTrue(type, pageable)
+            .map(AssetEntityMapper::toDomain));
+    }
+
+    @Override
     public final Page<Asset> findAllPublic(final Pagination pagination, final Sorting sorting) {
         final Pageable pageable;
 
@@ -151,6 +205,12 @@ public final class JpaAssetRepository implements AssetRepository {
         }
 
         return SpringPagination.toPage(read);
+    }
+
+    @Override
+    public final Optional<Asset> findOne(final AssetType type, final Long number) {
+        return repository.findByTypeAndNumber(type, number)
+            .map(AssetEntityMapper::toDomain);
     }
 
     @Override
@@ -190,7 +250,7 @@ public final class JpaAssetRepository implements AssetRepository {
     }
 
     @Override
-    public final Asset save(final Asset asset) {
+    public final Asset save(final AssetType type, final Asset asset) {
         final Optional<AssetEntity> existing;
         final AssetEntity           entity;
         final Long                  number;
@@ -200,7 +260,7 @@ public final class JpaAssetRepository implements AssetRepository {
 
         log.debug("Saving asset {}", asset);
 
-        existing = repository.findByNumber(asset.number());
+        existing = repository.findByTypeAndNumber(type, asset.number());
         if (existing.isPresent()) {
             entity = AssetEntityMapper.toEntity(asset);
             entity.setId(existing.get()
@@ -211,6 +271,7 @@ public final class JpaAssetRepository implements AssetRepository {
                 asset.size(), asset.publicAccess(), asset.folderNumber(), asset.audit());
             entity = AssetEntityMapper.toEntity(toCreate);
         }
+        entity.setType(type);
 
         if (asset.folderNumber()
             .isEmpty()) {

@@ -9,10 +9,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.bernardomg.asset.adapter.inbound.jpa.model.AssetEntity;
+import com.bernardomg.asset.domain.model.AssetType;
 
 public interface AssetSpringRepository extends JpaRepository<AssetEntity, Long> {
 
     public void deleteByNumber(final long number);
+
+    public void deleteByTypeAndNumber(final AssetType type, final long number);
 
     public boolean existsByFolderNumber(final long folderNumber);
 
@@ -27,6 +30,16 @@ public interface AssetSpringRepository extends JpaRepository<AssetEntity, Long> 
 
     public boolean existsByNumber(final long number);
 
+    public boolean existsByTypeAndNameAndFolderIsNull(final AssetType type, final String name);
+
+    public boolean existsByTypeAndNameAndFolderNumber(final AssetType type, final String name, final long folderNumber);
+
+    public boolean existsByTypeAndNameAndFolderNumberAndNumberNot(final AssetType type, final String name,
+            final long folderNumber, final long excludedNumber);
+
+    public boolean existsByTypeAndNameAndNumberNotAndFolderIsNull(final AssetType type, final String name,
+            final long excludedNumber);
+
     public Page<AssetEntity> findAllByFolderIsNull(final Pageable pageable);
 
     public Page<AssetEntity> findAllByFolderIsNullAndPublicAccessTrue(final Pageable pageable);
@@ -37,7 +50,13 @@ public interface AssetSpringRepository extends JpaRepository<AssetEntity, Long> 
 
     public Page<AssetEntity> findAllByPublicAccessTrue(final Pageable pageable);
 
+    public Page<AssetEntity> findAllByType(final AssetType type, final Pageable pageable);
+
+    public Page<AssetEntity> findAllByTypeAndPublicAccessTrue(final AssetType type, final Pageable pageable);
+
     public Optional<AssetEntity> findByNumber(final long number);
+
+    public Optional<AssetEntity> findByTypeAndNumber(final AssetType type, final long number);
 
     @Query("SELECT COALESCE(MAX(a.number), 0) + 1 FROM Asset a")
     public long findNextNumber();

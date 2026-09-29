@@ -1,7 +1,9 @@
 
 package com.bernardomg.file.test.usecase.service.unit;
 
+import static com.bernardomg.asset.domain.model.AssetType.FILE;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.BDDMockito.willThrow;
@@ -18,11 +20,11 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.asset.domain.exception.AssetAlreadyExistsException;
-import com.bernardomg.asset.domain.model.Asset;
-import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.asset.domain.key.ContentKeyGenerator;
+import com.bernardomg.asset.domain.model.Asset;
 import com.bernardomg.asset.domain.model.Content;
 import com.bernardomg.asset.domain.policy.ContentPolicy;
+import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.asset.domain.repository.ContentRepository;
 import com.bernardomg.file.test.configuration.factory.Contents;
 import com.bernardomg.file.test.configuration.factory.FileConstants;
@@ -54,7 +56,7 @@ class TestFileServiceCreate {
         final ThrowingCallable callable;
 
         // GIVEN
-        given(repository.existsByNameAndFolder(FileConstants.NAME, null)).willReturn(true);
+        given(repository.existsByNameAndFolder(FILE, FileConstants.NAME, null)).willReturn(true);
 
         // WHEN
         callable = () -> service.create(Files.publicAccess(), Contents.file());
@@ -75,14 +77,14 @@ class TestFileServiceCreate {
         file = new Asset(FileConstants.NUMBER, FileConstants.NAME, FileConstants.DESCRIPTION, FileConstants.KEY,
             FileConstants.PDF_MEDIA_TYPE, FileConstants.DATA.length, Optional.of(folderNumber));
         given(contentKeyGenerator.generate("files")).willReturn(FileConstants.KEY);
-        given(repository.save(any(Asset.class))).willReturn(file);
+        given(repository.save(eq(FILE), any(Asset.class))).willReturn(file);
 
         // WHEN
         service.create(file, Contents.file());
 
         // THEN
         then(repository).should()
-            .existsByNameAndFolder(FileConstants.NAME, folderNumber);
+            .existsByNameAndFolder(FILE, FileConstants.NAME, folderNumber);
     }
 
     @Test
@@ -92,7 +94,7 @@ class TestFileServiceCreate {
 
         // GIVEN
         given(contentKeyGenerator.generate("files")).willReturn(FileConstants.KEY);
-        given(repository.save(any(Asset.class))).willReturn(Files.publicAccess());
+        given(repository.save(eq(FILE), any(Asset.class))).willReturn(Files.publicAccess());
         content = Contents.file();
 
         service.create(Files.publicAccess(), content);
@@ -112,7 +114,7 @@ class TestFileServiceCreate {
         failure = new RuntimeException("Persistence failed");
         given(contentKeyGenerator.generate("files")).willReturn(FileConstants.KEY);
         willThrow(failure).given(repository)
-            .save(any(Asset.class));
+            .save(any(), any());
 
         // WHEN
         callable = () -> service.create(Files.publicAccess(), Contents.file());
@@ -132,7 +134,7 @@ class TestFileServiceCreate {
 
         // GIVEN
         given(contentKeyGenerator.generate("files")).willReturn(FileConstants.KEY);
-        given(repository.save(any(Asset.class))).willReturn(Files.publicAccess());
+        given(repository.save(eq(FILE), any(Asset.class))).willReturn(Files.publicAccess());
         content = Contents.file();
 
         // WHEN

@@ -1,6 +1,8 @@
 
 package com.bernardomg.asset.test.adapter.inbound.jpa.repository.integration;
 
+import static com.bernardomg.asset.domain.model.AssetType.FILE;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -37,7 +39,7 @@ class ITAssetRepositorySave {
         file = Assets.nameChange();
 
         // WHEN
-        repository.save(file);
+        repository.save(FILE, file);
 
         // THEN
         Assertions.assertThat(springRepository.findAll())
@@ -57,7 +59,7 @@ class ITAssetRepositorySave {
         file = Assets.nameChange();
 
         // WHEN
-        saved = repository.save(file);
+        saved = repository.save(FILE, file);
 
         // THEN
         Assertions.assertThat(saved)
@@ -71,7 +73,7 @@ class ITAssetRepositorySave {
     @DisplayName("When saving, an file is persisted")
     void testSave_Persisted() {
         // WHEN
-        repository.save(Assets.publicAccess());
+        repository.save(FILE, Assets.publicAccess());
 
         // THEN
         Assertions.assertThat(springRepository.findAll())
@@ -86,7 +88,7 @@ class ITAssetRepositorySave {
         final Asset saved;
 
         // WHEN
-        saved = repository.save(Assets.publicAccess());
+        saved = repository.save(FILE, Assets.publicAccess());
 
         // THEN
         Assertions.assertThat(saved)

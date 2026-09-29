@@ -1,6 +1,7 @@
 
 package com.bernardomg.file.test.usecase.service.unit;
 
+import static com.bernardomg.asset.domain.model.AssetType.FILE;
 import static org.mockito.BDDMockito.given;
 
 import java.util.List;
@@ -13,10 +14,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.asset.domain.model.Asset;
-import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.asset.domain.key.ContentKeyGenerator;
+import com.bernardomg.asset.domain.model.Asset;
 import com.bernardomg.asset.domain.policy.ContentPolicy;
+import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.asset.domain.repository.ContentRepository;
 import com.bernardomg.file.test.configuration.factory.Files;
 import com.bernardomg.file.usecase.service.DefaultFileService;
@@ -55,7 +56,7 @@ class TestFileServiceGetAllPublic {
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
         existing = new Page<>(List.of(Files.publicAccess()), 10, 1, 1, 1, 1, true, true, sorting);
-        given(repository.findAllPublic(pagination, sorting)).willReturn(existing);
+        given(repository.findAllPublic(FILE, pagination, sorting)).willReturn(existing);
 
         // WHEN
         result = service.getAllPublic(pagination, sorting);
@@ -77,7 +78,7 @@ class TestFileServiceGetAllPublic {
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
         existing = new Page<>(List.of(), 10, 1, 1, 1, 1, true, true, sorting);
-        given(repository.findAllPublic(pagination, sorting)).willReturn(existing);
+        given(repository.findAllPublic(FILE, pagination, sorting)).willReturn(existing);
 
         // WHEN
         result = service.getAllPublic(pagination, sorting);

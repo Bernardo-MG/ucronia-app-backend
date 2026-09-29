@@ -1,6 +1,7 @@
 
 package com.bernardomg.image.test.usecase.service.unit;
 
+import static com.bernardomg.asset.domain.model.AssetType.IMAGE;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.BDDMockito.willThrow;
@@ -17,10 +18,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.asset.domain.exception.AssetNotExistingException;
-import com.bernardomg.asset.domain.model.Asset;
-import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.asset.domain.key.ContentKeyGenerator;
+import com.bernardomg.asset.domain.model.Asset;
 import com.bernardomg.asset.domain.policy.ContentPolicy;
+import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.asset.domain.repository.ContentRepository;
 import com.bernardomg.image.test.configuration.factory.ImageConstants;
 import com.bernardomg.image.test.configuration.factory.Images;
@@ -49,7 +50,7 @@ class TestImageServiceDelete {
     @DisplayName("When deleting an image, the image is deleted")
     void testDelete() {
         // GIVEN
-        given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.of(Images.publicAccess()));
+        given(repository.findOne(IMAGE, ImageConstants.NUMBER)).willReturn(Optional.of(Images.publicAccess()));
 
         // WHEN
         service.delete(ImageConstants.NUMBER);
@@ -64,7 +65,7 @@ class TestImageServiceDelete {
     void testDelete_ContentDeletionFailureIsIgnored() {
 
         // GIVEN
-        given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.of(Images.publicAccess()));
+        given(repository.findOne(IMAGE, ImageConstants.NUMBER)).willReturn(Optional.of(Images.publicAccess()));
         willThrow(new RuntimeException("S3 deletion failed")).given(contentRepository)
             .delete(ImageConstants.KEY);
 
@@ -73,7 +74,7 @@ class TestImageServiceDelete {
 
         // THEN
         then(repository).should()
-            .delete(ImageConstants.NUMBER);
+            .delete(IMAGE, ImageConstants.NUMBER);
     }
 
     @Test
@@ -84,9 +85,9 @@ class TestImageServiceDelete {
 
         // GIVEN
         exception = new RuntimeException("Database deletion failed");
-        given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.of(Images.publicAccess()));
+        given(repository.findOne(IMAGE, ImageConstants.NUMBER)).willReturn(Optional.of(Images.publicAccess()));
         willThrow(exception).given(repository)
-            .delete(ImageConstants.NUMBER);
+            .delete(IMAGE, ImageConstants.NUMBER);
 
         // WHEN
         execution = () -> service.delete(ImageConstants.NUMBER);
@@ -103,7 +104,7 @@ class TestImageServiceDelete {
         final ThrowingCallable callable;
 
         // GIVEN
-        given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.empty());
+        given(repository.findOne(IMAGE, ImageConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
         callable = () -> service.delete(ImageConstants.NUMBER);
@@ -119,7 +120,7 @@ class TestImageServiceDelete {
         final Asset deleted;
 
         // GIVEN
-        given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.of(Images.publicAccess()));
+        given(repository.findOne(IMAGE, ImageConstants.NUMBER)).willReturn(Optional.of(Images.publicAccess()));
 
         // WHEN
         deleted = service.delete(ImageConstants.NUMBER);

@@ -1,6 +1,7 @@
 
 package com.bernardomg.image.test.usecase.service.unit;
 
+import static com.bernardomg.asset.domain.model.AssetType.IMAGE;
 import static org.mockito.BDDMockito.given;
 
 import java.io.IOException;
@@ -14,10 +15,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.asset.domain.key.ContentKeyGenerator;
 import com.bernardomg.asset.domain.model.Content;
 import com.bernardomg.asset.domain.policy.ContentPolicy;
+import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.asset.domain.repository.ContentRepository;
 import com.bernardomg.image.test.configuration.factory.Contents;
 import com.bernardomg.image.test.configuration.factory.ImageConstants;
@@ -51,7 +52,7 @@ class TestImageServiceGetContent {
 
         // GIVEN
         existing = Contents.image();
-        given(repository.findOne(ImageConstants.NUMBER)).willReturn(Optional.of(Images.publicAccess()));
+        given(repository.findOne(IMAGE, ImageConstants.NUMBER)).willReturn(Optional.of(Images.publicAccess()));
         given(contentRepository.getOne(ImageConstants.KEY)).willReturn(existing);
 
         // WHEN

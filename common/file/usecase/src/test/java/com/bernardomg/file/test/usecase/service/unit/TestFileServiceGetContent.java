@@ -1,6 +1,7 @@
 
 package com.bernardomg.file.test.usecase.service.unit;
 
+import static com.bernardomg.asset.domain.model.AssetType.FILE;
 import static org.mockito.BDDMockito.given;
 
 import java.io.IOException;
@@ -14,10 +15,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.asset.domain.key.ContentKeyGenerator;
 import com.bernardomg.asset.domain.model.Content;
 import com.bernardomg.asset.domain.policy.ContentPolicy;
+import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.asset.domain.repository.ContentRepository;
 import com.bernardomg.file.test.configuration.factory.Contents;
 import com.bernardomg.file.test.configuration.factory.FileConstants;
@@ -51,7 +52,7 @@ class TestFileServiceGetContent {
 
         // GIVEN
         existing = Contents.file();
-        given(repository.findOne(FileConstants.NUMBER)).willReturn(Optional.of(Files.publicAccess()));
+        given(repository.findOne(FILE, FileConstants.NUMBER)).willReturn(Optional.of(Files.publicAccess()));
         given(contentRepository.getOne(FileConstants.KEY)).willReturn(existing);
 
         // WHEN

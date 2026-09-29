@@ -1,7 +1,9 @@
 
 package com.bernardomg.file.test.usecase.service.unit;
 
+import static com.bernardomg.asset.domain.model.AssetType.FILE;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 
 import java.util.Optional;
@@ -14,10 +16,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.asset.domain.model.Asset;
-import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.asset.domain.key.ContentKeyGenerator;
+import com.bernardomg.asset.domain.model.Asset;
 import com.bernardomg.asset.domain.policy.ContentPolicy;
+import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.asset.domain.repository.ContentRepository;
 import com.bernardomg.file.test.configuration.factory.FileConstants;
 import com.bernardomg.file.test.configuration.factory.Files;
@@ -48,8 +50,8 @@ class TestFileServiceUpdateMetadata {
         final Asset updated;
 
         // GIVEN
-        given(repository.findOne(FileConstants.NUMBER)).willReturn(Optional.of(Files.publicAccess()));
-        given(repository.save(any(Asset.class))).willReturn(Files.publicAccess());
+        given(repository.findOne(FILE, FileConstants.NUMBER)).willReturn(Optional.of(Files.publicAccess()));
+        given(repository.save(eq(FILE), any(Asset.class))).willReturn(Files.publicAccess());
 
         // WHEN
         updated = service.updateMetadata(Files.publicAccess());

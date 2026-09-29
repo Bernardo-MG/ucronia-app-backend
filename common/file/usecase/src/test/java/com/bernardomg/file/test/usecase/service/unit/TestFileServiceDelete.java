@@ -1,6 +1,7 @@
 
 package com.bernardomg.file.test.usecase.service.unit;
 
+import static com.bernardomg.asset.domain.model.AssetType.FILE;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.BDDMockito.willThrow;
@@ -17,10 +18,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.asset.domain.exception.AssetNotExistingException;
-import com.bernardomg.asset.domain.model.Asset;
-import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.asset.domain.key.ContentKeyGenerator;
+import com.bernardomg.asset.domain.model.Asset;
 import com.bernardomg.asset.domain.policy.ContentPolicy;
+import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.asset.domain.repository.ContentRepository;
 import com.bernardomg.file.test.configuration.factory.FileConstants;
 import com.bernardomg.file.test.configuration.factory.Files;
@@ -49,7 +50,7 @@ class TestFileServiceDelete {
     @DisplayName("When deleting an file, the file is deleted")
     void testDelete() {
         // GIVEN
-        given(repository.findOne(FileConstants.NUMBER)).willReturn(Optional.of(Files.publicAccess()));
+        given(repository.findOne(FILE, FileConstants.NUMBER)).willReturn(Optional.of(Files.publicAccess()));
 
         // WHEN
         service.delete(FileConstants.NUMBER);
@@ -64,7 +65,7 @@ class TestFileServiceDelete {
     void testDelete_ContentDeletionFailureIsIgnored() {
 
         // GIVEN
-        given(repository.findOne(FileConstants.NUMBER)).willReturn(Optional.of(Files.publicAccess()));
+        given(repository.findOne(FILE, FileConstants.NUMBER)).willReturn(Optional.of(Files.publicAccess()));
         willThrow(new RuntimeException("S3 deletion failed")).given(contentRepository)
             .delete(FileConstants.KEY);
 
@@ -73,7 +74,7 @@ class TestFileServiceDelete {
 
         // THEN
         then(repository).should()
-            .delete(FileConstants.NUMBER);
+            .delete(FILE, FileConstants.NUMBER);
     }
 
     @Test
@@ -84,9 +85,9 @@ class TestFileServiceDelete {
 
         // GIVEN
         exception = new RuntimeException("Database deletion failed");
-        given(repository.findOne(FileConstants.NUMBER)).willReturn(Optional.of(Files.publicAccess()));
+        given(repository.findOne(FILE, FileConstants.NUMBER)).willReturn(Optional.of(Files.publicAccess()));
         willThrow(exception).given(repository)
-            .delete(FileConstants.NUMBER);
+            .delete(FILE, FileConstants.NUMBER);
 
         // WHEN
         execution = () -> service.delete(FileConstants.NUMBER);
@@ -103,7 +104,7 @@ class TestFileServiceDelete {
         final ThrowingCallable callable;
 
         // GIVEN
-        given(repository.findOne(FileConstants.NUMBER)).willReturn(Optional.empty());
+        given(repository.findOne(FILE, FileConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
         callable = () -> service.delete(FileConstants.NUMBER);
@@ -119,7 +120,7 @@ class TestFileServiceDelete {
         final Asset deleted;
 
         // GIVEN
-        given(repository.findOne(FileConstants.NUMBER)).willReturn(Optional.of(Files.publicAccess()));
+        given(repository.findOne(FILE, FileConstants.NUMBER)).willReturn(Optional.of(Files.publicAccess()));
 
         // WHEN
         deleted = service.delete(FileConstants.NUMBER);
