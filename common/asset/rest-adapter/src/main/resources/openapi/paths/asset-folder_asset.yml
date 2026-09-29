@@ -5,18 +5,18 @@ parameters:
     schema:
        $ref: '../common/ids.yml#/components/schemas/Id'
   - in: path
-    name: fileNumber
+    name: assetNumber
     required: true
     schema:
        $ref: '../common/ids.yml#/components/schemas/Id'
 put:
-  summary: Move an file into a folder.
-  operationId: moveFileToFolder
-  tags: [File folder]
+  summary: Move an asset into a folder.
+  operationId: moveAssetToFolder
+  tags: [Asset folder]
   responses:
     '200':
-      description: File moved.
+      description: Asset moved.
       content:
         application/json:
           schema:
-            $ref: '../components/files.yml#/components/schemas/FileResponse'
+            $ref: '../components/assets.yml#/components/schemas/AssetResponse'

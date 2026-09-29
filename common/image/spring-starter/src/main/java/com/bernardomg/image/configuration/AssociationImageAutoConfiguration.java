@@ -57,11 +57,6 @@ public class AssociationImageAutoConfiguration {
             .toBytes(), properties.getAllowedMediaTypes());
     }
 
-    @Bean("imageFolderWhitelist")
-    public WhitelistRoute getImageFolderWhitelist() {
-        return WhitelistRoute.of("/image-folders/**", HttpMethod.GET);
-    }
-
     @Bean("imageReadAuthorizer")
     public ImageReadAuthorizer getImageReadAuthorizer() {
         final ResourcePermissionEvaluator permissionEvaluator;

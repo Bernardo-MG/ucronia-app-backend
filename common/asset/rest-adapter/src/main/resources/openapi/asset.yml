@@ -1,0 +1,21 @@
+openapi: 3.0.3
+info:
+  title: Ucronia API
+  version: 1.0.0
+  description: API for managing the Ucronia association.
+servers:
+  - url: https://localhost
+    description: Local development
+paths:
+  /asset-folders:
+    $ref: paths/asset-folders.yml
+  /asset-folders/{number}:
+    $ref: paths/asset-folders_by_id.yml
+  /asset-folders/{folderNumber}/assets/{assetNumber}:
+    $ref: paths/asset-folder_asset.yml
+  /asset-folders/{folderNumber}/assets:
+    $ref: paths/asset-folder_assets.yml
+  /asset-folders/root/assets:
+    $ref: paths/asset-folder_root_assets.yml
+  /asset-folders/assets/{assetNumber}:
+    $ref: paths/asset-folder_root.yml

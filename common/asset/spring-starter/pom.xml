@@ -35,6 +35,10 @@
       </dependency>
       <dependency>
          <groupId>com.bernardomg.asset</groupId>
+         <artifactId>asset-rest-adapter</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.asset</groupId>
          <artifactId>asset-usecase</artifactId>
       </dependency>
       <dependency>
@@ -44,6 +48,11 @@
       <dependency>
          <groupId>org.springframework.boot</groupId>
          <artifactId>spring-boot-autoconfigure</artifactId>
+      </dependency>
+      <dependency>
+			<!-- Spring WS Security Starter -->
+         <groupId>com.bernardomg.framework.spring</groupId>
+         <artifactId>spring-ws-security-starter</artifactId>
       </dependency>
    </dependencies>
 

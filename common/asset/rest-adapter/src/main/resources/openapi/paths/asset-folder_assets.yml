@@ -5,17 +5,17 @@ parameters:
     schema:
        $ref: '../common/ids.yml#/components/schemas/Id'
 get:
-  summary: Get the files directly contained by a folder.
-  operationId: getFilesInFolder
-  tags: [File folder]
+  summary: Get the assets directly contained by a folder.
+  operationId: getAssetsInFolder
+  tags: [Asset folder]
   parameters:
     - $ref: '../common/pagination.yml#/components/parameters/pageParam'
     - $ref: '../common/pagination.yml#/components/parameters/sizeParam'
-    - $ref: '../components/files.yml#/components/parameters/filesSortParam'
+    - $ref: '../components/assets.yml#/components/parameters/assetsSortParam'
   responses:
     '200':
-      description: Page of file metadata.
+      description: Page of asset metadata.
       content:
         application/json:
           schema:
-            $ref: '../components/files.yml#/components/schemas/FilePageResponse'
+            $ref: '../components/assets.yml#/components/schemas/AssetPageResponse'

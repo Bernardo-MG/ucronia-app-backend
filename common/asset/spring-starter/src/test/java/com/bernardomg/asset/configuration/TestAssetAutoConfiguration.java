@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
 import com.bernardomg.asset.adapter.inbound.jpa.repository.AssetFolderSpringRepository;
 import com.bernardomg.asset.adapter.inbound.jpa.repository.AssetSpringRepository;
+import com.bernardomg.asset.adapter.outbound.rest.controller.AssetFolderController;
 import com.bernardomg.asset.domain.repository.AssetFolderRepository;
 import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.asset.usecase.service.AssetFolderService;
@@ -23,6 +24,13 @@ class TestAssetAutoConfiguration {
         .withConfiguration(AutoConfigurations.of(AssetAutoConfiguration.class))
         .withBean(AssetSpringRepository.class, () -> mock(AssetSpringRepository.class))
         .withBean(AssetFolderSpringRepository.class, () -> mock(AssetFolderSpringRepository.class));
+
+    @Test
+    @DisplayName("It creates one shared asset folder controller")
+    void testAssetFolderController() {
+        contextRunner.run(context -> Assertions.assertThat(context)
+            .hasSingleBean(AssetFolderController.class));
+    }
 
     @Test
     @DisplayName("It creates one shared asset folder repository")

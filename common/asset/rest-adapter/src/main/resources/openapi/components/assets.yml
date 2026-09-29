@@ -1,0 +1,54 @@
+components:
+  parameters:
+    assetsSortParam:
+      name: sort
+      description: Sorting to apply.
+      in: query
+      style: form
+      explode: true
+      schema:
+        type: array
+        items:
+          type: string
+          pattern: '^(name|number|mediaType|size)\|(asc|desc)$'
+          example: name|asc
+  schemas:
+    Asset:
+      type: object
+      properties:
+        number:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        description:
+          type: string
+          maxLength: 500
+        folderNumber:
+          type: integer
+          format: int64
+          nullable: true
+        mediaType:
+          type: string
+        size:
+          type: integer
+          format: int64
+        publicAccess:
+          type: boolean
+        audit:
+          $ref: 'audit.yml#/components/schemas/AuditDetails'
+    AssetResponse:
+      type: object
+      properties:
+        content:
+          $ref: '#/components/schemas/Asset'
+    AssetPageResponse:
+      allOf:
+        - $ref: '../common/responses.yml#/components/schemas/PageResponse'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/Asset'

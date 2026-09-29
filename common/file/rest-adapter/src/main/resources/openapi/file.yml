@@ -13,15 +13,3 @@ paths:
     $ref: paths/files_by_id.yml
   /files/{number}/content:
     $ref: paths/files_content.yml
-  /file-folders:
-    $ref: paths/file-folders.yml
-  /file-folders/{number}:
-    $ref: paths/file-folders_by_id.yml
-  /file-folders/{folderNumber}/files/{fileNumber}:
-    $ref: paths/file-folder_file.yml
-  /file-folders/{folderNumber}/files:
-    $ref: paths/file-folder_files.yml
-  /file-folders/root/files:
-    $ref: paths/file-folder_root_files.yml
-  /file-folders/files/{fileNumber}:
-    $ref: paths/file-folder_root.yml

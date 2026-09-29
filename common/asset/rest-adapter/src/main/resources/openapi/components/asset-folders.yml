@@ -1,6 +1,6 @@
 components:
   schemas:
-    FileFolder:
+    AssetFolder:
       type: object
       properties:
         number:
@@ -12,7 +12,7 @@ components:
         parentNumber:
           type: integer
           format: int64
-    FileFolderCreation:
+    AssetFolderCreation:
       type: object
       required: [name]
       properties:
@@ -23,7 +23,7 @@ components:
         parentNumber:
           type: integer
           format: int64
-    FileFolderUpdate:
+    AssetFolderUpdate:
       type: object
       required: [name]
       properties:

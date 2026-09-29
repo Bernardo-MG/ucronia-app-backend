@@ -57,11 +57,6 @@ public class AssociationFileAutoConfiguration {
             .toBytes(), properties.getAllowedMediaTypes());
     }
 
-    @Bean("fileFolderWhitelist")
-    public WhitelistRoute getFileFolderWhitelist() {
-        return WhitelistRoute.of("/file-folders/**", HttpMethod.GET);
-    }
-
     @Bean("fileReadAuthorizer")
     public FileReadAuthorizer getFileReadAuthorizer() {
         final ResourcePermissionEvaluator permissionEvaluator;

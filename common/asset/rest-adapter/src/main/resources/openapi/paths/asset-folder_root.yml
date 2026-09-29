@@ -1,0 +1,17 @@
+parameters:
+  - in: path
+    name: assetNumber
+    required: true
+    schema:
+       $ref: '../common/ids.yml#/components/schemas/Id'
+delete:
+  summary: Move an asset to the root.
+  operationId: moveAssetToRoot
+  tags: [Asset folder]
+  responses:
+    '200':
+      description: Asset moved to the root.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/assets.yml#/components/schemas/AssetResponse'
