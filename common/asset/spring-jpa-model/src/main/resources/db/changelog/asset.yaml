@@ -71,6 +71,13 @@ databaseChangeLog:
             referencedTableName: asset_folders
             referencedColumnNames: id
             constraintName: fk_asset_folders_parent
+        - createIndex:
+            schemaName: asset
+            tableName: asset_folders
+            indexName: idx_asset_folders_number
+            columns:
+              - column:
+                  name: number
         - createTable:
             schemaName: asset
             tableName: assets
@@ -165,6 +172,13 @@ databaseChangeLog:
             referencedTableName: asset_folders
             referencedColumnNames: id
             constraintName: fk_assets_folder
+        - createIndex:
+            schemaName: asset
+            tableName: assets
+            indexName: idx_assets_number
+            columns:
+              - column:
+                  name: number
         - createIndex:
             schemaName: asset
             tableName: assets
