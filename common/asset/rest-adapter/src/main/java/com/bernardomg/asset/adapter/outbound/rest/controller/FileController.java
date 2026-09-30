@@ -1,5 +1,5 @@
 
-package com.bernardomg.file.adapter.outbound.rest.controller;
+package com.bernardomg.asset.adapter.outbound.rest.controller;
 
 import java.util.List;
 import java.util.Objects;
@@ -12,14 +12,15 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.bernardomg.asset.adapter.outbound.rest.model.ContentDtoMapper;
+import com.bernardomg.asset.adapter.outbound.rest.model.FileDtoMapper;
 import com.bernardomg.asset.adapter.outbound.rest.security.AssetReadAuthorizer;
 import com.bernardomg.asset.domain.model.Asset;
 import com.bernardomg.asset.domain.model.Content;
 import com.bernardomg.asset.usecase.service.AssetService;
+import com.bernardomg.file.adapter.outbound.rest.controller.FileApi;
 import com.bernardomg.file.adapter.outbound.rest.dto.FileMetadataUpdateDto;
 import com.bernardomg.file.adapter.outbound.rest.dto.FilePageResponseDto;
 import com.bernardomg.file.adapter.outbound.rest.dto.FileResponseDto;
-import com.bernardomg.file.adapter.outbound.rest.model.FileDtoMapper;
 import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.framework.security.access.annotation.Unsecured;
 import com.bernardomg.pagination.domain.Page;

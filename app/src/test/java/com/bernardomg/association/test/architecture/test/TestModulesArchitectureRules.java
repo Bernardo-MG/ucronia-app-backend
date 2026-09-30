@@ -10,7 +10,7 @@ import com.tngtech.archunit.lang.ArchRule;
 
 @AnalyzeClasses(
         packages = { "com.bernardomg.association", "com.bernardomg.async", "com.bernardomg.exception",
-                "com.bernardomg.jpa", "com.bernardomg.settings", "com.bernardomg.image" },
+                "com.bernardomg.jpa", "com.bernardomg.settings", "com.bernardomg.asset" },
         importOptions = ImportOption.DoNotIncludeTests.class)
 public class TestModulesArchitectureRules {
 
@@ -49,8 +49,8 @@ public class TestModulesArchitectureRules {
         .definedBy("com.bernardomg.settings..")
         .layer("Association settings")
         .definedBy("com.bernardomg.association.settings..")
-        .layer("Images")
-        .definedBy("com.bernardomg.image..")
+        .layer("Assets")
+        .definedBy("com.bernardomg.asset..")
 
         // Library modules
         .layer("Library authors")
@@ -100,7 +100,7 @@ public class TestModulesArchitectureRules {
         .mayOnlyBeAccessedByLayers("Association settings")
         .whereLayer("Association settings")
         .mayNotBeAccessedByAnyLayer()
-        .whereLayer("Images")
+        .whereLayer("Assets")
         .mayNotBeAccessedByAnyLayer()
 
         // Library modules

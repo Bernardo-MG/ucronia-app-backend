@@ -33,8 +33,6 @@
      <module>asset</module>
      <module>excel</module>
      <module>scheduler</module>
-     <module>file</module>
-     <module>image</module>
    </modules>
 
 </project>

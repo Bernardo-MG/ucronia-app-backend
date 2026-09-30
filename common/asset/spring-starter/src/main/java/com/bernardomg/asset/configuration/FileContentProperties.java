@@ -1,5 +1,5 @@
 
-package com.bernardomg.file.configuration;
+package com.bernardomg.asset.configuration;
 
 import java.util.LinkedHashSet;
 import java.util.Set;

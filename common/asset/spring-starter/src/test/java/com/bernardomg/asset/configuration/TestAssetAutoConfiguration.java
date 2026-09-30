@@ -14,12 +14,15 @@ import com.bernardomg.asset.adapter.inbound.jpa.repository.AssetFolderSpringRepo
 import com.bernardomg.asset.adapter.inbound.jpa.repository.AssetSpringRepository;
 import com.bernardomg.asset.adapter.outbound.rest.controller.AssetContentController;
 import com.bernardomg.asset.adapter.outbound.rest.controller.AssetFolderController;
+import com.bernardomg.asset.adapter.outbound.rest.controller.FileController;
+import com.bernardomg.asset.adapter.outbound.rest.controller.ImageController;
 import com.bernardomg.asset.domain.key.ContentKeyGenerator;
 import com.bernardomg.asset.domain.repository.AssetFolderRepository;
 import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.asset.domain.repository.ContentRepository;
 import com.bernardomg.asset.usecase.service.AssetContentService;
 import com.bernardomg.asset.usecase.service.AssetFolderService;
+import com.bernardomg.asset.usecase.service.AssetService;
 
 @DisplayName("AssetAutoConfiguration")
 class TestAssetAutoConfiguration {
@@ -84,6 +87,28 @@ class TestAssetAutoConfiguration {
     void testContentRepository() {
         contextRunner.run(context -> Assertions.assertThat(context)
             .hasSingleBean(ContentRepository.class));
+    }
+
+    @Test
+    @DisplayName("It creates the file controller")
+    void testFileController() {
+        contextRunner.run(context -> Assertions.assertThat(context)
+            .hasSingleBean(FileController.class));
+    }
+
+    @Test
+    @DisplayName("It creates the image controller")
+    void testImageController() {
+        contextRunner.run(context -> Assertions.assertThat(context)
+            .hasSingleBean(ImageController.class));
+    }
+
+    @Test
+    @DisplayName("It creates the file and image services")
+    void testTypedAssetServices() {
+        contextRunner.run(context -> Assertions.assertThat(context)
+            .getBeans(AssetService.class)
+            .containsOnlyKeys("fileService", "imageService"));
     }
 
 }

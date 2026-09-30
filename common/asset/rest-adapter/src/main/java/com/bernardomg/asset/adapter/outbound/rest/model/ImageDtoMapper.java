@@ -1,6 +1,6 @@
 /** The MIT License (MIT). Copyright (c) 2022-2025 Bernardo Martínez Garrido. */
 
-package com.bernardomg.image.adapter.outbound.rest.model;
+package com.bernardomg.asset.adapter.outbound.rest.model;
 
 import com.bernardomg.asset.domain.model.Asset;
 import com.bernardomg.image.adapter.outbound.rest.dto.AuditDetailsDto;

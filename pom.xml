@@ -321,16 +321,6 @@
             <version>${project.version}</version>
          </dependency>
          <dependency>
-            <groupId>com.bernardomg.file</groupId>
-            <artifactId>file-spring-starter</artifactId>
-            <version>${project.version}</version>
-         </dependency>
-         <dependency>
-            <groupId>com.bernardomg.image</groupId>
-            <artifactId>image-spring-starter</artifactId>
-            <version>${project.version}</version>
-         </dependency>
-         <dependency>
             <groupId>com.bernardomg.scheduler</groupId>
             <artifactId>scheduler-domain</artifactId>
             <version>${project.version}</version>

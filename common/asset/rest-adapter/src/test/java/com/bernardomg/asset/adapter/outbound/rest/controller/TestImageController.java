@@ -1,5 +1,5 @@
 
-package com.bernardomg.file.adapter.outbound.rest.controller;
+package com.bernardomg.asset.adapter.outbound.rest.controller;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -27,17 +27,17 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import com.bernardomg.asset.adapter.outbound.rest.security.SpringSecurityAssetReadAuthorizer;
 import com.bernardomg.asset.domain.model.Asset;
 import com.bernardomg.asset.domain.model.Content;
+import com.bernardomg.asset.test.configuration.factory.AssetConstants;
+import com.bernardomg.asset.test.configuration.factory.Assets;
 import com.bernardomg.asset.usecase.service.AssetService;
-import com.bernardomg.file.test.configuration.factory.FileConstants;
-import com.bernardomg.file.test.configuration.factory.Files;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.security.springframework.access.interceptor.ResourcePermissionEvaluator;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("FileController")
-class TestFileController {
+@DisplayName("ImageController")
+class TestImageController {
 
     private MockMvc                     mockMvc;
 
@@ -56,75 +56,75 @@ class TestFileController {
         validator.afterPropertiesSet();
 
         mockMvc = MockMvcBuilders
-            .standaloneSetup(new FileController(service, new SpringSecurityAssetReadAuthorizer(permissionEvaluator)))
+            .standaloneSetup(new ImageController(service, new SpringSecurityAssetReadAuthorizer(permissionEvaluator)))
             .setValidator(validator)
             .build();
     }
 
     @Test
-    @DisplayName("Can create a file")
-    void testCreateFile() throws Exception {
+    @DisplayName("Can create an image")
+    void testCreateImage() throws Exception {
         final MockMultipartFile file;
 
         // GIVEN
-        file = new MockMultipartFile("file", FileConstants.NAME, MediaType.APPLICATION_PDF_VALUE, FileConstants.DATA);
-        given(service.create(any(Asset.class), any(Content.class))).willReturn(Files.publicAccess());
+        file = new MockMultipartFile("file", AssetConstants.NAME, MediaType.IMAGE_PNG_VALUE, AssetConstants.DATA);
+        given(service.create(any(Asset.class), any(Content.class))).willReturn(Assets.publicAccess());
 
         // WHEN + THEN
-        mockMvc.perform(multipart("/files").file(file)
-            .param("name", FileConstants.NAME)
-            .param("description", FileConstants.DESCRIPTION)
-            .param("publicAccess", "true"))
+        mockMvc.perform(multipart("/images").file(file)
+            .param("name", AssetConstants.NAME)
+            .param("description", AssetConstants.DESCRIPTION)
+            .param("public", "true"))
             .andExpect(status().isCreated());
     }
 
     @Test
-    @DisplayName("Can get all the files")
-    void testGetAllFiles() throws Exception {
+    @DisplayName("Can get all the images")
+    void testGetAllAssets() throws Exception {
         final Page<Asset> page;
 
         // GIVEN
-        page = new Page<>(List.of(Files.publicAccess()), 10, 1, 1, 1, 1, true, true, Sorting.unsorted());
+        page = new Page<>(List.of(Assets.publicAccess()), 10, 1, 1, 1, 1, true, true, Sorting.unsorted());
         given(service.getAllPublic(any(Pagination.class), any(Sorting.class))).willReturn(page);
 
         // WHEN + THEN
-        mockMvc.perform(get("/files").param("page", "1")
+        mockMvc.perform(get("/images").param("page", "1")
             .param("size", "10"))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.content[0].number").value(FileConstants.NUMBER))
-            .andExpect(jsonPath("$.content[0].name").value(FileConstants.NAME));
+            .andExpect(jsonPath("$.content[0].number").value(AssetConstants.NUMBER))
+            .andExpect(jsonPath("$.content[0].name").value(AssetConstants.NAME));
     }
 
     @Test
-    @DisplayName("Can get a file")
-    void testGetFile() throws Exception {
+    @DisplayName("Can get an image")
+    void testGetImage() throws Exception {
 
         // GIVEN
-        given(service.getOne(FileConstants.NUMBER)).willReturn(Files.publicAccess());
+        given(service.getOne(AssetConstants.NUMBER)).willReturn(Assets.publicAccess());
 
         // WHEN + THEN
-        mockMvc.perform(get("/files/{number}", FileConstants.NUMBER))
+        mockMvc.perform(get("/images/{number}", AssetConstants.NUMBER))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.content.number").value(FileConstants.NUMBER))
-            .andExpect(jsonPath("$.content.name").value(FileConstants.NAME))
-            .andExpect(jsonPath("$.content.description").value(FileConstants.DESCRIPTION));
+            .andExpect(jsonPath("$.content.number").value(AssetConstants.NUMBER))
+            .andExpect(jsonPath("$.content.name").value(AssetConstants.NAME))
+            .andExpect(jsonPath("$.content.description").value(AssetConstants.DESCRIPTION));
     }
 
     @Test
-    @DisplayName("Can update file metadata")
-    void testUpdateFileMetadata() throws Exception {
+    @DisplayName("Can update an image metadata")
+    void testUpdateImageMetadata() throws Exception {
         // GIVEN
-        given(service.updateMetadata(Files.patch())).willReturn(Files.patch());
+        given(service.updateMetadata(Assets.patch())).willReturn(Assets.patch());
 
         // WHEN + THEN
-        mockMvc.perform(patch("/files/{number}", FileConstants.NUMBER).contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(patch("/images/{number}", AssetConstants.NUMBER).contentType(MediaType.APPLICATION_JSON)
             .content("""
                     {
                       "name": "%s",
                       "description": "%s",
                       "publicAccess": true
                     }
-                    """.formatted(FileConstants.NAME, FileConstants.DESCRIPTION)))
+                    """.formatted(AssetConstants.NAME, AssetConstants.DESCRIPTION)))
             .andExpect(status().isOk());
     }
 

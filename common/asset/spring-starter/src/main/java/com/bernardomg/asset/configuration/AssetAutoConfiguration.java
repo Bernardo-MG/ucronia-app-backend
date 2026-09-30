@@ -3,6 +3,7 @@ package com.bernardomg.asset.configuration;
 
 import java.net.URI;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -19,13 +20,18 @@ import com.bernardomg.asset.adapter.outbound.rest.security.SpringSecurityAssetRe
 import com.bernardomg.asset.adapter.outbound.s3.repository.S3ContentRepository;
 import com.bernardomg.asset.domain.key.ContentKeyGenerator;
 import com.bernardomg.asset.domain.key.UuidContentKeyGenerator;
+import com.bernardomg.asset.domain.model.AssetType;
+import com.bernardomg.asset.domain.policy.ContentPolicy;
+import com.bernardomg.asset.domain.policy.RestrictedContentPolicy;
 import com.bernardomg.asset.domain.repository.AssetFolderRepository;
 import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.asset.domain.repository.ContentRepository;
 import com.bernardomg.asset.usecase.service.AssetContentService;
 import com.bernardomg.asset.usecase.service.AssetFolderService;
+import com.bernardomg.asset.usecase.service.AssetService;
 import com.bernardomg.asset.usecase.service.DefaultAssetContentService;
 import com.bernardomg.asset.usecase.service.DefaultAssetFolderService;
+import com.bernardomg.asset.usecase.service.DefaultAssetService;
 import com.bernardomg.security.springframework.access.interceptor.AuthorityResourcePermissionEvaluator;
 import com.bernardomg.security.springframework.access.interceptor.ResourcePermissionEvaluator;
 import com.bernardomg.security.springframework.web.whitelist.WhitelistRoute;
@@ -39,7 +45,8 @@ import software.amazon.awssdk.services.s3.S3ClientBuilder;
 @AutoConfiguration
 @ComponentScan({ "com.bernardomg.asset.adapter.outbound.rest.controller" })
 @AutoConfigurationPackage(basePackages = "com.bernardomg.asset.adapter.inbound.jpa")
-@EnableConfigurationProperties(ContentStorageProperties.class)
+@EnableConfigurationProperties({ ContentStorageProperties.class, FileContentProperties.class,
+        ImageContentProperties.class })
 public class AssetAutoConfiguration {
 
     @Bean("assetContentService")
@@ -91,6 +98,45 @@ public class AssetAutoConfiguration {
     @Bean
     public ContentRepository getContentRepository(final S3Client s3Client, final ContentStorageProperties properties) {
         return new S3ContentRepository(s3Client, properties.getBucket());
+    }
+
+    @Bean("fileContentPolicy")
+    public ContentPolicy getFileContentPolicy(final FileContentProperties properties) {
+        return new RestrictedContentPolicy(properties.getMaximumSize()
+            .toBytes(), properties.getAllowedMediaTypes());
+    }
+
+    @Bean("fileService")
+    public AssetService getFileService(final AssetRepository assetRepository, final ContentRepository contentRepository,
+            @Qualifier("fileContentPolicy") final ContentPolicy contentPolicy,
+            final ContentKeyGenerator contentKeyGenerator) {
+        return new DefaultAssetService(AssetType.FILE, "files", assetRepository, contentRepository, contentPolicy,
+            contentKeyGenerator);
+    }
+
+    @Bean("fileWhitelist")
+    public WhitelistRoute getFileWhitelist() {
+        return WhitelistRoute.of("/files/**", HttpMethod.GET);
+    }
+
+    @Bean("imageContentPolicy")
+    public ContentPolicy getImageContentPolicy(final ImageContentProperties properties) {
+        return new RestrictedContentPolicy(properties.getMaximumSize()
+            .toBytes(), properties.getAllowedMediaTypes());
+    }
+
+    @Bean("imageService")
+    public AssetService getImageService(final AssetRepository assetRepository,
+            final ContentRepository contentRepository,
+            @Qualifier("imageContentPolicy") final ContentPolicy contentPolicy,
+            final ContentKeyGenerator contentKeyGenerator) {
+        return new DefaultAssetService(AssetType.IMAGE, "images", assetRepository, contentRepository, contentPolicy,
+            contentKeyGenerator);
+    }
+
+    @Bean("imageWhitelist")
+    public WhitelistRoute getImageWhitelist() {
+        return WhitelistRoute.of("/images/**", HttpMethod.GET);
     }
 
     @Bean

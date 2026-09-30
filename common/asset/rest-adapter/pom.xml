@@ -29,9 +29,6 @@
 	<!-- ********************************************** -->
 
    <properties>
-     <openapi.generator.maven.plugin.inputSpec>${project.basedir}/src/main/resources/openapi/asset.yml</openapi.generator.maven.plugin.inputSpec>
-     <openapi.generator.maven.plugin.apiPackage>com.bernardomg.asset.adapter.outbound.rest.controller</openapi.generator.maven.plugin.apiPackage>
-     <openapi.generator.maven.plugin.modelPackage>com.bernardomg.asset.adapter.outbound.rest.dto</openapi.generator.maven.plugin.modelPackage>
    </properties>
 
 	<!-- ********************************************** -->
@@ -134,10 +131,42 @@
              <artifactId>openapi-generator-maven-plugin</artifactId>
                <executions>
                   <execution>
+                     <id>generate-asset-api</id>
                      <goals>
                         <goal>generate</goal>
                      </goals>
                      <configuration>
+                        <inputSpec>${project.basedir}/src/main/resources/openapi/asset.yml</inputSpec>
+                        <apiPackage>com.bernardomg.asset.adapter.outbound.rest.controller</apiPackage>
+                        <modelPackage>com.bernardomg.asset.adapter.outbound.rest.dto</modelPackage>
+                        <configOptions>
+                           <useResponseEntity>true</useResponseEntity>
+                        </configOptions>
+                     </configuration>
+                  </execution>
+                  <execution>
+                     <id>generate-file-api</id>
+                     <goals>
+                        <goal>generate</goal>
+                     </goals>
+                     <configuration>
+                        <inputSpec>${project.basedir}/src/main/resources/openapi/file/file.yml</inputSpec>
+                        <apiPackage>com.bernardomg.file.adapter.outbound.rest.controller</apiPackage>
+                        <modelPackage>com.bernardomg.file.adapter.outbound.rest.dto</modelPackage>
+                        <configOptions>
+                           <useResponseEntity>true</useResponseEntity>
+                        </configOptions>
+                     </configuration>
+                  </execution>
+                  <execution>
+                     <id>generate-image-api</id>
+                     <goals>
+                        <goal>generate</goal>
+                     </goals>
+                     <configuration>
+                        <inputSpec>${project.basedir}/src/main/resources/openapi/image/image.yml</inputSpec>
+                        <apiPackage>com.bernardomg.image.adapter.outbound.rest.controller</apiPackage>
+                        <modelPackage>com.bernardomg.image.adapter.outbound.rest.dto</modelPackage>
                         <configOptions>
                            <useResponseEntity>true</useResponseEntity>
                         </configOptions>
