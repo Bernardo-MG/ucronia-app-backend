@@ -32,8 +32,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpMethod;
 
-import com.bernardomg.asset.adapter.outbound.rest.security.AssetReadAuthorizer;
-import com.bernardomg.asset.adapter.outbound.rest.security.SpringSecurityAssetReadAuthorizer;
 import com.bernardomg.asset.domain.key.ContentKeyGenerator;
 import com.bernardomg.asset.domain.policy.ContentPolicy;
 import com.bernardomg.asset.domain.policy.RestrictedContentPolicy;
@@ -41,8 +39,6 @@ import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.asset.domain.repository.ContentRepository;
 import com.bernardomg.file.usecase.service.DefaultFileService;
 import com.bernardomg.file.usecase.service.FileService;
-import com.bernardomg.security.springframework.access.interceptor.AuthorityResourcePermissionEvaluator;
-import com.bernardomg.security.springframework.access.interceptor.ResourcePermissionEvaluator;
 import com.bernardomg.security.springframework.web.whitelist.WhitelistRoute;
 
 @AutoConfiguration
@@ -55,14 +51,6 @@ public class AssociationFileAutoConfiguration {
     public ContentPolicy getContentPolicy(final FileContentProperties properties) {
         return new RestrictedContentPolicy(properties.getMaximumSize()
             .toBytes(), properties.getAllowedMediaTypes());
-    }
-
-    @Bean("fileReadAuthorizer")
-    public AssetReadAuthorizer getFileReadAuthorizer() {
-        final ResourcePermissionEvaluator permissionEvaluator;
-
-        permissionEvaluator = new AuthorityResourcePermissionEvaluator();
-        return new SpringSecurityAssetReadAuthorizer(permissionEvaluator, "FILE");
     }
 
     @Bean("fileService")

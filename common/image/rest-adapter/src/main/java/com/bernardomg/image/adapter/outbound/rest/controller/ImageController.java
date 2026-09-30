@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -37,8 +36,7 @@ public class ImageController implements ImageApi {
 
     private final ImageService        service;
 
-    public ImageController(final ImageService imageService,
-            @Qualifier("imageReadAuthorizer") final AssetReadAuthorizer imageReadAuthorizer) {
+    public ImageController(final ImageService imageService, final AssetReadAuthorizer imageReadAuthorizer) {
         service = Objects.requireNonNull(imageService);
         authorizer = Objects.requireNonNull(imageReadAuthorizer);
 
@@ -46,7 +44,7 @@ public class ImageController implements ImageApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "IMAGE", action = Actions.CREATE)
+    @RequireResourceAuthorization(resource = "ASSETS", action = Actions.CREATE)
     public ResponseEntity<ImageResponseDto> createImage(final String name, final String description,
             final Boolean publicAccess, final MultipartFile file) {
         final Content          content;
@@ -62,7 +60,7 @@ public class ImageController implements ImageApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "IMAGE", action = Actions.DELETE)
+    @RequireResourceAuthorization(resource = "ASSETS", action = Actions.DELETE)
     public ResponseEntity<ImageResponseDto> deleteImage(final Long number) {
         return ResponseEntity.ok(ImageDtoMapper.toResponseDto(service.delete(number)));
     }
@@ -119,7 +117,7 @@ public class ImageController implements ImageApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "IMAGE", action = Actions.UPDATE)
+    @RequireResourceAuthorization(resource = "ASSETS", action = Actions.UPDATE)
     public ResponseEntity<ImageResponseDto> updateImage(final Long number, final String name, final String description,
             final Boolean publicAccess, final MultipartFile file) {
         final Content          content;
@@ -132,7 +130,7 @@ public class ImageController implements ImageApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "IMAGE", action = Actions.UPDATE)
+    @RequireResourceAuthorization(resource = "ASSETS", action = Actions.UPDATE)
     public ResponseEntity<ImageResponseDto> updateImageMetadata(final Long number,
             final ImageMetadataUpdateDto imageMetadataUpdateDto) {
         final Asset updated;

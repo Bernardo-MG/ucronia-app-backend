@@ -34,4 +34,4 @@ get:
     '404':
       description: File not found.
     '403':
-      description: FILE:READ is required for a private file.
+      description: ASSETS:READ is required for a private file.

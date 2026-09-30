@@ -61,7 +61,7 @@ public class AssetAutoConfiguration {
         final ResourcePermissionEvaluator permissionEvaluator;
 
         permissionEvaluator = new AuthorityResourcePermissionEvaluator();
-        return new SpringSecurityAssetReadAuthorizer(permissionEvaluator, "ASSET");
+        return new SpringSecurityAssetReadAuthorizer(permissionEvaluator);
     }
 
     @Bean("assetRepository")

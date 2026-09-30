@@ -42,7 +42,7 @@ public class AssetFolderController implements AssetFolderApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "ASSET", action = Actions.CREATE)
+    @RequireResourceAuthorization(resource = "ASSETS", action = Actions.CREATE)
     public ResponseEntity<AssetFolderDto> createAssetFolder(final AssetFolderCreationDto request) {
         final AssetFolder    created;
         final Optional<Long> parentNumber;
@@ -54,7 +54,7 @@ public class AssetFolderController implements AssetFolderApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "ASSET", action = Actions.DELETE)
+    @RequireResourceAuthorization(resource = "ASSETS", action = Actions.DELETE)
     public ResponseEntity<AssetFolderDto> deleteAssetFolder(final Long number) {
         return ResponseEntity.ok(AssetFolderDtoMapper.toDto(service.delete(number)));
     }
@@ -109,19 +109,19 @@ public class AssetFolderController implements AssetFolderApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "ASSET", action = Actions.UPDATE)
+    @RequireResourceAuthorization(resource = "ASSETS", action = Actions.UPDATE)
     public ResponseEntity<AssetResponseDto> moveAssetToFolder(final Long folderNumber, final Long assetNumber) {
         return ResponseEntity.ok(AssetDtoMapper.toResponseDto(service.moveAsset(assetNumber, folderNumber)));
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "ASSET", action = Actions.UPDATE)
+    @RequireResourceAuthorization(resource = "ASSETS", action = Actions.UPDATE)
     public ResponseEntity<AssetResponseDto> moveAssetToRoot(final Long assetNumber) {
         return ResponseEntity.ok(AssetDtoMapper.toResponseDto(service.moveAssetToRoot(assetNumber)));
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "ASSET", action = Actions.UPDATE)
+    @RequireResourceAuthorization(resource = "ASSETS", action = Actions.UPDATE)
     public ResponseEntity<AssetFolderDto> updateAssetFolder(final Long number, final AssetFolderUpdateDto request) {
         final AssetFolder    folder;
         final Optional<Long> parentNumber;

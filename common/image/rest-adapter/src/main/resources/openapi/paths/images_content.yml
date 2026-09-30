@@ -46,4 +46,4 @@ get:
     '404':
       description: Image not found.
     '403':
-      description: IMAGE:READ is required for a private image.
+      description: ASSETS:READ is required for a private image.

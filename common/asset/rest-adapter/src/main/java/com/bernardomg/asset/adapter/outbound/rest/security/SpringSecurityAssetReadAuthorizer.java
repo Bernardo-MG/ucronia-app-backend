@@ -13,16 +13,14 @@ import com.bernardomg.security.springframework.access.interceptor.ResourcePermis
 
 public final class SpringSecurityAssetReadAuthorizer implements AssetReadAuthorizer {
 
+    private static final String               RESOURCE = "ASSETS";
+
     private final ResourcePermissionEvaluator permissionEvaluator;
 
-    private final String                      resource;
-
-    public SpringSecurityAssetReadAuthorizer(final ResourcePermissionEvaluator permissionEval,
-            final String resourceName) {
+    public SpringSecurityAssetReadAuthorizer(final ResourcePermissionEvaluator permissionEval) {
         super();
 
         permissionEvaluator = Objects.requireNonNull(permissionEval);
-        resource = Objects.requireNonNull(resourceName);
     }
 
     @Override
@@ -32,7 +30,7 @@ public final class SpringSecurityAssetReadAuthorizer implements AssetReadAuthori
         authentication = SecurityContextHolder.getContext()
             .getAuthentication();
 
-        return permissionEvaluator.isAuthorized(authentication, resource, Actions.READ);
+        return permissionEvaluator.isAuthorized(authentication, RESOURCE, Actions.READ);
     }
 
     @Override

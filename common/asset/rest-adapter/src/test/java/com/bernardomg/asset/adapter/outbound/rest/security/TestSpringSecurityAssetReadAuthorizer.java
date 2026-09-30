@@ -37,7 +37,7 @@ class TestSpringSecurityAssetReadAuthorizer {
 
     @BeforeEach
     void setUp() {
-        authorizer = new SpringSecurityAssetReadAuthorizer(permissionEvaluator, "ASSET");
+        authorizer = new SpringSecurityAssetReadAuthorizer(permissionEvaluator);
     }
 
     @Test
@@ -50,7 +50,7 @@ class TestSpringSecurityAssetReadAuthorizer {
         authentication = new TestingAuthenticationToken("user", "password");
         SecurityContextHolder.getContext()
             .setAuthentication(authentication);
-        given(permissionEvaluator.isAuthorized(authentication, "ASSET", Actions.READ)).willReturn(true);
+        given(permissionEvaluator.isAuthorized(authentication, "ASSETS", Actions.READ)).willReturn(true);
 
         // WHEN
         authorized = authorizer.canReadPrivate();
@@ -70,7 +70,7 @@ class TestSpringSecurityAssetReadAuthorizer {
         authentication = new TestingAuthenticationToken("user", "password");
         SecurityContextHolder.getContext()
             .setAuthentication(authentication);
-        given(permissionEvaluator.isAuthorized(authentication, "ASSET", Actions.READ)).willReturn(false);
+        given(permissionEvaluator.isAuthorized(authentication, "ASSETS", Actions.READ)).willReturn(false);
 
         // WHEN
         authorized = authorizer.canReadPrivate();
@@ -89,7 +89,7 @@ class TestSpringSecurityAssetReadAuthorizer {
         authentication = new TestingAuthenticationToken("user", "password");
         SecurityContextHolder.getContext()
             .setAuthentication(authentication);
-        given(permissionEvaluator.isAuthorized(authentication, "ASSET", Actions.READ)).willReturn(true);
+        given(permissionEvaluator.isAuthorized(authentication, "ASSETS", Actions.READ)).willReturn(true);
 
         // WHEN + THEN
         Assertions.assertThatCode(() -> authorizer.checkCanRead(Assets.privateAccess()))
@@ -105,7 +105,7 @@ class TestSpringSecurityAssetReadAuthorizer {
         authentication = new TestingAuthenticationToken("user", "password");
         SecurityContextHolder.getContext()
             .setAuthentication(authentication);
-        given(permissionEvaluator.isAuthorized(authentication, "ASSET", Actions.READ)).willReturn(false);
+        given(permissionEvaluator.isAuthorized(authentication, "ASSETS", Actions.READ)).willReturn(false);
 
         // WHEN + THEN
         Assertions.assertThatThrownBy(() -> authorizer.checkCanRead(Assets.privateAccess()))

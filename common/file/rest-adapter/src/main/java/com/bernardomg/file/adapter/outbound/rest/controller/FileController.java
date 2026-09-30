@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -35,10 +34,9 @@ public class FileController implements FileApi {
 
     private final AssetReadAuthorizer authorizer;
 
-    private final FileService        service;
+    private final FileService         service;
 
-    public FileController(final FileService fileService,
-            @Qualifier("fileReadAuthorizer") final AssetReadAuthorizer fileReadAuthorizer) {
+    public FileController(final FileService fileService, final AssetReadAuthorizer fileReadAuthorizer) {
         service = Objects.requireNonNull(fileService);
         authorizer = Objects.requireNonNull(fileReadAuthorizer);
 
@@ -46,7 +44,7 @@ public class FileController implements FileApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "FILE", action = Actions.CREATE)
+    @RequireResourceAuthorization(resource = "ASSETS", action = Actions.CREATE)
     public ResponseEntity<FileResponseDto> createFile(final String name, final String description,
             final MultipartFile file, final Boolean publicAccess) {
         final Content         content;
@@ -62,7 +60,7 @@ public class FileController implements FileApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "FILE", action = Actions.DELETE)
+    @RequireResourceAuthorization(resource = "ASSETS", action = Actions.DELETE)
     public ResponseEntity<FileResponseDto> deleteFile(final Long number) {
         return ResponseEntity.ok(FileDtoMapper.toResponseDto(service.delete(number)));
     }
@@ -119,7 +117,7 @@ public class FileController implements FileApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "FILE", action = Actions.UPDATE)
+    @RequireResourceAuthorization(resource = "ASSETS", action = Actions.UPDATE)
     public ResponseEntity<FileResponseDto> updateFile(final Long number, final String name, final String description,
             final Boolean publicAccess, final MultipartFile file) {
         final Content         content;
@@ -132,7 +130,7 @@ public class FileController implements FileApi {
     }
 
     @Override
-    @RequireResourceAuthorization(resource = "FILE", action = Actions.UPDATE)
+    @RequireResourceAuthorization(resource = "ASSETS", action = Actions.UPDATE)
     public ResponseEntity<FileResponseDto> updateFileMetadata(final Long number,
             final FileMetadataUpdateDto fileMetadataUpdateDto) {
         final Asset updated;
