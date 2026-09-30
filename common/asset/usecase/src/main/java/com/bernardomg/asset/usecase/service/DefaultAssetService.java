@@ -89,7 +89,7 @@ public final class DefaultAssetService implements AssetService {
 
         log.debug("Creating asset {}", asset);
 
-        if (assetRepository.existsByNameAndFolder(type, asset.name(), asset.folderNumber()
+        if (assetRepository.existsByNameAndFolder(asset.name(), asset.folderNumber()
             .orElse(null))) {
             log.error("Asset {} already exists", asset.name());
             throw new AssetAlreadyExistsException(asset.name());
@@ -97,8 +97,9 @@ public final class DefaultAssetService implements AssetService {
 
         contentPolicy.validate(content.size(), content.mediaType());
 
-        toCreate = new Asset(asset.number(), asset.name(), asset.description(), contentKeyGenerator.generate(namespace),
-            content.mediaType(), content.size(), asset.publicAccess(), asset.folderNumber());
+        toCreate = new Asset(type, asset.number(), asset.name(), asset.description(),
+            contentKeyGenerator.generate(namespace), content.mediaType(), content.size(), asset.publicAccess(),
+            asset.folderNumber());
         contentRepository.save(toCreate.key(), content);
         try {
             created = assetRepository.save(type, toCreate);
@@ -177,7 +178,7 @@ public final class DefaultAssetService implements AssetService {
                 log.error("Asset {} doesn't exist", asset.number());
                 return new AssetNotExistingException(asset.number());
             });
-        if (assetRepository.existsByNameAndFolder(type, asset.name(), existing.folderNumber()
+        if (assetRepository.existsByNameAndFolder(asset.name(), existing.folderNumber()
             .orElse(null), asset.number())) {
             log.error("Asset {} already exists", asset.name());
             throw new AssetAlreadyExistsException(asset.name());
@@ -188,7 +189,7 @@ public final class DefaultAssetService implements AssetService {
         key = contentKeyGenerator.generate(namespace);
         contentRepository.save(key, content);
         try {
-            toUpdate = new Asset(asset.number(), asset.name(), asset.description(), key, content.mediaType(),
+            toUpdate = new Asset(type, asset.number(), asset.name(), asset.description(), key, content.mediaType(),
                 content.size(), asset.publicAccess(), existing.folderNumber(), existing.audit());
             updated = assetRepository.save(type, toUpdate);
         } catch (final RuntimeException ex) {
@@ -215,13 +216,13 @@ public final class DefaultAssetService implements AssetService {
                 log.error("Asset {} doesn't exist", asset.number());
                 return new AssetNotExistingException(asset.number());
             });
-        if (assetRepository.existsByNameAndFolder(type, asset.name(), existing.folderNumber()
+        if (assetRepository.existsByNameAndFolder(asset.name(), existing.folderNumber()
             .orElse(null), asset.number())) {
             log.error("Asset {} already exists", asset.name());
             throw new AssetAlreadyExistsException(asset.name());
         }
-        toUpdate = new Asset(existing.number(), asset.name(), asset.description(), existing.key(), existing.mediaType(),
-            existing.size(), asset.publicAccess(), existing.folderNumber(), existing.audit());
+        toUpdate = new Asset(type, existing.number(), asset.name(), asset.description(), existing.key(),
+            existing.mediaType(), existing.size(), asset.publicAccess(), existing.folderNumber(), existing.audit());
         updated = assetRepository.save(type, toUpdate);
 
         log.debug("Updated metadata for asset {}", updated);

@@ -15,6 +15,7 @@ import com.bernardomg.asset.adapter.outbound.rest.model.ContentDtoMapper;
 import com.bernardomg.asset.adapter.outbound.rest.model.FileDtoMapper;
 import com.bernardomg.asset.adapter.outbound.rest.security.AssetReadAuthorizer;
 import com.bernardomg.asset.domain.model.Asset;
+import com.bernardomg.asset.domain.model.AssetType;
 import com.bernardomg.asset.domain.model.Content;
 import com.bernardomg.asset.usecase.service.AssetService;
 import com.bernardomg.file.adapter.outbound.rest.controller.FileApi;
@@ -53,7 +54,7 @@ public class FileController implements FileApi {
         final Asset           createdFile;
 
         content = ContentDtoMapper.toContent(file);
-        createdFile = new Asset(-1L, name, description, "", content.mediaType(), content.size(),
+        createdFile = new Asset(AssetType.FILE, -1L, name, description, "", content.mediaType(), content.size(),
             !Boolean.FALSE.equals(publicAccess), Optional.empty());
         response = FileDtoMapper.toResponseDto(service.create(createdFile, content));
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -102,7 +103,7 @@ public class FileController implements FileApi {
         final FileResponseDto response;
 
         content = ContentDtoMapper.toContent(file);
-        response = FileDtoMapper.toResponseDto(service.update(new Asset(number, name, description, "",
+        response = FileDtoMapper.toResponseDto(service.update(new Asset(AssetType.FILE, number, name, description, "",
             content.mediaType(), content.size(), publicAccess, Optional.empty()), content));
         return ResponseEntity.ok(response);
     }

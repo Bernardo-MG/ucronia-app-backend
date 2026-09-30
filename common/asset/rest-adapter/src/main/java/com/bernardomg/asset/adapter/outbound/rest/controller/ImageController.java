@@ -15,6 +15,7 @@ import com.bernardomg.asset.adapter.outbound.rest.model.ContentDtoMapper;
 import com.bernardomg.asset.adapter.outbound.rest.model.ImageDtoMapper;
 import com.bernardomg.asset.adapter.outbound.rest.security.AssetReadAuthorizer;
 import com.bernardomg.asset.domain.model.Asset;
+import com.bernardomg.asset.domain.model.AssetType;
 import com.bernardomg.asset.domain.model.Content;
 import com.bernardomg.asset.usecase.service.AssetService;
 import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
@@ -53,7 +54,7 @@ public class ImageController implements ImageApi {
         final Asset            image;
 
         content = ContentDtoMapper.toContent(file);
-        image = new Asset(-1L, name, description, "", content.mediaType(), content.size(),
+        image = new Asset(AssetType.IMAGE, -1L, name, description, "", content.mediaType(), content.size(),
             !Boolean.FALSE.equals(publicAccess), Optional.empty());
         response = ImageDtoMapper.toResponseDto(service.create(image, content));
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -102,7 +103,7 @@ public class ImageController implements ImageApi {
         final ImageResponseDto response;
 
         content = ContentDtoMapper.toContent(file);
-        response = ImageDtoMapper.toResponseDto(service.update(new Asset(number, name, description, "",
+        response = ImageDtoMapper.toResponseDto(service.update(new Asset(AssetType.IMAGE, number, name, description, "",
             content.mediaType(), content.size(), publicAccess, Optional.empty()), content));
         return ResponseEntity.ok(response);
     }

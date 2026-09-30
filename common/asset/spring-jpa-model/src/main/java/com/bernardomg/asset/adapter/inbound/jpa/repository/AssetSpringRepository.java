@@ -30,16 +30,6 @@ public interface AssetSpringRepository extends JpaRepository<AssetEntity, Long> 
 
     public boolean existsByNumber(final long number);
 
-    public boolean existsByTypeAndNameAndFolderIsNull(final AssetType type, final String name);
-
-    public boolean existsByTypeAndNameAndFolderNumber(final AssetType type, final String name, final long folderNumber);
-
-    public boolean existsByTypeAndNameAndFolderNumberAndNumberNot(final AssetType type, final String name,
-            final long folderNumber, final long excludedNumber);
-
-    public boolean existsByTypeAndNameAndNumberNotAndFolderIsNull(final AssetType type, final String name,
-            final long excludedNumber);
-
     public Page<AssetEntity> findAllByFolderIsNull(final Pageable pageable);
 
     public Page<AssetEntity> findAllByFolderIsNullAndPublicAccessTrue(final Pageable pageable);

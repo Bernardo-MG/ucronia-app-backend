@@ -61,7 +61,7 @@ class TestAssetServiceCreate {
         final ThrowingCallable callable;
 
         // GIVEN
-        given(repository.existsByNameAndFolder(FILE, AssetConstants.NAME, null)).willReturn(true);
+        given(repository.existsByNameAndFolder(AssetConstants.NAME, null)).willReturn(true);
 
         // WHEN
         callable = () -> service.create(Assets.publicAccess(), Contents.pdf());
@@ -79,8 +79,8 @@ class TestAssetServiceCreate {
 
         // GIVEN
         folderNumber = 2L;
-        asset = new Asset(AssetConstants.NUMBER, AssetConstants.NAME, AssetConstants.DESCRIPTION, AssetConstants.KEY,
-            AssetConstants.PDF_MEDIA_TYPE, AssetConstants.DATA.length, Optional.of(folderNumber));
+        asset = new Asset(FILE, AssetConstants.NUMBER, AssetConstants.NAME, AssetConstants.DESCRIPTION,
+            AssetConstants.KEY, AssetConstants.PDF_MEDIA_TYPE, AssetConstants.DATA.length, Optional.of(folderNumber));
         given(contentKeyGenerator.generate("assets")).willReturn(AssetConstants.KEY);
         given(repository.save(eq(FILE), any(Asset.class))).willReturn(asset);
 
@@ -89,7 +89,7 @@ class TestAssetServiceCreate {
 
         // THEN
         then(repository).should()
-            .existsByNameAndFolder(FILE, AssetConstants.NAME, folderNumber);
+            .existsByNameAndFolder(AssetConstants.NAME, folderNumber);
     }
 
     @Test

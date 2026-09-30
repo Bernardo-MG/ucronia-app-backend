@@ -17,11 +17,6 @@ public interface AssetRepository {
 
     public boolean exists(final Long number);
 
-    public boolean existsByNameAndFolder(final AssetType type, final String name, final Long folderNumber);
-
-    public boolean existsByNameAndFolder(final AssetType type, final String name, final Long folderNumber,
-            final long excludedNumber);
-
     public boolean existsByNameAndFolder(final String name, final Long folderNumber);
 
     public boolean existsByNameAndFolder(final String name, final Long folderNumber, final long excludedNumber);

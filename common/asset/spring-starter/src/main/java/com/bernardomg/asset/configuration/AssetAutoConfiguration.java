@@ -73,7 +73,7 @@ public class AssetAutoConfiguration {
 
     @Bean("assetFolderWhitelist")
     public WhitelistRoute getAssetFolderWhitelist() {
-        return WhitelistRoute.of("/asset-folders/**", HttpMethod.GET);
+        return WhitelistRoute.of("/asset/folders/**", HttpMethod.GET);
     }
 
     @Bean("assetReadAuthorizer")

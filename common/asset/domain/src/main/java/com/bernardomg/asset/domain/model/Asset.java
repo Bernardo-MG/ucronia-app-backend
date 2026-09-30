@@ -29,24 +29,27 @@ public final class Asset {
 
     private final long           size;
 
-    public Asset(final Long number, final String name, final String description, final String key,
+    private final AssetType      type;
+
+    public Asset(final AssetType type, final Long number, final String name, final String description, final String key,
             final String mediaType, final long size) {
-        this(number, name, description, key, mediaType, size, true, Optional.empty(), new AuditDetails());
+        this(type, number, name, description, key, mediaType, size, true, Optional.empty(), new AuditDetails());
     }
 
-    public Asset(final Long number, final String name, final String description, final String key,
+    public Asset(final AssetType type, final Long number, final String name, final String description, final String key,
             final String mediaType, final long size, final AuditDetails audit) {
-        this(number, name, description, key, mediaType, size, true, Optional.empty(), audit);
+        this(type, number, name, description, key, mediaType, size, true, Optional.empty(), audit);
     }
 
-    public Asset(final Long number, final String name, final String description, final String key,
+    public Asset(final AssetType type, final Long number, final String name, final String description, final String key,
             final String mediaType, final long size, final boolean publicAccess, final Optional<Long> folderNumber) {
-        this(number, name, description, key, mediaType, size, publicAccess, folderNumber, new AuditDetails());
+        this(type, number, name, description, key, mediaType, size, publicAccess, folderNumber, new AuditDetails());
     }
 
-    public Asset(final Long number, final String name, final String description, final String key,
+    public Asset(final AssetType type, final Long number, final String name, final String description, final String key,
             final String mediaType, final long size, final boolean publicAccess, final Optional<Long> folderNumber,
             final AuditDetails audit) {
+        this.type = Objects.requireNonNull(type, "Type can't be null");
         this.number = Objects.requireNonNull(number, "Number can't be null");
         this.name = StringUtils.trim(Objects.requireNonNull(name, "Name can't be null"));
         this.description = StringUtils.trim(Objects.requireNonNull(description, "Description can't be null"));
@@ -58,14 +61,14 @@ public final class Asset {
         this.audit = Objects.requireNonNull(audit, "Audit can't be null");
     }
 
-    public Asset(final Long number, final String name, final String description, final String key,
+    public Asset(final AssetType type, final Long number, final String name, final String description, final String key,
             final String mediaType, final long size, final Optional<Long> folderNumber) {
-        this(number, name, description, key, mediaType, size, true, folderNumber, new AuditDetails());
+        this(type, number, name, description, key, mediaType, size, true, folderNumber, new AuditDetails());
     }
 
-    public Asset(final Long number, final String name, final String description, final String key,
+    public Asset(final AssetType type, final Long number, final String name, final String description, final String key,
             final String mediaType, final long size, final Optional<Long> folderNumber, final AuditDetails audit) {
-        this(number, name, description, key, mediaType, size, true, folderNumber, audit);
+        this(type, number, name, description, key, mediaType, size, true, folderNumber, audit);
     }
 
     public final AuditDetails audit() {
@@ -88,10 +91,11 @@ public final class Asset {
             final Asset other;
 
             other = (Asset) object;
-            equal = (size == other.size) && (publicAccess == other.publicAccess) && Objects.equals(number, other.number)
-                    && Objects.equals(name, other.name) && Objects.equals(description, other.description)
-                    && Objects.equals(key, other.key) && Objects.equals(mediaType, other.mediaType)
-                    && Objects.equals(folderNumber, other.folderNumber) && Objects.equals(audit, other.audit);
+            equal = (size == other.size) && (publicAccess == other.publicAccess) && (type == other.type)
+                    && Objects.equals(number, other.number) && Objects.equals(name, other.name)
+                    && Objects.equals(description, other.description) && Objects.equals(key, other.key)
+                    && Objects.equals(mediaType, other.mediaType) && Objects.equals(folderNumber, other.folderNumber)
+                    && Objects.equals(audit, other.audit);
         }
 
         return equal;
@@ -103,7 +107,7 @@ public final class Asset {
 
     @Override
     public final int hashCode() {
-        return Objects.hash(number, name, description, key, mediaType, size, publicAccess, folderNumber, audit);
+        return Objects.hash(type, number, name, description, key, mediaType, size, publicAccess, folderNumber, audit);
     }
 
     public final String key() {
@@ -132,9 +136,13 @@ public final class Asset {
 
     @Override
     public final String toString() {
-        return getClass().getSimpleName() + " [number=" + number + ", name=" + name + ", description=" + description
-                + ", key=" + key + ", mediaType=" + mediaType + ", size=" + size + ", publicAccess=" + publicAccess
-                + ", folderNumber=" + folderNumber + ", audit=" + audit + "]";
+        return getClass().getSimpleName() + " [type=" + type + ", number=" + number + ", name=" + name
+                + ", description=" + description + ", key=" + key + ", mediaType=" + mediaType + ", size=" + size
+                + ", publicAccess=" + publicAccess + ", folderNumber=" + folderNumber + ", audit=" + audit + "]";
+    }
+
+    public final AssetType type() {
+        return type;
     }
 
 }
