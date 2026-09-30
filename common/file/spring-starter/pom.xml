@@ -34,8 +34,8 @@
          <artifactId>asset-spring-starter</artifactId>
       </dependency>
       <dependency>
-         <groupId>com.bernardomg.file</groupId>
-         <artifactId>file-usecase</artifactId>
+         <groupId>com.bernardomg.asset</groupId>
+         <artifactId>asset-usecase</artifactId>
       </dependency>
       <dependency>
          <groupId>com.bernardomg.file</groupId>

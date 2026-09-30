@@ -27,9 +27,9 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import com.bernardomg.asset.adapter.outbound.rest.security.SpringSecurityAssetReadAuthorizer;
 import com.bernardomg.asset.domain.model.Asset;
 import com.bernardomg.asset.domain.model.Content;
+import com.bernardomg.asset.usecase.service.AssetService;
 import com.bernardomg.file.test.configuration.factory.FileConstants;
 import com.bernardomg.file.test.configuration.factory.Files;
-import com.bernardomg.file.usecase.service.FileService;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
@@ -45,7 +45,7 @@ class TestFileController {
     private ResourcePermissionEvaluator permissionEvaluator;
 
     @Mock
-    private FileService                 service;
+    private AssetService                service;
 
     @BeforeEach
     void setUp() {

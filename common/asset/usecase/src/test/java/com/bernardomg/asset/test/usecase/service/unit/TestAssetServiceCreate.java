@@ -1,5 +1,5 @@
 
-package com.bernardomg.file.test.usecase.service.unit;
+package com.bernardomg.asset.test.usecase.service.unit;
 
 import static com.bernardomg.asset.domain.model.AssetType.FILE;
 import static org.mockito.ArgumentMatchers.any;
@@ -12,10 +12,10 @@ import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -26,14 +26,14 @@ import com.bernardomg.asset.domain.model.Content;
 import com.bernardomg.asset.domain.policy.ContentPolicy;
 import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.asset.domain.repository.ContentRepository;
-import com.bernardomg.file.test.configuration.factory.Contents;
-import com.bernardomg.file.test.configuration.factory.FileConstants;
-import com.bernardomg.file.test.configuration.factory.Files;
-import com.bernardomg.file.usecase.service.DefaultFileService;
+import com.bernardomg.asset.test.configuration.factory.AssetConstants;
+import com.bernardomg.asset.test.configuration.factory.Assets;
+import com.bernardomg.asset.test.configuration.factory.Contents;
+import com.bernardomg.asset.usecase.service.DefaultAssetService;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Asset service - create")
-class TestFileServiceCreate {
+class TestAssetServiceCreate {
 
     @Mock
     private ContentKeyGenerator contentKeyGenerator;
@@ -47,19 +47,24 @@ class TestFileServiceCreate {
     @Mock
     private AssetRepository     repository;
 
-    @InjectMocks
-    private DefaultFileService  service;
+    private DefaultAssetService service;
+
+    @BeforeEach
+    void setUp() {
+        service = new DefaultAssetService(FILE, "assets", repository, contentRepository, contentPolicy,
+            contentKeyGenerator);
+    }
 
     @Test
-    @DisplayName("When creating an file with an existing name, conflict is raised")
+    @DisplayName("When creating an asset with an existing name, conflict is raised")
     void testCreate_Existing() {
         final ThrowingCallable callable;
 
         // GIVEN
-        given(repository.existsByNameAndFolder(FILE, FileConstants.NAME, null)).willReturn(true);
+        given(repository.existsByNameAndFolder(FILE, AssetConstants.NAME, null)).willReturn(true);
 
         // WHEN
-        callable = () -> service.create(Files.publicAccess(), Contents.file());
+        callable = () -> service.create(Assets.publicAccess(), Contents.pdf());
 
         // THEN
         Assertions.assertThatThrownBy(callable)
@@ -67,41 +72,41 @@ class TestFileServiceCreate {
     }
 
     @Test
-    @DisplayName("When creating an file, the name is checked in its folder")
+    @DisplayName("When creating an asset, the name is checked in its folder")
     void testCreate_NameCheckedInFolder() {
         final Long  folderNumber;
-        final Asset file;
+        final Asset asset;
 
         // GIVEN
         folderNumber = 2L;
-        file = new Asset(FileConstants.NUMBER, FileConstants.NAME, FileConstants.DESCRIPTION, FileConstants.KEY,
-            FileConstants.PDF_MEDIA_TYPE, FileConstants.DATA.length, Optional.of(folderNumber));
-        given(contentKeyGenerator.generate("files")).willReturn(FileConstants.KEY);
-        given(repository.save(eq(FILE), any(Asset.class))).willReturn(file);
+        asset = new Asset(AssetConstants.NUMBER, AssetConstants.NAME, AssetConstants.DESCRIPTION, AssetConstants.KEY,
+            AssetConstants.PDF_MEDIA_TYPE, AssetConstants.DATA.length, Optional.of(folderNumber));
+        given(contentKeyGenerator.generate("assets")).willReturn(AssetConstants.KEY);
+        given(repository.save(eq(FILE), any(Asset.class))).willReturn(asset);
 
         // WHEN
-        service.create(file, Contents.file());
+        service.create(asset, Contents.pdf());
 
         // THEN
         then(repository).should()
-            .existsByNameAndFolder(FILE, FileConstants.NAME, folderNumber);
+            .existsByNameAndFolder(FILE, AssetConstants.NAME, folderNumber);
     }
 
     @Test
-    @DisplayName("When creating an file, the content should be persisted")
+    @DisplayName("When creating an asset, the content should be persisted")
     void testCreate_PersistContent() {
         final Content content;
 
         // GIVEN
-        given(contentKeyGenerator.generate("files")).willReturn(FileConstants.KEY);
-        given(repository.save(eq(FILE), any(Asset.class))).willReturn(Files.publicAccess());
-        content = Contents.file();
+        given(contentKeyGenerator.generate("assets")).willReturn(AssetConstants.KEY);
+        given(repository.save(eq(FILE), any(Asset.class))).willReturn(Assets.publicAccess());
+        content = Contents.pdf();
 
-        service.create(Files.publicAccess(), content);
+        service.create(Assets.publicAccess(), content);
 
         // THEN
         then(contentRepository).should()
-            .save(FileConstants.KEY, content);
+            .save(AssetConstants.KEY, content);
     }
 
     @Test
@@ -112,37 +117,37 @@ class TestFileServiceCreate {
 
         // GIVEN
         failure = new RuntimeException("Persistence failed");
-        given(contentKeyGenerator.generate("files")).willReturn(FileConstants.KEY);
+        given(contentKeyGenerator.generate("assets")).willReturn(AssetConstants.KEY);
         willThrow(failure).given(repository)
             .save(any(), any());
 
         // WHEN
-        callable = () -> service.create(Files.publicAccess(), Contents.file());
+        callable = () -> service.create(Assets.publicAccess(), Contents.pdf());
 
         // THEN
         Assertions.assertThatThrownBy(callable)
             .isSameAs(failure);
         then(contentRepository).should()
-            .delete(FileConstants.KEY);
+            .delete(AssetConstants.KEY);
     }
 
     @Test
-    @DisplayName("When creating an file, the correct file is returned")
+    @DisplayName("When creating an asset, the correct asset is returned")
     void testCreate_Returned() {
         final Content content;
         final Asset   created;
 
         // GIVEN
-        given(contentKeyGenerator.generate("files")).willReturn(FileConstants.KEY);
-        given(repository.save(eq(FILE), any(Asset.class))).willReturn(Files.publicAccess());
-        content = Contents.file();
+        given(contentKeyGenerator.generate("assets")).willReturn(AssetConstants.KEY);
+        given(repository.save(eq(FILE), any(Asset.class))).willReturn(Assets.publicAccess());
+        content = Contents.pdf();
 
         // WHEN
-        created = service.create(Files.publicAccess(), content);
+        created = service.create(Assets.publicAccess(), content);
 
         // THEN
         Assertions.assertThat(created)
-            .isEqualTo(Files.publicAccess());
+            .isEqualTo(Assets.publicAccess());
     }
 
 }

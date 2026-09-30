@@ -33,12 +33,13 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpMethod;
 
 import com.bernardomg.asset.domain.key.ContentKeyGenerator;
+import com.bernardomg.asset.domain.model.AssetType;
 import com.bernardomg.asset.domain.policy.ContentPolicy;
 import com.bernardomg.asset.domain.policy.RestrictedContentPolicy;
 import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.asset.domain.repository.ContentRepository;
-import com.bernardomg.file.usecase.service.DefaultFileService;
-import com.bernardomg.file.usecase.service.FileService;
+import com.bernardomg.asset.usecase.service.AssetService;
+import com.bernardomg.asset.usecase.service.DefaultAssetService;
 import com.bernardomg.security.springframework.web.whitelist.WhitelistRoute;
 
 @AutoConfiguration
@@ -54,10 +55,11 @@ public class AssociationFileAutoConfiguration {
     }
 
     @Bean("fileService")
-    public FileService getFileService(final AssetRepository fileRepository, final ContentRepository contentRepository,
+    public AssetService getFileService(final AssetRepository fileRepository, final ContentRepository contentRepository,
             @Qualifier("fileContentPolicy") final ContentPolicy fileContentPolicy,
             final ContentKeyGenerator contentKeyGenerator) {
-        return new DefaultFileService(fileRepository, contentRepository, fileContentPolicy, contentKeyGenerator);
+        return new DefaultAssetService(AssetType.FILE, "files", fileRepository, contentRepository, fileContentPolicy,
+            contentKeyGenerator);
     }
 
     @Bean("fileWhitelist")

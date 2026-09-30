@@ -1,5 +1,5 @@
 
-package com.bernardomg.file.test.usecase.service.unit;
+package com.bernardomg.asset.test.usecase.service.unit;
 
 import static com.bernardomg.asset.domain.model.AssetType.FILE;
 import static org.mockito.ArgumentMatchers.any;
@@ -12,10 +12,10 @@ import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -26,14 +26,14 @@ import com.bernardomg.asset.domain.model.Content;
 import com.bernardomg.asset.domain.policy.ContentPolicy;
 import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.asset.domain.repository.ContentRepository;
-import com.bernardomg.file.test.configuration.factory.Contents;
-import com.bernardomg.file.test.configuration.factory.FileConstants;
-import com.bernardomg.file.test.configuration.factory.Files;
-import com.bernardomg.file.usecase.service.DefaultFileService;
+import com.bernardomg.asset.test.configuration.factory.AssetConstants;
+import com.bernardomg.asset.test.configuration.factory.Assets;
+import com.bernardomg.asset.test.configuration.factory.Contents;
+import com.bernardomg.asset.usecase.service.DefaultAssetService;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Asset service - update")
-class TestFileServiceUpdate {
+class TestAssetServiceUpdate {
 
     @Mock
     private ContentKeyGenerator contentKeyGenerator;
@@ -47,31 +47,36 @@ class TestFileServiceUpdate {
     @Mock
     private AssetRepository     repository;
 
-    @InjectMocks
-    private DefaultFileService  service;
+    private DefaultAssetService service;
+
+    @BeforeEach
+    void setUp() {
+        service = new DefaultAssetService(FILE, "assets", repository, contentRepository, contentPolicy,
+            contentKeyGenerator);
+    }
 
     @Test
-    @DisplayName("When updating an file, metadata and content are persisted")
+    @DisplayName("When updating an asset, metadata and content are persisted")
     void testUpdate() {
         final Content content;
         final Asset   updated;
 
         // GIVEN
-        given(repository.findOne(FILE, FileConstants.NUMBER)).willReturn(Optional.of(Files.publicAccess()));
-        given(contentKeyGenerator.generate("files")).willReturn(FileConstants.CHANGE_KEY);
-        given(repository.save(eq(FILE), any(Asset.class))).willReturn(Files.publicAccess());
-        content = Contents.file();
+        given(repository.findOne(FILE, AssetConstants.NUMBER)).willReturn(Optional.of(Assets.publicAccess()));
+        given(contentKeyGenerator.generate("assets")).willReturn(AssetConstants.CHANGE_KEY);
+        given(repository.save(eq(FILE), any(Asset.class))).willReturn(Assets.publicAccess());
+        content = Contents.pdf();
 
         // WHEN
-        updated = service.update(Files.publicAccess(), content);
+        updated = service.update(Assets.publicAccess(), content);
 
         // THEN
         Assertions.assertThat(updated)
-            .isEqualTo(Files.publicAccess());
+            .isEqualTo(Assets.publicAccess());
         then(contentRepository).should()
-            .save(FileConstants.CHANGE_KEY, content);
+            .save(AssetConstants.CHANGE_KEY, content);
         then(contentRepository).should()
-            .delete(FileConstants.KEY);
+            .delete(AssetConstants.KEY);
     }
 
     @Test
@@ -80,31 +85,32 @@ class TestFileServiceUpdate {
         final Asset updated;
 
         // GIVEN
-        given(repository.findOne(FILE, FileConstants.NUMBER)).willReturn(Optional.of(Files.publicAccess()));
-        given(contentKeyGenerator.generate("files")).willReturn(FileConstants.CHANGE_KEY);
-        given(repository.save(eq(FILE), any(Asset.class))).willReturn(Files.publicAccess());
+        given(repository.findOne(FILE, AssetConstants.NUMBER)).willReturn(Optional.of(Assets.publicAccess()));
+        given(contentKeyGenerator.generate("assets")).willReturn(AssetConstants.CHANGE_KEY);
+        given(repository.save(eq(FILE), any(Asset.class))).willReturn(Assets.publicAccess());
         willThrow(new RuntimeException("S3 deletion failed")).given(contentRepository)
-            .delete(FileConstants.KEY);
+            .delete(AssetConstants.KEY);
 
         // WHEN
-        updated = service.update(Files.publicAccess(), Contents.file());
+        updated = service.update(Assets.publicAccess(), Contents.pdf());
 
         // THEN
         Assertions.assertThat(updated)
-            .isEqualTo(Files.publicAccess());
+            .isEqualTo(Assets.publicAccess());
     }
 
     @Test
-    @DisplayName("When updating an file with an existing name, an exception is thrown")
+    @DisplayName("When updating an asset with an existing name, an exception is thrown")
     void testUpdate_DuplicateName() {
         final ThrowingCallable callable;
 
         // GIVEN
-        given(repository.findOne(FILE, FileConstants.NUMBER)).willReturn(Optional.of(Files.publicAccess()));
-        given(repository.existsByNameAndFolder(FILE, FileConstants.NAME, null, FileConstants.NUMBER)).willReturn(true);
+        given(repository.findOne(FILE, AssetConstants.NUMBER)).willReturn(Optional.of(Assets.publicAccess()));
+        given(repository.existsByNameAndFolder(FILE, AssetConstants.NAME, null, AssetConstants.NUMBER))
+            .willReturn(true);
 
         // WHEN
-        callable = () -> service.update(Files.publicAccess(), Contents.file());
+        callable = () -> service.update(Assets.publicAccess(), Contents.pdf());
 
         // WHEN + THEN
         Assertions.assertThatThrownBy(callable)
@@ -119,36 +125,36 @@ class TestFileServiceUpdate {
 
         // GIVEN
         failure = new RuntimeException("Persistence failed");
-        given(repository.findOne(FILE, FileConstants.NUMBER)).willReturn(Optional.of(Files.publicAccess()));
-        given(contentKeyGenerator.generate("files")).willReturn(FileConstants.CHANGE_KEY);
+        given(repository.findOne(FILE, AssetConstants.NUMBER)).willReturn(Optional.of(Assets.publicAccess()));
+        given(contentKeyGenerator.generate("assets")).willReturn(AssetConstants.CHANGE_KEY);
         willThrow(failure).given(repository)
             .save(any(), any());
 
         // WHEN
-        callable = () -> service.update(Files.publicAccess(), Contents.file());
+        callable = () -> service.update(Assets.publicAccess(), Contents.pdf());
 
         // THEN
         Assertions.assertThatThrownBy(callable)
             .isSameAs(failure);
         then(contentRepository).should()
-            .delete(FileConstants.CHANGE_KEY);
+            .delete(AssetConstants.CHANGE_KEY);
     }
 
     @Test
-    @DisplayName("When updating an file, metadata references the replacement content")
+    @DisplayName("When updating an asset, metadata references the replacement content")
     void testUpdate_PersistsReplacementKey() {
 
         // GIVEN
-        given(repository.findOne(FILE, FileConstants.NUMBER)).willReturn(Optional.of(Files.publicAccess()));
-        given(contentKeyGenerator.generate("files")).willReturn(FileConstants.CHANGE_KEY);
-        given(repository.save(eq(FILE), any(Asset.class))).willReturn(Files.publicAccess());
+        given(repository.findOne(FILE, AssetConstants.NUMBER)).willReturn(Optional.of(Assets.publicAccess()));
+        given(contentKeyGenerator.generate("assets")).willReturn(AssetConstants.CHANGE_KEY);
+        given(repository.save(eq(FILE), any(Asset.class))).willReturn(Assets.publicAccess());
 
         // WHEN
-        service.update(Files.publicAccess(), Contents.file());
+        service.update(Assets.publicAccess(), Contents.pdf());
 
         // THEN
         then(repository).should()
-            .save(FILE, eq(Files.change()));
+            .save(FILE, Assets.change());
     }
 
 }

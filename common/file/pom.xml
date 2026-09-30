@@ -30,7 +30,6 @@
 
    <modules>
      <module>testing</module>
-     <module>usecase</module>
      <module>rest-adapter</module>
      <module>spring-starter</module>
    </modules>
@@ -47,11 +46,6 @@
          <dependency>
             <groupId>com.bernardomg.file</groupId>
             <artifactId>file-testing</artifactId>
-            <version>${project.version}</version>
-         </dependency>
-         <dependency>
-            <groupId>com.bernardomg.file</groupId>
-            <artifactId>file-usecase</artifactId>
             <version>${project.version}</version>
          </dependency>
          <dependency>

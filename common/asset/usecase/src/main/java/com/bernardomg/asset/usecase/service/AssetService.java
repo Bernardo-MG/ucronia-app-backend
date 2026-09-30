@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.file.usecase.service;
+package com.bernardomg.asset.usecase.service;
 
 import com.bernardomg.asset.domain.model.Asset;
 import com.bernardomg.asset.domain.model.Content;
@@ -31,14 +31,14 @@ import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 
 /**
- * Activity service. Supports all the CRUD operations.
+ * Asset service. Supports all CRUD operations.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface FileService {
+public interface AssetService {
 
-    public Asset create(final Asset file, final Content content);
+    public Asset create(final Asset asset, final Content content);
 
     public Asset delete(final Long number);
 
@@ -48,8 +48,8 @@ public interface FileService {
 
     public Asset getOne(final Long number);
 
-    public Asset update(final Asset file, final Content content);
+    public Asset update(final Asset asset, final Content content);
 
-    public Asset updateMetadata(final Asset file);
+    public Asset updateMetadata(final Asset asset);
 
 }

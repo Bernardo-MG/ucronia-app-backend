@@ -1,5 +1,5 @@
 
-package com.bernardomg.file.test.usecase.service.unit;
+package com.bernardomg.asset.test.usecase.service.unit;
 
 import static com.bernardomg.asset.domain.model.AssetType.FILE;
 import static org.mockito.BDDMockito.given;
@@ -7,10 +7,10 @@ import static org.mockito.BDDMockito.given;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -19,15 +19,15 @@ import com.bernardomg.asset.domain.model.Asset;
 import com.bernardomg.asset.domain.policy.ContentPolicy;
 import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.asset.domain.repository.ContentRepository;
-import com.bernardomg.file.test.configuration.factory.Files;
-import com.bernardomg.file.usecase.service.DefaultFileService;
+import com.bernardomg.asset.test.configuration.factory.Assets;
+import com.bernardomg.asset.usecase.service.DefaultAssetService;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Asset service - get all")
-class TestFileServiceGetAll {
+@DisplayName("Asset service - get all public")
+class TestAssetServiceGetAllPublic {
 
     @Mock
     private ContentKeyGenerator contentKeyGenerator;
@@ -41,12 +41,17 @@ class TestFileServiceGetAll {
     @Mock
     private AssetRepository     repository;
 
-    @InjectMocks
-    private DefaultFileService  service;
+    private DefaultAssetService service;
+
+    @BeforeEach
+    void setUp() {
+        service = new DefaultAssetService(FILE, "assets", repository, contentRepository, contentPolicy,
+            contentKeyGenerator);
+    }
 
     @Test
-    @DisplayName("When getting all files, the requested page is returned")
-    void testGetAll() {
+    @DisplayName("When getting public assets, the requested page is returned")
+    void testGetAllPublic() {
         final Page<Asset> existing;
         final Page<Asset> result;
         final Pagination  pagination;
@@ -55,11 +60,11 @@ class TestFileServiceGetAll {
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
-        existing = new Page<>(List.of(Files.publicAccess()), 10, 1, 1, 1, 1, true, true, sorting);
-        given(repository.findAll(FILE, pagination, sorting)).willReturn(existing);
+        existing = new Page<>(List.of(Assets.publicAccess()), 10, 1, 1, 1, 1, true, true, sorting);
+        given(repository.findAllPublic(FILE, pagination, sorting)).willReturn(existing);
 
         // WHEN
-        result = service.getAll(pagination, sorting);
+        result = service.getAllPublic(pagination, sorting);
 
         // THEN
         Assertions.assertThat(result)
@@ -67,8 +72,8 @@ class TestFileServiceGetAll {
     }
 
     @Test
-    @DisplayName("When getting all files and there is no data, an empty page is returned")
-    void testGetAll_Empty() {
+    @DisplayName("When getting public assets and there is no data, the returned page is empty")
+    void testGetAllPublic_Returned() {
         final Page<Asset> existing;
         final Page<Asset> result;
         final Pagination  pagination;
@@ -78,10 +83,10 @@ class TestFileServiceGetAll {
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
         existing = new Page<>(List.of(), 10, 1, 1, 1, 1, true, true, sorting);
-        given(repository.findAll(FILE, pagination, sorting)).willReturn(existing);
+        given(repository.findAllPublic(FILE, pagination, sorting)).willReturn(existing);
 
         // WHEN
-        result = service.getAll(pagination, sorting);
+        result = service.getAllPublic(pagination, sorting);
 
         // THEN
         Assertions.assertThat(result.content())

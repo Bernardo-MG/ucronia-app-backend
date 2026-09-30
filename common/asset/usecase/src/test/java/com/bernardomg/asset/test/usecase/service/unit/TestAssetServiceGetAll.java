@@ -1,16 +1,16 @@
 
-package com.bernardomg.image.test.usecase.service.unit;
+package com.bernardomg.asset.test.usecase.service.unit;
 
-import static com.bernardomg.asset.domain.model.AssetType.IMAGE;
+import static com.bernardomg.asset.domain.model.AssetType.FILE;
 import static org.mockito.BDDMockito.given;
 
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -19,15 +19,15 @@ import com.bernardomg.asset.domain.model.Asset;
 import com.bernardomg.asset.domain.policy.ContentPolicy;
 import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.asset.domain.repository.ContentRepository;
-import com.bernardomg.image.test.configuration.factory.Images;
-import com.bernardomg.image.usecase.service.DefaultImageService;
+import com.bernardomg.asset.test.configuration.factory.Assets;
+import com.bernardomg.asset.usecase.service.DefaultAssetService;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Asset service - get all")
-class TestImageServiceGetAll {
+class TestAssetServiceGetAll {
 
     @Mock
     private ContentKeyGenerator contentKeyGenerator;
@@ -41,11 +41,16 @@ class TestImageServiceGetAll {
     @Mock
     private AssetRepository     repository;
 
-    @InjectMocks
-    private DefaultImageService service;
+    private DefaultAssetService service;
+
+    @BeforeEach
+    void setUp() {
+        service = new DefaultAssetService(FILE, "assets", repository, contentRepository, contentPolicy,
+            contentKeyGenerator);
+    }
 
     @Test
-    @DisplayName("When getting all images, the requested page is returned")
+    @DisplayName("When getting all assets, the requested page is returned")
     void testGetAll() {
         final Page<Asset> existing;
         final Page<Asset> result;
@@ -55,8 +60,8 @@ class TestImageServiceGetAll {
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
-        existing = new Page<>(List.of(Images.publicAccess()), 10, 1, 1, 1, 1, true, true, sorting);
-        given(repository.findAll(IMAGE, pagination, sorting)).willReturn(existing);
+        existing = new Page<>(List.of(Assets.publicAccess()), 10, 1, 1, 1, 1, true, true, sorting);
+        given(repository.findAll(FILE, pagination, sorting)).willReturn(existing);
 
         // WHEN
         result = service.getAll(pagination, sorting);
@@ -67,7 +72,7 @@ class TestImageServiceGetAll {
     }
 
     @Test
-    @DisplayName("When getting all images and there is no data, an empty page is returned")
+    @DisplayName("When getting all assets and there is no data, an empty page is returned")
     void testGetAll_Empty() {
         final Page<Asset> existing;
         final Page<Asset> result;
@@ -78,7 +83,7 @@ class TestImageServiceGetAll {
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
         existing = new Page<>(List.of(), 10, 1, 1, 1, 1, true, true, sorting);
-        given(repository.findAll(IMAGE, pagination, sorting)).willReturn(existing);
+        given(repository.findAll(FILE, pagination, sorting)).willReturn(existing);
 
         // WHEN
         result = service.getAll(pagination, sorting);

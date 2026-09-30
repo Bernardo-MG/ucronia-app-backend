@@ -33,12 +33,13 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpMethod;
 
 import com.bernardomg.asset.domain.key.ContentKeyGenerator;
+import com.bernardomg.asset.domain.model.AssetType;
 import com.bernardomg.asset.domain.policy.ContentPolicy;
 import com.bernardomg.asset.domain.policy.RestrictedContentPolicy;
 import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.asset.domain.repository.ContentRepository;
-import com.bernardomg.image.usecase.service.DefaultImageService;
-import com.bernardomg.image.usecase.service.ImageService;
+import com.bernardomg.asset.usecase.service.AssetService;
+import com.bernardomg.asset.usecase.service.DefaultAssetService;
 import com.bernardomg.security.springframework.web.whitelist.WhitelistRoute;
 
 @AutoConfiguration
@@ -54,11 +55,12 @@ public class AssociationImageAutoConfiguration {
     }
 
     @Bean("imageService")
-    public ImageService getImageService(final AssetRepository imageRepository,
+    public AssetService getImageService(final AssetRepository imageRepository,
             final ContentRepository contentRepository,
             @Qualifier("imageContentPolicy") final ContentPolicy imageContentPolicy,
             final ContentKeyGenerator contentKeyGenerator) {
-        return new DefaultImageService(imageRepository, contentRepository, imageContentPolicy, contentKeyGenerator);
+        return new DefaultAssetService(AssetType.IMAGE, "images", imageRepository, contentRepository,
+            imageContentPolicy, contentKeyGenerator);
     }
 
     @Bean("imageWhitelist")

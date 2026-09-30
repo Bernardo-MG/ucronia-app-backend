@@ -27,9 +27,9 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import com.bernardomg.asset.adapter.outbound.rest.security.SpringSecurityAssetReadAuthorizer;
 import com.bernardomg.asset.domain.model.Asset;
 import com.bernardomg.asset.domain.model.Content;
+import com.bernardomg.asset.usecase.service.AssetService;
 import com.bernardomg.image.test.configuration.factory.ImageConstants;
 import com.bernardomg.image.test.configuration.factory.Images;
-import com.bernardomg.image.usecase.service.ImageService;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
@@ -45,7 +45,7 @@ class TestImageController {
     private ResourcePermissionEvaluator permissionEvaluator;
 
     @Mock
-    private ImageService                service;
+    private AssetService                service;
 
     @BeforeEach
     void setUp() {

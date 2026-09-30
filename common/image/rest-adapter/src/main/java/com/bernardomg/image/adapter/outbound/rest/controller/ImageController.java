@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,13 +15,13 @@ import com.bernardomg.asset.adapter.outbound.rest.model.ContentDtoMapper;
 import com.bernardomg.asset.adapter.outbound.rest.security.AssetReadAuthorizer;
 import com.bernardomg.asset.domain.model.Asset;
 import com.bernardomg.asset.domain.model.Content;
+import com.bernardomg.asset.usecase.service.AssetService;
 import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.framework.security.access.annotation.Unsecured;
 import com.bernardomg.image.adapter.outbound.rest.dto.ImageMetadataUpdateDto;
 import com.bernardomg.image.adapter.outbound.rest.dto.ImagePageResponseDto;
 import com.bernardomg.image.adapter.outbound.rest.dto.ImageResponseDto;
 import com.bernardomg.image.adapter.outbound.rest.model.ImageDtoMapper;
-import com.bernardomg.image.usecase.service.ImageService;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
@@ -32,9 +33,10 @@ public class ImageController implements ImageApi {
 
     private final AssetReadAuthorizer authorizer;
 
-    private final ImageService        service;
+    private final AssetService        service;
 
-    public ImageController(final ImageService imageService, final AssetReadAuthorizer imageReadAuthorizer) {
+    public ImageController(@Qualifier("imageService") final AssetService imageService,
+            final AssetReadAuthorizer imageReadAuthorizer) {
         service = Objects.requireNonNull(imageService);
         authorizer = Objects.requireNonNull(imageReadAuthorizer);
 

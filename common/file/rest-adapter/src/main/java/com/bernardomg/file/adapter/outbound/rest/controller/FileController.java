@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,11 +15,11 @@ import com.bernardomg.asset.adapter.outbound.rest.model.ContentDtoMapper;
 import com.bernardomg.asset.adapter.outbound.rest.security.AssetReadAuthorizer;
 import com.bernardomg.asset.domain.model.Asset;
 import com.bernardomg.asset.domain.model.Content;
+import com.bernardomg.asset.usecase.service.AssetService;
 import com.bernardomg.file.adapter.outbound.rest.dto.FileMetadataUpdateDto;
 import com.bernardomg.file.adapter.outbound.rest.dto.FilePageResponseDto;
 import com.bernardomg.file.adapter.outbound.rest.dto.FileResponseDto;
 import com.bernardomg.file.adapter.outbound.rest.model.FileDtoMapper;
-import com.bernardomg.file.usecase.service.FileService;
 import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.framework.security.access.annotation.Unsecured;
 import com.bernardomg.pagination.domain.Page;
@@ -32,9 +33,10 @@ public class FileController implements FileApi {
 
     private final AssetReadAuthorizer authorizer;
 
-    private final FileService         service;
+    private final AssetService        service;
 
-    public FileController(final FileService fileService, final AssetReadAuthorizer fileReadAuthorizer) {
+    public FileController(@Qualifier("fileService") final AssetService fileService,
+            final AssetReadAuthorizer fileReadAuthorizer) {
         service = Objects.requireNonNull(fileService);
         authorizer = Objects.requireNonNull(fileReadAuthorizer);
 

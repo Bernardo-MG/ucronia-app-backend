@@ -44,8 +44,8 @@
          <artifactId>asset-rest-adapter</artifactId>
       </dependency>
       <dependency>
-         <groupId>com.bernardomg.image</groupId>
-         <artifactId>image-usecase</artifactId>
+         <groupId>com.bernardomg.asset</groupId>
+         <artifactId>asset-usecase</artifactId>
       </dependency>
       <dependency>
 			<!-- Spring WS Security Starter -->
