@@ -114,7 +114,7 @@ class TestImageController {
     @DisplayName("Can update an image metadata")
     void testUpdateImageMetadata() throws Exception {
         // GIVEN
-        given(service.updateMetadata(Assets.patch())).willReturn(Assets.patch());
+        given(service.updateMetadata(Assets.patchImage())).willReturn(Assets.patchImage());
 
         // WHEN + THEN
         mockMvc.perform(patch("/images/{number}", AssetConstants.NUMBER).contentType(MediaType.APPLICATION_JSON)

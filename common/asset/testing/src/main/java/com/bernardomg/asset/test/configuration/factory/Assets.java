@@ -1,4 +1,3 @@
-/** The MIT License (MIT). Copyright (c) 2022-2025 Bernardo Martínez Garrido. */
 
 package com.bernardomg.asset.test.configuration.factory;
 
@@ -19,9 +18,14 @@ public final class Assets {
             AssetConstants.DESCRIPTION, AssetConstants.KEY, AssetConstants.PDF_MEDIA_TYPE, AssetConstants.DATA.length);
     }
 
-    public static Asset patch() {
+    public static Asset patchFile() {
         return new Asset(AssetType.FILE, AssetConstants.NUMBER, AssetConstants.NAME, AssetConstants.DESCRIPTION, "", "",
             0);
+    }
+
+    public static Asset patchImage() {
+        return new Asset(AssetType.IMAGE, AssetConstants.NUMBER, AssetConstants.NAME, AssetConstants.DESCRIPTION, "",
+            "", 0);
     }
 
     public static Asset privateAccess() {

@@ -114,7 +114,7 @@ class TestFileController {
     @DisplayName("Can update file metadata")
     void testUpdateFileMetadata() throws Exception {
         // GIVEN
-        given(service.updateMetadata(Assets.patch())).willReturn(Assets.patch());
+        given(service.updateMetadata(Assets.patchFile())).willReturn(Assets.patchFile());
 
         // WHEN + THEN
         mockMvc.perform(patch("/files/{number}", AssetConstants.NUMBER).contentType(MediaType.APPLICATION_JSON)
