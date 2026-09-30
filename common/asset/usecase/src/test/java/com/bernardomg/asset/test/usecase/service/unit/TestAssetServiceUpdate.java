@@ -106,8 +106,7 @@ class TestAssetServiceUpdate {
 
         // GIVEN
         given(repository.findOne(FILE, AssetConstants.NUMBER)).willReturn(Optional.of(Assets.publicAccess()));
-        given(repository.existsByNameAndFolder(FILE, AssetConstants.NAME, null, AssetConstants.NUMBER))
-            .willReturn(true);
+        given(repository.existsByNameAndFolder(AssetConstants.NAME, null, AssetConstants.NUMBER)).willReturn(true);
 
         // WHEN
         callable = () -> service.update(Assets.publicAccess(), Contents.pdf());

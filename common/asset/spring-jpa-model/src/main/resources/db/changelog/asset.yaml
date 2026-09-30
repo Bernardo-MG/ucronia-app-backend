@@ -63,6 +63,8 @@ databaseChangeLog:
             tableName: asset_folders
             columnNames: parent_id, name
             constraintName: uk_asset_folders_parent_name
+        - sql:
+            sql: CREATE UNIQUE INDEX uk_asset_folders_root_name ON asset.asset_folders (name) WHERE parent_id IS NULL
         - addForeignKeyConstraint:
             baseTableSchemaName: asset
             baseTableName: asset_folders
@@ -164,6 +166,8 @@ databaseChangeLog:
             tableName: assets
             columnNames: folder_id, name
             constraintName: uk_assets_folder_name
+        - sql:
+            sql: CREATE UNIQUE INDEX uk_assets_root_name ON asset.assets (name) WHERE folder_id IS NULL
         - addForeignKeyConstraint:
             baseTableSchemaName: asset
             baseTableName: assets

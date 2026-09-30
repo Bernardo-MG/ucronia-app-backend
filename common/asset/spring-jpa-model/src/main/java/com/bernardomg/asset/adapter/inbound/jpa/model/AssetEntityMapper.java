@@ -21,14 +21,16 @@ public final class AssetEntityMapper {
                 .getNumber());
         }
 
-        return new Asset(entity.getNumber(), entity.getName(), entity.getDescription(), entity.getKey(),
-            entity.getMediaType(), entity.getSize(), entity.isPublicAccess(), folder, toDomain(entity.getAudit()));
+        return new Asset(entity.getType(), entity.getNumber(), entity.getName(), entity.getDescription(),
+            entity.getKey(), entity.getMediaType(), entity.getSize(), entity.isPublicAccess(), folder,
+            toDomain(entity.getAudit()));
     }
 
     public static AssetEntity toEntity(final Asset asset) {
         final AssetEntity entity;
 
         entity = new AssetEntity();
+        entity.setType(asset.type());
         entity.setNumber(asset.number());
         entity.setName(asset.name());
         entity.setDescription(asset.description());

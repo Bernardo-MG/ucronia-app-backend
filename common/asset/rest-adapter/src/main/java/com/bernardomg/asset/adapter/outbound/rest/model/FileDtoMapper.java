@@ -3,6 +3,7 @@
 package com.bernardomg.asset.adapter.outbound.rest.model;
 
 import com.bernardomg.asset.domain.model.Asset;
+import com.bernardomg.asset.domain.model.AssetType;
 import com.bernardomg.file.adapter.outbound.rest.dto.AuditDetailsDto;
 import com.bernardomg.file.adapter.outbound.rest.dto.AuditUserDto;
 import com.bernardomg.file.adapter.outbound.rest.dto.FileDto;
@@ -21,8 +22,8 @@ import com.bernardomg.security.domain.audit.model.AuditDetails.AuditUser;
 public final class FileDtoMapper {
 
     public static final Asset toDomain(final long number, final FileMetadataUpdateDto change) {
-        return new Asset(number, change.getName(), change.getDescription(), "", "", 0, change.getPublicAccess(),
-            java.util.Optional.empty());
+        return new Asset(AssetType.FILE, number, change.getName(), change.getDescription(), "", "", 0,
+            change.getPublicAccess(), java.util.Optional.empty());
     }
 
     public static FileResponseDto toResponseDto(final Asset file) {

@@ -70,32 +70,6 @@ public final class JpaAssetRepository implements AssetRepository {
     }
 
     @Override
-    public final boolean existsByNameAndFolder(final AssetType type, final String name, final Long folderNumber) {
-        final boolean exists;
-
-        if (folderNumber == null) {
-            exists = repository.existsByTypeAndNameAndFolderIsNull(type, name);
-        } else {
-            exists = repository.existsByTypeAndNameAndFolderNumber(type, name, folderNumber);
-        }
-        return exists;
-    }
-
-    @Override
-    public final boolean existsByNameAndFolder(final AssetType type, final String name, final Long folderNumber,
-            final long excludedNumber) {
-        final boolean exists;
-
-        if (folderNumber == null) {
-            exists = repository.existsByTypeAndNameAndNumberNotAndFolderIsNull(type, name, excludedNumber);
-        } else {
-            exists = repository.existsByTypeAndNameAndFolderNumberAndNumberNot(type, name, folderNumber,
-                excludedNumber);
-        }
-        return exists;
-    }
-
-    @Override
     public final boolean existsByNameAndFolder(final String name, final Long folderNumber) {
         final boolean exists;
 
@@ -267,7 +241,7 @@ public final class JpaAssetRepository implements AssetRepository {
                 .getId());
         } else {
             number = repository.findNextNumber();
-            toCreate = new Asset(number, asset.name(), asset.description(), asset.key(), asset.mediaType(),
+            toCreate = new Asset(type, number, asset.name(), asset.description(), asset.key(), asset.mediaType(),
                 asset.size(), asset.publicAccess(), asset.folderNumber(), asset.audit());
             entity = AssetEntityMapper.toEntity(toCreate);
         }

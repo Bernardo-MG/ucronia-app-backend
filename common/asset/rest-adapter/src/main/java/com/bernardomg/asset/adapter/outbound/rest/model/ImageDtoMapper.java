@@ -3,6 +3,7 @@
 package com.bernardomg.asset.adapter.outbound.rest.model;
 
 import com.bernardomg.asset.domain.model.Asset;
+import com.bernardomg.asset.domain.model.AssetType;
 import com.bernardomg.image.adapter.outbound.rest.dto.AuditDetailsDto;
 import com.bernardomg.image.adapter.outbound.rest.dto.AuditUserDto;
 import com.bernardomg.image.adapter.outbound.rest.dto.ImageDto;
@@ -21,8 +22,8 @@ import com.bernardomg.security.domain.audit.model.AuditDetails.AuditUser;
 public final class ImageDtoMapper {
 
     public static final Asset toDomain(final long number, final ImageMetadataUpdateDto change) {
-        return new Asset(number, change.getName(), change.getDescription(), "", "", 0, change.getPublicAccess(),
-            java.util.Optional.empty());
+        return new Asset(AssetType.IMAGE, number, change.getName(), change.getDescription(), "", "", 0,
+            change.getPublicAccess(), java.util.Optional.empty());
     }
 
     public static ImageResponseDto toResponseDto(final Asset image) {

@@ -3,6 +3,7 @@
 package com.bernardomg.asset.adapter.outbound.rest.model;
 
 import com.bernardomg.asset.adapter.outbound.rest.dto.AssetDto;
+import com.bernardomg.asset.adapter.outbound.rest.dto.AssetDto.TypeEnum;
 import com.bernardomg.asset.adapter.outbound.rest.dto.AssetPageResponseDto;
 import com.bernardomg.asset.adapter.outbound.rest.dto.AssetResponseDto;
 import com.bernardomg.asset.adapter.outbound.rest.dto.AuditDetailsDto;
@@ -21,6 +22,8 @@ public final class AssetDtoMapper {
 
     public static AssetResponseDto toResponseDto(final Asset asset) {
         return new AssetResponseDto().content(new AssetDto().number(asset.number())
+            .type(TypeEnum.fromValue(asset.type()
+                .name()))
             .name(asset.name())
             .description(asset.description())
             .folderNumber(asset.folderNumber()
@@ -53,6 +56,8 @@ public final class AssetDtoMapper {
 
     private static AssetDto toDto(final Asset asset) {
         return new AssetDto().number(asset.number())
+            .type(TypeEnum.fromValue(asset.type()
+                .name()))
             .name(asset.name())
             .description(asset.description())
             .folderNumber(asset.folderNumber()
