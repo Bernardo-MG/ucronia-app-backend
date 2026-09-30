@@ -1,11 +1,5 @@
 permissions:
-  - resource: file
-    actions:
-      - create
-      - read
-      - update
-      - delete
-  - resource: image
+  - resource: assets
     actions:
       - create
       - read

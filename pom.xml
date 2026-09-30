@@ -238,6 +238,36 @@
    <dependencyManagement>
       <dependencies>
          <dependency>
+            <groupId>com.bernardomg.asset</groupId>
+            <artifactId>asset-spring-jpa-model</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.asset</groupId>
+            <artifactId>asset-domain</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.asset</groupId>
+            <artifactId>asset-rest-adapter</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.asset</groupId>
+            <artifactId>asset-s3-adapter</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.asset</groupId>
+            <artifactId>asset-usecase</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.asset</groupId>
+            <artifactId>asset-spring-starter</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
             <!-- AWS SDK BOM -->
             <groupId>software.amazon.awssdk</groupId>
             <artifactId>bom</artifactId>
@@ -288,36 +318,6 @@
          <dependency>
             <groupId>com.bernardomg</groupId>
             <artifactId>excel</artifactId>
-            <version>${project.version}</version>
-         </dependency>
-         <dependency>
-            <groupId>com.bernardomg.content</groupId>
-            <artifactId>content-domain</artifactId>
-            <version>${project.version}</version>
-         </dependency>
-         <dependency>
-            <groupId>com.bernardomg.content</groupId>
-            <artifactId>content-rest-adapter</artifactId>
-            <version>${project.version}</version>
-         </dependency>
-         <dependency>
-            <groupId>com.bernardomg.content</groupId>
-            <artifactId>content-s3-adapter</artifactId>
-            <version>${project.version}</version>
-         </dependency>
-         <dependency>
-            <groupId>com.bernardomg.content</groupId>
-            <artifactId>content-spring-starter</artifactId>
-            <version>${project.version}</version>
-         </dependency>
-         <dependency>
-            <groupId>com.bernardomg.file</groupId>
-            <artifactId>file-spring-starter</artifactId>
-            <version>${project.version}</version>
-         </dependency>
-         <dependency>
-            <groupId>com.bernardomg.image</groupId>
-            <artifactId>image-spring-starter</artifactId>
             <version>${project.version}</version>
          </dependency>
          <dependency>

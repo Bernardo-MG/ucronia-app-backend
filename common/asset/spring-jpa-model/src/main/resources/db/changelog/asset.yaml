@@ -1,0 +1,192 @@
+databaseChangeLog:
+  - changeSet:
+      id: asset_schema
+      author: Bernardo
+      changes:
+        - sql:
+            sql: CREATE SCHEMA IF NOT EXISTS asset
+  - changeSet:
+      id: asset_tables
+      author: Bernardo
+      changes:
+        - createTable:
+            schemaName: asset
+            tableName: asset_folders
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: number
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: parent_id
+                  type: bigint
+                  constraints:
+                    nullable: true
+              - column:
+                  name: created_at
+                  type: datetime
+              - column:
+                  name: created_by
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_asset_folders_created_by_user
+                    references: security.users(id)
+              - column:
+                  name: updated_at
+                  type: datetime
+              - column:
+                  name: updated_by
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_asset_folders_updated_by_user
+                    references: security.users(id)
+        - addUniqueConstraint:
+            schemaName: asset
+            tableName: asset_folders
+            columnNames: number
+            constraintName: uk_asset_folders_number
+        - addUniqueConstraint:
+            schemaName: asset
+            tableName: asset_folders
+            columnNames: parent_id, name
+            constraintName: uk_asset_folders_parent_name
+        - sql:
+            sql: CREATE UNIQUE INDEX uk_asset_folders_root_name ON asset.asset_folders (name) WHERE parent_id IS NULL
+        - addForeignKeyConstraint:
+            baseTableSchemaName: asset
+            baseTableName: asset_folders
+            baseColumnNames: parent_id
+            referencedTableSchemaName: asset
+            referencedTableName: asset_folders
+            referencedColumnNames: id
+            constraintName: fk_asset_folders_parent
+        - createIndex:
+            schemaName: asset
+            tableName: asset_folders
+            indexName: idx_asset_folders_number
+            columns:
+              - column:
+                  name: number
+        - createTable:
+            schemaName: asset
+            tableName: assets
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: number
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: type
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(500)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: object_key
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: media_type
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: size
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: public_access
+                  type: boolean
+                  defaultValueBoolean: true
+                  constraints:
+                    nullable: false
+              - column:
+                  name: folder_id
+                  type: bigint
+                  constraints:
+                    nullable: true
+              - column:
+                  name: created_at
+                  type: datetime
+              - column:
+                  name: created_by
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_assets_created_by_user
+                    references: security.users(id)
+              - column:
+                  name: updated_at
+                  type: datetime
+              - column:
+                  name: updated_by
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_assets_updated_by_user
+                    references: security.users(id)
+        - addUniqueConstraint:
+            schemaName: asset
+            tableName: assets
+            columnNames: number
+            constraintName: uk_assets_number
+        - addUniqueConstraint:
+            schemaName: asset
+            tableName: assets
+            columnNames: folder_id, name
+            constraintName: uk_assets_folder_name
+        - sql:
+            sql: CREATE UNIQUE INDEX uk_assets_root_name ON asset.assets (name) WHERE folder_id IS NULL
+        - addForeignKeyConstraint:
+            baseTableSchemaName: asset
+            baseTableName: assets
+            baseColumnNames: folder_id
+            referencedTableSchemaName: asset
+            referencedTableName: asset_folders
+            referencedColumnNames: id
+            constraintName: fk_assets_folder
+        - createIndex:
+            schemaName: asset
+            tableName: assets
+            indexName: idx_assets_number
+            columns:
+              - column:
+                  name: number
+        - createIndex:
+            schemaName: asset
+            tableName: assets
+            indexName: idx_assets_folder
+            columns:
+              - column:
+                  name: folder_id

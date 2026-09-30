@@ -1,6 +1,0 @@
-databaseChangeLog:
-  - include:
-      file: classpath:db/changelog/auth/initialize.yaml
-  - include:
-      file: file.yaml
-      relativeToChangelogFile: true

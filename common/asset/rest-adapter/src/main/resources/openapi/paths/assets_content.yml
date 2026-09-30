@@ -1,0 +1,44 @@
+get:
+  summary: Get asset content.
+  operationId: getAssetContent
+  tags: [Asset content]
+  parameters:
+    - in: path
+      name: number
+      required: true
+      description: Asset number.
+      schema:
+         $ref: '../common/ids.yml#/components/schemas/Id'
+    - in: query
+      name: download
+      required: false
+      description: Return the content as a downloadable attachment.
+      schema:
+        type: boolean
+        default: false
+  responses:
+    '200':
+      description: Asset content.
+      headers:
+        Content-Disposition:
+          description: Indicates whether the content is inline or an attachment.
+          schema:
+            type: string
+        X-Content-Type-Options:
+          description: Prevents media type sniffing.
+          schema:
+            type: string
+            example: nosniff
+        Cache-Control:
+          description: Private assets are returned with `private, no-store`.
+          schema:
+            type: string
+      content:
+        application/octet-stream:
+          schema:
+            type: string
+            format: binary
+    '404':
+      description: Asset not found.
+    '403':
+      description: ASSETS:READ is required for a private asset.

@@ -1,0 +1,36 @@
+components:
+  schemas:
+    AssetFolder:
+      type: object
+      properties:
+        number:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        parentNumber:
+          type: integer
+          format: int64
+    AssetFolderCreation:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        parentNumber:
+          type: integer
+          format: int64
+    AssetFolderUpdate:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        parentNumber:
+          type: integer
+          format: int64

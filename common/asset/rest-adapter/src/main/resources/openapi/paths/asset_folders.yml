@@ -1,0 +1,32 @@
+get:
+  summary: Get the asset folder tree.
+  operationId: getAssetFolders
+  tags: [Asset folder]
+  responses:
+    '200':
+      description: All asset folders.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '../components/asset_folders.yml#/components/schemas/AssetFolder'
+post:
+  summary: Create an asset folder.
+  operationId: createAssetFolder
+  tags: [Asset folder]
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/asset_folders.yml#/components/schemas/AssetFolderCreation'
+  responses:
+    '201':
+      description: Folder created.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/asset_folders.yml#/components/schemas/AssetFolder'
+    '409':
+       description: A sibling folder with the same name exists.

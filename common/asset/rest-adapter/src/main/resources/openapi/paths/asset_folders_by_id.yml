@@ -1,0 +1,51 @@
+parameters:
+  - in: path
+    name: number
+    required: true
+    schema:
+       $ref: '../common/ids.yml#/components/schemas/Id'
+get:
+  summary: Get an asset folder.
+  operationId: getAssetFolder
+  tags: [Asset folder]
+  responses:
+    '200':
+      description: Asset folder metadata.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/asset_folders.yml#/components/schemas/AssetFolder'
+    '404':
+       description: Folder not found.
+put:
+  summary: Rename or move an asset folder.
+  operationId: updateAssetFolder
+  tags: [Asset folder]
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/asset_folders.yml#/components/schemas/AssetFolderUpdate'
+  responses:
+    '200':
+      description: Folder updated.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/asset_folders.yml#/components/schemas/AssetFolder'
+    '400':
+       description: The requested hierarchy contains a cycle.
+delete:
+  summary: Delete an empty asset folder.
+  operationId: deleteAssetFolder
+  tags: [Asset folder]
+  responses:
+    '200':
+      description: Folder deleted.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/asset_folders.yml#/components/schemas/AssetFolder'
+    '409':
+       description: Folder contains assets or child folders.
