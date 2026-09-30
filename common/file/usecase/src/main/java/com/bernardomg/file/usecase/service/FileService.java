@@ -46,8 +46,6 @@ public interface FileService {
 
     public Page<Asset> getAllPublic(final Pagination pagination, final Sorting sorting);
 
-    public Content getContent(final Long number);
-
     public Asset getOne(final Long number);
 
     public Asset update(final Asset file, final Content content);

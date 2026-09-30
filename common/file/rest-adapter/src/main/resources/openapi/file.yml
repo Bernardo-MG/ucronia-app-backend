@@ -11,5 +11,3 @@ paths:
     $ref: paths/files.yml
   /files/{number}:
     $ref: paths/files_by_id.yml
-  /files/{number}/content:
-    $ref: paths/files_content.yml

@@ -7,6 +7,8 @@ servers:
   - url: https://localhost
     description: Local development
 paths:
+  /assets/{number}/content:
+    $ref: paths/assets_content.yml
   /asset/folders:
     $ref: paths/asset_folders.yml
   /asset/folders/{number}:

@@ -6,13 +6,11 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.List;
 
-import org.assertj.core.api.Assertions;
 import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -20,8 +18,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.ContentDisposition;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
@@ -31,7 +27,6 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import com.bernardomg.asset.adapter.outbound.rest.security.SpringSecurityAssetReadAuthorizer;
 import com.bernardomg.asset.domain.model.Asset;
 import com.bernardomg.asset.domain.model.Content;
-import com.bernardomg.file.test.configuration.factory.Contents;
 import com.bernardomg.file.test.configuration.factory.FileConstants;
 import com.bernardomg.file.test.configuration.factory.Files;
 import com.bernardomg.file.usecase.service.FileService;
@@ -98,35 +93,6 @@ class TestFileController {
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.content[0].number").value(FileConstants.NUMBER))
             .andExpect(jsonPath("$.content[0].name").value(FileConstants.NAME));
-    }
-
-    @Test
-    @DisplayName("Can get file content")
-    void testGetContent() throws Exception {
-        // GIVEN
-        given(service.getOne(FileConstants.NUMBER)).willReturn(Files.publicAccess());
-        given(service.getContent(FileConstants.NUMBER)).willReturn(Contents.file());
-
-        // WHEN + THEN
-        mockMvc.perform(get("/files/{number}/content", FileConstants.NUMBER))
-            .andExpect(status().isOk())
-            .andExpect(header().exists(HttpHeaders.CONTENT_DISPOSITION))
-            .andExpect(result -> {
-                final String         header;
-                final ContentDisposition disposition;
-
-                header = result.getResponse()
-                    .getHeader(HttpHeaders.CONTENT_DISPOSITION);
-                disposition = ContentDisposition.parse(header);
-
-                Assertions.assertThat(disposition.getType())
-                    .isEqualTo("attachment");
-                Assertions.assertThat(disposition.getFilename())
-                    .isEqualTo("file.pdf");
-            })
-            .andExpect(header().string(HttpHeaders.CONTENT_TYPE, FileConstants.PDF_MEDIA_TYPE))
-            .andExpect(header().longValue(HttpHeaders.CONTENT_LENGTH, FileConstants.DATA.length))
-            .andExpect(header().string("X-Content-Type-Options", "nosniff"));
     }
 
     @Test

@@ -144,26 +144,6 @@ public final class DefaultFileService implements FileService {
     }
 
     @Override
-    public final Content getContent(final Long number) {
-        final Asset   file;
-        final Content fileContent;
-
-        log.debug("Reading file content for {}", number);
-
-        file = fileRepository.findOne(TYPE, number)
-            .orElseThrow(() -> {
-                log.error("Asset {} doesn't exist", number);
-                return new AssetNotExistingException(number);
-            });
-
-        fileContent = contentRepository.getOne(file.key());
-
-        log.debug("Read file content for {}", number);
-
-        return fileContent;
-    }
-
-    @Override
     public final Asset getOne(final Long number) {
         final Asset file;
 

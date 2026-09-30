@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -91,29 +89,6 @@ public class ImageController implements ImageApi {
         image = service.getOne(number);
         authorizer.checkCanRead(image);
         return ResponseEntity.ok(ImageDtoMapper.toResponseDto(image));
-    }
-
-    @Override
-    @Unsecured
-    public ResponseEntity<Resource> getImageContent(final Long number) {
-        final Asset                    image;
-        final ResponseEntity<Resource> inlineResponse;
-        final ResponseEntity<Resource> response;
-
-        image = service.getOne(number);
-        authorizer.checkCanRead(image);
-        inlineResponse = ContentDtoMapper.toInline(service.getContent(number));
-
-        if (image.publicAccess()) {
-            response = inlineResponse;
-        } else {
-            response = ResponseEntity.status(inlineResponse.getStatusCode())
-                .headers(inlineResponse.getHeaders())
-                .header(HttpHeaders.CACHE_CONTROL, "private, no-store")
-                .body(inlineResponse.getBody());
-        }
-
-        return response;
     }
 
     @Override

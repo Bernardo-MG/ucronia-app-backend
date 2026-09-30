@@ -144,26 +144,6 @@ public final class DefaultImageService implements ImageService {
     }
 
     @Override
-    public final Content getContent(final Long number) {
-        final Asset   image;
-        final Content imageContent;
-
-        log.debug("Reading image content for {}", number);
-
-        image = imageRepository.findOne(TYPE, number)
-            .orElseThrow(() -> {
-                log.error("Asset {} doesn't exist", number);
-                return new AssetNotExistingException(number);
-            });
-
-        imageContent = contentRepository.getOne(image.key());
-
-        log.debug("Read image content for {}", number);
-
-        return imageContent;
-    }
-
-    @Override
     public final Asset getOne(final Long number) {
         final Asset image;
 

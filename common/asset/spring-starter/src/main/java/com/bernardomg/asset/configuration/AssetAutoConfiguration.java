@@ -22,7 +22,9 @@ import com.bernardomg.asset.domain.key.UuidContentKeyGenerator;
 import com.bernardomg.asset.domain.repository.AssetFolderRepository;
 import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.asset.domain.repository.ContentRepository;
+import com.bernardomg.asset.usecase.service.AssetContentService;
 import com.bernardomg.asset.usecase.service.AssetFolderService;
+import com.bernardomg.asset.usecase.service.DefaultAssetContentService;
 import com.bernardomg.asset.usecase.service.DefaultAssetFolderService;
 import com.bernardomg.security.springframework.access.interceptor.AuthorityResourcePermissionEvaluator;
 import com.bernardomg.security.springframework.access.interceptor.ResourcePermissionEvaluator;
@@ -39,6 +41,17 @@ import software.amazon.awssdk.services.s3.S3ClientBuilder;
 @AutoConfigurationPackage(basePackages = "com.bernardomg.asset.adapter.inbound.jpa")
 @EnableConfigurationProperties(ContentStorageProperties.class)
 public class AssetAutoConfiguration {
+
+    @Bean("assetContentService")
+    public AssetContentService getAssetContentService(final AssetRepository assetRepository,
+            final ContentRepository contentRepository) {
+        return new DefaultAssetContentService(assetRepository, contentRepository);
+    }
+
+    @Bean("assetContentWhitelist")
+    public WhitelistRoute getAssetContentWhitelist() {
+        return WhitelistRoute.of("/assets/**", HttpMethod.GET);
+    }
 
     @Bean("assetFolderRepository")
     public AssetFolderRepository getAssetFolderRepository(final AssetFolderSpringRepository repository) {

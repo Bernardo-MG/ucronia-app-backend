@@ -6,7 +6,6 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -19,7 +18,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
@@ -29,7 +27,6 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import com.bernardomg.asset.adapter.outbound.rest.security.SpringSecurityAssetReadAuthorizer;
 import com.bernardomg.asset.domain.model.Asset;
 import com.bernardomg.asset.domain.model.Content;
-import com.bernardomg.image.test.configuration.factory.Contents;
 import com.bernardomg.image.test.configuration.factory.ImageConstants;
 import com.bernardomg.image.test.configuration.factory.Images;
 import com.bernardomg.image.usecase.service.ImageService;
@@ -96,22 +93,6 @@ class TestImageController {
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.content[0].number").value(ImageConstants.NUMBER))
             .andExpect(jsonPath("$.content[0].name").value(ImageConstants.NAME));
-    }
-
-    @Test
-    @DisplayName("Can get an image content")
-    void testGetContent() throws Exception {
-        // GIVEN
-        given(service.getOne(ImageConstants.NUMBER)).willReturn(Images.publicAccess());
-        given(service.getContent(ImageConstants.NUMBER)).willReturn(Contents.image());
-
-        // WHEN + THEN
-        mockMvc.perform(get("/images/{number}/content", ImageConstants.NUMBER))
-            .andExpect(status().isOk())
-            .andExpect(header().string(HttpHeaders.CONTENT_DISPOSITION, "inline"))
-            .andExpect(header().string(HttpHeaders.CONTENT_TYPE, ImageConstants.PNG_MEDIA_TYPE))
-            .andExpect(header().longValue(HttpHeaders.CONTENT_LENGTH, ImageConstants.DATA.length))
-            .andExpect(header().string("X-Content-Type-Options", "nosniff"));
     }
 
     @Test

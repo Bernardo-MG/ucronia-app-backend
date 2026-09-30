@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -91,29 +89,6 @@ public class FileController implements FileApi {
         file = service.getOne(number);
         authorizer.checkCanRead(file);
         return ResponseEntity.ok(FileDtoMapper.toResponseDto(file));
-    }
-
-    @Override
-    @Unsecured
-    public ResponseEntity<Resource> getFileContent(final Long number) {
-        final Asset                    file;
-        final ResponseEntity<Resource> attachmentResponse;
-        final ResponseEntity<Resource> response;
-
-        file = service.getOne(number);
-        authorizer.checkCanRead(file);
-        attachmentResponse = ContentDtoMapper.toAttachment(service.getContent(number), file.name());
-
-        if (file.publicAccess()) {
-            response = attachmentResponse;
-        } else {
-            response = ResponseEntity.status(attachmentResponse.getStatusCode())
-                .headers(attachmentResponse.getHeaders())
-                .header(HttpHeaders.CACHE_CONTROL, "private, no-store")
-                .body(attachmentResponse.getBody());
-        }
-
-        return response;
     }
 
     @Override

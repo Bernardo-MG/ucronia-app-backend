@@ -12,11 +12,13 @@ import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
 import com.bernardomg.asset.adapter.inbound.jpa.repository.AssetFolderSpringRepository;
 import com.bernardomg.asset.adapter.inbound.jpa.repository.AssetSpringRepository;
+import com.bernardomg.asset.adapter.outbound.rest.controller.AssetContentController;
 import com.bernardomg.asset.adapter.outbound.rest.controller.AssetFolderController;
 import com.bernardomg.asset.domain.key.ContentKeyGenerator;
 import com.bernardomg.asset.domain.repository.AssetFolderRepository;
 import com.bernardomg.asset.domain.repository.AssetRepository;
 import com.bernardomg.asset.domain.repository.ContentRepository;
+import com.bernardomg.asset.usecase.service.AssetContentService;
 import com.bernardomg.asset.usecase.service.AssetFolderService;
 
 @DisplayName("AssetAutoConfiguration")
@@ -27,6 +29,20 @@ class TestAssetAutoConfiguration {
         .withBean(AssetSpringRepository.class, () -> mock(AssetSpringRepository.class))
         .withBean(AssetFolderSpringRepository.class, () -> mock(AssetFolderSpringRepository.class))
         .withPropertyValues("content.storage.region=eu-west-1", "content.storage.bucket=test");
+
+    @Test
+    @DisplayName("It creates one shared asset content controller")
+    void testAssetContentController() {
+        contextRunner.run(context -> Assertions.assertThat(context)
+            .hasSingleBean(AssetContentController.class));
+    }
+
+    @Test
+    @DisplayName("It creates one shared asset content service")
+    void testAssetContentService() {
+        contextRunner.run(context -> Assertions.assertThat(context)
+            .hasSingleBean(AssetContentService.class));
+    }
 
     @Test
     @DisplayName("It creates one shared asset folder controller")
