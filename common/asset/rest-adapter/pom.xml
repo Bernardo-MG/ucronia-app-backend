@@ -150,7 +150,7 @@
                         <goal>generate</goal>
                      </goals>
                      <configuration>
-                        <inputSpec>${project.basedir}/src/main/resources/openapi/file/file.yml</inputSpec>
+                        <inputSpec>${project.basedir}/src/main/resources/openapi/file.yml</inputSpec>
                         <apiPackage>com.bernardomg.file.adapter.outbound.rest.controller</apiPackage>
                         <modelPackage>com.bernardomg.file.adapter.outbound.rest.dto</modelPackage>
                         <configOptions>
@@ -164,7 +164,7 @@
                         <goal>generate</goal>
                      </goals>
                      <configuration>
-                        <inputSpec>${project.basedir}/src/main/resources/openapi/image/image.yml</inputSpec>
+                        <inputSpec>${project.basedir}/src/main/resources/openapi/image.yml</inputSpec>
                         <apiPackage>com.bernardomg.image.adapter.outbound.rest.controller</apiPackage>
                         <modelPackage>com.bernardomg.image.adapter.outbound.rest.dto</modelPackage>
                         <configOptions>

@@ -7,7 +7,7 @@ servers:
   - url: https://localhost
     description: Local development
 paths:
-  /files:
-    $ref: paths/files.yml
-  /files/{number}:
-    $ref: paths/files_by_id.yml
+  /assets/images:
+    $ref: paths/images.yml
+  /assets/images/{number}:
+    $ref: paths/images_by_id.yml
