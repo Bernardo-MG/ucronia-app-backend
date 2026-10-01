@@ -6,6 +6,7 @@ import java.net.URI;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -43,6 +44,7 @@ import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.S3ClientBuilder;
 
 @AutoConfiguration
+@ConditionalOnProperty(prefix = "content.storage", name = { "bucket", "region" })
 @ComponentScan({ "com.bernardomg.asset.adapter.outbound.rest.controller" })
 @AutoConfigurationPackage(basePackages = "com.bernardomg.asset.adapter.inbound.jpa")
 @EnableConfigurationProperties({ ContentStorageProperties.class, FileContentProperties.class,
