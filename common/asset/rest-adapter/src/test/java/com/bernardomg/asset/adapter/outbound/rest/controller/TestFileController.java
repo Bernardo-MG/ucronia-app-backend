@@ -71,7 +71,7 @@ class TestFileController {
         given(service.create(any(Asset.class), any(Content.class))).willReturn(Assets.publicAccess());
 
         // WHEN + THEN
-        mockMvc.perform(multipart("/files").file(file)
+        mockMvc.perform(multipart("/assets/files").file(file)
             .param("name", AssetConstants.NAME)
             .param("description", AssetConstants.DESCRIPTION)
             .param("publicAccess", "true"))
@@ -88,7 +88,7 @@ class TestFileController {
         given(service.getAllPublic(any(Pagination.class), any(Sorting.class))).willReturn(page);
 
         // WHEN + THEN
-        mockMvc.perform(get("/files").param("page", "1")
+        mockMvc.perform(get("/assets/files").param("page", "1")
             .param("size", "10"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.content[0].number").value(AssetConstants.NUMBER))
@@ -103,7 +103,7 @@ class TestFileController {
         given(service.getOne(AssetConstants.NUMBER)).willReturn(Assets.publicAccess());
 
         // WHEN + THEN
-        mockMvc.perform(get("/files/{number}", AssetConstants.NUMBER))
+        mockMvc.perform(get("/assets/files/{number}", AssetConstants.NUMBER))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.content.number").value(AssetConstants.NUMBER))
             .andExpect(jsonPath("$.content.name").value(AssetConstants.NAME))
@@ -117,7 +117,7 @@ class TestFileController {
         given(service.updateMetadata(Assets.patchFile())).willReturn(Assets.patchFile());
 
         // WHEN + THEN
-        mockMvc.perform(patch("/files/{number}", AssetConstants.NUMBER).contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(patch("/assets/files/{number}", AssetConstants.NUMBER).contentType(MediaType.APPLICATION_JSON)
             .content("""
                     {
                       "name": "%s",

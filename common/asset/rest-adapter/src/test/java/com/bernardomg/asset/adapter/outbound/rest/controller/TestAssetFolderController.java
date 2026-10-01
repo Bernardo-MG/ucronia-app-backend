@@ -65,7 +65,7 @@ class TestAssetFolderController {
     void testGetAssetFolders() throws Exception {
         given(service.getAll()).willReturn(List.of(AssetFolders.valid()));
 
-        mockMvc.perform(get("/asset/folders"))
+        mockMvc.perform(get("/assets/folders"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$[0].number").value(AssetFolderConstants.NUMBER))
             .andExpect(jsonPath("$[0].name").value(AssetFolderConstants.NAME));
@@ -79,7 +79,7 @@ class TestAssetFolderController {
         page = new Page<>(List.of(Assets.publicAccess()), 10, 1, 1, 1, 1, true, true, Sorting.unsorted());
         given(service.getPublicRootAssets(any(Pagination.class), any(Sorting.class))).willReturn(page);
 
-        mockMvc.perform(get("/asset/folders/root/assets").param("page", "1")
+        mockMvc.perform(get("/assets/folders/root/assets").param("page", "1")
             .param("size", "10"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.content[0].number").value(AssetConstants.NUMBER))
