@@ -1,0 +1,34 @@
+post:
+  summary: Create an image.
+  operationId: createImage
+  tags: [Image]
+  requestBody:
+    required: true
+    content:
+      multipart/form-data:
+        schema:
+           $ref: '../components/images.yml#/components/schemas/ImageCreation'
+  responses:
+    '201':
+      description: Image created.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/images.yml#/components/schemas/ImageResponse'
+    '409':
+      description: Image name already exists.
+get:
+  summary: Get all images.
+  operationId: getAllImages
+  tags: [Image]
+  parameters:
+    - $ref: '../common/pagination.yml#/components/parameters/pageParam'
+    - $ref: '../common/pagination.yml#/components/parameters/sizeParam'
+    - $ref: '../components/images.yml#/components/parameters/imagesSortParam'
+  responses:
+    '200':
+      description: Page of image metadata.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/images.yml#/components/schemas/ImagePageResponse'

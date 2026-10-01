@@ -1,0 +1,15 @@
+get:
+  summary: Get assets which are not in a folder.
+  operationId: getRootAssets
+  tags: [Asset folder]
+  parameters:
+    - $ref: '../common/pagination.yml#/components/parameters/pageParam'
+    - $ref: '../common/pagination.yml#/components/parameters/sizeParam'
+    - $ref: '../components/assets.yml#/components/parameters/assetsSortParam'
+  responses:
+    '200':
+      description: Page of root asset metadata.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/assets.yml#/components/schemas/AssetPageResponse'

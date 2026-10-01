@@ -26,6 +26,7 @@ package com.bernardomg.association.calendar.activity.usecase.service;
 
 import java.util.Optional;
 
+import com.bernardomg.association.calendar.activity.domain.filter.ActivityFilter;
 import com.bernardomg.association.calendar.activity.domain.model.Activity;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -61,13 +62,15 @@ public interface ActivityService {
      * Returns all the activities matching the sample. If the sample fields are empty, then all the activities are
      * returned.
      *
+     * @param filter
+     *            filter to apply
      * @param pagination
      *            pagination to apply
      * @param sorting
      *            sorting to apply
      * @return all the activities matching the sample
      */
-    public Page<Activity> getAll(final Pagination pagination, final Sorting sorting);
+    public Page<Activity> getAll(final ActivityFilter filter, final Pagination pagination, final Sorting sorting);
 
     /**
      * Returns the activity for the received id, if it exists. Otherwise an empty {@code Optional} is returned.

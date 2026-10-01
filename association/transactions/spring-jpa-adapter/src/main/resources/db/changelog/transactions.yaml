@@ -139,7 +139,7 @@ databaseChangeLog:
             referencedTableSchemaName: funds
             referencedTableName: transaction_types
             referencedColumnNames: id
-            onDelete: SET NULL
+            onDelete: "SET NULL"
       modifySql:
         - append:
             dbms: mysql

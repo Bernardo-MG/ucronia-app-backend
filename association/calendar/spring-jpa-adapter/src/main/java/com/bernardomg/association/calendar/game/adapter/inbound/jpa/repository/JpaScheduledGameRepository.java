@@ -40,11 +40,14 @@ import com.bernardomg.association.calendar.adapter.inbound.jpa.model.CalendarTyp
 import com.bernardomg.association.calendar.adapter.inbound.jpa.model.RecurrenceStatusEntity;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.CalendarStatusSpringRepository;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.CalendarTypeSpringRepository;
+import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.GameTableSpringRepository;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.RecurrenceStatusSpringRepository;
 import com.bernardomg.association.calendar.domain.exception.MissingCalendarRecurrenceStatusException;
 import com.bernardomg.association.calendar.domain.exception.MissingCalendarStatusException;
+import com.bernardomg.association.calendar.domain.exception.MissingGameTableException;
 import com.bernardomg.association.calendar.domain.model.CalendarStatus;
 import com.bernardomg.association.calendar.domain.model.Recurrence.RecurrenceStatus;
+import com.bernardomg.association.calendar.game.adapter.inbound.jpa.model.GameTableEntity;
 import com.bernardomg.association.calendar.game.adapter.inbound.jpa.model.ScheduledGameEntity;
 import com.bernardomg.association.calendar.game.adapter.inbound.jpa.model.ScheduledGameEntityConstants;
 import com.bernardomg.association.calendar.game.adapter.inbound.jpa.model.ScheduledGameEntityMapper;
@@ -73,6 +76,8 @@ public final class JpaScheduledGameRepository implements ScheduledGameRepository
 
     private final CalendarTypeSpringRepository         calendarTypeSpringRepository;
 
+    private final GameTableSpringRepository            gameTableSpringRepository;
+
     private final RecurrenceStatusSpringRepository     recurrenceStatusSpringRepository;
 
     private final ScheduledGameProfileSpringRepository scheduledGameProfileSpringRepository;
@@ -83,7 +88,8 @@ public final class JpaScheduledGameRepository implements ScheduledGameRepository
             final ScheduledGameProfileSpringRepository scheduledGameProfileSpringRepo,
             final CalendarTypeSpringRepository calendarTypeSpringRepo,
             final CalendarStatusSpringRepository calendarStatusSpringRepo,
-            final RecurrenceStatusSpringRepository recurrenceStatusSpringRepo) {
+            final RecurrenceStatusSpringRepository recurrenceStatusSpringRepo,
+            final GameTableSpringRepository gameTableSpringRepo) {
         super();
 
         scheduledGameSpringRepository = Objects.requireNonNull(scheduledGameSpringRepo);
@@ -91,6 +97,7 @@ public final class JpaScheduledGameRepository implements ScheduledGameRepository
         calendarTypeSpringRepository = Objects.requireNonNull(calendarTypeSpringRepo);
         calendarStatusSpringRepository = Objects.requireNonNull(calendarStatusSpringRepo);
         recurrenceStatusSpringRepository = Objects.requireNonNull(recurrenceStatusSpringRepo);
+        gameTableSpringRepository = Objects.requireNonNull(gameTableSpringRepo);
     }
 
     @Override
@@ -191,6 +198,11 @@ public final class JpaScheduledGameRepository implements ScheduledGameRepository
 
         setType(entity, scheduledGame.gameSessionType());
         setStatus(entity, scheduledGame.status());
+        if (scheduledGame.table()
+            .isPresent()) {
+            setTable(entity, scheduledGame.table()
+                .get());
+        }
         if (entity.getRecurrence() != null) {
             setRecurrenceStatus(entity.getRecurrence(), RecurrenceStatus.ACTIVE);
         }
@@ -228,6 +240,19 @@ public final class JpaScheduledGameRepository implements ScheduledGameRepository
             });
 
         entity.setStatus(statusEntity);
+    }
+
+    private final void setTable(final ScheduledGameEntity entity, final long table) {
+        final GameTableEntity gameTable;
+
+        gameTable = gameTableSpringRepository.findByNumber(table)
+            // TODO: use correct id
+            .orElseThrow(() -> {
+                log.error("Missing game table {}", table);
+                return new MissingGameTableException(table);
+            });
+
+        entity.setTable(gameTable);
     }
 
     private final void setType(final CalendarInfoEntity entity, final GameSessionType gameSessionType) {

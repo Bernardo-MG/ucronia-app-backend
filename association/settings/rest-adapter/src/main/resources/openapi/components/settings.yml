@@ -28,6 +28,9 @@ components:
         instagram:
           type: string
           maxLength: 300
+        telegram:
+          type: string
+          maxLength: 300
     PublicSettingsResponse:
       type: object
       properties:

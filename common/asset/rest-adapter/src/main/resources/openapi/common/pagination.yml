@@ -1,0 +1,36 @@
+components:
+  parameters:
+    pageParam:
+      name: page
+      description: Page to return.
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        example: 1
+        default: 1
+    sizeParam:
+      name: size
+      description: Page size.
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        example: 10
+        default: 10
+  schemas:
+    Sorting:
+      type: object
+      properties:
+        properties:
+          type: array
+          items:
+            $ref: '#/components/schemas/Property'
+    Property:
+      type: object
+      properties:
+        name:
+          type: string
+        direction:
+          type: string
+          enum: [asc, desc]

@@ -26,6 +26,7 @@ package com.bernardomg.association.calendar.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.Collection;
 import java.util.Objects;
 import java.util.Set;
 
@@ -59,54 +60,54 @@ import jakarta.persistence.Transient;
 public class CalendarInfoEntity implements Serializable {
 
     @Transient
-    private static final long       serialVersionUID = 4603617058960663867L;
+    private static final long              serialVersionUID = 4603617058960663867L;
 
     @Embedded
-    private AuditMetadata           audit            = new AuditMetadata();
+    private AuditMetadata                  audit            = new AuditMetadata();
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(schema = "calendar", name = "calendar_info_dates",
             joinColumns = @JoinColumn(name = "calendar_info_id", nullable = false),
             inverseJoinColumns = @JoinColumn(name = "calendar_date_id", nullable = false))
     @OrderBy("start, end ASC")
-    private Set<CalendarDateEntity> calendarDates;
+    private Collection<CalendarDateEntity> calendarDates;
 
     @Column(name = "description", length = 200)
-    private String                  description;
+    private String                         description;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
-    private Long                    id;
+    private Long                           id;
 
     @Column(name = "image", length = 200)
-    private String                  image;
+    private String                         image;
 
     @Column(name = "location", length = 200)
-    private String                  location;
+    private String                         location;
 
     @Column(name = "number", nullable = false, unique = true)
-    private Long                    number;
+    private Long                           number;
 
     @Embedded
-    private CalendarInfoRecurrence  recurrence;
+    private CalendarInfoRecurrence         recurrence;
 
     @Column(name = "start_date")
-    private Instant                 start;
+    private Instant                        start;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "calendar_status_id", nullable = false,
             foreignKey = @ForeignKey(name = "fk_calendar_info_calendar_status"))
-    private CalendarStatusEntity    status;
+    private CalendarStatusEntity           status;
 
     @Column(name = "title", length = 100)
-    private String                  title;
+    private String                         title;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(schema = "calendar", name = "calendar_info_types",
             joinColumns = @JoinColumn(name = "calendar_info_id", nullable = false),
             inverseJoinColumns = @JoinColumn(name = "calendar_type_id", nullable = false))
-    private Set<CalendarTypeEntity> types;
+    private Set<CalendarTypeEntity>        types;
 
     @Override
     public boolean equals(final Object obj) {
@@ -123,7 +124,7 @@ public class CalendarInfoEntity implements Serializable {
         return audit;
     }
 
-    public Set<CalendarDateEntity> getCalendarDates() {
+    public Collection<CalendarDateEntity> getCalendarDates() {
         return calendarDates;
     }
 
@@ -176,7 +177,7 @@ public class CalendarInfoEntity implements Serializable {
         this.audit = audit;
     }
 
-    public void setCalendarDates(final Set<CalendarDateEntity> calendarDates) {
+    public void setCalendarDates(final Collection<CalendarDateEntity> calendarDates) {
         this.calendarDates = calendarDates;
     }
 

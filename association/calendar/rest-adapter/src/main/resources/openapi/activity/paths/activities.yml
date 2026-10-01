@@ -24,11 +24,6 @@ get:
     - $ref: '../common/pagination.yml#/components/parameters/pageParam'
     - $ref: '../common/pagination.yml#/components/parameters/sizeParam'
     - $ref: '../components/activities.yml#/components/parameters/activitiesSortParam'
-    - name: date
-      description: Date to query for.
-      in: query
-      schema:
-        $ref: '../common/dates.yml#/components/schemas/Date'
     - name: from
       description: Starting date to query for.
       in: query

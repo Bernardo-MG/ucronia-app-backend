@@ -1,0 +1,34 @@
+post:
+  summary: Create a file.
+  operationId: createFile
+  tags: [File]
+  requestBody:
+    required: true
+    content:
+      multipart/form-data:
+        schema:
+           $ref: '../components/files.yml#/components/schemas/FileCreation'
+  responses:
+    '201':
+      description: File created.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/files.yml#/components/schemas/FileResponse'
+    '409':
+      description: File name already exists.
+get:
+  summary: Get all files.
+  operationId: getAllFiles
+  tags: [File]
+  parameters:
+    - $ref: '../common/pagination.yml#/components/parameters/pageParam'
+    - $ref: '../common/pagination.yml#/components/parameters/sizeParam'
+    - $ref: '../components/files.yml#/components/parameters/filesSortParam'
+  responses:
+    '200':
+      description: Page of file metadata.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/files.yml#/components/schemas/FilePageResponse'

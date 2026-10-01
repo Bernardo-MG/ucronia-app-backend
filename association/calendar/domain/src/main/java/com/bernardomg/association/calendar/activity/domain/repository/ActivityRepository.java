@@ -26,6 +26,7 @@ package com.bernardomg.association.calendar.activity.domain.repository;
 
 import java.util.Optional;
 
+import com.bernardomg.association.calendar.activity.domain.filter.ActivityFilter;
 import com.bernardomg.association.calendar.activity.domain.model.Activity;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -37,7 +38,7 @@ public interface ActivityRepository {
 
     public boolean exists(final long number);
 
-    public Page<Activity> findAll(final Pagination pagination, final Sorting sorting);
+    public Page<Activity> findAll(final ActivityFilter filter, final Pagination pagination, final Sorting sorting);
 
     public Optional<Activity> findOne(final Long number);
 

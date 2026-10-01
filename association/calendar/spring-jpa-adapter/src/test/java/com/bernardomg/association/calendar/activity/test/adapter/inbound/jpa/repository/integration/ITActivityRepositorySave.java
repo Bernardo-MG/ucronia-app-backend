@@ -29,7 +29,48 @@ class ITActivityRepositorySave {
     private CalendarInfoSpringRepository springRepository;
 
     @Test
-    @DisplayName("Persists the data")
+    @DisplayName("With an activity with multiple days, it is persisted")
+    void testSave_MultipleDays_PersistedData() {
+        final Iterable<CalendarInfoEntity> activities;
+        final Activity                     activity;
+
+        // GIVEN
+        activity = Activities.multipleDay();
+
+        // WHEN
+        repository.save(activity);
+
+        // THEN
+        activities = springRepository.findAll();
+
+        Assertions.assertThat(activities)
+            .as("activities")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "calendarDates.id", "types.id")
+            .containsExactly(CalendarInfoEntities.publishedWithMultipleDays());
+    }
+
+    @Test
+    @DisplayName("With an activity with multiple days, it is returned")
+    void testSave_MultipleDays_ReturnedData() {
+        final Activity created;
+        final Activity activity;
+
+        // GIVEN
+        activity = Activities.multipleDay();
+
+        // WHEN
+        created = repository.save(activity);
+
+        // THEN
+        Assertions.assertThat(created)
+            .as("created")
+            .usingRecursiveComparison()
+            .ignoringFields("number")
+            .isEqualTo(activity);
+    }
+
+    @Test
+    @DisplayName("With a valid activity, it is persisted")
     void testSave_PersistedData() {
         final Iterable<CalendarInfoEntity> activities;
         final Activity                     activity;
@@ -50,7 +91,7 @@ class ITActivityRepositorySave {
     }
 
     @Test
-    @DisplayName("Returns the created data")
+    @DisplayName("With a valid activity, it is returned")
     void testSave_ReturnedData() {
         final Activity created;
         final Activity activity;

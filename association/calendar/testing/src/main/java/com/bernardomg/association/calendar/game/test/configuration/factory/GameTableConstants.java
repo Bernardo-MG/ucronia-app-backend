@@ -1,0 +1,20 @@
+
+package com.bernardomg.association.calendar.game.test.configuration.factory;
+
+public final class GameTableConstants {
+
+    public static final String ALTERNATIVE_DESCRIPTION = "Another table";
+
+    public static final String ALTERNATIVE_NAME        = "Another name";
+
+    public static final String DESCRIPTION             = "A table";
+
+    public static final String NAME                    = "Table";
+
+    public static final long   NUMBER                  = 10;
+
+    private GameTableConstants() {
+        super();
+    }
+
+}

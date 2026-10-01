@@ -2,6 +2,9 @@ databaseChangeLog:
   # Security
   - include:
       file: classpath:db/changelog/auth/initialize.yaml
+  # Assets
+  - include:
+      file: classpath:db/changelog/asset.yaml
   # General
   - include:
       file: classpath:db/changelog/settings.yaml

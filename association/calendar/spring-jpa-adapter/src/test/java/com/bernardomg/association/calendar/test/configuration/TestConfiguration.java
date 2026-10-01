@@ -35,12 +35,15 @@ import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.Calend
 import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.CalendarInfoSpringRepository;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.CalendarStatusSpringRepository;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.CalendarTypeSpringRepository;
+import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.GameTableSpringRepository;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.JpaCalendarTypeRepository;
 import com.bernardomg.association.calendar.adapter.inbound.jpa.repository.RecurrenceStatusSpringRepository;
 import com.bernardomg.association.calendar.domain.repository.CalendarTypeRepository;
+import com.bernardomg.association.calendar.game.adapter.inbound.jpa.repository.JpaGameTableRepository;
 import com.bernardomg.association.calendar.game.adapter.inbound.jpa.repository.JpaScheduledGameRepository;
 import com.bernardomg.association.calendar.game.adapter.inbound.jpa.repository.ScheduledGameProfileSpringRepository;
 import com.bernardomg.association.calendar.game.adapter.inbound.jpa.repository.ScheduledGameSpringRepository;
+import com.bernardomg.association.calendar.game.domain.repository.GameTableRepository;
 import com.bernardomg.association.calendar.game.domain.repository.ScheduledGameRepository;
 
 @Configuration
@@ -65,15 +68,22 @@ public class TestConfiguration {
         return new JpaCalendarTypeRepository(calendarTypeSpringRepository);
     }
 
+    @Bean("gameTableRepository")
+    public GameTableRepository getGameTableRepository(final GameTableSpringRepository gameTableSpringRepository) {
+        return new JpaGameTableRepository(gameTableSpringRepository);
+    }
+
     @Bean("scheduledGameRepository")
     public ScheduledGameRepository getScheduledGameRepository(
             final ScheduledGameProfileSpringRepository scheduledGameProfileSpringRepository,
             final ScheduledGameSpringRepository scheduledGameSpringRepository,
             final CalendarTypeSpringRepository calendarTypeSpringRepository,
             final CalendarStatusSpringRepository calendarStatusSpringRepository,
-            final RecurrenceStatusSpringRepository recurrenceStatusSpringRepository) {
+            final RecurrenceStatusSpringRepository recurrenceStatusSpringRepository,
+            final GameTableSpringRepository gameTableSpringRepository) {
         return new JpaScheduledGameRepository(scheduledGameSpringRepository, scheduledGameProfileSpringRepository,
-            calendarTypeSpringRepository, calendarStatusSpringRepository, recurrenceStatusSpringRepository);
+            calendarTypeSpringRepository, calendarStatusSpringRepository, recurrenceStatusSpringRepository,
+            gameTableSpringRepository);
     }
 
 }

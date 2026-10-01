@@ -35,13 +35,15 @@ public final class DefaultPublicSettingsService implements PublicSettingsService
         final String mapCode;
         final String email;
         final String instagram;
+        final String telegram;
 
         calendarCode = getValue(AssociationSettingsKey.TEAMUP);
         mapCode = getValue(AssociationSettingsKey.GOOGLE_MAPS);
         email = getValue(AssociationSettingsKey.EMAIL);
         instagram = getValue(AssociationSettingsKey.INSTAGRAM);
+        telegram = getValue(AssociationSettingsKey.TELEGRAM);
 
-        return new PublicSettings(mapCode, calendarCode, email, instagram);
+        return new PublicSettings(mapCode, calendarCode, email, instagram, telegram);
     }
 
     private final String getValue(final String code) {

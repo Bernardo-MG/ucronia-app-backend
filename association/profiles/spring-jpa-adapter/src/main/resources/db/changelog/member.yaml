@@ -42,7 +42,7 @@ databaseChangeLog:
             referencedTableSchemaName: funds
             referencedTableName: fee_types
             referencedColumnNames: id
-            onDelete: SET NULL
+            onDelete: "SET NULL"
         - addForeignKeyConstraint:
             constraintName: fk_members_key
             baseTableSchemaName: directory
@@ -51,4 +51,4 @@ databaseChangeLog:
             referencedTableSchemaName: inventory
             referencedTableName: keys
             referencedColumnNames: id
-            onDelete: SET NULL
+            onDelete: "SET NULL"

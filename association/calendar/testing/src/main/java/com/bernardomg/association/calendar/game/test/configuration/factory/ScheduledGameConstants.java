@@ -46,4 +46,8 @@ public final class ScheduledGameConstants {
 
     public static final String  TITLE                         = "Title";
 
+    private ScheduledGameConstants() {
+        super();
+    }
+
 }

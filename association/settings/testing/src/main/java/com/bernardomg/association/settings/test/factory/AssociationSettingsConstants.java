@@ -19,6 +19,8 @@ public final class AssociationSettingsConstants {
 
     public static final String TEAMUP_CODE      = "contact.teamup";
 
+    public static final String TELEGRAM_CODE    = "contact.telegram";
+
     private AssociationSettingsConstants() {
         super();
     }

@@ -1,0 +1,103 @@
+components:
+  parameters:
+    imagesSortParam:
+      name: sort
+      description: Sorting to apply.
+      in: query
+      style: form
+      explode: true
+      schema:
+        type: array
+        items:
+          type: string
+          pattern: '^(name|number|mediaType|size)\|(asc|desc)$'
+          example: name|asc
+  schemas:
+    Image:
+      type: object
+      properties:
+        number:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        name: 
+          type: string
+          minLength: 1
+          maxLength: 100
+        description:
+          type: string
+          maxLength: 500
+        folderNumber:
+          type: integer
+          format: int64
+          nullable: true
+        mediaType:
+          type: string
+        size:
+          type: integer
+          format: int64
+        publicAccess:
+          type: boolean
+        audit:
+          $ref: 'audit.yml#/components/schemas/AuditDetails'
+    ImageCreation:
+      type: object
+      required: [name, description]
+      properties:
+        name: 
+          type: string
+          minLength: 1
+          maxLength: 100
+        description:
+          type: string
+          maxLength: 500
+        publicAccess:
+          type: boolean
+          default: true
+        file:
+          type: string
+          format: binary
+    ImageUpdate:
+      type: object
+      required: [name, description, publicAccess]
+      properties:
+        name: 
+          type: string
+          minLength: 1
+          maxLength: 100
+        description:
+          type: string
+          maxLength: 500
+        publicAccess:
+          type: boolean
+        file:
+          type: string
+          format: binary
+    ImageMetadataUpdate:
+      type: object
+      required: [name, description, publicAccess]
+      properties:
+        name: 
+          type: string
+          minLength: 1
+          maxLength: 100
+        description:
+          type: string
+          maxLength: 500
+        publicAccess:
+          type: boolean
+    ImageResponse:
+      type: object
+      properties:
+        content:
+          $ref: '#/components/schemas/Image'
+    ImagePageResponse:
+      allOf:
+        - $ref: '../common/responses.yml#/components/schemas/PageResponse'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/Image'
+    ImageContent:
+      type: string
+      format: binary

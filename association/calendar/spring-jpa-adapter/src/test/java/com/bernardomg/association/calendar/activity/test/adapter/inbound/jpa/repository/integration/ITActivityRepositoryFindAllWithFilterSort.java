@@ -26,6 +26,7 @@ package com.bernardomg.association.calendar.activity.test.adapter.inbound.jpa.re
 
 import java.time.Month;
 import java.util.List;
+import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.InstanceOfAssertFactories;
@@ -37,6 +38,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mapping.PropertyReferenceException;
 
 import com.bernardomg.association.calendar.TestApplication;
+import com.bernardomg.association.calendar.activity.domain.filter.ActivityFilter;
 import com.bernardomg.association.calendar.activity.domain.model.Activity;
 import com.bernardomg.association.calendar.activity.domain.repository.ActivityRepository;
 import com.bernardomg.association.calendar.activity.test.configuration.data.annotation.MultipleActivity;
@@ -61,13 +63,16 @@ class ITActivityRepositoryFindAllWithFilterSort {
         final Page<Activity> activities;
         final Pagination     pagination;
         final Sorting        sorting;
+        final ActivityFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("description", Sorting.Direction.ASC)));
 
+        filter = new ActivityFilter(Optional.empty(), Optional.empty());
+
         // WHEN
-        activities = repository.findAll(pagination, sorting);
+        activities = repository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(activities)
@@ -84,13 +89,16 @@ class ITActivityRepositoryFindAllWithFilterSort {
         final Page<Activity> activities;
         final Pagination     pagination;
         final Sorting        sorting;
+        final ActivityFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("description", Sorting.Direction.DESC)));
 
+        filter = new ActivityFilter(Optional.empty(), Optional.empty());
+
         // WHEN
-        activities = repository.findAll(pagination, sorting);
+        activities = repository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(activities)
@@ -107,13 +115,16 @@ class ITActivityRepositoryFindAllWithFilterSort {
         final Page<Activity> activities;
         final Pagination     pagination;
         final Sorting        sorting;
+        final ActivityFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("title", Sorting.Direction.ASC)));
 
+        filter = new ActivityFilter(Optional.empty(), Optional.empty());
+
         // WHEN
-        activities = repository.findAll(pagination, sorting);
+        activities = repository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(activities)
@@ -130,13 +141,16 @@ class ITActivityRepositoryFindAllWithFilterSort {
         final Page<Activity> activities;
         final Pagination     pagination;
         final Sorting        sorting;
+        final ActivityFilter filter;
 
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("title", Sorting.Direction.DESC)));
 
+        filter = new ActivityFilter(Optional.empty(), Optional.empty());
+
         // WHEN
-        activities = repository.findAll(pagination, sorting);
+        activities = repository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThat(activities)
@@ -153,13 +167,16 @@ class ITActivityRepositoryFindAllWithFilterSort {
         final Pagination       pagination;
         final Sorting          sorting;
         final ThrowingCallable executable;
+        final ActivityFilter   filter;
 
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("abc", Sorting.Direction.ASC)));
 
+        filter = new ActivityFilter(Optional.empty(), Optional.empty());
+
         // WHEN
-        executable = () -> repository.findAll(pagination, sorting);
+        executable = () -> repository.findAll(filter, pagination, sorting);
 
         // THEN
         Assertions.assertThatThrownBy(executable)

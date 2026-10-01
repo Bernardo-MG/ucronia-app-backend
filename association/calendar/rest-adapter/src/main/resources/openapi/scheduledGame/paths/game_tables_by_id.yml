@@ -1,0 +1,57 @@
+get:
+  summary: Get a specific game table
+  operationId: getOneGameTable
+  tags: [GameTable]
+  parameters:
+    - in: path
+      name: number
+      required: true
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  responses:
+    '200':
+      description: Game table details
+      content:
+        application/json:
+          schema:
+            $ref: '../components/game_tables.yml#/components/schemas/GameTableResponse'
+delete:
+  summary: Delete a game table
+  operationId: deleteGameTable
+  tags: [GameTable]
+  parameters:
+    - in: path
+      name: number
+      required: true
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  responses:
+    '200':
+      description: Deleted game table
+      content:
+        application/json:
+          schema:
+            $ref: '../components/game_tables.yml#/components/schemas/GameTableResponse'
+put:
+  summary: Update a game table
+  operationId: updateGameTable
+  tags: [GameTable]
+  parameters:
+    - in: path
+      name: number
+      required: true
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/game_tables.yml#/components/schemas/GameTableUpdate'
+  responses:
+    '200':
+      description: GameTable updated
+      content:
+        application/json:
+          schema:
+            $ref: '../components/game_tables.yml#/components/schemas/GameTableResponse'

@@ -34,6 +34,8 @@ public final class AssociationSettingsKey {
 
     public static final String TEAMUP      = "contact.teamup";
 
+    public static final String TELEGRAM    = "contact.telegram";
+
     private AssociationSettingsKey() {
         super();
     }

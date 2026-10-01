@@ -11,7 +11,7 @@
    <parent>
       <groupId>com.bernardomg</groupId>
       <artifactId>ucronia-app-backend</artifactId>
-      <version>0.7.11</version>
+      <version>1.0.0-SNAPSHOT</version>
    </parent>
 
    <!-- ********************************************** -->
@@ -41,6 +41,10 @@
       <dependency>
          <groupId>com.bernardomg.settings</groupId>
          <artifactId>settings-spring-starter</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.asset</groupId>
+         <artifactId>asset-spring-starter</artifactId>
       </dependency>
       <dependency>
          <groupId>com.bernardomg.association.settings</groupId>

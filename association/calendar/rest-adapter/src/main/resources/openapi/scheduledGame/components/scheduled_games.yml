@@ -15,15 +15,6 @@ components:
           example: date|asc
 
   schemas:
-    ScheduledGameDate:
-      type: object
-      required: [start, end]
-      properties:
-        start:
-          $ref: '../common/dates.yml#/components/schemas/Date'
-        end:
-          $ref: '../common/dates.yml#/components/schemas/Date'
-
     ScheduledGameCreation:
       type: object
       required: [title, master, maxPlayers, start, gameType]
@@ -37,6 +28,8 @@ components:
         location:
           type: string
           maxLength: 200
+        table:
+          $ref: '../common/ids.yml#/components/schemas/Id'
         master:
           $ref: '../common/ids.yml#/components/schemas/Id'
         maxPlayers:
@@ -67,6 +60,8 @@ components:
         location:
           type: string
           maxLength: 200
+        table:
+          $ref: '../common/ids.yml#/components/schemas/Id'
         master:
           $ref: '../common/ids.yml#/components/schemas/Id'
         maxPlayers:
@@ -129,6 +124,8 @@ components:
         location:
           type: string
           maxLength: 200
+        table:
+          $ref: '../common/ids.yml#/components/schemas/Id'
         master:
           $ref: '../common/ids.yml#/components/schemas/Id'
         maxPlayers:

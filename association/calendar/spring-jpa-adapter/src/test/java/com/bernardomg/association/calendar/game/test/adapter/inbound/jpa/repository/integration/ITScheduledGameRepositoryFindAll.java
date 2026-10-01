@@ -34,6 +34,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.bernardomg.association.calendar.TestApplication;
 import com.bernardomg.association.calendar.game.domain.model.ScheduledGame;
 import com.bernardomg.association.calendar.game.domain.repository.ScheduledGameRepository;
+import com.bernardomg.association.calendar.game.test.configuration.data.annotation.ScheduledGameWithTable;
 import com.bernardomg.association.calendar.game.test.configuration.data.annotation.WeeklyScheduledGame;
 import com.bernardomg.association.calendar.game.test.configuration.factory.ScheduledGames;
 import com.bernardomg.pagination.domain.Page;
@@ -94,6 +95,28 @@ class ITActivityRepositoryFindAllWithFilter {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();
+    }
+
+    @Test
+    @DisplayName("With a single scheduled game with a table, it returns all the scheduled games")
+    @ScheduledGameWithTable
+    void testFindAll_WithTable() {
+        final Page<ScheduledGame> scheduledGames;
+        final Pagination          pagination;
+        final Sorting             sorting;
+
+        // GIVEN
+        pagination = new Pagination(1, 20);
+        sorting = Sorting.unsorted();
+
+        // WHEN
+        scheduledGames = repository.findAll(pagination, sorting);
+
+        // THEN
+        Assertions.assertThat(scheduledGames)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .containsExactly(ScheduledGames.withTable());
     }
 
 }

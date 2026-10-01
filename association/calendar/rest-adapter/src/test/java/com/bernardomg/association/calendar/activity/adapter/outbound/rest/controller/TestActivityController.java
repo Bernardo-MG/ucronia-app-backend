@@ -65,6 +65,7 @@ class TestActivityController {
         requestBody = """
                 {
                     "title": "Activity",
+                    "image": "http://somewhere.com/image.jpg",
                     "dates": [
                         {
                             "start": "2025-08-01T00:00:00Z",
@@ -100,7 +101,7 @@ class TestActivityController {
     @DisplayName("When there are activities, they are returned")
     void testGetAllActivities() throws Exception {
         // GIVEN
-        given(service.getAll(eq(new Pagination(1, 10)), any()))
+        given(service.getAll(any(), eq(new Pagination(1, 10)), any()))
             .willReturn(new Page<>(List.of(Activities.singleDay()), 1, 1, 0, 0, 0, false, false, Sorting.unsorted()));
 
         // WHEN + THEN
@@ -136,6 +137,7 @@ class TestActivityController {
         requestBody = """
                 {
                     "title": "Activity Updated",
+                    "image": "http://somewhere.com/image.jpg",
                     "dates": [
                         {
                             "start": "2025-08-01T00:00:00Z",

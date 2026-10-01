@@ -13,3 +13,7 @@ paths:
     $ref: paths/scheduled_games_by_id.yml
   /game/{number}/publish:
     $ref: paths/scheduled_games_publish.yml
+  /game/table:
+    $ref: paths/game_tables.yml
+  /game/table/{number}:
+    $ref: paths/game_tables_by_id.yml

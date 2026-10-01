@@ -1,0 +1,111 @@
+
+package com.bernardomg.asset.test.adapter.inbound.jpa.repository.integration;
+
+import java.util.Optional;
+
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import com.bernardomg.asset.adapter.inbound.jpa.repository.AssetFolderSpringRepository;
+import com.bernardomg.asset.domain.model.AssetFolder;
+import com.bernardomg.asset.domain.repository.AssetFolderRepository;
+import com.bernardomg.asset.test.configuration.TestApplication;
+import com.bernardomg.asset.test.configuration.data.annotation.ValidFileFolder;
+import com.bernardomg.asset.test.configuration.data.annotation.ValidFileFolderTree;
+import com.bernardomg.asset.test.configuration.factory.AssetFolderConstants;
+import com.bernardomg.asset.test.configuration.factory.AssetFolders;
+import com.bernardomg.asset.test.configuration.factory.AssettFolderEntities;
+import com.bernardomg.test.annotation.IntegrationTest;
+
+@IntegrationTest
+@SpringBootTest(classes = TestApplication.class)
+@DisplayName("AssetFolderRepository - save")
+class ITAssetFolderRepositorySave {
+
+    @Autowired
+    private AssetFolderRepository       repository;
+
+    @Autowired
+    private AssetFolderSpringRepository springRepository;
+
+    @Test
+    @DisplayName("When changing the name, it is updated")
+    @ValidFileFolder
+    void testSave_Existing_ChangeName_Persisted() {
+        // WHEN
+        repository.save(AssetFolders.nameChange());
+
+        // THEN
+        Assertions.assertThat(springRepository.findAll())
+            .as("file folders")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "audit")
+            .containsExactly(AssettFolderEntities.nameChange());
+    }
+
+    @Test
+    @DisplayName("When assigning a parent, it is updated")
+    @ValidFileFolderTree
+    void testSave_Existing_ChangeParent_Persisted() {
+        final AssetFolder saved;
+
+        // WHEN
+        saved = repository.save(AssetFolders.withParent());
+
+        // THEN
+        Assertions.assertThat(saved.parentNumber())
+            .as("parent number")
+            .contains(AssetFolderConstants.PARENT_NUMBER);
+    }
+
+    @Test
+    @DisplayName("When removing a parent, it is updated")
+    @ValidFileFolderTree
+    void testSave_Existing_RemoveParent_Persisted() {
+        final AssetFolder folder;
+        final AssetFolder saved;
+
+        // GIVEN
+        folder = new AssetFolder(AssetFolderConstants.CHILD_NUMBER, AssetFolderConstants.CHILD_NAME, Optional.empty());
+
+        // WHEN
+        saved = repository.save(folder);
+
+        // THEN
+        Assertions.assertThat(saved.parentNumber())
+            .as("parent number")
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("When saving a new file folder, it is persisted")
+    void testSave_New_Persisted() {
+        // WHEN
+        repository.save(AssetFolders.toCreate());
+
+        // THEN
+        Assertions.assertThat(springRepository.findAll())
+            .as("file folders")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "audit")
+            .containsExactly(AssettFolderEntities.valid());
+    }
+
+    @Test
+    @DisplayName("When saving a new file folder, it is returned")
+    void testSave_New_Returned() {
+        final AssetFolder saved;
+
+        // WHEN
+        saved = repository.save(AssetFolders.toCreate());
+
+        // THEN
+        Assertions.assertThat(saved)
+            .as("file folder")
+            .usingRecursiveComparison()
+            .ignoringFields("audit")
+            .isEqualTo(AssetFolders.valid());
+    }
+
+}

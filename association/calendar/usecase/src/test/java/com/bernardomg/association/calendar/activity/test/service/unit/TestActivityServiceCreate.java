@@ -95,6 +95,43 @@ class TestActivityServiceCreate {
     }
 
     @Test
+    @DisplayName("With an activity with multiple days, it is persisted")
+    void testCreate_MultipleDays_PersistedData() {
+        final Activity activity;
+
+        // GIVEN
+        activity = Activities.multipleDay();
+
+        given(activityRepository.save(activity)).willReturn(activity);
+
+        // WHEN
+        service.create(activity);
+
+        // THEN
+        verify(activityRepository).save(activity);
+    }
+
+    @Test
+    @DisplayName("With an activity with multiple days, it is returned")
+    void testCreate_MultipleDays_ReturnedData() {
+        final Activity activity;
+        final Activity created;
+
+        // GIVEN
+        activity = Activities.multipleDay();
+
+        given(activityRepository.save(activity)).willReturn(activity);
+
+        // WHEN
+        created = service.create(activity);
+
+        // THEN
+        Assertions.assertThat(created)
+            .as("activity")
+            .isEqualTo(activity);
+    }
+
+    @Test
     @DisplayName("With a valid activity, it is persisted")
     void testCreate_PersistedData() {
         final Activity activity;
