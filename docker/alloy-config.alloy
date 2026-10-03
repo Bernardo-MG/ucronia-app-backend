@@ -1,0 +1,33 @@
+local.file_match "backend" {
+  path_targets = [{"__path__" = "/logs/app.log", "job" = "springboot", "service_name" = "association-backend", "environment" = "development"}]
+}
+
+loki.source.file "backend" {
+  targets = local.file_match.backend.targets
+  forward_to = [loki.process.backend.receiver]
+}
+
+loki.process "backend" {
+  stage.multiline {
+    firstline = `^\d{4}-\d{2}-\d{2}T`
+    max_wait_time = "3s"
+  }
+  stage.regex {
+    expression = `^(?P<timestamp>\S+)\s+(?P<level>TRACE|DEBUG|INFO|WARN|ERROR|FATAL)\s+`
+  }
+  stage.timestamp {
+    source = "timestamp"
+    format = "RFC3339Nano"
+    action_on_failure = "skip"
+  }
+  stage.labels {
+    values = {"level" = ""}
+  }
+  forward_to = [loki.write.local.receiver]
+}
+
+loki.write "local" {
+  endpoint {
+    url = "http://loki:3100/loki/api/v1/push"
+  }
+}
