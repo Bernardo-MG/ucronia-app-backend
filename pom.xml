@@ -193,7 +193,7 @@
       <!-- ============================================== -->
       <apache.poi.version>5.4.1</apache.poi.version>
       <archunit.version>1.4.1</archunit.version>
-      <bernardomg.framework.event.version>1.0.0</bernardomg.framework.event.version>
+      <bernardomg.framework.event.version>1.0.2</bernardomg.framework.event.version>
       <bernardomg.framework.pagination.version>1.0.2</bernardomg.framework.pagination.version>
       <bernardomg.framework.security.access.version>1.0.0</bernardomg.framework.security.access.version>
       <bernardomg.framework.test.architecture>1.0.8</bernardomg.framework.test.architecture>
