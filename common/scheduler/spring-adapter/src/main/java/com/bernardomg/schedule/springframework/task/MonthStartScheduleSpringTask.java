@@ -36,6 +36,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 
+import com.bernardomg.schedule.event.ScheduleEventFactory;
 import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.schedule.event.MonthStartEvent;
 
@@ -70,8 +71,7 @@ public class MonthStartScheduleSpringTask {
             .toInstant();
 
         log.info("Notifying new month at {}", date);
-        // TODO: set a source
-        eventEmitter.emit(new MonthStartEvent(null, date));
+        eventEmitter.emit(ScheduleEventFactory.monthStarted(date));
         log.info("Notified new month at {}", date);
     }
 

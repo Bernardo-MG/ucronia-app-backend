@@ -39,6 +39,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.calendar.activity.test.configuration.factory.ActivityConstants;
+import com.bernardomg.association.calendar.domain.event.CalendarEventFactory;
 import com.bernardomg.association.calendar.domain.event.CalendarInfoPublishedEvent;
 import com.bernardomg.association.calendar.game.domain.exception.ScheduledGameAlreadyPublishedException;
 import com.bernardomg.association.calendar.game.domain.exception.ScheduledGameNotPublishableException;
@@ -94,13 +95,18 @@ class TestScheduledGameServicePublish {
         given(scheduledGameRepository.findOne(ActivityConstants.NUMBER)).willReturn(Optional.of(scheduledGame));
         given(scheduledGameRepository.save(scheduledGamePublished)).willReturn(scheduledGamePublished);
 
-        event = new CalendarInfoPublishedEvent(null, scheduledGame.number());
+        event = CalendarEventFactory.calendarInfoPublished(scheduledGame.number());
 
         // WHEN
         service.publish(ActivityConstants.NUMBER);
 
         // THEN
-        verify(eventEmitter).emit(event);
+        verify(eventEmitter)
+            .emit(org.mockito.ArgumentMatchers.argThat(actual -> actual instanceof final CalendarInfoPublishedEvent emitted
+                    && emitted.getCalendarNumber()
+                        .equals(event.getCalendarNumber())
+                    && emitted.getSource()
+                        .equals(event.getSource())));
     }
 
     @Test

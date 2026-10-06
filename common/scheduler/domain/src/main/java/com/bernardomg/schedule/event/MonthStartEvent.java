@@ -24,51 +24,60 @@
 
 package com.bernardomg.schedule.event;
 
-import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
+import java.util.UUID;
 
 import com.bernardomg.event.domain.AbstractEvent;
 
-/**
- * New month has started event.
- */
+/** schedule.month.started. Identity is determined by source and event ID. */
 public final class MonthStartEvent extends AbstractEvent {
 
-    private static final long serialVersionUID = 7173269718677701462L;
+    private static final long serialVersionUID = 2L;
 
-    private final Instant     month;
+    public static final String TYPE = "schedule.month.started";
 
-    public MonthStartEvent(final Serializable source, final Instant month) {
-        super(source);
+    public static final int SCHEMA_VERSION = 1;
 
+    private final Instant month;
+
+    public MonthStartEvent(final String source, final Instant month) {
+        super(source, TYPE, SCHEMA_VERSION);
         this.month = Objects.requireNonNull(month);
     }
 
-    @Override
-    public boolean equals(final Object obj) {
-        if (this == obj) {
-            return true;
+    /** Restores original metadata without generating a new occurrence. */
+    public MonthStartEvent(final UUID id, final String source, final int schemaVersion,
+            final Instant timestamp, final Instant month) {
+        super(id, source, TYPE, schemaVersion, timestamp);
+        if (schemaVersion < 1) {
+            throw new IllegalArgumentException("schemaVersion must be positive");
         }
-        if ((obj == null) || (getClass() != obj.getClass())) {
-            return false;
-        }
-        final MonthStartEvent other = (MonthStartEvent) obj;
-        return Objects.equals(month, other.month);
+        this.month = Objects.requireNonNull(month);
     }
 
-    public Instant getMonth() {
+    public final Instant getMonth() {
         return month;
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), month);
+    public final boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof final MonthStartEvent other)) {
+            return false;
+        }
+        return Objects.equals(getSource(), other.getSource()) && Objects.equals(getId(), other.getId());
     }
 
     @Override
-    public String toString() {
-        return "MonthStartEvent [month=" + month + "]";
+    public final int hashCode() {
+        return Objects.hash(getSource(), getId());
     }
 
+    @Override
+    public final String toString() {
+        return "MonthStartEvent [id=" + getId() + ", type=" + TYPE + "]";
+    }
 }

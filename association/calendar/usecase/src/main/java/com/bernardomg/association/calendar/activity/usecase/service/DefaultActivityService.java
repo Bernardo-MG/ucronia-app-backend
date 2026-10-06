@@ -35,7 +35,7 @@ import com.bernardomg.association.calendar.activity.domain.filter.ActivityFilter
 import com.bernardomg.association.calendar.activity.domain.model.Activity;
 import com.bernardomg.association.calendar.activity.domain.repository.ActivityRepository;
 import com.bernardomg.association.calendar.activity.usecase.validation.ActivityEndAfterDateRule;
-import com.bernardomg.association.calendar.domain.event.CalendarInfoPublishedEvent;
+import com.bernardomg.association.calendar.domain.event.CalendarEventFactory;
 import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -89,8 +89,7 @@ public final class DefaultActivityService implements ActivityService {
 
         saved = activityRepository.save(activity);
 
-        // TODO: send a source
-        eventEmitter.emit(new CalendarInfoPublishedEvent(null, saved.number()));
+        eventEmitter.emit(CalendarEventFactory.calendarInfoPublished(saved.number()));
 
         log.debug("Created activity {}", saved);
 
