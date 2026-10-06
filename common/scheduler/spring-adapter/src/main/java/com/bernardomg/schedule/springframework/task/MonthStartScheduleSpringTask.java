@@ -24,10 +24,8 @@
 
 package com.bernardomg.schedule.springframework.task;
 
-import java.time.Instant;
+import java.time.YearMonth;
 import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 import org.slf4j.Logger;
@@ -36,9 +34,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 
-import com.bernardomg.schedule.event.ScheduleEventFactory;
 import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.schedule.event.MonthStartEvent;
+import com.bernardomg.schedule.event.ScheduleEventFactory;
 
 /**
  * Scheduled task which generates a {@link MonthStartEvent} at the start of month.
@@ -64,15 +62,13 @@ public class MonthStartScheduleSpringTask {
     @Async
     @Scheduled(cron = "@monthly", zone = "${scheduler.zone}")
     public void monthStart() {
-        final Instant date;
+        final YearMonth month;
 
-        date = ZonedDateTime.now(ZoneId.of(zone))
-            .truncatedTo(ChronoUnit.HOURS)
-            .toInstant();
+        month = YearMonth.now(ZoneId.of(zone));
 
-        log.info("Notifying new month at {}", date);
-        eventEmitter.emit(ScheduleEventFactory.monthStarted(date));
-        log.info("Notified new month at {}", date);
+        log.info("Notifying new month at {}", month);
+        eventEmitter.emit(ScheduleEventFactory.monthStarted(month));
+        log.info("Notified new month at {}", month);
     }
 
 }

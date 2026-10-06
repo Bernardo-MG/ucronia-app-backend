@@ -180,7 +180,7 @@ public final class DefaultScheduledGameService implements ScheduledGameService {
             .get();
         published = scheduledGameRepository.save(toPublish);
 
-        eventEmitter.emit(CalendarEventFactory.calendarInfoPublished(published.number()));
+        eventEmitter.emit(CalendarEventFactory.scheduledGamePublished(published.number()));
 
         return published;
     }

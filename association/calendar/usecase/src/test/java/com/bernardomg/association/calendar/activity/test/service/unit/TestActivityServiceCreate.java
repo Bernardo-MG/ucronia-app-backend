@@ -40,8 +40,8 @@ import com.bernardomg.association.calendar.activity.domain.model.Activity;
 import com.bernardomg.association.calendar.activity.domain.repository.ActivityRepository;
 import com.bernardomg.association.calendar.activity.test.configuration.factory.Activities;
 import com.bernardomg.association.calendar.activity.usecase.service.DefaultActivityService;
+import com.bernardomg.association.calendar.domain.event.ActivityPublishedEvent;
 import com.bernardomg.association.calendar.domain.event.CalendarEventFactory;
-import com.bernardomg.association.calendar.domain.event.CalendarInfoPublishedEvent;
 import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
@@ -62,12 +62,12 @@ class TestActivityServiceCreate {
     @Test
     @DisplayName("With a valid activity, an event is emitted")
     void testCreate_EmitsEvent() {
-        final Activity                   activity;
-        final CalendarInfoPublishedEvent event;
+        final Activity               activity;
+        final ActivityPublishedEvent event;
 
         // GIVEN
         activity = Activities.singleDay();
-        event = CalendarEventFactory.calendarInfoPublished(activity.number());
+        event = CalendarEventFactory.activityPublished(activity.number());
 
         given(activityRepository.save(activity)).willReturn(activity);
 
@@ -76,9 +76,9 @@ class TestActivityServiceCreate {
 
         // THEN
         verify(eventEmitter)
-            .emit(org.mockito.ArgumentMatchers.argThat(actual -> actual instanceof final CalendarInfoPublishedEvent emitted
-                    && emitted.getCalendarNumber()
-                        .equals(event.getCalendarNumber())
+            .emit(org.mockito.ArgumentMatchers.argThat(actual -> actual instanceof final ActivityPublishedEvent emitted
+                    && emitted.getActivityNumber()
+                        .equals(event.getActivityNumber())
                     && emitted.getSource()
                         .equals(event.getSource())));
     }

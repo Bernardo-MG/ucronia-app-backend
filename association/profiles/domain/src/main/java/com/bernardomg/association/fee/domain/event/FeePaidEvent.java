@@ -2,6 +2,7 @@
 package com.bernardomg.association.fee.domain.event;
 
 import java.time.Instant;
+import java.time.YearMonth;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -11,30 +12,39 @@ public final class FeePaidEvent extends AbstractEvent {
 
     public static final String TYPE             = "association.fee.paid";
 
-    private static final long  serialVersionUID = 1961853090434720390L;
+    private static final long  serialVersionUID = -1244701467322959610L;
 
-    private final Instant      date;
+    private final YearMonth    month;
+
+    private final Instant      paymentDate;
 
     private final Long         profileNumber;
 
-    public FeePaidEvent(final String source, final Instant date, final Long profileNumber) {
-        super(source, TYPE, 1);
+    private final Long         transactionIndex;
 
-        this.date = Objects.requireNonNull(date);
-        this.profileNumber = Objects.requireNonNull(profileNumber);
+    public FeePaidEvent(final String source, final YearMonth month, final Long profileNumber,
+            final Long transactionIndex, final Instant paymentDate) {
+        this(UUID.randomUUID(), source, 1, Instant.now(), month, profileNumber, transactionIndex, paymentDate);
     }
 
-    /** Restores original metadata without generating a new occurrence. */
+    /** Restores metadata and payload without generating a new occurrence. */
     public FeePaidEvent(final UUID id, final String source, final int schemaVersion, final Instant timestamp,
-            final Instant date, final Long profileNumber) {
+            final YearMonth month, final Long profileNumber, final Long transactionIndex, final Instant paymentDate) {
         super(id, source, TYPE, schemaVersion, timestamp);
-
-        this.date = Objects.requireNonNull(date);
-        this.profileNumber = Objects.requireNonNull(profileNumber);
+        if (schemaVersion != 1) {
+            throw new IllegalArgumentException("Unsupported schema version: " + schemaVersion);
+        }
+        if ((transactionIndex == null) != (paymentDate == null)) {
+            throw new IllegalArgumentException("Payment reference and date must both be present or absent");
+        }
+        this.month = Objects.requireNonNull(month, "month must not be null");
+        this.profileNumber = Objects.requireNonNull(profileNumber, "profileNumber must not be null");
+        this.transactionIndex = transactionIndex;
+        this.paymentDate = paymentDate;
     }
 
     @Override
-    public final boolean equals(final Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }
@@ -44,21 +54,31 @@ public final class FeePaidEvent extends AbstractEvent {
         return Objects.equals(getSource(), other.getSource()) && Objects.equals(getId(), other.getId());
     }
 
-    public final Instant getDate() {
-        return date;
+    public YearMonth getMonth() {
+        return month;
     }
 
-    public final Long getProfileNumber() {
+    /** May be null for fees paid without a transaction. */
+    public Instant getPaymentDate() {
+        return paymentDate;
+    }
+
+    public Long getProfileNumber() {
         return profileNumber;
     }
 
+    /** May be null for fees paid without a transaction. */
+    public Long getTransactionIndex() {
+        return transactionIndex;
+    }
+
     @Override
-    public final int hashCode() {
+    public int hashCode() {
         return Objects.hash(getSource(), getId());
     }
 
     @Override
-    public final String toString() {
+    public String toString() {
         return "FeePaidEvent [id=" + getId() + ", type=" + TYPE + "]";
     }
 

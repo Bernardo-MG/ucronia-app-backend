@@ -89,7 +89,7 @@ public final class DefaultActivityService implements ActivityService {
 
         saved = activityRepository.save(activity);
 
-        eventEmitter.emit(CalendarEventFactory.calendarInfoPublished(saved.number()));
+        eventEmitter.emit(CalendarEventFactory.activityPublished(saved.number()));
 
         log.debug("Created activity {}", saved);
 

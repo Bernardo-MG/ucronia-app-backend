@@ -167,7 +167,7 @@ public final class DefaultFeeService implements FeeService {
         feeRepository.delete(number, date);
 
         // Send events for deleted fees
-        eventEmitter.emit(FeeEventFactory.feeDeleted(date, number));
+        eventEmitter.emit(FeeEventFactory.feeDeleted(fee));
 
         log.info("Deleted fee for {} in {}", number, date);
 
@@ -426,8 +426,7 @@ public final class DefaultFeeService implements FeeService {
     }
 
     private final void sendFeePaidEvent(final Fee fee) {
-        eventEmitter.emit(FeeEventFactory.feePaid(fee.month(), fee.member()
-            .number()));
+        eventEmitter.emit(FeeEventFactory.feePaid(fee));
     }
 
     private final Fee toPaidFee(final FeeType memberFeeType, final Member member, final Instant month,

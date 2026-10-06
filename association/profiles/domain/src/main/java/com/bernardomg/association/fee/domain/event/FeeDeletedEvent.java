@@ -2,6 +2,7 @@
 package com.bernardomg.association.fee.domain.event;
 
 import java.time.Instant;
+import java.time.YearMonth;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -11,29 +12,29 @@ public final class FeeDeletedEvent extends AbstractEvent {
 
     public static final String TYPE             = "association.fee.deleted";
 
-    private static final long  serialVersionUID = -4831690995028130952L;
+    private static final long  serialVersionUID = -8691744923922306379L;
 
-    private final Instant      date;
+    private final YearMonth    month;
+
+    private final boolean      paid;
 
     private final Long         profileNumber;
 
-    public FeeDeletedEvent(final String source, final Instant date, final Long profileNumber) {
-        super(source, TYPE, 1);
-
-        this.date = Objects.requireNonNull(date);
-        this.profileNumber = Objects.requireNonNull(profileNumber);
+    public FeeDeletedEvent(final String source, final YearMonth month, final Long profileNumber, final boolean paid) {
+        this(UUID.randomUUID(), source, 1, Instant.now(), month, profileNumber, paid);
     }
 
     public FeeDeletedEvent(final UUID id, final String source, final int schemaVersion, final Instant timestamp,
-            final Instant date, final Long profileNumber) {
+            final YearMonth month, final Long profileNumber, final boolean paid) {
         super(id, source, TYPE, schemaVersion, timestamp);
 
-        this.date = Objects.requireNonNull(date);
-        this.profileNumber = Objects.requireNonNull(profileNumber);
+        this.month = Objects.requireNonNull(month, "month must not be null");
+        this.profileNumber = Objects.requireNonNull(profileNumber, "profileNumber must not be null");
+        this.paid = paid;
     }
 
     @Override
-    public final boolean equals(final Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }
@@ -43,21 +44,25 @@ public final class FeeDeletedEvent extends AbstractEvent {
         return Objects.equals(getSource(), other.getSource()) && Objects.equals(getId(), other.getId());
     }
 
-    public final Instant getDate() {
-        return date;
+    public YearMonth getMonth() {
+        return month;
     }
 
-    public final Long getProfileNumber() {
+    public Long getProfileNumber() {
         return profileNumber;
     }
 
     @Override
-    public final int hashCode() {
+    public int hashCode() {
         return Objects.hash(getSource(), getId());
     }
 
+    public boolean isPaid() {
+        return paid;
+    }
+
     @Override
-    public final String toString() {
+    public String toString() {
         return "FeeDeletedEvent [id=" + getId() + ", type=" + TYPE + "]";
     }
 

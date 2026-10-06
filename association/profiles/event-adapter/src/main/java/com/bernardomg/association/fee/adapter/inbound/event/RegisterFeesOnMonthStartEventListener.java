@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.fee.adapter.inbound.event;
 
+import java.time.ZoneOffset;
 import java.util.Objects;
 
 import org.slf4j.Logger;
@@ -62,7 +63,10 @@ public final class RegisterFeesOnMonthStartEventListener implements EventListene
     public final void handle(final MonthStartEvent event) {
         log.debug("Registering fees at the start of {}", event.getMonth());
         // TODO: is this executed after updating member status?
-        feeMaintenanceService.registerMonthFees(event.getMonth());
+        feeMaintenanceService.registerMonthFees(event.getMonth()
+            .atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant());
         log.debug("Registered fees at the start of {}", event.getMonth());
     }
 
