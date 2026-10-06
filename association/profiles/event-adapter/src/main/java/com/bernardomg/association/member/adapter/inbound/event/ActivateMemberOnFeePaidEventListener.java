@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.member.adapter.inbound.event;
 
+import java.time.ZoneOffset;
 import java.util.Objects;
 
 import org.slf4j.Logger;
@@ -60,9 +61,13 @@ public final class ActivateMemberOnFeePaidEventListener implements EventListener
 
     @Override
     public final void handle(final FeePaidEvent event) {
-        log.debug("Handling fee paid event at {} for member with number {}", event.getDate(), event.getProfileNumber());
-        memberStatusService.activateIfCurrent(event.getDate(), event.getProfileNumber());
-        log.debug("Handled fee paid event at {} for member with number {}", event.getDate(), event.getProfileNumber());
+        log.debug("Handling fee paid event at {} for member with number {}", event.getMonth(),
+            event.getProfileNumber());
+        memberStatusService.activateIfCurrent(event.getMonth()
+            .atDay(1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant(), event.getProfileNumber());
+        log.debug("Handled fee paid event at {} for member with number {}", event.getMonth(), event.getProfileNumber());
     }
 
 }

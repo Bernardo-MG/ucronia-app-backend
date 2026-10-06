@@ -24,50 +24,42 @@
 
 package com.bernardomg.association.fee.adapter.inbound.event;
 
-import java.time.ZoneOffset;
-import java.util.Objects;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.time.Instant;
+import java.time.YearMonth;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.bernardomg.association.fee.usecase.service.FeeMaintenanceService;
-import com.bernardomg.event.listener.EventListener;
 import com.bernardomg.schedule.event.MonthStartEvent;
 
-/**
- * Listens for the month start event and registers fees for the active members.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- */
-public final class RegisterFeesOnMonthStartEventListener implements EventListener<MonthStartEvent> {
+class TestRegisterFeesOnMonthStartEventListener {
 
-    /**
-     * Logger for the class.
-     */
-    private static final Logger         log = LoggerFactory.getLogger(RegisterFeesOnMonthStartEventListener.class);
+    private RegisterFeesOnMonthStartEventListener listener;
 
-    private final FeeMaintenanceService feeMaintenanceService;
+    private FeeMaintenanceService                 service;
 
-    public RegisterFeesOnMonthStartEventListener(final FeeMaintenanceService service) {
-        super();
-
-        feeMaintenanceService = Objects.requireNonNull(service);
+    @BeforeEach
+    void setUp() {
+        service = mock(FeeMaintenanceService.class);
+        listener = new RegisterFeesOnMonthStartEventListener(service);
     }
 
-    @Override
-    public final Class<MonthStartEvent> getEventType() {
-        return MonthStartEvent.class;
-    }
+    @Test
+    void testHandle() {
+        final MonthStartEvent event;
 
-    @Override
-    public final void handle(final MonthStartEvent event) {
-        log.debug("Registering fees at the start of {}", event.getMonth());
-        // TODO: is this executed after updating member status?
-        feeMaintenanceService.registerMonthFees(event.getMonth()
-            .atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant());
-        log.debug("Registered fees at the start of {}", event.getMonth());
+        // GIVEN
+        event = new MonthStartEvent("com.bernardomg.ucronia", YearMonth.of(2026, 10));
+
+        // WHEN
+        listener.handle(event);
+
+        // THEN
+        verify(service).registerMonthFees(Instant.parse("2026-10-01T00:00:00Z"));
     }
 
 }

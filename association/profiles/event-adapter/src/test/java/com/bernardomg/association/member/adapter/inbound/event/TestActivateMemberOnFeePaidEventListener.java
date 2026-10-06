@@ -22,17 +22,45 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.calendar.activity.domain.filter;
+package com.bernardomg.association.member.adapter.inbound.event;
+
+import static org.mockito.Mockito.verify;
 
 import java.time.Instant;
-import java.util.Objects;
-import java.util.Optional;
+import java.time.YearMonth;
 
-public final record ActivityFilter(Optional<Instant> from, Optional<Instant> to) {
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-    public ActivityFilter(final Optional<Instant> from, final Optional<Instant> to) {
-        this.from = Objects.requireNonNull(from);
-        this.to = Objects.requireNonNull(to);
+import com.bernardomg.association.fee.domain.event.FeePaidEvent;
+import com.bernardomg.association.member.usecase.service.MemberStatusService;
+
+@ExtendWith(MockitoExtension.class)
+@DisplayName("ActivateMemberOnFeePaidEventListener - handle")
+class TestActivateMemberOnFeePaidEventListener {
+
+    @InjectMocks
+    private ActivateMemberOnFeePaidEventListener listener;
+
+    @Mock
+    private MemberStatusService                  service;
+
+    @Test
+    void testHandle() {
+        final FeePaidEvent event;
+
+        // GIVEN
+        event = new FeePaidEvent("com.bernardomg.ucronia", YearMonth.of(2026, 10), 1L, 2L, Instant.EPOCH);
+
+        // WHEN
+        listener.handle(event);
+
+        // THEN
+        verify(service).activateIfCurrent(Instant.parse("2026-10-01T00:00:00Z"), 1L);
     }
 
 }

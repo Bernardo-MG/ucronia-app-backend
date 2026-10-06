@@ -1,48 +1,30 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2023-2025 the original author or authors.
- * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * <p>
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * <p>
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 
 package com.bernardomg.schedule.event;
 
-import java.io.Serializable;
 import java.time.Instant;
+import java.time.YearMonth;
 import java.util.Objects;
+import java.util.UUID;
 
 import com.bernardomg.event.domain.AbstractEvent;
 
-/**
- * New month has started event.
- */
 public final class MonthStartEvent extends AbstractEvent {
 
-    private static final long serialVersionUID = 7173269718677701462L;
+    public static final String TYPE             = "schedule.month.started";
 
-    private final Instant     month;
+    private static final long  serialVersionUID = 1614635848287374294L;
 
-    public MonthStartEvent(final Serializable source, final Instant month) {
-        super(source);
+    private final YearMonth    month;
 
-        this.month = Objects.requireNonNull(month);
+    public MonthStartEvent(final String source, final YearMonth month) {
+        this(UUID.randomUUID(), source, 1, Instant.now(), month);
+    }
+
+    public MonthStartEvent(final UUID id, final String source, final int schemaVersion, final Instant timestamp,
+            final YearMonth month) {
+        super(id, source, TYPE, schemaVersion, timestamp);
+
+        this.month = Objects.requireNonNull(month, "month must not be null");
     }
 
     @Override
@@ -50,25 +32,24 @@ public final class MonthStartEvent extends AbstractEvent {
         if (this == obj) {
             return true;
         }
-        if ((obj == null) || (getClass() != obj.getClass())) {
+        if (!(obj instanceof final MonthStartEvent other)) {
             return false;
         }
-        final MonthStartEvent other = (MonthStartEvent) obj;
-        return Objects.equals(month, other.month);
+        return Objects.equals(getSource(), other.getSource()) && Objects.equals(getId(), other.getId());
     }
 
-    public Instant getMonth() {
+    public YearMonth getMonth() {
         return month;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), month);
+        return Objects.hash(getSource(), getId());
     }
 
     @Override
     public String toString() {
-        return "MonthStartEvent [month=" + month + "]";
+        return "MonthStartEvent [id=" + getId() + ", type=" + TYPE + "]";
     }
 
 }

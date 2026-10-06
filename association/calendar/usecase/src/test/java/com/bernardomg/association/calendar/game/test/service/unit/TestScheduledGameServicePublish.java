@@ -39,7 +39,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.calendar.activity.test.configuration.factory.ActivityConstants;
-import com.bernardomg.association.calendar.domain.event.CalendarInfoPublishedEvent;
+import com.bernardomg.association.calendar.domain.event.CalendarEventFactory;
+import com.bernardomg.association.calendar.domain.event.ScheduledGamePublishedEvent;
 import com.bernardomg.association.calendar.game.domain.exception.ScheduledGameAlreadyPublishedException;
 import com.bernardomg.association.calendar.game.domain.exception.ScheduledGameNotPublishableException;
 import com.bernardomg.association.calendar.game.domain.model.ScheduledGame;
@@ -83,9 +84,9 @@ class TestScheduledGameServicePublish {
     @Test
     @DisplayName("When publishing a scheduled game, an event is emitted")
     void testPublish_EmitsEvent() {
-        final ScheduledGame              scheduledGame;
-        final ScheduledGame              scheduledGamePublished;
-        final CalendarInfoPublishedEvent event;
+        final ScheduledGame               scheduledGame;
+        final ScheduledGame               scheduledGamePublished;
+        final ScheduledGamePublishedEvent event;
 
         // GIVEN
         scheduledGame = ScheduledGames.weeklyOneshot();
@@ -94,13 +95,18 @@ class TestScheduledGameServicePublish {
         given(scheduledGameRepository.findOne(ActivityConstants.NUMBER)).willReturn(Optional.of(scheduledGame));
         given(scheduledGameRepository.save(scheduledGamePublished)).willReturn(scheduledGamePublished);
 
-        event = new CalendarInfoPublishedEvent(null, scheduledGame.number());
+        event = CalendarEventFactory.scheduledGamePublished(scheduledGame.number());
 
         // WHEN
         service.publish(ActivityConstants.NUMBER);
 
         // THEN
-        verify(eventEmitter).emit(event);
+        verify(eventEmitter).emit(
+            org.mockito.ArgumentMatchers.argThat(actual -> actual instanceof final ScheduledGamePublishedEvent emitted
+                    && emitted.getScheduledGameNumber()
+                        .equals(event.getScheduledGameNumber())
+                    && emitted.getSource()
+                        .equals(event.getSource())));
     }
 
     @Test

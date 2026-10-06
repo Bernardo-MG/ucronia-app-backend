@@ -30,7 +30,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bernardomg.association.calendar.domain.event.CalendarInfoPublishedEvent;
+import com.bernardomg.association.calendar.domain.event.CalendarEventFactory;
 import com.bernardomg.association.calendar.domain.model.CalendarStatus;
 import com.bernardomg.association.calendar.game.domain.exception.MissingScheduledGameException;
 import com.bernardomg.association.calendar.game.domain.exception.ScheduledGameAlreadyPublishedException;
@@ -180,8 +180,7 @@ public final class DefaultScheduledGameService implements ScheduledGameService {
             .get();
         published = scheduledGameRepository.save(toPublish);
 
-        // TODO: send a source
-        eventEmitter.emit(new CalendarInfoPublishedEvent(null, published.number()));
+        eventEmitter.emit(CalendarEventFactory.scheduledGamePublished(published.number()));
 
         return published;
     }

@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2022-2025 Bernardo Martínez Garrido
+ * Copyright (c) 2023-2025 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,8 +22,22 @@
  * SOFTWARE.
  */
 
-/**
- * Activity filters.
- */
+package com.bernardomg.association.calendar.domain.event;
 
-package com.bernardomg.association.calendar.activity.domain.filter;
+public final class CalendarEventFactory {
+
+    private static final String SOURCE = "com.bernardomg.ucronia";
+
+    public static ActivityPublishedEvent activityPublished(final Long activityNumber) {
+        return new ActivityPublishedEvent(SOURCE, activityNumber);
+    }
+
+    public static ScheduledGamePublishedEvent scheduledGamePublished(final Long scheduledGameNumber) {
+        return new ScheduledGamePublishedEvent(SOURCE, scheduledGameNumber);
+    }
+
+    private CalendarEventFactory() {
+        super();
+    }
+
+}

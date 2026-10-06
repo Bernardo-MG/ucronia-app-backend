@@ -193,18 +193,18 @@
       <!-- ============================================== -->
       <apache.poi.version>5.4.1</apache.poi.version>
       <archunit.version>1.4.1</archunit.version>
-      <bernardomg.framework.event.version>1.0.2</bernardomg.framework.event.version>
+      <bernardomg.framework.event.version>1.0.3</bernardomg.framework.event.version>
       <bernardomg.framework.pagination.version>1.0.2</bernardomg.framework.pagination.version>
       <bernardomg.framework.security.access.version>1.0.0</bernardomg.framework.security.access.version>
       <bernardomg.framework.test.architecture>1.0.8</bernardomg.framework.test.architecture>
       <bernardomg.framework.validation.version>0.2.5</bernardomg.framework.validation.version>
       <bernardomg.framework.version>0.7.0</bernardomg.framework.version>
-      <bernardomg.framework.security.version>0.15.21</bernardomg.framework.security.version>
+      <bernardomg.framework.security.version>0.15.22</bernardomg.framework.security.version>
       <bernardomg.framework.ws.starter.starter>0.7.0</bernardomg.framework.ws.starter.starter>
       <commons.byteBuddy.version>1.18.3</commons.byteBuddy.version>
       <commons.codec.version>1.19.0</commons.codec.version>
-      <commons.lang3.version>3.20.0</commons.lang3.version>
-      <openapitools.jackson>0.2.11</openapitools.jackson>
+      <commons.lang3.version>3.21.0</commons.lang3.version>
+      <openapitools.jackson>0.2.12</openapitools.jackson>
       <jackson.annotations.version>2.22</jackson.annotations.version>
       <jackson.version>2.22.1</jackson.version>
       <jakarta.validation.version>3.1.1</jakarta.validation.version>
@@ -214,7 +214,7 @@
       <spring.version>6.2.19</spring.version>
       <aws.sdk.version>2.31.68</aws.sdk.version>
       <testcontainers.version>2.0.5</testcontainers.version>
-      <swagger.version>2.2.52</swagger.version>
+      <swagger.version>2.2.55</swagger.version>
       <!-- ============================================== -->
       <!-- ============== PLUGINS VERSIONS ============== -->
       <!-- ============================================== -->

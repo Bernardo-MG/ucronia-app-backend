@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2022-2025 Bernardo Martínez Garrido
+ * Copyright (c) 2023-2025 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,8 +22,38 @@
  * SOFTWARE.
  */
 
-/**
- * Activity filters.
- */
+package com.bernardomg.association.fee.domain.event;
 
-package com.bernardomg.association.calendar.activity.domain.filter;
+import java.time.YearMonth;
+import java.time.ZoneOffset;
+
+import com.bernardomg.association.fee.domain.model.Fee;
+
+public final class FeeEventFactory {
+
+    private static final String SOURCE = "com.bernardomg.ucronia";
+
+    public static FeeDeletedEvent feeDeleted(final Fee fee) {
+        return new FeeDeletedEvent(SOURCE, YearMonth.from(fee.month()
+            .atZone(ZoneOffset.UTC)), fee.member()
+                .number(),
+            fee.paid());
+    }
+
+    public static FeePaidEvent feePaid(final Fee fee) {
+        return new FeePaidEvent(SOURCE, YearMonth.from(fee.month()
+            .atZone(ZoneOffset.UTC)), fee.member()
+                .number(),
+            fee.transaction()
+                .map(Fee.Transaction::index)
+                .orElse(null),
+            fee.transaction()
+                .map(Fee.Transaction::date)
+                .orElse(null));
+    }
+
+    private FeeEventFactory() {
+        super();
+    }
+
+}

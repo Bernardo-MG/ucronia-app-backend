@@ -37,8 +37,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 
-import com.bernardomg.association.fee.domain.event.FeeDeletedEvent;
-import com.bernardomg.association.fee.domain.event.FeePaidEvent;
+import com.bernardomg.association.fee.domain.event.FeeEventFactory;
 import com.bernardomg.association.fee.domain.exception.MissingFeeException;
 import com.bernardomg.association.fee.domain.exception.MissingFeeTypeException;
 import com.bernardomg.association.fee.domain.filter.FeeFilter;
@@ -168,8 +167,7 @@ public final class DefaultFeeService implements FeeService {
         feeRepository.delete(number, date);
 
         // Send events for deleted fees
-        // TODO: send a source
-        eventEmitter.emit(new FeeDeletedEvent(null, date, number));
+        eventEmitter.emit(FeeEventFactory.feeDeleted(fee));
 
         log.info("Deleted fee for {} in {}", number, date);
 
@@ -428,9 +426,7 @@ public final class DefaultFeeService implements FeeService {
     }
 
     private final void sendFeePaidEvent(final Fee fee) {
-        // TODO: send a source
-        eventEmitter.emit(new FeePaidEvent(null, fee.month(), fee.member()
-            .number()));
+        eventEmitter.emit(FeeEventFactory.feePaid(fee));
     }
 
     private final Fee toPaidFee(final FeeType memberFeeType, final Member member, final Instant month,
