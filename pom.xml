@@ -204,7 +204,7 @@
       <commons.byteBuddy.version>1.18.3</commons.byteBuddy.version>
       <commons.codec.version>1.19.0</commons.codec.version>
       <commons.lang3.version>3.21.0</commons.lang3.version>
-      <openapitools.jackson>0.2.11</openapitools.jackson>
+      <openapitools.jackson>0.2.12</openapitools.jackson>
       <jackson.annotations.version>2.22</jackson.annotations.version>
       <jackson.version>2.22.1</jackson.version>
       <jakarta.validation.version>3.1.1</jakarta.validation.version>
@@ -214,7 +214,7 @@
       <spring.version>6.2.19</spring.version>
       <aws.sdk.version>2.31.68</aws.sdk.version>
       <testcontainers.version>2.0.5</testcontainers.version>
-      <swagger.version>2.2.52</swagger.version>
+      <swagger.version>2.2.55</swagger.version>
       <!-- ============================================== -->
       <!-- ============== PLUGINS VERSIONS ============== -->
       <!-- ============================================== -->
