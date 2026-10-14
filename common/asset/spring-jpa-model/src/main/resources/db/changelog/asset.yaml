@@ -38,11 +38,15 @@ databaseChangeLog:
               - column:
                   name: created_at
                   type: datetime
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: true
               - column:
                   name: created_by
                   type: bigint
                   constraints:
-                    foreignKeyName: fk_asset_folders_created_by_user
+                    nullable: true
+                    foreignKeyName: fk_fees_created_by_user
                     references: security.users(id)
               - column:
                   name: updated_at
@@ -141,11 +145,15 @@ databaseChangeLog:
               - column:
                   name: created_at
                   type: datetime
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: true
               - column:
                   name: created_by
                   type: bigint
                   constraints:
-                    foreignKeyName: fk_assets_created_by_user
+                    nullable: true
+                    foreignKeyName: fk_fees_created_by_user
                     references: security.users(id)
               - column:
                   name: updated_at
