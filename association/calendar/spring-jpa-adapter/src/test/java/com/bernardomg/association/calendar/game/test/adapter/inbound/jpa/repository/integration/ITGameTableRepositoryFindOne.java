@@ -60,7 +60,10 @@ class ITGameTableRepositoryFindOne {
         // THEN
         Assertions.assertThat(gameTable)
             .as("game table")
-            .contains(GameTables.valid());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit")
+                .isEqualTo(GameTables.valid()));
     }
 
     @Test

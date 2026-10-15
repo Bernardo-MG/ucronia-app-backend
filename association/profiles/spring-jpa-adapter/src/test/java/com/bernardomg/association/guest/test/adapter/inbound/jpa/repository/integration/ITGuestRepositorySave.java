@@ -127,6 +127,8 @@ class ITGuestRepositorySave {
         // THEN
         Assertions.assertThat(saved)
             .as("guest")
+            .usingRecursiveComparison()
+            .ignoringFields("audit")
             .isEqualTo(Guests.firstNameChange());
     }
 

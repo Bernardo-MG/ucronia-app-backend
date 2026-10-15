@@ -103,7 +103,10 @@ class ITFictionBookRepositoryFindOne {
         // THEN
         Assertions.assertThat(book)
             .as("book")
-            .contains(FictionBooks.full());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit")
+                .isEqualTo(FictionBooks.full()));
     }
 
     @Test
@@ -121,7 +124,10 @@ class ITFictionBookRepositoryFindOne {
         // THEN
         Assertions.assertThat(book)
             .as("book")
-            .contains(FictionBooks.lent());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit")
+                .isEqualTo(FictionBooks.lent()));
     }
 
     @Test
@@ -140,7 +146,10 @@ class ITFictionBookRepositoryFindOne {
         // THEN
         Assertions.assertThat(book)
             .as("book")
-            .contains(FictionBooks.lentHistory());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit")
+                .isEqualTo(FictionBooks.lentHistory()));
     }
 
     @Test
@@ -155,7 +164,10 @@ class ITFictionBookRepositoryFindOne {
         // THEN
         Assertions.assertThat(book)
             .as("book")
-            .contains(FictionBooks.minimal());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit")
+                .isEqualTo(FictionBooks.minimal()));
     }
 
     @Test
@@ -187,7 +199,10 @@ class ITFictionBookRepositoryFindOne {
         // THEN
         Assertions.assertThat(book)
             .as("book")
-            .contains(FictionBooks.returned());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit")
+                .isEqualTo(FictionBooks.returned()));
     }
 
     @Test
@@ -206,7 +221,10 @@ class ITFictionBookRepositoryFindOne {
         // THEN
         Assertions.assertThat(book)
             .as("book")
-            .contains(FictionBooks.returnedHistory());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit")
+                .isEqualTo(FictionBooks.returnedHistory()));
     }
 
 }

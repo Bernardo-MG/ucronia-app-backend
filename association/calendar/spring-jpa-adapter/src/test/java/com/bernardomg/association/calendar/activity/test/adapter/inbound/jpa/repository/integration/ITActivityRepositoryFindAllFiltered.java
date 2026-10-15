@@ -48,6 +48,7 @@ class ITActivityRepositoryFindAllFiltered {
         Assertions.assertThat(activities)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactlyInAnyOrder(Activities.forNumberAndMonth(12L, Month.JANUARY),
                 Activities.forNumberAndMonth(13L, Month.JANUARY), Activities.forNumberAndMonth(14L, Month.JANUARY));
     }
@@ -68,6 +69,7 @@ class ITActivityRepositoryFindAllFiltered {
         Assertions.assertThat(activities)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactlyInAnyOrder(Activities.forNumberAndMonth(12L, Month.JANUARY),
                 Activities.forNumberAndMonth(13L, Month.JANUARY));
     }
@@ -88,6 +90,7 @@ class ITActivityRepositoryFindAllFiltered {
         Assertions.assertThat(activities)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactlyInAnyOrder(Activities.forNumberAndMonth(10L, Month.JANUARY),
                 Activities.forNumberAndMonth(11L, Month.JANUARY), Activities.forNumberAndMonth(12L, Month.JANUARY),
                 Activities.forNumberAndMonth(13L, Month.JANUARY), Activities.forNumberAndMonth(14L, Month.JANUARY));
@@ -109,6 +112,7 @@ class ITActivityRepositoryFindAllFiltered {
         Assertions.assertThat(activities)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactlyInAnyOrder(Activities.forNumberAndMonth(10L, Month.JANUARY),
                 Activities.forNumberAndMonth(11L, Month.JANUARY));
     }

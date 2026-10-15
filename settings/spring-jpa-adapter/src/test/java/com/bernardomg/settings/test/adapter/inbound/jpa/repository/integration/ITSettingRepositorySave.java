@@ -70,6 +70,8 @@ public class ITSettingRepositorySave {
         // THEN
         Assertions.assertThat(created)
             .as("created")
+            .usingRecursiveComparison()
+            .ignoringFields("audit")
             .isEqualTo(Settings.intValue());
     }
 

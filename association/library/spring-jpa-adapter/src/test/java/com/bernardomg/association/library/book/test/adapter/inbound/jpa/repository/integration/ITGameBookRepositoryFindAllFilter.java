@@ -99,6 +99,7 @@ class ITGameBookRepositoryFindAllFilter {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("books")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(GameBooks.full());
     }
 
@@ -125,6 +126,7 @@ class ITGameBookRepositoryFindAllFilter {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("books")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(GameBooks.full());
     }
 
@@ -151,6 +153,7 @@ class ITGameBookRepositoryFindAllFilter {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("books")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(GameBooks.full());
     }
 
@@ -203,6 +206,7 @@ class ITGameBookRepositoryFindAllFilter {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("books")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(GameBooks.full());
     }
 

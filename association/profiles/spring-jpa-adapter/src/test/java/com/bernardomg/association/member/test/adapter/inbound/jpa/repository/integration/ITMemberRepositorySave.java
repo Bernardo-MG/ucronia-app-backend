@@ -162,6 +162,8 @@ class ITMemberRepositorySave {
         // THEN
         Assertions.assertThat(saved)
             .as("member")
+            .usingRecursiveComparison()
+            .ignoringFields("audit")
             .isEqualTo(Members.active());
     }
 

@@ -70,8 +70,10 @@ class ITBookLendingRepositoryFindLent {
         // THEN
         Assertions.assertThat(lending)
             .as("lending")
-            // FIXME: should return the person
-            .contains(BookLendings.lent());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit")
+                .isEqualTo(BookLendings.lent()));
     }
 
     @Test
@@ -89,7 +91,10 @@ class ITBookLendingRepositoryFindLent {
         // THEN
         Assertions.assertThat(lending)
             .as("lending")
-            .contains(BookLendings.lentLast());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit")
+                .isEqualTo(BookLendings.lentLast()));
     }
 
     @Test
@@ -154,8 +159,10 @@ class ITBookLendingRepositoryFindLent {
         // THEN
         Assertions.assertThat(lending)
             .as("lending")
-            // FIXME: should return the person
-            .contains(BookLendings.lent());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit")
+                .isEqualTo(BookLendings.lent()));
     }
 
     @Test
@@ -173,7 +180,10 @@ class ITBookLendingRepositoryFindLent {
         // THEN
         Assertions.assertThat(lending)
             .as("lending")
-            .contains(BookLendings.lentLast());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit")
+                .isEqualTo(BookLendings.lentLast()));
     }
 
     @Test

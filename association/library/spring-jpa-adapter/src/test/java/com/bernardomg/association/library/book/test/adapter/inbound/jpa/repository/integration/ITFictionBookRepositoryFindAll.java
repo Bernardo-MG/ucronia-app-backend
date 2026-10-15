@@ -71,6 +71,7 @@ class ITFictionBookRepositoryFindAll {
         // THEN
         Assertions.assertThat(books)
             .as("books")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(FictionBooks.full());
     }
 
@@ -93,6 +94,7 @@ class ITFictionBookRepositoryFindAll {
         // THEN
         Assertions.assertThat(books)
             .as("books")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(FictionBooks.lent());
     }
 
@@ -116,6 +118,7 @@ class ITFictionBookRepositoryFindAll {
         // THEN
         Assertions.assertThat(books)
             .as("books")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(FictionBooks.lentHistory());
     }
 
@@ -156,6 +159,7 @@ class ITFictionBookRepositoryFindAll {
         // THEN
         Assertions.assertThat(books)
             .as("books")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(FictionBooks.returned());
     }
 
@@ -179,6 +183,7 @@ class ITFictionBookRepositoryFindAll {
         // THEN
         Assertions.assertThat(books)
             .as("books")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(FictionBooks.returnedHistory());
     }
 

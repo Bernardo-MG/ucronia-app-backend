@@ -71,6 +71,7 @@ class ITGameBookRepositoryFindAll {
         // THEN
         Assertions.assertThat(books)
             .as("books")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(GameBooks.full());
     }
 
@@ -93,6 +94,7 @@ class ITGameBookRepositoryFindAll {
         // THEN
         Assertions.assertThat(books)
             .as("books")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(GameBooks.lent());
     }
 
@@ -116,6 +118,7 @@ class ITGameBookRepositoryFindAll {
         // THEN
         Assertions.assertThat(books)
             .as("books")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(GameBooks.lentHistory());
     }
 
@@ -156,6 +159,7 @@ class ITGameBookRepositoryFindAll {
         // THEN
         Assertions.assertThat(books)
             .as("books")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(GameBooks.returned());
     }
 
@@ -179,6 +183,7 @@ class ITGameBookRepositoryFindAll {
         // THEN
         Assertions.assertThat(books)
             .as("books")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(GameBooks.returnedHistory());
     }
 

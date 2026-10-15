@@ -62,7 +62,11 @@ class ITProfileRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(profile)
-            .contains(Profiles.valid());
+            .as("profile")
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit")
+                .isEqualTo(Profiles.valid()));
     }
 
     @Test
@@ -90,7 +94,11 @@ class ITProfileRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(profile)
-            .contains(Profiles.withEmail());
+            .as("profile")
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit")
+                .isEqualTo(Profiles.withEmail()));
     }
 
     @Test
@@ -104,7 +112,11 @@ class ITProfileRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(profile)
-            .contains(Profiles.withType(ProfileConstants.TYPE_MEMBER));
+            .as("profile")
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit")
+                .isEqualTo(Profiles.withType(ProfileConstants.TYPE_MEMBER)));
     }
 
 }

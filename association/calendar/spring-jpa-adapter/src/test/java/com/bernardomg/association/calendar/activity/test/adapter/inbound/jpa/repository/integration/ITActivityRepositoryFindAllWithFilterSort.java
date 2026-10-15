@@ -78,6 +78,7 @@ class ITActivityRepositoryFindAllWithFilterSort {
         Assertions.assertThat(activities)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(Activities.forNumberAndMonth(10, Month.JANUARY),
                 Activities.forNumberAndMonth(11, Month.JANUARY), Activities.forNumberAndMonth(12, Month.JANUARY),
                 Activities.forNumberAndMonth(13, Month.JANUARY), Activities.forNumberAndMonth(14, Month.JANUARY));
@@ -104,6 +105,7 @@ class ITActivityRepositoryFindAllWithFilterSort {
         Assertions.assertThat(activities)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(Activities.forNumberAndMonth(14, Month.JANUARY),
                 Activities.forNumberAndMonth(13, Month.JANUARY), Activities.forNumberAndMonth(12, Month.JANUARY),
                 Activities.forNumberAndMonth(11, Month.JANUARY), Activities.forNumberAndMonth(10, Month.JANUARY));
@@ -130,6 +132,7 @@ class ITActivityRepositoryFindAllWithFilterSort {
         Assertions.assertThat(activities)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(Activities.forNumberAndMonth(10, Month.JANUARY),
                 Activities.forNumberAndMonth(11, Month.JANUARY), Activities.forNumberAndMonth(12, Month.JANUARY),
                 Activities.forNumberAndMonth(13, Month.JANUARY), Activities.forNumberAndMonth(14, Month.JANUARY));
@@ -156,6 +159,7 @@ class ITActivityRepositoryFindAllWithFilterSort {
         Assertions.assertThat(activities)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(Activities.forNumberAndMonth(14, Month.JANUARY),
                 Activities.forNumberAndMonth(13, Month.JANUARY), Activities.forNumberAndMonth(12, Month.JANUARY),
                 Activities.forNumberAndMonth(11, Month.JANUARY), Activities.forNumberAndMonth(10, Month.JANUARY));

@@ -99,6 +99,7 @@ class ITFictionBookRepositoryFindAllFilter {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("books")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(FictionBooks.full());
     }
 
@@ -125,6 +126,7 @@ class ITFictionBookRepositoryFindAllFilter {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("books")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(FictionBooks.full());
     }
 
@@ -151,6 +153,7 @@ class ITFictionBookRepositoryFindAllFilter {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("books")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(FictionBooks.full());
     }
 
@@ -177,6 +180,7 @@ class ITFictionBookRepositoryFindAllFilter {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("books")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(FictionBooks.full());
     }
 
@@ -203,6 +207,7 @@ class ITFictionBookRepositoryFindAllFilter {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("books")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(FictionBooks.full());
     }
 

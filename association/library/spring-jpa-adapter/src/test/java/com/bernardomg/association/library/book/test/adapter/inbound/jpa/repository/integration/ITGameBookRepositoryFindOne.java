@@ -72,7 +72,10 @@ class ITGameBookRepositoryFindOne {
         // THEN
         Assertions.assertThat(book)
             .as("book")
-            .contains(GameBooks.donationNoDate());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit")
+                .isEqualTo(GameBooks.donationNoDate()));
     }
 
     @Test
@@ -87,7 +90,10 @@ class ITGameBookRepositoryFindOne {
         // THEN
         Assertions.assertThat(book)
             .as("book")
-            .contains(GameBooks.donationNoDonors());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit")
+                .isEqualTo(GameBooks.donationNoDonors()));
     }
 
     @Test
@@ -103,7 +109,10 @@ class ITGameBookRepositoryFindOne {
         // THEN
         Assertions.assertThat(book)
             .as("book")
-            .contains(GameBooks.full());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit")
+                .isEqualTo(GameBooks.full()));
     }
 
     @Test
@@ -121,7 +130,10 @@ class ITGameBookRepositoryFindOne {
         // THEN
         Assertions.assertThat(book)
             .as("book")
-            .contains(GameBooks.lent());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit")
+                .isEqualTo(GameBooks.lent()));
     }
 
     @Test
@@ -140,7 +152,10 @@ class ITGameBookRepositoryFindOne {
         // THEN
         Assertions.assertThat(book)
             .as("book")
-            .contains(GameBooks.lentHistory());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit")
+                .isEqualTo(GameBooks.lentHistory()));
     }
 
     @Test
@@ -155,7 +170,10 @@ class ITGameBookRepositoryFindOne {
         // THEN
         Assertions.assertThat(book)
             .as("book")
-            .contains(GameBooks.minimal());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit")
+                .isEqualTo(GameBooks.minimal()));
     }
 
     @Test
@@ -187,7 +205,10 @@ class ITGameBookRepositoryFindOne {
         // THEN
         Assertions.assertThat(book)
             .as("book")
-            .contains(GameBooks.returned());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit")
+                .isEqualTo(GameBooks.returned()));
     }
 
     @Test
@@ -206,7 +227,10 @@ class ITGameBookRepositoryFindOne {
         // THEN
         Assertions.assertThat(book)
             .as("book")
-            .contains(GameBooks.returnedHistory());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit")
+                .isEqualTo(GameBooks.returnedHistory()));
     }
 
 }

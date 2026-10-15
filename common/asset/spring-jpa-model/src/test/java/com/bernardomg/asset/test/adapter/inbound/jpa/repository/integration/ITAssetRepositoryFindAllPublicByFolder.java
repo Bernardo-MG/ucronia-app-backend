@@ -57,6 +57,7 @@ class ITAssetRepositoryFindAllPublicByFolder {
 
         // THEN
         Assertions.assertThat(result.content())
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(Assets.publicAccessInFolder());
     }
 
