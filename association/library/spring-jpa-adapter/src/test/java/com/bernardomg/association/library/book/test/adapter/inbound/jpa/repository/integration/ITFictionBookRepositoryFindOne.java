@@ -72,7 +72,10 @@ class ITFictionBookRepositoryFindOne {
         // THEN
         Assertions.assertThat(book)
             .as("book")
-            .contains(FictionBooks.donationNoDate());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit")
+                .isEqualTo(FictionBooks.donationNoDate()));
     }
 
     @Test
@@ -87,7 +90,10 @@ class ITFictionBookRepositoryFindOne {
         // THEN
         Assertions.assertThat(book)
             .as("book")
-            .contains(FictionBooks.donationNoDonors());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit")
+                .isEqualTo(FictionBooks.donationNoDonors()));
     }
 
     @Test
