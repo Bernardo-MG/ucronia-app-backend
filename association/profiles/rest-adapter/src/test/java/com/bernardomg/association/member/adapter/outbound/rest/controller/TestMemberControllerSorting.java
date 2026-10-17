@@ -67,8 +67,8 @@ class TestMemberControllerSorting {
     }
 
     @Test
-    @DisplayName("When sorting by number ascending, it is accepted")
-    void testGetAllMembers_NumberSort() throws Exception {
+    @DisplayName("When sorting by member number ascending, it is accepted")
+    void testGetAllMembers_MemberNumberSort() throws Exception {
         // GIVEN
         given(service.getAll(any(), eq(new Pagination(1, 10)), any()))
             .willReturn(new Page<>(List.of(), 10, 0, 0, 0, 0, true, true, Sorting.unsorted()));
@@ -76,7 +76,7 @@ class TestMemberControllerSorting {
         // WHEN + THEN
         mockMvc.perform(get("/profile/member").param("page", "1")
             .param("size", "10")
-            .param("sort", "number|asc")
+            .param("sort", "memberNumber|asc")
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
