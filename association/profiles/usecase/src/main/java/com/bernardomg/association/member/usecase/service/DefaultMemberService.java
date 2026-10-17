@@ -102,6 +102,8 @@ public final class DefaultMemberService implements MemberService {
 
         log.debug("Creating member profile {}", member);
 
+        // TODO: assign member number
+
         if (!feeTypeRepository.exists(member.feeType()
             .number())) {
             log.error("Missing fee type {}", member.feeType()
@@ -240,6 +242,8 @@ public final class DefaultMemberService implements MemberService {
 
         log.debug("Updating member profile {} using data {}", member.number(), member);
 
+        // TODO: keep member number
+
         if (!memberRepository.exists(member.number())) {
             log.error("Missing member profile {}", member.number());
             throw new MissingMemberException(member.number());
@@ -324,6 +328,8 @@ public final class DefaultMemberService implements MemberService {
             .orElse(existing.identifier()),
             Optional.ofNullable(updated.number())
                 .orElse(existing.number()),
+            Optional.ofNullable(updated.memberNumber())
+                .orElse(existing.memberNumber()),
             name, Optional.ofNullable(updated.birthDate())
                 .orElse(existing.birthDate()),
             Optional.ofNullable(updated.contactChannels())

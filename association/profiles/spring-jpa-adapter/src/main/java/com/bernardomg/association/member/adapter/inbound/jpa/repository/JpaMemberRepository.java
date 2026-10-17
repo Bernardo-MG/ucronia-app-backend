@@ -363,8 +363,13 @@ public final class JpaMemberRepository implements MemberRepository {
             .flatMap(keySpringRepository::findByNumber);
         profileNumber = existing.map(MemberEntity::getNumber)
             .orElseGet(number);
-        memberNumber = existing.map(MemberEntity::getMemberNumber)
-            .orElseGet(memberSpringRepository::nextMemberNumber);
+
+        if (member.memberNumber() > 0) {
+            memberNumber = member.memberNumber();
+        } else {
+            memberNumber = existing.map(MemberEntity::getMemberNumber)
+                .orElseGet(memberSpringRepository::nextMemberNumber);
+        }
 
         if (existing.isPresent()) {
             entity = MemberEntityMapper.toEntity(existing.get(), member, contactMethods);

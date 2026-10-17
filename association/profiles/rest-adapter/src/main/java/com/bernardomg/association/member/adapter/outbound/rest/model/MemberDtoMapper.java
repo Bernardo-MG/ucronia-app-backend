@@ -76,9 +76,9 @@ public final class MemberDtoMapper {
             .map(MemberDtoMapper::toDomain)
             .toList();
 
-        return new Member(Optional.ofNullable(change.getIdentifier()), number, name, Optional.empty(), contactChannels,
-            Optional.ofNullable(change.getAddress()), Optional.ofNullable(change.getComments()), change.getActive(),
-            change.getRenew(), Optional.ofNullable(change.getKey()), feeType, Set.of());
+        return new Member(Optional.ofNullable(change.getIdentifier()), number, -1L, name, Optional.empty(),
+            contactChannels, Optional.ofNullable(change.getAddress()), Optional.ofNullable(change.getComments()),
+            change.getActive(), change.getRenew(), Optional.ofNullable(change.getKey()), feeType, Set.of());
     }
 
     public static final Member toDomain(final MemberCreationDto creation) {
@@ -94,7 +94,7 @@ public final class MemberDtoMapper {
             Optional.ofNullable(creation.getName()
                 .getNickname()));
 
-        return new Member(Optional.ofNullable(creation.getIdentifier()), -1L, name, Optional.empty(), List.of(),
+        return new Member(Optional.ofNullable(creation.getIdentifier()), -1L, -1L, name, Optional.empty(), List.of(),
             Optional.empty(), Optional.empty(), true, true, Optional.empty(), feeType, Set.of());
     }
 

@@ -73,10 +73,10 @@ public final class MemberEntityMapper {
         }
 
         audit = toDomain(entity.getAudit());
-        return new Member(Optional.ofNullable(entity.getIdentifier()), entity.getNumber(), name,
-            Optional.ofNullable(entity.getBirthDate()), contactChannels, Optional.ofNullable(entity.getAddress()),
+        return new Member(Optional.ofNullable(entity.getIdentifier()), entity.getNumber(), entity.getMemberNumber(),
+            name, Optional.ofNullable(entity.getBirthDate()), contactChannels, Optional.ofNullable(entity.getAddress()),
             Optional.ofNullable(entity.getComments()), entity.getActive(), entity.getRenew(), key, feeType,
-            entity.getTypes(), audit, entity.getMemberNumber());
+            entity.getTypes(), audit);
     }
 
     public static final Member toDomain(final ReadMemberEntity entity) {
@@ -108,10 +108,10 @@ public final class MemberEntityMapper {
         }
 
         audit = new AuditDetails();
-        return new Member(Optional.ofNullable(entity.getIdentifier()), entity.getNumber(), name,
-            Optional.ofNullable(entity.getBirthDate()), contactChannels, Optional.ofNullable(entity.getAddress()),
+        return new Member(Optional.ofNullable(entity.getIdentifier()), entity.getNumber(), entity.getMemberNumber(),
+            name, Optional.ofNullable(entity.getBirthDate()), contactChannels, Optional.ofNullable(entity.getAddress()),
             Optional.ofNullable(entity.getComments()), entity.getActive(), entity.getRenew(), key, feeType,
-            entity.getTypes(), audit, entity.getMemberNumber());
+            entity.getTypes(), audit);
     }
 
     public static final MemberEntity toEntity(final Member data,

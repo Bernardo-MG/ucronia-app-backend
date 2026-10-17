@@ -38,9 +38,9 @@ import com.bernardomg.association.member.adapter.inbound.jpa.model.MembershipEvo
 
 public interface MemberSpringRepository extends JpaRepository<MemberEntity, Long> {
 
-    public Optional<MemberEntity> findByKeyNumber(@Param("keyNumber") final Long keyNumber);
+    public Optional<MemberEntity> findByKeyNumber(final Long keyNumber);
 
-    public Optional<MemberEntity> findByNumber(@Param("number") final Long number);
+    public Optional<MemberEntity> findByNumber(final Long number);
 
     @Query("""
             SELECT new com.bernardomg.association.member.adapter.inbound.jpa.model.MembershipEvolutionMonthEntity(
@@ -55,7 +55,7 @@ public interface MemberSpringRepository extends JpaRepository<MemberEntity, Long
     public Collection<MembershipEvolutionMonthEntity> getMonthlyMembershipEvolution(@Param("from") final Instant from,
             @Param("to") final Instant to, final Sort sort);
 
-    @Query(value = "SELECT nextval('directory.member_number_seq')", nativeQuery = true)
+    @Query("SELECT COALESCE(MAX(m.memberNumber), 0) + 1 FROM Member m")
     public Long nextMemberNumber();
 
 }

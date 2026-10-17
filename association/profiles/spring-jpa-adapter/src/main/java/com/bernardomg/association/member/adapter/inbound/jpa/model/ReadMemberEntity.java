@@ -239,9 +239,10 @@ public class ReadMemberEntity implements Serializable {
     @Override
     public String toString() {
         return "ReadMemberEntity [id=" + id + ", active=" + active + ", feeType=" + feeType + ", number=" + number
-                + ", firstName=" + firstName + ", lastName=" + lastName + ", nickname=" + nickname + ", renew=" + renew
-                + ", identifier=" + identifier + ", key=" + key + ", address=" + address + ", birthDate=" + birthDate
-                + ", comments=" + comments + ", types=" + types + ", contactChannels=" + contactChannels + "]";
+                + ", memberNumber=" + memberNumber + ", firstName=" + firstName + ", lastName=" + lastName
+                + ", nickname=" + nickname + ", renew=" + renew + ", identifier=" + identifier + ", key=" + key
+                + ", address=" + address + ", birthDate=" + birthDate + ", comments=" + comments + ", types=" + types
+                + ", contactChannels=" + contactChannels + "]";
     }
 
 }

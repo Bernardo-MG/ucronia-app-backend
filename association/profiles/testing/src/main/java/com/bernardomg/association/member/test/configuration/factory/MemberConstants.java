@@ -8,31 +8,33 @@ import java.time.ZoneOffset;
 
 public final class MemberConstants {
 
-    public static final String  ADDRESS                = "Address";
+    public static final String  ADDRESS                   = "Address";
 
-    public static final String  ALTERNATIVE_EMAIL      = "email2@somewhere.com";
+    public static final String  ALTERNATIVE_EMAIL         = "email2@somewhere.com";
 
-    public static final String  ALTERNATIVE_IDENTIFIER = "67890";
+    public static final String  ALTERNATIVE_IDENTIFIER    = "67890";
 
-    public static final long    ALTERNATIVE_NUMBER     = 20;
+    public static final long    ALTERNATIVE_MEMBER_NUMBER = 25;
 
-    public static final Instant BIRTH_DATE             = LocalDate.of(1990, Month.JANUARY, 1)
+    public static final long    ALTERNATIVE_NUMBER        = 20;
+
+    public static final Instant BIRTH_DATE                = LocalDate.of(1990, Month.JANUARY, 1)
         .atStartOfDay(ZoneOffset.UTC)
         .toInstant();
 
-    public static final String  CHANGED_FIRST_NAME     = "Name 3";
+    public static final String  CHANGED_FIRST_NAME        = "Name 3";
 
-    public static final String  COMMENTS               = "Comments";
+    public static final String  COMMENTS                  = "Comments";
 
-    public static final String  IDENTIFIER             = "6789";
+    public static final String  IDENTIFIER                = "6789";
 
-    public static final long    NUMBER                 = 10;
+    public static final long    MEMBER_NUMBER             = 15;
 
-    public static final long    MEMBER_NUMBER                 = 15;
+    public static final long    NUMBER                    = 10;
 
-    public static final String  PHONE                  = "123456789";
+    public static final String  PHONE                     = "123456789";
 
-    public static final String  TYPE_MEMBER            = "member";
+    public static final String  TYPE_MEMBER               = "member";
 
     private MemberConstants() {
         super();

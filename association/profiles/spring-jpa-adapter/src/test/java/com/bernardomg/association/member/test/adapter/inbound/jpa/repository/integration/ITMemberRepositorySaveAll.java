@@ -124,8 +124,9 @@ class ITMemberRepositorySaveAll {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.id", "profile.number",
-                "profile.contactChannels.id", "profile.contactChannels.profileId", "profile.contactChannels.profile")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "memberNumber", "profile.id",
+                "profile.number", "profile.contactChannels.id", "profile.contactChannels.profileId",
+                "profile.contactChannels.profile")
             .containsExactly(ReadMemberEntities.active());
     }
 
