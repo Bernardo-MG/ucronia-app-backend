@@ -10,7 +10,7 @@ components:
         type: array
         items:
           type: string
-          pattern: '^(name\.firstName|name\.lastName|number)\|(asc|desc)$'
+          pattern: '^(name\.firstName|name\.lastName|memberNumber)\|(asc|desc)$'
           example: username|asc
   schemas:
     ContactMethod:
@@ -45,9 +45,9 @@ components:
           description: Contact detail.
     PublicMember:
       type: object
-      required: [number, name]
+      required: [memberNumber, name]
       properties:
-        number:
+        memberNumber:
           $ref: '../common/ids.yml#/components/schemas/Id'
         name:
           $ref: '../../profile/components/profiles.yml#/components/schemas/Name'
@@ -58,8 +58,10 @@ components:
           $ref: '../common/ids.yml#/components/schemas/Id'
     Member:
       type: object
-      required: [number, name]
+      required: [number, memberNumber, name]
       properties:
+        memberNumber:
+          $ref: '../common/ids.yml#/components/schemas/Id'
         number:
           $ref: '../common/ids.yml#/components/schemas/Id'
         identifier:

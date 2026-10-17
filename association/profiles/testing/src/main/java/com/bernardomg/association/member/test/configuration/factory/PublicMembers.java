@@ -28,14 +28,14 @@ public final class PublicMembers {
         final Name name;
 
         name = new Name(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME, Optional.empty());
-        return new PublicMember(MemberConstants.NUMBER, name, false, Optional.empty());
+        return new PublicMember(MemberConstants.MEMBER_NUMBER, name, false, Optional.empty());
     }
 
     public static final PublicMember valid() {
         final Name name;
 
         name = new Name(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME, Optional.empty());
-        return new PublicMember(MemberConstants.NUMBER, name, true, Optional.empty());
+        return new PublicMember(MemberConstants.MEMBER_NUMBER, name, true, Optional.empty());
     }
 
     private PublicMembers() {

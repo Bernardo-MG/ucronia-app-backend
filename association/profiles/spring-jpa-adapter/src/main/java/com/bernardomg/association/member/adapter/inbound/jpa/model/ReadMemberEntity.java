@@ -76,6 +76,9 @@ public class ReadMemberEntity implements Serializable {
     @Column(name = "last_name", table = "profiles")
     private String                                     lastName;
 
+    @Column(name = "member_number", table = "members", unique = true)
+    private Long                                       memberNumber;
+
     @Column(name = "nickname", table = "profiles")
     private String                                     nickname;
 
@@ -144,6 +147,10 @@ public class ReadMemberEntity implements Serializable {
         return lastName;
     }
 
+    public Long getMemberNumber() {
+        return memberNumber;
+    }
+
     public String getNickname() {
         return nickname;
     }
@@ -209,6 +216,10 @@ public class ReadMemberEntity implements Serializable {
         this.lastName = lastName;
     }
 
+    public void setMemberNumber(final Long memberNumber) {
+        this.memberNumber = memberNumber;
+    }
+
     public void setNickname(final String nickname) {
         this.nickname = nickname;
     }
@@ -228,9 +239,10 @@ public class ReadMemberEntity implements Serializable {
     @Override
     public String toString() {
         return "ReadMemberEntity [id=" + id + ", active=" + active + ", feeType=" + feeType + ", number=" + number
-                + ", firstName=" + firstName + ", lastName=" + lastName + ", nickname=" + nickname + ", renew=" + renew
-                + ", identifier=" + identifier + ", key=" + key + ", address=" + address + ", birthDate=" + birthDate
-                + ", comments=" + comments + ", types=" + types + ", contactChannels=" + contactChannels + "]";
+                + ", memberNumber=" + memberNumber + ", firstName=" + firstName + ", lastName=" + lastName
+                + ", nickname=" + nickname + ", renew=" + renew + ", identifier=" + identifier + ", key=" + key
+                + ", address=" + address + ", birthDate=" + birthDate + ", comments=" + comments + ", types=" + types
+                + ", contactChannels=" + contactChannels + "]";
     }
 
 }

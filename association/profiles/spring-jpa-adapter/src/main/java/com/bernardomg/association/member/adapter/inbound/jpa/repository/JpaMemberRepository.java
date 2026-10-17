@@ -351,24 +351,37 @@ public final class JpaMemberRepository implements MemberRepository {
         final Collection<MemberContactMethodEntity> contactMethods;
         final Optional<FeeTypeEntity>               feeType;
         final Optional<KeyEntity>                   key;
+        final Long                                  memberNumber;
+        final Long                                  profileNumber;
 
+        // Complete queries before changing a managed entity
         existing = memberSpringRepository.findByNumber(member.number());
         contactMethods = getContactMethods(member);
+        feeType = feeTypeSpringRepository.findByNumber(member.feeType()
+            .number());
+        key = member.key()
+            .flatMap(keySpringRepository::findByNumber);
+        profileNumber = existing.map(MemberEntity::getNumber)
+            .orElseGet(number);
+
+        if (member.memberNumber() > 0) {
+            memberNumber = member.memberNumber();
+        } else {
+            memberNumber = existing.map(MemberEntity::getMemberNumber)
+                .orElseGet(memberSpringRepository::nextMemberNumber);
+        }
+
         if (existing.isPresent()) {
             entity = MemberEntityMapper.toEntity(existing.get(), member, contactMethods);
         } else {
             entity = MemberEntityMapper.toEntity(member, contactMethods);
-            entity.setNumber(number.get());
+            entity.setNumber(profileNumber);
         }
-
-        feeType = feeTypeSpringRepository.findByNumber(member.feeType()
-            .number());
+        entity.setMemberNumber(memberNumber);
         entity.setFeeType(feeType.orElse(null));
 
         if (member.key()
             .isPresent()) {
-            key = keySpringRepository.findByNumber(member.key()
-                .get());
             entity.setKey(key.orElse(null));
         }
 

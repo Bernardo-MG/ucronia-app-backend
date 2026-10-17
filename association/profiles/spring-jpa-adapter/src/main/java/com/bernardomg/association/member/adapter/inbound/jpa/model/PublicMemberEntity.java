@@ -45,6 +45,9 @@ public class PublicMemberEntity implements Serializable {
     @Column(name = "last_name", table = "profiles")
     private String            lastName;
 
+    @Column(name = "member_number", table = "members")
+    private Long              memberNumber;
+
     @Column(name = "nickname", table = "profiles")
     private String            nickname;
 
@@ -85,12 +88,12 @@ public class PublicMemberEntity implements Serializable {
         return lastName;
     }
 
-    public String getNickname() {
-        return nickname;
+    public Long getMemberNumber() {
+        return memberNumber;
     }
 
-    public Long getNumber() {
-        return number;
+    public String getNickname() {
+        return nickname;
     }
 
     public Boolean getRenew() {
@@ -122,12 +125,12 @@ public class PublicMemberEntity implements Serializable {
         this.lastName = lastName;
     }
 
-    public void setNickname(final String nickname) {
-        this.nickname = nickname;
+    public void setMemberNumber(final Long memberNumber) {
+        this.memberNumber = memberNumber;
     }
 
-    public void setNumber(final Long number) {
-        this.number = number;
+    public void setNickname(final String nickname) {
+        this.nickname = nickname;
     }
 
     public void setRenew(final Boolean renew) {
@@ -136,9 +139,9 @@ public class PublicMemberEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "PublicMemberEntity [id=" + id + ", number=" + number + ", firstName=" + firstName + ", lastName="
-                + lastName + ", nickname=" + nickname + ", active=" + active + ", renew=" + renew + ", key=" + key
-                + "]";
+        return "PublicMemberEntity [id=" + id + ", memberNumber=" + memberNumber + "number, " + number + ", firstName="
+                + firstName + ", lastName=" + lastName + ", nickname=" + nickname + ", active=" + active + ", renew="
+                + renew + ", key=" + key + "]";
     }
 
 }
