@@ -25,6 +25,7 @@
 package com.bernardomg.association.library.book.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,7 @@ import com.bernardomg.association.member.test.configuration.data.annotation.Acti
 import com.bernardomg.association.member.test.configuration.data.annotation.AlternativeActiveMember;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.pagination.domain.Sorting;
+import com.bernardomg.security.domain.audit.model.AuditDetails;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -71,7 +73,9 @@ class ITGameBookRepositoryFindAll {
         // THEN
         Assertions.assertThat(books)
             .as("books")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
+            .usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration.builder()
+                .withIgnoredFieldsOfTypes(AuditDetails.class)
+                .build())
             .containsExactly(GameBooks.full());
     }
 
@@ -94,7 +98,9 @@ class ITGameBookRepositoryFindAll {
         // THEN
         Assertions.assertThat(books)
             .as("books")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
+            .usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration.builder()
+                .withIgnoredFieldsOfTypes(AuditDetails.class)
+                .build())
             .containsExactly(GameBooks.lent());
     }
 
@@ -118,7 +124,9 @@ class ITGameBookRepositoryFindAll {
         // THEN
         Assertions.assertThat(books)
             .as("books")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
+            .usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration.builder()
+                .withIgnoredFieldsOfTypes(AuditDetails.class)
+                .build())
             .containsExactly(GameBooks.lentHistory());
     }
 
@@ -159,7 +167,9 @@ class ITGameBookRepositoryFindAll {
         // THEN
         Assertions.assertThat(books)
             .as("books")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
+            .usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration.builder()
+                .withIgnoredFieldsOfTypes(AuditDetails.class)
+                .build())
             .containsExactly(GameBooks.returned());
     }
 
@@ -183,7 +193,9 @@ class ITGameBookRepositoryFindAll {
         // THEN
         Assertions.assertThat(books)
             .as("books")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
+            .usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration.builder()
+                .withIgnoredFieldsOfTypes(AuditDetails.class)
+                .build())
             .containsExactly(GameBooks.returnedHistory());
     }
 

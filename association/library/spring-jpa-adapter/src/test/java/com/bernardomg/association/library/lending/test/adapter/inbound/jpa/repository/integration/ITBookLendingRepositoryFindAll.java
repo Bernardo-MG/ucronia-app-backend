@@ -26,6 +26,7 @@ package com.bernardomg.association.library.lending.test.adapter.inbound.jpa.repo
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.InstanceOfAssertFactories;
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,7 +80,9 @@ class ITBookLendingRepositoryFindAll {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("lendings")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
+            .usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration.builder()
+                .withIgnoredFields("audit")
+                .build())
             .containsExactly(BookLendings.lent());
     }
 
@@ -150,7 +153,9 @@ class ITBookLendingRepositoryFindAll {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("lendings")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
+            .usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration.builder()
+                .withIgnoredFields("audit")
+                .build())
             .containsExactly(BookLendings.lent());
     }
 

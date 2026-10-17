@@ -28,14 +28,22 @@ import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 
-public record GameSystem(Long number, String name) {
+import com.bernardomg.security.domain.audit.model.AuditDetails;
+
+public record GameSystem(Long number, String name, AuditDetails audit) {
 
     public GameSystem(final Long number, final String name) {
+        this(number, name, new AuditDetails());
+    }
+
+    public GameSystem(final Long number, final String name, final AuditDetails audit) {
         Objects.requireNonNull(number, "Number can't be null");
         Objects.requireNonNull(name, "Name can't be null");
+        Objects.requireNonNull(audit, "Audit can't be null");
 
         this.number = number;
         this.name = StringUtils.trim(name);
+        this.audit = audit;
     }
 
 }

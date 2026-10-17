@@ -37,6 +37,7 @@ import com.bernardomg.association.library.book.adapter.inbound.jpa.model.BookEnt
 import com.bernardomg.association.library.book.adapter.inbound.jpa.repository.BookSpringRepository;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.BookLendingEntity;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.BookLendingEntityMapper;
+import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.BookLendingId;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.BorrowerEntity;
 import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.lending.domain.repository.BookLendingRepository;
@@ -178,6 +179,13 @@ public final class JpaBookLendingRepository implements BookLendingRepository {
             toCreate.setBorrowerId(borrower.get()
                 .getId());
             toCreate.setBorrower(borrower.get());
+
+            final BookLendingId id = new BookLendingId();
+            id.setBookId(toCreate.getBookId());
+            id.setBorrowerId(toCreate.getBorrowerId());
+            id.setLendingDate(toCreate.getLendingDate());
+            bookLendingSpringRepository.findById(id)
+                .ifPresent(existing -> toCreate.setAudit(existing.getAudit()));
 
             created = bookLendingSpringRepository.save(toCreate);
             saved = BookLendingEntityMapper.toDomain(created, bookEntity.get());

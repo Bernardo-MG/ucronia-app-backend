@@ -26,6 +26,7 @@ package com.bernardomg.association.library.book.test.adapter.inbound.jpa.reposit
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.InstanceOfAssertFactories;
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,7 @@ import com.bernardomg.association.profile.test.configuration.data.annotation.Val
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
+import com.bernardomg.security.domain.audit.model.AuditDetails;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -82,7 +84,9 @@ class ITFictionBookRepositoryFindAllPaginated {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("books")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
+            .usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration.builder()
+                .withIgnoredFieldsOfTypes(AuditDetails.class)
+                .build())
             .containsExactly(FictionBooks.full());
     }
 
@@ -111,7 +115,9 @@ class ITFictionBookRepositoryFindAllPaginated {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("books")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
+            .usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration.builder()
+                .withIgnoredFieldsOfTypes(AuditDetails.class)
+                .build())
             .containsExactly(FictionBooks.lent());
     }
 
@@ -141,7 +147,9 @@ class ITFictionBookRepositoryFindAllPaginated {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("books")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
+            .usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration.builder()
+                .withIgnoredFieldsOfTypes(AuditDetails.class)
+                .build())
             .containsExactly(FictionBooks.lentHistory());
     }
 
@@ -194,7 +202,9 @@ class ITFictionBookRepositoryFindAllPaginated {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("books")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
+            .usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration.builder()
+                .withIgnoredFieldsOfTypes(AuditDetails.class)
+                .build())
             .containsExactly(FictionBooks.returned());
     }
 
@@ -224,7 +234,9 @@ class ITFictionBookRepositoryFindAllPaginated {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("books")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
+            .usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration.builder()
+                .withIgnoredFieldsOfTypes(AuditDetails.class)
+                .build())
             .containsExactly(FictionBooks.returnedHistory());
     }
 
