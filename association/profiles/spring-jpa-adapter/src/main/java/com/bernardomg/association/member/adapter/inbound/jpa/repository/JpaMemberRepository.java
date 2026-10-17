@@ -361,6 +361,12 @@ public final class JpaMemberRepository implements MemberRepository {
             entity.setNumber(number.get());
         }
 
+        // Allocate only when the profile first acquires a membership.
+        // Ignore command values so updates cannot replace an assigned number.
+        if (entity.getMemberNumber() == null) {
+            entity.setMemberNumber(memberSpringRepository.nextMemberNumber());
+        }
+
         feeType = feeTypeSpringRepository.findByNumber(member.feeType()
             .number());
         entity.setFeeType(feeType.orElse(null));

@@ -17,6 +17,13 @@ databaseChangeLog:
                     references: directory.profiles(id)
                     deleteCascade: true
               - column:
+                  name: member_number
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
                   name: fee_type_id
                   type: bigint
                   constraints:

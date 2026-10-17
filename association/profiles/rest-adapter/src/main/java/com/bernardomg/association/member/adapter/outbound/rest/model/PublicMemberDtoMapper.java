@@ -91,7 +91,7 @@ public final class PublicMemberDtoMapper {
                 .orElse(null))
             .fullName(member.name()
                 .fullName());
-        return new PublicMemberDto().number(member.number())
+        return new PublicMemberDto().memberNumber(member.memberNumber())
             .name(profileName)
             .renew(member.renew())
             .key(member.key()

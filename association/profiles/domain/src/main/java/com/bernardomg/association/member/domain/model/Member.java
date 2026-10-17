@@ -39,14 +39,15 @@ import com.bernardomg.security.domain.audit.model.AuditDetails;
 
 public record Member(Optional<String> identifier, Long number, Name name, Optional<Instant> birthDate,
         Collection<ContactChannel> contactChannels, Optional<String> address, Optional<String> comments, Boolean active,
-        Boolean renew, Optional<Long> key, FeeType feeType, Set<String> types, AuditDetails audit) {
+        Boolean renew, Optional<Long> key, FeeType feeType, Set<String> types, AuditDetails audit, Long memberNumber) {
 
     public static final String PROFILE_TYPE = "member";
 
     public Member(final Optional<String> identifier, final Long number, final Name name,
             final Optional<Instant> birthDate, final Collection<ContactChannel> contactChannels,
             final Optional<String> address, final Optional<String> comments, final Boolean active, final Boolean renew,
-            final Optional<Long> key, final FeeType feeType, final Set<String> types, final AuditDetails audit) {
+            final Optional<Long> key, final FeeType feeType, final Set<String> types, final AuditDetails audit,
+            final Long memberNumber) {
         Objects.requireNonNull(identifier, "Identifier can't be null");
         Objects.requireNonNull(number, "Number can't be null");
         Objects.requireNonNull(name, "Name can't be null");
@@ -74,6 +75,7 @@ public record Member(Optional<String> identifier, Long number, Name name, Option
         this.feeType = feeType;
         this.types = Set.copyOf(types);
         this.audit = audit;
+        this.memberNumber = memberNumber;
     }
 
     public Member(final Optional<String> identifier, final Long number, final Name name,
@@ -98,6 +100,14 @@ public record Member(Optional<String> identifier, Long number, Name name, Option
             final FeeType feeType, final Set<String> types) {
         this(identifier, number, name, birthDate, contactChannels, address, comments, active, renew, Optional.empty(),
             feeType, types, new AuditDetails());
+    }
+
+    public Member(final Optional<String> identifier, final Long number, final Name name,
+            final Optional<Instant> birthDate, final Collection<ContactChannel> contactChannels,
+            final Optional<String> address, final Optional<String> comments, final Boolean active, final Boolean renew,
+            final Optional<Long> key, final FeeType feeType, final Set<String> types, final AuditDetails audit) {
+        this(identifier, number, name, birthDate, contactChannels, address, comments, active, renew, key, feeType,
+            types, audit, null);
     }
 
     private final static Optional<String> handleEmpty(final Optional<String> value) {
@@ -129,12 +139,12 @@ public record Member(Optional<String> identifier, Long number, Name name, Option
 
     public Member deactivated() {
         return new Member(identifier, number, name, birthDate, contactChannels, address, comments, false, false, key,
-            feeType, types);
+            feeType, types, audit, memberNumber);
     }
 
     public Member activated() {
         return new Member(identifier, number, name, birthDate, contactChannels, address, comments, true, true, key,
-            feeType, types);
+            feeType, types, audit, memberNumber);
     }
 
 }

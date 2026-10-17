@@ -55,4 +55,7 @@ public interface MemberSpringRepository extends JpaRepository<MemberEntity, Long
     public Collection<MembershipEvolutionMonthEntity> getMonthlyMembershipEvolution(@Param("from") final Instant from,
             @Param("to") final Instant to, final Sort sort);
 
+    @Query(value = "SELECT nextval('directory.member_number_seq')", nativeQuery = true)
+    public Long nextMemberNumber();
+
 }

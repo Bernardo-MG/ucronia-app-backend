@@ -11,7 +11,7 @@ public final class PublicMemberEntities {
 
         entity = new PublicMemberEntity();
         entity.setId(1L);
-        entity.setNumber(MemberConstants.NUMBER);
+        entity.setMemberNumber(MemberConstants.MEMBER_NUMBER);
         entity.setFirstName(ProfileConstants.ALTERNATIVE_FIRST_NAME);
         entity.setLastName(ProfileConstants.ALTERNATIVE_LAST_NAME);
 
@@ -23,7 +23,7 @@ public final class PublicMemberEntities {
 
         entity = new PublicMemberEntity();
         entity.setId(1L);
-        entity.setNumber(MemberConstants.NUMBER);
+        entity.setMemberNumber(MemberConstants.MEMBER_NUMBER);
         entity.setFirstName(ProfileConstants.FIRST_NAME);
         entity.setLastName(ProfileConstants.LAST_NAME);
 

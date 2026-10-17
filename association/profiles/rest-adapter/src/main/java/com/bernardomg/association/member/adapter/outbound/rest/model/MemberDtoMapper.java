@@ -206,6 +206,7 @@ public final class MemberDtoMapper {
         return new MemberDto().identifier(member.identifier()
             .orElse(null))
             .number(member.number())
+            .memberNumber(member.memberNumber())
             .name(name)
             .birthDate(member.birthDate()
                 .orElse(null))

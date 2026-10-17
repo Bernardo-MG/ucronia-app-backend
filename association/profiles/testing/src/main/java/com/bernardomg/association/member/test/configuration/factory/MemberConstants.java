@@ -28,6 +28,8 @@ public final class MemberConstants {
 
     public static final long    NUMBER                 = 10;
 
+    public static final long    MEMBER_NUMBER                 = 15;
+
     public static final String  PHONE                  = "123456789";
 
     public static final String  TYPE_MEMBER            = "member";

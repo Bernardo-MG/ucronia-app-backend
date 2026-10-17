@@ -76,6 +76,9 @@ public class ReadMemberEntity implements Serializable {
     @Column(name = "last_name", table = "profiles")
     private String                                     lastName;
 
+    @Column(name = "member_number", table = "members", unique = true)
+    private Long                                       memberNumber;
+
     @Column(name = "nickname", table = "profiles")
     private String                                     nickname;
 
@@ -144,6 +147,10 @@ public class ReadMemberEntity implements Serializable {
         return lastName;
     }
 
+    public Long getMemberNumber() {
+        return memberNumber;
+    }
+
     public String getNickname() {
         return nickname;
     }
@@ -207,6 +214,10 @@ public class ReadMemberEntity implements Serializable {
 
     public void setLastName(final String lastName) {
         this.lastName = lastName;
+    }
+
+    public void setMemberNumber(final Long memberNumber) {
+        this.memberNumber = memberNumber;
     }
 
     public void setNickname(final String nickname) {
