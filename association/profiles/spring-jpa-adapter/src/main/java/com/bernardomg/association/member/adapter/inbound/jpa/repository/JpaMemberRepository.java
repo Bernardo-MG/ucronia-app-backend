@@ -351,30 +351,32 @@ public final class JpaMemberRepository implements MemberRepository {
         final Collection<MemberContactMethodEntity> contactMethods;
         final Optional<FeeTypeEntity>               feeType;
         final Optional<KeyEntity>                   key;
+        final Long                                  memberNumber;
+        final Long                                  profileNumber;
 
+        // Complete queries before changing a managed entity
         existing = memberSpringRepository.findByNumber(member.number());
         contactMethods = getContactMethods(member);
+        feeType = feeTypeSpringRepository.findByNumber(member.feeType()
+            .number());
+        key = member.key()
+            .flatMap(keySpringRepository::findByNumber);
+        profileNumber = existing.map(MemberEntity::getNumber)
+            .orElseGet(number);
+        memberNumber = existing.map(MemberEntity::getMemberNumber)
+            .orElseGet(memberSpringRepository::nextMemberNumber);
+
         if (existing.isPresent()) {
             entity = MemberEntityMapper.toEntity(existing.get(), member, contactMethods);
         } else {
             entity = MemberEntityMapper.toEntity(member, contactMethods);
-            entity.setNumber(number.get());
+            entity.setNumber(profileNumber);
         }
-
-        // Allocate only when the profile first acquires a membership.
-        // Ignore command values so updates cannot replace an assigned number.
-        if (entity.getMemberNumber() == null) {
-            entity.setMemberNumber(memberSpringRepository.nextMemberNumber());
-        }
-
-        feeType = feeTypeSpringRepository.findByNumber(member.feeType()
-            .number());
+        entity.setMemberNumber(memberNumber);
         entity.setFeeType(feeType.orElse(null));
 
         if (member.key()
             .isPresent()) {
-            key = keySpringRepository.findByNumber(member.key()
-                .get());
             entity.setKey(key.orElse(null));
         }
 
