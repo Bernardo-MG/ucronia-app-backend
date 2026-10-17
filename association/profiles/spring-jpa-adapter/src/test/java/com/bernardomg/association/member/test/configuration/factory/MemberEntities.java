@@ -28,6 +28,7 @@ public final class MemberEntities {
         entity = new MemberEntity();
         entity.setId(1L);
         entity.setNumber(MemberConstants.NUMBER);
+        entity.setMemberNumber(MemberConstants.MEMBER_NUMBER);
         entity.setFirstName(ProfileConstants.FIRST_NAME);
         entity.setLastName(ProfileConstants.LAST_NAME);
         entity.setBirthDate(MemberConstants.BIRTH_DATE);
@@ -57,6 +58,7 @@ public final class MemberEntities {
         entity = new MemberEntity();
         entity.setId(2L);
         entity.setNumber(MemberConstants.ALTERNATIVE_NUMBER);
+        entity.setMemberNumber(MemberConstants.ALTERNATIVE_MEMBER_NUMBER);
         entity.setFirstName(ProfileConstants.FIRST_NAME);
         entity.setLastName(ProfileConstants.LAST_NAME);
         entity.setBirthDate(MemberConstants.BIRTH_DATE);
@@ -86,6 +88,7 @@ public final class MemberEntities {
         entity = new MemberEntity();
         entity.setId(1L);
         entity.setNumber(MemberConstants.NUMBER);
+        entity.setMemberNumber(MemberConstants.MEMBER_NUMBER);
         entity.setFirstName(ProfileConstants.FIRST_NAME);
         entity.setLastName(ProfileConstants.LAST_NAME);
         entity.setBirthDate(MemberConstants.BIRTH_DATE);
@@ -115,6 +118,7 @@ public final class MemberEntities {
         entity = new MemberEntity();
         entity.setId(1L);
         entity.setNumber(MemberConstants.NUMBER);
+        entity.setMemberNumber(MemberConstants.MEMBER_NUMBER);
         entity.setFirstName(MemberConstants.CHANGED_FIRST_NAME);
         entity.setLastName(ProfileConstants.LAST_NAME);
         entity.setBirthDate(MemberConstants.BIRTH_DATE);
@@ -150,6 +154,7 @@ public final class MemberEntities {
         entity.setId(1L);
         entity.setId(1L);
         entity.setNumber(MemberConstants.NUMBER);
+        entity.setMemberNumber(MemberConstants.MEMBER_NUMBER);
         entity.setFirstName(ProfileConstants.FIRST_NAME);
         entity.setLastName(ProfileConstants.LAST_NAME);
         entity.setBirthDate(MemberConstants.BIRTH_DATE);

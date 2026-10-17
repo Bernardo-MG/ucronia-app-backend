@@ -254,11 +254,11 @@ public class MemberEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "MemberEntity [id=" + id + ", number=" + number + ", active=" + active + ", contactChannels="
-                + contactChannels + ", feeType=" + feeType + ", firstName=" + firstName + ", lastName=" + lastName
-                + ", nickname=" + nickname + ", identifier=" + identifier + ", birthDate=" + birthDate + ", address="
-                + address + ", comments=" + comments + ", key=" + key + ", types=" + types + ", renew=" + renew
-                + ", audit=" + audit + "]";
+        return "MemberEntity [id=" + id + ", number=" + number + ", memberNumber=" + memberNumber + ", active=" + active
+                + ", contactChannels=" + contactChannels + ", feeType=" + feeType + ", firstName=" + firstName
+                + ", lastName=" + lastName + ", nickname=" + nickname + ", identifier=" + identifier + ", birthDate="
+                + birthDate + ", address=" + address + ", comments=" + comments + ", key=" + key + ", types=" + types
+                + ", renew=" + renew + ", audit=" + audit + "]";
     }
 
 }

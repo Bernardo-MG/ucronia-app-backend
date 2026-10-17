@@ -114,7 +114,7 @@ class ITMemberRepositorySaveAll {
         final Iterable<ReadMemberEntity> entities;
 
         // GIVEN
-        member = Members.active();
+        member = Members.toCreate();
 
         // WHEN
         repository.saveAll(List.of(member));
@@ -162,7 +162,7 @@ class ITMemberRepositorySaveAll {
         final Collection<Member> saved;
 
         // GIVEN
-        member = Members.active();
+        member = Members.toCreate();
 
         // WHEN
         saved = repository.saveAll(List.of(member));
@@ -181,7 +181,7 @@ class ITMemberRepositorySaveAll {
         final ProfileEntity profile;
 
         // GIVEN
-        member = Members.active();
+        member = Members.toCreate();
 
         // WHEN
         repository.saveAll(List.of(member));
