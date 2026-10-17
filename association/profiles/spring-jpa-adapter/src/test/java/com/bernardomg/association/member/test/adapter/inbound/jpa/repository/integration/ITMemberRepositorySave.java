@@ -68,6 +68,27 @@ class ITMemberRepositorySave {
     @Autowired
     private ReadMemberSpringRepository springRepository;
 
+    @Test
+    @PositiveFeeType
+    @AvailableKey
+    void testSave_ClearsAssignedKey() {
+        final Member withKey = repository.save(Members.withKey());
+        Assertions.assertThat(withKey.key())
+            .isPresent();
+
+        final Member cleared = repository
+            .save(new Member(withKey.identifier(), withKey.number(), withKey.memberNumber(), withKey.name(),
+                withKey.birthDate(), withKey.contactChannels(), withKey.address(), withKey.comments(), withKey.active(),
+                withKey.renew(), Optional.empty(), withKey.feeType(), withKey.types()));
+
+        Assertions.assertThat(cleared.key())
+            .isEmpty();
+        Assertions.assertThat(repository.findOne(cleared.number())
+            .orElseThrow()
+            .key())
+            .isEmpty();
+    }
+
     public ITMemberRepositorySave() {
         super();
     }
