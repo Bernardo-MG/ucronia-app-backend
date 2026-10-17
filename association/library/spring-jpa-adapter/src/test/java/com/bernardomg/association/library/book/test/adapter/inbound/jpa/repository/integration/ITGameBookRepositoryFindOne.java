@@ -49,6 +49,7 @@ import com.bernardomg.association.library.lending.test.configuration.data.annota
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.AlternativeActiveMember;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
+import com.bernardomg.security.domain.audit.model.AuditDetails;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -74,7 +75,7 @@ class ITGameBookRepositoryFindOne {
             .as("book")
             .hasValueSatisfying(actual -> Assertions.assertThat(actual)
                 .usingRecursiveComparison()
-                .ignoringFields("audit")
+                .ignoringFieldsOfTypes(AuditDetails.class)
                 .isEqualTo(GameBooks.donationNoDate()));
     }
 
@@ -92,7 +93,7 @@ class ITGameBookRepositoryFindOne {
             .as("book")
             .hasValueSatisfying(actual -> Assertions.assertThat(actual)
                 .usingRecursiveComparison()
-                .ignoringFields("audit")
+                .ignoringFieldsOfTypes(AuditDetails.class)
                 .isEqualTo(GameBooks.donationNoDonors()));
     }
 
@@ -111,7 +112,7 @@ class ITGameBookRepositoryFindOne {
             .as("book")
             .hasValueSatisfying(actual -> Assertions.assertThat(actual)
                 .usingRecursiveComparison()
-                .ignoringFields("audit")
+                .ignoringFieldsOfTypes(AuditDetails.class)
                 .isEqualTo(GameBooks.full()));
     }
 
@@ -132,7 +133,7 @@ class ITGameBookRepositoryFindOne {
             .as("book")
             .hasValueSatisfying(actual -> Assertions.assertThat(actual)
                 .usingRecursiveComparison()
-                .ignoringFields("audit")
+                .ignoringFieldsOfTypes(AuditDetails.class)
                 .isEqualTo(GameBooks.lent()));
     }
 
@@ -154,7 +155,7 @@ class ITGameBookRepositoryFindOne {
             .as("book")
             .hasValueSatisfying(actual -> Assertions.assertThat(actual)
                 .usingRecursiveComparison()
-                .ignoringFields("audit")
+                .ignoringFieldsOfTypes(AuditDetails.class)
                 .isEqualTo(GameBooks.lentHistory()));
     }
 
@@ -207,7 +208,7 @@ class ITGameBookRepositoryFindOne {
             .as("book")
             .hasValueSatisfying(actual -> Assertions.assertThat(actual)
                 .usingRecursiveComparison()
-                .ignoringFields("audit")
+                .ignoringFieldsOfTypes(AuditDetails.class)
                 .isEqualTo(GameBooks.returned()));
     }
 
@@ -229,7 +230,7 @@ class ITGameBookRepositoryFindOne {
             .as("book")
             .hasValueSatisfying(actual -> Assertions.assertThat(actual)
                 .usingRecursiveComparison()
-                .ignoringFields("audit")
+                .ignoringFieldsOfTypes(AuditDetails.class)
                 .isEqualTo(GameBooks.returnedHistory()));
     }
 

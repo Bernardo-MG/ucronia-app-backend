@@ -69,6 +69,7 @@ class ITBookTypeRepositoryFindAll {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("book types")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(BookTypes.valid());
     }
 

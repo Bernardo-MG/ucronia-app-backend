@@ -60,7 +60,10 @@ class ITAuthorRepositoryFindOne {
         // THEN
         Assertions.assertThat(author)
             .as("author")
-            .contains(Authors.valid());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit")
+                .isEqualTo(Authors.valid()));
     }
 
     @Test

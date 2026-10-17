@@ -25,6 +25,32 @@ databaseChangeLog:
                   constraints:
                     unique: true
                     nullable: false
+              # Audit columns
+              - column:
+                  name: created_at
+                  type: datetime
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: true
+              - column:
+                  name: created_by
+                  type: bigint
+                  constraints:
+                    nullable: true
+                    foreignKeyName: fk_game_systems_created_by_user
+                    references: security.users(id)
+              - column:
+                  name: updated_at
+                  type: datetime
+                  constraints:
+                    nullable: true
+              - column:
+                  name: updated_by
+                  type: bigint
+                  constraints:
+                    nullable: true
+                    foreignKeyName: fk_game_systems_updated_by_user
+                    references: security.users(id)
         - addAutoIncrement:
             schemaName: inventory
             tableName: game_systems
@@ -61,6 +87,32 @@ databaseChangeLog:
                   constraints:
                     unique: true
                     nullable: false
+              # Audit columns
+              - column:
+                  name: created_at
+                  type: datetime
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: true
+              - column:
+                  name: created_by
+                  type: bigint
+                  constraints:
+                    nullable: true
+                    foreignKeyName: fk_book_types_created_by_user
+                    references: security.users(id)
+              - column:
+                  name: updated_at
+                  type: datetime
+                  constraints:
+                    nullable: true
+              - column:
+                  name: updated_by
+                  type: bigint
+                  constraints:
+                    nullable: true
+                    foreignKeyName: fk_book_types_updated_by_user
+                    references: security.users(id)
         - addAutoIncrement:
             schemaName: inventory
             tableName: book_types
@@ -97,6 +149,32 @@ databaseChangeLog:
                   constraints:
                     unique: true
                     nullable: false
+              # Audit columns
+              - column:
+                  name: created_at
+                  type: datetime
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: true
+              - column:
+                  name: created_by
+                  type: bigint
+                  constraints:
+                    nullable: true
+                    foreignKeyName: fk_authors_created_by_user
+                    references: security.users(id)
+              - column:
+                  name: updated_at
+                  type: datetime
+                  constraints:
+                    nullable: true
+              - column:
+                  name: updated_by
+                  type: bigint
+                  constraints:
+                    nullable: true
+                    foreignKeyName: fk_authors_updated_by_user
+                    references: security.users(id)
         - addAutoIncrement:
             schemaName: inventory
             tableName: authors
@@ -133,6 +211,32 @@ databaseChangeLog:
                   constraints:
                     unique: true
                     nullable: false
+              # Audit columns
+              - column:
+                  name: created_at
+                  type: datetime
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: true
+              - column:
+                  name: created_by
+                  type: bigint
+                  constraints:
+                    nullable: true
+                    foreignKeyName: fk_publishers_created_by_user
+                    references: security.users(id)
+              - column:
+                  name: updated_at
+                  type: datetime
+                  constraints:
+                    nullable: true
+              - column:
+                  name: updated_by
+                  type: bigint
+                  constraints:
+                    nullable: true
+                    foreignKeyName: fk_publishers_updated_by_user
+                    references: security.users(id)
         - addAutoIncrement:
             schemaName: inventory
             tableName: publishers

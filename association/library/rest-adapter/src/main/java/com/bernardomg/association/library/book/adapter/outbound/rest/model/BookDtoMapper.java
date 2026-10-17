@@ -394,7 +394,8 @@ public final class BookDtoMapper {
 
     private static final AuthorDto toDto(final Author author) {
         return new AuthorDto().number(author.number())
-            .name(author.name());
+            .name(author.name())
+            .audit(toDto(author.audit()));
     }
 
     private static final BookLendingInfoDto toDto(final BookLendingInfo lending) {
@@ -402,12 +403,14 @@ public final class BookDtoMapper {
             .lendingDate(lending.lendingDate())
             .returnDate(lending.returnDate()
                 .orElse(null))
-            .days(lending.getDays());
+            .days(lending.getDays())
+            .audit(toDto(lending.audit()));
     }
 
     private static final BookTypeDto toDto(final BookType bookType) {
         return new BookTypeDto().number(bookType.number())
-            .name(bookType.name());
+            .name(bookType.name())
+            .audit(toDto(bookType.audit()));
     }
 
     private static final DonationDto toDto(final Donation donation) {
@@ -546,7 +549,8 @@ public final class BookDtoMapper {
 
     private static final GameSystemDto toDto(final GameSystem gameSystem) {
         return new GameSystemDto().number(gameSystem.number())
-            .name(gameSystem.name());
+            .name(gameSystem.name())
+            .audit(toDto(gameSystem.audit()));
     }
 
     private static final PropertyDto toDto(final Property property) {
@@ -563,7 +567,8 @@ public final class BookDtoMapper {
 
     private static final PublisherDto toDto(final Publisher publisher) {
         return new PublisherDto().number(publisher.number())
-            .name(publisher.name());
+            .name(publisher.name())
+            .audit(toDto(publisher.audit()));
     }
 
     private BookDtoMapper() {

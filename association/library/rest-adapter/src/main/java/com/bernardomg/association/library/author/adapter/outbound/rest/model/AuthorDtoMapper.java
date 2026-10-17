@@ -26,6 +26,8 @@ package com.bernardomg.association.library.author.adapter.outbound.rest.model;
 
 import java.util.Optional;
 
+import com.bernardomg.association.library.adapter.outbound.rest.dto.AuditDetailsDto;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.AuditUserDto;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.AuthorDto;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.AuthorPageResponseDto;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.AuthorResponseDto;
@@ -36,6 +38,8 @@ import com.bernardomg.association.library.author.domain.model.Author;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
 import com.bernardomg.pagination.domain.Sorting.Property;
+import com.bernardomg.security.domain.audit.model.AuditDetails;
+import com.bernardomg.security.domain.audit.model.AuditDetails.AuditUser;
 
 public final class AuthorDtoMapper {
 
@@ -70,9 +74,38 @@ public final class AuthorDtoMapper {
             .sort(sortingResponse);
     }
 
+    private static final AuditDetailsDto toDto(final AuditDetails audit) {
+        final AuditDetailsDto dto;
+
+        if (audit == null) {
+            dto = null;
+        } else {
+            dto = new AuditDetailsDto().createdAt(audit.createdAt())
+                .createdBy(toDto(audit.createdBy()))
+                .updatedAt(audit.updatedAt())
+                .updatedBy(toDto(audit.updatedBy()));
+        }
+
+        return dto;
+    }
+
+    private static final AuditUserDto toDto(final AuditUser user) {
+        final AuditUserDto dto;
+
+        if (user == null) {
+            dto = null;
+        } else {
+            dto = new AuditUserDto().email(user.email())
+                .username(user.username())
+                .name(user.name());
+        }
+        return dto;
+    }
+
     private static final AuthorDto toDto(final Author author) {
         return new AuthorDto().number(author.number())
-            .name(author.name());
+            .name(author.name())
+            .audit(toDto(author.audit()));
     }
 
     private static final PropertyDto toDto(final Property property) {

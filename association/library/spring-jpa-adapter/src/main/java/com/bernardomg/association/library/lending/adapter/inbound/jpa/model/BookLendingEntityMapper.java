@@ -40,6 +40,19 @@ import com.bernardomg.security.domain.audit.model.AuditDetails.AuditUser;
  */
 public final class BookLendingEntityMapper {
 
+    public static final AuditDetails toDomain(final AuditMetadata audit) {
+        final AuditDetails auditDetails;
+
+        if (audit == null) {
+            auditDetails = new AuditDetails();
+        } else {
+            auditDetails = new AuditDetails(audit.getCreatedAt(), toAuditDomain(audit.getCreatedBy()),
+                audit.getUpdatedAt(), toAuditDomain(audit.getUpdatedBy()));
+        }
+
+        return auditDetails;
+    }
+
     public static final BookLending toDomain(final BookLendingEntity entity, final BookEntity bookEntity) {
         final LentBook     lentBook;
         final Title        title;
@@ -76,19 +89,6 @@ public final class BookLendingEntityMapper {
         }
 
         return auditUser;
-    }
-
-    private static final AuditDetails toDomain(final AuditMetadata audit) {
-        final AuditDetails auditDetails;
-
-        if (audit == null) {
-            auditDetails = new AuditDetails();
-        } else {
-            auditDetails = new AuditDetails(audit.getCreatedAt(), toAuditDomain(audit.getCreatedBy()),
-                audit.getUpdatedAt(), toAuditDomain(audit.getUpdatedBy()));
-        }
-
-        return auditDetails;
     }
 
     private BookLendingEntityMapper() {

@@ -152,6 +152,8 @@ public final class JpaAuthorRepository implements AuthorRepository {
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
+            entity.setAudit(existing.get()
+                .getAudit());
         } else {
             number = authorSpringRepository.findNextNumber();
             entity.setNumber(number);

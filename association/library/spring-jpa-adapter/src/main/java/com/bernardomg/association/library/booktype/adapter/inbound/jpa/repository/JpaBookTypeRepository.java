@@ -152,6 +152,8 @@ public final class JpaBookTypeRepository implements BookTypeRepository {
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
+            entity.setAudit(existing.get()
+                .getAudit());
         } else {
             number = bookTypeSpringRepository.findNextNumber();
             entity.setNumber(number);

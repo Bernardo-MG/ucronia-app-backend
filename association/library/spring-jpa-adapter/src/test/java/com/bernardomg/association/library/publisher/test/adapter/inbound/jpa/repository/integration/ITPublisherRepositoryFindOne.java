@@ -60,7 +60,10 @@ class ITPublisherRepositoryFindOne {
         // THEN
         Assertions.assertThat(publisher)
             .as("publisher")
-            .contains(Publishers.valid());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit")
+                .isEqualTo(Publishers.valid()));
     }
 
     @Test

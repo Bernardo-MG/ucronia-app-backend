@@ -25,6 +25,10 @@
 package com.bernardomg.association.library.publisher.adapter.inbound.jpa.model;
 
 import com.bernardomg.association.library.publisher.domain.model.Publisher;
+import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditMetadata;
+import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditUserEntity;
+import com.bernardomg.security.domain.audit.model.AuditDetails;
+import com.bernardomg.security.domain.audit.model.AuditDetails.AuditUser;
 
 /**
  * Author repository mapper.
@@ -32,7 +36,7 @@ import com.bernardomg.association.library.publisher.domain.model.Publisher;
 public final class PublisherEntityMapper {
 
     public static final Publisher toDomain(final PublisherEntity entity) {
-        return new Publisher(entity.getNumber(), entity.getName());
+        return new Publisher(entity.getNumber(), entity.getName(), toDomain(entity.getAudit()));
     }
 
     public static final PublisherEntity toEntity(final Publisher domain) {
@@ -43,6 +47,31 @@ public final class PublisherEntityMapper {
         entity.setName(domain.name());
 
         return entity;
+    }
+
+    private static final AuditUser toAuditDomain(final AuditUserEntity user) {
+        final AuditUser auditUser;
+
+        if (user == null) {
+            auditUser = null;
+        } else {
+            auditUser = new AuditUser(user.getEmail(), user.getUsername(), user.getName());
+        }
+
+        return auditUser;
+    }
+
+    private static final AuditDetails toDomain(final AuditMetadata audit) {
+        final AuditDetails auditDetails;
+
+        if (audit == null) {
+            auditDetails = new AuditDetails();
+        } else {
+            auditDetails = new AuditDetails(audit.getCreatedAt(), toAuditDomain(audit.getCreatedBy()),
+                audit.getUpdatedAt(), toAuditDomain(audit.getUpdatedBy()));
+        }
+
+        return auditDetails;
     }
 
     private PublisherEntityMapper() {

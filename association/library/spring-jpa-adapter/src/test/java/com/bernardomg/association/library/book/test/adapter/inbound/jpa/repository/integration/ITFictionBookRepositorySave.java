@@ -25,6 +25,7 @@
 package com.bernardomg.association.library.book.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,8 +73,10 @@ class ITFictionBookRepositorySave {
         // THEN
         Assertions.assertThat(springRepository.findAll())
             .as("books")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "authors.id", "bookType.id", "donors.id",
-                "gameSystem.id", "publishers.id")
+            .usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration.builder()
+                .withIgnoredFields("id", "authors.id", "bookType.id", "donors.id", "gameSystem.id", "publishers.id",
+                    "audit", "authors.audit", "publishers.audit", "lendings.audit")
+                .build())
             .contains(FictionBookEntities.full());
     }
 
@@ -96,6 +99,8 @@ class ITFictionBookRepositorySave {
         // THEN
         Assertions.assertThat(created)
             .as("book")
+            .usingRecursiveComparison()
+            .ignoringFields("audit", "authors.audit", "publishers.audit", "lendings.audit")
             .isEqualTo(FictionBooks.full());
     }
 
@@ -117,8 +122,10 @@ class ITFictionBookRepositorySave {
         // THEN
         Assertions.assertThat(springRepository.findAll())
             .as("books")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "authors.id", "bookType.id", "donors.id",
-                "gameSystem.id", "publishers.id")
+            .usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration.builder()
+                .withIgnoredFields("id", "authors.id", "bookType.id", "donors.id", "gameSystem.id", "publishers.id",
+                    "audit")
+                .build())
             .contains(FictionBookEntities.titleChange());
     }
 
@@ -141,6 +148,8 @@ class ITFictionBookRepositorySave {
         // THEN
         Assertions.assertThat(created)
             .as("book")
+            .usingRecursiveComparison()
+            .ignoringFields("audit")
             .isEqualTo(FictionBooks.titleChange());
     }
 
@@ -160,8 +169,10 @@ class ITFictionBookRepositorySave {
         // THEN
         Assertions.assertThat(springRepository.findAll())
             .as("books")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "authors.id", "bookType.id", "donors.id",
-                "gameSystem.id", "publishers.id")
+            .usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration.builder()
+                .withIgnoredFields("id", "authors.id", "bookType.id", "donors.id", "gameSystem.id", "publishers.id",
+                    "audit", "authors.audit", "publishers.audit", "lendings.audit")
+                .build())
             .contains(FictionBookEntities.full());
     }
 
@@ -182,6 +193,8 @@ class ITFictionBookRepositorySave {
         // THEN
         Assertions.assertThat(created)
             .as("book")
+            .usingRecursiveComparison()
+            .ignoringFields("audit", "authors.audit", "publishers.audit", "lendings.audit")
             .isEqualTo(FictionBooks.full());
     }
 
@@ -201,7 +214,9 @@ class ITFictionBookRepositorySave {
         // THEN
         Assertions.assertThat(springRepository.findAll())
             .as("books")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration.builder()
+                .withIgnoredFields("id", "audit")
+                .build())
             .contains(FictionBookEntities.minimal());
     }
 
@@ -222,6 +237,8 @@ class ITFictionBookRepositorySave {
         // THEN
         Assertions.assertThat(created)
             .as("book")
+            .usingRecursiveComparison()
+            .ignoringFields("audit")
             .isEqualTo(FictionBooks.minimal());
     }
 
@@ -239,8 +256,10 @@ class ITFictionBookRepositorySave {
         // THEN
         Assertions.assertThat(springRepository.findAll())
             .as("books")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "authors.id", "bookType.id", "donors.id",
-                "gameSystem.id", "publishers.id")
+            .usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration.builder()
+                .withIgnoredFields("id", "authors.id", "bookType.id", "donors.id", "gameSystem.id", "publishers.id",
+                    "audit")
+                .build())
             .containsExactly(FictionBookEntities.noRelationships());
     }
 
@@ -259,6 +278,8 @@ class ITFictionBookRepositorySave {
         // THEN
         Assertions.assertThat(created)
             .as("book")
+            .usingRecursiveComparison()
+            .ignoringFields("audit")
             .isEqualTo(FictionBooks.noRelationships());
     }
 
@@ -279,8 +300,10 @@ class ITFictionBookRepositorySave {
         // THEN
         Assertions.assertThat(springRepository.findAll())
             .as("books")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "authors.id", "bookType.id", "donors.id",
-                "gameSystem.id", "publishers.id")
+            .usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration.builder()
+                .withIgnoredFields("id", "authors.id", "bookType.id", "donors.id", "gameSystem.id", "publishers.id",
+                    "audit", "authors.audit", "publishers.audit", "lendings.audit")
+                .build())
             .containsExactly(FictionBookEntities.full());
     }
 
@@ -302,6 +325,8 @@ class ITFictionBookRepositorySave {
         // THEN
         Assertions.assertThat(created)
             .as("book")
+            .usingRecursiveComparison()
+            .ignoringFields("audit", "authors.audit", "publishers.audit", "lendings.audit")
             .isEqualTo(FictionBooks.full());
     }
 
@@ -322,8 +347,10 @@ class ITFictionBookRepositorySave {
         // THEN
         Assertions.assertThat(springRepository.findAll())
             .as("books")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "authors.id", "bookType.id", "donors.id",
-                "gameSystem.id", "publishers.id")
+            .usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration.builder()
+                .withIgnoredFields("id", "authors.id", "bookType.id", "donors.id", "gameSystem.id", "publishers.id",
+                    "audit", "authors.audit", "publishers.audit", "lendings.audit")
+                .build())
             .containsExactly(FictionBookEntities.isbn13());
     }
 
@@ -345,6 +372,8 @@ class ITFictionBookRepositorySave {
         // THEN
         Assertions.assertThat(created)
             .as("book")
+            .usingRecursiveComparison()
+            .ignoringFields("audit", "authors.audit", "publishers.audit", "lendings.audit")
             .isEqualTo(FictionBooks.isbn13());
     }
 
@@ -363,7 +392,9 @@ class ITFictionBookRepositorySave {
         // THEN
         Assertions.assertThat(springRepository.findAll())
             .as("books")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration.builder()
+                .withIgnoredFields("id", "audit")
+                .build())
             .contains(FictionBookEntities.minimal());
     }
 
@@ -383,6 +414,8 @@ class ITFictionBookRepositorySave {
         // THEN
         Assertions.assertThat(created)
             .as("book")
+            .usingRecursiveComparison()
+            .ignoringFields("audit")
             .isEqualTo(FictionBooks.minimal());
     }
 
@@ -400,7 +433,9 @@ class ITFictionBookRepositorySave {
         // THEN
         Assertions.assertThat(springRepository.findAll())
             .as("books")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration.builder()
+                .withIgnoredFields("id", "audit")
+                .build())
             .containsExactly(FictionBookEntities.minimal());
     }
 
@@ -419,6 +454,8 @@ class ITFictionBookRepositorySave {
         // THEN
         Assertions.assertThat(created)
             .as("book")
+            .usingRecursiveComparison()
+            .ignoringFields("audit")
             .isEqualTo(FictionBooks.minimal());
     }
 

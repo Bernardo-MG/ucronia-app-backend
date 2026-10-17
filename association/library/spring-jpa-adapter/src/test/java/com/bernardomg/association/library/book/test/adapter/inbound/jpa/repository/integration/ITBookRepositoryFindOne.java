@@ -74,7 +74,7 @@ class ITBookRepositoryFindOne {
             .as("book")
             .hasValueSatisfying(actual -> Assertions.assertThat(actual)
                 .usingRecursiveComparison()
-                .ignoringFields("audit")
+                .ignoringFields("audit", "authors.audit", "publishers.audit", "lendings.audit")
                 .isEqualTo(Books.donationNoDate()));
     }
 
@@ -92,7 +92,7 @@ class ITBookRepositoryFindOne {
             .as("book")
             .hasValueSatisfying(actual -> Assertions.assertThat(actual)
                 .usingRecursiveComparison()
-                .ignoringFields("audit")
+                .ignoringFields("audit", "authors.audit", "publishers.audit", "lendings.audit")
                 .isEqualTo(Books.donationNoDonors()));
     }
 
@@ -111,7 +111,7 @@ class ITBookRepositoryFindOne {
             .as("book")
             .hasValueSatisfying(actual -> Assertions.assertThat(actual)
                 .usingRecursiveComparison()
-                .ignoringFields("audit")
+                .ignoringFields("audit", "authors.audit", "publishers.audit", "lendings.audit")
                 .isEqualTo(Books.full()));
     }
 
@@ -132,7 +132,7 @@ class ITBookRepositoryFindOne {
             .as("book")
             .hasValueSatisfying(actual -> Assertions.assertThat(actual)
                 .usingRecursiveComparison()
-                .ignoringFields("audit")
+                .ignoringFields("audit", "authors.audit", "publishers.audit", "lendings.audit")
                 .isEqualTo(Books.lent()));
     }
 
@@ -154,7 +154,7 @@ class ITBookRepositoryFindOne {
             .as("book")
             .hasValueSatisfying(actual -> Assertions.assertThat(actual)
                 .usingRecursiveComparison()
-                .ignoringFields("audit")
+                .ignoringFields("audit", "authors.audit", "publishers.audit", "lendings.audit")
                 .isEqualTo(Books.lentHistory()));
     }
 
@@ -172,7 +172,7 @@ class ITBookRepositoryFindOne {
             .as("book")
             .hasValueSatisfying(actual -> Assertions.assertThat(actual)
                 .usingRecursiveComparison()
-                .ignoringFields("audit")
+                .ignoringFields("audit", "authors.audit", "publishers.audit", "lendings.audit")
                 .isEqualTo(Books.minimal()));
     }
 
@@ -207,7 +207,7 @@ class ITBookRepositoryFindOne {
             .as("book")
             .hasValueSatisfying(actual -> Assertions.assertThat(actual)
                 .usingRecursiveComparison()
-                .ignoringFields("audit")
+                .ignoringFields("audit", "authors.audit", "publishers.audit", "lendings.audit")
                 .isEqualTo(Books.returned()));
     }
 
@@ -229,7 +229,7 @@ class ITBookRepositoryFindOne {
             .as("book")
             .hasValueSatisfying(actual -> Assertions.assertThat(actual)
                 .usingRecursiveComparison()
-                .ignoringFields("audit")
+                .ignoringFields("audit", "authors.audit", "publishers.audit", "lendings.audit")
                 .isEqualTo(Books.returnedHistory()));
     }
 

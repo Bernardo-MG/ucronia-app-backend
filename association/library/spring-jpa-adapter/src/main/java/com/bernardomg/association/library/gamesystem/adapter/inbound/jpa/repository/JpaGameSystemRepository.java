@@ -152,6 +152,8 @@ public final class JpaGameSystemRepository implements GameSystemRepository {
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
+            entity.setAudit(existing.get()
+                .getAudit());
         } else {
             number = gameSystemSpringRepository.findNextNumber();
             entity.setNumber(number);
