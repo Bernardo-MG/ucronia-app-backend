@@ -68,6 +68,26 @@ class ITMemberRepositorySave {
     @Autowired
     private ReadMemberSpringRepository springRepository;
 
+    public ITMemberRepositorySave() {
+        super();
+    }
+
+    @Test
+    @PositiveFeeType
+    @ValidProfile
+    void testSave_AssignsMemberNumberWithoutChangingProfileNumber() {
+        final Member saved = repository.save(Members.active());
+        Assertions.assertThat(saved.number())
+            .isEqualTo(Members.active()
+                .number());
+        Assertions.assertThat(saved.memberNumber())
+            .isPositive();
+        Assertions.assertThat(repository.findOne(saved.number())
+            .orElseThrow()
+            .memberNumber())
+            .isEqualTo(saved.memberNumber());
+    }
+
     @Test
     @PositiveFeeType
     @AvailableKey
@@ -87,26 +107,6 @@ class ITMemberRepositorySave {
             .orElseThrow()
             .key())
             .isEmpty();
-    }
-
-    public ITMemberRepositorySave() {
-        super();
-    }
-
-    @Test
-    @PositiveFeeType
-    @ValidProfile
-    void testSave_AssignsMemberNumberWithoutChangingProfileNumber() {
-        final Member saved = repository.save(Members.active());
-        Assertions.assertThat(saved.number())
-            .isEqualTo(Members.active()
-                .number());
-        Assertions.assertThat(saved.memberNumber())
-            .isPositive();
-        Assertions.assertThat(repository.findOne(saved.number())
-            .orElseThrow()
-            .memberNumber())
-            .isEqualTo(saved.memberNumber());
     }
 
     @Test
