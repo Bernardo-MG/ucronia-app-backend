@@ -6,7 +6,7 @@ get:
     - name: number
       in: path
       required: true
-      description: Member number.
+      description: Profile number.
       schema:
         $ref: '../common/ids.yml#/components/schemas/Id'
   responses:
@@ -20,13 +20,14 @@ get:
       description: Member not found.
 put:
   summary: Update a member.
+  description: Updates all editable member fields. Omitted optional fields are cleared.
   operationId: updateMember
   tags: [Member]
   parameters:
     - name: number
       in: path
       required: true
-      description: Member number.
+      description: Profile number.
       schema:
         $ref: '../common/ids.yml#/components/schemas/Id'
   requestBody:
@@ -52,7 +53,7 @@ patch:
     - name: number
       in: path
       required: true
-      description: Member number.
+      description: Profile number.
       schema:
         $ref: '../common/ids.yml#/components/schemas/Id'
   requestBody:
@@ -60,7 +61,7 @@ patch:
     content:
       application/json:
         schema:
-          $ref: '../components/members.yml#/components/schemas/MemberUpdate'
+          $ref: '../components/members.yml#/components/schemas/MemberPatch'
   responses:
     '200':
       description: Updated member.
@@ -78,7 +79,7 @@ delete:
     - name: number
       in: path
       required: true
-      description: Member number.
+      description: Profile number.
       schema:
         $ref: '../common/ids.yml#/components/schemas/Id'
   responses:
