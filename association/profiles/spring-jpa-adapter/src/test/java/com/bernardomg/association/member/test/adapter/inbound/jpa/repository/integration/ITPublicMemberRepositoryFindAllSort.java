@@ -83,8 +83,8 @@ class ITPublicMemberRepositoryFindAllSort {
         Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(PublicMembers.forNumber(10), PublicMembers.forNumber(20), PublicMembers.forNumber(30),
-                PublicMembers.forNumber(40), PublicMembers.forNumber(50));
+            .containsExactly(PublicMembers.forNumber(1), PublicMembers.forNumber(2), PublicMembers.forNumber(3),
+                PublicMembers.forNumber(4), PublicMembers.forNumber(5));
     }
 
     @Test
@@ -107,8 +107,8 @@ class ITPublicMemberRepositoryFindAllSort {
         Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(PublicMembers.forNumber(50), PublicMembers.forNumber(40), PublicMembers.forNumber(30),
-                PublicMembers.forNumber(20), PublicMembers.forNumber(10));
+            .containsExactly(PublicMembers.forNumber(5), PublicMembers.forNumber(4), PublicMembers.forNumber(3),
+                PublicMembers.forNumber(2), PublicMembers.forNumber(1));
     }
 
     @Test
@@ -131,8 +131,8 @@ class ITPublicMemberRepositoryFindAllSort {
         Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(PublicMembers.forNumber(10), PublicMembers.forNumber(20), PublicMembers.forNumber(30),
-                PublicMembers.forNumber(40), PublicMembers.forNumber(50));
+            .containsExactly(PublicMembers.forNumber(1), PublicMembers.forNumber(2), PublicMembers.forNumber(3),
+                PublicMembers.forNumber(4), PublicMembers.forNumber(5));
     }
 
     @Test
@@ -155,8 +155,8 @@ class ITPublicMemberRepositoryFindAllSort {
         Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(PublicMembers.forNumber(50), PublicMembers.forNumber(40), PublicMembers.forNumber(30),
-                PublicMembers.forNumber(20), PublicMembers.forNumber(10));
+            .containsExactly(PublicMembers.forNumber(5), PublicMembers.forNumber(4), PublicMembers.forNumber(3),
+                PublicMembers.forNumber(2), PublicMembers.forNumber(1));
     }
 
 }

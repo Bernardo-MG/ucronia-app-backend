@@ -22,7 +22,7 @@ public final class PublicMembers {
         final Name name;
 
         name = new Name("Name " + number, "Last name " + number, Optional.empty());
-        return new PublicMember(number, number * 10, name, true, Optional.empty());
+        return new PublicMember(number*10, number*10, name, true, Optional.empty());
     }
 
     public static final PublicMember noRenew() {

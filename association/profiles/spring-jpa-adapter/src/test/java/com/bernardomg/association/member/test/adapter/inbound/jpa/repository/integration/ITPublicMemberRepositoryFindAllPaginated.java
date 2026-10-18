@@ -84,7 +84,7 @@ class ITPublicMemberRepositoryFindAllPaginated extends AbstractPaginationIT<Publ
         Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(PublicMembers.forNumber(10));
+            .containsExactly(PublicMembers.forNumber(1));
     }
 
     @Test
@@ -107,7 +107,7 @@ class ITPublicMemberRepositoryFindAllPaginated extends AbstractPaginationIT<Publ
         Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(PublicMembers.forNumber(20));
+            .containsExactly(PublicMembers.forNumber(2));
     }
 
 }
