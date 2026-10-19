@@ -27,6 +27,7 @@ package com.bernardomg.association.key.usecase.service;
 import java.util.Optional;
 
 import com.bernardomg.association.key.domain.model.Key;
+import com.bernardomg.association.key.domain.model.KeyAssignment;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
@@ -41,6 +42,8 @@ public interface KeyService {
     public Key delete(final long number);
 
     public Page<Key> getAll(final Pagination pagination, final Sorting sorting);
+
+    public Page<KeyAssignment> getAssignments(final Pagination pagination, final Sorting sorting);
 
     public Optional<Key> getOne(final long number);
 

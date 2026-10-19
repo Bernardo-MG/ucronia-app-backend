@@ -24,9 +24,21 @@
 
 package com.bernardomg.association.key.adapter.inbound.jpa.model;
 
+import java.util.Optional;
+
+import com.bernardomg.association.key.adapter.inbound.jpa.repository.KeyAssignmentProjection;
 import com.bernardomg.association.key.domain.model.Key;
+import com.bernardomg.association.key.domain.model.KeyAssignment;
+import com.bernardomg.association.key.domain.model.KeyAssignment.AssignedMember;
+import com.bernardomg.association.profile.domain.model.Name;
 
 public final class KeyEntityMapper {
+
+    public static KeyAssignment toDomain(final KeyAssignmentProjection entity) {
+        return new KeyAssignment(entity.getNumber(), entity.getAvailable(), entity.getDescription(),
+            Optional.ofNullable(entity.getProfileNumber())
+                .map(number -> toDomain(number, entity)));
+    }
 
     public static Key toDomain(final KeyEntity entity) {
         return new Key(entity.getNumber(), entity.getAvailable(), entity.getDescription());
@@ -41,6 +53,13 @@ public final class KeyEntityMapper {
         entity.setDescription(model.description());
 
         return entity;
+    }
+
+    private static final AssignedMember toDomain(final Long number, final KeyAssignmentProjection entity) {
+        return new AssignedMember(number, entity.getMemberNumber(),
+            new Name(entity.getFirstName(), Optional.ofNullable(entity.getLastName())
+                .orElse(""), Optional.ofNullable(entity.getNickname())).fullName()
+                    .trim());
     }
 
     private KeyEntityMapper() {

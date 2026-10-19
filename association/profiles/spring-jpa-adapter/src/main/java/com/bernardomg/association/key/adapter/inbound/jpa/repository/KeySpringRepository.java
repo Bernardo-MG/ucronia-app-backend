@@ -26,6 +26,8 @@ package com.bernardomg.association.key.adapter.inbound.jpa.repository;
 
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -36,6 +38,14 @@ public interface KeySpringRepository extends JpaRepository<KeyEntity, Long> {
     public void deleteByNumber(final Long number);
 
     public boolean existsByNumber(final Long number);
+
+    @Query(value = """
+            SELECT k.number AS number, k.available AS available, k.description AS description,
+                   m.number AS profileNumber, m.memberNumber AS memberNumber,
+                   m.firstName AS firstName, m.lastName AS lastName, m.nickname AS nickname
+            FROM Key k LEFT JOIN PublicMember m ON m.key = k
+            """, countQuery = "SELECT COUNT(k) FROM Key k")
+    public Page<KeyAssignmentProjection> findAssignments(final Pageable pageable);
 
     public Optional<KeyEntity> findByNumber(final Long number);
 
