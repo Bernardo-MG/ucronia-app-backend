@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.key.adapter.inbound.jpa.repository;
+package com.bernardomg.association.key.adapter.inbound.jpa.model;
 
 public interface KeyAssignmentProjection {
 

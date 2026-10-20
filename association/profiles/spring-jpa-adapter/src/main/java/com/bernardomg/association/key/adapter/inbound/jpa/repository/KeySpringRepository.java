@@ -31,6 +31,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import com.bernardomg.association.key.adapter.inbound.jpa.model.KeyAssignmentProjection;
 import com.bernardomg.association.key.adapter.inbound.jpa.model.KeyEntity;
 
 public interface KeySpringRepository extends JpaRepository<KeyEntity, Long> {

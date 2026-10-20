@@ -26,7 +26,6 @@ package com.bernardomg.association.key.adapter.inbound.jpa.model;
 
 import java.util.Optional;
 
-import com.bernardomg.association.key.adapter.inbound.jpa.repository.KeyAssignmentProjection;
 import com.bernardomg.association.key.domain.model.Key;
 import com.bernardomg.association.key.domain.model.KeyAssignment;
 import com.bernardomg.association.key.domain.model.KeyAssignment.AssignedMember;
