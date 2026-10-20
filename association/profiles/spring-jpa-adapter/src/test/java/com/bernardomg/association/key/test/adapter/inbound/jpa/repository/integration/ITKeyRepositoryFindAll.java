@@ -22,11 +22,10 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.integration;
-
-import java.util.Optional;
+package com.bernardomg.association.key.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,45 +35,39 @@ import com.bernardomg.association.TestApplication;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.key.domain.model.Key;
 import com.bernardomg.association.key.domain.repository.KeyRepository;
-import com.bernardomg.association.key.test.configuration.factory.KeyConstants;
 import com.bernardomg.association.key.test.configuration.factory.Keys;
 import com.bernardomg.association.member.test.configuration.data.annotation.AlternativeMemberWithKey;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("KeyRepository - find one")
-class ITKeyRepositoryFindOne {
+@DisplayName("KeyRepository - find all")
+class ITKeyRepositoryFindAll {
 
     @Autowired
     private KeyRepository repository;
 
     @Test
-    @DisplayName("With a key, it is returned")
+    @DisplayName("With key data, all keys are returned")
     @PositiveFeeType
     @AlternativeMemberWithKey
-    void testFindOne() {
-        final Optional<Key> key;
+    void testFindAll() {
+        final Page<Key>  keys;
+        final Pagination pagination;
+        final Sorting    sorting;
 
         // WHEN
-        key = repository.findOne(KeyConstants.NUMBER);
+        pagination = Pagination.unpaged();
+        sorting = Sorting.unsorted();
+        keys = repository.findAll(pagination, sorting);
 
         // THEN
-        Assertions.assertThat(key)
-            .contains(Keys.available());
-    }
-
-    @Test
-    @DisplayName("With no key, nothing is returned")
-    void testFindOne_NoData() {
-        final Optional<Key> key;
-
-        // WHEN
-        key = repository.findOne(KeyConstants.NUMBER);
-
-        // THEN
-        Assertions.assertThat(key)
-            .isEmpty();
+        Assertions.assertThat(keys.content())
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .containsExactly(Keys.available());
     }
 
 }

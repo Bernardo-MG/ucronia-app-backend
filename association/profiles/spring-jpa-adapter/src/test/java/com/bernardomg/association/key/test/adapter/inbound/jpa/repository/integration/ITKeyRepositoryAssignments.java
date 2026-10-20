@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.integration;
+package com.bernardomg.association.key.test.adapter.inbound.jpa.repository.integration;
 
 import java.util.Optional;
 
@@ -16,11 +16,11 @@ import com.bernardomg.association.key.domain.model.Key;
 import com.bernardomg.association.key.domain.model.KeyAssignment;
 import com.bernardomg.association.key.domain.model.KeyAssignment.AssignedMember;
 import com.bernardomg.association.key.domain.repository.KeyRepository;
+import com.bernardomg.association.key.test.configuration.data.annotation.AvailableKey;
 import com.bernardomg.association.key.test.configuration.factory.Keys;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.AlternativeMemberWithKey;
-import com.bernardomg.association.member.test.configuration.data.annotation.AvailableKey;
 import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;

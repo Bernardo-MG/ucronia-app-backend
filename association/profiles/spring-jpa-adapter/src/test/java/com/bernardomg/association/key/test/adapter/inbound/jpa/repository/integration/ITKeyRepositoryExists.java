@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.integration;
+package com.bernardomg.association.key.test.adapter.inbound.jpa.repository.integration;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -10,8 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.TestApplication;
 import com.bernardomg.association.key.domain.repository.KeyRepository;
+import com.bernardomg.association.key.test.configuration.data.annotation.AvailableKey;
 import com.bernardomg.association.key.test.configuration.factory.KeyConstants;
-import com.bernardomg.association.member.test.configuration.data.annotation.AvailableKey;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest

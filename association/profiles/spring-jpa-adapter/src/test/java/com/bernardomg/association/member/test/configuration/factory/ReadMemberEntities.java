@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTypeEntity;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
+import com.bernardomg.association.key.test.configuration.factory.KeyEntities;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityConstants;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.ReadMemberContactChannelEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.ReadMemberEntity;

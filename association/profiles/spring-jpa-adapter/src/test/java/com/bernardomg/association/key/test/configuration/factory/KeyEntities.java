@@ -1,8 +1,7 @@
 
-package com.bernardomg.association.member.test.configuration.factory;
+package com.bernardomg.association.key.test.configuration.factory;
 
 import com.bernardomg.association.key.adapter.inbound.jpa.model.KeyEntity;
-import com.bernardomg.association.key.test.configuration.factory.KeyConstants;
 
 public final class KeyEntities {
 
