@@ -380,10 +380,7 @@ public final class JpaMemberRepository implements MemberRepository {
         entity.setMemberNumber(memberNumber);
         entity.setFeeType(feeType.orElse(null));
 
-        if (member.key()
-            .isPresent()) {
-            entity.setKey(key.orElse(null));
-        }
+        entity.setKey(key.orElse(null));
 
         setType(entity);
 

@@ -96,6 +96,10 @@ public class PublicMemberEntity implements Serializable {
         return nickname;
     }
 
+    public Long getNumber() {
+        return number;
+    }
+
     public Boolean getRenew() {
         return renew;
     }
@@ -131,6 +135,10 @@ public class PublicMemberEntity implements Serializable {
 
     public void setNickname(final String nickname) {
         this.nickname = nickname;
+    }
+
+    public void setNumber(final Long number) {
+        this.number = number;
     }
 
     public void setRenew(final Boolean renew) {

@@ -294,6 +294,7 @@ public final class DefaultMemberService implements MemberService {
         final String           firstName;
         final String           lastName;
         final Optional<String> nickname;
+        final Optional<Long>   key;
 
         if (updated.name()
             .firstName()
@@ -322,6 +323,12 @@ public final class DefaultMemberService implements MemberService {
             nickname = updated.name()
                 .nickname();
         }
+        if (updated.key()
+            .isPresent()) {
+            key = updated.key();
+        } else {
+            key = existing.key();
+        }
         name = new Name(firstName, lastName, nickname);
 
         return new Member(Optional.ofNullable(updated.identifier())
@@ -342,9 +349,7 @@ public final class DefaultMemberService implements MemberService {
                 .orElse(existing.active()),
             Optional.ofNullable(updated.renew())
                 .orElse(existing.renew()),
-            Optional.ofNullable(updated.key())
-                .orElse(existing.key()),
-            Optional.ofNullable(updated.feeType())
+            key, Optional.ofNullable(updated.feeType())
                 .orElse(existing.feeType()),
             Optional.ofNullable(updated.types())
                 .orElse(existing.types()));

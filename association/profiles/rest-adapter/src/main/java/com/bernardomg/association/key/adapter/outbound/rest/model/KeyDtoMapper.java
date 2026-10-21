@@ -26,6 +26,9 @@ package com.bernardomg.association.key.adapter.outbound.rest.model;
 
 import java.util.Optional;
 
+import com.bernardomg.association.key.adapter.outbound.rest.dto.KeyAssignedMemberDto;
+import com.bernardomg.association.key.adapter.outbound.rest.dto.KeyAssignmentDto;
+import com.bernardomg.association.key.adapter.outbound.rest.dto.KeyAssignmentPageResponseDto;
 import com.bernardomg.association.key.adapter.outbound.rest.dto.KeyCreationDto;
 import com.bernardomg.association.key.adapter.outbound.rest.dto.KeyDto;
 import com.bernardomg.association.key.adapter.outbound.rest.dto.KeyPageResponseDto;
@@ -35,11 +38,32 @@ import com.bernardomg.association.key.adapter.outbound.rest.dto.PropertyDto;
 import com.bernardomg.association.key.adapter.outbound.rest.dto.PropertyDto.DirectionEnum;
 import com.bernardomg.association.key.adapter.outbound.rest.dto.SortingDto;
 import com.bernardomg.association.key.domain.model.Key;
+import com.bernardomg.association.key.domain.model.KeyAssignment;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
 import com.bernardomg.pagination.domain.Sorting.Property;
 
 public final class KeyDtoMapper {
+
+    public static KeyAssignmentPageResponseDto toAssignmentsResponseDto(final Page<KeyAssignment> page) {
+        final var sorting = new SortingDto().properties(page.sort()
+            .properties()
+            .stream()
+            .map(KeyDtoMapper::toDto)
+            .toList());
+        return new KeyAssignmentPageResponseDto().content(page.content()
+            .stream()
+            .map(KeyDtoMapper::toAssignmentDto)
+            .toList())
+            .size(page.size())
+            .page(page.page())
+            .totalElements(page.totalElements())
+            .totalPages(page.totalPages())
+            .elementsInPage(page.elementsInPage())
+            .first(page.first())
+            .last(page.last())
+            .sort(sorting);
+    }
 
     public static Key toDomain(final KeyCreationDto creation) {
         final Boolean available;
@@ -92,6 +116,17 @@ public final class KeyDtoMapper {
             .first(page.first())
             .last(page.last())
             .sort(sortingResponse);
+    }
+
+    private static KeyAssignmentDto toAssignmentDto(final KeyAssignment assignment) {
+        final var dto = new KeyAssignmentDto().number(assignment.number())
+            .available(assignment.available())
+            .description(assignment.description());
+        assignment.member()
+            .ifPresent(member -> dto.member(new KeyAssignedMemberDto().number(member.number())
+                .memberNumber(member.memberNumber())
+                .name(member.name())));
+        return dto;
     }
 
     private static KeyDto toDto(final Key key) {

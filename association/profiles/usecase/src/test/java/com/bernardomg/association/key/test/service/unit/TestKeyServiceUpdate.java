@@ -4,9 +4,11 @@
  * Copyright (c) 2022-2025 Bernardo Martinez Garrido
  */
 
-package com.bernardomg.association.transaction.member.service.unit;
+package com.bernardomg.association.key.test.service.unit;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.Assertions;
@@ -42,7 +44,7 @@ class TestKeyServiceUpdate {
         final Key              key;
 
         // GIVEN
-        key = Keys.available();
+        key = Keys.descriptionChange();
         given(repository.exists(KeyConstants.NUMBER)).willReturn(false);
 
         // WHEN
@@ -51,6 +53,7 @@ class TestKeyServiceUpdate {
         // THEN
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(MissingKeyException.class);
+        verify(repository, never()).save(any());
     }
 
     @Test
@@ -59,7 +62,7 @@ class TestKeyServiceUpdate {
         final Key key;
 
         // GIVEN
-        key = Keys.available();
+        key = Keys.descriptionChange();
         given(repository.exists(KeyConstants.NUMBER)).willReturn(true);
         given(repository.save(key)).willReturn(key);
 
@@ -77,7 +80,7 @@ class TestKeyServiceUpdate {
         final Key key;
 
         // GIVEN
-        key = Keys.available();
+        key = Keys.descriptionChange();
         given(repository.exists(KeyConstants.NUMBER)).willReturn(true);
         given(repository.save(key)).willReturn(key);
 

@@ -29,14 +29,17 @@ import java.util.Optional;
 
 import com.bernardomg.association.profile.domain.model.Name;
 
-public record PublicMember(Long memberNumber, Name name, boolean renew, Optional<Long> key) {
+public record PublicMember(Long number, Long memberNumber, Name name, boolean renew, Optional<Long> key) {
 
-    public PublicMember(final Long memberNumber, final Name name, final boolean renew, final Optional<Long> key) {
+    public PublicMember(final Long number, final Long memberNumber, final Name name, final boolean renew,
+            final Optional<Long> key) {
+        Objects.requireNonNull(number, "Profile number can't be null");
         Objects.requireNonNull(memberNumber, "Member number can't be null");
         Objects.requireNonNull(name, "Name can't be null");
         Objects.requireNonNull(renew, "Renew flag can't be null");
         Objects.requireNonNull(key, "Key number can't be null");
 
+        this.number = number;
         this.memberNumber = memberNumber;
         this.name = name;
         this.renew = renew;
