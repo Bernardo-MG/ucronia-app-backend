@@ -28,10 +28,13 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.association.key.adapter.outbound.rest.dto.KeyAssignmentCreationDto;
 import com.bernardomg.association.key.adapter.outbound.rest.dto.KeyAssignmentPageResponseDto;
+import com.bernardomg.association.key.adapter.outbound.rest.dto.KeyAssignmentResponseDto;
+import com.bernardomg.association.key.adapter.outbound.rest.dto.KeyAssignmentUpdateDto;
 import com.bernardomg.association.key.adapter.outbound.rest.model.KeyDtoMapper;
 import com.bernardomg.association.key.domain.model.KeyAssignment;
-import com.bernardomg.association.key.usecase.service.KeyService;
+import com.bernardomg.association.key.usecase.service.KeyAssignmentService;
 import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -42,12 +45,32 @@ import com.bernardomg.security.domain.permission.constant.Actions;
 @RestController
 public class KeyAssignmentController implements KeyAssignmentApi {
 
-    private final KeyService service;
+    private final KeyAssignmentService service;
 
-    public KeyAssignmentController(final KeyService service) {
+    public KeyAssignmentController(final KeyAssignmentService service) {
         super();
 
         this.service = service;
+    }
+
+    @Override
+    @RequireResourceAuthorization(resource = "KEY_ASSIGNMENT", action = Actions.CREATE)
+    public KeyAssignmentResponseDto createKeyAssignment(final KeyAssignmentCreationDto creation) {
+        final KeyAssignment created;
+
+        created = service.create(creation.getNumber(), creation.getMember());
+
+        return KeyDtoMapper.toAssignmentResponseDto(created);
+    }
+
+    @Override
+    @RequireResourceAuthorization(resource = "KEY_ASSIGNMENT", action = Actions.DELETE)
+    public KeyAssignmentResponseDto deleteKeyAssignment(final Long number) {
+        final KeyAssignment deleted;
+
+        deleted = service.delete(number);
+
+        return KeyDtoMapper.toAssignmentResponseDto(deleted);
     }
 
     @Override
@@ -64,6 +87,16 @@ public class KeyAssignmentController implements KeyAssignmentApi {
         assignments = service.getAssignments(pagination, sorting);
 
         return KeyDtoMapper.toAssignmentsResponseDto(assignments);
+    }
+
+    @Override
+    @RequireResourceAuthorization(resource = "KEY_ASSIGNMENT", action = Actions.UPDATE)
+    public KeyAssignmentResponseDto updateKeyAssignment(final Long number, final KeyAssignmentUpdateDto update) {
+        final KeyAssignment updated;
+
+        updated = service.update(number, update.getMember());
+
+        return KeyDtoMapper.toAssignmentResponseDto(updated);
     }
 
 }

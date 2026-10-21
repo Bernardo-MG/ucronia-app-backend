@@ -43,19 +43,19 @@ import com.bernardomg.association.member.adapter.outbound.rest.dto.MemberPatchDt
 import com.bernardomg.association.member.adapter.outbound.rest.dto.MemberResponseDto;
 import com.bernardomg.association.member.adapter.outbound.rest.dto.MemberUpdateDto;
 import com.bernardomg.association.member.adapter.outbound.rest.dto.NameDto;
-import com.bernardomg.association.member.adapter.outbound.rest.dto.PropertyDto;
 import com.bernardomg.association.member.adapter.outbound.rest.dto.PropertyDto.DirectionEnum;
+import com.bernardomg.association.member.adapter.outbound.rest.dto.PropertyDto;
 import com.bernardomg.association.member.adapter.outbound.rest.dto.SortingDto;
-import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.Member.FeeType;
+import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.profile.domain.model.ContactChannel;
 import com.bernardomg.association.profile.domain.model.ContactMethod;
 import com.bernardomg.association.profile.domain.model.Name;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
 import com.bernardomg.pagination.domain.Sorting.Property;
-import com.bernardomg.security.domain.audit.model.AuditDetails;
 import com.bernardomg.security.domain.audit.model.AuditDetails.AuditUser;
+import com.bernardomg.security.domain.audit.model.AuditDetails;
 
 public final class MemberDtoMapper {
 
@@ -128,7 +128,7 @@ public final class MemberDtoMapper {
         return new Member(Optional.ofNullable(creation.getIdentifier()), -1L, -1L, name,
             Optional.ofNullable(creation.getBirthDate()), contactChannels, Optional.ofNullable(creation.getAddress()),
             Optional.ofNullable(creation.getComments()), !Boolean.FALSE.equals(creation.getActive()),
-            !Boolean.FALSE.equals(creation.getRenew()), Optional.ofNullable(creation.getKey()), feeType, Set.of());
+            !Boolean.FALSE.equals(creation.getRenew()), Optional.empty(), feeType, Set.of());
     }
 
     public static final MemberResponseDto toResponseDto(final Member contact) {

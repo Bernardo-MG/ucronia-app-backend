@@ -27,7 +27,6 @@ package com.bernardomg.association.key.domain.repository;
 import java.util.Optional;
 
 import com.bernardomg.association.key.domain.model.Key;
-import com.bernardomg.association.key.domain.model.KeyAssignment;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
@@ -39,8 +38,6 @@ public interface KeyRepository {
     public boolean exists(final Long number);
 
     public Page<Key> findAll(final Pagination pagination, final Sorting sorting);
-
-    public Page<KeyAssignment> findAssignments(final Pagination pagination, final Sorting sorting);
 
     public Optional<Key> findOne(final Long number);
 

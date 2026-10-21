@@ -95,3 +95,22 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/KeyAssignment'
+    KeyAssignmentCreation:
+      type: object
+      required: [number, member]
+      properties:
+        number:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        member:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+    KeyAssignmentUpdate:
+      type: object
+      required: [member]
+      properties:
+        member:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+    KeyAssignmentResponse:
+      type: object
+      properties:
+        content:
+          $ref: '#/components/schemas/KeyAssignment'

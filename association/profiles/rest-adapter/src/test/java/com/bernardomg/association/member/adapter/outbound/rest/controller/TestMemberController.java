@@ -6,6 +6,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
@@ -216,6 +218,31 @@ class TestMemberController {
             .andExpect(status().isOk())
             .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content.name.firstName", equalTo("Name 123")));
+    }
+
+    @Test
+    @DisplayName("Creating a member ignores a legacy key assignment field")
+    void testCreateMember_KeyIgnored() throws Exception {
+        final String requestBody;
+
+        // GIVEN
+        given(service.create(any())).willReturn(Members.created());
+        requestBody = String.format("""
+                {
+                    "identifier": "%s",
+                    "feeType": %d,
+                    "name": {"firstName": "%s", "lastName": "%s"},
+                    "key": 110
+                }
+                """, MemberConstants.IDENTIFIER, FeeConstants.FEE_TYPE_NUMBER, ProfileConstants.FIRST_NAME,
+            ProfileConstants.LAST_NAME);
+
+        // WHEN + THEN
+        mockMvc.perform(post("/profile/member").contentType(MediaType.APPLICATION_JSON)
+            .content(requestBody))
+            .andExpect(status().isCreated());
+
+        verify(service).create(argThat(member -> member.key().isEmpty()));
     }
 
 }

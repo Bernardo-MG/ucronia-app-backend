@@ -144,7 +144,10 @@ permissions:
       - delete
   - resource: key_assignment
     actions:
+      - create
       - read
+      - update
+      - delete
   - resource: association_settings
     actions:
       - create

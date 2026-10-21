@@ -30,6 +30,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.association.key.adapter.inbound.jpa.model.KeyAssignmentProjection;
 import com.bernardomg.association.key.adapter.inbound.jpa.model.KeyEntity;
@@ -39,6 +40,15 @@ public interface KeySpringRepository extends JpaRepository<KeyEntity, Long> {
     public void deleteByNumber(final Long number);
 
     public boolean existsByNumber(final Long number);
+
+    @Query("""
+            SELECT k.number AS number, k.available AS available, k.description AS description,
+                   m.number AS profileNumber, m.memberNumber AS memberNumber,
+                   m.firstName AS firstName, m.lastName AS lastName, m.nickname AS nickname
+            FROM Key k LEFT JOIN PublicMember m ON m.key = k
+            WHERE k.number = :number
+            """)
+    public Optional<KeyAssignmentProjection> findAssignmentByNumber(@Param("number") final Long number);
 
     @Query(value = """
             SELECT k.number AS number, k.available AS available, k.description AS description,

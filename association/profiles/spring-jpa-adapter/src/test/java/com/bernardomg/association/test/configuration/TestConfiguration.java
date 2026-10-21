@@ -49,8 +49,10 @@ import com.bernardomg.association.guest.adapter.inbound.jpa.repository.GuestSpri
 import com.bernardomg.association.guest.adapter.inbound.jpa.repository.JpaGuestRepository;
 import com.bernardomg.association.guest.adapter.inbound.jpa.repository.ReadGuestSpringRepository;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
+import com.bernardomg.association.key.adapter.inbound.jpa.repository.JpaKeyAssignmentRepository;
 import com.bernardomg.association.key.adapter.inbound.jpa.repository.JpaKeyRepository;
 import com.bernardomg.association.key.adapter.inbound.jpa.repository.KeySpringRepository;
+import com.bernardomg.association.key.domain.repository.KeyAssignmentRepository;
 import com.bernardomg.association.key.domain.repository.KeyRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberContactMethodRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberCountRepository;
@@ -142,6 +144,12 @@ public class TestConfiguration {
             final ContactMethodSpringRepository contactMethodSpringRepository) {
         return new JpaGuestRepository(guestSpringRepository, readGuestSpringRepository, profileSpringRepository,
             contactMethodSpringRepository);
+    }
+
+    @Bean("keyAssignmentRepository")
+    public KeyAssignmentRepository getKeyAssignmentRepository(final KeySpringRepository keySpringRepository,
+            final MemberSpringRepository memberSpringRepository) {
+        return new JpaKeyAssignmentRepository(keySpringRepository, memberSpringRepository);
     }
 
     @Bean("keyRepository")

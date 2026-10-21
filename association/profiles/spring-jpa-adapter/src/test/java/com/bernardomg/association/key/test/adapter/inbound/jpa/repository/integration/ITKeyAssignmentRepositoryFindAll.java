@@ -15,7 +15,7 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.Positiv
 import com.bernardomg.association.key.domain.model.Key;
 import com.bernardomg.association.key.domain.model.KeyAssignment;
 import com.bernardomg.association.key.domain.model.KeyAssignment.AssignedMember;
-import com.bernardomg.association.key.domain.repository.KeyRepository;
+import com.bernardomg.association.key.domain.repository.KeyAssignmentRepository;
 import com.bernardomg.association.key.test.configuration.data.annotation.AvailableKey;
 import com.bernardomg.association.key.test.configuration.factory.Keys;
 import com.bernardomg.association.member.domain.model.Member;
@@ -29,14 +29,14 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("KeyRepository - find assignments")
-class ITKeyRepositoryAssignments {
+@DisplayName("KeyAssignmentRepository - find assignments")
+class ITKeyAssignmentRepositoryFindAll {
 
     @Autowired
-    private MemberRepository memberRepository;
+    private MemberRepository        memberRepository;
 
     @Autowired
-    private KeyRepository    repository;
+    private KeyAssignmentRepository repository;
 
     @Test
     @DisplayName("With an assigned key, the key and its member are returned")
@@ -60,7 +60,7 @@ class ITKeyRepositoryAssignments {
         sorting = Sorting.unsorted();
 
         // WHEN
-        assignments = repository.findAssignments(pagination, sorting);
+        assignments = repository.findAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(assignments.content())
@@ -93,7 +93,7 @@ class ITKeyRepositoryAssignments {
         sorting = Sorting.unsorted();
 
         // WHEN
-        assignments = repository.findAssignments(pagination, sorting);
+        assignments = repository.findAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(assignments.content())
@@ -113,7 +113,7 @@ class ITKeyRepositoryAssignments {
         sorting = Sorting.unsorted();
 
         // WHEN
-        assignments = repository.findAssignments(pagination, sorting);
+        assignments = repository.findAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(assignments.content())
@@ -138,7 +138,7 @@ class ITKeyRepositoryAssignments {
         sorting = Sorting.unsorted();
 
         // WHEN
-        assignments = repository.findAssignments(pagination, sorting);
+        assignments = repository.findAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(assignments.content())

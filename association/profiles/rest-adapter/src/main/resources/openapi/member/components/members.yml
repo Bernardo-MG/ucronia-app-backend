@@ -129,8 +129,6 @@ components:
         comments:
           type: string
           maxLength: 250
-        key:
-          $ref: '../common/ids.yml#/components/schemas/Id'
         active:
           type: boolean
           default: true
