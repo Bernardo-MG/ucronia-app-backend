@@ -1,7 +1,7 @@
 get:
   summary: Get all keys with their member assignments, including inactive members.
   operationId: getKeyAssignments
-  tags: [Key]
+  tags: [KeyAssignment]
   parameters:
     - $ref: '../common/pagination.yml#/components/parameters/pageParam'
     - $ref: '../common/pagination.yml#/components/parameters/sizeParam'

@@ -29,7 +29,6 @@ import java.util.Optional;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.key.adapter.outbound.rest.dto.KeyAssignmentPageResponseDto;
 import com.bernardomg.association.key.adapter.outbound.rest.dto.KeyCreationDto;
 import com.bernardomg.association.key.adapter.outbound.rest.dto.KeyPageResponseDto;
 import com.bernardomg.association.key.adapter.outbound.rest.dto.KeyResponseDto;
@@ -90,14 +89,6 @@ public class KeyController implements KeyApi {
         keys = service.getAll(pagination, sorting);
 
         return KeyDtoMapper.toResponseDto(keys);
-    }
-
-    @Override
-    @RequireResourceAuthorization(resource = "KEY", action = Actions.READ)
-    public KeyAssignmentPageResponseDto getKeyAssignments(final Integer page, final Integer size,
-            final List<String> sort) {
-        return KeyDtoMapper
-            .toAssignmentsResponseDto(service.getAssignments(new Pagination(page, size), WebSorting.toSorting(sort)));
     }
 
     @Override
