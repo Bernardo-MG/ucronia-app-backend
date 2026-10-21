@@ -141,6 +141,7 @@ components:
           description: Whether the member is eligible for renewal.
     MemberUpdate:
       type: object
+      description: Complete replacement of editable member fields. The key assignment is preserved.
       required: [feeType, name, contactChannels, active, renew]
       properties:
         identifier:
@@ -163,8 +164,6 @@ components:
         comments:
           type: string
           maxLength: 250
-        key:
-          $ref: '../common/ids.yml#/components/schemas/Id'
         active:
           type: boolean
           description: Whether the member is active.
@@ -173,6 +172,7 @@ components:
           description: Whether the member is eligible for renewal.
     MemberPatch:
       type: object
+      description: Updates member fields while preserving the key assignment.
       required: [name, active, renew]
       properties:
         identifier:
@@ -195,8 +195,6 @@ components:
         comments:
           type: string
           maxLength: 250
-        key:
-          $ref: '../common/ids.yml#/components/schemas/Id'
         active:
           type: boolean
           description: Whether the member is active.

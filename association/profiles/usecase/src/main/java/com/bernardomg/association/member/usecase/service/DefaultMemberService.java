@@ -209,16 +209,6 @@ public final class DefaultMemberService implements MemberService {
                 .number());
         }
 
-        if ((member.key()
-            .isPresent())
-                && (!keyRepository.exists(member.key()
-                    .get()))) {
-            log.error("Missing key {}", member.feeType()
-                .number());
-            throw new MissingKeyException(member.key()
-                .get());
-        }
-
         // TODO: maybe send an exception with all
         member.contactChannels()
             .stream()
@@ -238,16 +228,17 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     public final Member update(final Member member) {
+        final Member existing;
+        final Member toSave;
         final Member saved;
 
         log.debug("Updating member profile {} using data {}", member.number(), member);
 
-        // TODO: keep member number
-
-        if (!memberRepository.exists(member.number())) {
-            log.error("Missing member profile {}", member.number());
-            throw new MissingMemberException(member.number());
-        }
+        existing = memberRepository.findOne(member.number())
+            .orElseThrow(() -> {
+                log.error("Missing member profile {}", member.number());
+                throw new MissingMemberException(member.number());
+            });
 
         if (!feeTypeRepository.exists(member.feeType()
             .number())) {
@@ -257,25 +248,20 @@ public final class DefaultMemberService implements MemberService {
                 .number());
         }
 
-        if ((member.key()
-            .isPresent())
-                && (!keyRepository.exists(member.key()
-                    .get()))) {
-            log.error("Missing key {}", member.feeType()
-                .number());
-            throw new MissingKeyException(member.key()
-                .get());
-        }
-
         // TODO: maybe send an exception with all
         member.contactChannels()
             .stream()
             .map(ContactChannel::contactMethod)
             .forEach(this::checkContactMethodExists);
 
-        updateValidator.validate(member);
+        // Key assignment is managed separately; all editable PUT fields are replaced.
+        toSave = new Member(member.identifier(), member.number(), existing.memberNumber(), member.name(),
+            member.birthDate(), member.contactChannels(), member.address(), member.comments(), member.active(),
+            member.renew(), existing.key(), member.feeType(), member.types(), member.audit());
 
-        saved = memberRepository.save(member);
+        updateValidator.validate(toSave);
+
+        saved = memberRepository.save(toSave);
 
         log.debug("Updated member profile {}: {}", member.number(), saved);
 
@@ -294,7 +280,6 @@ public final class DefaultMemberService implements MemberService {
         final String           firstName;
         final String           lastName;
         final Optional<String> nickname;
-        final Optional<Long>   key;
 
         if (updated.name()
             .firstName()
@@ -323,12 +308,6 @@ public final class DefaultMemberService implements MemberService {
             nickname = updated.name()
                 .nickname();
         }
-        if (updated.key()
-            .isPresent()) {
-            key = updated.key();
-        } else {
-            key = existing.key();
-        }
         name = new Name(firstName, lastName, nickname);
 
         return new Member(Optional.ofNullable(updated.identifier())
@@ -349,7 +328,7 @@ public final class DefaultMemberService implements MemberService {
                 .orElse(existing.active()),
             Optional.ofNullable(updated.renew())
                 .orElse(existing.renew()),
-            key, Optional.ofNullable(updated.feeType())
+            existing.key(), Optional.ofNullable(updated.feeType())
                 .orElse(existing.feeType()),
             Optional.ofNullable(updated.types())
                 .orElse(existing.types()));

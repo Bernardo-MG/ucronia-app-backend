@@ -27,6 +27,8 @@ package com.bernardomg.association.transaction.member.service.unit;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
+import java.util.Optional;
+
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
@@ -40,9 +42,7 @@ import com.bernardomg.association.fee.domain.exception.MissingFeeTypeException;
 import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.fee.test.configuration.factory.FeeTypeConstants;
-import com.bernardomg.association.key.domain.exception.MissingKeyException;
 import com.bernardomg.association.key.domain.repository.KeyRepository;
-import com.bernardomg.association.key.test.configuration.factory.KeyConstants;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberContactMethodRepository;
@@ -87,7 +87,7 @@ class TestMemberServiceUpdate {
         // GIVEN
         member = Members.withEmail();
 
-        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(true);
+        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
         given(feeTypeRepository.exists(member.feeType()
             .number())).willReturn(true);
         given(memberContactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(false);
@@ -109,7 +109,7 @@ class TestMemberServiceUpdate {
         // GIVEN
         member = Members.nameChange();
 
-        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(true);
+        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
         given(feeTypeRepository.exists(FeeTypeConstants.NUMBER)).willReturn(false);
 
         // WHEN
@@ -130,7 +130,7 @@ class TestMemberServiceUpdate {
         member = Members.active();
 
         given(feeTypeRepository.exists(FeeConstants.FEE_TYPE_NUMBER)).willReturn(true);
-        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(true);
+        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
         given(memberRepository.existsByIdentifierForAnother(MemberConstants.NUMBER, MemberConstants.IDENTIFIER))
             .willReturn(true);
 
@@ -143,27 +143,6 @@ class TestMemberServiceUpdate {
     }
 
     @Test
-    @DisplayName("With a missing key, an exception is thrown")
-    void testUpdate_KeyMissing() {
-        final Member           member;
-        final ThrowingCallable execution;
-
-        // GIVEN
-        member = Members.withKey();
-
-        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(true);
-        given(feeTypeRepository.exists(FeeConstants.FEE_TYPE_NUMBER)).willReturn(true);
-        given(keyRepository.exists(KeyConstants.NUMBER)).willReturn(false);
-
-        // WHEN
-        execution = () -> service.update(member);
-
-        // THEN
-        Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingKeyException.class);
-    }
-
-    @Test
     @DisplayName("With a not existing member, an exception is thrown")
     void testUpdate_NotExisting_Exception() {
         final Member           member;
@@ -172,7 +151,7 @@ class TestMemberServiceUpdate {
         // GIVEN
         member = Members.nameChange();
 
-        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(false);
+        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
         execution = () -> service.update(member);
@@ -190,7 +169,7 @@ class TestMemberServiceUpdate {
         // GIVEN
         member = Members.padded();
 
-        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(true);
+        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
         given(feeTypeRepository.exists(FeeTypeConstants.NUMBER)).willReturn(true);
 
         // WHEN
@@ -207,7 +186,7 @@ class TestMemberServiceUpdate {
 
         // GIVEN
         member = Members.nameChange();
-        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(true);
+        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
         given(feeTypeRepository.exists(FeeTypeConstants.NUMBER)).willReturn(true);
         given(memberRepository.save(Members.nameChange())).willReturn(Members.nameChange());
 
@@ -227,7 +206,7 @@ class TestMemberServiceUpdate {
         // GIVEN
         member = Members.nameChange();
 
-        given(memberRepository.exists(MemberConstants.NUMBER)).willReturn(true);
+        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
         given(feeTypeRepository.exists(FeeTypeConstants.NUMBER)).willReturn(true);
         given(memberRepository.save(Members.nameChange())).willReturn(Members.nameChange());
 
