@@ -123,4 +123,20 @@ class TestMemberControllerValidation {
             .andExpect(status().isBadRequest());
     }
 
+    @Test
+    @DisplayName("PUT rejects a partial form without a fee type")
+    void testUpdateMember_PartialFormRejected() throws Exception {
+        final String requestBody = """
+                {
+                    "name": { "firstName": "Ana", "lastName": "Test" },
+                    "active": true,
+                    "renew": true
+                }
+                """;
+
+        mockMvc.perform(put("/profile/member/10").contentType(MediaType.APPLICATION_JSON)
+            .content(requestBody))
+            .andExpect(status().isBadRequest());
+    }
+
 }

@@ -4,7 +4,7 @@
  * Copyright (c) 2022-2025 Bernardo Martinez Garrido
  */
 
-package com.bernardomg.association.transaction.member.service.unit;
+package com.bernardomg.association.key.test.service.unit;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -52,10 +52,12 @@ class TestKeyServiceCreate {
     void testCreate_ReturnedData() {
         final Key created;
         final Key key;
+        final Key saved;
 
         // GIVEN
         key = Keys.available();
-        given(repository.save(key)).willReturn(key);
+        saved = Keys.created();
+        given(repository.save(key)).willReturn(saved);
 
         // WHEN
         created = service.create(key);
@@ -63,7 +65,7 @@ class TestKeyServiceCreate {
         // THEN
         Assertions.assertThat(created)
             .as("key")
-            .isEqualTo(key);
+            .isEqualTo(saved);
     }
 
 }

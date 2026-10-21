@@ -4,9 +4,11 @@
  * Copyright (c) 2022-2025 Bernardo Martinez Garrido
  */
 
-package com.bernardomg.association.transaction.member.service.unit;
+package com.bernardomg.association.key.test.service.unit;
 
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 
 import java.util.Optional;
 
@@ -22,14 +24,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.association.key.domain.exception.MissingKeyException;
 import com.bernardomg.association.key.domain.model.Key;
 import com.bernardomg.association.key.domain.repository.KeyRepository;
+import com.bernardomg.association.key.test.configuration.factory.KeyConstants;
 import com.bernardomg.association.key.test.configuration.factory.Keys;
 import com.bernardomg.association.key.usecase.service.DefaultKeyService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Key service - get one")
-class TestKeyServiceGetOne {
-
-    private static final Long NUMBER = 100L;
+@DisplayName("Key service - delete")
+class TestKeyServiceDelete {
 
     @Mock
     private KeyRepository     repository;
@@ -38,37 +39,54 @@ class TestKeyServiceGetOne {
     private DefaultKeyService service;
 
     @Test
-    @DisplayName("When there is data, it is returned")
-    void testGetOne() {
-        final Optional<Key> read;
-        final Key           key;
+    @DisplayName("When deleting a key, it is removed")
+    void testDelete() {
+        final Key key;
 
         // GIVEN
         key = Keys.available();
-        given(repository.findOne(NUMBER)).willReturn(Optional.of(key));
+        given(repository.findOne(KeyConstants.NUMBER)).willReturn(Optional.of(key));
 
         // WHEN
-        read = service.getOne(NUMBER);
+        service.delete(KeyConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(read)
-            .contains(key);
+        verify(repository).delete(KeyConstants.NUMBER);
     }
 
     @Test
     @DisplayName("With a not existing key, an exception is thrown")
-    void testGetOne_NotExistingKey() {
+    void testDelete_NotExisting() {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(repository.findOne(NUMBER)).willReturn(Optional.empty());
+        given(repository.findOne(KeyConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.getOne(NUMBER);
+        execution = () -> service.delete(KeyConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(MissingKeyException.class);
+        verify(repository, never()).delete(KeyConstants.NUMBER);
+    }
+
+    @Test
+    @DisplayName("When deleting a key, the deleted key is returned")
+    void testDelete_ReturnedData() {
+        final Key deleted;
+        final Key key;
+
+        // GIVEN
+        key = Keys.available();
+        given(repository.findOne(KeyConstants.NUMBER)).willReturn(Optional.of(key));
+
+        // WHEN
+        deleted = service.delete(KeyConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(deleted)
+            .isEqualTo(key);
     }
 
 }

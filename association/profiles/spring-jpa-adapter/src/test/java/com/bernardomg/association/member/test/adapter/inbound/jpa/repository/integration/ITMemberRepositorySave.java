@@ -36,6 +36,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.TestApplication;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
+import com.bernardomg.association.key.test.configuration.data.annotation.AvailableKey;
 import com.bernardomg.association.key.test.configuration.factory.KeyConstants;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityConstants;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.ReadMemberEntity;
@@ -45,7 +46,6 @@ import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMemberWithEmail;
 import com.bernardomg.association.member.test.configuration.data.annotation.AlternativeMemberWithKey;
-import com.bernardomg.association.member.test.configuration.data.annotation.AvailableKey;
 import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.association.member.test.configuration.factory.ReadMemberEntities;
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
@@ -86,6 +86,27 @@ class ITMemberRepositorySave {
             .orElseThrow()
             .memberNumber())
             .isEqualTo(saved.memberNumber());
+    }
+
+    @Test
+    @PositiveFeeType
+    @AvailableKey
+    void testSave_ClearsAssignedKey() {
+        final Member withKey = repository.save(Members.withKey());
+        Assertions.assertThat(withKey.key())
+            .isPresent();
+
+        final Member cleared = repository
+            .save(new Member(withKey.identifier(), withKey.number(), withKey.memberNumber(), withKey.name(),
+                withKey.birthDate(), withKey.contactChannels(), withKey.address(), withKey.comments(), withKey.active(),
+                withKey.renew(), Optional.empty(), withKey.feeType(), withKey.types()));
+
+        Assertions.assertThat(cleared.key())
+            .isEmpty();
+        Assertions.assertThat(repository.findOne(cleared.number())
+            .orElseThrow()
+            .key())
+            .isEmpty();
     }
 
     @Test

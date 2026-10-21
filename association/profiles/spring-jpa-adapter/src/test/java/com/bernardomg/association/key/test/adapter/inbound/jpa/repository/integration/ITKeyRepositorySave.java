@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.integration;
+package com.bernardomg.association.key.test.adapter.inbound.jpa.repository.integration;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -13,9 +13,9 @@ import com.bernardomg.association.key.adapter.inbound.jpa.model.KeyEntity;
 import com.bernardomg.association.key.adapter.inbound.jpa.repository.KeySpringRepository;
 import com.bernardomg.association.key.domain.model.Key;
 import com.bernardomg.association.key.domain.repository.KeyRepository;
+import com.bernardomg.association.key.test.configuration.data.annotation.AvailableKey;
+import com.bernardomg.association.key.test.configuration.factory.KeyEntities;
 import com.bernardomg.association.key.test.configuration.factory.Keys;
-import com.bernardomg.association.member.test.configuration.data.annotation.AvailableKey;
-import com.bernardomg.association.member.test.configuration.factory.KeyEntities;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest

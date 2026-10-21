@@ -1,0 +1,15 @@
+get:
+  summary: Get all keys with their member assignments, including inactive members.
+  operationId: getKeyAssignments
+  tags: [Key]
+  parameters:
+    - $ref: '../common/pagination.yml#/components/parameters/pageParam'
+    - $ref: '../common/pagination.yml#/components/parameters/sizeParam'
+    - $ref: '../components/keys.yml#/components/parameters/keysSortParam'
+  responses:
+    '200':
+      description: Key assignment page. An absent member means the key is unassigned.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/keys.yml#/components/schemas/KeyAssignmentPageResponse'

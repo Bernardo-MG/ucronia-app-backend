@@ -4,7 +4,7 @@
  * Copyright (c) 2022-2025 Bernardo Martinez Garrido
  */
 
-package com.bernardomg.association.transaction.member.service.unit;
+package com.bernardomg.association.key.test.service.unit;
 
 import static org.mockito.BDDMockito.given;
 

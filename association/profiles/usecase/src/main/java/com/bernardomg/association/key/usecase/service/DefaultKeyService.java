@@ -32,6 +32,7 @@ import org.slf4j.LoggerFactory;
 
 import com.bernardomg.association.key.domain.exception.MissingKeyException;
 import com.bernardomg.association.key.domain.model.Key;
+import com.bernardomg.association.key.domain.model.KeyAssignment;
 import com.bernardomg.association.key.domain.repository.KeyRepository;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -100,6 +101,11 @@ public final class DefaultKeyService implements KeyService {
         log.debug("Got all keys: {}", keys);
 
         return keys;
+    }
+
+    @Override
+    public final Page<KeyAssignment> getAssignments(final Pagination pagination, final Sorting sorting) {
+        return repository.findAssignments(pagination, sorting);
     }
 
     @Override

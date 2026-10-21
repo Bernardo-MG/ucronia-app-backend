@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.association.member.adapter.outbound.rest.dto.MemberCreationDto;
 import com.bernardomg.association.member.adapter.outbound.rest.dto.MemberPageResponseDto;
+import com.bernardomg.association.member.adapter.outbound.rest.dto.MemberPatchDto;
 import com.bernardomg.association.member.adapter.outbound.rest.dto.MemberResponseDto;
 import com.bernardomg.association.member.adapter.outbound.rest.dto.MemberStatusDto;
 import com.bernardomg.association.member.adapter.outbound.rest.dto.MemberUpdateDto;
@@ -122,11 +123,11 @@ public class MemberController implements MemberApi {
 
     @Override
     @RequireResourceAuthorization(resource = "MEMBER_PROFILE", action = Actions.UPDATE)
-    public MemberResponseDto patchMember(final Long number, final MemberUpdateDto MemberUpdateDto) {
+    public MemberResponseDto patchMember(final Long number, final MemberPatchDto MemberPatchDto) {
         final Member member;
         final Member updated;
 
-        member = MemberDtoMapper.toDomain(number, MemberUpdateDto);
+        member = MemberDtoMapper.toDomain(number, MemberPatchDto);
         updated = service.patch(member);
 
         return MemberDtoMapper.toResponseDto(updated);

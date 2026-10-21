@@ -71,7 +71,7 @@ public class TestModulesArchitectureRules {
         .whereLayer("Profiles")
         // TODO: library shouldn't have access
         .mayOnlyBeAccessedByLayers("Guests", "Sponsors", "Members", "Fees", "Library books", "Library configuration",
-            "Users", "Account")
+            "Users", "Account", "Keys")
         .whereLayer("Members")
         .mayOnlyBeAccessedByLayers("Fees")
         .whereLayer("Sponsors")
