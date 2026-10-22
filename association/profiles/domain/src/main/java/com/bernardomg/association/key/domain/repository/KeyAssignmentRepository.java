@@ -37,9 +37,9 @@ public interface KeyAssignmentRepository {
 
     public Page<KeyAssignment> findAll(final Pagination pagination, final Sorting sorting);
 
-    public Optional<Long> findMemberKey(final Long profileNumber);
-
     public Optional<KeyAssignment> findOne(final Long number);
+
+    public Optional<Long> findProfileKey(final Long profileNumber);
 
     public KeyAssignment save(final Long number, final Long profileNumber);
 

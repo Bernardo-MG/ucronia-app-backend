@@ -30,6 +30,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.bernardomg.association.key.adapter.inbound.jpa.repository.JpaKeyAssignmentRepository;
 import com.bernardomg.association.key.adapter.inbound.jpa.repository.JpaKeyRepository;
+import com.bernardomg.association.key.adapter.inbound.jpa.repository.KeyAssignmentSpringRepository;
 import com.bernardomg.association.key.adapter.inbound.jpa.repository.KeySpringRepository;
 import com.bernardomg.association.key.domain.repository.KeyAssignmentRepository;
 import com.bernardomg.association.key.domain.repository.KeyRepository;
@@ -37,7 +38,7 @@ import com.bernardomg.association.key.usecase.service.DefaultKeyAssignmentServic
 import com.bernardomg.association.key.usecase.service.DefaultKeyService;
 import com.bernardomg.association.key.usecase.service.KeyAssignmentService;
 import com.bernardomg.association.key.usecase.service.KeyService;
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
+import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 
 @Configuration
 @ComponentScan({ "com.bernardomg.association.key.adapter.outbound.rest.controller",
@@ -45,9 +46,11 @@ import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSp
 public class AssociationMemberAutoConfiguration {
 
     @Bean("keyAssignmentRepository")
-    public KeyAssignmentRepository getKeyAssignmentRepository(final KeySpringRepository keySpringRepository,
-            final MemberSpringRepository memberSpringRepository) {
-        return new JpaKeyAssignmentRepository(keySpringRepository, memberSpringRepository);
+    public KeyAssignmentRepository getKeyAssignmentRepository(
+            final KeyAssignmentSpringRepository keyAssignmentSpringRepository,
+            final KeySpringRepository keySpringRepository, final ProfileSpringRepository profileSpringRepository) {
+        return new JpaKeyAssignmentRepository(keyAssignmentSpringRepository, keySpringRepository,
+            profileSpringRepository);
     }
 
     @Bean("keyAssignmentService")

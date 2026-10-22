@@ -1,6 +1,6 @@
 put:
-  summary: Replace the member assigned to a key.
-  description: Full replacement of an existing assignment. Uses the member profile number. Repeating the same assignment is allowed. A member holding another key causes a conflict.
+  summary: Replace the profile assigned to a key.
+  description: Full replacement of an existing assignment. Uses the profile number. Repeating the same assignment is allowed. A profile holding another key causes a conflict.
   operationId: updateKeyAssignment
   tags: [KeyAssignment]
   parameters:
@@ -26,11 +26,11 @@ put:
     '400':
       description: Invalid assignment request.
     '404':
-      description: Key, member profile or assignment not found.
+      description: Key, profile or assignment not found.
     '409':
-      description: Member already holds another key.
+      description: Profile already holds another key.
 delete:
-  summary: Remove a key assignment without deleting the key or member.
+  summary: Remove a key assignment without deleting the key or profile.
   operationId: deleteKeyAssignment
   tags: [KeyAssignment]
   parameters:

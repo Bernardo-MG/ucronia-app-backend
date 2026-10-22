@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.bernardomg.association.key.domain.exception.KeyAssignmentConflictException;
 import com.bernardomg.association.key.domain.exception.MissingKeyAssignmentException;
 import com.bernardomg.association.key.domain.exception.MissingKeyException;
-import com.bernardomg.association.member.domain.exception.MissingMemberException;
+import com.bernardomg.association.profile.domain.exception.MissingProfileException;
 
 @RestControllerAdvice(assignableTypes = KeyAssignmentController.class)
 public class KeyAssignmentExceptionHandler {
@@ -43,7 +43,7 @@ public class KeyAssignmentExceptionHandler {
             .build();
     }
 
-    @ExceptionHandler({ MissingKeyException.class, MissingMemberException.class, MissingKeyAssignmentException.class })
+    @ExceptionHandler({ MissingKeyException.class, MissingProfileException.class, MissingKeyAssignmentException.class })
     public ResponseEntity<Void> handleMissing() {
         return ResponseEntity.notFound()
             .build();

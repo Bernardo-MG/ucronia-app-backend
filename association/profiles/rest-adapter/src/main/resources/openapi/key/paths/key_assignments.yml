@@ -1,5 +1,5 @@
 get:
-  summary: Get all keys with their member assignments, including inactive members.
+  summary: Get all keys with their profile assignments, including inactive member profiles.
   operationId: getKeyAssignments
   tags: [KeyAssignment]
   parameters:
@@ -8,14 +8,14 @@ get:
     - $ref: '../components/keys.yml#/components/parameters/keysSortParam'
   responses:
     '200':
-      description: Key assignment page. An absent member means the key is unassigned.
+      description: Key assignment page. An absent profile means the key is unassigned.
       content:
         application/json:
           schema:
             $ref: '../components/keys.yml#/components/schemas/KeyAssignmentPageResponse'
 post:
-  summary: Assign an unassigned key to a member.
-  description: Uses the member profile number. A key or member already assigned to another counterpart causes a conflict.
+  summary: Assign an unassigned key to a profile.
+  description: Uses the profile number. A key or profile already assigned to another counterpart causes a conflict.
   operationId: createKeyAssignment
   tags: [KeyAssignment]
   requestBody:
@@ -34,6 +34,6 @@ post:
     '400':
       description: Invalid assignment request.
     '404':
-      description: Key or member profile not found.
+      description: Key or profile not found.
     '409':
-      description: Key or member already assigned.
+      description: Key or profile already assigned.

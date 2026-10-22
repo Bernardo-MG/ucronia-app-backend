@@ -51,6 +51,7 @@ import com.bernardomg.association.guest.adapter.inbound.jpa.repository.ReadGuest
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
 import com.bernardomg.association.key.adapter.inbound.jpa.repository.JpaKeyAssignmentRepository;
 import com.bernardomg.association.key.adapter.inbound.jpa.repository.JpaKeyRepository;
+import com.bernardomg.association.key.adapter.inbound.jpa.repository.KeyAssignmentSpringRepository;
 import com.bernardomg.association.key.adapter.inbound.jpa.repository.KeySpringRepository;
 import com.bernardomg.association.key.domain.repository.KeyAssignmentRepository;
 import com.bernardomg.association.key.domain.repository.KeyRepository;
@@ -147,9 +148,11 @@ public class TestConfiguration {
     }
 
     @Bean("keyAssignmentRepository")
-    public KeyAssignmentRepository getKeyAssignmentRepository(final KeySpringRepository keySpringRepository,
-            final MemberSpringRepository memberSpringRepository) {
-        return new JpaKeyAssignmentRepository(keySpringRepository, memberSpringRepository);
+    public KeyAssignmentRepository getKeyAssignmentRepository(
+            final KeyAssignmentSpringRepository keyAssignmentSpringRepository,
+            final KeySpringRepository keySpringRepository, final ProfileSpringRepository profileSpringRepository) {
+        return new JpaKeyAssignmentRepository(keyAssignmentSpringRepository, keySpringRepository,
+            profileSpringRepository);
     }
 
     @Bean("keyRepository")

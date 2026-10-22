@@ -58,7 +58,7 @@ public class KeyAssignmentController implements KeyAssignmentApi {
     public KeyAssignmentResponseDto createKeyAssignment(final KeyAssignmentCreationDto creation) {
         final KeyAssignment created;
 
-        created = service.create(creation.getNumber(), creation.getMember());
+        created = service.create(creation.getNumber(), creation.getProfile());
 
         return KeyDtoMapper.toAssignmentResponseDto(created);
     }
@@ -94,7 +94,7 @@ public class KeyAssignmentController implements KeyAssignmentApi {
     public KeyAssignmentResponseDto updateKeyAssignment(final Long number, final KeyAssignmentUpdateDto update) {
         final KeyAssignment updated;
 
-        updated = service.update(number, update.getMember());
+        updated = service.update(number, update.getProfile());
 
         return KeyDtoMapper.toAssignmentResponseDto(updated);
     }

@@ -26,7 +26,7 @@ package com.bernardomg.association.key.adapter.outbound.rest.model;
 
 import java.util.Optional;
 
-import com.bernardomg.association.key.adapter.outbound.rest.dto.KeyAssignedMemberDto;
+import com.bernardomg.association.key.adapter.outbound.rest.dto.KeyAssignedProfileDto;
 import com.bernardomg.association.key.adapter.outbound.rest.dto.KeyAssignmentDto;
 import com.bernardomg.association.key.adapter.outbound.rest.dto.KeyAssignmentPageResponseDto;
 import com.bernardomg.association.key.adapter.outbound.rest.dto.KeyAssignmentResponseDto;
@@ -131,10 +131,9 @@ public final class KeyDtoMapper {
         dto = new KeyAssignmentDto().number(assignment.number())
             .available(assignment.available())
             .description(assignment.description());
-        assignment.member()
-            .ifPresent(member -> dto.member(new KeyAssignedMemberDto().number(member.number())
-                .memberNumber(member.memberNumber())
-                .name(member.name())));
+        assignment.profile()
+            .ifPresent(profile -> dto.profile(new KeyAssignedProfileDto().number(profile.number())
+                .name(profile.name())));
         return dto;
     }
 

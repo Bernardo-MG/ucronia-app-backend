@@ -32,9 +32,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import com.bernardomg.association.TestApplication;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
+import com.bernardomg.association.key.adapter.inbound.jpa.repository.KeyAssignmentSpringRepository;
+import com.bernardomg.association.key.domain.model.Key;
 import com.bernardomg.association.key.domain.model.KeyAssignment;
 import com.bernardomg.association.key.domain.repository.KeyAssignmentRepository;
 import com.bernardomg.association.key.domain.repository.KeyRepository;
@@ -42,13 +45,14 @@ import com.bernardomg.association.key.test.configuration.data.annotation.Availab
 import com.bernardomg.association.key.test.configuration.factory.KeyAssignments;
 import com.bernardomg.association.key.test.configuration.factory.KeyConstants;
 import com.bernardomg.association.key.test.configuration.factory.Keys;
-import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.AlternativeMemberWithKey;
 import com.bernardomg.association.member.test.configuration.factory.MemberConstants;
 import com.bernardomg.association.member.test.configuration.factory.Members;
+import com.bernardomg.association.profile.domain.exception.MissingProfileException;
+import com.bernardomg.association.profile.domain.repository.ProfileRepository;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
@@ -60,13 +64,19 @@ import com.bernardomg.test.annotation.IntegrationTest;
 class ITKeyAssignmentRepository {
 
     @Autowired
-    private KeyRepository           keyRepository;
+    private KeyRepository                 keyRepository;
 
     @Autowired
-    private MemberRepository        memberRepository;
+    private MemberRepository              memberRepository;
 
     @Autowired
-    private KeyAssignmentRepository repository;
+    private ProfileRepository             profileRepository;
+
+    @Autowired
+    private KeyAssignmentRepository       repository;
+
+    @Autowired
+    private KeyAssignmentSpringRepository springRepository;
 
     @Test
     @DisplayName("Removing an assignment keeps the member and the unassigned key")
@@ -81,8 +91,10 @@ class ITKeyAssignmentRepository {
         // THEN
         member = memberRepository.findOne(MemberConstants.ALTERNATIVE_NUMBER)
             .orElseThrow();
-        Assertions.assertThat(repository.findMemberKey(member.number()))
+        Assertions.assertThat(repository.findProfileKey(member.number()))
             .isEmpty();
+        Assertions.assertThat(springRepository.count())
+            .isZero();
         Assertions.assertThat(member.memberNumber())
             .isEqualTo(MemberConstants.ALTERNATIVE_MEMBER_NUMBER);
         Assertions.assertThat(repository.findOne(KeyConstants.NUMBER))
@@ -92,60 +104,21 @@ class ITKeyAssignmentRepository {
     }
 
     @Test
-    @DisplayName("An assigned member is found by profile number")
-    @PositiveFeeType
-    @AlternativeMemberWithKey
-    void testFindMemberKey() {
-        final Optional<Long> key;
-
-        // WHEN
-        key = repository.findMemberKey(MemberConstants.ALTERNATIVE_NUMBER);
-
-        // THEN
-        Assertions.assertThat(key)
-            .contains(KeyConstants.NUMBER);
-    }
-
-    @Test
-    @DisplayName("Looking up a missing member reports a missing member")
-    void testFindMemberKey_MissingMember() {
-        final ThrowingCallable execution;
-
-        // WHEN
-        execution = () -> repository.findMemberKey(MemberConstants.NUMBER);
-
-        // THEN
-        Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingMemberException.class);
-    }
-
-    @Test
-    @DisplayName("A profile without membership cannot receive a key")
+    @DisplayName("Deleting an assigned profile removes the assignment and keeps the key")
     @ValidProfile
-    void testFindMemberKey_NotMember() {
-        final ThrowingCallable execution;
+    @AvailableKey
+    void testDelete_Profile() {
+        // GIVEN
+        repository.save(KeyConstants.NUMBER, MemberConstants.NUMBER);
 
         // WHEN
-        execution = () -> repository.findMemberKey(MemberConstants.NUMBER);
+        profileRepository.delete(MemberConstants.NUMBER);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingMemberException.class);
-    }
-
-    @Test
-    @DisplayName("A member without a key returns an empty assignment")
-    @PositiveFeeType
-    @ActiveMember
-    void testFindMemberKey_Unassigned() {
-        final Optional<Long> key;
-
-        // WHEN
-        key = repository.findMemberKey(MemberConstants.NUMBER);
-
-        // THEN
-        Assertions.assertThat(key)
-            .isEmpty();
+        Assertions.assertThat(springRepository.count())
+            .isZero();
+        Assertions.assertThat(repository.findOne(KeyConstants.NUMBER))
+            .contains(KeyAssignments.unassigned());
     }
 
     @Test
@@ -191,6 +164,63 @@ class ITKeyAssignmentRepository {
     }
 
     @Test
+    @DisplayName("An assigned member is found by profile number")
+    @PositiveFeeType
+    @AlternativeMemberWithKey
+    void testFindProfileKey() {
+        final Optional<Long> key;
+
+        // WHEN
+        key = repository.findProfileKey(MemberConstants.ALTERNATIVE_NUMBER);
+
+        // THEN
+        Assertions.assertThat(key)
+            .contains(KeyConstants.NUMBER);
+    }
+
+    @Test
+    @DisplayName("Looking up a missing member reports a missing member")
+    void testFindProfileKey_MissingProfile() {
+        final ThrowingCallable execution;
+
+        // WHEN
+        execution = () -> repository.findProfileKey(MemberConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(MissingProfileException.class);
+    }
+
+    @Test
+    @DisplayName("A profile without membership is a valid assignment target")
+    @ValidProfile
+    void testFindProfileKey_ProfileWithoutMembership() {
+        final Optional<Long> key;
+
+        // WHEN
+        key = repository.findProfileKey(MemberConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(key)
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("A member without a key returns an empty assignment")
+    @PositiveFeeType
+    @ActiveMember
+    void testFindProfileKey_Unassigned() {
+        final Optional<Long> key;
+
+        // WHEN
+        key = repository.findProfileKey(MemberConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(key)
+            .isEmpty();
+    }
+
+    @Test
     @DisplayName("Assigning a key preserves all other member fields and key details")
     @PositiveFeeType
     @AvailableKey
@@ -216,6 +246,25 @@ class ITKeyAssignmentRepository {
     }
 
     @Test
+    @DisplayName("The assignment table rejects assigning two keys to the same profile")
+    @PositiveFeeType
+    @AlternativeMemberWithKey
+    void testSave_DuplicateProfile() {
+        final Key              second;
+        final ThrowingCallable execution;
+
+        // GIVEN
+        second = keyRepository.save(new Key(-1L, false, "Second key"));
+
+        // WHEN
+        execution = () -> repository.save(second.number(), MemberConstants.ALTERNATIVE_NUMBER);
+
+        // THEN
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(DataIntegrityViolationException.class);
+    }
+
+    @Test
     @DisplayName("An inactive member can keep and receive a key assignment")
     @PositiveFeeType
     @AlternativeMemberWithKey
@@ -237,6 +286,42 @@ class ITKeyAssignmentRepository {
     }
 
     @Test
+    @DisplayName("Repeating an assignment keeps a single assignment row")
+    @PositiveFeeType
+    @AlternativeMemberWithKey
+    void testSave_OneRowPerKey() {
+        // WHEN
+        repository.save(KeyConstants.NUMBER, MemberConstants.ALTERNATIVE_NUMBER);
+        repository.save(KeyConstants.NUMBER, MemberConstants.ALTERNATIVE_NUMBER);
+
+        // THEN
+        Assertions.assertThat(springRepository.count())
+            .isEqualTo(1);
+        Assertions.assertThat(springRepository.findByKeyNumber(KeyConstants.NUMBER)
+            .orElseThrow()
+            .getProfile()
+            .getNumber())
+            .isEqualTo(MemberConstants.ALTERNATIVE_NUMBER);
+    }
+
+    @Test
+    @DisplayName("A profile without membership can receive a key")
+    @ValidProfile
+    @AvailableKey
+    void testSave_ProfileWithoutMembership() {
+        final KeyAssignment assignment;
+
+        // WHEN
+        assignment = repository.save(KeyConstants.NUMBER, MemberConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(assignment)
+            .isEqualTo(KeyAssignments.assigned());
+        Assertions.assertThat(memberRepository.exists(MemberConstants.NUMBER))
+            .isFalse();
+    }
+
+    @Test
     @DisplayName("Reassigning a key releases its previous member before saving the new assignment")
     @PositiveFeeType
     @ActiveMember
@@ -253,7 +338,9 @@ class ITKeyAssignmentRepository {
             .orElseThrow();
         Assertions.assertThat(assignment)
             .isEqualTo(KeyAssignments.assigned());
-        Assertions.assertThat(repository.findMemberKey(previous.number()))
+        Assertions.assertThat(springRepository.count())
+            .isEqualTo(1);
+        Assertions.assertThat(repository.findProfileKey(previous.number()))
             .isEmpty();
         Assertions.assertThat(repository.findAll(Pagination.unpaged(), Sorting.unsorted())
             .content())

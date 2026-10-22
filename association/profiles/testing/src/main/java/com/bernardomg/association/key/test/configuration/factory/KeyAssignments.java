@@ -27,19 +27,19 @@ package com.bernardomg.association.key.test.configuration.factory;
 import java.util.Optional;
 
 import com.bernardomg.association.key.domain.model.Key;
-import com.bernardomg.association.key.domain.model.KeyAssignment.AssignedMember;
 import com.bernardomg.association.key.domain.model.KeyAssignment;
-import com.bernardomg.association.member.domain.model.Member;
-import com.bernardomg.association.member.test.configuration.factory.Members;
+import com.bernardomg.association.key.domain.model.KeyAssignment.AssignedProfile;
+import com.bernardomg.association.profile.domain.model.Profile;
+import com.bernardomg.association.profile.test.configuration.factory.Profiles;
 
 public final class KeyAssignments {
 
     public static final KeyAssignment assigned() {
-        return assigned(Members.active());
+        return assigned(Profiles.valid());
     }
 
     public static final KeyAssignment reassigned() {
-        return assigned(Members.alternativeActive());
+        return assigned(Profiles.alternative());
     }
 
     public static final KeyAssignment unassigned() {
@@ -49,12 +49,13 @@ public final class KeyAssignments {
         return new KeyAssignment(key.number(), key.available(), key.description(), Optional.empty());
     }
 
-    private static final KeyAssignment assigned(final Member member) {
+    private static final KeyAssignment assigned(final Profile profile) {
         final Key key;
 
         key = Keys.available();
         return new KeyAssignment(key.number(), key.available(), key.description(),
-            Optional.of(new AssignedMember(member.number(), member.memberNumber(), member.name().fullName())));
+            Optional.of(new AssignedProfile(profile.number(), profile.name()
+                .fullName())));
     }
 
     private KeyAssignments() {

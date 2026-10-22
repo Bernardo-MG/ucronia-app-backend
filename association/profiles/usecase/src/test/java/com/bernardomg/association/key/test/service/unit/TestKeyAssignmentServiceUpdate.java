@@ -48,8 +48,8 @@ import com.bernardomg.association.key.domain.repository.KeyAssignmentRepository;
 import com.bernardomg.association.key.test.configuration.factory.KeyAssignments;
 import com.bernardomg.association.key.test.configuration.factory.KeyConstants;
 import com.bernardomg.association.key.usecase.service.DefaultKeyAssignmentService;
-import com.bernardomg.association.member.domain.exception.MissingMemberException;
-import com.bernardomg.association.member.test.configuration.factory.MemberConstants;
+import com.bernardomg.association.profile.domain.exception.MissingProfileException;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Key assignment service - update")
@@ -68,35 +68,16 @@ class TestKeyAssignmentServiceUpdate {
 
         // GIVEN
         given(repository.findOne(KeyConstants.NUMBER)).willReturn(Optional.of(KeyAssignments.assigned()));
-        given(repository.findMemberKey(MemberConstants.NUMBER)).willReturn(Optional.of(KeyConstants.NUMBER));
-        given(repository.save(KeyConstants.NUMBER, MemberConstants.NUMBER)).willReturn(KeyAssignments.assigned());
+        given(repository.findProfileKey(ProfileConstants.NUMBER)).willReturn(Optional.of(KeyConstants.NUMBER));
+        given(repository.save(KeyConstants.NUMBER, ProfileConstants.NUMBER)).willReturn(KeyAssignments.assigned());
 
         // WHEN
-        result = service.update(KeyConstants.NUMBER, MemberConstants.NUMBER);
+        result = service.update(KeyConstants.NUMBER, ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(result)
             .isEqualTo(KeyAssignments.assigned());
-        verify(repository).save(KeyConstants.NUMBER, MemberConstants.NUMBER);
-    }
-
-    @Test
-    @DisplayName("With a member holding another key, an exception is thrown")
-    void testUpdate_MemberHasAnotherKey() {
-        final ThrowingCallable execution;
-
-        // GIVEN
-        given(repository.findOne(KeyConstants.NUMBER)).willReturn(Optional.of(KeyAssignments.assigned()));
-        given(repository.findMemberKey(MemberConstants.NUMBER)).willReturn(Optional.of(KeyConstants.NUMBER + 1));
-
-        // WHEN
-        execution = () -> service.update(KeyConstants.NUMBER, MemberConstants.NUMBER);
-
-        // THEN
-        Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(KeyAssignmentConflictException.class);
-        verify(repository, never()).save(anyLong(), anyLong());
-        verify(repository, never()).delete(anyLong());
+        verify(repository).save(KeyConstants.NUMBER, ProfileConstants.NUMBER);
     }
 
     @Test
@@ -108,7 +89,7 @@ class TestKeyAssignmentServiceUpdate {
         given(repository.findOne(KeyConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.update(KeyConstants.NUMBER, MemberConstants.NUMBER);
+        execution = () -> service.update(KeyConstants.NUMBER, ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -118,43 +99,62 @@ class TestKeyAssignmentServiceUpdate {
     }
 
     @Test
-    @DisplayName("With a missing member profile, an exception is thrown")
-    void testUpdate_MissingMember() {
+    @DisplayName("With a missing profile, an exception is thrown")
+    void testUpdate_MissingProfile() {
         final ThrowingCallable execution;
 
         // GIVEN
         given(repository.findOne(KeyConstants.NUMBER)).willReturn(Optional.of(KeyAssignments.assigned()));
-        given(repository.findMemberKey(MemberConstants.NUMBER))
-            .willThrow(new MissingMemberException(MemberConstants.NUMBER));
+        given(repository.findProfileKey(ProfileConstants.NUMBER))
+            .willThrow(new MissingProfileException(ProfileConstants.NUMBER));
 
         // WHEN
-        execution = () -> service.update(KeyConstants.NUMBER, MemberConstants.NUMBER);
+        execution = () -> service.update(KeyConstants.NUMBER, ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingMemberException.class);
+            .isInstanceOf(MissingProfileException.class);
         verify(repository, never()).save(anyLong(), anyLong());
         verify(repository, never()).delete(anyLong());
     }
 
     @Test
-    @DisplayName("When reassigning a key, the new member profile number is used")
+    @DisplayName("With a member holding another key, an exception is thrown")
+    void testUpdate_ProfileHasAnotherKey() {
+        final ThrowingCallable execution;
+
+        // GIVEN
+        given(repository.findOne(KeyConstants.NUMBER)).willReturn(Optional.of(KeyAssignments.assigned()));
+        given(repository.findProfileKey(ProfileConstants.NUMBER)).willReturn(Optional.of(KeyConstants.NUMBER + 1));
+
+        // WHEN
+        execution = () -> service.update(KeyConstants.NUMBER, ProfileConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(KeyAssignmentConflictException.class);
+        verify(repository, never()).save(anyLong(), anyLong());
+        verify(repository, never()).delete(anyLong());
+    }
+
+    @Test
+    @DisplayName("When reassigning a key, the new profile number is used")
     void testUpdate_Reassigned() {
         final KeyAssignment result;
 
         // GIVEN
         given(repository.findOne(KeyConstants.NUMBER)).willReturn(Optional.of(KeyAssignments.assigned()));
-        given(repository.findMemberKey(MemberConstants.ALTERNATIVE_NUMBER)).willReturn(Optional.empty());
-        given(repository.save(KeyConstants.NUMBER, MemberConstants.ALTERNATIVE_NUMBER))
+        given(repository.findProfileKey(ProfileConstants.ALTERNATIVE_NUMBER)).willReturn(Optional.empty());
+        given(repository.save(KeyConstants.NUMBER, ProfileConstants.ALTERNATIVE_NUMBER))
             .willReturn(KeyAssignments.reassigned());
 
         // WHEN
-        result = service.update(KeyConstants.NUMBER, MemberConstants.ALTERNATIVE_NUMBER);
+        result = service.update(KeyConstants.NUMBER, ProfileConstants.ALTERNATIVE_NUMBER);
 
         // THEN
         Assertions.assertThat(result)
             .isEqualTo(KeyAssignments.reassigned());
-        verify(repository).save(KeyConstants.NUMBER, MemberConstants.ALTERNATIVE_NUMBER);
+        verify(repository).save(KeyConstants.NUMBER, ProfileConstants.ALTERNATIVE_NUMBER);
     }
 
     @Test
@@ -166,7 +166,7 @@ class TestKeyAssignmentServiceUpdate {
         given(repository.findOne(KeyConstants.NUMBER)).willReturn(Optional.of(KeyAssignments.unassigned()));
 
         // WHEN
-        execution = () -> service.update(KeyConstants.NUMBER, MemberConstants.NUMBER);
+        execution = () -> service.update(KeyConstants.NUMBER, ProfileConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)

@@ -27,16 +27,19 @@ package com.bernardomg.association.key.adapter.inbound.jpa.repository;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.association.key.adapter.inbound.jpa.model.KeyAssignmentEntity;
+import com.bernardomg.association.key.adapter.inbound.jpa.model.KeyAssignmentEntityMapper;
 import com.bernardomg.association.key.adapter.inbound.jpa.model.KeyEntity;
-import com.bernardomg.association.key.adapter.inbound.jpa.model.KeyEntityMapper;
 import com.bernardomg.association.key.domain.exception.MissingKeyException;
 import com.bernardomg.association.key.domain.model.KeyAssignment;
 import com.bernardomg.association.key.domain.repository.KeyAssignmentRepository;
-import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntity;
-import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
-import com.bernardomg.association.member.domain.exception.MissingMemberException;
+import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
+import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
+import com.bernardomg.association.profile.domain.exception.MissingProfileException;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
@@ -45,84 +48,115 @@ import com.bernardomg.pagination.springframework.SpringPagination;
 @Transactional
 public final class JpaKeyAssignmentRepository implements KeyAssignmentRepository {
 
-    private final KeySpringRepository    keySpringRepository;
+    /**
+     * Logger for the class.
+     */
+    private static final Logger                 log = LoggerFactory.getLogger(JpaKeyAssignmentRepository.class);
 
-    private final MemberSpringRepository memberSpringRepository;
+    private final KeyAssignmentSpringRepository keyAssignmentSpringRepository;
 
-    public JpaKeyAssignmentRepository(final KeySpringRepository keySpringRepo,
-            final MemberSpringRepository memberSpringRepo) {
+    private final KeySpringRepository           keySpringRepository;
+
+    private final ProfileSpringRepository       profileSpringRepository;
+
+    public JpaKeyAssignmentRepository(final KeyAssignmentSpringRepository keyAssignmentSpringRepo,
+            final KeySpringRepository keySpringRepo, final ProfileSpringRepository profileSpringRepo) {
         super();
 
+        keyAssignmentSpringRepository = Objects.requireNonNull(keyAssignmentSpringRepo);
         keySpringRepository = Objects.requireNonNull(keySpringRepo);
-        memberSpringRepository = Objects.requireNonNull(memberSpringRepo);
+        profileSpringRepository = Objects.requireNonNull(profileSpringRepo);
     }
 
     @Override
     public final void delete(final Long number) {
-        release(number);
+        log.debug("Deleting key assignment {}", number);
+
+        keyAssignmentSpringRepository.deleteByKeyNumber(number);
+
+        log.debug("Deleted key assignment {}", number);
     }
 
     @Override
     public final Page<KeyAssignment> findAll(final Pagination pagination, final Sorting sorting) {
-        final org.springframework.data.domain.Page<KeyAssignment> assignments;
+        final org.springframework.data.domain.Page<KeyAssignment> read;
 
-        assignments = keySpringRepository.findAssignments(SpringPagination.toPageable(pagination, sorting))
-            .map(KeyEntityMapper::toDomain);
+        log.debug("Finding all the key assignments");
 
-        return SpringPagination.toPage(assignments);
-    }
+        read = keyAssignmentSpringRepository.findAll(SpringPagination.toPageable(pagination, sorting))
+            .map(KeyAssignmentEntityMapper::toDomain);
 
-    @Override
-    public final Optional<Long> findMemberKey(final Long profileNumber) {
-        final MemberEntity member;
+        log.debug("Found all the key assignments");
 
-        member = memberSpringRepository.findByNumber(profileNumber)
-            .orElseThrow(() -> new MissingMemberException(profileNumber));
-
-        return Optional.ofNullable(member.getKey())
-            .map(KeyEntity::getNumber);
+        return SpringPagination.toPage(read);
     }
 
     @Override
     public final Optional<KeyAssignment> findOne(final Long number) {
-        // Serialize changes to an assignment, including the unassigned state.
-        return keySpringRepository.findByNumber(number)
-            .map(key -> read(number));
+        final Optional<KeyAssignment> keyAssignment;
+
+        log.trace("Finding key assignment for key {}", number);
+
+        keyAssignment = keyAssignmentSpringRepository.findByKeyNumber(number)
+            .map(KeyAssignmentEntityMapper::toDomain);
+
+        log.trace("Found key assignment for key {}", number);
+
+        return keyAssignment;
+    }
+
+    @Override
+    public final Optional<Long> findProfileKey(final Long profileNumber) {
+        final Optional<Long> key;
+
+        log.debug("Finding profile key for profile {}", profileNumber);
+
+        if (!profileSpringRepository.existsByNumber(profileNumber)) {
+            log.error("Missing profile {}", profileNumber);
+            throw new MissingProfileException(profileNumber);
+        }
+
+        key = keyAssignmentSpringRepository.findByProfileNumber(profileNumber)
+            .map(KeyAssignmentEntity::getKey)
+            .map(KeyEntity::getNumber);
+
+        log.debug("Found profile key for profile {}", profileNumber);
+
+        return key;
     }
 
     @Override
     public final KeyAssignment save(final Long number, final Long profileNumber) {
-        final KeyEntity    key;
-        final MemberEntity member;
+        final KeyEntity           key;
+        final ProfileEntity       profile;
+        final KeyAssignmentEntity entity;
+        final KeyAssignment       keyAssignment;
+
+        log.debug("Saving key asignment for key {} and profile {}", number, profileNumber);
 
         key = keySpringRepository.findByNumber(number)
-            .orElseThrow(() -> new MissingKeyException(number));
-        member = memberSpringRepository.findByNumber(profileNumber)
-            .orElseThrow(() -> new MissingMemberException(profileNumber));
+            .orElseThrow(() -> {
+                log.error("Missing key {}", number);
+                return new MissingKeyException(number);
+            });
+        profile = profileSpringRepository.findByNumber(profileNumber)
+            .orElseThrow(() -> {
+                log.error("Missing profile {}", number);
+                return new MissingProfileException(number);
+            });
 
-        // Release and flush before reassigning the unique key relationship.
-        release(number);
-        member.setKey(key);
-        memberSpringRepository.saveAndFlush(member);
+        entity = keyAssignmentSpringRepository.findByKeyNumber(number)
+            .orElseGet(KeyAssignmentEntity::new);
 
-        return read(number);
-    }
+        entity.setId(key.getId());
+        entity.setKey(key);
+        entity.setProfile(profile);
 
-    private final KeyAssignment read(final Long number) {
-        return keySpringRepository.findAssignmentByNumber(number)
-            .map(KeyEntityMapper::toDomain)
-            .orElseThrow(() -> new MissingKeyException(number));
-    }
+        keyAssignment = KeyAssignmentEntityMapper.toDomain(keyAssignmentSpringRepository.save(entity));
 
-    private final void release(final Long number) {
-        final Optional<MemberEntity> assigned;
+        log.debug("Saved key asignment for key {} and profile {}", number, profileNumber);
 
-        assigned = memberSpringRepository.findByKeyNumber(number);
-        if (assigned.isPresent()) {
-            assigned.get()
-                .setKey(null);
-            memberSpringRepository.saveAndFlush(assigned.get());
-        }
+        return keyAssignment;
     }
 
 }

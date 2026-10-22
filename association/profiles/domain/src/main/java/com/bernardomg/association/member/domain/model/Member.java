@@ -39,8 +39,8 @@ import com.bernardomg.security.domain.audit.model.AuditDetails;
 
 public record Member(Optional<String> identifier, Long number, Long memberNumber, Name name,
         Optional<Instant> birthDate, Collection<ContactChannel> contactChannels, Optional<String> address,
-        Optional<String> comments, Boolean active, Boolean renew, FeeType feeType,
-        Set<String> types, AuditDetails audit) {
+        Optional<String> comments, Boolean active, Boolean renew, FeeType feeType, Set<String> types,
+        AuditDetails audit) {
 
     public static final String PROFILE_TYPE = "member";
 

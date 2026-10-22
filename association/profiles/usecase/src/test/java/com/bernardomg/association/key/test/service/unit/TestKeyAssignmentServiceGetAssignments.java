@@ -17,7 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.key.domain.model.Key;
 import com.bernardomg.association.key.domain.model.KeyAssignment;
-import com.bernardomg.association.key.domain.model.KeyAssignment.AssignedMember;
+import com.bernardomg.association.key.domain.model.KeyAssignment.AssignedProfile;
 import com.bernardomg.association.key.domain.repository.KeyAssignmentRepository;
 import com.bernardomg.association.key.test.configuration.factory.Keys;
 import com.bernardomg.association.key.usecase.service.DefaultKeyAssignmentService;
@@ -57,7 +57,7 @@ class TestKeyAssignmentServiceGetAssignments {
         member = Members.alternativeActive();
 
         assigned = new KeyAssignment(key.number(), key.available(), key.description(),
-            Optional.of(new AssignedMember(member.number(), member.memberNumber(), member.name()
+            Optional.of(new AssignedProfile(member.number(), member.name()
                 .fullName())));
         unassigned = new KeyAssignment(key.number() + 1, false, key.description(), Optional.empty());
 

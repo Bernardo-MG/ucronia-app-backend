@@ -62,14 +62,14 @@ public final class DefaultKeyAssignmentService implements KeyAssignmentService {
         final KeyAssignment existing;
         final KeyAssignment created;
 
-        log.debug("Assigning key {} to member profile {}", number, profileNumber);
+        log.debug("Assigning key {} to profile {}", number, profileNumber);
 
         existing = findKey(number);
-        if (existing.member()
+        if (existing.profile()
             .isPresent()) {
             throw new KeyAssignmentConflictException(number);
         }
-        checkMemberKey(number, profileNumber);
+        checkProfileKey(number, profileNumber);
 
         created = repository.save(number, profileNumber);
 
@@ -85,7 +85,7 @@ public final class DefaultKeyAssignmentService implements KeyAssignmentService {
         log.debug("Deleting assignment for key {}", number);
 
         existing = findKey(number);
-        if (existing.member()
+        if (existing.profile()
             .isEmpty()) {
             throw new MissingKeyAssignmentException(number);
         }
@@ -115,14 +115,14 @@ public final class DefaultKeyAssignmentService implements KeyAssignmentService {
         final KeyAssignment existing;
         final KeyAssignment updated;
 
-        log.debug("Reassigning key {} to member profile {}", number, profileNumber);
+        log.debug("Reassigning key {} to profile {}", number, profileNumber);
 
         existing = findKey(number);
-        if (existing.member()
+        if (existing.profile()
             .isEmpty()) {
             throw new MissingKeyAssignmentException(number);
         }
-        checkMemberKey(number, profileNumber);
+        checkProfileKey(number, profileNumber);
 
         updated = repository.save(number, profileNumber);
 
@@ -131,10 +131,10 @@ public final class DefaultKeyAssignmentService implements KeyAssignmentService {
         return updated;
     }
 
-    private final void checkMemberKey(final long number, final long profileNumber) {
+    private final void checkProfileKey(final long number, final long profileNumber) {
         final Optional<Long> existing;
 
-        existing = repository.findMemberKey(profileNumber);
+        existing = repository.findProfileKey(profileNumber);
         if (existing.filter(key -> !Objects.equals(key, number))
             .isPresent()) {
             throw new KeyAssignmentConflictException(number);
