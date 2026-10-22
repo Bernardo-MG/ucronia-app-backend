@@ -52,7 +52,7 @@ class ITKeyAssignmentRepositoryFindAll {
 
         // GIVEN
         key = Keys.available();
-        member = Members.alternativeWithKey();
+        member = Members.alternativeActive();
         expected = new KeyAssignment(key.number(), key.available(), key.description(),
             Optional.of(new AssignedMember(member.number(), member.memberNumber(), member.name()
                 .fullName())));
@@ -82,7 +82,7 @@ class ITKeyAssignmentRepositoryFindAll {
 
         // GIVEN
         key = Keys.available();
-        member = Members.alternativeWithKey()
+        member = Members.alternativeActive()
             .deactivated();
         memberRepository.save(member);
 

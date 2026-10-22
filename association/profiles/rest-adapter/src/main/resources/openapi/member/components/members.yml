@@ -58,8 +58,6 @@ components:
         renew:
           type: boolean
           description: Whether the member is eligible for renewal.
-        key:
-          $ref: '../common/ids.yml#/components/schemas/Id'
     Member:
       type: object
       required: [number, memberNumber, name]
@@ -88,8 +86,6 @@ components:
           type: string
           maxLength: 250
           description: Comments about the member.
-        key:
-          $ref: '../common/ids.yml#/components/schemas/Id'
         feeType:
           $ref: '#/components/schemas/MemberFeeType'
         active:
@@ -139,7 +135,7 @@ components:
           description: Whether the member is eligible for renewal.
     MemberUpdate:
       type: object
-      description: Complete replacement of editable member fields. The key assignment is preserved.
+      description: Complete replacement of editable member fields.
       required: [feeType, name, contactChannels, active, renew]
       properties:
         identifier:
@@ -170,7 +166,7 @@ components:
           description: Whether the member is eligible for renewal.
     MemberPatch:
       type: object
-      description: Updates member fields while preserving the key assignment.
+      description: Updates member fields.
       required: [name, active, renew]
       properties:
         identifier:

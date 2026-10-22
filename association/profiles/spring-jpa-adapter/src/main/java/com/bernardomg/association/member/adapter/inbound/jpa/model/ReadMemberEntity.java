@@ -11,7 +11,6 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTypeEntity;
-import com.bernardomg.association.key.adapter.inbound.jpa.model.KeyEntity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -68,10 +67,6 @@ public class ReadMemberEntity implements Serializable {
 
     @Column(name = "identifier", table = "profiles")
     private String                                     identifier;
-
-    @OneToOne
-    @JoinColumn(name = "key_id", table = "members", referencedColumnName = "id")
-    private KeyEntity                                  key;
 
     @Column(name = "last_name", table = "profiles")
     private String                                     lastName;
@@ -139,10 +134,6 @@ public class ReadMemberEntity implements Serializable {
         return identifier;
     }
 
-    public KeyEntity getKey() {
-        return key;
-    }
-
     public String getLastName() {
         return lastName;
     }
@@ -208,10 +199,6 @@ public class ReadMemberEntity implements Serializable {
         this.identifier = identifier;
     }
 
-    public void setKey(final KeyEntity key) {
-        this.key = key;
-    }
-
     public void setLastName(final String lastName) {
         this.lastName = lastName;
     }
@@ -240,9 +227,9 @@ public class ReadMemberEntity implements Serializable {
     public String toString() {
         return "ReadMemberEntity [id=" + id + ", active=" + active + ", feeType=" + feeType + ", number=" + number
                 + ", memberNumber=" + memberNumber + ", firstName=" + firstName + ", lastName=" + lastName
-                + ", nickname=" + nickname + ", renew=" + renew + ", identifier=" + identifier + ", key=" + key
-                + ", address=" + address + ", birthDate=" + birthDate + ", comments=" + comments + ", types=" + types
-                + ", contactChannels=" + contactChannels + "]";
+                + ", nickname=" + nickname + ", renew=" + renew + ", identifier=" + identifier + ", address=" + address
+                + ", birthDate=" + birthDate + ", comments=" + comments + ", types=" + types + ", contactChannels="
+                + contactChannels + "]";
     }
 
 }

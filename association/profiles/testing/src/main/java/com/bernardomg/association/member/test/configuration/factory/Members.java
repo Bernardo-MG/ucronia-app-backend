@@ -7,7 +7,6 @@ import java.util.Objects;
 import java.util.Optional;
 
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
-import com.bernardomg.association.key.test.configuration.factory.KeyConstants;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.model.Member.FeeType;
 import com.bernardomg.association.profile.domain.model.ContactChannel;
@@ -69,20 +68,6 @@ public final class Members {
             MemberConstants.ALTERNATIVE_MEMBER_NUMBER, name, Optional.of(MemberConstants.BIRTH_DATE), List.of(),
             Optional.of(MemberConstants.ADDRESS), Optional.of(MemberConstants.COMMENTS), false, true, feeType,
             new HashSet<>(List.of(Member.PROFILE_TYPE)));
-    }
-
-    public static final Member alternativeWithKey() {
-        final Name    name;
-        final FeeType feeType;
-
-        feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
-
-        name = new Name(ProfileConstants.ALTERNATIVE_FIRST_NAME, ProfileConstants.ALTERNATIVE_LAST_NAME,
-            Optional.empty());
-        return new Member(Optional.of(MemberConstants.ALTERNATIVE_IDENTIFIER), MemberConstants.ALTERNATIVE_NUMBER,
-            MemberConstants.ALTERNATIVE_MEMBER_NUMBER, name, Optional.of(MemberConstants.BIRTH_DATE), List.of(),
-            Optional.of(MemberConstants.ADDRESS), Optional.of(MemberConstants.COMMENTS), true, true,
-            Optional.ofNullable(KeyConstants.NUMBER), feeType, new HashSet<>(List.of(Member.PROFILE_TYPE)));
     }
 
     public static final Member created() {
@@ -282,19 +267,6 @@ public final class Members {
             MemberConstants.MEMBER_NUMBER, name, Optional.of(MemberConstants.BIRTH_DATE), List.of(contactChannel),
             Optional.of(MemberConstants.ADDRESS), Optional.of(MemberConstants.COMMENTS), true, true, feeType,
             new HashSet<>(List.of(Member.PROFILE_TYPE)));
-    }
-
-    public static final Member withKey() {
-        final Name    name;
-        final FeeType feeType;
-
-        feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
-
-        name = new Name(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME, Optional.empty());
-        return new Member(Optional.of(MemberConstants.IDENTIFIER), MemberConstants.NUMBER,
-            MemberConstants.MEMBER_NUMBER, name, Optional.of(MemberConstants.BIRTH_DATE), List.of(),
-            Optional.of(MemberConstants.ADDRESS), Optional.of(MemberConstants.COMMENTS), true, true,
-            Optional.ofNullable(KeyConstants.NUMBER), feeType, new HashSet<>(List.of(Member.PROFILE_TYPE)));
     }
 
     public static final Member withoutType() {

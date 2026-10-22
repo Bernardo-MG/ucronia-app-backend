@@ -30,7 +30,6 @@ import org.springframework.context.annotation.Configuration;
 
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.FeeTypeSpringRepository;
 import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
-import com.bernardomg.association.key.adapter.inbound.jpa.repository.KeySpringRepository;
 import com.bernardomg.association.member.adapter.inbound.event.ActivateMemberOnFeePaidEventListener;
 import com.bernardomg.association.member.adapter.inbound.event.ApplyRenewalOnMonthStartEventListener;
 import com.bernardomg.association.member.adapter.inbound.event.DeactivateMemberOnFeeDeletedEventListener;
@@ -105,9 +104,9 @@ public class AssociationMemberAutoConfiguration {
     public MemberRepository getMemberRepository(final ReadMemberSpringRepository readMemberSpringRepository,
             final MemberSpringRepository memberSpringRepository,
             final MemberContactMethodSpringRepository memberContactMethodSpringRepository,
-            final FeeTypeSpringRepository feeTypeSpringRepository, final KeySpringRepository keySpringRepository) {
+            final FeeTypeSpringRepository feeTypeSpringRepository) {
         return new JpaMemberRepository(readMemberSpringRepository, memberSpringRepository,
-            memberContactMethodSpringRepository, feeTypeSpringRepository, keySpringRepository);
+            memberContactMethodSpringRepository, feeTypeSpringRepository);
     }
 
     @Bean("memberService")

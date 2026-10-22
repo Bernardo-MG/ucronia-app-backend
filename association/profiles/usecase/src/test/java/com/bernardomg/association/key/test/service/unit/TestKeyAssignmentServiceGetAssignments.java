@@ -54,7 +54,7 @@ class TestKeyAssignmentServiceGetAssignments {
         sorting = Sorting.unsorted();
 
         key = Keys.available();
-        member = Members.alternativeWithKey();
+        member = Members.alternativeActive();
 
         assigned = new KeyAssignment(key.number(), key.available(), key.description(),
             Optional.of(new AssignedMember(member.number(), member.memberNumber(), member.name()

@@ -81,7 +81,7 @@ class ITKeyAssignmentRepository {
         // THEN
         member = memberRepository.findOne(MemberConstants.ALTERNATIVE_NUMBER)
             .orElseThrow();
-        Assertions.assertThat(member.key())
+        Assertions.assertThat(repository.findMemberKey(member.number()))
             .isEmpty();
         Assertions.assertThat(member.memberNumber())
             .isEqualTo(MemberConstants.ALTERNATIVE_MEMBER_NUMBER);
@@ -210,7 +210,7 @@ class ITKeyAssignmentRepository {
         Assertions.assertThat(member)
             .usingRecursiveComparison()
             .ignoringFields("audit")
-            .isEqualTo(Members.withKey());
+            .isEqualTo(Members.active());
         Assertions.assertThat(keyRepository.findOne(KeyConstants.NUMBER))
             .contains(Keys.available());
     }
@@ -223,7 +223,7 @@ class ITKeyAssignmentRepository {
         final KeyAssignment assignment;
 
         // GIVEN
-        memberRepository.save(Members.alternativeWithKey()
+        memberRepository.save(Members.alternativeActive()
             .deactivated());
 
         // WHEN
@@ -253,7 +253,7 @@ class ITKeyAssignmentRepository {
             .orElseThrow();
         Assertions.assertThat(assignment)
             .isEqualTo(KeyAssignments.assigned());
-        Assertions.assertThat(previous.key())
+        Assertions.assertThat(repository.findMemberKey(previous.number()))
             .isEmpty();
         Assertions.assertThat(repository.findAll(Pagination.unpaged(), Sorting.unsorted())
             .content())

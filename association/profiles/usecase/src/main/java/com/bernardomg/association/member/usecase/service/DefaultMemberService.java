@@ -92,7 +92,6 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     public final Member create(final Member member) {
-        final Member toCreate;
         final Member created;
 
         log.debug("Creating member profile {}", member);
@@ -115,10 +114,7 @@ public final class DefaultMemberService implements MemberService {
 
         createValidator.validate(member);
 
-        toCreate = new Member(member.identifier(), member.number(), member.memberNumber(), member.name(),
-            member.birthDate(), member.contactChannels(), member.address(), member.comments(), member.active(),
-            member.renew(), member.feeType(), member.types(), member.audit());
-        created = memberRepository.save(toCreate);
+        created = memberRepository.save(member);
 
         log.debug("Created member profile {}", created);
 
@@ -242,10 +238,10 @@ public final class DefaultMemberService implements MemberService {
             .map(ContactChannel::contactMethod)
             .forEach(this::checkContactMethodExists);
 
-        // Key assignment is managed separately; all editable PUT fields are replaced.
+        // All editable PUT fields are replaced.
         toSave = new Member(member.identifier(), member.number(), existing.memberNumber(), member.name(),
             member.birthDate(), member.contactChannels(), member.address(), member.comments(), member.active(),
-            member.renew(), existing.key(), member.feeType(), member.types(), member.audit());
+            member.renew(), member.feeType(), member.types(), member.audit());
 
         updateValidator.validate(toSave);
 
@@ -316,7 +312,7 @@ public final class DefaultMemberService implements MemberService {
                 .orElse(existing.active()),
             Optional.ofNullable(updated.renew())
                 .orElse(existing.renew()),
-            existing.key(), Optional.ofNullable(updated.feeType())
+            Optional.ofNullable(updated.feeType())
                 .orElse(existing.feeType()),
             Optional.ofNullable(updated.types())
                 .orElse(existing.types()));

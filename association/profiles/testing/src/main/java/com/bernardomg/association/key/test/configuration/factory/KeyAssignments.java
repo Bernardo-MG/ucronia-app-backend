@@ -39,7 +39,7 @@ public final class KeyAssignments {
     }
 
     public static final KeyAssignment reassigned() {
-        return assigned(Members.alternativeWithKey());
+        return assigned(Members.alternativeActive());
     }
 
     public static final KeyAssignment unassigned() {

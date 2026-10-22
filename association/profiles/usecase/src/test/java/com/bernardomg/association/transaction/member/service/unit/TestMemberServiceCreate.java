@@ -130,19 +130,6 @@ class TestMemberServiceCreate {
     }
 
     @Test
-    @DisplayName("Creating a member does not assign a key")
-    void testCreate_KeyIgnored() {
-        // GIVEN
-        given(feeTypeRepository.exists(FeeConstants.FEE_TYPE_NUMBER)).willReturn(true);
-
-        // WHEN
-        service.create(Members.withKey());
-
-        // THEN
-        verify(memberRepository).save(Members.active());
-    }
-
-    @Test
     @DisplayName("With a member having padding whitespaces in first and last name, these whitespaces are removed and the profile is persisted")
     void testCreate_Padded_PersistedData() {
         final Member member;
