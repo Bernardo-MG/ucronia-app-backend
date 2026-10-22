@@ -32,7 +32,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.dao.DataIntegrityViolationException;
 
 import com.bernardomg.association.TestApplication;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
@@ -246,22 +245,28 @@ class ITKeyAssignmentRepository {
     }
 
     @Test
-    @DisplayName("The assignment table rejects assigning two keys to the same profile")
+    @DisplayName("Two keys can be assigned to the same profile")
     @PositiveFeeType
     @AlternativeMemberWithKey
     void testSave_DuplicateProfile() {
-        final Key              second;
-        final ThrowingCallable execution;
+        final KeyAssignment assignment;
+        final Key           second;
 
         // GIVEN
         second = keyRepository.save(new Key(-1L, false, "Second key"));
 
         // WHEN
-        execution = () -> repository.save(second.number(), MemberConstants.ALTERNATIVE_NUMBER);
+        assignment = repository.save(second.number(), MemberConstants.ALTERNATIVE_NUMBER);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(DataIntegrityViolationException.class);
+        Assertions.assertThat(assignment)
+            .isEqualTo(
+                new KeyAssignment(second.number(), second.available(), second.description(), KeyAssignments.reassigned()
+                    .profile()));
+        Assertions.assertThat(repository.findOne(KeyConstants.NUMBER))
+            .contains(KeyAssignments.reassigned());
+        Assertions.assertThat(repository.findOne(second.number()))
+            .contains(assignment);
     }
 
     @Test
