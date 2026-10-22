@@ -28,6 +28,7 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
+import com.bernardomg.association.key.adapter.inbound.jpa.repository.KeyAssignmentSpringRepository;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ContactMethodSpringRepository;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.JpaContactMethodRepository;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.JpaProfileRepository;
@@ -57,8 +58,10 @@ public class AssociationProfileAutoConfiguration {
 
     @Bean("profileRepository")
     public ProfileRepository getProfileRepository(final ProfileSpringRepository profileSpringRepository,
-            final ContactMethodSpringRepository contactMethodSpringRepository) {
-        return new JpaProfileRepository(profileSpringRepository, contactMethodSpringRepository);
+            final ContactMethodSpringRepository contactMethodSpringRepository,
+            final KeyAssignmentSpringRepository keyAssignmentSpringRepository) {
+        return new JpaProfileRepository(profileSpringRepository, contactMethodSpringRepository,
+            keyAssignmentSpringRepository);
     }
 
     @Bean("profileService")

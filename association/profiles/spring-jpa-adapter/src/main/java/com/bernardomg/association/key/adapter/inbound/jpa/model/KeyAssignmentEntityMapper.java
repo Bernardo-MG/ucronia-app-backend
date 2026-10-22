@@ -31,6 +31,8 @@ import com.bernardomg.association.key.domain.model.KeyAssignment.AssignedProfile
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
 import com.bernardomg.association.profile.domain.model.Name;
 
+import jakarta.persistence.Tuple;
+
 public final class KeyAssignmentEntityMapper {
 
     public static final KeyAssignment toDomain(final KeyAssignmentEntity entity) {
@@ -41,6 +43,18 @@ public final class KeyAssignmentEntityMapper {
         return new KeyAssignment(key.getNumber(), key.getAvailable(), key.getDescription(),
             assignment.map(KeyAssignmentEntity::getProfile)
                 .map(KeyAssignmentEntityMapper::toDomain));
+    }
+
+    public static final KeyAssignment toDomain(final Tuple row) {
+        final Optional<AssignedProfile> profile;
+
+        profile = Optional.ofNullable(row.get("profileNumber", Long.class))
+            .map(number -> new AssignedProfile(number,
+                new Name(row.get("firstName", String.class), Optional.ofNullable(row.get("lastName", String.class))
+                    .orElse(""), Optional.ofNullable(row.get("nickname", String.class))).fullName()));
+
+        return new KeyAssignment(row.get("number", Long.class), row.get("available", Boolean.class),
+            row.get("description", String.class), profile);
     }
 
     private static final AssignedProfile toDomain(final ProfileEntity profile) {

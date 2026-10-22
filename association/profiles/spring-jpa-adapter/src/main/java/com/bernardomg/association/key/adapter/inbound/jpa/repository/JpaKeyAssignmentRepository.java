@@ -83,7 +83,7 @@ public final class JpaKeyAssignmentRepository implements KeyAssignmentRepository
 
         log.debug("Finding all the key assignments");
 
-        read = keyAssignmentSpringRepository.findAll(SpringPagination.toPageable(pagination, sorting))
+        read = keyAssignmentSpringRepository.findAssignments(SpringPagination.toPageable(pagination, sorting))
             .map(KeyAssignmentEntityMapper::toDomain);
 
         log.debug("Found all the key assignments");
@@ -97,7 +97,7 @@ public final class JpaKeyAssignmentRepository implements KeyAssignmentRepository
 
         log.trace("Finding key assignment for key {}", number);
 
-        keyAssignment = keyAssignmentSpringRepository.findByKeyNumber(number)
+        keyAssignment = keyAssignmentSpringRepository.findAssignmentByKeyNumber(number)
             .map(KeyAssignmentEntityMapper::toDomain);
 
         log.trace("Found key assignment for key {}", number);
@@ -148,7 +148,6 @@ public final class JpaKeyAssignmentRepository implements KeyAssignmentRepository
         entity = keyAssignmentSpringRepository.findByKeyNumber(number)
             .orElseGet(KeyAssignmentEntity::new);
 
-        entity.setId(key.getId());
         entity.setKey(key);
         entity.setProfile(profile);
 

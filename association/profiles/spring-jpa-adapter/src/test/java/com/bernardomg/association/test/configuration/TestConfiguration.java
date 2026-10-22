@@ -188,8 +188,10 @@ public class TestConfiguration {
 
     @Bean("profileRepository")
     public ProfileRepository getProfileRepository(final ProfileSpringRepository profileSpringRepository,
-            final ContactMethodSpringRepository contactMethodSpringRepository) {
-        return new JpaProfileRepository(profileSpringRepository, contactMethodSpringRepository);
+            final ContactMethodSpringRepository contactMethodSpringRepository,
+            final KeyAssignmentSpringRepository keyAssignmentSpringRepository) {
+        return new JpaProfileRepository(profileSpringRepository, contactMethodSpringRepository,
+            keyAssignmentSpringRepository);
     }
 
     @Bean("publicMemberRepository")
