@@ -33,6 +33,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -54,8 +55,8 @@ public class KeyAssignmentEntity implements Serializable {
     @JoinColumn(name = "key_id", nullable = false)
     private KeyEntity         key;
 
-    @OneToOne(optional = false)
-    @JoinColumn(name = "profile_id", nullable = false, unique = true)
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "profile_id", nullable = false)
     private ProfileEntity     profile;
 
     @Override

@@ -1,6 +1,6 @@
 put:
   summary: Replace the profile assigned to a key.
-  description: Full replacement of an existing assignment. Uses the profile number. Repeating the same assignment is allowed. A profile holding another key causes a conflict.
+  description: Full replacement of an existing assignment. Uses the profile number. Repeating the same assignment is allowed. A profile may hold multiple keys.
   operationId: updateKeyAssignment
   tags: [KeyAssignment]
   parameters:
@@ -27,8 +27,6 @@ put:
       description: Invalid assignment request.
     '404':
       description: Key, profile or assignment not found.
-    '409':
-      description: Profile already holds another key.
 delete:
   summary: Remove a key assignment without deleting the key or profile.
   operationId: deleteKeyAssignment

@@ -25,7 +25,6 @@
 package com.bernardomg.association.key.usecase.service;
 
 import java.util.Objects;
-import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,7 +68,6 @@ public final class DefaultKeyAssignmentService implements KeyAssignmentService {
             .isPresent()) {
             throw new KeyAssignmentConflictException(number);
         }
-        checkProfileKey(number, profileNumber);
 
         created = repository.save(number, profileNumber);
 
@@ -122,23 +120,12 @@ public final class DefaultKeyAssignmentService implements KeyAssignmentService {
             .isEmpty()) {
             throw new MissingKeyAssignmentException(number);
         }
-        checkProfileKey(number, profileNumber);
 
         updated = repository.save(number, profileNumber);
 
         log.debug("Updated key assignment {}", updated);
 
         return updated;
-    }
-
-    private final void checkProfileKey(final long number, final long profileNumber) {
-        final Optional<Long> existing;
-
-        existing = repository.findProfileKey(profileNumber);
-        if (existing.filter(key -> !Objects.equals(key, number))
-            .isPresent()) {
-            throw new KeyAssignmentConflictException(number);
-        }
     }
 
     private final KeyAssignment findKey(final long number) {

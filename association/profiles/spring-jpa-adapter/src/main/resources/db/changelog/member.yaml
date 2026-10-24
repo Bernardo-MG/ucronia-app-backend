@@ -72,3 +72,18 @@ databaseChangeLog:
                     foreignKeyName: fk_key_assignments_profile
                     references: directory.profiles(id)
                     deleteCascade: true
+  - changeSet:
+      id: key-assignment-multiple-keys-per-profile
+      author: Bernardo
+      changes:
+        - dropUniqueConstraint:
+            schemaName: directory
+            tableName: key_assignments
+            constraintName: uk_key_assignments_profile
+        - createIndex:
+            schemaName: directory
+            tableName: key_assignments
+            indexName: idx_key_assignments_profile
+            columns:
+              - column:
+                  name: profile_id

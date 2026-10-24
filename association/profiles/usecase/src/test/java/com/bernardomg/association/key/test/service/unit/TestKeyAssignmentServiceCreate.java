@@ -67,7 +67,6 @@ class TestKeyAssignmentServiceCreate {
 
         // GIVEN
         given(repository.findOne(KeyConstants.NUMBER)).willReturn(Optional.of(KeyAssignments.unassigned()));
-        given(repository.findProfileKey(ProfileConstants.NUMBER)).willReturn(Optional.empty());
         given(repository.save(KeyConstants.NUMBER, ProfileConstants.NUMBER)).willReturn(KeyAssignments.assigned());
 
         // WHEN
@@ -122,7 +121,7 @@ class TestKeyAssignmentServiceCreate {
 
         // GIVEN
         given(repository.findOne(KeyConstants.NUMBER)).willReturn(Optional.of(KeyAssignments.unassigned()));
-        given(repository.findProfileKey(ProfileConstants.NUMBER))
+        given(repository.save(KeyConstants.NUMBER, ProfileConstants.NUMBER))
             .willThrow(new MissingProfileException(ProfileConstants.NUMBER));
 
         // WHEN
@@ -131,26 +130,39 @@ class TestKeyAssignmentServiceCreate {
         // THEN
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(MissingProfileException.class);
-        verify(repository, never()).save(anyLong(), anyLong());
+        verify(repository).save(KeyConstants.NUMBER, ProfileConstants.NUMBER);
         verify(repository, never()).delete(anyLong());
     }
 
     @Test
-    @DisplayName("With a member holding another key, an exception is thrown")
+    @DisplayName("A profile holding another key can receive an assignment")
     void testCreate_ProfileHasAnotherKey() {
-        final ThrowingCallable execution;
+        final KeyAssignment first;
+        final KeyAssignment other;
+        final KeyAssignment result;
 
         // GIVEN
+        other = new KeyAssignment(KeyConstants.NUMBER + 1, true, "Other key", KeyAssignments.assigned()
+            .profile());
         given(repository.findOne(KeyConstants.NUMBER)).willReturn(Optional.of(KeyAssignments.unassigned()));
-        given(repository.findProfileKey(ProfileConstants.NUMBER)).willReturn(Optional.of(KeyConstants.NUMBER + 1));
+        given(repository.save(KeyConstants.NUMBER, ProfileConstants.NUMBER)).willReturn(KeyAssignments.assigned());
+        given(repository.findOne(other.number())).willReturn(
+            Optional.of(new KeyAssignment(other.number(), other.available(), other.description(), Optional.empty())));
+        given(repository.save(other.number(), ProfileConstants.NUMBER)).willReturn(other);
+        first = service.create(KeyConstants.NUMBER, ProfileConstants.NUMBER);
 
         // WHEN
-        execution = () -> service.create(KeyConstants.NUMBER, ProfileConstants.NUMBER);
+        result = service.create(other.number(), ProfileConstants.NUMBER);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(KeyAssignmentConflictException.class);
-        verify(repository, never()).save(anyLong(), anyLong());
+        Assertions.assertThat(first)
+            .isEqualTo(KeyAssignments.assigned());
+        Assertions.assertThat(result)
+            .isEqualTo(other);
+        Assertions.assertThat(result.profile())
+            .isEqualTo(first.profile());
+        verify(repository).save(KeyConstants.NUMBER, ProfileConstants.NUMBER);
+        verify(repository).save(other.number(), ProfileConstants.NUMBER);
         verify(repository, never()).delete(anyLong());
     }
 

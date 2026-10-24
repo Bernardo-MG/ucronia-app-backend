@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.key.domain.repository;
 
+import java.util.Collection;
 import java.util.Optional;
 
 import com.bernardomg.association.key.domain.model.KeyAssignment;
@@ -39,7 +40,7 @@ public interface KeyAssignmentRepository {
 
     public Optional<KeyAssignment> findOne(final Long number);
 
-    public Optional<Long> findProfileKey(final Long profileNumber);
+    public Collection<KeyAssignment> findProfileAssignments(final Long profileNumber);
 
     public KeyAssignment save(final Long number, final Long profileNumber);
 

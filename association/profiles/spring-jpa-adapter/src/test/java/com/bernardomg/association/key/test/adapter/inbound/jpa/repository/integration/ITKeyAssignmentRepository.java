@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.key.test.adapter.inbound.jpa.repository.integration;
 
+import java.util.Collection;
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
@@ -90,7 +91,7 @@ class ITKeyAssignmentRepository {
         // THEN
         member = memberRepository.findOne(MemberConstants.ALTERNATIVE_NUMBER)
             .orElseThrow();
-        Assertions.assertThat(repository.findProfileKey(member.number()))
+        Assertions.assertThat(repository.findProfileAssignments(member.number()))
             .isEmpty();
         Assertions.assertThat(springRepository.count())
             .isZero();
@@ -116,6 +117,51 @@ class ITKeyAssignmentRepository {
         // THEN
         Assertions.assertThat(springRepository.count())
             .isZero();
+        Assertions.assertThat(repository.findOne(KeyConstants.NUMBER))
+            .contains(KeyAssignments.unassigned());
+    }
+
+    @Test
+    @DisplayName("Deleting a profile removes all its assignments while keeping its keys")
+    @PositiveFeeType
+    @AlternativeMemberWithKey
+    void testDelete_ProfileWithMultipleAssignments() {
+        final Key second;
+
+        // GIVEN
+        second = keyRepository.save(new Key(-1L, false, "Second key"));
+        repository.save(second.number(), MemberConstants.ALTERNATIVE_NUMBER);
+
+        // WHEN
+        profileRepository.delete(MemberConstants.ALTERNATIVE_NUMBER);
+
+        // THEN
+        Assertions.assertThat(springRepository.count())
+            .isZero();
+        Assertions.assertThat(keyRepository.findOne(KeyConstants.NUMBER))
+            .contains(Keys.available());
+        Assertions.assertThat(keyRepository.findOne(second.number()))
+            .contains(second);
+    }
+
+    @Test
+    @DisplayName("Removing one assignment keeps the profile's other assignment")
+    @PositiveFeeType
+    @AlternativeMemberWithKey
+    void testDelete_ProfileWithMultipleKeys() {
+        final Key           second;
+        final KeyAssignment secondAssignment;
+
+        // GIVEN
+        second = keyRepository.save(new Key(-1L, false, "Second key"));
+        secondAssignment = repository.save(second.number(), MemberConstants.ALTERNATIVE_NUMBER);
+
+        // WHEN
+        repository.delete(KeyConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(repository.findProfileAssignments(MemberConstants.ALTERNATIVE_NUMBER))
+            .containsExactly(secondAssignment);
         Assertions.assertThat(repository.findOne(KeyConstants.NUMBER))
             .contains(KeyAssignments.unassigned());
     }
@@ -163,27 +209,27 @@ class ITKeyAssignmentRepository {
     }
 
     @Test
-    @DisplayName("An assigned member is found by profile number")
+    @DisplayName("Assignments are found by profile number")
     @PositiveFeeType
     @AlternativeMemberWithKey
-    void testFindProfileKey() {
-        final Optional<Long> key;
+    void testFindProfileAssignments() {
+        final Collection<KeyAssignment> assignments;
 
         // WHEN
-        key = repository.findProfileKey(MemberConstants.ALTERNATIVE_NUMBER);
+        assignments = repository.findProfileAssignments(MemberConstants.ALTERNATIVE_NUMBER);
 
         // THEN
-        Assertions.assertThat(key)
-            .contains(KeyConstants.NUMBER);
+        Assertions.assertThat(assignments)
+            .containsExactly(KeyAssignments.reassigned());
     }
 
     @Test
-    @DisplayName("Looking up a missing member reports a missing member")
-    void testFindProfileKey_MissingProfile() {
+    @DisplayName("Looking up a missing profile reports a missing profile")
+    void testFindProfileAssignments_MissingProfile() {
         final ThrowingCallable execution;
 
         // WHEN
-        execution = () -> repository.findProfileKey(MemberConstants.NUMBER);
+        execution = () -> repository.findProfileAssignments(MemberConstants.NUMBER);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -193,29 +239,29 @@ class ITKeyAssignmentRepository {
     @Test
     @DisplayName("A profile without membership is a valid assignment target")
     @ValidProfile
-    void testFindProfileKey_ProfileWithoutMembership() {
-        final Optional<Long> key;
+    void testFindProfileAssignments_ProfileWithoutMembership() {
+        final Collection<KeyAssignment> assignments;
 
         // WHEN
-        key = repository.findProfileKey(MemberConstants.NUMBER);
+        assignments = repository.findProfileAssignments(MemberConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(key)
+        Assertions.assertThat(assignments)
             .isEmpty();
     }
 
     @Test
-    @DisplayName("A member without a key returns an empty assignment")
+    @DisplayName("A profile without keys returns no assignments")
     @PositiveFeeType
     @ActiveMember
-    void testFindProfileKey_Unassigned() {
-        final Optional<Long> key;
+    void testFindProfileAssignments_Unassigned() {
+        final Collection<KeyAssignment> assignments;
 
         // WHEN
-        key = repository.findProfileKey(MemberConstants.NUMBER);
+        assignments = repository.findProfileAssignments(MemberConstants.NUMBER);
 
         // THEN
-        Assertions.assertThat(key)
+        Assertions.assertThat(assignments)
             .isEmpty();
     }
 
@@ -267,6 +313,8 @@ class ITKeyAssignmentRepository {
             .contains(KeyAssignments.reassigned());
         Assertions.assertThat(repository.findOne(second.number()))
             .contains(assignment);
+        Assertions.assertThat(repository.findProfileAssignments(MemberConstants.ALTERNATIVE_NUMBER))
+            .containsExactlyInAnyOrder(KeyAssignments.reassigned(), assignment);
     }
 
     @Test
@@ -345,13 +393,37 @@ class ITKeyAssignmentRepository {
             .isEqualTo(KeyAssignments.assigned());
         Assertions.assertThat(springRepository.count())
             .isEqualTo(1);
-        Assertions.assertThat(repository.findProfileKey(previous.number()))
+        Assertions.assertThat(repository.findProfileAssignments(previous.number()))
             .isEmpty();
         Assertions.assertThat(repository.findAll(Pagination.unpaged(), Sorting.unsorted())
             .content())
             .containsExactly(KeyAssignments.assigned());
         Assertions.assertThat(keyRepository.findOne(KeyConstants.NUMBER))
             .contains(Keys.available());
+    }
+
+    @Test
+    @DisplayName("Reassigning a key to a profile with another key preserves both assignments")
+    @PositiveFeeType
+    @AlternativeMemberWithKey
+    @ValidProfile
+    void testSave_ReassignedToProfileWithKey() {
+        final KeyAssignment assignment;
+        final Key           second;
+        final KeyAssignment secondAssignment;
+
+        // GIVEN
+        second = keyRepository.save(new Key(-1L, false, "Second key"));
+        secondAssignment = repository.save(second.number(), MemberConstants.NUMBER);
+
+        // WHEN
+        assignment = repository.save(KeyConstants.NUMBER, MemberConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(repository.findProfileAssignments(MemberConstants.NUMBER))
+            .containsExactlyInAnyOrder(secondAssignment, assignment);
+        Assertions.assertThat(repository.findProfileAssignments(MemberConstants.ALTERNATIVE_NUMBER))
+            .isEmpty();
     }
 
     @Test

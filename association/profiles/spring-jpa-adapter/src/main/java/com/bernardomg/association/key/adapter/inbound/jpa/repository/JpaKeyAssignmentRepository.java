@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.key.adapter.inbound.jpa.repository;
 
+import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -106,23 +107,24 @@ public final class JpaKeyAssignmentRepository implements KeyAssignmentRepository
     }
 
     @Override
-    public final Optional<Long> findProfileKey(final Long profileNumber) {
-        final Optional<Long> key;
+    public final Collection<KeyAssignment> findProfileAssignments(final Long profileNumber) {
+        final Collection<KeyAssignment> assignments;
 
-        log.debug("Finding profile key for profile {}", profileNumber);
+        log.debug("Finding key assignments for profile {}", profileNumber);
 
         if (!profileSpringRepository.existsByNumber(profileNumber)) {
             log.error("Missing profile {}", profileNumber);
             throw new MissingProfileException(profileNumber);
         }
 
-        key = keyAssignmentSpringRepository.findByProfileNumber(profileNumber)
-            .map(KeyAssignmentEntity::getKey)
-            .map(KeyEntity::getNumber);
+        assignments = keyAssignmentSpringRepository.findAssignmentsByProfileNumber(profileNumber)
+            .stream()
+            .map(KeyAssignmentEntityMapper::toDomain)
+            .toList();
 
-        log.debug("Found profile key for profile {}", profileNumber);
+        log.debug("Found key assignments for profile {}", profileNumber);
 
-        return key;
+        return assignments;
     }
 
     @Override
@@ -141,8 +143,8 @@ public final class JpaKeyAssignmentRepository implements KeyAssignmentRepository
             });
         profile = profileSpringRepository.findByNumber(profileNumber)
             .orElseThrow(() -> {
-                log.error("Missing profile {}", number);
-                return new MissingProfileException(number);
+                log.error("Missing profile {}", profileNumber);
+                return new MissingProfileException(profileNumber);
             });
 
         entity = keyAssignmentSpringRepository.findByKeyNumber(number)

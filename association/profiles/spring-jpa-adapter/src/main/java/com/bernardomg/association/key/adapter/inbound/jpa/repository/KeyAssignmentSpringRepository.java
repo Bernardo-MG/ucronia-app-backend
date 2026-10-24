@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.key.adapter.inbound.jpa.repository;
 
+import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -63,8 +64,17 @@ public interface KeyAssignmentSpringRepository extends JpaRepository<KeyAssignme
             """, countQuery = "SELECT COUNT(k) FROM Key k")
     public Page<Tuple> findAssignments(final Pageable pageable);
 
-    public Optional<KeyAssignmentEntity> findByKeyNumber(final Long number);
+    @Query("""
+            SELECT k.number AS number, k.available AS available, k.description AS description,
+                   p.number AS profileNumber, p.firstName AS firstName,
+                   p.lastName AS lastName, p.nickname AS nickname
+            FROM KeyAssignment a
+            JOIN a.key k
+            JOIN a.profile p
+            WHERE p.number = :number
+            """)
+    public Collection<Tuple> findAssignmentsByProfileNumber(@Param("number") final Long number);
 
-    public Optional<KeyAssignmentEntity> findByProfileNumber(final Long number);
+    public Optional<KeyAssignmentEntity> findByKeyNumber(final Long number);
 
 }

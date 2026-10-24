@@ -15,7 +15,7 @@ get:
             $ref: '../components/keys.yml#/components/schemas/KeyAssignmentPageResponse'
 post:
   summary: Assign an unassigned key to a profile.
-  description: Uses the profile number. A key or profile already assigned to another counterpart causes a conflict.
+  description: Uses the profile number. A profile may hold multiple keys. A key that is already assigned causes a conflict.
   operationId: createKeyAssignment
   tags: [KeyAssignment]
   requestBody:
@@ -36,4 +36,4 @@ post:
     '404':
       description: Key or profile not found.
     '409':
-      description: Key or profile already assigned.
+      description: Key already assigned.
