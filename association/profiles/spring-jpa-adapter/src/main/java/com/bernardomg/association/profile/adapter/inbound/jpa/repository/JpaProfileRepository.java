@@ -34,7 +34,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.association.key.adapter.inbound.jpa.repository.KeyAssignmentSpringRepository;
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ContactMethodEntity;
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntityMapper;
@@ -60,16 +59,12 @@ public final class JpaProfileRepository implements ProfileRepository {
 
     private final ContactMethodSpringRepository contactMethodSpringRepository;
 
-    private final KeyAssignmentSpringRepository keyAssignmentSpringRepository;
-
     private final ProfileSpringRepository       profileSpringRepository;
 
     public JpaProfileRepository(final ProfileSpringRepository profileSpringRepo,
-            final ContactMethodSpringRepository contactMethodSpringRepo,
-            final KeyAssignmentSpringRepository keyAssignmentSpringRepo) {
+            final ContactMethodSpringRepository contactMethodSpringRepo) {
         super();
 
-        keyAssignmentSpringRepository = Objects.requireNonNull(keyAssignmentSpringRepo);
         profileSpringRepository = Objects.requireNonNull(profileSpringRepo);
         contactMethodSpringRepository = Objects.requireNonNull(contactMethodSpringRepo);
     }
@@ -78,7 +73,6 @@ public final class JpaProfileRepository implements ProfileRepository {
     public final void delete(final long number) {
         log.debug("Deleting profile {}", number);
 
-        keyAssignmentSpringRepository.deleteByProfileNumber(number);
         profileSpringRepository.deleteByNumber(number);
         profileSpringRepository.flush();
 
