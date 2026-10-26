@@ -22,7 +22,7 @@ public final class KeyAssignmentEntities {
 
         entity = new KeyAssignmentEntity();
         entity.setId(KeyConstants.ALTERNATIVE_ID);
-        entity.setKey(KeyEntities.available());
+        entity.setKey(KeyEntities.availableAlternative());
         entity.setProfile(ProfileEntities.valid());
 
         return entity;

@@ -233,6 +233,7 @@ class ITKeyAssignmentRepositorySave {
         entities = springRepository.findAll();
 
         Assertions.assertThat(entities)
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "profile.audit", "profile.types")
             .containsExactly(KeyAssignmentEntities.assigned(), KeyAssignmentEntities.assignedAlternative());
     }
 

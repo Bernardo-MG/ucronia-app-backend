@@ -11,12 +11,12 @@ import com.bernardomg.association.TestApplication;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.key.adapter.inbound.jpa.repository.KeyAssignmentSpringRepository;
 import com.bernardomg.association.key.domain.repository.KeyAssignmentRepository;
-import com.bernardomg.association.key.test.configuration.data.annotation.AlternativeAvailableKey;
 import com.bernardomg.association.key.test.configuration.factory.KeyAssignmentEntities;
 import com.bernardomg.association.key.test.configuration.factory.KeyConstants;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMemberWithKey;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMemberWithKeys;
 import com.bernardomg.association.member.test.configuration.factory.MemberConstants;
 import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.test.annotation.IntegrationTest;
@@ -80,8 +80,7 @@ class ITKeyAssignmentRepositoryDelete {
     @Test
     @DisplayName("Removing one assignment keeps the profile's other assignment")
     @PositiveFeeType
-    @ActiveMemberWithKey
-    @AlternativeAvailableKey
+    @ActiveMemberWithKeys
     void testDelete_ProfileWithMultipleKeys() {
 
         // WHEN
@@ -89,7 +88,7 @@ class ITKeyAssignmentRepositoryDelete {
 
         // THEN
         Assertions.assertThat(springRepository.findAll())
-            .contains(KeyAssignmentEntities.assigned(), KeyAssignmentEntities.unassigned());
+            .contains(KeyAssignmentEntities.assignedAlternative());
     }
 
 }

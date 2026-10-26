@@ -14,7 +14,10 @@ import com.bernardomg.association.key.domain.repository.KeyAssignmentRepository;
 import com.bernardomg.association.key.test.configuration.data.annotation.AlternativeAvailableKey;
 import com.bernardomg.association.key.test.configuration.data.annotation.AvailableKey;
 import com.bernardomg.association.key.test.configuration.factory.KeyAssignments;
+import com.bernardomg.association.key.test.configuration.factory.KeyConstants;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMemberWithKey;
+import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
@@ -70,6 +73,24 @@ class ITKeyAssignmentRepositoryFindAll {
         // THEN
         Assertions.assertThat(assignments.content())
             .isEmpty();
+    }
+
+    @Test
+    @DisplayName("Assignments to profiles without membership are included")
+    @AvailableKey
+    @ValidProfile
+    void testFindAll_ProfileWithoutMembership() {
+        final Page<KeyAssignment> assignments;
+
+        // GIVEN
+        repository.save(KeyConstants.NUMBER, ProfileConstants.NUMBER);
+
+        // WHEN
+        assignments = repository.findAll(Pagination.unpaged(), Sorting.unsorted());
+
+        // THEN
+        Assertions.assertThat(assignments.content())
+            .containsExactly(KeyAssignments.assigned());
     }
 
     @Test
