@@ -99,4 +99,9 @@ public class KeyAssignmentEntity implements Serializable {
         this.profile = profile;
     }
 
+    @Override
+    public String toString() {
+        return "KeyAssignmentEntity [id=" + id + ", key=" + key + ", profile=" + profile + "]";
+    }
+
 }

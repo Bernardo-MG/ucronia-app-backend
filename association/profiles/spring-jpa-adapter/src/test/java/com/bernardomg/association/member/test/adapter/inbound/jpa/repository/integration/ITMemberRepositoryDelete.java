@@ -39,7 +39,7 @@ import com.bernardomg.association.key.test.configuration.factory.KeyConstants;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.ReadMemberSpringRepository;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
-import com.bernardomg.association.member.test.configuration.data.annotation.AlternativeMemberWithKey;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMemberWithKey;
 import com.bernardomg.association.member.test.configuration.factory.MemberConstants;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
@@ -98,7 +98,7 @@ class ITMemberRepositoryDelete {
     @Test
     @DisplayName("Deleting a member removes its assignment and keeps the unassigned key")
     @PositiveFeeType
-    @AlternativeMemberWithKey
+    @ActiveMemberWithKey
     void testDelete_KeyAssignment() {
         // WHEN
         repository.delete(MemberConstants.ALTERNATIVE_NUMBER);

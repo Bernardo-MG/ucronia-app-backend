@@ -26,36 +26,23 @@ package com.bernardomg.association.key.test.configuration.factory;
 
 import java.util.Optional;
 
-import com.bernardomg.association.key.domain.model.Key;
 import com.bernardomg.association.key.domain.model.KeyAssignment;
 import com.bernardomg.association.key.domain.model.KeyAssignment.AssignedProfile;
-import com.bernardomg.association.profile.domain.model.Profile;
-import com.bernardomg.association.profile.test.configuration.factory.Profiles;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 
 public final class KeyAssignments {
 
     public static final KeyAssignment assigned() {
-        return assigned(Profiles.valid());
-    }
-
-    public static final KeyAssignment reassigned() {
-        return assigned(Profiles.alternative());
+        return new KeyAssignment(KeyConstants.NUMBER, true, KeyConstants.DESCRIPTION,
+            Optional.of(new AssignedProfile(ProfileConstants.NUMBER, ProfileConstants.FULL_NAME)));
     }
 
     public static final KeyAssignment unassigned() {
-        final Key key;
-
-        key = Keys.available();
-        return new KeyAssignment(key.number(), key.available(), key.description(), Optional.empty());
+        return new KeyAssignment(KeyConstants.NUMBER, true, KeyConstants.DESCRIPTION, Optional.empty());
     }
 
-    private static final KeyAssignment assigned(final Profile profile) {
-        final Key key;
-
-        key = Keys.available();
-        return new KeyAssignment(key.number(), key.available(), key.description(),
-            Optional.of(new AssignedProfile(profile.number(), profile.name()
-                .fullName())));
+    public static final KeyAssignment unassignedAlternative() {
+        return new KeyAssignment(KeyConstants.ALTERNATIVE_NUMBER, true, KeyConstants.DESCRIPTION, Optional.empty());
     }
 
     private KeyAssignments() {

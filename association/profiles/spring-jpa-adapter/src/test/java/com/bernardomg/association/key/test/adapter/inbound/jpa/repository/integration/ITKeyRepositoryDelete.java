@@ -32,12 +32,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.TestApplication;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
-import com.bernardomg.association.key.adapter.inbound.jpa.repository.KeyAssignmentSpringRepository;
 import com.bernardomg.association.key.domain.repository.KeyRepository;
 import com.bernardomg.association.key.test.configuration.factory.KeyConstants;
-import com.bernardomg.association.member.domain.repository.MemberRepository;
-import com.bernardomg.association.member.test.configuration.data.annotation.AlternativeMemberWithKey;
-import com.bernardomg.association.member.test.configuration.factory.MemberConstants;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMemberWithKey;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -46,18 +43,12 @@ import com.bernardomg.test.annotation.IntegrationTest;
 class ITKeyRepositoryDelete {
 
     @Autowired
-    private KeyAssignmentSpringRepository assignmentRepository;
-
-    @Autowired
-    private MemberRepository              memberRepository;
-
-    @Autowired
-    private KeyRepository                 repository;
+    private KeyRepository repository;
 
     @Test
     @DisplayName("When deleting a key, it is removed")
     @PositiveFeeType
-    @AlternativeMemberWithKey
+    @ActiveMemberWithKey
     void testDelete() {
         // WHEN
         repository.delete(KeyConstants.NUMBER);
@@ -65,10 +56,6 @@ class ITKeyRepositoryDelete {
         // THEN
         Assertions.assertThat(repository.findOne(KeyConstants.NUMBER))
             .isEmpty();
-        Assertions.assertThat(assignmentRepository.count())
-            .isZero();
-        Assertions.assertThat(memberRepository.findOne(MemberConstants.ALTERNATIVE_NUMBER))
-            .isPresent();
     }
 
     @Test

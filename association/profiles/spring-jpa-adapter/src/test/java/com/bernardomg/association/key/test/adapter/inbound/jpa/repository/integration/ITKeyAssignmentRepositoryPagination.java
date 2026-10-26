@@ -21,7 +21,7 @@ import com.bernardomg.association.key.domain.repository.KeyRepository;
 import com.bernardomg.association.key.test.configuration.data.annotation.AvailableKey;
 import com.bernardomg.association.key.test.configuration.factory.KeyAssignments;
 import com.bernardomg.association.key.test.configuration.factory.KeyConstants;
-import com.bernardomg.association.member.test.configuration.data.annotation.AlternativeMemberWithKey;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMemberWithKey;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.pagination.domain.Page;
@@ -49,7 +49,7 @@ class ITKeyAssignmentRepositoryPagination {
     @Test
     @DisplayName("Assigned and unassigned keys occupy separate pages with the same total")
     @PositiveFeeType
-    @AlternativeMemberWithKey
+    @ActiveMemberWithKey
     void testFindAll_MixedPages() {
         final Page<KeyAssignment> first;
         final Key                 key;
@@ -66,7 +66,7 @@ class ITKeyAssignmentRepositoryPagination {
 
         // THEN
         Assertions.assertThat(first.content())
-            .containsExactly(KeyAssignments.reassigned());
+            .containsExactly(KeyAssignments.assigned());
         Assertions.assertThat(second.content())
             .containsExactly(new KeyAssignment(key.number(), key.available(), key.description(), Optional.empty()));
         Assertions.assertThat(first.totalElements())
@@ -78,7 +78,7 @@ class ITKeyAssignmentRepositoryPagination {
     @Test
     @DisplayName("Pagination uses one data query and one count query")
     @PositiveFeeType
-    @AlternativeMemberWithKey
+    @ActiveMemberWithKey
     void testFindAll_PagedQueries() {
         final Page<KeyAssignment> assignments;
         final Statistics          statistics;
@@ -103,7 +103,7 @@ class ITKeyAssignmentRepositoryPagination {
 
             // THEN
             Assertions.assertThat(assignments.content())
-                .containsExactly(KeyAssignments.reassigned());
+                .containsExactly(KeyAssignments.assigned());
             Assertions.assertThat(assignments.totalElements())
                 .isEqualTo(2);
             Assertions.assertThat(statistics.getPrepareStatementCount())
@@ -134,7 +134,7 @@ class ITKeyAssignmentRepositoryPagination {
     @Test
     @DisplayName("Assigned and unassigned data is loaded with one query")
     @PositiveFeeType
-    @AlternativeMemberWithKey
+    @ActiveMemberWithKey
     void testFindAll_SingleQuery() {
         final Page<KeyAssignment> assignments;
         final Key                 key;
@@ -158,7 +158,7 @@ class ITKeyAssignmentRepositoryPagination {
 
             // THEN
             Assertions.assertThat(assignments.content())
-                .containsExactlyInAnyOrder(KeyAssignments.reassigned(),
+                .containsExactlyInAnyOrder(KeyAssignments.assigned(),
                     new KeyAssignment(key.number(), key.available(), key.description(), Optional.empty()));
             Assertions.assertThat(statistics.getPrepareStatementCount())
                 .isEqualTo(1);
@@ -170,7 +170,7 @@ class ITKeyAssignmentRepositoryPagination {
     @Test
     @DisplayName("Description sorting is applied before pagination")
     @PositiveFeeType
-    @AlternativeMemberWithKey
+    @ActiveMemberWithKey
     void testFindAll_SortDescription() {
         final Page<KeyAssignment> assignments;
         final Key                 key;
