@@ -101,7 +101,7 @@ class ITMemberRepositoryDelete {
     @ActiveMemberWithKey
     void testDelete_KeyAssignment() {
         // WHEN
-        repository.delete(MemberConstants.ALTERNATIVE_NUMBER);
+        repository.delete(MemberConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(assignmentSpringRepository.count())
