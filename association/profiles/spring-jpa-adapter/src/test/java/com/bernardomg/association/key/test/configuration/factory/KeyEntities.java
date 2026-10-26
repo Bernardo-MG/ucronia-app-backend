@@ -17,6 +17,18 @@ public final class KeyEntities {
         return entity;
     }
 
+    public static final KeyEntity availableAlternative() {
+        final KeyEntity entity;
+
+        entity = new KeyEntity();
+        entity.setId(KeyConstants.ALTERNATIVE_ID);
+        entity.setNumber(KeyConstants.ALTERNATIVE_NUMBER);
+        entity.setAvailable(true);
+        entity.setDescription(KeyConstants.DESCRIPTION);
+
+        return entity;
+    }
+
     public static final KeyEntity descriptionChange() {
         final KeyEntity entity;
 

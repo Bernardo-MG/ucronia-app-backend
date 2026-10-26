@@ -35,7 +35,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.association.key.adapter.inbound.jpa.model.KeyEntity;
 import com.bernardomg.association.key.adapter.inbound.jpa.model.KeyEntityMapper;
 import com.bernardomg.association.key.domain.model.Key;
-import com.bernardomg.association.key.domain.model.KeyAssignment;
 import com.bernardomg.association.key.domain.repository.KeyRepository;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -64,7 +63,7 @@ public final class JpaKeyRepository implements KeyRepository {
 
         keySpringRepository.deleteByNumber(number);
 
-        log.debug("Deleted member profile {}", number);
+        log.debug("Deleted profile {}", number);
     }
 
     @Override
@@ -92,20 +91,6 @@ public final class JpaKeyRepository implements KeyRepository {
             .map(KeyEntityMapper::toDomain);
 
         log.debug("Found all keys");
-
-        return SpringPagination.toPage(read);
-    }
-
-    @Override
-    public final Page<KeyAssignment> findAssignments(final Pagination pagination, final Sorting sorting) {
-        final org.springframework.data.domain.Page<KeyAssignment> read;
-
-        log.trace("Finding all key assignments");
-
-        read = keySpringRepository.findAssignments(SpringPagination.toPageable(pagination, sorting))
-            .map(KeyEntityMapper::toDomain);
-
-        log.trace("Found all key assignments");
 
         return SpringPagination.toPage(read);
     }

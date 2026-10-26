@@ -25,7 +25,6 @@
 package com.bernardomg.association.key.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
-import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +35,7 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.Positiv
 import com.bernardomg.association.key.domain.model.Key;
 import com.bernardomg.association.key.domain.repository.KeyRepository;
 import com.bernardomg.association.key.test.configuration.factory.Keys;
-import com.bernardomg.association.member.test.configuration.data.annotation.AlternativeMemberWithKey;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMemberWithKey;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
@@ -53,21 +52,29 @@ class ITKeyRepositoryFindAll {
     @Test
     @DisplayName("With key data, all keys are returned")
     @PositiveFeeType
-    @AlternativeMemberWithKey
+    @ActiveMemberWithKey
     void testFindAll() {
-        final Page<Key>  keys;
-        final Pagination pagination;
-        final Sorting    sorting;
+        final Page<Key> keys;
 
         // WHEN
-        pagination = Pagination.unpaged();
-        sorting = Sorting.unsorted();
-        keys = repository.findAll(pagination, sorting);
+        keys = repository.findAll(Pagination.unpaged(), Sorting.unsorted());
 
         // THEN
         Assertions.assertThat(keys.content())
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Keys.available());
+    }
+
+    @Test
+    @DisplayName("When there is no data, nothing is returned")
+    void testFindAll_NoData() {
+        final Page<Key> keys;
+
+        // WHEN
+        keys = repository.findAll(Pagination.unpaged(), Sorting.unsorted());
+
+        // THEN
+        Assertions.assertThat(keys.content())
+            .isEmpty();
     }
 
 }

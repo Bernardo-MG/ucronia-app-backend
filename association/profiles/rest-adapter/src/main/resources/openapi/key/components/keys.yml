@@ -62,17 +62,15 @@ components:
       properties:
         content:
           $ref: '#/components/schemas/Key'
-    KeyAssignedMember:
+    KeyAssignedProfile:
       type: object
-      required: [number, memberNumber, name]
+      required: [number, name]
       properties:
         number:
           $ref: '../common/ids.yml#/components/schemas/Id'
-        memberNumber:
-          $ref: '../common/ids.yml#/components/schemas/Id'
         name:
           type: string
-          description: Member full name.
+          description: Profile full name.
     KeyAssignment:
       type: object
       required: [number, available, description]
@@ -84,8 +82,8 @@ components:
         description:
           type: string
           maxLength: 250
-        member:
-          $ref: '#/components/schemas/KeyAssignedMember'
+        profile:
+          $ref: '#/components/schemas/KeyAssignedProfile'
     KeyAssignmentPageResponse:
       allOf:
         - $ref: '../common/responses.yml#/components/schemas/PageResponse'
@@ -95,3 +93,22 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/KeyAssignment'
+    KeyAssignmentCreation:
+      type: object
+      required: [number, profile]
+      properties:
+        number:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        profile:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+    KeyAssignmentUpdate:
+      type: object
+      required: [profile]
+      properties:
+        profile:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+    KeyAssignmentResponse:
+      type: object
+      properties:
+        content:
+          $ref: '#/components/schemas/KeyAssignment'

@@ -7,7 +7,6 @@ import java.util.List;
 
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeTypeEntity;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
-import com.bernardomg.association.key.test.configuration.factory.KeyEntities;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityConstants;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.ReadMemberContactChannelEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.ReadMemberEntity;
@@ -167,37 +166,6 @@ public final class ReadMemberEntities {
         entity.setActive(true);
         entity.setRenew(true);
 
-        entity.setTypes(new HashSet<>(List.of(MemberEntityConstants.PROFILE_TYPE)));
-
-        return entity;
-    }
-
-    public static final ReadMemberEntity withKey() {
-        final ReadMemberEntity entity;
-        final FeeTypeEntity    feeType;
-
-        feeType = new FeeTypeEntity();
-        feeType.setId(1L);
-        feeType.setNumber(FeeConstants.FEE_TYPE_NUMBER);
-        feeType.setName(FeeConstants.FEE_TYPE_NAME);
-        feeType.setAmount(FeeConstants.FEE_TYPE_AMOUNT);
-
-        entity = new ReadMemberEntity();
-        entity.setId(1L);
-        entity.setId(1L);
-        entity.setNumber(MemberConstants.NUMBER);
-        entity.setMemberNumber(MemberConstants.MEMBER_NUMBER);
-        entity.setFirstName(ProfileConstants.FIRST_NAME);
-        entity.setLastName(ProfileConstants.LAST_NAME);
-        entity.setBirthDate(MemberConstants.BIRTH_DATE);
-        entity.setIdentifier(MemberConstants.IDENTIFIER);
-        entity.setContactChannels(new ArrayList<>(List.of()));
-        entity.setAddress(MemberConstants.ADDRESS);
-        entity.setComments(MemberConstants.COMMENTS);
-        entity.setFeeType(feeType);
-        entity.setActive(true);
-        entity.setRenew(true);
-        entity.setKey(KeyEntities.available());
         entity.setTypes(new HashSet<>(List.of(MemberEntityConstants.PROFILE_TYPE)));
 
         return entity;

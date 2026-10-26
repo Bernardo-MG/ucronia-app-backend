@@ -34,7 +34,7 @@ import com.bernardomg.association.TestApplication;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.key.domain.repository.KeyRepository;
 import com.bernardomg.association.key.test.configuration.factory.KeyConstants;
-import com.bernardomg.association.member.test.configuration.data.annotation.AlternativeMemberWithKey;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMemberWithKey;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -48,7 +48,7 @@ class ITKeyRepositoryDelete {
     @Test
     @DisplayName("When deleting a key, it is removed")
     @PositiveFeeType
-    @AlternativeMemberWithKey
+    @ActiveMemberWithKey
     void testDelete() {
         // WHEN
         repository.delete(KeyConstants.NUMBER);

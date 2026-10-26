@@ -1,5 +1,5 @@
 
-package com.bernardomg.association.member.test.configuration.data.annotation;
+package com.bernardomg.association.key.test.configuration.data.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -10,11 +10,11 @@ import java.lang.annotation.Target;
 
 import org.springframework.test.context.jdbc.Sql;
 
-@Sql("/db/queries/member/with_key_alternative.sql")
+@Sql("/db/queries/key/available_alternative.sql")
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-public @interface AlternativeMemberWithKey {
+public @interface AlternativeAvailableKey {
 
 }

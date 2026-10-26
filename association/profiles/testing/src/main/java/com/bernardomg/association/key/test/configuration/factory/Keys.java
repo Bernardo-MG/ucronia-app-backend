@@ -9,6 +9,10 @@ public final class Keys {
         return new Key(KeyConstants.NUMBER, true, KeyConstants.DESCRIPTION);
     }
 
+    public static final Key availableAlternative() {
+        return new Key(KeyConstants.ALTERNATIVE_NUMBER, true, KeyConstants.DESCRIPTION);
+    }
+
     public static final Key created() {
         return new Key(1L, true, KeyConstants.DESCRIPTION);
     }

@@ -11,6 +11,16 @@ import com.bernardomg.association.profile.domain.model.Profile;
 
 public final class Profiles {
 
+    public static final Profile alternative() {
+        final Name name;
+
+        name = new Name(ProfileConstants.ALTERNATIVE_FIRST_NAME, ProfileConstants.ALTERNATIVE_LAST_NAME,
+            Optional.empty());
+        return new Profile(Optional.of(ProfileConstants.ALTERNATIVE_IDENTIFIER), ProfileConstants.ALTERNATIVE_NUMBER,
+            name, Optional.of(ProfileConstants.BIRTH_DATE), List.of(), Optional.of(ProfileConstants.ADDRESS),
+            Optional.of(ProfileConstants.COMMENTS), Set.of());
+    }
+
     public static final Profile created() {
         final Name name;
 

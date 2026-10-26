@@ -17,10 +17,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.key.domain.model.Key;
 import com.bernardomg.association.key.domain.model.KeyAssignment;
-import com.bernardomg.association.key.domain.model.KeyAssignment.AssignedMember;
-import com.bernardomg.association.key.domain.repository.KeyRepository;
+import com.bernardomg.association.key.domain.model.KeyAssignment.AssignedProfile;
+import com.bernardomg.association.key.domain.repository.KeyAssignmentRepository;
 import com.bernardomg.association.key.test.configuration.factory.Keys;
-import com.bernardomg.association.key.usecase.service.DefaultKeyService;
+import com.bernardomg.association.key.usecase.service.DefaultKeyAssignmentService;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.pagination.domain.Page;
@@ -28,14 +28,14 @@ import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Key service - get assignments")
-class TestKeyServiceGetAssignments {
+@DisplayName("Key assignment service - get assignments")
+class TestKeyAssignmentServiceGetAssignments {
 
     @Mock
-    private KeyRepository     repository;
+    private KeyAssignmentRepository     repository;
 
     @InjectMocks
-    private DefaultKeyService service;
+    private DefaultKeyAssignmentService service;
 
     @Test
     @DisplayName("When there is data, assigned and unassigned keys are returned")
@@ -54,15 +54,15 @@ class TestKeyServiceGetAssignments {
         sorting = Sorting.unsorted();
 
         key = Keys.available();
-        member = Members.alternativeWithKey();
+        member = Members.alternativeActive();
 
         assigned = new KeyAssignment(key.number(), key.available(), key.description(),
-            Optional.of(new AssignedMember(member.number(), member.memberNumber(), member.name()
+            Optional.of(new AssignedProfile(member.number(), member.name()
                 .fullName())));
         unassigned = new KeyAssignment(key.number() + 1, false, key.description(), Optional.empty());
 
         existing = new Page<>(List.of(assigned, unassigned), 0, 0, 0, 0, 0, false, false, sorting);
-        given(repository.findAssignments(pagination, sorting)).willReturn(existing);
+        given(repository.findAll(pagination, sorting)).willReturn(existing);
 
         // WHEN
         assignments = service.getAssignments(pagination, sorting);
@@ -88,7 +88,7 @@ class TestKeyServiceGetAssignments {
         sorting = Sorting.unsorted();
 
         existing = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
-        given(repository.findAssignments(pagination, sorting)).willReturn(existing);
+        given(repository.findAll(pagination, sorting)).willReturn(existing);
 
         // WHEN
         assignments = service.getAssignments(pagination, sorting);

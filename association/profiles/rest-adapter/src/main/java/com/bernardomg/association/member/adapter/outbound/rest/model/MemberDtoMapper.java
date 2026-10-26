@@ -79,8 +79,7 @@ public final class MemberDtoMapper {
 
         return new Member(Optional.ofNullable(change.getIdentifier()), number, -1L, name,
             Optional.ofNullable(change.getBirthDate()), contactChannels, Optional.ofNullable(change.getAddress()),
-            Optional.ofNullable(change.getComments()), change.getActive(), change.getRenew(),
-            Optional.ofNullable(change.getKey()), feeType, Set.of());
+            Optional.ofNullable(change.getComments()), change.getActive(), change.getRenew(), feeType, Set.of());
     }
 
     public static final Member toDomain(final long number, final MemberUpdateDto change) {
@@ -103,8 +102,7 @@ public final class MemberDtoMapper {
 
         return new Member(Optional.ofNullable(change.getIdentifier()), number, -1L, name,
             Optional.ofNullable(change.getBirthDate()), contactChannels, Optional.ofNullable(change.getAddress()),
-            Optional.ofNullable(change.getComments()), change.getActive(), change.getRenew(),
-            Optional.ofNullable(change.getKey()), feeType, Set.of());
+            Optional.ofNullable(change.getComments()), change.getActive(), change.getRenew(), feeType, Set.of());
     }
 
     public static final Member toDomain(final MemberCreationDto creation) {
@@ -130,7 +128,7 @@ public final class MemberDtoMapper {
         return new Member(Optional.ofNullable(creation.getIdentifier()), -1L, -1L, name,
             Optional.ofNullable(creation.getBirthDate()), contactChannels, Optional.ofNullable(creation.getAddress()),
             Optional.ofNullable(creation.getComments()), !Boolean.FALSE.equals(creation.getActive()),
-            !Boolean.FALSE.equals(creation.getRenew()), Optional.ofNullable(creation.getKey()), feeType, Set.of());
+            !Boolean.FALSE.equals(creation.getRenew()), feeType, Set.of());
     }
 
     public static final MemberResponseDto toResponseDto(final Member contact) {
@@ -249,8 +247,6 @@ public final class MemberDtoMapper {
             .address(member.address()
                 .orElse(null))
             .comments(member.comments()
-                .orElse(null))
-            .key(member.key()
                 .orElse(null))
             .active(member.active())
             .renew(member.renew())
