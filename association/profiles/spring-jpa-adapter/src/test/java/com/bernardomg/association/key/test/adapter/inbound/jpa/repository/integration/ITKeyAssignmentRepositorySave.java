@@ -24,7 +24,9 @@ import com.bernardomg.association.key.test.configuration.factory.KeyConstants;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMemberWithKey;
 import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
 import com.bernardomg.association.member.test.configuration.factory.MemberConstants;
+import com.bernardomg.association.profile.test.configuration.data.annotation.AlternativeProfile;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
+import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -106,6 +108,99 @@ class ITKeyAssignmentRepositorySave {
 
         Assertions.assertThat(entities)
             .containsExactly(KeyAssignmentEntities.assigned());
+    }
+
+    @Test
+    @DisplayName("Reassigning a key preserves the previous profile's other assignments")
+    @PositiveFeeType
+    @ActiveMemberWithKey
+    @AlternativeProfile
+    @AlternativeAvailableKey
+    void testSave_Reassigned_OtherKeys() {
+        final KeyAssignment             other;
+        final Collection<KeyAssignment> previous;
+        final Collection<KeyAssignment> current;
+
+        // GIVEN
+        other = repository.save(KeyConstants.ALTERNATIVE_NUMBER, ProfileConstants.NUMBER);
+
+        // WHEN
+        repository.save(KeyConstants.NUMBER, ProfileConstants.ALTERNATIVE_NUMBER);
+
+        // THEN
+        previous = repository.findProfileAssignments(ProfileConstants.NUMBER);
+        current = repository.findProfileAssignments(ProfileConstants.ALTERNATIVE_NUMBER);
+
+        Assertions.assertThat(previous)
+            .containsExactly(other);
+        Assertions.assertThat(current)
+            .containsExactly(KeyAssignments.reassigned());
+    }
+
+    @Test
+    @DisplayName("Reassigning a key replaces the persisted profile without duplicating the assignment")
+    @PositiveFeeType
+    @ActiveMemberWithKey
+    @AlternativeProfile
+    void testSave_Reassigned_PersistedData() {
+        final Collection<KeyAssignmentEntity> entities;
+
+        // WHEN
+        repository.save(KeyConstants.NUMBER, ProfileConstants.ALTERNATIVE_NUMBER);
+
+        // THEN
+        entities = springRepository.findAll();
+
+        Assertions.assertThat(entities)
+            .singleElement()
+            .satisfies(entity -> {
+                Assertions.assertThat(entity.getKey()
+                    .getNumber())
+                    .isEqualTo(KeyConstants.NUMBER);
+                Assertions.assertThat(entity.getProfile()
+                    .getNumber())
+                    .isEqualTo(ProfileConstants.ALTERNATIVE_NUMBER);
+            });
+    }
+
+    @Test
+    @DisplayName("Reassigning a key removes it from the previous profile and gives it to the new profile")
+    @PositiveFeeType
+    @ActiveMemberWithKey
+    @AlternativeProfile
+    void testSave_Reassigned_ProfileAssignments() {
+        final Collection<KeyAssignment> previous;
+        final Collection<KeyAssignment> current;
+
+        // WHEN
+        repository.save(KeyConstants.NUMBER, ProfileConstants.ALTERNATIVE_NUMBER);
+
+        // THEN
+        previous = repository.findProfileAssignments(ProfileConstants.NUMBER);
+        current = repository.findProfileAssignments(ProfileConstants.ALTERNATIVE_NUMBER);
+
+        Assertions.assertThat(previous)
+            .isEmpty();
+        Assertions.assertThat(current)
+            .containsExactly(KeyAssignments.reassigned());
+    }
+
+    @Test
+    @DisplayName("Reassigning a key returns the new profile")
+    @PositiveFeeType
+    @ActiveMemberWithKey
+    @AlternativeProfile
+    void testSave_Reassigned_ReturnedData() {
+        final KeyAssignment assignment;
+
+        // WHEN
+        assignment = repository.save(KeyConstants.NUMBER, ProfileConstants.ALTERNATIVE_NUMBER);
+
+        // THEN
+        Assertions.assertThat(assignment)
+            .isEqualTo(KeyAssignments.reassigned());
+        Assertions.assertThat(repository.findOne(KeyConstants.NUMBER))
+            .contains(KeyAssignments.reassigned());
     }
 
     @Test

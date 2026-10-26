@@ -37,6 +37,11 @@ public final class KeyAssignments {
             Optional.of(new AssignedProfile(ProfileConstants.NUMBER, ProfileConstants.FULL_NAME)));
     }
 
+    public static final KeyAssignment reassigned() {
+        return new KeyAssignment(KeyConstants.NUMBER, true, KeyConstants.DESCRIPTION, Optional
+            .of(new AssignedProfile(ProfileConstants.ALTERNATIVE_NUMBER, ProfileConstants.ALTERNATIVE_FULL_NAME)));
+    }
+
     public static final KeyAssignment unassigned() {
         return new KeyAssignment(KeyConstants.NUMBER, true, KeyConstants.DESCRIPTION, Optional.empty());
     }
