@@ -129,7 +129,7 @@ databaseChangeLog:
             referencedColumnNames: id
             onDelete: "SET NULL"
         - addUniqueConstraint:
-            constraintName: fees_unique_date
+            constraintName: uk_fees_date
             schemaName: funds
             tableName: fees
             columnNames: 'member_id, month'

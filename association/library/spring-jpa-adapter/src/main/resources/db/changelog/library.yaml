@@ -323,7 +323,7 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: true
-                    foreignKeyName: fk_fees_created_by_user
+                    foreignKeyName: fk_books_created_by_user
                     references: security.users(id)
               - column:
                   name: updated_at
@@ -335,7 +335,7 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: true
-                    foreignKeyName: fk_fees_updated_by_user
+                    foreignKeyName: fk_books_updated_by_user
                     references: security.users(id)
         - addAutoIncrement:
             schemaName: inventory
@@ -398,7 +398,7 @@ databaseChangeLog:
                     references: inventory.authors(id)
                     deleteCascade: true
         - addPrimaryKey:
-            constraintName: book_authors_key
+            constraintName: pk_book_authors
             schemaName: inventory
             tableName: book_authors
             columnNames: 'book_id, author_id'
@@ -423,7 +423,7 @@ databaseChangeLog:
                     references: inventory.publishers(id)
                     deleteCascade: true
         - addPrimaryKey:
-            constraintName: book_publishers_key
+            constraintName: pk_book_publishers
             schemaName: inventory
             tableName: book_publishers
             columnNames: 'book_id, publisher_id'
@@ -456,7 +456,7 @@ databaseChangeLog:
                     references: directory.profiles(id)
                     deleteCascade: true
         - addPrimaryKey:
-            constraintName: book_donors_key
+            constraintName: pk_book_donors
             schemaName: inventory
             tableName: book_donors
             columnNames: 'book_id, donor_id'
@@ -477,7 +477,7 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: false
-                    foreignKeyName: fk_book_lending_book
+                    foreignKeyName: fk_book_lendings_book
                     references: inventory.books(id)
                     deleteCascade: true
               - column:
@@ -485,7 +485,7 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: false
-                    foreignKeyName: fk_book_lending_profile
+                    foreignKeyName: fk_book_lendings_profile
                     references: directory.profiles(id)
                     deleteCascade: true
               - column:
@@ -509,7 +509,7 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: true
-                    foreignKeyName: fk_fees_created_by_user
+                    foreignKeyName: fk_book_lendings_created_by_user
                     references: security.users(id)
               - column:
                   name: updated_at
@@ -521,10 +521,10 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: true
-                    foreignKeyName: fk_fees_updated_by_user
+                    foreignKeyName: fk_book_lendings_updated_by_user
                     references: security.users(id)
         - addPrimaryKey:
-            constraintName: book_lendings_key
+            constraintName: pk_book_lendings
             schemaName: inventory
             tableName: book_lendings
             columnNames: 'book_id, borrower_id, lending_date'

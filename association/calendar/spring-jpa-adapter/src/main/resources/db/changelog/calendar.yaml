@@ -187,7 +187,7 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: true
-                    foreignKeyName: fk_fees_created_by_user
+                    foreignKeyName: fk_calendar_info_created_by_user
                     references: security.users(id)
               - column:
                   name: updated_at
@@ -199,7 +199,7 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: true
-                    foreignKeyName: fk_fees_updated_by_user
+                    foreignKeyName: fk_calendar_info_updated_by_user
                     references: security.users(id)
         - addAutoIncrement:
             schemaName: calendar
@@ -248,7 +248,7 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: true
-                    foreignKeyName: fk_fees_created_by_user
+                    foreignKeyName: fk_calendar_dates_created_by_user
                     references: security.users(id)
               - column:
                   name: updated_at
@@ -260,7 +260,7 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: true
-                    foreignKeyName: fk_fees_updated_by_user
+                    foreignKeyName: fk_calendar_dates_updated_by_user
                     references: security.users(id)
         - addAutoIncrement:
             schemaName: calendar

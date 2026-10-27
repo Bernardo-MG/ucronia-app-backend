@@ -39,7 +39,7 @@ databaseChangeLog:
         - createIndex:
             schemaName: calendar
             tableName: game_tables
-            indexName: idx_game_table_number
+            indexName: idx_game_tables_number
             columns:
               - column:
                   name: number

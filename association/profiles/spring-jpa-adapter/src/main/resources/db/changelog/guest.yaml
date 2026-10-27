@@ -13,7 +13,7 @@ databaseChangeLog:
                   constraints:
                     primaryKey: true
                     nullable: false
-                    foreignKeyName: fk_guest_profile
+                    foreignKeyName: fk_guests_profile
                     references: directory.profiles(id)
                     deleteCascade: true
         - createTable:
@@ -25,7 +25,7 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: false
-                    foreignKeyName: fk_guest_game_guest
+                    foreignKeyName: fk_guest_games_guest
                     references: directory.guests(id)
                     deleteCascade: true
               - column:
@@ -34,7 +34,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
         - addPrimaryKey:
-              constraintName: guest_games_key
+              constraintName: pk_guest_games
               schemaName: directory
               tableName: guest_games
               columnNames: 'guest_id, date'

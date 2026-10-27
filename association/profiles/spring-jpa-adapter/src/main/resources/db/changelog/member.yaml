@@ -13,7 +13,7 @@ databaseChangeLog:
                   constraints:
                     primaryKey: true
                     nullable: false
-                    foreignKeyName: fk_member_profile
+                    foreignKeyName: fk_members_profile
                     references: directory.profiles(id)
                     deleteCascade: true
               - column:
@@ -37,7 +37,7 @@ databaseChangeLog:
                   type: boolean
                   defaultValue: true
         - addForeignKeyConstraint:
-            constraintName: fk_fees_fee_type
+            constraintName: fk_members_fee_type
             baseTableSchemaName: directory
             baseTableName: members
             baseColumnNames: fee_type_id
