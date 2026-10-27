@@ -46,7 +46,7 @@ databaseChangeLog:
             referencedTableSchemaName: funds
             referencedTableName: fee_types
             referencedColumnNames: id
-            onDelete: "SET NULL"
+            onDelete: "RESTRICT"
   - changeSet:
       id: key_assignment_table
       author: Bernardo

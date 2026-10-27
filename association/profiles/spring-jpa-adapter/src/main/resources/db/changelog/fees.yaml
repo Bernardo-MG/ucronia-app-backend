@@ -57,9 +57,6 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: false
-                    foreignKeyName: fk_fees_member
-                    references: directory.profiles(id)
-                    deleteCascade: true
               - column:
                   name: month
                   type: datetime
@@ -77,9 +74,6 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: false
-                    foreignKeyName: fk_fees_fee_type
-                    references: funds.fee_types(id)
-                    deleteCascade: true
               - column:
                   name: transaction_id
                   type: bigint
@@ -95,8 +89,6 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: true
-                    foreignKeyName: fk_fees_created_by_user
-                    references: security.users(id)
               - column:
                   name: updated_at
                   type: datetime
@@ -107,8 +99,42 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: true
-                    foreignKeyName: fk_fees_updated_by_user
-                    references: security.users(id)
+        - addForeignKeyConstraint:
+            constraintName: fk_fees_member
+            baseTableSchemaName: funds
+            baseTableName: fees
+            baseColumnNames: member_id
+            referencedTableSchemaName: directory
+            referencedTableName: profiles
+            referencedColumnNames: id
+            onDelete: "RESTRICT"
+        - addForeignKeyConstraint:
+            constraintName: fk_fees_fee_type
+            baseTableSchemaName: funds
+            baseTableName: fees
+            baseColumnNames: fee_type_id
+            referencedTableSchemaName: funds
+            referencedTableName: fee_types
+            referencedColumnNames: id
+            onDelete: "RESTRICT"
+        - addForeignKeyConstraint:
+            constraintName: fk_fees_created_by_user
+            baseTableSchemaName: funds
+            baseTableName: fees
+            baseColumnNames: created_by
+            referencedTableSchemaName: security
+            referencedTableName: users
+            referencedColumnNames: id
+            onDelete: "SET NULL"
+        - addForeignKeyConstraint:
+            constraintName: fk_fees_updated_by_user
+            baseTableSchemaName: funds
+            baseTableName: fees
+            baseColumnNames: updated_by
+            referencedTableSchemaName: security
+            referencedTableName: users
+            referencedColumnNames: id
+            onDelete: "SET NULL"
         - addAutoIncrement:
             schemaName: funds
             tableName: fees

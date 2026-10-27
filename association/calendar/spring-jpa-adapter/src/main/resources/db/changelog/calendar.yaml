@@ -187,8 +187,6 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: true
-                    foreignKeyName: fk_calendar_info_created_by_user
-                    references: security.users(id)
               - column:
                   name: updated_at
                   type: datetime
@@ -199,8 +197,24 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: true
-                    foreignKeyName: fk_calendar_info_updated_by_user
-                    references: security.users(id)
+        - addForeignKeyConstraint:
+            constraintName: fk_calendar_info_created_by_user
+            baseTableSchemaName: calendar
+            baseTableName: calendar_info
+            baseColumnNames: created_by
+            referencedTableSchemaName: security
+            referencedTableName: users
+            referencedColumnNames: id
+            onDelete: "SET NULL"
+        - addForeignKeyConstraint:
+            constraintName: fk_calendar_info_updated_by_user
+            baseTableSchemaName: calendar
+            baseTableName: calendar_info
+            baseColumnNames: updated_by
+            referencedTableSchemaName: security
+            referencedTableName: users
+            referencedColumnNames: id
+            onDelete: "SET NULL"
         - addAutoIncrement:
             schemaName: calendar
             tableName: calendar_info
@@ -241,8 +255,6 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: true
-                    foreignKeyName: fk_calendar_dates_created_by_user
-                    references: security.users(id)
               - column:
                   name: updated_at
                   type: datetime
@@ -253,8 +265,24 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: true
-                    foreignKeyName: fk_calendar_dates_updated_by_user
-                    references: security.users(id)
+        - addForeignKeyConstraint:
+            constraintName: fk_calendar_dates_created_by_user
+            baseTableSchemaName: calendar
+            baseTableName: calendar_dates
+            baseColumnNames: created_by
+            referencedTableSchemaName: security
+            referencedTableName: users
+            referencedColumnNames: id
+            onDelete: "SET NULL"
+        - addForeignKeyConstraint:
+            constraintName: fk_calendar_dates_updated_by_user
+            baseTableSchemaName: calendar
+            baseTableName: calendar_dates
+            baseColumnNames: updated_by
+            referencedTableSchemaName: security
+            referencedTableName: users
+            referencedColumnNames: id
+            onDelete: "SET NULL"
         - addAutoIncrement:
             schemaName: calendar
             tableName: calendar_dates

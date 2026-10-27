@@ -47,17 +47,30 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: true
-                    foreignKeyName: fk_asset_folders_created_by_user
-                    references: security.users(id)
               - column:
                   name: updated_at
                   type: datetime
               - column:
                   name: updated_by
                   type: bigint
-                  constraints:
-                    foreignKeyName: fk_asset_folders_updated_by_user
-                    references: security.users(id)
+        - addForeignKeyConstraint:
+            constraintName: fk_asset_folders_created_by_user
+            baseTableSchemaName: asset
+            baseTableName: asset_folders
+            baseColumnNames: created_by
+            referencedTableSchemaName: security
+            referencedTableName: users
+            referencedColumnNames: id
+            onDelete: "SET NULL"
+        - addForeignKeyConstraint:
+            constraintName: fk_asset_folders_updated_by_user
+            baseTableSchemaName: asset
+            baseTableName: asset_folders
+            baseColumnNames: updated_by
+            referencedTableSchemaName: security
+            referencedTableName: users
+            referencedColumnNames: id
+            onDelete: "SET NULL"
         - addUniqueConstraint:
             schemaName: asset
             tableName: asset_folders
@@ -149,17 +162,30 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: true
-                    foreignKeyName: fk_assets_created_by_user
-                    references: security.users(id)
               - column:
                   name: updated_at
                   type: datetime
               - column:
                   name: updated_by
                   type: bigint
-                  constraints:
-                    foreignKeyName: fk_assets_updated_by_user
-                    references: security.users(id)
+        - addForeignKeyConstraint:
+            constraintName: fk_assets_created_by_user
+            baseTableSchemaName: asset
+            baseTableName: assets
+            baseColumnNames: created_by
+            referencedTableSchemaName: security
+            referencedTableName: users
+            referencedColumnNames: id
+            onDelete: "SET NULL"
+        - addForeignKeyConstraint:
+            constraintName: fk_assets_updated_by_user
+            baseTableSchemaName: asset
+            baseTableName: assets
+            baseColumnNames: updated_by
+            referencedTableSchemaName: security
+            referencedTableName: users
+            referencedColumnNames: id
+            onDelete: "SET NULL"
         - addUniqueConstraint:
             schemaName: asset
             tableName: assets
