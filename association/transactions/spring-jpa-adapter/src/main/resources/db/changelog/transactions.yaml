@@ -50,13 +50,6 @@ databaseChangeLog:
             columnDataType: bigint
             incrementBy: 1
             startWith: 1
-        - createIndex:
-            schemaName: funds
-            tableName: transaction_types
-            indexName: idx_transaction_types_number
-            columns:
-              - column:
-                  name: number
         - createTable:
             schemaName: funds
             tableName: transactions
@@ -129,13 +122,6 @@ databaseChangeLog:
             columnDataType: bigint
             incrementBy: 1
             startWith: 1
-        - createIndex:
-            schemaName: funds
-            tableName: transactions
-            indexName: idx_transactions_index
-            columns:
-              - column:
-                  name: index
         - addForeignKeyConstraint:
             constraintName: fk_transactions_transaction_type
             baseTableSchemaName: funds

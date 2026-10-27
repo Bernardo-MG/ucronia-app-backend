@@ -72,14 +72,6 @@ databaseChangeLog:
             columnDataType: bigint
             incrementBy: 1
             startWith: 1
-        - createIndex:
-            schemaName: configuration
-            tableName: settings
-            indexName: idx_settings_code
-            columns:
-              - column:
-                  name: code
-      modifySql:
         - append:
             dbms: mysql
             value: ' ENGINE=InnoDB DEFAULT CHARSET=latin1'

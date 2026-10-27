@@ -38,13 +38,6 @@ databaseChangeLog:
             columnDataType: bigint
             incrementBy: 1
             startWith: 1
-        - createIndex:
-            schemaName: calendar
-            tableName: game_tables
-            indexName: idx_game_tables_number
-            columns:
-              - column:
-                  name: number
         - createTable:
             schemaName: calendar
             tableName: scheduled_games
@@ -92,7 +85,7 @@ databaseChangeLog:
             referencedTableSchemaName: directory
             referencedTableName: profiles
             referencedColumnNames: id
-            onDelete: "SET NULL"
+            onDelete: "RESTRICT"
   - changeSet:
       id: scheduled_game_initial_data
       author: Bernardo

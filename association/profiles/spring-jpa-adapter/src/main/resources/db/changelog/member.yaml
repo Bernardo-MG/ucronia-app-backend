@@ -65,6 +65,14 @@ databaseChangeLog:
                     foreignKeyName: fk_key_assignments_key
                     references: inventory.keys(id)
                     deleteCascade: true
+              - column:
+                  name: profile_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_key_assignments_profile
+                    references: directory.profiles(id)
+                    deleteCascade: true
         - createIndex:
             schemaName: directory
             tableName: key_assignments
