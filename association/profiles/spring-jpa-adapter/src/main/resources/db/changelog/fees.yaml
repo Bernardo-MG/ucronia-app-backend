@@ -151,11 +151,8 @@ databaseChangeLog:
             referencedTableName: transactions
             referencedColumnNames: id
             onDelete: "SET NULL"
-        - addUniqueConstraint:
-            constraintName: uk_fees_member_month
-            schemaName: funds
-            tableName: fees
-            columnNames: 'member_id, month'
+        - sql:
+            sql: CREATE UNIQUE INDEX uk_fees_member_month ON funds.fees (member_id, date_trunc('month', month))
       modifySql:
         - append:
             dbms: mysql
