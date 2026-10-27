@@ -12,6 +12,7 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     primaryKey: true
+                    primaryKeyName: pk_user_profiles
                     nullable: false
                     foreignKeyName: fk_user_profiles_user
                     references: security.users(id)
@@ -22,6 +23,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     unique: true
+                    uniqueConstraintName: uk_user_profiles_profile_id
                     foreignKeyName: fk_user_profiles_profile
                     references: directory.profiles(id)
                     deleteCascade: true

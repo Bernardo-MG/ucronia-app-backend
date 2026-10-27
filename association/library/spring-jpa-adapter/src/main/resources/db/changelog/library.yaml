@@ -12,18 +12,21 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     primaryKey: true
+                    primaryKeyName: pk_game_systems
                     nullable: false
               - column:
                   name: number
                   type: bigint
                   constraints:
                     unique: true
+                    uniqueConstraintName: uk_game_systems_number
                     nullable: false
               - column:
                   name: name
                   type: varchar(100)
                   constraints:
                     unique: true
+                    uniqueConstraintName: uk_game_systems_name
                     nullable: false
               # Audit columns
               - column:
@@ -74,18 +77,21 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     primaryKey: true
+                    primaryKeyName: pk_book_types
                     nullable: false
               - column:
                   name: number
                   type: bigint
                   constraints:
                     unique: true
+                    uniqueConstraintName: uk_book_types_number
                     nullable: false
               - column:
                   name: name
                   type: varchar(100)
                   constraints:
                     unique: true
+                    uniqueConstraintName: uk_book_types_name
                     nullable: false
               # Audit columns
               - column:
@@ -136,18 +142,21 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     primaryKey: true
+                    primaryKeyName: pk_authors
                     nullable: false
               - column:
                   name: number
                   type: bigint
                   constraints:
                     unique: true
+                    uniqueConstraintName: uk_authors_number
                     nullable: false
               - column:
                   name: name
                   type: varchar(100)
                   constraints:
                     unique: true
+                    uniqueConstraintName: uk_authors_name
                     nullable: false
               # Audit columns
               - column:
@@ -198,18 +207,21 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     primaryKey: true
+                    primaryKeyName: pk_publishers
                     nullable: false
               - column:
                   name: number
                   type: bigint
                   constraints:
                     unique: true
+                    uniqueConstraintName: uk_publishers_number
                     nullable: false
               - column:
                   name: name
                   type: varchar(100)
                   constraints:
                     unique: true
+                    uniqueConstraintName: uk_publishers_name
                     nullable: false
               # Audit columns
               - column:
@@ -260,6 +272,7 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     primaryKey: true
+                    primaryKeyName: pk_books
                     nullable: false
               - column:
                   name: type
@@ -271,6 +284,7 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     unique: true
+                    uniqueConstraintName: uk_books_number
                     nullable: false
               - column:
                   name: isbn
@@ -485,7 +499,7 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: false
-                    foreignKeyName: fk_book_lendings_profile
+                    foreignKeyName: fk_book_lendings_borrower
                     references: directory.profiles(id)
                     deleteCascade: true
               - column:

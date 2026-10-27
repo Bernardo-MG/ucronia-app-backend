@@ -22,12 +22,14 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     primaryKey: true
+                    primaryKeyName: pk_calendar_type
                     nullable: false
               - column:
                   name: number
                   type: bigint
                   constraints:
                     unique: true
+                    uniqueConstraintName: uk_calendar_type_number
                     nullable: false
               - column:
                   name: name
@@ -63,12 +65,14 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     primaryKey: true
+                    primaryKeyName: pk_calendar_status
                     nullable: false
               - column:
                   name: name
                   type: varchar(50)
                   constraints:
                     unique: true
+                    uniqueConstraintName: uk_calendar_status_name
                     nullable: false
         - addAutoIncrement:
             schemaName: calendar
@@ -87,12 +91,14 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     primaryKey: true
+                    primaryKeyName: pk_recurrence_status
                     nullable: false
               - column:
                   name: name
                   type: varchar(50)
                   constraints:
                     unique: true
+                    uniqueConstraintName: uk_recurrence_status_name
                     nullable: false
         - addAutoIncrement:
             schemaName: calendar
@@ -111,12 +117,14 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     primaryKey: true
+                    primaryKeyName: pk_calendar_info
                     nullable: false
               - column:
                   name: number
                   type: bigint
                   constraints:
                     unique: true
+                    uniqueConstraintName: uk_calendar_info_number
                     nullable: false
               - column:
                   name: calendar_status_id
@@ -225,6 +233,7 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     primaryKey: true
+                    primaryKeyName: pk_calendar_dates
                     nullable: false
               - column:
                   name: start_date

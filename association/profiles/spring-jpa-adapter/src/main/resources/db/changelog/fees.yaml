@@ -12,18 +12,21 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     primaryKey: true
+                    primaryKeyName: pk_fee_types
                     nullable: false
               - column:
                   name: number
                   type: bigint
                   constraints:
                     unique: true
+                    uniqueConstraintName: uk_fee_types_number
                     nullable: false
               - column:
                   name: name
                   type: varchar(50)
                   constraints:
                     unique: true
+                    uniqueConstraintName: uk_fee_types_name
                     nullable: false
               - column:
                   name: amount
@@ -54,13 +57,14 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     primaryKey: true
+                    primaryKeyName: pk_fees
                     nullable: false
               - column:
                   name: member_id
                   type: bigint
                   constraints:
                     nullable: false
-                    foreignKeyName: fk_fees_profile
+                    foreignKeyName: fk_fees_member
                     references: directory.profiles(id)
                     deleteCascade: true
               - column:
@@ -129,7 +133,7 @@ databaseChangeLog:
             referencedColumnNames: id
             onDelete: "SET NULL"
         - addUniqueConstraint:
-            constraintName: uk_fees_date
+            constraintName: uk_fees_member_month
             schemaName: funds
             tableName: fees
             columnNames: 'member_id, month'

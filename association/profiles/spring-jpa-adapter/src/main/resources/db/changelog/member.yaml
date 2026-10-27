@@ -12,6 +12,7 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     primaryKey: true
+                    primaryKeyName: pk_members
                     nullable: false
                     foreignKeyName: fk_members_profile
                     references: directory.profiles(id)
@@ -23,6 +24,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     unique: true
+                    uniqueConstraintName: uk_members_member_number
               - column:
                   name: fee_type_id
                   type: bigint
@@ -46,7 +48,7 @@ databaseChangeLog:
             referencedColumnNames: id
             onDelete: "SET NULL"
   - changeSet:
-      id: key-assignment-table
+      id: key_assignment_table
       author: Bernardo
       changes:
         - createTable:
@@ -58,6 +60,7 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     primaryKey: true
+                    primaryKeyName: pk_key_assignments
                     nullable: false
                     foreignKeyName: fk_key_assignments_key
                     references: inventory.keys(id)
@@ -73,7 +76,7 @@ databaseChangeLog:
                     references: directory.profiles(id)
                     deleteCascade: true
   - changeSet:
-      id: key-assignment-multiple-keys-per-profile
+      id: key_assignment_multiple_keys_per_profile
       author: Bernardo
       changes:
         - dropUniqueConstraint:

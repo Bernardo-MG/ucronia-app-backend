@@ -19,6 +19,7 @@ databaseChangeLog:
                   autoIncrement: true
                   constraints:
                     primaryKey: true
+                    primaryKeyName: pk_asset_folders
                     nullable: false
               - column:
                   name: number
@@ -94,6 +95,7 @@ databaseChangeLog:
                   autoIncrement: true
                   constraints:
                     primaryKey: true
+                    primaryKeyName: pk_assets
                     nullable: false
               - column:
                   name: number
@@ -121,6 +123,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     unique: true
+                    uniqueConstraintName: uk_assets_object_key
               - column:
                   name: media_type
                   type: varchar(100)

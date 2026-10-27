@@ -12,6 +12,7 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     primaryKey: true
+                    primaryKeyName: pk_sponsors
                     nullable: false
                     foreignKeyName: fk_sponsors_profile
                     references: directory.profiles(id)

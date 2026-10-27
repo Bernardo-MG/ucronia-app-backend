@@ -12,12 +12,14 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     primaryKey: true
+                    primaryKeyName: pk_game_tables
                     nullable: false
               - column:
                   name: number
                   type: bigint
                   constraints:
                     unique: true
+                    uniqueConstraintName: uk_game_tables_number
                     nullable: false
               - column:
                   name: name
@@ -52,6 +54,7 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     primaryKey: true
+                    primaryKeyName: pk_scheduled_games
                     nullable: false
                     foreignKeyName: fk_scheduled_games_calendar_info
                     references: calendar.calendar_info(id)
