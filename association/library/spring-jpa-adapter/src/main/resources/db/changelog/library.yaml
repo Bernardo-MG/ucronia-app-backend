@@ -418,6 +418,7 @@ databaseChangeLog:
             referencedTableName: book_types
             referencedColumnNames: id
             onDelete: "SET NULL"
+      modifySql:
         - append:
             dbms: mysql
             value: ' ENGINE=InnoDB DEFAULT CHARSET=latin1'
