@@ -20,7 +20,6 @@ databaseChangeLog:
               - column:
                   name: member_number
                   type: bigint
-                  autoIncrement: true
                   constraints:
                     nullable: false
                     unique: true
