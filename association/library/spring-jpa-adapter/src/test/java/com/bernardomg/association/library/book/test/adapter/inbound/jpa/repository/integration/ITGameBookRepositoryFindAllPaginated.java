@@ -44,8 +44,7 @@ import com.bernardomg.association.library.lending.test.configuration.data.annota
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.LentBookLendingHistory;
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.ReturnedBookLending;
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.ReturnedBookLendingHistory;
-import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
-import com.bernardomg.association.member.test.configuration.data.annotation.AlternativeActiveMember;
+import com.bernardomg.association.profile.test.configuration.data.annotation.AlternativeProfile;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -93,7 +92,7 @@ class ITGameBookRepositoryFindAllPaginated {
     @Test
     @DisplayName("When there is a lent game book, it is returned")
     @PositiveFeeType
-    @ActiveMember
+    @ValidProfile
     @FullGameBook
     @LentBookLending
     void testFindAll_Lent() {
@@ -124,8 +123,8 @@ class ITGameBookRepositoryFindAllPaginated {
     @Test
     @DisplayName("When there is a lent game book and it has history, it is returned")
     @PositiveFeeType
-    @ActiveMember
-    @AlternativeActiveMember
+    @ValidProfile
+    @AlternativeProfile
     @FullGameBook
     @LentBookLendingHistory
     void testFindAll_Lent_WithHistory() {
@@ -180,7 +179,7 @@ class ITGameBookRepositoryFindAllPaginated {
     @Test
     @DisplayName("When there is a returned game book, it is returned")
     @PositiveFeeType
-    @ActiveMember
+    @ValidProfile
     @FullGameBook
     @ReturnedBookLending
     void testFindAll_Returned() {
@@ -211,8 +210,8 @@ class ITGameBookRepositoryFindAllPaginated {
     @Test
     @DisplayName("When there is a returned game book, it is returned")
     @PositiveFeeType
-    @ActiveMember
-    @AlternativeActiveMember
+    @ValidProfile
+    @AlternativeProfile
     @FullGameBook
     @ReturnedBookLendingHistory
     void testFindAll_Returned_WithHistory() {

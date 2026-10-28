@@ -46,8 +46,7 @@ import com.bernardomg.association.library.lending.test.configuration.data.annota
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.LentBookLendingHistory;
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.ReturnedBookLending;
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.ReturnedBookLendingHistory;
-import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
-import com.bernardomg.association.member.test.configuration.data.annotation.AlternativeActiveMember;
+import com.bernardomg.association.profile.test.configuration.data.annotation.AlternativeProfile;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.test.annotation.IntegrationTest;
 
@@ -118,7 +117,7 @@ class ITFictionBookRepositoryFindOne {
     @Test
     @DisplayName("When there is a lent fiction book, it is returned")
     @PositiveFeeType
-    @ActiveMember
+    @ValidProfile
     @FullFictionBook
     @LentBookLending
     void testFindOne_FullLent() {
@@ -139,8 +138,8 @@ class ITFictionBookRepositoryFindOne {
     @Test
     @DisplayName("When there is a lent fiction book and it has history, it is returned")
     @PositiveFeeType
-    @ActiveMember
-    @AlternativeActiveMember
+    @ValidProfile
+    @AlternativeProfile
     @FullFictionBook
     @LentBookLendingHistory
     void testFindOne_Lent_History() {
@@ -193,7 +192,7 @@ class ITFictionBookRepositoryFindOne {
     @Test
     @DisplayName("When there is a returned fiction book, it is returned")
     @PositiveFeeType
-    @ActiveMember
+    @ValidProfile
     @FullFictionBook
     @ReturnedBookLending
     void testFindOne_Returned() {
@@ -214,8 +213,8 @@ class ITFictionBookRepositoryFindOne {
     @Test
     @DisplayName("When there is a returned fiction book with history, it is returned")
     @PositiveFeeType
-    @ActiveMember
-    @AlternativeActiveMember
+    @ValidProfile
+    @AlternativeProfile
     @FullFictionBook
     @ReturnedBookLendingHistory
     void testFindOne_Returned_History() {
