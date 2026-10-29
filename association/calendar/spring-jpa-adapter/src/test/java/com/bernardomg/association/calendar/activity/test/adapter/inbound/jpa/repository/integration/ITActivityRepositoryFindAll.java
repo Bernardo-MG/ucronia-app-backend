@@ -87,6 +87,7 @@ class ITActivityRepositoryFindAllWithFilter {
         Assertions.assertThat(activities)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(Activities.singleDay());
     }
 
@@ -112,6 +113,7 @@ class ITActivityRepositoryFindAllWithFilter {
         Assertions.assertThat(activities)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(Activities.forNumberAndMonth(10L, Month.JANUARY),
                 Activities.forNumberAndMonth(11L, Month.JANUARY), Activities.forNumberAndMonth(12L, Month.JANUARY),
                 Activities.forNumberAndMonth(13L, Month.JANUARY), Activities.forNumberAndMonth(14L, Month.JANUARY));
@@ -139,6 +141,7 @@ class ITActivityRepositoryFindAllWithFilter {
         Assertions.assertThat(activities)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(Activities.forNumberAndMonth(10L, Month.JANUARY),
                 Activities.forNumberAndMonth(11L, Month.JANUARY), Activities.forNumberAndMonth(12L, Month.JANUARY),
                 Activities.forNumberAndMonth(13L, Month.JANUARY), Activities.forNumberAndMonth(14L, Month.JANUARY));
@@ -182,6 +185,7 @@ class ITActivityRepositoryFindAllWithFilter {
             Assertions.assertThat(activities)
                 .extracting(Page::content)
                 .asInstanceOf(InstanceOfAssertFactories.LIST)
+                .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
                 .containsExactly(Activities.multipleDay());
             Assertions.assertThat(activities.content())
                 .first()
@@ -229,6 +233,7 @@ class ITActivityRepositoryFindAllWithFilter {
             Assertions.assertThat(activities)
                 .extracting(Page::content)
                 .asInstanceOf(InstanceOfAssertFactories.LIST)
+                .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
                 .containsExactly(Activities.multipleDay());
             Assertions.assertThat(activities.content())
                 .first()

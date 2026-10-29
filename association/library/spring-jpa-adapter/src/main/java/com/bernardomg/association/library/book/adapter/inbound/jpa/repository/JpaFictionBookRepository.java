@@ -50,6 +50,7 @@ import com.bernardomg.association.library.book.domain.model.FictionBook;
 import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.library.book.domain.repository.FictionBookRepository;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.BookLendingEntity;
+import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.BookLendingEntityMapper;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.repository.BookLendingSpringRepository;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.model.PublisherEntity;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.repository.PublisherSpringRepository;
@@ -217,6 +218,8 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
+            entity.setAudit(existing.get()
+                .getAudit());
         } else {
             number = bookSpringRepository.findNextNumber();
             entity.setNumber(number);
@@ -265,7 +268,8 @@ public final class JpaFictionBookRepository implements FictionBookRepository {
     private final BookLendingInfo toDomain(final FictionBookEntity bookEntity, final BookLendingEntity entity) {
         new Title(bookEntity.getSupertitle(), bookEntity.getTitle(), bookEntity.getSubtitle());
         return new BookLendingInfo(entity.getBorrower()
-            .getNumber(), entity.getLendingDate(), Optional.ofNullable(entity.getReturnDate()));
+            .getNumber(), entity.getLendingDate(), Optional.ofNullable(entity.getReturnDate()),
+            BookLendingEntityMapper.toDomain(entity.getAudit()));
     }
 
     private final FictionBookEntity toEntity(final FictionBook domain) {

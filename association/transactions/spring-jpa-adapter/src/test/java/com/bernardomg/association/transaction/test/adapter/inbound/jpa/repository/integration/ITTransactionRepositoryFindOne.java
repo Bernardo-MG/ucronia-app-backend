@@ -62,74 +62,90 @@ class ITTransactionRepositoryFindOne {
     @DisplayName("With an existing transaction, it is returned")
     @PositiveTransaction
     void testFindOne() {
-        final Optional<Transaction> transactionOptional;
+        final Optional<Transaction> transaction;
 
         // WHEN
-        transactionOptional = repository.findOne(TransactionConstants.INDEX);
+        transaction = repository.findOne(TransactionConstants.INDEX);
 
         // THEN
-        Assertions.assertThat(transactionOptional)
-            .contains(Transactions.positive());
+        Assertions.assertThat(transaction)
+            .as("transaction")
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit")
+                .isEqualTo(Transactions.positive()));
     }
 
     @ParameterizedTest(name = "Amount: {0}")
     @ArgumentsSource(AroundZeroArgumentsProvider.class)
     @DisplayName("With a value around zero, the related entity is returned")
     void testFindOne_AroundZero(final Float amount) {
-        final Optional<Transaction> transactionOptional;
+        final Optional<Transaction> transaction;
 
         // GIVEN
         springRepository.save(TransactionEntities.forAmount(amount));
 
         // WHEN
-        transactionOptional = repository.findOne(TransactionConstants.INDEX);
+        transaction = repository.findOne(TransactionConstants.INDEX);
 
         // THEN
-        Assertions.assertThat(transactionOptional)
-            .contains(Transactions.forAmount(amount));
+        Assertions.assertThat(transaction)
+            .as("transaction")
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit")
+                .isEqualTo(Transactions.forAmount(amount)));
     }
 
     @ParameterizedTest(name = "Amount: {0}")
     @ArgumentsSource(DecimalArgumentsProvider.class)
     @DisplayName("With a decimal value, the related entity is returned")
     void testFindOne_Decimal(final Float amount) {
-        final Optional<Transaction> transactionOptional;
+        final Optional<Transaction> transaction;
 
         // GIVEN
         springRepository.save(TransactionEntities.forAmount(amount));
 
         // WHEN
-        transactionOptional = repository.findOne(TransactionConstants.INDEX);
+        transaction = repository.findOne(TransactionConstants.INDEX);
 
         // THEN
-        Assertions.assertThat(transactionOptional)
-            .contains(Transactions.forAmount(amount));
+        Assertions.assertThat(transaction)
+            .as("transaction")
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit")
+                .isEqualTo(Transactions.forAmount(amount)));
     }
 
     @Test
     @DisplayName("Returns the correct data when reading a negative value")
     @NegativeTransaction
     void testFindOne_Negative() {
-        final Optional<Transaction> transactionOptional;
+        final Optional<Transaction> transaction;
 
         // WHEN
-        transactionOptional = repository.findOne(TransactionConstants.INDEX);
+        transaction = repository.findOne(TransactionConstants.INDEX);
 
         // THEN
-        Assertions.assertThat(transactionOptional)
-            .contains(Transactions.forAmount(-1F));
+        Assertions.assertThat(transaction)
+            .as("transaction")
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit")
+                .isEqualTo(Transactions.forAmount(-1F)));
     }
 
     @Test
     @DisplayName("With no transaction, nothing is returned")
     void testFindOne_NoData() {
-        final Optional<Transaction> transactionOptional;
+        final Optional<Transaction> transaction;
 
         // WHEN
-        transactionOptional = repository.findOne(TransactionConstants.INDEX);
+        transaction = repository.findOne(TransactionConstants.INDEX);
 
         // THEN
-        Assertions.assertThat(transactionOptional)
+        Assertions.assertThat(transaction)
             .isEmpty();
     }
 

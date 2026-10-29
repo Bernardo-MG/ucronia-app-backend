@@ -60,7 +60,10 @@ class ITBookTypeRepositoryFindOne {
         // THEN
         Assertions.assertThat(bookType)
             .as("book type")
-            .contains(BookTypes.valid());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit")
+                .isEqualTo(BookTypes.valid()));
     }
 
     @Test

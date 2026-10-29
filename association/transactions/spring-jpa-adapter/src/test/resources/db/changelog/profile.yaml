@@ -22,6 +22,7 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     primaryKey: true
+                    primaryKeyName: pk_profiles
                     nullable: false
               - column:
                   name: identifier
@@ -32,6 +33,7 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     unique: true
+                    uniqueConstraintName: uk_profiles_number
                     nullable: false
               - column:
                   name: first_name
@@ -73,18 +75,21 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     primaryKey: true
+                    primaryKeyName: pk_contact_methods
                     nullable: false
               - column:
                   name: number
                   type: bigint
                   constraints:
                     unique: true
+                    uniqueConstraintName: uk_contact_methods_number
                     nullable: false
               - column:
                   name: name
                   type: varchar(50)
                   constraints:
                     unique: true
+                    uniqueConstraintName: uk_contact_methods_name
                     nullable: false
         - addAutoIncrement:
             schemaName: directory
@@ -102,6 +107,7 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     primaryKey: true
+                    primaryKeyName: pk_contact_channels
                     nullable: false
               - column:
                   name: profile_id

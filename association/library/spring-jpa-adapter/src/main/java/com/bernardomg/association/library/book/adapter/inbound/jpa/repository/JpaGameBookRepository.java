@@ -55,6 +55,7 @@ import com.bernardomg.association.library.booktype.adapter.inbound.jpa.repositor
 import com.bernardomg.association.library.gamesystem.adapter.inbound.jpa.model.GameSystemEntity;
 import com.bernardomg.association.library.gamesystem.adapter.inbound.jpa.repository.GameSystemSpringRepository;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.BookLendingEntity;
+import com.bernardomg.association.library.lending.adapter.inbound.jpa.model.BookLendingEntityMapper;
 import com.bernardomg.association.library.lending.adapter.inbound.jpa.repository.BookLendingSpringRepository;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.model.PublisherEntity;
 import com.bernardomg.association.library.publisher.adapter.inbound.jpa.repository.PublisherSpringRepository;
@@ -228,6 +229,8 @@ public final class JpaGameBookRepository implements GameBookRepository {
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
+            entity.setAudit(existing.get()
+                .getAudit());
         } else {
             number = bookSpringRepository.findNextNumber();
             entity.setNumber(number);
@@ -276,7 +279,8 @@ public final class JpaGameBookRepository implements GameBookRepository {
     private final BookLendingInfo toDomain(final GameBookEntity bookEntity, final BookLendingEntity entity) {
         new Title(bookEntity.getSupertitle(), bookEntity.getTitle(), bookEntity.getSubtitle());
         return new BookLendingInfo(entity.getBorrower()
-            .getNumber(), entity.getLendingDate(), Optional.ofNullable(entity.getReturnDate()));
+            .getNumber(), entity.getLendingDate(), Optional.ofNullable(entity.getReturnDate()),
+            BookLendingEntityMapper.toDomain(entity.getAudit()));
     }
 
     private final GameBookEntity toEntity(final GameBook domain) {

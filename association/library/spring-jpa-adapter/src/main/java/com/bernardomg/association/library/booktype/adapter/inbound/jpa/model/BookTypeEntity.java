@@ -26,8 +26,14 @@ package com.bernardomg.association.library.booktype.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
 
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditMetadata;
+
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -36,6 +42,7 @@ import jakarta.persistence.Transient;
 
 @Entity(name = "BookType")
 @Table(schema = "inventory", name = "book_types")
+@EntityListeners(AuditingEntityListener.class)
 public class BookTypeEntity implements Serializable {
 
     /**
@@ -43,6 +50,9 @@ public class BookTypeEntity implements Serializable {
      */
     @Transient
     private static final long serialVersionUID = 1328776989450853491L;
+
+    @Embedded
+    private AuditMetadata     audit            = new AuditMetadata();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,6 +65,10 @@ public class BookTypeEntity implements Serializable {
     @Column(name = "number", nullable = false, unique = true)
     private Long              number;
 
+    public AuditMetadata getAudit() {
+        return audit;
+    }
+
     public Long getId() {
         return id;
     }
@@ -65,6 +79,10 @@ public class BookTypeEntity implements Serializable {
 
     public Long getNumber() {
         return number;
+    }
+
+    public void setAudit(final AuditMetadata audit) {
+        this.audit = audit;
     }
 
     public void setId(final Long id) {

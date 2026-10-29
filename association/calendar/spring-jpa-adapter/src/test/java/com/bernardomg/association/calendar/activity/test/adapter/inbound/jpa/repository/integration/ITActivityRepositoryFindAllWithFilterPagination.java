@@ -89,6 +89,7 @@ class ITActivityRepositoryFindAllWithFilterPagination extends AbstractPagination
         Assertions.assertThat(activities)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(Activities.forNumberAndMonth(10L, Month.JANUARY));
     }
 
@@ -113,6 +114,7 @@ class ITActivityRepositoryFindAllWithFilterPagination extends AbstractPagination
         Assertions.assertThat(activities)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(Activities.forNumberAndMonth(11L, Month.JANUARY));
     }
 

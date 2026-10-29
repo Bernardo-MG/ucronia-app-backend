@@ -73,6 +73,7 @@ class ITActivityRepositoryFindAllWithFilter {
         Assertions.assertThat(scheduledGames)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(ScheduledGames.weeklyOneshot());
     }
 
@@ -116,6 +117,7 @@ class ITActivityRepositoryFindAllWithFilter {
         Assertions.assertThat(scheduledGames)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(ScheduledGames.withTable());
     }
 

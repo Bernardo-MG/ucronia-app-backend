@@ -143,6 +143,7 @@ class ITTransactionRepositoryFindAllWithFilter {
         Assertions.assertThat(transactions)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactlyInAnyOrder(Transactions.forIndex(1, Month.JANUARY),
                 Transactions.forIndex(2, Month.FEBRUARY), Transactions.forIndex(3, Month.MARCH),
                 Transactions.forIndex(4, Month.APRIL), Transactions.forIndex(5, Month.MAY),
@@ -174,6 +175,7 @@ class ITTransactionRepositoryFindAllWithFilter {
         Assertions.assertThat(transactions)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(Transactions.forIndexAndMonth(1, Month.JANUARY),
                 Transactions.forIndexAndMonth(2, Month.JANUARY), Transactions.forIndexAndMonth(3, Month.JANUARY),
                 Transactions.forIndexAndMonth(4, Month.JANUARY), Transactions.forIndexAndMonth(5, Month.JANUARY));

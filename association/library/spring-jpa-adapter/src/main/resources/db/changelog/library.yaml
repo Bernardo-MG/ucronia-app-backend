@@ -12,19 +12,62 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     primaryKey: true
+                    primaryKeyName: pk_game_systems
                     nullable: false
               - column:
                   name: number
                   type: bigint
                   constraints:
                     unique: true
+                    uniqueConstraintName: uk_game_systems_number
                     nullable: false
               - column:
                   name: name
                   type: varchar(100)
                   constraints:
                     unique: true
+                    uniqueConstraintName: uk_game_systems_name
                     nullable: false
+              # Audit columns
+              - column:
+                  name: created_at
+                  type: datetime
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: true
+              - column:
+                  name: created_by
+                  type: bigint
+                  constraints:
+                    nullable: true
+              - column:
+                  name: updated_at
+                  type: datetime
+                  constraints:
+                    nullable: true
+              - column:
+                  name: updated_by
+                  type: bigint
+                  constraints:
+                    nullable: true
+        - addForeignKeyConstraint:
+            constraintName: fk_game_systems_created_by_user
+            baseTableSchemaName: inventory
+            baseTableName: game_systems
+            baseColumnNames: created_by
+            referencedTableSchemaName: security
+            referencedTableName: users
+            referencedColumnNames: id
+            onDelete: "SET NULL"
+        - addForeignKeyConstraint:
+            constraintName: fk_game_systems_updated_by_user
+            baseTableSchemaName: inventory
+            baseTableName: game_systems
+            baseColumnNames: updated_by
+            referencedTableSchemaName: security
+            referencedTableName: users
+            referencedColumnNames: id
+            onDelete: "SET NULL"
         - addAutoIncrement:
             schemaName: inventory
             tableName: game_systems
@@ -32,13 +75,6 @@ databaseChangeLog:
             columnDataType: bigint
             incrementBy: 1
             startWith: 1
-        - createIndex:
-            schemaName: inventory
-            tableName: game_systems
-            indexName: idx_game_systems_number
-            columns:
-              - column:
-                  name: number
         - createTable:
             schemaName: inventory
             tableName: book_types
@@ -48,19 +84,62 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     primaryKey: true
+                    primaryKeyName: pk_book_types
                     nullable: false
               - column:
                   name: number
                   type: bigint
                   constraints:
                     unique: true
+                    uniqueConstraintName: uk_book_types_number
                     nullable: false
               - column:
                   name: name
                   type: varchar(100)
                   constraints:
                     unique: true
+                    uniqueConstraintName: uk_book_types_name
                     nullable: false
+              # Audit columns
+              - column:
+                  name: created_at
+                  type: datetime
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: true
+              - column:
+                  name: created_by
+                  type: bigint
+                  constraints:
+                    nullable: true
+              - column:
+                  name: updated_at
+                  type: datetime
+                  constraints:
+                    nullable: true
+              - column:
+                  name: updated_by
+                  type: bigint
+                  constraints:
+                    nullable: true
+        - addForeignKeyConstraint:
+            constraintName: fk_book_types_created_by_user
+            baseTableSchemaName: inventory
+            baseTableName: book_types
+            baseColumnNames: created_by
+            referencedTableSchemaName: security
+            referencedTableName: users
+            referencedColumnNames: id
+            onDelete: "SET NULL"
+        - addForeignKeyConstraint:
+            constraintName: fk_book_types_updated_by_user
+            baseTableSchemaName: inventory
+            baseTableName: book_types
+            baseColumnNames: updated_by
+            referencedTableSchemaName: security
+            referencedTableName: users
+            referencedColumnNames: id
+            onDelete: "SET NULL"
         - addAutoIncrement:
             schemaName: inventory
             tableName: book_types
@@ -68,13 +147,6 @@ databaseChangeLog:
             columnDataType: bigint
             incrementBy: 1
             startWith: 1
-        - createIndex:
-            schemaName: inventory
-            tableName: book_types
-            indexName: idx_book_types_number
-            columns:
-              - column:
-                  name: number
         - createTable:
             schemaName: inventory
             tableName: authors
@@ -84,19 +156,62 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     primaryKey: true
+                    primaryKeyName: pk_authors
                     nullable: false
               - column:
                   name: number
                   type: bigint
                   constraints:
                     unique: true
+                    uniqueConstraintName: uk_authors_number
                     nullable: false
               - column:
                   name: name
                   type: varchar(100)
                   constraints:
                     unique: true
+                    uniqueConstraintName: uk_authors_name
                     nullable: false
+              # Audit columns
+              - column:
+                  name: created_at
+                  type: datetime
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: true
+              - column:
+                  name: created_by
+                  type: bigint
+                  constraints:
+                    nullable: true
+              - column:
+                  name: updated_at
+                  type: datetime
+                  constraints:
+                    nullable: true
+              - column:
+                  name: updated_by
+                  type: bigint
+                  constraints:
+                    nullable: true
+        - addForeignKeyConstraint:
+            constraintName: fk_authors_created_by_user
+            baseTableSchemaName: inventory
+            baseTableName: authors
+            baseColumnNames: created_by
+            referencedTableSchemaName: security
+            referencedTableName: users
+            referencedColumnNames: id
+            onDelete: "SET NULL"
+        - addForeignKeyConstraint:
+            constraintName: fk_authors_updated_by_user
+            baseTableSchemaName: inventory
+            baseTableName: authors
+            baseColumnNames: updated_by
+            referencedTableSchemaName: security
+            referencedTableName: users
+            referencedColumnNames: id
+            onDelete: "SET NULL"
         - addAutoIncrement:
             schemaName: inventory
             tableName: authors
@@ -104,13 +219,6 @@ databaseChangeLog:
             columnDataType: bigint
             incrementBy: 1
             startWith: 1
-        - createIndex:
-            schemaName: inventory
-            tableName: authors
-            indexName: idx_authors_number
-            columns:
-              - column:
-                  name: number
         - createTable:
             schemaName: inventory
             tableName: publishers
@@ -120,19 +228,62 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     primaryKey: true
+                    primaryKeyName: pk_publishers
                     nullable: false
               - column:
                   name: number
                   type: bigint
                   constraints:
                     unique: true
+                    uniqueConstraintName: uk_publishers_number
                     nullable: false
               - column:
                   name: name
                   type: varchar(100)
                   constraints:
                     unique: true
+                    uniqueConstraintName: uk_publishers_name
                     nullable: false
+              # Audit columns
+              - column:
+                  name: created_at
+                  type: datetime
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: true
+              - column:
+                  name: created_by
+                  type: bigint
+                  constraints:
+                    nullable: true
+              - column:
+                  name: updated_at
+                  type: datetime
+                  constraints:
+                    nullable: true
+              - column:
+                  name: updated_by
+                  type: bigint
+                  constraints:
+                    nullable: true
+        - addForeignKeyConstraint:
+            constraintName: fk_publishers_created_by_user
+            baseTableSchemaName: inventory
+            baseTableName: publishers
+            baseColumnNames: created_by
+            referencedTableSchemaName: security
+            referencedTableName: users
+            referencedColumnNames: id
+            onDelete: "SET NULL"
+        - addForeignKeyConstraint:
+            constraintName: fk_publishers_updated_by_user
+            baseTableSchemaName: inventory
+            baseTableName: publishers
+            baseColumnNames: updated_by
+            referencedTableSchemaName: security
+            referencedTableName: users
+            referencedColumnNames: id
+            onDelete: "SET NULL"
         - addAutoIncrement:
             schemaName: inventory
             tableName: publishers
@@ -140,13 +291,6 @@ databaseChangeLog:
             columnDataType: bigint
             incrementBy: 1
             startWith: 1
-        - createIndex:
-            schemaName: inventory
-            tableName: publishers
-            indexName: idx_publishers_number
-            columns:
-              - column:
-                  name: number
         - createTable:
             schemaName: inventory
             tableName: books
@@ -156,6 +300,7 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     primaryKey: true
+                    primaryKeyName: pk_books
                     nullable: false
               - column:
                   name: type
@@ -167,6 +312,7 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     unique: true
+                    uniqueConstraintName: uk_books_number
                     nullable: false
               - column:
                   name: isbn
@@ -211,6 +357,7 @@ databaseChangeLog:
               - column:
                   name: created_at
                   type: datetime
+                  defaultValueComputed: CURRENT_TIMESTAMP
                   constraints:
                     nullable: true
               - column:
@@ -218,8 +365,6 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: true
-                    foreignKeyName: fk_fees_created_by_user
-                    references: security.users(id)
               - column:
                   name: updated_at
                   type: datetime
@@ -230,8 +375,24 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: true
-                    foreignKeyName: fk_fees_updated_by_user
-                    references: security.users(id)
+        - addForeignKeyConstraint:
+            constraintName: fk_books_created_by_user
+            baseTableSchemaName: inventory
+            baseTableName: books
+            baseColumnNames: created_by
+            referencedTableSchemaName: security
+            referencedTableName: users
+            referencedColumnNames: id
+            onDelete: "SET NULL"
+        - addForeignKeyConstraint:
+            constraintName: fk_books_updated_by_user
+            baseTableSchemaName: inventory
+            baseTableName: books
+            baseColumnNames: updated_by
+            referencedTableSchemaName: security
+            referencedTableName: users
+            referencedColumnNames: id
+            onDelete: "SET NULL"
         - addAutoIncrement:
             schemaName: inventory
             tableName: books
@@ -257,13 +418,6 @@ databaseChangeLog:
             referencedTableName: book_types
             referencedColumnNames: id
             onDelete: "SET NULL"
-        - createIndex:
-            schemaName: inventory
-            tableName: books
-            indexName: idx_books_number
-            columns:
-              - column:
-                  name: number
       modifySql:
         - append:
             dbms: mysql
@@ -293,7 +447,7 @@ databaseChangeLog:
                     references: inventory.authors(id)
                     deleteCascade: true
         - addPrimaryKey:
-            constraintName: book_authors_key
+            constraintName: pk_book_authors
             schemaName: inventory
             tableName: book_authors
             columnNames: 'book_id, author_id'
@@ -318,7 +472,7 @@ databaseChangeLog:
                     references: inventory.publishers(id)
                     deleteCascade: true
         - addPrimaryKey:
-            constraintName: book_publishers_key
+            constraintName: pk_book_publishers
             schemaName: inventory
             tableName: book_publishers
             columnNames: 'book_id, publisher_id'
@@ -351,7 +505,7 @@ databaseChangeLog:
                     references: directory.profiles(id)
                     deleteCascade: true
         - addPrimaryKey:
-            constraintName: book_donors_key
+            constraintName: pk_book_donors
             schemaName: inventory
             tableName: book_donors
             columnNames: 'book_id, donor_id'
@@ -372,7 +526,7 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: false
-                    foreignKeyName: fk_book_lending_book
+                    foreignKeyName: fk_book_lendings_book
                     references: inventory.books(id)
                     deleteCascade: true
               - column:
@@ -380,9 +534,6 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: false
-                    foreignKeyName: fk_book_lending_profile
-                    references: directory.profiles(id)
-                    deleteCascade: true
               - column:
                   name: lending_date
                   type: datetime
@@ -396,6 +547,7 @@ databaseChangeLog:
               - column:
                   name: created_at
                   type: datetime
+                  defaultValueComputed: CURRENT_TIMESTAMP
                   constraints:
                     nullable: true
               - column:
@@ -403,8 +555,6 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: true
-                    foreignKeyName: fk_fees_created_by_user
-                    references: security.users(id)
               - column:
                   name: updated_at
                   type: datetime
@@ -415,10 +565,35 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: true
-                    foreignKeyName: fk_fees_updated_by_user
-                    references: security.users(id)
+        - addForeignKeyConstraint:
+            constraintName: fk_book_lendings_borrower
+            baseTableSchemaName: inventory
+            baseTableName: book_lendings
+            baseColumnNames: borrower_id
+            referencedTableSchemaName: directory
+            referencedTableName: profiles
+            referencedColumnNames: id
+            onDelete: "RESTRICT"
+        - addForeignKeyConstraint:
+            constraintName: fk_book_lendings_created_by_user
+            baseTableSchemaName: inventory
+            baseTableName: book_lendings
+            baseColumnNames: created_by
+            referencedTableSchemaName: security
+            referencedTableName: users
+            referencedColumnNames: id
+            onDelete: "SET NULL"
+        - addForeignKeyConstraint:
+            constraintName: fk_book_lendings_updated_by_user
+            baseTableSchemaName: inventory
+            baseTableName: book_lendings
+            baseColumnNames: updated_by
+            referencedTableSchemaName: security
+            referencedTableName: users
+            referencedColumnNames: id
+            onDelete: "SET NULL"
         - addPrimaryKey:
-            constraintName: book_lendings_key
+            constraintName: pk_book_lendings
             schemaName: inventory
             tableName: book_lendings
             columnNames: 'book_id, borrower_id, lending_date'

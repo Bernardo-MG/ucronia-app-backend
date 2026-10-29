@@ -66,7 +66,7 @@ public final class DefaultMemberStatusService implements MemberStatusService {
 
         // If creating at the current month, the user is set to inactive
         tolerance = Duration.ofDays(1);
-        monthStart = YearMonth.now()
+        monthStart = YearMonth.now(ZoneOffset.UTC)
             .atDay(1)
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant();
@@ -126,7 +126,7 @@ public final class DefaultMemberStatusService implements MemberStatusService {
 
         // If deleting at the current month, the user is set to inactive
         tolerance = Duration.ofDays(1);
-        monthStart = YearMonth.now()
+        monthStart = YearMonth.now(ZoneOffset.UTC)
             .atDay(1)
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant();

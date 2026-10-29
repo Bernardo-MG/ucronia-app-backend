@@ -175,7 +175,7 @@ class ITFeeRepositorySave {
         Assertions.assertThat(created)
             .as("fee")
             .usingRecursiveComparison()
-            .ignoringFields("id", "member.id", "memberId", "transaction.id")
+            .ignoringFields("id", "member.id", "memberId", "transaction.id", "audit")
             .isEqualTo(Fees.paidAtDate(date));
     }
 

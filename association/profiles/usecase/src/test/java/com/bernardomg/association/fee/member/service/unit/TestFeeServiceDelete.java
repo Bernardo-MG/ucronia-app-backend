@@ -95,8 +95,8 @@ class TestFeeServiceDelete {
                 .isInstanceOf(FeeDeletedEvent.class);
             soft.assertThat(e)
                 .asInstanceOf(InstanceOfAssertFactories.type(FeeDeletedEvent.class))
-                .extracting(FeeDeletedEvent::getDate)
-                .isEqualTo(FeeConstants.CURRENT_MONTH);
+                .extracting(FeeDeletedEvent::getMonth)
+                .isEqualTo(java.time.YearMonth.from(FeeConstants.CURRENT_MONTH.atZone(java.time.ZoneOffset.UTC)));
             soft.assertThat(e)
                 .asInstanceOf(InstanceOfAssertFactories.type(FeeDeletedEvent.class))
                 .extracting(FeeDeletedEvent::getProfileNumber)
@@ -136,8 +136,8 @@ class TestFeeServiceDelete {
                 .isInstanceOf(FeeDeletedEvent.class);
             soft.assertThat(e)
                 .asInstanceOf(InstanceOfAssertFactories.type(FeeDeletedEvent.class))
-                .extracting(FeeDeletedEvent::getDate)
-                .isEqualTo(FeeConstants.PREVIOUS_MONTH);
+                .extracting(FeeDeletedEvent::getMonth)
+                .isEqualTo(java.time.YearMonth.from(FeeConstants.PREVIOUS_MONTH.atZone(java.time.ZoneOffset.UTC)));
             soft.assertThat(e)
                 .asInstanceOf(InstanceOfAssertFactories.type(FeeDeletedEvent.class))
                 .extracting(FeeDeletedEvent::getProfileNumber)

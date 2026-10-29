@@ -12,8 +12,9 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     primaryKey: true
+                    primaryKeyName: pk_sponsors
                     nullable: false
-                    foreignKeyName: fk_sponsor_profile
+                    foreignKeyName: fk_sponsors_profile
                     references: directory.profiles(id)
                     deleteCascade: true
         - createTable:
@@ -25,7 +26,7 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: false
-                    foreignKeyName: fk_sponsor_year_sponsor
+                    foreignKeyName: fk_sponsor_years_sponsor
                     references: directory.sponsors(id)
                     deleteCascade: true
               - column:
@@ -34,7 +35,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
         - addPrimaryKey:
-              constraintName: sponsor_years_key
+              constraintName: pk_sponsor_years
               schemaName: directory
               tableName: sponsor_years
               columnNames: 'sponsor_id, year'

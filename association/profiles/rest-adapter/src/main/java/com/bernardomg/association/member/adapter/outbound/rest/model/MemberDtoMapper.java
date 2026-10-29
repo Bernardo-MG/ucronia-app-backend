@@ -39,6 +39,7 @@ import com.bernardomg.association.member.adapter.outbound.rest.dto.MemberCreatio
 import com.bernardomg.association.member.adapter.outbound.rest.dto.MemberDto;
 import com.bernardomg.association.member.adapter.outbound.rest.dto.MemberFeeTypeDto;
 import com.bernardomg.association.member.adapter.outbound.rest.dto.MemberPageResponseDto;
+import com.bernardomg.association.member.adapter.outbound.rest.dto.MemberPatchDto;
 import com.bernardomg.association.member.adapter.outbound.rest.dto.MemberResponseDto;
 import com.bernardomg.association.member.adapter.outbound.rest.dto.MemberUpdateDto;
 import com.bernardomg.association.member.adapter.outbound.rest.dto.NameDto;
@@ -58,6 +59,29 @@ import com.bernardomg.security.domain.audit.model.AuditDetails.AuditUser;
 
 public final class MemberDtoMapper {
 
+    public static final Member toDomain(final long number, final MemberPatchDto change) {
+        final Name                       name;
+        final Collection<ContactChannel> contactChannels;
+        final FeeType                    feeType;
+
+        feeType = new FeeType(change.getFeeType(), "", 0f);
+
+        name = new Name(change.getName()
+            .getFirstName(),
+            change.getName()
+                .getLastName(),
+            Optional.ofNullable(change.getName()
+                .getNickname()));
+        contactChannels = change.getContactChannels()
+            .stream()
+            .map(MemberDtoMapper::toDomain)
+            .toList();
+
+        return new Member(Optional.ofNullable(change.getIdentifier()), number, -1L, name,
+            Optional.ofNullable(change.getBirthDate()), contactChannels, Optional.ofNullable(change.getAddress()),
+            Optional.ofNullable(change.getComments()), change.getActive(), change.getRenew(), feeType, Set.of());
+    }
+
     public static final Member toDomain(final long number, final MemberUpdateDto change) {
         final Name                       name;
         final Collection<ContactChannel> contactChannels;
@@ -76,14 +100,15 @@ public final class MemberDtoMapper {
             .map(MemberDtoMapper::toDomain)
             .toList();
 
-        return new Member(Optional.ofNullable(change.getIdentifier()), number, name, Optional.empty(), contactChannels,
-            Optional.ofNullable(change.getAddress()), Optional.ofNullable(change.getComments()), change.getActive(),
-            change.getRenew(), Optional.ofNullable(change.getKey()), feeType, Set.of());
+        return new Member(Optional.ofNullable(change.getIdentifier()), number, -1L, name,
+            Optional.ofNullable(change.getBirthDate()), contactChannels, Optional.ofNullable(change.getAddress()),
+            Optional.ofNullable(change.getComments()), change.getActive(), change.getRenew(), feeType, Set.of());
     }
 
     public static final Member toDomain(final MemberCreationDto creation) {
-        final Name    name;
-        final FeeType feeType;
+        final Name                       name;
+        final FeeType                    feeType;
+        final Collection<ContactChannel> contactChannels;
 
         feeType = new FeeType(creation.getFeeType(), "", 0f);
 
@@ -94,8 +119,16 @@ public final class MemberDtoMapper {
             Optional.ofNullable(creation.getName()
                 .getNickname()));
 
-        return new Member(Optional.ofNullable(creation.getIdentifier()), -1L, name, Optional.empty(), List.of(),
-            Optional.empty(), Optional.empty(), true, true, Optional.empty(), feeType, Set.of());
+        contactChannels = Optional.ofNullable(creation.getContactChannels())
+            .orElseGet(List::of)
+            .stream()
+            .map(MemberDtoMapper::toDomain)
+            .toList();
+
+        return new Member(Optional.ofNullable(creation.getIdentifier()), -1L, -1L, name,
+            Optional.ofNullable(creation.getBirthDate()), contactChannels, Optional.ofNullable(creation.getAddress()),
+            Optional.ofNullable(creation.getComments()), !Boolean.FALSE.equals(creation.getActive()),
+            !Boolean.FALSE.equals(creation.getRenew()), feeType, Set.of());
     }
 
     public static final MemberResponseDto toResponseDto(final Member contact) {
@@ -206,6 +239,7 @@ public final class MemberDtoMapper {
         return new MemberDto().identifier(member.identifier()
             .orElse(null))
             .number(member.number())
+            .memberNumber(member.memberNumber())
             .name(name)
             .birthDate(member.birthDate()
                 .orElse(null))
@@ -213,8 +247,6 @@ public final class MemberDtoMapper {
             .address(member.address()
                 .orElse(null))
             .comments(member.comments()
-                .orElse(null))
-            .key(member.key()
                 .orElse(null))
             .active(member.active())
             .renew(member.renew())

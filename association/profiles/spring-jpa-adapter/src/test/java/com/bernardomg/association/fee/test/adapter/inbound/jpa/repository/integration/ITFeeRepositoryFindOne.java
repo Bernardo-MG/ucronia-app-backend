@@ -69,7 +69,11 @@ class ITFeeRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(fee)
-            .contains(Fees.alternative());
+            .as("fee")
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit")
+                .isEqualTo(Fees.alternative()));
     }
 
     @Test
@@ -129,7 +133,11 @@ class ITFeeRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(fee)
-            .contains(Fees.paid());
+            .as("fee")
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit")
+                .isEqualTo(Fees.paid()));
     }
 
     @Test
@@ -147,7 +155,11 @@ class ITFeeRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(fee)
-            .contains(Fees.paid());
+            .as("fee")
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit")
+                .isEqualTo(Fees.paid()));
     }
 
 }

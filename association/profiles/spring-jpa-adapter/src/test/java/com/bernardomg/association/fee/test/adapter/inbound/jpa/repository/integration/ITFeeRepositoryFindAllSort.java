@@ -269,6 +269,7 @@ class ITFeeRepositoryFindAllSort {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("fees")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(Fees.notPaidForMonth(5, Month.JUNE), Fees.paidForMonth(1, Month.FEBRUARY),
                 Fees.paidForMonth(2, Month.MARCH), Fees.paidForMonth(3, Month.APRIL), Fees.paidForMonth(4, Month.MAY));
     }
@@ -299,6 +300,7 @@ class ITFeeRepositoryFindAllSort {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("fees")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(Fees.paidForMonth(1, Month.FEBRUARY), Fees.paidForMonth(2, Month.MARCH),
                 Fees.paidForMonth(3, Month.APRIL), Fees.paidForMonth(4, Month.MAY),
                 Fees.notPaidForMonth(5, Month.JUNE));

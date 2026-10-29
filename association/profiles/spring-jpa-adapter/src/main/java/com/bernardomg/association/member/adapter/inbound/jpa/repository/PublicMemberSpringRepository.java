@@ -42,6 +42,8 @@ public interface PublicMemberSpringRepository
 
     public Page<PublicMemberEntity> findAllByActiveTrue(final Pageable pageable);
 
+    public Optional<PublicMemberEntity> findByNumber(final Long number);
+
     public Optional<PublicMemberEntity> findByNumberAndActiveTrue(final Long number);
 
 }

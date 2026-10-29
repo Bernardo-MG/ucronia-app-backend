@@ -28,16 +28,35 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+import com.bernardomg.association.key.adapter.inbound.jpa.repository.JpaKeyAssignmentRepository;
 import com.bernardomg.association.key.adapter.inbound.jpa.repository.JpaKeyRepository;
+import com.bernardomg.association.key.adapter.inbound.jpa.repository.KeyAssignmentSpringRepository;
 import com.bernardomg.association.key.adapter.inbound.jpa.repository.KeySpringRepository;
+import com.bernardomg.association.key.domain.repository.KeyAssignmentRepository;
 import com.bernardomg.association.key.domain.repository.KeyRepository;
+import com.bernardomg.association.key.usecase.service.DefaultKeyAssignmentService;
 import com.bernardomg.association.key.usecase.service.DefaultKeyService;
+import com.bernardomg.association.key.usecase.service.KeyAssignmentService;
 import com.bernardomg.association.key.usecase.service.KeyService;
+import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 
 @Configuration
 @ComponentScan({ "com.bernardomg.association.key.adapter.outbound.rest.controller",
         "com.bernardomg.association.key.adapter.inbound.jpa" })
 public class AssociationMemberAutoConfiguration {
+
+    @Bean("keyAssignmentRepository")
+    public KeyAssignmentRepository getKeyAssignmentRepository(
+            final KeyAssignmentSpringRepository keyAssignmentSpringRepository,
+            final KeySpringRepository keySpringRepository, final ProfileSpringRepository profileSpringRepository) {
+        return new JpaKeyAssignmentRepository(keyAssignmentSpringRepository, keySpringRepository,
+            profileSpringRepository);
+    }
+
+    @Bean("keyAssignmentService")
+    public KeyAssignmentService getKeyAssignmentService(final KeyAssignmentRepository repository) {
+        return new DefaultKeyAssignmentService(repository);
+    }
 
     @Bean("keyRepository")
     public KeyRepository getKeyRepository(final KeySpringRepository keySpringRepository) {

@@ -25,6 +25,7 @@
 package com.bernardomg.association.library.book.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,10 +41,10 @@ import com.bernardomg.association.library.lending.test.configuration.data.annota
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.LentBookLendingHistory;
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.ReturnedBookLending;
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.ReturnedBookLendingHistory;
-import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
-import com.bernardomg.association.member.test.configuration.data.annotation.AlternativeActiveMember;
+import com.bernardomg.association.profile.test.configuration.data.annotation.AlternativeProfile;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.pagination.domain.Sorting;
+import com.bernardomg.security.domain.audit.model.AuditDetails;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -71,13 +72,16 @@ class ITFictionBookRepositoryFindAll {
         // THEN
         Assertions.assertThat(books)
             .as("books")
+            .usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration.builder()
+                .withIgnoredFieldsOfTypes(AuditDetails.class)
+                .build())
             .containsExactly(FictionBooks.full());
     }
 
     @Test
     @DisplayName("When there is a lent fiction book, it is returned")
     @PositiveFeeType
-    @ActiveMember
+    @ValidProfile
     @FullFictionBook
     @LentBookLending
     void testFindAll_Lent() {
@@ -93,14 +97,17 @@ class ITFictionBookRepositoryFindAll {
         // THEN
         Assertions.assertThat(books)
             .as("books")
+            .usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration.builder()
+                .withIgnoredFieldsOfTypes(AuditDetails.class)
+                .build())
             .containsExactly(FictionBooks.lent());
     }
 
     @Test
     @DisplayName("When there is a lent fiction book and it has history, it is returned")
     @PositiveFeeType
-    @ActiveMember
-    @AlternativeActiveMember
+    @ValidProfile
+    @AlternativeProfile
     @FullFictionBook
     @LentBookLendingHistory
     void testFindAll_Lent_WithHistory() {
@@ -116,6 +123,9 @@ class ITFictionBookRepositoryFindAll {
         // THEN
         Assertions.assertThat(books)
             .as("books")
+            .usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration.builder()
+                .withIgnoredFieldsOfTypes(AuditDetails.class)
+                .build())
             .containsExactly(FictionBooks.lentHistory());
     }
 
@@ -140,7 +150,7 @@ class ITFictionBookRepositoryFindAll {
     @Test
     @DisplayName("When there is a returned fiction book, it is returned")
     @PositiveFeeType
-    @ActiveMember
+    @ValidProfile
     @FullFictionBook
     @ReturnedBookLending
     void testFindAll_Returned() {
@@ -156,14 +166,17 @@ class ITFictionBookRepositoryFindAll {
         // THEN
         Assertions.assertThat(books)
             .as("books")
+            .usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration.builder()
+                .withIgnoredFieldsOfTypes(AuditDetails.class)
+                .build())
             .containsExactly(FictionBooks.returned());
     }
 
     @Test
     @DisplayName("When there is a returned fiction book and it has history, it is returned")
     @PositiveFeeType
-    @ActiveMember
-    @AlternativeActiveMember
+    @ValidProfile
+    @AlternativeProfile
     @FullFictionBook
     @ReturnedBookLendingHistory
     void testFindAll_Returned_WithHistory() {
@@ -179,6 +192,9 @@ class ITFictionBookRepositoryFindAll {
         // THEN
         Assertions.assertThat(books)
             .as("books")
+            .usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration.builder()
+                .withIgnoredFieldsOfTypes(AuditDetails.class)
+                .build())
             .containsExactly(FictionBooks.returnedHistory());
     }
 

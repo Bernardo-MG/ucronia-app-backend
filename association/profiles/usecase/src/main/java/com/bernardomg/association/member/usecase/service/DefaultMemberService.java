@@ -32,8 +32,6 @@ import org.slf4j.LoggerFactory;
 
 import com.bernardomg.association.fee.domain.exception.MissingFeeTypeException;
 import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
-import com.bernardomg.association.key.domain.exception.MissingKeyException;
-import com.bernardomg.association.key.domain.repository.KeyRepository;
 import com.bernardomg.association.member.domain.exception.MissingMemberException;
 import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.Member;
@@ -73,8 +71,6 @@ public final class DefaultMemberService implements MemberService {
 
     private final FeeTypeRepository             feeTypeRepository;
 
-    private final KeyRepository                 keyRepository;
-
     private final MemberRepository              memberRepository;
 
     private final Validator<Member>             patchValidator;
@@ -82,14 +78,12 @@ public final class DefaultMemberService implements MemberService {
     private final Validator<Member>             updateValidator;
 
     public DefaultMemberService(final MemberRepository memberRepo,
-            final MemberContactMethodRepository contactMethodRepo, final FeeTypeRepository feeTypeRepo,
-            final KeyRepository keyRepo) {
+            final MemberContactMethodRepository contactMethodRepo, final FeeTypeRepository feeTypeRepo) {
         super();
 
         memberRepository = Objects.requireNonNull(memberRepo);
         contactMethodRepository = Objects.requireNonNull(contactMethodRepo);
         feeTypeRepository = Objects.requireNonNull(feeTypeRepo);
-        keyRepository = Objects.requireNonNull(keyRepo);
 
         createValidator = new FieldRuleValidator<>(new MemberIdentifierNotExistRule(memberRepo));
         updateValidator = new FieldRuleValidator<>(new MemberIdentifierNotExistForAnotherRule(memberRepo));
@@ -102,22 +96,14 @@ public final class DefaultMemberService implements MemberService {
 
         log.debug("Creating member profile {}", member);
 
+        // TODO: assign member number
+
         if (!feeTypeRepository.exists(member.feeType()
             .number())) {
             log.error("Missing fee type {}", member.feeType()
                 .number());
             throw new MissingFeeTypeException(member.feeType()
                 .number());
-        }
-
-        if ((member.key()
-            .isPresent())
-                && (!keyRepository.exists(member.key()
-                    .get()))) {
-            log.error("Missing key {}", member.feeType()
-                .number());
-            throw new MissingKeyException(member.key()
-                .get());
         }
 
         // TODO: maybe send an exception with all
@@ -207,16 +193,6 @@ public final class DefaultMemberService implements MemberService {
                 .number());
         }
 
-        if ((member.key()
-            .isPresent())
-                && (!keyRepository.exists(member.key()
-                    .get()))) {
-            log.error("Missing key {}", member.feeType()
-                .number());
-            throw new MissingKeyException(member.key()
-                .get());
-        }
-
         // TODO: maybe send an exception with all
         member.contactChannels()
             .stream()
@@ -236,14 +212,17 @@ public final class DefaultMemberService implements MemberService {
 
     @Override
     public final Member update(final Member member) {
+        final Member existing;
+        final Member toSave;
         final Member saved;
 
         log.debug("Updating member profile {} using data {}", member.number(), member);
 
-        if (!memberRepository.exists(member.number())) {
-            log.error("Missing member profile {}", member.number());
-            throw new MissingMemberException(member.number());
-        }
+        existing = memberRepository.findOne(member.number())
+            .orElseThrow(() -> {
+                log.error("Missing member profile {}", member.number());
+                throw new MissingMemberException(member.number());
+            });
 
         if (!feeTypeRepository.exists(member.feeType()
             .number())) {
@@ -253,25 +232,20 @@ public final class DefaultMemberService implements MemberService {
                 .number());
         }
 
-        if ((member.key()
-            .isPresent())
-                && (!keyRepository.exists(member.key()
-                    .get()))) {
-            log.error("Missing key {}", member.feeType()
-                .number());
-            throw new MissingKeyException(member.key()
-                .get());
-        }
-
         // TODO: maybe send an exception with all
         member.contactChannels()
             .stream()
             .map(ContactChannel::contactMethod)
             .forEach(this::checkContactMethodExists);
 
-        updateValidator.validate(member);
+        // All editable PUT fields are replaced.
+        toSave = new Member(member.identifier(), member.number(), existing.memberNumber(), member.name(),
+            member.birthDate(), member.contactChannels(), member.address(), member.comments(), member.active(),
+            member.renew(), member.feeType(), member.types(), member.audit());
 
-        saved = memberRepository.save(member);
+        updateValidator.validate(toSave);
+
+        saved = memberRepository.save(toSave);
 
         log.debug("Updated member profile {}: {}", member.number(), saved);
 
@@ -324,6 +298,8 @@ public final class DefaultMemberService implements MemberService {
             .orElse(existing.identifier()),
             Optional.ofNullable(updated.number())
                 .orElse(existing.number()),
+            Optional.ofNullable(updated.memberNumber())
+                .orElse(existing.memberNumber()),
             name, Optional.ofNullable(updated.birthDate())
                 .orElse(existing.birthDate()),
             Optional.ofNullable(updated.contactChannels())
@@ -336,8 +312,6 @@ public final class DefaultMemberService implements MemberService {
                 .orElse(existing.active()),
             Optional.ofNullable(updated.renew())
                 .orElse(existing.renew()),
-            Optional.ofNullable(updated.key())
-                .orElse(existing.key()),
             Optional.ofNullable(updated.feeType())
                 .orElse(existing.feeType()),
             Optional.ofNullable(updated.types())

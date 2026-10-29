@@ -140,6 +140,7 @@ class ITFeeRepositoryGetAllFilter {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("fees")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(Fees.paidForMonth(2, Month.MARCH));
     }
 
@@ -168,6 +169,7 @@ class ITFeeRepositoryGetAllFilter {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("fees")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(Fees.paidForMonth(Month.JANUARY.getValue()));
     }
 
@@ -196,6 +198,7 @@ class ITFeeRepositoryGetAllFilter {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("fees")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(Fees.paidForMonth(Month.DECEMBER.getValue()));
     }
 
@@ -252,6 +255,7 @@ class ITFeeRepositoryGetAllFilter {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("fees")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(Fees.paidForMonth(1, Month.FEBRUARY), Fees.paidForMonth(2, Month.MARCH),
                 Fees.paidForMonth(3, Month.APRIL), Fees.paidForMonth(4, Month.MAY));
     }
@@ -308,6 +312,7 @@ class ITFeeRepositoryGetAllFilter {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("fees")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(Fees.paidForMonth(1, Month.FEBRUARY));
     }
 

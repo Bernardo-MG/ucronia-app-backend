@@ -27,8 +27,14 @@ package com.bernardomg.association.library.lending.adapter.inbound.jpa.model;
 import java.io.Serializable;
 import java.util.Objects;
 
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditMetadata;
+
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -37,6 +43,7 @@ import jakarta.persistence.Transient;
 
 @Entity(name = "Borrower")
 @Table(schema = "directory", name = "profiles")
+@EntityListeners(AuditingEntityListener.class)
 public class BorrowerEntity implements Serializable {
 
     /**
@@ -44,6 +51,9 @@ public class BorrowerEntity implements Serializable {
      */
     @Transient
     private static final long serialVersionUID = 1328776989450853491L;
+
+    @Embedded
+    private AuditMetadata     audit            = new AuditMetadata();
 
     @Column(name = "first_name", nullable = false)
     private String            firstName;
@@ -73,6 +83,10 @@ public class BorrowerEntity implements Serializable {
         return Objects.equals(id, other.id);
     }
 
+    public AuditMetadata getAudit() {
+        return audit;
+    }
+
     public String getFirstName() {
         return firstName;
     }
@@ -96,6 +110,10 @@ public class BorrowerEntity implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    public void setAudit(final AuditMetadata audit) {
+        this.audit = audit;
     }
 
     public void setFirstName(final String firstName) {

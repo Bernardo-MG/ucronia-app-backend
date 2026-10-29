@@ -28,9 +28,9 @@ import java.time.Instant;
 import java.util.Objects;
 import java.util.Optional;
 
-public final record ActivityFilter( Optional<Instant> from, Optional<Instant> to) {
+public final record ActivityFilter(Optional<Instant> from, Optional<Instant> to) {
 
-    public ActivityFilter( final Optional<Instant> from, final Optional<Instant> to) {
+    public ActivityFilter(final Optional<Instant> from, final Optional<Instant> to) {
         this.from = Objects.requireNonNull(from);
         this.to = Objects.requireNonNull(to);
     }

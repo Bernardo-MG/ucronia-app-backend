@@ -1,51 +1,46 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2022-2025 Bernardo Martínez Garrido
- * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * <p>
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * <p>
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 
 package com.bernardomg.association.fee.domain.event;
 
-import java.io.Serializable;
 import java.time.Instant;
+import java.time.YearMonth;
 import java.util.Objects;
+import java.util.UUID;
 
 import com.bernardomg.event.domain.AbstractEvent;
 
-/**
- * Log in attempt event. It is created no matter if the attempt was succesful or not.
- */
 public final class FeePaidEvent extends AbstractEvent {
 
-    private static final long serialVersionUID = 7044023838333219109L;
+    public static final String TYPE             = "association.fee.paid";
 
-    private final Instant     date;
+    private static final long  serialVersionUID = -1244701467322959610L;
 
-    private final Long        profileNumber;
+    private final YearMonth    month;
 
-    public FeePaidEvent(final Serializable source, final Instant d, final Long number) {
-        super(source);
+    private final Instant      paymentDate;
 
-        date = Objects.requireNonNull(d);
-        profileNumber = Objects.requireNonNull(number);
+    private final Long         profileNumber;
+
+    private final Long         transactionIndex;
+
+    public FeePaidEvent(final String source, final YearMonth month, final Long profileNumber,
+            final Long transactionIndex, final Instant paymentDate) {
+        this(UUID.randomUUID(), source, 1, Instant.now(), month, profileNumber, transactionIndex, paymentDate);
+    }
+
+    /** Restores metadata and payload without generating a new occurrence. */
+    public FeePaidEvent(final UUID id, final String source, final int schemaVersion, final Instant timestamp,
+            final YearMonth month, final Long profileNumber, final Long transactionIndex, final Instant paymentDate) {
+        super(id, source, TYPE, schemaVersion, timestamp);
+        if (schemaVersion != 1) {
+            throw new IllegalArgumentException("Unsupported schema version: " + schemaVersion);
+        }
+        if ((transactionIndex == null) != (paymentDate == null)) {
+            throw new IllegalArgumentException("Payment reference and date must both be present or absent");
+        }
+        this.month = Objects.requireNonNull(month, "month must not be null");
+        this.profileNumber = Objects.requireNonNull(profileNumber, "profileNumber must not be null");
+        this.transactionIndex = transactionIndex;
+        this.paymentDate = paymentDate;
     }
 
     @Override
@@ -53,29 +48,38 @@ public final class FeePaidEvent extends AbstractEvent {
         if (this == obj) {
             return true;
         }
-        if ((obj == null) || (getClass() != obj.getClass())) {
+        if (!(obj instanceof final FeePaidEvent other)) {
             return false;
         }
-        final FeePaidEvent other = (FeePaidEvent) obj;
-        return Objects.equals(date, other.date) && Objects.equals(profileNumber, other.profileNumber);
+        return Objects.equals(getSource(), other.getSource()) && Objects.equals(getId(), other.getId());
     }
 
-    public Instant getDate() {
-        return date;
+    public YearMonth getMonth() {
+        return month;
+    }
+
+    /** May be null for fees paid without a transaction. */
+    public Instant getPaymentDate() {
+        return paymentDate;
     }
 
     public Long getProfileNumber() {
         return profileNumber;
     }
 
+    /** May be null for fees paid without a transaction. */
+    public Long getTransactionIndex() {
+        return transactionIndex;
+    }
+
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), date, profileNumber);
+        return Objects.hash(getSource(), getId());
     }
 
     @Override
     public String toString() {
-        return "FeePaidEvent [profileNumber=" + profileNumber + ", date=" + date + "]";
+        return "FeePaidEvent [id=" + getId() + ", type=" + TYPE + "]";
     }
 
 }

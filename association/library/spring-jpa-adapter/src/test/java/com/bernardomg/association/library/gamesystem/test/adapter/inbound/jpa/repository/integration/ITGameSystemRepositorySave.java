@@ -25,6 +25,7 @@
 package com.bernardomg.association.library.gamesystem.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +52,36 @@ class ITGameSystemRepositorySave {
     private GameSystemSpringRepository springRepository;
 
     @Test
+    @DisplayName("Saving creates audit timestamps and updating preserves creation time")
+    void testSave_Audit() {
+        final GameSystem created = repository.findOne(repository.save(new GameSystem(1L, "Audit original"))
+            .number())
+            .orElseThrow();
+        Assertions.assertThat(created.audit()
+            .createdAt())
+            .isNotNull();
+        Assertions.assertThat(created.audit()
+            .updatedAt())
+            .isNotNull();
+
+        final GameSystem updated = repository.save(new GameSystem(created.number(), "Audit changed"));
+        Assertions.assertThat(updated.audit()
+            .createdAt())
+            .isEqualTo(created.audit()
+                .createdAt());
+        Assertions.assertThat(updated.audit()
+            .updatedAt())
+            .isAfterOrEqualTo(created.audit()
+                .updatedAt());
+        Assertions.assertThat(repository.findOne(created.number())
+            .orElseThrow()
+            .audit()
+            .createdAt())
+            .isEqualTo(created.audit()
+                .createdAt());
+    }
+
+    @Test
     @DisplayName("When the game system name is changed, it is persisted")
     void testSave_NameChange_Persisted() {
         final GameSystem gameSystem;
@@ -64,7 +95,9 @@ class ITGameSystemRepositorySave {
         // THEN
         Assertions.assertThat(springRepository.findAll())
             .as("game systems")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration.builder()
+                .withIgnoredFields("id", "audit")
+                .build())
             .contains(GameSystemEntities.nameChange());
     }
 
@@ -84,6 +117,8 @@ class ITGameSystemRepositorySave {
         // THEN
         Assertions.assertThat(created)
             .as("game system")
+            .usingRecursiveComparison()
+            .ignoringFields("audit")
             .isEqualTo(GameSystems.nameChange());
     }
 
@@ -101,7 +136,9 @@ class ITGameSystemRepositorySave {
         // THEN
         Assertions.assertThat(springRepository.findAll())
             .as("game systems")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration.builder()
+                .withIgnoredFields("id", "audit")
+                .build())
             .contains(GameSystemEntities.valid());
     }
 
@@ -120,6 +157,8 @@ class ITGameSystemRepositorySave {
         // THEN
         Assertions.assertThat(created)
             .as("game system")
+            .usingRecursiveComparison()
+            .ignoringFields("audit")
             .isEqualTo(GameSystems.valid());
     }
 

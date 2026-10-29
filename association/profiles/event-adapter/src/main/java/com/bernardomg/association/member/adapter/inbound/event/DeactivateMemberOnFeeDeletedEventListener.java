@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.member.adapter.inbound.event;
 
+import java.time.ZoneOffset;
 import java.util.Objects;
 
 import org.slf4j.Logger;
@@ -60,10 +61,15 @@ public final class DeactivateMemberOnFeeDeletedEventListener implements EventLis
 
     @Override
     public final void handle(final FeeDeletedEvent event) {
-        log.debug("Handling fee deleted event at {} for member with number {}", event.getDate(),
+        log.debug("Handling fee deleted event at {} for member with number {}", event.getMonth(),
             event.getProfileNumber());
-        memberStatusService.deactivateIfCurrent(event.getDate(), event.getProfileNumber());
-        log.debug("Handled fee deleted event at {} for member with number {}", event.getDate(),
+        if (event.isPaid()) {
+            memberStatusService.deactivateIfCurrent(event.getMonth()
+                .atDay(1)
+                .atStartOfDay(ZoneOffset.UTC)
+                .toInstant(), event.getProfileNumber());
+        }
+        log.debug("Handled fee deleted event at {} for member with number {}", event.getMonth(),
             event.getProfileNumber());
     }
 

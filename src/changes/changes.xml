@@ -618,7 +618,7 @@
             Account profile correction.
          </action>
       </release>
-      <release version="0.7.12" date="2026-09-02" description="Scheduled games and files">
+      <release version="0.7.12" date="2026-10-02" description="Scheduled games and files">
          <action dev="bmg" type="add">
             Added Telegram setting.
          </action>
@@ -629,9 +629,25 @@
             File and image handling.
          </action>
       </release>
-      <release version="0.7.13" date="2026-09-02" description="Fixes">
+      <release version="0.7.13" date="2026-10-02" description="Fixes">
          <action dev="bmg" type="fix">
             Disable assets when missing properties.
+         </action>
+      </release>
+      <release version="0.7.14" date="2026-10-03" description="Fixes">
+         <action dev="bmg" type="fix">
+            Disable assets when missing properties.
+         </action>
+      </release>
+      <release version="0.7.15" date="2026-10-29" description="Fixes">
+         <action dev="bmg" type="update">
+            Updated security.
+         </action>
+         <action dev="bmg" type="add">
+            Member numbering.
+         </action>
+         <action dev="bmg" type="add">
+            Better key assignment.
          </action>
       </release>
    </body>

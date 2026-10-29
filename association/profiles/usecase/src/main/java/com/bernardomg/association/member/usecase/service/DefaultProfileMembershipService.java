@@ -104,7 +104,7 @@ public final class DefaultProfileMembershipService implements ProfileMembershipS
         types = Stream.concat(existing.types()
             .stream(), Stream.of(Member.PROFILE_TYPE))
             .collect(Collectors.toSet());
-        toCreate = new Member(existing.identifier(), existing.number(), existing.name(), existing.birthDate(),
+        toCreate = new Member(existing.identifier(), existing.number(), -1L, existing.name(), existing.birthDate(),
             existing.contactChannels(), existing.address(), existing.comments(), true, true, memberFeeType, types);
 
         created = memberRepository.save(toCreate);

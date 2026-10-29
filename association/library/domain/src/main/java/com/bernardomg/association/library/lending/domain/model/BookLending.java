@@ -60,7 +60,7 @@ public record BookLending(LentBook book, long borrower, Instant lendingDate, Opt
     }
 
     public BookLending returned(final Instant date) {
-        return new BookLending(book, borrower, lendingDate, Optional.of(date), new AuditDetails());
+        return new BookLending(book, borrower, lendingDate, Optional.of(date), audit);
     }
 
     public record LentBook(long number, Title title) {}

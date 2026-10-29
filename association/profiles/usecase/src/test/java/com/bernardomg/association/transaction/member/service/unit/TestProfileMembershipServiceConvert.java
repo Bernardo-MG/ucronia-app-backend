@@ -126,6 +126,7 @@ class TestProfileMembershipServiceConvert {
         // GIVEN
         given(profileRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Profiles.valid()));
         given(feeTypeRepository.exists(MemberConstants.NUMBER)).willReturn(true);
+        given(memberRepository.save(Members.toCreate())).willReturn(Members.withoutType());
 
         // WHEN
         service.convertToMember(MemberConstants.NUMBER, FeeConstants.FEE_TYPE_NUMBER);

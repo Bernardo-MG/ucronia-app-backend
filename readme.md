@@ -32,7 +32,8 @@ docker-compose -f docker/docker-compose.yml --project-name ucronia-backend up
 
 To ease development, the following monitoring tools are included in the Docker images:
 
-- [Grafana](http://localhost:3000)
+- [Grafana](http://localhost:3000): open **Association Backend — Local Development**.
+- [Prometheus targets](http://localhost:9090/targets): `association-backend` should be UP.
 
 ## Collaborate
 

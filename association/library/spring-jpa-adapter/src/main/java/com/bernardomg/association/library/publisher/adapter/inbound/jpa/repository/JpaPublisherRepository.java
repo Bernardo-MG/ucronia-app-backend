@@ -152,6 +152,8 @@ public final class JpaPublisherRepository implements PublisherRepository {
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
+            entity.setAudit(existing.get()
+                .getAudit());
         } else {
             number = publisherSpringRepository.findNextNumber();
             entity.setNumber(number);

@@ -25,4 +25,5 @@
 /**
  * Activity filters.
  */
+
 package com.bernardomg.association.calendar.activity.domain.filter;

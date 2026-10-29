@@ -25,6 +25,7 @@
 package com.bernardomg.association.library.booktype.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +52,36 @@ class ITBookTypeRepositorySave {
     private BookTypeSpringRepository springRepository;
 
     @Test
+    @DisplayName("Saving creates audit timestamps and updating preserves creation time")
+    void testSave_Audit() {
+        final BookType created = repository.findOne(repository.save(new BookType(1L, "Audit original"))
+            .number())
+            .orElseThrow();
+        Assertions.assertThat(created.audit()
+            .createdAt())
+            .isNotNull();
+        Assertions.assertThat(created.audit()
+            .updatedAt())
+            .isNotNull();
+
+        final BookType updated = repository.save(new BookType(created.number(), "Audit changed"));
+        Assertions.assertThat(updated.audit()
+            .createdAt())
+            .isEqualTo(created.audit()
+                .createdAt());
+        Assertions.assertThat(updated.audit()
+            .updatedAt())
+            .isAfterOrEqualTo(created.audit()
+                .updatedAt());
+        Assertions.assertThat(repository.findOne(created.number())
+            .orElseThrow()
+            .audit()
+            .createdAt())
+            .isEqualTo(created.audit()
+                .createdAt());
+    }
+
+    @Test
     @DisplayName("When the book title is changed, it is persisted")
     @ValidBookType
     void testSave_NameChange_Persisted() {
@@ -65,7 +96,9 @@ class ITBookTypeRepositorySave {
         // THEN
         Assertions.assertThat(springRepository.findAll())
             .as("book types")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration.builder()
+                .withIgnoredFields("id", "audit")
+                .build())
             .containsExactly(BookTypeEntities.nameChange());
     }
 
@@ -85,6 +118,8 @@ class ITBookTypeRepositorySave {
         // THEN
         Assertions.assertThat(created)
             .as("book type")
+            .usingRecursiveComparison()
+            .ignoringFields("audit")
             .isEqualTo(BookTypes.nameChange());
     }
 
@@ -102,7 +137,9 @@ class ITBookTypeRepositorySave {
         // THEN
         Assertions.assertThat(springRepository.findAll())
             .as("book types")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration.builder()
+                .withIgnoredFields("id", "audit")
+                .build())
             .containsExactly(BookTypeEntities.valid());
     }
 
@@ -121,6 +158,8 @@ class ITBookTypeRepositorySave {
         // THEN
         Assertions.assertThat(created)
             .as("book type")
+            .usingRecursiveComparison()
+            .ignoringFields("audit")
             .isEqualTo(BookTypes.valid());
     }
 

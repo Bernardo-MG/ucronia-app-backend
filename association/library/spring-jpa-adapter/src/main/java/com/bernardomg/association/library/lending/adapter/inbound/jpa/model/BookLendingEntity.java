@@ -27,11 +27,14 @@ package com.bernardomg.association.library.lending.adapter.inbound.jpa.model;
 import java.io.Serializable;
 import java.time.Instant;
 
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditMetadata;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
@@ -43,6 +46,7 @@ import jakarta.persistence.Transient;
 @Entity(name = "BookLending")
 @IdClass(BookLendingId.class)
 @Table(schema = "inventory", name = "book_lendings")
+@EntityListeners(AuditingEntityListener.class)
 public class BookLendingEntity implements Serializable {
 
     /**

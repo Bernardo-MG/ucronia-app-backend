@@ -51,6 +51,36 @@ class ITAuthorRepositorySave {
     private AuthorSpringRepository springRepository;
 
     @Test
+    @DisplayName("Saving creates audit timestamps and updating preserves creation time")
+    void testSave_Audit() {
+        final Author created = repository.findOne(repository.save(new Author(1L, "Audit original"))
+            .number())
+            .orElseThrow();
+        Assertions.assertThat(created.audit()
+            .createdAt())
+            .isNotNull();
+        Assertions.assertThat(created.audit()
+            .updatedAt())
+            .isNotNull();
+
+        final Author updated = repository.save(new Author(created.number(), "Audit changed"));
+        Assertions.assertThat(updated.audit()
+            .createdAt())
+            .isEqualTo(created.audit()
+                .createdAt());
+        Assertions.assertThat(updated.audit()
+            .updatedAt())
+            .isAfterOrEqualTo(created.audit()
+                .updatedAt());
+        Assertions.assertThat(repository.findOne(created.number())
+            .orElseThrow()
+            .audit()
+            .createdAt())
+            .isEqualTo(created.audit()
+                .createdAt());
+    }
+
+    @Test
     @DisplayName("When the author name is changed, it is updated")
     @ValidAuthor
     void testSave_Existing_ChangeName_Persisted() {
@@ -65,7 +95,7 @@ class ITAuthorRepositorySave {
         // THEN
         Assertions.assertThat(springRepository.findAll())
             .as("authors")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "audit")
             .containsExactly(AuthorEntities.nameChange());
     }
 
@@ -85,6 +115,8 @@ class ITAuthorRepositorySave {
         // THEN
         Assertions.assertThat(created)
             .as("author")
+            .usingRecursiveComparison()
+            .ignoringFields("audit")
             .isEqualTo(Authors.nameChange());
     }
 
@@ -102,7 +134,7 @@ class ITAuthorRepositorySave {
         // THEN
         Assertions.assertThat(springRepository.findAll())
             .as("authors")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "audit")
             .containsExactly(AuthorEntities.valid());
     }
 
@@ -121,6 +153,8 @@ class ITAuthorRepositorySave {
         // THEN
         Assertions.assertThat(created)
             .as("author")
+            .usingRecursiveComparison()
+            .ignoringFields("audit")
             .isEqualTo(Authors.valid());
     }
 

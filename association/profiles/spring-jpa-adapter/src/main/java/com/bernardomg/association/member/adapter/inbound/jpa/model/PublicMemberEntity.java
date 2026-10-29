@@ -4,13 +4,9 @@ package com.bernardomg.association.member.adapter.inbound.jpa.model;
 import java.io.Serializable;
 import java.util.Objects;
 
-import com.bernardomg.association.key.adapter.inbound.jpa.model.KeyEntity;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.SecondaryTable;
 import jakarta.persistence.Table;
@@ -38,12 +34,11 @@ public class PublicMemberEntity implements Serializable {
     @Column(name = "id", table = "members", nullable = false, unique = true)
     private Long              id;
 
-    @OneToOne
-    @JoinColumn(name = "key_id", table = "members", referencedColumnName = "id")
-    private KeyEntity         key;
-
     @Column(name = "last_name", table = "profiles")
     private String            lastName;
+
+    @Column(name = "member_number", table = "members")
+    private Long              memberNumber;
 
     @Column(name = "nickname", table = "profiles")
     private String            nickname;
@@ -77,12 +72,12 @@ public class PublicMemberEntity implements Serializable {
         return id;
     }
 
-    public KeyEntity getKey() {
-        return key;
-    }
-
     public String getLastName() {
         return lastName;
+    }
+
+    public Long getMemberNumber() {
+        return memberNumber;
     }
 
     public String getNickname() {
@@ -114,12 +109,12 @@ public class PublicMemberEntity implements Serializable {
         this.id = id;
     }
 
-    public void setKey(final KeyEntity key) {
-        this.key = key;
-    }
-
     public void setLastName(final String lastName) {
         this.lastName = lastName;
+    }
+
+    public void setMemberNumber(final Long memberNumber) {
+        this.memberNumber = memberNumber;
     }
 
     public void setNickname(final String nickname) {
@@ -136,9 +131,9 @@ public class PublicMemberEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "PublicMemberEntity [id=" + id + ", number=" + number + ", firstName=" + firstName + ", lastName="
-                + lastName + ", nickname=" + nickname + ", active=" + active + ", renew=" + renew + ", key=" + key
-                + "]";
+        return "PublicMemberEntity [id=" + id + ", memberNumber=" + memberNumber + "number, " + number + ", firstName="
+                + firstName + ", lastName=" + lastName + ", nickname=" + nickname + ", active=" + active + ", renew="
+                + renew + "]";
     }
 
 }

@@ -14,9 +14,6 @@ databaseChangeLog:
       file: fees.yaml
       relativeToChangelogFile: true
   - include:
-      file: member.yaml
-      relativeToChangelogFile: true
-  - include:
       file: inventory.yaml
       relativeToChangelogFile: true
   - include:

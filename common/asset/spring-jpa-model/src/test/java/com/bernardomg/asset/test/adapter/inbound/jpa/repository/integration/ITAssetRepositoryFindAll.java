@@ -49,6 +49,7 @@ class ITAssetRepositoryFindAll {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("files")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(Assets.publicAccess());
     }
 
@@ -63,6 +64,7 @@ class ITAssetRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(files.content())
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(Assets.publicAccess());
     }
 

@@ -41,6 +41,7 @@ public class ITSettingRepositoryFindAll {
         // THEN
         Assertions.assertThat(settingsSource)
             .as("settingsSource")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(Settings.floatValue());
     }
 
@@ -57,6 +58,7 @@ public class ITSettingRepositoryFindAll {
         // THEN
         Assertions.assertThat(settingsSource)
             .as("settingsSource")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(Settings.intValue());
     }
 
@@ -73,6 +75,7 @@ public class ITSettingRepositoryFindAll {
         // THEN
         Assertions.assertThat(settingsSource)
             .as("settingsSource")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(Settings.first(), Settings.second());
     }
 
@@ -104,6 +107,7 @@ public class ITSettingRepositoryFindAll {
         // THEN
         Assertions.assertThat(settingsSource)
             .as("settingsSource")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(Settings.stringValue());
     }
 

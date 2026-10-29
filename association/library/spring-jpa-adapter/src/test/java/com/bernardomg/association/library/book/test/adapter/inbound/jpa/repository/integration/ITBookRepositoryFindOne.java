@@ -46,8 +46,7 @@ import com.bernardomg.association.library.lending.test.configuration.data.annota
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.LentBookLendingHistory;
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.ReturnedBookLending;
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.ReturnedBookLendingHistory;
-import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
-import com.bernardomg.association.member.test.configuration.data.annotation.AlternativeActiveMember;
+import com.bernardomg.association.profile.test.configuration.data.annotation.AlternativeProfile;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.test.annotation.IntegrationTest;
 
@@ -72,7 +71,10 @@ class ITBookRepositoryFindOne {
         // THEN
         Assertions.assertThat(book)
             .as("book")
-            .contains(Books.donationNoDate());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit", "authors.audit", "publishers.audit", "lendings.audit")
+                .isEqualTo(Books.donationNoDate()));
     }
 
     @Test
@@ -87,7 +89,10 @@ class ITBookRepositoryFindOne {
         // THEN
         Assertions.assertThat(book)
             .as("book")
-            .contains(Books.donationNoDonors());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit", "authors.audit", "publishers.audit", "lendings.audit")
+                .isEqualTo(Books.donationNoDonors()));
     }
 
     @Test
@@ -103,13 +108,16 @@ class ITBookRepositoryFindOne {
         // THEN
         Assertions.assertThat(book)
             .as("book")
-            .contains(Books.full());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit", "authors.audit", "publishers.audit", "lendings.audit")
+                .isEqualTo(Books.full()));
     }
 
     @Test
     @DisplayName("When there is a lent fiction book, it is returned")
     @PositiveFeeType
-    @ActiveMember
+    @ValidProfile
     @FullFictionBook
     @LentBookLending
     void testFindOne_FullLent() {
@@ -121,14 +129,17 @@ class ITBookRepositoryFindOne {
         // THEN
         Assertions.assertThat(book)
             .as("book")
-            .contains(Books.lent());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit", "authors.audit", "publishers.audit", "lendings.audit")
+                .isEqualTo(Books.lent()));
     }
 
     @Test
     @DisplayName("When there is a lent fiction book and it has history, it is returned")
     @PositiveFeeType
-    @ActiveMember
-    @AlternativeActiveMember
+    @ValidProfile
+    @AlternativeProfile
     @FullFictionBook
     @LentBookLendingHistory
     void testFindOne_Lent_History() {
@@ -140,7 +151,10 @@ class ITBookRepositoryFindOne {
         // THEN
         Assertions.assertThat(book)
             .as("book")
-            .contains(Books.lentHistory());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit", "authors.audit", "publishers.audit", "lendings.audit")
+                .isEqualTo(Books.lentHistory()));
     }
 
     @Test
@@ -155,7 +169,10 @@ class ITBookRepositoryFindOne {
         // THEN
         Assertions.assertThat(book)
             .as("book")
-            .contains(Books.minimal());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit", "authors.audit", "publishers.audit", "lendings.audit")
+                .isEqualTo(Books.minimal()));
     }
 
     @Test
@@ -175,7 +192,7 @@ class ITBookRepositoryFindOne {
     @Test
     @DisplayName("When there is a returned fiction book, it is returned")
     @PositiveFeeType
-    @ActiveMember
+    @ValidProfile
     @FullFictionBook
     @ReturnedBookLending
     void testFindOne_Returned() {
@@ -187,14 +204,17 @@ class ITBookRepositoryFindOne {
         // THEN
         Assertions.assertThat(book)
             .as("book")
-            .contains(Books.returned());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit", "authors.audit", "publishers.audit", "lendings.audit")
+                .isEqualTo(Books.returned()));
     }
 
     @Test
     @DisplayName("When there is a returned fiction book with history, it is returned")
     @PositiveFeeType
-    @ActiveMember
-    @AlternativeActiveMember
+    @ValidProfile
+    @AlternativeProfile
     @FullFictionBook
     @ReturnedBookLendingHistory
     void testFindOne_Returned_History() {
@@ -206,7 +226,10 @@ class ITBookRepositoryFindOne {
         // THEN
         Assertions.assertThat(book)
             .as("book")
-            .contains(Books.returnedHistory());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit", "authors.audit", "publishers.audit", "lendings.audit")
+                .isEqualTo(Books.returnedHistory()));
     }
 
 }
