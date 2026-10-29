@@ -12,18 +12,21 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     primaryKey: true
+                    primaryKeyName: pk_fee_types
                     nullable: false
               - column:
                   name: number
                   type: bigint
                   constraints:
                     unique: true
+                    uniqueConstraintName: uk_fee_types_number
                     nullable: false
               - column:
                   name: name
                   type: varchar(50)
                   constraints:
                     unique: true
+                    uniqueConstraintName: uk_fee_types_name
                     nullable: false
               - column:
                   name: amount
@@ -38,13 +41,6 @@ databaseChangeLog:
             columnDataType: bigint
             incrementBy: 1
             startWith: 1
-        - createIndex:
-            schemaName: funds
-            tableName: fee_types
-            indexName: idx_fee_types_number
-            columns:
-              - column:
-                  name: number
         - createTable:
             schemaName: funds
             tableName: fees
@@ -54,15 +50,13 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     primaryKey: true
+                    primaryKeyName: pk_fees
                     nullable: false
               - column:
                   name: member_id
                   type: bigint
                   constraints:
                     nullable: false
-                    foreignKeyName: fk_fees_profile
-                    references: directory.profiles(id)
-                    deleteCascade: true
               - column:
                   name: month
                   type: datetime
@@ -80,9 +74,6 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: false
-                    foreignKeyName: fk_fees_fee_type
-                    references: funds.fee_types(id)
-                    deleteCascade: true
               - column:
                   name: transaction_id
                   type: bigint
@@ -90,6 +81,7 @@ databaseChangeLog:
               - column:
                   name: created_at
                   type: datetime
+                  defaultValueComputed: CURRENT_TIMESTAMP
                   constraints:
                     nullable: true
               - column:
@@ -97,8 +89,6 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: true
-                    foreignKeyName: fk_fees_created_by_user
-                    references: security.users(id)
               - column:
                   name: updated_at
                   type: datetime
@@ -109,8 +99,42 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: true
-                    foreignKeyName: fk_fees_updated_by_user
-                    references: security.users(id)
+        - addForeignKeyConstraint:
+            constraintName: fk_fees_member
+            baseTableSchemaName: funds
+            baseTableName: fees
+            baseColumnNames: member_id
+            referencedTableSchemaName: directory
+            referencedTableName: profiles
+            referencedColumnNames: id
+            onDelete: "RESTRICT"
+        - addForeignKeyConstraint:
+            constraintName: fk_fees_fee_type
+            baseTableSchemaName: funds
+            baseTableName: fees
+            baseColumnNames: fee_type_id
+            referencedTableSchemaName: funds
+            referencedTableName: fee_types
+            referencedColumnNames: id
+            onDelete: "RESTRICT"
+        - addForeignKeyConstraint:
+            constraintName: fk_fees_created_by_user
+            baseTableSchemaName: funds
+            baseTableName: fees
+            baseColumnNames: created_by
+            referencedTableSchemaName: security
+            referencedTableName: users
+            referencedColumnNames: id
+            onDelete: "SET NULL"
+        - addForeignKeyConstraint:
+            constraintName: fk_fees_updated_by_user
+            baseTableSchemaName: funds
+            baseTableName: fees
+            baseColumnNames: updated_by
+            referencedTableSchemaName: security
+            referencedTableName: users
+            referencedColumnNames: id
+            onDelete: "SET NULL"
         - addAutoIncrement:
             schemaName: funds
             tableName: fees
@@ -127,11 +151,8 @@ databaseChangeLog:
             referencedTableName: transactions
             referencedColumnNames: id
             onDelete: "SET NULL"
-        - addUniqueConstraint:
-            constraintName: fees_unique_date
-            schemaName: funds
-            tableName: fees
-            columnNames: 'member_id, month'
+        - sql:
+            sql: CREATE UNIQUE INDEX uk_fees_member_month ON funds.fees (member_id, date_trunc('month', month))
       modifySql:
         - append:
             dbms: mysql

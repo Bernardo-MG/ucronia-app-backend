@@ -53,7 +53,7 @@ import com.bernardomg.security.domain.audit.model.AuditDetails.AuditUser;
 public final class BookEntityMapper {
 
     public static final Author toDomain(final AuthorEntity entity) {
-        return new Author(entity.getNumber(), entity.getName());
+        return new Author(entity.getNumber(), entity.getName(), toDomain(entity.getAudit()));
     }
 
     public static final Book toDomain(final BookEntity entity, final boolean lent,
@@ -125,15 +125,15 @@ public final class BookEntityMapper {
     }
 
     public static final BookType toDomain(final BookTypeEntity entity) {
-        return new BookType(entity.getNumber(), entity.getName());
+        return new BookType(entity.getNumber(), entity.getName(), toDomain(entity.getAudit()));
     }
 
     public static final GameSystem toDomain(final GameSystemEntity entity) {
-        return new GameSystem(entity.getNumber(), entity.getName());
+        return new GameSystem(entity.getNumber(), entity.getName(), toDomain(entity.getAudit()));
     }
 
     public static final Publisher toDomain(final PublisherEntity entity) {
-        return new Publisher(entity.getNumber(), entity.getName());
+        return new Publisher(entity.getNumber(), entity.getName(), toDomain(entity.getAudit()));
     }
 
     public static final Donor toDonorDomain(final DonorEntity entity) {

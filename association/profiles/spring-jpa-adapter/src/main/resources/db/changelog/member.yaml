@@ -12,10 +12,18 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     primaryKey: true
+                    primaryKeyName: pk_members
                     nullable: false
-                    foreignKeyName: fk_member_profile
+                    foreignKeyName: fk_members_profile
                     references: directory.profiles(id)
                     deleteCascade: true
+              - column:
+                  name: member_number
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    unique: true
+                    uniqueConstraintName: uk_members_member_number
               - column:
                   name: fee_type_id
                   type: bigint
@@ -29,26 +37,45 @@ databaseChangeLog:
                   name: renew_membership
                   type: boolean
                   defaultValue: true
-              - column:
-                  name: key_id
-                  type: bigint
-                  constraints:
-                    unique: true
         - addForeignKeyConstraint:
-            constraintName: fk_fees_fee_type
+            constraintName: fk_members_fee_type
             baseTableSchemaName: directory
             baseTableName: members
             baseColumnNames: fee_type_id
             referencedTableSchemaName: funds
             referencedTableName: fee_types
             referencedColumnNames: id
-            onDelete: "SET NULL"
-        - addForeignKeyConstraint:
-            constraintName: fk_members_key
-            baseTableSchemaName: directory
-            baseTableName: members
-            baseColumnNames: key_id
-            referencedTableSchemaName: inventory
-            referencedTableName: keys
-            referencedColumnNames: id
-            onDelete: "SET NULL"
+            onDelete: "RESTRICT"
+  - changeSet:
+      id: key_assignment_table
+      author: Bernardo
+      changes:
+        - createTable:
+            schemaName: directory
+            tableName: key_assignments
+            columns:
+              - column:
+                  name: key_id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_key_assignments
+                    nullable: false
+                    foreignKeyName: fk_key_assignments_key
+                    references: inventory.keys(id)
+                    deleteCascade: true
+              - column:
+                  name: profile_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_key_assignments_profile
+                    references: directory.profiles(id)
+                    deleteCascade: true
+        - createIndex:
+            schemaName: directory
+            tableName: key_assignments
+            indexName: idx_key_assignments_profile
+            columns:
+              - column:
+                  name: profile_id

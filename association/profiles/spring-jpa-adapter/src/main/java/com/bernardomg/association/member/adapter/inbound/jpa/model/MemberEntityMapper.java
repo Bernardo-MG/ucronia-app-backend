@@ -49,7 +49,6 @@ public final class MemberEntityMapper {
         final Name                       name;
         final Collection<ContactChannel> contactChannels;
         final AuditDetails               audit;
-        final Optional<Long>             key;
 
         feeType = new FeeType(entity.getFeeType()
             .getNumber(),
@@ -65,17 +64,10 @@ public final class MemberEntityMapper {
             .map(MemberEntityMapper::toDomain)
             .toList();
 
-        if (entity.getKey() == null) {
-            key = Optional.empty();
-        } else {
-            key = Optional.of(entity.getKey()
-                .getNumber());
-        }
-
         audit = toDomain(entity.getAudit());
-        return new Member(Optional.ofNullable(entity.getIdentifier()), entity.getNumber(), name,
-            Optional.ofNullable(entity.getBirthDate()), contactChannels, Optional.ofNullable(entity.getAddress()),
-            Optional.ofNullable(entity.getComments()), entity.getActive(), entity.getRenew(), key, feeType,
+        return new Member(Optional.ofNullable(entity.getIdentifier()), entity.getNumber(), entity.getMemberNumber(),
+            name, Optional.ofNullable(entity.getBirthDate()), contactChannels, Optional.ofNullable(entity.getAddress()),
+            Optional.ofNullable(entity.getComments()), entity.getActive(), entity.getRenew(), feeType,
             entity.getTypes(), audit);
     }
 
@@ -84,7 +76,6 @@ public final class MemberEntityMapper {
         final Name                       name;
         final Collection<ContactChannel> contactChannels;
         final AuditDetails               audit;
-        final Optional<Long>             key;
 
         feeType = new FeeType(entity.getFeeType()
             .getNumber(),
@@ -100,17 +91,10 @@ public final class MemberEntityMapper {
             .map(MemberEntityMapper::toDomain)
             .toList();
 
-        if (entity.getKey() == null) {
-            key = Optional.empty();
-        } else {
-            key = Optional.of(entity.getKey()
-                .getNumber());
-        }
-
         audit = new AuditDetails();
-        return new Member(Optional.ofNullable(entity.getIdentifier()), entity.getNumber(), name,
-            Optional.ofNullable(entity.getBirthDate()), contactChannels, Optional.ofNullable(entity.getAddress()),
-            Optional.ofNullable(entity.getComments()), entity.getActive(), entity.getRenew(), key, feeType,
+        return new Member(Optional.ofNullable(entity.getIdentifier()), entity.getNumber(), entity.getMemberNumber(),
+            name, Optional.ofNullable(entity.getBirthDate()), contactChannels, Optional.ofNullable(entity.getAddress()),
+            Optional.ofNullable(entity.getComments()), entity.getActive(), entity.getRenew(), feeType,
             entity.getTypes(), audit);
     }
 

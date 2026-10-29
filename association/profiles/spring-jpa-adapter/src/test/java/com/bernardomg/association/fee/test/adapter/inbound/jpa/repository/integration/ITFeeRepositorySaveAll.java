@@ -192,7 +192,8 @@ class ITFeeRepositorySaveAll {
 
         Assertions.assertThat(created)
             .as("fees")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "member.id", "memberId", "transaction.id")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "member.id", "memberId", "transaction.id",
+                "audit")
             .containsExactly(Fees.paidAtDate(date));
     }
 

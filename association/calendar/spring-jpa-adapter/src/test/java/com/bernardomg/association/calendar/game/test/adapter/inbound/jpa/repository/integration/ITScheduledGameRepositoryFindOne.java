@@ -60,7 +60,11 @@ class ITScheduledGameRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(scheduledGame)
-            .contains(ScheduledGames.weeklyOneshot());
+            .as("scheduled game")
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit")
+                .isEqualTo(ScheduledGames.weeklyOneshot()));
     }
 
     @Test
@@ -87,7 +91,11 @@ class ITScheduledGameRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(scheduledGame)
-            .contains(ScheduledGames.withTable());
+            .as("scheduled game")
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit")
+                .isEqualTo(ScheduledGames.withTable()));
     }
 
 }

@@ -1,0 +1,49 @@
+put:
+  summary: Replace the profile assigned to a key.
+  description: Full replacement of an existing assignment. Uses the profile number. Repeating the same assignment is allowed. A profile may hold multiple keys.
+  operationId: updateKeyAssignment
+  tags: [KeyAssignment]
+  parameters:
+    - name: number
+      in: path
+      required: true
+      description: Key number.
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/keys.yml#/components/schemas/KeyAssignmentUpdate'
+  responses:
+    '200':
+      description: Updated key assignment.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/keys.yml#/components/schemas/KeyAssignmentResponse'
+    '400':
+      description: Invalid assignment request.
+    '404':
+      description: Key, profile or assignment not found.
+delete:
+  summary: Remove a key assignment without deleting the key or profile.
+  operationId: deleteKeyAssignment
+  tags: [KeyAssignment]
+  parameters:
+    - name: number
+      in: path
+      required: true
+      description: Key number.
+      schema:
+        $ref: '../common/ids.yml#/components/schemas/Id'
+  responses:
+    '200':
+      description: Removed key assignment.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/keys.yml#/components/schemas/KeyAssignmentResponse'
+    '404':
+      description: Key or assignment not found.

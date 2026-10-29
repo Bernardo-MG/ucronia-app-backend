@@ -10,7 +10,7 @@
    <parent> 
       <groupId>com.bernardomg.maven</groupId>
       <artifactId>base-pom</artifactId>
-      <version>1.5.13</version>
+      <version>1.5.14</version>
    </parent>
 
    <!-- ********************************************** -->
@@ -199,7 +199,7 @@
       <bernardomg.framework.test.architecture>1.0.8</bernardomg.framework.test.architecture>
       <bernardomg.framework.validation.version>0.2.5</bernardomg.framework.validation.version>
       <bernardomg.framework.version>0.7.0</bernardomg.framework.version>
-      <bernardomg.framework.security.version>0.15.22</bernardomg.framework.security.version>
+      <bernardomg.framework.security.version>0.15.24</bernardomg.framework.security.version>
       <bernardomg.framework.ws.starter.starter>0.7.0</bernardomg.framework.ws.starter.starter>
       <commons.byteBuddy.version>1.18.3</commons.byteBuddy.version>
       <commons.codec.version>1.19.0</commons.codec.version>

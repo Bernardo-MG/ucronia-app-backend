@@ -63,7 +63,7 @@ public final class JpaKeyRepository implements KeyRepository {
 
         keySpringRepository.deleteByNumber(number);
 
-        log.debug("Deleted member profile {}", number);
+        log.debug("Deleted profile {}", number);
     }
 
     @Override

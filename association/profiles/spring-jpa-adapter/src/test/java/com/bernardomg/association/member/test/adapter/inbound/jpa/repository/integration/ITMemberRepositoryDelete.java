@@ -32,9 +32,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.TestApplication;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
+import com.bernardomg.association.key.adapter.inbound.jpa.repository.KeyAssignmentSpringRepository;
+import com.bernardomg.association.key.domain.repository.KeyAssignmentRepository;
+import com.bernardomg.association.key.test.configuration.factory.KeyAssignments;
+import com.bernardomg.association.key.test.configuration.factory.KeyConstants;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.ReadMemberSpringRepository;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMemberWithKey;
 import com.bernardomg.association.member.test.configuration.factory.MemberConstants;
 import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
@@ -46,13 +51,19 @@ import com.bernardomg.test.annotation.IntegrationTest;
 class ITMemberRepositoryDelete {
 
     @Autowired
-    private ProfileSpringRepository    profileSpringRepository;
+    private KeyAssignmentRepository       assignmentRepository;
 
     @Autowired
-    private MemberRepository           repository;
+    private KeyAssignmentSpringRepository assignmentSpringRepository;
 
     @Autowired
-    private ReadMemberSpringRepository springRepository;
+    private ProfileSpringRepository       profileSpringRepository;
+
+    @Autowired
+    private MemberRepository              repository;
+
+    @Autowired
+    private ReadMemberSpringRepository    springRepository;
 
     public ITMemberRepositoryDelete() {
         super();
@@ -82,6 +93,21 @@ class ITMemberRepositoryDelete {
         // THEN
         Assertions.assertThat(profileSpringRepository.count())
             .isZero();
+    }
+
+    @Test
+    @DisplayName("Deleting a member removes its assignment and keeps the unassigned key")
+    @PositiveFeeType
+    @ActiveMemberWithKey
+    void testDelete_KeyAssignment() {
+        // WHEN
+        repository.delete(MemberConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(assignmentSpringRepository.count())
+            .isZero();
+        Assertions.assertThat(assignmentRepository.findOne(KeyConstants.NUMBER))
+            .contains(KeyAssignments.unassigned());
     }
 
     @Test

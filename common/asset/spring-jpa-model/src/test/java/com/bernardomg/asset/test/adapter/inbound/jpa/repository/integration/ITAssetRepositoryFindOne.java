@@ -37,7 +37,10 @@ class ITAssetRepositoryFindOne {
         // THEN
         Assertions.assertThat(file)
             .as("file")
-            .contains(Assets.publicAccess());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit")
+                .isEqualTo(Assets.publicAccess()));
     }
 
     @Test

@@ -69,6 +69,7 @@ class ITPublisherRepositoryFindAll {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("publishers")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(Publishers.valid());
     }
 

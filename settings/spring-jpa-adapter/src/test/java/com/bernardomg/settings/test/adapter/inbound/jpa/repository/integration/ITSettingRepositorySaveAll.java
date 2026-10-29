@@ -71,6 +71,7 @@ public class ITSettingRepositorySaveAll {
         // THEN
         Assertions.assertThat(created)
             .as("created")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(Settings.intValue());
     }
 

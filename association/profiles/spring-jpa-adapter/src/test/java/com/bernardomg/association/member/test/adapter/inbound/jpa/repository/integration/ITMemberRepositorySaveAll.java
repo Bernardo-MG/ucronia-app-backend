@@ -114,7 +114,7 @@ class ITMemberRepositorySaveAll {
         final Iterable<ReadMemberEntity> entities;
 
         // GIVEN
-        member = Members.active();
+        member = Members.toCreate();
 
         // WHEN
         repository.saveAll(List.of(member));
@@ -124,8 +124,9 @@ class ITMemberRepositorySaveAll {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.id", "profile.number",
-                "profile.contactChannels.id", "profile.contactChannels.profileId", "profile.contactChannels.profile")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "memberNumber", "profile.id",
+                "profile.number", "profile.contactChannels.id", "profile.contactChannels.profileId",
+                "profile.contactChannels.profile")
             .containsExactly(ReadMemberEntities.active());
     }
 
@@ -161,7 +162,7 @@ class ITMemberRepositorySaveAll {
         final Collection<Member> saved;
 
         // GIVEN
-        member = Members.active();
+        member = Members.toCreate();
 
         // WHEN
         saved = repository.saveAll(List.of(member));
@@ -180,7 +181,7 @@ class ITMemberRepositorySaveAll {
         final ProfileEntity profile;
 
         // GIVEN
-        member = Members.active();
+        member = Members.toCreate();
 
         // WHEN
         repository.saveAll(List.of(member));

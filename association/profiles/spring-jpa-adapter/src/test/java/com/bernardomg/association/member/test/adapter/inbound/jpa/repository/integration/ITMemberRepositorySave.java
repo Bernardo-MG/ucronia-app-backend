@@ -24,11 +24,8 @@
 
 package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.integration;
 
-import java.util.Optional;
-
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.InstanceOfAssertFactories;
-import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +33,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.TestApplication;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
-import com.bernardomg.association.key.test.configuration.factory.KeyConstants;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.MemberEntityConstants;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.ReadMemberEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.ReadMemberSpringRepository;
@@ -44,8 +40,6 @@ import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMemberWithEmail;
-import com.bernardomg.association.member.test.configuration.data.annotation.AlternativeMemberWithKey;
-import com.bernardomg.association.member.test.configuration.data.annotation.AvailableKey;
 import com.bernardomg.association.member.test.configuration.factory.Members;
 import com.bernardomg.association.member.test.configuration.factory.ReadMemberEntities;
 import com.bernardomg.association.profile.adapter.inbound.jpa.model.ProfileEntity;
@@ -73,6 +67,22 @@ class ITMemberRepositorySave {
     }
 
     @Test
+    @PositiveFeeType
+    @ValidProfile
+    void testSave_AssignsMemberNumberWithoutChangingProfileNumber() {
+        final Member saved = repository.save(Members.active());
+        Assertions.assertThat(saved.number())
+            .isEqualTo(Members.active()
+                .number());
+        Assertions.assertThat(saved.memberNumber())
+            .isPositive();
+        Assertions.assertThat(repository.findOne(saved.number())
+            .orElseThrow()
+            .memberNumber())
+            .isEqualTo(saved.memberNumber());
+    }
+
+    @Test
     @DisplayName("When a member exists and a contact method is added, the member is persisted")
     @PositiveFeeType
     @EmailContactMethod
@@ -92,8 +102,8 @@ class ITMemberRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.id", "profile.number",
-                "contactChannels.id", "contactChannels.profileId", "contactChannels.profile")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "memberNumber", "profile.id",
+                "profile.number", "contactChannels.id", "contactChannels.profileId", "contactChannels.profile")
             .containsExactly(ReadMemberEntities.withEmail());
     }
 
@@ -116,8 +126,9 @@ class ITMemberRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.id", "profile.number",
-                "profile.contactChannels.id", "profile.contactChannels.profileId", "profile.contactChannels.profile")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "memberNumber", "profile.id",
+                "profile.number", "profile.contactChannels.id", "profile.contactChannels.profileId",
+                "profile.contactChannels.profile")
             .containsExactly(ReadMemberEntities.firstNameChange());
     }
 
@@ -140,8 +151,8 @@ class ITMemberRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.id", "profile.number",
-                "contactChannels.id", "contactChannels.profileId", "contactChannels.profile")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "memberNumber", "profile.id",
+                "profile.number", "contactChannels.id", "contactChannels.profileId", "contactChannels.profile")
             .containsExactly(ReadMemberEntities.withEmail());
     }
 
@@ -162,6 +173,8 @@ class ITMemberRepositorySave {
         // THEN
         Assertions.assertThat(saved)
             .as("member")
+            .usingRecursiveComparison()
+            .ignoringFields("audit", "memberNumber")
             .isEqualTo(Members.active());
     }
 
@@ -184,9 +197,28 @@ class ITMemberRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.id", "profile.number",
-                "profile.contactChannels.id", "profile.contactChannels.profileId", "profile.contactChannels.profile")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "memberNumber", "profile.id",
+                "profile.number", "profile.contactChannels.id", "profile.contactChannels.profileId",
+                "profile.contactChannels.profile")
             .containsExactly(ReadMemberEntities.active());
+    }
+
+    @Test
+    @PositiveFeeType
+    @ActiveMember
+    void testSave_KeepsMemberNumberWhenUpdating() {
+        final Member existing = repository.findOne(Members.active()
+            .number())
+            .orElseThrow();
+        final Member saved    = repository.save(Members.firstNameChange());
+        Assertions.assertThat(saved.memberNumber())
+            .isEqualTo(existing.memberNumber());
+        Assertions.assertThat(saved.activated()
+            .memberNumber())
+            .isEqualTo(existing.memberNumber());
+        Assertions.assertThat(saved.deactivated()
+            .memberNumber())
+            .isEqualTo(existing.memberNumber());
     }
 
     @Test
@@ -207,40 +239,10 @@ class ITMemberRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.id", "profile.number",
-                "profile.contactChannels.id", "profile.contactChannels.profileId", "profile.contactChannels.profile")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "memberNumber", "profile.id",
+                "profile.number", "profile.contactChannels.id", "profile.contactChannels.profileId",
+                "profile.contactChannels.profile")
             .containsExactly(ReadMemberEntities.active());
-    }
-
-    @Test
-    @DisplayName("When assigning an existing key to another member, the key is reassigned")
-    @PositiveFeeType
-    @AlternativeMemberWithKey
-    void testSave_ReassignKey() {
-        final Member           created;
-        final Optional<Member> existing;
-        final Member           newWithKey;
-
-        // GIVEN
-        newWithKey = Members.withKey();
-
-        // WHEN
-        created = repository.save(newWithKey);
-
-        // THEN
-        existing = repository.findOne(Members.alternativeWithKey()
-            .number());
-
-        SoftAssertions.assertSoftly(soft -> {
-            soft.assertThat(created.key())
-                .as("created member key")
-                .contains(KeyConstants.NUMBER);
-            soft.assertThat(existing.map(Member::key)
-                .orElse(null))
-                .as("existing member key")
-                .isNotNull()
-                .isEmpty();
-        });
     }
 
     @Test
@@ -262,8 +264,9 @@ class ITMemberRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.id", "profile.number",
-                "profile.contactChannels.id", "profile.contactChannels.profileId", "profile.contactChannels.profile")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "memberNumber", "profile.id",
+                "profile.number", "profile.contactChannels.id", "profile.contactChannels.profileId",
+                "profile.contactChannels.profile")
             .containsExactly(ReadMemberEntities.active());
     }
 
@@ -283,6 +286,8 @@ class ITMemberRepositorySave {
         // THEN
         Assertions.assertThat(saved)
             .as("member")
+            .usingRecursiveComparison()
+            .ignoringFields("memberNumber")
             .isEqualTo(Members.created());
     }
 
@@ -329,33 +334,9 @@ class ITMemberRepositorySave {
 
         Assertions.assertThat(entities)
             .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.id", "profile.number",
-                "contactChannels.id", "contactChannels.profileId", "contactChannels.profile")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "memberNumber", "profile.id",
+                "profile.number", "contactChannels.id", "contactChannels.profileId", "contactChannels.profile")
             .containsExactly(ReadMemberEntities.withEmail());
-    }
-
-    @Test
-    @DisplayName("With a member with a key, the member is persisted")
-    @PositiveFeeType
-    @AvailableKey
-    void testSave_WithKey_PersistedData() {
-        final Member                     member;
-        final Iterable<ReadMemberEntity> entities;
-
-        // GIVEN
-        member = Members.withKey();
-
-        // WHEN
-        repository.save(member);
-
-        // THEN
-        entities = springRepository.findAll();
-
-        Assertions.assertThat(entities)
-            .as("entities")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "number", "profile.id", "profile.number",
-                "contactChannels.id", "contactChannels.profileId", "contactChannels.profile")
-            .containsExactly(ReadMemberEntities.withKey());
     }
 
 }

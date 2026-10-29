@@ -16,6 +16,8 @@ components:
     Publisher:
       type: object
       properties:
+        audit:
+          $ref: 'audit.yml#/components/schemas/AuditDetails'
         number:
           $ref: '../common/ids.yml#/components/schemas/Id'
         name:

@@ -90,6 +90,7 @@ class ITFeeRepositoryFindAllPagination extends AbstractPaginationIT<Fee> {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("fees")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(Fees.paid());
     }
 
@@ -115,6 +116,7 @@ class ITFeeRepositoryFindAllPagination extends AbstractPaginationIT<Fee> {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("fees")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(Fees.paidForMonth(2, Month.MARCH));
     }
 

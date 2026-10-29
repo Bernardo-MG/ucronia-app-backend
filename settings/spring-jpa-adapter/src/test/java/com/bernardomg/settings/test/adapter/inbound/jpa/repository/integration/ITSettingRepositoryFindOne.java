@@ -39,7 +39,10 @@ public class ITSettingRepositoryFindOne {
         // THEN
         Assertions.assertThat(setting)
             .as("settings")
-            .contains(Settings.floatValue());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit")
+                .isEqualTo(Settings.floatValue()));
     }
 
     @Test
@@ -54,7 +57,10 @@ public class ITSettingRepositoryFindOne {
         // THEN
         Assertions.assertThat(setting)
             .as("settings")
-            .contains(Settings.intValue());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit")
+                .isEqualTo(Settings.intValue()));
     }
 
     @Test
@@ -83,7 +89,10 @@ public class ITSettingRepositoryFindOne {
         // THEN
         Assertions.assertThat(setting)
             .as("settings")
-            .contains(Settings.stringValue());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit")
+                .isEqualTo(Settings.stringValue()));
     }
 
 }

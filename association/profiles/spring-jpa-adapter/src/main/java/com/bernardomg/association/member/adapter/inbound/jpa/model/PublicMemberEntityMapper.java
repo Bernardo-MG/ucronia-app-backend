@@ -35,18 +35,10 @@ import com.bernardomg.association.profile.domain.model.Name;
 public final class PublicMemberEntityMapper {
 
     public static final PublicMember toDomain(final PublicMemberEntity entity) {
-        final Name           name;
-        final Optional<Long> key;
-
-        if (entity.getKey() == null) {
-            key = Optional.empty();
-        } else {
-            key = Optional.of(entity.getKey()
-                .getNumber());
-        }
+        final Name name;
 
         name = new Name(entity.getFirstName(), entity.getLastName(), Optional.ofNullable(entity.getNickname()));
-        return new PublicMember(entity.getNumber(), name, entity.getRenew(), key);
+        return new PublicMember(entity.getNumber(), entity.getMemberNumber(), name, entity.getRenew());
     }
 
     private PublicMemberEntityMapper() {

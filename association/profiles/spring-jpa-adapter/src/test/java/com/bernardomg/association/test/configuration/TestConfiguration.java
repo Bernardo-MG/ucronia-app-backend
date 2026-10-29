@@ -49,8 +49,11 @@ import com.bernardomg.association.guest.adapter.inbound.jpa.repository.GuestSpri
 import com.bernardomg.association.guest.adapter.inbound.jpa.repository.JpaGuestRepository;
 import com.bernardomg.association.guest.adapter.inbound.jpa.repository.ReadGuestSpringRepository;
 import com.bernardomg.association.guest.domain.repository.GuestRepository;
+import com.bernardomg.association.key.adapter.inbound.jpa.repository.JpaKeyAssignmentRepository;
 import com.bernardomg.association.key.adapter.inbound.jpa.repository.JpaKeyRepository;
+import com.bernardomg.association.key.adapter.inbound.jpa.repository.KeyAssignmentSpringRepository;
 import com.bernardomg.association.key.adapter.inbound.jpa.repository.KeySpringRepository;
+import com.bernardomg.association.key.domain.repository.KeyAssignmentRepository;
 import com.bernardomg.association.key.domain.repository.KeyRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberContactMethodRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.JpaMemberCountRepository;
@@ -144,6 +147,14 @@ public class TestConfiguration {
             contactMethodSpringRepository);
     }
 
+    @Bean("keyAssignmentRepository")
+    public KeyAssignmentRepository getKeyAssignmentRepository(
+            final KeyAssignmentSpringRepository keyAssignmentSpringRepository,
+            final KeySpringRepository keySpringRepository, final ProfileSpringRepository profileSpringRepository) {
+        return new JpaKeyAssignmentRepository(keyAssignmentSpringRepository, keySpringRepository,
+            profileSpringRepository);
+    }
+
     @Bean("keyRepository")
     public KeyRepository getKeyRepository(final KeySpringRepository keySpringRepository) {
         return new JpaKeyRepository(keySpringRepository);
@@ -164,9 +175,9 @@ public class TestConfiguration {
     public MemberRepository getMemberRepository(final ReadMemberSpringRepository readMemberSpringRepository,
             final MemberSpringRepository memberSpringRepository,
             final MemberContactMethodSpringRepository memberContactMethodSpringRepository,
-            final FeeTypeSpringRepository feeTypeSpringRepository, final KeySpringRepository keySpringRepository) {
+            final FeeTypeSpringRepository feeTypeSpringRepository) {
         return new JpaMemberRepository(readMemberSpringRepository, memberSpringRepository,
-            memberContactMethodSpringRepository, feeTypeSpringRepository, keySpringRepository);
+            memberContactMethodSpringRepository, feeTypeSpringRepository);
     }
 
     @Bean("membershipEvolutionRepository")

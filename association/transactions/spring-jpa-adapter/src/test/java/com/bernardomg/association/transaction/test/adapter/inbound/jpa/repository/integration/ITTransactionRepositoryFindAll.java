@@ -78,6 +78,7 @@ class ITTransactionRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(transactions)
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(Transactions.positive());
     }
 

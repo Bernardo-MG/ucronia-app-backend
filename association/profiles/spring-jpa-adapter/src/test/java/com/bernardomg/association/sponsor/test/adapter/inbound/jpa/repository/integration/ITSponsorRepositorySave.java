@@ -128,6 +128,8 @@ class ITSponsorRepositorySave {
         // THEN
         Assertions.assertThat(saved)
             .as("sponsor")
+            .usingRecursiveComparison()
+            .ignoringFields("audit")
             .isEqualTo(Sponsors.firstNameChange());
     }
 

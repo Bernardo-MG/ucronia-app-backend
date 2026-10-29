@@ -118,7 +118,10 @@ class ITBookLendingRepositoryFindReturned {
         // THEN
         Assertions.assertThat(lending)
             .as("lending")
-            .contains(BookLendings.returned());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit")
+                .isEqualTo(BookLendings.returned()));
     }
 
     @Test
@@ -136,7 +139,10 @@ class ITBookLendingRepositoryFindReturned {
         // THEN
         Assertions.assertThat(lending)
             .as("lending")
-            .contains(BookLendings.returnedLast());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit")
+                .isEqualTo(BookLendings.returnedLast()));
     }
 
     @Test
@@ -201,7 +207,10 @@ class ITBookLendingRepositoryFindReturned {
         // THEN
         Assertions.assertThat(lending)
             .as("lending")
-            .contains(BookLendings.returned());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit")
+                .isEqualTo(BookLendings.returned()));
     }
 
     @Test
@@ -219,7 +228,10 @@ class ITBookLendingRepositoryFindReturned {
         // THEN
         Assertions.assertThat(lending)
             .as("lending")
-            .contains(BookLendings.returnedLast());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit")
+                .isEqualTo(BookLendings.returnedLast()));
     }
 
     @Test

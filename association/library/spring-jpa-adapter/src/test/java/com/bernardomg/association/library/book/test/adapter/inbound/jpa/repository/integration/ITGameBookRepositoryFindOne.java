@@ -46,9 +46,9 @@ import com.bernardomg.association.library.lending.test.configuration.data.annota
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.LentBookLendingHistory;
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.ReturnedBookLending;
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.ReturnedBookLendingHistory;
-import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
-import com.bernardomg.association.member.test.configuration.data.annotation.AlternativeActiveMember;
+import com.bernardomg.association.profile.test.configuration.data.annotation.AlternativeProfile;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
+import com.bernardomg.security.domain.audit.model.AuditDetails;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -72,7 +72,10 @@ class ITGameBookRepositoryFindOne {
         // THEN
         Assertions.assertThat(book)
             .as("book")
-            .contains(GameBooks.donationNoDate());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFieldsOfTypes(AuditDetails.class)
+                .isEqualTo(GameBooks.donationNoDate()));
     }
 
     @Test
@@ -87,7 +90,10 @@ class ITGameBookRepositoryFindOne {
         // THEN
         Assertions.assertThat(book)
             .as("book")
-            .contains(GameBooks.donationNoDonors());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFieldsOfTypes(AuditDetails.class)
+                .isEqualTo(GameBooks.donationNoDonors()));
     }
 
     @Test
@@ -103,13 +109,16 @@ class ITGameBookRepositoryFindOne {
         // THEN
         Assertions.assertThat(book)
             .as("book")
-            .contains(GameBooks.full());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFieldsOfTypes(AuditDetails.class)
+                .isEqualTo(GameBooks.full()));
     }
 
     @Test
     @DisplayName("When there is a lent game book, it is returned")
     @PositiveFeeType
-    @ActiveMember
+    @ValidProfile
     @FullGameBook
     @LentBookLending
     void testFindOne_FullLent() {
@@ -121,14 +130,17 @@ class ITGameBookRepositoryFindOne {
         // THEN
         Assertions.assertThat(book)
             .as("book")
-            .contains(GameBooks.lent());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFieldsOfTypes(AuditDetails.class)
+                .isEqualTo(GameBooks.lent()));
     }
 
     @Test
     @DisplayName("When there is a lent game book and it has history, it is returned")
     @PositiveFeeType
-    @ActiveMember
-    @AlternativeActiveMember
+    @ValidProfile
+    @AlternativeProfile
     @FullGameBook
     @LentBookLendingHistory
     void testFindOne_Lent_History() {
@@ -140,7 +152,10 @@ class ITGameBookRepositoryFindOne {
         // THEN
         Assertions.assertThat(book)
             .as("book")
-            .contains(GameBooks.lentHistory());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFieldsOfTypes(AuditDetails.class)
+                .isEqualTo(GameBooks.lentHistory()));
     }
 
     @Test
@@ -155,7 +170,10 @@ class ITGameBookRepositoryFindOne {
         // THEN
         Assertions.assertThat(book)
             .as("book")
-            .contains(GameBooks.minimal());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit")
+                .isEqualTo(GameBooks.minimal()));
     }
 
     @Test
@@ -175,7 +193,7 @@ class ITGameBookRepositoryFindOne {
     @Test
     @DisplayName("When there is a returned game book, it is returned")
     @PositiveFeeType
-    @ActiveMember
+    @ValidProfile
     @FullGameBook
     @ReturnedBookLending
     void testFindOne_Returned() {
@@ -187,14 +205,17 @@ class ITGameBookRepositoryFindOne {
         // THEN
         Assertions.assertThat(book)
             .as("book")
-            .contains(GameBooks.returned());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFieldsOfTypes(AuditDetails.class)
+                .isEqualTo(GameBooks.returned()));
     }
 
     @Test
     @DisplayName("When there is a returned game book with history, it is returned")
     @PositiveFeeType
-    @ActiveMember
-    @AlternativeActiveMember
+    @ValidProfile
+    @AlternativeProfile
     @FullGameBook
     @ReturnedBookLendingHistory
     void testFindOne_Returned_History() {
@@ -206,7 +227,10 @@ class ITGameBookRepositoryFindOne {
         // THEN
         Assertions.assertThat(book)
             .as("book")
-            .contains(GameBooks.returnedHistory());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFieldsOfTypes(AuditDetails.class)
+                .isEqualTo(GameBooks.returnedHistory()));
     }
 
 }

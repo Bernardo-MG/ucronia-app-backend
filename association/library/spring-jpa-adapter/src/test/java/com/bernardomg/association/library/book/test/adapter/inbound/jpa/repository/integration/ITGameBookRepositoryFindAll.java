@@ -25,6 +25,7 @@
 package com.bernardomg.association.library.book.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,10 +41,10 @@ import com.bernardomg.association.library.lending.test.configuration.data.annota
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.LentBookLendingHistory;
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.ReturnedBookLending;
 import com.bernardomg.association.library.lending.test.configuration.data.annotation.ReturnedBookLendingHistory;
-import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
-import com.bernardomg.association.member.test.configuration.data.annotation.AlternativeActiveMember;
+import com.bernardomg.association.profile.test.configuration.data.annotation.AlternativeProfile;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.pagination.domain.Sorting;
+import com.bernardomg.security.domain.audit.model.AuditDetails;
 import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -71,13 +72,16 @@ class ITGameBookRepositoryFindAll {
         // THEN
         Assertions.assertThat(books)
             .as("books")
+            .usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration.builder()
+                .withIgnoredFieldsOfTypes(AuditDetails.class)
+                .build())
             .containsExactly(GameBooks.full());
     }
 
     @Test
     @DisplayName("When there is a lent game book, it is returned")
     @PositiveFeeType
-    @ActiveMember
+    @ValidProfile
     @FullGameBook
     @LentBookLending
     void testFindAll_Lent() {
@@ -93,14 +97,17 @@ class ITGameBookRepositoryFindAll {
         // THEN
         Assertions.assertThat(books)
             .as("books")
+            .usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration.builder()
+                .withIgnoredFieldsOfTypes(AuditDetails.class)
+                .build())
             .containsExactly(GameBooks.lent());
     }
 
     @Test
     @DisplayName("When there is a lent game book and it has history, it is returned")
     @PositiveFeeType
-    @ActiveMember
-    @AlternativeActiveMember
+    @ValidProfile
+    @AlternativeProfile
     @FullGameBook
     @LentBookLendingHistory
     void testFindAll_Lent_WithHistory() {
@@ -116,6 +123,9 @@ class ITGameBookRepositoryFindAll {
         // THEN
         Assertions.assertThat(books)
             .as("books")
+            .usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration.builder()
+                .withIgnoredFieldsOfTypes(AuditDetails.class)
+                .build())
             .containsExactly(GameBooks.lentHistory());
     }
 
@@ -140,7 +150,7 @@ class ITGameBookRepositoryFindAll {
     @Test
     @DisplayName("When there is a returned game book, it is returned")
     @PositiveFeeType
-    @ActiveMember
+    @ValidProfile
     @FullGameBook
     @ReturnedBookLending
     void testFindAll_Returned() {
@@ -156,14 +166,17 @@ class ITGameBookRepositoryFindAll {
         // THEN
         Assertions.assertThat(books)
             .as("books")
+            .usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration.builder()
+                .withIgnoredFieldsOfTypes(AuditDetails.class)
+                .build())
             .containsExactly(GameBooks.returned());
     }
 
     @Test
     @DisplayName("When there is a returned game book and it has history, it is returned")
     @PositiveFeeType
-    @ActiveMember
-    @AlternativeActiveMember
+    @ValidProfile
+    @AlternativeProfile
     @FullGameBook
     @ReturnedBookLendingHistory
     void testFindAll_Returned_WithHistory() {
@@ -179,6 +192,9 @@ class ITGameBookRepositoryFindAll {
         // THEN
         Assertions.assertThat(books)
             .as("books")
+            .usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration.builder()
+                .withIgnoredFieldsOfTypes(AuditDetails.class)
+                .build())
             .containsExactly(GameBooks.returnedHistory());
     }
 

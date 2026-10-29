@@ -52,6 +52,7 @@ permissions:
       - create
       - read
       - update
+      - delete
   - resource: fee_type
     actions:
       - create
@@ -137,6 +138,12 @@ permissions:
       - update
       - delete
   - resource: key
+    actions:
+      - create
+      - read
+      - update
+      - delete
+  - resource: key_assignment
     actions:
       - create
       - read

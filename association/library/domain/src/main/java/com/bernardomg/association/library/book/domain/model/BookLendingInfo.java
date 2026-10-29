@@ -29,16 +29,25 @@ import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 import java.util.Optional;
 
-public record BookLendingInfo(long borrower, Instant lendingDate, Optional<Instant> returnDate) {
+import com.bernardomg.security.domain.audit.model.AuditDetails;
+
+public record BookLendingInfo(long borrower, Instant lendingDate, Optional<Instant> returnDate, AuditDetails audit) {
 
     public BookLendingInfo(final long borrower, final Instant lendingDate, final Optional<Instant> returnDate) {
+        this(borrower, lendingDate, returnDate, new AuditDetails());
+    }
+
+    public BookLendingInfo(final long borrower, final Instant lendingDate, final Optional<Instant> returnDate,
+            final AuditDetails audit) {
         Objects.requireNonNull(borrower, "Borrower can't be null");
         Objects.requireNonNull(lendingDate, "Lending date can't be null");
         Objects.requireNonNull(returnDate, "Return date can't be null");
+        Objects.requireNonNull(audit, "Audit can't be null");
 
         this.borrower = borrower;
         this.lendingDate = lendingDate;
         this.returnDate = returnDate;
+        this.audit = audit;
     }
 
     public Long getDays() {

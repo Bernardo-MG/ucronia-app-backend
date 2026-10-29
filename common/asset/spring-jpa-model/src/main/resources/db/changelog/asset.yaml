@@ -19,6 +19,7 @@ databaseChangeLog:
                   autoIncrement: true
                   constraints:
                     primaryKey: true
+                    primaryKeyName: pk_asset_folders
                     nullable: false
               - column:
                   name: number
@@ -38,21 +39,38 @@ databaseChangeLog:
               - column:
                   name: created_at
                   type: datetime
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: true
               - column:
                   name: created_by
                   type: bigint
                   constraints:
-                    foreignKeyName: fk_asset_folders_created_by_user
-                    references: security.users(id)
+                    nullable: true
               - column:
                   name: updated_at
                   type: datetime
               - column:
                   name: updated_by
                   type: bigint
-                  constraints:
-                    foreignKeyName: fk_asset_folders_updated_by_user
-                    references: security.users(id)
+        - addForeignKeyConstraint:
+            constraintName: fk_asset_folders_created_by_user
+            baseTableSchemaName: asset
+            baseTableName: asset_folders
+            baseColumnNames: created_by
+            referencedTableSchemaName: security
+            referencedTableName: users
+            referencedColumnNames: id
+            onDelete: "SET NULL"
+        - addForeignKeyConstraint:
+            constraintName: fk_asset_folders_updated_by_user
+            baseTableSchemaName: asset
+            baseTableName: asset_folders
+            baseColumnNames: updated_by
+            referencedTableSchemaName: security
+            referencedTableName: users
+            referencedColumnNames: id
+            onDelete: "SET NULL"
         - addUniqueConstraint:
             schemaName: asset
             tableName: asset_folders
@@ -73,13 +91,6 @@ databaseChangeLog:
             referencedTableName: asset_folders
             referencedColumnNames: id
             constraintName: fk_asset_folders_parent
-        - createIndex:
-            schemaName: asset
-            tableName: asset_folders
-            indexName: idx_asset_folders_number
-            columns:
-              - column:
-                  name: number
         - createTable:
             schemaName: asset
             tableName: assets
@@ -90,6 +101,7 @@ databaseChangeLog:
                   autoIncrement: true
                   constraints:
                     primaryKey: true
+                    primaryKeyName: pk_assets
                     nullable: false
               - column:
                   name: number
@@ -117,6 +129,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     unique: true
+                    uniqueConstraintName: uk_assets_object_key
               - column:
                   name: media_type
                   type: varchar(100)
@@ -141,21 +154,38 @@ databaseChangeLog:
               - column:
                   name: created_at
                   type: datetime
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: true
               - column:
                   name: created_by
                   type: bigint
                   constraints:
-                    foreignKeyName: fk_assets_created_by_user
-                    references: security.users(id)
+                    nullable: true
               - column:
                   name: updated_at
                   type: datetime
               - column:
                   name: updated_by
                   type: bigint
-                  constraints:
-                    foreignKeyName: fk_assets_updated_by_user
-                    references: security.users(id)
+        - addForeignKeyConstraint:
+            constraintName: fk_assets_created_by_user
+            baseTableSchemaName: asset
+            baseTableName: assets
+            baseColumnNames: created_by
+            referencedTableSchemaName: security
+            referencedTableName: users
+            referencedColumnNames: id
+            onDelete: "SET NULL"
+        - addForeignKeyConstraint:
+            constraintName: fk_assets_updated_by_user
+            baseTableSchemaName: asset
+            baseTableName: assets
+            baseColumnNames: updated_by
+            referencedTableSchemaName: security
+            referencedTableName: users
+            referencedColumnNames: id
+            onDelete: "SET NULL"
         - addUniqueConstraint:
             schemaName: asset
             tableName: assets
@@ -176,13 +206,6 @@ databaseChangeLog:
             referencedTableName: asset_folders
             referencedColumnNames: id
             constraintName: fk_assets_folder
-        - createIndex:
-            schemaName: asset
-            tableName: assets
-            indexName: idx_assets_number
-            columns:
-              - column:
-                  name: number
         - createIndex:
             schemaName: asset
             tableName: assets

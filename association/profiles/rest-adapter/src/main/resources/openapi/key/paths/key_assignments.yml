@@ -1,0 +1,39 @@
+get:
+  summary: Get all keys with their profile assignments, including inactive member profiles.
+  operationId: getKeyAssignments
+  tags: [KeyAssignment]
+  parameters:
+    - $ref: '../common/pagination.yml#/components/parameters/pageParam'
+    - $ref: '../common/pagination.yml#/components/parameters/sizeParam'
+    - $ref: '../components/keys.yml#/components/parameters/keysSortParam'
+  responses:
+    '200':
+      description: Key assignment page. An absent profile means the key is unassigned.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/keys.yml#/components/schemas/KeyAssignmentPageResponse'
+post:
+  summary: Assign an unassigned key to a profile.
+  description: Uses the profile number. A profile may hold multiple keys. A key that is already assigned causes a conflict.
+  operationId: createKeyAssignment
+  tags: [KeyAssignment]
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/keys.yml#/components/schemas/KeyAssignmentCreation'
+  responses:
+    '201':
+      description: Created key assignment.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/keys.yml#/components/schemas/KeyAssignmentResponse'
+    '400':
+      description: Invalid assignment request.
+    '404':
+      description: Key or profile not found.
+    '409':
+      description: Key already assigned.

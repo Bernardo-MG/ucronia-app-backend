@@ -74,6 +74,7 @@ public final class JpaProfileRepository implements ProfileRepository {
         log.debug("Deleting profile {}", number);
 
         profileSpringRepository.deleteByNumber(number);
+        profileSpringRepository.flush();
 
         log.debug("Deleted profile {}", number);
     }

@@ -37,25 +37,26 @@ import com.bernardomg.association.profile.domain.model.ContactChannel;
 import com.bernardomg.association.profile.domain.model.Name;
 import com.bernardomg.security.domain.audit.model.AuditDetails;
 
-public record Member(Optional<String> identifier, Long number, Name name, Optional<Instant> birthDate,
-        Collection<ContactChannel> contactChannels, Optional<String> address, Optional<String> comments, Boolean active,
-        Boolean renew, Optional<Long> key, FeeType feeType, Set<String> types, AuditDetails audit) {
+public record Member(Optional<String> identifier, Long number, Long memberNumber, Name name,
+        Optional<Instant> birthDate, Collection<ContactChannel> contactChannels, Optional<String> address,
+        Optional<String> comments, Boolean active, Boolean renew, FeeType feeType, Set<String> types,
+        AuditDetails audit) {
 
     public static final String PROFILE_TYPE = "member";
 
-    public Member(final Optional<String> identifier, final Long number, final Name name,
+    public Member(final Optional<String> identifier, final Long number, final Long memberNumber, final Name name,
             final Optional<Instant> birthDate, final Collection<ContactChannel> contactChannels,
             final Optional<String> address, final Optional<String> comments, final Boolean active, final Boolean renew,
-            final Optional<Long> key, final FeeType feeType, final Set<String> types, final AuditDetails audit) {
+            final FeeType feeType, final Set<String> types, final AuditDetails audit) {
         Objects.requireNonNull(identifier, "Identifier can't be null");
         Objects.requireNonNull(number, "Number can't be null");
+        Objects.requireNonNull(memberNumber, "Member number can't be null");
         Objects.requireNonNull(name, "Name can't be null");
         Objects.requireNonNull(birthDate, "Birthdate can't be null");
         Objects.requireNonNull(address, "Address can't be null");
         Objects.requireNonNull(comments, "Comments can't be null");
         Objects.requireNonNull(active, "Active flag can't be null");
         Objects.requireNonNull(renew, "Renew flag can't be null");
-        Objects.requireNonNull(key, "Key number can't be null");
         Objects.requireNonNull(feeType, "Fee type can't be null");
         Objects.requireNonNull(types, "Types can't be null");
         Objects.requireNonNull(contactChannels, "Contact channels can't be null");
@@ -63,6 +64,7 @@ public record Member(Optional<String> identifier, Long number, Name name, Option
 
         this.identifier = handleEmpty(identifier);
         this.number = number;
+        this.memberNumber = memberNumber;
         this.name = name;
         this.birthDate = birthDate;
         this.contactChannels = List.copyOf(contactChannels);
@@ -70,33 +72,16 @@ public record Member(Optional<String> identifier, Long number, Name name, Option
         this.comments = handleEmpty(comments);
         this.active = active;
         this.renew = renew;
-        this.key = key;
         this.feeType = feeType;
         this.types = Set.copyOf(types);
         this.audit = audit;
     }
 
-    public Member(final Optional<String> identifier, final Long number, final Name name,
-            final Optional<Instant> birthDate, final Collection<ContactChannel> contactChannels,
-            final Optional<String> address, final Optional<String> comments, final Boolean active, final Boolean renew,
-            final Optional<Long> key, final FeeType feeType, final Set<String> types) {
-        this(identifier, number, name, birthDate, contactChannels, address, comments, active, renew, key, feeType,
-            types, new AuditDetails());
-    }
-
-    public Member(final Optional<String> identifier, final Long number, final Name name,
-            final Optional<Instant> birthDate, final Collection<ContactChannel> contactChannels,
-            final Optional<String> address, final Optional<String> comments, final Boolean active, final Boolean renew,
-            final FeeType feeType, final Set<String> types, final AuditDetails audit) {
-        this(identifier, number, name, birthDate, contactChannels, address, comments, active, renew, Optional.empty(),
-            feeType, types, audit);
-    }
-
-    public Member(final Optional<String> identifier, final Long number, final Name name,
+    public Member(final Optional<String> identifier, final Long number, final Long memberNumber, final Name name,
             final Optional<Instant> birthDate, final Collection<ContactChannel> contactChannels,
             final Optional<String> address, final Optional<String> comments, final Boolean active, final Boolean renew,
             final FeeType feeType, final Set<String> types) {
-        this(identifier, number, name, birthDate, contactChannels, address, comments, active, renew, Optional.empty(),
+        this(identifier, number, memberNumber, name, birthDate, contactChannels, address, comments, active, renew,
             feeType, types, new AuditDetails());
     }
 
@@ -128,13 +113,13 @@ public record Member(Optional<String> identifier, Long number, Name name, Option
     }
 
     public Member deactivated() {
-        return new Member(identifier, number, name, birthDate, contactChannels, address, comments, false, false, key,
-            feeType, types);
+        return new Member(identifier, number, memberNumber, name, birthDate, contactChannels, address, comments, false,
+            false, feeType, types, audit);
     }
 
     public Member activated() {
-        return new Member(identifier, number, name, birthDate, contactChannels, address, comments, true, true, key,
-            feeType, types);
+        return new Member(identifier, number, memberNumber, name, birthDate, contactChannels, address, comments, true,
+            true, feeType, types, audit);
     }
 
 }

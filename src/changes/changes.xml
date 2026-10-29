@@ -639,5 +639,16 @@
             Disable assets when missing properties.
          </action>
       </release>
+      <release version="0.7.15" date="2026-10-29" description="Fixes">
+         <action dev="bmg" type="update">
+            Updated security.
+         </action>
+         <action dev="bmg" type="add">
+            Member numbering.
+         </action>
+         <action dev="bmg" type="add">
+            Better key assignment.
+         </action>
+      </release>
    </body>
 </document>

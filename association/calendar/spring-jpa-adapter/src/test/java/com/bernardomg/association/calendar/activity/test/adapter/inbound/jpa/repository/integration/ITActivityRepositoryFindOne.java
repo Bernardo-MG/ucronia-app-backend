@@ -66,7 +66,11 @@ class ITActivityRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(activity)
-            .contains(Activities.singleDay());
+            .as("file")
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit")
+                .isEqualTo(Activities.singleDay()));
     }
 
     @Test
@@ -97,7 +101,11 @@ class ITActivityRepositoryFindOne {
         // THEN
         SoftAssertions.assertSoftly(softly -> {
             Assertions.assertThat(activity)
-                .contains(Activities.multipleDay());
+                .as("file")
+                .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                    .usingRecursiveComparison()
+                    .ignoringFields("audit")
+                    .isEqualTo(Activities.multipleDay()));
             Assertions.assertThat(activity.get())
                 .extracting(Activity::dates)
                 .asInstanceOf(InstanceOfAssertFactories.SET)
@@ -133,7 +141,11 @@ class ITActivityRepositoryFindOne {
         // THEN
         SoftAssertions.assertSoftly(softly -> {
             Assertions.assertThat(activity)
-                .contains(Activities.multipleDay());
+                .as("file")
+                .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                    .usingRecursiveComparison()
+                    .ignoringFields("audit")
+                    .isEqualTo(Activities.multipleDay()));
             Assertions.assertThat(activity.get())
                 .extracting(Activity::dates)
                 .asInstanceOf(InstanceOfAssertFactories.SET)

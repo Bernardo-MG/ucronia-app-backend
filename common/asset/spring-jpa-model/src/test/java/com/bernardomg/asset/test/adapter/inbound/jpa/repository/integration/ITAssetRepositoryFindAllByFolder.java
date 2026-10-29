@@ -40,6 +40,7 @@ class ITAssetRepositoryFindAllByFolder {
 
         // THEN
         Assertions.assertThat(result.content())
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(Assets.privateAccessInFolder());
     }
 
@@ -55,6 +56,7 @@ class ITAssetRepositoryFindAllByFolder {
 
         // THEN
         Assertions.assertThat(result.content())
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(Assets.publicAccessInFolder());
     }
 

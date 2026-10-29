@@ -133,8 +133,8 @@ class ITMemberRepositoryFindAllSort {
             .asInstanceOf(InstanceOfAssertFactories.list(Member.class))
             .extracting(member -> member.name()
                 .fullName())
-            .containsExactly("Name á Last name 1", "Name é Last name 2", "Name í Last name 3",
-                "Name ó Last name 4", "Name ú Last name 5");
+            .containsExactly("Name á Last name 1", "Name é Last name 2", "Name í Last name 3", "Name ó Last name 4",
+                "Name ú Last name 5");
     }
 
     @Test

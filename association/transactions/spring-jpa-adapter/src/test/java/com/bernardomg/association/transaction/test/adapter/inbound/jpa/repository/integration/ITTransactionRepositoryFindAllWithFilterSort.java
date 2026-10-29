@@ -78,6 +78,7 @@ class ITTransactionRepositoryFindAllWithFilterSort {
         Assertions.assertThat(transactions)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(Transactions.forIndexAndMonth(1, Month.JANUARY),
                 Transactions.forIndexAndMonth(2, Month.JANUARY), Transactions.forIndexAndMonth(3, Month.JANUARY),
                 Transactions.forIndexAndMonth(4, Month.JANUARY), Transactions.forIndexAndMonth(5, Month.JANUARY));
@@ -104,6 +105,7 @@ class ITTransactionRepositoryFindAllWithFilterSort {
         Assertions.assertThat(transactions)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(Transactions.forIndexAndMonth(5, Month.JANUARY),
                 Transactions.forIndexAndMonth(4, Month.JANUARY), Transactions.forIndexAndMonth(3, Month.JANUARY),
                 Transactions.forIndexAndMonth(2, Month.JANUARY), Transactions.forIndexAndMonth(1, Month.JANUARY));
@@ -130,6 +132,7 @@ class ITTransactionRepositoryFindAllWithFilterSort {
         Assertions.assertThat(transactions)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(Transactions.forIndexAndMonth(1, Month.JANUARY),
                 Transactions.forIndexAndMonth(2, Month.JANUARY), Transactions.forIndexAndMonth(3, Month.JANUARY),
                 Transactions.forIndexAndMonth(4, Month.JANUARY), Transactions.forIndexAndMonth(5, Month.JANUARY));
@@ -156,6 +159,7 @@ class ITTransactionRepositoryFindAllWithFilterSort {
         Assertions.assertThat(transactions)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(Transactions.forIndexAndMonth(5, Month.JANUARY),
                 Transactions.forIndexAndMonth(4, Month.JANUARY), Transactions.forIndexAndMonth(3, Month.JANUARY),
                 Transactions.forIndexAndMonth(2, Month.JANUARY), Transactions.forIndexAndMonth(1, Month.JANUARY));

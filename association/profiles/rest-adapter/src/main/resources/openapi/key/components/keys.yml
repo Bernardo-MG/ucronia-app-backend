@@ -62,3 +62,53 @@ components:
       properties:
         content:
           $ref: '#/components/schemas/Key'
+    KeyAssignedProfile:
+      type: object
+      required: [number, name]
+      properties:
+        number:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        name:
+          type: string
+          description: Profile full name.
+    KeyAssignment:
+      type: object
+      required: [number, available, description]
+      properties:
+        number:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        available:
+          type: boolean
+        description:
+          type: string
+          maxLength: 250
+        profile:
+          $ref: '#/components/schemas/KeyAssignedProfile'
+    KeyAssignmentPageResponse:
+      allOf:
+        - $ref: '../common/responses.yml#/components/schemas/PageResponse'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/KeyAssignment'
+    KeyAssignmentCreation:
+      type: object
+      required: [number, profile]
+      properties:
+        number:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+        profile:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+    KeyAssignmentUpdate:
+      type: object
+      required: [profile]
+      properties:
+        profile:
+          $ref: '../common/ids.yml#/components/schemas/Id'
+    KeyAssignmentResponse:
+      type: object
+      properties:
+        content:
+          $ref: '#/components/schemas/KeyAssignment'

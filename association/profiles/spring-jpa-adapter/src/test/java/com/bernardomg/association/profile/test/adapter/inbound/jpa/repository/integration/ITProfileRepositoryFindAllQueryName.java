@@ -72,6 +72,7 @@ class ITProfileRepositoryFindAllQueryName {
         Assertions.assertThat(profiles)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(Profiles.valid());
     }
 
@@ -96,6 +97,7 @@ class ITProfileRepositoryFindAllQueryName {
         Assertions.assertThat(profiles)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(Profiles.valid());
     }
 
@@ -120,6 +122,7 @@ class ITProfileRepositoryFindAllQueryName {
         Assertions.assertThat(profiles)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(Profiles.valid());
     }
 
@@ -167,6 +170,7 @@ class ITProfileRepositoryFindAllQueryName {
         Assertions.assertThat(profiles)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(Profiles.valid());
     }
 

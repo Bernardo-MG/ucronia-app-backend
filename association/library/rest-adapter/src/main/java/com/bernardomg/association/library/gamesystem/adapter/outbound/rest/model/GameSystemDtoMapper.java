@@ -26,6 +26,8 @@ package com.bernardomg.association.library.gamesystem.adapter.outbound.rest.mode
 
 import java.util.Optional;
 
+import com.bernardomg.association.library.adapter.outbound.rest.dto.AuditDetailsDto;
+import com.bernardomg.association.library.adapter.outbound.rest.dto.AuditUserDto;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.GameSystemDto;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.GameSystemPageResponseDto;
 import com.bernardomg.association.library.adapter.outbound.rest.dto.GameSystemResponseDto;
@@ -36,6 +38,8 @@ import com.bernardomg.association.library.gamesystem.domain.model.GameSystem;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
 import com.bernardomg.pagination.domain.Sorting.Property;
+import com.bernardomg.security.domain.audit.model.AuditDetails;
+import com.bernardomg.security.domain.audit.model.AuditDetails.AuditUser;
 
 public final class GameSystemDtoMapper {
 
@@ -70,9 +74,38 @@ public final class GameSystemDtoMapper {
             .sort(sortingResponse);
     }
 
+    private static final AuditDetailsDto toDto(final AuditDetails audit) {
+        final AuditDetailsDto dto;
+
+        if (audit == null) {
+            dto = null;
+        } else {
+            dto = new AuditDetailsDto().createdAt(audit.createdAt())
+                .createdBy(toDto(audit.createdBy()))
+                .updatedAt(audit.updatedAt())
+                .updatedBy(toDto(audit.updatedBy()));
+        }
+
+        return dto;
+    }
+
+    private static final AuditUserDto toDto(final AuditUser user) {
+        final AuditUserDto dto;
+
+        if (user == null) {
+            dto = null;
+        } else {
+            dto = new AuditUserDto().email(user.email())
+                .username(user.username())
+                .name(user.name());
+        }
+        return dto;
+    }
+
     private static final GameSystemDto toDto(final GameSystem gameSystem) {
         return new GameSystemDto().number(gameSystem.number())
-            .name(gameSystem.name());
+            .name(gameSystem.name())
+            .audit(toDto(gameSystem.audit()));
     }
 
     private static final PropertyDto toDto(final Property property) {

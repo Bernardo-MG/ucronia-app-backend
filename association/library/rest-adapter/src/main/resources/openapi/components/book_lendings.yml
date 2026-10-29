@@ -34,6 +34,8 @@ components:
     BookLendingInfo:
       type: object
       properties:
+        audit:
+          $ref: 'audit.yml#/components/schemas/AuditDetails'
         borrower:
           $ref: '../common/ids.yml#/components/schemas/Id'
         lendingDate:

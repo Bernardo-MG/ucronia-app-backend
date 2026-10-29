@@ -69,6 +69,7 @@ class ITGameSystemRepositoryFindAll {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("game systems")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(GameSystems.valid());
     }
 

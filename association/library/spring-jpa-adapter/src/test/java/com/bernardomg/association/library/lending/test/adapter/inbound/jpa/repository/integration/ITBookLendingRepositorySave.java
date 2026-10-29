@@ -25,6 +25,7 @@
 package com.bernardomg.association.library.lending.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,7 +90,9 @@ class ITBookLendingRepositorySave {
         // THEN
         Assertions.assertThat(springRepository.findAll())
             .as("lendings")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("borrower")
+            .usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration.builder()
+                .withIgnoredFields("borrower", "audit")
+                .build())
             .contains(BookLendingEntities.lent());
     }
 
@@ -110,7 +113,9 @@ class ITBookLendingRepositorySave {
         // THEN
         Assertions.assertThat(springRepository.findAll())
             .as("lendings")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("borrower")
+            .usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration.builder()
+                .withIgnoredFields("borrower", "audit")
+                .build())
             .contains(BookLendingEntities.returned());
     }
 
@@ -131,6 +136,8 @@ class ITBookLendingRepositorySave {
         // THEN
         Assertions.assertThat(created)
             .as("lending")
+            .usingRecursiveComparison()
+            .ignoringFields("audit")
             .isEqualTo(BookLendings.lent());
     }
 
@@ -168,7 +175,9 @@ class ITBookLendingRepositorySave {
         // THEN
         Assertions.assertThat(springRepository.findAll())
             .as("lendings")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("borrower")
+            .usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration.builder()
+                .withIgnoredFields("borrower", "audit")
+                .build())
             .contains(BookLendingEntities.lent());
     }
 
@@ -189,7 +198,9 @@ class ITBookLendingRepositorySave {
         // THEN
         Assertions.assertThat(springRepository.findAll())
             .as("lendings")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("borrower")
+            .usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration.builder()
+                .withIgnoredFields("borrower", "audit")
+                .build())
             .contains(BookLendingEntities.returned());
     }
 
@@ -210,6 +221,8 @@ class ITBookLendingRepositorySave {
         // THEN
         Assertions.assertThat(created)
             .as("lending")
+            .usingRecursiveComparison()
+            .ignoringFields("audit")
             .isEqualTo(BookLendings.lent());
     }
 

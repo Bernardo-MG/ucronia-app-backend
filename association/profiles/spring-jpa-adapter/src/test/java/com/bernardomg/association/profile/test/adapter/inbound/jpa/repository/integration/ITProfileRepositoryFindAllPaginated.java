@@ -97,6 +97,7 @@ class ITProfileRepositoryFindAllPaginated {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("profiles")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(Profiles.valid());
     }
 

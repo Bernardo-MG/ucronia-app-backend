@@ -13,7 +13,6 @@ databaseChangeLog:
       id: calendar
       author: Bernardo
       changes:
-
         - createTable:
             schemaName: calendar
             tableName: calendar_type
@@ -23,12 +22,14 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     primaryKey: true
+                    primaryKeyName: pk_calendar_type
                     nullable: false
               - column:
                   name: number
                   type: bigint
                   constraints:
                     unique: true
+                    uniqueConstraintName: uk_calendar_type_number
                     nullable: false
               - column:
                   name: name
@@ -47,14 +48,6 @@ databaseChangeLog:
             columnDataType: bigint
             incrementBy: 1
             startWith: 1
-        - createIndex:
-            schemaName: calendar
-            tableName: calendar_type
-            indexName: idx_calendar_type_number
-            columns:
-              - column:
-                  name: number
-
         - createTable:
             schemaName: calendar
             tableName: calendar_status
@@ -64,12 +57,14 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     primaryKey: true
+                    primaryKeyName: pk_calendar_status
                     nullable: false
               - column:
                   name: name
                   type: varchar(50)
                   constraints:
                     unique: true
+                    uniqueConstraintName: uk_calendar_status_name
                     nullable: false
         - addAutoIncrement:
             schemaName: calendar
@@ -88,12 +83,14 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     primaryKey: true
+                    primaryKeyName: pk_recurrence_status
                     nullable: false
               - column:
                   name: name
                   type: varchar(50)
                   constraints:
                     unique: true
+                    uniqueConstraintName: uk_recurrence_status_name
                     nullable: false
         - addAutoIncrement:
             schemaName: calendar
@@ -112,12 +109,14 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     primaryKey: true
+                    primaryKeyName: pk_calendar_info
                     nullable: false
               - column:
                   name: number
                   type: bigint
                   constraints:
                     unique: true
+                    uniqueConstraintName: uk_calendar_info_number
                     nullable: false
               - column:
                   name: calendar_status_id
@@ -180,6 +179,7 @@ databaseChangeLog:
               - column:
                   name: created_at
                   type: datetime
+                  defaultValueComputed: CURRENT_TIMESTAMP
                   constraints:
                     nullable: true
               - column:
@@ -187,8 +187,6 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: true
-                    foreignKeyName: fk_fees_created_by_user
-                    references: security.users(id)
               - column:
                   name: updated_at
                   type: datetime
@@ -199,8 +197,24 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: true
-                    foreignKeyName: fk_fees_updated_by_user
-                    references: security.users(id)
+        - addForeignKeyConstraint:
+            constraintName: fk_calendar_info_created_by_user
+            baseTableSchemaName: calendar
+            baseTableName: calendar_info
+            baseColumnNames: created_by
+            referencedTableSchemaName: security
+            referencedTableName: users
+            referencedColumnNames: id
+            onDelete: "SET NULL"
+        - addForeignKeyConstraint:
+            constraintName: fk_calendar_info_updated_by_user
+            baseTableSchemaName: calendar
+            baseTableName: calendar_info
+            baseColumnNames: updated_by
+            referencedTableSchemaName: security
+            referencedTableName: users
+            referencedColumnNames: id
+            onDelete: "SET NULL"
         - addAutoIncrement:
             schemaName: calendar
             tableName: calendar_info
@@ -208,14 +222,6 @@ databaseChangeLog:
             columnDataType: bigint
             incrementBy: 1
             startWith: 1
-        - createIndex:
-            schemaName: calendar
-            tableName: calendar_info
-            indexName: idx_calendar_info_number
-            columns:
-              - column:
-                  name: number
-
         - createTable:
             schemaName: calendar
             tableName: calendar_dates
@@ -225,6 +231,7 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     primaryKey: true
+                    primaryKeyName: pk_calendar_dates
                     nullable: false
               - column:
                   name: start_date
@@ -240,6 +247,7 @@ databaseChangeLog:
               - column:
                   name: created_at
                   type: datetime
+                  defaultValueComputed: CURRENT_TIMESTAMP
                   constraints:
                     nullable: true
               - column:
@@ -247,8 +255,6 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: true
-                    foreignKeyName: fk_fees_created_by_user
-                    references: security.users(id)
               - column:
                   name: updated_at
                   type: datetime
@@ -259,8 +265,24 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: true
-                    foreignKeyName: fk_fees_updated_by_user
-                    references: security.users(id)
+        - addForeignKeyConstraint:
+            constraintName: fk_calendar_dates_created_by_user
+            baseTableSchemaName: calendar
+            baseTableName: calendar_dates
+            baseColumnNames: created_by
+            referencedTableSchemaName: security
+            referencedTableName: users
+            referencedColumnNames: id
+            onDelete: "SET NULL"
+        - addForeignKeyConstraint:
+            constraintName: fk_calendar_dates_updated_by_user
+            baseTableSchemaName: calendar
+            baseTableName: calendar_dates
+            baseColumnNames: updated_by
+            referencedTableSchemaName: security
+            referencedTableName: users
+            referencedColumnNames: id
+            onDelete: "SET NULL"
         - addAutoIncrement:
             schemaName: calendar
             tableName: calendar_dates

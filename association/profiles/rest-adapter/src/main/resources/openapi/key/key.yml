@@ -9,5 +9,9 @@ servers:
 paths:
   /profile/key:
     $ref: paths/keys.yml
+  /profile/key/assignments:
+    $ref: paths/key_assignments.yml
+  /profile/key/assignments/{number}:
+    $ref: paths/key_assignments_by_id.yml
   /profile/key/{number}:
     $ref: paths/keys_by_id.yml

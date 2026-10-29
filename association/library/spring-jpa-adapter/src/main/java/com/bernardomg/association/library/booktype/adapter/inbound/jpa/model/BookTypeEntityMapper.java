@@ -25,6 +25,10 @@
 package com.bernardomg.association.library.booktype.adapter.inbound.jpa.model;
 
 import com.bernardomg.association.library.booktype.domain.model.BookType;
+import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditMetadata;
+import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditUserEntity;
+import com.bernardomg.security.domain.audit.model.AuditDetails;
+import com.bernardomg.security.domain.audit.model.AuditDetails.AuditUser;
 
 /**
  * Author repository mapper.
@@ -32,7 +36,7 @@ import com.bernardomg.association.library.booktype.domain.model.BookType;
 public final class BookTypeEntityMapper {
 
     public static final BookType toDomain(final BookTypeEntity entity) {
-        return new BookType(entity.getNumber(), entity.getName());
+        return new BookType(entity.getNumber(), entity.getName(), toDomain(entity.getAudit()));
     }
 
     public static final BookTypeEntity toEntity(final BookType domain) {
@@ -43,6 +47,31 @@ public final class BookTypeEntityMapper {
         entity.setName(domain.name());
 
         return entity;
+    }
+
+    private static final AuditUser toAuditDomain(final AuditUserEntity user) {
+        final AuditUser auditUser;
+
+        if (user == null) {
+            auditUser = null;
+        } else {
+            auditUser = new AuditUser(user.getEmail(), user.getUsername(), user.getName());
+        }
+
+        return auditUser;
+    }
+
+    private static final AuditDetails toDomain(final AuditMetadata audit) {
+        final AuditDetails auditDetails;
+
+        if (audit == null) {
+            auditDetails = new AuditDetails();
+        } else {
+            auditDetails = new AuditDetails(audit.getCreatedAt(), toAuditDomain(audit.getCreatedBy()),
+                audit.getUpdatedAt(), toAuditDomain(audit.getUpdatedBy()));
+        }
+
+        return auditDetails;
     }
 
     private BookTypeEntityMapper() {

@@ -39,9 +39,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.association.fee.domain.exception.MissingFeeTypeException;
 import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
-import com.bernardomg.association.key.domain.exception.MissingKeyException;
-import com.bernardomg.association.key.domain.repository.KeyRepository;
-import com.bernardomg.association.key.test.configuration.factory.KeyConstants;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberContactMethodRepository;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
@@ -59,9 +56,6 @@ class TestMemberServiceCreate {
 
     @Mock
     private FeeTypeRepository             feeTypeRepository;
-
-    @Mock
-    private KeyRepository                 keyRepository;
 
     @Mock
     private MemberContactMethodRepository memberContactMethodRepository;
@@ -133,25 +127,6 @@ class TestMemberServiceCreate {
         // THEN
         ValidationAssertions.assertThatFieldFails(execution,
             new FieldFailure("existing", "identifier", MemberConstants.IDENTIFIER));
-    }
-
-    @Test
-    @DisplayName("With a missing key, an exception is thrown")
-    void testCreate_KeyMissing() {
-        final Member           member;
-        final ThrowingCallable execution;
-
-        // GIVEN
-        member = Members.withKey();
-        given(feeTypeRepository.exists(FeeConstants.FEE_TYPE_NUMBER)).willReturn(true);
-        given(keyRepository.exists(KeyConstants.NUMBER)).willReturn(false);
-
-        // WHEN
-        execution = () -> service.create(member);
-
-        // THEN
-        Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingKeyException.class);
     }
 
     @Test
