@@ -24,9 +24,6 @@
 
 package com.bernardomg.association.transaction.adapter.outbound.rest.model;
 
-import java.time.Instant;
-import java.time.YearMonth;
-import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,6 +34,7 @@ import com.bernardomg.association.transaction.adapter.outbound.rest.dto.Property
 import com.bernardomg.association.transaction.adapter.outbound.rest.dto.SortingDto;
 import com.bernardomg.association.transaction.adapter.outbound.rest.dto.TransactionCreationDto;
 import com.bernardomg.association.transaction.adapter.outbound.rest.dto.TransactionDto;
+import com.bernardomg.association.transaction.adapter.outbound.rest.dto.TransactionMonthDto;
 import com.bernardomg.association.transaction.adapter.outbound.rest.dto.TransactionMonthsRangeDto;
 import com.bernardomg.association.transaction.adapter.outbound.rest.dto.TransactionMonthsRangeResponseDto;
 import com.bernardomg.association.transaction.adapter.outbound.rest.dto.TransactionPageResponseDto;
@@ -95,12 +93,13 @@ public final class TransactionDtoMapper {
     }
 
     public static final TransactionMonthsRangeResponseDto toResponseDto(final TransactionMonthsRange range) {
-        final TransactionMonthsRangeDto rangeDto;
-        final List<Instant>             months;
+        final TransactionMonthsRangeDto  rangeDto;
+        final List<TransactionMonthDto>  months;
 
         months = range.months()
             .stream()
-            .map(TransactionDtoMapper::toInstant)
+            .map(m -> new TransactionMonthDto().year(m.getYear())
+                .month(m.getMonthValue()))
             .toList();
 
         rangeDto = new TransactionMonthsRangeDto().months(months);
@@ -161,12 +160,6 @@ public final class TransactionDtoMapper {
             .amount(transaction.amount())
             .description(transaction.description())
             .audit(toDto(transaction.audit()));
-    }
-
-    private static final Instant toInstant(final YearMonth month) {
-        return month.atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant();
     }
 
     private TransactionDtoMapper() {
