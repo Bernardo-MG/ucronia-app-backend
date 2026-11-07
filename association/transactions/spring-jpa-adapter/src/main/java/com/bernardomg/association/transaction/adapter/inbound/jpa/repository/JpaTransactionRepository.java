@@ -200,7 +200,7 @@ public final class JpaTransactionRepository implements TransactionRepository {
 
         if (transaction.transactionType()
             .isEmpty()) {
-            existing.ifPresent(value -> entity.setTransactionType(value.getTransactionType()));
+            existing.ifPresent(value -> entity.setTransactionType(null));
         } else {
             typeNumber = transaction.transactionType()
                 .get();

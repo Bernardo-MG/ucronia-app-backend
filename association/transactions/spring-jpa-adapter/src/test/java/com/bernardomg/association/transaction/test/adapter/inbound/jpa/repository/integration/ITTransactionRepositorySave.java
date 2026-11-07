@@ -181,8 +181,6 @@ class ITTransactionRepositorySave {
             .first()
             .extracting(TransactionEntity::getTransactionType)
             .as("persisted transaction type")
-            .extracting(TransactionTypeEntity::getNumber)
-            .as("persisted transaction type number")
             .isNull();
     }
 
