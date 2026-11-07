@@ -160,7 +160,7 @@ public final class DefaultTransactionService implements TransactionService {
         }
 
         toUpdate = new Transaction(transaction.index(), transaction.date(), transaction.amount(),
-            transaction.description());
+            transaction.description(), transaction.transactionType(), transaction.audit());
 
         validatorUpdate.validate(toUpdate);
 
