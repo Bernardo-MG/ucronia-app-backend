@@ -5,8 +5,10 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneOffset;
+import java.util.Optional;
 
 import com.bernardomg.association.transaction.domain.model.Transaction;
+import com.bernardomg.security.domain.audit.model.AuditDetails;
 
 public final class Transactions {
 
@@ -62,6 +64,11 @@ public final class Transactions {
     public static final Transaction toCreate() {
         return new Transaction(0, TransactionConstants.DATE, TransactionConstants.AMOUNT,
             TransactionConstants.DESCRIPTION);
+    }
+
+    public static final Transaction withType() {
+        return new Transaction(TransactionConstants.INDEX, TransactionConstants.DATE, TransactionConstants.AMOUNT,
+            TransactionConstants.DESCRIPTION, Optional.of( TransactionTypeConstants.NUMBER), new AuditDetails());
     }
 
     private Transactions() {

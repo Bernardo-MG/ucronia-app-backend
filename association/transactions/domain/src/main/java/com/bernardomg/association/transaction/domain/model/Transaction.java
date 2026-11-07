@@ -54,7 +54,7 @@ public record Transaction(long index, Instant date, float amount, String descrip
 
     public Transaction(final long index, final Instant date, final float amount, final String description,
             final AuditDetails audit) {
-        this(index, date, amount, description, null, audit);
+        this(index, date, amount, description, Optional.empty(), audit);
     }
 
     public Transaction(final long index, final Instant date, final float amount, final String description) {
