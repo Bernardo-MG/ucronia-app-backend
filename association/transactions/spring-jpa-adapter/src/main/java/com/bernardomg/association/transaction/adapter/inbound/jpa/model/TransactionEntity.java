@@ -38,6 +38,8 @@ import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
@@ -47,27 +49,31 @@ import jakarta.persistence.Transient;
 public class TransactionEntity implements Serializable {
 
     @Transient
-    private static final long serialVersionUID = 4603617058960663867L;
+    private static final long     serialVersionUID = 4603617058960663867L;
 
     @Column(name = "amount", nullable = false)
-    private Float             amount;
+    private Float                 amount;
 
     @Embedded
-    private AuditMetadata     audit            = new AuditMetadata();
+    private AuditMetadata         audit            = new AuditMetadata();
 
     @Column(name = "date", nullable = false)
-    private Instant           date;
+    private Instant               date;
 
     @Column(name = "description", length = 200)
-    private String            description;
+    private String                description;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
-    private Long              id;
+    private Long                  id;
 
     @Column(name = "index", nullable = false, unique = true)
-    private Long              index;
+    private Long                  index;
+
+    @ManyToOne
+    @JoinColumn(name = "transaction_type_id")
+    private TransactionTypeEntity transactionType;
 
     public Float getAmount() {
         return amount;
@@ -93,6 +99,10 @@ public class TransactionEntity implements Serializable {
         return index;
     }
 
+    public TransactionTypeEntity getTransactionType() {
+        return transactionType;
+    }
+
     public void setAmount(final Float amount) {
         this.amount = amount;
     }
@@ -115,6 +125,10 @@ public class TransactionEntity implements Serializable {
 
     public void setIndex(final Long index) {
         this.index = index;
+    }
+
+    public void setTransactionType(final TransactionTypeEntity transactionType) {
+        this.transactionType = transactionType;
     }
 
     @Override

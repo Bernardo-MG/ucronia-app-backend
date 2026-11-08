@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.transaction.adapter.inbound.jpa.model;
 
+import java.util.Optional;
+
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditMetadata;
 import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditUserEntity;
@@ -36,11 +38,19 @@ import com.bernardomg.security.domain.audit.model.AuditDetails.AuditUser;
 public final class TransactionEntityMapper {
 
     public static final Transaction toDomain(final TransactionEntity transaction) {
-        final AuditDetails audit;
+        final AuditDetails   audit;
+        final Optional<Long> transactionType;
+
+        if (transaction.getTransactionType() == null) {
+            transactionType = Optional.empty();
+        } else {
+            transactionType = Optional.ofNullable(transaction.getTransactionType()
+                .getNumber());
+        }
 
         audit = toDomain(transaction.getAudit());
         return new Transaction(transaction.getIndex(), transaction.getDate(), transaction.getAmount(),
-            transaction.getDescription(), audit);
+            transaction.getDescription(), transactionType, audit);
     }
 
     public static final TransactionEntity toEntity(final Transaction transaction) {

@@ -1,6 +1,8 @@
 
 package com.bernardomg.association.transaction.test.adapter.inbound.jpa.repository.integration;
 
+import java.util.List;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,10 +13,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.transaction.TestApplication;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
+import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionTypeEntity;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.repository.TransactionSpringRepository;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.repository.TransactionRepository;
 import com.bernardomg.association.transaction.test.configuration.data.annotation.PositiveTransaction;
+import com.bernardomg.association.transaction.test.configuration.data.annotation.TransactionWithType;
+import com.bernardomg.association.transaction.test.configuration.data.annotation.ValidTransactionType;
+import com.bernardomg.association.transaction.test.configuration.factory.TransactionTypeConstants;
 import com.bernardomg.association.transaction.test.configuration.factory.Transactions;
 import com.bernardomg.association.transaction.test.factory.TransactionEntities;
 import com.bernardomg.test.annotation.IntegrationTest;
@@ -30,6 +36,48 @@ class ITTransactionRepositorySave {
 
     @Autowired
     private TransactionSpringRepository springRepository;
+
+    @Test
+    @ValidTransactionType
+    @DisplayName("When saving a transaction with type, the type is persisted")
+    void testSave_AssignsType_Persisted() {
+        final List<TransactionEntity> transactions;
+
+        // WHEN
+        repository.save(Transactions.withType());
+
+        // THEN
+        transactions = springRepository.findAll();
+
+        Assertions.assertThat(transactions)
+            .as("transactions")
+            .hasSize(1)
+            .first()
+            .extracting(TransactionEntity::getTransactionType)
+            .as("persisted transaction type")
+            .extracting(TransactionTypeEntity::getNumber)
+            .as("persisted transaction type number")
+            .isEqualTo(TransactionTypeConstants.NUMBER);
+    }
+
+    @Test
+    @ValidTransactionType
+    @DisplayName("When saving a transaction with type, the type is returned")
+    void testSave_AssignsType_Returned() {
+        final Transaction transaction;
+        final Transaction created;
+
+        // GIVEN
+        transaction = Transactions.withType();
+
+        // WHEN
+        created = repository.save(transaction);
+
+        // THEN
+        Assertions.assertThat(created.transactionType())
+            .as("returned transaction type")
+            .contains(TransactionTypeConstants.NUMBER);
+    }
 
     @ParameterizedTest(name = "Amount: {0}")
     @ArgumentsSource(DecimalArgumentsProvider.class)
@@ -112,6 +160,28 @@ class ITTransactionRepositorySave {
         Assertions.assertThat(created)
             .as("created")
             .isEqualTo(Transactions.positive());
+    }
+
+    @Test
+    @ValidTransactionType
+    @TransactionWithType
+    @DisplayName("When saving a transaction removing the type, it is removed")
+    void testSave_Existing_ClearsType() {
+        final List<TransactionEntity> transactions;
+
+        // WHEN
+        repository.save(Transactions.positive());
+
+        // THEN
+        transactions = springRepository.findAll();
+
+        Assertions.assertThat(transactions)
+            .as("transactions")
+            .hasSize(1)
+            .first()
+            .extracting(TransactionEntity::getTransactionType)
+            .as("persisted transaction type")
+            .isNull();
     }
 
     @Test

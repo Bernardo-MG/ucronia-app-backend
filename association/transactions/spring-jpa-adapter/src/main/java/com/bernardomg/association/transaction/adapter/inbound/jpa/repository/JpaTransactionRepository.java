@@ -38,6 +38,7 @@ import org.springframework.data.jpa.domain.Specification;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntity;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.model.TransactionEntityMapper;
 import com.bernardomg.association.transaction.adapter.inbound.jpa.specification.TransactionSpecifications;
+import com.bernardomg.association.transaction.domain.exception.MissingTransactionTypeException;
 import com.bernardomg.association.transaction.domain.filter.TransactionFilter;
 import com.bernardomg.association.transaction.domain.model.Transaction;
 import com.bernardomg.association.transaction.domain.model.TransactionMonthsRange;
@@ -53,14 +54,18 @@ public final class JpaTransactionRepository implements TransactionRepository {
     /**
      * Logger for the class.
      */
-    private static final Logger               log = LoggerFactory.getLogger(JpaTransactionRepository.class);
+    private static final Logger                   log = LoggerFactory.getLogger(JpaTransactionRepository.class);
 
-    private final TransactionSpringRepository transactionSpringRepository;
+    private final TransactionSpringRepository     transactionSpringRepository;
 
-    public JpaTransactionRepository(final TransactionSpringRepository transactionRepo) {
+    private final TransactionTypeSpringRepository transactionTypeSpringRepository;
+
+    public JpaTransactionRepository(final TransactionSpringRepository transactionRepo,
+            final TransactionTypeSpringRepository transactionTypeRepo) {
         super();
 
         transactionSpringRepository = Objects.requireNonNull(transactionRepo);
+        transactionTypeSpringRepository = Objects.requireNonNull(transactionTypeRepo);
     }
 
     @Override
@@ -178,6 +183,7 @@ public final class JpaTransactionRepository implements TransactionRepository {
         final TransactionEntity           created;
         final Transaction                 saved;
         final Long                        index;
+        final Long                        typeNumber;
 
         log.debug("Saving transaction {}", transaction);
 
@@ -190,6 +196,16 @@ public final class JpaTransactionRepository implements TransactionRepository {
         } else {
             index = transactionSpringRepository.findNextIndex();
             entity.setIndex(index);
+        }
+
+        if (transaction.transactionType()
+            .isEmpty()) {
+            existing.ifPresent(value -> entity.setTransactionType(null));
+        } else {
+            typeNumber = transaction.transactionType()
+                .get();
+            entity.setTransactionType(transactionTypeSpringRepository.findByNumber(typeNumber)
+                .orElseThrow(() -> new MissingTransactionTypeException(typeNumber)));
         }
 
         created = transactionSpringRepository.save(entity);
