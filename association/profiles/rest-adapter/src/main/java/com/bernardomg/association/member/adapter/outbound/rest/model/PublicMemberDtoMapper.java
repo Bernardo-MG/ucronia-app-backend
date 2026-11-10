@@ -24,8 +24,6 @@
 
 package com.bernardomg.association.member.adapter.outbound.rest.model;
 
-import java.time.YearMonth;
-import java.time.ZoneOffset;
 import java.util.Optional;
 
 import com.bernardomg.association.member.adapter.outbound.rest.dto.NameDto;
@@ -98,8 +96,6 @@ public final class PublicMemberDtoMapper {
             .name(profileName)
             .renew(member.renew())
             .joined(member.joined()
-                .map(month -> YearMonth.from(month.atZone(ZoneOffset.UTC))
-                    .toString())
                 .orElse(null))
             .totalMonths(member.totalMonths());
     }

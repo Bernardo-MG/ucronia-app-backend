@@ -91,7 +91,7 @@ class TestPublicMemberController {
         // WHEN + THEN
         mockMvc.perform(get("/member").contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.content[0].joined").value("2024-01"))
+            .andExpect(jsonPath("$.content[0].joined").value("2024-01-01T00:00:00Z"))
             .andExpect(jsonPath("$.content[0].totalMonths").value(3));
     }
 
@@ -108,7 +108,7 @@ class TestPublicMemberController {
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.content.number").value((int) MemberConstants.NUMBER))
             .andExpect(jsonPath("$.content.memberNumber").value((int) MemberConstants.MEMBER_NUMBER))
-            .andExpect(jsonPath("$.content.joined").value("2024-01"))
+            .andExpect(jsonPath("$.content.joined").value("2024-01-01T00:00:00Z"))
             .andExpect(jsonPath("$.content.totalMonths").value(3));
     }
 
