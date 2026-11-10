@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.member.test.configuration.factory;
 
+import java.time.Instant;
 import java.util.Optional;
 
 import com.bernardomg.association.member.domain.model.PublicMember;
@@ -36,6 +37,21 @@ public final class PublicMembers {
 
         name = new Name(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME, Optional.empty());
         return new PublicMember(MemberConstants.NUMBER, MemberConstants.MEMBER_NUMBER, name, true);
+    }
+
+    public static final PublicMember withMembership(final Instant joined, final long totalMonths) {
+        final Name name;
+
+        name = new Name(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME, Optional.empty());
+        return new PublicMember(MemberConstants.NUMBER, MemberConstants.MEMBER_NUMBER, name, true,
+            Optional.ofNullable(joined), totalMonths);
+    }
+
+    public static final PublicMember withMembership(final long number, final Instant joined, final long totalMonths) {
+        final Name name;
+
+        name = new Name("Name " + number, "Last name " + number, Optional.empty());
+        return new PublicMember(number * 10, number * 10, name, true, Optional.ofNullable(joined), totalMonths);
     }
 
     private PublicMembers() {

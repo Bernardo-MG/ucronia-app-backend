@@ -74,15 +74,34 @@ class TestPublicMemberController {
     }
 
     @Test
-    @DisplayName("The public member response contains its numbers")
-    void testGetPublicMemberByNumber() throws Exception {
-        final PublicMember member;
+    @DisplayName("The public member list contains the joined month and total paid months")
+    void testGetAllPublicMembers_PaidMembership() throws Exception {
+        final Page<PublicMember> existing;
+        final Pagination         pagination;
+        final Sorting            sorting;
+        final PublicMember       member;
 
         // GIVEN
-        member = PublicMembers.valid();
+        pagination = new Pagination(1, 10);
+        sorting = Sorting.unsorted();
+        member = PublicMembers.withMembership(Instant.parse("2024-01-01T00:00:00Z"), 3L);
+        existing = new Page<>(List.of(member), 1, 1, 1, 1, 1, true, true, sorting);
+        given(service.getAll(PublicMemberFilters.empty(), pagination, sorting)).willReturn(existing);
+
+        // WHEN + THEN
+        mockMvc.perform(get("/member").contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.content[0].joined").value("2024-01"))
+            .andExpect(jsonPath("$.content[0].totalMonths").value(3));
+    }
+
+    @Test
+    @DisplayName("The public member response contains its numbers")
+    void testGetPublicMemberByNumber() throws Exception {
+
+        // GIVEN
         given(service.getOne(MemberConstants.NUMBER))
-            .willReturn(Optional.of(new PublicMember(member.number(), member.memberNumber(), member.name(),
-                member.renew(), Optional.of(Instant.parse("2024-01-01T00:00:00Z")), 3L)));
+            .willReturn(Optional.of(PublicMembers.withMembership(Instant.parse("2024-01-01T00:00:00Z"), 3L)));
 
         // WHEN + THEN
         mockMvc.perform(get("/member/{number}", MemberConstants.NUMBER).contentType(MediaType.APPLICATION_JSON))
@@ -91,6 +110,19 @@ class TestPublicMemberController {
             .andExpect(jsonPath("$.content.memberNumber").value((int) MemberConstants.MEMBER_NUMBER))
             .andExpect(jsonPath("$.content.joined").value("2024-01"))
             .andExpect(jsonPath("$.content.totalMonths").value(3));
+    }
+
+    @Test
+    @DisplayName("With no paid fees, the public member has no joined month and zero total months")
+    void testGetPublicMemberByNumber_NoPaidFees() throws Exception {
+        // GIVEN
+        given(service.getOne(MemberConstants.NUMBER)).willReturn(Optional.of(PublicMembers.valid()));
+
+        // WHEN + THEN
+        mockMvc.perform(get("/member/{number}", MemberConstants.NUMBER).contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.content.joined").doesNotExist())
+            .andExpect(jsonPath("$.content.totalMonths").value(0));
     }
 
 }

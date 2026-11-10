@@ -32,13 +32,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.TestApplication;
+import com.bernardomg.association.fee.test.configuration.data.annotation.MultipleFees;
+import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFeesWithGaps;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
+import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.member.domain.filter.PublicMemberFilter;
 import com.bernardomg.association.member.domain.model.PublicMember;
 import com.bernardomg.association.member.domain.repository.PublicMemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveToNotRenewMember;
 import com.bernardomg.association.member.test.configuration.data.annotation.InactiveMember;
+import com.bernardomg.association.member.test.configuration.data.annotation.MultipleActiveMember;
 import com.bernardomg.association.member.test.configuration.factory.PublicMemberFilters;
 import com.bernardomg.association.member.test.configuration.factory.PublicMembers;
 import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
@@ -151,6 +155,61 @@ class ITPublicMemberRepositoryFindAll {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(PublicMembers.noRenew());
+    }
+
+    @Test
+    @DisplayName("With fees for several members, the data is returned")
+    @PositiveFeeType
+    @MultipleActiveMember
+    @MultipleFees
+    void testFindAll_PaidPerMember() {
+        final Page<PublicMember> members;
+        final Pagination         pagination;
+        final Sorting            sorting;
+        final PublicMemberFilter filter;
+
+        // GIVEN
+        pagination = new Pagination(1, 100);
+        sorting = Sorting.unsorted();
+        filter = PublicMemberFilters.empty();
+
+        // WHEN
+        members = repository.findAll(filter, pagination, sorting);
+
+        // THEN
+        Assertions.assertThat(members)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .containsExactly(PublicMembers.withMembership(1, FeeConstants.FEBRUARY_DATE, 1L),
+                PublicMembers.withMembership(2, FeeConstants.MARCH_DATE, 1L),
+                PublicMembers.withMembership(3, FeeConstants.APRIL_DATE, 1L),
+                PublicMembers.withMembership(4, FeeConstants.MAY_DATE, 1L), PublicMembers.forNumber(5));
+    }
+
+    @Test
+    @DisplayName("With paid fees separated by gaps, the data is returned")
+    @PositiveFeeType
+    @ActiveMember
+    @PaidFeesWithGaps
+    void testFindAll_PaidWithGaps() {
+        final Page<PublicMember> members;
+        final Pagination         pagination;
+        final Sorting            sorting;
+        final PublicMemberFilter filter;
+
+        // GIVEN
+        pagination = new Pagination(1, 100);
+        sorting = Sorting.unsorted();
+        filter = PublicMemberFilters.empty();
+
+        // WHEN
+        members = repository.findAll(filter, pagination, sorting);
+
+        // THEN
+        Assertions.assertThat(members)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .containsExactly(PublicMembers.withMembership(FeeConstants.FEBRUARY_DATE, 2L));
     }
 
     @Test
