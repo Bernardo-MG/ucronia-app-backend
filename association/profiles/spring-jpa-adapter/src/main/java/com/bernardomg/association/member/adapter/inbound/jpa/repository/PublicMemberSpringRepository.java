@@ -24,13 +24,17 @@
 
 package com.bernardomg.association.member.adapter.inbound.jpa.repository;
 
+import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
+import com.bernardomg.association.member.adapter.inbound.jpa.model.PaidMembership;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.PublicMemberEntity;
 
 public interface PublicMemberSpringRepository
@@ -45,5 +49,14 @@ public interface PublicMemberSpringRepository
     public Optional<PublicMemberEntity> findByNumber(final Long number);
 
     public Optional<PublicMemberEntity> findByNumberAndActiveTrue(final Long number);
+
+    // The fee schema permits only one fee per member and calendar month.
+    @Query("""
+            SELECT f.member.number AS number, MIN(f.month) AS joined, COUNT(f) AS totalMonths
+            FROM Fee f
+            WHERE f.member.number IN :numbers AND f.paid = TRUE
+            GROUP BY f.member.number
+            """)
+    public Collection<PaidMembership> findPaidMembership(@Param("numbers") final Collection<Long> numbers);
 
 }

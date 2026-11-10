@@ -25,8 +25,12 @@
 package com.bernardomg.association.member.adapter.inbound.jpa.repository;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +38,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.association.member.adapter.inbound.jpa.model.PaidMembership;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.PublicMemberEntity;
 import com.bernardomg.association.member.adapter.inbound.jpa.model.PublicMemberEntityMapper;
 import com.bernardomg.association.member.adapter.inbound.jpa.specification.PublicMemberSpecifications;
@@ -65,10 +70,12 @@ public final class JpaPublicMemberRepository implements PublicMemberRepository {
     @Override
     public final Page<PublicMember> findAll(final PublicMemberFilter filter, final Pagination pagination,
             final Sorting sorting) {
-        final org.springframework.data.domain.Page<PublicMember> read;
-        final Pageable                                           pageable;
-        final Optional<Specification<PublicMemberEntity>>        spec;
-        final Sorting                                            fixedSorting;
+        final org.springframework.data.domain.Page<PublicMemberEntity> read;
+        final Pageable                                                 pageable;
+        final Optional<Specification<PublicMemberEntity>>              spec;
+        final Sorting                                                  fixedSorting;
+        final List<Long>                                               numbers;
+        final Map<Long, PaidMembership>                                paid;
 
         log.debug("Finding all the members with filter {}, pagination {} and sorting {}", filter, pagination, sorting);
 
@@ -76,17 +83,28 @@ public final class JpaPublicMemberRepository implements PublicMemberRepository {
         pageable = SpringPagination.toPageable(pagination, fixedSorting);
         spec = PublicMemberSpecifications.filter(filter);
         if (spec.isEmpty()) {
-            read = publicMemberSpringRepository.findAllByActiveTrue(pageable)
-                .map(PublicMemberEntityMapper::toDomain);
+            read = publicMemberSpringRepository.findAllByActiveTrue(pageable);
         } else {
-            read = publicMemberSpringRepository.findAll(spec.get(), pageable)
-                .map(PublicMemberEntityMapper::toDomain);
+            read = publicMemberSpringRepository.findAll(spec.get(), pageable);
         }
 
         log.debug("Found all the members with filter {}, pagination {} and sorting {}: {}", filter, pagination,
             fixedSorting, read);
 
-        return SpringPagination.toPage(read);
+        numbers = read.getContent()
+            .stream()
+            .map(PublicMemberEntity::getNumber)
+            .toList();
+        if (numbers.isEmpty()) {
+            paid = Map.of();
+        } else {
+            paid = publicMemberSpringRepository.findPaidMembership(numbers)
+                .stream()
+                .collect(Collectors.toMap(PaidMembership::getNumber, Function.identity()));
+        }
+
+        return SpringPagination
+            .toPage(read.map(entity -> PublicMemberEntityMapper.toDomain(entity, paid.get(entity.getNumber()))));
     }
 
     @Override
@@ -96,7 +114,11 @@ public final class JpaPublicMemberRepository implements PublicMemberRepository {
         log.trace("Finding member with number {}", number);
 
         member = publicMemberSpringRepository.findByNumberAndActiveTrue(number)
-            .map(PublicMemberEntityMapper::toDomain);
+            .map(entity -> PublicMemberEntityMapper.toDomain(entity,
+                publicMemberSpringRepository.findPaidMembership(List.of(number))
+                    .stream()
+                    .findFirst()
+                    .orElse(null)));
 
         log.trace("Found member with number {}: {}", number, member);
 

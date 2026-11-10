@@ -24,22 +24,25 @@
 
 package com.bernardomg.association.member.domain.model;
 
+import java.time.Instant;
 import java.util.Objects;
+import java.util.Optional;
 
 import com.bernardomg.association.profile.domain.model.Name;
 
-public record PublicMember(Long number, Long memberNumber, Name name, boolean renew) {
+public record PublicMember(Long number, Long memberNumber, Name name, boolean renew, Optional<Instant> joined,
+        long totalMonths) {
 
-    public PublicMember(final Long number, final Long memberNumber, final Name name, final boolean renew) {
+    public PublicMember {
         Objects.requireNonNull(number, "Profile number can't be null");
         Objects.requireNonNull(memberNumber, "Member number can't be null");
         Objects.requireNonNull(name, "Name can't be null");
-        Objects.requireNonNull(renew, "Renew flag can't be null");
+        Objects.requireNonNull(joined, "Joined can't be null");
+        Objects.requireNonNull(totalMonths, "Total months can't be null");
+    }
 
-        this.number = number;
-        this.memberNumber = memberNumber;
-        this.name = name;
-        this.renew = renew;
+    public PublicMember(final Long number, final Long memberNumber, final Name name, final boolean renew) {
+        this(number, memberNumber, name, renew, Optional.empty(), 0L);
     }
 
 }

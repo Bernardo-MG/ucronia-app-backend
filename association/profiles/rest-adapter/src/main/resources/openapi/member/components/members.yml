@@ -58,6 +58,15 @@ components:
         renew:
           type: boolean
           description: Whether the member is eligible for renewal.
+        joined:
+          type: string
+          example: '2024-01'
+          description: Earliest month covered by a paid fee, in YYYY-MM.
+        totalMonths:
+          type: integer
+          format: int64
+          minimum: 0
+          description: Number of months covered by paid fees.
     Member:
       type: object
       required: [number, memberNumber, name]

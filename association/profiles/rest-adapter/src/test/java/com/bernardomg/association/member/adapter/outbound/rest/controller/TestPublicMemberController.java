@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -75,14 +76,21 @@ class TestPublicMemberController {
     @Test
     @DisplayName("The public member response contains its numbers")
     void testGetPublicMemberByNumber() throws Exception {
+        final PublicMember member;
+
         // GIVEN
-        given(service.getOne(MemberConstants.NUMBER)).willReturn(Optional.of(PublicMembers.valid()));
+        member = PublicMembers.valid();
+        given(service.getOne(MemberConstants.NUMBER))
+            .willReturn(Optional.of(new PublicMember(member.number(), member.memberNumber(), member.name(),
+                member.renew(), Optional.of(Instant.parse("2024-01-01T00:00:00Z")), 3L)));
 
         // WHEN + THEN
         mockMvc.perform(get("/member/{number}", MemberConstants.NUMBER).contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.content.number").value((int) MemberConstants.NUMBER))
-            .andExpect(jsonPath("$.content.memberNumber").value((int) MemberConstants.MEMBER_NUMBER));
+            .andExpect(jsonPath("$.content.memberNumber").value((int) MemberConstants.MEMBER_NUMBER))
+            .andExpect(jsonPath("$.content.joined").value("2024-01"))
+            .andExpect(jsonPath("$.content.totalMonths").value(3));
     }
 
 }
