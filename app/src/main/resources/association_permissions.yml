@@ -119,6 +119,9 @@ permissions:
   - resource: member
     actions:
       - read
+  - resource: inactive_member
+    actions:
+      - read
   - resource: member_profile
     actions:
       - create

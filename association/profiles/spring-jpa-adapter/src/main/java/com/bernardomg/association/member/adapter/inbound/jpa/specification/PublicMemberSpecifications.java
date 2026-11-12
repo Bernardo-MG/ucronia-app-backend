@@ -49,7 +49,11 @@ public final class PublicMemberSpecifications {
                 .get()));
         }
 
-        activeSpec = Optional.of(active());
+        activeSpec = switch (filter.status()) {
+            case ACTIVE -> Optional.of(active(true));
+            case INACTIVE -> Optional.of(active(false));
+            case ALL -> Optional.empty();
+        };
 
         return List.of(nameSpec, activeSpec)
             .stream()
@@ -58,8 +62,8 @@ public final class PublicMemberSpecifications {
             .reduce((BinaryOperator<Specification<PublicMemberEntity>>) Specification::and);
     }
 
-    private static Specification<PublicMemberEntity> active() {
-        return (root, query, cb) -> cb.isTrue(root.get("active"));
+    private static Specification<PublicMemberEntity> active(final boolean active) {
+        return (root, query, cb) -> cb.equal(root.get("active"), active);
     }
 
     /**

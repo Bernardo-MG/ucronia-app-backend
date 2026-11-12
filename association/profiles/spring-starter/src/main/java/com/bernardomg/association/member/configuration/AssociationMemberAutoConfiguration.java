@@ -42,6 +42,7 @@ import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberCo
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.PublicMemberSpringRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.ReadMemberSpringRepository;
+import com.bernardomg.association.member.adapter.outbound.rest.security.PublicMemberStatusAuthorizer;
 import com.bernardomg.association.member.domain.repository.MemberContactMethodRepository;
 import com.bernardomg.association.member.domain.repository.MemberCountRepository;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
@@ -60,6 +61,7 @@ import com.bernardomg.association.member.usecase.service.MembershipEvolutionServ
 import com.bernardomg.association.member.usecase.service.ProfileMembershipService;
 import com.bernardomg.association.member.usecase.service.PublicMemberService;
 import com.bernardomg.association.profile.domain.repository.ProfileRepository;
+import com.bernardomg.security.springframework.access.interceptor.AuthorityResourcePermissionEvaluator;
 
 @Configuration
 @ComponentScan({ "com.bernardomg.association.member.adapter.outbound.rest.controller",
@@ -141,6 +143,11 @@ public class AssociationMemberAutoConfiguration {
     @Bean("publicMemberRepository")
     public PublicMemberRepository getPublicMemberRepository(final PublicMemberSpringRepository memberSpringRepository) {
         return new JpaPublicMemberRepository(memberSpringRepository);
+    }
+
+    @Bean("publicMemberStatusAuthorizer")
+    public PublicMemberStatusAuthorizer getPublicMemberStatusAuthorizer() {
+        return new PublicMemberStatusAuthorizer(new AuthorityResourcePermissionEvaluator());
     }
 
     @Bean("publicMemberService")

@@ -34,11 +34,14 @@ import com.bernardomg.association.profile.domain.model.Name;
  */
 public final class PublicMemberEntityMapper {
 
-    public static final PublicMember toDomain(final PublicMemberEntity entity) {
+    public static final PublicMember toDomain(final PublicMemberEntity entity, final PaidMembership paid) {
         final Name name;
 
         name = new Name(entity.getFirstName(), entity.getLastName(), Optional.ofNullable(entity.getNickname()));
-        return new PublicMember(entity.getNumber(), entity.getMemberNumber(), name, entity.getRenew());
+        return new PublicMember(entity.getNumber(), entity.getMemberNumber(), name, entity.getRenew(),
+            Optional.ofNullable(paid)
+                .map(PaidMembership::getJoined),
+            paid == null ? 0L : paid.getTotalMonths());
     }
 
     private PublicMemberEntityMapper() {

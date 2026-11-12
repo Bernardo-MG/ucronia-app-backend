@@ -29,10 +29,13 @@ import java.util.Optional;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.association.member.adapter.outbound.rest.dto.MemberStatusDto;
 import com.bernardomg.association.member.adapter.outbound.rest.dto.PublicMemberPageResponseDto;
 import com.bernardomg.association.member.adapter.outbound.rest.dto.PublicMemberResponseDto;
 import com.bernardomg.association.member.adapter.outbound.rest.model.PublicMemberDtoMapper;
+import com.bernardomg.association.member.adapter.outbound.rest.security.PublicMemberStatusAuthorizer;
 import com.bernardomg.association.member.domain.filter.PublicMemberFilter;
+import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.domain.model.PublicMember;
 import com.bernardomg.association.member.usecase.service.PublicMemberService;
 import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
@@ -54,18 +57,22 @@ public class PublicMemberController implements PublicMemberApi {
     /**
      * Member service.
      */
-    private final PublicMemberService service;
+    private final PublicMemberService          service;
 
-    public PublicMemberController(final PublicMemberService service) {
+    private final PublicMemberStatusAuthorizer statusAuthorizer;
+
+    public PublicMemberController(final PublicMemberService service,
+            final PublicMemberStatusAuthorizer statusAuthorizer) {
         super();
 
         this.service = service;
+        this.statusAuthorizer = statusAuthorizer;
     }
 
     @Override
     @RequireResourceAuthorization(resource = "MEMBER", action = Actions.READ)
     public PublicMemberPageResponseDto getAllPublicMembers(final Integer page, final Integer size,
-            final List<String> sort, final String name) {
+            final List<String> sort, final MemberStatusDto status, final String name) {
         final Pagination         pagination;
         final Sorting            sorting;
         final Page<PublicMember> members;
@@ -74,8 +81,13 @@ public class PublicMemberController implements PublicMemberApi {
         pagination = new Pagination(page, size);
         sorting = WebSorting.toSorting(sort);
 
-        filter = new PublicMemberFilter(Optional.ofNullable(name));
+        if (status == null) {
+            filter = new PublicMemberFilter(Optional.ofNullable(name));
+        } else {
+            filter = new PublicMemberFilter(Optional.ofNullable(name), MemberStatus.valueOf(status.name()));
+        }
 
+        statusAuthorizer.checkCanRead(filter.status());
         members = service.getAll(filter, pagination, sorting);
 
         return PublicMemberDtoMapper.toResponseDto(members);

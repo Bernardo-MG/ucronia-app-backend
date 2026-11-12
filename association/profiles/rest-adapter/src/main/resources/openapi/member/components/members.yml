@@ -58,6 +58,13 @@ components:
         renew:
           type: boolean
           description: Whether the member is eligible for renewal.
+        joined:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+        totalMonths:
+          type: integer
+          format: int64
+          minimum: 0
+          description: Number of months covered by paid fees.
     Member:
       type: object
       required: [number, memberNumber, name]

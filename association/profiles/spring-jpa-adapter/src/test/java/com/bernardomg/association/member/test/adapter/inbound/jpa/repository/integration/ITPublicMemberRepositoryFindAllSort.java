@@ -83,6 +83,7 @@ class ITPublicMemberRepositoryFindAllSort {
         Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("joined", "totalMonths")
             .containsExactly(PublicMembers.forNumber(1), PublicMembers.forNumber(2), PublicMembers.forNumber(3),
                 PublicMembers.forNumber(4), PublicMembers.forNumber(5));
     }
@@ -107,6 +108,7 @@ class ITPublicMemberRepositoryFindAllSort {
         Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("joined", "totalMonths")
             .containsExactly(PublicMembers.forNumber(5), PublicMembers.forNumber(4), PublicMembers.forNumber(3),
                 PublicMembers.forNumber(2), PublicMembers.forNumber(1));
     }
@@ -131,6 +133,7 @@ class ITPublicMemberRepositoryFindAllSort {
         Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("joined", "totalMonths")
             .containsExactly(PublicMembers.forNumber(1), PublicMembers.forNumber(2), PublicMembers.forNumber(3),
                 PublicMembers.forNumber(4), PublicMembers.forNumber(5));
     }
@@ -155,6 +158,7 @@ class ITPublicMemberRepositoryFindAllSort {
         Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("joined", "totalMonths")
             .containsExactly(PublicMembers.forNumber(5), PublicMembers.forNumber(4), PublicMembers.forNumber(3),
                 PublicMembers.forNumber(2), PublicMembers.forNumber(1));
     }
