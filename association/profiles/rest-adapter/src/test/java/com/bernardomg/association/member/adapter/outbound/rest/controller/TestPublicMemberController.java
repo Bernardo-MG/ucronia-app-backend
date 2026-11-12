@@ -18,6 +18,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
@@ -30,6 +31,7 @@ import com.bernardomg.association.member.usecase.service.PublicMemberService;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("PublicMemberController")
@@ -42,13 +44,18 @@ class TestPublicMemberController {
 
     @BeforeEach
     void setUp() {
-        final LocalValidatorFactoryBean validator;
+        final LocalValidatorFactoryBean           validator;
+        final MappingJackson2HttpMessageConverter converter;
 
         validator = new LocalValidatorFactoryBean();
         validator.setMessageInterpolator(new ParameterMessageInterpolator());
         validator.afterPropertiesSet();
 
+        converter = new MappingJackson2HttpMessageConverter();
+        converter.getObjectMapper().disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+
         mockMvc = MockMvcBuilders.standaloneSetup(new PublicMemberController(service))
+            .setMessageConverters(converter)
             .setValidator(validator)
             .build();
     }
