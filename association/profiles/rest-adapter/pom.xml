@@ -48,6 +48,10 @@
          <artifactId>access-decorator</artifactId>
       </dependency>
       <dependency>
+         <groupId>com.bernardomg.framework.spring</groupId>
+         <artifactId>spring-ws-security-starter</artifactId>
+      </dependency>
+      <dependency>
          <groupId>com.bernardomg.framework.security</groupId>
          <artifactId>security-model</artifactId>
       </dependency>

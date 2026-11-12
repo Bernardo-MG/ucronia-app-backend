@@ -23,3 +23,5 @@ get:
         application/json:
           schema:
             $ref: '../components/members.yml#/components/schemas/PublicMemberPageResponse'
+    '403':
+      description: Unauthorized.

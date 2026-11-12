@@ -33,6 +33,7 @@ import com.bernardomg.association.member.adapter.outbound.rest.dto.MemberStatusD
 import com.bernardomg.association.member.adapter.outbound.rest.dto.PublicMemberPageResponseDto;
 import com.bernardomg.association.member.adapter.outbound.rest.dto.PublicMemberResponseDto;
 import com.bernardomg.association.member.adapter.outbound.rest.model.PublicMemberDtoMapper;
+import com.bernardomg.association.member.adapter.outbound.rest.security.PublicMemberStatusAuthorizer;
 import com.bernardomg.association.member.domain.filter.PublicMemberFilter;
 import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.domain.model.PublicMember;
@@ -56,12 +57,16 @@ public class PublicMemberController implements PublicMemberApi {
     /**
      * Member service.
      */
-    private final PublicMemberService service;
+    private final PublicMemberService          service;
 
-    public PublicMemberController(final PublicMemberService service) {
+    private final PublicMemberStatusAuthorizer statusAuthorizer;
+
+    public PublicMemberController(final PublicMemberService service,
+            final PublicMemberStatusAuthorizer statusAuthorizer) {
         super();
 
         this.service = service;
+        this.statusAuthorizer = statusAuthorizer;
     }
 
     @Override
@@ -82,6 +87,7 @@ public class PublicMemberController implements PublicMemberApi {
             filter = new PublicMemberFilter(Optional.ofNullable(name), MemberStatus.valueOf(status.name()));
         }
 
+        statusAuthorizer.checkCanRead(filter.status());
         members = service.getAll(filter, pagination, sorting);
 
         return PublicMemberDtoMapper.toResponseDto(members);
