@@ -23,6 +23,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
+import com.bernardomg.association.member.domain.filter.PublicMemberFilter;
+import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.domain.model.PublicMember;
 import com.bernardomg.association.member.test.configuration.factory.MemberConstants;
 import com.bernardomg.association.member.test.configuration.factory.PublicMemberFilters;
@@ -52,7 +54,8 @@ class TestPublicMemberController {
         validator.afterPropertiesSet();
 
         converter = new MappingJackson2HttpMessageConverter();
-        converter.getObjectMapper().disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        converter.getObjectMapper()
+            .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
         mockMvc = MockMvcBuilders.standaloneSetup(new PublicMemberController(service))
             .setMessageConverters(converter)
@@ -78,6 +81,28 @@ class TestPublicMemberController {
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.content[0].number").value((int) MemberConstants.NUMBER))
             .andExpect(jsonPath("$.content[0].memberNumber").value((int) MemberConstants.MEMBER_NUMBER));
+    }
+
+    @Test
+    @DisplayName("The member list accepts the inactive status filter")
+    void testGetAllPublicMembers_Inactive() throws Exception {
+        final Page<PublicMember> existing;
+        final PublicMemberFilter filter;
+        final Pagination         pagination;
+        final Sorting            sorting;
+
+        // GIVEN
+        filter = new PublicMemberFilter(Optional.empty(), MemberStatus.INACTIVE);
+        pagination = new Pagination(1, 10);
+        sorting = Sorting.unsorted();
+        existing = new Page<>(List.of(PublicMembers.valid()), 1, 1, 1, 1, 1, true, true, sorting);
+        given(service.getAll(filter, pagination, sorting)).willReturn(existing);
+
+        // WHEN + THEN
+        mockMvc.perform(get("/member").param("status", "INACTIVE")
+            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.content[0].number").value((int) MemberConstants.NUMBER));
     }
 
     @Test

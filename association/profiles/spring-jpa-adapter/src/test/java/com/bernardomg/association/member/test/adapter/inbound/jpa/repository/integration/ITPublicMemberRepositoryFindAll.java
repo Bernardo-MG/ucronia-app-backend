@@ -24,6 +24,8 @@
 
 package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.integration;
 
+import java.util.Optional;
+
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
@@ -37,6 +39,7 @@ import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFee
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
 import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.member.domain.filter.PublicMemberFilter;
+import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.domain.model.PublicMember;
 import com.bernardomg.association.member.domain.repository.PublicMemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
@@ -85,6 +88,85 @@ class ITPublicMemberRepositoryFindAll {
     }
 
     @Test
+    @DisplayName("When filtering by active, an active member is returned")
+    @PositiveFeeType
+    @ActiveMember
+    void testFindAll_ActiveFilter_Active() {
+        final Page<PublicMember> members;
+        final PublicMemberFilter filter;
+
+        // GIVEN
+        filter = new PublicMemberFilter(Optional.empty(), MemberStatus.ACTIVE);
+
+        // WHEN
+        members = repository.findAll(filter, new Pagination(1, 100), Sorting.unsorted());
+
+        // THEN
+        Assertions.assertThat(members.content())
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .containsExactly(PublicMembers.valid());
+    }
+
+    @Test
+    @DisplayName("When filtering by active, an inactive member isn't returned")
+    @PositiveFeeType
+    @InactiveMember
+    void testFindAll_ActiveFilter_Inactive() {
+        final Page<PublicMember> members;
+        final PublicMemberFilter filter;
+
+        // GIVEN
+        filter = new PublicMemberFilter(Optional.empty(), MemberStatus.ACTIVE);
+
+        // WHEN
+        members = repository.findAll(filter, new Pagination(1, 100), Sorting.unsorted());
+
+        // THEN
+        Assertions.assertThat(members.content())
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("When filtering by all, an active member is returned")
+    @PositiveFeeType
+    @ActiveMember
+    void testFindAll_AllFilter_Active() {
+        final Page<PublicMember> members;
+        final PublicMemberFilter filter;
+
+        // GIVEN
+        filter = new PublicMemberFilter(Optional.empty(), MemberStatus.ALL);
+
+        // WHEN
+        members = repository.findAll(filter, new Pagination(1, 100), Sorting.unsorted());
+
+        // THEN
+        Assertions.assertThat(members.content())
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .containsExactlyInAnyOrder(PublicMembers.valid());
+    }
+
+    @Test
+    @DisplayName("When filtering by all, an inactive member is returned")
+    @PositiveFeeType
+    @InactiveMember
+    void testFindAll_AllFilter_Inactive() {
+        final Page<PublicMember> members;
+        final PublicMemberFilter filter;
+
+        // GIVEN
+        filter = new PublicMemberFilter(Optional.empty(), MemberStatus.ALL);
+
+        // WHEN
+        members = repository.findAll(filter, new Pagination(1, 100), Sorting.unsorted());
+
+        // THEN
+        Assertions.assertThat(members.content())
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .containsExactlyInAnyOrder(PublicMembers.valid());
+    }
+
+    @Test
     @DisplayName("With an inactive member, nothing is returned")
     @PositiveFeeType
     @InactiveMember
@@ -107,6 +189,45 @@ class ITPublicMemberRepositoryFindAll {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();
+    }
+
+    @Test
+    @DisplayName("When filtering by inactive, an active member isn't returned")
+    @PositiveFeeType
+    @ActiveMember
+    void testFindAll_InactiveFilter_Active() {
+        final Page<PublicMember> members;
+        final PublicMemberFilter filter;
+
+        // GIVEN
+        filter = new PublicMemberFilter(Optional.empty(), MemberStatus.INACTIVE);
+
+        // WHEN
+        members = repository.findAll(filter, new Pagination(1, 100), Sorting.unsorted());
+
+        // THEN
+        Assertions.assertThat(members.content())
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("When filtering by inactive, an inactive member is returned")
+    @PositiveFeeType
+    @InactiveMember
+    void testFindAll_InactiveFilter_Inactive() {
+        final Page<PublicMember> members;
+        final PublicMemberFilter filter;
+
+        // GIVEN
+        filter = new PublicMemberFilter(Optional.empty(), MemberStatus.INACTIVE);
+
+        // WHEN
+        members = repository.findAll(filter, new Pagination(1, 100), Sorting.unsorted());
+
+        // THEN
+        Assertions.assertThat(members.content())
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .containsExactly(PublicMembers.valid());
     }
 
     @Test

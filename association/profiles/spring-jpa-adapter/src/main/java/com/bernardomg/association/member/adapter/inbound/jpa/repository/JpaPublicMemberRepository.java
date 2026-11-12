@@ -83,7 +83,7 @@ public final class JpaPublicMemberRepository implements PublicMemberRepository {
         pageable = SpringPagination.toPageable(pagination, fixedSorting);
         spec = PublicMemberSpecifications.filter(filter);
         if (spec.isEmpty()) {
-            read = publicMemberSpringRepository.findAllByActiveTrue(pageable);
+            read = publicMemberSpringRepository.findAll(pageable);
         } else {
             read = publicMemberSpringRepository.findAll(spec.get(), pageable);
         }

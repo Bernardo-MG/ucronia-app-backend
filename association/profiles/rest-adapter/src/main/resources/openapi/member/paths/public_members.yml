@@ -6,6 +6,11 @@ get:
     - $ref: '../common/pagination.yml#/components/parameters/pageParam'
     - $ref: '../common/pagination.yml#/components/parameters/sizeParam'
     - $ref: '../components/members.yml#/components/parameters/membersSortParam'
+    - name: status
+      in: query
+      description: Filter by membership status. Defaults to active members.
+      schema:
+        $ref: '../components/members.yml#/components/schemas/MemberStatus'
     - name: name
       in: query
       description: Substring to filter name by.
