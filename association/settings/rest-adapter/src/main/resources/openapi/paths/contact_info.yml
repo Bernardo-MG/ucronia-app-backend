@@ -1,0 +1,11 @@
+get:
+  summary: Get association contact info.
+  operationId: getContactInfo
+  tags: [ContactInfo]
+  responses:
+    '200':
+      description: Association contact info.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/contacts.yml#/components/schemas/ContactInfoResponse'
