@@ -9,8 +9,8 @@
    <!-- ********************************************** -->
 
    <parent>
-      <groupId>com.bernardomg.association.settings</groupId>
-      <artifactId>association-settings</artifactId>
+      <groupId>com.bernardomg.association.contacts</groupId>
+      <artifactId>association-contacts</artifactId>
       <version>1.0.0-SNAPSHOT</version>
    </parent>
 
@@ -18,11 +18,11 @@
    <!-- **************** PROJECT INFO **************** -->
    <!-- ********************************************** -->
 
-   <groupId>com.bernardomg.association.settings</groupId>
-   <artifactId>association-settings-usecase</artifactId>
+   <groupId>com.bernardomg.association.contacts</groupId>
+   <artifactId>association-contacts-domain</artifactId>
    <packaging>jar</packaging>
 
-   <name>Association Settings Usecase</name>
+   <name>Association Contact Info Domain</name>
 
    <!-- ********************************************** -->
    <!-- *************** DEPENDENCIES ***************** -->
@@ -30,21 +30,8 @@
 
    <dependencies>
       <dependency>
-         <groupId>com.bernardomg.association.settings</groupId>
-         <artifactId>association-settings-domain</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.settings</groupId>
-         <artifactId>settings-domain</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>jakarta.transaction</groupId>
-         <artifactId>jakarta.transaction-api</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.association.settings</groupId>
-         <artifactId>association-settings-testing</artifactId>
-         <scope>test</scope>
+         <groupId>org.apache.commons</groupId>
+         <artifactId>commons-lang3</artifactId>
       </dependency>
    </dependencies>
 

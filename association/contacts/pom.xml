@@ -18,11 +18,11 @@
    <!-- **************** PROJECT INFO **************** -->
    <!-- ********************************************** -->
 
-   <groupId>com.bernardomg.association.settings</groupId>
-   <artifactId>association-settings</artifactId>
+   <groupId>com.bernardomg.association.contacts</groupId>
+   <artifactId>association-contacts</artifactId>
    <packaging>pom</packaging>
 
-   <name>Association Settings</name>
+   <name>Association Contact Info</name>
 
    <!-- ********************************************** -->
    <!-- ******************* MODULES ****************** -->
@@ -46,28 +46,28 @@
          <!-- ================= PROJECT ==================== -->
          <!-- ============================================== -->
          <dependency>
-            <groupId>com.bernardomg.association.settings</groupId>
-            <artifactId>association-settings-testing</artifactId>
+            <groupId>com.bernardomg.association.contacts</groupId>
+            <artifactId>association-contacts-testing</artifactId>
             <version>${project.version}</version>
          </dependency>
          <dependency>
-            <groupId>com.bernardomg.association.settings</groupId>
-            <artifactId>association-settings-domain</artifactId>
+            <groupId>com.bernardomg.association.contacts</groupId>
+            <artifactId>association-contacts-domain</artifactId>
             <version>${project.version}</version>
          </dependency>
          <dependency>
-            <groupId>com.bernardomg.association.settings</groupId>
-            <artifactId>association-settings-usecase</artifactId>
+            <groupId>com.bernardomg.association.contacts</groupId>
+            <artifactId>association-contacts-usecase</artifactId>
             <version>${project.version}</version>
          </dependency>
          <dependency>
-            <groupId>com.bernardomg.association.settings</groupId>
-            <artifactId>association-settings-spring-jpa-adapter</artifactId>
+            <groupId>com.bernardomg.association.contacts</groupId>
+            <artifactId>association-contacts-spring-jpa-adapter</artifactId>
             <version>${project.version}</version>
          </dependency>
          <dependency>
-            <groupId>com.bernardomg.association.settings</groupId>
-            <artifactId>association-settings-rest-adapter</artifactId>
+            <groupId>com.bernardomg.association.contacts</groupId>
+            <artifactId>association-contacts-rest-adapter</artifactId>
             <version>${project.version}</version>
          </dependency>
          <dependency>

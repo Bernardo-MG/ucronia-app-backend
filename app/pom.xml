@@ -47,8 +47,8 @@
          <artifactId>asset-spring-starter</artifactId>
       </dependency>
       <dependency>
-         <groupId>com.bernardomg.association.settings</groupId>
-         <artifactId>association-settings-spring-starter</artifactId>
+         <groupId>com.bernardomg.association.contacts</groupId>
+         <artifactId>association-contacts-spring-starter</artifactId>
       </dependency>
       <dependency>
          <groupId>com.bernardomg.association.transaction</groupId>
