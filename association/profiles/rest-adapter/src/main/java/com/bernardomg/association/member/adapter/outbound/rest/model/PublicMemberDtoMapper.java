@@ -94,6 +94,7 @@ public final class PublicMemberDtoMapper {
         return new PublicMemberDto().number(member.number())
             .memberNumber(member.memberNumber())
             .name(profileName)
+            .active(member.active())
             .renew(member.renew())
             .joined(member.joined()
                 .orElse(null))

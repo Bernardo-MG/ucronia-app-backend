@@ -55,6 +55,9 @@ components:
           $ref: '../common/ids.yml#/components/schemas/Id'
         name:
           $ref: '../../profile/components/profiles.yml#/components/schemas/Name'
+        active:
+          type: boolean
+          description: Whether the membership is currently active.
         renew:
           type: boolean
           description: Whether the member is eligible for renewal.

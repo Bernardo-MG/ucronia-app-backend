@@ -163,7 +163,7 @@ class ITPublicMemberRepositoryFindAll {
         // THEN
         Assertions.assertThat(members.content())
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactlyInAnyOrder(PublicMembers.valid());
+            .containsExactlyInAnyOrder(PublicMembers.inactive());
     }
 
     @Test
@@ -227,7 +227,7 @@ class ITPublicMemberRepositoryFindAll {
         // THEN
         Assertions.assertThat(members.content())
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(PublicMembers.valid());
+            .containsExactly(PublicMembers.inactive());
     }
 
     @Test

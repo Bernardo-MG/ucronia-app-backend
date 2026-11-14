@@ -121,14 +121,15 @@ class TestPublicMemberController {
         filter = new PublicMemberFilter(Optional.empty(), MemberStatus.INACTIVE);
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
-        existing = new Page<>(List.of(PublicMembers.valid()), 1, 1, 1, 1, 1, true, true, sorting);
+        existing = new Page<>(List.of(PublicMembers.inactive()), 1, 1, 1, 1, 1, true, true, sorting);
         given(service.getAll(filter, pagination, sorting)).willReturn(existing);
 
         // WHEN + THEN
         mockMvc.perform(get("/member").param("status", "INACTIVE")
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.content[0].number").value((int) MemberConstants.NUMBER));
+            .andExpect(jsonPath("$.content[0].number").value((int) MemberConstants.NUMBER))
+            .andExpect(jsonPath("$.content[0].active").value(false));
     }
 
     @Test

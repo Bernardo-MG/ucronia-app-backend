@@ -30,19 +30,26 @@ import java.util.Optional;
 
 import com.bernardomg.association.profile.domain.model.Name;
 
-public record PublicMember(Long number, Long memberNumber, Name name, boolean renew, Optional<Instant> joined,
-        long totalMonths) {
+public record PublicMember(Long number, Long memberNumber, Name name, boolean active, boolean renew,
+        Optional<Instant> joined, long totalMonths) {
 
     public PublicMember {
         Objects.requireNonNull(number, "Profile number can't be null");
         Objects.requireNonNull(memberNumber, "Member number can't be null");
         Objects.requireNonNull(name, "Name can't be null");
+        Objects.requireNonNull(active, "Active flag can't be null");
+        Objects.requireNonNull(renew, "Renew flag can't be null");
         Objects.requireNonNull(joined, "Joined can't be null");
         Objects.requireNonNull(totalMonths, "Total months can't be null");
     }
 
+    public PublicMember(final Long number, final Long memberNumber, final Name name, final boolean renew,
+            final Optional<Instant> joined, final long totalMonths) {
+        this(number, memberNumber, name, true, renew, joined, totalMonths);
+    }
+
     public PublicMember(final Long number, final Long memberNumber, final Name name, final boolean renew) {
-        this(number, memberNumber, name, renew, Optional.empty(), 0L);
+        this(number, memberNumber, name, true, renew, Optional.empty(), 0L);
     }
 
 }

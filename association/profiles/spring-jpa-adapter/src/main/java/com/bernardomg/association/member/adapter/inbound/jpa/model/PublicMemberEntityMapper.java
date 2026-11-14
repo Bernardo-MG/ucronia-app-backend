@@ -38,8 +38,8 @@ public final class PublicMemberEntityMapper {
         final Name name;
 
         name = new Name(entity.getFirstName(), entity.getLastName(), Optional.ofNullable(entity.getNickname()));
-        return new PublicMember(entity.getNumber(), entity.getMemberNumber(), name, entity.getRenew(),
-            Optional.ofNullable(paid)
+        return new PublicMember(entity.getNumber(), entity.getMemberNumber(), name,
+            Boolean.TRUE.equals(entity.getActive()), entity.getRenew(), Optional.ofNullable(paid)
                 .map(PaidMembership::getJoined),
             paid == null ? 0L : paid.getTotalMonths());
     }

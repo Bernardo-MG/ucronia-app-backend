@@ -25,6 +25,13 @@ public final class PublicMembers {
         return new PublicMember(number * 10, number * 10, name, true);
     }
 
+    public static final PublicMember inactive() {
+        final PublicMember member = valid();
+
+        return new PublicMember(member.number(), member.memberNumber(), member.name(), false, member.renew(),
+            member.joined(), member.totalMonths());
+    }
+
     public static final PublicMember noRenew() {
         final Name name;
 
