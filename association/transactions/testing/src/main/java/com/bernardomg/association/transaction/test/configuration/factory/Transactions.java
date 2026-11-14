@@ -68,7 +68,7 @@ public final class Transactions {
 
     public static final Transaction withType() {
         return new Transaction(TransactionConstants.INDEX, TransactionConstants.DATE, TransactionConstants.AMOUNT,
-            TransactionConstants.DESCRIPTION, Optional.of( TransactionTypeConstants.NUMBER), new AuditDetails());
+            TransactionConstants.DESCRIPTION, Optional.of(TransactionTypeConstants.NUMBER), new AuditDetails());
     }
 
     private Transactions() {

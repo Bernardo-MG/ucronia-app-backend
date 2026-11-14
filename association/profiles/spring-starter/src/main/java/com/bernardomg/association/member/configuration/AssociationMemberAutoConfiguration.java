@@ -145,14 +145,14 @@ public class AssociationMemberAutoConfiguration {
         return new JpaPublicMemberRepository(memberSpringRepository);
     }
 
-    @Bean("publicMemberStatusAuthorizer")
-    public PublicMemberStatusAuthorizer getPublicMemberStatusAuthorizer() {
-        return new PublicMemberStatusAuthorizer(new AuthorityResourcePermissionEvaluator());
-    }
-
     @Bean("publicMemberService")
     public PublicMemberService getPublicMemberService(final PublicMemberRepository memberRepository) {
         return new DefaultPublicMemberService(memberRepository);
+    }
+
+    @Bean("publicMemberStatusAuthorizer")
+    public PublicMemberStatusAuthorizer getPublicMemberStatusAuthorizer() {
+        return new PublicMemberStatusAuthorizer(new AuthorityResourcePermissionEvaluator());
     }
 
 }
