@@ -30,7 +30,7 @@
 
    <modules>
      <module>security</module>
-     <module>settings</module>
+     <module>contacts</module>
      <module>transactions</module>
      <module>profiles</module>
      <module>library</module>

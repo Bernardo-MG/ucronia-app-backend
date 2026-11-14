@@ -47,8 +47,8 @@ public class TestModulesArchitectureRules {
         // Misc modules
         .layer("Settings")
         .definedBy("com.bernardomg.settings..")
-        .layer("Association settings")
-        .definedBy("com.bernardomg.association.settings..")
+        .layer("Contact info")
+        .definedBy("com.bernardomg.association.contacts..")
         .layer("Assets")
         .definedBy("com.bernardomg.asset..")
 
@@ -97,8 +97,8 @@ public class TestModulesArchitectureRules {
 
         // Misc modules
         .whereLayer("Settings")
-        .mayOnlyBeAccessedByLayers("Association settings")
-        .whereLayer("Association settings")
+        .mayOnlyBeAccessedByLayers("Contact info")
+        .whereLayer("Contact info")
         .mayNotBeAccessedByAnyLayer()
         .whereLayer("Assets")
         .mayNotBeAccessedByAnyLayer()
