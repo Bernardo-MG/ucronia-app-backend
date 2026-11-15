@@ -175,9 +175,10 @@ public class TestConfiguration {
     public MemberRepository getMemberRepository(final ReadMemberSpringRepository readMemberSpringRepository,
             final MemberSpringRepository memberSpringRepository,
             final MemberContactMethodSpringRepository memberContactMethodSpringRepository,
-            final FeeTypeSpringRepository feeTypeSpringRepository) {
+            final FeeTypeSpringRepository feeTypeSpringRepository,
+            final ProfileSpringRepository profileSpringRepository) {
         return new JpaMemberRepository(readMemberSpringRepository, memberSpringRepository,
-            memberContactMethodSpringRepository, feeTypeSpringRepository);
+            memberContactMethodSpringRepository, feeTypeSpringRepository, profileSpringRepository);
     }
 
     @Bean("membershipEvolutionRepository")
