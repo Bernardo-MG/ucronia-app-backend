@@ -85,7 +85,7 @@ class ITPublicMemberRepositoryFindAllSort {
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("joined", "totalMonths")
             .containsExactly(PublicMembers.forNumber(1), PublicMembers.forNumber(2), PublicMembers.forNumber(3),
-                PublicMembers.forNumber(4), PublicMembers.forNumber(5));
+                PublicMembers.forNumber(4), PublicMembers.forNumberNotPaid(5));
     }
 
     @Test
@@ -109,7 +109,7 @@ class ITPublicMemberRepositoryFindAllSort {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("joined", "totalMonths")
-            .containsExactly(PublicMembers.forNumber(5), PublicMembers.forNumber(4), PublicMembers.forNumber(3),
+            .containsExactly(PublicMembers.forNumberNotPaid(5), PublicMembers.forNumber(4), PublicMembers.forNumber(3),
                 PublicMembers.forNumber(2), PublicMembers.forNumber(1));
     }
 
@@ -135,7 +135,7 @@ class ITPublicMemberRepositoryFindAllSort {
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("joined", "totalMonths")
             .containsExactly(PublicMembers.forNumber(1), PublicMembers.forNumber(2), PublicMembers.forNumber(3),
-                PublicMembers.forNumber(4), PublicMembers.forNumber(5));
+                PublicMembers.forNumber(4), PublicMembers.forNumberNotPaid(5));
     }
 
     @Test
@@ -159,7 +159,7 @@ class ITPublicMemberRepositoryFindAllSort {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("joined", "totalMonths")
-            .containsExactly(PublicMembers.forNumber(5), PublicMembers.forNumber(4), PublicMembers.forNumber(3),
+            .containsExactly(PublicMembers.forNumberNotPaid(5), PublicMembers.forNumber(4), PublicMembers.forNumber(3),
                 PublicMembers.forNumber(2), PublicMembers.forNumber(1));
     }
 

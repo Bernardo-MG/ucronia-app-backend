@@ -48,7 +48,8 @@ public interface PublicMemberSpringRepository
 
     // The fee schema permits only one fee per member and calendar month.
     @Query("""
-            SELECT f.member.number AS number, MIN(f.month) AS joined, COUNT(f) AS totalMonths
+            SELECT f.member.number AS number, MIN(f.month) AS joined, MAX(f.month) AS lastPaidMonth,
+                   COUNT(f) AS totalMonths
             FROM Fee f
             WHERE f.member.number IN :numbers AND f.paid = TRUE
             GROUP BY f.member.number

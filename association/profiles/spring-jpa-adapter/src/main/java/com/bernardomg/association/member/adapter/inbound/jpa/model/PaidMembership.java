@@ -7,6 +7,8 @@ public interface PaidMembership {
 
     public Instant getJoined();
 
+    public Instant getLastPaidMonth();
+
     public Long getNumber();
 
     public long getTotalMonths();

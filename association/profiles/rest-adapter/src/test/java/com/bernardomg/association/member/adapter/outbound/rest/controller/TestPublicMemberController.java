@@ -30,6 +30,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
+import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.member.adapter.outbound.rest.dto.MemberStatusDto;
 import com.bernardomg.association.member.adapter.outbound.rest.security.PublicMemberStatusAuthorizer;
 import com.bernardomg.association.member.domain.filter.PublicMemberFilter;
@@ -143,14 +144,15 @@ class TestPublicMemberController {
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
-        member = PublicMembers.withMembership(Instant.parse("2024-01-01T00:00:00Z"), 3L);
+        // TODO: don't parse like this
+        member = PublicMembers.withMembership(FeeConstants.JANUARY_DATE, 3L);
         existing = new Page<>(List.of(member), 1, 1, 1, 1, 1, true, true, sorting);
         given(service.getAll(PublicMemberFilters.empty(), pagination, sorting)).willReturn(existing);
 
         // WHEN + THEN
         mockMvc.perform(get("/member").contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.content[0].joined").value("2024-01-01T00:00:00Z"))
+            .andExpect(jsonPath("$.content[0].joined").value("2020-01-01T00:00:00Z"))
             .andExpect(jsonPath("$.content[0].totalMonths").value(3));
     }
 

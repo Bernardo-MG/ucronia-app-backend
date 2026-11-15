@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.integration;
 
+import java.time.ZoneOffset;
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
@@ -231,6 +232,28 @@ class ITPublicMemberRepositoryFindAll {
     }
 
     @Test
+    @DisplayName("The last paid month is returned for an inactive member")
+    @PositiveFeeType
+    @InactiveMember
+    @PaidFeesWithGaps
+    void testFindAll_InactiveWithPaidFees() {
+        final PublicMemberFilter filter;
+        final Page<PublicMember> members;
+
+        // GIVEN
+        filter = new PublicMemberFilter(Optional.empty(), MemberStatus.INACTIVE);
+
+        // WHEN
+        members = repository.findAll(filter, new Pagination(1, 100), Sorting.unsorted());
+
+        // THEN
+        Assertions.assertThat(members.content())
+            .singleElement()
+            .extracting(PublicMember::lastPaidMonth)
+            .isEqualTo(Optional.of(FeeConstants.APRIL_DATE));
+    }
+
+    @Test
     @DisplayName("With no member, nothing is returned")
     void testFindAll_NoData() {
         final Page<PublicMember> members;
@@ -304,7 +327,7 @@ class ITPublicMemberRepositoryFindAll {
             .containsExactly(PublicMembers.withMembership(1, FeeConstants.FEBRUARY_DATE, 1L),
                 PublicMembers.withMembership(2, FeeConstants.MARCH_DATE, 1L),
                 PublicMembers.withMembership(3, FeeConstants.APRIL_DATE, 1L),
-                PublicMembers.withMembership(4, FeeConstants.MAY_DATE, 1L), PublicMembers.forNumber(5));
+                PublicMembers.withMembership(4, FeeConstants.MAY_DATE, 1L), PublicMembers.forNumberNotPaid(5));
     }
 
     @Test
@@ -330,7 +353,10 @@ class ITPublicMemberRepositoryFindAll {
         Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(PublicMembers.withMembership(FeeConstants.FEBRUARY_DATE, 2L));
+            .containsExactly(PublicMembers.withMembership(FeeConstants.FEBRUARY_DATE, 2L,
+                FeeConstants.FEBRUARY_DATE.atOffset(ZoneOffset.UTC)
+                    .plusMonths(2)
+                    .toInstant()));
     }
 
     @Test

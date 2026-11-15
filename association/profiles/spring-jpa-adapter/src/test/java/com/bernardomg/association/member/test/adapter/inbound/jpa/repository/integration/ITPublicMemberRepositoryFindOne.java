@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.integration;
 
+import java.time.ZoneOffset;
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
@@ -141,7 +142,10 @@ class ITPublicMemberRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(member)
-            .contains(PublicMembers.withMembership(FeeConstants.FEBRUARY_DATE, 2L));
+            .contains(PublicMembers.withMembership(FeeConstants.FEBRUARY_DATE, 2L,
+                FeeConstants.FEBRUARY_DATE.atOffset(ZoneOffset.UTC)
+                    .plusMonths(2)
+                    .toInstant()));
     }
 
     @Test

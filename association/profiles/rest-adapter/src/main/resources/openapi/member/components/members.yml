@@ -68,6 +68,10 @@ components:
           format: int64
           minimum: 0
           description: Number of months covered by paid fees.
+        lastPaidMonth:
+          description: Latest month covered by a paid fee for an inactive member, if available.
+          allOf:
+            - $ref: '../common/dates.yml#/components/schemas/Date'
     Member:
       type: object
       required: [number, memberNumber, name]
