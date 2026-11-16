@@ -5,6 +5,8 @@ services:
     environment:
       PGUSER: 'postgres'
       POSTGRES_DB: 'postgres'
+      # Set the default collation when initializing a new database cluster.
+      POSTGRES_INITDB_ARGS: '--locale-provider=icu --icu-locale=es-ES'
       POSTGRES_USER: 'postgres'
       POSTGRES_PASSWORD: 'password'
     ports:
