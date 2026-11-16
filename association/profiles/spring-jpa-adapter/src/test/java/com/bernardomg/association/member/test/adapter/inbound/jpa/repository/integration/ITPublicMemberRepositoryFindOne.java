@@ -68,7 +68,7 @@ class ITPublicMemberRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(member)
-            .contains(PublicMembers.valid());
+            .contains(PublicMembers.active());
     }
 
     @Test
@@ -161,7 +161,7 @@ class ITPublicMemberRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(member)
-            .contains(PublicMembers.valid());
+            .contains(PublicMembers.active());
     }
 
 }

@@ -38,6 +38,10 @@ public final class MemberFilters {
         return new MemberFilter(Optional.empty(), Optional.of(ProfileConstants.LAST_NAME));
     }
 
+    public static final MemberFilter nickname() {
+        return new MemberFilter(Optional.empty(), Optional.of(ProfileConstants.NICKNAME));
+    }
+
     public static final MemberFilter partialName() {
         return new MemberFilter(Optional.empty(),
             Optional.of(ProfileConstants.FIRST_NAME.substring(0, ProfileConstants.FIRST_NAME.length() - 2)));

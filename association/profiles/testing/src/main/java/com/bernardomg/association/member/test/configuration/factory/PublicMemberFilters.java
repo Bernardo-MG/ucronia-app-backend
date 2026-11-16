@@ -28,6 +28,10 @@ public final class PublicMemberFilters {
         return new PublicMemberFilter(Optional.of(ProfileConstants.LAST_NAME));
     }
 
+    public static final PublicMemberFilter nickname() {
+        return new PublicMemberFilter(Optional.of(ProfileConstants.NICKNAME));
+    }
+
     public static final PublicMemberFilter partialName() {
         return new PublicMemberFilter(
             Optional.of(ProfileConstants.FIRST_NAME.substring(0, ProfileConstants.FIRST_NAME.length() - 2)));

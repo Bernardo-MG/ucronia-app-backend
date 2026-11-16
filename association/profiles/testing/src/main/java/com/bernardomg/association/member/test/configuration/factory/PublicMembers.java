@@ -13,6 +13,23 @@ import com.bernardomg.association.profile.test.configuration.factory.ProfileCons
 
 public final class PublicMembers {
 
+    public static final PublicMember active() {
+        final Name name;
+
+        name = new Name(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME, Optional.empty());
+        return new PublicMember(MemberConstants.NUMBER, MemberConstants.MEMBER_NUMBER, name, true, true,
+            Optional.empty(), 0L, Optional.empty());
+    }
+
+    public static final PublicMember activeWithNickname() {
+        final Name name;
+
+        name = new Name(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME,
+            Optional.of(ProfileConstants.NICKNAME));
+        return new PublicMember(MemberConstants.NUMBER, MemberConstants.MEMBER_NUMBER, name, true, true,
+            Optional.empty(), 0L, Optional.empty());
+    }
+
     public static final PublicMember alternative() {
         final Name name;
 
@@ -55,14 +72,6 @@ public final class PublicMembers {
 
         name = new Name(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME, Optional.empty());
         return new PublicMember(MemberConstants.NUMBER, MemberConstants.MEMBER_NUMBER, name, true, false,
-            Optional.empty(), 0L, Optional.empty());
-    }
-
-    public static final PublicMember valid() {
-        final Name name;
-
-        name = new Name(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME, Optional.empty());
-        return new PublicMember(MemberConstants.NUMBER, MemberConstants.MEMBER_NUMBER, name, true, true,
             Optional.empty(), 0L, Optional.empty());
     }
 

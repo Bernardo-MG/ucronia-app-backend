@@ -85,7 +85,7 @@ class ITPublicMemberRepositoryFindAll {
         Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(PublicMembers.valid());
+            .containsExactly(PublicMembers.active());
     }
 
     @Test
@@ -105,7 +105,7 @@ class ITPublicMemberRepositoryFindAll {
         // THEN
         Assertions.assertThat(members.content())
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(PublicMembers.valid());
+            .containsExactly(PublicMembers.active());
     }
 
     @Test
@@ -144,7 +144,7 @@ class ITPublicMemberRepositoryFindAll {
         // THEN
         Assertions.assertThat(members.content())
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactlyInAnyOrder(PublicMembers.valid());
+            .containsExactlyInAnyOrder(PublicMembers.active());
     }
 
     @Test

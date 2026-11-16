@@ -40,6 +40,8 @@ public final class ProfileConstants {
 
     public static final String  LAST_NAME              = "Last name 1";
 
+    public static final String  NICKNAME               = "Nickname";
+
     public static final long    NUMBER                 = 10;
 
     public static final String  PHONE                  = "123456789";

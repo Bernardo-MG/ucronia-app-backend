@@ -42,6 +42,20 @@ public final class Members {
             new HashSet<>(List.of(Member.PROFILE_TYPE)));
     }
 
+    public static final Member activeWithNickname() {
+        final Name    name;
+        final FeeType feeType;
+
+        feeType = new FeeType(FeeConstants.FEE_TYPE_NUMBER, FeeConstants.FEE_TYPE_NAME, FeeConstants.FEE_TYPE_AMOUNT);
+
+        name = new Name(ProfileConstants.FIRST_NAME, ProfileConstants.LAST_NAME,
+            Optional.of(ProfileConstants.NICKNAME));
+        return new Member(Optional.of(MemberConstants.IDENTIFIER), MemberConstants.NUMBER,
+            MemberConstants.MEMBER_NUMBER, name, Optional.of(MemberConstants.BIRTH_DATE), List.of(),
+            Optional.of(MemberConstants.ADDRESS), Optional.of(MemberConstants.COMMENTS), true, true, feeType,
+            new HashSet<>(List.of(Member.PROFILE_TYPE)));
+    }
+
     public static final Member alternativeActive() {
         final Name    name;
         final FeeType feeType;

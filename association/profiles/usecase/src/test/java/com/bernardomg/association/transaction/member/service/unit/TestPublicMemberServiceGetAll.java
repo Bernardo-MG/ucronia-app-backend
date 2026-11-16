@@ -99,7 +99,7 @@ class TestPublicMemberServiceGetAll {
         sorting = Sorting.unsorted();
         filter = PublicMemberFilters.empty();
 
-        existing = new Page<>(List.of(PublicMembers.valid()), 0, 0, 0, 0, 0, false, false, sorting);
+        existing = new Page<>(List.of(PublicMembers.active()), 0, 0, 0, 0, 0, false, false, sorting);
         given(memberRepository.findAll(filter, pagination, sorting)).willReturn(existing);
 
         // WHEN
@@ -110,7 +110,7 @@ class TestPublicMemberServiceGetAll {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("members")
-            .containsExactly(PublicMembers.valid());
+            .containsExactly(PublicMembers.active());
     }
 
 }

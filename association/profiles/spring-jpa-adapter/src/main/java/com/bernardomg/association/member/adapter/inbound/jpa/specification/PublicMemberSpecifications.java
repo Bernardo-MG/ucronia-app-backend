@@ -77,10 +77,12 @@ public final class PublicMemberSpecifications {
         final String likePattern = "%" + pattern.toLowerCase() + "%";
 
         return (root, query, cb) -> {
-            final Expression<String> fullName = cb.concat(cb.coalesce(root.get("firstName"), ""),
-                cb.concat(" ", cb.coalesce(root.get("lastName"), "")));
+            final Expression<String> fullName;
 
-            return cb.like(cb.lower(fullName), likePattern);
+            fullName = cb.concat(cb.coalesce(root.get("firstName"), ""),
+                cb.concat(" ", cb.coalesce(root.get("lastName"), "")));
+            return cb.or(cb.like(cb.lower(fullName), likePattern),
+                cb.like(cb.lower(root.get("nickname")), likePattern));
         };
     }
 

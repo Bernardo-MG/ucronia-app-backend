@@ -37,6 +37,7 @@ import com.bernardomg.association.member.domain.filter.PublicMemberFilter;
 import com.bernardomg.association.member.domain.model.PublicMember;
 import com.bernardomg.association.member.domain.repository.PublicMemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMemberWithNickname;
 import com.bernardomg.association.member.test.configuration.factory.PublicMemberFilters;
 import com.bernardomg.association.member.test.configuration.factory.PublicMembers;
 import com.bernardomg.pagination.domain.Page;
@@ -47,7 +48,7 @@ import com.bernardomg.test.annotation.IntegrationTest;
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
 @DisplayName("PublicMemberRepository - find all - filter by name")
-class ITPublicMemberRepositoryFindAllQueryName {
+class ITPublicMemberRepositoryFindAllFilterName {
 
     @Autowired
     private PublicMemberRepository repository;
@@ -74,7 +75,7 @@ class ITPublicMemberRepositoryFindAllQueryName {
         Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(PublicMembers.valid());
+            .containsExactly(PublicMembers.active());
     }
 
     @Test
@@ -99,7 +100,7 @@ class ITPublicMemberRepositoryFindAllQueryName {
         Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(PublicMembers.valid());
+            .containsExactly(PublicMembers.active());
     }
 
     @Test
@@ -124,7 +125,32 @@ class ITPublicMemberRepositoryFindAllQueryName {
         Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(PublicMembers.valid());
+            .containsExactly(PublicMembers.active());
+    }
+
+    @Test
+    @DisplayName("With a member matching the nickname, it is returned")
+    @PositiveFeeType
+    @ActiveMemberWithNickname
+    void testFindAll_Nickname() {
+        final Page<PublicMember> members;
+        final Pagination         pagination;
+        final Sorting            sorting;
+        final PublicMemberFilter filter;
+
+        // GIVEN
+        pagination = new Pagination(1, 100);
+        sorting = Sorting.unsorted();
+        filter = PublicMemberFilters.nickname();
+
+        // WHEN
+        members = repository.findAll(filter, pagination, sorting);
+
+        // THEN
+        Assertions.assertThat(members)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .containsExactly(PublicMembers.activeWithNickname());
     }
 
     @Test
@@ -172,7 +198,7 @@ class ITPublicMemberRepositoryFindAllQueryName {
         Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(PublicMembers.valid());
+            .containsExactly(PublicMembers.active());
     }
 
     @Test

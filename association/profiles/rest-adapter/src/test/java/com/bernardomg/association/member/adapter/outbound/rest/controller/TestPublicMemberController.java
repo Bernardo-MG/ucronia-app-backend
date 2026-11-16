@@ -96,7 +96,7 @@ class TestPublicMemberController {
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
-        existing = new Page<>(List.of(PublicMembers.valid()), 1, 1, 1, 1, 1, true, true, sorting);
+        existing = new Page<>(List.of(PublicMembers.active()), 1, 1, 1, 1, 1, true, true, sorting);
         given(service.getAll(PublicMemberFilters.empty(), pagination, sorting)).willReturn(existing);
 
         // WHEN + THEN
@@ -195,7 +195,7 @@ class TestPublicMemberController {
     @DisplayName("With no paid fees, the public member has no joined month and zero total months")
     void testGetPublicMemberByNumber_NoPaidFees() throws Exception {
         // GIVEN
-        given(service.getOne(MemberConstants.NUMBER)).willReturn(Optional.of(PublicMembers.valid()));
+        given(service.getOne(MemberConstants.NUMBER)).willReturn(Optional.of(PublicMembers.active()));
 
         // WHEN + THEN
         mockMvc.perform(get("/member/{number}", MemberConstants.NUMBER).contentType(MediaType.APPLICATION_JSON))
