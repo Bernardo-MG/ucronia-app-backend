@@ -31,11 +31,11 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.bernardomg.association.member.domain.model.MemberStatus;
 
-public record PublicMemberFilter(Optional<String> name, MemberStatus status) {
+public record PublicMemberFilter(MemberStatus status, Optional<String> name) {
 
     public PublicMemberFilter {
-        Objects.requireNonNull(name);
         Objects.requireNonNull(status);
+        Objects.requireNonNull(name);
 
         name = handleEmpty(name);
     }

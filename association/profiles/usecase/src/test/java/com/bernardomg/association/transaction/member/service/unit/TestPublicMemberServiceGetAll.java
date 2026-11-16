@@ -69,7 +69,7 @@ class TestPublicMemberServiceGetAll {
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
-        filter = PublicMemberFilters.empty();
+        filter = PublicMemberFilters.active();
 
         existing = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
         given(memberRepository.findAll(filter, pagination, sorting)).willReturn(existing);
@@ -97,7 +97,7 @@ class TestPublicMemberServiceGetAll {
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
-        filter = PublicMemberFilters.empty();
+        filter = PublicMemberFilters.active();
 
         existing = new Page<>(List.of(PublicMembers.active()), 0, 0, 0, 0, 0, false, false, sorting);
         given(memberRepository.findAll(filter, pagination, sorting)).willReturn(existing);

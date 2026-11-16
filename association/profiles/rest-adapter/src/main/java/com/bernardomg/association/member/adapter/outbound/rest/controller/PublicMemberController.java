@@ -82,9 +82,9 @@ public class PublicMemberController implements PublicMemberApi {
         sorting = WebSorting.toSorting(sort);
 
         if (status == null) {
-            filter = new PublicMemberFilter(Optional.ofNullable(name), MemberStatus.ACTIVE);
+            filter = new PublicMemberFilter(MemberStatus.ACTIVE, Optional.ofNullable(name));
         } else {
-            filter = new PublicMemberFilter(Optional.ofNullable(name), MemberStatus.valueOf(status.name()));
+            filter = new PublicMemberFilter(MemberStatus.valueOf(status.name()), Optional.ofNullable(name));
         }
 
         statusAuthorizer.checkCanRead(filter.status());

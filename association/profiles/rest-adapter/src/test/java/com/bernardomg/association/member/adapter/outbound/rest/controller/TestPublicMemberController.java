@@ -34,7 +34,6 @@ import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.member.adapter.outbound.rest.dto.MemberStatusDto;
 import com.bernardomg.association.member.adapter.outbound.rest.security.PublicMemberStatusAuthorizer;
 import com.bernardomg.association.member.domain.filter.PublicMemberFilter;
-import com.bernardomg.association.member.domain.model.MemberStatus;
 import com.bernardomg.association.member.domain.model.PublicMember;
 import com.bernardomg.association.member.test.configuration.factory.MemberConstants;
 import com.bernardomg.association.member.test.configuration.factory.PublicMemberFilters;
@@ -97,7 +96,7 @@ class TestPublicMemberController {
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
         existing = new Page<>(List.of(PublicMembers.active()), 1, 1, 1, 1, 1, true, true, sorting);
-        given(service.getAll(PublicMemberFilters.empty(), pagination, sorting)).willReturn(existing);
+        given(service.getAll(PublicMemberFilters.active(), pagination, sorting)).willReturn(existing);
 
         // WHEN + THEN
         mockMvc.perform(get("/member").contentType(MediaType.APPLICATION_JSON))
@@ -119,7 +118,7 @@ class TestPublicMemberController {
         SecurityContextHolder.getContext()
             .setAuthentication(authentication);
         given(permissionEvaluator.isAuthorized(authentication, "INACTIVE_MEMBER", Actions.READ)).willReturn(true);
-        filter = new PublicMemberFilter(Optional.empty(), MemberStatus.INACTIVE);
+        filter = PublicMemberFilters.inactive();
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
         existing = new Page<>(List.of(PublicMembers.inactive()), 1, 1, 1, 1, 1, true, true, sorting);
@@ -147,7 +146,7 @@ class TestPublicMemberController {
         // TODO: don't parse like this
         member = PublicMembers.withMembership(FeeConstants.JANUARY_DATE, 3L);
         existing = new Page<>(List.of(member), 1, 1, 1, 1, 1, true, true, sorting);
-        given(service.getAll(PublicMemberFilters.empty(), pagination, sorting)).willReturn(existing);
+        given(service.getAll(PublicMemberFilters.active(), pagination, sorting)).willReturn(existing);
 
         // WHEN + THEN
         mockMvc.perform(get("/member").contentType(MediaType.APPLICATION_JSON))

@@ -61,7 +61,7 @@ class ITPublicMemberRepositoryFindAllPaginated extends AbstractPaginationIT<Publ
 
     @Override
     protected final Page<PublicMember> read(final Pagination pagination, final Sorting sorting) {
-        return repository.findAll(PublicMemberFilters.empty(), pagination, sorting);
+        return repository.findAll(PublicMemberFilters.active(), pagination, sorting);
     }
 
     @Test
@@ -75,7 +75,7 @@ class ITPublicMemberRepositoryFindAllPaginated extends AbstractPaginationIT<Publ
         // GIVEN
         pagination = new Pagination(1, 1);
         sorting = Sorting.unsorted();
-        filter = PublicMemberFilters.empty();
+        filter = PublicMemberFilters.active();
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -98,7 +98,7 @@ class ITPublicMemberRepositoryFindAllPaginated extends AbstractPaginationIT<Publ
         // GIVEN
         pagination = new Pagination(2, 1);
         sorting = Sorting.unsorted();
-        filter = PublicMemberFilters.empty();
+        filter = PublicMemberFilters.active();
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);

@@ -49,17 +49,11 @@ public final class ReadMemberSpecifications {
                 .get()));
         }
 
-        if (filter.status()
-            .isEmpty()) {
-            statusSpec = Optional.empty();
-        } else {
-            statusSpec = switch (filter.status()
-                .get()) {
-                case ACTIVE -> Optional.of(active());
-                case INACTIVE -> Optional.of(inactive());
-                default -> Optional.empty();
-            };
-        }
+        statusSpec = switch (filter.status()) {
+            case ACTIVE -> Optional.of(active());
+            case INACTIVE -> Optional.of(inactive());
+            default -> Optional.empty();
+        };
 
         return List.of(nameSpec, statusSpec)
             .stream()

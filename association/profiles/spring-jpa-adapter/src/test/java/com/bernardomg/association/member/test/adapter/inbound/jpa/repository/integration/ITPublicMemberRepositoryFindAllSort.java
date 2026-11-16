@@ -73,7 +73,7 @@ class ITPublicMemberRepositoryFindAllSort {
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC)));
-        filter = PublicMemberFilters.empty();
+        filter = PublicMemberFilters.active();
 
         // WHEN
         // FIXME: names should be sorted ignoring case
@@ -99,7 +99,7 @@ class ITPublicMemberRepositoryFindAllSort {
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.DESC)));
-        filter = PublicMemberFilters.empty();
+        filter = PublicMemberFilters.active();
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -124,7 +124,7 @@ class ITPublicMemberRepositoryFindAllSort {
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("lastName", Sorting.Direction.ASC)));
-        filter = PublicMemberFilters.empty();
+        filter = PublicMemberFilters.active();
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -149,7 +149,7 @@ class ITPublicMemberRepositoryFindAllSort {
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("lastName", Sorting.Direction.DESC)));
-        filter = PublicMemberFilters.empty();
+        filter = PublicMemberFilters.active();
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);

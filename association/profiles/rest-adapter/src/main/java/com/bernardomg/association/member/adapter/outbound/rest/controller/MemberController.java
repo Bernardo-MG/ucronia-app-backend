@@ -102,9 +102,9 @@ public class MemberController implements MemberApi {
         if (status != null) {
             memberStatus = MemberStatus.valueOf(status.name());
         } else {
-            memberStatus = null;
+            memberStatus = MemberStatus.ALL;
         }
-        filter = new MemberFilter(Optional.ofNullable(memberStatus), Optional.ofNullable(name));
+        filter = new MemberFilter(memberStatus, Optional.ofNullable(name));
 
         members = service.getAll(filter, pagination, sorting);
 
