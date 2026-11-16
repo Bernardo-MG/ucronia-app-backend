@@ -82,7 +82,7 @@ public class PublicMemberController implements PublicMemberApi {
         sorting = WebSorting.toSorting(sort);
 
         if (status == null) {
-            filter = new PublicMemberFilter(Optional.ofNullable(name));
+            filter = new PublicMemberFilter(Optional.ofNullable(name), MemberStatus.ACTIVE);
         } else {
             filter = new PublicMemberFilter(Optional.ofNullable(name), MemberStatus.valueOf(status.name()));
         }
