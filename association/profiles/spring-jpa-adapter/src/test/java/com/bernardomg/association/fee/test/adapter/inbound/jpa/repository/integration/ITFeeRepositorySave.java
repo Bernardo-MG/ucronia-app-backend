@@ -87,6 +87,8 @@ class ITFeeRepositorySave {
         // THEN
         Assertions.assertThat(created)
             .as("fees")
+            .usingRecursiveComparison()
+            .ignoringFields("audit")
             .isEqualTo(Fees.notPaid());
     }
 

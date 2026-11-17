@@ -30,6 +30,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
+import com.bernardomg.association.fee.adapter.outbound.rest.dto.AuditDetailsDto;
+import com.bernardomg.association.fee.adapter.outbound.rest.dto.AuditUserDto;
 import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeeDto;
 import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeeFeeTypeDto;
 import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeeMemberDto;
@@ -54,6 +56,8 @@ import com.bernardomg.association.profile.domain.model.Name;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
 import com.bernardomg.pagination.domain.Sorting.Property;
+import com.bernardomg.security.domain.audit.model.AuditDetails;
+import com.bernardomg.security.domain.audit.model.AuditDetails.AuditUser;
 
 public final class FeeDtoMapper {
 
@@ -79,6 +83,10 @@ public final class FeeDtoMapper {
         return fee;
     }
 
+    public static final FeePageResponseDto toMyFeesResponseDto(final Page<Fee> page) {
+        return toResponseDto(page, false);
+    }
+
     public static final FeesResponseDto toResponseDto(final Collection<Fee> fees) {
         return new FeesResponseDto().content(fees.stream()
             .map(FeeDtoMapper::toDto)
@@ -95,25 +103,7 @@ public final class FeeDtoMapper {
     }
 
     public static final FeePageResponseDto toResponseDto(final Page<Fee> page) {
-        final SortingDto sortingResponse;
-
-        sortingResponse = new SortingDto().properties(page.sort()
-            .properties()
-            .stream()
-            .map(FeeDtoMapper::toDto)
-            .toList());
-        return new FeePageResponseDto().content(page.content()
-            .stream()
-            .map(FeeDtoMapper::toDto)
-            .toList())
-            .size(page.size())
-            .page(page.page())
-            .totalElements(page.totalElements())
-            .totalPages(page.totalPages())
-            .elementsInPage(page.elementsInPage())
-            .first(page.first())
-            .last(page.last())
-            .sort(sortingResponse);
+        return toResponseDto(page, true);
     }
 
     public static final YearsRangeResponseDto toResponseDto(final YearsRange range) {
@@ -126,7 +116,27 @@ public final class FeeDtoMapper {
         return new YearsRangeResponseDto().content(new YearsRangeDto().years(years));
     }
 
+    private static final AuditDetailsDto toDto(final AuditDetails audit) {
+        return new AuditDetailsDto().createdAt(audit.createdAt())
+            .createdBy(toDto(audit.createdBy()))
+            .updatedAt(audit.updatedAt())
+            .updatedBy(toDto(audit.updatedBy()));
+    }
+
+    private static final AuditUserDto toDto(final AuditUser user) {
+        if (user == null) {
+            return null;
+        }
+        return new AuditUserDto().email(user.email())
+            .username(user.username())
+            .name(user.name());
+    }
+
     private static final FeeDto toDto(final Fee fee) {
+        return toDto(fee, true);
+    }
+
+    private static final FeeDto toDto(final Fee fee, final boolean includeAudit) {
         final MemberNameDto     name;
         final FeeMemberDto      member;
         final FeeTransactionDto transaction;
@@ -174,7 +184,8 @@ public final class FeeDtoMapper {
             .paid(fee.paid())
             .member(member)
             .transaction(transaction)
-            .feeType(feeType);
+            .feeType(feeType)
+            .audit(includeAudit ? toDto(fee.audit()) : null);
     }
 
     private static final PropertyDto toDto(final Property property) {
@@ -187,6 +198,28 @@ public final class FeeDtoMapper {
         }
         return new PropertyDto().name(property.name())
             .direction(direction);
+    }
+
+    private static final FeePageResponseDto toResponseDto(final Page<Fee> page, final boolean includeAudit) {
+        final SortingDto sortingResponse;
+
+        sortingResponse = new SortingDto().properties(page.sort()
+            .properties()
+            .stream()
+            .map(FeeDtoMapper::toDto)
+            .toList());
+        return new FeePageResponseDto().content(page.content()
+            .stream()
+            .map(fee -> toDto(fee, includeAudit))
+            .toList())
+            .size(page.size())
+            .page(page.page())
+            .totalElements(page.totalElements())
+            .totalPages(page.totalPages())
+            .elementsInPage(page.elementsInPage())
+            .first(page.first())
+            .last(page.last())
+            .sort(sortingResponse);
     }
 
     private FeeDtoMapper() {

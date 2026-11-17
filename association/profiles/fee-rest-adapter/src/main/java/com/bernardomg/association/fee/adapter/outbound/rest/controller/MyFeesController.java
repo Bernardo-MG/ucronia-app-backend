@@ -70,7 +70,7 @@ public class MyFeesController implements MyFeesApi {
         sorting = WebSorting.toSorting(sort);
         fees = service.getAllForUserInSession(pagination, sorting);
 
-        return FeeDtoMapper.toResponseDto(fees);
+        return FeeDtoMapper.toMyFeesResponseDto(fees);
     }
 
 }

@@ -84,6 +84,7 @@ class ITFeeRepositoryGetAllFilter {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("fees")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(Fees.notPaidForMonth(5, Month.JUNE));
     }
 
