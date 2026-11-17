@@ -38,12 +38,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.MyFee;
 import com.bernardomg.association.fee.domain.repository.FeeProfileRepository;
-import com.bernardomg.association.fee.domain.repository.FeeRepository;
+import com.bernardomg.association.fee.domain.repository.MyFeeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.FeeProfiles;
-import com.bernardomg.association.fee.test.configuration.factory.Fees;
 import com.bernardomg.association.fee.test.configuration.factory.MyFees;
 import com.bernardomg.association.fee.test.configuration.factory.UserConstants;
 import com.bernardomg.association.fee.usecase.service.DefaultMyFeesService;
@@ -61,7 +59,7 @@ class TestDefaultMyFeesServiceGetAllForUserInSession {
     private FeeProfileRepository feeProfileRepository;
 
     @Mock
-    private FeeRepository        feeRepository;
+    private MyFeeRepository      myFeeRepository;
 
     @InjectMocks
     private DefaultMyFeesService myFeesService;
@@ -73,7 +71,7 @@ class TestDefaultMyFeesServiceGetAllForUserInSession {
     @DisplayName("When there is data it is returned")
     void testGetAllForUserInSession() {
         final Page<MyFee> fees;
-        final Page<Fee>   existing;
+        final Page<MyFee> existing;
         final Pagination  pagination;
         final Sorting     sorting;
 
@@ -85,25 +83,22 @@ class TestDefaultMyFeesServiceGetAllForUserInSession {
 
         given(feeProfileRepository.findByUsername(UserConstants.USERNAME)).willReturn(Optional.of(FeeProfiles.valid()));
 
-        existing = new Page<>(List.of(Fees.paid()), 0, 0, 0, 0, 0, false, false, sorting);
-        given(feeRepository.findAllForMember(MemberConstants.NUMBER, pagination, sorting)).willReturn(existing);
+        existing = new Page<>(List.of(MyFees.paid()), 0, 0, 0, 0, 0, false, false, sorting);
+        given(myFeeRepository.findAllForMember(MemberConstants.NUMBER, pagination, sorting)).willReturn(existing);
 
         // WHEN
         fees = myFeesService.getAllForUserInSession(pagination, sorting);
 
         // THEN
         Assertions.assertThat(fees)
-            .extracting(Page::content)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .as("fees")
-            .containsExactly(MyFees.paid());
+            .isSameAs(existing);
     }
 
     @Test
     @DisplayName("When there is no data nothing is returned")
     void testGetAllForUserInSession_NoData() {
         final Page<MyFee> fees;
-        final Page<Fee>   existing;
+        final Page<MyFee> existing;
         final Pagination  pagination;
         final Sorting     sorting;
 
@@ -116,7 +111,7 @@ class TestDefaultMyFeesServiceGetAllForUserInSession {
         given(feeProfileRepository.findByUsername(UserConstants.USERNAME)).willReturn(Optional.of(FeeProfiles.valid()));
 
         existing = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
-        given(feeRepository.findAllForMember(MemberConstants.NUMBER, pagination, sorting)).willReturn(existing);
+        given(myFeeRepository.findAllForMember(MemberConstants.NUMBER, pagination, sorting)).willReturn(existing);
 
         // WHEN
         fees = myFeesService.getAllForUserInSession(pagination, sorting);

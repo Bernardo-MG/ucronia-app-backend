@@ -50,7 +50,6 @@ import com.bernardomg.association.member.domain.model.YearsRange;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
-import com.bernardomg.pagination.domain.Sorting.Property;
 import com.bernardomg.pagination.springframework.SpringPagination;
 
 @Transactional
@@ -131,7 +130,7 @@ public final class JpaFeeRepository implements FeeRepository {
         final Sorting                                   fixedSorting;
         // TODO: Test reading with no last name
 
-        fixedSorting = fixSorting(sorting);
+        fixedSorting = FeeSorting.fixSorting(sorting);
         log.debug("Finding all fees with query {}, pagination {} and sorting {}", filter, pagination, fixedSorting);
 
         spec = FeeSpecifications.filter(filter);
@@ -147,26 +146,6 @@ public final class JpaFeeRepository implements FeeRepository {
         }
 
         log.debug("Found all fees with query {}, pagination {} and sorting {}: {}", filter, pagination, fixedSorting,
-            found);
-
-        return SpringPagination.toPage(found);
-    }
-
-    @Override
-    public final Page<Fee> findAllForMember(final Long number, final Pagination pagination, final Sorting sorting) {
-        final org.springframework.data.domain.Page<Fee> found;
-        final Pageable                                  pageable;
-        final Sorting                                   fixedSorting;
-
-        fixedSorting = fixSorting(sorting);
-        log.debug("Finding all fees for profile {} with pagination {} and sorting {}", number, pagination,
-            fixedSorting);
-
-        pageable = SpringPagination.toPageable(pagination, fixedSorting);
-        found = feeSpringRepository.findAllByMemberNumber(number, pageable)
-            .map(FeeEntityMapper::toDomain);
-
-        log.debug("Found all fees for profile {} with pagination {} and sorting {}: {}", number, pagination, sorting,
             found);
 
         return SpringPagination.toPage(found);
@@ -238,25 +217,6 @@ public final class JpaFeeRepository implements FeeRepository {
         log.debug("Saved fees {}", fees);
 
         return saved;
-    }
-
-    private final Sorting fixSorting(final Sorting sorting) {
-        final Collection<Property> properties;
-
-        properties = sorting.properties()
-            .stream()
-            // Fix name
-            .map(prop -> {
-                if (prop.name()
-                    .startsWith("member.name.")) {
-                    return new Property(prop.name()
-                        .replaceFirst("member.name\\.", "member."), prop.direction());
-                }
-                return prop;
-            })
-            .toList();
-
-        return new Sorting(properties);
     }
 
     private final FeeEntity toEntity(final Fee fee) {

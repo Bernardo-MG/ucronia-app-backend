@@ -31,8 +31,4 @@ import com.bernardomg.association.fee.domain.model.Fee.Transaction;
 
 public record MyFee(Instant month, boolean paid, FeeMember member, Optional<Transaction> transaction) {
 
-    public static MyFee from(final Fee fee) {
-        return new MyFee(fee.month(), fee.paid(), fee.member(), fee.transaction());
-    }
-
 }

@@ -39,11 +39,13 @@ import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaFeeRepos
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaFeeSummaryRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaFeeTransactionRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaFeeTypeRepository;
+import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaMyFeeRepository;
 import com.bernardomg.association.fee.domain.repository.FeeProfileRepository;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.domain.repository.FeeSummaryRepository;
 import com.bernardomg.association.fee.domain.repository.FeeTransactionRepository;
 import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
+import com.bernardomg.association.fee.domain.repository.MyFeeRepository;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeMaintenanceService;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeService;
 import com.bernardomg.association.fee.usecase.service.DefaultFeeSummaryService;
@@ -118,10 +120,15 @@ public class AssociationFeeAutoConfiguration {
         return new DefaultFeeTypeService(feeTypeRepository);
     }
 
+    @Bean("myFeeRepository")
+    public MyFeeRepository getMyFeeRepository(final FeeSpringRepository feeSpringRepository) {
+        return new JpaMyFeeRepository(feeSpringRepository);
+    }
+
     @Bean("myFeesService")
-    public MyFeesService getMyFeesService(final FeeRepository feeRepository,
+    public MyFeesService getMyFeesService(final MyFeeRepository myFeeRepository,
             final FeeProfileRepository feeProfileRepository, final UserSessionProvider userSessionProvider) {
-        return new DefaultMyFeesService(feeRepository, feeProfileRepository, userSessionProvider);
+        return new DefaultMyFeesService(myFeeRepository, feeProfileRepository, userSessionProvider);
     }
 
     @Bean("registerFeesOnMonthStartEventListener")

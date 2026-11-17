@@ -36,7 +36,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.TestApplication;
 import com.bernardomg.association.fee.domain.model.Fee;
-import com.bernardomg.association.fee.domain.repository.FeeRepository;
+import com.bernardomg.association.fee.domain.model.MyFee;
+import com.bernardomg.association.fee.domain.repository.MyFeeRepository;
 import com.bernardomg.association.fee.test.configuration.data.annotation.FeeFullYear;
 import com.bernardomg.association.fee.test.configuration.data.annotation.NotPaidFee;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFee;
@@ -51,11 +52,15 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("FeeRepository - find all for member")
-class ITFeeRepositoryfindAllForProfileForMember {
+@DisplayName("MyFeeRepository - find all for member")
+class ITMyFeeRepositoryFindAllForMember {
+
+    private static MyFee myFee(final Fee fee) {
+        return new MyFee(fee.month(), fee.paid(), fee.member(), fee.transaction());
+    }
 
     @Autowired
-    private FeeRepository repository;
+    private MyFeeRepository repository;
 
     @Test
     @DisplayName("With a full year it returns all the fees")
@@ -63,9 +68,9 @@ class ITFeeRepositoryfindAllForProfileForMember {
     @ValidProfile
     @FeeFullYear
     void testFindAllForMember_FullYear() {
-        final Page<Fee>  fees;
-        final Pagination pagination;
-        final Sorting    sorting;
+        final Page<MyFee> fees;
+        final Pagination  pagination;
+        final Sorting     sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
@@ -79,21 +84,21 @@ class ITFeeRepositoryfindAllForProfileForMember {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("fees")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
-            .containsExactly(Fees.paidForMonth(Month.JANUARY.getValue()), Fees.paidForMonth(Month.FEBRUARY.getValue()),
-                Fees.paidForMonth(Month.MARCH.getValue()), Fees.paidForMonth(Month.APRIL.getValue()),
-                Fees.paidForMonth(Month.MAY.getValue()), Fees.paidForMonth(Month.JUNE.getValue()),
-                Fees.paidForMonth(Month.JULY.getValue()), Fees.paidForMonth(Month.AUGUST.getValue()),
-                Fees.paidForMonth(Month.SEPTEMBER.getValue()), Fees.paidForMonth(Month.OCTOBER.getValue()),
-                Fees.paidForMonth(Month.NOVEMBER.getValue()), Fees.paidForMonth(Month.DECEMBER.getValue()));
+            .containsExactly(myFee(Fees.paidForMonth(Month.JANUARY.getValue())),
+                myFee(Fees.paidForMonth(Month.FEBRUARY.getValue())), myFee(Fees.paidForMonth(Month.MARCH.getValue())),
+                myFee(Fees.paidForMonth(Month.APRIL.getValue())), myFee(Fees.paidForMonth(Month.MAY.getValue())),
+                myFee(Fees.paidForMonth(Month.JUNE.getValue())), myFee(Fees.paidForMonth(Month.JULY.getValue())),
+                myFee(Fees.paidForMonth(Month.AUGUST.getValue())), myFee(Fees.paidForMonth(Month.SEPTEMBER.getValue())),
+                myFee(Fees.paidForMonth(Month.OCTOBER.getValue())), myFee(Fees.paidForMonth(Month.NOVEMBER.getValue())),
+                myFee(Fees.paidForMonth(Month.DECEMBER.getValue())));
     }
 
     @Test
     @DisplayName("With no data, it returns nothing")
     void testFindAllForMember_NoData() {
-        final Page<Fee>  fees;
-        final Pagination pagination;
-        final Sorting    sorting;
+        final Page<MyFee> fees;
+        final Pagination  pagination;
+        final Sorting     sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
@@ -115,9 +120,9 @@ class ITFeeRepositoryfindAllForProfileForMember {
     @PositiveFeeType
     @ValidProfile
     void testFindAllForMember_NoFee() {
-        final Page<Fee>  fees;
-        final Pagination pagination;
-        final Sorting    sorting;
+        final Page<MyFee> fees;
+        final Pagination  pagination;
+        final Sorting     sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
@@ -140,9 +145,9 @@ class ITFeeRepositoryfindAllForProfileForMember {
     @ValidProfile
     @NotPaidFee
     void testFindAllForMember_NotPaid() {
-        final Page<Fee>  fees;
-        final Pagination pagination;
-        final Sorting    sorting;
+        final Page<MyFee> fees;
+        final Pagination  pagination;
+        final Sorting     sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
@@ -156,8 +161,23 @@ class ITFeeRepositoryfindAllForProfileForMember {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("fees")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
-            .containsExactly(Fees.notPaid());
+            .containsExactly(myFee(Fees.notPaid()));
+    }
+
+    @Test
+    @DisplayName("Counts all matching fees when reading a single page")
+    @PositiveFeeType
+    @ValidProfile
+    @FeeFullYear
+    void testFindAllForMember_Paginated() {
+        final Sorting     sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.DESC)));
+        final Page<MyFee> fees    = repository.findAllForMember(ProfileConstants.NUMBER, new Pagination(1, 2), sorting);
+
+        Assertions.assertThat(fees.content())
+            .containsExactly(myFee(Fees.paidForMonth(Month.DECEMBER.getValue())),
+                myFee(Fees.paidForMonth(Month.NOVEMBER.getValue())));
+        Assertions.assertThat(fees.totalElements())
+            .isEqualTo(12);
     }
 
     @Test
@@ -166,9 +186,9 @@ class ITFeeRepositoryfindAllForProfileForMember {
     @ValidProfile
     @PaidFee
     void testFindAllForMember_Paid() {
-        final Page<Fee>  fees;
-        final Pagination pagination;
-        final Sorting    sorting;
+        final Page<MyFee> fees;
+        final Pagination  pagination;
+        final Sorting     sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);
@@ -182,8 +202,7 @@ class ITFeeRepositoryfindAllForProfileForMember {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("fees")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
-            .containsExactly(Fees.paid());
+            .containsExactly(myFee(Fees.paid()));
     }
 
     @Test
@@ -192,9 +211,9 @@ class ITFeeRepositoryfindAllForProfileForMember {
     @ValidProfile
     @PaidFee
     void testFindAllForMember_WrongMember() {
-        final Page<Fee>  fees;
-        final Pagination pagination;
-        final Sorting    sorting;
+        final Page<MyFee> fees;
+        final Pagination  pagination;
+        final Sorting     sorting;
 
         // GIVEN
         pagination = new Pagination(1, 20);

@@ -31,11 +31,10 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeProfile;
 import com.bernardomg.association.fee.domain.model.MyFee;
 import com.bernardomg.association.fee.domain.repository.FeeProfileRepository;
-import com.bernardomg.association.fee.domain.repository.FeeRepository;
+import com.bernardomg.association.fee.domain.repository.MyFeeRepository;
 import com.bernardomg.association.fee.usecase.session.UserSessionProvider;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -58,17 +57,17 @@ public final class DefaultMyFeesService implements MyFeesService {
 
     private final FeeProfileRepository feeProfileRepository;
 
-    private final FeeRepository        feeRepository;
+    private final MyFeeRepository      myFeeRepository;
 
     private final UserSessionProvider  userSessionProvider;
 
-    public DefaultMyFeesService(final FeeRepository feeRepo, final FeeProfileRepository feeProfileRepo,
+    public DefaultMyFeesService(final MyFeeRepository myFeeRepo, final FeeProfileRepository feeProfileRepo,
             final UserSessionProvider userSessionProv) {
         super();
 
         // TODO: move to a Spring module
 
-        feeRepository = Objects.requireNonNull(feeRepo);
+        myFeeRepository = Objects.requireNonNull(myFeeRepo);
         feeProfileRepository = Objects.requireNonNull(feeProfileRepo);
         userSessionProvider = Objects.requireNonNull(userSessionProv);
     }
@@ -76,7 +75,6 @@ public final class DefaultMyFeesService implements MyFeesService {
     @Override
     public final Page<MyFee> getAllForUserInSession(final Pagination pagination, final Sorting sorting) {
         final Page<MyFee>          fees;
-        final Page<Fee>            memberFees;
         final Optional<FeeProfile> profile;
         final String               username;
 
@@ -88,13 +86,8 @@ public final class DefaultMyFeesService implements MyFeesService {
             log.warn("User {} has no member assigned", username);
             fees = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
         } else {
-            memberFees = feeRepository.findAllForMember(profile.get()
+            fees = myFeeRepository.findAllForMember(profile.get()
                 .number(), pagination, sorting);
-            fees = new Page<>(memberFees.content()
-                .stream()
-                .map(MyFee::from)
-                .toList(), memberFees.size(), memberFees.page(), memberFees.totalElements(), memberFees.totalPages(),
-                memberFees.elementsInPage(), memberFees.first(), memberFees.last(), memberFees.sort());
         }
 
         log.debug("Got all the fees for the user in session {}: {}", username, fees);
