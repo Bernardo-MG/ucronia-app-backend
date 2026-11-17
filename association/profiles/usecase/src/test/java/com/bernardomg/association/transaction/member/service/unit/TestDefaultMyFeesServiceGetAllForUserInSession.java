@@ -39,10 +39,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.association.fee.domain.model.Fee;
+import com.bernardomg.association.fee.domain.model.MyFee;
 import com.bernardomg.association.fee.domain.repository.FeeProfileRepository;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.test.configuration.factory.FeeProfiles;
 import com.bernardomg.association.fee.test.configuration.factory.Fees;
+import com.bernardomg.association.fee.test.configuration.factory.MyFees;
 import com.bernardomg.association.fee.test.configuration.factory.UserConstants;
 import com.bernardomg.association.fee.usecase.service.DefaultMyFeesService;
 import com.bernardomg.association.fee.usecase.session.UserSessionProvider;
@@ -70,10 +72,10 @@ class TestDefaultMyFeesServiceGetAllForUserInSession {
     @Test
     @DisplayName("When there is data it is returned")
     void testGetAllForUserInSession() {
-        final Page<Fee>  fees;
-        final Page<Fee>  existing;
-        final Pagination pagination;
-        final Sorting    sorting;
+        final Page<MyFee> fees;
+        final Page<Fee>   existing;
+        final Pagination  pagination;
+        final Sorting     sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -94,16 +96,16 @@ class TestDefaultMyFeesServiceGetAllForUserInSession {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("fees")
-            .containsExactly(Fees.paid());
+            .containsExactly(MyFees.paid());
     }
 
     @Test
     @DisplayName("When there is no data nothing is returned")
     void testGetAllForUserInSession_NoData() {
-        final Page<Fee>  fees;
-        final Page<Fee>  existing;
-        final Pagination pagination;
-        final Sorting    sorting;
+        final Page<MyFee> fees;
+        final Page<Fee>   existing;
+        final Pagination  pagination;
+        final Sorting     sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -130,9 +132,9 @@ class TestDefaultMyFeesServiceGetAllForUserInSession {
     @Test
     @DisplayName("When the user has no member, nothing is returned")
     void testGetAllForUserInSession_NoMember() {
-        final Page<Fee>  fees;
-        final Pagination pagination;
-        final Sorting    sorting;
+        final Page<MyFee> fees;
+        final Pagination  pagination;
+        final Sorting     sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);

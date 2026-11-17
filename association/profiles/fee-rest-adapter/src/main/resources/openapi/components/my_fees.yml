@@ -1,0 +1,24 @@
+components:
+  schemas:
+    MyFee:
+      type: object
+      required: [member, month, paid]
+      properties:
+        member:
+          $ref: 'members.yml#/components/schemas/FeeMember'
+        month:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+        paid:
+          type: boolean
+        transaction:
+          $ref: 'fees.yml#/components/schemas/FeeTransaction'
+          nullable: true
+    MyFeePageResponse:
+      allOf:
+        - $ref: '../common/responses.yml#/components/schemas/PageResponse'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/MyFee'

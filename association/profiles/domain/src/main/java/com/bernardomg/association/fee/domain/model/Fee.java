@@ -105,6 +105,8 @@ public record Fee(Instant month, Boolean paid, FeeMember member, FeeType feeType
         public Transaction(final Long index, final Instant date) {
             Objects.requireNonNull(index, "Index can't be null");
             Objects.requireNonNull(date, "Date can't be null");
+            
+            // TODO: just use the index
 
             this.index = index;
             this.date = date;

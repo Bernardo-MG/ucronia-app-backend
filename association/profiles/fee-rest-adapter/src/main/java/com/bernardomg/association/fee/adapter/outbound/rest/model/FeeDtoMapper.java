@@ -83,10 +83,6 @@ public final class FeeDtoMapper {
         return fee;
     }
 
-    public static final FeePageResponseDto toMyFeesResponseDto(final Page<Fee> page) {
-        return toResponseDto(page, false);
-    }
-
     public static final FeesResponseDto toResponseDto(final Collection<Fee> fees) {
         return new FeesResponseDto().content(fees.stream()
             .map(FeeDtoMapper::toDto)
@@ -103,7 +99,25 @@ public final class FeeDtoMapper {
     }
 
     public static final FeePageResponseDto toResponseDto(final Page<Fee> page) {
-        return toResponseDto(page, true);
+        final SortingDto sortingResponse;
+
+        sortingResponse = new SortingDto().properties(page.sort()
+            .properties()
+            .stream()
+            .map(FeeDtoMapper::toDto)
+            .toList());
+        return new FeePageResponseDto().content(page.content()
+            .stream()
+            .map(FeeDtoMapper::toDto)
+            .toList())
+            .size(page.size())
+            .page(page.page())
+            .totalElements(page.totalElements())
+            .totalPages(page.totalPages())
+            .elementsInPage(page.elementsInPage())
+            .first(page.first())
+            .last(page.last())
+            .sort(sortingResponse);
     }
 
     public static final YearsRangeResponseDto toResponseDto(final YearsRange range) {
@@ -133,10 +147,6 @@ public final class FeeDtoMapper {
     }
 
     private static final FeeDto toDto(final Fee fee) {
-        return toDto(fee, true);
-    }
-
-    private static final FeeDto toDto(final Fee fee, final boolean includeAudit) {
         final MemberNameDto     name;
         final FeeMemberDto      member;
         final FeeTransactionDto transaction;
@@ -185,7 +195,7 @@ public final class FeeDtoMapper {
             .member(member)
             .transaction(transaction)
             .feeType(feeType)
-            .audit(includeAudit ? toDto(fee.audit()) : null);
+            .audit(toDto(fee.audit()));
     }
 
     private static final PropertyDto toDto(final Property property) {
@@ -198,28 +208,6 @@ public final class FeeDtoMapper {
         }
         return new PropertyDto().name(property.name())
             .direction(direction);
-    }
-
-    private static final FeePageResponseDto toResponseDto(final Page<Fee> page, final boolean includeAudit) {
-        final SortingDto sortingResponse;
-
-        sortingResponse = new SortingDto().properties(page.sort()
-            .properties()
-            .stream()
-            .map(FeeDtoMapper::toDto)
-            .toList());
-        return new FeePageResponseDto().content(page.content()
-            .stream()
-            .map(fee -> toDto(fee, includeAudit))
-            .toList())
-            .size(page.size())
-            .page(page.page())
-            .totalElements(page.totalElements())
-            .totalPages(page.totalPages())
-            .elementsInPage(page.elementsInPage())
-            .first(page.first())
-            .last(page.last())
-            .sort(sortingResponse);
     }
 
     private FeeDtoMapper() {

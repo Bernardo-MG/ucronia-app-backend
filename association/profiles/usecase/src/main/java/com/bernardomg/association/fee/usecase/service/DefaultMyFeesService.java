@@ -33,6 +33,7 @@ import org.slf4j.LoggerFactory;
 
 import com.bernardomg.association.fee.domain.model.Fee;
 import com.bernardomg.association.fee.domain.model.FeeProfile;
+import com.bernardomg.association.fee.domain.model.MyFee;
 import com.bernardomg.association.fee.domain.repository.FeeProfileRepository;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.usecase.session.UserSessionProvider;
@@ -73,8 +74,9 @@ public final class DefaultMyFeesService implements MyFeesService {
     }
 
     @Override
-    public final Page<Fee> getAllForUserInSession(final Pagination pagination, final Sorting sorting) {
-        final Page<Fee>            fees;
+    public final Page<MyFee> getAllForUserInSession(final Pagination pagination, final Sorting sorting) {
+        final Page<MyFee>          fees;
+        final Page<Fee>            memberFees;
         final Optional<FeeProfile> profile;
         final String               username;
 
@@ -86,8 +88,13 @@ public final class DefaultMyFeesService implements MyFeesService {
             log.warn("User {} has no member assigned", username);
             fees = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
         } else {
-            fees = feeRepository.findAllForMember(profile.get()
+            memberFees = feeRepository.findAllForMember(profile.get()
                 .number(), pagination, sorting);
+            fees = new Page<>(memberFees.content()
+                .stream()
+                .map(MyFee::from)
+                .toList(), memberFees.size(), memberFees.page(), memberFees.totalElements(), memberFees.totalPages(),
+                memberFees.elementsInPage(), memberFees.first(), memberFees.last(), memberFees.sort());
         }
 
         log.debug("Got all the fees for the user in session {}: {}", username, fees);

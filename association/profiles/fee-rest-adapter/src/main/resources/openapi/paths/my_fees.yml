@@ -12,4 +12,4 @@ get:
       content:
         application/json:
           schema:
-            $ref: '../components/fees.yml#/components/schemas/FeePageResponse'
+            $ref: '../components/my_fees.yml#/components/schemas/MyFeePageResponse'
