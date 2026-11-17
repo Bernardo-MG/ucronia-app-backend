@@ -22,16 +22,16 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.association.fee.adapter.inbound.jpa.repository;
+package com.bernardomg.association.fee.adapter.inbound.jpa.model;
 
 import java.util.Collection;
 
 import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.domain.Sorting.Property;
 
-final class FeeSorting {
+public final class FeeSorting {
 
-    static Sorting fixSorting(final Sorting sorting) {
+    public static Sorting fixSorting(final Sorting sorting) {
         final Collection<Property> properties;
 
         properties = sorting.properties()

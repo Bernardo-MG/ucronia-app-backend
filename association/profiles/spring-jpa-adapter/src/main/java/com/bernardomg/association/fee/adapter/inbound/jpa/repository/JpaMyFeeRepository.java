@@ -31,6 +31,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeSorting;
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.MyFeeRow;
 import com.bernardomg.association.fee.domain.model.MyFee;
 import com.bernardomg.association.fee.domain.repository.MyFeeRepository;
