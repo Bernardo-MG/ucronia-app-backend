@@ -61,8 +61,8 @@ public final class FeeEntityMapper {
                 .getName(),
             entity.getFeeType()
                 .getAmount());
+        audit = toDomain(entity.getAudit());
         if (entity.getPaid()) {
-            audit = toDomain(entity.getAudit());
             if (entity.getTransaction() == null) {
                 fee = Fee.paid(entity.getMonth(), entity.getMember()
                     .getNumber(), name, feeType, audit);
@@ -76,7 +76,7 @@ public final class FeeEntityMapper {
             }
         } else {
             fee = Fee.unpaid(entity.getMonth(), entity.getMember()
-                .getNumber(), name, feeType);
+                .getNumber(), name, feeType, audit);
         }
 
         return fee;

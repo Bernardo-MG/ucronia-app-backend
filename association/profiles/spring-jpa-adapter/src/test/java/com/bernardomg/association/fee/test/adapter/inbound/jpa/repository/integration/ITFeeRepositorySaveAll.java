@@ -104,6 +104,7 @@ class ITFeeRepositorySaveAll {
         // THEN
         Assertions.assertThat(created)
             .as("fees")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(Fees.notPaid());
     }
 

@@ -117,7 +117,10 @@ class ITFeeRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(fee)
-            .contains(Fees.notPaid());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit")
+                .isEqualTo(Fees.notPaid()));
     }
 
     @Test
