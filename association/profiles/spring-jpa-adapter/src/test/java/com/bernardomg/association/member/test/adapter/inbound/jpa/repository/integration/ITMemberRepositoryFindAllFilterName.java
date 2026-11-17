@@ -37,9 +37,10 @@ import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
-import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMemberWithNickname;
+import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMemberWithEmail;
 import com.bernardomg.association.member.test.configuration.factory.MemberFilters;
 import com.bernardomg.association.member.test.configuration.factory.Members;
+import com.bernardomg.association.profile.test.configuration.data.annotation.ValidProfile;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
@@ -54,10 +55,10 @@ class ITMemberRepositoryFindAllFilterName {
     private MemberRepository repository;
 
     @Test
-    @DisplayName("With a member matching first name, it is returned")
+    @DisplayName("With an active member, it is returned")
     @PositiveFeeType
     @ActiveMember
-    void testFindAll_FirstName() {
+    void testFindAll() {
         final Page<Member> members;
         final Pagination   pagination;
         final Sorting      sorting;
@@ -66,7 +67,7 @@ class ITMemberRepositoryFindAllFilterName {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = MemberFilters.firstName();
+        filter = MemberFilters.all();
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -79,82 +80,7 @@ class ITMemberRepositoryFindAllFilterName {
     }
 
     @Test
-    @DisplayName("With a member matching full name, it is returned")
-    @PositiveFeeType
-    @ActiveMember
-    void testFindAll_FullName() {
-        final Page<Member> members;
-        final Pagination   pagination;
-        final Sorting      sorting;
-        final MemberFilter filter;
-
-        // GIVEN
-        pagination = new Pagination(1, 100);
-        sorting = Sorting.unsorted();
-        filter = MemberFilters.fullName();
-
-        // WHEN
-        members = repository.findAll(filter, pagination, sorting);
-
-        // THEN
-        Assertions.assertThat(members)
-            .extracting(Page::content)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Members.active());
-    }
-
-    @Test
-    @DisplayName("With a member matching last name, it is returned")
-    @PositiveFeeType
-    @ActiveMember
-    void testFindAll_LastName() {
-        final Page<Member> members;
-        final Pagination   pagination;
-        final Sorting      sorting;
-        final MemberFilter filter;
-
-        // GIVEN
-        pagination = new Pagination(1, 100);
-        sorting = Sorting.unsorted();
-        filter = MemberFilters.lastName();
-
-        // WHEN
-        members = repository.findAll(filter, pagination, sorting);
-
-        // THEN
-        Assertions.assertThat(members)
-            .extracting(Page::content)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Members.active());
-    }
-
-    @Test
-    @DisplayName("With a member matching the nickname, it is returned")
-    @PositiveFeeType
-    @ActiveMemberWithNickname
-    void testFindAll_Nickname() {
-        final Page<Member> members;
-        final Pagination   pagination;
-        final Sorting      sorting;
-        final MemberFilter filter;
-
-        // GIVEN
-        pagination = new Pagination(1, 100);
-        sorting = Sorting.unsorted();
-        filter = MemberFilters.nickname();
-
-        // WHEN
-        members = repository.findAll(filter, pagination, sorting);
-
-        // THEN
-        Assertions.assertThat(members)
-            .extracting(Page::content)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Members.activeWithNickname());
-    }
-
-    @Test
-    @DisplayName("With no member, nothing is returned")
+    @DisplayName("With no member and filtering by all, nothing is returned")
     void testFindAll_NoData() {
         final Page<Member> members;
         final Pagination   pagination;
@@ -164,7 +90,7 @@ class ITMemberRepositoryFindAllFilterName {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = MemberFilters.firstName();
+        filter = MemberFilters.all();
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -177,10 +103,10 @@ class ITMemberRepositoryFindAllFilterName {
     }
 
     @Test
-    @DisplayName("With a member partial matching name, it is returned")
+    @DisplayName("With a member with a contact method, it is returned")
     @PositiveFeeType
-    @ActiveMember
-    void testFindAll_PartialName() {
+    @ActiveMemberWithEmail
+    void testFindAll_WithContactMethod() {
         final Page<Member> members;
         final Pagination   pagination;
         final Sorting      sorting;
@@ -189,7 +115,7 @@ class ITMemberRepositoryFindAllFilterName {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = MemberFilters.partialName();
+        filter = MemberFilters.active();
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
@@ -198,14 +124,13 @@ class ITMemberRepositoryFindAllFilterName {
         Assertions.assertThat(members)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Members.active());
+            .containsExactly(Members.withEmail());
     }
 
     @Test
-    @DisplayName("With a member and wrong name, nothing is returned")
-    @PositiveFeeType
-    @ActiveMember
-    void testFindAll_WrongName() {
+    @DisplayName("With a profile with no member role and filtering by all, it is returned")
+    @ValidProfile
+    void testFindAll_WithoutMembership() {
         final Page<Member> members;
         final Pagination   pagination;
         final Sorting      sorting;
@@ -214,7 +139,7 @@ class ITMemberRepositoryFindAllFilterName {
         // GIVEN
         pagination = new Pagination(1, 100);
         sorting = Sorting.unsorted();
-        filter = MemberFilters.alternativeFirstName();
+        filter = MemberFilters.all();
 
         // WHEN
         members = repository.findAll(filter, pagination, sorting);
