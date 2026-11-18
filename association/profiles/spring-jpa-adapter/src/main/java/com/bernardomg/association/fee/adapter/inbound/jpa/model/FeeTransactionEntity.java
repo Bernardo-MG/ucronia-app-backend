@@ -119,8 +119,8 @@ public class FeeTransactionEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "TransactionEntity [amount=" + amount + ", date=" + date + ", description=" + description + ", id=" + id
-                + ", index=" + index + "]";
+        return "FeeTransactionEntity [amount=" + amount + ", date=" + date + ", description=" + description + ", id="
+                + id + ", index=" + index + ", audit=" + audit + "]";
     }
 
 }

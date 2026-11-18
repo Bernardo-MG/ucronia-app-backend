@@ -275,7 +275,7 @@ class ITFeeRepositorySaveAll {
 
         Assertions.assertThat(transactions)
             .as("transactions")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "audit")
             .containsExactly(FeeTransactionEntities.februaryFee());
     }
 
