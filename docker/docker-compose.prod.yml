@@ -1,0 +1,62 @@
+services:
+  association-db:
+    image: postgres:18.0-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ucronia
+      POSTGRES_USER: ucronia
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD}
+      POSTGRES_INITDB_ARGS: --locale-provider=icu --icu-locale=es-ES
+    volumes:
+      - association-data:/var/lib/postgresql
+      - ./sql/01_create_schemas.sql:/docker-entrypoint-initdb.d/01_create_schemas.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ucronia -d ucronia"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    mem_limit: 112m
+    shm_size: 32m
+
+  association-backend:
+    image: ${BACKEND_IMAGE:?Set BACKEND_IMAGE}
+    restart: unless-stopped
+    depends_on:
+      association-db:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      SPRING_DATASOURCE_URL: jdbc:postgresql://association-db:5432/ucronia
+      SPRING_DATASOURCE_USERNAME: ucronia
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD}
+      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:?Set CORS_ALLOWED_ORIGINS}
+      SECURITY_CORS_ALLOWEDORIGINS: ${CORS_ALLOWED_ORIGINS:?Set CORS_ALLOWED_ORIGINS}
+      SECURITY_JWT_SECRET: ${JWT_SECRET:?Set JWT_SECRET}
+      SECURITY_JWT_VALIDITY: 1d
+      SECURITY_TOKEN_VALIDITY: 15d
+      SPRING_MAIL_HOST: ${SMTP_HOST:?Set SMTP_HOST}
+      SPRING_MAIL_PORT: ${SMTP_PORT:-587}
+      SPRING_MAIL_USERNAME: ${SMTP_USERNAME:?Set SMTP_USERNAME}
+      SPRING_MAIL_PASSWORD: ${SMTP_PASSWORD:?Set SMTP_PASSWORD}
+      SECURITY_MAIL_APPNAME: Ucronía
+      SECURITY_MAIL_FROM: ${MAIL_FROM:?Set MAIL_FROM}
+      SECURITY_MAIL_ACTIVATEUSER_URL: ${ACTIVATE_USER_URL:?Set ACTIVATE_USER_URL}
+      SECURITY_MAIL_PASSWORDRECOVERY_URL: ${PASSWORD_RECOVERY_URL:?Set PASSWORD_RECOVERY_URL}
+      SCHEDULER_ZONE: CET
+      CONTENT_STORAGE_REGION: ${AWS_REGION:-eu-west-1}
+      CONTENT_STORAGE_BUCKET: ${S3_BUCKET:?Set S3_BUCKET}
+      CONTENT_STORAGE_ACCESSKEY: ${AWS_ACCESS_KEY_ID:?Set AWS_ACCESS_KEY_ID}
+      CONTENT_STORAGE_SECRETKEY: ${AWS_SECRET_ACCESS_KEY:?Set AWS_SECRET_ACCESS_KEY}
+      MANAGEMENT_ENDPOINT_HEALTH_PROBES_ENABLED: "true"
+      MANAGEMENT_HEALTH_LIVENESSSTATE_ENABLED: "true"
+      MANAGEMENT_HEALTH_READINESSSTATE_ENABLED: "true"
+      JAVA_TOOL_OPTIONS: -Xms64m -Xmx256m -XX:+UseSerialGC
+    ports:
+      - "127.0.0.1:8080:8080"
+    mem_limit: 320m
+    healthcheck:
+      start_period: 120s
+
+volumes:
+  association-data:

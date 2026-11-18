@@ -28,6 +28,14 @@ Then you can query at [http://localhost:8080](http://localhost:8080).
 docker-compose -f docker/docker-compose.yml --project-name ucronia-backend up
 ```
 
+#### Test production environment
+
+```
+docker build -f docker/Dockerfile.prod -t ucronia-app-backend:prod-local .
+
+docker compose --env-file docker/local-prod.env -f docker/docker-compose.prod.yml up
+```
+
 #### Monitoring
 
 To ease development, the following monitoring tools are included in the Docker images:
