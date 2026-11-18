@@ -83,7 +83,7 @@ class ITFeeRepositorySaveAll {
             .as("fees")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "member.id", "member.feeType.id",
                 "member.profile.id", "member.profile.contactChannels.id", "memberId", "feeType.id", "transaction.id",
-                "audit", "member.audit")
+                "audit", "member.audit", "transaction.audit")
             .containsExactly(FeeEntities.notPaid());
     }
 
@@ -135,7 +135,7 @@ class ITFeeRepositorySaveAll {
             .as("fees")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "member.id", "member.feeType.id",
                 "member.profile.id", "member.profile.contactChannels.id", "memberId", "feeType.id", "transaction.id",
-                "audit", "member.audit")
+                "audit", "member.audit", "transaction.audit")
             .containsExactly(FeeEntities.paidAtDate(date));
     }
 
@@ -220,7 +220,7 @@ class ITFeeRepositorySaveAll {
             .as("fees")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "member.id", "member.feeType.id",
                 "member.profile.id", "member.profile.contactChannels.id", "memberId", "feeType.id", "transaction.id",
-                "audit", "member.audit")
+                "audit", "member.audit", "transaction.audit")
             .containsExactly(FeeEntities.paid());
     }
 
