@@ -27,8 +27,14 @@ package com.bernardomg.association.fee.adapter.inbound.jpa.model;
 import java.io.Serializable;
 import java.time.Instant;
 
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditMetadata;
+
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -37,6 +43,7 @@ import jakarta.persistence.Transient;
 
 @Entity(name = "FeeTransaction")
 @Table(schema = "funds", name = "transactions")
+@EntityListeners(AuditingEntityListener.class)
 public class FeeTransactionEntity implements Serializable {
 
     @Transient
@@ -44,6 +51,9 @@ public class FeeTransactionEntity implements Serializable {
 
     @Column(name = "amount", nullable = false)
     private Float             amount;
+
+    @Embedded
+    private AuditMetadata     audit            = new AuditMetadata();
 
     @Column(name = "date", nullable = false)
     private Instant           date;
@@ -61,6 +71,10 @@ public class FeeTransactionEntity implements Serializable {
 
     public Float getAmount() {
         return amount;
+    }
+
+    public AuditMetadata getAudit() {
+        return audit;
     }
 
     public Instant getDate() {
@@ -81,6 +95,10 @@ public class FeeTransactionEntity implements Serializable {
 
     public void setAmount(final Float amount) {
         this.amount = amount;
+    }
+
+    public void setAudit(final AuditMetadata audit) {
+        this.audit = audit;
     }
 
     public void setDate(final Instant date) {
