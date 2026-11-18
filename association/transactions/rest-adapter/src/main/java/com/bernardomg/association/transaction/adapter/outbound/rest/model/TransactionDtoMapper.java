@@ -54,11 +54,13 @@ import com.bernardomg.security.domain.audit.model.AuditDetails.AuditUser;
 public final class TransactionDtoMapper {
 
     public static final Transaction toDomain(final Long index, final TransactionUpdateDto change) {
-        return new Transaction(index, change.getDate(), change.getAmount(), change.getDescription());
+        return new Transaction(index, change.getDate(), change.getAmount(), change.getDescription(),
+            Optional.ofNullable(change.getTransactionType()), new AuditDetails());
     }
 
     public static final Transaction toDomain(final TransactionCreationDto creation) {
-        return new Transaction(-1, creation.getDate(), creation.getAmount(), creation.getDescription());
+        return new Transaction(-1, creation.getDate(), creation.getAmount(), creation.getDescription(),
+            Optional.ofNullable(creation.getTransactionType()), new AuditDetails());
     }
 
     public static final TransactionResponseDto toResponseDto(final Optional<Transaction> transaction) {
@@ -93,8 +95,8 @@ public final class TransactionDtoMapper {
     }
 
     public static final TransactionMonthsRangeResponseDto toResponseDto(final TransactionMonthsRange range) {
-        final TransactionMonthsRangeDto  rangeDto;
-        final List<TransactionMonthDto>  months;
+        final TransactionMonthsRangeDto rangeDto;
+        final List<TransactionMonthDto> months;
 
         months = range.months()
             .stream()
@@ -159,6 +161,8 @@ public final class TransactionDtoMapper {
             .date(transaction.date())
             .amount(transaction.amount())
             .description(transaction.description())
+            .transactionType(transaction.transactionType()
+                .orElse(null))
             .audit(toDto(transaction.audit()));
     }
 

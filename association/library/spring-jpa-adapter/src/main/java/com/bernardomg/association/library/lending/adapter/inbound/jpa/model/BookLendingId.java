@@ -26,6 +26,7 @@ package com.bernardomg.association.library.lending.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.Objects;
 
 public class BookLendingId implements Serializable {
 
@@ -37,6 +38,19 @@ public class BookLendingId implements Serializable {
 
     private Instant           lendingDate;
 
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if ((obj == null) || (getClass() != obj.getClass())) {
+            return false;
+        }
+        final BookLendingId other = (BookLendingId) obj;
+        return Objects.equals(bookId, other.bookId) && Objects.equals(borrowerId, other.borrowerId)
+                && Objects.equals(lendingDate, other.lendingDate);
+    }
+
     public Long getBookId() {
         return bookId;
     }
@@ -47,6 +61,11 @@ public class BookLendingId implements Serializable {
 
     public Instant getLendingDate() {
         return lendingDate;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(bookId, borrowerId, lendingDate);
     }
 
     public void setBookId(final Long bookId) {

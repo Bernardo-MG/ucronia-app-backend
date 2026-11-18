@@ -83,7 +83,7 @@ class ITFeeRepositorySaveAll {
             .as("fees")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "member.id", "member.feeType.id",
                 "member.profile.id", "member.profile.contactChannels.id", "memberId", "feeType.id", "transaction.id",
-                "audit", "member.audit")
+                "audit", "member.audit", "transaction.audit")
             .containsExactly(FeeEntities.notPaid());
     }
 
@@ -104,6 +104,7 @@ class ITFeeRepositorySaveAll {
         // THEN
         Assertions.assertThat(created)
             .as("fees")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(Fees.notPaid());
     }
 
@@ -134,7 +135,7 @@ class ITFeeRepositorySaveAll {
             .as("fees")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "member.id", "member.feeType.id",
                 "member.profile.id", "member.profile.contactChannels.id", "memberId", "feeType.id", "transaction.id",
-                "audit", "member.audit")
+                "audit", "member.audit", "transaction.audit")
             .containsExactly(FeeEntities.paidAtDate(date));
     }
 
@@ -219,7 +220,7 @@ class ITFeeRepositorySaveAll {
             .as("fees")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "member.id", "member.feeType.id",
                 "member.profile.id", "member.profile.contactChannels.id", "memberId", "feeType.id", "transaction.id",
-                "audit", "member.audit")
+                "audit", "member.audit", "transaction.audit")
             .containsExactly(FeeEntities.paid());
     }
 
@@ -274,7 +275,7 @@ class ITFeeRepositorySaveAll {
 
         Assertions.assertThat(transactions)
             .as("transactions")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "audit")
             .containsExactly(FeeTransactionEntities.februaryFee());
     }
 

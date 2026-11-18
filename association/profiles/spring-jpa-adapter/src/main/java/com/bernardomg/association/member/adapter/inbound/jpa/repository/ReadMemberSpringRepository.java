@@ -86,7 +86,4 @@ public interface ReadMemberSpringRepository
             """)
     public Optional<ReadMemberEntity> findByNumber(@Param("number") final Long number);
 
-    @Query("SELECT COALESCE(MAX(m.number), 0) + 1 FROM ReadMember m")
-    public Long findNextNumber();
-
 }

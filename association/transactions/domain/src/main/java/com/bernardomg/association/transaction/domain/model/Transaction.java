@@ -26,19 +26,22 @@ package com.bernardomg.association.transaction.domain.model;
 
 import java.time.Instant;
 import java.util.Objects;
+import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 
 import com.bernardomg.security.domain.audit.model.AuditDetails;
 
-public record Transaction(long index, Instant date, float amount, String description, AuditDetails audit) {
+public record Transaction(long index, Instant date, float amount, String description, Optional<Long> transactionType,
+        AuditDetails audit) {
 
     public Transaction(final long index, final Instant date, final float amount, final String description,
-            final AuditDetails audit) {
+            final Optional<Long> transactionType, final AuditDetails audit) {
         Objects.requireNonNull(index, "Index can't be null");
         Objects.requireNonNull(amount, "Amount can't be null");
         Objects.requireNonNull(date, "Date can't be null");
         Objects.requireNonNull(description, "Description can't be null");
+        Objects.requireNonNull(transactionType, "Transaction type can't be null");
         Objects.requireNonNull(audit, "Audit can't be null");
 
         this.index = index;
@@ -46,6 +49,12 @@ public record Transaction(long index, Instant date, float amount, String descrip
         this.date = date;
         this.description = StringUtils.trim(description);
         this.audit = audit;
+        this.transactionType = transactionType;
+    }
+
+    public Transaction(final long index, final Instant date, final float amount, final String description,
+            final AuditDetails audit) {
+        this(index, date, amount, description, Optional.empty(), audit);
     }
 
     public Transaction(final long index, final Instant date, final float amount, final String description) {

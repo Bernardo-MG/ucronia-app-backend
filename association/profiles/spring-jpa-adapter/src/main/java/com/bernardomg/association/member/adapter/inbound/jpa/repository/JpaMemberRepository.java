@@ -51,6 +51,7 @@ import com.bernardomg.association.member.adapter.inbound.jpa.specification.ReadM
 import com.bernardomg.association.member.domain.filter.MemberFilter;
 import com.bernardomg.association.member.domain.model.Member;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
+import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 import com.bernardomg.association.profile.domain.model.ContactChannel;
 import com.bernardomg.association.profile.domain.model.ContactMethod;
 import com.bernardomg.pagination.domain.Page;
@@ -73,18 +74,21 @@ public final class JpaMemberRepository implements MemberRepository {
 
     private final MemberSpringRepository              memberSpringRepository;
 
+    private final ProfileSpringRepository             profileSpringRepository;
+
     private final ReadMemberSpringRepository          readMemberSpringRepository;
 
     public JpaMemberRepository(final ReadMemberSpringRepository readMemberSpringRepo,
             final MemberSpringRepository memberSpringRepo,
             final MemberContactMethodSpringRepository memberContactMethodSpringRepo,
-            final FeeTypeSpringRepository feeTypeSpringRepo) {
+            final FeeTypeSpringRepository feeTypeSpringRepo, final ProfileSpringRepository profileSpringRepo) {
         super();
 
         readMemberSpringRepository = Objects.requireNonNull(readMemberSpringRepo);
         memberSpringRepository = Objects.requireNonNull(memberSpringRepo);
         memberContactMethodSpringRepository = Objects.requireNonNull(memberContactMethodSpringRepo);
         feeTypeSpringRepository = Objects.requireNonNull(feeTypeSpringRepo);
+        profileSpringRepository = Objects.requireNonNull(profileSpringRepo);
     }
 
     @Override
@@ -245,7 +249,7 @@ public final class JpaMemberRepository implements MemberRepository {
 
         log.debug("Saving member profile {}", member);
 
-        number = () -> readMemberSpringRepository.findNextNumber();
+        number = () -> profileSpringRepository.findNextNumber();
         entity = toEntity(member, number);
 
         created = MemberEntityMapper.toDomain(memberSpringRepository.save(entity));
@@ -264,7 +268,7 @@ public final class JpaMemberRepository implements MemberRepository {
 
         log.debug("Saving member profiles {}", members);
 
-        sourceNumber = new AtomicLong(readMemberSpringRepository.findNextNumber());
+        sourceNumber = new AtomicLong(profileSpringRepository.findNextNumber());
         number = () -> sourceNumber.getAndIncrement();
 
         entities = members.stream()

@@ -91,7 +91,7 @@ class ITFeeTransactionRepositorySave {
 
         Assertions.assertThat(transactions)
             .as("transactions")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "audit")
             .containsExactly(TransactionEntities.decimal());
     }
 
@@ -131,7 +131,7 @@ class ITFeeTransactionRepositorySave {
 
         Assertions.assertThat(transactions)
             .as("transactions")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "audit")
             .containsExactly(TransactionEntities.valid());
     }
 

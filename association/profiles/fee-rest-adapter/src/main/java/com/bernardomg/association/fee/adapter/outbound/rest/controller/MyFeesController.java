@@ -28,9 +28,9 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeePageResponseDto;
-import com.bernardomg.association.fee.adapter.outbound.rest.model.FeeDtoMapper;
-import com.bernardomg.association.fee.domain.model.Fee;
+import com.bernardomg.association.fee.adapter.outbound.rest.dto.MyFeePageResponseDto;
+import com.bernardomg.association.fee.adapter.outbound.rest.model.MyFeeDtoMapper;
+import com.bernardomg.association.fee.domain.model.MyFee;
 import com.bernardomg.association.fee.usecase.service.MyFeesService;
 import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.pagination.domain.Page;
@@ -61,16 +61,16 @@ public class MyFeesController implements MyFeesApi {
 
     @Override
     @RequireResourceAuthorization(resource = "MY_FEES", action = Actions.READ)
-    public FeePageResponseDto getUserFees(final Integer page, final Integer size, final List<String> sort) {
-        final Pagination pagination;
-        final Sorting    sorting;
-        final Page<Fee>  fees;
+    public MyFeePageResponseDto getUserFees(final Integer page, final Integer size, final List<String> sort) {
+        final Pagination  pagination;
+        final Sorting     sorting;
+        final Page<MyFee> fees;
 
         pagination = new Pagination(page, size);
         sorting = WebSorting.toSorting(sort);
         fees = service.getAllForUserInSession(pagination, sorting);
 
-        return FeeDtoMapper.toResponseDto(fees);
+        return MyFeeDtoMapper.toResponseDto(fees);
     }
 
 }

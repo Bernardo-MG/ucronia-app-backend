@@ -336,8 +336,8 @@
             <version>${project.version}</version>
          </dependency>
          <dependency>
-            <groupId>com.bernardomg.association.settings</groupId>
-            <artifactId>association-settings-spring-starter</artifactId>
+            <groupId>com.bernardomg.association.contacts</groupId>
+            <artifactId>association-contacts-spring-starter</artifactId>
             <version>${project.version}</version>
          </dependency>
          <dependency>
