@@ -650,5 +650,25 @@
             Better key assignment.
          </action>
       </release>
+      <release version="0.7.16" date="2026-11-18" description="Fixes">
+         <action dev="bmg" type="fix">
+            Added missing permission.
+         </action>
+         <action dev="bmg" type="update">
+            Changed month model.
+         </action>
+         <action dev="bmg" type="add">
+            Allow setting transaction type.
+         </action>
+         <action dev="bmg" type="update">
+            Changed public setting to contact info.
+         </action>
+         <action dev="bmg" type="add">
+            Filter member by nickname.
+         </action>
+         <action dev="bmg" type="fix">
+            Fixed fee transaction audit.
+         </action>
+      </release>
    </body>
 </document>
