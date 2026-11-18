@@ -24,7 +24,7 @@
 
 package com.bernardomg.association.fee.usecase.service;
 
-import com.bernardomg.association.fee.domain.model.Fee;
+import com.bernardomg.association.fee.domain.model.MyFee;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
@@ -46,6 +46,6 @@ public interface MyFeesService {
      *            sorting to apply
      * @return all the fees for the user in session
      */
-    public Page<Fee> getAllForUserInSession(final Pagination pagination, final Sorting sorting);
+    public Page<MyFee> getAllForUserInSession(final Pagination pagination, final Sorting sorting);
 
 }

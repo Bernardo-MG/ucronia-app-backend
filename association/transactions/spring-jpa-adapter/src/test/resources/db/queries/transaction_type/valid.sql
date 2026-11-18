@@ -1,2 +1,2 @@
-INSERT INTO funds.transaction_types (number, description, color) VALUES
-   (10, 'Transaction type', '#123456');
+INSERT INTO funds.transaction_types (id, number, description, color) VALUES
+   (1, 10, 'Transaction type', '#123456');

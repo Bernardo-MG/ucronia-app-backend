@@ -58,10 +58,15 @@ public record Fee(Instant month, Boolean paid, FeeMember member, FeeType feeType
     }
 
     public static Fee unpaid(final Instant month, final Long number, final Name name, final FeeType feeType) {
+        return unpaid(month, number, name, feeType, new AuditDetails());
+    }
+
+    public static Fee unpaid(final Instant month, final Long number, final Name name, final FeeType feeType,
+            final AuditDetails audit) {
         final FeeMember member;
 
         member = new FeeMember(number, name);
-        return new Fee(month, false, member, feeType, Optional.empty(), new AuditDetails());
+        return new Fee(month, false, member, feeType, Optional.empty(), audit);
     }
 
     public static Fee paid(final Instant month, final Long number, final Name name, final FeeType feeType,
@@ -100,6 +105,8 @@ public record Fee(Instant month, Boolean paid, FeeMember member, FeeType feeType
         public Transaction(final Long index, final Instant date) {
             Objects.requireNonNull(index, "Index can't be null");
             Objects.requireNonNull(date, "Date can't be null");
+
+            // TODO: just use the index
 
             this.index = index;
             this.date = date;

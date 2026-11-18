@@ -52,6 +52,7 @@ permissions:
       - create
       - read
       - update
+      - delete
   - resource: fee_type
     actions:
       - create
@@ -116,6 +117,9 @@ permissions:
       - update
       - delete
   - resource: member
+    actions:
+      - read
+  - resource: inactive_member
     actions:
       - read
   - resource: member_profile

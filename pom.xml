@@ -19,7 +19,7 @@
 
    <groupId>com.bernardomg</groupId>
    <artifactId>ucronia-app-backend</artifactId>
-   <version>0.7.15</version>
+   <version>0.7.16</version>
    <packaging>pom</packaging>
 
    <name>Ucronia App Backend</name>
@@ -336,8 +336,8 @@
             <version>${project.version}</version>
          </dependency>
          <dependency>
-            <groupId>com.bernardomg.association.settings</groupId>
-            <artifactId>association-settings-spring-starter</artifactId>
+            <groupId>com.bernardomg.association.contacts</groupId>
+            <artifactId>association-contacts-spring-starter</artifactId>
             <version>${project.version}</version>
          </dependency>
          <dependency>

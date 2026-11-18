@@ -40,11 +40,13 @@ import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaFeeRepos
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaFeeSummaryRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaFeeTransactionRepository;
 import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaFeeTypeRepository;
+import com.bernardomg.association.fee.adapter.inbound.jpa.repository.JpaMyFeeRepository;
 import com.bernardomg.association.fee.domain.repository.FeeProfileRepository;
 import com.bernardomg.association.fee.domain.repository.FeeRepository;
 import com.bernardomg.association.fee.domain.repository.FeeSummaryRepository;
 import com.bernardomg.association.fee.domain.repository.FeeTransactionRepository;
 import com.bernardomg.association.fee.domain.repository.FeeTypeRepository;
+import com.bernardomg.association.fee.domain.repository.MyFeeRepository;
 import com.bernardomg.association.guest.adapter.inbound.jpa.repository.GuestSpringRepository;
 import com.bernardomg.association.guest.adapter.inbound.jpa.repository.JpaGuestRepository;
 import com.bernardomg.association.guest.adapter.inbound.jpa.repository.ReadGuestSpringRepository;
@@ -175,15 +177,21 @@ public class TestConfiguration {
     public MemberRepository getMemberRepository(final ReadMemberSpringRepository readMemberSpringRepository,
             final MemberSpringRepository memberSpringRepository,
             final MemberContactMethodSpringRepository memberContactMethodSpringRepository,
-            final FeeTypeSpringRepository feeTypeSpringRepository) {
+            final FeeTypeSpringRepository feeTypeSpringRepository,
+            final ProfileSpringRepository profileSpringRepository) {
         return new JpaMemberRepository(readMemberSpringRepository, memberSpringRepository,
-            memberContactMethodSpringRepository, feeTypeSpringRepository);
+            memberContactMethodSpringRepository, feeTypeSpringRepository, profileSpringRepository);
     }
 
     @Bean("membershipEvolutionRepository")
     public MembershipEvolutionRepository
             getMembershipEvolutionRepository(final MemberSpringRepository memberSpringRepository) {
         return new JpaMembershipEvolutionRepository(memberSpringRepository);
+    }
+
+    @Bean("myFeeRepository")
+    public MyFeeRepository getMyFeeRepository(final FeeSpringRepository feeSpringRepository) {
+        return new JpaMyFeeRepository(feeSpringRepository);
     }
 
     @Bean("profileRepository")

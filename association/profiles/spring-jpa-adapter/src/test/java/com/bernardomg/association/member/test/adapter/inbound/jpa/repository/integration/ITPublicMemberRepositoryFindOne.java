@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.integration;
 
+import java.time.ZoneOffset;
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
@@ -33,7 +34,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bernardomg.association.TestApplication;
+import com.bernardomg.association.fee.test.configuration.data.annotation.FeeFullYear;
+import com.bernardomg.association.fee.test.configuration.data.annotation.NotPaidFee;
+import com.bernardomg.association.fee.test.configuration.data.annotation.PaidFeesWithGaps;
 import com.bernardomg.association.fee.test.configuration.data.annotation.PositiveFeeType;
+import com.bernardomg.association.fee.test.configuration.factory.FeeConstants;
 import com.bernardomg.association.member.domain.model.PublicMember;
 import com.bernardomg.association.member.domain.repository.PublicMemberRepository;
 import com.bernardomg.association.member.test.configuration.data.annotation.ActiveMember;
@@ -63,7 +68,7 @@ class ITPublicMemberRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(member)
-            .contains(PublicMembers.valid());
+            .contains(PublicMembers.active());
     }
 
     @Test
@@ -106,6 +111,57 @@ class ITPublicMemberRepositoryFindOne {
         // THEN
         Assertions.assertThat(member)
             .isEmpty();
+    }
+
+    @Test
+    @DisplayName("With a year of paid fees, the first fee month and twelve months are returned")
+    @PositiveFeeType
+    @ActiveMember
+    @FeeFullYear
+    void testFindOne_PaidFullYear() {
+        final Optional<PublicMember> member;
+
+        // WHEN
+        member = repository.findOne(MemberConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(member)
+            .contains(PublicMembers.withMembership(FeeConstants.JANUARY_DATE, 12L));
+    }
+
+    @Test
+    @DisplayName("With gaps and earlier unpaid fees, only paid fee months are counted")
+    @PositiveFeeType
+    @ActiveMember
+    @PaidFeesWithGaps
+    void testFindOne_PaidWithGaps() {
+        final Optional<PublicMember> member;
+
+        // WHEN
+        member = repository.findOne(MemberConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(member)
+            .contains(PublicMembers.withMembership(FeeConstants.FEBRUARY_DATE, 2L,
+                FeeConstants.FEBRUARY_DATE.atOffset(ZoneOffset.UTC)
+                    .plusMonths(2)
+                    .toInstant()));
+    }
+
+    @Test
+    @DisplayName("With only unpaid fees, no joined month and zero months are returned")
+    @PositiveFeeType
+    @ActiveMember
+    @NotPaidFee
+    void testFindOne_UnpaidFees() {
+        final Optional<PublicMember> member;
+
+        // WHEN
+        member = repository.findOne(MemberConstants.NUMBER);
+
+        // THEN
+        Assertions.assertThat(member)
+            .contains(PublicMembers.active());
     }
 
 }

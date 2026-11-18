@@ -29,12 +29,15 @@ import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 
-public record PublicMemberFilter(Optional<String> name) {
+import com.bernardomg.association.member.domain.model.MemberStatus;
 
-    public PublicMemberFilter(final Optional<String> name) {
+public record PublicMemberFilter(MemberStatus status, Optional<String> name) {
+
+    public PublicMemberFilter {
+        Objects.requireNonNull(status);
         Objects.requireNonNull(name);
 
-        this.name = handleEmpty(name);
+        name = handleEmpty(name);
     }
 
     private final static Optional<String> handleEmpty(final Optional<String> value) {

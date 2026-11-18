@@ -55,9 +55,23 @@ components:
           $ref: '../common/ids.yml#/components/schemas/Id'
         name:
           $ref: '../../profile/components/profiles.yml#/components/schemas/Name'
+        active:
+          type: boolean
+          description: Whether the membership is currently active.
         renew:
           type: boolean
           description: Whether the member is eligible for renewal.
+        joined:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+        totalMonths:
+          type: integer
+          format: int64
+          minimum: 0
+          description: Number of months covered by paid fees.
+        lastPaidMonth:
+          description: Latest month covered by a paid fee for an inactive member, if available.
+          allOf:
+            - $ref: '../common/dates.yml#/components/schemas/Date'
     Member:
       type: object
       required: [number, memberNumber, name]

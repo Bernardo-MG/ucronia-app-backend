@@ -62,9 +62,9 @@ public class TestConfiguration {
     }
 
     @Bean("transactionRepository")
-    public TransactionRepository
-            getTransactionRepository(final TransactionSpringRepository transactionSpringRepository) {
-        return new JpaTransactionRepository(transactionSpringRepository);
+    public TransactionRepository getTransactionRepository(final TransactionSpringRepository transactionSpringRepository,
+            final TransactionTypeSpringRepository transactionTypeSpringRepository) {
+        return new JpaTransactionRepository(transactionSpringRepository, transactionTypeSpringRepository);
     }
 
     @Bean("transactionSummaryRepository")

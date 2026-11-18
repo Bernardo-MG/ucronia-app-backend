@@ -24,9 +24,6 @@
 
 package com.bernardomg.association.transaction.adapter.outbound.rest.model;
 
-import java.time.Instant;
-import java.time.YearMonth;
-import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,6 +34,7 @@ import com.bernardomg.association.transaction.adapter.outbound.rest.dto.Property
 import com.bernardomg.association.transaction.adapter.outbound.rest.dto.SortingDto;
 import com.bernardomg.association.transaction.adapter.outbound.rest.dto.TransactionCreationDto;
 import com.bernardomg.association.transaction.adapter.outbound.rest.dto.TransactionDto;
+import com.bernardomg.association.transaction.adapter.outbound.rest.dto.TransactionMonthDto;
 import com.bernardomg.association.transaction.adapter.outbound.rest.dto.TransactionMonthsRangeDto;
 import com.bernardomg.association.transaction.adapter.outbound.rest.dto.TransactionMonthsRangeResponseDto;
 import com.bernardomg.association.transaction.adapter.outbound.rest.dto.TransactionPageResponseDto;
@@ -56,11 +54,13 @@ import com.bernardomg.security.domain.audit.model.AuditDetails.AuditUser;
 public final class TransactionDtoMapper {
 
     public static final Transaction toDomain(final Long index, final TransactionUpdateDto change) {
-        return new Transaction(index, change.getDate(), change.getAmount(), change.getDescription());
+        return new Transaction(index, change.getDate(), change.getAmount(), change.getDescription(),
+            Optional.ofNullable(change.getTransactionType()), new AuditDetails());
     }
 
     public static final Transaction toDomain(final TransactionCreationDto creation) {
-        return new Transaction(-1, creation.getDate(), creation.getAmount(), creation.getDescription());
+        return new Transaction(-1, creation.getDate(), creation.getAmount(), creation.getDescription(),
+            Optional.ofNullable(creation.getTransactionType()), new AuditDetails());
     }
 
     public static final TransactionResponseDto toResponseDto(final Optional<Transaction> transaction) {
@@ -96,11 +96,12 @@ public final class TransactionDtoMapper {
 
     public static final TransactionMonthsRangeResponseDto toResponseDto(final TransactionMonthsRange range) {
         final TransactionMonthsRangeDto rangeDto;
-        final List<Instant>             months;
+        final List<TransactionMonthDto> months;
 
         months = range.months()
             .stream()
-            .map(TransactionDtoMapper::toInstant)
+            .map(m -> new TransactionMonthDto().year(m.getYear())
+                .month(m.getMonthValue()))
             .toList();
 
         rangeDto = new TransactionMonthsRangeDto().months(months);
@@ -160,13 +161,9 @@ public final class TransactionDtoMapper {
             .date(transaction.date())
             .amount(transaction.amount())
             .description(transaction.description())
+            .transactionType(transaction.transactionType()
+                .orElse(null))
             .audit(toDto(transaction.audit()));
-    }
-
-    private static final Instant toInstant(final YearMonth month) {
-        return month.atDay(1)
-            .atStartOfDay(ZoneOffset.UTC)
-            .toInstant();
     }
 
     private TransactionDtoMapper() {

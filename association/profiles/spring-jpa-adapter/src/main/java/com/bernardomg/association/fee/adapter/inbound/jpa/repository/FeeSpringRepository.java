@@ -37,6 +37,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.association.fee.adapter.inbound.jpa.model.FeeEntity;
+import com.bernardomg.association.fee.adapter.inbound.jpa.model.MyFeeRow;
 import com.bernardomg.association.fee.domain.model.FeeSummary;
 
 public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, JpaSpecificationExecutor<FeeEntity> {
@@ -63,14 +64,6 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
             """)
     public boolean existsByMemberNumberAndMonthAndPaid(@Param("number") final Long number,
             @Param("month") final Instant month);
-
-    @Query("""
-               SELECT f
-               FROM Fee f
-                 INNER JOIN f.member m
-               WHERE m.number = :number
-            """)
-    public Page<FeeEntity> findAllByMemberNumber(@Param("number") final Long number, final Pageable pageable);
 
     /**
      * Returns all member fees for the year.
@@ -136,6 +129,21 @@ public interface FeeSpringRepository extends JpaRepository<FeeEntity, Long>, Jpa
      * @return fee for the member in a month
      */
     public Optional<FeeEntity> findByMemberNumberAndMonth(final Long number, final Instant month);
+
+    @Query(value = """
+            SELECT new com.bernardomg.association.fee.adapter.inbound.jpa.model.MyFeeRow(
+                f.month, f.paid, m.number, m.firstName, m.lastName, m.nickname, t.index, t.date)
+            FROM Fee f
+            INNER JOIN f.member m
+            LEFT JOIN f.transaction t
+            WHERE m.number = :number
+            """, countQuery = """
+            SELECT COUNT(f)
+            FROM Fee f
+            INNER JOIN f.member m
+            WHERE m.number = :number
+            """)
+    public Page<MyFeeRow> findMyFeesByMemberNumber(@Param("number") final Long number, final Pageable pageable);
 
     /**
      * Returns all the years based on the existing fees.

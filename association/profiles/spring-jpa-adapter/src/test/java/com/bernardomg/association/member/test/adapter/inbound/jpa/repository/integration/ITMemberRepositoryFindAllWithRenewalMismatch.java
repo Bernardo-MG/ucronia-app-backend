@@ -128,7 +128,7 @@ class ITMemberRepositoryFindAllWithRenewalMismatch {
         // THEN
         Assertions.assertThat(members)
             .as("members")
-            .containsExactly(Members.inactive());
+            .containsExactly(Members.inactiveToRenew());
     }
 
 }

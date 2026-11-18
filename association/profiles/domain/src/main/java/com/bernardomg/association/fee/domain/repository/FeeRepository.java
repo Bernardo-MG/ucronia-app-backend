@@ -45,8 +45,6 @@ public interface FeeRepository {
 
     public Page<Fee> findAll(final FeeFilter filter, final Pagination pagination, final Sorting sorting);
 
-    public Page<Fee> findAllForMember(final Long number, final Pagination pagination, final Sorting sorting);
-
     public Optional<Fee> findOne(final Long number, final Instant date);
 
     public YearsRange findRange();

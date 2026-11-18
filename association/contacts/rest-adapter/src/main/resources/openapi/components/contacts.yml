@@ -1,0 +1,38 @@
+components:
+  parameters:
+    settingsSortParam:
+      name: sort
+      description: Sorting to apply.
+      in: query
+      style: form
+      explode: true
+      schema:
+        type: array
+        items:
+          type: string
+          pattern: '^(code|type)\|(asc|desc)$'
+          example: code|asc
+  schemas:
+    ContactInfo:
+      type: object
+      properties:
+        map:
+          type: string
+          maxLength: 300
+        calendar:
+          type: string
+          maxLength: 300
+        email:
+          type: string
+          maxLength: 300
+        instagram:
+          type: string
+          maxLength: 300
+        telegram:
+          type: string
+          maxLength: 300
+    ContactInfoResponse:
+      type: object
+      properties:
+        content:
+          $ref: '#/components/schemas/ContactInfo'

@@ -25,6 +25,8 @@ components:
           type: boolean
         feeType:
           $ref: '#/components/schemas/FeeFeeType'
+        audit:
+          $ref: 'audit.yml#/components/schemas/AuditDetails'
         transaction:
           $ref: '#/components/schemas/FeeTransaction'
           nullable: true

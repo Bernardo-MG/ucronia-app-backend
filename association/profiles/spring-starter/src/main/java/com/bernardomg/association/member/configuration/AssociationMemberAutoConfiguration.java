@@ -42,6 +42,7 @@ import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberCo
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.MemberSpringRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.PublicMemberSpringRepository;
 import com.bernardomg.association.member.adapter.inbound.jpa.repository.ReadMemberSpringRepository;
+import com.bernardomg.association.member.adapter.outbound.rest.security.PublicMemberStatusAuthorizer;
 import com.bernardomg.association.member.domain.repository.MemberContactMethodRepository;
 import com.bernardomg.association.member.domain.repository.MemberCountRepository;
 import com.bernardomg.association.member.domain.repository.MemberRepository;
@@ -59,7 +60,9 @@ import com.bernardomg.association.member.usecase.service.MemberStatusService;
 import com.bernardomg.association.member.usecase.service.MembershipEvolutionService;
 import com.bernardomg.association.member.usecase.service.ProfileMembershipService;
 import com.bernardomg.association.member.usecase.service.PublicMemberService;
+import com.bernardomg.association.profile.adapter.inbound.jpa.repository.ProfileSpringRepository;
 import com.bernardomg.association.profile.domain.repository.ProfileRepository;
+import com.bernardomg.security.springframework.access.interceptor.AuthorityResourcePermissionEvaluator;
 
 @Configuration
 @ComponentScan({ "com.bernardomg.association.member.adapter.outbound.rest.controller",
@@ -104,9 +107,10 @@ public class AssociationMemberAutoConfiguration {
     public MemberRepository getMemberRepository(final ReadMemberSpringRepository readMemberSpringRepository,
             final MemberSpringRepository memberSpringRepository,
             final MemberContactMethodSpringRepository memberContactMethodSpringRepository,
-            final FeeTypeSpringRepository feeTypeSpringRepository) {
+            final FeeTypeSpringRepository feeTypeSpringRepository,
+            final ProfileSpringRepository profileSpringRepository) {
         return new JpaMemberRepository(readMemberSpringRepository, memberSpringRepository,
-            memberContactMethodSpringRepository, feeTypeSpringRepository);
+            memberContactMethodSpringRepository, feeTypeSpringRepository, profileSpringRepository);
     }
 
     @Bean("memberService")
@@ -146,6 +150,11 @@ public class AssociationMemberAutoConfiguration {
     @Bean("publicMemberService")
     public PublicMemberService getPublicMemberService(final PublicMemberRepository memberRepository) {
         return new DefaultPublicMemberService(memberRepository);
+    }
+
+    @Bean("publicMemberStatusAuthorizer")
+    public PublicMemberStatusAuthorizer getPublicMemberStatusAuthorizer() {
+        return new PublicMemberStatusAuthorizer(new AuthorityResourcePermissionEvaluator());
     }
 
 }

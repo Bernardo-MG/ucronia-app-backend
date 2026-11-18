@@ -30,6 +30,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
+import com.bernardomg.association.fee.adapter.outbound.rest.dto.AuditDetailsDto;
+import com.bernardomg.association.fee.adapter.outbound.rest.dto.AuditUserDto;
 import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeeDto;
 import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeeFeeTypeDto;
 import com.bernardomg.association.fee.adapter.outbound.rest.dto.FeeMemberDto;
@@ -54,6 +56,8 @@ import com.bernardomg.association.profile.domain.model.Name;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
 import com.bernardomg.pagination.domain.Sorting.Property;
+import com.bernardomg.security.domain.audit.model.AuditDetails;
+import com.bernardomg.security.domain.audit.model.AuditDetails.AuditUser;
 
 public final class FeeDtoMapper {
 
@@ -126,6 +130,22 @@ public final class FeeDtoMapper {
         return new YearsRangeResponseDto().content(new YearsRangeDto().years(years));
     }
 
+    private static final AuditDetailsDto toDto(final AuditDetails audit) {
+        return new AuditDetailsDto().createdAt(audit.createdAt())
+            .createdBy(toDto(audit.createdBy()))
+            .updatedAt(audit.updatedAt())
+            .updatedBy(toDto(audit.updatedBy()));
+    }
+
+    private static final AuditUserDto toDto(final AuditUser user) {
+        if (user == null) {
+            return null;
+        }
+        return new AuditUserDto().email(user.email())
+            .username(user.username())
+            .name(user.name());
+    }
+
     private static final FeeDto toDto(final Fee fee) {
         final MemberNameDto     name;
         final FeeMemberDto      member;
@@ -174,7 +194,8 @@ public final class FeeDtoMapper {
             .paid(fee.paid())
             .member(member)
             .transaction(transaction)
-            .feeType(feeType);
+            .feeType(feeType)
+            .audit(toDto(fee.audit()));
     }
 
     private static final PropertyDto toDto(final Property property) {

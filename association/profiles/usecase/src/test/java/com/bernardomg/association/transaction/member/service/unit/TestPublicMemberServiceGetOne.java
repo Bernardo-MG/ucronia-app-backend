@@ -64,14 +64,14 @@ class TestPublicMemberServiceGetOne {
         final Optional<PublicMember> member;
 
         // GIVEN
-        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(PublicMembers.valid()));
+        given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(PublicMembers.active()));
 
         // WHEN
         member = service.getOne(MemberConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(member)
-            .contains(PublicMembers.valid());
+            .contains(PublicMembers.active());
     }
 
     @Test

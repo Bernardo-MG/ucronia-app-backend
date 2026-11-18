@@ -95,6 +95,8 @@ public final class JpaFeeTransactionRepository implements FeeTransactionReposito
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
+            entity.setAudit(existing.get()
+                .getAudit());
         }
 
         created = transactionSpringRepository.save(entity);

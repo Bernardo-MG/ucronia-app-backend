@@ -49,17 +49,11 @@ public final class ReadMemberSpecifications {
                 .get()));
         }
 
-        if (filter.status()
-            .isEmpty()) {
-            statusSpec = Optional.empty();
-        } else {
-            statusSpec = switch (filter.status()
-                .get()) {
-                case ACTIVE -> Optional.of(active());
-                case INACTIVE -> Optional.of(inactive());
-                default -> Optional.empty();
-            };
-        }
+        statusSpec = switch (filter.status()) {
+            case ACTIVE -> Optional.of(active());
+            case INACTIVE -> Optional.of(inactive());
+            default -> Optional.empty();
+        };
 
         return List.of(nameSpec, statusSpec)
             .stream()
@@ -94,10 +88,12 @@ public final class ReadMemberSpecifications {
      * @return name specification
      */
     private static Specification<ReadMemberEntity> name(final String pattern) {
-        final String likePattern = "%" + pattern.toLowerCase() + "%";
+        final String likePattern;
 
-        return (root, query, cb) -> cb
-            .like(cb.lower(cb.concat(root.get("firstName"), cb.concat(" ", root.get("lastName")))), likePattern);
+        likePattern = "%" + pattern.toLowerCase() + "%";
+        return (root, query, cb) -> cb.or(
+            cb.like(cb.lower(cb.concat(root.get("firstName"), cb.concat(" ", root.get("lastName")))), likePattern),
+            cb.like(cb.lower(root.get("nickname")), likePattern));
     }
 
     private ReadMemberSpecifications() {

@@ -204,6 +204,7 @@ class ITFeeRepositoryFindAll {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("fees")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(Fees.notPaid());
     }
 

@@ -22,4 +22,4 @@ paths:
   /fee/summary:
     $ref: paths/fees_summary.yml
   /user/fee:
-    $ref: paths/user_fees.yml
+    $ref: paths/my_fees.yml

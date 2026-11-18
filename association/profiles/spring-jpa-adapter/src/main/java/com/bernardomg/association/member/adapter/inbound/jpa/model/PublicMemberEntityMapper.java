@@ -24,6 +24,7 @@
 
 package com.bernardomg.association.member.adapter.inbound.jpa.model;
 
+import java.time.Instant;
 import java.util.Optional;
 
 import com.bernardomg.association.member.domain.model.PublicMember;
@@ -34,11 +35,29 @@ import com.bernardomg.association.profile.domain.model.Name;
  */
 public final class PublicMemberEntityMapper {
 
-    public static final PublicMember toDomain(final PublicMemberEntity entity) {
-        final Name name;
+    public static final PublicMember toDomain(final PublicMemberEntity entity, final PaidMembership paid) {
+        final Name              name;
+        final boolean           active;
+        final Optional<Instant> joined;
+        final Optional<Instant> lastPaidMonth;
+        final long              totalMonths;
 
         name = new Name(entity.getFirstName(), entity.getLastName(), Optional.ofNullable(entity.getNickname()));
-        return new PublicMember(entity.getNumber(), entity.getMemberNumber(), name, entity.getRenew());
+        active = Boolean.TRUE.equals(entity.getActive());
+        joined = Optional.ofNullable(paid)
+            .map(PaidMembership::getJoined);
+
+        if (paid == null) {
+            lastPaidMonth = Optional.empty();
+            totalMonths = 0;
+        } else {
+            lastPaidMonth = Optional.ofNullable(paid)
+                .map(PaidMembership::getLastPaidMonth);
+            totalMonths = paid.getTotalMonths();
+        }
+
+        return new PublicMember(entity.getNumber(), entity.getMemberNumber(), name, active, entity.getRenew(), joined,
+            totalMonths, lastPaidMonth);
     }
 
     private PublicMemberEntityMapper() {
