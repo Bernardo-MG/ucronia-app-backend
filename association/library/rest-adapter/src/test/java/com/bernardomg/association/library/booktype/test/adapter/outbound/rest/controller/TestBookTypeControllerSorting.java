@@ -17,6 +17,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
@@ -32,54 +33,60 @@ import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("BookTypeController - Sorting")
+@DisplayName("BookTypeController - getAllBookTypes")
 class TestBookTypeControllerSorting {
 
-    private MockMvc         mockMvc;
+    @InjectMocks
+    private BookTypeController controller;
+
+    private MockMvc            mockMvc;
 
     @Mock
-    private BookTypeService service;
+    private BookTypeService    service;
 
     @BeforeEach
     void setUp() {
-        final LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
+        final LocalValidatorFactoryBean validator;
 
+        validator = new LocalValidatorFactoryBean();
         validator.setMessageInterpolator(new ParameterMessageInterpolator());
         validator.afterPropertiesSet();
 
-        mockMvc = MockMvcBuilders.standaloneSetup(new BookTypeController(service))
+        mockMvc = MockMvcBuilders.standaloneSetup(controller)
             .setValidator(validator)
             .build();
     }
 
     @Test
-    @DisplayName("When sorting by name ascending, it is accepted")
+    @DisplayName("When sorting by name ascending, then it is accepted")
     void testGetAllBookTypes_DescendingSort() throws Exception {
         // GIVEN
         given(service.getAll(eq(new Pagination(1, 10)), any()))
             .willReturn(new Page<>(List.of(BookTypes.valid()), 1, 1, 0, 0, 0, false, false, Sorting.unsorted()));
 
-        // WHEN + THEN
+        // WHEN
         mockMvc.perform(get("/library/bookType").param("page", "1")
             .param("size", "10")
             .param("sort", "name|desc")
             .contentType(MediaType.APPLICATION_JSON))
+            // THEN
             .andExpect(status().isOk())
             .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
     }
 
     @Test
-    @DisplayName("When sorting by name descending, it is accepted")
+    @DisplayName("When sorting by name descending, then it is accepted")
     void testGetAllBookTypes_Sorting() throws Exception {
         // GIVEN
         given(service.getAll(eq(new Pagination(1, 10)), any()))
             .willReturn(new Page<>(List.of(BookTypes.valid()), 1, 1, 0, 0, 0, false, false, Sorting.unsorted()));
 
-        // WHEN + THEN
+        // WHEN
         mockMvc.perform(get("/library/bookType").param("page", "1")
             .param("size", "10")
             .param("sort", "name|asc")
             .contentType(MediaType.APPLICATION_JSON))
+            // THEN
             .andExpect(status().isOk())
             .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content", isA(java.util.ArrayList.class)));

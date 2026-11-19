@@ -1,26 +1,3 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2022-2025 Bernardo Martínez Garrido
- * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * <p>
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * <p>
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 
 package com.bernardomg.association.library.book.test.usecase.service.unit;
 
@@ -62,7 +39,7 @@ import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("BookService - update")
+@DisplayName("DefaultGameBookService - update")
 class TestGameBookServiceUpdate {
 
     @Mock
@@ -86,12 +63,8 @@ class TestGameBookServiceUpdate {
     @InjectMocks
     private DefaultGameBookService service;
 
-    public TestGameBookServiceUpdate() {
-        super();
-    }
-
     @Test
-    @DisplayName("When persisting a book with a duplicated author, the duplication is removed")
+    @DisplayName("When persisting a book with a duplicated author, then the duplication is removed")
     void testUpdate_DuplicatedAuthor() {
         final GameBook book;
 
@@ -113,7 +86,7 @@ class TestGameBookServiceUpdate {
     }
 
     @Test
-    @DisplayName("When persisting a book with a duplicated donor, the duplication is removed")
+    @DisplayName("When persisting a book with a duplicated donor, then the duplication is removed")
     void testUpdate_DuplicatedDonor() {
         final GameBook book;
 
@@ -135,7 +108,7 @@ class TestGameBookServiceUpdate {
     }
 
     @Test
-    @DisplayName("When persisting a book with a duplicated publisher, the duplication is removed")
+    @DisplayName("When persisting a book with a duplicated publisher, then the duplication is removed")
     void testUpdate_DuplicatedPublisher() {
         final GameBook book;
 
@@ -157,10 +130,12 @@ class TestGameBookServiceUpdate {
     }
 
     @Test
-    @DisplayName("With a book with an empty ISBN, the unique check is not applied")
+    @DisplayName("When there is a book with an empty ISBN, then the unique check is not applied")
     void testUpdate_EmptyIsbn_IgnoreUnique() {
-        final GameBook book = GameBooks.emptyIsbn();
+        final GameBook book;
 
+        // GIVEN
+        book = GameBooks.emptyIsbn();
         given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
         given(authorRepository.exists(AuthorConstants.NUMBER)).willReturn(true);
         given(publisherRepository.exists(PublisherConstants.NUMBER)).willReturn(true);
@@ -177,9 +152,9 @@ class TestGameBookServiceUpdate {
     }
 
     @Test
-    @DisplayName("With a book with an empty title, an exception is thrown")
+    @DisplayName("When there is a book with an empty title, then an exception is thrown")
     void testUpdate_EmptyTitle() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
         final GameBook         book;
 
         // GIVEN
@@ -188,17 +163,17 @@ class TestGameBookServiceUpdate {
         given(bookRepository.exists(BookConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        execution = () -> service.update(book);
+        action = () -> service.update(book);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution, new FieldFailure("empty", "title", GameBooks.emptyTitle()
+        ValidationAssertions.assertThatFieldFails(action, new FieldFailure("empty", "title", GameBooks.emptyTitle()
             .title()));
     }
 
     @Test
-    @DisplayName("With a book with an existing ISBN, an exception is thrown")
+    @DisplayName("When there is a book with an existing ISBN, then an exception is thrown")
     void testUpdate_ExistingIsbn() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
         final GameBook         book;
 
         // GIVEN
@@ -214,17 +189,16 @@ class TestGameBookServiceUpdate {
         given(bookRepository.existsByIsbnForAnother(BookConstants.NUMBER, BookConstants.ISBN_10)).willReturn(true);
 
         // WHEN
-        execution = () -> service.update(book);
+        action = () -> service.update(book);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution,
-            new FieldFailure("existing", "isbn", BookConstants.ISBN_10));
+        ValidationAssertions.assertThatFieldFails(action, new FieldFailure("existing", "isbn", BookConstants.ISBN_10));
     }
 
     @Test
-    @DisplayName("With a book with an invalid ISBN, an exception is thrown")
+    @DisplayName("When there is a book with an invalid ISBN, then an exception is thrown")
     void testUpdate_InvalidIsbn() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
         final GameBook         book;
 
         // GIVEN
@@ -241,18 +215,18 @@ class TestGameBookServiceUpdate {
             .willReturn(false);
 
         // WHEN
-        execution = () -> service.update(book);
+        action = () -> service.update(book);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution,
+        ValidationAssertions.assertThatFieldFails(action,
             new FieldFailure("invalid", "isbn", BookConstants.INVALID_ISBN));
     }
 
     @Test
-    @DisplayName("When persisting a book with an invalid language code, an exception is thrown")
+    @DisplayName("When persisting a book with an invalid language code, then an exception is thrown")
     void testUpdate_InvalidLanguage() {
         final GameBook         book;
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         book = GameBooks.invalidLanguage();
@@ -265,17 +239,17 @@ class TestGameBookServiceUpdate {
         given(donorRepository.exists(DonorConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        execution = () -> service.update(book);
+        action = () -> service.update(book);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution, new FieldFailure("invalid", "language", "abc"));
+        ValidationAssertions.assertThatFieldFails(action, new FieldFailure("invalid", "language", "abc"));
     }
 
     @Test
-    @DisplayName("When persisting a book for a not existing author, an exception is thrown")
+    @DisplayName("When persisting a book for a not existing author, then an exception is thrown")
     void testUpdate_NoAuthor() {
         final GameBook         book;
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         book = GameBooks.full();
@@ -284,18 +258,19 @@ class TestGameBookServiceUpdate {
         given(authorRepository.exists(AuthorConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        execution = () -> service.update(book);
+        action = () -> service.update(book);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When persisting a book for a not existing author, then an exception is thrown")
             .isInstanceOf(MissingAuthorException.class);
     }
 
     @Test
-    @DisplayName("When persisting a book for a not existing book type, an exception is thrown")
+    @DisplayName("When persisting a book for a not existing book type, then an exception is thrown")
     void testUpdate_NoBookType() {
         final GameBook         book;
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         book = GameBooks.full();
@@ -307,18 +282,19 @@ class TestGameBookServiceUpdate {
         given(bookTypeRepository.exists(BookTypeConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        execution = () -> service.update(book);
+        action = () -> service.update(book);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When persisting a book for a not existing book type, then an exception is thrown")
             .isInstanceOf(MissingBookTypeException.class);
     }
 
     @Test
-    @DisplayName("When persisting a book for a not existing donor, an exception is thrown")
+    @DisplayName("When persisting a book for a not existing donor, then an exception is thrown")
     void testUpdate_NoDonor() {
         final GameBook         book;
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         book = GameBooks.full();
@@ -327,18 +303,19 @@ class TestGameBookServiceUpdate {
         given(authorRepository.exists(AuthorConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        execution = () -> service.update(book);
+        action = () -> service.update(book);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When persisting a book for a not existing donor, then an exception is thrown")
             .isInstanceOf(MissingAuthorException.class);
     }
 
     @Test
-    @DisplayName("When persisting a book for a not existing game system, an exception is thrown")
+    @DisplayName("When persisting a book for a not existing game system, then an exception is thrown")
     void testUpdate_NoGameSystem() {
         final GameBook         book;
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         book = GameBooks.full();
@@ -349,18 +326,19 @@ class TestGameBookServiceUpdate {
         given(gameSystemRepository.exists(GameSystemConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        execution = () -> service.update(book);
+        action = () -> service.update(book);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When persisting a book for a not existing game system, then an exception is thrown")
             .isInstanceOf(MissingGameSystemException.class);
     }
 
     @Test
-    @DisplayName("When persisting a book for a not existing publisher, an exception is thrown")
+    @DisplayName("When persisting a book for a not existing publisher, then an exception is thrown")
     void testUpdate_NoPublisher() {
         final GameBook         book;
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         book = GameBooks.full();
@@ -370,15 +348,16 @@ class TestGameBookServiceUpdate {
         given(publisherRepository.exists(PublisherConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        execution = () -> service.update(book);
+        action = () -> service.update(book);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When persisting a book for a not existing publisher, then an exception is thrown")
             .isInstanceOf(MissingPublisherException.class);
     }
 
     @Test
-    @DisplayName("With a valid book, which has no relationships, the book is persisted")
+    @DisplayName("When there is a valid book, which has no relationships, then the book is persisted")
     void testUpdate_NoRelationship_PersistedData() {
         final GameBook book;
 
@@ -395,10 +374,10 @@ class TestGameBookServiceUpdate {
     }
 
     @Test
-    @DisplayName("When persisting a book which doesn't exist, an exception is thrown")
+    @DisplayName("When persisting a book which doesn't exist, then an exception is thrown")
     void testUpdate_NotExisting() {
         final GameBook         book;
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         book = GameBooks.full();
@@ -406,15 +385,16 @@ class TestGameBookServiceUpdate {
         given(bookRepository.exists(BookConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        execution = () -> service.update(book);
+        action = () -> service.update(book);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When persisting a book which doesn't exist, then an exception is thrown")
             .isInstanceOf(MissingBookException.class);
     }
 
     @Test
-    @DisplayName("With a valid book, the book is persisted")
+    @DisplayName("When there is a valid book, then the book is persisted")
     void testUpdate_PersistedData() {
         final GameBook book;
 
@@ -436,7 +416,7 @@ class TestGameBookServiceUpdate {
     }
 
     @Test
-    @DisplayName("With a valid book, the created book is returned")
+    @DisplayName("When there is a valid book, then the created book is returned")
     void testUpdate_ReturnedData() {
         final GameBook book;
         final GameBook created;
@@ -458,6 +438,7 @@ class TestGameBookServiceUpdate {
 
         // THEN
         Assertions.assertThat(created)
+            .as("When there is a valid book, then the created book is returned")
             .isEqualTo(GameBooks.full());
     }
 

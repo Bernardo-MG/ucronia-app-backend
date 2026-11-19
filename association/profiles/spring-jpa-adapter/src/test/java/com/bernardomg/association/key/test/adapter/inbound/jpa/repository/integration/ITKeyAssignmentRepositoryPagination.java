@@ -23,7 +23,7 @@ import com.bernardomg.test.pagination.AbstractPaginationIT;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("KeyAssignmentRepository - find all - pagination")
+@DisplayName("KeyAssignmentRepository - findAll")
 @PositiveFeeType
 @ActiveMemberWithKey
 @AlternativeAvailableKey
@@ -42,7 +42,7 @@ class ITKeyAssignmentRepositoryPagination extends AbstractPaginationIT<KeyAssign
     }
 
     @Test
-    @DisplayName("With pagination for the first page, it returns the assigned key")
+    @DisplayName("When requesting pagination for the first page, then it returns the assigned key")
     void testFindAll_Page1() {
         final Page<KeyAssignment> assignments;
         final Pagination          pagination;
@@ -57,13 +57,14 @@ class ITKeyAssignmentRepositoryPagination extends AbstractPaginationIT<KeyAssign
 
         // THEN
         Assertions.assertThat(assignments)
+            .as("When requesting pagination for the first page, then it returns the assigned key")
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(KeyAssignments.assigned());
     }
 
     @Test
-    @DisplayName("With pagination for the second page, it returns the unassigned key")
+    @DisplayName("When requesting pagination for the second page, then it returns the unassigned key")
     void testFindAll_Page2() {
         final Page<KeyAssignment> assignments;
         final Pagination          pagination;
@@ -78,13 +79,14 @@ class ITKeyAssignmentRepositoryPagination extends AbstractPaginationIT<KeyAssign
 
         // THEN
         Assertions.assertThat(assignments)
+            .as("When requesting pagination for the second page, then it returns the unassigned key")
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(KeyAssignments.unassignedAlternative());
     }
 
     @Test
-    @DisplayName("Sorting is applied before pagination")
+    @DisplayName("When results are sorted and paginated, then sorting is applied before pagination")
     void testFindAll_SortDescending() {
         final Page<KeyAssignment> assignments;
         final Pagination          pagination;
@@ -99,6 +101,7 @@ class ITKeyAssignmentRepositoryPagination extends AbstractPaginationIT<KeyAssign
 
         // THEN
         Assertions.assertThat(assignments)
+            .as("Sorting is applied before pagination")
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(KeyAssignments.unassignedAlternative());

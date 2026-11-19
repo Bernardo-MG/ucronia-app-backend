@@ -29,8 +29,8 @@ import com.bernardomg.association.member.test.configuration.factory.MemberConsta
 import com.bernardomg.association.member.test.configuration.factory.Members;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("DefaultFeeMaintenanceService")
-public class TestFeeMaintenanceService {
+@DisplayName("DefaultFeeMaintenanceService - registerMonthFees")
+class TestFeeMaintenanceService {
 
     @Mock
     private FeeRepository                feeRepository;
@@ -42,7 +42,7 @@ public class TestFeeMaintenanceService {
     private DefaultFeeMaintenanceService service;
 
     @Test
-    @DisplayName("When there is a member to renew a new unpaid fee is saved")
+    @DisplayName("When a member is due for renewal, then a new unpaid fee is saved")
     void testRegisterMonthFees() {
 
         // GIVEN
@@ -58,7 +58,7 @@ public class TestFeeMaintenanceService {
     }
 
     @Test
-    @DisplayName("When there is a member to renew, but the fee already exists, nothing is saved")
+    @DisplayName("When there is a member to renew, but the fee already exists, then nothing is saved")
     void testRegisterMonthFees_Exists() {
 
         // GIVEN
@@ -74,24 +74,25 @@ public class TestFeeMaintenanceService {
     }
 
     @Test
-    @DisplayName("When the fee type doesn't exist, an exception is thrown")
+    @DisplayName("When the fee type doesn't exist, then an exception is thrown")
     void testRegisterMonthFees_NoFeeType() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         given(memberRepository.findAllToRenew()).willReturn(List.of(Members.active()));
         given(memberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.registerMonthFees(FeeConstants.DATE);
+        action = () -> service.registerMonthFees(FeeConstants.DATE);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When the fee type doesn't exist, then an exception is thrown")
             .isInstanceOf(MissingFeeTypeException.class);
     }
 
     @Test
-    @DisplayName("When there are no members to renew, nothing is saved")
+    @DisplayName("When there are no members to renew, then nothing is saved")
     void testRegisterMonthFees_NotActive() {
 
         // GIVEN
@@ -105,7 +106,7 @@ public class TestFeeMaintenanceService {
     }
 
     @Test
-    @DisplayName("When there is a member to renew, and the fee type has zero amount, a new paid fee is saved")
+    @DisplayName("When there is a member to renew, and the fee type has zero amount, then a new paid fee is saved")
     void testRegisterMonthFees_ZeroAmount() {
 
         // GIVEN

@@ -19,14 +19,14 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("Asset - find one")
+@DisplayName("AssetRepository - findOne")
 class ITAssetRepositoryFindOne {
 
     @Autowired
     private AssetRepository repository;
 
     @Test
-    @DisplayName("With an file, it is returned")
+    @DisplayName("When there is an file, then it is returned")
     @PublicFile
     void testFindOne() {
         final Optional<Asset> file;
@@ -38,13 +38,14 @@ class ITAssetRepositoryFindOne {
         Assertions.assertThat(file)
             .as("file")
             .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .as("When there is an file, then it is returned")
                 .usingRecursiveComparison()
                 .ignoringFields("audit")
                 .isEqualTo(Assets.publicAccess()));
     }
 
     @Test
-    @DisplayName("With no data, nothing is returned")
+    @DisplayName("When there is no data, then nothing is returned")
     void testFindOne_NoData() {
         final Optional<Asset> file;
 

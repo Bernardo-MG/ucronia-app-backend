@@ -1,26 +1,3 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2022-2025 Bernardo Martínez Garrido
- * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * <p>
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * <p>
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 
 package com.bernardomg.association.library.booktype.test.usecase.service.unit;
 
@@ -46,7 +23,7 @@ import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("BookTypeRepository - update")
+@DisplayName("DefaultBookTypeService - update")
 class TestBookTypeServiceUpdate {
 
     @Mock
@@ -55,14 +32,10 @@ class TestBookTypeServiceUpdate {
     @InjectMocks
     private DefaultBookTypeService service;
 
-    public TestBookTypeServiceUpdate() {
-        super();
-    }
-
     @Test
-    @DisplayName("With a book type with an empty name, an exception is thrown")
+    @DisplayName("When there is a book type with an empty name, then an exception is thrown")
     void testUpdate_EmptyName() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
         final BookType         bookType;
 
         // GIVEN
@@ -71,17 +44,17 @@ class TestBookTypeServiceUpdate {
         given(bookTypeRepository.exists(BookTypeConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        execution = () -> service.update(bookType);
+        action = () -> service.update(bookType);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution, new FieldFailure("empty", "name", ""));
+        ValidationAssertions.assertThatFieldFails(action, new FieldFailure("empty", "name", ""));
     }
 
     @Test
-    @DisplayName("With a book type with a name existing for another user, an exception is thrown")
+    @DisplayName("When there is a book type with a name existing for another user, then an exception is thrown")
     void testUpdate_ExistsForAnother() {
         final BookType         bookType;
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         bookType = BookTypes.valid();
@@ -91,18 +64,17 @@ class TestBookTypeServiceUpdate {
             .willReturn(true);
 
         // WHEN
-        execution = () -> service.update(bookType);
+        action = () -> service.update(bookType);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution,
-            new FieldFailure("existing", "name", BookTypeConstants.NAME));
+        ValidationAssertions.assertThatFieldFails(action, new FieldFailure("existing", "name", BookTypeConstants.NAME));
     }
 
     @Test
-    @DisplayName("With a not existing book type, an exception is thrown")
+    @DisplayName("When there is a not existing book type, then an exception is thrown")
     void testUpdate_NotExisting() {
         final BookType         bookType;
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         bookType = BookTypes.valid();
@@ -110,15 +82,16 @@ class TestBookTypeServiceUpdate {
         given(bookTypeRepository.exists(BookTypeConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        execution = () -> service.update(bookType);
+        action = () -> service.update(bookType);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When there is a not existing book type, then an exception is thrown")
             .isInstanceOf(MissingBookTypeException.class);
     }
 
     @Test
-    @DisplayName("With a valid book type, the book type is persisted")
+    @DisplayName("When there is a valid book type, then the book type is persisted")
     void testUpdate_PersistedData() {
         final BookType bookType;
 
@@ -135,7 +108,7 @@ class TestBookTypeServiceUpdate {
     }
 
     @Test
-    @DisplayName("With a valid book type, the created book type is returned")
+    @DisplayName("When there is a valid book type, then the created book type is returned")
     void testUpdate_ReturnedData() {
         final BookType bookType;
         final BookType created;
@@ -152,6 +125,7 @@ class TestBookTypeServiceUpdate {
 
         // THEN
         Assertions.assertThat(created)
+            .as("When there is a valid book type, then the created book type is returned")
             .isEqualTo(BookTypes.valid());
     }
 

@@ -23,7 +23,7 @@ import com.bernardomg.test.annotation.IntegrationTest;
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
 @DisplayName("SettingRepository - save")
-public class ITSettingRepositorySave {
+class ITSettingRepositorySave {
 
     @Autowired
     private SettingRepository        repository;
@@ -32,7 +32,7 @@ public class ITSettingRepositorySave {
     private SettingsSpringRepository settingSpringRepository;
 
     @Test
-    @DisplayName("When updating the fee amount, the setting is persisted")
+    @DisplayName("When updating the fee amount, then the setting is persisted")
     @CleanSetting
     @IntegerSetting
     void testSave_ChangeAmount_Persisted() {
@@ -55,7 +55,7 @@ public class ITSettingRepositorySave {
     }
 
     @Test
-    @DisplayName("When updating the fee amount, the setting is returned")
+    @DisplayName("When updating the fee amount, then the setting is returned")
     @IntegerSetting
     void testSave_ChangeAmount_Returned() {
         final Setting setting;
@@ -76,7 +76,7 @@ public class ITSettingRepositorySave {
     }
 
     @Test
-    @DisplayName("When saving the fee amount and with no existing setting, the setting is persisted")
+    @DisplayName("When saving the fee amount and with no existing setting, then the setting is persisted")
     @CleanSetting
     void testSave_Persisted() {
         final Setting                    setting;

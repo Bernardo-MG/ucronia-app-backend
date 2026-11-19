@@ -26,7 +26,7 @@ class ITAssetFolderRepositoryDelete {
     private AssetFolderSpringRepository springRepository;
 
     @Test
-    @DisplayName("With an file folder, it is deleted")
+    @DisplayName("When there is an file folder, then it is deleted")
     @ValidFileFolder
     void testDelete() {
         // WHEN
@@ -39,7 +39,7 @@ class ITAssetFolderRepositoryDelete {
     }
 
     @Test
-    @DisplayName("With no data, nothing is deleted")
+    @DisplayName("When there is no data, then nothing is deleted")
     void testDelete_NoData() {
         // WHEN
         repository.delete(AssetFolderConstants.NUMBER);

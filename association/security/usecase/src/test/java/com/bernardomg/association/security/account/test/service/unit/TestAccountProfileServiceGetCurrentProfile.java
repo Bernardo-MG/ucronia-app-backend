@@ -22,7 +22,7 @@ import com.bernardomg.association.security.user.test.configuration.factory.UserP
 import com.bernardomg.security.usecase.session.UsernameInSessionProvider;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("AccountProfileService - get current profile")
+@DisplayName("DefaultAccountProfileService - getCurrentProfile")
 class TestAccountProfileServiceGetCurrentProfile {
 
     @InjectMocks
@@ -35,7 +35,7 @@ class TestAccountProfileServiceGetCurrentProfile {
     private UserProfileRepository        userProfileRepository;
 
     @Test
-    @DisplayName("With no profile for the user in session, it returns an empty result")
+    @DisplayName("When there is no profile for the user in session, then it returns an empty result")
     void testGetCurrentProfile_NoProfile() {
         final Optional<UserProfile> profile;
 
@@ -48,11 +48,12 @@ class TestAccountProfileServiceGetCurrentProfile {
 
         // THEN
         Assertions.assertThat(profile)
+            .as("When there is no profile for the user in session, then it returns an empty result")
             .isEmpty();
     }
 
     @Test
-    @DisplayName("With no user in session, it returns an empty result")
+    @DisplayName("When there is no user in session, then it returns an empty result")
     void testGetCurrentProfile_NoUserInSession() {
         final Optional<UserProfile> profile;
 
@@ -64,12 +65,13 @@ class TestAccountProfileServiceGetCurrentProfile {
 
         // THEN
         Assertions.assertThat(profile)
+            .as("When there is no user in session, then it returns an empty result")
             .isEmpty();
         verifyNoInteractions(userProfileRepository);
     }
 
     @Test
-    @DisplayName("With a profile for the user in session, it returns the profile")
+    @DisplayName("When there is a profile for the user in session, then it returns the profile")
     void testGetCurrentProfile_ProfileFound() {
         final UserProfile           expected;
         final Optional<UserProfile> profile;
@@ -85,6 +87,7 @@ class TestAccountProfileServiceGetCurrentProfile {
 
         // THEN
         Assertions.assertThat(profile)
+            .as("When there is a profile for the user in session, then it returns the profile")
             .contains(expected);
     }
 

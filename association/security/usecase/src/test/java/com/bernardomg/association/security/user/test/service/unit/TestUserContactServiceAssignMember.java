@@ -1,26 +1,3 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2022-2025 Bernardo Martínez Garrido
- * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * <p>
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * <p>
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 
 package com.bernardomg.association.security.user.test.service.unit;
 
@@ -52,7 +29,7 @@ import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("UserProfileService - assign profile")
+@DisplayName("DefaultUserProfileService - assignProfile")
 class TestUserProfileServiceAssignProfile {
 
     @InjectMocks
@@ -65,9 +42,9 @@ class TestUserProfileServiceAssignProfile {
     private UserRepository            userRepository;
 
     @Test
-    @DisplayName("When the profile has already been assigned, it throws an exception")
+    @DisplayName("When the profile has already been assigned, then it throws an exception")
     void testAssignProfile_ExistingProfile() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
@@ -77,48 +54,50 @@ class TestUserProfileServiceAssignProfile {
             .willReturn(true);
 
         // WHEN
-        execution = () -> service.assignProfile(UserConstants.USERNAME, UserProfileConstants.NUMBER);
+        action = () -> service.assignProfile(UserConstants.USERNAME, UserProfileConstants.NUMBER);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution,
+        ValidationAssertions.assertThatFieldFails(action,
             new FieldFailure("assigned", "profile", UserProfileConstants.NUMBER));
     }
 
     @Test
-    @DisplayName("With no profile, it throws an exception")
+    @DisplayName("When there is no profile, then it throws an exception")
     void testAssignProfile_NoProfile() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
         given(userProfileRepository.findOne(UserProfileConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.assignProfile(UserConstants.USERNAME, UserProfileConstants.NUMBER);
+        action = () -> service.assignProfile(UserConstants.USERNAME, UserProfileConstants.NUMBER);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When there is no profile, then it throws an exception")
             .isInstanceOf(MissingUserProfileException.class);
     }
 
     @Test
-    @DisplayName("With no user, it throws an exception")
+    @DisplayName("When there is no user, then it throws an exception")
     void testAssignProfile_NoUser() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.assignProfile(UserConstants.USERNAME, UserProfileConstants.NUMBER);
+        action = () -> service.assignProfile(UserConstants.USERNAME, UserProfileConstants.NUMBER);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When there is no user, then it throws an exception")
             .isInstanceOf(MissingUsernameException.class);
     }
 
     @Test
-    @DisplayName("With valid data, the relationship is persisted")
+    @DisplayName("When there is valid data, then the relationship is persisted")
     void testAssignProfile_Persisted() {
 
         // GIVEN
@@ -133,7 +112,7 @@ class TestUserProfileServiceAssignProfile {
     }
 
     @Test
-    @DisplayName("With valid data, the created relationship is returned")
+    @DisplayName("When there is valid data, then the created relationship is returned")
     void testAssignProfile_Returned() {
         final UserProfile profile;
 
@@ -148,6 +127,7 @@ class TestUserProfileServiceAssignProfile {
 
         // THEN
         Assertions.assertThat(profile)
+            .as("When there is valid data, then the created relationship is returned")
             .isEqualTo(UserProfiles.valid());
     }
 

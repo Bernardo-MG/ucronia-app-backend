@@ -31,7 +31,7 @@ class ITFeeTypeRepositorySave {
     private FeeTypeSpringRepository springRepository;
 
     @Test
-    @DisplayName("When changing a fee type name, it is persisted")
+    @DisplayName("When changing a fee type name, then it is persisted")
     @PositiveFeeType
     void testSave_ChangeName_PersistedData() {
         final Iterable<FeeTypeEntity> feeTypes;
@@ -54,7 +54,7 @@ class ITFeeTypeRepositorySave {
     }
 
     @Test
-    @DisplayName("When changing a fee type name, it is returned")
+    @DisplayName("When changing a fee type name, then it is returned")
     @PositiveFeeType
     void testSave_ChangeName_ReturnedData() {
         final FeeType created;
@@ -76,7 +76,7 @@ class ITFeeTypeRepositorySave {
     }
 
     @Test
-    @DisplayName("Persists the data")
+    @DisplayName("When valid data is saved, then the data is persisted")
     void testSave_PersistedData() {
         final Iterable<FeeTypeEntity> feeTypes;
         final FeeType                 feeType;
@@ -97,7 +97,7 @@ class ITFeeTypeRepositorySave {
     }
 
     @Test
-    @DisplayName("Returns the created data")
+    @DisplayName("When the component is queried, then the created data is returned")
     @PositiveFeeType
     @ActiveMember
     @FeeTransaction

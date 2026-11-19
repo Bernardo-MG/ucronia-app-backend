@@ -1,26 +1,3 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2022-2025 Bernardo Martínez Garrido
- * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * <p>
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * <p>
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 
 package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.integration;
 
@@ -65,12 +42,8 @@ class ITMemberRepositoryDelete {
     @Autowired
     private ReadMemberSpringRepository    springRepository;
 
-    public ITMemberRepositoryDelete() {
-        super();
-    }
-
     @Test
-    @DisplayName("When deleting a member, it is deleted")
+    @DisplayName("When deleting a member, then it is deleted")
     @PositiveFeeType
     @ActiveMember
     void testDelete_Active() {
@@ -79,11 +52,12 @@ class ITMemberRepositoryDelete {
 
         // THEN
         Assertions.assertThat(springRepository.count())
+            .as("When deleting a member, then it is deleted")
             .isZero();
     }
 
     @Test
-    @DisplayName("When deleting a member, the profile is deleted")
+    @DisplayName("When deleting a member, then the profile is deleted")
     @PositiveFeeType
     @ActiveMember
     void testDelete_Active_Profile() {
@@ -92,11 +66,12 @@ class ITMemberRepositoryDelete {
 
         // THEN
         Assertions.assertThat(profileSpringRepository.count())
+            .as("When deleting a member, then the profile is deleted")
             .isZero();
     }
 
     @Test
-    @DisplayName("Deleting a member removes its assignment and keeps the unassigned key")
+    @DisplayName("When a member is deleted, then its assignment is removed and the key remains unassigned")
     @PositiveFeeType
     @ActiveMemberWithKey
     void testDelete_KeyAssignment() {
@@ -105,24 +80,27 @@ class ITMemberRepositoryDelete {
 
         // THEN
         Assertions.assertThat(assignmentSpringRepository.count())
+            .as("Deleting a member removes its assignment and keeps the unassigned key")
             .isZero();
         Assertions.assertThat(assignmentRepository.findOne(KeyConstants.NUMBER))
+            .as("Deleting a member removes its assignment and keeps the unassigned key")
             .contains(KeyAssignments.unassigned());
     }
 
     @Test
-    @DisplayName("When there is no data, nothing is deleted")
+    @DisplayName("When there is no data, then nothing is deleted")
     void testDelete_NoData() {
         // WHEN
         repository.delete(MemberConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(springRepository.count())
+            .as("When there is no data, then nothing is deleted")
             .isZero();
     }
 
     @Test
-    @DisplayName("With a profile with no member role, nothing is deleted")
+    @DisplayName("When there is a profile with no member role, then nothing is deleted")
     @ValidProfile
     void testDelete_NoMembership() {
         // WHEN
@@ -130,6 +108,7 @@ class ITMemberRepositoryDelete {
 
         // THEN
         Assertions.assertThat(springRepository.count())
+            .as("When there is a profile with no member role, then nothing is deleted")
             .isZero();
     }
 

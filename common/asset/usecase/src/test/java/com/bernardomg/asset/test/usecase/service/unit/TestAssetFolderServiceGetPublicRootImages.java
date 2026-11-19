@@ -22,7 +22,7 @@ import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Asset folder service - get public root images")
+@DisplayName("DefaultAssetFolderService - getPublicRootAssets")
 class TestAssetFolderServiceGetPublicRootImages {
 
     @Mock
@@ -35,7 +35,7 @@ class TestAssetFolderServiceGetPublicRootImages {
     private DefaultAssetFolderService service;
 
     @Test
-    @DisplayName("When reading public root images, the requested page is returned")
+    @DisplayName("When reading public root images, then the requested page is returned")
     void testGetPublicRootImages() {
         final Page<Asset> existing;
         final Page<Asset> result;
@@ -53,11 +53,12 @@ class TestAssetFolderServiceGetPublicRootImages {
 
         // THEN
         Assertions.assertThat(result)
+            .as("When reading public root images, then the requested page is returned")
             .isEqualTo(existing);
     }
 
     @Test
-    @DisplayName("When reading public root images with no data, the requested page is empty")
+    @DisplayName("When reading public root images with no data, then the requested page is empty")
     void testGetPublicRootImages_NoData() {
         final Page<Asset> existing;
         final Page<Asset> result;
@@ -75,6 +76,7 @@ class TestAssetFolderServiceGetPublicRootImages {
 
         // THEN
         Assertions.assertThat(result.content())
+            .as("When reading public root images with no data, then the requested page is empty")
             .isEmpty();
     }
 

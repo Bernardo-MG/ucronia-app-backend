@@ -1,26 +1,3 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2022-2025 Bernardo Martínez Garrido
- * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * <p>
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * <p>
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 
 package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.integration;
 
@@ -51,14 +28,14 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("PublicMemberRepository - find all - filter by status")
+@DisplayName("PublicMemberRepository - findAll")
 class ITPublicMemberRepositoryFindAllFilterStatus {
 
     @Autowired
     private PublicMemberRepository repository;
 
     @Test
-    @DisplayName("With an active member, it is returned")
+    @DisplayName("When there is an active member, then it is returned")
     @PositiveFeeType
     @ActiveMember
     void testFindAll() {
@@ -77,13 +54,14 @@ class ITPublicMemberRepositoryFindAllFilterStatus {
 
         // THEN
         Assertions.assertThat(members)
+            .as("When there is an active member, then it is returned")
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(PublicMembers.active());
     }
 
     @Test
-    @DisplayName("When filtering by active, an active member is returned")
+    @DisplayName("When filtering by active, then an active member is returned")
     @PositiveFeeType
     @ActiveMember
     void testFindAll_ActiveFilter_Active() {
@@ -98,12 +76,13 @@ class ITPublicMemberRepositoryFindAllFilterStatus {
 
         // THEN
         Assertions.assertThat(members.content())
+            .as("When filtering by active, then an active member is returned")
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(PublicMembers.active());
     }
 
     @Test
-    @DisplayName("When filtering by active, an inactive member isn't returned")
+    @DisplayName("When filtering by active, then an inactive member isn't returned")
     @PositiveFeeType
     @InactiveMember
     void testFindAll_ActiveFilter_Inactive() {
@@ -118,11 +97,12 @@ class ITPublicMemberRepositoryFindAllFilterStatus {
 
         // THEN
         Assertions.assertThat(members.content())
+            .as("When filtering by active, then an inactive member isn't returned")
             .isEmpty();
     }
 
     @Test
-    @DisplayName("When filtering by all, an active member is returned")
+    @DisplayName("When filtering by all, then an active member is returned")
     @PositiveFeeType
     @ActiveMember
     void testFindAll_AllFilter_Active() {
@@ -137,12 +117,13 @@ class ITPublicMemberRepositoryFindAllFilterStatus {
 
         // THEN
         Assertions.assertThat(members.content())
+            .as("When filtering by all, then an active member is returned")
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactlyInAnyOrder(PublicMembers.active());
     }
 
     @Test
-    @DisplayName("When filtering by all, an inactive member is returned")
+    @DisplayName("When filtering by all, then an inactive member is returned")
     @PositiveFeeType
     @InactiveMember
     void testFindAll_AllFilter_Inactive() {
@@ -157,12 +138,13 @@ class ITPublicMemberRepositoryFindAllFilterStatus {
 
         // THEN
         Assertions.assertThat(members.content())
+            .as("When filtering by all, then an inactive member is returned")
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactlyInAnyOrder(PublicMembers.inactive());
     }
 
     @Test
-    @DisplayName("When filtering by inactive, an active member isn't returned")
+    @DisplayName("When filtering by inactive, then an active member isn't returned")
     @PositiveFeeType
     @ActiveMember
     void testFindAll_InactiveFilter_Active() {
@@ -177,11 +159,12 @@ class ITPublicMemberRepositoryFindAllFilterStatus {
 
         // THEN
         Assertions.assertThat(members.content())
+            .as("When filtering by inactive, then an active member isn't returned")
             .isEmpty();
     }
 
     @Test
-    @DisplayName("When filtering by inactive, an inactive member is returned")
+    @DisplayName("When filtering by inactive, then an inactive member is returned")
     @PositiveFeeType
     @InactiveMember
     void testFindAll_InactiveFilter_Inactive() {
@@ -196,12 +179,13 @@ class ITPublicMemberRepositoryFindAllFilterStatus {
 
         // THEN
         Assertions.assertThat(members.content())
+            .as("When filtering by inactive, then an inactive member is returned")
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(PublicMembers.inactive());
     }
 
     @Test
-    @DisplayName("The last paid month is returned for an inactive member")
+    @DisplayName("When a member is inactive, then the last paid month is returned")
     @PositiveFeeType
     @InactiveMember
     @PaidFeesWithGaps
@@ -217,6 +201,7 @@ class ITPublicMemberRepositoryFindAllFilterStatus {
 
         // THEN
         Assertions.assertThat(members.content())
+            .as("The last paid month is returned for an inactive member")
             .singleElement()
             .extracting(PublicMember::lastPaidMonth)
             .isEqualTo(Optional.of(FeeConstants.APRIL_DATE));

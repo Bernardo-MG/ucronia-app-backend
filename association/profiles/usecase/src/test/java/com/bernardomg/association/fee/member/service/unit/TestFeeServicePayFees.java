@@ -1,26 +1,3 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2022-2025 Bernardo Martínez Garrido
- * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * <p>
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * <p>
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 
 package com.bernardomg.association.fee.member.service.unit;
 
@@ -65,7 +42,7 @@ import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Fee service - pay fees")
+@DisplayName("DefaultFeeService - payFees")
 class TestFeeServicePayFees {
 
     @Mock
@@ -87,7 +64,7 @@ class TestFeeServicePayFees {
     private FeeTransactionRepository transactionRepository;
 
     @Test
-    @DisplayName("With duplicated dates, they are removed")
+    @DisplayName("When duplicated dates is provided, then they are removed")
     void testPayFees_DuplicatedDates() {
         final Collection<Fee> fees;
 
@@ -109,7 +86,7 @@ class TestFeeServicePayFees {
     }
 
     @Test
-    @DisplayName("With no fees nothing is saved")
+    @DisplayName("When there is no fees, then nothing is saved")
     void testPayFees_EmptyList() {
         final Collection<Fee> fees;
 
@@ -129,9 +106,9 @@ class TestFeeServicePayFees {
     }
 
     @Test
-    @DisplayName("With the fee already paid, it throws an exception")
+    @DisplayName("When the fee already paid is provided, then it throws an exception")
     void testPayFees_ExistingPaid() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
         final FieldFailure     failure;
 
         // GIVEN
@@ -140,16 +117,16 @@ class TestFeeServicePayFees {
         given(feeRepository.existsPaid(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
 
         // WHEN
-        execution = () -> service.payFees(FeesPayments.single());
+        action = () -> service.payFees(FeesPayments.single());
 
         // THEN
         failure = new FieldFailure("existing", "months[]", "months[].existing", List.of(FeeConstants.DATE));
 
-        ValidationAssertions.assertThatFieldFails(execution, failure);
+        ValidationAssertions.assertThatFieldFails(action, failure);
     }
 
     @Test
-    @DisplayName("Can pay a multiple fees")
+    @DisplayName("When pay a multiple fees is requested, then the fees can be paid")
     void testPayFees_Multiple() {
         final Collection<Fee> fees;
 
@@ -173,9 +150,9 @@ class TestFeeServicePayFees {
     }
 
     @Test
-    @DisplayName("With the fee already paid, and trying to pay multiple dates, it throws an exception")
+    @DisplayName("When the fee already paid, and trying to pay multiple dates is provided, then it throws an exception")
     void testPayFees_MultipleDates_OneExisting_Paid() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
         final FieldFailure     failure;
 
         // GIVEN
@@ -184,34 +161,35 @@ class TestFeeServicePayFees {
         given(feeRepository.existsPaid(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
 
         // WHEN
-        execution = () -> service.payFees(FeesPayments.multiple());
+        action = () -> service.payFees(FeesPayments.multiple());
 
         // THEN
         failure = new FieldFailure("existing", "months[]", "months[].existing", List.of(FeeConstants.DATE));
 
-        ValidationAssertions.assertThatFieldFails(execution, failure);
+        ValidationAssertions.assertThatFieldFails(action, failure);
     }
 
     @Test
-    @DisplayName("When the member doesn't exist it throws an exception")
+    @DisplayName("When the member doesn't exist, then it throws an exception")
     void testPayFees_NotExistingMember() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.payFees(FeesPayments.single());
+        action = () -> service.payFees(FeesPayments.single());
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When the member doesn't exist, then it throws an exception")
             .isInstanceOf(MissingMemberException.class);
     }
 
     @Test
-    @DisplayName("With the fee is paid in the future, it throws an exception")
+    @DisplayName("When the fee is paid in the future, then it throws an exception")
     void testPayFees_PaidInFuture() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
         final FieldFailure     failure;
 
         // GIVEN
@@ -219,16 +197,16 @@ class TestFeeServicePayFees {
         given(memberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.of(FeeTypes.positive()));
 
         // WHEN
-        execution = () -> service.payFees(FeesPayments.paidFuture());
+        action = () -> service.payFees(FeesPayments.paidFuture());
 
         // THEN
         failure = new FieldFailure("invalid", "paymentDate", "paymentDate.invalid", FeeConstants.PAYMENT_DATE_FUTURE);
 
-        ValidationAssertions.assertThatFieldFails(execution, failure);
+        ValidationAssertions.assertThatFieldFails(action, failure);
     }
 
     @Test
-    @DisplayName("When paying a fee, an event is sent")
+    @DisplayName("When paying a fee, then an event is sent")
     void testPayFees_SendEvent() {
         // GIVEN
         given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
@@ -243,11 +221,12 @@ class TestFeeServicePayFees {
 
         // THEN
         verify(eventEmitter).emit(assertArg(e -> Assertions.assertThat(e)
+            .as("When paying a fee, then an event is sent")
             .isInstanceOf(FeePaidEvent.class)));
     }
 
     @Test
-    @DisplayName("Can pay a single fee")
+    @DisplayName("When pay a single fee is requested, then the fees can be paid")
     void testPayFees_Single() {
         final Collection<Fee> fees;
 

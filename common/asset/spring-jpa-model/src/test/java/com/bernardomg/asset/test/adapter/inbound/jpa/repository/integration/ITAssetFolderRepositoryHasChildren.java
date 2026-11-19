@@ -16,14 +16,14 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("AssetFolderRepository - has children")
+@DisplayName("AssetFolderRepository - hasChildren")
 class ITAssetFolderRepositoryHasChildren {
 
     @Autowired
     private AssetFolderRepository repository;
 
     @Test
-    @DisplayName("With child folders, it has children")
+    @DisplayName("When child folders is provided, then it has children")
     @ValidFileFolderTree
     void testHasChildren() {
         final boolean hasChildren;
@@ -38,7 +38,7 @@ class ITAssetFolderRepositoryHasChildren {
     }
 
     @Test
-    @DisplayName("Without child folders, it doesn't have children")
+    @DisplayName("When a folder has no child folders, then it is reported as having no children")
     @ValidFileFolder
     void testHasChildren_NoChildren() {
         final boolean hasChildren;

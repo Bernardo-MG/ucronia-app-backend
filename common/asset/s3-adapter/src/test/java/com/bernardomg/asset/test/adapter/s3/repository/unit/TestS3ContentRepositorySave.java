@@ -23,7 +23,7 @@ import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("S3 image content repository")
+@DisplayName("S3ContentRepository - save")
 class TestS3ContentRepositorySave {
 
     @Mock
@@ -37,7 +37,7 @@ class TestS3ContentRepositorySave {
     }
 
     @Test
-    @DisplayName("When saving image content, data and media type are persisted")
+    @DisplayName("When saving image content, then data and media type are persisted")
     void testSave() {
         final Content          content;
         final PutObjectRequest request;

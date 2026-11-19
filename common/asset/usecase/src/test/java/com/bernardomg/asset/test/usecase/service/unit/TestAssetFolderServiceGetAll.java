@@ -21,7 +21,7 @@ import com.bernardomg.asset.test.configuration.factory.AssetFolders;
 import com.bernardomg.asset.usecase.service.DefaultAssetFolderService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("AssetFolderService - get all")
+@DisplayName("DefaultAssetFolderService - getAll")
 class TestAssetFolderServiceGetAll {
 
     @Mock
@@ -34,7 +34,7 @@ class TestAssetFolderServiceGetAll {
     private DefaultAssetFolderService service;
 
     @Test
-    @DisplayName("When reading all image folders, all image folders are returned")
+    @DisplayName("When reading all image folders, then all image folders are returned")
     void testGetAll() {
         final Collection<AssetFolder> folders;
 
@@ -46,11 +46,12 @@ class TestAssetFolderServiceGetAll {
 
         // THEN
         Assertions.assertThat(folders)
+            .as("When reading all image folders, then all image folders are returned")
             .containsExactly(AssetFolders.valid());
     }
 
     @Test
-    @DisplayName("When there is no data, nothing is returned")
+    @DisplayName("When there is no data, then nothing is returned")
     void testGetAll_Empty() {
         final Collection<AssetFolder> folders;
 
@@ -62,6 +63,7 @@ class TestAssetFolderServiceGetAll {
 
         // THEN
         Assertions.assertThat(folders)
+            .as("When there is no data, then nothing is returned")
             .isEmpty();
     }
 

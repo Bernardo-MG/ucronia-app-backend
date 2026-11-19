@@ -27,7 +27,7 @@ import com.bernardomg.association.member.test.configuration.factory.MembershipEv
 import com.bernardomg.association.member.usecase.service.DefaultMembershipEvolutionService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Membership evolution service - get evolution")
+@DisplayName("DefaultMembershipEvolutionService - getEvolution")
 class TestMembershipEvolutionServiceGetEvolution {
 
     @Mock
@@ -37,7 +37,7 @@ class TestMembershipEvolutionServiceGetEvolution {
     private DefaultMembershipEvolutionService service;
 
     @Test
-    @DisplayName("Returns the queried data when covering previous and current")
+    @DisplayName("When covering previous and current, then the queried data is returned")
     void testGetEvolution_CoversBoth() {
         final MembershipEvolutionFilter          filter;
         final Iterable<MembershipEvolutionMonth> evolution;
@@ -62,7 +62,7 @@ class TestMembershipEvolutionServiceGetEvolution {
     }
 
     @Test
-    @DisplayName("Can't read beyond the current month")
+    @DisplayName("When reading beyond the current month, then an exception is thrown")
     void testGetEvolution_LimitsAtCurrent() {
         final MembershipEvolutionFilter filter;
         final Instant                   from;
@@ -82,7 +82,7 @@ class TestMembershipEvolutionServiceGetEvolution {
     }
 
     @Test
-    @DisplayName("When there is no data nothing is returned")
+    @DisplayName("When there is no data, then nothing is returned")
     void testGetEvolution_NoData() {
         final MembershipEvolutionFilter          filter;
         final Iterable<MembershipEvolutionMonth> evolution;

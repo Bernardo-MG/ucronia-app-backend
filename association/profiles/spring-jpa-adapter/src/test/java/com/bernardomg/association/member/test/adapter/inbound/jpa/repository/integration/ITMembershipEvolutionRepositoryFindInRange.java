@@ -26,14 +26,14 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("MembershipEvolutionRepository - find in range")
+@DisplayName("MembershipEvolutionRepository - findInRange")
 class ITMembershipEvolutionRepositoryFindInRange {
 
     @Autowired
     private MembershipEvolutionRepository repository;
 
     @Test
-    @DisplayName("Can filter having only the end date")
+    @DisplayName("When filtering having only the end date, then the matching data is returned")
     @PositiveFeeType
     @ActiveMember
     @FeeFullYear
@@ -66,7 +66,7 @@ class ITMembershipEvolutionRepositoryFindInRange {
     }
 
     @Test
-    @DisplayName("Returns all when not applying range")
+    @DisplayName("When no range is applied, then all evolution data is returned")
     @PositiveFeeType
     @ActiveMember
     @FeeFullYear
@@ -121,7 +121,7 @@ class ITMembershipEvolutionRepositoryFindInRange {
     }
 
     @Test
-    @DisplayName("When reading all with no data, nothing is returned")
+    @DisplayName("When reading all with no data, then nothing is returned")
     void testFindInRange_NoRange_NoData() {
         final Sorting                              sorting;
         final Collection<MembershipEvolutionMonth> evolution;
@@ -139,7 +139,7 @@ class ITMembershipEvolutionRepositoryFindInRange {
     }
 
     @Test
-    @DisplayName("When reading all with a profile with no member role, nothing is returned")
+    @DisplayName("When reading all with a profile with no member role, then nothing is returned")
     @ValidProfile
     void testFindInRange_NoRange_NoMember() {
         final Sorting                              sorting;
@@ -158,7 +158,7 @@ class ITMembershipEvolutionRepositoryFindInRange {
     }
 
     @Test
-    @DisplayName("Can filter having in a range")
+    @DisplayName("When filtering having in a range, then the matching data is returned")
     @PositiveFeeType
     @ActiveMember
     @FeeFullYear
@@ -196,7 +196,7 @@ class ITMembershipEvolutionRepositoryFindInRange {
     }
 
     @Test
-    @DisplayName("Can filter having only the start date")
+    @DisplayName("When filtering having only the start date, then the matching data is returned")
     @PositiveFeeType
     @ActiveMember
     @FeeFullYear

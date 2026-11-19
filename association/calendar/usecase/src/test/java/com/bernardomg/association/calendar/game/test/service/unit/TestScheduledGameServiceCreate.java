@@ -1,26 +1,3 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2022-2025 Bernardo Martínez Garrido
- * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * <p>
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * <p>
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 
 package com.bernardomg.association.calendar.game.test.service.unit;
 
@@ -58,43 +35,43 @@ class TestScheduledGameServiceCreate {
     private DefaultScheduledGameService service;
 
     @Test
-    @DisplayName("With negative max players, an exception is thrown")
+    @DisplayName("When negative max players is provided, then an exception is thrown")
     void testCreate_NegativeMaxPlayers() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
         final ScheduledGame    scheduledGame;
 
         // GIVEN
         scheduledGame = ScheduledGames.negativeMaxPlayers();
 
         // WHEN
-        execution = () -> service.create(scheduledGame);
+        action = () -> service.create(scheduledGame);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution,
+        ValidationAssertions.assertThatFieldFails(action,
             new FieldFailure("negative", "maxPlayers", scheduledGame.maxPlayers()));
     }
 
     @Test
-    @DisplayName("With negative recurrence, an exception is thrown")
+    @DisplayName("When negative recurrence is provided, then an exception is thrown")
     void testCreate_NegativeRecurrence() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
         final ScheduledGame    scheduledGame;
 
         // GIVEN
         scheduledGame = ScheduledGames.negativeRecurrence();
 
         // WHEN
-        execution = () -> service.create(scheduledGame);
+        action = () -> service.create(scheduledGame);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution,
+        ValidationAssertions.assertThatFieldFails(action,
             new FieldFailure("negative", "recurrence.interval", scheduledGame.recurrence()
                 .get()
                 .interval()));
     }
 
     @Test
-    @DisplayName("With a valid scheduled game, it is persisted")
+    @DisplayName("When there is a valid scheduled game, then it is persisted")
     void testCreate_PersistedData() {
         final ScheduledGame scheduledGame;
 
@@ -109,7 +86,7 @@ class TestScheduledGameServiceCreate {
     }
 
     @Test
-    @DisplayName("With a published scheduled game, it is persisted as draft")
+    @DisplayName("When there is a published scheduled game, then it is persisted as draft")
     void testCreate_Published() {
         final ScheduledGame scheduledGame;
 
@@ -124,7 +101,7 @@ class TestScheduledGameServiceCreate {
     }
 
     @Test
-    @DisplayName("With a valid scheduled game, it is returned")
+    @DisplayName("When there is a valid scheduled game, then it is returned")
     void testCreate_ReturnedData() {
         final ScheduledGame scheduledGame;
         final ScheduledGame created;
@@ -144,24 +121,24 @@ class TestScheduledGameServiceCreate {
     }
 
     @Test
-    @DisplayName("With zero max players, an exception is thrown")
+    @DisplayName("When zero max players is provided, then an exception is thrown")
     void testCreate_ZeroMaxPlayers() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
         final ScheduledGame    scheduledGame;
 
         // GIVEN
         scheduledGame = ScheduledGames.zeroMaxPlayers();
 
         // WHEN
-        execution = () -> service.create(scheduledGame);
+        action = () -> service.create(scheduledGame);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution,
+        ValidationAssertions.assertThatFieldFails(action,
             new FieldFailure("negative", "maxPlayers", scheduledGame.maxPlayers()));
     }
 
     @Test
-    @DisplayName("With zero recurrence, it is persisted")
+    @DisplayName("When zero recurrence is provided, then it is persisted")
     void testCreate_ZeroRecurrence() {
         final ScheduledGame scheduledGame;
 

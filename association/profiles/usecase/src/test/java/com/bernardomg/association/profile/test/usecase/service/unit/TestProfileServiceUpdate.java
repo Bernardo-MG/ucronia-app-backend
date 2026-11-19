@@ -1,26 +1,3 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2022-2025 Bernardo Martínez Garrido
- * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * <p>
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * <p>
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 
 package com.bernardomg.association.profile.test.usecase.service.unit;
 
@@ -49,7 +26,7 @@ import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Profile service - update")
+@DisplayName("DefaultProfileService - update")
 class TestProfileServiceUpdate {
 
     @Mock
@@ -61,14 +38,10 @@ class TestProfileServiceUpdate {
     @InjectMocks
     private DefaultProfileService   service;
 
-    public TestProfileServiceUpdate() {
-        super();
-    }
-
     @Test
-    @DisplayName("With a profile with an existing identifier, an exception is thrown")
+    @DisplayName("When there is a profile with an existing identifier, then an exception is thrown")
     void testUpdate_IdentifierExists() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
         final Profile          profile;
 
         // GIVEN
@@ -79,18 +52,18 @@ class TestProfileServiceUpdate {
             .willReturn(true);
 
         // WHEN
-        execution = () -> service.update(profile);
+        action = () -> service.update(profile);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution,
+        ValidationAssertions.assertThatFieldFails(action,
             new FieldFailure("existing", "identifier", ProfileConstants.IDENTIFIER));
     }
 
     @Test
-    @DisplayName("With a not existing profile, an exception is thrown")
+    @DisplayName("When there is a not existing profile, then an exception is thrown")
     void testUpdate_NotExisting_Exception() {
         final Profile          profile;
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         profile = Profiles.nameChange();
@@ -98,15 +71,16 @@ class TestProfileServiceUpdate {
         given(profileRepository.exists(ProfileConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        execution = () -> service.update(profile);
+        action = () -> service.update(profile);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When there is a not existing profile, then an exception is thrown")
             .isInstanceOf(MissingProfileException.class);
     }
 
     @Test
-    @DisplayName("With a profile having padding whitespaces in first and last name, these whitespaces are removed")
+    @DisplayName("When there is a profile having padding whitespaces in first and last name, then these whitespaces are removed")
     void testUpdate_Padded_PersistedData() {
         final Profile profile;
 
@@ -123,7 +97,7 @@ class TestProfileServiceUpdate {
     }
 
     @Test
-    @DisplayName("When updating a profile, the change is persisted")
+    @DisplayName("When updating a profile, then the change is persisted")
     void testUpdate_PersistedData() {
         final Profile profile;
 
@@ -140,7 +114,7 @@ class TestProfileServiceUpdate {
     }
 
     @Test
-    @DisplayName("When updating an active profile, the change is returned")
+    @DisplayName("When updating an active profile, then the change is returned")
     void testUpdate_ReturnedData() {
         final Profile profile;
         final Profile updated;
@@ -161,10 +135,10 @@ class TestProfileServiceUpdate {
     }
 
     @Test
-    @DisplayName("With a profile with a not existing profile method, an exception is thrown")
+    @DisplayName("When there is a profile with a not existing profile method, then an exception is thrown")
     void testUpdate_WithProfile_NotExistingContactMethod() {
         final Profile          profile;
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         profile = Profiles.withEmail();
@@ -173,15 +147,16 @@ class TestProfileServiceUpdate {
         given(contactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        execution = () -> service.update(profile);
+        action = () -> service.update(profile);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When there is a profile with a not existing profile method, then an exception is thrown")
             .isInstanceOf(MissingContactMethodException.class);
     }
 
     @Test
-    @DisplayName("When updating a profile with a profile method, the change is persisted")
+    @DisplayName("When updating a profile with a profile method, then the change is persisted")
     void testUpdate_WithProfile_PersistedData() {
         final Profile profile;
 

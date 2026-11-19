@@ -1,8 +1,3 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2022-2025 Bernardo Martinez Garrido
- */
 
 package com.bernardomg.association.key.test.service.unit;
 
@@ -28,7 +23,7 @@ import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Key service - get all")
+@DisplayName("DefaultKeyService - getAll")
 class TestKeyServiceGetAll {
 
     @Mock
@@ -38,7 +33,7 @@ class TestKeyServiceGetAll {
     private DefaultKeyService service;
 
     @Test
-    @DisplayName("When there is data, it is returned")
+    @DisplayName("When there is data, then it is returned")
     void testGetAll() {
         final Page<Key>  keys;
         final Key        key;
@@ -66,7 +61,7 @@ class TestKeyServiceGetAll {
     }
 
     @Test
-    @DisplayName("When there is no data, nothing is returned")
+    @DisplayName("When there is no data, then nothing is returned")
     void testGetAll_NoData() {
         final Page<Key>  keys;
         final Pagination pagination;
@@ -85,6 +80,7 @@ class TestKeyServiceGetAll {
 
         // THEN
         Assertions.assertThat(keys)
+            .as("When there is no data, then nothing is returned")
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();

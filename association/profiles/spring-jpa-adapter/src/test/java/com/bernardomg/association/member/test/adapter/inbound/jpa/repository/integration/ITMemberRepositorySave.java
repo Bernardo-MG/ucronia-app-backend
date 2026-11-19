@@ -1,31 +1,9 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2022-2025 Bernardo Martínez Garrido
- * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * <p>
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * <p>
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 
 package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.integration;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.InstanceOfAssertFactories;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,28 +40,38 @@ class ITMemberRepositorySave {
     @Autowired
     private ReadMemberSpringRepository springRepository;
 
-    public ITMemberRepositorySave() {
-        super();
-    }
-
     @Test
     @PositiveFeeType
     @ValidProfile
+    @DisplayName("When a member is saved, then its profile number is unchanged and its member number is generated")
     void testSave_AssignsMemberNumberWithoutChangingProfileNumber() {
-        final Member saved = repository.save(Members.active());
-        Assertions.assertThat(saved.number())
-            .isEqualTo(Members.active()
-                .number());
-        Assertions.assertThat(saved.memberNumber())
-            .isPositive();
-        Assertions.assertThat(repository.findOne(saved.number())
-            .orElseThrow()
-            .memberNumber())
-            .isEqualTo(saved.memberNumber());
+        final Member member;
+        final Member saved;
+
+        // GIVEN
+        member = Members.active();
+
+        // WHEN
+        saved = repository.save(member);
+
+        // THEN
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(saved.number())
+                .as("profile number")
+                .isEqualTo(member.number());
+            softly.assertThat(saved.memberNumber())
+                .as("generated member number")
+                .isPositive();
+            softly.assertThat(repository.findOne(saved.number())
+                .orElseThrow()
+                .memberNumber())
+                .as("persisted member number")
+                .isEqualTo(saved.memberNumber());
+        });
     }
 
     @Test
-    @DisplayName("When a member exists and a contact method is added, the member is persisted")
+    @DisplayName("When a member exists and a contact method is added, then the member is persisted")
     @PositiveFeeType
     @EmailContactMethod
     @ActiveMember
@@ -108,7 +96,7 @@ class ITMemberRepositorySave {
     }
 
     @Test
-    @DisplayName("When a member name is changed, the member is persisted")
+    @DisplayName("When a member name is changed, then the member is persisted")
     @PositiveFeeType
     @ActiveMember
     void testSave_Existing_NameChange_PersistedData() {
@@ -133,7 +121,7 @@ class ITMemberRepositorySave {
     }
 
     @Test
-    @DisplayName("When a member exists and a contact method is removed, the member is persisted")
+    @DisplayName("When a member exists and a contact method is removed, then the member is persisted")
     @PositiveFeeType
     @ActiveMemberWithEmail
     void testSave_Existing_RemoveContactMethod_PersistedData() {
@@ -157,7 +145,7 @@ class ITMemberRepositorySave {
     }
 
     @Test
-    @DisplayName("When a member exists, the created member is returned")
+    @DisplayName("When a member exists, then the created member is returned")
     @PositiveFeeType
     @ActiveMember
     void testSave_Existing_ReturnedData() {
@@ -179,7 +167,7 @@ class ITMemberRepositorySave {
     }
 
     @Test
-    @DisplayName("When a member doesn't exist but the profile does, the member is persisted")
+    @DisplayName("When a member doesn't exist but the profile does, then the member is persisted")
     @PositiveFeeType
     @ValidProfile
     void testSave_ExistingProfile_PersistedData() {
@@ -206,23 +194,39 @@ class ITMemberRepositorySave {
     @Test
     @PositiveFeeType
     @ActiveMember
+    @DisplayName("When an existing member is updated, then its member number is retained")
     void testSave_KeepsMemberNumberWhenUpdating() {
-        final Member existing = repository.findOne(Members.active()
+        final Member existing;
+        final Member member;
+        final Member saved;
+
+        // GIVEN
+        existing = repository.findOne(Members.active()
             .number())
             .orElseThrow();
-        final Member saved    = repository.save(Members.firstNameChange());
-        Assertions.assertThat(saved.memberNumber())
-            .isEqualTo(existing.memberNumber());
-        Assertions.assertThat(saved.activated()
-            .memberNumber())
-            .isEqualTo(existing.memberNumber());
-        Assertions.assertThat(saved.deactivated()
-            .memberNumber())
-            .isEqualTo(existing.memberNumber());
+        member = Members.firstNameChange();
+
+        // WHEN
+        saved = repository.save(member);
+
+        // THEN
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(saved.memberNumber())
+                .as("member number")
+                .isEqualTo(existing.memberNumber());
+            softly.assertThat(saved.activated()
+                .memberNumber())
+                .as("activated member number")
+                .isEqualTo(existing.memberNumber());
+            softly.assertThat(saved.deactivated()
+                .memberNumber())
+                .as("deactivated member number")
+                .isEqualTo(existing.memberNumber());
+        });
     }
 
     @Test
-    @DisplayName("With a member, the member is persisted")
+    @DisplayName("When there is a member, then the member is persisted")
     @PositiveFeeType
     void testSave_PersistedData() {
         final Member                     member;
@@ -246,7 +250,7 @@ class ITMemberRepositorySave {
     }
 
     @Test
-    @DisplayName("When the type is removed, the member is not changed")
+    @DisplayName("When the type is removed, then the member is not changed")
     @PositiveFeeType
     @ActiveMember
     void testSave_RemoveType_NoChange() {
@@ -271,7 +275,7 @@ class ITMemberRepositorySave {
     }
 
     @Test
-    @DisplayName("With a member, the created member is returned")
+    @DisplayName("When there is a member, then the created member is returned")
     @PositiveFeeType
     void testSave_ReturnedData() {
         final Member member;
@@ -292,7 +296,7 @@ class ITMemberRepositorySave {
     }
 
     @Test
-    @DisplayName("When the member is persisted, the profile types includes the member type")
+    @DisplayName("When the member is persisted, then the profile types includes the member type")
     @PositiveFeeType
     void testSave_SetsType() {
         final Member        member;
@@ -316,7 +320,7 @@ class ITMemberRepositorySave {
     }
 
     @Test
-    @DisplayName("With a member with contact method, the member is persisted")
+    @DisplayName("When there is a member with contact method, then the member is persisted")
     @PositiveFeeType
     @EmailContactMethod
     void testSave_WithContactMethod_PersistedData() {

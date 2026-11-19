@@ -2,7 +2,6 @@
 package com.bernardomg.association.library.book.test.usecase.generator.unit;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
 
 import java.time.Instant;
@@ -16,7 +15,6 @@ import java.util.stream.Collectors;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -41,7 +39,7 @@ import com.bernardomg.association.library.publisher.domain.model.Publisher;
 import com.bernardomg.association.profile.domain.model.Name;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("DefaultLibraryApachePoiWorkbookLoader")
+@DisplayName("DefaultLibraryApachePoiWorkbookLoader - loadWorkbook")
 class TestDefaultLibraryApachePoiWorkbookLoader {
 
     private static final String            DATE_FORMAT         = "dd/MM/yyyy";
@@ -50,9 +48,11 @@ class TestDefaultLibraryApachePoiWorkbookLoader {
         .withZone(ZoneId.systemDefault());
 
     private static void assertDateCell(final Cell cell, final Date expected) {
-        assertThat(cell.getDateCellValue()).isEqualTo(expected);
+        assertThat(cell.getDateCellValue()).as("DefaultLibraryApachePoiWorkbookLoader")
+            .isEqualTo(expected);
         assertThat(cell.getCellStyle()
-            .getDataFormatString()).isEqualTo(DATE_FORMAT);
+            .getDataFormatString()).as("DefaultLibraryApachePoiWorkbookLoader")
+                .isEqualTo(DATE_FORMAT);
     }
 
     private static void assertFictionRow(final Row row, final FictionBook book, final String expectedLendingStatus) {
@@ -62,28 +62,37 @@ class TestDefaultLibraryApachePoiWorkbookLoader {
             .orElseThrow();
 
         assertThat(row.getCell(1)
-            .getNumericCellValue()).isEqualTo(book.number());
+            .getNumericCellValue()).as("DefaultLibraryApachePoiWorkbookLoader")
+                .isEqualTo(book.number());
         assertThat(row.getCell(2)
-            .getStringCellValue()).isEqualTo(book.title()
-                .fullTitle());
+            .getStringCellValue()).as("DefaultLibraryApachePoiWorkbookLoader")
+                .isEqualTo(book.title()
+                    .fullTitle());
         assertThat(row.getCell(3)
-            .getStringCellValue()).isEqualTo("Inglés");
+            .getStringCellValue()).as("DefaultLibraryApachePoiWorkbookLoader")
+                .isEqualTo("Inglés");
         assertThat(row.getCell(4)
-            .getStringCellValue()).isEqualTo(book.isbn());
+            .getStringCellValue()).as("DefaultLibraryApachePoiWorkbookLoader")
+                .isEqualTo(book.isbn());
         assertDateCell(row.getCell(5), Date.from(book.publishDate()
             .orElseThrow()));
         assertThat(row.getCell(6)
-            .getStringCellValue()).isEqualTo(authorNames(book));
+            .getStringCellValue()).as("DefaultLibraryApachePoiWorkbookLoader")
+                .isEqualTo(authorNames(book));
         assertThat(row.getCell(7)
-            .getStringCellValue()).isEqualTo(publisherNames(book));
+            .getStringCellValue()).as("DefaultLibraryApachePoiWorkbookLoader")
+                .isEqualTo(publisherNames(book));
         assertThat(row.getCell(8)
-            .getStringCellValue()).isEqualTo(donorNames(donation));
+            .getStringCellValue()).as("DefaultLibraryApachePoiWorkbookLoader")
+                .isEqualTo(donorNames(donation));
         assertDateCell(row.getCell(9), Date.from(donation.date()
             .orElseThrow()));
         assertThat(row.getCell(10)
-            .getStringCellValue()).isEqualTo(expectedLendingStatus);
+            .getStringCellValue()).as("DefaultLibraryApachePoiWorkbookLoader")
+                .isEqualTo(expectedLendingStatus);
 
-        assertThat(row.getPhysicalNumberOfCells()).isEqualTo(10);
+        assertThat(row.getPhysicalNumberOfCells()).as("DefaultLibraryApachePoiWorkbookLoader")
+            .isEqualTo(10);
     }
 
     private static void assertGameRow(final Row row, final GameBook book, final String expectedLendingStatus) {
@@ -93,36 +102,47 @@ class TestDefaultLibraryApachePoiWorkbookLoader {
             .orElseThrow();
 
         assertThat(row.getCell(1)
-            .getNumericCellValue()).isEqualTo(book.number());
+            .getNumericCellValue()).as("DefaultLibraryApachePoiWorkbookLoader")
+                .isEqualTo(book.number());
         assertThat(row.getCell(2)
-            .getStringCellValue()).isEqualTo(book.title()
-                .fullTitle());
+            .getStringCellValue()).as("DefaultLibraryApachePoiWorkbookLoader")
+                .isEqualTo(book.title()
+                    .fullTitle());
         assertThat(row.getCell(3)
-            .getStringCellValue()).isEqualTo("Inglés");
+            .getStringCellValue()).as("DefaultLibraryApachePoiWorkbookLoader")
+                .isEqualTo("Inglés");
         assertThat(row.getCell(4)
-            .getStringCellValue()).isEqualTo(book.isbn());
+            .getStringCellValue()).as("DefaultLibraryApachePoiWorkbookLoader")
+                .isEqualTo(book.isbn());
         assertDateCell(row.getCell(5), Date.from(book.publishDate()
             .orElseThrow()));
         assertThat(row.getCell(6)
-            .getStringCellValue()).isEqualTo(book.gameSystem()
-                .map(GameSystem::name)
-                .orElse(""));
+            .getStringCellValue()).as("DefaultLibraryApachePoiWorkbookLoader")
+                .isEqualTo(book.gameSystem()
+                    .map(GameSystem::name)
+                    .orElse(""));
         assertThat(row.getCell(7)
-            .getStringCellValue()).isEqualTo(book.bookType()
-                .map(BookType::name)
-                .orElse(""));
+            .getStringCellValue()).as("DefaultLibraryApachePoiWorkbookLoader")
+                .isEqualTo(book.bookType()
+                    .map(BookType::name)
+                    .orElse(""));
         assertThat(row.getCell(8)
-            .getStringCellValue()).isEqualTo(authorNames(book));
+            .getStringCellValue()).as("DefaultLibraryApachePoiWorkbookLoader")
+                .isEqualTo(authorNames(book));
         assertThat(row.getCell(9)
-            .getStringCellValue()).isEqualTo(publisherNames(book));
+            .getStringCellValue()).as("DefaultLibraryApachePoiWorkbookLoader")
+                .isEqualTo(publisherNames(book));
         assertThat(row.getCell(10)
-            .getStringCellValue()).isEqualTo(donorNames(donation));
+            .getStringCellValue()).as("DefaultLibraryApachePoiWorkbookLoader")
+                .isEqualTo(donorNames(donation));
         assertDateCell(row.getCell(11), Date.from(donation.date()
             .orElseThrow()));
         assertThat(row.getCell(12)
-            .getStringCellValue()).isEqualTo(expectedLendingStatus);
+            .getStringCellValue()).as("DefaultLibraryApachePoiWorkbookLoader")
+                .isEqualTo(expectedLendingStatus);
 
-        assertThat(row.getPhysicalNumberOfCells()).isEqualTo(12);
+        assertThat(row.getPhysicalNumberOfCells()).as("DefaultLibraryApachePoiWorkbookLoader")
+            .isEqualTo(12);
     }
 
     private static String authorNames(final FictionBook book) {
@@ -168,23 +188,7 @@ class TestDefaultLibraryApachePoiWorkbookLoader {
     private DefaultLibraryApachePoiWorkbookLoader loader;
 
     @Test
-    @DisplayName("A borrower name resolver is required")
-    void testConstructorRejectsNullRepository() {
-        final NameResolver     repository;
-        final ThrowingCallable callable;
-
-        // GIVEN
-        repository = null;
-
-        // WHEN
-        callable = () -> new DefaultLibraryApachePoiWorkbookLoader(repository);
-
-        // THEN
-        assertThatThrownBy(callable).isInstanceOf(NullPointerException.class);
-    }
-
-    @Test
-    @DisplayName("Empty collections leave all sheets without data rows")
+    @DisplayName("When collections are empty, then all sheets have no data rows")
     void testLoadWorkbookWithNoBooks() {
         final Workbook workbook;
 
@@ -197,20 +201,24 @@ class TestDefaultLibraryApachePoiWorkbookLoader {
         // THEN
         assertThat(workbook.getSheetAt(0)
             .getRow(3)
-            .getPhysicalNumberOfCells()).isZero();
+            .getPhysicalNumberOfCells()).as("Empty collections leave all sheets without data rows")
+                .isZero();
         assertThat(workbook.getSheetAt(1)
             .getRow(3)
-            .getPhysicalNumberOfCells()).isZero();
+            .getPhysicalNumberOfCells()).as("Empty collections leave all sheets without data rows")
+                .isZero();
         assertThat(workbook.getSheetAt(2)
             .getRow(3)
-            .getPhysicalNumberOfCells()).isZero();
+            .getPhysicalNumberOfCells()).as("Empty collections leave all sheets without data rows")
+                .isZero();
         assertThat(workbook.getSheetAt(3)
             .getRow(3)
-            .getPhysicalNumberOfCells()).isZero();
+            .getPhysicalNumberOfCells()).as("Empty collections leave all sheets without data rows")
+                .isZero();
     }
 
     @Test
-    @DisplayName("Lent books show the borrower, lending date and number of days")
+    @DisplayName("When lent books are written, then they show the borrower, lending date and number of days")
     void testLoadWorkbookWritesActiveLendingStatus() {
         final FictionBook     availableFiction;
         final GameBook        availableGame;
@@ -249,16 +257,18 @@ class TestDefaultLibraryApachePoiWorkbookLoader {
         assertThat(workbook.getSheet("Juegos")
             .getRow(3)
             .getCell(12)
-            .getStringCellValue()).isEqualTo(expectedStatus);
+            .getStringCellValue()).as("Lent books show the borrower, lending date and number of days")
+                .isEqualTo(expectedStatus);
 
         assertThat(workbook.getSheet("Ficción")
             .getRow(3)
             .getCell(10)
-            .getStringCellValue()).isEqualTo(expectedStatus);
+            .getStringCellValue()).as("Lent books show the borrower, lending date and number of days")
+                .isEqualTo(expectedStatus);
     }
 
     @Test
-    @DisplayName("Full game and fiction books are written to their sheets")
+    @DisplayName("When a workbook is generated, then full game and fiction books are written to their sheets")
     void testLoadWorkbookWritesBooks() {
         final GameBook    gameBook;
         final FictionBook fictionBook;

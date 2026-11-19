@@ -1,26 +1,3 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2022-2025 Bernardo Martínez Garrido
- * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * <p>
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * <p>
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 
 package com.bernardomg.association.library.booktype.test.usecase.service.unit;
 
@@ -45,7 +22,7 @@ import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("BookTypeService - create")
+@DisplayName("DefaultBookTypeService - create")
 class TestBookTypeServiceCreate {
 
     @Mock
@@ -54,30 +31,26 @@ class TestBookTypeServiceCreate {
     @InjectMocks
     private DefaultBookTypeService service;
 
-    public TestBookTypeServiceCreate() {
-        super();
-    }
-
     @Test
-    @DisplayName("With a book type with an empty name, an exception is thrown")
+    @DisplayName("When there is a book type with an empty name, then an exception is thrown")
     void testCreate_EmptyName() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
         final BookType         bookType;
 
         // GIVEN
         bookType = BookTypes.emptyName();
 
         // WHEN
-        execution = () -> service.create(bookType);
+        action = () -> service.create(bookType);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution, new FieldFailure("empty", "name", ""));
+        ValidationAssertions.assertThatFieldFails(action, new FieldFailure("empty", "name", ""));
     }
 
     @Test
-    @DisplayName("With a book type with an existing name, an exception is thrown")
+    @DisplayName("When there is a book type with an existing name, then an exception is thrown")
     void testCreate_ExistingName() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
         final BookType         bookType;
 
         // GIVEN
@@ -86,15 +59,14 @@ class TestBookTypeServiceCreate {
         given(bookTypeRepository.existsByName(BookTypeConstants.NAME)).willReturn(true);
 
         // WHEN
-        execution = () -> service.create(bookType);
+        action = () -> service.create(bookType);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution,
-            new FieldFailure("existing", "name", BookTypeConstants.NAME));
+        ValidationAssertions.assertThatFieldFails(action, new FieldFailure("existing", "name", BookTypeConstants.NAME));
     }
 
     @Test
-    @DisplayName("With a book type with padded name, the book is persisted")
+    @DisplayName("When there is a book type with padded name, then the book is persisted")
     void testCreate_Padded_PersistedData() {
         final BookType bookType;
 
@@ -109,7 +81,7 @@ class TestBookTypeServiceCreate {
     }
 
     @Test
-    @DisplayName("With a valid book type, the book is persisted")
+    @DisplayName("When there is a valid book type, then the book is persisted")
     void testCreate_PersistedData() {
         final BookType bookType;
 
@@ -124,7 +96,7 @@ class TestBookTypeServiceCreate {
     }
 
     @Test
-    @DisplayName("With a valid book type, the created book is returned")
+    @DisplayName("When there is a valid book type, then the created book is returned")
     void testCreate_ReturnedData() {
         final BookType bookType;
         final BookType created;
@@ -139,6 +111,7 @@ class TestBookTypeServiceCreate {
 
         // THEN
         Assertions.assertThat(created)
+            .as("When there is a valid book type, then the created book is returned")
             .isEqualTo(BookTypes.valid());
     }
 

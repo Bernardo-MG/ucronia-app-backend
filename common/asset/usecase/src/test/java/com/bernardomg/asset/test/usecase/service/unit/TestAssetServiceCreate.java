@@ -32,7 +32,7 @@ import com.bernardomg.asset.test.configuration.factory.Contents;
 import com.bernardomg.asset.usecase.service.DefaultAssetService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Asset service - create")
+@DisplayName("DefaultAssetService - create")
 class TestAssetServiceCreate {
 
     @Mock
@@ -56,23 +56,24 @@ class TestAssetServiceCreate {
     }
 
     @Test
-    @DisplayName("When creating an asset with an existing name, conflict is raised")
+    @DisplayName("When creating an asset with an existing name, then conflict is raised")
     void testCreate_Existing() {
-        final ThrowingCallable callable;
+        final ThrowingCallable action;
 
         // GIVEN
         given(repository.existsByNameAndFolder(AssetConstants.NAME, null)).willReturn(true);
 
         // WHEN
-        callable = () -> service.create(Assets.publicAccess(), Contents.pdf());
+        action = () -> service.create(Assets.publicAccess(), Contents.pdf());
 
         // THEN
-        Assertions.assertThatThrownBy(callable)
+        Assertions.assertThatThrownBy(action)
+            .as("When creating an asset with an existing name, then conflict is raised")
             .isInstanceOf(AssetAlreadyExistsException.class);
     }
 
     @Test
-    @DisplayName("When creating an asset, the name is checked in its folder")
+    @DisplayName("When creating an asset, then the name is checked in its folder")
     void testCreate_NameCheckedInFolder() {
         final Long  folderNumber;
         final Asset asset;
@@ -93,7 +94,7 @@ class TestAssetServiceCreate {
     }
 
     @Test
-    @DisplayName("When creating an asset, the content should be persisted")
+    @DisplayName("When creating an asset, then the content should be persisted")
     void testCreate_PersistContent() {
         final Content content;
 
@@ -102,6 +103,7 @@ class TestAssetServiceCreate {
         given(repository.save(eq(FILE), any(Asset.class))).willReturn(Assets.publicAccess());
         content = Contents.pdf();
 
+        // WHEN
         service.create(Assets.publicAccess(), content);
 
         // THEN
@@ -110,9 +112,9 @@ class TestAssetServiceCreate {
     }
 
     @Test
-    @DisplayName("When metadata persistence fails, the uploaded content is deleted")
+    @DisplayName("When metadata persistence fails, then the uploaded content is deleted")
     void testCreate_PersistenceFailureDeletesContent() {
-        final ThrowingCallable callable;
+        final ThrowingCallable action;
         final RuntimeException failure;
 
         // GIVEN
@@ -122,17 +124,18 @@ class TestAssetServiceCreate {
             .save(any(), any());
 
         // WHEN
-        callable = () -> service.create(Assets.publicAccess(), Contents.pdf());
+        action = () -> service.create(Assets.publicAccess(), Contents.pdf());
 
         // THEN
-        Assertions.assertThatThrownBy(callable)
+        Assertions.assertThatThrownBy(action)
+            .as("When metadata persistence fails, then the uploaded content is deleted")
             .isSameAs(failure);
         then(contentRepository).should()
             .delete(AssetConstants.KEY);
     }
 
     @Test
-    @DisplayName("When creating an asset, the correct asset is returned")
+    @DisplayName("When creating an asset, then the correct asset is returned")
     void testCreate_Returned() {
         final Content content;
         final Asset   created;
@@ -147,6 +150,7 @@ class TestAssetServiceCreate {
 
         // THEN
         Assertions.assertThat(created)
+            .as("When creating an asset, then the correct asset is returned")
             .isEqualTo(Assets.publicAccess());
     }
 

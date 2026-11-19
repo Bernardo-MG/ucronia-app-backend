@@ -18,6 +18,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
@@ -33,56 +34,62 @@ import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("BookLendingController - Sorting")
+@DisplayName("BookLendingController - getAllBookLendings")
 class TestBookLendingControllerSorting {
 
-    private MockMvc            mockMvc;
+    @InjectMocks
+    private BookLendingController controller;
+
+    private MockMvc               mockMvc;
 
     @Mock
-    private BookLendingService service;
+    private BookLendingService    service;
 
     @BeforeEach
     void setUp() {
-        final LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
+        final LocalValidatorFactoryBean validator;
 
+        validator = new LocalValidatorFactoryBean();
         validator.setValidationPropertyMap(Map.of("hibernate.validator.allow_parameter_constraint_override", "true"));
         validator.setMessageInterpolator(new ParameterMessageInterpolator());
         validator.afterPropertiesSet();
 
-        mockMvc = MockMvcBuilders.standaloneSetup(new BookLendingController(service))
+        mockMvc = MockMvcBuilders.standaloneSetup(controller)
             .setValidator(validator)
             .build();
     }
 
     @Test
-    @DisplayName("When sorting by borrower ascending, it is accepted")
+    @DisplayName("When sorting by borrower ascending, then it is accepted")
     void testGetAllBookLendings_FullNameAsc() throws Exception {
         // GIVEN
         given(service.getAll(eq(new Pagination(1, 10)), any()))
             .willReturn(new Page<>(List.of(BookLendings.lent()), 1, 1, 0, 0, 0, false, false, Sorting.unsorted()));
 
-        // WHEN + THEN
+        // WHEN
         mockMvc.perform(get("/library/lending").param("page", "1")
             .param("size", "10")
             .param("sort", "borrower.fullname|asc")
             .contentType(MediaType.APPLICATION_JSON))
+            // THEN
             .andExpect(status().isOk())
             .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content", isA(java.util.ArrayList.class)));
     }
 
     @Test
-    @DisplayName("When sorting by borrower descending, it is accepted")
+    @DisplayName("When sorting by borrower descending, then it is accepted")
     void testGetAllBookLendings_FullNameDesc() throws Exception {
         // GIVEN
         given(service.getAll(eq(new Pagination(1, 10)), any()))
             .willReturn(new Page<>(List.of(BookLendings.lent()), 1, 1, 0, 0, 0, false, false, Sorting.unsorted()));
 
-        // WHEN + THEN
+        // WHEN
         mockMvc.perform(get("/library/lending").param("page", "1")
             .param("size", "10")
             .param("sort", "borrower.fullname|desc")
             .contentType(MediaType.APPLICATION_JSON))
+            // THEN
             .andExpect(status().isOk())
             .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
     }

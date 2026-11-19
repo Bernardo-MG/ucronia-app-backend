@@ -1,8 +1,3 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2022-2025 Bernardo Martinez Garrido
- */
 
 package com.bernardomg.association.key.test.service.unit;
 
@@ -23,7 +18,7 @@ import com.bernardomg.association.key.test.configuration.factory.Keys;
 import com.bernardomg.association.key.usecase.service.DefaultKeyService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Key service - create")
+@DisplayName("DefaultKeyService - create")
 class TestKeyServiceCreate {
 
     @Mock
@@ -33,7 +28,7 @@ class TestKeyServiceCreate {
     private DefaultKeyService service;
 
     @Test
-    @DisplayName("With a valid key, it is persisted")
+    @DisplayName("When there is a valid key, then it is persisted")
     void testCreate_PersistedData() {
         final Key key;
 
@@ -48,7 +43,7 @@ class TestKeyServiceCreate {
     }
 
     @Test
-    @DisplayName("With a valid key, it is returned")
+    @DisplayName("When there is a valid key, then it is returned")
     void testCreate_ReturnedData() {
         final Key created;
         final Key key;

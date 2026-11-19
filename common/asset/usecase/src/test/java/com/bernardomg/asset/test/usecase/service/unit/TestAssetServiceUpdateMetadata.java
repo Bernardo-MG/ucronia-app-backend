@@ -26,7 +26,7 @@ import com.bernardomg.asset.test.configuration.factory.Assets;
 import com.bernardomg.asset.usecase.service.DefaultAssetService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Asset service - update metadata")
+@DisplayName("DefaultAssetService - updateMetadata")
 class TestAssetServiceUpdateMetadata {
 
     @Mock
@@ -50,7 +50,7 @@ class TestAssetServiceUpdateMetadata {
     }
 
     @Test
-    @DisplayName("When updating asset metadata, content is not persisted")
+    @DisplayName("When updating asset metadata, then content is not persisted")
     void testUpdateMetadata() {
         final Asset updated;
 
@@ -63,6 +63,7 @@ class TestAssetServiceUpdateMetadata {
 
         // THEN
         Assertions.assertThat(updated)
+            .as("When updating asset metadata, then content is not persisted")
             .isEqualTo(Assets.publicAccess());
     }
 

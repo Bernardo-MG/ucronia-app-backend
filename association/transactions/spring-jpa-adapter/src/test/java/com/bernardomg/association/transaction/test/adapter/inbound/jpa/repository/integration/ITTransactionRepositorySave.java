@@ -39,7 +39,7 @@ class ITTransactionRepositorySave {
 
     @Test
     @ValidTransactionType
-    @DisplayName("When saving a transaction with type, the type is persisted")
+    @DisplayName("When saving a transaction with type, then the type is persisted")
     void testSave_AssignsType_Persisted() {
         final List<TransactionEntity> transactions;
 
@@ -62,7 +62,7 @@ class ITTransactionRepositorySave {
 
     @Test
     @ValidTransactionType
-    @DisplayName("When saving a transaction with type, the type is returned")
+    @DisplayName("When saving a transaction with type, then the type is returned")
     void testSave_AssignsType_Returned() {
         final Transaction transaction;
         final Transaction created;
@@ -81,7 +81,7 @@ class ITTransactionRepositorySave {
 
     @ParameterizedTest(name = "Amount: {0}")
     @ArgumentsSource(DecimalArgumentsProvider.class)
-    @DisplayName("With a decimal value, the transaction is persisted")
+    @DisplayName("When saving a transaction with a decimal value, then it is persisted")
     void testSave_Decimal_PersistedData(final Float amount) {
         final Transaction       transaction;
         final TransactionEntity entity;
@@ -104,7 +104,7 @@ class ITTransactionRepositorySave {
 
     @ParameterizedTest(name = "Amount: {0}")
     @ArgumentsSource(DecimalArgumentsProvider.class)
-    @DisplayName("With a decimal value, the persisted transaction is returned")
+    @DisplayName("When a transaction with a decimal value is saved, then it is returned")
     void testSave_Decimal_ReturnedData(final Float amount) {
         final Transaction transactionRequest;
         final Transaction transaction;
@@ -122,7 +122,7 @@ class ITTransactionRepositorySave {
     }
 
     @Test
-    @DisplayName("When the transaction value is changed, it is updated")
+    @DisplayName("When the transaction value is changed, then it is updated")
     @PositiveTransaction
     void testSave_Existing_ChangeValue_PersistedData() {
         final Iterable<TransactionEntity> transactions;
@@ -144,7 +144,7 @@ class ITTransactionRepositorySave {
     }
 
     @Test
-    @DisplayName("When the transaction value is changed, it is returned")
+    @DisplayName("When the transaction value is changed, then it is returned")
     @PositiveTransaction
     void testSave_Existing_ChangeValue_ReturnedData() {
         final Transaction created;
@@ -165,7 +165,7 @@ class ITTransactionRepositorySave {
     @Test
     @ValidTransactionType
     @TransactionWithType
-    @DisplayName("When saving a transaction removing the type, it is removed")
+    @DisplayName("When saving a transaction removing the type, then it is removed")
     void testSave_Existing_ClearsType() {
         final List<TransactionEntity> transactions;
 
@@ -185,7 +185,7 @@ class ITTransactionRepositorySave {
     }
 
     @Test
-    @DisplayName("Persists the data")
+    @DisplayName("When valid data is saved, then the data is persisted")
     void testSave_PersistedData() {
         final Iterable<TransactionEntity> transactions;
         final Transaction                 transaction;
@@ -206,7 +206,7 @@ class ITTransactionRepositorySave {
     }
 
     @Test
-    @DisplayName("Returns the created data")
+    @DisplayName("When the component is queried, then the created data is returned")
     void testSave_ReturnedData() {
         final Transaction created;
         final Transaction transaction;

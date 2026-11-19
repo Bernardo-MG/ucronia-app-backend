@@ -23,7 +23,7 @@ import com.bernardomg.asset.test.configuration.factory.AssetFolders;
 import com.bernardomg.asset.usecase.service.DefaultAssetFolderService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("AssetFolderService - get one")
+@DisplayName("DefaultAssetFolderService - getOne")
 class TestAssetFolderServiceGetOne {
 
     @Mock
@@ -36,7 +36,7 @@ class TestAssetFolderServiceGetOne {
     private DefaultAssetFolderService service;
 
     @Test
-    @DisplayName("When the image folder exists, it is returned")
+    @DisplayName("When the image folder exists, then it is returned")
     void testGetOne() {
         final AssetFolder folder;
 
@@ -48,22 +48,24 @@ class TestAssetFolderServiceGetOne {
 
         // THEN
         Assertions.assertThat(folder)
+            .as("When the image folder exists, then it is returned")
             .isEqualTo(AssetFolders.valid());
     }
 
     @Test
-    @DisplayName("When the image folder doesn't exist, an exception is thrown")
+    @DisplayName("When the image folder doesn't exist, then an exception is thrown")
     void testGetOne_NotExisting() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         given(folderRepository.findOne(AssetFolderConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.getOne(AssetFolderConstants.NUMBER);
+        action = () -> service.getOne(AssetFolderConstants.NUMBER);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When the image folder doesn't exist, then an exception is thrown")
             .isInstanceOf(AssetFolderNotExistingException.class);
     }
 

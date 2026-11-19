@@ -1,26 +1,3 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2022-2025 Bernardo Martínez Garrido
- * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * <p>
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * <p>
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 
 package com.bernardomg.transaction.test.service.unit;
 
@@ -45,7 +22,7 @@ import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Transaction service - create")
+@DisplayName("DefaultTransactionService - create")
 class TestTransactionServiceCreate {
 
     @InjectMocks
@@ -55,22 +32,22 @@ class TestTransactionServiceCreate {
     private TransactionRepository     transactionRepository;
 
     @Test
-    @DisplayName("With the transaction created in the future, it throws an exception")
+    @DisplayName("When the transaction created in the future is provided, then it throws an exception")
     void testCreate_Future() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
         final FieldFailure     failure;
 
         // WHEN
-        execution = () -> service.create(Transactions.future());
+        action = () -> service.create(Transactions.future());
 
         // THEN
         failure = new FieldFailure("invalid", "date", "date.invalid", TransactionConstants.DATE_FUTURE);
 
-        ValidationAssertions.assertThatFieldFails(execution, failure);
+        ValidationAssertions.assertThatFieldFails(action, failure);
     }
 
     @Test
-    @DisplayName("With a transaction with padded name, the member is persisted")
+    @DisplayName("When there is a transaction with padded name, then the member is persisted")
     void testCreate_Padded_PersistedData() {
         final Transaction transaction;
 
@@ -85,7 +62,7 @@ class TestTransactionServiceCreate {
     }
 
     @Test
-    @DisplayName("With a valid transaction, it is persisted")
+    @DisplayName("When there is a valid transaction, then it is persisted")
     void testCreate_PersistedData() {
         final Transaction transaction;
 
@@ -100,7 +77,7 @@ class TestTransactionServiceCreate {
     }
 
     @Test
-    @DisplayName("With a valid transaction, it is returned")
+    @DisplayName("When there is a valid transaction, then it is returned")
     void testCreate_ReturnedData() {
         final Transaction transaction;
         final Transaction created;

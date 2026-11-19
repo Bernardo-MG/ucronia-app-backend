@@ -15,6 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
@@ -27,13 +28,16 @@ import com.bernardomg.association.transaction.test.configuration.factory.Transac
 import com.bernardomg.association.transaction.usecase.service.TransactionEvolutionService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("TransactionEvolutionController")
+@DisplayName("TransactionEvolutionController - getMonthlyTransactionEvolution")
 class TestTransactionEvolutionController {
 
-    private MockMvc                     mockMvc;
+    @InjectMocks
+    private TransactionEvolutionController controller;
+
+    private MockMvc                        mockMvc;
 
     @Mock
-    private TransactionEvolutionService service;
+    private TransactionEvolutionService    service;
 
     @BeforeEach
     void setUp() {
@@ -42,13 +46,13 @@ class TestTransactionEvolutionController {
         validator.setMessageInterpolator(new ParameterMessageInterpolator());
         validator.afterPropertiesSet();
 
-        mockMvc = MockMvcBuilders.standaloneSetup(new TransactionEvolutionController(service))
+        mockMvc = MockMvcBuilders.standaloneSetup(controller)
             .setValidator(validator)
             .build();
     }
 
     @Test
-    @DisplayName("When requesting the monthly evolution, it is returned")
+    @DisplayName("When requesting the monthly evolution, then it is returned")
     void testGetMonthlyTransactionEvolution() throws Exception {
         final String from;
         final String to;
@@ -59,10 +63,11 @@ class TestTransactionEvolutionController {
         given(service.getEvolution(Instant.parse(from), Instant.parse(to)))
             .willReturn(List.of(TransactionEvolutionMonths.forAmount(10F)));
 
-        // WHEN + THEN
+        // WHEN
         mockMvc.perform(get("/transaction/balance/monthly").param("from", "2025-01-01T00:00:00Z")
             .param("to", "2025-12-31T00:00:00Z")
             .contentType(MediaType.APPLICATION_JSON))
+            // THEN
             .andExpect(status().isOk())
             .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content").isArray());

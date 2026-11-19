@@ -46,7 +46,7 @@ class ITFeeRepositorySave {
     private FeeTransactionSpringRepository transactionSpringRepository;
 
     @Test
-    @DisplayName("Persists the data")
+    @DisplayName("When valid data is saved, then the data is persisted")
     @PositiveFeeType
     @ActiveMember
     void testSave_NotPaid_PersistedData() {
@@ -71,7 +71,7 @@ class ITFeeRepositorySave {
     }
 
     @Test
-    @DisplayName("Returns the created data")
+    @DisplayName("When the component is queried, then the created data is returned")
     @PositiveFeeType
     @ValidProfile
     void testSave_NotPaid_ReturnedData() {
@@ -93,7 +93,7 @@ class ITFeeRepositorySave {
     }
 
     @Test
-    @DisplayName("When changing a fee date, it is persisted")
+    @DisplayName("When changing a fee date, then it is persisted")
     @PositiveFeeType
     @ActiveMember
     @PaidFee
@@ -124,7 +124,7 @@ class ITFeeRepositorySave {
     }
 
     @Test
-    @DisplayName("When changing a fee date, it is persisted in the transaction")
+    @DisplayName("When changing a fee date, then it is persisted in the transaction")
     @PositiveFeeType
     @ValidProfile
     @PaidFee
@@ -154,7 +154,7 @@ class ITFeeRepositorySave {
     }
 
     @Test
-    @DisplayName("When changing a fee date, it is returned")
+    @DisplayName("When changing a fee date, then it is returned")
     @PositiveFeeType
     @ValidProfile
     @PaidFee
@@ -182,46 +182,48 @@ class ITFeeRepositorySave {
     }
 
     @Test
-    @DisplayName("When the fee type doesn't exist, an exception is thrown")
+    @DisplayName("When the fee type doesn't exist, then an exception is thrown")
     @PositiveFeeType
     @ValidProfile
     @FeeTransaction
     void testSave_Paid_MissingFeeType() {
         final Fee              fee;
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         fee = Fees.alternativeFeeType();
 
         // WHEN
-        execution = () -> repository.save(fee);
+        action = () -> repository.save(fee);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When the fee type doesn't exist, then an exception is thrown")
             .isInstanceOf(NoSuchElementException.class);
     }
 
     @Test
-    @DisplayName("When the member doesn't exist, an exception is thrown")
+    @DisplayName("When the member doesn't exist, then an exception is thrown")
     @PositiveFeeType
     @FeeTransaction
     void testSave_Paid_MissingMember() {
         final Fee              fee;
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         fee = Fees.paid();
 
         // WHEN
-        execution = () -> repository.save(fee);
+        action = () -> repository.save(fee);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When the member doesn't exist, then an exception is thrown")
             .isInstanceOf(NoSuchElementException.class);
     }
 
     @Test
-    @DisplayName("When the transaction doesn't exist, the transaction is ignored")
+    @DisplayName("When the transaction doesn't exist, then the transaction is ignored")
     @PositiveFeeType
     @ActiveMember
     void testSave_Paid_MissingTransaction() {
@@ -246,7 +248,7 @@ class ITFeeRepositorySave {
     }
 
     @Test
-    @DisplayName("Persists the data")
+    @DisplayName("When valid data is saved, then the data is persisted")
     @PositiveFeeType
     @ActiveMember
     @FeeTransaction
@@ -272,7 +274,7 @@ class ITFeeRepositorySave {
     }
 
     @Test
-    @DisplayName("Persists the fee to transaction relationship")
+    @DisplayName("When a fee with a transaction is saved, then the fee-to-transaction relationship is persisted")
     @PositiveFeeType
     @ValidProfile
     @FeeTransaction
@@ -303,7 +305,7 @@ class ITFeeRepositorySave {
     }
 
     @Test
-    @DisplayName("Persists the transaction")
+    @DisplayName("When a fee is saved, then its transaction is persisted")
     @PositiveFeeType
     @ValidProfile
     @FeeTransaction
@@ -327,7 +329,7 @@ class ITFeeRepositorySave {
     }
 
     @Test
-    @DisplayName("Returns the created data")
+    @DisplayName("When the component is queried, then the created data is returned")
     @PositiveFeeType
     @ValidProfile
     @FeeTransaction
@@ -348,7 +350,7 @@ class ITFeeRepositorySave {
     }
 
     @Test
-    @DisplayName("When the fee is paid without a transaction, it is persisted")
+    @DisplayName("When the fee is paid without a transaction, then it is persisted")
     @PositiveFeeType
     @ActiveMember
     @FeeTransaction
@@ -374,7 +376,7 @@ class ITFeeRepositorySave {
     }
 
     @Test
-    @DisplayName("When updating from unpaid to paid, it is persisted")
+    @DisplayName("When updating from unpaid to paid, then it is persisted")
     @PositiveFeeType
     @ActiveMember
     @NotPaidFee

@@ -1,26 +1,3 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2022-2025 Bernardo Martinez Garrido
- * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * <p>
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * <p>
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 
 package com.bernardomg.association.key.test.service.unit;
 
@@ -51,7 +28,7 @@ import com.bernardomg.association.profile.domain.exception.MissingProfileExcepti
 import com.bernardomg.association.profile.test.configuration.factory.ProfileConstants;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Key assignment service - create")
+@DisplayName("DefaultKeyAssignmentService - create")
 class TestKeyAssignmentServiceCreate {
 
     @Mock
@@ -61,7 +38,7 @@ class TestKeyAssignmentServiceCreate {
     private DefaultKeyAssignmentService service;
 
     @Test
-    @DisplayName("With a valid assignment, the change is persisted and returned")
+    @DisplayName("When there is a valid assignment, then the change is persisted and returned")
     void testCreate() {
         final KeyAssignment result;
 
@@ -74,50 +51,53 @@ class TestKeyAssignmentServiceCreate {
 
         // THEN
         Assertions.assertThat(result)
+            .as("When there is a valid assignment, then the change is persisted and returned")
             .isEqualTo(KeyAssignments.assigned());
         verify(repository).save(KeyConstants.NUMBER, ProfileConstants.NUMBER);
     }
 
     @Test
-    @DisplayName("With an incompatible assignment state, an exception is thrown")
+    @DisplayName("When there is an incompatible assignment state, then an exception is thrown")
     void testCreate_AlreadyAssigned() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         given(repository.findOne(KeyConstants.NUMBER)).willReturn(Optional.of(KeyAssignments.assigned()));
 
         // WHEN
-        execution = () -> service.create(KeyConstants.NUMBER, ProfileConstants.NUMBER);
+        action = () -> service.create(KeyConstants.NUMBER, ProfileConstants.NUMBER);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When there is an incompatible assignment state, then an exception is thrown")
             .isInstanceOf(KeyAssignmentConflictException.class);
         verify(repository, never()).save(anyLong(), anyLong());
         verify(repository, never()).delete(anyLong());
     }
 
     @Test
-    @DisplayName("With a missing key, an exception is thrown")
+    @DisplayName("When there is a missing key, then an exception is thrown")
     void testCreate_MissingKey() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         given(repository.findOne(KeyConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.create(KeyConstants.NUMBER, ProfileConstants.NUMBER);
+        action = () -> service.create(KeyConstants.NUMBER, ProfileConstants.NUMBER);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When there is a missing key, then an exception is thrown")
             .isInstanceOf(MissingKeyException.class);
         verify(repository, never()).save(anyLong(), anyLong());
         verify(repository, never()).delete(anyLong());
     }
 
     @Test
-    @DisplayName("With a missing profile, an exception is thrown")
+    @DisplayName("When there is a missing profile, then an exception is thrown")
     void testCreate_MissingProfile() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         given(repository.findOne(KeyConstants.NUMBER)).willReturn(Optional.of(KeyAssignments.unassigned()));
@@ -125,17 +105,18 @@ class TestKeyAssignmentServiceCreate {
             .willThrow(new MissingProfileException(ProfileConstants.NUMBER));
 
         // WHEN
-        execution = () -> service.create(KeyConstants.NUMBER, ProfileConstants.NUMBER);
+        action = () -> service.create(KeyConstants.NUMBER, ProfileConstants.NUMBER);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When there is a missing profile, then an exception is thrown")
             .isInstanceOf(MissingProfileException.class);
         verify(repository).save(KeyConstants.NUMBER, ProfileConstants.NUMBER);
         verify(repository, never()).delete(anyLong());
     }
 
     @Test
-    @DisplayName("A profile holding another key can receive an assignment")
+    @DisplayName("When a profile already holding a key receives an assignment, then the assignment is accepted")
     void testCreate_ProfileHasAnotherKey() {
         final KeyAssignment first;
         final KeyAssignment other;
@@ -156,10 +137,13 @@ class TestKeyAssignmentServiceCreate {
 
         // THEN
         Assertions.assertThat(first)
+            .as("A profile holding another key can receive an assignment")
             .isEqualTo(KeyAssignments.assigned());
         Assertions.assertThat(result)
+            .as("A profile holding another key can receive an assignment")
             .isEqualTo(other);
         Assertions.assertThat(result.profile())
+            .as("A profile holding another key can receive an assignment")
             .isEqualTo(first.profile());
         verify(repository).save(KeyConstants.NUMBER, ProfileConstants.NUMBER);
         verify(repository).save(other.number(), ProfileConstants.NUMBER);

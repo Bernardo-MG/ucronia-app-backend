@@ -1,26 +1,3 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2022-2025 Bernardo Martínez Garrido
- * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * <p>
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * <p>
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 
 package com.bernardomg.association.fee.member.service.unit;
 
@@ -54,7 +31,7 @@ import com.bernardomg.association.member.test.configuration.factory.MemberConsta
 import com.bernardomg.event.emitter.EventEmitter;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Fee service - delete")
+@DisplayName("DefaultFeeService - delete")
 class TestFeeServiceDelete {
 
     @Mock
@@ -75,12 +52,8 @@ class TestFeeServiceDelete {
     @Mock
     private FeeTransactionRepository transactionRepository;
 
-    public TestFeeServiceDelete() {
-        super();
-    }
-
     @Test
-    @DisplayName("When deleting the current month fee, an event is sent")
+    @DisplayName("When deleting the current month fee, then an event is sent")
     void testDelete_CurrentMonth_SendEvent() {
         // GIVEN
         given(feeRepository.findOne(MemberConstants.NUMBER, FeeConstants.CURRENT_MONTH))
@@ -92,12 +65,15 @@ class TestFeeServiceDelete {
         // THEN
         verify(eventEmitter).emit(assertArg(e -> SoftAssertions.assertSoftly(soft -> {
             soft.assertThat(e)
+                .as("When deleting the current month fee, then an event is sent")
                 .isInstanceOf(FeeDeletedEvent.class);
             soft.assertThat(e)
+                .as("When deleting the current month fee, then an event is sent")
                 .asInstanceOf(InstanceOfAssertFactories.type(FeeDeletedEvent.class))
                 .extracting(FeeDeletedEvent::getMonth)
                 .isEqualTo(java.time.YearMonth.from(FeeConstants.CURRENT_MONTH.atZone(java.time.ZoneOffset.UTC)));
             soft.assertThat(e)
+                .as("When deleting the current month fee, then an event is sent")
                 .asInstanceOf(InstanceOfAssertFactories.type(FeeDeletedEvent.class))
                 .extracting(FeeDeletedEvent::getProfileNumber)
                 .isEqualTo(MemberConstants.NUMBER);
@@ -105,23 +81,24 @@ class TestFeeServiceDelete {
     }
 
     @Test
-    @DisplayName("With a not existing fee, an exception is thrown")
+    @DisplayName("When there is a not existing fee, then an exception is thrown")
     void testDelete_NotExistingFee() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         given(feeRepository.findOne(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.delete(MemberConstants.NUMBER, FeeConstants.DATE);
+        action = () -> service.delete(MemberConstants.NUMBER, FeeConstants.DATE);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When there is a not existing fee, then an exception is thrown")
             .isInstanceOf(MissingFeeException.class);
     }
 
     @Test
-    @DisplayName("When deleting the previous month fee, an event is sent")
+    @DisplayName("When deleting the previous month fee, then an event is sent")
     void testDelete_PreviousMonth_SendEvent() {
         // GIVEN
         given(feeRepository.findOne(MemberConstants.NUMBER, FeeConstants.PREVIOUS_MONTH))
@@ -133,12 +110,15 @@ class TestFeeServiceDelete {
         // THEN
         verify(eventEmitter).emit(assertArg(e -> SoftAssertions.assertSoftly(soft -> {
             soft.assertThat(e)
+                .as("When deleting the previous month fee, then an event is sent")
                 .isInstanceOf(FeeDeletedEvent.class);
             soft.assertThat(e)
+                .as("When deleting the previous month fee, then an event is sent")
                 .asInstanceOf(InstanceOfAssertFactories.type(FeeDeletedEvent.class))
                 .extracting(FeeDeletedEvent::getMonth)
                 .isEqualTo(java.time.YearMonth.from(FeeConstants.PREVIOUS_MONTH.atZone(java.time.ZoneOffset.UTC)));
             soft.assertThat(e)
+                .as("When deleting the previous month fee, then an event is sent")
                 .asInstanceOf(InstanceOfAssertFactories.type(FeeDeletedEvent.class))
                 .extracting(FeeDeletedEvent::getProfileNumber)
                 .isEqualTo(MemberConstants.NUMBER);
@@ -146,7 +126,7 @@ class TestFeeServiceDelete {
     }
 
     @Test
-    @DisplayName("When deleting the repository is called")
+    @DisplayName("When deleting, then the repository is called")
     void testDelete_RemovesEntity() {
         // GIVEN
         given(feeRepository.findOne(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(Optional.of(Fees.paid()));

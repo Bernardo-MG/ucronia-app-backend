@@ -23,14 +23,14 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("ProfileRepository - find all - sort - accents")
+@DisplayName("ProfileRepository - findAll")
 class ITProfileRepositoryFindAllSort {
 
     @Autowired
     private ProfileRepository repository;
 
     @Test
-    @DisplayName("With ascending order by first name with accents it returns the ordered data")
+    @DisplayName("When sorting in ascending order by first name with accents, then it returns the ordered data")
     @MultipleProfilesAccents
     void testFindAll_FirstNameAccents_Asc() {
         final Page<Profile> profiles;
@@ -38,13 +38,17 @@ class ITProfileRepositoryFindAllSort {
         final Sorting       sorting;
         final ProfileFilter filter;
 
+        // GIVEN
         pagination = new Pagination(1, 10);
         sorting = new Sorting(List.of(new Sorting.Property("firstName", Sorting.Direction.ASC)));
         filter = ProfileQueries.empty();
 
+        // WHEN
         profiles = repository.findAll(filter, pagination, sorting);
 
+        // THEN
         Assertions.assertThat(profiles)
+            .as("When sorting in ascending order by first name with accents, then it returns the ordered data")
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.list(Profile.class))
             .extracting(profile -> profile.name()

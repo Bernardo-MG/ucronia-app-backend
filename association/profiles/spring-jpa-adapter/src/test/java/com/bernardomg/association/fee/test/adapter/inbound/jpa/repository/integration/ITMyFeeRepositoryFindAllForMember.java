@@ -1,26 +1,3 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2022-2025 Bernardo Martínez Garrido
- * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * <p>
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * <p>
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 
 package com.bernardomg.association.fee.test.adapter.inbound.jpa.repository.integration;
 
@@ -29,6 +6,7 @@ import java.util.List;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.InstanceOfAssertFactories;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +30,7 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("MyFeeRepository - find all for member")
+@DisplayName("MyFeeRepository - findAllForMember")
 class ITMyFeeRepositoryFindAllForMember {
 
     private static MyFee myFee(final Fee fee) {
@@ -63,7 +41,7 @@ class ITMyFeeRepositoryFindAllForMember {
     private MyFeeRepository repository;
 
     @Test
-    @DisplayName("With a full year it returns all the fees")
+    @DisplayName("When there is a full year, then it returns all the fees")
     @PositiveFeeType
     @ValidProfile
     @FeeFullYear
@@ -94,7 +72,7 @@ class ITMyFeeRepositoryFindAllForMember {
     }
 
     @Test
-    @DisplayName("With no data, it returns nothing")
+    @DisplayName("When there is no data, then it returns nothing")
     void testFindAllForMember_NoData() {
         final Page<MyFee> fees;
         final Pagination  pagination;
@@ -116,7 +94,7 @@ class ITMyFeeRepositoryFindAllForMember {
     }
 
     @Test
-    @DisplayName("With no fee it returns nothing")
+    @DisplayName("When there is no fee, then it returns nothing")
     @PositiveFeeType
     @ValidProfile
     void testFindAllForMember_NoFee() {
@@ -140,7 +118,7 @@ class ITMyFeeRepositoryFindAllForMember {
     }
 
     @Test
-    @DisplayName("With a not paid fee, for an active member, it returns all the fees")
+    @DisplayName("When there is a not paid fee, for an active member, then it returns all the fees")
     @PositiveFeeType
     @ValidProfile
     @NotPaidFee
@@ -165,23 +143,34 @@ class ITMyFeeRepositoryFindAllForMember {
     }
 
     @Test
-    @DisplayName("Counts all matching fees when reading a single page")
+    @DisplayName("When one page of matching fees is read, then the total number of matching fees is returned")
     @PositiveFeeType
     @ValidProfile
     @FeeFullYear
     void testFindAllForMember_Paginated() {
-        final Sorting     sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.DESC)));
-        final Page<MyFee> fees    = repository.findAllForMember(ProfileConstants.NUMBER, new Pagination(1, 2), sorting);
+        final Sorting     sorting;
+        final Page<MyFee> fees;
 
-        Assertions.assertThat(fees.content())
-            .containsExactly(myFee(Fees.paidForMonth(Month.DECEMBER.getValue())),
-                myFee(Fees.paidForMonth(Month.NOVEMBER.getValue())));
-        Assertions.assertThat(fees.totalElements())
-            .isEqualTo(12);
+        // GIVEN
+        sorting = new Sorting(List.of(new Sorting.Property("month", Sorting.Direction.DESC)));
+
+        // WHEN
+        fees = repository.findAllForMember(ProfileConstants.NUMBER, new Pagination(1, 2), sorting);
+
+        // THEN
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(fees.content())
+                .as("fees on the requested page")
+                .containsExactly(myFee(Fees.paidForMonth(Month.DECEMBER.getValue())),
+                    myFee(Fees.paidForMonth(Month.NOVEMBER.getValue())));
+            softly.assertThat(fees.totalElements())
+                .as("total matching fee count")
+                .isEqualTo(12);
+        });
     }
 
     @Test
-    @DisplayName("With a paid fee, for an active member, it returns all the fees")
+    @DisplayName("When there is a paid fee, for an active member, then it returns all the fees")
     @PositiveFeeType
     @ValidProfile
     @PaidFee
@@ -206,7 +195,7 @@ class ITMyFeeRepositoryFindAllForMember {
     }
 
     @Test
-    @DisplayName("With a wrong member it returns nothing")
+    @DisplayName("When there is a wrong member, then it returns nothing")
     @PositiveFeeType
     @ValidProfile
     @PaidFee

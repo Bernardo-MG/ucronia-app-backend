@@ -1,26 +1,3 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2022-2025 Bernardo Martínez Garrido
- * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * <p>
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * <p>
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 
 package com.bernardomg.association.library.publisher.test.usecase.service.unit;
 
@@ -47,7 +24,7 @@ import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("PublisherRepository - update")
+@DisplayName("DefaultPublisherService - update")
 class TestPublisherServiceUpdate {
 
     @Mock
@@ -56,14 +33,10 @@ class TestPublisherServiceUpdate {
     @InjectMocks
     private DefaultPublisherService service;
 
-    public TestPublisherServiceUpdate() {
-        super();
-    }
-
     @Test
-    @DisplayName("With a publisher with an empty name, an exception is thrown")
+    @DisplayName("When there is a publisher with an empty name, then an exception is thrown")
     void testUpdate_EmptyName() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
         final Publisher        publisher;
 
         // GIVEN
@@ -72,17 +45,17 @@ class TestPublisherServiceUpdate {
         given(publisherRepository.exists(PublisherConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        execution = () -> service.update(publisher);
+        action = () -> service.update(publisher);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution, new FieldFailure("empty", "name", ""));
+        ValidationAssertions.assertThatFieldFails(action, new FieldFailure("empty", "name", ""));
     }
 
     @Test
-    @DisplayName("With a publisher with a name existing for another user, an exception is thrown")
+    @DisplayName("When there is a publisher with a name existing for another user, then an exception is thrown")
     void testUpdate_ExistsForAnother() {
         final Publisher        publisher;
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         publisher = Publishers.valid();
@@ -92,18 +65,18 @@ class TestPublisherServiceUpdate {
             .willReturn(true);
 
         // WHEN
-        execution = () -> service.update(publisher);
+        action = () -> service.update(publisher);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution,
+        ValidationAssertions.assertThatFieldFails(action,
             new FieldFailure("existing", "name", PublisherConstants.NAME));
     }
 
     @Test
-    @DisplayName("With a not existing publisher, an exception is thrown")
+    @DisplayName("When there is a not existing publisher, then an exception is thrown")
     void testUpdate_NotExisting() {
         final Publisher        publisher;
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         publisher = Publishers.valid();
@@ -111,15 +84,16 @@ class TestPublisherServiceUpdate {
         given(publisherRepository.exists(PublisherConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        execution = () -> service.update(publisher);
+        action = () -> service.update(publisher);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When there is a not existing publisher, then an exception is thrown")
             .isInstanceOf(MissingPublisherException.class);
     }
 
     @Test
-    @DisplayName("With a valid publisher, the publisher is persisted")
+    @DisplayName("When there is a valid publisher, then the publisher is persisted")
     void testUpdate_PersistedData() {
         final Publisher publisher;
 
@@ -136,7 +110,7 @@ class TestPublisherServiceUpdate {
     }
 
     @Test
-    @DisplayName("With a valid publisher, the created publisher is returned")
+    @DisplayName("When there is a valid publisher, then the created publisher is returned")
     void testUpdate_ReturnedData() {
         final Publisher publisher;
         final Publisher created;
@@ -153,6 +127,7 @@ class TestPublisherServiceUpdate {
 
         // THEN
         Assertions.assertThat(created)
+            .as("When there is a valid publisher, then the created publisher is returned")
             .isEqualTo(Publishers.valid());
     }
 

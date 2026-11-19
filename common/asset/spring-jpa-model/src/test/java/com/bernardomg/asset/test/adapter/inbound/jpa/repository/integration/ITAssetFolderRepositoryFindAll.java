@@ -18,14 +18,14 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("AssetFolderRepository - find all")
+@DisplayName("AssetFolderRepository - findAll")
 class ITAssetFolderRepositoryFindAll {
 
     @Autowired
     private AssetFolderRepository repository;
 
     @Test
-    @DisplayName("When there are file folders, they are returned")
+    @DisplayName("When there are file folders, then they are returned")
     @ValidFileFolder
     void testFindAll() {
         final Collection<AssetFolder> folders;
@@ -41,7 +41,7 @@ class ITAssetFolderRepositoryFindAll {
     }
 
     @Test
-    @DisplayName("When there are no file folders, nothing is returned")
+    @DisplayName("When there are no file folders, then nothing is returned")
     void testFindAll_NoData() {
         final Collection<AssetFolder> folders;
 

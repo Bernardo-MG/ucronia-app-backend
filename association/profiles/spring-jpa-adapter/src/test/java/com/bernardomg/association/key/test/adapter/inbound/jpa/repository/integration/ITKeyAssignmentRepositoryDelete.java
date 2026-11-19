@@ -23,7 +23,7 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("KeyAssignmentRepository - Delete")
+@DisplayName("KeyAssignmentRepository - delete")
 class ITKeyAssignmentRepositoryDelete {
 
     @Autowired
@@ -36,7 +36,7 @@ class ITKeyAssignmentRepositoryDelete {
     private KeyAssignmentSpringRepository springRepository;
 
     @Test
-    @DisplayName("When deleting an assignment, it is deleted")
+    @DisplayName("When deleting an assignment, then it is deleted")
     @PositiveFeeType
     @ActiveMemberWithKey
     void testDelete() {
@@ -46,11 +46,12 @@ class ITKeyAssignmentRepositoryDelete {
 
         // THEN
         Assertions.assertThat(springRepository.count())
+            .as("When deleting an assignment, then it is deleted")
             .isZero();
     }
 
     @Test
-    @DisplayName("Removing an assignment keeps the member")
+    @DisplayName("When an assignment is removed, then the member is retained")
     @PositiveFeeType
     @ActiveMemberWithKey
     void testDelete_Member() {
@@ -63,22 +64,24 @@ class ITKeyAssignmentRepositoryDelete {
         member = memberRepository.findOne(MemberConstants.NUMBER)
             .orElseThrow();
         Assertions.assertThat(member)
+            .as("Removing an assignment keeps the member")
             .isEqualTo(Members.active());
     }
 
     @Test
-    @DisplayName("When there is no data, nothing is deleted")
+    @DisplayName("When there is no data, then nothing is deleted")
     void testDelete_NoData() {
         // WHEN
         repository.delete(KeyConstants.NUMBER);
 
         // THEN
         Assertions.assertThat(springRepository.count())
+            .as("When there is no data, then nothing is deleted")
             .isZero();
     }
 
     @Test
-    @DisplayName("Removing one assignment keeps the profile's other assignment")
+    @DisplayName("When one assignment is removed, then the profile's other assignment is retained")
     @PositiveFeeType
     @ActiveMemberWithKeys
     void testDelete_ProfileWithMultipleKeys() {
@@ -88,6 +91,7 @@ class ITKeyAssignmentRepositoryDelete {
 
         // THEN
         Assertions.assertThat(springRepository.findAll())
+            .as("Removing one assignment keeps the profile's other assignment")
             .contains(KeyAssignmentEntities.assignedAlternative());
     }
 

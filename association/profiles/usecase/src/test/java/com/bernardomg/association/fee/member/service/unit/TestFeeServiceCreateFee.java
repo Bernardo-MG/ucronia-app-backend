@@ -1,26 +1,3 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2022-2025 Bernardo Martínez Garrido
- * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * <p>
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * <p>
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 
 package com.bernardomg.association.fee.member.service.unit;
 
@@ -55,7 +32,7 @@ import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Fee service - create fee")
+@DisplayName("DefaultFeeService - createFee")
 class TestFeeServiceCreateFee {
 
     @Mock
@@ -77,7 +54,7 @@ class TestFeeServiceCreateFee {
     private FeeTransactionRepository transactionRepository;
 
     @Test
-    @DisplayName("Can create fee")
+    @DisplayName("When fee is submitted, then it can be created")
     void testCreateFee() {
         final Fee fee;
 
@@ -97,9 +74,9 @@ class TestFeeServiceCreateFee {
     }
 
     @Test
-    @DisplayName("With the fee date already exists, it throws an exception")
+    @DisplayName("When the fee date already exists, then it throws an exception")
     void testCreateFee_Existing() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
         final FieldFailure     failure;
 
         // GIVEN
@@ -108,16 +85,16 @@ class TestFeeServiceCreateFee {
         given(feeRepository.exists(MemberConstants.NUMBER, FeeConstants.DATE)).willReturn(true);
 
         // WHEN
-        execution = () -> service.createFee(FeeConstants.DATE, MemberConstants.NUMBER);
+        action = () -> service.createFee(FeeConstants.DATE, MemberConstants.NUMBER);
 
         // THEN
         failure = new FieldFailure("existing", "month", "month.existing", FeeConstants.DATE);
 
-        ValidationAssertions.assertThatFieldFails(execution, failure);
+        ValidationAssertions.assertThatFieldFails(action, failure);
     }
 
     @Test
-    @DisplayName("When the fee has an empty amount, it is paid automatically")
+    @DisplayName("When the fee has an empty amount, then it is paid automatically")
     void testCreateFee_NoAmout() {
         final Fee fee;
 
@@ -137,35 +114,37 @@ class TestFeeServiceCreateFee {
     }
 
     @Test
-    @DisplayName("When the fee type doesn't exist it throws an exception")
+    @DisplayName("When the fee type doesn't exist, then it throws an exception")
     void testCreateFee_NotExistingFeeType() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.of(Members.active()));
         given(memberRepository.findFeeType(MemberConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.createFee(FeeConstants.DATE, MemberConstants.NUMBER);
+        action = () -> service.createFee(FeeConstants.DATE, MemberConstants.NUMBER);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When the fee type doesn't exist, then it throws an exception")
             .isInstanceOf(MissingFeeTypeException.class);
     }
 
     @Test
-    @DisplayName("When the member doesn't exist it throws an exception")
+    @DisplayName("When the member doesn't exist, then it throws an exception")
     void testCreateFee_NotExistingMember() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         given(memberRepository.findOne(MemberConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.createFee(FeeConstants.DATE, MemberConstants.NUMBER);
+        action = () -> service.createFee(FeeConstants.DATE, MemberConstants.NUMBER);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When the member doesn't exist, then it throws an exception")
             .isInstanceOf(MissingMemberException.class);
     }
 

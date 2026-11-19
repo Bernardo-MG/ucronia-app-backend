@@ -22,7 +22,7 @@ class ITAssetFolderRepositoryExists {
     private AssetFolderRepository repository;
 
     @Test
-    @DisplayName("With an file folder, it exists")
+    @DisplayName("When there is an file folder, then it exists")
     @ValidFileFolder
     void testExists() {
         final boolean exists;
@@ -37,7 +37,7 @@ class ITAssetFolderRepositoryExists {
     }
 
     @Test
-    @DisplayName("With no data, it doesn't exist")
+    @DisplayName("When there is no data, then it doesn't exist")
     void testExists_NoData() {
         final boolean exists;
 

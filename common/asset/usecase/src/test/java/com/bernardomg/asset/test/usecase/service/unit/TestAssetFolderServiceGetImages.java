@@ -25,7 +25,7 @@ import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("AssetFolderService - get images")
+@DisplayName("DefaultAssetFolderService - getAssets")
 class TestAssetFolderServiceGetImages {
 
     @Mock
@@ -38,7 +38,7 @@ class TestAssetFolderServiceGetImages {
     private DefaultAssetFolderService service;
 
     @Test
-    @DisplayName("With an existing folder, the requested image page is returned")
+    @DisplayName("When there is an existing folder, then the requested image page is returned")
     void testGetImages() {
         final Page<Asset> result;
         final Page<Asset> existing;
@@ -58,13 +58,14 @@ class TestAssetFolderServiceGetImages {
 
         // THEN
         Assertions.assertThat(result)
+            .as("When there is an existing folder, then the requested image page is returned")
             .isEqualTo(existing);
     }
 
     @Test
-    @DisplayName("With a missing folder, an exception is thrown")
+    @DisplayName("When there is a missing folder, then an exception is thrown")
     void testGetImages_NotExisting() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
         final Pagination       pagination;
         final Sorting          sorting;
 
@@ -74,10 +75,11 @@ class TestAssetFolderServiceGetImages {
         given(folderRepository.exists(AssetFolderConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        execution = () -> service.getAssets(AssetFolderConstants.NUMBER, pagination, sorting);
+        action = () -> service.getAssets(AssetFolderConstants.NUMBER, pagination, sorting);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When there is a missing folder, then an exception is thrown")
             .isInstanceOf(AssetFolderNotExistingException.class);
     }
 

@@ -24,7 +24,7 @@ import com.bernardomg.asset.test.configuration.factory.AssetFolders;
 import com.bernardomg.asset.usecase.service.DefaultAssetFolderService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("AssetFolderService - create")
+@DisplayName("DefaultAssetFolderService - create")
 class TestAssetFolderServiceCreate {
 
     @Mock
@@ -37,9 +37,9 @@ class TestAssetFolderServiceCreate {
     private DefaultAssetFolderService service;
 
     @Test
-    @DisplayName("With an existing sibling name, an exception is thrown")
+    @DisplayName("When there is an existing sibling name, then an exception is thrown")
     void testCreate_ExistingName() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
         final AssetFolder      folder;
 
         // GIVEN
@@ -47,18 +47,19 @@ class TestAssetFolderServiceCreate {
         given(folderRepository.existsByNameAndParent(AssetFolderConstants.NAME, null, null)).willReturn(true);
 
         // WHEN
-        execution = () -> service.create(folder);
+        action = () -> service.create(folder);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When there is an existing sibling name, then an exception is thrown")
             .isInstanceOf(AssetFolderAlreadyExistsException.class);
         verify(folderRepository, never()).save(folder);
     }
 
     @Test
-    @DisplayName("With a missing parent, an exception is thrown")
+    @DisplayName("When there is a missing parent, then an exception is thrown")
     void testCreate_MissingParent() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
         final AssetFolder      folder;
 
         // GIVEN
@@ -66,15 +67,16 @@ class TestAssetFolderServiceCreate {
         given(folderRepository.exists(AssetFolderConstants.PARENT_NUMBER)).willReturn(false);
 
         // WHEN
-        execution = () -> service.create(folder);
+        action = () -> service.create(folder);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When there is a missing parent, then an exception is thrown")
             .isInstanceOf(AssetFolderNotExistingException.class);
     }
 
     @Test
-    @DisplayName("With valid data, the image folder is persisted")
+    @DisplayName("When there is valid data, then the image folder is persisted")
     void testCreate_PersistedData() {
         // GIVEN
         given(folderRepository.existsByNameAndParent(AssetFolderConstants.NAME, null, null)).willReturn(false);
@@ -87,7 +89,7 @@ class TestAssetFolderServiceCreate {
     }
 
     @Test
-    @DisplayName("With valid data, the created image folder is returned")
+    @DisplayName("When there is valid data, then the created image folder is returned")
     void testCreate_ReturnedData() {
         final AssetFolder created;
 
@@ -99,6 +101,7 @@ class TestAssetFolderServiceCreate {
 
         // THEN
         Assertions.assertThat(created)
+            .as("When there is valid data, then the created image folder is returned")
             .isEqualTo(AssetFolders.valid());
     }
 

@@ -33,7 +33,7 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("FeeRepository - save all")
+@DisplayName("FeeRepository - saveAll")
 class ITFeeRepositorySaveAll {
 
     @Autowired
@@ -46,7 +46,7 @@ class ITFeeRepositorySaveAll {
     private FeeTransactionSpringRepository transactionSpringRepository;
 
     @Test
-    @DisplayName("When there is no data, nothing is saved")
+    @DisplayName("When there is no data, then nothing is saved")
     @PositiveFeeType
     @ValidProfile
     @FeeTransaction
@@ -63,7 +63,7 @@ class ITFeeRepositorySaveAll {
     }
 
     @Test
-    @DisplayName("When a not paid fee, it is persisted")
+    @DisplayName("When a not paid fee, then it is persisted")
     @PositiveFeeType
     @ActiveMember
     void testSaveAll_NotPaid_PersistedData() {
@@ -88,7 +88,7 @@ class ITFeeRepositorySaveAll {
     }
 
     @Test
-    @DisplayName("When a not paid fee, it is returned")
+    @DisplayName("When a not paid fee, then it is returned")
     @PositiveFeeType
     @ValidProfile
     void testSaveAll_NotPaid_ReturnedData() {
@@ -109,7 +109,7 @@ class ITFeeRepositorySaveAll {
     }
 
     @Test
-    @DisplayName("When changing a fee date, it is persisted")
+    @DisplayName("When changing a fee date, then it is persisted")
     @PositiveFeeType
     @ActiveMember
     @FeeTransaction
@@ -140,7 +140,7 @@ class ITFeeRepositorySaveAll {
     }
 
     @Test
-    @DisplayName("When changing a fee date, it is persisted in the transaction")
+    @DisplayName("When changing a fee date, then it is persisted in the transaction")
     @PositiveFeeType
     @ValidProfile
     @PaidFee
@@ -170,7 +170,7 @@ class ITFeeRepositorySaveAll {
     }
 
     @Test
-    @DisplayName("When changing a fee date, it is returned")
+    @DisplayName("When changing a fee date, then it is returned")
     @PositiveFeeType
     @ValidProfile
     @FeeTransaction
@@ -199,7 +199,7 @@ class ITFeeRepositorySaveAll {
     }
 
     @Test
-    @DisplayName("When a paid fee, it is persisted")
+    @DisplayName("When a paid fee, then it is persisted")
     @PositiveFeeType
     @ActiveMember
     @FeeTransaction
@@ -225,7 +225,7 @@ class ITFeeRepositorySaveAll {
     }
 
     @Test
-    @DisplayName("Persists the fee to transaction relationship")
+    @DisplayName("When a fee with a transaction is saved, then the fee-to-transaction relationship is persisted")
     @PositiveFeeType
     @ValidProfile
     @FeeTransaction
@@ -256,7 +256,7 @@ class ITFeeRepositorySaveAll {
     }
 
     @Test
-    @DisplayName("Persists the transaction")
+    @DisplayName("When a fee is saved, then its transaction is persisted")
     @PositiveFeeType
     @ValidProfile
     @FeeTransaction
@@ -280,7 +280,7 @@ class ITFeeRepositorySaveAll {
     }
 
     @Test
-    @DisplayName("When a paid fee, it is returned")
+    @DisplayName("When a paid fee, then it is returned")
     @PositiveFeeType
     @ValidProfile
     @FeeTransaction

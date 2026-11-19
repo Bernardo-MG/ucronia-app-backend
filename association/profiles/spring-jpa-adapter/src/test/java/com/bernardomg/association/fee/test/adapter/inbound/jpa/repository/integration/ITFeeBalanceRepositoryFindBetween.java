@@ -1,26 +1,3 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2022-2025 Bernardo Martínez Garrido
- * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * <p>
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * <p>
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 
 package com.bernardomg.association.fee.test.adapter.inbound.jpa.repository.integration;
 
@@ -44,14 +21,14 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("FeeSummaryRepository - find between")
+@DisplayName("FeeSummaryRepository - findBetween")
 class ITFeeSummaryRepositoryFindBetween {
 
     @Autowired
     private FeeSummaryRepository repository;
 
     @Test
-    @DisplayName("With no data, it returns nothing")
+    @DisplayName("When there is no data, then it returns nothing")
     void testFindBetween_NoData() {
         final FeeSummary summary;
 
@@ -70,7 +47,7 @@ class ITFeeSummaryRepositoryFindBetween {
     }
 
     @Test
-    @DisplayName("With a paid fee, for an active member, the correct summary is returned")
+    @DisplayName("When there is a paid fee, for an active member, then the correct summary is returned")
     @PositiveFeeType
     @ValidProfile
     @PaidFee
@@ -92,7 +69,7 @@ class ITFeeSummaryRepositoryFindBetween {
     }
 
     @Test
-    @DisplayName("With a paid fee for a month without data, for an active member, nothing is returned")
+    @DisplayName("When there is a paid fee for a month without data, for an active member, then nothing is returned")
     @PositiveFeeType
     @ValidProfile
     @PaidFee
@@ -114,7 +91,7 @@ class ITFeeSummaryRepositoryFindBetween {
     }
 
     @Test
-    @DisplayName("With a paid fee, for an active member, the correct summary is returned")
+    @DisplayName("When there is a paid fee, for an active member, then the correct summary is returned")
     @PositiveFeeType
     @ValidProfile
     @AlternativeProfile
@@ -138,7 +115,7 @@ class ITFeeSummaryRepositoryFindBetween {
     }
 
     @Test
-    @DisplayName("With an unpaid fee, for an active member, the correct summary is returned")
+    @DisplayName("When there is an unpaid fee, for an active member, then the correct summary is returned")
     @PositiveFeeType
     @ValidProfile
     @NotPaidFee
@@ -160,7 +137,7 @@ class ITFeeSummaryRepositoryFindBetween {
     }
 
     @Test
-    @DisplayName("With an unpaid fee for a month without data, for an active member, nothing is returned")
+    @DisplayName("When there is an unpaid fee for a month without data, for an active member, then nothing is returned")
     @PositiveFeeType
     @ValidProfile
     @NotPaidFee

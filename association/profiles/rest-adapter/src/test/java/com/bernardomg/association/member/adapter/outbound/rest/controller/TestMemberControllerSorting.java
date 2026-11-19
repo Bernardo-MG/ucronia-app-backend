@@ -17,6 +17,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
@@ -30,13 +31,16 @@ import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("MemberController - Sorting")
+@DisplayName("MemberController - getAllMembers")
 class TestMemberControllerSorting {
 
-    private MockMvc       mockMvc;
+    @InjectMocks
+    private MemberController controller;
+
+    private MockMvc          mockMvc;
 
     @Mock
-    private MemberService service;
+    private MemberService    service;
 
     @BeforeEach
     void setUp() {
@@ -45,56 +49,59 @@ class TestMemberControllerSorting {
         validator.setMessageInterpolator(new ParameterMessageInterpolator());
         validator.afterPropertiesSet();
 
-        mockMvc = MockMvcBuilders.standaloneSetup(new MemberController(service))
+        mockMvc = MockMvcBuilders.standaloneSetup(controller)
             .setValidator(validator)
             .build();
     }
 
     @Test
-    @DisplayName("When sorting by last name descending, it is accepted")
+    @DisplayName("When sorting by last name descending, then it is accepted")
     void testGetAllMembers_LastNameSort() throws Exception {
         // GIVEN
         given(service.getAll(any(), eq(new Pagination(1, 10)), any()))
             .willReturn(new Page<>(List.of(), 10, 0, 0, 0, 0, true, true, Sorting.unsorted()));
 
-        // WHEN + THEN
+        // WHEN
         mockMvc.perform(get("/profile/member").param("page", "1")
             .param("size", "10")
             .param("sort", "name.lastName|desc")
             .contentType(MediaType.APPLICATION_JSON))
+            // THEN
             .andExpect(status().isOk())
             .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
     }
 
     @Test
-    @DisplayName("When sorting by member number ascending, it is accepted")
+    @DisplayName("When sorting by member number ascending, then it is accepted")
     void testGetAllMembers_MemberNumberSort() throws Exception {
         // GIVEN
         given(service.getAll(any(), eq(new Pagination(1, 10)), any()))
             .willReturn(new Page<>(List.of(), 10, 0, 0, 0, 0, true, true, Sorting.unsorted()));
 
-        // WHEN + THEN
+        // WHEN
         mockMvc.perform(get("/profile/member").param("page", "1")
             .param("size", "10")
             .param("sort", "memberNumber|asc")
             .contentType(MediaType.APPLICATION_JSON))
+            // THEN
             .andExpect(status().isOk())
             .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content", isA(java.util.ArrayList.class)));
     }
 
     @Test
-    @DisplayName("When sorting by first name ascending, it is accepted")
+    @DisplayName("When sorting by first name ascending, then it is accepted")
     void testGetAllMembers_ValidSort() throws Exception {
         // GIVEN
         given(service.getAll(any(), eq(new Pagination(1, 10)), any()))
             .willReturn(new Page<>(List.of(), 10, 0, 0, 0, 0, true, true, Sorting.unsorted()));
 
-        // WHEN + THEN
+        // WHEN
         mockMvc.perform(get("/profile/member").param("page", "1")
             .param("size", "10")
             .param("sort", "name.firstName|asc")
             .contentType(MediaType.APPLICATION_JSON))
+            // THEN
             .andExpect(status().isOk())
             .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
     }

@@ -13,8 +13,8 @@ import com.bernardomg.association.library.book.domain.model.Title;
 import com.bernardomg.association.library.lending.domain.model.BookLending;
 import com.bernardomg.association.library.lending.domain.model.BookLending.LentBook;
 
-@DisplayName("BookLending")
-public class TestBookLending {
+@DisplayName("BookLending - getDays")
+class TestBookLending {
 
     public static final long   NUMBER     = 1L;
 
@@ -25,8 +25,9 @@ public class TestBookLending {
     public static final String TITLE      = "Title";
 
     @Test
-    @DisplayName("When there is no return date, the days are calculated")
+    @DisplayName("When there is no return date, then the days are calculated")
     void testDays_NoReturnDate() {
+        final long        days;
         final BookLending lending;
         final LentBook    book;
         final Title       title;
@@ -37,14 +38,19 @@ public class TestBookLending {
         lending = new BookLending(book, 0, Instant.now()
             .minus(1L, ChronoUnit.DAYS));
 
-        // WHEN + THEN
-        Assertions.assertThat(lending.getDays())
+        // WHEN
+        days = lending.getDays();
+
+        // THEN
+        Assertions.assertThat(days)
+            .as("calculated lending days")
             .isEqualTo(2L);
     }
 
     @Test
-    @DisplayName("When there is no return date and was lent today, the days are calculated")
+    @DisplayName("When there is no return date and was lent today, then the days are calculated")
     void testDays_NoReturnDate_SameDay() {
+        final long        days;
         final BookLending lending;
         final LentBook    book;
         final Title       title;
@@ -54,14 +60,19 @@ public class TestBookLending {
         book = new LentBook(NUMBER, title);
         lending = new BookLending(book, 0, Instant.now());
 
-        // WHEN + THEN
-        Assertions.assertThat(lending.getDays())
+        // WHEN
+        days = lending.getDays();
+
+        // THEN
+        Assertions.assertThat(days)
+            .as("calculated lending days")
             .isEqualTo(1L);
     }
 
     @Test
-    @DisplayName("When the return date is the lending date, the days are calculated")
+    @DisplayName("When the return date is the lending date, then the days are calculated")
     void testDays_ReturnedSameDay() {
+        final long        days;
         final BookLending lending;
         final LentBook    book;
         final Title       title;
@@ -71,14 +82,19 @@ public class TestBookLending {
         book = new LentBook(NUMBER, title);
         lending = new BookLending(book, 0, Instant.now(), Optional.of(Instant.now()));
 
-        // WHEN + THEN
-        Assertions.assertThat(lending.getDays())
+        // WHEN
+        days = lending.getDays();
+
+        // THEN
+        Assertions.assertThat(days)
+            .as("calculated lending days")
             .isEqualTo(1L);
     }
 
     @Test
-    @DisplayName("When there is a return date, the days are calculated")
+    @DisplayName("When there is a return date, then the days are calculated")
     void testDays_WithReturn() {
+        final long        days;
         final BookLending lending;
         final LentBook    book;
         final Title       title;
@@ -91,8 +107,12 @@ public class TestBookLending {
             Optional.of(Instant.now()
                 .plus(1L, ChronoUnit.DAYS)));
 
-        // WHEN + THEN
-        Assertions.assertThat(lending.getDays())
+        // WHEN
+        days = lending.getDays();
+
+        // THEN
+        Assertions.assertThat(days)
+            .as("calculated lending days")
             .isEqualTo(3L);
     }
 

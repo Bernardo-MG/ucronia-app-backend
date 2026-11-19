@@ -16,6 +16,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
@@ -30,64 +31,75 @@ import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("AuthorController")
+@DisplayName("AuthorController - getAllAuthors")
 class TestAuthorControllerPagination {
 
-    private MockMvc       mockMvc;
+    @InjectMocks
+    private AuthorController controller;
+
+    private MockMvc          mockMvc;
 
     @Mock
-    private AuthorService service;
+    private AuthorService    service;
 
     @BeforeEach
     void setUp() {
-        final LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
+        final LocalValidatorFactoryBean validator;
 
+        validator = new LocalValidatorFactoryBean();
         validator.setMessageInterpolator(new ParameterMessageInterpolator());
         validator.afterPropertiesSet();
 
-        mockMvc = MockMvcBuilders.standaloneSetup(new AuthorController(service))
+        mockMvc = MockMvcBuilders.standaloneSetup(controller)
             .setValidator(validator)
             .build();
     }
 
     @Test
-    @DisplayName("When the size is zero, it is rejected")
+    @DisplayName("When the size is zero, then it is rejected")
     void testGetAllAuthors_InvalidSizeZero() throws Exception {
+        // WHEN
         mockMvc.perform(get("/library/author").param("page", "0")
             .param("size", "0")
             .contentType(MediaType.APPLICATION_JSON))
+            // THEN
             .andExpect(status().isBadRequest());
     }
 
     @Test
-    @DisplayName("When querying authors with negative page, it is rejected")
+    @DisplayName("When querying authors with negative page, then it is rejected")
     void testGetAllAuthors_NegativePage() throws Exception {
+        // WHEN
         mockMvc.perform(get("/library/author").param("page", "-1")
             .param("size", "10")
             .contentType(MediaType.APPLICATION_JSON))
+            // THEN
             .andExpect(status().isBadRequest());
     }
 
     @Test
-    @DisplayName("When the page is zero, it is rejected")
+    @DisplayName("When the page is zero, then it is rejected")
     void testGetAllAuthors_PageZero() throws Exception {
+        // WHEN
         mockMvc.perform(get("/library/author").param("page", "0")
             .param("size", "10")
             .contentType(MediaType.APPLICATION_JSON))
+            // THEN
             .andExpect(status().is4xxClientError());
     }
 
     @Test
-    @DisplayName("When the pagination is valid, it is accepted")
+    @DisplayName("When the pagination is valid, then it is accepted")
     void testGetAllAuthors_Pagination() throws Exception {
         // GIVEN
         given(service.getAll(eq(new Pagination(1, 10)), any()))
             .willReturn(new Page<>(List.of(), 10, 1, 0, 0, 0, false, false, Sorting.unsorted()));
 
-        // WHEN + THEN
+        // WHEN
         mockMvc.perform(get("/library/author").param("page", "1")
             .param("size", "10")
             .contentType(MediaType.APPLICATION_JSON))
+            // THEN
             .andExpect(status().isOk())
             .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content").isArray());

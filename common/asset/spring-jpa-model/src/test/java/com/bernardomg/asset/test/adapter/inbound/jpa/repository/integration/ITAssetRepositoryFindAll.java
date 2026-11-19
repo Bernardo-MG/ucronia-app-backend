@@ -23,14 +23,14 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("AssetRepository - find all")
+@DisplayName("AssetRepository - findAll")
 class ITAssetRepositoryFindAll {
 
     @Autowired
     private AssetRepository repository;
 
     @Test
-    @DisplayName("When there are files, they are returned")
+    @DisplayName("When there are files, then they are returned")
     @PublicFile
     void testFindAll() {
         final Page<Asset> files;
@@ -54,7 +54,7 @@ class ITAssetRepositoryFindAll {
     }
 
     @Test
-    @DisplayName("When filtering by file type, files are returned")
+    @DisplayName("When filtering by file type, then files are returned")
     @PublicFile
     void testFindAll_FileType() {
         final Page<Asset> files;
@@ -64,12 +64,13 @@ class ITAssetRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(files.content())
+            .as("When filtering by file type, then files are returned")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(Assets.publicAccess());
     }
 
     @Test
-    @DisplayName("When filtering by image type, files are not returned")
+    @DisplayName("When filtering by image type, then files are not returned")
     @PublicFile
     void testFindAll_ImageType() {
         final Page<Asset> images;
@@ -79,11 +80,12 @@ class ITAssetRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(images.content())
+            .as("When filtering by image type, then files are not returned")
             .isEmpty();
     }
 
     @Test
-    @DisplayName("When there are no files, nothing is returned")
+    @DisplayName("When there are no files, then nothing is returned")
     void testFindAll_NoData() {
         final Page<Asset> files;
         final Pagination  pagination;

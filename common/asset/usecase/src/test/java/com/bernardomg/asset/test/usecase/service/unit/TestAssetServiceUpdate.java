@@ -32,7 +32,7 @@ import com.bernardomg.asset.test.configuration.factory.Contents;
 import com.bernardomg.asset.usecase.service.DefaultAssetService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Asset service - update")
+@DisplayName("DefaultAssetService - update")
 class TestAssetServiceUpdate {
 
     @Mock
@@ -56,7 +56,7 @@ class TestAssetServiceUpdate {
     }
 
     @Test
-    @DisplayName("When updating an asset, metadata and content are persisted")
+    @DisplayName("When updating an asset, then metadata and content are persisted")
     void testUpdate() {
         final Content content;
         final Asset   updated;
@@ -72,6 +72,7 @@ class TestAssetServiceUpdate {
 
         // THEN
         Assertions.assertThat(updated)
+            .as("When updating an asset, then metadata and content are persisted")
             .isEqualTo(Assets.publicAccess());
         then(contentRepository).should()
             .save(AssetConstants.CHANGE_KEY, content);
@@ -80,7 +81,7 @@ class TestAssetServiceUpdate {
     }
 
     @Test
-    @DisplayName("When old content deletion fails, the update still succeeds")
+    @DisplayName("When old content deletion fails, then the update still succeeds")
     void testUpdate_ContentDeletionFailureIsIgnored() {
         final Asset updated;
 
@@ -96,30 +97,32 @@ class TestAssetServiceUpdate {
 
         // THEN
         Assertions.assertThat(updated)
+            .as("When old content deletion fails, then the update still succeeds")
             .isEqualTo(Assets.publicAccess());
     }
 
     @Test
-    @DisplayName("When updating an asset with an existing name, an exception is thrown")
+    @DisplayName("When updating an asset with an existing name, then an exception is thrown")
     void testUpdate_DuplicateName() {
-        final ThrowingCallable callable;
+        final ThrowingCallable action;
 
         // GIVEN
         given(repository.findOne(FILE, AssetConstants.NUMBER)).willReturn(Optional.of(Assets.publicAccess()));
         given(repository.existsByNameAndFolder(AssetConstants.NAME, null, AssetConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        callable = () -> service.update(Assets.publicAccess(), Contents.pdf());
+        action = () -> service.update(Assets.publicAccess(), Contents.pdf());
 
-        // WHEN + THEN
-        Assertions.assertThatThrownBy(callable)
+        // THEN
+        Assertions.assertThatThrownBy(action)
+            .as("When updating an asset with an existing name, then an exception is thrown")
             .isInstanceOf(AssetAlreadyExistsException.class);
     }
 
     @Test
-    @DisplayName("When update persistence fails, the replacement content is deleted")
+    @DisplayName("When update persistence fails, then the replacement content is deleted")
     void testUpdate_PersistenceFailureDeletesReplacement() {
-        final ThrowingCallable callable;
+        final ThrowingCallable action;
         final RuntimeException failure;
 
         // GIVEN
@@ -130,17 +133,18 @@ class TestAssetServiceUpdate {
             .save(any(), any());
 
         // WHEN
-        callable = () -> service.update(Assets.publicAccess(), Contents.pdf());
+        action = () -> service.update(Assets.publicAccess(), Contents.pdf());
 
         // THEN
-        Assertions.assertThatThrownBy(callable)
+        Assertions.assertThatThrownBy(action)
+            .as("When update persistence fails, then the replacement content is deleted")
             .isSameAs(failure);
         then(contentRepository).should()
             .delete(AssetConstants.CHANGE_KEY);
     }
 
     @Test
-    @DisplayName("When updating an asset, metadata references the replacement content")
+    @DisplayName("When updating an asset, then metadata references the replacement content")
     void testUpdate_PersistsReplacementKey() {
 
         // GIVEN

@@ -1,26 +1,3 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2022-2025 Bernardo Martínez Garrido
- * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * <p>
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * <p>
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 
 package com.bernardomg.association.library.publisher.test.usecase.service.unit;
 
@@ -45,7 +22,7 @@ import com.bernardomg.association.library.publisher.test.configuration.factory.P
 import com.bernardomg.association.library.publisher.usecase.service.DefaultPublisherService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("PublisherService - get one")
+@DisplayName("DefaultPublisherService - getOne")
 class TestPublisherServiceGetOne {
 
     @Mock
@@ -54,12 +31,8 @@ class TestPublisherServiceGetOne {
     @InjectMocks
     private DefaultPublisherService service;
 
-    public TestPublisherServiceGetOne() {
-        super();
-    }
-
     @Test
-    @DisplayName("When there is a publisher, it is returned")
+    @DisplayName("When there is a publisher, then it is returned")
     void testGetOne() {
         final Optional<Publisher> author;
 
@@ -71,22 +44,24 @@ class TestPublisherServiceGetOne {
 
         // THEN
         Assertions.assertThat(author)
+            .as("When there is a publisher, then it is returned")
             .contains(Publishers.valid());
     }
 
     @Test
-    @DisplayName("When there are no publishers, an exception is thrown")
+    @DisplayName("When there are no publishers, then an exception is thrown")
     void testGetOne_NotExisting() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         given(publisherRepository.findOne(PublisherConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.getOne(PublisherConstants.NUMBER);
+        action = () -> service.getOne(PublisherConstants.NUMBER);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When there are no publishers, then an exception is thrown")
             .isInstanceOf(MissingPublisherException.class);
     }
 

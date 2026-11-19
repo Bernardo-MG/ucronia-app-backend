@@ -1,26 +1,3 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2022-2025 Bernardo Martínez Garrido
- * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * <p>
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * <p>
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 
 package com.bernardomg.association.library.booktype.test.usecase.service.unit;
 
@@ -45,7 +22,7 @@ import com.bernardomg.association.library.booktype.test.configuration.factory.Bo
 import com.bernardomg.association.library.booktype.usecase.service.DefaultBookTypeService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("BookTypeService - get one")
+@DisplayName("DefaultBookTypeService - getOne")
 class TestBookTypeServiceGetOne {
 
     @Mock
@@ -54,12 +31,8 @@ class TestBookTypeServiceGetOne {
     @InjectMocks
     private DefaultBookTypeService service;
 
-    public TestBookTypeServiceGetOne() {
-        super();
-    }
-
     @Test
-    @DisplayName("When there is a book type, it is returned")
+    @DisplayName("When there is a book type, then it is returned")
     void testGetOne() {
         final Optional<BookType> bookType;
 
@@ -71,22 +44,24 @@ class TestBookTypeServiceGetOne {
 
         // THEN
         Assertions.assertThat(bookType)
+            .as("When there is a book type, then it is returned")
             .contains(BookTypes.valid());
     }
 
     @Test
-    @DisplayName("When there are no book types, an exception is thrown")
+    @DisplayName("When there are no book types, then an exception is thrown")
     void testGetOne_NotExisting() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         given(bookTypeRepository.findOne(BookTypeConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.getOne(BookTypeConstants.NUMBER);
+        action = () -> service.getOne(BookTypeConstants.NUMBER);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When there are no book types, then an exception is thrown")
             .isInstanceOf(MissingBookTypeException.class);
     }
 

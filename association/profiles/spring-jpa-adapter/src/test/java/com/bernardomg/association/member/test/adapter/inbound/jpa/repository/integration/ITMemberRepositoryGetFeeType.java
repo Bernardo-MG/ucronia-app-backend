@@ -1,26 +1,3 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2022-2025 Bernardo Martínez Garrido
- * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * <p>
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * <p>
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 
 package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.integration;
 
@@ -44,14 +21,14 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("MemberRepository - find fee type")
+@DisplayName("MemberRepository - findFeeType")
 class ITMemberRepositoryGetFeeType {
 
     @Autowired
     private MemberRepository repository;
 
     @Test
-    @DisplayName("With a member, the fee type is returned")
+    @DisplayName("When there is a member, then the fee type is returned")
     @PositiveFeeType
     @ActiveMember
     void testFindOne() {
@@ -62,11 +39,12 @@ class ITMemberRepositoryGetFeeType {
 
         // THEN
         Assertions.assertThat(feeType)
+            .as("When there is a member, then the fee type is returned")
             .contains(FeeTypes.positive());
     }
 
     @Test
-    @DisplayName("With no member, nothing is returned")
+    @DisplayName("When there is no member, then nothing is returned")
     void testFindOne_NoData() {
         final Optional<FeeType> feeType;
 
@@ -75,11 +53,12 @@ class ITMemberRepositoryGetFeeType {
 
         // THEN
         Assertions.assertThat(feeType)
+            .as("When there is no member, then nothing is returned")
             .isEmpty();
     }
 
     @Test
-    @DisplayName("With a member with no member role, it returns nothing")
+    @DisplayName("When there is a member with no member role, then it returns nothing")
     @ValidProfile
     void testFindOne_NoMembership() {
         final Optional<FeeType> feeType;
@@ -89,6 +68,7 @@ class ITMemberRepositoryGetFeeType {
 
         // THEN
         Assertions.assertThat(feeType)
+            .as("When there is a member with no member role, then it returns nothing")
             .isEmpty();
     }
 

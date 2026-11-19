@@ -1,26 +1,3 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2022-2025 Bernardo Martínez Garrido
- * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * <p>
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * <p>
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 
 package com.bernardomg.association.member.test.adapter.inbound.jpa.repository.integration;
 
@@ -50,14 +27,14 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("PublicMemberRepository - find one")
+@DisplayName("PublicMemberRepository - findOne")
 class ITPublicMemberRepositoryFindOne {
 
     @Autowired
     private PublicMemberRepository repository;
 
     @Test
-    @DisplayName("With an active member, it is returned")
+    @DisplayName("When there is an active member, then it is returned")
     @PositiveFeeType
     @ActiveMember
     void testFindOne_Active() {
@@ -68,11 +45,12 @@ class ITPublicMemberRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(member)
+            .as("When there is an active member, then it is returned")
             .contains(PublicMembers.active());
     }
 
     @Test
-    @DisplayName("With an inactive member, it is returned")
+    @DisplayName("When there is an inactive member, then it is returned")
     @PositiveFeeType
     @InactiveMember
     void testFindOne_Inactive() {
@@ -83,11 +61,12 @@ class ITPublicMemberRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(member)
+            .as("When there is an inactive member, then it is returned")
             .isEmpty();
     }
 
     @Test
-    @DisplayName("With no member, nothing is returned")
+    @DisplayName("When there is no member, then nothing is returned")
     void testFindOne_NoData() {
         final Optional<PublicMember> member;
 
@@ -96,11 +75,12 @@ class ITPublicMemberRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(member)
+            .as("When there is no member, then nothing is returned")
             .isEmpty();
     }
 
     @Test
-    @DisplayName("With a profile with no member role, it returns nothing")
+    @DisplayName("When there is a profile with no member role, then it returns nothing")
     @ValidProfile
     void testFindOne_NoMembership() {
         final Optional<PublicMember> member;
@@ -110,11 +90,12 @@ class ITPublicMemberRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(member)
+            .as("When there is a profile with no member role, then it returns nothing")
             .isEmpty();
     }
 
     @Test
-    @DisplayName("With a year of paid fees, the first fee month and twelve months are returned")
+    @DisplayName("When there is a year of paid fees, then the first fee month and twelve months are returned")
     @PositiveFeeType
     @ActiveMember
     @FeeFullYear
@@ -126,11 +107,12 @@ class ITPublicMemberRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(member)
+            .as("When there is a year of paid fees, then the first fee month and twelve months are returned")
             .contains(PublicMembers.withMembership(FeeConstants.JANUARY_DATE, 12L));
     }
 
     @Test
-    @DisplayName("With gaps and earlier unpaid fees, only paid fee months are counted")
+    @DisplayName("When gaps and earlier unpaid fees is provided, then only paid fee months are counted")
     @PositiveFeeType
     @ActiveMember
     @PaidFeesWithGaps
@@ -142,6 +124,7 @@ class ITPublicMemberRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(member)
+            .as("When gaps and earlier unpaid fees is provided, then only paid fee months are counted")
             .contains(PublicMembers.withMembership(FeeConstants.FEBRUARY_DATE, 2L,
                 FeeConstants.FEBRUARY_DATE.atOffset(ZoneOffset.UTC)
                     .plusMonths(2)
@@ -149,7 +132,7 @@ class ITPublicMemberRepositoryFindOne {
     }
 
     @Test
-    @DisplayName("With only unpaid fees, no joined month and zero months are returned")
+    @DisplayName("When only unpaid fees is provided, then no joined month and zero months are returned")
     @PositiveFeeType
     @ActiveMember
     @NotPaidFee
@@ -161,6 +144,7 @@ class ITPublicMemberRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(member)
+            .as("When only unpaid fees is provided, then no joined month and zero months are returned")
             .contains(PublicMembers.active());
     }
 

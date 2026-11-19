@@ -1,26 +1,3 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2022-2025 Bernardo Martínez Garrido
- * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * <p>
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * <p>
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 
 package com.bernardomg.association.fee.test.adapter.inbound.jpa.repository.integration;
 
@@ -55,14 +32,14 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("FeeRepository - find all - sort")
+@DisplayName("FeeRepository - findAll")
 class ITFeeRepositoryFindAllSort {
 
     @Autowired
     private FeeRepository repository;
 
     @Test
-    @DisplayName("With ascending order by name with accents it returns the ordered data")
+    @DisplayName("When sorting in ascending order by name with accents, then it returns the ordered data")
     @PositiveFeeType
     @MultipleProfilesAccents
     @MultipleFees
@@ -94,7 +71,7 @@ class ITFeeRepositoryFindAllSort {
     }
 
     @Test
-    @DisplayName("With ascending order by month it returns the ordered data")
+    @DisplayName("When sorting in ascending order by month, then it returns the ordered data")
     @PositiveFeeType
     @MultipleProfiles
     @MultipleFees
@@ -124,7 +101,7 @@ class ITFeeRepositoryFindAllSort {
     }
 
     @Test
-    @DisplayName("With descending order by month it returns the ordered data")
+    @DisplayName("When sorting in descending order by month, then it returns the ordered data")
     @PositiveFeeType
     @MultipleProfiles
     @MultipleFees
@@ -154,7 +131,7 @@ class ITFeeRepositoryFindAllSort {
     }
 
     @Test
-    @DisplayName("With ascending order by name it returns the ordered data")
+    @DisplayName("When sorting in ascending order by name, then it returns the ordered data")
     @PositiveFeeType
     @MultipleProfiles
     @MultipleFees
@@ -186,7 +163,7 @@ class ITFeeRepositoryFindAllSort {
     }
 
     @Test
-    @DisplayName("With descending order by name it returns the ordered data")
+    @DisplayName("When sorting in descending order by name, then it returns the ordered data")
     @PositiveFeeType
     @MultipleProfiles
     @MultipleFees
@@ -218,14 +195,14 @@ class ITFeeRepositoryFindAllSort {
     }
 
     @Test
-    @DisplayName("With an invalid field ordering throws an exception")
+    @DisplayName("When an invalid field ordering is used, then an exception is thrown")
     @PositiveFeeType
     @Disabled
     @MultipleProfiles
     @MultipleFees
     void testFindAll_NotExisting() {
         final FeeFilter        feeFilter;
-        final ThrowingCallable executable;
+        final ThrowingCallable action;
         final Pagination       pagination;
         final Sorting          sorting;
 
@@ -236,15 +213,16 @@ class ITFeeRepositoryFindAllSort {
         feeFilter = FeeFilters.empty();
 
         // WHEN
-        executable = () -> repository.findAll(feeFilter, pagination, sorting);
+        action = () -> repository.findAll(feeFilter, pagination, sorting);
 
         // THEN
-        Assertions.assertThatThrownBy(executable)
+        Assertions.assertThatThrownBy(action)
+            .as("With an invalid field ordering throws an exception")
             .isInstanceOf(BadSqlGrammarException.class);
     }
 
     @Test
-    @DisplayName("With ascending order by paid flag it returns the ordered data")
+    @DisplayName("When sorting in ascending order by paid flag, then it returns the ordered data")
     @PositiveFeeType
     @MultipleProfiles
     @MultipleFees
@@ -275,7 +253,7 @@ class ITFeeRepositoryFindAllSort {
     }
 
     @Test
-    @DisplayName("With descending order by paid flag it returns the ordered data")
+    @DisplayName("When sorting in descending order by paid flag, then it returns the ordered data")
     @PositiveFeeType
     @MultipleProfiles
     @MultipleFees

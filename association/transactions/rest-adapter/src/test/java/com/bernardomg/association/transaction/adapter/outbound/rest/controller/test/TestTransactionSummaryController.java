@@ -12,6 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
@@ -25,13 +26,16 @@ import com.bernardomg.association.transaction.test.configuration.factory.Transac
 import com.bernardomg.association.transaction.usecase.service.TransactionSummaryService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("TransactionSummaryController")
+@DisplayName("TransactionSummaryController - getTransactionSummary")
 class TestTransactionSummaryController {
 
-    private MockMvc                   mockMvc;
+    @InjectMocks
+    private TransactionSummaryController controller;
+
+    private MockMvc                      mockMvc;
 
     @Mock
-    private TransactionSummaryService service;
+    private TransactionSummaryService    service;
 
     @BeforeEach
     void setUp() {
@@ -40,19 +44,20 @@ class TestTransactionSummaryController {
         validator.setMessageInterpolator(new ParameterMessageInterpolator());
         validator.afterPropertiesSet();
 
-        mockMvc = MockMvcBuilders.standaloneSetup(new TransactionSummaryController(service))
+        mockMvc = MockMvcBuilders.standaloneSetup(controller)
             .setValidator(validator)
             .build();
     }
 
     @Test
-    @DisplayName("When requesting the summary, it is returned")
+    @DisplayName("When requesting the summary, then it is returned")
     void testGetTransactionSummary() throws Exception {
         // GIVEN
         given(service.getSummary()).willReturn(TransactionSummaries.amount(TransactionConstants.AMOUNT));
 
-        // WHEN + THEN
+        // WHEN
         mockMvc.perform(get("/transaction/summary").contentType(MediaType.APPLICATION_JSON))
+            // THEN
             .andExpect(status().isOk())
             .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content.results").exists())

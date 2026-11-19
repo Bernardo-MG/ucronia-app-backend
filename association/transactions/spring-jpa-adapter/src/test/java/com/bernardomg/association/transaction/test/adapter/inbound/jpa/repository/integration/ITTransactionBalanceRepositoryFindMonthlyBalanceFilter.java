@@ -1,26 +1,3 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2022-2025 Bernardo Martínez Garrido
- * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * <p>
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * <p>
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 
 package com.bernardomg.association.transaction.test.adapter.inbound.jpa.repository.integration;
 
@@ -46,14 +23,14 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("TransactionEvolutionRepository - find monthly evolution - filter")
+@DisplayName("TransactionEvolutionRepository - findEvolution")
 class ITTransactionEvolutionRepositoryFindMonthlyEvolutionFilter {
 
     @Autowired
     private TransactionEvolutionRepository repository;
 
     @Test
-    @DisplayName("Filtering ending before the year returns no month")
+    @DisplayName("When filtering ending before the year, then no month")
     @FullTransactionYear
     void testFindEvolution_EndBeforeStart() {
         final Collection<TransactionEvolutionMonth> evolutions;
@@ -78,7 +55,7 @@ class ITTransactionEvolutionRepositoryFindMonthlyEvolutionFilter {
     }
 
     @Test
-    @DisplayName("Filtering ending on December returns all the months")
+    @DisplayName("When filtering ending on December, then all the months")
     @FullTransactionYear
     void testFindEvolution_EndDecember() {
         final Collection<TransactionEvolutionMonth> evolutions;
@@ -114,7 +91,7 @@ class ITTransactionEvolutionRepositoryFindMonthlyEvolutionFilter {
     }
 
     @Test
-    @DisplayName("Filtering the full year returns all the months")
+    @DisplayName("When filtering the full year, then all the months")
     @FullTransactionYear
     void testFindEvolution_FullYear() {
         final Collection<TransactionEvolutionMonth> evolutions;
@@ -156,7 +133,7 @@ class ITTransactionEvolutionRepositoryFindMonthlyEvolutionFilter {
     }
 
     @Test
-    @DisplayName("Filtering by January returns only that month")
+    @DisplayName("When filtering by January, then only that month")
     @FullTransactionYear
     void testFindEvolution_January() {
         final Collection<TransactionEvolutionMonth> evolutions;
@@ -187,7 +164,7 @@ class ITTransactionEvolutionRepositoryFindMonthlyEvolutionFilter {
     }
 
     @Test
-    @DisplayName("Filtering by January and February returns only those months")
+    @DisplayName("When filtering by January and February, then only those months")
     @FullTransactionYear
     void testFindEvolution_JanuaryToFebruary() {
         final Collection<TransactionEvolutionMonth> evolutions;
@@ -219,7 +196,7 @@ class ITTransactionEvolutionRepositoryFindMonthlyEvolutionFilter {
     }
 
     @Test
-    @DisplayName("Filtering with a range where the end is before the start returns nothing")
+    @DisplayName("When filtering with a range where the end is before the start, then nothing")
     @FullTransactionYear
     void testFindEvolution_RangeEndBeforeStart() {
         final Collection<TransactionEvolutionMonth> evolutions;
@@ -250,7 +227,7 @@ class ITTransactionEvolutionRepositoryFindMonthlyEvolutionFilter {
     }
 
     @Test
-    @DisplayName("Filtering beginning after the year returns no month")
+    @DisplayName("When filtering beginning after the year, then no month")
     @FullTransactionYear
     void testFindEvolution_StartAfterEnd() {
         final Collection<TransactionEvolutionMonth> evolutions;
@@ -275,7 +252,7 @@ class ITTransactionEvolutionRepositoryFindMonthlyEvolutionFilter {
     }
 
     @Test
-    @DisplayName("Filtering beginning on January returns all the months")
+    @DisplayName("When filtering beginning on January, then all the months")
     @FullTransactionYear
     void testFindEvolution_StartInJanuary() {
         final Collection<TransactionEvolutionMonth> evolutions;

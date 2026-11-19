@@ -1,26 +1,3 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2022-2025 Bernardo Martínez Garrido
- * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * <p>
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * <p>
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 
 package com.bernardomg.association.fee.test.adapter.inbound.jpa.repository.integration;
 
@@ -48,14 +25,14 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("FeeRepository - get one")
+@DisplayName("FeeRepository - findOne")
 class ITFeeRepositoryFindOne {
 
     @Autowired
     private FeeRepository repository;
 
     @Test
-    @DisplayName("With two active members, the alternative entity is returned")
+    @DisplayName("When there is two active members, then the alternative entity is returned")
     @PositiveFeeType
     @ValidProfile
     @AlternativeProfile
@@ -71,13 +48,14 @@ class ITFeeRepositoryFindOne {
         Assertions.assertThat(fee)
             .as("fee")
             .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .as("When there is two active members, then the alternative entity is returned")
                 .usingRecursiveComparison()
                 .ignoringFields("audit")
                 .isEqualTo(Fees.alternative()));
     }
 
     @Test
-    @DisplayName("With no data, nothing is returned")
+    @DisplayName("When there is no data, then nothing is returned")
     void testFindOne_NoData() {
         final Optional<Fee> fee;
 
@@ -86,11 +64,12 @@ class ITFeeRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(fee)
+            .as("When there is no data, then nothing is returned")
             .isEmpty();
     }
 
     @Test
-    @DisplayName("With no fee it returns nothing")
+    @DisplayName("When there is no fee, then it returns nothing")
     @PositiveFeeType
     @ValidProfile
     void testFindOne_NoFee() {
@@ -101,11 +80,12 @@ class ITFeeRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(fee)
+            .as("When there is no fee, then it returns nothing")
             .isEmpty();
     }
 
     @Test
-    @DisplayName("With a fee, and a not paid fee, the related entity is returned")
+    @DisplayName("When there is a fee, and a not paid fee, then the related entity is returned")
     @PositiveFeeType
     @ValidProfile
     @NotPaidFee
@@ -117,14 +97,16 @@ class ITFeeRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(fee)
+            .as("When there is a fee, and a not paid fee, then the related entity is returned")
             .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .as("When there is a fee, and a not paid fee, then the related entity is returned")
                 .usingRecursiveComparison()
                 .ignoringFields("audit")
                 .isEqualTo(Fees.notPaid()));
     }
 
     @Test
-    @DisplayName("With a fee, and a paid fee, the related entity is returned")
+    @DisplayName("When there is a fee, and a paid fee, then the related entity is returned")
     @PositiveFeeType
     @ValidProfile
     @PaidFee
@@ -138,13 +120,14 @@ class ITFeeRepositoryFindOne {
         Assertions.assertThat(fee)
             .as("fee")
             .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .as("When there is a fee, and a paid fee, then the related entity is returned")
                 .usingRecursiveComparison()
                 .ignoringFields("audit")
                 .isEqualTo(Fees.paid()));
     }
 
     @Test
-    @DisplayName("With a fee, and two members with paid fees, the first entity is returned")
+    @DisplayName("When there is a fee, and two members with paid fees, then the first entity is returned")
     @PositiveFeeType
     @ValidProfile
     @AlternativeProfile
@@ -160,6 +143,7 @@ class ITFeeRepositoryFindOne {
         Assertions.assertThat(fee)
             .as("fee")
             .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .as("When there is a fee, and two members with paid fees, then the first entity is returned")
                 .usingRecursiveComparison()
                 .ignoringFields("audit")
                 .isEqualTo(Fees.paid()));

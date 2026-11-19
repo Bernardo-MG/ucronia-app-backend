@@ -26,7 +26,7 @@ import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Asset service - get all")
+@DisplayName("DefaultAssetService - getAll")
 class TestAssetServiceGetAll {
 
     @Mock
@@ -50,7 +50,7 @@ class TestAssetServiceGetAll {
     }
 
     @Test
-    @DisplayName("When getting all assets, the requested page is returned")
+    @DisplayName("When getting all assets, then the requested page is returned")
     void testGetAll() {
         final Page<Asset> existing;
         final Page<Asset> result;
@@ -68,11 +68,12 @@ class TestAssetServiceGetAll {
 
         // THEN
         Assertions.assertThat(result)
+            .as("When getting all assets, then the requested page is returned")
             .isEqualTo(existing);
     }
 
     @Test
-    @DisplayName("When getting all assets and there is no data, an empty page is returned")
+    @DisplayName("When getting all assets and there is no data, then an empty page is returned")
     void testGetAll_Empty() {
         final Page<Asset> existing;
         final Page<Asset> result;
@@ -90,6 +91,7 @@ class TestAssetServiceGetAll {
 
         // THEN
         Assertions.assertThat(result.content())
+            .as("When getting all assets and there is no data, then an empty page is returned")
             .isEmpty();
     }
 

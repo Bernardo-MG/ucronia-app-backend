@@ -1,26 +1,3 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2022-2025 Bernardo Martínez Garrido
- * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * <p>
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * <p>
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 
 package com.bernardomg.association.calendar.activity.test.service.unit;
 
@@ -47,7 +24,7 @@ import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Activity service - create")
+@DisplayName("DefaultActivityService - create")
 class TestActivityServiceCreate {
 
     @Mock
@@ -60,7 +37,7 @@ class TestActivityServiceCreate {
     private DefaultActivityService service;
 
     @Test
-    @DisplayName("With a valid activity, an event is emitted")
+    @DisplayName("When there is a valid activity, then an event is emitted")
     void testCreate_EmitsEvent() {
         final Activity               activity;
         final ActivityPublishedEvent event;
@@ -84,7 +61,7 @@ class TestActivityServiceCreate {
     }
 
     @Test
-    @DisplayName("With a future activity, it is persisted")
+    @DisplayName("When there is a future activity, then it is persisted")
     void testCreate_Future_PersistedData() {
         final Activity activity;
 
@@ -101,7 +78,7 @@ class TestActivityServiceCreate {
     }
 
     @Test
-    @DisplayName("With an activity with multiple days, it is persisted")
+    @DisplayName("When there is an activity with multiple days, then it is persisted")
     void testCreate_MultipleDays_PersistedData() {
         final Activity activity;
 
@@ -118,7 +95,7 @@ class TestActivityServiceCreate {
     }
 
     @Test
-    @DisplayName("With an activity with multiple days, it is returned")
+    @DisplayName("When there is an activity with multiple days, then it is returned")
     void testCreate_MultipleDays_ReturnedData() {
         final Activity activity;
         final Activity created;
@@ -138,7 +115,7 @@ class TestActivityServiceCreate {
     }
 
     @Test
-    @DisplayName("With a valid activity, it is persisted")
+    @DisplayName("When there is a valid activity, then it is persisted")
     void testCreate_PersistedData() {
         final Activity activity;
 
@@ -155,7 +132,7 @@ class TestActivityServiceCreate {
     }
 
     @Test
-    @DisplayName("With a valid activity, it is returned")
+    @DisplayName("When there is a valid activity, then it is returned")
     void testCreate_ReturnedData() {
         final Activity activity;
         final Activity created;
@@ -175,7 +152,7 @@ class TestActivityServiceCreate {
     }
 
     @Test
-    @DisplayName("With an activity which starts and ends in the same date, it is persisted")
+    @DisplayName("When there is an activity which starts and ends in the same date, then it is persisted")
     void testCreate_SameDate_PersistedData() {
         final Activity activity;
 
@@ -192,19 +169,19 @@ class TestActivityServiceCreate {
     }
 
     @Test
-    @DisplayName("With an activity which starts after the end, an exception is thrown")
+    @DisplayName("When there is an activity which starts after the end, then an exception is thrown")
     void testCreate_StartsAfterEnd() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
         final Activity         activity;
 
         // GIVEN
         activity = Activities.startsAfterEnd();
 
         // WHEN
-        execution = () -> service.create(activity);
+        action = () -> service.create(activity);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution, new FieldFailure("invalid", "dates", activity.dates()));
+        ValidationAssertions.assertThatFieldFails(action, new FieldFailure("invalid", "dates", activity.dates()));
     }
 
 }

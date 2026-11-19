@@ -25,7 +25,7 @@ import com.bernardomg.asset.test.configuration.factory.AssetFolders;
 import com.bernardomg.asset.usecase.service.DefaultAssetFolderService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("AssetFolderService - update")
+@DisplayName("DefaultAssetFolderService - update")
 class TestAssetFolderServiceUpdate {
 
     @Mock
@@ -38,9 +38,9 @@ class TestAssetFolderServiceUpdate {
     private DefaultAssetFolderService service;
 
     @Test
-    @DisplayName("With an existing sibling name, an exception is thrown")
+    @DisplayName("When there is an existing sibling name, then an exception is thrown")
     void testUpdate_ExistingName() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         given(folderRepository.exists(AssetFolderConstants.NUMBER)).willReturn(true);
@@ -49,31 +49,33 @@ class TestAssetFolderServiceUpdate {
             .willReturn(true);
 
         // WHEN
-        execution = () -> service.update(AssetFolders.valid());
+        action = () -> service.update(AssetFolders.valid());
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When there is an existing sibling name, then an exception is thrown")
             .isInstanceOf(AssetFolderAlreadyExistsException.class);
     }
 
     @Test
-    @DisplayName("With a missing image folder, an exception is thrown")
+    @DisplayName("When there is a missing image folder, then an exception is thrown")
     void testUpdate_NotExisting() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         given(folderRepository.exists(AssetFolderConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        execution = () -> service.update(AssetFolders.valid());
+        action = () -> service.update(AssetFolders.valid());
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When there is a missing image folder, then an exception is thrown")
             .isInstanceOf(AssetFolderNotExistingException.class);
     }
 
     @Test
-    @DisplayName("With valid data, the image folder is persisted")
+    @DisplayName("When there is valid data, then the image folder is persisted")
     void testUpdate_PersistedData() {
         // GIVEN
         given(folderRepository.exists(AssetFolderConstants.NUMBER)).willReturn(true);
@@ -87,7 +89,7 @@ class TestAssetFolderServiceUpdate {
     }
 
     @Test
-    @DisplayName("With valid data, the updated image folder is returned")
+    @DisplayName("When there is valid data, then the updated image folder is returned")
     void testUpdate_ReturnedData() {
         final AssetFolder updated;
 
@@ -101,6 +103,7 @@ class TestAssetFolderServiceUpdate {
 
         // THEN
         Assertions.assertThat(updated)
+            .as("When there is valid data, then the updated image folder is returned")
             .isEqualTo(AssetFolders.valid());
     }
 

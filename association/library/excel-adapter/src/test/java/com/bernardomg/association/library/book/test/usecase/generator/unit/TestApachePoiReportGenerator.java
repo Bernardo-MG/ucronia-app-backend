@@ -26,7 +26,7 @@ import com.bernardomg.association.library.book.usecase.generator.ApachePoiWorkbo
 import com.bernardomg.association.library.book.usecase.generator.LibraryApachePoiWorkbookLoader;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("ApachePoiReportGenerator")
+@DisplayName("ApachePoiReportGenerator - getReport")
 class TestApachePoiReportGenerator {
 
     @Mock
@@ -39,7 +39,7 @@ class TestApachePoiReportGenerator {
     private LibraryApachePoiWorkbookLoader workbookLoader;
 
     @Test
-    @DisplayName("The generated workbook is loaded and returned as an Excel stream")
+    @DisplayName("When a workbook is generated, then it is loaded and returned as an Excel stream")
     void testGetReport() throws IOException {
         final List<GameBook>        gameBooks;
         final List<FictionBook>     fictionBooks;
@@ -57,8 +57,10 @@ class TestApachePoiReportGenerator {
         result = generator.getReport(gameBooks, fictionBooks);
 
         // THEN
-        assertThat(result).isNotNull();
-        assertThat(result.size()).isPositive();
+        assertThat(result).as("The generated workbook is loaded and returned as an Excel stream")
+            .isNotNull();
+        assertThat(result.size()).as("The generated workbook is loaded and returned as an Excel stream")
+            .isPositive();
     }
 
 }

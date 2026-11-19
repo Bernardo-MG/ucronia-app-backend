@@ -1,26 +1,3 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2022-2025 Bernardo Martínez Garrido
- * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * <p>
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * <p>
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 
 package com.bernardomg.association.library.lending.test.adapter.inbound.jpa.repository.integration;
 
@@ -57,7 +34,7 @@ class ITBookLendingRepositorySave {
     private BookLendingSpringRepository springRepository;
 
     @Test
-    @DisplayName("When saving a lending for a fiction book and the profile doesnt exist, nothing is persisted")
+    @DisplayName("When saving a lending for a fiction book and the profile doesnt exist, then nothing is persisted")
     @MinimalFictionBook
     void testSave_FictionBook_NoMember() {
         final BookLending lending;
@@ -75,7 +52,7 @@ class ITBookLendingRepositorySave {
     }
 
     @Test
-    @DisplayName("When saving a lending for a fiction book, a lending is persisted")
+    @DisplayName("When saving a lending for a fiction book, then a lending is persisted")
     @ValidProfile
     @FullFictionBook
     void testSave_FictionBook_Persisted() {
@@ -97,7 +74,7 @@ class ITBookLendingRepositorySave {
     }
 
     @Test
-    @DisplayName("When changing a fiction bool from lent to returned, it is persisted")
+    @DisplayName("When changing a fiction bool from lent to returned, then it is persisted")
     @ValidProfile
     @FullFictionBook
     @LentBookLending
@@ -120,7 +97,7 @@ class ITBookLendingRepositorySave {
     }
 
     @Test
-    @DisplayName("When saving a lending for a fiction book, the persisted lending is returned")
+    @DisplayName("When saving a lending for a fiction book, then the persisted lending is returned")
     @ValidProfile
     @FullFictionBook
     void testSave_FictionBook_Returned() {
@@ -142,7 +119,7 @@ class ITBookLendingRepositorySave {
     }
 
     @Test
-    @DisplayName("When saving a lending for a game book and the profile doesnt exist, nothing is persisted")
+    @DisplayName("When saving a lending for a game book and the profile doesnt exist, then nothing is persisted")
     @MinimalGameBook
     void testSave_GameBook_NoMember() {
         final BookLending lending;
@@ -160,7 +137,7 @@ class ITBookLendingRepositorySave {
     }
 
     @Test
-    @DisplayName("When saving a lending for a game book, a lending is persisted")
+    @DisplayName("When saving a lending for a game book, then a lending is persisted")
     @ValidProfile
     @FullGameBook
     void testSave_GameBook_Persisted() {
@@ -182,7 +159,7 @@ class ITBookLendingRepositorySave {
     }
 
     @Test
-    @DisplayName("When changing a fiction bool from lent to returned, it is persisted")
+    @DisplayName("When changing a fiction bool from lent to returned, then it is persisted")
     @ValidProfile
     @FullGameBook
     @LentBookLending
@@ -205,7 +182,7 @@ class ITBookLendingRepositorySave {
     }
 
     @Test
-    @DisplayName("When saving a lending for a game book, the persisted lending is returned")
+    @DisplayName("When saving a lending for a game book, then the persisted lending is returned")
     @ValidProfile
     @FullGameBook
     void testSave_GameBook_Returned() {
@@ -227,7 +204,7 @@ class ITBookLendingRepositorySave {
     }
 
     @Test
-    @DisplayName("When saving a lending for a book which doesn't exist, nothing is persisted")
+    @DisplayName("When saving a lending for a book which doesn't exist, then nothing is persisted")
     @ValidProfile
     void testSave_NoBook() {
         final BookLending lending;

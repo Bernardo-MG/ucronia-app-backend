@@ -1,26 +1,3 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2022-2025 Bernardo Martínez Garrido
- * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * <p>
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * <p>
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 
 package com.bernardomg.association.library.lending.test.adapter.inbound.jpa.repository.integration;
 
@@ -50,14 +27,14 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("BookLendingRepository - find returned for profile at date")
+@DisplayName("BookLendingRepository - findReturned")
 class ITBookLendingRepositoryFindReturnedExact {
 
     @Autowired
     private BookLendingRepository repository;
 
     @Test
-    @DisplayName("When there is a lent fiction book, nothing is returned")
+    @DisplayName("When there is a lent fiction book, then nothing is returned")
     @ValidProfile
     @FullFictionBook
     @LentBookLending
@@ -74,7 +51,7 @@ class ITBookLendingRepositoryFindReturnedExact {
     }
 
     @Test
-    @DisplayName("When there is a fiction book and it has no history, nothing is returned")
+    @DisplayName("When there is a fiction book and it has no history, then nothing is returned")
     @ValidProfile
     @FullFictionBook
     void testFindReturned_FictionBook_NoHistory() {
@@ -90,7 +67,7 @@ class ITBookLendingRepositoryFindReturnedExact {
     }
 
     @Test
-    @DisplayName("When there is a fiction book and it is not lent, nothing is returned")
+    @DisplayName("When there is a fiction book and it is not lent, then nothing is returned")
     @MinimalFictionBook
     void testFindReturned_FictionBook_NotLent() {
         final Optional<BookLending> lending;
@@ -105,7 +82,7 @@ class ITBookLendingRepositoryFindReturnedExact {
     }
 
     @Test
-    @DisplayName("When there is a returned fiction book, it is returned")
+    @DisplayName("When there is a returned fiction book, then it is returned")
     @ValidProfile
     @FullFictionBook
     @ReturnedBookLending
@@ -119,13 +96,14 @@ class ITBookLendingRepositoryFindReturnedExact {
         Assertions.assertThat(lending)
             .as("lending")
             .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .as("When there is a returned fiction book, then it is returned")
                 .usingRecursiveComparison()
                 .ignoringFields("audit")
                 .isEqualTo(BookLendings.returned()));
     }
 
     @Test
-    @DisplayName("When there is a returned game book and it has history, it is returned")
+    @DisplayName("When there is a returned game book and it has history, then it is returned")
     @ValidProfile
     @AlternativeProfile
     @FullFictionBook
@@ -140,13 +118,14 @@ class ITBookLendingRepositoryFindReturnedExact {
         Assertions.assertThat(lending)
             .as("lending")
             .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .as("When there is a returned game book and it has history, then it is returned")
                 .usingRecursiveComparison()
                 .ignoringFields("audit")
                 .isEqualTo(BookLendings.returned()));
     }
 
     @Test
-    @DisplayName("When there is a lent game book, nothing is returned")
+    @DisplayName("When there is a lent game book, then nothing is returned")
     @ValidProfile
     @FullGameBook
     @LentBookLending
@@ -163,7 +142,7 @@ class ITBookLendingRepositoryFindReturnedExact {
     }
 
     @Test
-    @DisplayName("When there is a game book and it has no history, nothing is returned")
+    @DisplayName("When there is a game book and it has no history, then nothing is returned")
     @ValidProfile
     @FullGameBook
     void testFindReturned_GameBook_NoHistory() {
@@ -179,7 +158,7 @@ class ITBookLendingRepositoryFindReturnedExact {
     }
 
     @Test
-    @DisplayName("When there is a game book and it is not lent, nothing is returned")
+    @DisplayName("When there is a game book and it is not lent, then nothing is returned")
     @MinimalGameBook
     void testFindReturned_GameBook_NotLent() {
         final Optional<BookLending> lending;
@@ -194,7 +173,7 @@ class ITBookLendingRepositoryFindReturnedExact {
     }
 
     @Test
-    @DisplayName("When there is a returned game book, it is returned")
+    @DisplayName("When there is a returned game book, then it is returned")
     @ValidProfile
     @FullGameBook
     @ReturnedBookLending
@@ -208,13 +187,14 @@ class ITBookLendingRepositoryFindReturnedExact {
         Assertions.assertThat(lending)
             .as("lending")
             .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .as("When there is a returned game book, then it is returned")
                 .usingRecursiveComparison()
                 .ignoringFields("audit")
                 .isEqualTo(BookLendings.returned()));
     }
 
     @Test
-    @DisplayName("When there is a returned game book and it has history, it is returned")
+    @DisplayName("When there is a returned game book and it has history, then it is returned")
     @ValidProfile
     @AlternativeProfile
     @FullGameBook
@@ -229,13 +209,14 @@ class ITBookLendingRepositoryFindReturnedExact {
         Assertions.assertThat(lending)
             .as("lending")
             .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .as("When there is a returned game book and it has history, then it is returned")
                 .usingRecursiveComparison()
                 .ignoringFields("audit")
                 .isEqualTo(BookLendings.returned()));
     }
 
     @Test
-    @DisplayName("With no book, nothing is returned")
+    @DisplayName("When there is no book, then nothing is returned")
     @ValidProfile
     void testFindReturned_NoBook() {
         final Optional<BookLending> lending;

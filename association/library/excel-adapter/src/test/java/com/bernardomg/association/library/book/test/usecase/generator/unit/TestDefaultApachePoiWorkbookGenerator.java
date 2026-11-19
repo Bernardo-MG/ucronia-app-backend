@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Test;
 
 import com.bernardomg.association.library.book.usecase.generator.DefaultApachePoiWorkbookGenerator;
 
-@DisplayName("DefaultApachePoiWorkbookGenerator")
+@DisplayName("DefaultApachePoiWorkbookGenerator - generateWorkbook")
 class TestDefaultApachePoiWorkbookGenerator {
 
     private static final List<String> FICTION_HEADERS         = List.of("Número", "Título completo", "Idioma", "ISBN",
@@ -55,14 +55,19 @@ class TestDefaultApachePoiWorkbookGenerator {
 
         assertSoftly(softly -> {
             softly.assertThat(title.getStringCellValue())
+                .as("DefaultApachePoiWorkbookGenerator")
                 .isEqualTo("Biblioteca de A.R. Ucronía");
             softly.assertThat(sheet.getNumMergedRegions())
+                .as("DefaultApachePoiWorkbookGenerator")
                 .isEqualTo(1);
             softly.assertThat(sheet.isDisplayGridlines())
+                .as("DefaultApachePoiWorkbookGenerator")
                 .isFalse();
             softly.assertThat(sheet.isDisplayRowColHeadings())
+                .as("DefaultApachePoiWorkbookGenerator")
                 .isFalse();
             softly.assertThat(toHex(((XSSFSheet) sheet).getTabColor()))
+                .as("DefaultApachePoiWorkbookGenerator")
                 .isEqualTo(expectedTabColor);
         });
     }
@@ -74,13 +79,15 @@ class TestDefaultApachePoiWorkbookGenerator {
 
         sheet = workbook.getSheet(sheetName);
         header = sheet.getRow(headerRow);
-        assertThat(header.getPhysicalNumberOfCells()).isEqualTo(expectedHeaders.size());
+        assertThat(header.getPhysicalNumberOfCells()).as("DefaultApachePoiWorkbookGenerator")
+            .isEqualTo(expectedHeaders.size());
 
         for (int index = 0; index < expectedHeaders.size(); index++) {
             final int  column = index + firstColumn;
             final Cell cell   = header.getCell(column);
 
-            assertThat(cell.getStringCellValue()).isEqualTo(expectedHeaders.get(column - firstColumn));
+            assertThat(cell.getStringCellValue()).as("DefaultApachePoiWorkbookGenerator")
+                .isEqualTo(expectedHeaders.get(column - firstColumn));
         }
     }
 
@@ -100,7 +107,7 @@ class TestDefaultApachePoiWorkbookGenerator {
     private final DefaultApachePoiWorkbookGenerator generator = new DefaultApachePoiWorkbookGenerator();
 
     @Test
-    @DisplayName("The fiction sheet has the expected headers, widths and style")
+    @DisplayName("When the fiction sheet is generated, then it has the expected headers, widths and style")
     void testGenerateWorkbookCreatesFictionSheet() {
         final Workbook workbook;
 
@@ -112,7 +119,7 @@ class TestDefaultApachePoiWorkbookGenerator {
     }
 
     @Test
-    @DisplayName("The games sheet has the expected headers, widths and style")
+    @DisplayName("When the games sheet is generated, then it has the expected headers, widths and style")
     void testGenerateWorkbookCreatesGamesSheet() {
         final Workbook workbook;
 
@@ -124,7 +131,7 @@ class TestDefaultApachePoiWorkbookGenerator {
     }
 
     @Test
-    @DisplayName("The lending history sheet has the expected headers, widths and style")
+    @DisplayName("When the lending history sheet is generated, then it has the expected headers, widths and style")
     void testGenerateWorkbookCreatesLendingHistorySheet() {
         final Workbook workbook;
 
@@ -136,7 +143,7 @@ class TestDefaultApachePoiWorkbookGenerator {
     }
 
     @Test
-    @DisplayName("The lending sheet has the expected headers, widths and style")
+    @DisplayName("When the lending sheet is generated, then it has the expected headers, widths and style")
     void testGenerateWorkbookCreatesLendingSheet() {
         final Workbook workbook;
 
@@ -148,7 +155,7 @@ class TestDefaultApachePoiWorkbookGenerator {
     }
 
     @Test
-    @DisplayName("The workbook contains the games, fiction and lending sheets")
+    @DisplayName("When the workbook is generated, then it contains the games, fiction and lending sheets")
     void testGenerateWorkbookCreatesSheets() {
         final Workbook workbook;
 
@@ -158,14 +165,19 @@ class TestDefaultApachePoiWorkbookGenerator {
         // THEN
         assertSoftly(softly -> {
             softly.assertThat(workbook.getNumberOfSheets())
+                .as("The workbook contains the games, fiction and lending sheets")
                 .isEqualTo(4);
             softly.assertThat(workbook.getSheetName(0))
+                .as("The workbook contains the games, fiction and lending sheets")
                 .isEqualTo("Juegos");
             softly.assertThat(workbook.getSheetName(1))
+                .as("The workbook contains the games, fiction and lending sheets")
                 .isEqualTo("Ficción");
             softly.assertThat(workbook.getSheetName(2))
+                .as("The workbook contains the games, fiction and lending sheets")
                 .isEqualTo("Préstamos");
             softly.assertThat(workbook.getSheetName(3))
+                .as("The workbook contains the games, fiction and lending sheets")
                 .isEqualTo("Historial de préstamos");
         });
     }

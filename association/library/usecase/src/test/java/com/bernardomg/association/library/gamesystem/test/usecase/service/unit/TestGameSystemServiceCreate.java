@@ -1,26 +1,3 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2022-2025 Bernardo Martínez Garrido
- * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * <p>
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * <p>
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 
 package com.bernardomg.association.library.gamesystem.test.usecase.service.unit;
 
@@ -45,7 +22,7 @@ import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("GameSystemService - create")
+@DisplayName("DefaultGameSystemService - create")
 class TestGameSystemServiceCreate {
 
     @Mock
@@ -54,30 +31,26 @@ class TestGameSystemServiceCreate {
     @InjectMocks
     private DefaultGameSystemService service;
 
-    public TestGameSystemServiceCreate() {
-        super();
-    }
-
     @Test
-    @DisplayName("With a game system with an empty name, an exception is thrown")
+    @DisplayName("When there is a game system with an empty name, then an exception is thrown")
     void testCreate_EmptyName() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
         final GameSystem       gameSystem;
 
         // GIVEN
         gameSystem = GameSystems.emptyName();
 
         // WHEN
-        execution = () -> service.create(gameSystem);
+        action = () -> service.create(gameSystem);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution, new FieldFailure("empty", "name", ""));
+        ValidationAssertions.assertThatFieldFails(action, new FieldFailure("empty", "name", ""));
     }
 
     @Test
-    @DisplayName("With a game system with an existing name, an exception is thrown")
+    @DisplayName("When there is a game system with an existing name, then an exception is thrown")
     void testCreate_ExistingName() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
         final GameSystem       gameSystem;
 
         // GIVEN
@@ -86,15 +59,15 @@ class TestGameSystemServiceCreate {
         given(gameSystemRepository.existsByName(GameSystemConstants.NAME)).willReturn(true);
 
         // WHEN
-        execution = () -> service.create(gameSystem);
+        action = () -> service.create(gameSystem);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution,
+        ValidationAssertions.assertThatFieldFails(action,
             new FieldFailure("existing", "name", GameSystemConstants.NAME));
     }
 
     @Test
-    @DisplayName("With a game system with padded name, the game system is persisted")
+    @DisplayName("When there is a game system with padded name, then the game system is persisted")
     void testCreate_Padded_PersistedData() {
         final GameSystem gameSystem;
 
@@ -109,7 +82,7 @@ class TestGameSystemServiceCreate {
     }
 
     @Test
-    @DisplayName("With a valid game system, the game system is persisted")
+    @DisplayName("When there is a valid game system, then the game system is persisted")
     void testCreate_PersistedData() {
         final GameSystem gameSystem;
 
@@ -124,7 +97,7 @@ class TestGameSystemServiceCreate {
     }
 
     @Test
-    @DisplayName("With a valid game system, the created game system is returned")
+    @DisplayName("When there is a valid game system, then the created game system is returned")
     void testCreate_ReturnedData() {
         final GameSystem gameSystem;
         final GameSystem created;
@@ -139,6 +112,7 @@ class TestGameSystemServiceCreate {
 
         // THEN
         Assertions.assertThat(created)
+            .as("When there is a valid game system, then the created game system is returned")
             .isEqualTo(GameSystems.valid());
     }
 

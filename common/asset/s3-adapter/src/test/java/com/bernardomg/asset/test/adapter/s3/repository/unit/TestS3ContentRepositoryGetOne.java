@@ -30,7 +30,7 @@ import software.amazon.awssdk.services.s3.model.GetObjectResponse;
 import software.amazon.awssdk.services.s3.model.NoSuchKeyException;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("S3 image content repository")
+@DisplayName("S3ContentRepository - getOne")
 class TestS3ContentRepositoryGetOne {
 
     @Mock
@@ -44,7 +44,7 @@ class TestS3ContentRepositoryGetOne {
     }
 
     @Test
-    @DisplayName("When getting image content, data and media type are returned")
+    @DisplayName("When getting image content, then data and media type are returned")
     void testGetOne() throws IOException {
         final Content                                content;
         final GetObjectRequest                       request;
@@ -72,22 +72,25 @@ class TestS3ContentRepositoryGetOne {
             try {
                 soft.assertThat(content.data()
                     .readAllBytes())
+                    .as("When getting image content, then data and media type are returned")
                     .containsExactly(ContentConstants.DATA);
             } catch (final IOException e) {
                 soft.fail();
             }
             soft.assertThat(content.size())
+                .as("When getting image content, then data and media type are returned")
                 .isEqualTo(ContentConstants.DATA.length);
             soft.assertThat(content.mediaType())
+                .as("When getting image content, then data and media type are returned")
                 .isEqualTo(ContentConstants.MEDIA_TYPE);
         });
     }
 
     @Test
-    @DisplayName("When getting missing image content, not found is raised")
+    @DisplayName("When getting missing image content, then not found is raised")
     void testGetOne_Missing() {
         final GetObjectRequest request;
-        final ThrowingCallable callable;
+        final ThrowingCallable action;
 
         // GIVEN
         request = GetObjectRequest.builder()
@@ -98,15 +101,16 @@ class TestS3ContentRepositoryGetOne {
             .build());
 
         // WHEN
-        callable = () -> repository.getOne(ContentConstants.KEY);
+        action = () -> repository.getOne(ContentConstants.KEY);
 
         // THEN
-        Assertions.assertThatThrownBy(callable)
+        Assertions.assertThatThrownBy(action)
+            .as("When getting missing image content, then not found is raised")
             .isInstanceOf(ContentNotExistingException.class);
     }
 
     @Test
-    @DisplayName("When getting image content without a media type, the default media type is returned")
+    @DisplayName("When getting image content without a media type, then the default media type is returned")
     void testGetOne_WithoutMediaType() throws IOException {
         final Content                                content;
         final GetObjectRequest                       request;
@@ -133,11 +137,13 @@ class TestS3ContentRepositoryGetOne {
             try {
                 soft.assertThat(content.data()
                     .readAllBytes())
+                    .as("When getting image content without a media type, then the default media type is returned")
                     .containsExactly(ContentConstants.DATA);
             } catch (final IOException e) {
                 soft.fail();
             }
             soft.assertThat(content.mediaType())
+                .as("When getting image content without a media type, then the default media type is returned")
                 .isEqualTo(MediaType.APPLICATION_OCTET_STREAM_VALUE);
         });
     }

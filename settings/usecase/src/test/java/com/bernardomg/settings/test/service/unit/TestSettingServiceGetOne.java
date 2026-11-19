@@ -22,8 +22,8 @@ import com.bernardomg.settings.test.factory.Settings;
 import com.bernardomg.settings.usecase.service.DefaultSettingService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Settings service - get one")
-public class TestSettingServiceGetOne {
+@DisplayName("DefaultSettingService - getOne")
+class TestSettingServiceGetOne {
 
     @InjectMocks
     private DefaultSettingService service;
@@ -32,7 +32,7 @@ public class TestSettingServiceGetOne {
     private SettingRepository     settingRepository;
 
     @Test
-    @DisplayName("When the setting exists, it is returned")
+    @DisplayName("When the setting exists, then it is returned")
     void testGetOne_Existing() {
         final Optional<Setting> settings;
 
@@ -49,18 +49,19 @@ public class TestSettingServiceGetOne {
     }
 
     @Test
-    @DisplayName("When the setting doesn't exist, nothing is returned")
+    @DisplayName("When the setting doesn't exist, then nothing is returned")
     void testGetOne_NotExisting() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         given(settingRepository.findOne(SettingConstants.CODE)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.getOne(SettingConstants.CODE);
+        action = () -> service.getOne(SettingConstants.CODE);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When the setting doesn't exist, then nothing is returned")
             .isInstanceOf(MissingSettingException.class);
     }
 

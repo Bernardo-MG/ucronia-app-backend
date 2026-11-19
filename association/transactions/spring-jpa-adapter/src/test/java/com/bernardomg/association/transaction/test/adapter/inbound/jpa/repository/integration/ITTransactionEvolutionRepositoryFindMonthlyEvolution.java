@@ -1,26 +1,3 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2022-2025 Bernardo Martínez Garrido
- * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * <p>
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * <p>
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 
 package com.bernardomg.association.transaction.test.adapter.inbound.jpa.repository.integration;
 
@@ -52,7 +29,7 @@ import com.bernardomg.test.configuration.argument.DecimalArgumentsProvider;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("TransactionEvolutionRepository - find monthly evolution")
+@DisplayName("TransactionEvolutionRepository - findEvolution")
 class ITTransactionEvolutionRepositoryFindMonthlyEvolution {
 
     @Autowired
@@ -63,7 +40,7 @@ class ITTransactionEvolutionRepositoryFindMonthlyEvolution {
 
     @ParameterizedTest(name = "Amount: {0}")
     @ArgumentsSource(AroundZeroArgumentsProvider.class)
-    @DisplayName("With values around zero it returns the correct amounts")
+    @DisplayName("When values are around zero, then the correct amounts are returned")
     void testFindEvolution_AroundZero(final Float amount) {
         final Collection<TransactionEvolutionMonth> evolutions;
         final Sorting                               sorting;
@@ -83,7 +60,7 @@ class ITTransactionEvolutionRepositoryFindMonthlyEvolution {
     }
 
     @Test
-    @DisplayName("Returns evolution for the end of the current month")
+    @DisplayName("When the component is queried, then evolution for the end of the current month is returned")
     void testFindEvolution_CurrentMonthEnd() {
         final Collection<TransactionEvolutionMonth> evolutions;
         final Sorting                               sorting;
@@ -103,7 +80,7 @@ class ITTransactionEvolutionRepositoryFindMonthlyEvolution {
     }
 
     @Test
-    @DisplayName("Returns evolution for the start of the current month")
+    @DisplayName("When the component is queried, then evolution for the start of the current month is returned")
     void testFindEvolution_CurrentMonthStart() {
         final Collection<TransactionEvolutionMonth> evolutions;
         final Sorting                               sorting;
@@ -124,7 +101,7 @@ class ITTransactionEvolutionRepositoryFindMonthlyEvolution {
 
     @ParameterizedTest(name = "Date: {0}")
     @ArgumentsSource(CurrentAndPreviousMonthProvider.class)
-    @DisplayName("Returns evolution for the current month and adjacents")
+    @DisplayName("When monthly evolution is requested, then current and adjacent months are returned")
     void testFindEvolution_Dates(final Instant date) {
         final Collection<TransactionEvolutionMonth> evolutions;
         final Sorting                               sorting;
@@ -145,7 +122,7 @@ class ITTransactionEvolutionRepositoryFindMonthlyEvolution {
 
     @ParameterizedTest(name = "Amount: {0}")
     @ArgumentsSource(DecimalArgumentsProvider.class)
-    @DisplayName("With decimal values it returns the correct amounts")
+    @DisplayName("When decimal values are used, then the correct amounts are returned")
     void testFindEvolution_Decimal(final Float amount) {
         final Collection<TransactionEvolutionMonth> evolutions;
         final Sorting                               sorting;
@@ -165,7 +142,7 @@ class ITTransactionEvolutionRepositoryFindMonthlyEvolution {
     }
 
     @Test
-    @DisplayName("With decimal values which sum zero the returned evolution is zero")
+    @DisplayName("When decimal values sum to zero, then the evolution is zero")
     @DecimalsAddZeroTransaction
     void testFindEvolution_DecimalsAddUpToZero() {
         final Collection<TransactionEvolutionMonth> evolutions;
@@ -184,7 +161,7 @@ class ITTransactionEvolutionRepositoryFindMonthlyEvolution {
     }
 
     @Test
-    @DisplayName("With a full year it returns twelve months")
+    @DisplayName("When there is a full year, then it returns twelve months")
     @FullTransactionYear
     void testFindEvolution_FullYear() {
         final Collection<TransactionEvolutionMonth> evolutions;
@@ -214,7 +191,7 @@ class ITTransactionEvolutionRepositoryFindMonthlyEvolution {
     }
 
     @Test
-    @DisplayName("Returns evolution for the current month")
+    @DisplayName("When the component is queried, then evolution for the current month is returned")
     void testFindEvolution_MonthStart() {
         final Collection<TransactionEvolutionMonth> evolutions;
         final Sorting                               sorting;
@@ -234,7 +211,7 @@ class ITTransactionEvolutionRepositoryFindMonthlyEvolution {
     }
 
     @Test
-    @DisplayName("With multiple transactions for a single month it returns a single month")
+    @DisplayName("When there are multiple transactions for a single month, then it returns a single month")
     @MultipleTransactionsSameMonth
     void testFindEvolution_Multiple() {
         final Collection<TransactionEvolutionMonth> evolutions;
@@ -253,7 +230,7 @@ class ITTransactionEvolutionRepositoryFindMonthlyEvolution {
     }
 
     @Test
-    @DisplayName("Returns no evolution for the next month")
+    @DisplayName("When the next month is queried, then no evolution for the next month")
     void testFindEvolution_NextMonth() {
         final Collection<TransactionEvolutionMonth> evolutions;
         final Sorting                               sorting;
@@ -273,7 +250,7 @@ class ITTransactionEvolutionRepositoryFindMonthlyEvolution {
     }
 
     @Test
-    @DisplayName("With no data it returns nothing")
+    @DisplayName("When there is no data, then it returns nothing")
     void testFindEvolution_NoData() {
         final Collection<TransactionEvolutionMonth> evolutions;
         final Sorting                               sorting;
