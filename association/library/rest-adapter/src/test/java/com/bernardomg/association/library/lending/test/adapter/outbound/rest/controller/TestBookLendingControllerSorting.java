@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.library.lending.test.adapter.outbound.rest.controller;
 
+import static com.bernardomg.testing.mvc.MockMvcTestSupport.standalone;
 import static org.hamcrest.Matchers.isA;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -13,7 +14,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.List;
 import java.util.Map;
 
-import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,8 +23,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import com.bernardomg.association.library.lending.adapter.outbound.rest.controller.BookLendingController;
 import com.bernardomg.association.library.lending.test.configuration.factory.BookLendings;
@@ -47,15 +45,7 @@ class TestBookLendingControllerSorting {
 
     @BeforeEach
     void setUp() {
-        final LocalValidatorFactoryBean validator;
-
-        validator = new LocalValidatorFactoryBean();
-        validator.setValidationPropertyMap(Map.of("hibernate.validator.allow_parameter_constraint_override", "true"));
-        validator.setMessageInterpolator(new ParameterMessageInterpolator());
-        validator.afterPropertiesSet();
-
-        mockMvc = MockMvcBuilders.standaloneSetup(controller)
-            .setValidator(validator)
+        mockMvc = standalone(controller, Map.of("hibernate.validator.allow_parameter_constraint_override", "true"))
             .build();
     }
 

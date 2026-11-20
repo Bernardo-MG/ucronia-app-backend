@@ -1,6 +1,7 @@
 
 package com.bernardomg.association.calendar.activity.adapter.outbound.rest.controller;
 
+import static com.bernardomg.testing.mvc.MockMvcTestSupport.standalone;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -9,7 +10,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.Optional;
 
-import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,8 +19,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import com.bernardomg.association.calendar.activity.test.configuration.factory.Activities;
 import com.bernardomg.association.calendar.activity.usecase.service.ActivityService;
@@ -39,15 +37,7 @@ class TestActivityControllerGetOneActivity {
 
     @BeforeEach
     void setUp() {
-        final LocalValidatorFactoryBean validator;
-
-        validator = new LocalValidatorFactoryBean();
-        validator.setMessageInterpolator(new ParameterMessageInterpolator());
-        validator.afterPropertiesSet();
-
-        mockMvc = MockMvcBuilders.standaloneSetup(controller)
-            .setValidator(validator)
-            .build();
+        mockMvc = standalone(controller).build();
     }
 
     @Test
