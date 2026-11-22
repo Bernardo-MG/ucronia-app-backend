@@ -1,7 +1,7 @@
 
 package com.bernardomg.association.library.lending.test.adapter.outbound.rest.controller;
 
-import static com.bernardomg.testing.mvc.MockMvcTestSupport.standalone;
+import static com.bernardomg.testing.mvc.MockMvcBuilder.standalone;
 import static org.hamcrest.Matchers.isA;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;

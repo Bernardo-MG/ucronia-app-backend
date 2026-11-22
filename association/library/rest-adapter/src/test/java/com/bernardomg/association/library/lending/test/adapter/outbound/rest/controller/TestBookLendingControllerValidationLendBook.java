@@ -1,8 +1,8 @@
 
 package com.bernardomg.association.library.lending.test.adapter.outbound.rest.controller;
 
-import static com.bernardomg.testing.mvc.MockMvcTestSupport.javaTimeJsonConverter;
-import static com.bernardomg.testing.mvc.MockMvcTestSupport.standalone;
+import static com.bernardomg.testing.mvc.MockMvcBuilder.javaTimeJsonConverter;
+import static com.bernardomg.testing.mvc.MockMvcBuilder.standalone;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
