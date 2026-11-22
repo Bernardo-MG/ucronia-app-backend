@@ -1,26 +1,3 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2022-2025 Bernardo Martínez Garrido
- * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * <p>
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * <p>
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 
 package com.bernardomg.association.transaction.member.service.unit;
 
@@ -66,15 +43,11 @@ class TestMemberServiceCreate {
     @InjectMocks
     private DefaultMemberService          service;
 
-    public TestMemberServiceCreate() {
-        super();
-    }
-
     @Test
-    @DisplayName("With a missing contact method, an exception is thrown")
+    @DisplayName("When there is a missing contact method, then an exception is thrown")
     void testCreate_ContactMethodMissing() {
         final Member           member;
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         member = Members.withEmail();
@@ -84,35 +57,37 @@ class TestMemberServiceCreate {
         given(memberContactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        execution = () -> service.create(member);
+        action = () -> service.create(member);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When there is a missing contact method, then an exception is thrown")
             .isInstanceOf(MissingContactMethodException.class);
     }
 
     @Test
-    @DisplayName("With a missing fee type, an exception is thrown")
+    @DisplayName("When there is a missing fee type, then an exception is thrown")
     void testCreate_FeeTypeMissing() {
         final Member           member;
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         member = Members.active();
         given(feeTypeRepository.exists(FeeConstants.FEE_TYPE_NUMBER)).willReturn(false);
 
         // WHEN
-        execution = () -> service.create(member);
+        action = () -> service.create(member);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When there is a missing fee type, then an exception is thrown")
             .isInstanceOf(MissingFeeTypeException.class);
     }
 
     @Test
-    @DisplayName("With a member with an existing identifier, an exception is thrown")
+    @DisplayName("When there is a member with an existing identifier, then an exception is thrown")
     void testCreate_IdentifierExists() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
         final Member           member;
 
         // GIVEN
@@ -122,15 +97,15 @@ class TestMemberServiceCreate {
         given(memberRepository.existsByIdentifier(MemberConstants.IDENTIFIER)).willReturn(true);
 
         // WHEN
-        execution = () -> service.create(member);
+        action = () -> service.create(member);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution,
+        ValidationAssertions.assertThatFieldFails(action,
             new FieldFailure("existing", "identifier", MemberConstants.IDENTIFIER));
     }
 
     @Test
-    @DisplayName("With a member having padding whitespaces in first and last name, these whitespaces are removed and the profile is persisted")
+    @DisplayName("When there is a member having padding whitespaces in first and last name, then these whitespaces are removed and the profile is persisted")
     void testCreate_Padded_PersistedData() {
         final Member member;
 
@@ -147,7 +122,7 @@ class TestMemberServiceCreate {
     }
 
     @Test
-    @DisplayName("With a valid member, the profile is persisted")
+    @DisplayName("When there is a valid member, then the profile is persisted")
     void testCreate_PersistedData() {
         final Member member;
 
@@ -164,7 +139,7 @@ class TestMemberServiceCreate {
     }
 
     @Test
-    @DisplayName("With a valid member, the created profile is returned")
+    @DisplayName("When there is a valid member, then the created profile is returned")
     void testCreate_ReturnedData() {
         final Member member;
         final Member created;

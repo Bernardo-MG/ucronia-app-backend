@@ -1,26 +1,3 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2022-2025 Bernardo Martínez Garrido
- * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * <p>
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * <p>
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 
 package com.bernardomg.association.library.lending.test.usecase.service.unit;
 
@@ -52,7 +29,7 @@ import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("BookLendingService - return book")
+@DisplayName("DefaultBookLendingService - returnBook")
 class TestBookLendingServiceReturnBook {
 
     @Mock
@@ -65,9 +42,9 @@ class TestBookLendingServiceReturnBook {
     private DefaultBookLendingService service;
 
     @Test
-    @DisplayName("When returning a book which was already returned, an exception is thrown")
+    @DisplayName("When returning a book which was already returned, then an exception is thrown")
     void testReturnBook_AlreadyReturned_Exception() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         given(bookLendingRepository.findOne(BookConstants.NUMBER, BookConstants.BORROWER))
@@ -78,31 +55,32 @@ class TestBookLendingServiceReturnBook {
             .willReturn(Optional.of(BookLendings.returned()));
 
         // WHEN
-        execution = () -> service.returnBook(BookConstants.NUMBER, BookConstants.BORROWER, BookConstants.RETURNED_DATE);
+        action = () -> service.returnBook(BookConstants.NUMBER, BookConstants.BORROWER, BookConstants.RETURNED_DATE);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution,
+        ValidationAssertions.assertThatFieldFails(action,
             new FieldFailure("existing", "returnDate", BookConstants.RETURNED_DATE));
     }
 
     @Test
-    @DisplayName("When returning a book for a not existing lending, an exception is thrown")
+    @DisplayName("When returning a book for a not existing lending, then an exception is thrown")
     void testReturnBook_NoLending_Exception() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         given(bookLendingRepository.findOne(BookConstants.NUMBER, BookConstants.BORROWER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.returnBook(BookConstants.NUMBER, BookConstants.BORROWER, BookConstants.RETURNED_DATE);
+        action = () -> service.returnBook(BookConstants.NUMBER, BookConstants.BORROWER, BookConstants.RETURNED_DATE);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When returning a book for a not existing lending, then an exception is thrown")
             .isInstanceOf(MissingBookLendingException.class);
     }
 
     @Test
-    @DisplayName("When returning a book on the last return date, it is persisted")
+    @DisplayName("When returning a book on the last return date, then it is persisted")
     void testReturnBook_OnLastReturn() {
 
         // GIVEN
@@ -117,7 +95,7 @@ class TestBookLendingServiceReturnBook {
     }
 
     @Test
-    @DisplayName("When returning a book, it is persisted")
+    @DisplayName("When returning a book, then it is persisted")
     void testReturnBook_PersistedData() {
 
         // GIVEN
@@ -132,9 +110,9 @@ class TestBookLendingServiceReturnBook {
     }
 
     @Test
-    @DisplayName("When returning a book before it was lent, an exception is thrown")
+    @DisplayName("When returning a book before it was lent, then an exception is thrown")
     void testReturnBook_ReturnBeforeLent_Exception() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
         final Instant          date;
 
         // GIVEN
@@ -147,16 +125,16 @@ class TestBookLendingServiceReturnBook {
             .willReturn(Optional.of(BookLendings.lent()));
 
         // WHEN
-        execution = () -> service.returnBook(BookConstants.NUMBER, BookConstants.BORROWER, date);
+        action = () -> service.returnBook(BookConstants.NUMBER, BookConstants.BORROWER, date);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution, new FieldFailure("invalid", "returnDate", date));
+        ValidationAssertions.assertThatFieldFails(action, new FieldFailure("invalid", "returnDate", date));
     }
 
     @Test
-    @DisplayName("When returning a book before the last return, an exception is thrown")
+    @DisplayName("When returning a book before the last return, then an exception is thrown")
     void testReturnBook_ReturnedBeforeLastReturn_Exception() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
         final Instant          date;
 
         // GIVEN
@@ -173,14 +151,14 @@ class TestBookLendingServiceReturnBook {
             .willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.returnBook(BookConstants.NUMBER, BookConstants.BORROWER, date);
+        action = () -> service.returnBook(BookConstants.NUMBER, BookConstants.BORROWER, date);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution, new FieldFailure("invalid", "returnDate", date));
+        ValidationAssertions.assertThatFieldFails(action, new FieldFailure("invalid", "returnDate", date));
     }
 
     @Test
-    @DisplayName("When returning a book, it is returned")
+    @DisplayName("When returning a book, then it is returned")
     void testReturnBook_ReturnedData() {
         final BookLending lending;
 
@@ -199,9 +177,9 @@ class TestBookLendingServiceReturnBook {
     }
 
     @Test
-    @DisplayName("When returning a book in the future, an exception is thrown")
+    @DisplayName("When returning a book in the future, then an exception is thrown")
     void testReturnBook_ReturnInFuture_Exception() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
         final Instant          date;
 
         // GIVEN
@@ -214,14 +192,14 @@ class TestBookLendingServiceReturnBook {
             .willReturn(Optional.of(BookLendings.lent()));
 
         // WHEN
-        execution = () -> service.returnBook(BookConstants.NUMBER, BookConstants.BORROWER, date);
+        action = () -> service.returnBook(BookConstants.NUMBER, BookConstants.BORROWER, date);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution, new FieldFailure("invalid", "returnDate", date));
+        ValidationAssertions.assertThatFieldFails(action, new FieldFailure("invalid", "returnDate", date));
     }
 
     @Test
-    @DisplayName("When returning a book when it was lent, it is persisted")
+    @DisplayName("When returning a book when it was lent, then it is persisted")
     void testReturnBook_ReturnWhenLent() {
         // GIVEN
         given(bookLendingRepository.findOne(BookConstants.NUMBER, BookConstants.BORROWER))

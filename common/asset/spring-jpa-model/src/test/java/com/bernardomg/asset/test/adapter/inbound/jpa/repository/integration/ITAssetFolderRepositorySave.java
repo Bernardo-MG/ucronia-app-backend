@@ -32,7 +32,7 @@ class ITAssetFolderRepositorySave {
     private AssetFolderSpringRepository springRepository;
 
     @Test
-    @DisplayName("When changing the name, it is updated")
+    @DisplayName("When changing the name, then it is updated")
     @ValidFileFolder
     void testSave_Existing_ChangeName_Persisted() {
         // WHEN
@@ -46,7 +46,7 @@ class ITAssetFolderRepositorySave {
     }
 
     @Test
-    @DisplayName("When assigning a parent, it is updated")
+    @DisplayName("When assigning a parent, then it is updated")
     @ValidFileFolderTree
     void testSave_Existing_ChangeParent_Persisted() {
         final AssetFolder saved;
@@ -61,7 +61,7 @@ class ITAssetFolderRepositorySave {
     }
 
     @Test
-    @DisplayName("When removing a parent, it is updated")
+    @DisplayName("When removing a parent, then it is updated")
     @ValidFileFolderTree
     void testSave_Existing_RemoveParent_Persisted() {
         final AssetFolder folder;
@@ -80,7 +80,7 @@ class ITAssetFolderRepositorySave {
     }
 
     @Test
-    @DisplayName("When saving a new file folder, it is persisted")
+    @DisplayName("When saving a new file folder, then it is persisted")
     void testSave_New_Persisted() {
         // WHEN
         repository.save(AssetFolders.toCreate());
@@ -93,7 +93,7 @@ class ITAssetFolderRepositorySave {
     }
 
     @Test
-    @DisplayName("When saving a new file folder, it is returned")
+    @DisplayName("When saving a new file folder, then it is returned")
     void testSave_New_Returned() {
         final AssetFolder saved;
 

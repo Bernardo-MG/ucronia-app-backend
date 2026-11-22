@@ -14,7 +14,7 @@ import com.tngtech.archunit.lang.ArchRule;
         packages = { "com.bernardomg.association", "com.bernardomg.async", "com.bernardomg.configuration",
                 "com.bernardomg.email", "com.bernardomg.exception", "com.bernardomg.jpa" },
         importOptions = ImportOption.DoNotIncludeTests.class)
-public class TestLayeredArchitectureRules {
+class TestLayeredArchitectureRules {
 
     @ArchTest
     static final ArchTests domainDependencyRules            = ArchTests.in(DomainDependencyRules.class);

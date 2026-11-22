@@ -21,14 +21,14 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("SettingRepository - find one")
-public class ITSettingRepositoryFindOne {
+@DisplayName("SettingRepository - findOne")
+class ITSettingRepositoryFindOne {
 
     @Autowired
     private SettingRepository repository;
 
     @Test
-    @DisplayName("When reading a float setting, it is returned")
+    @DisplayName("When reading a float setting, then it is returned")
     @FloatSetting
     void testFindOne_Float() {
         final Optional<Setting> setting;
@@ -40,13 +40,14 @@ public class ITSettingRepositoryFindOne {
         Assertions.assertThat(setting)
             .as("settings")
             .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .as("When reading a float setting, then it is returned")
                 .usingRecursiveComparison()
                 .ignoringFields("audit")
                 .isEqualTo(Settings.floatValue()));
     }
 
     @Test
-    @DisplayName("When reading a integer setting, it is returned")
+    @DisplayName("When reading a integer setting, then it is returned")
     @IntegerSetting
     void testFindOne_Integer() {
         final Optional<Setting> setting;
@@ -58,13 +59,14 @@ public class ITSettingRepositoryFindOne {
         Assertions.assertThat(setting)
             .as("settings")
             .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .as("When reading a integer setting, then it is returned")
                 .usingRecursiveComparison()
                 .ignoringFields("audit")
                 .isEqualTo(Settings.intValue()));
     }
 
     @Test
-    @DisplayName("When reading with no data, nothing is returned")
+    @DisplayName("When reading with no data, then nothing is returned")
     void testFindOne_NoData() {
         final Optional<Setting> setting;
 
@@ -78,7 +80,7 @@ public class ITSettingRepositoryFindOne {
     }
 
     @Test
-    @DisplayName("When reading a string setting, it is returned")
+    @DisplayName("When reading a string setting, then it is returned")
     @StringSetting
     void testFindOne_String() {
         final Optional<Setting> setting;
@@ -90,6 +92,7 @@ public class ITSettingRepositoryFindOne {
         Assertions.assertThat(setting)
             .as("settings")
             .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .as("When reading a string setting, then it is returned")
                 .usingRecursiveComparison()
                 .ignoringFields("audit")
                 .isEqualTo(Settings.stringValue()));

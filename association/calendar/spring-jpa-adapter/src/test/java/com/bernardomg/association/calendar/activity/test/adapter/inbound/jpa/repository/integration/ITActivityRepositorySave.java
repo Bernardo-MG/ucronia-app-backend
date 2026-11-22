@@ -29,7 +29,7 @@ class ITActivityRepositorySave {
     private CalendarInfoSpringRepository springRepository;
 
     @Test
-    @DisplayName("With an activity with multiple days, it is persisted")
+    @DisplayName("When there is an activity with multiple days, then it is persisted")
     void testSave_MultipleDays_PersistedData() {
         final Iterable<CalendarInfoEntity> activities;
         final Activity                     activity;
@@ -50,7 +50,7 @@ class ITActivityRepositorySave {
     }
 
     @Test
-    @DisplayName("With an activity with multiple days, it is returned")
+    @DisplayName("When there is an activity with multiple days, then it is returned")
     void testSave_MultipleDays_ReturnedData() {
         final Activity created;
         final Activity activity;
@@ -70,7 +70,7 @@ class ITActivityRepositorySave {
     }
 
     @Test
-    @DisplayName("With a valid activity, it is persisted")
+    @DisplayName("When there is a valid activity, then it is persisted")
     void testSave_PersistedData() {
         final Iterable<CalendarInfoEntity> activities;
         final Activity                     activity;
@@ -91,7 +91,7 @@ class ITActivityRepositorySave {
     }
 
     @Test
-    @DisplayName("With a valid activity, it is returned")
+    @DisplayName("When there is a valid activity, then it is returned")
     void testSave_ReturnedData() {
         final Activity created;
         final Activity activity;
@@ -111,7 +111,7 @@ class ITActivityRepositorySave {
     }
 
     @Test
-    @DisplayName("When changing the title, the data is persisted")
+    @DisplayName("When changing the title, then the data is persisted")
     @SingleDayActivity
     void testSave_TitleChange_PersistedData() {
         final Iterable<CalendarInfoEntity> activities;
@@ -133,7 +133,7 @@ class ITActivityRepositorySave {
     }
 
     @Test
-    @DisplayName("When changing the title, the data is returned")
+    @DisplayName("When changing the title, then the data is returned")
     @SingleDayActivity
     void testSave_TitleChange_ReturnedData() {
         final Activity created;

@@ -17,6 +17,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
@@ -30,22 +31,26 @@ import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("ScheduledGameController - Sorting")
+@DisplayName("ScheduledGameController - getAllScheduledGames")
 class TestScheduledGameControllerSorting {
 
-    private MockMvc              mockMvc;
+    @InjectMocks
+    private ScheduledGameController controller;
+
+    private MockMvc                 mockMvc;
 
     @Mock
-    private ScheduledGameService service;
+    private ScheduledGameService    service;
 
     @BeforeEach
     void setUp() {
-        final LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
+        final LocalValidatorFactoryBean validator;
 
+        validator = new LocalValidatorFactoryBean();
         validator.setMessageInterpolator(new ParameterMessageInterpolator());
         validator.afterPropertiesSet();
 
-        mockMvc = MockMvcBuilders.standaloneSetup(new ScheduledGameController(service))
+        mockMvc = MockMvcBuilders.standaloneSetup(controller)
             .setValidator(validator)
             .build();
     }
@@ -53,6 +58,7 @@ class TestScheduledGameControllerSorting {
     @ParameterizedTest(name = "Sorting by {0} {1} is accepted")
     @CsvSource({ "description,asc", "description,desc", "title,asc", "title,desc", "location,asc", "location,desc",
             "start,asc", "start,desc", "maxPlayers,asc", "maxPlayers,desc", "status,asc", "status,desc" })
+    @DisplayName("When a sort field and direction are provided, then the sort is accepted")
     void testGetAllScheduledGames_SortingIsAccepted(final String field, final String direction) throws Exception {
         final Sorting sorting;
 
@@ -60,11 +66,12 @@ class TestScheduledGameControllerSorting {
         given(service.getAll(eq(new Pagination(1, 10)), any()))
             .willReturn(new Page<>(List.of(), 1, 1, 0, 0, 0, false, false, Sorting.unsorted()));
 
-        // WHEN + THEN
+        // WHEN
         mockMvc.perform(get("/game").param("page", "1")
             .param("size", "10")
             .param("sort", field + "|" + direction)
             .contentType(MediaType.APPLICATION_JSON))
+            // THEN
             .andExpect(status().isOk())
             .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
 

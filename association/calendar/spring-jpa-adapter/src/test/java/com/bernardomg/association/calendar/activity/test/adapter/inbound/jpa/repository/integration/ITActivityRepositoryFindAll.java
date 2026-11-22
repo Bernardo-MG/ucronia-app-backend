@@ -1,26 +1,3 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2022-2025 Bernardo Martínez Garrido
- * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * <p>
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * <p>
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 
 package com.bernardomg.association.calendar.activity.test.adapter.inbound.jpa.repository.integration;
 
@@ -55,18 +32,14 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("ActivityRepository - find all")
+@DisplayName("ActivityRepository - findAll")
 class ITActivityRepositoryFindAllWithFilter {
 
     @Autowired
     private ActivityRepository repository;
 
-    public ITActivityRepositoryFindAllWithFilter() {
-        super();
-    }
-
     @Test
-    @DisplayName("With a single activity, it returns all the activities")
+    @DisplayName("When there is a single activity, then it returns all the activities")
     @SingleDayActivity
     void testFindAll() {
         final Page<Activity> activities;
@@ -85,6 +58,7 @@ class ITActivityRepositoryFindAllWithFilter {
 
         // THEN
         Assertions.assertThat(activities)
+            .as("When there is a single activity, then it returns all the activities")
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
@@ -92,7 +66,7 @@ class ITActivityRepositoryFindAllWithFilter {
     }
 
     @Test
-    @DisplayName("With multiple activites, it returns all the activities")
+    @DisplayName("When there are multiple activites, then it returns all the activities")
     @MultipleActivity
     void testFindAll_Multiple() {
         final Page<Activity> activities;
@@ -111,6 +85,7 @@ class ITActivityRepositoryFindAllWithFilter {
 
         // THEN
         Assertions.assertThat(activities)
+            .as("When there are multiple activites, then it returns all the activities")
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
@@ -120,7 +95,7 @@ class ITActivityRepositoryFindAllWithFilter {
     }
 
     @Test
-    @DisplayName("With multiple activites out of order, it returns all the activities ordered")
+    @DisplayName("When there are multiple activites out of order, then it returns all the activities ordered")
     @MultipleActivityOutOfOrder
     void testFindAll_Multiple_OutOfOrder() {
         final Page<Activity> activities;
@@ -139,6 +114,7 @@ class ITActivityRepositoryFindAllWithFilter {
 
         // THEN
         Assertions.assertThat(activities)
+            .as("When there are multiple activites out of order, then it returns all the activities ordered")
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
@@ -148,7 +124,7 @@ class ITActivityRepositoryFindAllWithFilter {
     }
 
     @Test
-    @DisplayName("With an existing activity having multiple days, it is returned")
+    @DisplayName("When there is an existing activity having multiple days, then it is returned")
     @MultipleDayActivity
     void testFindAll_MultipleDays() {
         final Page<Activity> activities;
@@ -183,11 +159,13 @@ class ITActivityRepositoryFindAllWithFilter {
         // THEN
         SoftAssertions.assertSoftly(softly -> {
             Assertions.assertThat(activities)
+                .as("When there is an existing activity having multiple days, then it is returned")
                 .extracting(Page::content)
                 .asInstanceOf(InstanceOfAssertFactories.LIST)
                 .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
                 .containsExactly(Activities.multipleDay());
             Assertions.assertThat(activities.content())
+                .as("When there is an existing activity having multiple days, then it is returned")
                 .first()
                 .extracting(Activity::dates)
                 .asInstanceOf(InstanceOfAssertFactories.SET)
@@ -196,7 +174,7 @@ class ITActivityRepositoryFindAllWithFilter {
     }
 
     @Test
-    @DisplayName("With an existing activity having multiple days our of order, it is returned in order")
+    @DisplayName("When there is an existing activity having multiple days our of order, then it is returned in order")
     @MultipleDayOutOfOrderActivity
     void testFindAll_MultipleDays_OutOfOrder() {
         final Page<Activity> activities;
@@ -231,11 +209,13 @@ class ITActivityRepositoryFindAllWithFilter {
         // THEN
         SoftAssertions.assertSoftly(softly -> {
             Assertions.assertThat(activities)
+                .as("When there is an existing activity having multiple days our of order, then it is returned in order")
                 .extracting(Page::content)
                 .asInstanceOf(InstanceOfAssertFactories.LIST)
                 .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
                 .containsExactly(Activities.multipleDay());
             Assertions.assertThat(activities.content())
+                .as("When there is an existing activity having multiple days our of order, then it is returned in order")
                 .first()
                 .extracting(Activity::dates)
                 .asInstanceOf(InstanceOfAssertFactories.SET)
@@ -244,7 +224,7 @@ class ITActivityRepositoryFindAllWithFilter {
     }
 
     @Test
-    @DisplayName("With no data, it returns nothing")
+    @DisplayName("When there is no data, then it returns nothing")
     void testFindAll_NoData() {
         final Page<Activity> activities;
         final Pagination     pagination;
@@ -262,6 +242,7 @@ class ITActivityRepositoryFindAllWithFilter {
 
         // THEN
         Assertions.assertThat(activities)
+            .as("When there is no data, then it returns nothing")
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();

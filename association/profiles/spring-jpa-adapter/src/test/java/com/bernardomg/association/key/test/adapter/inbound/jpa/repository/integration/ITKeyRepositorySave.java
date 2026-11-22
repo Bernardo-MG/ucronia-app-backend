@@ -29,12 +29,8 @@ class ITKeyRepositorySave {
     @Autowired
     private KeySpringRepository springRepository;
 
-    public ITKeyRepositorySave() {
-        super();
-    }
-
     @Test
-    @DisplayName("When changing a key, the key is persisted")
+    @DisplayName("When changing a key, then the key is persisted")
     @AvailableKey
     void testSave_Change_PersistedData() {
         final Key                 key;
@@ -55,7 +51,7 @@ class ITKeyRepositorySave {
     }
 
     @Test
-    @DisplayName("With a valid key, the key is persisted")
+    @DisplayName("When there is a valid key, then the key is persisted")
     void testSave_PersistedData() {
         final Key                 key;
         final Iterable<KeyEntity> entities;
@@ -75,7 +71,7 @@ class ITKeyRepositorySave {
     }
 
     @Test
-    @DisplayName("With a valid key, the created key is returned")
+    @DisplayName("When there is a valid key, then the created key is returned")
     void testSave_ReturnedData() {
         final Key key;
         final Key saved;

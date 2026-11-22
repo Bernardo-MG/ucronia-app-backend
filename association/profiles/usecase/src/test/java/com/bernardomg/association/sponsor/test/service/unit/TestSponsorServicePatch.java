@@ -1,26 +1,3 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2022-2025 Bernardo Martínez Garrido
- * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * <p>
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * <p>
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 
 package com.bernardomg.association.sponsor.test.service.unit;
 
@@ -61,14 +38,10 @@ class TestSponsorServicePatch {
     @Mock
     private SponsorRepository       sponsorRepository;
 
-    public TestSponsorServicePatch() {
-        super();
-    }
-
     @Test
-    @DisplayName("With an sponsor with an existing identifier, an exception is thrown")
+    @DisplayName("When there is an sponsor with an existing identifier, then an exception is thrown")
     void testPatch_IdentifierExists() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
         final Sponsor          sponsor;
 
         // GIVEN
@@ -79,18 +52,18 @@ class TestSponsorServicePatch {
             .willReturn(true);
 
         // WHEN
-        execution = () -> service.patch(sponsor);
+        action = () -> service.patch(sponsor);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution,
+        ValidationAssertions.assertThatFieldFails(action,
             new FieldFailure("existing", "identifier", ProfileConstants.IDENTIFIER));
     }
 
     @Test
-    @DisplayName("With a not existing sponsor, an exception is thrown")
+    @DisplayName("When there is a not existing sponsor, then an exception is thrown")
     void testPatch_NotExisting_Exception() {
         final Sponsor          sponsor;
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         sponsor = Sponsors.nameChange();
@@ -98,15 +71,16 @@ class TestSponsorServicePatch {
         given(sponsorRepository.findOne(ProfileConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.patch(sponsor);
+        action = () -> service.patch(sponsor);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When there is a not existing sponsor, then an exception is thrown")
             .isInstanceOf(MissingSponsorException.class);
     }
 
     @Test
-    @DisplayName("When patching the name, the change is persisted")
+    @DisplayName("When patching the name, then the change is persisted")
     void testPatch_OnlyName_PersistedData() {
         final Sponsor sponsor;
 
@@ -123,7 +97,7 @@ class TestSponsorServicePatch {
     }
 
     @Test
-    @DisplayName("With a sponsor having padding whitespaces in first and last name, these whitespaces are removed")
+    @DisplayName("When there is a sponsor having padding whitespaces in first and last name, then these whitespaces are removed")
     void testPatch_Padded_PersistedData() {
         final Sponsor sponsor;
 
@@ -140,7 +114,7 @@ class TestSponsorServicePatch {
     }
 
     @Test
-    @DisplayName("When updating a sponsor, the change is persisted")
+    @DisplayName("When updating a sponsor, then the change is persisted")
     void testPatch_PersistedData() {
         final Sponsor sponsor;
 
@@ -157,7 +131,7 @@ class TestSponsorServicePatch {
     }
 
     @Test
-    @DisplayName("When updating a sponsor, the change is returned")
+    @DisplayName("When updating a sponsor, then the change is returned")
     void testPatch_ReturnedData() {
         final Sponsor sponsor;
         final Sponsor updated;

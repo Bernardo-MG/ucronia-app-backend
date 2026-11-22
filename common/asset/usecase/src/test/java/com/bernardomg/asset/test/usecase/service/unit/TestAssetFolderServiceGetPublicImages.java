@@ -25,7 +25,7 @@ import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Asset folder service - get public images")
+@DisplayName("DefaultAssetFolderService - getPublicAssets")
 class TestAssetFolderServiceGetPublicImages {
 
     @Mock
@@ -38,7 +38,7 @@ class TestAssetFolderServiceGetPublicImages {
     private DefaultAssetFolderService service;
 
     @Test
-    @DisplayName("With an existing folder, the requested public image page is returned")
+    @DisplayName("When there is an existing folder, then the requested public image page is returned")
     void testGetPublicImages() {
         final Page<Asset> existing;
         final Page<Asset> result;
@@ -59,13 +59,14 @@ class TestAssetFolderServiceGetPublicImages {
 
         // THEN
         Assertions.assertThat(result)
+            .as("When there is an existing folder, then the requested public image page is returned")
             .isEqualTo(existing);
     }
 
     @Test
-    @DisplayName("With a missing folder, an exception is thrown")
+    @DisplayName("When there is a missing folder, then an exception is thrown")
     void testGetPublicImages_NotExisting() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
         final Pagination       pagination;
         final Sorting          sorting;
 
@@ -75,10 +76,11 @@ class TestAssetFolderServiceGetPublicImages {
         given(folderRepository.exists(AssetFolderConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        execution = () -> service.getPublicAssets(AssetFolderConstants.NUMBER, pagination, sorting);
+        action = () -> service.getPublicAssets(AssetFolderConstants.NUMBER, pagination, sorting);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When there is a missing folder, then an exception is thrown")
             .isInstanceOf(AssetFolderNotExistingException.class);
     }
 

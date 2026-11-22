@@ -31,7 +31,7 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("KeyAssignmentRepository - Save")
+@DisplayName("KeyAssignmentRepository - save")
 class ITKeyAssignmentRepositorySave {
 
     @Autowired
@@ -41,7 +41,7 @@ class ITKeyAssignmentRepositorySave {
     private KeyAssignmentSpringRepository springRepository;
 
     @Test
-    @DisplayName("Saving a key twice doesn't duplicate it")
+    @DisplayName("When a key is saved twice, then its assignment is not duplicated")
     @PositiveFeeType
     @ActiveMemberWithKey
     void testSave_Duplicated() {
@@ -55,11 +55,12 @@ class ITKeyAssignmentRepositorySave {
         entities = springRepository.findAll();
 
         Assertions.assertThat(entities)
+            .as("Saving a key twice doesn't duplicate it")
             .containsExactly(KeyAssignmentEntities.assigned());
     }
 
     @Test
-    @DisplayName("An inactive member can keep and receive a key assignment")
+    @DisplayName("When an inactive member receives a key assignment, then the assignment is retained")
     @PositiveFeeType
     @InactiveMember
     @AvailableKey
@@ -73,11 +74,12 @@ class ITKeyAssignmentRepositorySave {
         entities = springRepository.findAll();
 
         Assertions.assertThat(entities)
+            .as("An inactive member can keep and receive a key assignment")
             .containsExactly(KeyAssignmentEntities.assigned());
     }
 
     @Test
-    @DisplayName("When saving, the data is persisted")
+    @DisplayName("When saving, then the data is persisted")
     @ValidProfile
     @AvailableKey
     void testSave_PersistedData() {
@@ -90,11 +92,12 @@ class ITKeyAssignmentRepositorySave {
         entities = springRepository.findAll();
 
         Assertions.assertThat(entities)
+            .as("When saving, then the data is persisted")
             .containsExactly(KeyAssignmentEntities.assigned());
     }
 
     @Test
-    @DisplayName("A profile without membership can receive a key")
+    @DisplayName("When a profile without membership receives a key, then the key is assigned")
     @ValidProfile
     @AvailableKey
     void testSave_ProfileWithoutMembership() {
@@ -107,11 +110,12 @@ class ITKeyAssignmentRepositorySave {
         entities = springRepository.findAll();
 
         Assertions.assertThat(entities)
+            .as("A profile without membership can receive a key")
             .containsExactly(KeyAssignmentEntities.assigned());
     }
 
     @Test
-    @DisplayName("Reassigning a key preserves the previous profile's other assignments")
+    @DisplayName("When a key is reassigned, then the previous profile's other assignments are preserved")
     @PositiveFeeType
     @ActiveMemberWithKey
     @AlternativeProfile
@@ -132,13 +136,15 @@ class ITKeyAssignmentRepositorySave {
         current = repository.findProfileAssignments(ProfileConstants.ALTERNATIVE_NUMBER);
 
         Assertions.assertThat(previous)
+            .as("Reassigning a key preserves the previous profile's other assignments")
             .containsExactly(other);
         Assertions.assertThat(current)
+            .as("Reassigning a key preserves the previous profile's other assignments")
             .containsExactly(KeyAssignments.reassigned());
     }
 
     @Test
-    @DisplayName("Reassigning a key replaces the persisted profile without duplicating the assignment")
+    @DisplayName("When a key is reassigned, then its profile is updated without duplicating the assignment")
     @PositiveFeeType
     @ActiveMemberWithKey
     @AlternativeProfile
@@ -152,19 +158,22 @@ class ITKeyAssignmentRepositorySave {
         entities = springRepository.findAll();
 
         Assertions.assertThat(entities)
+            .as("Reassigning a key replaces the persisted profile without duplicating the assignment")
             .singleElement()
             .satisfies(entity -> {
                 Assertions.assertThat(entity.getKey()
                     .getNumber())
+                    .as("Reassigning a key replaces the persisted profile without duplicating the assignment")
                     .isEqualTo(KeyConstants.NUMBER);
                 Assertions.assertThat(entity.getProfile()
                     .getNumber())
+                    .as("Reassigning a key replaces the persisted profile without duplicating the assignment")
                     .isEqualTo(ProfileConstants.ALTERNATIVE_NUMBER);
             });
     }
 
     @Test
-    @DisplayName("Reassigning a key removes it from the previous profile and gives it to the new profile")
+    @DisplayName("When a key is reassigned, then it is removed from the previous profile and assigned to the new profile")
     @PositiveFeeType
     @ActiveMemberWithKey
     @AlternativeProfile
@@ -180,13 +189,15 @@ class ITKeyAssignmentRepositorySave {
         current = repository.findProfileAssignments(ProfileConstants.ALTERNATIVE_NUMBER);
 
         Assertions.assertThat(previous)
+            .as("Reassigning a key removes it from the previous profile and gives it to the new profile")
             .isEmpty();
         Assertions.assertThat(current)
+            .as("Reassigning a key removes it from the previous profile and gives it to the new profile")
             .containsExactly(KeyAssignments.reassigned());
     }
 
     @Test
-    @DisplayName("Reassigning a key returns the new profile")
+    @DisplayName("When a key is reassigned, then the new profile is returned")
     @PositiveFeeType
     @ActiveMemberWithKey
     @AlternativeProfile
@@ -198,13 +209,15 @@ class ITKeyAssignmentRepositorySave {
 
         // THEN
         Assertions.assertThat(assignment)
+            .as("Reassigning a key returns the new profile")
             .isEqualTo(KeyAssignments.reassigned());
         Assertions.assertThat(repository.findOne(KeyConstants.NUMBER))
+            .as("Reassigning a key returns the new profile")
             .contains(KeyAssignments.reassigned());
     }
 
     @Test
-    @DisplayName("When saving, the data is returned")
+    @DisplayName("When saving, then the data is returned")
     @ValidProfile
     @AvailableKey
     void testSave_ReturnedData() {
@@ -215,11 +228,12 @@ class ITKeyAssignmentRepositorySave {
 
         // THEN
         Assertions.assertThat(assignment)
+            .as("When saving, then the data is returned")
             .isEqualTo(KeyAssignments.assigned());
     }
 
     @Test
-    @DisplayName("Two keys can be assigned to the same profile")
+    @DisplayName("When two keys are assigned to one profile, then both assignments are retained")
     @PositiveFeeType
     @ActiveMemberWithKey
     @AlternativeAvailableKey
@@ -233,6 +247,7 @@ class ITKeyAssignmentRepositorySave {
         entities = springRepository.findAll();
 
         Assertions.assertThat(entities)
+            .as("Two keys can be assigned to the same profile")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "profile.audit", "profile.types")
             .containsExactly(KeyAssignmentEntities.assigned(), KeyAssignmentEntities.assignedAlternative());
     }

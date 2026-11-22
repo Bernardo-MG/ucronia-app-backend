@@ -1,8 +1,3 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2022-2025 Bernardo Martinez Garrido
- */
 
 package com.bernardomg.association.key.test.service.unit;
 
@@ -28,7 +23,7 @@ import com.bernardomg.association.key.test.configuration.factory.Keys;
 import com.bernardomg.association.key.usecase.service.DefaultKeyService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Key service - update")
+@DisplayName("DefaultKeyService - update")
 class TestKeyServiceUpdate {
 
     @Mock
@@ -38,9 +33,9 @@ class TestKeyServiceUpdate {
     private DefaultKeyService service;
 
     @Test
-    @DisplayName("When updating a not existing key, an exception is thrown")
+    @DisplayName("When updating a not existing key, then an exception is thrown")
     void testUpdate_NotExisting() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
         final Key              key;
 
         // GIVEN
@@ -48,16 +43,17 @@ class TestKeyServiceUpdate {
         given(repository.exists(KeyConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        execution = () -> service.update(key);
+        action = () -> service.update(key);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When updating a not existing key, then an exception is thrown")
             .isInstanceOf(MissingKeyException.class);
         verify(repository, never()).save(any());
     }
 
     @Test
-    @DisplayName("When updating a key, the change is persisted")
+    @DisplayName("When updating a key, then the change is persisted")
     void testUpdate_PersistedData() {
         final Key key;
 
@@ -74,7 +70,7 @@ class TestKeyServiceUpdate {
     }
 
     @Test
-    @DisplayName("When updating a key, the change is returned")
+    @DisplayName("When updating a key, then the change is returned")
     void testUpdate_ReturnedData() {
         final Key updated;
         final Key key;
@@ -89,6 +85,7 @@ class TestKeyServiceUpdate {
 
         // THEN
         Assertions.assertThat(updated)
+            .as("When updating a key, then the change is returned")
             .isEqualTo(key);
     }
 

@@ -22,8 +22,8 @@ import com.bernardomg.settings.test.factory.Settings;
 import com.bernardomg.settings.usecase.service.DefaultSettingService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Setting service - get one")
-public class TestSettingServiceUpdate {
+@DisplayName("DefaultSettingService - update")
+class TestSettingServiceUpdate {
 
     @InjectMocks
     private DefaultSettingService service;
@@ -32,7 +32,7 @@ public class TestSettingServiceUpdate {
     private SettingRepository     settingRepository;
 
     @Test
-    @DisplayName("When the setting exists, it is updated")
+    @DisplayName("When the setting exists, then it is updated")
     void testUpdate_Existing() {
         // GIVEN
         given(settingRepository.findOne(SettingConstants.CODE)).willReturn(Optional.of(Settings.intValue()));
@@ -45,23 +45,24 @@ public class TestSettingServiceUpdate {
     }
 
     @Test
-    @DisplayName("When the setting doesn't exist, nothing is updated")
+    @DisplayName("When the setting doesn't exist, then nothing is updated")
     void testUpdate_NotExisting() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         given(settingRepository.findOne(SettingConstants.CODE)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.update(SettingConstants.CODE, SettingConstants.NUMBER_VALUE);
+        action = () -> service.update(SettingConstants.CODE, SettingConstants.NUMBER_VALUE);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When the setting doesn't exist, then nothing is updated")
             .isInstanceOf(MissingSettingException.class);
     }
 
     @Test
-    @DisplayName("When the setting is padded, the padding is removed")
+    @DisplayName("When the setting is padded, then the padding is removed")
     void testUpdate_Padding() {
         // GIVEN
         given(settingRepository.findOne(SettingConstants.CODE)).willReturn(Optional.of(Settings.intValue()));

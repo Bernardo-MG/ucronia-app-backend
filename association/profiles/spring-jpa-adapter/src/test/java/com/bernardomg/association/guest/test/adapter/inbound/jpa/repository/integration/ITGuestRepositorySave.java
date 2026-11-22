@@ -1,26 +1,3 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2022-2025 Bernardo Martínez Garrido
- * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * <p>
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * <p>
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 
 package com.bernardomg.association.guest.test.adapter.inbound.jpa.repository.integration;
 
@@ -60,12 +37,8 @@ class ITGuestRepositorySave {
     @Autowired
     private GuestSpringRepository   springRepository;
 
-    public ITGuestRepositorySave() {
-        super();
-    }
-
     @Test
-    @DisplayName("When a guest exists and a contact method is added, the guest is persisted")
+    @DisplayName("When a guest exists and a contact method is added, then the guest is persisted")
     @EmailContactMethod
     @ValidGuest
     void testSave_Existing_AddContactMethod_PersistedData() {
@@ -89,7 +62,7 @@ class ITGuestRepositorySave {
     }
 
     @Test
-    @DisplayName("When a guest exists, the guest is persisted")
+    @DisplayName("When a guest exists, then the guest is persisted")
     @ValidGuest
     void testSave_Existing_ChangeName_PersistedData() {
         final Guest                 guest;
@@ -112,7 +85,7 @@ class ITGuestRepositorySave {
     }
 
     @Test
-    @DisplayName("When a guest exists, the created guest is returned")
+    @DisplayName("When a guest exists, then the created guest is returned")
     @ValidGuest
     void testSave_Existing_ChangeName_ReturnedData() {
         final Guest guest;
@@ -133,7 +106,7 @@ class ITGuestRepositorySave {
     }
 
     @Test
-    @DisplayName("When the guest doesn't exist but the profile exists, the guest is persisted")
+    @DisplayName("When the guest doesn't exist but the profile exists, then the guest is persisted")
     @ValidProfile
     void testSave_ExistingProfile_PersistedData() {
         final Guest                 guest;
@@ -156,7 +129,7 @@ class ITGuestRepositorySave {
     }
 
     @Test
-    @DisplayName("With a guest, the guest is persisted")
+    @DisplayName("When there is a guest, then the guest is persisted")
     void testSave_PersistedData() {
         final Guest                 guest;
         final Iterable<GuestEntity> entities;
@@ -179,7 +152,7 @@ class ITGuestRepositorySave {
     }
 
     @Test
-    @DisplayName("When the type is removed, the guest is not changed")
+    @DisplayName("When the type is removed, then the guest is not changed")
     void testSave_RemoveType_NoChange() {
         final Guest                 guest;
         final Iterable<GuestEntity> entities;
@@ -202,7 +175,7 @@ class ITGuestRepositorySave {
     }
 
     @Test
-    @DisplayName("With a guest, the created guest is returned")
+    @DisplayName("When there is a guest, then the created guest is returned")
     void testSave_ReturnedData() {
         final Guest guest;
         final Guest saved;
@@ -220,7 +193,7 @@ class ITGuestRepositorySave {
     }
 
     @Test
-    @DisplayName("When the guest is persisted, the profile types includes the guest type")
+    @DisplayName("When the guest is persisted, then the profile types includes the guest type")
     void testSave_SetsType() {
         final Guest         guest;
         final ProfileEntity profile;
@@ -243,7 +216,7 @@ class ITGuestRepositorySave {
     }
 
     @Test
-    @DisplayName("With a guest with a contact method, the guest is persisted")
+    @DisplayName("When there is a guest with a contact method, then the guest is persisted")
     @EmailContactMethod
     void testSave_WithContactMethod_PersistedData() {
         final Guest                 guest;

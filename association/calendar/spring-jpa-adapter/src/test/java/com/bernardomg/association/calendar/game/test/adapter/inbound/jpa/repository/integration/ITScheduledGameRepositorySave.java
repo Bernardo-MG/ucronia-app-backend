@@ -31,7 +31,7 @@ class ITScheduledGameRepositorySave {
     private ScheduledGameSpringRepository springRepository;
 
     @Test
-    @DisplayName("Persists a campaign")
+    @DisplayName("When a campaign is saved, then it is persisted")
     @ValidProfile
     void testSave_Campaign_PersistedData() {
         final Iterable<ScheduledGameEntity> scheduledGames;
@@ -53,7 +53,7 @@ class ITScheduledGameRepositorySave {
     }
 
     @Test
-    @DisplayName("When creating a campaign, it is returned")
+    @DisplayName("When creating a campaign, then it is returned")
     @ValidProfile
     void testSave_Campaign_ReturnedData() {
         final ScheduledGame created;
@@ -74,7 +74,7 @@ class ITScheduledGameRepositorySave {
     }
 
     @Test
-    @DisplayName("Persists a draft scheduled game")
+    @DisplayName("When a draft scheduled game is saved, then it is persisted")
     @ValidProfile
     void testSave_Draft_PersistedData() {
         final Iterable<ScheduledGameEntity> scheduledGames;
@@ -96,7 +96,7 @@ class ITScheduledGameRepositorySave {
     }
 
     @Test
-    @DisplayName("When creating a draft scheduled game, it is returned")
+    @DisplayName("When creating a draft scheduled game, then it is returned")
     @ValidProfile
     void testSave_Draft_ReturnedData() {
         final ScheduledGame created;
@@ -117,7 +117,7 @@ class ITScheduledGameRepositorySave {
     }
 
     @Test
-    @DisplayName("Persists a oneshot")
+    @DisplayName("When a oneshot is saved, then it is persisted")
     @ValidProfile
     void testSave_Oneshot_PersistedData() {
         final Iterable<ScheduledGameEntity> scheduledGames;
@@ -139,7 +139,7 @@ class ITScheduledGameRepositorySave {
     }
 
     @Test
-    @DisplayName("When creating a oneshot, it is returned")
+    @DisplayName("When creating a oneshot, then it is returned")
     @ValidProfile
     void testSave_Oneshot_ReturnedData() {
         final ScheduledGame created;
@@ -160,7 +160,7 @@ class ITScheduledGameRepositorySave {
     }
 
     @Test
-    @DisplayName("Persists a published scheduled game")
+    @DisplayName("When a published scheduled game is saved, then it is persisted")
     @ValidProfile
     void testSave_Published_PersistedData() {
         final Iterable<ScheduledGameEntity> scheduledGames;
@@ -182,7 +182,7 @@ class ITScheduledGameRepositorySave {
     }
 
     @Test
-    @DisplayName("When creating a published scheduled game, it is returned")
+    @DisplayName("When creating a published scheduled game, then it is returned")
     @ValidProfile
     void testSave_Published_ReturnedData() {
         final ScheduledGame created;
@@ -203,7 +203,7 @@ class ITScheduledGameRepositorySave {
     }
 
     @Test
-    @DisplayName("When changing the title, the data is persisted")
+    @DisplayName("When changing the title, then the data is persisted")
     @WeeklyScheduledGame
     void testSave_TitleChange_PersistedData() {
         final Iterable<ScheduledGameEntity> scheduledGames;
@@ -225,7 +225,7 @@ class ITScheduledGameRepositorySave {
     }
 
     @Test
-    @DisplayName("When changing the title, the data is returned")
+    @DisplayName("When changing the title, then the data is returned")
     @WeeklyScheduledGame
     void testSave_TitleChange_ReturnedData() {
         final ScheduledGame created;
@@ -246,7 +246,7 @@ class ITScheduledGameRepositorySave {
     }
 
     @Test
-    @DisplayName("Persists a scheduled game with a table")
+    @DisplayName("When a scheduled game with a table is saved, then it is persisted")
     @ValidProfile
     @ValidTable
     void testSave_WithTable_PersistedData() {
@@ -270,7 +270,7 @@ class ITScheduledGameRepositorySave {
     }
 
     @Test
-    @DisplayName("When creating a scheduled game with a table, it is returned")
+    @DisplayName("When creating a scheduled game with a table, then it is returned")
     @ValidProfile
     @ValidTable
     void testSave_WithTable_ReturnedData() {

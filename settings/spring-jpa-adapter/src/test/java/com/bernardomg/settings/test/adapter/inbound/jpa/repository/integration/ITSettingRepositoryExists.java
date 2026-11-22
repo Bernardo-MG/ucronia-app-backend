@@ -16,13 +16,13 @@ import com.bernardomg.test.annotation.IntegrationTest;
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
 @DisplayName("SettingRepository - exists")
-public class ITSettingRepositoryExists {
+class ITSettingRepositoryExists {
 
     @Autowired
     private SettingRepository repository;
 
     @Test
-    @DisplayName("When the setting exists, it is indicated as so")
+    @DisplayName("When the setting exists, then it is indicated as so")
     @FloatSetting
     void testExists_Existing() {
         final boolean exists;
@@ -37,7 +37,7 @@ public class ITSettingRepositoryExists {
     }
 
     @Test
-    @DisplayName("When the setting doesn't exist, it is indicated as so")
+    @DisplayName("When the setting doesn't exist, then it is indicated as so")
     void testExists_NotExisting() {
         final boolean exists;
 

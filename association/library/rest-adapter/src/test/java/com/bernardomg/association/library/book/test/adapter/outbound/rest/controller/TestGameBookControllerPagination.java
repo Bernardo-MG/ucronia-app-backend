@@ -16,6 +16,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
@@ -30,65 +31,72 @@ import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("GameBookController")
+@DisplayName("GameBookController - getAllGameBooks")
 class TestGameBookControllerPagination {
 
-    private MockMvc         mockMvc;
+    @InjectMocks
+    private GameBookController controller;
+
+    private MockMvc            mockMvc;
 
     @Mock
-    private GameBookService service;
+    private GameBookService    service;
 
     @BeforeEach
     void setUp() {
-        final LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
+        final LocalValidatorFactoryBean validator;
 
+        validator = new LocalValidatorFactoryBean();
         validator.setMessageInterpolator(new ParameterMessageInterpolator());
         validator.afterPropertiesSet();
 
-        mockMvc = MockMvcBuilders.standaloneSetup(new GameBookController(service))
+        mockMvc = MockMvcBuilders.standaloneSetup(controller)
             .setValidator(validator)
             .build();
     }
 
     @Test
-    @DisplayName("When querying the first page, it is accepted")
+    @DisplayName("When querying the first page, then it is accepted")
     void testGetAllGameBooks_InvalidSizeZero() throws Exception {
         // GIVEN
         given(service.getAll(any(), eq(new Pagination(1, 10)), any()))
             .willReturn(new Page<>(List.of(), 10, 5, 0, 0, 0, false, false, Sorting.unsorted()));
 
-        // WHEN + THEN
+        // WHEN
         mockMvc.perform(get("/library/book/game").param("page", "1")
             .param("size", "10")
             .contentType(MediaType.APPLICATION_JSON))
+            // THEN
             .andExpect(status().isOk());
     }
 
     @Test
-    @DisplayName("When querying another page, it is accepted")
+    @DisplayName("When querying another page, then it is accepted")
     void testGetAllGameBooks_PageZero() throws Exception {
         // GIVEN
         given(service.getAll(any(), eq(new Pagination(2, 5)), any()))
             .willReturn(new Page<>(List.of(), 10, 5, 0, 0, 0, false, false, Sorting.unsorted()));
 
-        // WHEN + THEN
+        // WHEN
         mockMvc.perform(get("/library/book/game").param("page", "2")
             .param("size", "5")
             .contentType(MediaType.APPLICATION_JSON))
+            // THEN
             .andExpect(status().isOk());
     }
 
     @Test
-    @DisplayName("When the pagination is valid, it is accepted")
+    @DisplayName("When the pagination is valid, then it is accepted")
     void testGetAllGameBooks_Pagination() throws Exception {
         // GIVEN
         given(service.getAll(any(), eq(new Pagination(1, 10)), any()))
             .willReturn(new Page<>(List.of(), 10, 5, 0, 0, 0, false, false, Sorting.unsorted()));
 
-        // WHEN + THEN
+        // WHEN
         mockMvc.perform(get("/library/book/game").param("page", "1")
             .param("size", "10")
             .contentType(MediaType.APPLICATION_JSON))
+            // THEN
             .andExpect(status().isOk())
             .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content").isArray());

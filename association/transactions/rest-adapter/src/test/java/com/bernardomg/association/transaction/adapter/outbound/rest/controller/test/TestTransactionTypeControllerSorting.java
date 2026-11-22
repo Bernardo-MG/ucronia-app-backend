@@ -17,6 +17,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
@@ -31,13 +32,16 @@ import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("TransactionTypeController - Sorting")
+@DisplayName("TransactionTypeController - getAllTransactionTypes")
 class TestTransactionTypeControllerSorting {
 
-    private MockMvc                mockMvc;
+    @InjectMocks
+    private TransactionTypeController controller;
+
+    private MockMvc                   mockMvc;
 
     @Mock
-    private TransactionTypeService service;
+    private TransactionTypeService    service;
 
     @BeforeEach
     void setUp() {
@@ -46,39 +50,41 @@ class TestTransactionTypeControllerSorting {
         validator.setMessageInterpolator(new ParameterMessageInterpolator());
         validator.afterPropertiesSet();
 
-        mockMvc = MockMvcBuilders.standaloneSetup(new TransactionTypeController(service))
+        mockMvc = MockMvcBuilders.standaloneSetup(controller)
             .setValidator(validator)
             .build();
     }
 
     @Test
-    @DisplayName("When sorting by date ascending, it is accepted")
+    @DisplayName("When sorting by description ascending, then transactions are returned in that order")
     void testGetAllTransactions_DescriptionAsc() throws Exception {
         // GIVEN
         given(service.getAll(eq(new Pagination(1, 10)), any()))
             .willReturn(new Page<>(List.of(), 10, 1, 0, 0, 0, false, false, Sorting.unsorted()));
 
-        // WHEN + THEN
+        // WHEN
         mockMvc.perform(get("/transaction/type").param("page", "1")
             .param("size", "10")
             .param("sort", "description|asc")
             .contentType(MediaType.APPLICATION_JSON))
+            // THEN
             .andExpect(status().isOk())
             .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
     }
 
     @Test
-    @DisplayName("When sorting by date descending, it is accepted")
+    @DisplayName("When sorting by description descending, then transactions are returned in that order")
     void testGetAllTransactions_DescriptionDesc() throws Exception {
         // GIVEN
         given(service.getAll(eq(new Pagination(1, 10)), any()))
             .willReturn(new Page<>(List.of(), 10, 1, 0, 0, 0, false, false, Sorting.unsorted()));
 
-        // WHEN + THEN
+        // WHEN
         mockMvc.perform(get("/transaction/type").param("page", "1")
             .param("size", "10")
             .param("sort", "description|desc")
             .contentType(MediaType.APPLICATION_JSON))
+            // THEN
             .andExpect(status().isOk())
             .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content", isA(java.util.ArrayList.class)));

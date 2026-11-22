@@ -1,26 +1,3 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2022-2025 Bernardo Martínez Garrido
- * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * <p>
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * <p>
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 
 package com.bernardomg.association.security.user.test.adapter.inbound.jpa.repository.integration;
 
@@ -49,7 +26,7 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("UserProfileRepository - save")
+@DisplayName("UserProfileRepository - assignProfile")
 class ITUserProfileRepositorySave {
 
     @Autowired
@@ -59,7 +36,7 @@ class ITUserProfileRepositorySave {
     private UserAssignedProfileSpringRepository userProfileSpringRepository;
 
     @Test
-    @DisplayName("When the data already exists, the relationship is persisted")
+    @DisplayName("When the data already exists, then the relationship is persisted")
     @ValidUserWithProfile
     @AlternativeProfile
     void testAssignProfile_Existing_PersistedData() {
@@ -94,7 +71,7 @@ class ITUserProfileRepositorySave {
     }
 
     @Test
-    @DisplayName("With valid data, the created relationship is returned")
+    @DisplayName("When there is valid data, then the created relationship is returned")
     @ValidUserWithProfile
     @AlternativeProfile
     void testAssignProfile_Existing_ReturnedData() {
@@ -105,11 +82,12 @@ class ITUserProfileRepositorySave {
 
         // THEN
         Assertions.assertThat(profile)
+            .as("When there is valid data, then the created relationship is returned")
             .isEqualTo(UserProfiles.alternativeProfile());
     }
 
     @Test
-    @DisplayName("When the profile is missing, nothing is persisted")
+    @DisplayName("When the profile is missing, then nothing is persisted")
     @ValidUser
     void testAssignProfile_MissingProfile_PersistedData() {
         final Collection<UserAssignedProfileEntity> profiles;
@@ -120,11 +98,12 @@ class ITUserProfileRepositorySave {
         // THEN
         profiles = userProfileSpringRepository.findAll();
         Assertions.assertThat(profiles)
+            .as("When the profile is missing, then nothing is persisted")
             .isEmpty();
     }
 
     @Test
-    @DisplayName("When the profile is missing, nothing is returned")
+    @DisplayName("When the profile is missing, then nothing is returned")
     @ValidUser
     void testAssignProfile_MissingProfile_ReturnedData() {
         final UserProfile profile;
@@ -134,11 +113,12 @@ class ITUserProfileRepositorySave {
 
         // THEN
         Assertions.assertThat(profile)
+            .as("When the profile is missing, then nothing is returned")
             .isNull();
     }
 
     @Test
-    @DisplayName("When the user is missing, nothing is persisted")
+    @DisplayName("When the user is missing, then nothing is persisted")
     @ValidProfile
     void testAssignProfile_MissingUser_PersistedData() {
         final Collection<UserAssignedProfileEntity> profiles;
@@ -149,11 +129,12 @@ class ITUserProfileRepositorySave {
         // THEN
         profiles = userProfileSpringRepository.findAll();
         Assertions.assertThat(profiles)
+            .as("When the user is missing, then nothing is persisted")
             .isEmpty();
     }
 
     @Test
-    @DisplayName("When the user is missing, nothing is returned")
+    @DisplayName("When the user is missing, then nothing is returned")
     @ValidProfile
     void testAssignProfile_MissingUser_ReturnedData() {
         final UserProfile profile;
@@ -163,11 +144,12 @@ class ITUserProfileRepositorySave {
 
         // THEN
         Assertions.assertThat(profile)
+            .as("When the user is missing, then nothing is returned")
             .isNull();
     }
 
     @Test
-    @DisplayName("With valid data, the relationship is persisted")
+    @DisplayName("When there is valid data, then the relationship is persisted")
     @ValidUser
     @ValidProfile
     void testAssignProfile_PersistedData() {
@@ -202,7 +184,7 @@ class ITUserProfileRepositorySave {
     }
 
     @Test
-    @DisplayName("With valid data, the created relationship is returned")
+    @DisplayName("When there is valid data, then the created relationship is returned")
     @ValidUser
     @ValidProfile
     void testAssignProfile_ReturnedData() {
@@ -213,6 +195,7 @@ class ITUserProfileRepositorySave {
 
         // THEN
         Assertions.assertThat(profile)
+            .as("When there is valid data, then the created relationship is returned")
             .isEqualTo(UserProfiles.valid());
     }
 

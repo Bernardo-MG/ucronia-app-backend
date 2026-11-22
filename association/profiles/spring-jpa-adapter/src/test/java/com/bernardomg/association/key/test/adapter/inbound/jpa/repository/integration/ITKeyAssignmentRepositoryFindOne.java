@@ -21,14 +21,14 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("KeyAssignmentRepository - Find one")
+@DisplayName("KeyAssignmentRepository - findOne")
 class ITKeyAssignmentRepositoryFindOne {
 
     @Autowired
     private KeyAssignmentRepository repository;
 
     @Test
-    @DisplayName("With an assigned key, its member is returned")
+    @DisplayName("When there is an assigned key, then its member is returned")
     @PositiveFeeType
     @ActiveMemberWithKey
     void testFindOne_Assigned() {
@@ -39,11 +39,12 @@ class ITKeyAssignmentRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(assignment)
+            .as("When there is an assigned key, then its member is returned")
             .contains(KeyAssignments.assigned());
     }
 
     @Test
-    @DisplayName("When there is no data, nothing is returned")
+    @DisplayName("When there is no data, then nothing is returned")
     void testFindOne_NoData() {
         final Optional<KeyAssignment> assignment;
 
@@ -52,11 +53,12 @@ class ITKeyAssignmentRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(assignment)
+            .as("When there is no data, then nothing is returned")
             .isEmpty();
     }
 
     @Test
-    @DisplayName("With an unassigned key, it is returned without a member")
+    @DisplayName("When there is an unassigned key, then it is returned without a member")
     @AvailableKey
     void testFindOne_Unassigned() {
         final Optional<KeyAssignment> assignment;
@@ -66,6 +68,7 @@ class ITKeyAssignmentRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(assignment)
+            .as("When there is an unassigned key, then it is returned without a member")
             .contains(KeyAssignments.unassigned());
     }
 

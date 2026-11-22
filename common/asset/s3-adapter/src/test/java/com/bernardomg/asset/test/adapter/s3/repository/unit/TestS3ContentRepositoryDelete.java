@@ -17,7 +17,7 @@ import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("S3 image content repository")
+@DisplayName("S3ContentRepository - delete")
 class TestS3ContentRepositoryDelete {
 
     @Mock
@@ -31,7 +31,7 @@ class TestS3ContentRepositoryDelete {
     }
 
     @Test
-    @DisplayName("When deleting image content, it is deleted from S3")
+    @DisplayName("When deleting image content, then it is deleted from S3")
     void testDelete() {
         // WHEN
         repository.delete(ContentConstants.KEY);

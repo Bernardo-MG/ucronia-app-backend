@@ -28,7 +28,7 @@ import com.bernardomg.asset.test.configuration.factory.Assets;
 import com.bernardomg.asset.usecase.service.DefaultAssetService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Asset service - delete")
+@DisplayName("DefaultAssetService - delete")
 class TestAssetServiceDelete {
 
     @Mock
@@ -52,7 +52,7 @@ class TestAssetServiceDelete {
     }
 
     @Test
-    @DisplayName("When deleting an asset, the asset is deleted")
+    @DisplayName("When deleting an asset, then the asset is deleted")
     void testDelete() {
         // GIVEN
         given(repository.findOne(FILE, AssetConstants.NUMBER)).willReturn(Optional.of(Assets.publicAccess()));
@@ -66,7 +66,7 @@ class TestAssetServiceDelete {
     }
 
     @Test
-    @DisplayName("When content deletion fails, the metadata deletion still succeeds")
+    @DisplayName("When content deletion fails, then the metadata deletion still succeeds")
     void testDelete_ContentDeletionFailureIsIgnored() {
 
         // GIVEN
@@ -83,10 +83,10 @@ class TestAssetServiceDelete {
     }
 
     @Test
-    @DisplayName("When metadata deletion fails, the content is preserved")
+    @DisplayName("When metadata deletion fails, then the content is preserved")
     void testDelete_MetadataDeletionFailurePreservesContent() {
         final RuntimeException exception;
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         exception = new RuntimeException("Database deletion failed");
@@ -95,32 +95,34 @@ class TestAssetServiceDelete {
             .delete(FILE, AssetConstants.NUMBER);
 
         // WHEN
-        execution = () -> service.delete(AssetConstants.NUMBER);
+        action = () -> service.delete(AssetConstants.NUMBER);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When metadata deletion fails, then the content is preserved")
             .isSameAs(exception);
         then(contentRepository).shouldHaveNoInteractions();
     }
 
     @Test
-    @DisplayName("When deleting a missing asset, not found is raised")
+    @DisplayName("When deleting a missing asset, then not found is raised")
     void testDelete_Missing() {
-        final ThrowingCallable callable;
+        final ThrowingCallable action;
 
         // GIVEN
         given(repository.findOne(FILE, AssetConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        callable = () -> service.delete(AssetConstants.NUMBER);
+        action = () -> service.delete(AssetConstants.NUMBER);
 
-        // WHEN + THEN
-        Assertions.assertThatThrownBy(callable)
+        // THEN
+        Assertions.assertThatThrownBy(action)
+            .as("When deleting a missing asset, then not found is raised")
             .isInstanceOf(AssetNotExistingException.class);
     }
 
     @Test
-    @DisplayName("When deleting an asset, the deleted asset is returned")
+    @DisplayName("When deleting an asset, then the deleted asset is returned")
     void testDelete_Returned() {
         final Asset deleted;
 
@@ -132,6 +134,7 @@ class TestAssetServiceDelete {
 
         // THEN
         Assertions.assertThat(deleted)
+            .as("When deleting an asset, then the deleted asset is returned")
             .isEqualTo(Assets.publicAccess());
     }
 

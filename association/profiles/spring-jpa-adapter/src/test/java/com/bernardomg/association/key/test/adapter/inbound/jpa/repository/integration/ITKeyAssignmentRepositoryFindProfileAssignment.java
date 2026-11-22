@@ -24,14 +24,14 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("KeyAssignmentRepository - Find profile assignment")
+@DisplayName("KeyAssignmentRepository - findProfileAssignments")
 class ITKeyAssignmentRepositoryFindProfileAssignment {
 
     @Autowired
     private KeyAssignmentRepository repository;
 
     @Test
-    @DisplayName("Assignments are found by profile number")
+    @DisplayName("When assignments are queried by profile number, then matching assignments are returned")
     @PositiveFeeType
     @ActiveMemberWithKey
     void testFindProfileAssignments() {
@@ -42,24 +42,26 @@ class ITKeyAssignmentRepositoryFindProfileAssignment {
 
         // THEN
         Assertions.assertThat(assignments)
+            .as("Assignments are found by profile number")
             .containsExactly(KeyAssignments.assigned());
     }
 
     @Test
-    @DisplayName("Looking up a missing profile reports a missing profile")
+    @DisplayName("When a missing profile is queried, then it is reported as missing")
     void testFindProfileAssignments_MissingProfile() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // WHEN
-        execution = () -> repository.findProfileAssignments(MemberConstants.NUMBER);
+        action = () -> repository.findProfileAssignments(MemberConstants.NUMBER);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("Looking up a missing profile reports a missing profile")
             .isInstanceOf(MissingProfileException.class);
     }
 
     @Test
-    @DisplayName("A profile without keys returns no assignments")
+    @DisplayName("When a profile has no keys, then no assignments are returned")
     @PositiveFeeType
     @ActiveMember
     void testFindProfileAssignments_NotAssigned() {
@@ -70,11 +72,12 @@ class ITKeyAssignmentRepositoryFindProfileAssignment {
 
         // THEN
         Assertions.assertThat(assignments)
+            .as("A profile without keys returns no assignments")
             .isEmpty();
     }
 
     @Test
-    @DisplayName("A profile without membership is a valid assignment target")
+    @DisplayName("When a profile without membership is selected, then it is a valid assignment target")
     @ValidProfile
     void testFindProfileAssignments_ProfileWithoutMembership() {
         final Collection<KeyAssignment> assignments;
@@ -84,6 +87,7 @@ class ITKeyAssignmentRepositoryFindProfileAssignment {
 
         // THEN
         Assertions.assertThat(assignments)
+            .as("A profile without membership is a valid assignment target")
             .isEmpty();
     }
 

@@ -1,26 +1,3 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2022-2025 Bernardo Martínez Garrido
- * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * <p>
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * <p>
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 
 package com.bernardomg.association.profile.test.usecase.service.unit;
 
@@ -46,7 +23,7 @@ import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Contact method service - update")
+@DisplayName("DefaultContactMethodService - update")
 class TestContactMethodServiceUpdate {
 
     @Mock
@@ -55,14 +32,10 @@ class TestContactMethodServiceUpdate {
     @InjectMocks
     private DefaultContactMethodService service;
 
-    public TestContactMethodServiceUpdate() {
-        super();
-    }
-
     @Test
-    @DisplayName("With a profile method with an existing name, an exception is thrown")
+    @DisplayName("When there is a profile method with an existing name, then an exception is thrown")
     void testUpdate_ExistingName() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
         final ContactMethod    contactMethod;
 
         // GIVEN
@@ -74,18 +47,18 @@ class TestContactMethodServiceUpdate {
                 .willReturn(true);
 
         // WHEN
-        execution = () -> service.update(contactMethod);
+        action = () -> service.update(contactMethod);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution,
+        ValidationAssertions.assertThatFieldFails(action,
             new FieldFailure("existing", "name", ContactMethodConstants.EMAIL));
     }
 
     @Test
-    @DisplayName("With a not existing contact method, an exception is thrown")
+    @DisplayName("When there is a not existing contact method, then an exception is thrown")
     void testUpdate_NotExisting_Exception() {
         final ContactMethod    contactMethod;
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         contactMethod = ContactMethods.email();
@@ -93,15 +66,16 @@ class TestContactMethodServiceUpdate {
         given(ContactMethodRepository.exists(ContactMethodConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        execution = () -> service.update(contactMethod);
+        action = () -> service.update(contactMethod);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When there is a not existing contact method, then an exception is thrown")
             .isInstanceOf(MissingContactMethodException.class);
     }
 
     @Test
-    @DisplayName("When updating a contact method, the change is persisted")
+    @DisplayName("When updating a contact method, then the change is persisted")
     void testUpdate_PersistedData() {
         final ContactMethod contactMethod;
 
@@ -118,7 +92,7 @@ class TestContactMethodServiceUpdate {
     }
 
     @Test
-    @DisplayName("When updating an active contact method, the change is returned")
+    @DisplayName("When updating an active contact method, then the change is returned")
     void testUpdate_ReturnedData() {
         final ContactMethod contactMethod;
         final ContactMethod updated;

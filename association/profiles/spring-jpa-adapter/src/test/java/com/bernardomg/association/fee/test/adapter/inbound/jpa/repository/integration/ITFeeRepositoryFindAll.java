@@ -1,26 +1,3 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2022-2025 Bernardo Martínez Garrido
- * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * <p>
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * <p>
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 
 package com.bernardomg.association.fee.test.adapter.inbound.jpa.repository.integration;
 
@@ -54,14 +31,14 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("FeeRepository - find all")
+@DisplayName("FeeRepository - findAll")
 class ITFeeRepositoryFindAll {
 
     @Autowired
     private FeeRepository repository;
 
     @Test
-    @DisplayName("With a full year it returns all the fees")
+    @DisplayName("When there is a full year, then it returns all the fees")
     @PositiveFeeType
     @ValidProfile
     @FeeFullYear
@@ -95,7 +72,7 @@ class ITFeeRepositoryFindAll {
     }
 
     @Test
-    @DisplayName("With multiple fees it returns all the fees")
+    @DisplayName("When there are multiple fees, then it returns all the fees")
     @PositiveFeeType
     @MultipleProfiles
     @MultipleFees
@@ -126,7 +103,7 @@ class ITFeeRepositoryFindAll {
     }
 
     @Test
-    @DisplayName("With no data it returns nothing")
+    @DisplayName("When there is no data, then it returns nothing")
     @PositiveFeeType
     @ValidProfile
     void testFindAll_NoData() {
@@ -153,7 +130,7 @@ class ITFeeRepositoryFindAll {
     }
 
     @Test
-    @DisplayName("With no fee it returns nothing")
+    @DisplayName("When there is no fee, then it returns nothing")
     @PositiveFeeType
     @ValidProfile
     void testFindAll_NoFee() {
@@ -180,7 +157,7 @@ class ITFeeRepositoryFindAll {
     }
 
     @Test
-    @DisplayName("With a not paid fee it returns all the fees")
+    @DisplayName("When there is a not paid fee, then it returns all the fees")
     @PositiveFeeType
     @ValidProfile
     @NotPaidFee
@@ -209,7 +186,7 @@ class ITFeeRepositoryFindAll {
     }
 
     @Test
-    @DisplayName("With a paid fee it returns all the fees")
+    @DisplayName("When there is a paid fee, then it returns all the fees")
     @PositiveFeeType
     @ValidProfile
     @PaidFee

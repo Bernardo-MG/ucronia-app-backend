@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
@@ -21,13 +22,16 @@ import com.bernardomg.association.transaction.test.configuration.factory.Transac
 import com.bernardomg.association.transaction.usecase.service.TransactionService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("TransactionController - Validation")
+@DisplayName("TransactionController - createTransaction")
 class TestTransactionControllerValidation {
 
-    private MockMvc            mockMvc;
+    @InjectMocks
+    private TransactionController controller;
+
+    private MockMvc               mockMvc;
 
     @Mock
-    private TransactionService service;
+    private TransactionService    service;
 
     @BeforeEach
     void setUp() {
@@ -36,13 +40,13 @@ class TestTransactionControllerValidation {
         validator.setMessageInterpolator(new ParameterMessageInterpolator());
         validator.afterPropertiesSet();
 
-        mockMvc = MockMvcBuilders.standaloneSetup(new TransactionController(service))
+        mockMvc = MockMvcBuilders.standaloneSetup(controller)
             .setValidator(validator)
             .build();
     }
 
     @Test
-    @DisplayName("When creating a transaction with an oversized description, it is rejected")
+    @DisplayName("When creating a transaction with an oversized description, then it is rejected")
     void testCreateTransaction_OversizedDescription() throws Exception {
         final String longDescription;
         final String requestBody;
@@ -57,14 +61,15 @@ class TestTransactionControllerValidation {
                 }
                 """, TransactionConstants.DATE, TransactionConstants.AMOUNT, longDescription);
 
-        // WHEN + THEN
+        // WHEN
         mockMvc.perform(post("/transaction").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
+            // THEN
             .andExpect(status().isBadRequest());
     }
 
     @Test
-    @DisplayName("When creating a transaction without amount, it is rejected")
+    @DisplayName("When creating a transaction without amount, then it is rejected")
     void testCreateTransaction_WithoutAmount() throws Exception {
         final String requestBody;
 
@@ -76,14 +81,15 @@ class TestTransactionControllerValidation {
                 }
                 """, TransactionConstants.DATE, TransactionConstants.DESCRIPTION);
 
-        // WHEN + THEN
+        // WHEN
         mockMvc.perform(post("/transaction").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
+            // THEN
             .andExpect(status().isBadRequest());
     }
 
     @Test
-    @DisplayName("When creating a transaction without date, it is rejected")
+    @DisplayName("When creating a transaction without date, then it is rejected")
     void testCreateTransaction_WithoutDate() throws Exception {
         final String requestBody;
 
@@ -95,14 +101,15 @@ class TestTransactionControllerValidation {
                 }
                 """, TransactionConstants.AMOUNT, TransactionConstants.DESCRIPTION);
 
-        // WHEN + THEN
+        // WHEN
         mockMvc.perform(post("/transaction").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
+            // THEN
             .andExpect(status().isBadRequest());
     }
 
     @Test
-    @DisplayName("When creating a transaction without description, it is rejected")
+    @DisplayName("When creating a transaction without description, then it is rejected")
     void testCreateTransaction_WithoutDescription() throws Exception {
         final String requestBody;
 
@@ -114,9 +121,10 @@ class TestTransactionControllerValidation {
                 }
                 """, TransactionConstants.DATE, TransactionConstants.AMOUNT);
 
-        // WHEN + THEN
+        // WHEN
         mockMvc.perform(post("/transaction").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
+            // THEN
             .andExpect(status().isBadRequest());
     }
 

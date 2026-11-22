@@ -12,6 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
@@ -23,30 +24,34 @@ import com.bernardomg.association.contacts.test.factory.ContactSettingsConstants
 import com.bernardomg.association.contacts.usecase.service.ContactInfoService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("ContactInfoController")
+@DisplayName("ContactInfoController - getContactInfo")
 class TestContactInfoController {
 
-    private MockMvc            mockMvc;
+    @InjectMocks
+    private ContactInfoController controller;
+
+    private MockMvc               mockMvc;
 
     @Mock
-    private ContactInfoService service;
+    private ContactInfoService    service;
 
     @BeforeEach
     void setUp() {
-        mockMvc = MockMvcBuilders.standaloneSetup(new ContactInfoController(service))
+        mockMvc = MockMvcBuilders.standaloneSetup(controller)
             .build();
     }
 
     @Test
-    @DisplayName("When requesting contact info, it is returned")
+    @DisplayName("When requesting contact info, then it is returned")
     void testGetContactInfo() throws Exception {
         // GIVEN
         given(service.getContactInfo()).willReturn(new ContactInfo(ContactSettingsConstants.GOOGLE_MAPS_CODE,
             ContactSettingsConstants.TEAMUP_CODE, ContactSettingsConstants.EMAIL_CODE,
             ContactSettingsConstants.INSTAGRAM_CODE, ContactSettingsConstants.TELEGRAM_CODE));
 
-        // WHEN + THEN
+        // WHEN
         mockMvc.perform(get("/contact").contentType(MediaType.APPLICATION_JSON))
+            // THEN
             .andExpect(status().isOk())
             .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content.map", equalTo(ContactSettingsConstants.GOOGLE_MAPS_CODE)))

@@ -17,6 +17,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
@@ -32,55 +33,60 @@ import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("AuthorController - Sorting")
+@DisplayName("AuthorController - getAllAuthors")
 class TestAuthorControllerSorting {
 
-    private MockMvc       mockMvc;
+    @InjectMocks
+    private AuthorController controller;
+
+    private MockMvc          mockMvc;
 
     @Mock
-    private AuthorService service;
+    private AuthorService    service;
 
     @BeforeEach
     void setUp() {
-        final LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
+        final LocalValidatorFactoryBean validator;
 
+        validator = new LocalValidatorFactoryBean();
         validator.setMessageInterpolator(new ParameterMessageInterpolator());
         validator.afterPropertiesSet();
 
-        // WHEN + THEN
-        mockMvc = MockMvcBuilders.standaloneSetup(new AuthorController(service))
+        mockMvc = MockMvcBuilders.standaloneSetup(controller)
             .setValidator(validator)
             .build();
     }
 
     @Test
-    @DisplayName("When sorting by multiple fields, it is accepted")
+    @DisplayName("When sorting by multiple fields, then it is accepted")
     void testGetAllAuthors_MultipleSortFields() throws Exception {
         // GIVEN
         given(service.getAll(eq(new Pagination(1, 10)), any()))
             .willReturn(new Page<>(List.of(Authors.valid()), 1, 1, 0, 0, 0, false, false, Sorting.unsorted()));
 
-        // WHEN + THEN
+        // WHEN
         mockMvc.perform(get("/library/author").param("page", "1")
             .param("size", "10")
             .param("sort", "name|asc,number|desc")
             .contentType(MediaType.APPLICATION_JSON))
+            // THEN
             .andExpect(status().isOk())
             .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
     }
 
     @Test
-    @DisplayName("When sorting by name, it is accepted")
+    @DisplayName("When sorting by name, then it is accepted")
     void testGetAllAuthors_Sorting() throws Exception {
         // GIVEN
         given(service.getAll(eq(new Pagination(1, 10)), any()))
             .willReturn(new Page<>(List.of(Authors.valid()), 1, 1, 0, 0, 0, false, false, Sorting.unsorted()));
 
-        // WHEN + THEN
+        // WHEN
         mockMvc.perform(get("/library/author").param("page", "1")
             .param("size", "10")
             .param("sort", "name|asc")
             .contentType(MediaType.APPLICATION_JSON))
+            // THEN
             .andExpect(status().isOk())
             .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content", isA(java.util.ArrayList.class)));

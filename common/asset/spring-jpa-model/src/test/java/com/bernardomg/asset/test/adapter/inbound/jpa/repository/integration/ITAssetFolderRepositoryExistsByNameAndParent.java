@@ -16,14 +16,14 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("AssetFolderRepository - exists by name and parent")
+@DisplayName("AssetFolderRepository - existsByNameAndParent")
 class ITAssetFolderRepositoryExistsByNameAndParent {
 
     @Autowired
     private AssetFolderRepository repository;
 
     @Test
-    @DisplayName("With a child folder with the name and parent, it exists")
+    @DisplayName("When there is a child folder with the name and parent, then it exists")
     @ValidFileFolderTree
     void testExistsByNameAndParent_Child() {
         final boolean exists;
@@ -38,7 +38,7 @@ class ITAssetFolderRepositoryExistsByNameAndParent {
     }
 
     @Test
-    @DisplayName("When the matching folder is excluded, it doesn't exist")
+    @DisplayName("When the matching folder is excluded, then it doesn't exist")
     @ValidFileFolderTree
     void testExistsByNameAndParent_Excluded() {
         final boolean exists;
@@ -54,7 +54,7 @@ class ITAssetFolderRepositoryExistsByNameAndParent {
     }
 
     @Test
-    @DisplayName("With no matching folder, it doesn't exist")
+    @DisplayName("When there is no matching folder, then it doesn't exist")
     void testExistsByNameAndParent_NoData() {
         final boolean exists;
 
@@ -68,7 +68,7 @@ class ITAssetFolderRepositoryExistsByNameAndParent {
     }
 
     @Test
-    @DisplayName("With a root folder with the name, it exists")
+    @DisplayName("When there is a root folder with the name, then it exists")
     @ValidFileFolder
     void testExistsByNameAndParent_Root() {
         final boolean exists;
@@ -83,7 +83,7 @@ class ITAssetFolderRepositoryExistsByNameAndParent {
     }
 
     @Test
-    @DisplayName("When the matching root folder is excluded, it doesn't exist")
+    @DisplayName("When the matching root folder is excluded, then it doesn't exist")
     @ValidFileFolder
     void testExistsByNameAndParent_Root_Excluded() {
         final boolean exists;

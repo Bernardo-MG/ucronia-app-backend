@@ -1,26 +1,3 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2022-2025 Bernardo Martínez Garrido
- * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * <p>
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * <p>
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 
 package com.bernardomg.association.profile.test.adapter.inbound.jpa.repository.integration;
 
@@ -38,14 +15,14 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("ContactMethodRepository - exists by name for another")
+@DisplayName("ContactMethodRepository - existsByNameForAnother")
 class ITContactMethodRepositoryExistsByNameForAnother {
 
     @Autowired
     private ContactMethodRepository repository;
 
     @Test
-    @DisplayName("With an existing contact method name and looking for another number, it exists")
+    @DisplayName("When there is an existing contact method name and looking for another number, then it exists")
     @EmailContactMethod
     void testExists() {
         final boolean exists;
@@ -60,7 +37,7 @@ class ITContactMethodRepositoryExistsByNameForAnother {
     }
 
     @Test
-    @DisplayName("With no contact method, nothing exists")
+    @DisplayName("When there is no contact method, then nothing exists")
     void testExists_NoData() {
         final boolean exists;
 
@@ -74,7 +51,7 @@ class ITContactMethodRepositoryExistsByNameForAnother {
     }
 
     @Test
-    @DisplayName("With an existing contact method name and looking for the same number, it doesn't exist")
+    @DisplayName("When there is an existing contact method name and looking for the same number, then it doesn't exist")
     @EmailContactMethod
     void testExists_SameNumber() {
         final boolean exists;

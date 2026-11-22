@@ -25,7 +25,7 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("ActivityRepository - find all with filter")
+@DisplayName("ActivityRepository - findAll")
 @MultipleActivity
 class ITActivityRepositoryFindAllFiltered {
 
@@ -33,7 +33,7 @@ class ITActivityRepositoryFindAllFiltered {
     private ActivityRepository repository;
 
     @Test
-    @DisplayName("With a starting bound, it returns activities ending on or after it")
+    @DisplayName("When there is a starting bound, then it returns activities ending on or after it")
     void testFindAll_From() {
         final ActivityFilter filter;
         final Page<Activity> activities;
@@ -46,6 +46,7 @@ class ITActivityRepositoryFindAllFiltered {
 
         // THEN
         Assertions.assertThat(activities)
+            .as("When there is a starting bound, then it returns activities ending on or after it")
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
@@ -54,7 +55,7 @@ class ITActivityRepositoryFindAllFiltered {
     }
 
     @Test
-    @DisplayName("With both bounds, it returns activities ending inside the interval")
+    @DisplayName("When both bounds are provided, then it returns activities ending inside the interval")
     void testFindAll_FromAndTo() {
         final ActivityFilter filter;
         final Page<Activity> activities;
@@ -67,6 +68,7 @@ class ITActivityRepositoryFindAllFiltered {
 
         // THEN
         Assertions.assertThat(activities)
+            .as("When both bounds are provided, then it returns activities ending inside the interval")
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
@@ -75,7 +77,7 @@ class ITActivityRepositoryFindAllFiltered {
     }
 
     @Test
-    @DisplayName("Without bounds, it returns all activities")
+    @DisplayName("When no bounds are applied, then all activities are returned")
     void testFindAll_NoBounds() {
         final ActivityFilter filter;
         final Page<Activity> activities;
@@ -88,6 +90,7 @@ class ITActivityRepositoryFindAllFiltered {
 
         // THEN
         Assertions.assertThat(activities)
+            .as("Without bounds, it returns all activities")
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
@@ -97,7 +100,7 @@ class ITActivityRepositoryFindAllFiltered {
     }
 
     @Test
-    @DisplayName("With an ending bound, it returns activities entirely ended before it")
+    @DisplayName("When there is an ending bound, then it returns activities entirely ended before it")
     void testFindAll_To() {
         final ActivityFilter filter;
         final Page<Activity> activities;
@@ -110,6 +113,7 @@ class ITActivityRepositoryFindAllFiltered {
 
         // THEN
         Assertions.assertThat(activities)
+            .as("When there is an ending bound, then it returns activities entirely ended before it")
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")

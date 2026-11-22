@@ -20,7 +20,7 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("Asset repository - find all public")
+@DisplayName("AssetRepository - findAllPublic")
 class ITAssetRepositoryFindAllPublic {
 
     @Autowired
@@ -28,7 +28,7 @@ class ITAssetRepositoryFindAllPublic {
 
     @Test
     @PrivateFile
-    @DisplayName("With a private file, it is not returned")
+    @DisplayName("When there is a private file, then it is not returned")
     void testFindAllPublic_Private() {
         final Page<Asset> result;
 
@@ -37,12 +37,13 @@ class ITAssetRepositoryFindAllPublic {
 
         // THEN
         Assertions.assertThat(result.content())
+            .as("When there is a private file, then it is not returned")
             .isEmpty();
     }
 
     @Test
     @PublicFile
-    @DisplayName("With a public file, it is returned")
+    @DisplayName("When there is a public file, then it is returned")
     void testFindAllPublic_Public() {
         final Page<Asset> result;
 
@@ -51,6 +52,7 @@ class ITAssetRepositoryFindAllPublic {
 
         // THEN
         Assertions.assertThat(result.content())
+            .as("When there is a public file, then it is returned")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(Assets.publicAccess());
     }

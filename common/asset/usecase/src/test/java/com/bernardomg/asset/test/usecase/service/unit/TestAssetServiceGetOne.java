@@ -26,7 +26,7 @@ import com.bernardomg.asset.test.configuration.factory.Assets;
 import com.bernardomg.asset.usecase.service.DefaultAssetService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Asset service")
+@DisplayName("DefaultAssetService - getOne")
 class TestAssetServiceGetOne {
 
     @Mock
@@ -50,7 +50,7 @@ class TestAssetServiceGetOne {
     }
 
     @Test
-    @DisplayName("When getting an asset, its metadata is returned")
+    @DisplayName("When getting an asset, then its metadata is returned")
     void testGetOne() {
         final Asset result;
 
@@ -62,22 +62,24 @@ class TestAssetServiceGetOne {
 
         // THEN
         Assertions.assertThat(result)
+            .as("When getting an asset, then its metadata is returned")
             .isEqualTo(Assets.publicAccess());
     }
 
     @Test
-    @DisplayName("When getting a missing asset, not found is raised")
+    @DisplayName("When getting a missing asset, then not found is raised")
     void testGetOne_Missing() {
-        final ThrowingCallable callable;
+        final ThrowingCallable action;
 
         // GIVEN
         given(repository.findOne(FILE, AssetConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        callable = () -> service.getOne(AssetConstants.NUMBER);
+        action = () -> service.getOne(AssetConstants.NUMBER);
 
-        // WHEN + THEN
-        Assertions.assertThatThrownBy(callable)
+        // THEN
+        Assertions.assertThatThrownBy(action)
+            .as("When getting a missing asset, then not found is raised")
             .isInstanceOf(AssetNotExistingException.class);
     }
 

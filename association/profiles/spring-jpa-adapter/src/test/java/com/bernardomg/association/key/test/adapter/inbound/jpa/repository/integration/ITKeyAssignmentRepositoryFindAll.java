@@ -25,14 +25,14 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("KeyAssignmentRepository - find assignments")
+@DisplayName("KeyAssignmentRepository - findAll")
 class ITKeyAssignmentRepositoryFindAll {
 
     @Autowired
     private KeyAssignmentRepository repository;
 
     @Test
-    @DisplayName("When there is an assigned key, it is returned")
+    @DisplayName("When there is an assigned key, then it is returned")
     @PositiveFeeType
     @ActiveMemberWithKey
     void testFindAll_Assigned() {
@@ -43,11 +43,12 @@ class ITKeyAssignmentRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(assignments.content())
+            .as("When there is an assigned key, then it is returned")
             .contains(KeyAssignments.assigned());
     }
 
     @Test
-    @DisplayName("Assigned and unassigned keys are listed together")
+    @DisplayName("When keys are listed, then assigned and unassigned keys are both included")
     @PositiveFeeType
     @ActiveMemberWithKey
     @AlternativeAvailableKey
@@ -59,11 +60,12 @@ class ITKeyAssignmentRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(assignments.content())
+            .as("Assigned and unassigned keys are listed together")
             .containsExactlyInAnyOrder(KeyAssignments.unassignedAlternative(), KeyAssignments.assigned());
     }
 
     @Test
-    @DisplayName("When there is no data, nothing is returned")
+    @DisplayName("When there is no data, then nothing is returned")
     void testFindAll_NoData() {
         final Page<KeyAssignment> assignments;
 
@@ -72,11 +74,12 @@ class ITKeyAssignmentRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(assignments.content())
+            .as("When there is no data, then nothing is returned")
             .isEmpty();
     }
 
     @Test
-    @DisplayName("Assignments to profiles without membership are included")
+    @DisplayName("When assignments are listed, then profiles without membership are included")
     @AvailableKey
     @ValidProfile
     void testFindAll_ProfileWithoutMembership() {
@@ -90,11 +93,12 @@ class ITKeyAssignmentRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(assignments.content())
+            .as("Assignments to profiles without membership are included")
             .containsExactly(KeyAssignments.assigned());
     }
 
     @Test
-    @DisplayName("When there is an unassigned key, it is returned")
+    @DisplayName("When there is an unassigned key, then it is returned")
     @AvailableKey
     void testFindAll_Unassigned() {
         final Page<KeyAssignment> assignments;
@@ -104,6 +108,7 @@ class ITKeyAssignmentRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(assignments.content())
+            .as("When there is an unassigned key, then it is returned")
             .contains(KeyAssignments.unassigned());
     }
 

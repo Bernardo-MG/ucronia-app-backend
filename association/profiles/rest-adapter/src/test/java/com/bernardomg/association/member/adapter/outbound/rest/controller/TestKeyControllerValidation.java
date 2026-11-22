@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
@@ -20,13 +21,16 @@ import com.bernardomg.association.key.adapter.outbound.rest.controller.KeyContro
 import com.bernardomg.association.key.usecase.service.KeyService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("KeyController - Validation")
+@DisplayName("KeyController - updateKey")
 class TestKeyControllerValidation {
 
-    private MockMvc    mockMvc;
+    @InjectMocks
+    private KeyController controller;
+
+    private MockMvc       mockMvc;
 
     @Mock
-    private KeyService service;
+    private KeyService    service;
 
     @BeforeEach
     void setUp() {
@@ -35,13 +39,13 @@ class TestKeyControllerValidation {
         validator.setMessageInterpolator(new ParameterMessageInterpolator());
         validator.afterPropertiesSet();
 
-        mockMvc = MockMvcBuilders.standaloneSetup(new KeyController(service))
+        mockMvc = MockMvcBuilders.standaloneSetup(controller)
             .setValidator(validator)
             .build();
     }
 
     @Test
-    @DisplayName("When updating a key without required fields, it is rejected")
+    @DisplayName("When updating a key without required fields, then it is rejected")
     void testUpdateKey_Empty() throws Exception {
         final String requestBody;
 
@@ -51,9 +55,10 @@ class TestKeyControllerValidation {
                 }
                 """;
 
-        // WHEN + THEN
+        // WHEN
         mockMvc.perform(put("/profile/key/1").contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
+            // THEN
             .andExpect(status().isBadRequest());
     }
 

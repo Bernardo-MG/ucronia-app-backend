@@ -30,7 +30,7 @@ class ITAssetRepositorySave {
     private AssetSpringRepository springRepository;
 
     @Test
-    @DisplayName("When the file name is changed, it is updated")
+    @DisplayName("When the file name is changed, then it is updated")
     @PublicFile
     void testSave_Existing_ChangeName_Persisted() {
         final Asset file;
@@ -49,7 +49,7 @@ class ITAssetRepositorySave {
     }
 
     @Test
-    @DisplayName("When the file name is changed, it is returned")
+    @DisplayName("When the file name is changed, then it is returned")
     @PublicFile
     void testSave_Existing_ChangeName_Returned() {
         final Asset file;
@@ -70,7 +70,7 @@ class ITAssetRepositorySave {
     }
 
     @Test
-    @DisplayName("When saving, an file is persisted")
+    @DisplayName("When saving, then an file is persisted")
     void testSave_Persisted() {
         // WHEN
         repository.save(FILE, Assets.publicAccess());
@@ -83,7 +83,7 @@ class ITAssetRepositorySave {
     }
 
     @Test
-    @DisplayName("When saving, the persisted file is returned")
+    @DisplayName("When saving, then the persisted file is returned")
     void testSave_Returned() {
         final Asset saved;
 

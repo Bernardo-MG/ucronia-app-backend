@@ -1,26 +1,3 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2022-2025 Bernardo Martínez Garrido
- * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * <p>
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * <p>
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 
 package com.bernardomg.association.library.author.test.usecase.service.unit;
 
@@ -46,7 +23,7 @@ import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("AuthorService - update")
+@DisplayName("DefaultAuthorService - update")
 class TestAuthorServiceUpdate {
 
     @Mock
@@ -55,14 +32,10 @@ class TestAuthorServiceUpdate {
     @InjectMocks
     private DefaultAuthorService service;
 
-    public TestAuthorServiceUpdate() {
-        super();
-    }
-
     @Test
-    @DisplayName("With an author with an empty name, an exception is thrown")
+    @DisplayName("When there is an author with an empty name, then an exception is thrown")
     void testUpdate_EmptyName() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
         final Author           author;
 
         // GIVEN
@@ -71,17 +44,17 @@ class TestAuthorServiceUpdate {
         given(authorRepository.exists(AuthorConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        execution = () -> service.update(author);
+        action = () -> service.update(author);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution, new FieldFailure("empty", "name", ""));
+        ValidationAssertions.assertThatFieldFails(action, new FieldFailure("empty", "name", ""));
     }
 
     @Test
-    @DisplayName("With an author with a name existing for another user, an exception is thrown")
+    @DisplayName("When there is an author with a name existing for another user, then an exception is thrown")
     void testUpdate_ExistsForAnother() {
         final Author           author;
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         author = Authors.valid();
@@ -90,18 +63,17 @@ class TestAuthorServiceUpdate {
         given(authorRepository.existsByNameForAnother(AuthorConstants.NAME, AuthorConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        execution = () -> service.update(author);
+        action = () -> service.update(author);
 
         // THEN
-        ValidationAssertions.assertThatFieldFails(execution,
-            new FieldFailure("existing", "name", AuthorConstants.NAME));
+        ValidationAssertions.assertThatFieldFails(action, new FieldFailure("existing", "name", AuthorConstants.NAME));
     }
 
     @Test
-    @DisplayName("With a not existing author, an exception is thrown")
+    @DisplayName("When there is a not existing author, then an exception is thrown")
     void testUpdate_NotExisting() {
         final Author           author;
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         author = Authors.valid();
@@ -109,15 +81,16 @@ class TestAuthorServiceUpdate {
         given(authorRepository.exists(AuthorConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        execution = () -> service.update(author);
+        action = () -> service.update(author);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When there is a not existing author, then an exception is thrown")
             .isInstanceOf(MissingAuthorException.class);
     }
 
     @Test
-    @DisplayName("With a valid author, the author is persisted")
+    @DisplayName("When there is a valid author, then the author is persisted")
     void testUpdate_PersistedData() {
         final Author author;
 
@@ -134,7 +107,7 @@ class TestAuthorServiceUpdate {
     }
 
     @Test
-    @DisplayName("With a valid author, the created author is returned")
+    @DisplayName("When there is a valid author, then the created author is returned")
     void testUpdate_ReturnedData() {
         final Author author;
         final Author created;
@@ -151,6 +124,7 @@ class TestAuthorServiceUpdate {
 
         // THEN
         Assertions.assertThat(created)
+            .as("When there is a valid author, then the created author is returned")
             .isEqualTo(Authors.valid());
     }
 

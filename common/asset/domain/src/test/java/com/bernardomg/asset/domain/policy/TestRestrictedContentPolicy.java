@@ -12,7 +12,7 @@ import com.bernardomg.asset.domain.exception.ContentEmptyException;
 import com.bernardomg.asset.domain.exception.ContentTooLargeException;
 import com.bernardomg.asset.domain.exception.ContentTypeNotAllowedException;
 
-@DisplayName("Restricted content policy")
+@DisplayName("RestrictedContentPolicy - validate")
 class TestRestrictedContentPolicy {
 
     private static final long   MAXIMUM_SIZE = 10L;
@@ -20,54 +20,58 @@ class TestRestrictedContentPolicy {
     private final ContentPolicy policy       = new RestrictedContentPolicy(MAXIMUM_SIZE, Set.of("image/png"));
 
     @Test
-    @DisplayName("Empty content is rejected")
+    @DisplayName("When empty content is submitted, then the content is rejected")
     void testEmpty() {
-        final ThrowingCallable callable;
+        final ThrowingCallable action;
 
         // WHEN
-        callable = () -> policy.validate(0L, "image/png");
+        action = () -> policy.validate(0L, "image/png");
 
         // THEN
-        Assertions.assertThatThrownBy(callable)
+        Assertions.assertThatThrownBy(action)
+            .as("Empty content is rejected")
             .isInstanceOf(ContentEmptyException.class);
     }
 
     @Test
-    @DisplayName("Oversized content is rejected")
+    @DisplayName("When oversized content is submitted, then the content is rejected")
     void testTooLarge() {
-        final ThrowingCallable callable;
+        final ThrowingCallable action;
 
         // WHEN
-        callable = () -> policy.validate(MAXIMUM_SIZE + 1, "image/png");
+        action = () -> policy.validate(MAXIMUM_SIZE + 1, "image/png");
 
         // THEN
-        Assertions.assertThatThrownBy(callable)
+        Assertions.assertThatThrownBy(action)
+            .as("Oversized content is rejected")
             .isInstanceOf(ContentTooLargeException.class);
     }
 
     @Test
-    @DisplayName("Content with an unsupported media type is rejected")
+    @DisplayName("When content with an unsupported media type is submitted, then the content is rejected")
     void testUnsupportedMediaType() {
-        final ThrowingCallable callable;
+        final ThrowingCallable action;
 
         // WHEN
-        callable = () -> policy.validate(MAXIMUM_SIZE, "application/pdf");
+        action = () -> policy.validate(MAXIMUM_SIZE, "application/pdf");
 
         // THEN
-        Assertions.assertThatThrownBy(callable)
+        Assertions.assertThatThrownBy(action)
+            .as("Content with an unsupported media type is rejected")
             .isInstanceOf(ContentTypeNotAllowedException.class);
     }
 
     @Test
-    @DisplayName("Content matching the restrictions is accepted")
+    @DisplayName("When content matching the restrictions, then the request is accepted")
     void testValid() {
-        final ThrowingCallable callable;
+        final ThrowingCallable action;
 
         // WHEN
-        callable = () -> policy.validate(MAXIMUM_SIZE, "IMAGE/PNG; charset=binary");
+        action = () -> policy.validate(MAXIMUM_SIZE, "IMAGE/PNG; charset=binary");
 
         // THEN
-        Assertions.assertThatCode(callable)
+        Assertions.assertThatCode(action)
+            .as("Content matching the restrictions is accepted")
             .doesNotThrowAnyException();
     }
 

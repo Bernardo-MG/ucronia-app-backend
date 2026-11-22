@@ -24,7 +24,7 @@ import com.bernardomg.asset.test.configuration.factory.Assets;
 import com.bernardomg.asset.usecase.service.DefaultAssetFolderService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("AssetFolderService - move image to root")
+@DisplayName("DefaultAssetFolderService - moveAssetToRoot")
 class TestAssetFolderServiceMoveAssetToRoot {
 
     @Mock
@@ -37,7 +37,7 @@ class TestAssetFolderServiceMoveAssetToRoot {
     private DefaultAssetFolderService service;
 
     @Test
-    @DisplayName("With an existing image, the image is moved to root")
+    @DisplayName("When there is an existing image, then the image is moved to root")
     void testMoveImageToRoot() {
         final Asset moved;
 
@@ -51,29 +51,31 @@ class TestAssetFolderServiceMoveAssetToRoot {
 
         // THEN
         Assertions.assertThat(moved)
+            .as("When there is an existing image, then the image is moved to root")
             .isEqualTo(Assets.publicAccess());
     }
 
     @Test
-    @DisplayName("With a missing image, an exception is thrown")
+    @DisplayName("When there is a missing image, then an exception is thrown")
     void testMoveImageToRoot_MissingImage() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         given(imageRepository.findOne(AssetFolderConstants.IMAGE_NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.moveAssetToRoot(AssetFolderConstants.IMAGE_NUMBER);
+        action = () -> service.moveAssetToRoot(AssetFolderConstants.IMAGE_NUMBER);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When there is a missing image, then an exception is thrown")
             .isInstanceOf(AssetNotExistingException.class);
     }
 
     @Test
-    @DisplayName("With the same name in the root folder, an exception is thrown")
+    @DisplayName("When the same name in the root folder is provided, then an exception is thrown")
     void testMoveImageToRoot_NameConflict() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         given(imageRepository.findOne(AssetFolderConstants.IMAGE_NUMBER))
@@ -84,10 +86,11 @@ class TestAssetFolderServiceMoveAssetToRoot {
                 .number())).willReturn(true);
 
         // WHEN
-        execution = () -> service.moveAssetToRoot(AssetFolderConstants.IMAGE_NUMBER);
+        action = () -> service.moveAssetToRoot(AssetFolderConstants.IMAGE_NUMBER);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When the same name in the root folder is provided, then an exception is thrown")
             .isInstanceOf(AssetAlreadyExistsException.class);
     }
 

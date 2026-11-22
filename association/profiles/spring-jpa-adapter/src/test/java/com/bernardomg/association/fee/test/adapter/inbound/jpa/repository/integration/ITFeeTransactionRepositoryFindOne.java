@@ -1,26 +1,3 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2022-2025 Bernardo Martínez Garrido
- * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * <p>
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * <p>
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 
 package com.bernardomg.association.fee.test.adapter.inbound.jpa.repository.integration;
 
@@ -49,7 +26,7 @@ import com.bernardomg.test.configuration.argument.DecimalArgumentsProvider;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("FeeTransactionRepository - find one")
+@DisplayName("FeeTransactionRepository - findOne")
 class ITFeeTransactionRepositoryFindOne {
 
     @Autowired
@@ -59,7 +36,7 @@ class ITFeeTransactionRepositoryFindOne {
     private FeeTransactionSpringRepository springRepository;
 
     @Test
-    @DisplayName("With an existing transaction, it is returned")
+    @DisplayName("When there is an existing transaction, then it is returned")
     @PositiveTransaction
     void testFindOne() {
         final Optional<FeeTransaction> transactionOptional;
@@ -69,12 +46,13 @@ class ITFeeTransactionRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(transactionOptional)
+            .as("When there is an existing transaction, then it is returned")
             .contains(Transactions.positive());
     }
 
     @ParameterizedTest(name = "Amount: {0}")
     @ArgumentsSource(AroundZeroArgumentsProvider.class)
-    @DisplayName("With a value around zero, the related entity is returned")
+    @DisplayName("When a related entity has a value around zero, then it is returned")
     void testFindOne_AroundZero(final Float amount) {
         final Optional<FeeTransaction> transactionOptional;
 
@@ -86,12 +64,13 @@ class ITFeeTransactionRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(transactionOptional)
+            .as("With a value around zero, the related entity is returned")
             .contains(Transactions.forAmount(amount));
     }
 
     @ParameterizedTest(name = "Amount: {0}")
     @ArgumentsSource(DecimalArgumentsProvider.class)
-    @DisplayName("With a decimal value, the related entity is returned")
+    @DisplayName("When a related entity has a decimal value, then it is returned")
     void testFindOne_Decimal(final Float amount) {
         final Optional<FeeTransaction> transactionOptional;
 
@@ -103,11 +82,12 @@ class ITFeeTransactionRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(transactionOptional)
+            .as("With a decimal value, the related entity is returned")
             .contains(Transactions.forAmount(amount));
     }
 
     @Test
-    @DisplayName("Returns the correct data when reading a negative value")
+    @DisplayName("When a negative value is read, then the correct data is returned")
     @NegativeTransaction
     void testFindOne_Negative() {
         final Optional<FeeTransaction> transactionOptional;
@@ -117,11 +97,12 @@ class ITFeeTransactionRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(transactionOptional)
+            .as("Returns the correct data when reading a negative value")
             .contains(Transactions.forAmount(-1F));
     }
 
     @Test
-    @DisplayName("With no transaction, nothing is returned")
+    @DisplayName("When there is no transaction, then nothing is returned")
     void testFindOne_NoData() {
         final Optional<FeeTransaction> transactionOptional;
 
@@ -130,6 +111,7 @@ class ITFeeTransactionRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(transactionOptional)
+            .as("When there is no transaction, then nothing is returned")
             .isEmpty();
     }
 

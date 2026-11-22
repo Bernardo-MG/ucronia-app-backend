@@ -1,26 +1,3 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2022-2025 Bernardo Martínez Garrido
- * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * <p>
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * <p>
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 
 package com.bernardomg.association.sponsor.test.adapter.inbound.jpa.repository.integration;
 
@@ -61,12 +38,8 @@ class ITSponsorRepositorySave {
     @Autowired
     private SponsorSpringRepository springRepository;
 
-    public ITSponsorRepositorySave() {
-        super();
-    }
-
     @Test
-    @DisplayName("When a sponsor exists and a contact method is added, the sponsor is persisted")
+    @DisplayName("When a sponsor exists and a contact method is added, then the sponsor is persisted")
     @EmailContactMethod
     @ValidSponsor
     void testSave_Existing_AddContactMethod_PersistedData() {
@@ -90,7 +63,7 @@ class ITSponsorRepositorySave {
     }
 
     @Test
-    @DisplayName("When a sponsor name is changed, the sponsor is persisted")
+    @DisplayName("When a sponsor name is changed, then the sponsor is persisted")
     @ValidSponsor
     void testSave_Existing_ChangeName_PersistedData() {
         final Sponsor                 sponsor;
@@ -113,7 +86,7 @@ class ITSponsorRepositorySave {
     }
 
     @Test
-    @DisplayName("When a sponsor name is changed, the created sponsor is returned")
+    @DisplayName("When a sponsor name is changed, then the created sponsor is returned")
     @ValidSponsor
     void testSave_Existing_ChangeName_ReturnedData() {
         final Sponsor sponsor;
@@ -134,7 +107,7 @@ class ITSponsorRepositorySave {
     }
 
     @Test
-    @DisplayName("When a sponsor exists and a contact method is removed, the sponsor is persisted")
+    @DisplayName("When a sponsor exists and a contact method is removed, then the sponsor is persisted")
     @SponsorWithEmail
     void testSave_Existing_RemoveContactMethod_PersistedData() {
         final Sponsor                 sponsor;
@@ -157,7 +130,7 @@ class ITSponsorRepositorySave {
     }
 
     @Test
-    @DisplayName("When a sponsor doesn't exist but the profile does, the sponsor is persisted")
+    @DisplayName("When a sponsor doesn't exist but the profile does, then the sponsor is persisted")
     @ValidProfile
     void testSave_ExistingProfile_ChangeName_PersistedData() {
         final Sponsor                 sponsor;
@@ -180,7 +153,7 @@ class ITSponsorRepositorySave {
     }
 
     @Test
-    @DisplayName("With an sponsor, the sponsor is persisted")
+    @DisplayName("When there is an sponsor, then the sponsor is persisted")
     void testSave_PersistedData() {
         final Sponsor                 sponsor;
         final Iterable<SponsorEntity> entities;
@@ -203,7 +176,7 @@ class ITSponsorRepositorySave {
     }
 
     @Test
-    @DisplayName("When the type is removed, the sponsor is not changed")
+    @DisplayName("When the type is removed, then the sponsor is not changed")
     void testSave_RemoveType_NoChange() {
         final Sponsor                 sponsor;
         final Iterable<SponsorEntity> entities;
@@ -226,7 +199,7 @@ class ITSponsorRepositorySave {
     }
 
     @Test
-    @DisplayName("With an sponsor, the created sponsor is returned")
+    @DisplayName("When there is an sponsor, then the created sponsor is returned")
     void testSave_ReturnedData() {
         final Sponsor sponsor;
         final Sponsor saved;
@@ -244,7 +217,7 @@ class ITSponsorRepositorySave {
     }
 
     @Test
-    @DisplayName("When the sponsor is persisted, the profile types includes the sponsor type")
+    @DisplayName("When the sponsor is persisted, then the profile types includes the sponsor type")
     void testSave_SetsType() {
         final Sponsor       sponsor;
         final ProfileEntity profile;
@@ -267,7 +240,7 @@ class ITSponsorRepositorySave {
     }
 
     @Test
-    @DisplayName("With an sponsor with contact method, the sponsor is persisted")
+    @DisplayName("When there is an sponsor with contact method, then the sponsor is persisted")
     @EmailContactMethod
     void testSave_WithContactMethod_PersistedData() {
         final Sponsor                 sponsor;

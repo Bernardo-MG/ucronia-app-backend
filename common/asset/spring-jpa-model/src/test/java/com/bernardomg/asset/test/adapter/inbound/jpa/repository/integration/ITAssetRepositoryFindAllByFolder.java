@@ -22,7 +22,7 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("Asset repository - find all by folder")
+@DisplayName("AssetRepository - findAllByFolder")
 class ITAssetRepositoryFindAllByFolder {
 
     @Autowired
@@ -31,7 +31,7 @@ class ITAssetRepositoryFindAllByFolder {
     @Test
     @ValidFileFolderTree
     @PrivateFileInFolder
-    @DisplayName("With a private file in the folder, it is returned")
+    @DisplayName("When there is a private file in the folder, then it is returned")
     void testfindAllByFolder_Private() {
         final Page<Asset> result;
 
@@ -40,6 +40,7 @@ class ITAssetRepositoryFindAllByFolder {
 
         // THEN
         Assertions.assertThat(result.content())
+            .as("When there is a private file in the folder, then it is returned")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(Assets.privateAccessInFolder());
     }
@@ -47,7 +48,7 @@ class ITAssetRepositoryFindAllByFolder {
     @Test
     @ValidFileFolderTree
     @PublicFileInFolder
-    @DisplayName("With a public file in the folder, it is returned")
+    @DisplayName("When there is a public file in the folder, then it is returned")
     void testfindAllByFolder_Public() {
         final Page<Asset> result;
 
@@ -56,6 +57,7 @@ class ITAssetRepositoryFindAllByFolder {
 
         // THEN
         Assertions.assertThat(result.content())
+            .as("When there is a public file in the folder, then it is returned")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(Assets.publicAccessInFolder());
     }

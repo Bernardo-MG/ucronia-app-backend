@@ -22,14 +22,14 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("SettingRepository - find all")
-public class ITSettingRepositoryFindAll {
+@DisplayName("SettingRepository - findAll")
+class ITSettingRepositoryFindAll {
 
     @Autowired
     private SettingRepository repository;
 
     @Test
-    @DisplayName("When reading a float setting, it is returned")
+    @DisplayName("When reading a float setting, then it is returned")
     @CleanSetting
     @FloatSetting
     void testFindAll_Float() {
@@ -46,7 +46,7 @@ public class ITSettingRepositoryFindAll {
     }
 
     @Test
-    @DisplayName("When reading a integer setting, it is returned")
+    @DisplayName("When reading a integer setting, then it is returned")
     @CleanSetting
     @IntegerSetting
     void testFindAll_Integer() {
@@ -63,7 +63,7 @@ public class ITSettingRepositoryFindAll {
     }
 
     @Test
-    @DisplayName("When reading a string setting, it is returned")
+    @DisplayName("When reading a string setting, then it is returned")
     @CleanSetting
     @MultipleSetting
     void testFindAll_Multiple() {
@@ -80,7 +80,7 @@ public class ITSettingRepositoryFindAll {
     }
 
     @Test
-    @DisplayName("When reading with no data, nothing is returned")
+    @DisplayName("When reading with no data, then nothing is returned")
     @CleanSetting
     void testFindAll_NoData() {
         final Collection<Setting> settingsSource;
@@ -95,7 +95,7 @@ public class ITSettingRepositoryFindAll {
     }
 
     @Test
-    @DisplayName("When reading a string setting, it is returned")
+    @DisplayName("When reading a string setting, then it is returned")
     @CleanSetting
     @StringSetting
     void testFindAll_String() {

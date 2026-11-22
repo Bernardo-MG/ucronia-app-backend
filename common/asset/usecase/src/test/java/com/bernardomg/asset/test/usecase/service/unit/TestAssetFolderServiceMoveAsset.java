@@ -25,7 +25,7 @@ import com.bernardomg.asset.test.configuration.factory.Assets;
 import com.bernardomg.asset.usecase.service.DefaultAssetFolderService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("AssetFolderService - move image")
+@DisplayName("DefaultAssetFolderService - moveAsset")
 class TestAssetFolderServiceMoveAsset {
 
     @Mock
@@ -38,7 +38,7 @@ class TestAssetFolderServiceMoveAsset {
     private DefaultAssetFolderService service;
 
     @Test
-    @DisplayName("With an existing image and folder, the image is moved")
+    @DisplayName("When there is an existing image and folder, then the image is moved")
     void testMoveImage() {
         final Asset moved;
 
@@ -54,46 +54,49 @@ class TestAssetFolderServiceMoveAsset {
 
         // THEN
         Assertions.assertThat(moved)
+            .as("When there is an existing image and folder, then the image is moved")
             .isEqualTo(Assets.publicAccess());
     }
 
     @Test
-    @DisplayName("With a missing folder, an exception is thrown")
+    @DisplayName("When there is a missing folder, then an exception is thrown")
     void testMoveImage_MissingFolder() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         given(folderRepository.exists(AssetFolderConstants.NUMBER)).willReturn(false);
 
         // WHEN
-        execution = () -> service.moveAsset(AssetFolderConstants.IMAGE_NUMBER, AssetFolderConstants.NUMBER);
+        action = () -> service.moveAsset(AssetFolderConstants.IMAGE_NUMBER, AssetFolderConstants.NUMBER);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When there is a missing folder, then an exception is thrown")
             .isInstanceOf(AssetFolderNotExistingException.class);
     }
 
     @Test
-    @DisplayName("With a missing image, an exception is thrown")
+    @DisplayName("When there is a missing image, then an exception is thrown")
     void testMoveImage_MissingImage() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         given(folderRepository.exists(AssetFolderConstants.NUMBER)).willReturn(true);
         given(imageRepository.findOne(AssetFolderConstants.IMAGE_NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.moveAsset(AssetFolderConstants.IMAGE_NUMBER, AssetFolderConstants.NUMBER);
+        action = () -> service.moveAsset(AssetFolderConstants.IMAGE_NUMBER, AssetFolderConstants.NUMBER);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When there is a missing image, then an exception is thrown")
             .isInstanceOf(AssetNotExistingException.class);
     }
 
     @Test
-    @DisplayName("With the same name in the target folder, an exception is thrown")
+    @DisplayName("When the same name in the target folder is provided, then an exception is thrown")
     void testMoveImage_NameConflict() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         given(folderRepository.exists(AssetFolderConstants.NUMBER)).willReturn(true);
@@ -105,10 +108,11 @@ class TestAssetFolderServiceMoveAsset {
                 .number())).willReturn(true);
 
         // WHEN
-        execution = () -> service.moveAsset(AssetFolderConstants.IMAGE_NUMBER, AssetFolderConstants.NUMBER);
+        action = () -> service.moveAsset(AssetFolderConstants.IMAGE_NUMBER, AssetFolderConstants.NUMBER);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When the same name in the target folder is provided, then an exception is thrown")
             .isInstanceOf(AssetAlreadyExistsException.class);
     }
 

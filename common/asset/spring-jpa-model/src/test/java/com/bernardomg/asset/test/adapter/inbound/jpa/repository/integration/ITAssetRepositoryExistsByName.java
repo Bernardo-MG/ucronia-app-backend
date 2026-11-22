@@ -15,14 +15,14 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("AssetRepository - exists by name")
+@DisplayName("AssetRepository - existsByNameAndFolder")
 class ITAssetRepositoryExistsByName {
 
     @Autowired
     private AssetRepository repository;
 
     @Test
-    @DisplayName("With an file with the name, it exists")
+    @DisplayName("When there is an file with the name, then it exists")
     @PublicFile
     void testExistsByName() {
         final boolean exists;
@@ -37,7 +37,7 @@ class ITAssetRepositoryExistsByName {
     }
 
     @Test
-    @DisplayName("With no data, it doesn't exist")
+    @DisplayName("When there is no data, then it doesn't exist")
     void testExistsByName_NoData() {
         final boolean exists;
 

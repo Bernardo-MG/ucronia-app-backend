@@ -1,8 +1,3 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2022-2025 Bernardo Martinez Garrido
- */
 
 package com.bernardomg.association.key.test.service.unit;
 
@@ -29,7 +24,7 @@ import com.bernardomg.association.key.test.configuration.factory.Keys;
 import com.bernardomg.association.key.usecase.service.DefaultKeyService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Key service - delete")
+@DisplayName("DefaultKeyService - delete")
 class TestKeyServiceDelete {
 
     @Mock
@@ -39,7 +34,7 @@ class TestKeyServiceDelete {
     private DefaultKeyService service;
 
     @Test
-    @DisplayName("When deleting a key, it is removed")
+    @DisplayName("When deleting a key, then it is removed")
     void testDelete() {
         final Key key;
 
@@ -55,24 +50,25 @@ class TestKeyServiceDelete {
     }
 
     @Test
-    @DisplayName("With a not existing key, an exception is thrown")
+    @DisplayName("When there is a not existing key, then an exception is thrown")
     void testDelete_NotExisting() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         given(repository.findOne(KeyConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.delete(KeyConstants.NUMBER);
+        action = () -> service.delete(KeyConstants.NUMBER);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When there is a not existing key, then an exception is thrown")
             .isInstanceOf(MissingKeyException.class);
         verify(repository, never()).delete(KeyConstants.NUMBER);
     }
 
     @Test
-    @DisplayName("When deleting a key, the deleted key is returned")
+    @DisplayName("When deleting a key, then the deleted key is returned")
     void testDelete_ReturnedData() {
         final Key deleted;
         final Key key;
@@ -86,6 +82,7 @@ class TestKeyServiceDelete {
 
         // THEN
         Assertions.assertThat(deleted)
+            .as("When deleting a key, then the deleted key is returned")
             .isEqualTo(key);
     }
 

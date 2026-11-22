@@ -1,26 +1,3 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2022-2025 Bernardo Martínez Garrido
- * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * <p>
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * <p>
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 
 package com.bernardomg.association.library.book.test.adapter.inbound.jpa.repository.integration;
 
@@ -39,14 +16,14 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("GameBookRepository - exists by ISBN for another")
+@DisplayName("GameBookRepository - existsByIsbnForAnother")
 class ITGameBookRepositoryExistsByIsbnForAnother {
 
     @Autowired
     private GameBookRepository repository;
 
     @Test
-    @DisplayName("When the game book exists and looking for another ISBN, it exists")
+    @DisplayName("When the game book exists and looking for another ISBN, then it exists")
     @ValidProfile
     @FullGameBook
     void testExistsByIsbnForAnother() {
@@ -62,7 +39,7 @@ class ITGameBookRepositoryExistsByIsbnForAnother {
     }
 
     @Test
-    @DisplayName("When there is no data, nothing exists")
+    @DisplayName("When there is no data, then nothing exists")
     void testExistsByIsbnForAnother_NoData() {
         final boolean exists;
 
@@ -76,7 +53,7 @@ class ITGameBookRepositoryExistsByIsbnForAnother {
     }
 
     @Test
-    @DisplayName("When the game book exists and looking for the same ISBN, it doesn't exists")
+    @DisplayName("When the game book exists and looking for the same ISBN, then it doesn't exists")
     @ValidProfile
     @FullGameBook
     void testExistsByIsbnForAnother_SameNumber() {

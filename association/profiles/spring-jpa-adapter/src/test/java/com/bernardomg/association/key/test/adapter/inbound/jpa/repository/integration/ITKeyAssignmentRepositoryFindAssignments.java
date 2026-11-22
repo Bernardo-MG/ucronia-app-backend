@@ -22,14 +22,14 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("KeyAssignmentRepository - find assignments")
+@DisplayName("KeyAssignmentRepository - findAll")
 class ITKeyAssignmentRepositoryFindAssignments {
 
     @Autowired
     private KeyAssignmentRepository repository;
 
     @Test
-    @DisplayName("With an assigned key, the key and its member are returned")
+    @DisplayName("When there is an assigned key, then the key and its member are returned")
     @PositiveFeeType
     @ActiveMemberWithKey
     void testFindAssignments() {
@@ -40,11 +40,12 @@ class ITKeyAssignmentRepositoryFindAssignments {
 
         // THEN
         Assertions.assertThat(assignments.content())
+            .as("When there is an assigned key, then the key and its member are returned")
             .containsExactly(KeyAssignments.assigned());
     }
 
     @Test
-    @DisplayName("With an inactive member, its key assignment is still returned")
+    @DisplayName("When there is an inactive member, then its key assignment is still returned")
     @PositiveFeeType
     @InactiveMemberWithKey
     void testFindAssignments_InactiveMember() {
@@ -55,11 +56,12 @@ class ITKeyAssignmentRepositoryFindAssignments {
 
         // THEN
         Assertions.assertThat(assignments.content())
+            .as("When there is an inactive member, then its key assignment is still returned")
             .containsExactly(KeyAssignments.assigned());
     }
 
     @Test
-    @DisplayName("With no keys, nothing is returned")
+    @DisplayName("When there is no keys, then nothing is returned")
     void testFindAssignments_NoData() {
         final Page<KeyAssignment> assignments;
 
@@ -68,11 +70,12 @@ class ITKeyAssignmentRepositoryFindAssignments {
 
         // THEN
         Assertions.assertThat(assignments.content())
+            .as("When there is no keys, then nothing is returned")
             .isEmpty();
     }
 
     @Test
-    @DisplayName("With an unassigned key, it is returned without a member")
+    @DisplayName("When there is an unassigned key, then it is returned without a member")
     @AvailableKey
     void testFindAssignments_Unassigned() {
         final Page<KeyAssignment> assignments;
@@ -82,6 +85,7 @@ class ITKeyAssignmentRepositoryFindAssignments {
 
         // THEN
         Assertions.assertThat(assignments.content())
+            .as("When there is an unassigned key, then it is returned without a member")
             .containsExactly(KeyAssignments.unassigned());
     }
 

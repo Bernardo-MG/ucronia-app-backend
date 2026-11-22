@@ -45,6 +45,14 @@
          <groupId>com.bernardomg.association.profile</groupId>
          <artifactId>association-profile-usecase</artifactId>
       </dependency>
+      <!-- ============================================== -->
+      <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
+      <!-- ============================================== -->
+      <dependency>
+         <groupId>com.bernardomg.association.profile</groupId>
+         <artifactId>association-profile-testing</artifactId>
+         <scope>test</scope>
+      </dependency>
    </dependencies>
 
 </project>

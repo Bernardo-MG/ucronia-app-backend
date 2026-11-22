@@ -25,7 +25,7 @@ import com.bernardomg.association.library.book.usecase.generator.ReportGenerator
 import com.bernardomg.association.library.book.usecase.service.DefaultBookReportService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("DefaultBookReportService")
+@DisplayName("DefaultBookReportService - getReport")
 class TestDefaultBookReportService {
 
     @Mock
@@ -41,7 +41,7 @@ class TestDefaultBookReportService {
     private DefaultBookReportService service;
 
     @Test
-    @DisplayName("The report is generated from the sorted game and fiction books")
+    @DisplayName("When the report is requested, then it is generated from the sorted game and fiction books")
     void testGetReport() {
         final List<GameBook>        gameBooks;
         final List<FictionBook>     fictionBooks;
@@ -61,7 +61,8 @@ class TestDefaultBookReportService {
         result = service.getReport();
 
         // THEN
-        assertThat(result).isSameAs(expected);
+        assertThat(result).as("The report is generated from the sorted game and fiction books")
+            .isSameAs(expected);
     }
 
 }

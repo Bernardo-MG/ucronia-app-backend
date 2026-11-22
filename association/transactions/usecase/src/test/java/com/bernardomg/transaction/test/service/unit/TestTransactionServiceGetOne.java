@@ -1,26 +1,3 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2022-2025 Bernardo Martínez Garrido
- * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * <p>
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * <p>
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 
 package com.bernardomg.transaction.test.service.unit;
 
@@ -45,7 +22,7 @@ import com.bernardomg.association.transaction.test.configuration.factory.Transac
 import com.bernardomg.association.transaction.usecase.service.DefaultTransactionService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Transaction service - get one")
+@DisplayName("DefaultTransactionService - getOne")
 class TestTransactionServiceGetOne {
 
     @InjectMocks
@@ -54,12 +31,8 @@ class TestTransactionServiceGetOne {
     @Mock
     private TransactionRepository     transactionRepository;
 
-    public TestTransactionServiceGetOne() {
-        super();
-    }
-
     @Test
-    @DisplayName("When there is data it is returned")
+    @DisplayName("When there is data, then it is returned")
     void testFindOne() {
         final Optional<Transaction> read;
         final Transaction           transaction;
@@ -78,18 +51,19 @@ class TestTransactionServiceGetOne {
     }
 
     @Test
-    @DisplayName("When there is no data an exception is thrown")
+    @DisplayName("When there is no data, then an exception is thrown")
     void testFindOne_NoData() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         given(transactionRepository.findOne(TransactionConstants.INDEX)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.getOne(TransactionConstants.INDEX);
+        action = () -> service.getOne(TransactionConstants.INDEX);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When there is no data, then an exception is thrown")
             .isInstanceOf(MissingTransactionException.class);
     }
 

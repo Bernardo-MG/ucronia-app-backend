@@ -26,7 +26,7 @@ class ITAssetRepositoryDelete {
     private AssetSpringRepository springRepository;
 
     @Test
-    @DisplayName("With an file, it is deleted")
+    @DisplayName("When there is an file, then it is deleted")
     @PublicFile
     void testDelete() {
         // WHEN
@@ -39,7 +39,7 @@ class ITAssetRepositoryDelete {
     }
 
     @Test
-    @DisplayName("With no data, nothing is deleted")
+    @DisplayName("When there is no data, then nothing is deleted")
     void testDelete_NoData() {
         // WHEN
         repository.delete(AssetConstants.NUMBER);

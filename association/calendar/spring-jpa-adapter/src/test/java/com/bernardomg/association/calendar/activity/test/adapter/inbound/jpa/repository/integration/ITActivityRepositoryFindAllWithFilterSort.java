@@ -1,26 +1,3 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2022-2025 Bernardo Martínez Garrido
- * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * <p>
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * <p>
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 
 package com.bernardomg.association.calendar.activity.test.adapter.inbound.jpa.repository.integration;
 
@@ -50,7 +27,7 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("ActivityRepository - find all with filter - sort")
+@DisplayName("ActivityRepository - findAll")
 @MultipleActivity
 class ITActivityRepositoryFindAllWithFilterSort {
 
@@ -58,7 +35,7 @@ class ITActivityRepositoryFindAllWithFilterSort {
     private ActivityRepository repository;
 
     @Test
-    @DisplayName("With ascending order by description it returns the ordered data")
+    @DisplayName("When sorting in ascending order by description, then it returns the ordered data")
     void testFindAll_Description_Asc() {
         final Page<Activity> activities;
         final Pagination     pagination;
@@ -76,6 +53,7 @@ class ITActivityRepositoryFindAllWithFilterSort {
 
         // THEN
         Assertions.assertThat(activities)
+            .as("When sorting in ascending order by description, then it returns the ordered data")
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
@@ -85,7 +63,7 @@ class ITActivityRepositoryFindAllWithFilterSort {
     }
 
     @Test
-    @DisplayName("With descending order by description it returns the ordered data")
+    @DisplayName("When sorting in descending order by description, then it returns the ordered data")
     void testFindAll_Description_Desc() {
         final Page<Activity> activities;
         final Pagination     pagination;
@@ -103,6 +81,7 @@ class ITActivityRepositoryFindAllWithFilterSort {
 
         // THEN
         Assertions.assertThat(activities)
+            .as("When sorting in descending order by description, then it returns the ordered data")
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
@@ -112,7 +91,7 @@ class ITActivityRepositoryFindAllWithFilterSort {
     }
 
     @Test
-    @DisplayName("With ascending order by title it returns the ordered data")
+    @DisplayName("When sorting in ascending order by title, then it returns the ordered data")
     void testFindAll_Title_Asc() {
         final Page<Activity> activities;
         final Pagination     pagination;
@@ -130,6 +109,7 @@ class ITActivityRepositoryFindAllWithFilterSort {
 
         // THEN
         Assertions.assertThat(activities)
+            .as("When sorting in ascending order by title, then it returns the ordered data")
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
@@ -139,7 +119,7 @@ class ITActivityRepositoryFindAllWithFilterSort {
     }
 
     @Test
-    @DisplayName("With descending order by title it returns the ordered data")
+    @DisplayName("When sorting in descending order by title, then it returns the ordered data")
     void testFindAll_Title_Desc() {
         final Page<Activity> activities;
         final Pagination     pagination;
@@ -157,6 +137,7 @@ class ITActivityRepositoryFindAllWithFilterSort {
 
         // THEN
         Assertions.assertThat(activities)
+            .as("When sorting in descending order by title, then it returns the ordered data")
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
@@ -166,11 +147,11 @@ class ITActivityRepositoryFindAllWithFilterSort {
     }
 
     @Test
-    @DisplayName("Ordering by a not existing field generates an error")
+    @DisplayName("When ordering by a nonexistent field, then an error is generated")
     void testGetAll_NotExisting() {
         final Pagination       pagination;
         final Sorting          sorting;
-        final ThrowingCallable executable;
+        final ThrowingCallable action;
         final ActivityFilter   filter;
 
         // GIVEN
@@ -180,10 +161,11 @@ class ITActivityRepositoryFindAllWithFilterSort {
         filter = new ActivityFilter(Optional.empty(), Optional.empty());
 
         // WHEN
-        executable = () -> repository.findAll(filter, pagination, sorting);
+        action = () -> repository.findAll(filter, pagination, sorting);
 
         // THEN
-        Assertions.assertThatThrownBy(executable)
+        Assertions.assertThatThrownBy(action)
+            .as("Ordering by a not existing field generates an error")
             .isInstanceOf(PropertyReferenceException.class);
     }
 

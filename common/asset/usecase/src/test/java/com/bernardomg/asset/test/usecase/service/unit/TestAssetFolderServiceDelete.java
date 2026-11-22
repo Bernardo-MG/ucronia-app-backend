@@ -25,7 +25,7 @@ import com.bernardomg.asset.test.configuration.factory.AssetFolders;
 import com.bernardomg.asset.usecase.service.DefaultAssetFolderService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("AssetFolderService - delete")
+@DisplayName("DefaultAssetFolderService - delete")
 class TestAssetFolderServiceDelete {
 
     @Mock
@@ -38,7 +38,7 @@ class TestAssetFolderServiceDelete {
     private DefaultAssetFolderService service;
 
     @Test
-    @DisplayName("With an empty folder, the image folder is deleted and returned")
+    @DisplayName("When there is an empty folder, then the image folder is deleted and returned")
     void testDelete() {
         final AssetFolder deleted;
 
@@ -51,56 +51,60 @@ class TestAssetFolderServiceDelete {
         // THEN
         verify(folderRepository).delete(AssetFolderConstants.NUMBER);
         Assertions.assertThat(deleted)
+            .as("When there is an empty folder, then the image folder is deleted and returned")
             .isEqualTo(AssetFolders.valid());
     }
 
     @Test
-    @DisplayName("With a missing image folder, an exception is thrown")
+    @DisplayName("When there is a missing image folder, then an exception is thrown")
     void testDelete_NotExisting() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         given(folderRepository.findOne(AssetFolderConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.delete(AssetFolderConstants.NUMBER);
+        action = () -> service.delete(AssetFolderConstants.NUMBER);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When there is a missing image folder, then an exception is thrown")
             .isInstanceOf(AssetFolderNotExistingException.class);
     }
 
     @Test
-    @DisplayName("With child folders, an exception is thrown")
+    @DisplayName("When child folders is provided, then an exception is thrown")
     void testDelete_WithChildren() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         given(folderRepository.findOne(AssetFolderConstants.NUMBER)).willReturn(Optional.of(AssetFolders.valid()));
         given(folderRepository.hasChildren(AssetFolderConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        execution = () -> service.delete(AssetFolderConstants.NUMBER);
+        action = () -> service.delete(AssetFolderConstants.NUMBER);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When child folders is provided, then an exception is thrown")
             .isInstanceOf(AssetFolderNotEmptyException.class);
     }
 
     @Test
-    @DisplayName("With images, an exception is thrown")
+    @DisplayName("When images is provided, then an exception is thrown")
     void testDelete_WithImages() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         given(folderRepository.findOne(AssetFolderConstants.NUMBER)).willReturn(Optional.of(AssetFolders.valid()));
         given(imageRepository.hasAssetsInFolder(AssetFolderConstants.NUMBER)).willReturn(true);
 
         // WHEN
-        execution = () -> service.delete(AssetFolderConstants.NUMBER);
+        action = () -> service.delete(AssetFolderConstants.NUMBER);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When images is provided, then an exception is thrown")
             .isInstanceOf(AssetFolderNotEmptyException.class);
     }
 

@@ -23,8 +23,8 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("SettingRepository - save all")
-public class ITSettingRepositorySaveAll {
+@DisplayName("SettingRepository - saveAll")
+class ITSettingRepositorySaveAll {
 
     @Autowired
     private SettingRepository        repository;
@@ -33,7 +33,7 @@ public class ITSettingRepositorySaveAll {
     private SettingsSpringRepository settingSpringRepository;
 
     @Test
-    @DisplayName("When updating the fee amount, the setting is persisted")
+    @DisplayName("When updating the fee amount, then the setting is persisted")
     @CleanSetting
     @IntegerSetting
     void testSaveAll_ChangeAmount_Persisted() {
@@ -56,7 +56,7 @@ public class ITSettingRepositorySaveAll {
     }
 
     @Test
-    @DisplayName("When updating the fee amount, the setting is returned")
+    @DisplayName("When updating the fee amount, then the setting is returned")
     @IntegerSetting
     void testSaveAll_ChangeAmount_Returned() {
         final Setting             setting;
@@ -76,7 +76,7 @@ public class ITSettingRepositorySaveAll {
     }
 
     @Test
-    @DisplayName("When no data is received, nothing is saved")
+    @DisplayName("When no data is received, then nothing is saved")
     @IntegerSetting
     void testSaveAll_Empty() {
         final Collection<Setting> created;
@@ -91,7 +91,7 @@ public class ITSettingRepositorySaveAll {
     }
 
     @Test
-    @DisplayName("When saving the fee amount and with no existing setting, the setting is persisted")
+    @DisplayName("When saving the fee amount and with no existing setting, then the setting is persisted")
     @CleanSetting
     void testSaveAll_Persisted() {
         final Setting                    setting;

@@ -28,7 +28,7 @@ import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Key assignment service - get assignments")
+@DisplayName("DefaultKeyAssignmentService - getAssignments")
 class TestKeyAssignmentServiceGetAssignments {
 
     @Mock
@@ -38,7 +38,7 @@ class TestKeyAssignmentServiceGetAssignments {
     private DefaultKeyAssignmentService service;
 
     @Test
-    @DisplayName("When there is data, assigned and unassigned keys are returned")
+    @DisplayName("When there is data, then assigned and unassigned keys are returned")
     void testGetAssignments() {
         final Page<KeyAssignment> assignments;
         final KeyAssignment       assigned;
@@ -76,7 +76,7 @@ class TestKeyAssignmentServiceGetAssignments {
     }
 
     @Test
-    @DisplayName("When there is no data, nothing is returned")
+    @DisplayName("When there is no data, then nothing is returned")
     void testGetAssignments_NoData() {
         final Page<KeyAssignment> assignments;
         final Pagination          pagination;
@@ -95,6 +95,7 @@ class TestKeyAssignmentServiceGetAssignments {
 
         // THEN
         Assertions.assertThat(assignments)
+            .as("When there is no data, then nothing is returned")
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();

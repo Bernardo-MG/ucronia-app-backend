@@ -23,7 +23,7 @@ class ITKeyRepositoryExists {
     private KeyRepository repository;
 
     @Test
-    @DisplayName("With a key, it exists")
+    @DisplayName("When there is a key, then it exists")
     @AvailableKey
     void testExists_Key() {
         final boolean exists;
@@ -37,7 +37,7 @@ class ITKeyRepositoryExists {
     }
 
     @Test
-    @DisplayName("With no key, nothing exists")
+    @DisplayName("When there is no key, then nothing exists")
     void testExists_NoData() {
         final boolean exists;
 

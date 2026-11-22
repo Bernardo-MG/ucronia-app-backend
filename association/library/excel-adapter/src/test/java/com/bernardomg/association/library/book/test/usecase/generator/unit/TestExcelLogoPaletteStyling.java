@@ -1,7 +1,6 @@
 
 package com.bernardomg.association.library.book.test.usecase.generator.unit;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
 import java.time.Instant;
@@ -13,9 +12,11 @@ import org.apache.poi.ss.usermodel.Color;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFColor;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -29,7 +30,7 @@ import com.bernardomg.association.library.book.usecase.generator.DefaultLibraryA
 import com.bernardomg.association.library.book.usecase.generator.NameResolver;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Excel logo palette styling")
+@DisplayName("DefaultLibraryApachePoiWorkbookLoader - loadWorkbook")
 class TestExcelLogoPaletteStyling {
 
     private static final String BAND_BACKGROUND = "D8ECE4";
@@ -43,24 +44,26 @@ class TestExcelLogoPaletteStyling {
         for (final byte component : rgb) {
             builder.append(String.format(Locale.ROOT, "%02X", Byte.toUnsignedInt(component)));
         }
-
         return builder.toString();
     }
 
     @Mock
-    private NameResolver borrowerNameResolver;
+    private NameResolver                          borrowerNameResolver;
+
+    @InjectMocks
+    private DefaultLibraryApachePoiWorkbookLoader loader;
 
     @Test
-    @DisplayName("Alternating book and lending rows use the logo mint band color")
+    @DisplayName("When book and lending rows alternate, then the logo mint band color is used")
     void testAlternatingRowsUseLogoBandColor() {
-        final BookLendingInfo                       activeLending;
-        final FictionBook                           fictionBook;
-        final FictionBook                           fictionBookSecond;
-        final GameBook                              gameBook;
-        final GameBook                              gameBookSecond;
-        final DefaultLibraryApachePoiWorkbookLoader loader;
-        final Workbook                              workbook;
+        final BookLendingInfo activeLending;
+        final FictionBook     fictionBook;
+        final FictionBook     fictionBookSecond;
+        final GameBook        gameBook;
+        final GameBook        gameBookSecond;
+        final Workbook        workbook;
 
+        // GIVEN
         activeLending = new BookLendingInfo(7L, Instant.parse("2026-08-01T10:00:00Z"), Optional.empty());
 
         gameBook = new GameBook(GameBooks.full()
@@ -145,20 +148,26 @@ class TestExcelLogoPaletteStyling {
 
         given(borrowerNameResolver.getName(7L)).willReturn("Ana García");
 
-        loader = new DefaultLibraryApachePoiWorkbookLoader(borrowerNameResolver);
         workbook = new DefaultApachePoiWorkbookGenerator().generateWorkbook();
 
+        // WHEN
         loader.loadWorkbook(workbook, List.of(gameBook, gameBookSecond), List.of(fictionBook, fictionBookSecond));
 
-        assertThat(toHex(((XSSFCellStyle) workbook.getSheet("Juegos")
-            .getRow(4)
-            .getCell(1)
-            .getCellStyle()).getFillForegroundColorColor())).isEqualTo(BAND_BACKGROUND);
-
-        assertThat(toHex(((XSSFCellStyle) workbook.getSheet("Préstamos")
-            .getRow(4)
-            .getCell(1)
-            .getCellStyle()).getFillForegroundColorColor())).isEqualTo(BAND_BACKGROUND);
+        // THEN
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(toHex(((XSSFCellStyle) workbook.getSheet("Juegos")
+                .getRow(4)
+                .getCell(1)
+                .getCellStyle()).getFillForegroundColorColor()))
+                .as("book rows use the logo mint band color")
+                .isEqualTo(BAND_BACKGROUND);
+            softly.assertThat(toHex(((XSSFCellStyle) workbook.getSheet("Préstamos")
+                .getRow(4)
+                .getCell(1)
+                .getCellStyle()).getFillForegroundColorColor()))
+                .as("lending rows use the logo mint band color")
+                .isEqualTo(BAND_BACKGROUND);
+        });
     }
 
 }

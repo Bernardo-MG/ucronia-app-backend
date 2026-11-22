@@ -29,7 +29,7 @@ class ITTransactionTypeRepositorySave {
     private TransactionTypeSpringRepository springRepository;
 
     @Test
-    @DisplayName("When the transaction value is changed, it is updated")
+    @DisplayName("When the transaction value is changed, then it is updated")
     @ValidTransactionType
     void testSave_Existing_ChangeValue_PersistedData() {
         final Iterable<TransactionTypeEntity> transactionTypes;
@@ -51,7 +51,7 @@ class ITTransactionTypeRepositorySave {
     }
 
     @Test
-    @DisplayName("When the transaction value is changed, it is returned")
+    @DisplayName("When the transaction value is changed, then it is returned")
     @ValidTransactionType
     void testSave_Existing_ChangeValue_ReturnedData() {
         final TransactionType created;
@@ -70,7 +70,7 @@ class ITTransactionTypeRepositorySave {
     }
 
     @Test
-    @DisplayName("Persists the data")
+    @DisplayName("When valid data is saved, then the data is persisted")
     void testSave_PersistedData() {
         final Iterable<TransactionTypeEntity> transactionTypes;
         final TransactionType                 transactionType;
@@ -91,7 +91,7 @@ class ITTransactionTypeRepositorySave {
     }
 
     @Test
-    @DisplayName("Returns the created data")
+    @DisplayName("When the component is queried, then the created data is returned")
     void testSave_ReturnedData() {
         final TransactionType created;
         final TransactionType transactionType;

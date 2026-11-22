@@ -1,8 +1,3 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2022-2025 Bernardo Martinez Garrido
- */
 
 package com.bernardomg.association.key.test.service.unit;
 
@@ -27,7 +22,7 @@ import com.bernardomg.association.key.test.configuration.factory.Keys;
 import com.bernardomg.association.key.usecase.service.DefaultKeyService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Key service - get one")
+@DisplayName("DefaultKeyService - getOne")
 class TestKeyServiceGetOne {
 
     @Mock
@@ -37,7 +32,7 @@ class TestKeyServiceGetOne {
     private DefaultKeyService service;
 
     @Test
-    @DisplayName("When there is data, it is returned")
+    @DisplayName("When there is data, then it is returned")
     void testGetOne() {
         final Optional<Key> read;
         final Key           key;
@@ -51,22 +46,24 @@ class TestKeyServiceGetOne {
 
         // THEN
         Assertions.assertThat(read)
+            .as("When there is data, then it is returned")
             .contains(key);
     }
 
     @Test
-    @DisplayName("With a not existing key, an exception is thrown")
+    @DisplayName("When there is a not existing key, then an exception is thrown")
     void testGetOne_NotExistingKey() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         given(repository.findOne(KeyConstants.NUMBER)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.getOne(KeyConstants.NUMBER);
+        action = () -> service.getOne(KeyConstants.NUMBER);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When there is a not existing key, then an exception is thrown")
             .isInstanceOf(MissingKeyException.class);
     }
 

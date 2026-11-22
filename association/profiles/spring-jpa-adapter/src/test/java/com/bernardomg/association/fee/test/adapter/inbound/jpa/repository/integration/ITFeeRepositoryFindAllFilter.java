@@ -1,26 +1,3 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2022-2025 Bernardo Martínez Garrido
- * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * <p>
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * <p>
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 
 package com.bernardomg.association.fee.test.adapter.inbound.jpa.repository.integration;
 
@@ -53,14 +30,14 @@ import com.bernardomg.test.annotation.IntegrationTest;
 
 @IntegrationTest
 @SpringBootTest(classes = TestApplication.class)
-@DisplayName("FeeRepository - find all - filter")
+@DisplayName("FeeRepository - findAll")
 class ITFeeRepositoryGetAllFilter {
 
     @Autowired
     private FeeRepository repository;
 
     @Test
-    @DisplayName("With a filter applied to the start date, the returned data is filtered")
+    @DisplayName("When there is a filter applied to the start date, then the returned data is filtered")
     @PositiveFeeType
     @MultipleProfiles
     @MultipleFees
@@ -89,7 +66,7 @@ class ITFeeRepositoryGetAllFilter {
     }
 
     @Test
-    @DisplayName("With a filter applied to the start date which covers no fee, no data is returned")
+    @DisplayName("When there is a filter applied to the start date which covers no fee, then no data is returned")
     @PositiveFeeType
     @MultipleProfiles
     @MultipleFees
@@ -117,7 +94,7 @@ class ITFeeRepositoryGetAllFilter {
     }
 
     @Test
-    @DisplayName("With a filter applied to the date, the returned data is filtered")
+    @DisplayName("When there is a filter applied to the date, then the returned data is filtered")
     @PositiveFeeType
     @MultipleProfiles
     @MultipleFees
@@ -146,7 +123,7 @@ class ITFeeRepositoryGetAllFilter {
     }
 
     @Test
-    @DisplayName("With a filter applied to the date using the lowest date of the year, the returned data is filtered")
+    @DisplayName("When there is a filter applied to the date using the lowest date of the year, then the returned data is filtered")
     @PositiveFeeType
     @ValidProfile
     @FeeFullYear
@@ -175,7 +152,7 @@ class ITFeeRepositoryGetAllFilter {
     }
 
     @Test
-    @DisplayName("With a filter applied to the date using the highest date of the year, the returned data is filtered")
+    @DisplayName("When there is a filter applied to the date using the highest date of the year, then the returned data is filtered")
     @PositiveFeeType
     @ValidProfile
     @FeeFullYear
@@ -204,7 +181,7 @@ class ITFeeRepositoryGetAllFilter {
     }
 
     @Test
-    @DisplayName("With a filter applied to the date using a not existing date, no data is returned")
+    @DisplayName("When there is a filter applied to the date using a not existing date, then no data is returned")
     @PositiveFeeType
     @MultipleProfiles
     @MultipleFees
@@ -232,7 +209,7 @@ class ITFeeRepositoryGetAllFilter {
     }
 
     @Test
-    @DisplayName("With a filter applied to the end date, the returned data is filtered")
+    @DisplayName("When there is a filter applied to the end date, then the returned data is filtered")
     @PositiveFeeType
     @MultipleProfiles
     @MultipleFees
@@ -262,7 +239,7 @@ class ITFeeRepositoryGetAllFilter {
     }
 
     @Test
-    @DisplayName("With no fee it returns nothing")
+    @DisplayName("When there is no fee, then it returns nothing")
     @PositiveFeeType
     @ValidProfile
     void testFindAll_NoFee() {
@@ -289,7 +266,7 @@ class ITFeeRepositoryGetAllFilter {
     }
 
     @Test
-    @DisplayName("With a filter applied to the end date, the returned data is filtered")
+    @DisplayName("When there is a filter applied to the end date, then the returned data is filtered")
     @PositiveFeeType
     @MultipleProfiles
     @MultipleFees
@@ -318,7 +295,7 @@ class ITFeeRepositoryGetAllFilter {
     }
 
     @Test
-    @DisplayName("With a filter applied to the end date which covers no fee, no data is returned")
+    @DisplayName("When there is a filter applied to the end date which covers no fee, then no data is returned")
     @PositiveFeeType
     @MultipleProfiles
     @MultipleFees
@@ -339,6 +316,7 @@ class ITFeeRepositoryGetAllFilter {
 
         // THEN
         Assertions.assertThat(fees)
+            .as("When there is a filter applied to the end date which covers no fee, then no data is returned")
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();

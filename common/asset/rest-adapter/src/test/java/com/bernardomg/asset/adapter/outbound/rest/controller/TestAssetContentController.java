@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ContentDisposition;
@@ -26,11 +27,14 @@ import com.bernardomg.asset.test.configuration.factory.Contents;
 import com.bernardomg.asset.usecase.service.AssetContentService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("AssetContentController")
+@DisplayName("AssetContentController - getAssetContent")
 class TestAssetContentController {
 
     @Mock
     private AssetReadAuthorizer authorizer;
+
+    @InjectMocks
+    private AssetContentController controller;
 
     private MockMvc             mockMvc;
 
@@ -39,12 +43,12 @@ class TestAssetContentController {
 
     @BeforeEach
     void setUp() {
-        mockMvc = MockMvcBuilders.standaloneSetup(new AssetContentController(service, authorizer))
+        mockMvc = MockMvcBuilders.standaloneSetup(controller)
             .build();
     }
 
     @Test
-    @DisplayName("Returns content as an attachment when requested")
+    @DisplayName("When content is requested for download, then it is returned as an attachment")
     void testGetContent_Attachment() throws Exception {
         final Asset asset;
 
@@ -53,8 +57,9 @@ class TestAssetContentController {
         given(service.getOne(AssetConstants.NUMBER)).willReturn(asset);
         given(service.getContent(asset)).willReturn(Contents.pdf());
 
-        // WHEN + THEN
+        // WHEN
         mockMvc.perform(get("/assets/{number}/content", AssetConstants.NUMBER).param("download", "true"))
+            // THEN
             .andExpect(status().isOk())
             .andExpect(result -> {
                 final ContentDisposition disposition;
@@ -62,14 +67,16 @@ class TestAssetContentController {
                 disposition = ContentDisposition.parse(result.getResponse()
                     .getHeader(HttpHeaders.CONTENT_DISPOSITION));
                 Assertions.assertThat(disposition.getType())
+                    .as("Returns content as an attachment when requested")
                     .isEqualTo("attachment");
                 Assertions.assertThat(disposition.getFilename())
+                    .as("Returns content as an attachment when requested")
                     .isEqualTo(asset.name());
             });
     }
 
     @Test
-    @DisplayName("Returns content inline by default")
+    @DisplayName("When content is requested without a download flag, then it is returned inline")
     void testGetContent_Inline() throws Exception {
         final Asset asset;
 
@@ -78,8 +85,9 @@ class TestAssetContentController {
         given(service.getOne(AssetConstants.NUMBER)).willReturn(asset);
         given(service.getContent(asset)).willReturn(Contents.pdf());
 
-        // WHEN + THEN
+        // WHEN
         mockMvc.perform(get("/assets/{number}/content", AssetConstants.NUMBER))
+            // THEN
             .andExpect(status().isOk())
             .andExpect(header().string(HttpHeaders.CONTENT_DISPOSITION, "inline"))
             .andExpect(header().string(HttpHeaders.CONTENT_TYPE, AssetConstants.PDF_MEDIA_TYPE))
@@ -87,7 +95,7 @@ class TestAssetContentController {
     }
 
     @Test
-    @DisplayName("Disables caching for private content")
+    @DisplayName("When private content is requested, then caching is disabled")
     void testGetContent_Private() throws Exception {
         final Asset asset;
 
@@ -96,8 +104,9 @@ class TestAssetContentController {
         given(service.getOne(AssetConstants.NUMBER)).willReturn(asset);
         given(service.getContent(asset)).willReturn(Contents.pdf());
 
-        // WHEN + THEN
+        // WHEN
         mockMvc.perform(get("/assets/{number}/content", AssetConstants.NUMBER))
+            // THEN
             .andExpect(status().isOk())
             .andExpect(header().string(HttpHeaders.CACHE_CONTROL, "private, no-store"));
     }
